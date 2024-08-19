@@ -10,6 +10,7 @@
     "antd": "^5.20.1",
     "axios": "^1.7.4",
     "chart.js": "^4.4.3",
+    "file-saver": "^2.0.5",
     "moment": "^2.30.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -20,7 +21,8 @@
     "redux-persist": "^6.0.0",
     "sass": "^1.77.8",
     "sass-loader": "^16.0.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

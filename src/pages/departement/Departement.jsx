@@ -3,7 +3,9 @@ import './departement.scss'
 
 const Departement = () => {
   return (
-    <div>Departement</div>
+    <div>
+      
+    </div>
   )
 }
 
