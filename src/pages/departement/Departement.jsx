@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu } from 'antd';
-import { ExportOutlined, PrinterOutlined,FileDoneOutlined, PlusOutlined } from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,ApartmentOutlined, PlusOutlined } from '@ant-design/icons';
 import './departement.scss';
+import DepartementForm from './departementForm/DepartementForm';
 
 const { Search } = Input;
 
@@ -55,7 +56,7 @@ const Departement = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <FileDoneOutlined className='client-icon'/>
+              <ApartmentOutlined className='client-icon'/>
             </div>
             <h2 className="client-h2">Département</h2>
           </div>
@@ -69,7 +70,7 @@ const Departement = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Add Client
+                Client
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
@@ -101,6 +102,7 @@ const Departement = () => {
         footer={null}
         width={600}
       >
+        <DepartementForm/>
       </Modal>
     </>
   );

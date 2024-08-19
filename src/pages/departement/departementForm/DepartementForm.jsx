@@ -11,7 +11,7 @@ const DepartementForm = () => {
                 layout="vertical"
                 onFinish={(values) => {
                 console.log('Form values:', values);
-                message.success('Client ajouté avec succès !');
+                message.success('Département ajouté avec succès !');
                 }}
             >
                 <Form.Item

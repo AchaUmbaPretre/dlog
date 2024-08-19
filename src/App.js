@@ -8,6 +8,7 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Departement from './pages/departement/Departement';
 import Client from './pages/client/Client';
+import Taches from './pages/taches/Taches';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -48,8 +49,8 @@ function App() {
           element: <Departement/>
         },
         {
-          path: '/form_tache',
-          element: <Departement/>
+          path: '/tache',
+          element: <Taches/>
         },
         {
           path: '/controle',
