@@ -39,21 +39,28 @@ const SideBar = () => {
           </Item>
           <SubMenu key="sub5" icon={<FileDoneOutlined />} title="Tâches">
             <Menu.Item key="3">
-              Controle de base
+              <Link to={'/controle'}>
+                Controle de base
+              </Link>
             </Menu.Item>
             <Menu.Item key="4">
-              <Link to='/liste_admissions'>
-                Format
+              <Link to={'/controle'}>
+                Controle de base
               </Link>
             </Menu.Item>
             <Menu.Item key="5">
-              <Link to='/liste_admissions'>
-                Frequence
+              <Link to='/format'>
+                Format
               </Link>
             </Menu.Item>
             <Menu.Item key="6">
-              <Link to='/liste_admissions'>
+              <Link to='/frequence'>
                 Frequence
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="7">
+              <Link to='/besoins'>
+                Besoins
               </Link>
             </Menu.Item>
           </SubMenu>
