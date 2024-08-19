@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu } from 'antd';
-import { ExportOutlined, PrinterOutlined, PlusOutlined,TeamOutlined } from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,FileDoneOutlined, PlusOutlined } from '@ant-design/icons';
 import './departement.scss';
 
 const { Search } = Input;
@@ -43,8 +43,8 @@ const Departement = () => {
 
   const columns = [
     { title: 'Nom', dataIndex: 'nom', key: 'nom' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Telephone', dataIndex: 'telephone', key: 'telephone' },
+    { title: 'description', dataIndex: 'description', key: 'description' },
+    { title: 'telephone', dataIndex: 'telephone', key: 'telephone' },
     { title: 'Adresse', dataIndex: 'adresse', key: 'adresse' },
     { title: 'Pays', dataIndex: 'pays', key: 'pays' },
   ];
@@ -55,9 +55,9 @@ const Departement = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <TeamOutlined className='client-icon'/>
+              <FileDoneOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Client</h2>
+            <h2 className="client-h2">Département</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">

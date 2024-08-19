@@ -17,42 +17,35 @@ const DepartementForm = () => {
                 <Form.Item
                     label="Nom de departement"
                     name="nom_departement"
-                    rules={[{ required: true, message: 'Veuillez entrer le nom du client !' }]}
+                    rules={[{ required: true, message: 'Veuillez entrer le nom de departement !' }]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     label="description"
                     name="description"
-                    rules={[{ required: false, message: "Veuillez entrer l'email du client!" }]}
+                    rules={[{ required: false, message: "Veuillez entrer la description !" }]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     label="telephone"
                     name="telephone"
-                    rules={[{ required: true, message: 'Veuillez entrer le téléphone du client !' }]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="Pays"
-                    name="pays"
-                    rules={[{ required: true, message: 'Please enter the client\'s l adresse!' }]}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="Ville"
-                    name="ville"
-                    rules={[{ required: false, message: "Veuillez entrer l'adresse la ville du client!" }]}
+                    rules={[{ required: true, message: 'Veuillez entrer le téléphone... !' }]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     label="Email"
                     name="email"
-                    rules={[{ required: false, message: "Veuillez entrer l'adresse la ville du client!" }]}
+                    rules={[{ required: false, message: "Veuillez entrer l'adresse Mail!" }]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    label="responsable"
+                    name="responsable"
+                    rules={[{ required: false, message: "Veuillez selectionner le nom du responsable!" }]}
                 >
                     <Input />
                 </Form.Item>

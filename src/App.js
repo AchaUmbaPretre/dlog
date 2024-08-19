@@ -44,7 +44,7 @@ function App() {
           element: <Client/>
         },
         {
-          path: '/liste_departement',
+          path: '/departement',
           element: <Departement/>
         },
         {
