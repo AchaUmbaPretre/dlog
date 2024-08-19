@@ -47,6 +47,26 @@ function App() {
           path: '/liste_departement',
           element: <Departement/>
         },
+        {
+          path: '/form_tache',
+          element: <Departement/>
+        },
+        {
+          path: '/controle',
+          element: <Departement/>
+        },
+        {
+          path: '/format',
+          element: <Departement/>
+        },
+        {
+          path: '/frequence',
+          element: <Departement/>
+        },
+        {
+          path: '/besoin',
+          element: <Departement/>
+        },
       ]
     },
     { path: '/login', element: <Login /> },

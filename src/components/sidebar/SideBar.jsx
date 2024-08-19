@@ -33,14 +33,14 @@ const SideBar = () => {
               </Link>
           </Item>
           <Item key="2" icon={<ApartmentOutlined />}>
-              <Link to='/form_service'>
+              <Link to='/liste_departement'>
                 Département
               </Link>
           </Item>
           <SubMenu key="sub5" icon={<FileDoneOutlined />} title="Tâches">
             <Menu.Item key="3">
-              <Link to={'/controle'}>
-                Controle de base
+              <Link to={'/nouvelle_tache'}>
+                Nouvelle tâche
               </Link>
             </Menu.Item>
             <Menu.Item key="4">
