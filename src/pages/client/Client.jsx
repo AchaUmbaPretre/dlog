@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Table, Button, Modal, Input, Form, message, Dropdown, Menu } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu } from 'antd';
 import { ExportOutlined, PrinterOutlined, PlusOutlined,TeamOutlined } from '@ant-design/icons';
 import './client.scss';
+import ClientForm from './clientForm/ClientForm';
 
 const { Search } = Input;
 
 const Client = () => {
+  const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleAddClient = () => {
@@ -17,7 +19,6 @@ const Client = () => {
   };
 
   const handleExportExcel = () => {
-    // Logic to export data to Excel
     message.success('Exporting to Excel...');
   };
 
@@ -42,15 +43,11 @@ const Client = () => {
   );
 
   const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Nom', dataIndex: 'nom', key: 'nom' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Phone', dataIndex: 'phone', key: 'phone' },
-    // Add more columns as needed
-  ];
-
-  const data = [
-    { key: '1', name: 'John Doe', email: 'john.doe@example.com', phone: '123-456-7890' },
-    { key: '2', name: 'Jane Smith', email: 'jane.smith@example.com', phone: '098-765-4321' },
+    { title: 'Telephone', dataIndex: 'telephone', key: 'telephone' },
+    { title: 'Adresse', dataIndex: 'adresse', key: 'adresse' },
+    { title: 'Pays', dataIndex: 'pays', key: 'pays' },
   ];
 
   return (
@@ -99,47 +96,13 @@ const Client = () => {
       </div>
 
       <Modal
-        title="Add Client"
+        title="Ajouter nouveau Client"
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
         width={600}
       >
-        <Form
-          layout="vertical"
-          onFinish={(values) => {
-            console.log('Form values:', values);
-            message.success('Client added successfully!');
-            setIsModalVisible(false);
-          }}
-        >
-          <Form.Item
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: 'Please enter the client\'s name!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: 'Please enter the client\'s email!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Phone"
-            name="phone"
-            rules={[{ required: true, message: 'Please enter the client\'s phone number!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Add Client
-            </Button>
-          </Form.Item>
-        </Form>
+        <ClientForm/>
       </Modal>
     </>
   );
