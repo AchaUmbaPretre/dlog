@@ -1,0 +1,76 @@
+.topbar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: 10px 40px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 999;
+    border-bottom: 1px solid #cfcfcf;
+  
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+  
+      .topbar-img {
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+      }
+      .logo{
+        font-size: 1.1rem;
+        text-transform:uppercase;
+        font-weight: 900;
+        font-style: italic;
+        color: rgb(3, 3, 141);
+      }
+    }
+  
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+  
+      .topbar-icons {
+        
+
+      }
+      hr{
+        height: 20px;
+        color: rgb(201, 201, 201);
+      }
+      .topbar-user-rows{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        .user-logo{
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+        }
+        .topbar-name-rows{
+          display: flex;
+          flex-direction: column;
+          gap: 1px;
+          .topbar-name{
+            font-weight: 900;
+            font-size: .7rem;
+            color: rgb(3, 3, 141);
+          }
+          .topbar-sous-name{
+            font-size: .6rem;
+          }
+        }
+      }
+      .topBar-trait{
+        .topbar-icon{
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+  

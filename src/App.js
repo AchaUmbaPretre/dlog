@@ -14,12 +14,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-
-
   const SecureRoute = ({ children }) => (
     !currentUser ? <Navigate to="/login" /> : children
   );
-
 
   const Layout = () => (
     <div className='app-rows'>
@@ -33,13 +30,13 @@ function App() {
     </div>
   );
 
-
   const router = createBrowserRouter([
     {
       path: '/',
       element: <SecureRoute><Layout /></SecureRoute>,
       children: [
-        { path: '/', 
+        { 
+          path: '/', 
           element: <RightBar /> 
         },
         {
@@ -56,9 +53,9 @@ function App() {
     { path: '/register', element: <Register /> }
   ]);
 
-
-  return 
-    <RouterProvider router={router} />;
+  return (
+    <RouterProvider router={router} />
+  );
 }
 
 export default App;

@@ -1,0 +1,17 @@
+.sidebar {
+    flex: 1;
+    height: calc(100vh - 70px);
+    position: sticky;
+    top: 55px;
+    border-right: 1px solid #cfcfcf;
+    padding: 20px 10px 0 0;
+  }
+  
+  .ant-menu-item,
+  .ant-menu-submenu-title {
+    font-size: 14px;
+  }
+  
+  .ant-menu-item, .ant-menu-submenu-title {
+    padding: 10px 16px;
+  }

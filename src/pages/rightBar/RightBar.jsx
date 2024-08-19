@@ -3,9 +3,15 @@ import './rightBar.scss'
 
 const RightBar = () => {
   return (
-    <div>
+    <>
+        <div className="rightbar">
 
-    </div>
+          <div className="rightbar-wrapper">
+
+          </div>
+        </div>
+      
+    </>
   )
 }
 
