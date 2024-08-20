@@ -8,15 +8,13 @@ export const getClient = async () => {
   };
 
 export const getClientOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/client/one?id_client=${id}`);
+    return axios.get(`${DOMAIN}/api/client/clientOne?id_client=${id}`);
   };
 
 export const postClient = async (data) => {
-  console.log(data)
   return axios.post(`${DOMAIN}/api/client`, data);
 };
 
 export const putClient = async (data) => {
-    console.log(data)
     return axios.put(`${DOMAIN}/api/client`, data);
   };
