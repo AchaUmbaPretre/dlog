@@ -12,7 +12,7 @@ export const getTacheOne = async (id) => {
     return axios.get(`${DOMAIN}/api/tache/one?id_tache=${id}`);
   };
 
-export const postTacha = async (data) => {
+export const postTache = async (data) => {
   console.log(data)
   return axios.post(`${DOMAIN}/api/tache`, data);
 };
