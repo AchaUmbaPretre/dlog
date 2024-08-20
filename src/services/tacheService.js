@@ -4,15 +4,15 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
-export const getConsultation = async (user) => {
-    return axios.get(`${DOMAIN}/api/consultant`);
+export const getTache = async (user) => {
+    return axios.get(`${DOMAIN}/api/tache`);
   };
 
-export const getConsultationType = async (user) => {
-    return axios.get(`${DOMAIN}/api/consultant/consult_type`);
+export const getTacheOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/tache/one?id_tache=${id}`);
   };
 
-export const postConsultation = async (data) => {
+export const postTacha = async (data) => {
   console.log(data)
-  return axios.post(`${DOMAIN}/api/consultant`, data);
+  return axios.post(`${DOMAIN}/api/tache`, data);
 };
