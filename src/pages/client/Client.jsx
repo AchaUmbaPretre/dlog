@@ -91,7 +91,8 @@ const Client = () => {
     { title: 'Email', dataIndex: 'email', key: 'email' },
     { title: 'Téléphone', dataIndex: 'telephone', key: 'telephone' },
     { title: 'Adresse', dataIndex: 'adresse', key: 'adresse' },
-    { title: 'Ville', dataIndex: 'ville', key: 'ville' },
+    { title: 'Ville', dataIndex: 'capital', key: 'capital' },
+    { title: 'Type', dataIndex: 'nom_type', key: 'nom_type' },
     {
       title: 'Action',
       key: 'action',
@@ -156,7 +157,7 @@ const Client = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Add Client
+                Client
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>

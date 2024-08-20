@@ -43,6 +43,7 @@ const Departement = () => {
   );
 
   const columns = [
+    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     { title: 'Nom', dataIndex: 'nom', key: 'nom' },
     { title: 'description', dataIndex: 'description', key: 'description' },
     { title: 'telephone', dataIndex: 'telephone', key: 'telephone' },
@@ -70,7 +71,7 @@ const Departement = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Client
+                Département
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
