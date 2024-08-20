@@ -10,12 +10,12 @@ const DepartementForm = () => {
     const [formValues, setFormValues] = useState({});
 
     const showConfirm = (values) => {
-        setFormValues(values); // Save form values to state
-        setIsModalVisible(true); // Show confirmation modal
+        setFormValues(values); 
+        setIsModalVisible(true);
     };
 
     const handleOk = async () => {
-        setIsModalVisible(false); // Hide the modal
+        setIsModalVisible(false);
         setIsLoading(true);
         try {
             await postDepartement(formValues);
@@ -23,7 +23,8 @@ const DepartementForm = () => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/client');
+            navigate('/departement');
+            window.location.reload();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -35,11 +36,11 @@ const DepartementForm = () => {
     };
 
     const handleCancel = () => {
-        setIsModalVisible(false); // Hide the modal
+        setIsModalVisible(false); 
     };
 
     const onFinish = (values) => {
-        showConfirm(values); // Show confirmation modal
+        showConfirm(values);
     };
 
     return (
