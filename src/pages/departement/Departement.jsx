@@ -1,14 +1,37 @@
-import React, { useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification } from 'antd';
 import { ExportOutlined, PrinterOutlined,ApartmentOutlined, PlusOutlined } from '@ant-design/icons';
 import './departement.scss';
 import DepartementForm from './departementForm/DepartementForm';
+import config from '../../config';
+import { getDepartement } from '../../services/departementService';
 
 const { Search } = Input;
 
 const Departement = () => {
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await getDepartement();
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données.',
+        });
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [DOMAIN]);
 
   const handleAddClient = () => {
     setIsModalVisible(true);

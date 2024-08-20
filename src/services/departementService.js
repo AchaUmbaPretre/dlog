@@ -12,6 +12,6 @@ export const getDepartementOne = async (id) => {
     return axios.get(`${DOMAIN}/api/departement/one`);
   };
 
-export const postConsultation = async (data) => {
+export const postDepartement = async (data) => {
   return axios.post(`${DOMAIN}/api/departement`, data);
 };
