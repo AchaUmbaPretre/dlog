@@ -7,9 +7,8 @@ import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
 import { postControle } from '../../../services/controleService';
 import { useNavigate } from 'react-router-dom';
-import './controleForm.scss';
 
-const ControleForm = () => {
+const TacheForm = () => {
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
     const [format, setFormat] = useState([]);
@@ -224,4 +223,4 @@ const ControleForm = () => {
     );
 };
 
-export default ControleForm;
+export default TacheForm;

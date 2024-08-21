@@ -259,7 +259,7 @@ const ControleDeBase = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={800}
+        width={850}
       >
         <ControleForm/>
       </Modal>

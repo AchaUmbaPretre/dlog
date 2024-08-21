@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu } from 'antd';
 import { ExportOutlined, PrinterOutlined, PlusOutlined,FileDoneOutlined } from '@ant-design/icons';
+import TacheForm from './tacheform/TacheForm';
 
 const { Search } = Input;
 
@@ -99,8 +100,9 @@ const Taches = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={850}
       >
+        <TacheForm/>
       </Modal>
     </>
   );
