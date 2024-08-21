@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification } from 'antd';
 import { ExportOutlined, PrinterOutlined, PlusOutlined,FileDoneOutlined } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
+import { getTache } from '../../services/tacheService';
 
 const { Search } = Input;
 
 const Taches = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await getTache();
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données.',
+        });
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleAddClient = () => {
     setIsModalVisible(true);

@@ -5,7 +5,6 @@ import { getClient } from '../../../services/clientService';
 import { getFormat } from '../../../services/formatService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
-import { postControle } from '../../../services/controleService';
 import { useNavigate } from 'react-router-dom';
 import { postTache } from '../../../services/tacheService';
 
