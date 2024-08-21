@@ -6,8 +6,8 @@ import {
   TeamOutlined,
   ApartmentOutlined,
   FileDoneOutlined,
-  FundOutlined,
   SettingOutlined,
+  LogoutOutlined, // Ajoutez cette importation pour l'icône de déconnexion
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link } from 'react-router-dom';
@@ -21,21 +21,21 @@ const SideBar = () => {
       <Sider>
         <Menu
           mode="inline"
-           defaultSelectedKeys={['/']}
+          defaultSelectedKeys={['/']}
           style={{ height: '100%', borderRight: 0, width: '250px' }}
         >
           <Item key="/" icon={<HomeOutlined />}>
             <Link to="/">Accueil</Link>
           </Item>
           <Item key="1" icon={<UserOutlined />}>
-              <Link to="/client" className="sidebarLink">
-                Client
-              </Link>
+            <Link to="/client" className="sidebarLink">
+              Client
+            </Link>
           </Item>
           <Item key="2" icon={<ApartmentOutlined />}>
-              <Link to='/departement'>
-                Département
-              </Link>
+            <Link to='/departement'>
+              Département
+            </Link>
           </Item>
           <SubMenu key="sub5" icon={<FileDoneOutlined />} title="Tâches">
             <Menu.Item key="3">
@@ -65,15 +65,18 @@ const SideBar = () => {
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub10" icon={<TeamOutlined />} title="Personnels">
-            <Menu.Item key="7">Liste des personnels</Menu.Item>
+            <Menu.Item key="7">
+              <Link to='/utilisateur'>
+                Liste des personnels
+              </Link>
+            </Menu.Item>
             <Menu.Item key="8">Nouveau personnel</Menu.Item>
           </SubMenu>
-{/*           <SubMenu key="sub10" icon={<FundOutlined />} title="Rapports">
-            <Menu.Item key="21">Rapports d'activité</Menu.Item>
-            <Menu.Item key="22">Statistiques des patients</Menu.Item>
-          </SubMenu> */}
           <Item key="9" icon={<SettingOutlined />}>
             Paramètres
+          </Item>
+          <Item key="logout" icon={<LogoutOutlined />} className="logout-item">
+            <Link to="/logout">Déconnecter</Link> {/* Assurez-vous que cette route est bien configurée pour la déconnexion */}
           </Item>
         </Menu>
       </Sider>

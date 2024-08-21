@@ -9,6 +9,7 @@ import Register from './pages/register/Register';
 import Departement from './pages/departement/Departement';
 import Client from './pages/client/Client';
 import Taches from './pages/taches/Taches';
+import Users from './pages/users/Users';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -67,6 +68,10 @@ function App() {
         {
           path: '/besoin',
           element: <Departement/>
+        },
+        {
+          path: '/utilisateur',
+          element: <Users/>
         },
       ]
     },

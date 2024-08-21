@@ -41,11 +41,12 @@ const Taches = () => {
   );
 
   const columns = [
-    { title: 'Nom', dataIndex: 'nom', key: 'nom' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Telephone', dataIndex: 'telephone', key: 'telephone' },
-    { title: 'Adresse', dataIndex: 'adresse', key: 'adresse' },
-    { title: 'Pays', dataIndex: 'pays', key: 'pays' },
+    { title: 'Nom', dataIndex: 'nom_tache', key: 'nom_tache' },
+    { title: 'Description', dataIndex: 'description', key: 'description' },
+    { title: 'Statut', dataIndex: 'statut', key: 'statut' },
+    { title: 'Frequence', dataIndex: 'id_frequence ', key: 'id_frequence ' },
+    { title: 'Point supervision ', dataIndex: '	id_point_supervision', key: 'id_point_supervision' },
+    { title: 'Responsable', dataIndex: 'responsable_principal', key: 'responsable_principal' },
   ];
 
   return (
