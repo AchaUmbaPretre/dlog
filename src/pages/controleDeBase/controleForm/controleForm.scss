@@ -1,0 +1,36 @@
+.controle_form {
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  
+    .controle_wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  
+    .custom-form {
+      .ant-form-item {
+        margin-bottom: 16px;
+      }
+  
+      .ant-form-item-label > label {
+        font-weight: 600;
+      }
+  
+      .ant-input, .ant-select-selector {
+        height: 40px;
+        border-radius: 6px;
+      }
+  
+      .button-group {
+        display: flex;
+        justify-content: flex-end;
+  
+        .ant-btn {
+          border-radius: 6px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  
