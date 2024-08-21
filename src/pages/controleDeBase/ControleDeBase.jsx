@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm } from 'antd';
 import { ExportOutlined, PrinterOutlined, CheckCircleOutlined ,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
+import ControleForm from './controleForm/ControleForm';
 
 const { Search } = Input;
 
@@ -188,9 +189,9 @@ const ControleDeBase = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={800}
       >
-{/*         <DepartementForm/> */}
+        <ControleForm/>
       </Modal>
     </>
   );
