@@ -7,6 +7,7 @@ import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
 import { postControle } from '../../../services/controleService';
 import { useNavigate } from 'react-router-dom';
+import { postTache } from '../../../services/tacheService';
 
 const TacheForm = () => {
     const [departement, setDepartement] = useState([]);
@@ -52,12 +53,12 @@ const TacheForm = () => {
     const onFinish = async (values) => {
         setIsLoading(true);
         try {
-            await postControle(values);
+            await postTache(values);
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/controle');
+            navigate('/tache');
             window.location.reload();
         } catch (error) {
             notification.error({
