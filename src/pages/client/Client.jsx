@@ -13,6 +13,7 @@ const Client = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const scroll = { x: 400 };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,21 +123,11 @@ const Client = () => {
       dataIndex: 'adresse',
       key: 'adresse',
       render: (text) => (
-        <>
-          {text?.split(',').map((part, index) => (
-            <Tag icon={<HomeOutlined />} color='cyan' key={index}>
-              {part.trim()}
-            </Tag>
-          ))}
+        <> 
+          <Tag icon={<HomeOutlined />} color='cyan'>
+            {text}
+          </Tag>
         </>
-      ),
-    },    
-    {
-      title: 'Ville',
-      dataIndex: 'capital',
-      key: 'capital',
-      render: (text) => (
-        <Tag color="blue">{text}</Tag>
       ),
     },
     {
@@ -232,7 +223,7 @@ const Client = () => {
             rowKey="id"
             bordered
             size="middle"
-            scroll={{ x: 'max-content' }}
+            scroll={scroll}
           />
         </div>
       </div>
