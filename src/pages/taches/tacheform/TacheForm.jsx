@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Space, Row, Col, Select, notification, DatePicker } from 'antd';
 import { getDepartement } from '../../../services/departementService';
-import { getClient } from '../../../services/clientService';
+import { getClient, getProvince } from '../../../services/clientService';
 import { getFormat } from '../../../services/formatService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
 import { useNavigate } from 'react-router-dom';
 import { postTache } from '../../../services/tacheService';
-import { getTypes } from '../../../services/typeService';
 
 const TacheForm = () => {
     const [departement, setDepartement] = useState([]);
@@ -15,8 +14,8 @@ const TacheForm = () => {
     const [format, setFormat] = useState([]);
     const [frequence, setFrequence] = useState([]);
     const [users, setUsers] = useState([]);
-    const [types, setTypes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [provinces, setProvinces] = useState([]);
     const navigate = useNavigate();
 
     const handleError = (message) => {
@@ -29,13 +28,13 @@ const TacheForm = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [departementData, formatData, frequenceData, usersData, clientData, typesData] = await Promise.all([
+                const [departementData, formatData, frequenceData, usersData, clientData, provinceData] = await Promise.all([
                     getDepartement(),
                     getFormat(),
                     getFrequence(),
                     getUser(),
                     getClient(),
-                    getTypes()
+                    getProvince()
                 ]);
 
                 setDepartement(departementData.data);
@@ -43,7 +42,7 @@ const TacheForm = () => {
                 setFrequence(frequenceData.data);
                 setUsers(usersData.data);
                 setClient(clientData.data);
-                setTypes(typesData.data)
+                setProvinces(provinceData.data);
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
@@ -83,7 +82,7 @@ const TacheForm = () => {
                     onFinish={onFinish}
                 >
                     <Row gutter={12}>
-                        <Col xs={12} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="nom_tache"
                                 label="Nom"
@@ -94,60 +93,38 @@ const TacheForm = () => {
                                     },
                                 ]}
                             >
-                                <Input placeholder="Description..." />
+                                <Input placeholder="Nom..." />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="statut "
-                                label="Statut "
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez sélectionner un département.',
-                                    },
-                                ]}
-                            >
-                                <Select
-                                    showSearch
-                                    options={types.map((item) => ({
-                                        value: item.id_type_statut_suivi,
-                                        label: item.nom_type_statut,
-                                    }))}
-                                    placeholder="Sélectionnez un statut..."
-                                    optionFilterProp="label"
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="date_debut"
                                 label="Date début"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Veuillez sélectionner un département.',
+                                        message: 'Veuillez sélectionner une date de début.',
                                     },
                                 ]}
                             >
-                                <DatePicker  needConfirm />
+                                <DatePicker style={{width:'100%'}} />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="date_fin"
                                 label="Date fin"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Veuillez sélectionner un département.',
+                                        message: 'Veuillez sélectionner une date de fin.',
                                     },
                                 ]}
                             >
-                                <DatePicker  needConfirm />
+                                <DatePicker style={{width:'100%'}}  />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_departement"
                                 label="Département"
@@ -169,7 +146,7 @@ const TacheForm = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_client"
                                 label="Client"
@@ -191,7 +168,7 @@ const TacheForm = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_format"
                                 label="Format"
@@ -213,21 +190,23 @@ const TacheForm = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
-                                name="controle_de_base"
-                                label="Contrôle de base"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir une description.',
-                                    },
-                                ]}
+                                label="Ville"
+                                name="id_ville"
                             >
-                                <Input placeholder="Description..." />
+                                <Select
+                                    showSearch
+                                    options={provinces?.map((item) => ({
+                                        value: item.id,
+                                        label: item.capital,
+                                    }))}
+                                    placeholder="Sélectionnez une ville..."
+                                    optionFilterProp="label"
+                                />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_frequence"
                                 label="Fréquence"
@@ -249,7 +228,7 @@ const TacheForm = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="responsable"
                                 label="Responsable"
@@ -271,7 +250,7 @@ const TacheForm = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={24}>
                             <Form.Item
                                 name="description"
                                 label="Description"
@@ -282,7 +261,7 @@ const TacheForm = () => {
                                     },
                                 ]}
                             >
-                                <Input.TextArea placeholder="Description..." />
+                                <Input.TextArea style={{height:'100px'}} placeholder="Description..." />
                             </Form.Item>
                         </Col>
                         <Col xs={24}>
