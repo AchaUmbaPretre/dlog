@@ -230,7 +230,7 @@ const TacheForm = () => {
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="responsable"
+                                name="responsable_principal"
                                 label="Responsable"
                                 rules={[
                                     {

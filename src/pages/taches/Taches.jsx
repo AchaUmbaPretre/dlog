@@ -61,6 +61,13 @@ const Taches = () => {
   );
 
   const columns = [
+    {
+        title: '#',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index) => index + 1,
+        width: "3%",
+      },
     { title: 'Nom', dataIndex: 'nom_tache', key: 'nom_tache' },
     { title: 'Description', dataIndex: 'description', key: 'description' },
     { title: 'Statut', dataIndex: 'statut', key: 'statut' },
