@@ -3,10 +3,17 @@ import { Button, Form, Input, Space, Row, Col, Select, notification } from 'antd
 import { getDepartement } from '../../../services/departementService';
 import { getClient } from '../../../services/clientService';
 import './controleForm.scss'; // SCSS file for custom styles
+import { getFormat } from '../../../services/formatService';
+import { getFrequence } from '../../../services/frequenceService';
+import { getUser } from '../../../services/userService';
 
 const ControleForm = () => {
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
+    const [format, setFormat] = useState([]);
+    const [frequence, setFrequence] = useState([]);
+    const [users, setUsers] = useState([]);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,7 +31,57 @@ const ControleForm = () => {
         fetchData();
       }, []);
 
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const { data } = await getFormat();
+            setFormat(data);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+          }
+        };
+    
+        fetchData();
+      }, []);
+
+      
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const { data } = await getFrequence();
+            setFrequence(data);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+          }
+        };
+    
+        fetchData();
+      }, []);
+
       useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const { data } = await getUser();
+            setUsers(data);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+          }
+        };
+    
+        fetchData();
+      }, []);
+
+
+    useEffect(() => {
         const fetchData = async () => {
           try {
             const { data } = await getClient();
@@ -105,7 +162,15 @@ const ControleForm = () => {
                   },
                 ]}
               >
-                <Input placeholder="Sélectionnez un format..." />
+                <Select
+                    showSearch
+                    options={format?.map((item) => ({
+                            value: item.id_format,
+                            label: item.nom_format,
+                    }))}
+                    placeholder="Sélectionnez un format..."
+                    optionFilterProp="label"
+                />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
@@ -124,7 +189,7 @@ const ControleForm = () => {
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                name="frequence"
+                name="id_frequence"
                 label="Fréquence"
                 rules={[
                   {
@@ -133,7 +198,15 @@ const ControleForm = () => {
                   },
                 ]}
               >
-                <Input placeholder="Fréquence..." />
+                <Select
+                    showSearch
+                    options={frequence?.map((item) => ({
+                            value: item.id_frequence,
+                            label: item.nom,
+                    }))}
+                    placeholder="Sélectionnez une frequence..."
+                    optionFilterProp="label"
+                />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
@@ -147,7 +220,15 @@ const ControleForm = () => {
                   },
                 ]}
               >
-                <Input placeholder="Nom du propriétaire..." />
+                <Select
+                    showSearch
+                    options={users?.map((item) => ({
+                            value: item.id,
+                            label: `${item.nom} - ${item.prenom}`,
+                    }))}
+                    placeholder="Sélectionnez une frequence..."
+                    optionFilterProp="label"
+                />
               </Form.Item>
             </Col>
             <Col xs={24}>
