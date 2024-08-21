@@ -58,7 +58,7 @@ const ControleForm = () => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/client');
+            navigate('/controle');
             window.location.reload();
         } catch (error) {
             notification.error({

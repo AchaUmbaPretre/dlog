@@ -1,17 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm } from 'antd';
-import { ExportOutlined, PrinterOutlined, CheckCircleOutlined ,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popover, Popconfirm } from 'antd';
+import { ExportOutlined, PrinterOutlined,TagOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import ControleForm from './controleForm/ControleForm';
+import { getControle } from '../../services/controleService';
 
 const { Search } = Input;
 
 const ControleDeBase = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await getControle();
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données.',
+        });
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [DOMAIN]);
 
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
@@ -35,25 +54,6 @@ const ControleDeBase = () => {
     message.info(`Viewing details of client: ${record.nom}`);
   };
 
-
-/*   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await getDepartement();
-        setData(data);
-        setLoading(false);
-      } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [DOMAIN]);
- */
   const handleAddClient = () => {
     setIsModalVisible(true);
   };
@@ -67,7 +67,6 @@ const ControleDeBase = () => {
   };
 
   const handleExportPDF = () => {
-    // Logic to export data to PDF
     message.success('Exporting to PDF...');
   };
 
@@ -87,13 +86,74 @@ const ControleDeBase = () => {
   );
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    { title: 'Département', dataIndex: 'nom_departement', key: 'nom_departement' },
-    { title: 'Client', dataIndex: 'nom_client', key: 'nom_client' },
-    { title: 'Format', dataIndex: 'format', key: 'format' },
-    { title: 'Contrôle de base', dataIndex: 'controle', key: 'controle' },
-    { title: 'Frequence', dataIndex: 'code', key: 'code' },
-    { title: 'Owner', dataIndex: 'owner', key: 'owner' },
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => index + 1,
+      width: "3%",
+      align: 'center',
+    },
+    {
+      title: 'Département',
+      dataIndex: 'departement',
+      key: 'nom_departement',
+      render: text => (
+        <Space>
+          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      ),
+    },
+    {
+      title: 'Client',
+      dataIndex: 'nom_client',
+      key: 'nom_client',
+      render: text => (
+        <Space>
+          <Tag icon={<UserOutlined />} color='green'>{text}</Tag>
+        </Space>
+      ),
+    },
+    {
+      title: 'Format',
+      dataIndex: 'format',
+      key: 'format',
+      render: text => (
+        <Space>
+          <Tag icon={<TagOutlined />} color='blue'>{text}</Tag>
+        </Space>
+      ),
+    },
+    {
+      title: 'Contrôle de base',
+      dataIndex: 'controle_de_base',
+      key: 'controle_de_base',
+      render: text => (
+        <Space>
+          <Tag icon={<CheckCircleOutlined />} color='orange'>{text}</Tag>
+        </Space>
+      ),
+    },
+    {
+      title: 'Fréquence',
+      dataIndex: 'frequence',
+      key: 'frequence',
+      render: text => (
+        <Tag color='blue'>
+          <CalendarOutlined /> {text}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Owner',
+      dataIndex: 'responsable',
+      key: 'responsable',
+      render: text => (
+        <Space>
+          <Tag icon={<UserOutlined />} color='purple'>{text}</Tag>
+        </Space>
+      ),
+    },
     {
       title: 'Action',
       key: 'action',
@@ -136,8 +196,15 @@ const ControleDeBase = () => {
         </Space>
       ),
     },
-    
   ];
+
+  const filteredData = data?.filter((item) =>
+    item.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.format?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.controle_de_base?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.responsable?.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <>
@@ -151,7 +218,10 @@ const ControleDeBase = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search placeholder="Recherche..." 
+                enterButtonvalue={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)} 
+                />
             </div>
             <div className="client-rows-right">
               <Button

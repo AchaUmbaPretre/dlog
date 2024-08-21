@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip } from 'antd';
-import { ExportOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
+import { ExportOutlined,HomeOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import './client.scss';
 import ClientForm from './clientForm/ClientForm';
 import { getClient } from '../../services/clientService';
@@ -77,22 +77,76 @@ const Client = () => {
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
-        Export to Excel
+        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
       </Menu.Item>
       <Menu.Item key="2" onClick={handleExportPDF}>
-        Export to PDF
+        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
       </Menu.Item>
     </Menu>
   );
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    { title: 'Nom', dataIndex: 'nom', key: 'nom' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Téléphone', dataIndex: 'telephone', key: 'telephone' },
-    { title: 'Adresse', dataIndex: 'adresse', key: 'adresse' },
-    { title: 'Ville', dataIndex: 'capital', key: 'capital' },
-    { title: 'Type', dataIndex: 'nom_type', key: 'nom_type' },
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => index + 1,
+      width: "3%",
+    },
+    {
+      title: 'Nom',
+      dataIndex: 'nom',
+      key: 'nom',
+      render: (text) => (
+        <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
+      ),
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      render: (text) => (
+        <Tag icon={<MailOutlined />} color="blue">{text}</Tag>
+      ),
+    },
+    {
+      title: 'Téléphone',
+      dataIndex: 'telephone',
+      key: 'telephone',
+      render: (text) => (
+        <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
+      ),
+    },
+    {
+      title: 'Adresse',
+      dataIndex: 'adresse',
+      key: 'adresse',
+      render: (text) => (
+        <>
+          {text?.split(',').map((part, index) => (
+            <Tag icon={<HomeOutlined />} color='cyan' key={index}>
+              {part.trim()}
+            </Tag>
+          ))}
+        </>
+      ),
+    },    
+    {
+      title: 'Ville',
+      dataIndex: 'capital',
+      key: 'capital',
+      render: (text) => (
+        <Tag color="blue">{text}</Tag>
+      ),
+    },
+    {
+      title: 'Type',
+      dataIndex: 'nom_type',
+      key: 'nom_type',
+      render: (text) => (
+        <Tag color={ text === 'Interne' ? 'green' : "magenta"}>{text}</Tag>
+      ),
+    },
     {
       title: 'Action',
       key: 'action',
@@ -135,7 +189,7 @@ const Client = () => {
         </Space>
       ),
     },
-  ];
+  ]
 
   return (
     <>
