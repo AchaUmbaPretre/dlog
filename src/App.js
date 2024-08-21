@@ -10,6 +10,7 @@ import Departement from './pages/departement/Departement';
 import Client from './pages/client/Client';
 import Taches from './pages/taches/Taches';
 import Users from './pages/users/Users';
+import ControleDeBase from './pages/controleDeBase/ControleDeBase';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -55,7 +56,7 @@ function App() {
         },
         {
           path: '/controle',
-          element: <Departement/>
+          element: <ControleDeBase/>
         },
         {
           path: '/format',

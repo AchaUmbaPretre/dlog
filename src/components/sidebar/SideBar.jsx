@@ -39,13 +39,13 @@ const SideBar = () => {
           </Item>
           <SubMenu key="sub5" icon={<FileDoneOutlined />} title="Tâches">
             <Menu.Item key="3">
-              <Link to={'/tache'}>
-                Tâches
+              <Link to={'/controle'}>
+                Controle de base
               </Link>
             </Menu.Item>
             <Menu.Item key="4">
-              <Link to={'/controle'}>
-                Controle de base
+              <Link to={'/tache'}>
+                Tâches
               </Link>
             </Menu.Item>
             <Menu.Item key="5">
@@ -65,14 +65,14 @@ const SideBar = () => {
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub10" icon={<TeamOutlined />} title="Personnels">
-            <Menu.Item key="7">
+            <Menu.Item key="8">
               <Link to='/utilisateur'>
                 Liste des personnels
               </Link>
             </Menu.Item>
-            <Menu.Item key="8">Nouveau personnel</Menu.Item>
+            <Menu.Item key="9">Nouveau personnel</Menu.Item>
           </SubMenu>
-          <Item key="9" icon={<SettingOutlined />}>
+          <Item key="10" icon={<SettingOutlined />}>
             Paramètres
           </Item>
           <Item key="logout" icon={<LogoutOutlined />} className="logout-item">
