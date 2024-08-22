@@ -79,8 +79,8 @@ const SuiviControle = () => {
                     className="custom-form"
                     onFinish={onFinish}
                 >
-                    <Row gutter={12}>
-                        <Col xs={24} md={12}>
+                    <Row gutter={24} justify="center">
+                        <Col span={24}>
                             <Form.Item
                                 name="commentaires"
                                 label="Commentaires"
@@ -91,53 +91,17 @@ const SuiviControle = () => {
                                     },
                                 ]}
                             >
-                                <Input.TextArea placeholder="Commentaire..." />
+                                <Input.TextArea style={{ height: '100px' }} placeholder="Commentaire..." />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col span={24}>
                             <Form.Item
-                                name="controle_de_base"
-                                label="Contrôle de base"
+                                name="effectue_par"
+                                label="Effectué par"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Veuillez fournir une description.',
-                                    },
-                                ]}
-                            >
-                                <Input placeholder="Description..." />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="id_frequence"
-                                label="Fréquence"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez indiquer la fréquence.',
-                                    },
-                                ]}
-                            >
-                                <Select
-                                    showSearch
-                                    options={frequence.map((item) => ({
-                                        value: item.id_frequence,
-                                        label: item.nom,
-                                    }))}
-                                    placeholder="Sélectionnez une fréquence..."
-                                    optionFilterProp="label"
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="responsable"
-                                label="Responsable"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez indiquer le responsable.',
+                                        message: 'Veuillez sélectionner une personne.',
                                     },
                                 ]}
                             >
@@ -152,8 +116,50 @@ const SuiviControle = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24}>
-                            <Form.Item>
+                        <Col span={24}>
+                            <Form.Item
+                                name="est_termine"
+                                label="Suivi terminé"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez indiquer si le suivi est terminé.',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    placeholder="Sélectionnez une option..."
+                                    options={[
+                                        { value: 1, label: 'Oui' },
+                                        { value: 0, label: 'Non' }
+                                    ]}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={24}>
+                            <Form.Item
+                                name="status"
+                                label="Statut du suivi"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez sélectionner le statut du suivi.',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    placeholder="Sélectionnez le statut..."
+                                    options={[
+                                        { value: 'en_cours', label: 'En cours' },
+                                        { value: 'complete', label: 'Complété' },
+                                        { value: 'a_revoir', label: 'À revoir' },
+                                        { value: 'annule', label: 'Annulé' }
+                                    ]}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={24} >
+                            <Form.Item style={{marginTop:'10px'}}>
                                 <Space className="button-group">
                                     <Button type="primary" htmlType="submit" loading={isLoading}>
                                         Envoyer

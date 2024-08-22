@@ -2,6 +2,7 @@
     .controle_wrapper {
         .custom-form {
             .ant-form-item {
+                margin-bottom: 16px; // Espace entre les champs
                 .ant-form-item-label {
                     label {
                         font-weight: bold;
@@ -9,13 +10,13 @@
                 }
                 .ant-form-item-control {
                     .ant-input, .ant-select-selector, .ant-input-textarea {
-                        resize: none; // Désactiver le redimensionnement
-                        height: 40px; // Hauteur spécifique pour les champs de texte
-                    }
-                    .ant-input-textarea {
-                        height: 100px; // Hauteur spécifique pour les zones de texte
+                        resize: none;
                     }
                 }
+            }
+            .button-group {
+                display: flex;
+                justify-content: center;
             }
         }
     }
