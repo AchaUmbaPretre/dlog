@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popover, Popconfirm } from 'antd';
-import { ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined, FileSearchOutlined, FileTextOutlined} from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import config from '../../config';
 import ControleForm from './controleForm/ControleForm';
 import { getControle } from '../../services/controleService';
@@ -77,10 +78,10 @@ const ControleDeBase = () => {
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
-        Export to Excel
+        <ExportOutlined /> Export to Excel
       </Menu.Item>
       <Menu.Item key="2" onClick={handleExportPDF}>
-        Export to PDF
+        <PrinterOutlined /> Export to PDF
       </Menu.Item>
     </Menu>
   );
@@ -163,28 +164,40 @@ const ControleDeBase = () => {
           <Tooltip title="View Details">
             <Button
               icon={<EyeOutlined />}
-              style={{ color:'blue'}}
+              style={{ color: 'blue' }}
               onClick={() => handleViewDetails(record)}
               aria-label="View client details"
             />
           </Tooltip>
-          <Tooltip title="Suivi de controle">
-            <Button
-              icon={<PlusCircleOutlined />}
-              style={{ color:'blue'}}
-              onClick={() => handleViewDetails(record)}
-              aria-label="View client details"
-            />
-          </Tooltip>
-          <Tooltip title="Edit">
-            <Popover title="Modifier" trigger="hover">
+          <Popover
+            content={
+              <div className='popOverSous' style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <Link to={'/suivie'}>
+                  <FileSearchOutlined /> Faire un suivi
+                </Link>
+                <Link to={`/liste_suivie?id_controle=${record.id}`}>
+                    <FileTextOutlined /> Liste de suivi
+                </Link>
+              </div>
+            }
+            title="Suivi de contrôle"
+            trigger="click"
+          >
+            <Tooltip title="Suivi de controle">
               <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleEdit(record)}
-                aria-label="Edit client"
+                icon={<PlusCircleOutlined />}
+                style={{ color: 'blue' }}
+                aria-label="Suivi de contrôle"
               />
-            </Popover>
+            </Tooltip>
+          </Popover>
+          <Tooltip title="Edit">
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record)}
+              aria-label="Edit client"
+            />
           </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
@@ -228,7 +241,7 @@ const ControleDeBase = () => {
               <Search placeholder="Recherche..." 
                 enterButtonvalue={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)} 
-                />
+              />
             </div>
             <div className="client-rows-right">
               <Button
@@ -257,6 +270,7 @@ const ControleDeBase = () => {
             bordered
             size="middle"
             scroll={{ x: 'max-content' }}
+            loading={loading}
           />
         </div>
       </div>
