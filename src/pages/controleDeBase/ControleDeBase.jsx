@@ -285,14 +285,16 @@ const ControleDeBase = () => {
               </Button>
             </div>
           </div>
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            pagination={{ pageSize: 15 }}
-            loading={loading}
-            rowKey="id"
-            scroll={scroll}
-          />
+          <div className="tableau_client">
+            <Table
+                columns={columns}
+                dataSource={filteredData}
+                pagination={{ pageSize: 15 }}
+                loading={loading}
+                rowKey="id"
+                scroll={scroll}
+            />
+          </div>
         </div>
       </div>
       <Modal

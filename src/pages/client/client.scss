@@ -1,4 +1,5 @@
 .client{
+    overflow: auto;
     width: 100%;
     .client-wrapper{
         background: #fff;
@@ -42,6 +43,9 @@
                 align-items: center;
                 gap: 10px;
             }
+        }
+        .tableau_client{
+            width: 100%;
         }
 
     }
