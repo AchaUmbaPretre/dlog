@@ -13,7 +13,9 @@ const colorMapping = {
     'En attente de validation': '#32CD32', // Lime Green
     'Validé': '#228B22', // Forest Green
     'Budget': '#FFD700', // Gold
-    'Exécuté': '#A9A9A9' // Dark Gray
+    'Exécuté': '#A9A9A9', // Dark Gray
+    1: '#32CD32', // Lime Green for 'Oui'
+    0: '#FF6347'
 };
 
 const SuiviControle = () => {
@@ -130,7 +132,14 @@ const SuiviControle = () => {
                                     options={[
                                         { value: 1, label: 'Oui' },
                                         { value: 0, label: 'Non' }
-                                    ]}
+                                    ].map(option => ({
+                                        ...option,
+                                        label: (
+                                            <div style={{ color: colorMapping[option.value] }}>
+                                                {option.label}
+                                            </div>
+                                        )
+                                    }))}
                                 />
                             </Form.Item>
                         </Col>
