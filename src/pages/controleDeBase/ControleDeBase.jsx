@@ -38,8 +38,8 @@ const ControleDeBase = () => {
   }, [DOMAIN]);
 
   const openModal = (modalType, id = '') => {
-    setIdControle(id); // Set the id if needed
-    setModalState(modalType); // Set the currently opened modal
+    setIdControle(id);
+    setModalState(modalType);
   };
 
   const closeModal = () => {
@@ -306,7 +306,7 @@ const ControleDeBase = () => {
         footer={null}
         width={900}
       >
-        <SuiviControle />
+        <SuiviControle idControle={idControle} />
       </Modal>
       <Modal
         title="Liste de suivi"
@@ -315,7 +315,7 @@ const ControleDeBase = () => {
         footer={null}
         width={1000}
       >
-        <ListeSuivi idControle={idControle} />
+        <ListeSuivi />
       </Modal>
     </>
   );

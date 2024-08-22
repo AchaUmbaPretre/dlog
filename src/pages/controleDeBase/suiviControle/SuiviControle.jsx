@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Space, Row, Col, Select, notification } from 'antd';
 import { getUser } from '../../../services/userService';
-import { postControle } from '../../../services/controleService';
 import { useNavigate } from 'react-router-dom';
 import './suiviControle.scss';
 import { getTypes } from '../../../services/typeService';
+import { postSuivi } from '../../../services/suiviService';
 
 const colorMapping = {
     'En attente': '#FFA500', // Orange
@@ -14,11 +14,11 @@ const colorMapping = {
     'Validé': '#228B22', // Forest Green
     'Budget': '#FFD700', // Gold
     'Exécuté': '#A9A9A9', // Dark Gray
-    1: '#32CD32', // Lime Green for 'Oui'
+    1: '#32CD32',
     0: '#FF6347'
 };
 
-const SuiviControle = () => {
+const SuiviControle = ({idControle}) => {
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +52,10 @@ const SuiviControle = () => {
     const onFinish = async (values) => {
         setIsLoading(true);
         try {
-            await postControle(values);
+            await postSuivi({
+                ...values,
+                id_controle: idControle
+            });
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
