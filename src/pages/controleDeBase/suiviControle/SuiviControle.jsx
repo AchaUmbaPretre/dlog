@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Space, Row, Col, Select, notification } from 'antd';
-import { getDepartement } from '../../../services/departementService';
-import { getClient } from '../../../services/clientService';
-import { getFormat } from '../../../services/formatService';
-import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
 import { postControle } from '../../../services/controleService';
 import { useNavigate } from 'react-router-dom';
 import './suiviControle.scss';
+import { getTypes } from '../../../services/typeService';
 
 const SuiviControle = () => {
-    const [departement, setDepartement] = useState([]);
-    const [client, setClient] = useState([]);
-    const [format, setFormat] = useState([]);
-    const [frequence, setFrequence] = useState([]);
+    const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -28,19 +22,13 @@ const SuiviControle = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [departementData, formatData, frequenceData, usersData, clientData] = await Promise.all([
-                    getDepartement(),
-                    getFormat(),
-                    getFrequence(),
-                    getUser(),
-                    getClient(),
+                const [ typeData, userData] = await Promise.all([
+                    getTypes(),
+                    getUser()
                 ]);
 
-                setDepartement(departementData.data);
-                setFormat(formatData.data);
-                setFrequence(frequenceData.data);
-                setUsers(usersData.data);
-                setClient(clientData.data);
+                setType(typeData.data);
+                setUsers(userData.data)
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
@@ -149,12 +137,10 @@ const SuiviControle = () => {
                             >
                                 <Select
                                     placeholder="Sélectionnez le statut..."
-                                    options={[
-                                        { value: 'en_cours', label: 'En cours' },
-                                        { value: 'complete', label: 'Complété' },
-                                        { value: 'a_revoir', label: 'À revoir' },
-                                        { value: 'annule', label: 'Annulé' }
-                                    ]}
+                                    options={type.map((item) => ({
+                                        value: item.id_type_statut_suivi,
+                                        label: `${item.nom_type_statut}`,
+                                    }))}
                                 />
                             </Form.Item>
                         </Col>
