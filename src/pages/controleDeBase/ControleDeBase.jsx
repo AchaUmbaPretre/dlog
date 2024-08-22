@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popover, Popconfirm } from 'antd';
-import { ExportOutlined, PrinterOutlined,TagOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import ControleForm from './controleForm/ControleForm';
 import { getControle } from '../../services/controleService';
@@ -163,8 +163,16 @@ const ControleDeBase = () => {
           <Tooltip title="View Details">
             <Button
               icon={<EyeOutlined />}
+              style={{ color:'blue'}}
               onClick={() => handleViewDetails(record)}
-              type="link"
+              aria-label="View client details"
+            />
+          </Tooltip>
+          <Tooltip title="Suivi de controle">
+            <Button
+              icon={<PlusCircleOutlined />}
+              style={{ color:'blue'}}
+              onClick={() => handleViewDetails(record)}
               aria-label="View client details"
             />
           </Tooltip>
@@ -174,7 +182,6 @@ const ControleDeBase = () => {
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
                 onClick={() => handleEdit(record)}
-                type="link"
                 aria-label="Edit client"
               />
             </Popover>
