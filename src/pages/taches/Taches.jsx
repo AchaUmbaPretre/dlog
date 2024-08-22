@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification } from 'antd';
-import { ExportOutlined, PrinterOutlined, PlusOutlined,FileDoneOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip } from 'antd';
+import { ExportOutlined, WarningOutlined, RocketOutlined, DollarOutlined, CheckSquareOutlined, HourglassOutlined, ClockCircleOutlined, PrinterOutlined,CheckCircleOutlined,CalendarOutlined,TeamOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined,FileDoneOutlined } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { getTache } from '../../services/tacheService';
 
@@ -28,6 +28,10 @@ const Taches = () => {
 
     fetchData();
   }, []);
+
+  const handleViewDetails = (record) => {
+    message.info(`Viewing details of tache : ${record.nom}`);
+  };
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -60,21 +64,94 @@ const Taches = () => {
     </Menu>
   );
 
-  const columns = [
+  const statusIcons = {
+    'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
+    'En cours': { icon: <HourglassOutlined />, color: 'blue' },
+    'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
+    'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
+    'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
+    'Budget': { icon: <DollarOutlined />, color: 'gold' },
+    'Executé': { icon: <RocketOutlined />, color: 'cyan' },
+};
+
+const columns = [
     {
         title: '#',
         dataIndex: 'id',
         key: 'id',
         render: (text, record, index) => index + 1,
         width: "3%",
-      },
-    { title: 'Nom', dataIndex: 'nom_tache', key: 'nom_tache' },
-    { title: 'Description', dataIndex: 'description', key: 'description' },
-    { title: 'Statut', dataIndex: 'statut', key: 'statut' },
-    { title: 'Frequence', dataIndex: 'id_frequence ', key: 'id_frequence ' },
-    { title: 'Point supervision ', dataIndex: '	id_point_supervision', key: 'id_point_supervision' },
-    { title: 'Responsable', dataIndex: 'responsable_principal', key: 'responsable_principal' },
-  ];
+    },
+    {   
+        title: 'Nom',
+        dataIndex: 'nom_tache', 
+        key: 'nom_tache', 
+        render: text => (
+            <Space>
+              <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
+            </Space>
+        )
+    },
+    {   
+        title: 'Client', 
+        dataIndex: 'nom_client', 
+        key: 'nom_client',
+        render: text => (
+            <Space>
+              <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
+            </Space>
+        )
+    },
+    { 
+        title: 'Statut', 
+        dataIndex: 'statut', 
+        key: 'statut',
+        render: text => {
+            const { icon, color } = statusIcons[text] || {};
+            return (
+                <Space>
+                  <Tag icon={icon} color={color}>{text}</Tag>
+                </Space>
+            );
+        }
+    },
+    { 
+        title: 'Frequence', 
+        dataIndex: 'frequence', 
+        key: 'frequence',
+        render: text => (
+            <Space>
+              <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
+            </Space>
+        )
+    },
+    { 
+        title: 'Owner', 
+        dataIndex: 'owner', 
+        key: 'owner',
+        render: text => (
+            <Space>
+              <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
+            </Space>
+        )
+    },
+    {
+        title: 'Action',
+        key: 'action',
+        width: '10%',
+        render : (text, record) => (
+            <Space size="middle">
+                <Tooltip title="View Details">
+                    <Button
+                        icon={<EyeOutlined />}
+                        onClick={() => handleViewDetails(record)}
+                        aria-label="View client details"
+                    />
+                </Tooltip>
+            </Space>
+        )
+    }
+];
 
   return (
     <>

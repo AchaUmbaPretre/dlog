@@ -141,7 +141,7 @@ const Client = () => {
     {
       title: 'Action',
       key: 'action',
-      width: '15%',
+      width: '10%',
       render: (text, record) => (
         <Space size="middle">
           <Tooltip title="View Details">
