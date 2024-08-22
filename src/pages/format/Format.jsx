@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
-import './departement.scss';
-import DepartementForm from './departementForm/DepartementForm';
-import config from '../../config';
-import { getDepartement } from '../../services/departementService';
+import { ExportOutlined,FileTextOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
+import { getFormat } from '../../services/formatService';
 
 const { Search } = Input;
 
-const Departement = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+const Format = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
 
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
@@ -38,10 +33,10 @@ const Departement = () => {
   };
 
 
-  useEffect(() => {
+ useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getDepartement();
+        const { data } = await getFormat();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -54,7 +49,7 @@ const Departement = () => {
     };
 
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -97,47 +92,13 @@ const Departement = () => {
       width: "3%" 
     },
     { 
-      title: 'Nom Département', 
-      dataIndex: 'nom_departement', 
-      key: 'nom_departement',
+      title: 'Format', 
+      dataIndex: 'nom_format', 
+      key: 'nom_format',
       render: text => (
         <Space>
-          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
-      ),
-    },
-    { 
-      title: 'Description', 
-      dataIndex: 'description', 
-      key: 'description',
-      render: text => (
-        <Tag color='geekblue'>{text}</Tag>
-      ),
-    },
-    { 
-      title: 'Email', 
-      dataIndex: 'email',
-      key: 'email',
-      render: text => (
-        <Space>
-          <Tag icon={<MailOutlined />} color='blue'>{text}</Tag>
-        </Space>
-      ),
-    },
-    { 
-      title: 'Téléphone', 
-      dataIndex: 'telephone', 
-      key: 'telephone',
-      render: text => (
-        <Tag color='magenta'>{text}</Tag>
-      ),
-    },
-    { 
-      title: 'Code', 
-      dataIndex: 'code', 
-      key: 'code',
-      render: text => (
-        <Tag color='purple'>{text}</Tag>
       ),
     },
     {
@@ -146,13 +107,6 @@ const Departement = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="View Details">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              aria-label="View department details"
-            />
-          </Tooltip>
           <Tooltip title="Edit">
             <Button
               icon={<EditOutlined />}
@@ -187,9 +141,9 @@ const Departement = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ApartmentOutlined className='client-icon'/>
+              <FileTextOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Département</h2>
+            <h2 className="client-h2">Format</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -201,7 +155,7 @@ const Departement = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Département
+                Format
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
@@ -233,10 +187,9 @@ const Departement = () => {
         footer={null}
         width={600}
       >
-        <DepartementForm/>
       </Modal>
     </>
   );
 };
 
-export default Departement;
+export default Format;

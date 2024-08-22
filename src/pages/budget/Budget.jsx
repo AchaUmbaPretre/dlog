@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
-import './departement.scss';
-import DepartementForm from './departementForm/DepartementForm';
+import { ExportOutlined,DollarOutlined,CreditCardOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
-import { getDepartement } from '../../services/departementService';
 
 const { Search } = Input;
 
-const Departement = () => {
+const Budget = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
 
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
@@ -38,7 +34,7 @@ const Departement = () => {
   };
 
 
-  useEffect(() => {
+/*   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getDepartement();
@@ -54,7 +50,7 @@ const Departement = () => {
     };
 
     fetchData();
-  }, [DOMAIN]);
+  }, [DOMAIN]); */
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -97,9 +93,9 @@ const Departement = () => {
       width: "3%" 
     },
     { 
-      title: 'Nom Département', 
-      dataIndex: 'nom_departement', 
-      key: 'nom_departement',
+      title: 'Items', 
+      dataIndex: 'items', 
+      key: 'items',
       render: text => (
         <Space>
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
@@ -107,39 +103,39 @@ const Departement = () => {
       ),
     },
     { 
-      title: 'Description', 
-      dataIndex: 'description', 
-      key: 'description',
+      title: 'Qté demandée', 
+      dataIndex: 'qte_demande', 
+      key: 'qte_demande',
       render: text => (
         <Tag color='geekblue'>{text}</Tag>
       ),
     },
     { 
-      title: 'Email', 
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Qté validée', 
+      dataIndex: 'qt_valide',
+      key: 'qt_valide',
       render: text => (
         <Space>
-          <Tag icon={<MailOutlined />} color='blue'>{text}</Tag>
+          <Tag color='blue'>{text}</Tag>
         </Space>
       ),
     },
     { 
-      title: 'Téléphone', 
-      dataIndex: 'telephone', 
-      key: 'telephone',
-      render: text => (
-        <Tag color='magenta'>{text}</Tag>
-      ),
-    },
-    { 
-      title: 'Code', 
-      dataIndex: 'code', 
-      key: 'code',
+      title: 'Offres', 
+      dataIndex: 'offres', 
+      key: 'offres',
       render: text => (
         <Tag color='purple'>{text}</Tag>
       ),
     },
+    { 
+        title: 'Fourniseurs', 
+        dataIndex: 'fourniseurs', 
+        key: 'fourniseurs',
+        render: text => (
+          <Tag color='purple'>{text}</Tag>
+        ),
+      },
     {
       title: 'Action',
       key: 'action',
@@ -187,9 +183,9 @@ const Departement = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ApartmentOutlined className='client-icon'/>
+              <DollarOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Département</h2>
+            <h2 className="client-h2">Budget</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -233,10 +229,9 @@ const Departement = () => {
         footer={null}
         width={600}
       >
-        <DepartementForm/>
       </Modal>
     </>
   );
 };
 
-export default Departement;
+export default Budget;

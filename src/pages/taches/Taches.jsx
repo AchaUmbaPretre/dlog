@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip } from 'antd';
-import { ExportOutlined, WarningOutlined, RocketOutlined, DollarOutlined, CheckSquareOutlined, HourglassOutlined, ClockCircleOutlined, PrinterOutlined,CheckCircleOutlined,CalendarOutlined,TeamOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined,FileDoneOutlined } from '@ant-design/icons';
+import { ExportOutlined, WarningOutlined,ApartmentOutlined, RocketOutlined, DollarOutlined, CheckSquareOutlined, HourglassOutlined, ClockCircleOutlined, PrinterOutlined,CheckCircleOutlined,CalendarOutlined,TeamOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined,FileDoneOutlined } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { getTache } from '../../services/tacheService';
 
@@ -82,6 +82,16 @@ const columns = [
         render: (text, record, index) => index + 1,
         width: "3%",
     },
+    { 
+        title: 'Département', 
+        dataIndex: 'departement', 
+        key: 'nom_departement',
+        render: text => (
+          <Space>
+            <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+          </Space>
+        ),
+      },
     {   
         title: 'Nom',
         dataIndex: 'nom_tache', 
@@ -122,6 +132,16 @@ const columns = [
         render: text => (
             <Space>
               <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
+            </Space>
+        )
+    },
+    { 
+        title: 'Demandeur', 
+        dataIndex: 'owner', 
+        key: 'owner',
+        render: text => (
+            <Space>
+              <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
             </Space>
         )
     },

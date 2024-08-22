@@ -11,6 +11,9 @@ import Client from './pages/client/Client';
 import Taches from './pages/taches/Taches';
 import Users from './pages/users/Users';
 import ControleDeBase from './pages/controleDeBase/ControleDeBase';
+import Format from './pages/format/Format';
+import Frequence from './pages/frequence/Frequence';
+import Budget from './pages/budget/Budget';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -60,11 +63,15 @@ function App() {
         },
         {
           path: '/format',
-          element: <Departement/>
+          element: <Format/>
         },
         {
           path: '/frequence',
-          element: <Departement/>
+          element: <Frequence/>
+        },
+        {
+          path: '/budget',
+          element: <Budget/>
         },
         {
           path: '/besoin',

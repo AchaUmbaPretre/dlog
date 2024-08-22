@@ -59,24 +59,29 @@ const SideBar = () => {
               </Link>
             </Menu.Item>
             <Menu.Item key="7">
+              <Link to='/budget'>
+                Budget
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="8">
               <Link to='/besoins'>
                 Besoins
               </Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub10" icon={<TeamOutlined />} title="Personnels">
-            <Menu.Item key="8">
+            <Menu.Item key="9">
               <Link to='/utilisateur'>
                 Liste des personnels
               </Link>
             </Menu.Item>
-            <Menu.Item key="9">Nouveau personnel</Menu.Item>
+            <Menu.Item key="10">Nouveau personnel</Menu.Item>
           </SubMenu>
-          <Item key="10" icon={<SettingOutlined />}>
+          <Item key="11" icon={<SettingOutlined />}>
             Paramètres
           </Item>
           <Item key="logout" icon={<LogoutOutlined />} className="logout-item">
-            <Link to="/logout">Déconnecter</Link> {/* Assurez-vous que cette route est bien configurée pour la déconnexion */}
+            <Link to="/logout">Déconnecter</Link>
           </Item>
         </Menu>
       </Sider>
