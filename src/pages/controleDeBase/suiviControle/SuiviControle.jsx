@@ -6,6 +6,16 @@ import { useNavigate } from 'react-router-dom';
 import './suiviControle.scss';
 import { getTypes } from '../../../services/typeService';
 
+const colorMapping = {
+    'En attente': '#FFA500', // Orange
+    'En cours': '#1E90FF',   // Blue
+    'Point bloquant': '#FF4500', // Red-Orange
+    'En attente de validation': '#32CD32', // Lime Green
+    'Validé': '#228B22', // Forest Green
+    'Budget': '#FFD700', // Gold
+    'Exécuté': '#A9A9A9' // Dark Gray
+};
+
 const SuiviControle = () => {
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
@@ -22,13 +32,13 @@ const SuiviControle = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [ typeData, userData] = await Promise.all([
+                const [typeData, userData] = await Promise.all([
                     getTypes(),
                     getUser()
                 ]);
 
                 setType(typeData.data);
-                setUsers(userData.data)
+                setUsers(userData.data);
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
@@ -139,13 +149,17 @@ const SuiviControle = () => {
                                     placeholder="Sélectionnez le statut..."
                                     options={type.map((item) => ({
                                         value: item.id_type_statut_suivi,
-                                        label: `${item.nom_type_statut}`,
+                                        label: (
+                                            <div style={{ color: colorMapping[item.nom_type_statut] }}>
+                                                {item.nom_type_statut}
+                                            </div>
+                                        ),
                                     }))}
                                 />
                             </Form.Item>
                         </Col>
-                        <Col span={24} >
-                            <Form.Item style={{marginTop:'10px'}}>
+                        <Col span={24}>
+                            <Form.Item style={{ marginTop: '10px' }}>
                                 <Space className="button-group">
                                     <Button type="primary" htmlType="submit" loading={isLoading}>
                                         Envoyer
