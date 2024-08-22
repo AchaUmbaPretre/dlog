@@ -42,6 +42,8 @@ const ControleDeBase = () => {
     setModalState(modalType);
   };
 
+  console.log(idControle)
+
   const closeModal = () => {
     setModalState(null);
   };
@@ -72,8 +74,11 @@ const ControleDeBase = () => {
     openModal('liste', id);
   };
 
-  const handleAddSuivi = () => {
+  const handleAddSuivi = (id) => {
     openModal('suivi');
+    setIdControle(id)
+
+    console.log(id)
   };
 
   const handleAddClient = () => {
@@ -182,17 +187,17 @@ const ControleDeBase = () => {
             <Button
               icon={<EyeOutlined />}
               style={{ color: 'blue' }}
-              onClick={() => handleViewDetails(record)}
+              onClick={() => handleViewDetails(record.id_controle)}
               aria-label="Voir les détails du client"
             />
           </Tooltip>
           <Popover
             content={
               <div className='popOverSous' style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleAddSuiviList(record.id_control)}>
+                <Link onClick={() => handleAddSuiviList(record?.id_controle)}>
                   <FileTextOutlined /> Liste de suivi
                 </Link>
-                <Link onClick={handleAddSuivi}>
+                <Link onClick={() =>handleAddSuivi(record.id_controle)}>
                   <FileSearchOutlined /> Faire un suivi
                 </Link>
               </div>
@@ -219,7 +224,7 @@ const ControleDeBase = () => {
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client ?"
-              onConfirm={() => handleDelete(record.id)}
+              onConfirm={() => handleDelete(record.id_controle)}
               okText="Oui"
               cancelText="Non"
             >

@@ -24,6 +24,9 @@ const SuiviControle = ({idControle}) => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
+
+    console.log('text' + idControle)
+
     const handleError = (message) => {
         notification.error({
             message: 'Erreur de chargement',
