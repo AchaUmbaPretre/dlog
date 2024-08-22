@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, notification, Tag, Space, Tooltip, Popover, Popconfirm, Dropdown, Menu } from 'antd';
-import { ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined, FileSearchOutlined, FileTextOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import config from '../../config';
-import ControleForm from './controleForm/ControleForm';
-import { getControle } from '../../services/controleService';
-import SuiviControle from './suiviControle/SuiviControle';
-import ListeSuivi from './listeSuivi/ListeSuivi';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip,Popconfirm } from 'antd';
+import { ExportOutlined, PrinterOutlined, TagOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
+import { getControle } from '../../../services/controleService';
 
 const { Search } = Input;
 
-const ControleDeBase = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+const ListeSuivi = () => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
-  const scroll = { x: 400 };
   const [data, setData] = useState([]);
-  const [idControle, setIdControle] = useState('');
-  const [modalState, setModalState] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalSuivi, setIsModalSuivi] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,16 +28,7 @@ const ControleDeBase = () => {
     };
 
     fetchData();
-  }, [DOMAIN]);
-
-  const openModal = (modalType, id = '') => {
-    setIdControle(id); // Set the id if needed
-    setModalState(modalType); // Set the currently opened modal
-  };
-
-  const closeModal = () => {
-    setModalState(null);
-  };
+  }, []);
 
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
@@ -55,7 +39,7 @@ const ControleDeBase = () => {
       // Uncomment when delete function is available
       // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
-      message.success('Client supprimé avec succès');
+      message.success('Client deleted successfully');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -68,24 +52,21 @@ const ControleDeBase = () => {
     message.info(`Viewing details of client: ${record.nom}`);
   };
 
-  const handleAddSuiviList = (id) => {
-    openModal('liste', id);
-  };
-
-  const handleAddSuivi = () => {
-    openModal('suivi');
-  };
 
   const handleAddClient = () => {
-    openModal('controle');
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const handleExportExcel = () => {
-    message.success('Exportation vers Excel...');
+    message.success('Exporting to Excel...');
   };
 
   const handleExportPDF = () => {
-    message.success('Exportation vers PDF...');
+    message.success('Exporting to PDF...');
   };
 
   const handlePrint = () => {
@@ -186,28 +167,6 @@ const ControleDeBase = () => {
               aria-label="Voir les détails du client"
             />
           </Tooltip>
-          <Popover
-            content={
-              <div className='popOverSous' style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleAddSuiviList(record.id_control)}>
-                  <FileTextOutlined /> Liste de suivi
-                </Link>
-                <Link onClick={handleAddSuivi}>
-                  <FileSearchOutlined /> Faire un suivi
-                </Link>
-              </div>
-            }
-            title="Suivi de contrôle"
-            trigger="click"
-          >
-            <Tooltip title="Suivi de contrôle">
-              <Button
-                icon={<PlusCircleOutlined />}
-                style={{ color: 'blue' }}
-                aria-label="Suivi de contrôle"
-              />
-            </Tooltip>
-          </Popover>
           <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
@@ -235,7 +194,7 @@ const ControleDeBase = () => {
     },
   ];
 
-  const filteredData = data.filter(item =>
+  const filteredData = data?.filter((item) =>
     item.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.format?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) || 
@@ -249,9 +208,9 @@ const ControleDeBase = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <CheckCircleOutlined className='client-icon'/>
+              <FileTextOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Contrôle de base</h2>
+            <h2 className="client-h2">Liste de suivi</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -261,11 +220,11 @@ const ControleDeBase = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
               />
             </div>
-            <div className="client-row-right">
+            <div className="client-rows-right">
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
-                onClick={() => openModal('controle')}
+                onClick={handleAddClient}
               >
                 Ajouter un contrôle
               </Button>
@@ -283,42 +242,17 @@ const ControleDeBase = () => {
           <Table
             columns={columns}
             dataSource={filteredData}
-            pagination={{ pageSize: 15 }}
-            loading={loading}
+            pagination={{ pageSize: 10 }}
             rowKey="id"
-            scroll={scroll}
+            bordered
+            size="middle"
+            scroll={{ x: 'max-content' }}
+            loading={loading}
           />
         </div>
       </div>
-      <Modal
-        title="Ajouter un contrôle"
-        visible={modalState === 'controle'}
-        onCancel={closeModal}
-        footer={null}
-        width={900}
-      >
-        <ControleForm />
-      </Modal>
-      <Modal
-        title="Suivi du contrôle"
-        visible={modalState === 'suivi'}
-        onCancel={closeModal}
-        footer={null}
-        width={900}
-      >
-        <SuiviControle />
-      </Modal>
-      <Modal
-        title="Liste de suivi"
-        visible={modalState === 'liste'}
-        onCancel={closeModal}
-        footer={null}
-        width={1000}
-      >
-        <ListeSuivi idControle={idControle} />
-      </Modal>
     </>
   );
 };
 
-export default ControleDeBase;
+export default ListeSuivi;

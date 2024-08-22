@@ -1,244 +1,174 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,MailOutlined, FileTextOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import './client.scss';
-import ClientForm from './clientForm/ClientForm';
-import { getClient } from '../../services/clientService';
-import config from '../../config';
-
-const { Search } = Input;
+import { Button, Form, Input, Space, Row, Col, Select, notification } from 'antd';
+import { getDepartement } from '../../../services/departementService';
+import { getClient } from '../../../services/clientService';
+import { getFormat } from '../../../services/formatService';
+import { getFrequence } from '../../../services/frequenceService';
+import { getUser } from '../../../services/userService';
+import { postControle } from '../../../services/controleService';
+import { useNavigate } from 'react-router-dom';
+import './suiviControle.scss';
 
 const SuiviControle = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const scroll = { x: 400 };
+    const [departement, setDepartement] = useState([]);
+    const [client, setClient] = useState([]);
+    const [format, setFormat] = useState([]);
+    const [frequence, setFrequence] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await getClient();
-        setData(data);
-        setLoading(false);
-      } catch (error) {
+    const handleError = (message) => {
         notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
+            message: 'Erreur de chargement',
+            description: message,
         });
-        setLoading(false);
-      }
     };
 
-    fetchData();
-  }, [DOMAIN]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [departementData, formatData, frequenceData, usersData, clientData] = await Promise.all([
+                    getDepartement(),
+                    getFormat(),
+                    getFrequence(),
+                    getUser(),
+                    getClient(),
+                ]);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
+                setDepartement(departementData.data);
+                setFormat(formatData.data);
+                setFrequence(frequenceData.data);
+                setUsers(usersData.data);
+                setClient(clientData.data);
+            } catch (error) {
+                handleError('Une erreur est survenue lors du chargement des données.');
+            }
+        };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+        fetchData();
+    }, []);
 
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
+    const onFinish = async (values) => {
+        setIsLoading(true);
+        try {
+            await postControle(values);
+            notification.success({
+                message: 'Succès',
+                description: 'Les informations ont été enregistrées avec succès.',
+            });
+            navigate('/controle');
+            window.location.reload();
+        } catch (error) {
+            notification.error({
+                message: 'Erreur',
+                description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
-  };
-
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
-  };
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
-
-  const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
-    },
-    {
-      title: 'Nom',
-      dataIndex: 'nom',
-      key: 'nom',
-      render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
-      ),
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text}</Tag>
-      ),
-    },
-    {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
-      render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
-      ),
-    },
-    {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
-      render: (text) => (
-        <> 
-          <Tag icon={<HomeOutlined />} color='cyan'>
-            {text}
-          </Tag>
-        </>
-      ),
-    },
-    {
-      title: 'Type',
-      dataIndex: 'nom_type',
-      key: 'nom_type',
-      render: (text) => (
-        <Tag color={ text === 'Interne' ? 'green' : "magenta"}>{text}</Tag>
-      ),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
-      render: (text, record) => (
-        <Space size="middle">
-          <Tooltip title="View Details">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              type="link"
-              aria-label="View client details"
-            />
-          </Tooltip>
-          <Tooltip title="Edit">
-            <Popover title="Modifier" trigger="hover">
-              <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleEdit(record)}
-                type="link"
-                aria-label="Edit client"
-              />
-            </Popover>
-          </Tooltip>
-          <Tooltip title="Delete">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce client?"
-              onConfirm={() => handleDelete(record.id)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete client"
-              />
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ),
-    },
-  ]
-
-  return (
-    <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <FileTextOutlined className='client-icon' />
+    return (
+        <div className="controle_form">
+            <div className="controle_wrapper">
+                <Form
+                    name="validateOnly"
+                    layout="vertical"
+                    autoComplete="off"
+                    className="custom-form"
+                    onFinish={onFinish}
+                >
+                    <Row gutter={12}>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="commentaires"
+                                label="Commentaires"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez entrer les commentaires.',
+                                    },
+                                ]}
+                            >
+                                <Input.TextArea placeholder="Commentaire..." />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="controle_de_base"
+                                label="Contrôle de base"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez fournir une description.',
+                                    },
+                                ]}
+                            >
+                                <Input placeholder="Description..." />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="id_frequence"
+                                label="Fréquence"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez indiquer la fréquence.',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    showSearch
+                                    options={frequence.map((item) => ({
+                                        value: item.id_frequence,
+                                        label: item.nom,
+                                    }))}
+                                    placeholder="Sélectionnez une fréquence..."
+                                    optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name="responsable"
+                                label="Responsable"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez indiquer le responsable.',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    showSearch
+                                    options={users.map((item) => ({
+                                        value: item.id_utilisateur,
+                                        label: `${item.nom} - ${item.prenom}`,
+                                    }))}
+                                    placeholder="Sélectionnez un responsable..."
+                                    optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24}>
+                            <Form.Item>
+                                <Space className="button-group">
+                                    <Button type="primary" htmlType="submit" loading={isLoading}>
+                                        Envoyer
+                                    </Button>
+                                    <Button htmlType="reset">
+                                        Réinitialiser
+                                    </Button>
+                                </Space>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                </Form>
             </div>
-            <h2 className="client-h2">Liste de suivi</h2>
-          </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search placeholder="Search clients..." enterButton />
-            </div>
-            <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={handleAddClient}
-              >
-                Client
-              </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
-            </div>
-          </div>
-          <Table
-            columns={columns}
-            dataSource={data}
-            loading={loading}
-            pagination={{ pageSize: 10 }}
-            rowKey="id"
-            bordered
-            size="middle"
-            scroll={scroll}
-          />
         </div>
-      </div>
-
-      <Modal
-        title="Ajouter nouveau Client"
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-        width={600}
-      >
-        <ClientForm modalOff={setIsModalVisible} />
-      </Modal>
-    </>
-  );
+    );
 };
 
 export default SuiviControle;
