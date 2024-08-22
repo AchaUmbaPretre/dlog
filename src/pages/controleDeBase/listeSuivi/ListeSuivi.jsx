@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip,Popconfirm } from 'antd';
-import { ExportOutlined, PrinterOutlined, TagOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
-import { getControle } from '../../../services/controleService';
+import { ExportOutlined, PrinterOutlined,ClockCircleOutlined,HourglassOutlined,WarningOutlined,CheckSquareOutlined,DollarOutlined,RocketOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
+import { getSuivi } from '../../../services/suiviService';
+import moment from 'moment';
 
 const { Search } = Input;
 
@@ -10,12 +11,22 @@ const ListeSuivi = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isModalSuivi, setIsModalSuivi] = useState(false);
+
+
+  const statusIcons = {
+    'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
+    'En cours': { icon: <HourglassOutlined />, color: 'blue' },
+    'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
+    'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
+    'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
+    'Budget': { icon: <DollarOutlined />, color: 'gold' },
+    'Executé': { icon: <RocketOutlined />, color: 'cyan' },
+};
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getControle();
+        const response = await getSuivi();
         setData(response.data);
       } catch (error) {
         notification.error({
@@ -53,14 +64,6 @@ const ListeSuivi = () => {
   };
 
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
   };
@@ -95,8 +98,8 @@ const ListeSuivi = () => {
     },
     {
       title: 'Département',
-      dataIndex: 'departement',
-      key: 'departement',
+      dataIndex: 'nom_departement',
+      key: 'nom_departement',
       render: text => (
         <Space>
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
@@ -104,69 +107,45 @@ const ListeSuivi = () => {
       ),
     },
     {
-      title: 'Client',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
+      title: 'Commentaires',
+      dataIndex: 'commentaires',
+      key: 'commentaires',
       render: text => (
         <Space>
           <Tag icon={<UserOutlined />} color='green'>{text}</Tag>
         </Space>
       ),
     },
-    {
-      title: 'Format',
-      dataIndex: 'format',
-      key: 'format',
-      render: text => (
-        <Space>
-          <Tag icon={<TagOutlined />} color='blue'>{text}</Tag>
-        </Space>
-      ),
+    { 
+        title: 'Statut', 
+        dataIndex: 'statut', 
+        key: 'statut',
+        render: text => {
+            const { icon, color } = statusIcons[text] || {};
+            return (
+                <Space>
+                  <Tag icon={icon} color={color}>{text}</Tag>
+                </Space>
+            );
+        }
     },
     {
-      title: 'Contrôle de base',
-      dataIndex: 'controle_de_base',
-      key: 'controle_de_base',
-      render: text => (
-        <Space>
-          <Tag icon={<CheckCircleOutlined />} color='orange'>{text}</Tag>
-        </Space>
-      ),
-    },
-    {
-      title: 'Fréquence',
-      dataIndex: 'frequence',
-      key: 'frequence',
-      render: text => (
-        <Tag color='blue'>
-          <CalendarOutlined /> {text}
+      title: 'Date suivi',
+      dataIndex: 'date_suivi',
+      key: 'date_suivi',
+      sorter: (a, b) => moment(a.date_suivi) - moment(b.date_suivi),
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => 
+        <Tag icon={<CalendarOutlined />} color="blue">
+          {moment(text).format('DD-MM-yyyy')}
         </Tag>
-      ),
-    },
-    {
-      title: 'Responsable',
-      dataIndex: 'responsable',
-      key: 'responsable',
-      render: text => (
-        <Space>
-          <Tag icon={<UserOutlined />} color='purple'>{text}</Tag>
-        </Space>
-      ),
     },
     {
       title: 'Action',
       key: 'action',
-      width: '20%',
+      width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Voir les détails">
-            <Button
-              icon={<EyeOutlined />}
-              style={{ color: 'blue' }}
-              onClick={() => handleViewDetails(record)}
-              aria-label="Voir les détails du client"
-            />
-          </Tooltip>
           <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
@@ -195,12 +174,8 @@ const ListeSuivi = () => {
   ];
 
   const filteredData = data?.filter((item) =>
-    item.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.format?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.controle_de_base?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.responsable?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+    item.commentaires?.toLowerCase().includes(searchValue.toLowerCase())
+  )
 
   return (
     <>
@@ -221,13 +196,6 @@ const ListeSuivi = () => {
               />
             </div>
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={handleAddClient}
-              >
-                Ajouter un contrôle
-              </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Exporter</Button>
               </Dropdown>
