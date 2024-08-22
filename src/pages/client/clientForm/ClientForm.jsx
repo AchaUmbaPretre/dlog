@@ -74,7 +74,7 @@ const ClientForm = () => {
                                 name="nom"
                                 rules={[{ required: true, message: 'Veuillez entrer le nom du client !' }]}
                             >
-                                <Input placeholder="Entrez le nom du client" />
+                                <Input placeholder="Entrez le nom du client" style={{padding:'10px'}} />
                             </Form.Item>
 
                             <Form.Item
@@ -82,7 +82,7 @@ const ClientForm = () => {
                                 name="email"
                                 rules={[{ type: 'email', message: "L'email doit être valide !" }]}
                             >
-                                <Input placeholder="Entrez l'email du client" />
+                                <Input placeholder="Entrez l'email du client" style={{padding:'10px'}} />
                             </Form.Item>
 
                             <Form.Item
@@ -90,7 +90,7 @@ const ClientForm = () => {
                                 name="telephone"
                                 rules={[{ required: true, message: 'Veuillez entrer le téléphone du client !' }]}
                             >
-                                <Input placeholder="Entrez le téléphone du client" />
+                                <Input placeholder="Entrez le téléphone du client" style={{padding:'10px'}} />
                             </Form.Item>
                         </Tabs.TabPane>
 
@@ -115,7 +115,7 @@ const ClientForm = () => {
                                 name="adresse"
                                 rules={[{ required: true, message: "Veuillez entrer l'adresse !" }]}
                             >
-                                <Input placeholder="Entrez l'adresse..." />
+                                <Input placeholder="Entrez l'adresse..." style={{padding:'10px'}} />
                             </Form.Item>
                         </Tabs.TabPane>
 
@@ -138,7 +138,7 @@ const ClientForm = () => {
 
                         <Tabs.TabPane tab="Actions" key="4">
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" loading={isLoading}>
+                                <Button style={{padding:'10px'}} type="primary" htmlType="submit" loading={isLoading}>
                                     Ajouter
                                 </Button>
                             </Form.Item>

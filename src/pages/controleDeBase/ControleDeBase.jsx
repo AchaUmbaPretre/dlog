@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, notification, Tag, Space, Tooltip, Popover, Popconfirm, Dropdown, Menu } from 'antd';
-import { ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined, FileSearchOutlined, FileTextOutlined } from '@ant-design/icons';
+import {
+  Table, Button, Modal, Input, message, notification, Tag, Space, Tooltip,
+  Popover, Popconfirm, Dropdown, Menu, Tabs
+} from 'antd';
+import {
+  ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined,
+  ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,
+  EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined, FileSearchOutlined,
+  FileTextOutlined
+} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+
 import config from '../../config';
 import ControleForm from './controleForm/ControleForm';
 import { getControle } from '../../services/controleService';
 import SuiviControle from './suiviControle/SuiviControle';
 import ListeSuivi from './listeSuivi/ListeSuivi';
+import ControleBigCalendar from './controleBigCalendar/ControleBigCalendar';
 
 const { Search } = Input;
 
@@ -14,7 +24,6 @@ const ControleDeBase = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
-  const scroll = { x: 400 };
   const [data, setData] = useState([]);
   const [idControle, setIdControle] = useState('');
   const [modalState, setModalState] = useState(null);
@@ -42,19 +51,13 @@ const ControleDeBase = () => {
     setModalState(modalType);
   };
 
-  console.log(idControle)
+  const closeModal = () => setModalState(null);
 
-  const closeModal = () => {
-    setModalState(null);
-  };
-
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
+  const handleEdit = (record) => message.info(`Modification du client: ${record.nom}`);
 
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
+      // Fonction de suppression commentée
       // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
       message.success('Client supprimé avec succès');
@@ -66,38 +69,21 @@ const ControleDeBase = () => {
     }
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
-  };
+  const handleViewDetails = (record) => message.info(`Détails du client: ${record.nom}`);
 
-  const handleAddSuiviList = (id) => {
-    openModal('liste', id);
-  };
+  const handleAddSuiviList = (id) => openModal('liste', id);
 
-  const handleAddSuivi = (id) => {
-    openModal('suivi');
-    setIdControle(id)
+  const handleAddSuivi = (id) => openModal('suivi', id);
 
-    console.log(id)
-  };
+  const handleAddClient = () => openModal('controle');
 
-  const handleAddClient = () => {
-    openModal('controle');
-  };
+  const handleExportExcel = () => message.success('Exportation vers Excel...');
 
-  const handleExportExcel = () => {
-    message.success('Exportation vers Excel...');
-  };
+  const handleExportPDF = () => message.success('Exportation vers PDF...');
 
-  const handleExportPDF = () => {
-    message.success('Exportation vers PDF...');
-  };
+  const handlePrint = () => window.print();
 
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const menu = (
+  const exportMenu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
         <ExportOutlined /> Exporter vers Excel
@@ -194,11 +180,11 @@ const ControleDeBase = () => {
           </Tooltip>
           <Popover
             content={
-              <div className='popOverSous' style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <Link onClick={() => handleAddSuiviList(record?.id_controle)}>
                   <FileTextOutlined /> Liste de suivi
                 </Link>
-                <Link onClick={() =>handleAddSuivi(record.id_controle)}>
+                <Link onClick={() => handleAddSuivi(record.id_controle)}>
                   <FileSearchOutlined /> Faire un suivi
                 </Link>
               </div>
@@ -214,14 +200,6 @@ const ControleDeBase = () => {
               />
             </Tooltip>
           </Popover>
-{/*           <Tooltip title="Modifier">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
-              aria-label="Modifier le client"
-            />
-          </Tooltip> */}
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client ?"
@@ -243,9 +221,9 @@ const ControleDeBase = () => {
 
   const filteredData = data.filter(item =>
     item.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.format?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.controle_de_base?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.format?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.controle_de_base?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.responsable?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
@@ -259,71 +237,81 @@ const ControleDeBase = () => {
             </div>
             <h2 className="client-h2">Contrôle de base</h2>
           </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search
-                placeholder="Recherche..."
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-            </div>
-            <div className="client-row-right">
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => openModal('controle')}
-              >
-                Ajouter un contrôle
-              </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Exporter</Button>
-              </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Imprimer
-              </Button>
-            </div>
-          </div>
-          <div className="tableau_client">
-            <Table
-                columns={columns}
-                dataSource={filteredData}
-                pagination={{ pageSize: 15 }}
-                loading={loading}
-                rowKey="id"
-                scroll={scroll}
-            />
-          </div>
+          <Tabs defaultActiveKey="0">
+            <Tabs.TabPane tab='Liste de contrôle de base' key="0">
+              <div className="client-actions">
+                <div className="client-row-left">
+                  <Search
+                    placeholder="Recherche..."
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                  />
+                </div>
+                <div className="client-row-right">
+                  <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddClient}
+                  >
+                    Ajouter un contrôle
+                  </Button>
+                  <Dropdown overlay={exportMenu} trigger={['click']}>
+                    <Button icon={<ExportOutlined />}>Exporter</Button>
+                  </Dropdown>
+                  <Button
+                    icon={<PrinterOutlined />}
+                    onClick={handlePrint}
+                  >
+                    Imprimer
+                  </Button>
+                </div>
+              </div>
+              <div className="tableau_client">
+                <Table
+                  columns={columns}
+                  dataSource={filteredData}
+                  loading={loading}
+                  rowKey="id_controle"
+                  bordered
+                  pagination={{ defaultPageSize: 5 }}
+                />
+              </div>
+            </Tabs.TabPane>
+{/*             <Tabs.TabPane tab='Vue calendrier' key="1">
+              <ControleBigCalendar data={data} />
+            </Tabs.TabPane> */}
+          </Tabs>
         </div>
       </div>
       <Modal
-        title="Ajouter un contrôle"
         visible={modalState === 'controle'}
-        onCancel={closeModal}
+        title="Ajouter un contrôle"
         footer={null}
-        width={900}
+        onCancel={closeModal}
+        destroyOnClose
+        width={850}
       >
-        <ControleForm />
+        <ControleForm closeModal={closeModal} />
       </Modal>
       <Modal
-        title="Suivi du contrôle"
         visible={modalState === 'suivi'}
-        onCancel={closeModal}
+        title="Faire un suivi de contrôle"
         footer={null}
-        width={900}
+        onCancel={closeModal}
+        destroyOnClose
+        width={800}
       >
-        <SuiviControle idControle={idControle} />
+        <SuiviControle idControle={idControle} closeModal={closeModal} />
       </Modal>
       <Modal
-        title="Liste de suivi"
         visible={modalState === 'liste'}
-        onCancel={closeModal}
+        title="Liste de suivi"
         footer={null}
+        onCancel={closeModal}
+        destroyOnClose
         width={1000}
       >
-        <ListeSuivi />
+        <ListeSuivi idControle={idControle} closeModal={closeModal} />
       </Modal>
     </>
   );

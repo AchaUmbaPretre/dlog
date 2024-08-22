@@ -233,7 +233,7 @@ const Client = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={800}
       >
         <ClientForm modalOff={setIsModalVisible} />
       </Modal>

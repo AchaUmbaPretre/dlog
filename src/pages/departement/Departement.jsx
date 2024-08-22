@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm } from 'antd';
-import { ExportOutlined, PrinterOutlined,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
+import { ExportOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
 import './departement.scss';
 import DepartementForm from './departementForm/DepartementForm';
 import config from '../../config';
@@ -89,36 +89,52 @@ const Departement = () => {
   );
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    { title: 'Nom', dataIndex: 'nom_departement', key: 'nom_departement' },
+    { title: '#', 
+      dataIndex: 'id', 
+      key: 'id', 
+      render: (text, record, index) => index + 1, width: "3%" },
+    { title: 'Nom departement', 
+      dataIndex: 'nom_departement', 
+      key: 'nom_departement',
+      render: text => (
+        <Space>
+          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      ),
+    },
     { title: 'description', dataIndex: 'description', key: 'description' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Email', 
+      dataIndex: 'email',
+      key: 'email',
+      render: text => (
+        <Space>
+          <Tag icon={<MailOutlined />} color='blue'>{text}</Tag>
+        </Space>
+      ),
+
+    },
     { title: 'telephone', dataIndex: 'telephone', key: 'telephone' },
     { title: 'Code', dataIndex: 'code', key: 'code' },
     {
       title: 'Action',
       key: 'action',
-      width: '15%',
+      width: '10%',
       render: (text, record) => (
         <Space size="middle">
           <Tooltip title="View Details">
             <Button
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record)}
-              type="link"
               aria-label="View client details"
             />
           </Tooltip>
           <Tooltip title="Edit">
-            <Popover title="Modifier" trigger="hover">
               <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
                 onClick={() => handleEdit(record)}
-                type="link"
                 aria-label="Edit client"
               />
-            </Popover>
           </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
