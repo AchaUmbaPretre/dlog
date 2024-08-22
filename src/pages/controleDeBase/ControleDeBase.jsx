@@ -141,6 +141,7 @@ const ControleDeBase = () => {
       title: 'Format',
       dataIndex: 'format',
       key: 'format',
+      width: '5%',
       render: text => (
         <Space>
           <Tag icon={<TagOutlined />} color='blue'>{text}</Tag>
@@ -180,7 +181,7 @@ const ControleDeBase = () => {
     {
       title: 'Action',
       key: 'action',
-      width: '20%',
+      width: '8%',
       render: (text, record) => (
         <Space size="middle">
           <Tooltip title="Voir les détails">
@@ -213,14 +214,14 @@ const ControleDeBase = () => {
               />
             </Tooltip>
           </Popover>
-          <Tooltip title="Modifier">
+{/*           <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               onClick={() => handleEdit(record)}
               aria-label="Modifier le client"
             />
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client ?"
