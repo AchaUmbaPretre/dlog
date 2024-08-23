@@ -12,7 +12,6 @@ const ListeSuivi = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-
   const statusIcons = {
     'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
     'En cours': { icon: <HourglassOutlined />, color: 'blue' },
