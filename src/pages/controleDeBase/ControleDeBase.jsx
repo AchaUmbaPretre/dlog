@@ -277,7 +277,7 @@ const ControleDeBase = () => {
                 />
               </div>
             </Tabs.TabPane>
-{/*             <Tabs.TabPane tab='Vue calendrier' key="1">
+{/*              <Tabs.TabPane tab='Vue calendrier' key="1">
               <ControleBigCalendar data={data} />
             </Tabs.TabPane> */}
           </Tabs>
