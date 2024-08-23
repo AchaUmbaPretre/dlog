@@ -33,3 +33,7 @@ export const getTachePersonneOne = async (id) => {
 export const postTachePersonne = async (data) => {
 return axios.post(`${DOMAIN}/api/tache/tache_personne`, data);
 };
+
+export const deleteTachePersonne = async (id) => {
+  return axios.delete(`${DOMAIN}/api/tache/tache_personne/${id}`);
+};
