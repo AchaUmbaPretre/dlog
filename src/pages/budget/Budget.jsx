@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,DollarOutlined, PrinterOutlined,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form } from 'antd';
+import { ExportOutlined, DollarOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import BudgetForm from './budgetForm/BudgetForm';
+import { getBudget, putBudget } from '../../services/budgetService';
 
 const { Search } = Input;
 
@@ -10,48 +11,13 @@ const Budget = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [editingRow, setEditingRow] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
-  };
+  const [form] = Form.useForm();
 
   const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
+    message.info(`Viewing details of tache: ${record.article}`);
   };
-
-
-/*   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await getDepartement();
-        setData(data);
-        setLoading(false);
-      } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [DOMAIN]); */
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -66,77 +32,161 @@ const Budget = () => {
   };
 
   const handleExportPDF = () => {
-    // Logic to export data to PDF
     message.success('Exporting to PDF...');
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      // Fonction de suppression commentée
+      // await deleteClient(id);
+      setData(data.filter((item) => item.id_budget !== id));
+      message.success('Budget supprimé avec succès');
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de suppression',
+        description: 'Une erreur est survenue lors de la suppression du budget.',
+      });
+    }
   };
 
   const handlePrint = () => {
     window.print();
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await getBudget();
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données.',
+        });
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [DOMAIN]);
+
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
-        Export to Excel
+        Exporter vers Excel
       </Menu.Item>
       <Menu.Item key="2" onClick={handleExportPDF}>
-        Export to PDF
+        Exporter au format PDF
       </Menu.Item>
     </Menu>
   );
 
+  const handleEdit = (record) => {
+    setEditingRow(record.id_budget);
+    form.setFieldsValue({ quantite_validee: record.quantite_validee });
+  };
+
+  const handleSave = async (id) => {
+    try {
+      const values = await form.validateFields();
+      await putBudget(id, { quantite_validee: values.quantite_validee });
+      setData(data.map(item => item.id_budget === id ? { ...item, quantite_validee: values.quantite_validee } : item));
+      setEditingRow(null);
+      message.success('Quantité validée mise à jour avec succès');
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de mise à jour',
+        description: 'Une erreur est survenue lors de la mise à jour de la quantité validée.',
+      });
+    }
+  };
+
   const columns = [
     { 
       title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
+      dataIndex: 'id_budget', 
+      key: 'id_budget', 
       render: (text, record, index) => index + 1, 
       width: "3%" 
     },
     { 
       title: 'Items', 
-      dataIndex: 'items', 
-      key: 'items',
+      dataIndex: 'article', 
+      key: 'article',
       render: text => (
         <Space>
-          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+          <Tag color='cyan'>{text}</Tag>
         </Space>
       ),
     },
     { 
       title: 'Qté demandée', 
-      dataIndex: 'qte_demande', 
-      key: 'qte_demande',
+      dataIndex: 'quantite_demande', 
+      key: 'quantite_demande',
       render: text => (
         <Tag color='geekblue'>{text}</Tag>
       ),
     },
     { 
       title: 'Qté validée', 
-      dataIndex: 'qt_valide',
-      key: 'qt_valide',
+      dataIndex: 'quantite_validee',
+      key: 'quantite_validee',
+      render: (text, record) => (
+        editingRow === record.id_budget ? (
+          <Form form={form} layout="inline">
+            <Form.Item
+              name="quantite_validee"
+              rules={[{ required: true, message: 'Veuillez entrer la quantité validée' }]}
+            >
+              <InputNumber min={0} placeholder="Quantité validée" style={{ width: '100%' }} />
+            </Form.Item>
+            <Button type="primary" onClick={() => handleSave(record.id_budget)}>Confirmer</Button>
+          </Form>
+        ) : (
+          <Space>
+            <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : text}</Tag>
+            <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}></Button>
+          </Space>
+        )
+      ),
+    },
+    { 
+      title: 'P.U', 
+      dataIndex: 'prix_unitaire',
+      key: 'prix_unitaire',
       render: text => (
         <Space>
-          <Tag color='blue'>{text}</Tag>
+          <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : `${text} $`}</Tag>
         </Space>
       ),
     },
     { 
-      title: 'Offres', 
-      dataIndex: 'offres', 
-      key: 'offres',
+      title: 'Montant', 
+      dataIndex: 'montant',
+      key: 'montant',
+      render: text => (
+        <Space>
+          <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : `${text} $`}</Tag>
+        </Space>
+      ),
+    },
+    { 
+      title: 'Date', 
+      dataIndex: 'date_creation', 
+      key: 'date_creation',
       render: text => (
         <Tag color='purple'>{text}</Tag>
       ),
     },
     { 
-        title: 'Fourniseurs', 
-        dataIndex: 'fourniseurs', 
-        key: 'fourniseurs',
-        render: text => (
-          <Tag color='purple'>{text}</Tag>
-        ),
-      },
+      title: 'Fournisseurs', 
+      dataIndex: 'fournisseur', 
+      key: 'fournisseur',
+      render: text => (
+        <Tag color='purple'>{text}</Tag>
+      ),
+    },
     {
       title: 'Action',
       key: 'action',
@@ -147,7 +197,7 @@ const Budget = () => {
             <Button
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record)}
-              aria-label="View department details"
+              aria-label="View budget details"
             />
           </Tooltip>
           <Tooltip title="Edit">
@@ -155,20 +205,20 @@ const Budget = () => {
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               onClick={() => handleEdit(record)}
-              aria-label="Edit department"
+              aria-label="Edit budget"
             />
           </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
-              title="Are you sure you want to delete this department?"
-              onConfirm={() => handleDelete(record.id)}
-              okText="Yes"
-              cancelText="No"
+              title="Êtes-vous sûr de vouloir supprimer ce budget ?"
+              onConfirm={() => handleDelete(record.id_budget)}
+              okText="Oui"
+              cancelText="Non"
             >
               <Button
                 icon={<DeleteOutlined />}
                 style={{ color: 'red' }}
-                aria-label="Delete department"
+                aria-label="Delete budget"
               />
             </Popconfirm>
           </Tooltip>
@@ -214,11 +264,8 @@ const Budget = () => {
           <Table
             columns={columns}
             dataSource={data}
-            pagination={{ pageSize: 10 }}
-            rowKey="key"
-            bordered
-            size="middle"
-            scroll={{ x: 'max-content' }}
+            rowKey="id_budget"
+            loading={loading}
           />
         </div>
       </div>

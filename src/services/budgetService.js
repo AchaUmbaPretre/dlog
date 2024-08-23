@@ -16,8 +16,11 @@ export const postBudget = async (data) => {
   return axios.post(`${DOMAIN}/api/budget`, data);
 };
 
-export const putBudget = async (data) => {
-    return axios.put(`${DOMAIN}/api/budget`, data);
+export const putBudget = async (id, data) => {
+    return axios.put(`${DOMAIN}/api/budget`, {
+        id_budget: id,
+        ...data
+      });
   };
 
 export const deleteBudget = async (id) => {
