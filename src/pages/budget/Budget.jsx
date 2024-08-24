@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form } from 'antd';
-import { ExportOutlined, DollarOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, DollarOutlined,CalendarOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import BudgetForm from './budgetForm/BudgetForm';
 import { getBudget, putBudget } from '../../services/budgetService';
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
 
 const { Search } = Input;
 
@@ -94,6 +97,7 @@ const Budget = () => {
       setData(data.map(item => item.id_budget === id ? { ...item, quantite_validee: values.quantite_validee } : item));
       setEditingRow(null);
       message.success('Quantité validée mise à jour avec succès');
+      window.location.reload();
     } catch (error) {
       notification.error({
         message: 'Erreur de mise à jour',
@@ -172,11 +176,21 @@ const Budget = () => {
       ),
     },
     { 
+      title: 'Montant validé', 
+      dataIndex: 'montant_valide',
+      key: 'montant_valide',
+      render: text => (
+        <Space>
+          <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : `${text} $`}</Tag>
+        </Space>
+      ),
+    },
+    { 
       title: 'Date', 
       dataIndex: 'date_creation', 
       key: 'date_creation',
       render: text => (
-        <Tag color='purple'>{text}</Tag>
+        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('LL')}</Tag>
       ),
     },
     { 
@@ -193,14 +207,14 @@ const Budget = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="View Details">
+          <Tooltip title="Voir détails">
             <Button
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record)}
               aria-label="View budget details"
             />
           </Tooltip>
-          <Tooltip title="Edit">
+          <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
@@ -208,7 +222,7 @@ const Budget = () => {
               aria-label="Edit budget"
             />
           </Tooltip>
-          <Tooltip title="Delete">
+          <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce budget ?"
               onConfirm={() => handleDelete(record.id_budget)}

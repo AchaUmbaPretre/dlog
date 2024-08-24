@@ -163,7 +163,7 @@ const Departement = () => {
           </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
-              title="Are you sure you want to delete this department?"
+              title="Etes-vous sûr de vouloir supprimer ce département ?"
               onConfirm={() => handleDelete(record.id)}
               okText="Yes"
               cancelText="No"

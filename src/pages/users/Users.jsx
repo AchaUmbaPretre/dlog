@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip } from 'antd';
-import { ExportOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { getClient } from '../../services/clientService';
+import { Table, Button, Modal, Input, Tag, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip } from 'antd';
+import { ExportOutlined, PrinterOutlined,MailOutlined, UserOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
+import { getUser } from '../../services/userService';
 
 const { Search } = Input;
 
@@ -15,7 +15,7 @@ const Users = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getClient();
+        const { data } = await getUser();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -85,36 +85,44 @@ const Users = () => {
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    { title: 'Nom', dataIndex: 'nom', key: 'nom' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Téléphone', dataIndex: 'telephone', key: 'telephone' },
-    { title: 'Adresse', dataIndex: 'adresse', key: 'adresse' },
-    { title: 'Ville', dataIndex: 'capital', key: 'capital' },
-    { title: 'Type', dataIndex: 'nom_type', key: 'nom_type' },
+    { title: 'Nom', 
+      dataIndex: 'nom', 
+      key: 'nom',
+      render: text => (
+        <Space>
+          <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+    )
+    },
+    { title: 'Email', 
+      dataIndex: 'email', 
+      key: 'email',
+      render: text => (
+        <Space>
+          <Tag icon={<MailOutlined />} color='blue'>{text}</Tag>
+        </Space>
+      ),
+    },
     {
       title: 'Action',
       key: 'action',
-      width: '15%',
+      width: '10%',
       render: (text, record) => (
         <Space size="middle">
           <Tooltip title="View Details">
             <Button
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record)}
-              type="link"
               aria-label="View client details"
             />
           </Tooltip>
           <Tooltip title="Edit">
-            <Popover title="Modifier" trigger="hover">
-              <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleEdit(record)}
-                type="link"
-                aria-label="Edit client"
-              />
-            </Popover>
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record)}
+              aria-label="Edit client"
+            />
           </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm

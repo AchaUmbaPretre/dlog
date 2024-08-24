@@ -52,6 +52,7 @@ const BudgetForm = () => {
         description: 'Le budget a été enregistré avec succès.',
       });
       form.resetFields();
+      window.location.reload();
     } catch (error) {
       notification.error({
         message: 'Erreur',
