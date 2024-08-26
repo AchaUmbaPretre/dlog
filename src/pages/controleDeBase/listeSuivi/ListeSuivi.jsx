@@ -11,7 +11,6 @@ const ListeSuivi = ({idControle}) => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [idTache, setIdTache] = useState('');
   const [modalState, setModalState] = useState(null);
 
