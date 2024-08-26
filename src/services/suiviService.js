@@ -13,8 +13,12 @@ export const getSuiviOne = async (id) => {
   };
 
 export const postSuivi = async (data) => {
-    console.log(data)
   return axios.post(`${DOMAIN}/api/suivi`, data);
+};
+
+export const postSuiviTache = async (data) => {
+  console.log(data)
+return axios.post(`${DOMAIN}/api/suivi/suiviTache`, data);
 };
 
 export const deleteSuivi = async (id) => {

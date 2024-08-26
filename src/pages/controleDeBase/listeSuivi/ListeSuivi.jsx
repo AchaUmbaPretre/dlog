@@ -4,6 +4,7 @@ import { ExportOutlined, PrinterOutlined,PlusCircleOutlined ,ClockCircleOutlined
 import moment from 'moment';
 import { getTacheControleOne } from '../../../services/tacheService';
 import SuiviControle from '../suiviControle/SuiviControle';
+import SuiviTache from '../../taches/suiviTache/SuiviTache';
 
 const { Search } = Input;
 
@@ -26,12 +27,12 @@ const ListeSuivi = ({idControle}) => {
 
   const closeModal = () => setModalState(null);
 
+  const handleAddSuivi = (id) => openModal('suivi', id);
+
   const openModal = (modalType, id = '') => {
     setIdTache(id);
     setModalState(modalType);
   };
-
-  const handleAddSuivi = (id) => openModal('suivi', id);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -202,8 +203,8 @@ const ListeSuivi = ({idControle}) => {
             <Button
               icon={<PlusCircleOutlined />}
               style={{ color: 'blue' }}
-              onClick={() => handleAddSuivi(record.id_controle)}
-              aria-label="Modifier le client"
+              onClick={() => handleAddSuivi(record.id_tache)}
+              aria-label="Faire un suivi"
             />
           </Tooltip>
           <Tooltip title="Supprimer">
@@ -274,13 +275,13 @@ const ListeSuivi = ({idControle}) => {
 
       <Modal
         visible={modalState === 'suivi'}
-        title="Faire un suivi de contrôl"
+        title="Faire un suivi de tâche"
         footer={null}
         onCancel={closeModal}
         destroyOnClose
         width={800}
       >
-        <SuiviControle idControle={idControle} closeModal={closeModal} />
+        <SuiviTache idTache={idTache} closeModal={closeModal} />
       </Modal>
     </>
   );
