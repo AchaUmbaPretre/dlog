@@ -8,7 +8,7 @@ import { getUser } from '../../../services/userService';
 import { useNavigate } from 'react-router-dom';
 import { postTache } from '../../../services/tacheService';
 
-const TacheForm = () => {
+const TacheForm = ({idControle}) => {
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
     const [format, setFormat] = useState([]);
@@ -52,15 +52,20 @@ const TacheForm = () => {
     }, []);
 
     const onFinish = async (values) => {
+        const dataAll = {
+            ...values,
+            id_control : idControle
+        }
+
+        console.log(dataAll)
         setIsLoading(true);
         try {
-            await postTache(values);
+            await postTache(dataAll);
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             navigate('/tache');
-            window.location.reload();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -231,7 +236,7 @@ const TacheForm = () => {
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="responsable_principal"
-                                label="Responsable"
+                                label="Owner"
                                 rules={[
                                     {
                                         required: true,

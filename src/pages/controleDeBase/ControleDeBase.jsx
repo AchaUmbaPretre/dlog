@@ -17,6 +17,7 @@ import { getControle } from '../../services/controleService';
 import SuiviControle from './suiviControle/SuiviControle';
 import ListeSuivi from './listeSuivi/ListeSuivi';
 import ControleBigCalendar from './controleBigCalendar/ControleBigCalendar';
+import TacheForm from '../taches/tacheform/TacheForm';
 
 const { Search } = Input;
 
@@ -72,6 +73,7 @@ const ControleDeBase = () => {
   const handleViewDetails = (record) => message.info(`Détails du client: ${record.nom}`);
 
   const handleAddSuiviList = (id) => openModal('liste', id);
+  const handleAddCreerTache = (id) => openModal('creer', id);
 
   const handleAddSuivi = (id) => openModal('suivi', id);
 
@@ -182,7 +184,10 @@ const ControleDeBase = () => {
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <Link onClick={() => handleAddSuiviList(record?.id_controle)} >
-                  <FileTextOutlined /> Tâche
+                  <FileTextOutlined /> Liste des Tâches
+                </Link>
+                <Link onClick={() => handleAddCreerTache(record?.id_controle)} >
+                  <FileTextOutlined /> Créer une Tâche
                 </Link>
                 <Link onClick={() => handleAddSuivi(record.id_controle)}>
                   <FileSearchOutlined /> contrôler
@@ -309,9 +314,20 @@ const ControleDeBase = () => {
         footer={null}
         onCancel={closeModal}
         destroyOnClose
-        width={1000}
+        width={1050}
       >
         <ListeSuivi idControle={idControle} closeModal={closeModal} />
+      </Modal>
+
+      <Modal
+        visible={modalState === 'creer'}
+        title="Créer une tâche"
+        footer={null}
+        onCancel={closeModal}
+        destroyOnClose
+        width={1050}
+      >
+        <TacheForm idControle={idControle} closeModal={closeModal} />
       </Modal>
     </>
   );

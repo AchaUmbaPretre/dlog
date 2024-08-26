@@ -106,9 +106,9 @@ const ListeSuivi = () => {
       ),
     },
     {
-      title: 'Commentaires',
-      dataIndex: 'commentaires',
-      key: 'commentaires',
+      title: 'Nom',
+      dataIndex: 'nom_tache',
+      key: 'nom',
       render: text => (
         <Space>
           <Tag icon={<UserOutlined />} color='green'>{text}</Tag>
@@ -116,9 +116,9 @@ const ListeSuivi = () => {
       ),
     },
     { 
-        title: 'Statut', 
-        dataIndex: 'statut', 
-        key: 'statut',
+        title: 'Client', 
+        dataIndex: 'nom_client', 
+        key: 'nom_client',
         render: text => {
             const { icon, color } = statusIcons[text] || {};
             return (
@@ -128,11 +128,45 @@ const ListeSuivi = () => {
             );
         }
     },
+    { 
+      title: 'Statut', 
+      dataIndex: 'statut', 
+      key: 'statut',
+      render: text => {
+          const { icon, color } = statusIcons[text] || {};
+          return (
+              <Space>
+                <Tag icon={icon} color={color}>{text}</Tag>
+              </Space>
+          );
+      }
+    },
+    { 
+      title: 'Frequence', 
+      dataIndex: 'frequence', 
+      key: 'frequence',
+      render: text => (
+          <Space>
+            <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
+          </Space>
+      )
+    },
     {
-      title: 'Date suivi',
-      dataIndex: 'date_suivi',
-      key: 'date_suivi',
-      sorter: (a, b) => moment(a.date_suivi) - moment(b.date_suivi),
+      title: 'Date debut',
+      dataIndex: 'date_debut',
+      key: 'date_debut',
+      sorter: (a, b) => moment(a.date_debut) - moment(b.date_debut),
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => 
+        <Tag icon={<CalendarOutlined />} color="blue">
+          {moment(text).format('DD-MM-yyyy')}
+        </Tag>
+    },
+    {
+      title: 'Date fin',
+      dataIndex: 'date_fin',
+      key: 'date_fin',
+      sorter: (a, b) => moment(a.date_fin) - moment(b.date_fin),
       sortDirections: ['descend', 'ascend'],
       render: (text) => 
         <Tag icon={<CalendarOutlined />} color="blue">
