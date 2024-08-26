@@ -14,6 +14,7 @@ import ControleDeBase from './pages/controleDeBase/ControleDeBase';
 import Format from './pages/format/Format';
 import Frequence from './pages/frequence/Frequence';
 import Budget from './pages/budget/Budget';
+import Projet from './pages/projet/Projet';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -71,7 +72,7 @@ function App() {
         },
         {
           path: '/Projet',
-          element: <Budget/>
+          element: <Projet/>
         },
         {
           path: '/budget',

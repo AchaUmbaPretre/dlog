@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form } from 'antd';
-import { ExportOutlined, DollarOutlined,CalendarOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,BarsOutlined,CalendarOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
-import BudgetForm from './budgetForm/BudgetForm';
 import { getBudget, putBudget } from '../../services/budgetService';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -125,73 +124,12 @@ const Projet = () => {
       ),
     },
     { 
-      title: 'Qté demandée', 
-      dataIndex: 'quantite_demande', 
-      key: 'quantite_demande',
-      render: text => (
-        <Tag color='geekblue'>{text}</Tag>
-      ),
-    },
-    { 
-      title: 'Qté validée', 
-      dataIndex: 'quantite_validee',
-      key: 'quantite_validee',
-      render: (text, record) => (
-        editingRow === record.id_budget ? (
-          <Form form={form} layout="inline">
-            <Form.Item
-              name="quantite_validee"
-              rules={[{ required: true, message: 'Veuillez entrer la quantité validée' }]}
-            >
-              <InputNumber min={0} placeholder="Quantité validée" style={{ width: '100%' }} />
-            </Form.Item>
-            <Button type="primary" onClick={() => handleSave(record.id_budget)}>Confirmer</Button>
-          </Form>
-        ) : (
-          <Space>
-            <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : text}</Tag>
-            <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}></Button>
-          </Space>
-        )
-      ),
-    },
-    { 
-      title: 'P.U', 
-      dataIndex: 'prix_unitaire',
-      key: 'prix_unitaire',
-      render: text => (
-        <Space>
-          <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : `${text} $`}</Tag>
-        </Space>
-      ),
-    },
-    { 
-      title: 'Montant', 
-      dataIndex: 'montant',
-      key: 'montant',
-      render: text => (
-        <Space>
-          <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : `${text} $`}</Tag>
-        </Space>
-      ),
-    },
-    { 
-      title: 'Montant validé', 
-      dataIndex: 'montant_valide',
-      key: 'montant_valide',
-      render: text => (
-        <Space>
-          <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : `${text} $`}</Tag>
-        </Space>
-      ),
-    },
-    { 
       title: 'Date', 
       dataIndex: 'date_creation', 
       key: 'date_creation',
       render: text => (
         <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('LL')}</Tag>
-      ),
+      )
     },
     { 
       title: 'Fournisseurs', 
@@ -241,16 +179,15 @@ const Projet = () => {
     },
   ];
 
-
   return (
     <>
       <div className="client">
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <DollarOutlined className='client-icon'/>
+              <BarsOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Budget</h2>
+            <h2 className="client-h2">Projet</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -291,7 +228,6 @@ const Projet = () => {
         footer={null}
         width={600}
       >
-        <BudgetForm/>
       </Modal>
     </>
   );
