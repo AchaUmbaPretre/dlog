@@ -181,15 +181,15 @@ const ControleDeBase = () => {
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleAddSuiviList(record?.id_controle)}>
-                  <FileTextOutlined /> Liste de suivi
+                <Link onClick={() => handleAddSuiviList(record?.id_controle)} >
+                  <FileTextOutlined /> Tâche
                 </Link>
                 <Link onClick={() => handleAddSuivi(record.id_controle)}>
-                  <FileSearchOutlined /> Faire un suivi
+                  <FileSearchOutlined /> contrôler
                 </Link>
               </div>
             }
-            title="Suivi de contrôle"
+            title=""
             trigger="click"
           >
             <Tooltip title="Suivi de contrôle">
@@ -247,7 +247,7 @@ const ControleDeBase = () => {
                     onChange={(e) => setSearchValue(e.target.value)}
                   />
                 </div>
-                <div className="client-row-right">
+                <div className="client-row-right" style={{display:'flex', gap:'10px'}}>
                   <Button
                     type="primary"
                     icon={<PlusOutlined />}
@@ -295,7 +295,7 @@ const ControleDeBase = () => {
       </Modal>
       <Modal
         visible={modalState === 'suivi'}
-        title="Faire un suivi de contrôle"
+        title="Faire un suivi de contrôl"
         footer={null}
         onCancel={closeModal}
         destroyOnClose
@@ -305,7 +305,7 @@ const ControleDeBase = () => {
       </Modal>
       <Modal
         visible={modalState === 'liste'}
-        title="Liste de suivi"
+        title="Liste des tâches"
         footer={null}
         onCancel={closeModal}
         destroyOnClose

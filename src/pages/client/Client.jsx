@@ -202,7 +202,7 @@ const Client = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Client
+                Ajouter un Client
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
