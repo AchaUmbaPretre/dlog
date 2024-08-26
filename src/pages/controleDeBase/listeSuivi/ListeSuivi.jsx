@@ -177,25 +177,14 @@ const ListeSuivi = ({ idControle }) => {
       )
     },
     {
-      title: 'Date debut',
+      title: 'Date debut & fin',
       dataIndex: 'date_debut',
       key: 'date_debut',
       sorter: (a, b) => moment(a.date_debut) - moment(b.date_debut),
       sortDirections: ['descend', 'ascend'],
-      render: (text) => 
+      render: (text,record) => 
         <Tag icon={<CalendarOutlined />} color="blue">
-          {moment(text).format('DD-MM-yyyy')}
-        </Tag>
-    },
-    {
-      title: 'Date fin',
-      dataIndex: 'date_fin',
-      key: 'date_fin',
-      sorter: (a, b) => moment(a.date_fin) - moment(b.date_fin),
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => 
-        <Tag icon={<CalendarOutlined />} color="blue">
-          {moment(text).format('DD-MM-yyyy')}
+          {moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}
         </Tag>
     },
     {
