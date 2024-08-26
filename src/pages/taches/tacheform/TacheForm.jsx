@@ -56,8 +56,6 @@ const TacheForm = ({idControle}) => {
             ...values,
             id_control : idControle
         }
-
-        console.log(dataAll)
         setIsLoading(true);
         try {
             await postTache(dataAll);
