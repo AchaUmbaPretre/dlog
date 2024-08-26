@@ -70,6 +70,10 @@ function App() {
           element: <Frequence/>
         },
         {
+          path: '/Projet',
+          element: <Budget/>
+        },
+        {
           path: '/budget',
           element: <Budget/>
         },

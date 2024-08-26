@@ -313,7 +313,7 @@ const ControleDeBase = () => {
         footer={null}
         onCancel={closeModal}
         destroyOnClose
-        width={1050}
+        width={900}
       >
         <SuiviControle idControle={idControle} closeModal={closeModal} />
       </Modal>
