@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip,Popconfirm, Modal } from 'antd';
-import { ExportOutlined, PrinterOutlined,PlusCircleOutlined ,ClockCircleOutlined,HourglassOutlined,WarningOutlined,CheckSquareOutlined,DollarOutlined,RocketOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Modal, Collapse } from 'antd';
+import { ExportOutlined, PrinterOutlined,PlusCircleOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, DollarOutlined, RocketOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getTacheControleOne } from '../../../services/tacheService';
 import SuiviTache from '../../taches/suiviTache/SuiviTache';
 import { getSuiviTacheOne } from '../../../services/suiviService';
 
 const { Search } = Input;
+const { Panel } = Collapse;
 
-const ListeSuivi = ({idControle}) => {
+const ListeSuivi = ({ idControle }) => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [idTache, setIdTache] = useState('');
   const [modalState, setModalState] = useState(null);
-  const [suivi, setSuivi] = useState('')
-
+  const [suivi, setSuivi] = useState([]);
+  const scroll = { x: 400 };
+  
   const statusIcons = {
     'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
     'En cours': { icon: <HourglassOutlined />, color: 'blue' },
@@ -24,7 +26,7 @@ const ListeSuivi = ({idControle}) => {
     'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
     'Budget': { icon: <DollarOutlined />, color: 'gold' },
     'Executé': { icon: <RocketOutlined />, color: 'cyan' },
-};
+  };
 
   const closeModal = () => setModalState(null);
 
@@ -56,7 +58,7 @@ const ListeSuivi = ({idControle}) => {
   useEffect(() => {
     const fetchSuivi = async () => {
       try {
-        const response = await getSuiviTacheOne(idControle);
+        const response = await getSuiviTacheOne();
         setSuivi(response.data);
       } catch (error) {
         notification.error({
@@ -69,7 +71,7 @@ const ListeSuivi = ({idControle}) => {
     };
 
     fetchSuivi();
-  }, [idControle]);
+  }, []);
 
   const handleDelete = async (id) => {
     try {
@@ -88,7 +90,6 @@ const ListeSuivi = ({idControle}) => {
   const handleViewDetails = (record) => {
     message.info(`Viewing details of client: ${record.nom}`);
   };
-
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -245,6 +246,28 @@ const ListeSuivi = ({idControle}) => {
     item.description?.toLowerCase().includes(searchValue.toLowerCase())
   )
 
+  const renderSuivi = (idTache) => {
+    const suiviData = suivi.filter(item => item.id_tache === idTache);
+    console.log('Suivi pour idTache', idTache, ':', suiviData)
+    return (
+      <Collapse accordion>
+  {suiviData.length ? (
+    suiviData.map((item) => (
+      <Panel header={`Suivi du #${moment(item.date_suivi).format('DD-MM-yyyy')}`} key={item.id_suivi}>
+        <p><strong>Description :</strong>  {item.commentaire}</p>
+        <p><strong>Pourcentage d'avancement :</strong>  {item.pourcentage_avancement}%</p>
+        <p><strong>Terminé :</strong>  {item.est_termine}</p>
+        <p><strong>Statut :</strong>  {item.nom_type_statut}</p>
+      </Panel>
+    ))
+  ) : (
+    <p>Aucun suivi disponible pour cette tâche.</p>
+  )}
+</Collapse>
+
+    );
+  };
+
   return (
     <>
       <div className="client">
@@ -276,28 +299,32 @@ const ListeSuivi = ({idControle}) => {
             </div>
           </div>
           <Table
-            columns={columns}
-            dataSource={filteredData}
-            pagination={{ pageSize: 10 }}
-            rowKey="id"
-            bordered
-            size="middle"
-            scroll={{ x: 'max-content' }}
-            loading={loading}
-          />
+        columns={columns}
+        dataSource={filteredData}
+        rowKey="id_tache"
+        loading={loading}
+        expandable={{
+          expandedRowRender: (record) => renderSuivi(record.id_tache),
+          rowExpandable: record => record.id_tache !== null,
+        }}
+        scroll={scroll}
+      />
         </div>
       </div>
 
-      <Modal
-        visible={modalState === 'suivi'}
-        title="Faire un suivi de tâche"
-        footer={null}
-        onCancel={closeModal}
-        destroyOnClose
-        width={800}
-      >
-        <SuiviTache idTache={idTache} closeModal={closeModal} />
-      </Modal>
+      {modalState && idTache && (
+        <Modal
+          title={modalState === 'suivi' ? 'Ajouter un suivi' : ''}
+          visible={true}
+          onCancel={closeModal}
+          footer={null}
+          width={800}
+        >
+          {modalState === 'suivi' && (
+            <SuiviTache idTache={idTache} />
+          )} 
+        </Modal>
+      )}
     </>
   );
 };
