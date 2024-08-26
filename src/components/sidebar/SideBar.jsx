@@ -27,11 +27,6 @@ const SideBar = () => {
           <Item key="/" icon={<HomeOutlined />}>
             <Link to="/">Accueil</Link>
           </Item>
-          <Item key="1" icon={<UserOutlined />}>
-            <Link to="/client" className="sidebarLink">
-              Client
-            </Link>
-          </Item>
           <Item key="2" icon={<ApartmentOutlined />}>
             <Link to='/departement'>
               Département
@@ -69,17 +64,18 @@ const SideBar = () => {
               </Link>
             </Menu.Item> */}
           </SubMenu>
-          <SubMenu key="sub10" icon={<TeamOutlined />} title="Personnels">
+          <SubMenu key="sub10" icon={<SettingOutlined />} title="Personnels">
             <Menu.Item key="9">
               <Link to='/utilisateur'>
                 Liste des personnels
               </Link>
             </Menu.Item>
-            <Menu.Item key="10">Nouveau personnel</Menu.Item>
+            <Menu.Item key="3">
+              <Link to={'/client'}>
+                Liste des clients
+              </Link>
+            </Menu.Item>
           </SubMenu>
-          <Item key="11" icon={<SettingOutlined />}>
-            Paramètres
-          </Item>
           <Item key="logout" icon={<LogoutOutlined />} className="logout-item">
             <Link to="/logout">Déconnecter</Link>
           </Item>

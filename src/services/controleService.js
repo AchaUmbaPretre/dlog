@@ -13,5 +13,6 @@ export const getControleOne = async (id) => {
   };
 
 export const postControle = async (data) => {
+  console.log(data)
   return axios.post(`${DOMAIN}/api/controle`, data);
 };

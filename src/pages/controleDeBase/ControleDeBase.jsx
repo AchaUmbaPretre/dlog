@@ -54,8 +54,6 @@ const ControleDeBase = () => {
 
   const closeModal = () => setModalState(null);
 
-  const handleEdit = (record) => message.info(`Modification du client: ${record.nom}`);
-
   const handleDelete = async (id) => {
     try {
       // Fonction de suppression commentée
@@ -172,14 +170,14 @@ const ControleDeBase = () => {
       width: '8%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Voir les détails">
+{/*           <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
               style={{ color: 'blue' }}
               onClick={() => handleViewDetails(record.id_controle)}
               aria-label="Voir les détails du client"
             />
-          </Tooltip>
+          </Tooltip> */}
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -307,6 +305,17 @@ const ControleDeBase = () => {
         width={1050}
       >
         <ListeSuivi idControle={idControle} closeModal={closeModal} />
+      </Modal>
+
+      <Modal
+        visible={modalState === 'suivi'}
+        title="Créer un suivi de controle de base"
+        footer={null}
+        onCancel={closeModal}
+        destroyOnClose
+        width={1050}
+      >
+        <SuiviControle idControle={idControle} closeModal={closeModal} />
       </Modal>
 
       <Modal

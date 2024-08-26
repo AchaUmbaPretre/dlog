@@ -195,12 +195,13 @@ const ControleForm = () => {
                                 ]}
                             >
                                 <Select
+                                    mode="multiple"
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
                                         label: `${item.nom} - ${item.prenom}`,
                                     }))}
-                                    placeholder="Sélectionnez un responsable..."
+                                    placeholder="Sélectionnez des responsables..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>

@@ -60,6 +60,7 @@ const SuiviTache = ({idTache}) => {
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             navigate('/controle');
+            window.location.reload();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
