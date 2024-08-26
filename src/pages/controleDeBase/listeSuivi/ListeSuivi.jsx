@@ -5,6 +5,7 @@ import moment from 'moment';
 import { getTacheControleOne } from '../../../services/tacheService';
 import SuiviControle from '../suiviControle/SuiviControle';
 import SuiviTache from '../../taches/suiviTache/SuiviTache';
+import { getSuiviTacheOne } from '../../../services/suiviService';
 
 const { Search } = Input;
 
@@ -14,6 +15,7 @@ const ListeSuivi = ({idControle}) => {
   const [data, setData] = useState([]);
   const [idTache, setIdTache] = useState('');
   const [modalState, setModalState] = useState(null);
+  const [suivi, setSuivi] = useState('')
 
   const statusIcons = {
     'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
@@ -50,6 +52,24 @@ const ListeSuivi = ({idControle}) => {
     };
 
     fetchData();
+  }, [idControle]);
+
+  useEffect(() => {
+    const fetchSuivi = async () => {
+      try {
+        const response = await getSuiviTacheOne(idControle);
+        setSuivi(response.data);
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données.',
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSuivi();
   }, [idControle]);
 
   const handleEdit = (record) => {

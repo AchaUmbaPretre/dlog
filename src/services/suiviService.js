@@ -7,9 +7,12 @@ export const getSuivi = async () => {
     return axios.get(`${DOMAIN}/api/suivi`);
   };
 
-
 export const getSuiviOne = async (id) => {
     return axios.get(`${DOMAIN}/api/suivi?id_suivi=${id}`);
+  };
+
+export const getSuiviTacheOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/suivi/suiviTacheOne?id_tache=${id}`);
   };
 
 export const postSuivi = async (data) => {
@@ -17,7 +20,6 @@ export const postSuivi = async (data) => {
 };
 
 export const postSuiviTache = async (data) => {
-  console.log(data)
 return axios.post(`${DOMAIN}/api/suivi/suiviTache`, data);
 };
 
