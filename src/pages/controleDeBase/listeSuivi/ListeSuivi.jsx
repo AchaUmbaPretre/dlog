@@ -3,7 +3,6 @@ import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space
 import { ExportOutlined, PrinterOutlined,PlusCircleOutlined ,ClockCircleOutlined,HourglassOutlined,WarningOutlined,CheckSquareOutlined,DollarOutlined,RocketOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getTacheControleOne } from '../../../services/tacheService';
-import SuiviControle from '../suiviControle/SuiviControle';
 import SuiviTache from '../../taches/suiviTache/SuiviTache';
 import { getSuiviTacheOne } from '../../../services/suiviService';
 
