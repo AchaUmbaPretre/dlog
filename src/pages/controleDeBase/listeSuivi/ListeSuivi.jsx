@@ -72,10 +72,6 @@ const ListeSuivi = ({idControle}) => {
     fetchSuivi();
   }, [idControle]);
 
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
-
   const handleDelete = async (id) => {
     try {
       // Uncomment when delete function is available
