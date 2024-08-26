@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip,Popconfirm } from 'antd';
-import { ExportOutlined, PrinterOutlined,ClockCircleOutlined,HourglassOutlined,WarningOutlined,CheckSquareOutlined,DollarOutlined,RocketOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
-import { getSuivi } from '../../../services/suiviService';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip,Popconfirm, Modal } from 'antd';
+import { ExportOutlined, PrinterOutlined,PlusCircleOutlined ,ClockCircleOutlined,HourglassOutlined,WarningOutlined,CheckSquareOutlined,DollarOutlined,RocketOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { getTacheControleOne } from '../../../services/tacheService';
+import SuiviControle from '../suiviControle/SuiviControle';
 
 const { Search } = Input;
 
-const ListeSuivi = () => {
+const ListeSuivi = ({idControle}) => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [idTache, setIdTache] = useState('');
+  const [modalState, setModalState] = useState(null);
 
   const statusIcons = {
     'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
@@ -22,10 +25,19 @@ const ListeSuivi = () => {
     'Executé': { icon: <RocketOutlined />, color: 'cyan' },
 };
 
+  const closeModal = () => setModalState(null);
+
+  const openModal = (modalType, id = '') => {
+    setIdTache(id);
+    setModalState(modalType);
+  };
+
+  const handleAddSuivi = (id) => openModal('suivi', id);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getSuivi();
+        const response = await getTacheControleOne(idControle);
         setData(response.data);
       } catch (error) {
         notification.error({
@@ -38,7 +50,7 @@ const ListeSuivi = () => {
     };
 
     fetchData();
-  }, []);
+  }, [idControle]);
 
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
@@ -97,8 +109,8 @@ const ListeSuivi = () => {
     },
     {
       title: 'Département',
-      dataIndex: 'nom_departement',
-      key: 'nom_departement',
+      dataIndex: 'departement',
+      key: 'departement',
       render: text => (
         <Space>
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
@@ -115,18 +127,15 @@ const ListeSuivi = () => {
         </Space>
       ),
     },
-    { 
-        title: 'Client', 
-        dataIndex: 'nom_client', 
-        key: 'nom_client',
-        render: text => {
-            const { icon, color } = statusIcons[text] || {};
-            return (
-                <Space>
-                  <Tag icon={icon} color={color}>{text}</Tag>
-                </Space>
-            );
-        }
+    {
+      title: 'Client',
+      dataIndex: 'nom_client',
+      key: 'nom_client',
+      render: text => (
+        <Space>
+          <Tag icon={<UserOutlined />} color='green'>{text}</Tag>
+        </Space>
+      ),
     },
     { 
       title: 'Statut', 
@@ -174,16 +183,27 @@ const ListeSuivi = () => {
         </Tag>
     },
     {
+      title: 'Nbre jour',
+      dataIndex: 'nbre_jour',
+      key: 'nbre_jour',
+      sorter: (a, b) => moment(a.nbre_jour) - moment(b.nbre_jour),
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => 
+        <Tag icon={<CalendarOutlined />} color="blue">
+          {text}
+        </Tag>
+    },
+    {
       title: 'Action',
       key: 'action',
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Modifier">
+          <Tooltip title="Faire un suivi">
             <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
+              icon={<PlusCircleOutlined />}
+              style={{ color: 'blue' }}
+              onClick={() => handleAddSuivi(record.id_controle)}
               aria-label="Modifier le client"
             />
           </Tooltip>
@@ -207,7 +227,7 @@ const ListeSuivi = () => {
   ];
 
   const filteredData = data?.filter((item) =>
-    item.commentaires?.toLowerCase().includes(searchValue.toLowerCase())
+    item.description?.toLowerCase().includes(searchValue.toLowerCase())
   )
 
   return (
@@ -252,6 +272,17 @@ const ListeSuivi = () => {
           />
         </div>
       </div>
+
+      <Modal
+        visible={modalState === 'suivi'}
+        title="Faire un suivi de contrôl"
+        footer={null}
+        onCancel={closeModal}
+        destroyOnClose
+        width={800}
+      >
+        <SuiviControle idControle={idControle} closeModal={closeModal} />
+      </Modal>
     </>
   );
 };

@@ -299,16 +299,6 @@ const ControleDeBase = () => {
         <ControleForm closeModal={closeModal} />
       </Modal>
       <Modal
-        visible={modalState === 'suivi'}
-        title="Faire un suivi de contrôl"
-        footer={null}
-        onCancel={closeModal}
-        destroyOnClose
-        width={800}
-      >
-        <SuiviControle idControle={idControle} closeModal={closeModal} />
-      </Modal>
-      <Modal
         visible={modalState === 'liste'}
         title="Liste des tâches"
         footer={null}
