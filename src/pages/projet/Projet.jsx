@@ -211,7 +211,7 @@ const Projet = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Budget
+                Projet
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
