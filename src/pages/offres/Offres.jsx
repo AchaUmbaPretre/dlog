@@ -219,6 +219,7 @@ const Offres = () => {
         onCancel={handleCancel}
         footer={null}
         width={700}
+        centered
       >
         <FormOffres/>
       </Modal>
@@ -229,6 +230,7 @@ const Offres = () => {
         onCancel={handleCancel}
         footer={null}
         width={900}
+        centered
       >
         <ArticleForm/>
       </Modal>
