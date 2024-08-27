@@ -204,7 +204,7 @@ const ListeSuivi = ({ idControle }) => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Faire un suivi">
+          <Tooltip title="Contrôler">
             <Button
               icon={<PlusCircleOutlined />}
               style={{ color: 'blue' }}
