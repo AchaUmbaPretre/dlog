@@ -22,7 +22,7 @@ const SideBar = () => {
         <Menu
           mode="inline"
           defaultSelectedKeys={['/']}
-          style={{ height: '100%', borderRight: 0, width: '250px' }}
+          style={{ height: '100%', borderRight: 0, width: '210px' }}
         >
           <Item key="/" icon={<HomeOutlined />}>
             <Link to="/">Accueil</Link>
@@ -69,7 +69,7 @@ const SideBar = () => {
               </Link>
             </Menu.Item> */}
           </SubMenu>
-          <SubMenu key="sub10" icon={<SettingOutlined />} title="Personnels">
+          <SubMenu key="sub10" icon={<SettingOutlined />} title="Parametre">
             <Menu.Item key="9">
               <Link to='/utilisateur'>
                 Liste des personnels
