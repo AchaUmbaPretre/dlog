@@ -7,6 +7,6 @@ export const getProjet = async () => {
     return axios.get(`${DOMAIN}/api/projet`);
   };
 
-export const post = async (data) => {
+export const postProjet = async (data) => {
   return axios.post(`${DOMAIN}/api/projet`, data);
 };

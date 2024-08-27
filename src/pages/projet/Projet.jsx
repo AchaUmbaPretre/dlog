@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form } from 'antd';
 import { ExportOutlined,BarsOutlined,CalendarOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
-import { getBudget, putBudget } from '../../services/budgetService';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ProjetForm from './projetForm/ProjetForm';
+import { getProjet } from '../../services/projetService';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -59,7 +59,7 @@ const Projet = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getBudget();
+        const { data } = await getProjet();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -101,8 +101,8 @@ const Projet = () => {
     },
     {
       title: 'Client',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
+      dataIndex: 'nom',
+      key: 'nom',
       render: (text) => (
         <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
       ),
@@ -129,8 +129,8 @@ const Projet = () => {
     },
     { 
       title: 'Chef projet ',
-      dataIndex: 'chef_projet', 
-      key: 'chef_projet',
+      dataIndex: 'responsable', 
+      key: 'responsable',
       render: text => (
         <Tag icon={<UserOutlined />} color='purple'>{text}</Tag>
       ),
@@ -239,6 +239,7 @@ const Projet = () => {
         onCancel={handleCancel}
         footer={null}
         width={800}
+        centered
       >
         <ProjetForm/>
       </Modal>

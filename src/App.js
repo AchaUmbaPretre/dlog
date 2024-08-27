@@ -15,6 +15,7 @@ import Format from './pages/format/Format';
 import Frequence from './pages/frequence/Frequence';
 import Budget from './pages/budget/Budget';
 import Projet from './pages/projet/Projet';
+import Fournisseur from './pages/fournisseur/Fournisseur';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -81,6 +82,10 @@ function App() {
         {
           path: '/besoin',
           element: <Departement/>
+        },
+        {
+          path: '/fournisseur',
+          element: <Fournisseur/>
         },
         {
           path: '/utilisateur',

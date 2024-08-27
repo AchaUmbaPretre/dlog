@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, InputNumber, Select, Button, Typography, Row, Col, notification } from 'antd';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
+import { postProjet } from '../../../services/projetService';
 
 const { TextArea } = Input;
 const { Option } = Select;
 const { Title } = Typography;
 
 const ProjetForm = () => {
+    const [form] = Form.useForm();
     const [client, setClient] = useState([]);
     const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(false); // Ajouter l'état de chargement
 
     const handleError = (message) => {
         notification.error({
@@ -37,7 +40,24 @@ const ProjetForm = () => {
     }, []);
 
     const onFinish = async (values) => {
-        // Ajouter la logique de soumission ici
+        setLoading(true);
+        try {
+            await postProjet(values);
+            notification.success({
+              message: 'Succès',
+              description: 'Le projet a été enregistré avec succès.',
+            });
+            form.resetFields();
+            window.location.reload();
+          } catch (error) {
+            notification.error({
+              message: 'Erreur',
+              description: 'Erreur lors de l\'enregistrement du projet.',
+            });
+          } finally {
+            setLoading(false);
+          }
+       
     };
 
     return (
@@ -103,7 +123,7 @@ const ProjetForm = () => {
                     <Form.Item
                         label="Budget"
                         name="budget"
-                        rules={[{ required: true, message: 'Le budget est requis' }]}
+                        rules={[{ required: false, message: 'Le budget est requis' }]}
                     >
                         <InputNumber
                             placeholder="Entrez le budget"
@@ -144,7 +164,7 @@ const ProjetForm = () => {
             </Row>
 
             <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={loading}>
                     Enregistrer
                 </Button>
             </Form.Item>
