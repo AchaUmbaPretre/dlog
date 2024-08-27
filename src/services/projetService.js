@@ -4,9 +4,9 @@ import config from '../config';
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
 export const getProjet = async () => {
-    return axios.get(`${DOMAIN}/api/fournisseur`);
+    return axios.get(`${DOMAIN}/api/projet`);
   };
 
 export const post = async (data) => {
-  return axios.post(`${DOMAIN}/api/fournisseur`, data);
+  return axios.post(`${DOMAIN}/api/projet`, data);
 };
