@@ -75,9 +75,14 @@ const SideBar = () => {
                 Liste des personnels
               </Link>
             </Menu.Item>
-            <Menu.Item key="3">
+            <Menu.Item key="10">
               <Link to={'/client'}>
                 Liste des clients
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="11">
+              <Link to={'/fournisseur'}>
+                Liste des fourniseurs
               </Link>
             </Menu.Item>
           </SubMenu>
