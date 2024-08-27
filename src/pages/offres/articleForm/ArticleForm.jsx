@@ -1,11 +1,36 @@
-import React, { useState } from 'react';
-import { Form, Input, InputNumber, Row, Col, Button, Card, Spin, notification } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, InputNumber, Row, Col, Button, Card, Spin, notification, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { postOffreArticle } from '../../../services/offreService';
+import { getCategorie } from '../../../services/typeService';
 
 const ArticleForm = ({idOffre}) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  const [cat, setCat] = useState([]);
+
+  const handleError = (message) => {
+    notification.error({
+        message: 'Erreur de chargement',
+        description: message,
+    });
+}
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const [catData] = await Promise.all([
+                getCategorie()
+            ]);
+
+            setCat(catData.data);
+        } catch (error) {
+            handleError('Une erreur est survenue lors du chargement des données.');
+        }
+    };
+
+    fetchData();
+}, []);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -95,13 +120,19 @@ const ArticleForm = ({idOffre}) => {
                         {...restField}
                         name={[name, 'id_categorie']}
                         fieldKey={[fieldKey, 'id_categorie']}
-                        label="ID Catégorie"
+                        label="Catégorie"
                         rules={[{ required: true, message: 'Veuillez entrer l\'ID de la catégorie.' }]}
                       >
-                        <InputNumber
-                          min={1}
-                          style={{ width: '100%' }}
-                          placeholder="ID Catégorie"
+                        <Select
+                            placeholder="Sélectionnez la categorie..."
+                            options={cat.map((item) => ({
+                                        value: item.id_categorie,
+                                        label: (
+                                            <div>
+                                                {item.nom_cat}
+                                            </div>
+                                        ),
+                                    }))}
                         />
                       </Form.Item>
                     </Col>

@@ -230,7 +230,7 @@ const Offres = () => {
       </Modal>
 
       <Modal
-        title="Ajouter un Article"
+        title=""
         visible={isArticleFormVisible}
         onCancel={handleAnnuler}
         footer={null}

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Table, Button, Divider, Space, notification, Spin } from 'antd';
+import React, { useEffect, useState, useRef } from 'react';
+import { Card, Table, Button, Space, notification, Spin } from 'antd';
 import { getOffreDetail } from '../../../services/offreService';
+import html2pdf from 'html2pdf.js';
 
 const DetailOffre = ({ idOffre }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const pdfRef = useRef();
   const scroll = { x: 400 };
 
   useEffect(() => {
@@ -55,6 +57,18 @@ const DetailOffre = ({ idOffre }) => {
     },
   ];
 
+  const handleExportPDF = () => {
+    const element = pdfRef.current;
+    const options = {
+      margin: 1,
+      filename: `Offre_Detail_${idOffre}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf().from(element).set(options).save();
+  };
+
   return (
     <div style={{ padding: '24px' }}>
       <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -65,19 +79,21 @@ const DetailOffre = ({ idOffre }) => {
         <Spin size="large" tip="Chargement des données..." />
       ) : (
         <Card bordered={false} style={{ marginBottom: '24px' }}>
-          <Table
-            dataSource={data}
-            columns={columns}
-            rowKey="nom_article"
-            pagination={false}
-            scroll={scroll} 
-          />
+          <div ref={pdfRef}>
+            <Table
+              dataSource={data}
+              columns={columns}
+              rowKey="nom_article"
+              pagination={false}
+              scroll={scroll}
+            />
+          </div>
         </Card>
       )}
 
       <Card bordered={false}>
         <Space>
-          <Button type="primary" disabled={loading}>Télécharger PDF</Button>
+          <Button type="primary" disabled={loading} onClick={handleExportPDF}>Télécharger PDF</Button>
         </Space>
       </Card>
     </div>
