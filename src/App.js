@@ -16,6 +16,7 @@ import Frequence from './pages/frequence/Frequence';
 import Budget from './pages/budget/Budget';
 import Projet from './pages/projet/Projet';
 import Fournisseur from './pages/fournisseur/Fournisseur';
+import Offres from './pages/offres/Offres';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -74,6 +75,10 @@ function App() {
         {
           path: '/Projet',
           element: <Projet/>
+        },
+        {
+          path: '/offre',
+          element: <Offres/>
         },
         {
           path: '/budget',

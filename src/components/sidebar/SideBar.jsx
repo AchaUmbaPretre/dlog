@@ -59,6 +59,11 @@ const SideBar = () => {
               </Link>
             </Menu.Item>
             <Menu.Item key="8">
+              <Link to='/offre'>
+                Offres
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="8">
               <Link to='/budget'>
                 Budget
               </Link>
