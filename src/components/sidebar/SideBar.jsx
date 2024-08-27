@@ -44,48 +44,43 @@ const SideBar = () => {
               </Link>
             </Menu.Item>
             <Menu.Item key="5">
-              <Link to='/format'>
-                Format
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="6">
-              <Link to='/frequence'>
-                Frequence
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="7">
               <Link to='/projet'>
                 Projet
               </Link>
             </Menu.Item>
-            <Menu.Item key="8">
+            <Menu.Item key="6">
               <Link to='/offre'>
                 Offres
               </Link>
             </Menu.Item>
-            <Menu.Item key="8">
+            <Menu.Item key="7">
               <Link to='/budget'>
                 Budget
               </Link>
             </Menu.Item>
-{/*             <Menu.Item key="8">
-              <Link to='/besoins'>
-                Besoins
+            <Menu.Item key="8">
+              <Link to='/format'>
+                Format
               </Link>
-            </Menu.Item> */}
+            </Menu.Item>
+            <Menu.Item key="9">
+              <Link to='/frequence'>
+                Frequence
+              </Link>
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Parametre">
-            <Menu.Item key="9">
+            <Menu.Item key="10">
               <Link to='/utilisateur'>
                 Liste des personnels
               </Link>
             </Menu.Item>
-            <Menu.Item key="10">
+            <Menu.Item key="11">
               <Link to={'/client'}>
                 Liste des clients
               </Link>
             </Menu.Item>
-            <Menu.Item key="11">
+            <Menu.Item key="12">
               <Link to={'/fournisseur'}>
                 Liste des fourniseurs
               </Link>

@@ -258,13 +258,13 @@ const Budget = () => {
               <Search placeholder="Search clients..." enterButton />
             </div>
             <div className="client-rows-right">
-              <Button
+{/*               <Button
                 type="primary"
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
                 Budget
-              </Button>
+              </Button> */}
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>

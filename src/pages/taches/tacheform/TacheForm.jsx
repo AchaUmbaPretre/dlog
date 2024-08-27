@@ -64,6 +64,7 @@ const TacheForm = ({idControle}) => {
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             navigate('/tache');
+            window.location.reload();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
