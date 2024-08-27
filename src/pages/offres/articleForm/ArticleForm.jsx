@@ -1,24 +1,33 @@
 import React, { useState } from 'react';
-import { Form, Input, InputNumber, Row, Col, Button, Card, Spin, Space } from 'antd';
+import { Form, Input, InputNumber, Row, Col, Button, Card, Spin, notification } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { postOffreArticle } from '../../../services/offreService';
 
-const ArticleForm = () => {
+const ArticleForm = ({idOffre}) => {
   const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
   const onFinish = async (values) => {
     setLoading(true);
-    console.log('Form values:', values);
-
-    // Simulation d'une requête réseau
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      // Logique de succès
-    } catch (error) {
-      // Logique en cas d'erreur
-      console.error('Erreur lors de l\'envoi du formulaire:', error);
-    } finally {
-      setLoading(false);
-    }
+        await postOffreArticle({
+            ...values,
+            id_offre: idOffre
+        });
+        notification.success({
+          message: 'Succès',
+          description: 'L article a été enregistré avec succès.',
+        });
+        form.resetFields();
+        window.location.reload();
+      } catch (error) {
+        notification.error({
+          message: 'Erreur',
+          description: 'Erreur lors de l\'enregistrement de l article.',
+        });
+      } finally {
+        setLoading(false);
+      }
   };
 
   return (
@@ -52,7 +61,7 @@ const ArticleForm = () => {
                   }
                 >
                   <Row gutter={16}>
-                    <Col span={8}>
+                    <Col span={6}>
                       <Form.Item
                         {...restField}
                         name={[name, 'nom_article']}
@@ -63,7 +72,7 @@ const ArticleForm = () => {
                         <Input placeholder="Nom de l'Article" />
                       </Form.Item>
                     </Col>
-                    <Col span={8}>
+                    <Col span={6}>
                       <Form.Item
                         {...restField}
                         name={[name, 'prix_unitaire']}
@@ -81,7 +90,7 @@ const ArticleForm = () => {
                         />
                       </Form.Item>
                     </Col>
-                    <Col span={8}>
+                    <Col span={6}>
                       <Form.Item
                         {...restField}
                         name={[name, 'id_categorie']}
@@ -96,7 +105,7 @@ const ArticleForm = () => {
                         />
                       </Form.Item>
                     </Col>
-                    <Col span={8}>
+                    <Col span={6}>
                       <Form.Item
                         {...restField}
                         name={[name, 'quantite']}

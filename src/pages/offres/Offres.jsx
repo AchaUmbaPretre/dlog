@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, DollarOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, DollarOutlined,PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
 import FormOffres from './formOffres/FormOffres';
 import { getOffre } from '../../services/offreService';
 import ArticleForm from './articleForm/ArticleForm';
+import DetailOffre from './detailOffre/DetailOffre';
 
 moment.locale('fr');
 
@@ -16,54 +17,58 @@ const Offres = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [editingRow, setEditingRow] = useState(null);
   const [isFormOffresVisible, setIsFormOffresVisible] = useState(false);
   const [isArticleFormVisible, setIsArticleFormVisible] = useState(false);
+  const [isDetailFormVisible, setIsDetailFormVisible] = useState(false);
+  const [idOffre, setIdOffre] = useState('');
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of tache: ${record.article}`);
+  const handleVoirDetails = (idOffre) => {
+    message.info(`Visualisation des détails de l'offre : ${idOffre}`);
+    setIdOffre(idOffre);
+    setIsDetailFormVisible(true);
+    setIsFormOffresVisible(false);
   };
 
-  const handleAddClient = () => {
-    // Close other modal if open
+  const handleAjouterOffre = () => {
     setIsArticleFormVisible(false);
     setIsFormOffresVisible(true);
   };
 
-  const handleAddArticle = () => {
-    // Close other modal if open
+  const handleAjouterArticle = (idOffre) => {
+    setIdOffre(idOffre);
     setIsFormOffresVisible(false);
     setIsArticleFormVisible(true);
   };
 
-  const handleCancel = () => {
+  const handleAnnuler = () => {
+    setIsDetailFormVisible(false);
     setIsFormOffresVisible(false);
     setIsArticleFormVisible(false);
   };
 
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
+  const handleExporterExcel = () => {
+    message.success('Exportation vers Excel...');
   };
 
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
+  const handleExporterPDF = () => {
+    message.success('Exportation au format PDF...');
   };
 
-  const handleDelete = async (id) => {
+  const handleSupprimer = async (id) => {
     try {
       // Fonction de suppression commentée
-      // await deleteClient(id);
+      // await deleteOffre(id);
       setData(data.filter((item) => item.id_budget !== id));
-      message.success('Budget supprimé avec succès');
+      message.success('Offre supprimée avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du budget.',
+        description: 'Une erreur est survenue lors de la suppression de l\'offre.',
       });
     }
   };
 
-  const handlePrint = () => {
+  const handleImprimer = () => {
     window.print();
   };
 
@@ -87,16 +92,16 @@ const Offres = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
+      <Menu.Item key="1" onClick={handleExporterExcel}>
         Exporter vers Excel
       </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
+      <Menu.Item key="2" onClick={handleExporterPDF}>
         Exporter au format PDF
       </Menu.Item>
     </Menu>
   );
 
-  const columns = [
+  const colonnes = [
     { 
       title: '#', 
       dataIndex: 'id_offre', 
@@ -105,25 +110,25 @@ const Offres = () => {
       width: "3%" 
     },
     { 
-        title: 'Nom offre', 
-        dataIndex: 'nom_offre', 
-        key: 'nom_offre',
-        render: text => (
-          <Space>
-            <Tag color='cyan'>{text}</Tag>
-          </Space>
-        ),
-      },
+      title: 'Nom de l\'offre', 
+      dataIndex: 'nom_offre', 
+      key: 'nom_offre',
+      render: text => (
+        <Space>
+          <Tag color='cyan'>{text}</Tag>
+        </Space>
+      ),
+    },
     { 
-        title: 'Fournisseur', 
-        dataIndex: 'nom_fournisseur', 
-        key: 'nom_fournisseur',
-        render: text => (
-          <Space>
-            <Tag color='cyan'>{text}</Tag>
-          </Space>
-        ),
-      },
+      title: 'Fournisseur', 
+      dataIndex: 'nom_fournisseur', 
+      key: 'nom_fournisseur',
+      render: text => (
+        <Space>
+          <Tag color='cyan'>{text}</Tag>
+        </Space>
+      ),
+    },
     { 
       title: 'Date', 
       dataIndex: 'date_creation', 
@@ -141,28 +146,28 @@ const Offres = () => {
           <Tooltip title="Voir détails">
             <Button
               icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              aria-label="View budget details"
+              onClick={() => handleVoirDetails(record.id_offre)}
+              aria-label="Voir les détails de l'offre"
             />
           </Tooltip>
-          <Tooltip title="Ajoutez des articles">
+          <Tooltip title="Ajouter des articles">
             <Button
               icon={<PlusCircleOutlined />}
               style={{ color: 'green' }}
-              onClick={handleAddArticle}
+              onClick={() => handleAjouterArticle(record.id_offre)}
             />
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce budget ?"
-              onConfirm={() => handleDelete(record.id_budget)}
+              title="Êtes-vous sûr de vouloir supprimer cette offre ?"
+              onConfirm={() => handleSupprimer(record.id_budget)}
               okText="Oui"
               cancelText="Non"
             >
               <Button
                 icon={<DeleteOutlined />}
                 style={{ color: 'red' }}
-                aria-label="Delete budget"
+                aria-label="Supprimer l'offre"
               />
             </Popconfirm>
           </Tooltip>
@@ -183,29 +188,29 @@ const Offres = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search offre..." enterButton />
+              <Search placeholder="Rechercher une offre..." enterButton />
             </div>
             <div className="client-rows-right">
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
-                onClick={handleAddClient}
+                onClick={handleAjouterOffre}
               >
                 Offre
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
+                <Button icon={<ExportOutlined />}>Exporter</Button>
               </Dropdown>
               <Button
                 icon={<PrinterOutlined />}
-                onClick={handlePrint}
+                onClick={handleImprimer}
               >
-                Print
+                Imprimer
               </Button>
             </div>
           </div>
           <Table
-            columns={columns}
+            columns={colonnes}
             dataSource={data}
             rowKey="id_budget"
             loading={loading}
@@ -214,9 +219,9 @@ const Offres = () => {
       </div>
 
       <Modal
-        title="Ajouter Offre"
+        title="Ajouter une Offre"
         visible={isFormOffresVisible}
-        onCancel={handleCancel}
+        onCancel={handleAnnuler}
         footer={null}
         width={700}
         centered
@@ -225,14 +230,25 @@ const Offres = () => {
       </Modal>
 
       <Modal
-        title="Ajouter Article"
+        title="Ajouter un Article"
         visible={isArticleFormVisible}
-        onCancel={handleCancel}
+        onCancel={handleAnnuler}
         footer={null}
         width={900}
         centered
       >
-        <ArticleForm/>
+        <ArticleForm idOffre={idOffre}/>
+      </Modal>
+
+      <Modal
+        title="Détails de l'Offre"
+        visible={isDetailFormVisible}
+        onCancel={handleAnnuler}
+        footer={null}
+        width={700}
+        centered
+      >
+        <DetailOffre idOffre={idOffre}/>
       </Modal>
     </>
   );

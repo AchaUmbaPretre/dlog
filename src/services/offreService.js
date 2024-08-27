@@ -7,10 +7,17 @@ export const getOffre = async () => {
     return axios.get(`${DOMAIN}/api/offre`);
   };
 
+export const getOffreDetail = async (id) => {
+    return axios.get(`${DOMAIN}/api/offre/detail?id_offre=${id}`);
+  };
 
 export const postOffre = async (data) => {
   return axios.post(`${DOMAIN}/api/offre`, data);
 };
+
+export const postOffreArticle = async (data) => {
+    return axios.post(`${DOMAIN}/api/offre/article`, data);
+  };
 
 
 export const deleteOffre = async (id) => {
