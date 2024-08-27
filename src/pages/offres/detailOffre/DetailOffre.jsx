@@ -5,15 +5,18 @@ import html2pdf from 'html2pdf.js';
 
 const DetailOffre = ({ idOffre }) => {
   const [data, setData] = useState([]);
+  const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
   const pdfRef = useRef();
   const scroll = { x: 400 };
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getOffreDetail(idOffre);
         setData(response.data);
+        setName(response.data[0]?.nom_offre)
       } catch (error) {
         notification.error({
           message: 'Erreur de chargement',
@@ -27,12 +30,8 @@ const DetailOffre = ({ idOffre }) => {
     fetchData();
   }, [idOffre]);
 
+
   const columns = [
-    {
-      title: 'Offre',
-      dataIndex: 'nom_offre',
-      key: 'nom_offre',
-    },
     {
       title: 'Article',
       dataIndex: 'nom_article',
@@ -72,7 +71,7 @@ const DetailOffre = ({ idOffre }) => {
   return (
     <div style={{ padding: '24px' }}>
       <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>Détails de l'Offre</h1>
+        <h1>Détails de {name}</h1>
       </div>
 
       {loading ? (
