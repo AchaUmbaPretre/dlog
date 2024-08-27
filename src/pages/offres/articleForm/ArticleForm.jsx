@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Form, Input, InputNumber, Row, Col, Button, Card, Spin, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-const { Item: FormItem, List } = Form;
-
 const ArticleForm = () => {
   const [loading, setLoading] = useState(false);
 
@@ -11,12 +9,13 @@ const ArticleForm = () => {
     setLoading(true);
     console.log('Form values:', values);
 
-    // Simulate a network request
+    // Simulation d'une requête réseau
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      // Handle success logic here
+      // Logique de succès
     } catch (error) {
-      // Handle error logic here
+      // Logique en cas d'erreur
+      console.error('Erreur lors de l\'envoi du formulaire:', error);
     } finally {
       setLoading(false);
     }
@@ -29,7 +28,7 @@ const ArticleForm = () => {
         onFinish={onFinish}
         layout="vertical"
         initialValues={{
-          articles: [{}], // Initialize with one article
+          articles: [{}], // Initialiser avec un article
         }}
       >
         <Form.List name="articles">
@@ -54,7 +53,7 @@ const ArticleForm = () => {
                 >
                   <Row gutter={16}>
                     <Col span={8}>
-                      <FormItem
+                      <Form.Item
                         {...restField}
                         name={[name, 'nom_article']}
                         fieldKey={[fieldKey, 'nom_article']}
@@ -62,10 +61,10 @@ const ArticleForm = () => {
                         rules={[{ required: true, message: 'Veuillez entrer le nom de l\'article.' }]}
                       >
                         <Input placeholder="Nom de l'Article" />
-                      </FormItem>
+                      </Form.Item>
                     </Col>
                     <Col span={8}>
-                      <FormItem
+                      <Form.Item
                         {...restField}
                         name={[name, 'prix_unitaire']}
                         fieldKey={[fieldKey, 'prix_unitaire']}
@@ -77,13 +76,13 @@ const ArticleForm = () => {
                           step={0.01}
                           style={{ width: '100%' }}
                           placeholder="Prix Unitaire"
-                          formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                          parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
                         />
-                      </FormItem>
+                      </Form.Item>
                     </Col>
                     <Col span={8}>
-                      <FormItem
+                      <Form.Item
                         {...restField}
                         name={[name, 'id_categorie']}
                         fieldKey={[fieldKey, 'id_categorie']}
@@ -95,7 +94,22 @@ const ArticleForm = () => {
                           style={{ width: '100%' }}
                           placeholder="ID Catégorie"
                         />
-                      </FormItem>
+                      </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'quantite']}
+                        fieldKey={[fieldKey, 'quantite']}
+                        label="Quantité"
+                        rules={[{ required: true, message: 'Veuillez entrer la quantité.' }]}
+                      >
+                        <InputNumber
+                          min={1}
+                          style={{ width: '100%' }}
+                          placeholder="Quantité"
+                        />
+                      </Form.Item>
                     </Col>
                   </Row>
                 </Card>
@@ -105,6 +119,7 @@ const ArticleForm = () => {
                   type="dashed"
                   onClick={() => add()}
                   icon={<PlusOutlined />}
+                  style={{ width: '100%' }}
                 >
                   Ajouter un autre article
                 </Button>
@@ -119,11 +134,15 @@ const ArticleForm = () => {
             loading={loading}
             style={{ width: '100%' }}
           >
-            {loading ? 'Envoi en cours...' : 'Soumettre'}
+            Soumettre
           </Button>
         </Form.Item>
       </Form>
-      {loading && <div style={{ textAlign: 'center', marginTop: 16 }}><Spin tip="Envoi en cours..." /></div>}
+      {loading && (
+        <div style={{ textAlign: 'center', marginTop: 16 }}>
+          <Spin tip="Envoi en cours..." />
+        </div>
+      )}
     </Card>
   );
 };
