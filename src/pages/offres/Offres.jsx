@@ -63,6 +63,7 @@ const Offres = () => {
     setIsFormOffresVisible(false);
     setIsArticleFormVisible(false);
     setIsDocFormVisible(false);
+    setIsListeDocVisible(false)
   };
 
   const handleExporterExcel = () => {
@@ -126,7 +127,7 @@ const Offres = () => {
       dataIndex: 'id_offre', 
       key: 'id_offre', 
       render: (text, record, index) => index + 1, 
-      width: "3%" 
+      width: "8%" 
     },
     { 
       title: 'Nom de l\'offre', 
@@ -308,7 +309,7 @@ const Offres = () => {
         visible={isListeDocVisible}
         onCancel={handleAnnuler}
         footer={null}
-        width={1000}
+        width={800}
         centered
       >
         <ListeDoc idOffre={idOffre}/>

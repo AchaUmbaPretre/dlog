@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,FileTextOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown } from 'antd';
+import { ExportOutlined, FileTextOutlined, MailOutlined, EyeOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { getDetailDoc } from '../../../services/offreService';
+import config from '../../../config';
 
 const { Search } = Input;
 
-const ListeDoc = () => {
+const ListeDoc = ({ idOffre }) => {
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
 
-/*   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getClient();
+        const { data } = await getDetailDoc(idOffre);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -25,8 +28,7 @@ const ListeDoc = () => {
     };
 
     fetchData();
-  }, []); */
-
+  }, [idOffre]);
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -65,13 +67,28 @@ const ListeDoc = () => {
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
+        <Tag icon={<FileExcelOutlined />} color="green">Export to Excel</Tag>
       </Menu.Item>
       <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
+        <Tag icon={<FilePdfOutlined />} color="blue">Export to PDF</Tag>
       </Menu.Item>
     </Menu>
   );
+
+  const getTagProps = (type) => {
+    switch (type) {
+      case 'PDF':
+        return { icon: <FilePdfOutlined />, color: 'red' };
+      case 'Word':
+        return { icon: <FileWordOutlined />, color: 'blue' };
+      case 'Excel':
+        return { icon: <FileExcelOutlined />, color: 'green' };
+      case 'Image':
+        return { icon: <FileImageOutlined />, color: 'orange' };
+      default:
+        return { icon: <FileTextOutlined />, color: 'default' };
+    }
+  };
 
   const columns = [
     {
@@ -93,16 +110,19 @@ const ListeDoc = () => {
       title: 'Type',
       dataIndex: 'type_document',
       key: 'type_document',
-      render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text}</Tag>
-      ),
+      render: (text) => {
+        const { icon, color } = getTagProps(text);
+        return <Tag icon={icon} color={color}>{text}</Tag>;
+      },
     },
     {
       title: 'Doc',
       dataIndex: 'chemin_document',
       key: 'chemin_document',
       render: (text) => (
-        <Tag color="blue">{text}</Tag>
+        <a href={`${DOMAIN}/${text}`} target="_blank" rel="noopener noreferrer">
+          <Tag icon={<DownloadOutlined />} color="blue">Télécharger</Tag>
+        </a>
       ),
     },
     {
@@ -111,14 +131,6 @@ const ListeDoc = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="View Details">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              type="link"
-              aria-label="View client details"
-            />
-          </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
@@ -136,7 +148,7 @@ const ListeDoc = () => {
         </Space>
       ),
     },
-  ]
+  ];
 
   return (
     <>
