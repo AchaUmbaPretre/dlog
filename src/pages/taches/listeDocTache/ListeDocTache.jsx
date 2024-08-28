@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import './client.scss';
-import ClientForm from './clientForm/ClientForm';
-import { getClient } from '../../services/clientService';
-import config from '../../config';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown } from 'antd';
+import { ExportOutlined, FileTextOutlined, MailOutlined, EyeOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import config from '../../../config';
+import { getDetailTacheDoc } from '../../../services/tacheService';
 
 const { Search } = Input;
 
-const Client = () => {
+const ListeDocTache = ({ idTache }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getClient();
+        const { data } = await getDetailTacheDoc(idTache);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -31,15 +28,7 @@ const Client = () => {
     };
 
     fetchData();
-  }, [DOMAIN]);
-
-  const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  }, [idTache]);
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -78,13 +67,28 @@ const Client = () => {
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
+        <Tag icon={<FileExcelOutlined />} color="green">Export to Excel</Tag>
       </Menu.Item>
       <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
+        <Tag icon={<FilePdfOutlined />} color="blue">Export to PDF</Tag>
       </Menu.Item>
     </Menu>
   );
+
+  const getTagProps = (type) => {
+    switch (type) {
+      case 'PDF':
+        return { icon: <FilePdfOutlined />, color: 'red' };
+      case 'Word':
+        return { icon: <FileWordOutlined />, color: 'blue' };
+      case 'Excel':
+        return { icon: <FileExcelOutlined />, color: 'green' };
+      case 'Image':
+        return { icon: <FileImageOutlined />, color: 'orange' };
+      default:
+        return { icon: <FileTextOutlined />, color: 'default' };
+    }
+  };
 
   const columns = [
     {
@@ -95,47 +99,30 @@ const Client = () => {
       width: "3%",
     },
     {
-      title: 'Nom',
-      dataIndex: 'nom',
-      key: 'nom',
+      title: 'Nom doc',
+      dataIndex: 'nom_document',
+      key: 'nom_document',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
-      ),
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text}</Tag>
-      ),
-    },
-    {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
-      render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
-      ),
-    },
-    {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
-      render: (text) => (
-        <> 
-          <Tag icon={<HomeOutlined />} color='cyan'>
-            {text}
-          </Tag>
-        </>
+        <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
       ),
     },
     {
       title: 'Type',
-      dataIndex: 'nom_type',
-      key: 'nom_type',
+      dataIndex: 'type_document',
+      key: 'type_document',
+      render: (text) => {
+        const { icon, color } = getTagProps(text);
+        return <Tag icon={icon} color={color}>{text}</Tag>;
+      },
+    },
+    {
+      title: 'Doc',
+      dataIndex: 'chemin_document',
+      key: 'chemin_document',
       render: (text) => (
-        <Tag color={ text === 'Interne' ? 'green' : "magenta"}>{text}</Tag>
+        <a href={`${DOMAIN}/${text}`} target="_blank" rel="noopener noreferrer">
+          <Tag icon={<DownloadOutlined />} color="blue">Télécharger</Tag>
+        </a>
       ),
     },
     {
@@ -144,25 +131,6 @@ const Client = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="View Details">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              type="link"
-              aria-label="View client details"
-            />
-          </Tooltip>
-          <Tooltip title="Edit">
-            <Popover title="Modifier" trigger="hover">
-              <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleEdit(record)}
-                type="link"
-                aria-label="Edit client"
-              />
-            </Popover>
-          </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
@@ -180,7 +148,7 @@ const Client = () => {
         </Space>
       ),
     },
-  ]
+  ];
 
   return (
     <>
@@ -188,31 +156,18 @@ const Client = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <TeamOutlined className='client-icon' />
+              <FileTextOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Client</h2>
+            <h2 className="client-h2">Liste des documents</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search clients..." enterButton />
+              <Search placeholder="Search doc..." enterButton />
             </div>
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={handleAddClient}
-              >
-                Ajouter un Client
-              </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
             </div>
           </div>
           <Table
@@ -227,19 +182,8 @@ const Client = () => {
           />
         </div>
       </div>
-
-      <Modal
-        title="Ajouter nouveau Client"
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-        width={800}
-        centered
-      >
-        <ClientForm modalOff={setIsModalVisible} />
-      </Modal>
     </>
   );
 };
 
-export default Client;
+export default ListeDocTache;

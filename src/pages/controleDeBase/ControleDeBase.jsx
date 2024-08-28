@@ -304,6 +304,7 @@ const ControleDeBase = () => {
         onCancel={closeModal}
         destroyOnClose
         width={1050}
+        centered
       >
         <ListeSuivi idControle={idControle} closeModal={closeModal} />
       </Modal>
@@ -315,6 +316,7 @@ const ControleDeBase = () => {
         onCancel={closeModal}
         destroyOnClose
         width={900}
+        centered
       >
         <SuiviControle idControle={idControle} closeModal={closeModal} />
       </Modal>
@@ -326,6 +328,7 @@ const ControleDeBase = () => {
         onCancel={closeModal}
         destroyOnClose
         width={1050}
+        centered
       >
         <TacheForm idControle={idControle} closeModal={closeModal} />
       </Modal>

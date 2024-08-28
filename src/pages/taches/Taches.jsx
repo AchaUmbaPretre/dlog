@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip } from 'antd';
-import { ExportOutlined, WarningOutlined,ApartmentOutlined, RocketOutlined, DollarOutlined, CheckSquareOutlined, HourglassOutlined, ClockCircleOutlined, PrinterOutlined,CheckCircleOutlined,CalendarOutlined,TeamOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined,FileDoneOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover } from 'antd';
+import { 
+  ExportOutlined, FileOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
+  CheckSquareOutlined, HourglassOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
+  CalendarOutlined, TeamOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
+} from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { getTache } from '../../services/tacheService';
+import { Link } from 'react-router-dom';
+import ListeDocTache from './listeDocTache/ListeDocTache';
+import TacheDoc from './tacheDoc/TacheDoc';
 
 const { Search } = Input;
 
@@ -10,12 +17,14 @@ const Taches = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [modalType, setModalType] = useState(null);
+  const [idTache, setIdTache] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getTache();
-        setData(data);
+        const response = await getTache();
+        setData(response.data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -29,11 +38,29 @@ const Taches = () => {
     fetchData();
   }, []);
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of tache : ${record.nom}`);
+  const closeAllModals = () => {
+    setModalType(null);
   };
 
-  const handleAddClient = () => {
+  const openModal = (type, idTache = '') => {
+    closeAllModals();
+    setIdTache(idTache);
+    setModalType(type);
+  };
+
+  const handleViewDetails = (record) => {
+    message.info(`Affichage des détails de la tâche : ${record.nom_tache}`);
+  };
+
+  const handleDetailDoc = (idTache) => {
+    openModal('ListeDoc', idTache);
+  };
+
+  const handleAjouterDoc = (idTache) => {
+    openModal('DocumentTacheForm', idTache);
+  };
+
+  const handleAddTask = () => {
     setIsModalVisible(true);
   };
 
@@ -42,11 +69,11 @@ const Taches = () => {
   };
 
   const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
+    message.success('Exportation vers Excel...');
   };
 
   const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
+    message.success('Exportation au format PDF...');
   };
 
   const handlePrint = () => {
@@ -72,106 +99,128 @@ const Taches = () => {
     'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
     'Budget': { icon: <DollarOutlined />, color: 'gold' },
     'Executé': { icon: <RocketOutlined />, color: 'cyan' },
-};
+  };
 
-const columns = [
+  const columns = [
     {
-        title: '#',
-        dataIndex: 'id',
-        key: 'id',
-        render: (text, record, index) => index + 1,
-        width: "3%",
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => index + 1,
+      width: "3%",
     },
     { 
-        title: 'Département', 
-        dataIndex: 'departement', 
-        key: 'nom_departement',
-        render: text => (
+      title: 'Département', 
+      dataIndex: 'departement', 
+      key: 'nom_departement',
+      render: text => (
+        <Space>
+          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      ),
+    },
+    {   
+      title: 'Nom',
+      dataIndex: 'nom_tache', 
+      key: 'nom_tache', 
+      render: text => (
+        <Space>
+          <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      )
+    },
+    {   
+      title: 'Client', 
+      dataIndex: 'nom_client', 
+      key: 'nom_client',
+      render: text => (
+        <Space>
+          <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      )
+    },
+    { 
+      title: 'Statut', 
+      dataIndex: 'statut', 
+      key: 'statut',
+      render: text => {
+        const { icon, color } = statusIcons[text] || {};
+        return (
           <Space>
-            <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+            <Tag icon={icon} color={color}>{text}</Tag>
           </Space>
-        ),
-      },
-    {   
-        title: 'Nom',
-        dataIndex: 'nom_tache', 
-        key: 'nom_tache', 
-        render: text => (
-            <Space>
-              <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
-            </Space>
-        )
-    },
-    {   
-        title: 'Client', 
-        dataIndex: 'nom_client', 
-        key: 'nom_client',
-        render: text => (
-            <Space>
-              <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
-            </Space>
-        )
+        );
+      }
     },
     { 
-        title: 'Statut', 
-        dataIndex: 'statut', 
-        key: 'statut',
-        render: text => {
-            const { icon, color } = statusIcons[text] || {};
-            return (
-                <Space>
-                  <Tag icon={icon} color={color}>{text}</Tag>
-                </Space>
-            );
-        }
+      title: 'Fréquence', 
+      dataIndex: 'frequence', 
+      key: 'frequence',
+      render: text => (
+        <Space>
+          <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
+        </Space>
+      )
     },
     { 
-        title: 'Frequence', 
-        dataIndex: 'frequence', 
-        key: 'frequence',
-        render: text => (
-            <Space>
-              <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
-            </Space>
-        )
-    },
-    { 
-        title: 'Demandeur', 
-        dataIndex: 'owner', 
-        key: 'owner',
-        render: text => (
-            <Space>
-              <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
-            </Space>
-        )
-    },
-    { 
-        title: 'Owner', 
-        dataIndex: 'owner', 
-        key: 'owner',
-        render: text => (
-            <Space>
-              <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
-            </Space>
-        )
+      title: 'Demandeur', 
+      dataIndex: 'demandeur', 
+      key: 'demandeur',
+      render: text => (
+        <Space>
+          <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
+        </Space>
+      )
     },
     {
-        title: 'Action',
-        key: 'action',
-        width: '10%',
-        render : (text, record) => (
-            <Space size="middle">
-                <Tooltip title="View Details">
-                    <Button
-                        icon={<EyeOutlined />}
-                        onClick={() => handleViewDetails(record)}
-                        aria-label="View client details"
-                    />
-                </Tooltip>
-            </Space>
-        )
+      title: 'Owner', 
+      dataIndex: 'owner', 
+      key: 'owner',
+      render: text => (
+        <Space>
+          <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
+        </Space>
+      )
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      width: '10%',
+      render : (text, record) => (
+        <Space size="middle">
+          <Tooltip title="Voir les détails">
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() => handleViewDetails(record)}
+              aria-label="Voir les détails de la tâche"
+            />
+          </Tooltip>
+          <Popover
+            content={
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <Link onClick={() => handleDetailDoc(record.id_tache)} >
+                  <FileTextOutlined /> Liste des docs
+                </Link>
+                <Link onClick={() => handleAjouterDoc(record.id_tache)} >
+                  <FileTextOutlined /> Ajouter un doc
+                </Link>
+              </div>
+            }
+            title=""
+            trigger="click"
+          >
+            <Tooltip title="Documents">
+              <Button
+                icon={<FileOutlined />}
+                style={{ color: 'green' }}
+                aria-label="Documents"
+              />
+            </Tooltip>
+          </Popover>
+        </Space>
+      )
     }
-];
+  ];
 
   return (
     <>
@@ -185,32 +234,33 @@ const columns = [
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search clients..." enterButton />
+              <Search placeholder="Rechercher des tâches..." enterButton />
             </div>
             <div className="client-rows-right">
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
-                onClick={handleAddClient}
+                onClick={handleAddTask}
               >
-                Tâches
+                Ajouter une tâche
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
+                <Button icon={<ExportOutlined />}>Exporter</Button>
               </Dropdown>
               <Button
                 icon={<PrinterOutlined />}
                 onClick={handlePrint}
               >
-                Print
+                Imprimer
               </Button>
             </div>
           </div>
           <Table
             columns={columns}
             dataSource={data}
+            loading={loading}
             pagination={{ pageSize: 10 }}
-            rowKey="key"
+            rowKey="id"
             bordered
             size="middle"
             scroll={{ x: 'max-content' }}
@@ -224,8 +274,31 @@ const columns = [
         onCancel={handleCancel}
         footer={null}
         width={850}
+        centered
       >
         <TacheForm/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'DocumentTacheForm'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <TacheDoc idTache={idTache} />
+      </Modal>
+
+      <Modal
+        title="Liste des documents"
+        visible={modalType === 'ListeDoc'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <ListeDocTache idTache={idTache} />
       </Modal>
     </>
   );

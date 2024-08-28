@@ -12,13 +12,24 @@ export const getTacheOne = async (id) => {
     return axios.get(`${DOMAIN}/api/tache/one?id_tache=${id}`);
   };
 
+export const getDetailTacheDoc = async (id) => {
+    return axios.get(`${DOMAIN}/api/tache/detail_tache_doc?id_tache=${id}`);
+  };
+
 export const getTacheControleOne = async (id) => {
     return axios.get(`${DOMAIN}/api/tache/controleTacheOne?id_controle=${id}`);
   };
 
 export const postTache = async (data) => {
-  console.log(data)
   return axios.post(`${DOMAIN}/api/tache`, data);
+};
+
+export const postTacheDoc = async (data) => {
+  return axios.post(`${DOMAIN}/api/tache/tache_doc`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };
 
 export const deleteTache = async (id) => {
