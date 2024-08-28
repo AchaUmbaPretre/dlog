@@ -162,16 +162,6 @@ const Taches = () => {
         </Space>
       )
     },
-    { 
-      title: 'Demandeur', 
-      dataIndex: 'demandeur', 
-      key: 'demandeur',
-      render: text => (
-        <Space>
-          <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
-        </Space>
-      )
-    },
     {
       title: 'Owner', 
       dataIndex: 'owner', 

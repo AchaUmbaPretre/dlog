@@ -13,7 +13,6 @@ const TacheDoc = ({idTache}) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-
   const handleFinish = async (values) => {
     const formData = new FormData();
     formData.append('nom_document', values.nom_document);
