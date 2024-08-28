@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs } from 'antd';
 import { 
   ExportOutlined, FileOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
@@ -10,6 +10,8 @@ import { getTache } from '../../services/tacheService';
 import { Link } from 'react-router-dom';
 import ListeDocTache from './listeDocTache/ListeDocTache';
 import TacheDoc from './tacheDoc/TacheDoc';
+import FormatCalendar from './formatCalendar/FormatCalendar';
+import moment from 'moment';
 
 const { Search } = Input;
 
@@ -153,6 +155,28 @@ const Taches = () => {
         );
       }
     },
+    {
+      title: 'Date debut & fin',
+      dataIndex: 'date_debut',
+      key: 'date_debut',
+      sorter: (a, b) => moment(a.date_debut) - moment(b.date_debut),
+      sortDirections: ['descend', 'ascend'],
+      render: (text,record) => 
+        <Tag icon={<CalendarOutlined />} color="blue">
+          {moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}
+        </Tag>
+    },
+    {
+      title: 'Nbre jour',
+      dataIndex: 'nbre_jour',
+      key: 'nbre_jour',
+      sorter: (a, b) => moment(a.nbre_jour) - moment(b.nbre_jour),
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => 
+        <Tag icon={<CalendarOutlined />} color="blue">
+          {text}
+        </Tag>
+    },
     { 
       title: 'Fréquence', 
       dataIndex: 'frequence', 
@@ -223,39 +247,47 @@ const Taches = () => {
             </div>
             <h2 className="client-h2">Tâches</h2>
           </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search placeholder="Rechercher des tâches..." enterButton />
-            </div>
-            <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={handleAddTask}
-              >
-                Ajouter une tâche
-              </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Exporter</Button>
-              </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Imprimer
-              </Button>
-            </div>
-          </div>
-          <Table
-            columns={columns}
-            dataSource={data}
-            loading={loading}
-            pagination={{ pageSize: 10 }}
-            rowKey="id"
-            bordered
-            size="middle"
-            scroll={scroll}
-          />
+          <Tabs defaultActiveKey="0">
+            <Tabs.TabPane tab='Liste de tache' key="0">
+              <div className="client-actions">
+                <div className="client-row-left">
+                  <Search placeholder="Rechercher des tâches..." enterButton />
+                </div>
+                <div className="client-rows-right">
+                  <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddTask}
+                  >
+                    Ajouter une tâche
+                  </Button>
+                  <Dropdown overlay={menu} trigger={['click']}>
+                    <Button icon={<ExportOutlined />}>Exporter</Button>
+                  </Dropdown>
+                  <Button
+                    icon={<PrinterOutlined />}
+                    onClick={handlePrint}
+                  >
+                    Imprimer
+                  </Button>
+                </div>
+              </div>
+              <Table
+                columns={columns}
+                dataSource={data}
+                loading={loading}
+                pagination={{ pageSize: 10 }}
+                rowKey="id"
+                bordered
+                size="middle"
+                scroll={scroll}
+              />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab='Vue calendrier' key="1">
+              <FormatCalendar/>
+            </Tabs.TabPane>
+
+          </Tabs>
         </div>
       </div>
 
