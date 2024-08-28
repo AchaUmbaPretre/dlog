@@ -284,7 +284,6 @@ const Taches = () => {
         visible={modalType === 'DocumentTacheForm'}
         onCancel={closeAllModals}
         footer={null}
-        width={850}
         centered
       >
         <TacheDoc idTache={idTache} />
