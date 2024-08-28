@@ -12,8 +12,18 @@ export const getOffreDetail = async (id) => {
   };
 
 export const postOffre = async (data) => {
-  return axios.post(`${DOMAIN}/api/offre`, data);
+  return axios.post(`${DOMAIN}/api/offre`, data,{
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };
+
+
+export const postOffreDoc = async (data) => {
+    return axios.post(`${DOMAIN}/api/offre/doc`, data);
+  };
+  
 
 export const postOffreArticle = async (data) => {
     return axios.post(`${DOMAIN}/api/offre/article`, data);

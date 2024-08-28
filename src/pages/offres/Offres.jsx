@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, DollarOutlined,PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
+import { ExportOutlined, DollarOutlined,FileTextOutlined, FileOutlined, PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -8,6 +8,9 @@ import FormOffres from './formOffres/FormOffres';
 import { getOffre } from '../../services/offreService';
 import ArticleForm from './articleForm/ArticleForm';
 import DetailOffre from './detailOffre/DetailOffre';
+import DocumentOffreForm from './documentOffreForm/DocumentOffreForm';
+import { Link } from 'react-router-dom';
+import ListeDoc from './listeDoc/ListeDoc';
 
 moment.locale('fr');
 
@@ -20,13 +23,28 @@ const Offres = () => {
   const [isFormOffresVisible, setIsFormOffresVisible] = useState(false);
   const [isArticleFormVisible, setIsArticleFormVisible] = useState(false);
   const [isDetailFormVisible, setIsDetailFormVisible] = useState(false);
+  const [isDocFormVisible, setIsDocFormVisible] = useState(false);
+  const [isListeDocVisible, setIsListeDocVisible] = useState(false);
   const [idOffre, setIdOffre] = useState('');
+
+
+  const handleDetailDoc = (idOffre) => {
+    setIdOffre(idOffre);
+    setIsListeDocVisible(true);
+    setIsFormOffresVisible(false);
+  };
 
   const handleVoirDetails = (idOffre) => {
     message.info(`Visualisation des détails de l'offre : ${idOffre}`);
     setIdOffre(idOffre);
     setIsDetailFormVisible(true);
     setIsFormOffresVisible(false);
+  };
+
+  const handleAjouterDoc = (idOffre) => {
+    setIsArticleFormVisible(false);
+    setIsDocFormVisible(true);
+    setIdOffre(idOffre);
   };
 
   const handleAjouterOffre = () => {
@@ -44,6 +62,7 @@ const Offres = () => {
     setIsDetailFormVisible(false);
     setIsFormOffresVisible(false);
     setIsArticleFormVisible(false);
+    setIsDocFormVisible(false);
   };
 
   const handleExporterExcel = () => {
@@ -143,13 +162,35 @@ const Offres = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Voir détails">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleVoirDetails(record.id_offre)}
-              aria-label="Voir les détails de l'offre"
-            />
-          </Tooltip>
+            <Tooltip title="Voir détails">
+                <Button
+                icon={<EyeOutlined />}
+                onClick={() => handleVoirDetails(record.id_offre)}
+                aria-label="Voir les détails de l'offre"
+                />
+            </Tooltip>
+            <Popover
+                content={
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        <Link onClick={()=> handleDetailDoc(record.id_offre)} >
+                            <FileTextOutlined /> Liste des docs
+                        </Link>
+                        <Link onClick={() => handleAjouterDoc(record.id_offre)} >
+                            <FileTextOutlined /> Ajouter un doc
+                        </Link>
+                    </div>
+                }
+                title=""
+                trigger="click"
+            >
+                <Tooltip title="Doc">
+                    <Button
+                        icon={<FileOutlined />}
+                        style={{ color: 'green' }}
+                        aria-label="Doc"
+                    />
+                </Tooltip>
+            </Popover>
           <Tooltip title="Ajouter des articles">
             <Button
               icon={<PlusCircleOutlined />}
@@ -249,6 +290,28 @@ const Offres = () => {
         centered
       >
         <DetailOffre idOffre={idOffre}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={isDocFormVisible}
+        onCancel={handleAnnuler}
+        footer={null}
+        width={600}
+        centered
+      >
+        <DocumentOffreForm idOffre={idOffre}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={isListeDocVisible}
+        onCancel={handleAnnuler}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <ListeDoc idOffre={idOffre}/>
       </Modal>
     </>
   );
