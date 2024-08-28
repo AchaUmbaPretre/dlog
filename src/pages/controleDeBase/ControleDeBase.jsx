@@ -28,6 +28,7 @@ const ControleDeBase = () => {
   const [data, setData] = useState([]);
   const [idControle, setIdControle] = useState('');
   const [modalState, setModalState] = useState(null);
+  const scroll = { x: 400 };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -278,6 +279,7 @@ const ControleDeBase = () => {
                   rowKey="id_controle"
                   bordered
                   pagination={{ defaultPageSize: 5 }}
+                  scroll={scroll}
                 />
               </div>
             </Tabs.TabPane>

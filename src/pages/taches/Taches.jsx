@@ -19,6 +19,7 @@ const Taches = () => {
   const [loading, setLoading] = useState(true);
   const [modalType, setModalType] = useState(null);
   const [idTache, setIdTache] = useState('');
+  const scroll = { x: 400 };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -253,7 +254,7 @@ const Taches = () => {
             rowKey="id"
             bordered
             size="middle"
-            scroll={{ x: 'max-content' }}
+            scroll={scroll}
           />
         </div>
       </div>
