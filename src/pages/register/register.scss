@@ -1,0 +1,57 @@
+.register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  
+    .register_wrapper {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+  
+      .register_header {
+        margin-bottom: 20px;
+        h2 {
+          font-size: 28px;
+          color: #333;
+          margin: 0;
+          font-family: 'Roboto', sans-serif;
+        }
+      }
+  
+      .register_form {
+        .site_form_item_icon {
+          color: #1890ff;
+        }
+  
+        .register_form_button {
+          background-color: #1890ff;
+          border-color: #1890ff;
+          &:hover {
+            background-color: #40a9ff;
+            border-color: #40a9ff;
+          }
+        }
+      }
+  
+      .register_footer_note {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+        a {
+          color: #1890ff;
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
