@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, DollarOutlined,FileTextOutlined, FileOutlined, PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, DollarOutlined, FileTextOutlined, FileOutlined, PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -20,50 +20,38 @@ const Offres = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isFormOffresVisible, setIsFormOffresVisible] = useState(false);
-  const [isArticleFormVisible, setIsArticleFormVisible] = useState(false);
-  const [isDetailFormVisible, setIsDetailFormVisible] = useState(false);
-  const [isDocFormVisible, setIsDocFormVisible] = useState(false);
-  const [isListeDocVisible, setIsListeDocVisible] = useState(false);
+  const [modalType, setModalType] = useState(null); // Pour suivre le type de modal ouvert
   const [idOffre, setIdOffre] = useState('');
 
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type, idOffre = '') => {
+    closeAllModals();
+    setIdOffre(idOffre);
+    setModalType(type);
+  };
 
   const handleDetailDoc = (idOffre) => {
-    setIdOffre(idOffre);
-    setIsListeDocVisible(true);
-    setIsFormOffresVisible(false);
+    openModal('ListeDoc', idOffre);
   };
 
   const handleVoirDetails = (idOffre) => {
     message.info(`Visualisation des détails de l'offre : ${idOffre}`);
-    setIdOffre(idOffre);
-    setIsDetailFormVisible(true);
-    setIsFormOffresVisible(false);
+    openModal('DetailOffre', idOffre);
   };
 
   const handleAjouterDoc = (idOffre) => {
-    setIsArticleFormVisible(false);
-    setIsDocFormVisible(true);
-    setIdOffre(idOffre);
+    openModal('DocumentOffreForm', idOffre);
   };
 
   const handleAjouterOffre = () => {
-    setIsArticleFormVisible(false);
-    setIsFormOffresVisible(true);
+    openModal('FormOffres');
   };
 
   const handleAjouterArticle = (idOffre) => {
-    setIdOffre(idOffre);
-    setIsFormOffresVisible(false);
-    setIsArticleFormVisible(true);
-  };
-
-  const handleAnnuler = () => {
-    setIsDetailFormVisible(false);
-    setIsFormOffresVisible(false);
-    setIsArticleFormVisible(false);
-    setIsDocFormVisible(false);
-    setIsListeDocVisible(false)
+    openModal('ArticleForm', idOffre);
   };
 
   const handleExporterExcel = () => {
@@ -163,35 +151,35 @@ const Offres = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-            <Tooltip title="Voir détails">
-                <Button
-                icon={<EyeOutlined />}
-                onClick={() => handleVoirDetails(record.id_offre)}
-                aria-label="Voir les détails de l'offre"
-                />
+          <Tooltip title="Voir détails">
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() => handleVoirDetails(record.id_offre)}
+              aria-label="Voir les détails de l'offre"
+            />
+          </Tooltip>
+          <Popover
+            content={
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <Link onClick={() => handleDetailDoc(record.id_offre)} >
+                  <FileTextOutlined /> Liste des docs
+                </Link>
+                <Link onClick={() => handleAjouterDoc(record.id_offre)} >
+                  <FileTextOutlined /> Ajouter un doc
+                </Link>
+              </div>
+            }
+            title=""
+            trigger="click"
+          >
+            <Tooltip title="Doc">
+              <Button
+                icon={<FileOutlined />}
+                style={{ color: 'green' }}
+                aria-label="Doc"
+              />
             </Tooltip>
-            <Popover
-                content={
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                        <Link onClick={()=> handleDetailDoc(record.id_offre)} >
-                            <FileTextOutlined /> Liste des docs
-                        </Link>
-                        <Link onClick={() => handleAjouterDoc(record.id_offre)} >
-                            <FileTextOutlined /> Ajouter un doc
-                        </Link>
-                    </div>
-                }
-                title=""
-                trigger="click"
-            >
-                <Tooltip title="Doc">
-                    <Button
-                        icon={<FileOutlined />}
-                        style={{ color: 'green' }}
-                        aria-label="Doc"
-                    />
-                </Tooltip>
-            </Popover>
+          </Popover>
           <Tooltip title="Ajouter des articles">
             <Button
               icon={<PlusCircleOutlined />}
@@ -262,8 +250,8 @@ const Offres = () => {
 
       <Modal
         title="Ajouter une Offre"
-        visible={isFormOffresVisible}
-        onCancel={handleAnnuler}
+        visible={modalType === 'FormOffres'}
+        onCancel={closeAllModals}
         footer={null}
         width={700}
         centered
@@ -273,8 +261,8 @@ const Offres = () => {
 
       <Modal
         title=""
-        visible={isArticleFormVisible}
-        onCancel={handleAnnuler}
+        visible={modalType === 'ArticleForm'}
+        onCancel={closeAllModals}
         footer={null}
         width={900}
         centered
@@ -284,8 +272,8 @@ const Offres = () => {
 
       <Modal
         title="Détails de l'Offre"
-        visible={isDetailFormVisible}
-        onCancel={handleAnnuler}
+        visible={modalType === 'DetailOffre'}
+        onCancel={closeAllModals}
         footer={null}
         width={700}
         centered
@@ -295,8 +283,8 @@ const Offres = () => {
 
       <Modal
         title=""
-        visible={isDocFormVisible}
-        onCancel={handleAnnuler}
+        visible={modalType === 'DocumentOffreForm'}
+        onCancel={closeAllModals}
         footer={null}
         width={600}
         centered
@@ -306,8 +294,8 @@ const Offres = () => {
 
       <Modal
         title=""
-        visible={isListeDocVisible}
-        onCancel={handleAnnuler}
+        visible={modalType === 'ListeDoc'}
+        onCancel={closeAllModals}
         footer={null}
         width={800}
         centered
