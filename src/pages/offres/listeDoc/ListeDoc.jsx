@@ -114,26 +114,6 @@ const ListeDoc = () => {
       ),
     },
     {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
-      render: (text) => (
-        <> 
-          <Tag icon={<HomeOutlined />} color='cyan'>
-            {text}
-          </Tag>
-        </>
-      ),
-    },
-    {
-      title: 'Type',
-      dataIndex: 'nom_type',
-      key: 'nom_type',
-      render: (text) => (
-        <Tag color={ text === 'Interne' ? 'green' : "magenta"}>{text}</Tag>
-      ),
-    },
-    {
       title: 'Action',
       key: 'action',
       width: '10%',
@@ -146,17 +126,6 @@ const ListeDoc = () => {
               type="link"
               aria-label="View client details"
             />
-          </Tooltip>
-          <Tooltip title="Edit">
-            <Popover title="Modifier" trigger="hover">
-              <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleEdit(record)}
-                type="link"
-                aria-label="Edit client"
-              />
-            </Popover>
           </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
