@@ -248,6 +248,7 @@ const ControleDeBase = () => {
                     placeholder="Recherche..."
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
+                    enterButton
                   />
                 </div>
                 <div className="client-row-right" style={{display:'flex', gap:'10px'}}>

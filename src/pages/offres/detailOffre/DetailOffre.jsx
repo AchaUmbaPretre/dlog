@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Card, Table, Button, Space, notification, Spin } from 'antd';
+import { Card, Table, Button, Divider, Space, notification, Spin } from 'antd';
 import { getOffreDetail } from '../../../services/offreService';
 import html2pdf from 'html2pdf.js';
 
 const DetailOffre = ({ idOffre }) => {
   const [data, setData] = useState([]);
-  const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
+  const [name, setName] = useState('');
   const pdfRef = useRef();
-  const scroll = { x: 400 };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,12 +24,22 @@ const DetailOffre = ({ idOffre }) => {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, [idOffre]);
 
+  const calculateTotal = () => {
+    return data.reduce((acc, item) => acc + item.montant, 0).toFixed(2);
+  };
 
   const columns = [
+    {
+        title: '#',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index) => index + 1,
+        width: "3%",
+      },
     {
       title: 'Article',
       dataIndex: 'nom_article',
@@ -69,33 +77,44 @@ const DetailOffre = ({ idOffre }) => {
   };
 
   return (
-    <div style={{ padding: '24px' }}>
-      <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>Détails de {name}</h1>
-      </div>
+    <>
+        <div style={{ padding: '24px' }} ref={pdfRef}>
+            <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h1>Détails de l'Offre : {name}</h1>
+            </div>
 
-      {loading ? (
-        <Spin size="large" tip="Chargement des données..." />
-      ) : (
-        <Card bordered={false} style={{ marginBottom: '24px' }}>
-          <div ref={pdfRef}>
-            <Table
-              dataSource={data}
-              columns={columns}
-              rowKey="nom_article"
-              pagination={false}
-              scroll={scroll}
-            />
-          </div>
+        {loading ? (
+            <Spin size="large" tip="Chargement des données..." />
+        ) : (
+            <Card bordered={false} style={{ marginBottom: '24px' }}>
+            <div >
+                <Table
+                dataSource={data}
+                columns={columns}
+                rowKey="nom_article"
+                pagination={false}
+                summary={() => (
+                    <Table.Summary.Row>
+                    <Table.Summary.Cell index={0} colSpan={4} align="right">
+                        <strong>Total:</strong>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell index={1}>
+                        <strong>{`${calculateTotal()} $`}</strong>
+                    </Table.Summary.Cell>
+                    </Table.Summary.Row>
+                )}
+                scroll={{ x: 'max-content' }}
+                />
+            </div>
+            </Card>
+        )}  
+        </div>
+        <Card bordered={false}>
+            <Space>
+                <Button type="primary" disabled={loading} onClick={handleExportPDF}>Télécharger PDF</Button>
+            </Space>
         </Card>
-      )}
-
-      <Card bordered={false}>
-        <Space>
-          <Button type="primary" disabled={loading} onClick={handleExportPDF}>Télécharger PDF</Button>
-        </Space>
-      </Card>
-    </div>
+    </>
   );
 };
 
