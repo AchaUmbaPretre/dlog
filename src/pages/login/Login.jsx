@@ -1,11 +1,28 @@
-import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, Checkbox, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.scss';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../services/authService';
+import { login } from '../../redux/apiCalls';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  const onFinish = async(values) => {
+        setIsLoading(true);
+
+        try {
+            await login(dispatch, values, navigate);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
   };
 
   return (

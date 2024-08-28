@@ -17,15 +17,21 @@ import Budget from './pages/budget/Budget';
 import Projet from './pages/projet/Projet';
 import Fournisseur from './pages/fournisseur/Fournisseur';
 import Offres from './pages/offres/Offres';
+import { useSelector } from 'react-redux';
+import { Spin } from 'antd';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const user = useSelector((state) => state.user?.currentUser);
 
-  const SecureRoute = ({ children }) => (
-    !currentUser ? <Navigate to="/login" /> : children
-  );
+  const SecureRoute = ({ children }) => {
+    if (!user) {
+      return <Navigate to="/login" />;
+    }
+    return children;
+  };
+
 
   const Layout = () => (
     <div className='app-rows'>

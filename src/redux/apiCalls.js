@@ -8,7 +8,7 @@ export const login = async (dispatch, user, navigate) => {
 
   dispatch(loginStart());
   try {
-    const res = await axios.post(`${DOMAIN}/users/login`, user);
+    const res = await axios.post(`${DOMAIN}/api/auth/login`, user);
     console.log(res.data)
     dispatch(loginSuccess(res.data));
     if (res.data.success) {
@@ -28,7 +28,7 @@ export const register = async (dispatch, user) => {
 
   dispatch(loginStart());
   try {
-    const res = await axios.post(`${DOMAIN}/users/register`, user);
+    const res = await axios.post(`${DOMAIN}/api/auth/register`, user);
     dispatch(loginSuccess(res.data));
     if (res.data.success) {
       message.success("Connectez-vous avec succès");

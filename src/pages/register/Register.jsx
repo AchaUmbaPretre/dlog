@@ -1,11 +1,34 @@
-import React from 'react';
-import { Form, Input, Button } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, notification } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import './register.scss';
+import { register } from '../../redux/apiCalls';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const Register = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  const onFinish = async (values) => {
+
+    try {
+      setIsLoading(true);
+      await register(dispatch, values);
+      notification.success({
+        message: 'Succes',
+        description :'Enregistrement réussi !'
+      });
+      navigate('/login');
+      window.location.reload();
+  } catch (error) {
+      notification.error("Erreur lors de l'enregistrement.");
+      console.log(error);
+  } finally {
+      setIsLoading(false);
+  }
   };
 
   return (
