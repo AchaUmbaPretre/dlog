@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Upload, Select, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { postOffreDoc } from '../../../services/offreService';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import { postTacheDoc } from '../../../services/tacheService';
@@ -20,7 +19,6 @@ const TacheDoc = ({idTache}) => {
     formData.append('nom_document', values.nom_document);
     formData.append('type_document', values.type_document);
   
-    // Ajouter les fichiers
     if (values.chemin_document && values.chemin_document.length > 0) {
       values.chemin_document.forEach(file => {
         formData.append('chemin_document', file.originFileObj);
