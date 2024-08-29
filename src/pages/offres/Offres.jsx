@@ -276,7 +276,7 @@ const Offres = () => {
       </Modal>
 
       <Modal
-        title="Détails de l'Offre"
+        title=""
         visible={modalType === 'DetailOffre'}
         onCancel={closeAllModals}
         footer={null}
