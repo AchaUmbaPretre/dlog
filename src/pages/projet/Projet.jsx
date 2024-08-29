@@ -209,7 +209,7 @@ const Projet = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search projet..." enterButton />
+              <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-rows-right">
               <Button

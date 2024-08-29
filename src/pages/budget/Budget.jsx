@@ -255,7 +255,7 @@ const Budget = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search clients..." enterButton />
+              <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-rows-right">
 {/*               <Button
