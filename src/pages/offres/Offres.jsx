@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, DollarOutlined, FileTextOutlined, FileOutlined, PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, DollarOutlined, FileTextOutlined,UserOutlined, FileOutlined, PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -111,10 +111,14 @@ const Offres = () => {
 
   const colonnes = [
     { 
-      title: '#', 
+      title: 'Numéro', 
       dataIndex: 'id_offre', 
       key: 'id_offre', 
-      render: (text, record, index) => index + 1, 
+      render: (text, record, index) => (
+        <Space>
+          <Tag color='blue'>{index + 1}</Tag>
+        </Space>
+      ), 
       width: "8%" 
     },
     { 
@@ -123,7 +127,7 @@ const Offres = () => {
       key: 'nom_offre',
       render: text => (
         <Space>
-          <Tag color='cyan'>{text}</Tag>
+          <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
@@ -133,7 +137,7 @@ const Offres = () => {
       key: 'nom_fournisseur',
       render: text => (
         <Space>
-          <Tag color='cyan'>{text}</Tag>
+          <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
@@ -142,7 +146,7 @@ const Offres = () => {
       dataIndex: 'date_creation', 
       key: 'date_creation',
       render: text => (
-        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('LL')}</Tag>
+        <Tag icon={<CalendarOutlined />} color='purple'>{moment(text).format('LL')}</Tag>
       ),
     },
     {
@@ -172,11 +176,11 @@ const Offres = () => {
             title=""
             trigger="click"
           >
-            <Tooltip title="Doc">
+            <Tooltip title="Documents">
               <Button
                 icon={<FileOutlined />}
                 style={{ color: 'green' }}
-                aria-label="Doc"
+                aria-label="Documents"
               />
             </Tooltip>
           </Popover>
@@ -190,7 +194,7 @@ const Offres = () => {
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer cette offre ?"
-              onConfirm={() => handleSupprimer(record.id_budget)}
+              onConfirm={() => handleSupprimer(record.id_offre)}
               okText="Oui"
               cancelText="Non"
             >
