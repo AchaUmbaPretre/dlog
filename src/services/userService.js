@@ -12,6 +12,7 @@ export const getUserOne = async (id) => {
     return axios.get(`${DOMAIN}/api/user/one?id_user=${id}`);
   };
 
+
 export const postUser = async (data) => {
   return axios.post(`${DOMAIN}/api/user`, data);
 };

@@ -3,6 +3,7 @@ import { Table, Button, Modal, Input, Tag, message, Dropdown, Menu, notification
 import { ExportOutlined, PrinterOutlined,MailOutlined, UserOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getUser } from '../../services/userService';
+import FormUsers from './formUsers/FormUsers';
 
 const { Search } = Input;
 
@@ -190,13 +191,14 @@ const Users = () => {
       </div>
 
       <Modal
-        title="Ajouter nouveau utilisateur"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={800}
+        centered
       >
-{/*         <ClientForm modalOff={setIsModalVisible} /> */}
+        <FormUsers/>
       </Modal>
     </>
   );
