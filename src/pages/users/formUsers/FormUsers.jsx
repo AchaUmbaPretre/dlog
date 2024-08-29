@@ -74,7 +74,7 @@ const FormUsers = () => {
             <Form.Item
               label="Mot de Passe"
               name="mot_de_passe"
-              rules={[{ required: true, message: 'Le mot de passe est obligatoire' }]}
+              rules={[{ required: false, message: 'Le mot de passe n/est obligatoire' }]}
             >
               <Input.Password placeholder="Entrez le mot de passe" />
             </Form.Item>

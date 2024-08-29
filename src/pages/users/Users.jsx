@@ -52,7 +52,7 @@ const Users = () => {
   };
 
   const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
+    message.info(`Modification d'utilisateur : ${record.nom}`);
   };
 
   const handleDelete = async (id) => {
@@ -70,7 +70,7 @@ const Users = () => {
   };
 
   const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
+    message.info(`Affichage des détails de : ${record.nom}`);
   };
 
   const menu = (
@@ -164,7 +164,7 @@ const Users = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Utilisateur
+                Ajouter un utilisateur
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
