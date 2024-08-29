@@ -190,7 +190,7 @@ const Users = () => {
       </div>
 
       <Modal
-        title="Ajouter nouveau Client"
+        title="Ajouter nouveau utilisateur"
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
