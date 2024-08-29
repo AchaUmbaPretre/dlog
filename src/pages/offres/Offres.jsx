@@ -244,6 +244,7 @@ const Offres = () => {
             dataSource={data}
             rowKey="id_budget"
             loading={loading}
+            bordered
           />
         </div>
       </div>
