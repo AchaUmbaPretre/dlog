@@ -12,7 +12,7 @@ const Format = () => {
   const scroll = { x: 400 };
 
   const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
+    message.info(`Modification du: ${record.nom}`);
   };
 
   const handleDelete = async (id) => {
@@ -20,7 +20,7 @@ const Format = () => {
       // Uncomment when delete function is available
       // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
+      message.success('Format supprimé avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -148,7 +148,7 @@ const Format = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search clients..." enterButton />
+              <Search placeholder="Recherche de format..." enterButton />
             </div>
             <div className="client-rows-right">
               <Button
@@ -156,7 +156,7 @@ const Format = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Format
+                Ajouter un Format
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>

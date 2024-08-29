@@ -147,7 +147,7 @@ const Frequence = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search clients..." enterButton />
+              <Search placeholder="Fréquence de recherche..." enterButton />
             </div>
             <div className="client-rows-right">
               <Button

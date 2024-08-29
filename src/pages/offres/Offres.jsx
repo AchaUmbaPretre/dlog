@@ -230,7 +230,7 @@ const Offres = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAjouterOffre}
               >
-                Offre
+                Ajouter une Offre
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Exporter</Button>
