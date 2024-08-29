@@ -1,21 +1,34 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, message } from 'antd';
 import {
-  UserOutlined,
   HomeOutlined,
-  TeamOutlined,
   ApartmentOutlined,
   FileDoneOutlined,
   SettingOutlined,
-  LogoutOutlined, // Ajoutez cette importation pour l'icône de déconnexion
+  LogoutOutlined,
 } from '@ant-design/icons';
 import './sideBar.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../../services/authService';
 
 const { Sider } = Layout;
 const { SubMenu, Item } = Menu;
 
 const SideBar = () => {
+  const navigate = useNavigate()
+
+  const Logout = async () => {
+    try {
+      await logout()
+      localStorage.removeItem('persist:root');
+      message.success('Déconnexion réussie !');
+      navigate('/login');
+      window.location.reload();
+    } catch (error) {
+      message.error('Erreur lors de la déconnexion.');
+    }
+  };
+
   return (
     <div className="sidebar">
       <Sider>
@@ -86,8 +99,8 @@ const SideBar = () => {
               </Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="logout" icon={<LogoutOutlined />} className="logout-item">
-            <Link to="/logout">Déconnecter</Link>
+          <Item key="logout" icon={<LogoutOutlined />} className="logout-item" onClick={Logout}>
+            <Link>Déconnecter</Link>
           </Item>
         </Menu>
       </Sider>

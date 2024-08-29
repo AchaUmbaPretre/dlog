@@ -11,24 +11,25 @@ const Register = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-
   const onFinish = async (values) => {
-
     try {
       setIsLoading(true);
       await register(dispatch, values);
       notification.success({
-        message: 'Succes',
-        description :'Enregistrement réussi !'
+        message: 'Succès',
+        description: 'Enregistrement réussi !',
       });
       navigate('/login');
       window.location.reload();
-  } catch (error) {
-      notification.error("Erreur lors de l'enregistrement.");
+    } catch (error) {
+      notification.error({
+        message: 'Erreur',
+        description: "Erreur lors de l'enregistrement.",
+      });
       console.log(error);
-  } finally {
+    } finally {
       setIsLoading(false);
-  }
+    }
   };
 
   return (
@@ -69,7 +70,7 @@ const Register = () => {
           >
             <Input.Password
               prefix={<LockOutlined className="site_form_item_icon" />}
-              placeholder="Password"
+              placeholder="Mot de passe"
               size="large"
             />
           </Form.Item>
@@ -83,20 +84,27 @@ const Register = () => {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject('Les deux mots de passe que vous avez saisis ne correspondent pas !');
+                  return Promise.reject(new Error('Les deux mots de passe que vous avez saisis ne correspondent pas !'));
                 },
               }),
             ]}
           >
             <Input.Password
               prefix={<LockOutlined className="site_form_item_icon" />}
-              placeholder="Confirm Password"
+              placeholder="Confirmez le mot de passe"
               size="large"
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="register_form_button" size="large" block>
-              Registre
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="register_form_button"
+              size="large"
+              block
+              loading={isLoading}
+            >
+              S'inscrire
             </Button>
           </Form.Item>
         </Form>

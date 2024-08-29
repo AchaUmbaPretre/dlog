@@ -12,17 +12,16 @@ const Login = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
+  const onFinish = async (values) => {
+    setIsLoading(true);
 
-  const onFinish = async(values) => {
-        setIsLoading(true);
-
-        try {
-            await login(dispatch, values, navigate);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsLoading(false);
-        }
+    try {
+      await login(dispatch, values, navigate);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -66,7 +65,14 @@ const Login = () => {
             </a>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login_form_button" size="large" block>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login_form_button"
+              size="large"
+              block
+              loading={isLoading}
+            >
               Se connecter
             </Button>
           </Form.Item>
