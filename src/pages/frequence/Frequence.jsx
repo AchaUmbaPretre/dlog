@@ -183,7 +183,7 @@ const Frequence = () => {
       </div>
 
       <Modal
-        title="Ajouter Département"
+        title="Ajouter une frequence"
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}

@@ -181,7 +181,7 @@ const Format = () => {
       </div>
 
       <Modal
-        title="Ajouter Département"
+        title="Ajouter un format"
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
