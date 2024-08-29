@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,FileTextOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { ExportOutlined,FileTextOutlined, PrinterOutlined,EditOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import { getFormat } from '../../services/formatService';
 
 const { Search } = Input;
@@ -9,6 +9,7 @@ const Format = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const scroll = { x: 400 };
 
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
@@ -175,7 +176,7 @@ const Format = () => {
             rowKey="key"
             bordered
             size="middle"
-            scroll={{ x: 'max-content' }}
+            scroll={scroll}
           />
         </div>
       </div>
