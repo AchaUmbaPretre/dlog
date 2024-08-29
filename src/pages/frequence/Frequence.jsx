@@ -11,6 +11,8 @@ const Frequence = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const scroll = { x: 400 };
+
 
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
@@ -28,10 +30,6 @@ const Frequence = () => {
         description: 'Une erreur est survenue lors de la suppression du client.',
       });
     }
-  };
-
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
   };
 
 
@@ -177,7 +175,8 @@ const Frequence = () => {
             rowKey="key"
             bordered
             size="middle"
-            scroll={{ x: 'max-content' }}
+            scroll={scroll}
+            loading={loading}
           />
         </div>
       </div>

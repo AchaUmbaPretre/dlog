@@ -177,6 +177,7 @@ const Format = () => {
             bordered
             size="middle"
             scroll={scroll}
+            loading={loading}
           />
         </div>
       </div>

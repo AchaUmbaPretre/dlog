@@ -222,6 +222,7 @@ const Departement = () => {
             bordered
             size="middle"
             scroll={{ x: 'max-content' }}
+            loading={loading}
           />
         </div>
       </div>
