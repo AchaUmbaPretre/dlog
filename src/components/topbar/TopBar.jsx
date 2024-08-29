@@ -3,9 +3,11 @@ import './topBar.scss';
 import { useNavigate } from 'react-router-dom';
 import { BellOutlined,DashOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png'
+import { useSelector } from 'react-redux';
 
 
 const TopBar = () => {
+  const user = useSelector((state) => state.user.currentUser);
   const navigate = useNavigate();
   return (
     <div className="topbar">
@@ -21,8 +23,8 @@ const TopBar = () => {
         <div className="topbar-user-rows">
          <img src={userIcon} alt="" className='user-logo'/>
           <div className="topbar-name-rows">
-            <span className="topbar-name">Tite Kilolo</span>
-            <span className="topbar-sous-name">Admin</span>
+            <span className="topbar-name">{user.nom}</span>
+            <span className="topbar-sous-name">{user.role}</span>
           </div>
         </div>
         <div className="topBar-trait">
