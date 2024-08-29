@@ -233,8 +233,9 @@ const Projet = () => {
           <Table
             columns={columns}
             dataSource={data}
-            rowKey="id_budget"
+            rowKey="id_projet"
             loading={loading}
+            bordered
           />
         </div>
       </div>
