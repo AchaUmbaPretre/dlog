@@ -35,7 +35,7 @@ const SideBar = () => {
         <Menu
           mode="inline"
           defaultSelectedKeys={['/']}
-          style={{ height: '100%', borderRight: 0, width: '210px' }}
+          style={{ height: '100%', borderRight: 0, width: '100%' }}
         >
           <Item key="/" icon={<HomeOutlined />}>
             <Link to="/">Accueil</Link>

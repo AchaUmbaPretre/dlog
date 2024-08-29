@@ -166,17 +166,6 @@ const Taches = () => {
           {moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}
         </Tag>
     },
-    {
-      title: 'Nbre jour',
-      dataIndex: 'nbre_jour',
-      key: 'nbre_jour',
-      sorter: (a, b) => moment(a.nbre_jour) - moment(b.nbre_jour),
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => 
-        <Tag icon={<CalendarOutlined />} color="blue">
-          {text}
-        </Tag>
-    },
     { 
       title: 'Fréquence', 
       dataIndex: 'frequence', 

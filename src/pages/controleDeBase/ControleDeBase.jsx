@@ -128,7 +128,6 @@ const ControleDeBase = () => {
       title: 'Format',
       dataIndex: 'format',
       key: 'format',
-      width: '5%',
       render: text => (
         <Space>
           <Tag icon={<TagOutlined />} color='blue'>{text}</Tag>
@@ -156,7 +155,7 @@ const ControleDeBase = () => {
       ),
     },
     {
-      title: 'Responsable',
+      title: 'Owner',
       dataIndex: 'responsable',
       key: 'responsable',
       render: text => (
@@ -168,7 +167,6 @@ const ControleDeBase = () => {
     {
       title: 'Action',
       key: 'action',
-      width: '8%',
       render: (text, record) => (
         <Space size="middle">
 {/*           <Tooltip title="Voir les détails">
@@ -196,11 +194,11 @@ const ControleDeBase = () => {
             title=""
             trigger="click"
           >
-            <Tooltip title="Suivi de contrôle">
+            <Tooltip title="Contrôler">
               <Button
                 icon={<PlusCircleOutlined />}
                 style={{ color: 'blue' }}
-                aria-label="Suivi de contrôle"
+                aria-label="Contrôler"
               />
             </Tooltip>
           </Popover>
@@ -258,7 +256,7 @@ const ControleDeBase = () => {
                     icon={<PlusOutlined />}
                     onClick={handleAddClient}
                   >
-                    Ajouter un contrôle
+                    Contrôle
                   </Button>
                   <Dropdown overlay={exportMenu} trigger={['click']}>
                     <Button icon={<ExportOutlined />}>Exporter</Button>
@@ -280,6 +278,8 @@ const ControleDeBase = () => {
                   bordered
                   pagination={{ defaultPageSize: 5 }}
                   scroll={scroll}
+                  className='tableau_x'
+                  style={{ fontSize: '12px' }}
                 />
               </div>
             </Tabs.TabPane>

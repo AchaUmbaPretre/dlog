@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form } from 'antd';
-import { ExportOutlined,BarsOutlined,CalendarOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,BarsOutlined,PlusCircleOutlined,CalendarOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ProjetForm from './projetForm/ProjetForm';
 import { getProjet } from '../../services/projetService';
+import TacheForm from '../taches/tacheform/TacheForm';
+import DetailProjet from './detailProjet/DetailProjet';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -16,10 +18,20 @@ const Projet = () => {
   const [data, setData] = useState([]);
   const [editingRow, setEditingRow] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isTacheVisible, setIsTacheVisible] = useState(false);
+  const [isDetailVisible, setIsDetailVisible] = useState(false);
+  const [idProjet, setIdProjet] = useState('');
   const [form] = Form.useForm();
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of tache: ${record.article}`);
+  const handleViewDetails = (id) => {
+    message.info(`Affichage des détails de la tache: ${id}`);
+    setIsDetailVisible(true)
+    setIdProjet(id)
+  };
+
+  const handleAddTache = (id) => {
+    setIdProjet(id)
+    setIsTacheVisible(true);
   };
 
   const handleAddClient = () => {
@@ -28,6 +40,8 @@ const Projet = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setIsTacheVisible(false);
+    setIsDetailVisible(false)
   };
 
   const handleExportExcel = () => {
@@ -136,19 +150,11 @@ const Projet = () => {
       ),
     },
     { 
-      title: 'Date debut', 
+      title: 'Date debut & fin', 
       dataIndex: 'date_debut', 
       key: 'date_debut',
-      render: text => (
-        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('LL')}</Tag>
-      )
-    },
-    { 
-      title: 'Date fin', 
-      dataIndex: 'date_fin', 
-      key: 'date_fin',
-      render: text => (
-        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('LL')}</Tag>
+      render: (text, record) => (
+        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('LL')} & {moment(record.date_fin).format('LL')}</Tag>
       )
     },
     {
@@ -160,17 +166,17 @@ const Projet = () => {
           <Tooltip title="Voir détails">
             <Button
               icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
+              onClick={() => handleViewDetails(record.id_projet)}
               aria-label="View budget details"
             />
           </Tooltip>
-          <Tooltip title="Modifier">
+          <Tooltip title="Créer une tâche">
             <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
-              aria-label="Edit budget"
-            />
+                icon={<PlusCircleOutlined />}
+                style={{ color: 'blue' }}
+                aria-label="Créer une tâche"
+                onClick={() => handleAddTache(record.id_projet)}
+              />
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
@@ -242,6 +248,28 @@ const Projet = () => {
         centered
       >
         <ProjetForm/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={isTacheVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={800}
+        centered
+      >
+        <TacheForm idProjet={idProjet} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={isDetailVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={800}
+        centered
+      >
+        <DetailProjet idProjet={idProjet} />
       </Modal>
     </>
   );

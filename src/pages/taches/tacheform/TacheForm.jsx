@@ -8,7 +8,7 @@ import { getUser } from '../../../services/userService';
 import { useNavigate } from 'react-router-dom';
 import { postTache } from '../../../services/tacheService';
 
-const TacheForm = ({idControle}) => {
+const TacheForm = ({idControle, idProjet}) => {
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
     const [format, setFormat] = useState([]);
@@ -54,7 +54,8 @@ const TacheForm = ({idControle}) => {
     const onFinish = async (values) => {
         const dataAll = {
             ...values,
-            id_control : idControle
+            id_control : idControle,
+            id_projet: idProjet
         }
         setIsLoading(true);
         try {
