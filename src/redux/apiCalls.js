@@ -9,7 +9,6 @@ export const login = async (dispatch, user, navigate) => {
   dispatch(loginStart());
   try {
     const res = await axios.post(`${DOMAIN}/api/auth/login`, user);
-    console.log(res.data)
     dispatch(loginSuccess(res.data));
     if (res.data.success) {
       message.success("Connectez-vous avec succès");
@@ -31,7 +30,7 @@ export const register = async (dispatch, user) => {
     const res = await axios.post(`${DOMAIN}/api/auth/register`, user);
     dispatch(loginSuccess(res.data));
     if (res.data.success) {
-      message.success("Connectez-vous avec succès");
+      message.success("Les informations sont enregistrées avec succès");
     } else {
       message.error(res.data.message);
     }
