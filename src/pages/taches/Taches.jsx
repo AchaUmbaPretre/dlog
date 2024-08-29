@@ -12,6 +12,7 @@ import ListeDocTache from './listeDocTache/ListeDocTache';
 import TacheDoc from './tacheDoc/TacheDoc';
 import FormatCalendar from './formatCalendar/FormatCalendar';
 import moment from 'moment';
+import DetailTache from './detailTache/DetailTache';
 
 const { Search } = Input;
 
@@ -51,8 +52,9 @@ const Taches = () => {
     setModalType(type);
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Affichage des détails de la tâche : ${record.nom_tache}`);
+  const handleViewDetails = (idTache) => {
+    message.info(`Affichage des détails de la tâche : ${idTache}`);
+    openModal('detail', idTache);
   };
 
   const handleDetailDoc = (idTache) => {
@@ -195,7 +197,7 @@ const Taches = () => {
           <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
+              onClick={() => handleViewDetails(record.id_tache)}
               aria-label="Voir les détails de la tâche"
             />
           </Tooltip>
@@ -310,6 +312,17 @@ const Taches = () => {
         centered
       >
         <ListeDocTache idTache={idTache} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'detail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <DetailTache idTache={idTache} />
       </Modal>
     </>
   );
