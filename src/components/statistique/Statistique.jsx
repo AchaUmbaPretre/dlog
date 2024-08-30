@@ -18,7 +18,7 @@ const Statistique = () => {
                     <div className="statistique_row_right">
                         <span className="row_title">Total</span>
                         <h2 className="statistique_h2">200</h2>
-                        <span className="row_desc">description</span>
+                        <span className="row_desc">Contrôle de base</span>
                     </div>
                 </div>
                 <div className="statistique_row">
@@ -31,7 +31,7 @@ const Statistique = () => {
                     <div className="statistique_row_right">
                         <span className="row_title">Total</span>
                         <h2 className="statistique_h2">200</h2>
-                        <span className="row_desc">description</span>
+                        <span className="row_desc">Tâche</span>
                     </div>
                 </div>
                 <div className="statistique_row">
@@ -44,7 +44,7 @@ const Statistique = () => {
                     <div className="statistique_row_right">
                         <span className="row_title">Total</span>
                         <h2 className="statistique_h2">200</h2>
-                        <span className="row_desc">description</span>
+                        <span className="row_desc">Client</span>
                     </div>
                 </div>
                 <div className="statistique_row">
@@ -57,7 +57,7 @@ const Statistique = () => {
                     <div className="statistique_row_right">
                         <span className="row_title">Total</span>
                         <h2 className="statistique_h2">200</h2>
-                        <span className="row_desc">description</span>
+                        <span className="row_desc">Fournisseur</span>
                     </div>
                 </div>
             </div>

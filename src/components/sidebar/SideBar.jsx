@@ -33,9 +33,9 @@ const SideBar = () => {
     <div className="sidebar">
       <Sider>
         <Menu
-          mode="inline"
+          mode='inline'
           defaultSelectedKeys={['/']}
-          style={{ height: '100%', borderRight: 0, width: '100%' }}
+          style={{ height: '100%', borderRight: 0, width: '100%', background:'#fff' }}
         >
           <Item key="/" icon={<HomeOutlined />}>
             <Link to="/">Accueil</Link>
