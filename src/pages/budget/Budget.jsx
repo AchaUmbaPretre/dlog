@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form } from 'antd';
-import { ExportOutlined, DollarOutlined,CalendarOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, DollarOutlined,InfoCircleOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import BudgetForm from './budgetForm/BudgetForm';
 import { getBudget, putBudget } from '../../services/budgetService';
 import moment from 'moment';
+import BudgetDetail from './budgetDetail/BudgetDetail';
 
 
 const { Search } = Input;
@@ -15,10 +16,15 @@ const Budget = () => {
   const [data, setData] = useState([]);
   const [editingRow, setEditingRow] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [form] = Form.useForm();
+  const scroll = { x: 400 };
+  const [idBudget, setIdBudget] = useState(null)
 
   const handleViewDetails = (record) => {
-    message.info(`Viewing details of tache: ${record.article}`);
+    message.info(`Affichage des détails du budget: ${record}`);
+    setIsDetailVisible(true)
+    setIdBudget(record)
   };
 
   const handleAddClient = () => {
@@ -27,6 +33,7 @@ const Budget = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setIsDetailVisible(false)
   };
 
   const handleExportExcel = () => {
@@ -106,20 +113,20 @@ const Budget = () => {
   };
 
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id_budget', 
-      key: 'id_budget', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => index + 1,
+      width: "3%",
     },
     { 
       title: 'Items', 
-      dataIndex: 'article', 
-      key: 'article',
+      dataIndex: 'nom_article', 
+      key: 'nom_article',
       render: text => (
         <Space>
-          <Tag color='cyan'>{text}</Tag>
+          <Tag icon={<InfoCircleOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
@@ -128,7 +135,7 @@ const Budget = () => {
       dataIndex: 'quantite_demande', 
       key: 'quantite_demande',
       render: text => (
-        <Tag color='geekblue'>{text}</Tag>
+        <Tag  color='geekblue'>{text}</Tag>
       ),
     },
     { 
@@ -148,8 +155,16 @@ const Budget = () => {
           </Form>
         ) : (
           <Space>
-            <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : text}</Tag>
-           {/*  <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}></Button> */}
+            <Tag color={text === null ? 'red' : 'blue'}>
+              {text === null ? "non validée" : text}
+            </Tag>
+{/*             <Tooltip title="Modifier quantité validée">
+              <Button 
+                icon={<EditOutlined />} 
+                onClick={() => handleEdit(record)}
+                aria-label="Edit validated quantity"
+              />
+            </Tooltip> */}
           </Space>
         )
       ),
@@ -160,7 +175,9 @@ const Budget = () => {
       key: 'prix_unitaire',
       render: text => (
         <Space>
-          <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : `${text} $`}</Tag>
+          <Tag color={text === null ? 'red' : 'blue'}>
+            {text === null ? "non validée" : `${text} $`}
+          </Tag>
         </Space>
       ),
     },
@@ -170,7 +187,9 @@ const Budget = () => {
       key: 'montant',
       render: text => (
         <Space>
-          <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : `${text} $`}</Tag>
+          <Tag color={text === null ? 'red' : 'blue'}>
+            {text === null ? "non validée" : `${text} $`}
+          </Tag>
         </Space>
       ),
     },
@@ -180,7 +199,9 @@ const Budget = () => {
       key: 'montant_valide',
       render: text => (
         <Space>
-          <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : `${text} $`}</Tag>
+          <Tag icon={<InfoCircleOutlined />} color={text === null ? 'red' : 'blue'}>
+            {text === null ? "non validée" : `${text} $`}
+          </Tag>
         </Space>
       ),
     },
@@ -189,15 +210,17 @@ const Budget = () => {
       dataIndex: 'date_creation', 
       key: 'date_creation',
       render: text => (
-        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('DD-MM-yyyy')}</Tag>
+        <Tag icon={<CalendarOutlined />} color='purple'>
+          {moment(text).format('DD-MM-yyyy')}
+        </Tag>
       ),
     },
     { 
-      title: 'Fournisseurs', 
-      dataIndex: 'fournisseur', 
-      key: 'fournisseur',
+      title: 'Fournisseur', 
+      dataIndex: 'nom_fournisseur', 
+      key: 'nom_fournisseur',
       render: text => (
-        <Tag color='purple'>{text}</Tag>
+        <Tag icon={<InfoCircleOutlined />} color='purple'>{text}</Tag>
       ),
     },
     {
@@ -209,16 +232,8 @@ const Budget = () => {
           <Tooltip title="Voir détails">
             <Button
               icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
+              onClick={() => handleViewDetails(record.id_budget)}
               aria-label="View budget details"
-            />
-          </Tooltip>
-          <Tooltip title="Modifier">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
-              aria-label="Edit budget"
             />
           </Tooltip>
           <Tooltip title="Supprimer">
@@ -239,6 +254,7 @@ const Budget = () => {
       ),
     },
   ];
+  
 
 
   return (
@@ -279,6 +295,7 @@ const Budget = () => {
             dataSource={data}
             rowKey="id_budget"
             loading={loading}
+            scroll={scroll}
           />
         </div>
       </div>
@@ -292,6 +309,17 @@ const Budget = () => {
         centered
       >
         <BudgetForm />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={isDetailVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={700}
+        centered
+      >
+        <BudgetDetail idBudget={idBudget}/>
       </Modal>
     </>
   );
