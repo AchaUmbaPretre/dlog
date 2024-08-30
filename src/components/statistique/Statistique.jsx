@@ -1,9 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { UserOutlined,FileDoneOutlined } from '@ant-design/icons';
 import './statistique.scss'
 import StatChart from '../statChart/StatChart';
+import { getControleCount } from '../../services/controleService';
+import { notification } from 'antd';
 
 const Statistique = () => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await getControleCount();
+            setData(response.data[0].nbre_controle);
+            setLoading(false);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+            setLoading(false);
+          }
+        };
+    
+        fetchData();
+      }, []);
+
   return (
     <>
         <div className="statistique">
@@ -17,7 +40,7 @@ const Statistique = () => {
                     <hr style={{ background: 'rgba(0, 0, 255, 0.137)', width: '4px',height:'30px', border: 'none' }}/>
                     <div className="statistique_row_right">
                         <span className="row_title">Total</span>
-                        <h2 className="statistique_h2">200</h2>
+                        <h2 className="statistique_h2">{data}</h2>
                         <span className="row_desc">Contrôle de base</span>
                     </div>
                 </div>

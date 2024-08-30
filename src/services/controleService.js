@@ -4,6 +4,10 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
+export const getControleCount = async () => {
+  return axios.get(`${DOMAIN}/api/controle/count`);
+};
+
 export const getControle = async (user) => {
     return axios.get(`${DOMAIN}/api/controle`);
   };
