@@ -1,169 +1,128 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Input, InputNumber, Button, Select, notification, Spin, Row, Col } from 'antd';
-import axios from 'axios';
-import { postBudget } from '../../../services/budgetService';
-import { getTache } from '../../../services/tacheService';
-import { getControle } from '../../../services/controleService';
+import React from 'react';
+import { Form, Input, InputNumber, Select, DatePicker, Button, Row, Col } from 'antd';
 
 const { Option } = Select;
 
 const BudgetForm = () => {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const [controls, setControls] = useState([]);
-  const [showAdvancedFields, setShowAdvancedFields] = useState(false);
 
-  useEffect(() => {
-    fetchTasks();
-    fetchControls();
-  }, []);
-
-  const fetchTasks = async () => {
-    try {
-      const response = await getTache();
-      setTasks(response.data);
-    } catch (error) {
-      notification.error({
-        message: 'Erreur',
-        description: 'Erreur lors du chargement des tâches.',
-      });
-    }
+  const handleFinish = (values) => {
+    console.log('Form values:', values);
   };
 
-  const fetchControls = async () => {
-    try {
-      const response = await getControle();
-      setControls(response.data);
-    } catch (error) {
-      notification.error({
-        message: 'Erreur',
-        description: 'Erreur lors du chargement des contrôles.',
-      });
-    }
-  };
-
-  const handleSubmit = async (values) => {
-    setLoading(true);
-    try {
-      await postBudget(values)
-      notification.success({
-        message: 'Succès',
-        description: 'Le budget a été enregistré avec succès.',
-      });
-      form.resetFields();
-      window.location.reload();
-    } catch (error) {
-      notification.error({
-        message: 'Erreur',
-        description: 'Erreur lors de l\'enregistrement du budget.',
-      });
-    } finally {
-      setLoading(false);
-    }
+  const calculateMontant = () => {
+    const quantiteValidee = form.getFieldValue('quantite_validee') || 0;
+    const prixUnitaire = form.getFieldValue('prix_unitaire') || 0;
+    return (quantiteValidee * prixUnitaire).toFixed(2);
   };
 
   return (
-    <Spin spinning={loading}>
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleSubmit}
-        style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}
-      >
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              name="article"
-              label="Article"
-              rules={[{ required: true, message: 'Veuillez entrer un article' }]}
-            >
-              <Input placeholder="Nom de l'article" />
-            </Form.Item>
-          </Col>
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={handleFinish}
+      initialValues={{
+        quantite_validee: 0.00,
+        montant: calculateMontant(),
+        date_creation: null,
+      }}
+    >
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            label="Article"
+            name="article"
+            rules={[{ required: true, message: 'Veuillez entrer l\'article' }]}
+          >
+            <Input placeholder="Nom de l'article" />
+          </Form.Item>
+        </Col>
 
-          <Col span={12}>
-            <Form.Item
-              name="quantite_demande"
-              label="Quantité Demandée"
-              rules={[{ required: true, message: 'Veuillez entrer la quantité demandée' }]}
-            >
-              <InputNumber min={0} placeholder="Quantité demandée" style={{ width: '100%' }} />
-            </Form.Item>
-          </Col>
-        </Row>
+        <Col span={12}>
+          <Form.Item
+            label="Quantité demandée"
+            name="quantite_demande"
+            rules={[{ required: true, message: 'Veuillez entrer la quantité demandée' }]}
+          >
+            <InputNumber min={0} style={{ width: '100%' }} placeholder="0.00" />
+          </Form.Item>
+        </Col>
+      </Row>
 
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              name="prix_unitaire"
-              label="Prix Unitaire"
-              rules={[{ required: true, message: 'Veuillez entrer le prix unitaire' }]}
-            >
-              <InputNumber
-                min={0}
-                placeholder="Prix unitaire"
-                style={{ width: '100%' }}
-                formatter={value => `${value} $`}
-                parser={value => value.replace(' $', '')}
-              />
-            </Form.Item>
-          </Col>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            label="Quantité validée"
+            name="quantite_validee"
+            rules={[{ type: 'number', min: 0, message: 'Veuillez entrer une quantité validée positive' }]}
+          >
+            <InputNumber min={0} style={{ width: '100%' }} placeholder="0.00" />
+          </Form.Item>
+        </Col>
 
-          <Col span={12}>
-            <Form.Item
-              name="fournisseur"
-              label="Fournisseur"
-              rules={[{ required: true, message: 'Veuillez entrer le nom du fournisseur' }]}
-            >
-              <Input placeholder="Nom du fournisseur"  />
-            </Form.Item>
-          </Col>
-        </Row>
+        <Col span={12}>
+          <Form.Item
+            label="Prix unitaire"
+            name="prix_unitaire"
+            rules={[{ required: true, message: 'Veuillez entrer le prix unitaire' }]}
+          >
+            <InputNumber min={0} style={{ width: '100%' }} placeholder="0.00" />
+          </Form.Item>
+        </Col>
+      </Row>
 
-        {showAdvancedFields && (
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                name="id_tache"
-                label="Tâche Associée"
-              >
-                <Select placeholder="Sélectionnez une tâche">
-                  {tasks.map(task => (
-                    <Option key={task.id_tache } value={task.id_tache}>{task.nom_tache}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            label="Montant"
+            name="montant"
+            dependencies={['quantite_validee', 'prix_unitaire']}
+          >
+            <InputNumber value={calculateMontant()} style={{ width: '100%' }} placeholder="0.00" readOnly />
+          </Form.Item>
+        </Col>
 
-            <Col span={12}>
-              <Form.Item
-                name="id_controle"
-                label="Contrôle Associé"
-              >
-                <Select placeholder="Sélectionnez un contrôle">
-                  {controls.map(control => (
-                    <Option key={control.id_controle} value={control.id_controle}>{control.controle_de_base}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-        )}
+        <Col span={12}>
+          <Form.Item
+            label="Fournisseur"
+            name="fournisseur"
+          >
+            <Select placeholder="Sélectionnez un fournisseur">
+              <Option value="fournisseur1">Fournisseur 1</Option>
+              <Option value="fournisseur2">Fournisseur 2</Option>
+              {/* Add more options here */}
+            </Select>
+          </Form.Item>
+        </Col>
+      </Row>
 
-        <Form.Item>
-          <Button type="dashed" onClick={() => setShowAdvancedFields(!showAdvancedFields)} style={{ marginBottom: 16 }}>
-            {showAdvancedFields ? 'Masquer les Champs Avancés' : 'Afficher les Champs Avancés'}
-          </Button>
-        </Form.Item>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            label="Date de création"
+            name="date_creation"
+            rules={[{ required: true, message: 'Veuillez sélectionner la date de création' }]}
+          >
+            <DatePicker style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            Enregistrer le budget
-          </Button>
-        </Form.Item>
-      </Form>
-    </Spin>
+        <Col span={12}>
+          <Form.Item
+            label="Montant validé"
+            name="montant_valide"
+          >
+            <InputNumber min={0} style={{ width: '100%' }} placeholder="0.00" />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Soumettre
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

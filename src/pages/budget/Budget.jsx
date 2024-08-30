@@ -258,13 +258,13 @@ const Budget = () => {
               <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-rows-right">
-{/*               <Button
+               <Button
                 type="primary"
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
                 Budget
-              </Button> */}
+              </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
@@ -290,9 +290,10 @@ const Budget = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={700}
+        centered
       >
-        <BudgetForm/>
+        <BudgetForm />
       </Modal>
     </>
   );

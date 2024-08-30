@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form } from 'antd';
-import { ExportOutlined,BarsOutlined,PlusCircleOutlined,CalendarOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form, Popover } from 'antd';
+import { ExportOutlined, BarsOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,CalendarOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -8,6 +8,7 @@ import ProjetForm from './projetForm/ProjetForm';
 import { getProjet } from '../../services/projetService';
 import TacheForm from '../taches/tacheform/TacheForm';
 import DetailProjet from './detailProjet/DetailProjet';
+import { Link } from 'react-router-dom';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -20,6 +21,7 @@ const Projet = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTacheVisible, setIsTacheVisible] = useState(false);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
+  const [isBudgetVisible, setIsBudgetVisible] = useState(false);
   const [idProjet, setIdProjet] = useState('');
   const [form] = Form.useForm();
 
@@ -32,6 +34,11 @@ const Projet = () => {
   const handleAddTache = (id) => {
     setIdProjet(id)
     setIsTacheVisible(true);
+  };
+
+  const handleAddBudget = (id) => {
+    setIdProjet(id)
+    setIsBudgetVisible(true);
   };
 
   const handleAddClient = () => {
@@ -170,14 +177,28 @@ const Projet = () => {
               aria-label="View budget details"
             />
           </Tooltip>
-          <Tooltip title="Créer une tâche">
-            <Button
+          <Popover
+            content={
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <Link onClick={() => handleAddTache(record.id_projet)} >
+                  <FileTextOutlined /> Créer une tâche
+                </Link>
+                <Link onClick={() => handleAddBudget(record.id_projet)} >
+                  <DollarOutlined /> Créer un budget
+                </Link>
+              </div>
+            }
+            title=""
+            trigger="click"
+          >
+            <Tooltip title="Créer une tâche">
+              <Button
                 icon={<PlusCircleOutlined />}
                 style={{ color: 'blue' }}
                 aria-label="Créer une tâche"
-                onClick={() => handleAddTache(record.id_projet)}
               />
-          </Tooltip>
+            </Tooltip>
+          </Popover>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce budget ?"
