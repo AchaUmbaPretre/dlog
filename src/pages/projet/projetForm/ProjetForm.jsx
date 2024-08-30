@@ -12,7 +12,8 @@ const ProjetForm = () => {
     const [form] = Form.useForm();
     const [client, setClient] = useState([]);
     const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(false); // Ajouter l'état de chargement
+    const [loading, setLoading] = useState(false);
+    const [article, setArticle] = useState([]);
 
     const handleError = (message) => {
         notification.error({

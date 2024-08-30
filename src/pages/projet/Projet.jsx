@@ -9,6 +9,7 @@ import { getProjet } from '../../services/projetService';
 import TacheForm from '../taches/tacheform/TacheForm';
 import DetailProjet from './detailProjet/DetailProjet';
 import { Link } from 'react-router-dom';
+import BudgetForm from '../budget/budgetForm/BudgetForm';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -49,6 +50,7 @@ const Projet = () => {
     setIsModalVisible(false);
     setIsTacheVisible(false);
     setIsDetailVisible(false)
+    setIsBudgetVisible(false)
   };
 
   const handleExportExcel = () => {
@@ -292,6 +294,17 @@ const Projet = () => {
         centered
       >
         <DetailProjet idProjet={idProjet} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={isBudgetVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={800}
+        centered
+      >
+        <BudgetForm idProjet={idProjet} />
       </Modal>
     </>
   );

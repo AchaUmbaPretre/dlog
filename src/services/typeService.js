@@ -10,3 +10,7 @@ export const getTypes = async () => {
 export const getCategorie = async () => {
     return axios.get(`${DOMAIN}/api/types/categorie`);
   };
+
+export const getArticle = async () => {
+    return axios.get(`${DOMAIN}/api/types/article`);
+  };
