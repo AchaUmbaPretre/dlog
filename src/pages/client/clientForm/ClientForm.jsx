@@ -88,7 +88,7 @@ const ClientForm = () => {
                             <Form.Item
                                 label="Téléphone"
                                 name="telephone"
-                                rules={[{ required: true, message: 'Veuillez entrer le téléphone du client !' }]}
+                                rules={[{ required: false, message: 'Veuillez entrer le téléphone du client !' }]}
                             >
                                 <Input placeholder="Entrez le téléphone du client" style={{padding:'10px'}} />
                             </Form.Item>
@@ -113,7 +113,7 @@ const ClientForm = () => {
                             <Form.Item
                                 label="Adresse"
                                 name="adresse"
-                                rules={[{ required: true, message: "Veuillez entrer l'adresse !" }]}
+                                rules={[{ required: false, message: "Veuillez entrer l'adresse !" }]}
                             >
                                 <Input placeholder="Entrez l'adresse..." style={{padding:'10px'}} />
                             </Form.Item>
@@ -123,6 +123,7 @@ const ClientForm = () => {
                             <Form.Item
                                 label="Type de client"
                                 name="id_type_client"
+                                rules={[{ required: true, message: 'Veuillez entrer le type du client !' }]}
                             >
                                 <Select
                                     showSearch

@@ -99,7 +99,7 @@ const Client = () => {
       dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<UserOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
@@ -107,7 +107,7 @@ const Client = () => {
       dataIndex: 'email',
       key: 'email',
       render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<MailOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
@@ -115,7 +115,7 @@ const Client = () => {
       dataIndex: 'telephone',
       key: 'telephone',
       render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<PhoneOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
@@ -125,7 +125,7 @@ const Client = () => {
       render: (text) => (
         <> 
           <Tag icon={<HomeOutlined />} color='cyan'>
-            {text}
+            {text ?? 'Aucune'}
           </Tag>
         </>
       ),
@@ -144,15 +144,15 @@ const Client = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="View Details">
+{/*           <Tooltip title="View Details">
             <Button
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record)}
               type="link"
               aria-label="View client details"
             />
-          </Tooltip>
-          <Tooltip title="Edit">
+          </Tooltip> */}
+{/*           <Tooltip title="Edit">
             <Popover title="Modifier" trigger="hover">
               <Button
                 icon={<EditOutlined />}
@@ -162,7 +162,7 @@ const Client = () => {
                 aria-label="Edit client"
               />
             </Popover>
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
