@@ -5,8 +5,6 @@ import config from '../../config';
 import BudgetForm from './budgetForm/BudgetForm';
 import { getBudget, putBudget } from '../../services/budgetService';
 import moment from 'moment';
-import 'moment/locale/fr';
-moment.locale('fr');
 
 
 const { Search } = Input;
@@ -151,7 +149,7 @@ const Budget = () => {
         ) : (
           <Space>
             <Tag color={text === null ? 'red' : 'blue'}>{text === null ? "non validée" : text}</Tag>
-            <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}></Button>
+           {/*  <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}></Button> */}
           </Space>
         )
       ),
@@ -191,7 +189,7 @@ const Budget = () => {
       dataIndex: 'date_creation', 
       key: 'date_creation',
       render: text => (
-        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('LL')}</Tag>
+        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('DD-MM-yyyy')}</Tag>
       ),
     },
     { 
