@@ -1,5 +1,5 @@
 import React from 'react'
-import { DollarOutlined } from '@ant-design/icons';
+import { UserOutlined,FileDoneOutlined } from '@ant-design/icons';
 import './statistique.scss'
 import StatChart from '../statChart/StatChart';
 
@@ -11,7 +11,7 @@ const Statistique = () => {
                 <div className="statistique_row">
                     <div className="statistique_row_left">
                         <div className="statistique_row_icon"  style={{background: 'rgba(0, 0, 255, 0.137)'}}>
-                            <DollarOutlined style={{color: 'blue'}}/>
+                            <FileDoneOutlined style={{color: 'blue'}}/>
                         </div>
                     </div>
                     <hr style={{ background: 'rgba(0, 0, 255, 0.137)', width: '4px',height:'30px', border: 'none' }}/>
@@ -24,7 +24,7 @@ const Statistique = () => {
                 <div className="statistique_row">
                     <div className="statistique_row_left" >
                         <div className="statistique_row_icon" style={{background: 'rgba(53, 52, 52, 0.137)'}}>
-                            <DollarOutlined style={{color: 'rgba(53, 52, 52, 0.719)'}}/>
+                            <FileDoneOutlined style={{color: 'rgba(53, 52, 52, 0.719)'}}/>
                         </div>
                     </div>
                     <hr style={{ background: 'rgba(53, 52, 52, 0.137)', width: '4px',height:'30px', border: 'none' }}/>
@@ -37,7 +37,7 @@ const Statistique = () => {
                 <div className="statistique_row">
                     <div className="statistique_row_left">
                         <div className="statistique_row_icon"  style={{background : '#f079182d'}}>
-                            <DollarOutlined style={{color: 'orange'}}/>
+                            <UserOutlined style={{color: 'orange'}}/>
                         </div>
                     </div>
                     <hr style={{ backgroundColor: '#f4a261', width: '5px',height:'30px', border: 'none' }} />
@@ -50,7 +50,7 @@ const Statistique = () => {
                 <div className="statistique_row">
                     <div className="statistique_row_left">
                         <div className="statistique_row_icon"  style={{background : 'rgba(255, 0, 0, 0.164)'}}>
-                            <DollarOutlined style={{color: 'red'}}/>
+                            <UserOutlined style={{color: 'red'}}/>
                         </div>
                     </div>
                     <hr style={{ backgroundColor: 'rgba(255, 0, 0, 0.164)', width: '5px',height:'30px', border: 'none' }} />
