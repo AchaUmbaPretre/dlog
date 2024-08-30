@@ -1,8 +1,11 @@
-// src/services/authService.js
 import axios from 'axios';
 import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+
+export const getTacheCount = async () => {
+  return axios.get(`${DOMAIN}/api/tache/count`);
+};
 
 export const getTache = async (user) => {
     return axios.get(`${DOMAIN}/api/tache`);

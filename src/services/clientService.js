@@ -3,6 +3,10 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
+export const getClientCount = async () => {
+  return axios.get(`${DOMAIN}/api/client/count`);
+}
+
 export const getClient = async () => {
     return axios.get(`${DOMAIN}/api/client`);
   };
