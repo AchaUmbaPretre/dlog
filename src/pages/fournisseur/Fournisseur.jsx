@@ -54,7 +54,7 @@ const Fournisseur = () => {
   };
 
   const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
+    message.info(`Modification fournisseur : ${record.nom}`);
   };
 
   const handleDelete = async (id) => {

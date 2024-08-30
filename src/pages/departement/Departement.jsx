@@ -24,7 +24,7 @@ const Departement = () => {
       // Uncomment when delete function is available
       // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
+      message.success('Departement supprimé avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -111,7 +111,7 @@ const Departement = () => {
       dataIndex: 'description', 
       key: 'description',
       render: text => (
-        <Tag color='geekblue'>{text}</Tag>
+        <Tag color='geekblue'>{text ?? 'Aucune'}</Tag>
       ),
     },
     { 
@@ -120,7 +120,7 @@ const Departement = () => {
       key: 'email',
       render: text => (
         <Space>
-          <Tag icon={<MailOutlined />} color='blue'>{text}</Tag>
+          <Tag icon={<MailOutlined />} color='blue'>{text ?? 'Aucun'}</Tag>
         </Space>
       ),
     },
@@ -129,7 +129,7 @@ const Departement = () => {
       dataIndex: 'telephone', 
       key: 'telephone',
       render: text => (
-        <Tag color='magenta'>{text}</Tag>
+        <Tag color='magenta'>{text ?? "Aucun"}</Tag>
       ),
     },
     { 
@@ -233,6 +233,7 @@ const Departement = () => {
         onCancel={handleCancel}
         footer={null}
         width={600}
+        centered
       >
         <DepartementForm/>
       </Modal>

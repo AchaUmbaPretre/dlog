@@ -1,18 +1,38 @@
-import { Button, Form, Input, message, notification, Modal } from 'antd';
-import React, { useState } from 'react';
+import { Button, Form, Input, message, notification, Modal, Select } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { postDepartement } from '../../../services/departementService';
+import { getUser } from '../../../services/userService';
+
+const { Option } = Select;
 
 const DepartementForm = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [formValues, setFormValues] = useState({});
+    const [data, setData] = useState([]);
 
     const showConfirm = (values) => {
         setFormValues(values); 
         setIsModalVisible(true);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const { data } = await getUser();
+            setData(data);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+          }
+        };
+    
+        fetchData();
+      }, []);
 
     const handleOk = async () => {
         setIsModalVisible(false);
@@ -67,7 +87,7 @@ const DepartementForm = () => {
                     <Form.Item
                         label="Téléphone"
                         name="telephone"
-                        rules={[{ required: true, message: 'Veuillez entrer le téléphone !' }]}
+                        rules={[{ required: false, message: 'Veuillez entrer le téléphone !' }]}
                     >
                         <Input />
                     </Form.Item>
@@ -83,10 +103,16 @@ const DepartementForm = () => {
                         name="responsable"
                         rules={[{ required: false, message: 'Veuillez entrer le nom du responsable !' }]}
                     >
-                        <Input />
+                        <Select >
+                            {data.map((chef) => (
+                                <Option key={chef.id_utilisateur} value={chef.id_utilisateur}>
+                                    {chef.nom}
+                                </Option>
+                            ))}
+                        </Select>
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" loading={isLoading}>
+                        <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
                             Ajouter
                         </Button>
                     </Form.Item>
