@@ -146,21 +146,21 @@ const Departement = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="View Details">
+{/*           <Tooltip title="View Details">
             <Button
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record)}
               aria-label="View department details"
             />
-          </Tooltip>
-          <Tooltip title="Edit">
+          </Tooltip> */}
+{/*           <Tooltip title="Edit">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               onClick={() => handleEdit(record)}
               aria-label="Edit department"
             />
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip title="Delete">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
