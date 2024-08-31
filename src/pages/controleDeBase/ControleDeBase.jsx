@@ -16,7 +16,6 @@ import ControleForm from './controleForm/ControleForm';
 import { getControle } from '../../services/controleService';
 import SuiviControle from './suiviControle/SuiviControle';
 import ListeSuivi from './listeSuivi/ListeSuivi';
-import ControleBigCalendar from './controleBigCalendar/ControleBigCalendar';
 import TacheForm from '../taches/tacheform/TacheForm';
 
 const { Search } = Input;
@@ -186,8 +185,11 @@ const ControleDeBase = () => {
                 <Link onClick={() => handleAddCreerTache(record?.id_controle)} >
                   <FileTextOutlined /> Créer une Tâche
                 </Link>
+                <Link >
+                  <FileTextOutlined /> Liste des controles
+                </Link>
                 <Link onClick={() => handleAddSuivi(record.id_controle)}>
-                  <FileSearchOutlined /> contrôler
+                  <FileSearchOutlined /> Contrôler
                 </Link>
               </div>
             }
