@@ -3,13 +3,13 @@ import { Button, Form, Input, Space, Row, Col, Select, notification, InputNumber
 import { getUser } from '../../../services/userService';
 import { useNavigate } from 'react-router-dom';
 import { getTypes } from '../../../services/typeService';
-import { postSuivi, postSuiviTache } from '../../../services/suiviService';
+import { postSuiviTache } from '../../../services/suiviService';
 
 const colorMapping = {
-    'En attente': '#FFA500', // Orange
-    'En cours': '#1E90FF',   // Blue
-    'Point bloquant': '#FF4500', // Red-Orange
-    'En attente de validation': '#32CD32', // Lime Green
+    'En attente': '#FFA500',
+    'En cours': '#1E90FF', 
+    'Point bloquant': '#FF4500', 
+    'En attente de validation': '#32CD32',
     'Validé': '#228B22', // Forest Green
     'Budget': '#FFD700', // Gold
     'Exécuté': '#A9A9A9', // Dark Gray
