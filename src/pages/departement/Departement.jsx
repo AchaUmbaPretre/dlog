@@ -107,14 +107,6 @@ const Departement = () => {
       ),
     },
     { 
-      title: 'Description', 
-      dataIndex: 'description', 
-      key: 'description',
-      render: text => (
-        <Tag color='geekblue'>{text ?? 'Aucune'}</Tag>
-      ),
-    },
-    { 
       title: 'Email', 
       dataIndex: 'email',
       key: 'email',

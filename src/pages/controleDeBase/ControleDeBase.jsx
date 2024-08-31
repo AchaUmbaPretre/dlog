@@ -275,11 +275,12 @@ const ControleDeBase = () => {
                   dataSource={filteredData}
                   loading={loading}
                   rowKey="id_controle"
-                  bordered
-                  pagination={{ defaultPageSize: 5 }}
+                  pagination={{ defaultPageSize: 15 }}
                   scroll={scroll}
                   className='tableau_x'
                   style={{ fontSize: '12px' }}
+                  bordered
+                  size="small"
                 />
               </div>
             </Tabs.TabPane>
