@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined, ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
-import config from '../../config';
 import { getSuiviOne } from '../../../services/suiviService';
+import moment from 'moment';
 
 const { Search } = Input;
 
-const ListeControler = ({idSuivi}) => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+const ListeControler = ({idControle}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -17,7 +16,7 @@ const ListeControler = ({idSuivi}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getSuiviOne(idSuivi);
+        const { data } = await getSuiviOne(idControle);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -30,7 +29,7 @@ const ListeControler = ({idSuivi}) => {
     };
 
     fetchData();
-  }, [idTache]);
+  }, [idControle]);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -70,8 +69,8 @@ const ListeControler = ({idSuivi}) => {
     },
     { 
       title: 'Status', 
-      dataIndex: 'status', 
-      key: 'status',
+      dataIndex: 'nom_type_statut', 
+      key: 'nom_type_statut',
       render: text => (
         <Space>
           <Tag color='cyan'>{text}</Tag>
@@ -93,13 +92,15 @@ const ListeControler = ({idSuivi}) => {
       dataIndex: 'date_suivi', 
       key: 'date_suivi',
       render: text => (
-        <Tag color='magenta'>{text ?? "Aucun"}</Tag>
+        <Tag color='magenta'>
+            {moment(text).format('DD-MM-yyyy')}
+        </Tag>
       ),
     },
     { 
       title: 'Effectué par', 
-      dataIndex: 'effectue_par', 
-      key: 'effectue_par',
+      dataIndex: 'nom', 
+      key: 'nom',
       render: text => (
         <Tag color='purple'>{text}</Tag>
       ),
@@ -172,15 +173,6 @@ const ListeControler = ({idSuivi}) => {
               >
                 controler
               </Button> */}
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
             </div>
           </div>
           <Table

@@ -8,7 +8,7 @@ export const getSuivi = async () => {
   };
 
 export const getSuiviOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/suivi?id_suivi=${id}`);
+    return axios.get(`${DOMAIN}/api/suivi/one?id_suivi=${id}`);
   };
 
 export const getSuiviTacheOne = async (id) => {

@@ -17,6 +17,7 @@ import { getControle } from '../../services/controleService';
 import SuiviControle from './suiviControle/SuiviControle';
 import ListeSuivi from './listeSuivi/ListeSuivi';
 import TacheForm from '../taches/tacheform/TacheForm';
+import ListeControler from './listeControler/ListeControler';
 
 const { Search } = Input;
 
@@ -71,6 +72,9 @@ const ControleDeBase = () => {
   const handleViewDetails = (record) => message.info(`Détails du client: ${record.nom}`);
 
   const handleAddSuiviList = (id) => openModal('liste', id);
+
+  const handleAddSuiviListControler = (id) => openModal('listeControler', id);
+
   const handleAddCreerTache = (id) => openModal('creer', id);
 
   const handleAddSuivi = (id) => openModal('suivi', id);
@@ -185,7 +189,7 @@ const ControleDeBase = () => {
                 <Link onClick={() => handleAddCreerTache(record?.id_controle)} >
                   <FileTextOutlined /> Créer une Tâche
                 </Link>
-                <Link >
+                <Link onClick={() => handleAddSuiviListControler(record?.id_controle)}>
                   <FileTextOutlined /> Liste des controles
                 </Link>
                 <Link onClick={() => handleAddSuivi(record.id_controle)}>
@@ -312,6 +316,18 @@ const ControleDeBase = () => {
         centered
       >
         <ListeSuivi idControle={idControle} closeModal={closeModal} />
+      </Modal>
+
+      <Modal
+        visible={modalState === 'listeControler'}
+        title="Liste des controles"
+        footer={null}
+        onCancel={closeModal}
+        destroyOnClose
+        width={800}
+        centered
+      >
+        <ListeControler idControle={idControle} closeModal={closeModal} />
       </Modal>
 
       <Modal
