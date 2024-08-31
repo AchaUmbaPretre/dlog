@@ -13,6 +13,7 @@ const Departement = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
 
   const handleEdit = (record) => {
@@ -172,6 +173,10 @@ const Departement = () => {
     },
   ];
 
+  const filteredData = data.filter(item =>
+    item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.code?.toLowerCase().includes(searchValue.toLowerCase()) 
+  );
 
   return (
     <>
@@ -185,7 +190,10 @@ const Departement = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search placeholder="Recherche..." 
+                enterButton 
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
             </div>
             <div className="client-rows-right">
               <Button
@@ -208,7 +216,7 @@ const Departement = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             pagination={{ pageSize: 10 }}
             rowKey="key"
             bordered
