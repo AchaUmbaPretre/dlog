@@ -16,7 +16,6 @@ const BudgetForm = ({ idProjet }) => {
   const [fournisseurs, setFournisseurs] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Fonction pour gérer la soumission du formulaire
   const handleFinish = async (values) => {
     setLoading(true);
     try {
