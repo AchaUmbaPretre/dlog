@@ -98,6 +98,11 @@ const SideBar = () => {
                 Liste des fourniseurs
               </Link>
             </Menu.Item>
+            <Menu.Item key="12">
+              <Link to={'/batiment'}>
+                Liste des bâtiment
+              </Link>
+            </Menu.Item>
           </SubMenu>
           <Item key="logout" icon={<LogoutOutlined />} className="logout-item" onClick={Logout}>
             <Link>Déconnecter</Link>
