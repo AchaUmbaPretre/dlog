@@ -141,16 +141,6 @@ const Projet = () => {
       ),
     },
     { 
-      title: 'Besoins', 
-      dataIndex: 'description', 
-      key: 'description',
-      render: text => (
-        <Space>
-          <div dangerouslySetInnerHTML={{ __html: text }} />
-        </Space>
-      ),
-    },
-    { 
       title: 'Chef projet ',
       dataIndex: 'responsable', 
       key: 'responsable',
