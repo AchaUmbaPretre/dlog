@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form, Popover } from 'antd';
-import { ExportOutlined, BarsOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,CalendarOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, BarsOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,CalendarOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -159,11 +159,11 @@ const Projet = () => {
       ),
     },
     { 
-      title: 'Date debut & fin', 
-      dataIndex: 'date_debut', 
-      key: 'date_debut',
+      title: 'Statut', 
+      dataIndex: 'nom_type_statut', 
+      key: 'nom_type_statut',
       render: (text, record) => (
-        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}</Tag>
+        <Tag icon={<InfoCircleOutlined />}  color='purple'>{text}</Tag>
       )
     },
     { 
