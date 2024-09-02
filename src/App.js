@@ -19,6 +19,7 @@ import Fournisseur from './pages/fournisseur/Fournisseur';
 import Offres from './pages/offres/Offres';
 import { useSelector } from 'react-redux';
 import { Spin } from 'antd';
+import Batiment from './pages/batiment/Batiment';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -97,6 +98,10 @@ function App() {
         {
           path: '/fournisseur',
           element: <Fournisseur/>
+        },
+        {
+          path: '/batiment',
+          element: <Batiment/>
         },
         {
           path: '/utilisateur',
