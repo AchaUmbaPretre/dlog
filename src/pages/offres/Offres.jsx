@@ -111,7 +111,7 @@ const Offres = () => {
 
   const colonnes = [
     { 
-      title: 'Numéro', 
+      title: '#', 
       dataIndex: 'id_offre', 
       key: 'id_offre', 
       render: (text, record, index) => (
