@@ -166,6 +166,18 @@ const Projet = () => {
         <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}</Tag>
       )
     },
+    { 
+      title: 'Budget', 
+      dataIndex: 'montant', 
+      key: 'montant',
+      render: text => (
+        <Space>
+          <Tag icon={<DollarOutlined />}  color='purple'>
+            {text} $
+          </Tag>
+        </Space>
+      ),
+    },
     {
       title: 'Action',
       key: 'action',
