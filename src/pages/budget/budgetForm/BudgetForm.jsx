@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
-const BudgetForm = () => {
+const BudgetForm = ({idProjet}) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [article, setArticle] = useState([]);
