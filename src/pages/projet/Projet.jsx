@@ -141,12 +141,12 @@ const Projet = () => {
       ),
     },
     { 
-      title: 'Description', 
+      title: 'Besoins', 
       dataIndex: 'description', 
       key: 'description',
       render: text => (
         <Space>
-          <Tag color='cyan'>{text}</Tag>
+          <div dangerouslySetInnerHTML={{ __html: text }} />
         </Space>
       ),
     },
@@ -163,7 +163,7 @@ const Projet = () => {
       dataIndex: 'date_debut', 
       key: 'date_debut',
       render: (text, record) => (
-        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('LL')} & {moment(record.date_fin).format('LL')}</Tag>
+        <Tag icon={<CalendarOutlined />}  color='purple'>{moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}</Tag>
       )
     },
     {
@@ -171,7 +171,7 @@ const Projet = () => {
       key: 'action',
       width: '10%',
       render: (text, record) => (
-        <Space size="middle">
+        <Space >
           <Tooltip title="Voir détails">
             <Button
               icon={<EyeOutlined />}
