@@ -97,7 +97,6 @@ const BudgetForm = ({ idProjet }) => {
     }
   }, [besoins]);
 
-  // Définir les colonnes du tableau
   const columns = [
     {
       title: 'Article',
