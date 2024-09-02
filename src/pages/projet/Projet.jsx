@@ -131,7 +131,7 @@ const Projet = () => {
       ),
     },
     { 
-      title: 'Nom projet', 
+      title: 'Titre', 
       dataIndex: 'nom_projet', 
       key: 'nom_projet',
       render: text => (
