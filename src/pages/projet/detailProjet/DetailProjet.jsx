@@ -62,7 +62,7 @@ const DetailProjet = ({ idProjet }) => {
         <Col span={24}>
           <Descriptions size="middle" column={1} bordered>
             <Descriptions.Item label={<><InfoCircleOutlined /> Description</>}>
-              {projet.description}
+            <div dangerouslySetInnerHTML={{ __html: projet.description }} />+
             </Descriptions.Item>
             <Descriptions.Item label={<><CalendarOutlined /> Date de Début</>}>
               {new Date(projet.date_debut).toLocaleDateString()}
