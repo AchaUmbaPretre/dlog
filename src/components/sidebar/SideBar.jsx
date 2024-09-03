@@ -6,6 +6,7 @@ import {
   FileDoneOutlined,
   SettingOutlined,
   LogoutOutlined,
+  TagOutlined 
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -82,6 +83,11 @@ const SideBar = () => {
               </Link>
             </Menu.Item>
           </SubMenu>
+          <Item key="3" icon={<TagOutlined  />}>
+            <Link to='/article'>
+              Articles
+            </Link>
+          </Item>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Parametre">
             <Menu.Item key="10">
               <Link to='/utilisateur'>

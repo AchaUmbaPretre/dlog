@@ -24,6 +24,9 @@ export const postOffreDoc = async (data) => {
     return axios.post(`${DOMAIN}/api/offre/doc`, data);
   };
   
+export const postArticle = async (data) => {
+    return axios.post(`${DOMAIN}/api/offre/articles`, data);
+  };
 
 export const postOffreArticle = async (data) => {
     return axios.post(`${DOMAIN}/api/offre/article`, data);
