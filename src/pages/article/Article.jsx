@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, DollarOutlined, FileTextOutlined,UserOutlined, FileOutlined, PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, TagOutlined, FileTextOutlined,UserOutlined, FileOutlined, PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
-import { Link } from 'react-router-dom';
 import ArticleForm from '../offres/articleForm/ArticleForm';
 import { getArticle } from '../../services/typeService';
 
@@ -16,7 +15,7 @@ const Article = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [modalType, setModalType] = useState(null); // Pour suivre le type de modal ouvert
+  const [modalType, setModalType] = useState(null);
   const [idOffre, setIdOffre] = useState('');
 
   const closeAllModals = () => {
@@ -38,15 +37,8 @@ const Article = () => {
     openModal('DetailOffre', idOffre);
   };
 
-  const handleAjouterDoc = (idOffre) => {
-    openModal('DocumentOffreForm', idOffre);
-  };
 
-  const handleAjouterOffre = () => {
-    openModal('FormOffres');
-  };
-
-  const handleAjouterArticle = (idOffre) => {
+  const handleAjouterOffre  = (idOffre) => {
     openModal('ArticleForm', idOffre);
   };
 
@@ -118,9 +110,9 @@ const Article = () => {
       width: "8%" 
     },
     { 
-      title: 'Nom de l\'offre', 
-      dataIndex: 'nom_offre', 
-      key: 'nom_offre',
+      title: 'Nom', 
+      dataIndex: 'nom_article', 
+      key: 'nom_article',
       render: text => (
         <Space>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
@@ -128,21 +120,13 @@ const Article = () => {
       ),
     },
     { 
-      title: 'Fournisseur', 
-      dataIndex: 'nom_fournisseur', 
-      key: 'nom_fournisseur',
+      title: 'Categorie', 
+      dataIndex: 'nom_cat', 
+      key: 'nom_cat',
       render: text => (
         <Space>
-          <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
-      ),
-    },
-    { 
-      title: 'Date', 
-      dataIndex: 'date_creation', 
-      key: 'date_creation',
-      render: text => (
-        <Tag icon={<CalendarOutlined />} color='purple'>{moment(text).format('LL')}</Tag>
       ),
     },
     {
@@ -154,37 +138,9 @@ const Article = () => {
           <Tooltip title="Voir détails">
             <Button
               icon={<EyeOutlined />}
-              onClick={() => handleVoirDetails(record.id_offre)}
-              aria-label="Voir les détails de l'offre"
-            />
-          </Tooltip>
-          <Popover
-            content={
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleDetailDoc(record.id_offre)} >
-                  <FileTextOutlined /> Liste des docs
-                </Link>
-                <Link onClick={() => handleAjouterDoc(record.id_offre)} >
-                  <FileTextOutlined /> Ajouter un doc
-                </Link>
-              </div>
-            }
-            title=""
-            trigger="click"
-          >
-            <Tooltip title="Documents">
-              <Button
-                icon={<FileOutlined />}
-                style={{ color: 'green' }}
-                aria-label="Documents"
-              />
-            </Tooltip>
-          </Popover>
-          <Tooltip title="Ajouter des articles">
-            <Button
-              icon={<PlusCircleOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleAjouterArticle(record.id_offre)}
+              onClick={() => handleVoirDetails(record.id_article)}
+              aria-label="Voir les détails de l'offre"
             />
           </Tooltip>
           <Tooltip title="Supprimer">
@@ -212,9 +168,9 @@ const Article = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <DollarOutlined className='client-icon'/>
+              <TagOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Offres</h2>
+            <h2 className="client-h2">Articles</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -226,7 +182,7 @@ const Article = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAjouterOffre}
               >
-                Ajouter une Offre
+                Ajouter article
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Exporter</Button>

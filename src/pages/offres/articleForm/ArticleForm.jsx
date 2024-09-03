@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Row, Col, Button, Card, Spin, notification, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { postOffreArticle } from '../../../services/offreService';
+import { postArticle, postOffreArticle } from '../../../services/offreService';
 import { getCategorie } from '../../../services/typeService';
 
 const ArticleForm = ({idOffre}) => {
@@ -35,9 +35,9 @@ const ArticleForm = ({idOffre}) => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-        await postOffreArticle({
+        await postArticle({
             ...values,
-            id_offre: idOffre
+            id_offre : idOffre
         });
         notification.success({
           message: 'Succès',
@@ -86,7 +86,7 @@ const ArticleForm = ({idOffre}) => {
                   }
                 >
                   <Row gutter={16}>
-                    <Col span={6}>
+                    <Col span={12}>
                       <Form.Item
                         {...restField}
                         name={[name, 'nom_article']}
@@ -97,25 +97,7 @@ const ArticleForm = ({idOffre}) => {
                         <Input placeholder="Nom de l'Article" />
                       </Form.Item>
                     </Col>
-                    <Col span={6}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'prix_unitaire']}
-                        fieldKey={[fieldKey, 'prix_unitaire']}
-                        label="Prix Unitaire"
-                        rules={[{ required: true, message: 'Veuillez entrer le prix unitaire.' }]}
-                      >
-                        <InputNumber
-                          min={0}
-                          step={0.01}
-                          style={{ width: '100%' }}
-                          placeholder="Prix Unitaire"
-                          formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                          parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col span={6}>
+                    <Col span={12}>
                       <Form.Item
                         {...restField}
                         name={[name, 'id_categorie']}
@@ -133,21 +115,6 @@ const ArticleForm = ({idOffre}) => {
                                             </div>
                                         ),
                                     }))}
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col span={6}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'quantite']}
-                        fieldKey={[fieldKey, 'quantite']}
-                        label="Quantité"
-                        rules={[{ required: true, message: 'Veuillez entrer la quantité.' }]}
-                      >
-                        <InputNumber
-                          min={1}
-                          style={{ width: '100%' }}
-                          placeholder="Quantité"
                         />
                       </Form.Item>
                     </Col>

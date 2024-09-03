@@ -7,6 +7,7 @@ const DetailOffre = ({ idOffre }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState('');
+  const scroll = { x: 400 };
   const pdfRef = useRef();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const DetailOffre = ({ idOffre }) => {
   }, [idOffre]);
 
   const calculateTotal = () => {
-    return data.reduce((acc, item) => acc + item.montant, 0).toFixed(2);
+    return data.reduce((acc, item) => acc + item?.prix, 0).toFixed(2);
   };
 
   const columns = [
@@ -47,21 +48,10 @@ const DetailOffre = ({ idOffre }) => {
     },
     {
       title: 'P.U.',
-      dataIndex: 'prix_unitaire',
-      key: 'prix_unitaire',
-      render: (text) => `${text.toFixed(2)} $`,
-    },
-    {
-      title: 'Quantité',
-      dataIndex: 'quantite',
-      key: 'quantite',
-    },
-    {
-      title: 'Montant',
-      dataIndex: 'montant',
-      key: 'montant',
-      render: (text) => `${text.toFixed(2)} $`,
-    },
+      dataIndex: 'prix',
+      key: 'prix',
+      render: (text) => `${text?.toFixed(2)} $`,
+    }
   ];
 
   const handleExportPDF = () => {
@@ -103,7 +93,7 @@ const DetailOffre = ({ idOffre }) => {
                     </Table.Summary.Cell>
                     </Table.Summary.Row>
                 )}
-                scroll={{ x: 'max-content' }}
+                scroll={{ scroll }}
                 />
             </div>
             </Card>
