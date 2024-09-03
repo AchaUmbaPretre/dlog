@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Form, InputNumber, Select, Button, Row, Col, notification, Table } from 'antd';
-import { getFournisseur } from '../../../services/fournisseurService';
+import { Form, InputNumber, Select, Button, notification, Table } from 'antd';
 import { postBudget } from '../../../services/budgetService';
 import { useNavigate } from 'react-router-dom';
 import { getBesoinOne } from '../../../services/besoinsService';
+import { getOffre, getOffreArticleOne } from '../../../services/offreService';
 
 const { Option } = Select;
 
 const BudgetForm = ({ idProjet }) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [idOffre, setIdOffre] = useState(null);
+  const [offreData, setOffreData] = useState([]);
   const [besoin, setBesoin] = useState([]);
-  const [fournisseur, setFournisseur] = useState([]);
+  const [offre, setOffre] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleFinish = async (values) => {
+    console.log(values);
     setLoading(true);
     try {
       await postBudget(values);
@@ -46,6 +49,7 @@ const BudgetForm = ({ idProjet }) => {
     const fetchBesoin = async () => {
       try {
         const response = await getBesoinOne(idProjet);
+        console.log('Besoin Data:', response.data);
         setBesoin(response.data);
       } catch (error) {
         handleError('Une erreur est survenue lors du chargement des besoins. Veuillez réessayer plus tard.');
@@ -58,10 +62,30 @@ const BudgetForm = ({ idProjet }) => {
   }, [idProjet]);
 
   useEffect(() => {
+    const fetchOffreData = async () => {
+      try {
+        const response = await getOffreArticleOne(idOffre);
+        console.log('Fetched Offre Data:', response.data);
+        setOffreData(response.data);
+      } catch (error) {
+        handleError('Une erreur est survenue lors du chargement des offres.');
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    if (idOffre) {
+      fetchOffreData();
+    }
+  }, [idOffre]);
+  
+
+  useEffect(() => {
     const fetchFournisseur = async () => {
       try {
-        const fournisseurData = await getFournisseur();
-        setFournisseur(fournisseurData.data);
+        const offreData = await getOffre();
+        console.log('Offre List:', offreData.data);
+        setOffre(offreData.data);
       } catch (error) {
         handleError('Une erreur est survenue lors du chargement des fournisseurs.');
       }
@@ -69,6 +93,26 @@ const BudgetForm = ({ idProjet }) => {
 
     fetchFournisseur();
   }, []);
+
+  const handleOfferChange = (value, record) => {
+    setIdOffre(value);
+    
+    setTimeout(() => {
+      const selectedOffer = offreData.filter((item) => item.id_offre === value);  
+      if (selectedOffer.length > 0) {
+        const totalMontant = selectedOffer.reduce((total, article) => total + article.prix, 0);
+        form.setFieldsValue({
+          [`montant[${record.id_besoin}]`]: totalMontant
+        });
+      } else {
+        form.setFieldsValue({
+          [`montant[${record.id_besoin}]`]: 0
+        });
+      }
+    }, 0);
+  };
+  
+  
 
   const columns = [
     {
@@ -78,11 +122,11 @@ const BudgetForm = ({ idProjet }) => {
     },
     {
       title: 'Qté demandée',
-      dataIndex: 'quantite_demande',
-      key: 'quantite_demande',
+      dataIndex: 'quantite',
+      key: 'quantite',
       render: (_, record) => (
         <Form.Item
-          name={['besoins', record.id_besoin, 'quantite_demande']}
+          name={['quantite_demande', record.id_besoin]}
           initialValue={record.quantite}
         >
           <InputNumber min={0} />
@@ -95,7 +139,7 @@ const BudgetForm = ({ idProjet }) => {
       key: 'quantite_validee',
       render: (_, record) => (
         <Form.Item
-          name={['besoins', record.id_besoin, 'quantite_validee']}
+          name={['quantite_validee', record.id_besoin]}
         >
           <InputNumber min={0} />
         </Form.Item>
@@ -103,18 +147,21 @@ const BudgetForm = ({ idProjet }) => {
     },
     {
       title: 'Offre',
-      dataIndex: 'offre',
-      key: 'offre',
+      dataIndex: 'id_offre',
+      key: 'id_offre',
       render: (_, record) => (
         <Form.Item
-          name={['besoins', record.id_besoin, 'offre']}
+          name={['id_offre', record.id_besoin]}
         >
-          <Select placeholder="Sélectionnez une offre">
-            {/* Remplacez les valeurs d'offre ici par celles disponibles */}
-            <Option value="offre1">Offre 1</Option>
-            <Option value="offre2">Offre 2</Option>
-            <Option value="offre3">Offre 3</Option>
-          </Select>
+          <Select
+            placeholder="Sélectionnez une offre"
+            onChange={(value) => handleOfferChange(value, record)}
+            showSearch
+            options={offre.map((item) => ({
+              value: item.id_offre,
+              label: item.nom_offre,
+            }))}
+          />
         </Form.Item>
       ),
     },
@@ -124,7 +171,8 @@ const BudgetForm = ({ idProjet }) => {
       key: 'montant',
       render: (_, record) => (
         <Form.Item
-          name={['besoins', record.id_besoin, 'montant']}
+          name={['montant', record.id_besoin]}
+          initialValue={0}
         >
           <InputNumber min={0} readOnly />
         </Form.Item>
@@ -136,12 +184,12 @@ const BudgetForm = ({ idProjet }) => {
       key: 'montant_valide',
       render: (_, record) => (
         <Form.Item
-          name={['besoins', record.id_besoin, 'montant_valide']}
+          name={['montant_valide', record.id_besoin]}
         >
-          <InputNumber min={0} readOnly />
+          <InputNumber min={0} />
         </Form.Item>
       ),
-    },
+    }
   ];
 
   return (
@@ -150,12 +198,12 @@ const BudgetForm = ({ idProjet }) => {
       layout="vertical"
       onFinish={handleFinish}
     >
-
       <Table
         columns={columns}
         dataSource={besoin}
         rowKey="id_besoin"
         pagination={false}
+        bordered
       />
 
       <Form.Item>

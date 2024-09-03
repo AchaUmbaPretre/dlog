@@ -179,6 +179,7 @@ const Projet = () => {
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record.id_projet)}
               aria-label="View budget details"
+              style={{ color: 'green' }}
             />
           </Tooltip>
           <Popover

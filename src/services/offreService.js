@@ -7,6 +7,10 @@ export const getOffre = async () => {
     return axios.get(`${DOMAIN}/api/offre`);
   };
 
+  export const getOffreArticleOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/offre/one_offre?id_offre=${id}`);
+  };
+
 export const getDetailDoc = async (id) => {
     return axios.get(`${DOMAIN}/api/offre/detailOffre?id_offre=${id}`);
   };
