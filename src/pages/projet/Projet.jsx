@@ -303,7 +303,7 @@ const Projet = () => {
         visible={isBudgetVisible}
         onCancel={handleCancel}
         footer={null}
-        width={900}
+        width={1000}
         centered
       >
         <BudgetForm idProjet={idProjet} />

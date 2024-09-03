@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Form, InputNumber, Select, Button, Row, Col, notification, Table } from 'antd';
-import { getArticle, getArticleOne } from '../../../services/typeService';
 import { getFournisseur } from '../../../services/fournisseurService';
 import { postBudget } from '../../../services/budgetService';
 import { useNavigate } from 'react-router-dom';
@@ -11,9 +10,8 @@ const { Option } = Select;
 const BudgetForm = ({ idProjet }) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [articles, setArticles] = useState([]);
-  const [besoins, setBesoins] = useState([]);
-  const [fournisseurs, setFournisseurs] = useState([]);
+  const [besoin, setBesoin] = useState([]);
+  const [fournisseur, setFournisseur] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleFinish = async (values) => {
@@ -37,7 +35,6 @@ const BudgetForm = ({ idProjet }) => {
     }
   };
 
-  // Fonction pour gérer les erreurs de chargement
   const handleError = (message) => {
     notification.error({
       message: 'Erreur de chargement',
@@ -45,17 +42,13 @@ const BudgetForm = ({ idProjet }) => {
     });
   };
 
-  // Récupérer les besoins liés au projet
   useEffect(() => {
     const fetchBesoin = async () => {
       try {
         const response = await getBesoinOne(idProjet);
-        setBesoins(response.data);
+        setBesoin(response.data);
       } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des besoins. Veuillez réessayer plus tard.',
-        });
+        handleError('Une erreur est survenue lors du chargement des besoins. Veuillez réessayer plus tard.');
       } finally {
         setLoading(false);
       }
@@ -64,12 +57,11 @@ const BudgetForm = ({ idProjet }) => {
     fetchBesoin();
   }, [idProjet]);
 
-  // Récupérer les fournisseurs
   useEffect(() => {
     const fetchFournisseur = async () => {
       try {
         const fournisseurData = await getFournisseur();
-        setFournisseurs(fournisseurData.data);
+        setFournisseur(fournisseurData.data);
       } catch (error) {
         handleError('Une erreur est survenue lors du chargement des fournisseurs.');
       }
@@ -78,25 +70,6 @@ const BudgetForm = ({ idProjet }) => {
     fetchFournisseur();
   }, []);
 
-  // Récupérer les articles liés aux besoins
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        // Supposons que chaque besoin a un champ 'id_article' pour identifier l'article
-        const articlePromises = besoins.map(besoin => getArticleOne(besoin.id_article));
-        const articlesData = await Promise.all(articlePromises);
-        const articlesList = articlesData.map(res => res.data);
-        setArticles(articlesList);
-      } catch (error) {
-        handleError('Une erreur est survenue lors du chargement des articles.');
-      }
-    };
-
-    if (besoins.length > 0) {
-      fetchArticles();
-    }
-  }, [besoins]);
-
   const columns = [
     {
       title: 'Article',
@@ -104,209 +77,93 @@ const BudgetForm = ({ idProjet }) => {
       key: 'description',
     },
     {
-      title: 'Quantité demandée',
+      title: 'Qté demandée',
       dataIndex: 'quantite_demande',
       key: 'quantite_demande',
+      render: (_, record) => (
+        <Form.Item
+          name={['besoins', record.id_besoin, 'quantite_demande']}
+          initialValue={record.quantite}
+        >
+          <InputNumber min={0} />
+        </Form.Item>
+      ),
     },
     {
-      title: 'Quantité validée',
+      title: 'Qté validée',
       dataIndex: 'quantite_validee',
       key: 'quantite_validee',
-      render: (text, record) => (
-        <InputNumber
-          min={0}
-          defaultValue={record.quantite_validee || 0}
-          onChange={(value) => handleQuantiteValideeChange(record.id_besoin, value)}
-        />
+      render: (_, record) => (
+        <Form.Item
+          name={['besoins', record.id_besoin, 'quantite_validee']}
+        >
+          <InputNumber min={0} />
+        </Form.Item>
       ),
     },
     {
       title: 'Offre',
       dataIndex: 'offre',
       key: 'offre',
+      render: (_, record) => (
+        <Form.Item
+          name={['besoins', record.id_besoin, 'offre']}
+        >
+          <Select placeholder="Sélectionnez une offre">
+            {/* Remplacez les valeurs d'offre ici par celles disponibles */}
+            <Option value="offre1">Offre 1</Option>
+            <Option value="offre2">Offre 2</Option>
+            <Option value="offre3">Offre 3</Option>
+          </Select>
+        </Form.Item>
+      ),
     },
     {
       title: 'Montant',
       dataIndex: 'montant',
       key: 'montant',
-      render: (text, record) => (
-        <span>{(record.quantite_demande * record.prix_unitaire).toFixed(2)}</span>
+      render: (_, record) => (
+        <Form.Item
+          name={['besoins', record.id_besoin, 'montant']}
+        >
+          <InputNumber min={0} readOnly />
+        </Form.Item>
       ),
     },
     {
-      title: 'Montant validé',
+      title: 'MT validé',
       dataIndex: 'montant_valide',
       key: 'montant_valide',
-      render: (text, record) => (
-        <span>{(record.quantite_validee * record.prix_unitaire).toFixed(2)}</span>
+      render: (_, record) => (
+        <Form.Item
+          name={['besoins', record.id_besoin, 'montant_valide']}
+        >
+          <InputNumber min={0} readOnly />
+        </Form.Item>
       ),
     },
   ];
 
-  // Fonction pour gérer le changement de quantité validée
-  const handleQuantiteValideeChange = (idBesoin, value) => {
-    setBesoins(prevBesoins =>
-      prevBesoins.map(besoin =>
-        besoin.id_besoin === idBesoin
-          ? { ...besoin, quantite_validee: value }
-          : besoin
-      )
-    );
-  };
-
-  // Préparer les données pour le tableau
-  const dataSource = besoins.map(besoin => {
-    return {
-      key: besoin.id_besoin,
-      id_besoin: besoin.id_besoin,
-      description: besoin.description || 'N/A',
-      quantite_demande: besoin.quantite,
-      quantite_validee: besoin.quantite_validee || 0,
-      offre: besoin.offre || 'N/A',
-      prix_unitaire:  0,
-      montant: 0,
-      montant_valide: 0
-    };
-  });
-
   return (
-    <>
-      {/* Tableau des articles */}
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={handleFinish}
+    >
+
       <Table
         columns={columns}
-        dataSource={dataSource}
+        dataSource={besoin}
+        rowKey="id_besoin"
         pagination={false}
-        bordered
-        title={() => 'Liste des Articles'}
       />
 
-      {/* Formulaire de budget */}
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleFinish}
-        initialValues={{
-          quantite_demande: 0.00
-        }}
-        style={{ marginTop: '20px' }}
-      >
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              label="Article"
-              name="article"
-              rules={[{ required: true, message: 'Veuillez sélectionner un article' }]}
-            >
-              <Select placeholder="Sélectionnez un article">
-                {besoins.map((b) => (
-                  <Option key={b.id_besoin} value={b.id_besoin}>
-                    {b.description}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              label="Fournisseur"
-              name="fournisseur"
-              rules={[{ required: true, message: 'Veuillez sélectionner un fournisseur' }]}
-            >
-              <Select onChange={(value) => form.setFieldsValue({ fournisseur: value })} placeholder="Sélectionnez un fournisseur">
-                {fournisseurs.map((f) => (
-                  <Option key={f.id_fournisseur} value={f.id_fournisseur}>
-                    {f.nom_fournisseur}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-
-        {/* Autres champs du formulaire */}
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              label="Quantité demandée"
-              name="quantite_demande"
-              rules={[{ required: true, message: 'Veuillez entrer la quantité demandée' }]}
-            >
-              <InputNumber
-                min={0}
-                style={{ width: '100%' }}
-                placeholder="0.00"
-              />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              label="Prix unitaire"
-              name="prix_unitaire"
-              rules={[{ required: true, message: 'Veuillez entrer le prix unitaire' }]}
-            >
-              <InputNumber
-                min={0}
-                style={{ width: '100%' }}
-                placeholder="0.00"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              label="Montant"
-              name="montant"
-            >
-              <InputNumber
-                style={{ width: '100%' }}
-                placeholder="0.00"
-                readOnly
-              />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              label="Quantité validée"
-              name="quantite_validee"
-              rules={[{ type: 'number', min: 0, message: 'Veuillez entrer une quantité validée positive' }]}
-            >
-              <InputNumber
-                min={0}
-                style={{ width: '100%' }}
-                placeholder="0.00"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          <Col span={24}>
-            <Form.Item
-              label="Montant validé"
-              name="montant_valide"
-            >
-              <InputNumber
-                min={0}
-                style={{ width: '100%' }}
-                placeholder="0.00"
-                readOnly
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading}>
-            Soumettre
-          </Button>
-        </Form.Item>
-      </Form>
-    </>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          Soumettre
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

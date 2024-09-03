@@ -18,3 +18,12 @@ export const getArticle = async () => {
 export const getArticleOne = async (idArt, idFour) => {
     return axios.get(`${DOMAIN}/api/types/articleOne?id_article=${idArt}&id_fournisseur=${idFour}`);
   };
+
+
+  export const getBatiment = async () => {
+    return axios.get(`${DOMAIN}/api/types/batiment`);
+  };
+
+  export const postBatiment = async (data) => {
+    return axios.get(`${DOMAIN}/api/types/batiment`, data);
+  };

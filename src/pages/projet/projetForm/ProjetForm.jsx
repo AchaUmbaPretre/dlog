@@ -4,6 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
 import { postProjet } from '../../../services/projetService';
+import { getBatiment } from '../../../services/typeService';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -14,6 +15,7 @@ const ProjetForm = () => {
     const [client, setClient] = useState([]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [batiment, setBatiment] = useState([])
 
     const handleError = (message) => {
         notification.error({
@@ -25,13 +27,15 @@ const ProjetForm = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [usersData, clientData] = await Promise.all([
+                const [usersData, clientData, batimentData] = await Promise.all([
                     getUser(),
                     getClient(),
+                    getBatiment()
                 ]);
 
                 setUsers(usersData.data);
                 setClient(clientData.data);
+                setBatiment(batimentData.data)
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
@@ -152,7 +156,24 @@ const ProjetForm = () => {
                     </Form.Item>
                 </Col>
             </Row>
-
+            <Row gutter={16}>
+                <Col span={24}>
+                    <Form.Item
+                        label="Batiment"
+                        name="id_batiment"
+                        rules={[{ required: true, message: 'Le client est requis' }]}
+                    >
+                        <Select
+                            placeholder="Sélectionnez un batiment"
+                            showSearch
+                            options={batiment.map((item) => ({
+                                value: item.id_batiment,
+                                label: item.nom_batiment,
+                            }))}
+                        />
+                    </Form.Item>
+                </Col>
+            </Row>
             <Form.List name="besoins">
                 {(fields, { add, remove }) => (
                     <>
