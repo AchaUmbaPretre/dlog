@@ -80,38 +80,38 @@ const SideBar = () => {
               </Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="2" icon={<ProjectOutlined />}>
+          <Item key="9" icon={<ProjectOutlined />}>
             <Link to='/projet'>
               Projet
             </Link>
           </Item>
-          <Item key="9" icon={<TagOutlined  />}>
+          <Item key="10" icon={<TagOutlined  />}>
             <Link to='/article'>
               Article
             </Link>
           </Item>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Parametre">
-            <Menu.Item key="10">
+            <Menu.Item key="11">
               <Link to='/utilisateur'>
                 Liste des personnels
               </Link>
             </Menu.Item>
-            <Menu.Item key="11">
+            <Menu.Item key="12">
               <Link to={'/client'}>
                 Liste des clients
               </Link>
             </Menu.Item>
-            <Menu.Item key="12">
+            <Menu.Item key="13">
               <Link to={'/fournisseur'}>
                 Liste des fourniseurs
               </Link>
             </Menu.Item>
-            <Menu.Item key="13">
+            <Menu.Item key="14">
               <Link to={'/batiment'}>
                 Liste des bâtiments
               </Link>
             </Menu.Item>
-            <Menu.Item key="14">
+            <Menu.Item key="15">
               <Link to={'/categorie'}>
                 Liste des categories
               </Link>
