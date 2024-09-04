@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux';
 import { Spin } from 'antd';
 import Batiment from './pages/batiment/Batiment';
 import Article from './pages/article/Article';
+import Categorie from './pages/categorie/Categorie';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -107,6 +108,10 @@ function App() {
         {
           path: '/article',
           element: <Article/>
+        },
+        {
+          path: '/categorie',
+          element: <Categorie/>
         },
         {
           path: '/utilisateur',

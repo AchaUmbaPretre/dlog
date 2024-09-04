@@ -104,6 +104,7 @@ const BudgetForm = ({ idProjet }) => {
         form.setFieldsValue({
           [`montant[${record.id_besoin}]`]: totalMontant
         });
+        
       } else {
         form.setFieldsValue({
           [`montant[${record.id_besoin}]`]: 0

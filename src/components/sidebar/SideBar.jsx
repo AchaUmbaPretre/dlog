@@ -106,7 +106,12 @@ const SideBar = () => {
             </Menu.Item>
             <Menu.Item key="12">
               <Link to={'/batiment'}>
-                Liste des bâtiment
+                Liste des bâtiments
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="13">
+              <Link to={'/categorie'}>
+                Liste des categories
               </Link>
             </Menu.Item>
           </SubMenu>

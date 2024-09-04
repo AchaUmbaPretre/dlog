@@ -7,10 +7,6 @@ export const getTypes = async () => {
     return axios.get(`${DOMAIN}/api/types`);
   };
 
-export const getCategorie = async () => {
-    return axios.get(`${DOMAIN}/api/types/categorie`);
-  };
-
 export const getArticle = async () => {
     return axios.get(`${DOMAIN}/api/types/article`);
   };
@@ -25,5 +21,14 @@ export const getArticleOne = async (idArt, idFour) => {
   };
 
   export const postBatiment = async (data) => {
-    return axios.get(`${DOMAIN}/api/types/batiment`, data);
+    return axios.post(`${DOMAIN}/api/types/batiment`, data);
+  };
+
+  //Categorie
+  export const getCategorie = async () => {
+    return axios.get(`${DOMAIN}/api/types/categorie`);
+  };
+
+  export const postCategorie = async (data) => {
+    return axios.post(`${DOMAIN}/api/types/categorie`, data);
   };
