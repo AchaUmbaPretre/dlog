@@ -3,6 +3,8 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { ExportOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import { getDepartement } from '../../services/departementService';
+import BatimentForm from './batimentForm/BatimentForm';
+import { getBatiment } from '../../services/typeService';
 
 const { Search } = Input;
 
@@ -13,10 +15,6 @@ const Batiment = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
-
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
 
   const handleDelete = async (id) => {
     try {
@@ -32,15 +30,11 @@ const Batiment = () => {
     }
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
-  };
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getDepartement();
+        const { data } = await getBatiment();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -117,8 +111,8 @@ const Batiment = () => {
     },
     { 
       title: 'Ville', 
-      dataIndex: 'ville', 
-      key: 'ville',
+      dataIndex: 'name', 
+      key: 'name',
       render: text => (
         <Tag color='magenta'>{text ?? "Aucun"}</Tag>
       ),
@@ -164,8 +158,7 @@ const Batiment = () => {
   ];
 
   const filteredData = data.filter(item =>
-    item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.code?.toLowerCase().includes(searchValue.toLowerCase()) 
+    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -176,7 +169,7 @@ const Batiment = () => {
             <div className="client-row-icon">
               <ApartmentOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Département</h2>
+            <h2 className="client-h2">Bâtiment</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -191,7 +184,7 @@ const Batiment = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Département
+                Ajouter Batiment
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
@@ -225,7 +218,7 @@ const Batiment = () => {
         width={600}
         centered
       >
-{/*         <DepartementForm/> */}
+        <BatimentForm/>
       </Modal>
     </>
   );

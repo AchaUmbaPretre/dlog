@@ -6,7 +6,9 @@ import {
   FileDoneOutlined,
   SettingOutlined,
   LogoutOutlined,
-  TagOutlined 
+  TagOutlined,
+  DashboardOutlined,
+  ProjectOutlined
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -41,51 +43,51 @@ const SideBar = () => {
           <Item key="/" icon={<HomeOutlined />}>
             <Link to="/">Accueil</Link>
           </Item>
-          <Item key="2" icon={<ApartmentOutlined />}>
+          <Item key="1" icon={<ApartmentOutlined />}>
             <Link to='/departement'>
               Département
             </Link>
           </Item>
+          <Item key="2" icon={<DashboardOutlined />}>
+            <Link to='/controle'>
+              Controle de base
+            </Link>
+          </Item>
           <SubMenu key="sub5" icon={<FileDoneOutlined />} title="Tâches">
             <Menu.Item key="3">
-              <Link to={'/controle'}>
-                Controle de base
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="4">
               <Link to={'/tache'}>
                 Tâches
               </Link>
             </Menu.Item>
             <Menu.Item key="5">
-              <Link to='/projet'>
-                Projet
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="6">
               <Link to='/offre'>
                 Offres
               </Link>
             </Menu.Item>
-            <Menu.Item key="7">
+            <Menu.Item key="6">
               <Link to='/budget'>
                 Budget
               </Link>
             </Menu.Item>
-            <Menu.Item key="8">
+            <Menu.Item key="7">
               <Link to='/format'>
                 Format
               </Link>
             </Menu.Item>
-            <Menu.Item key="9">
+            <Menu.Item key="8">
               <Link to='/frequence'>
                 Frequence
               </Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="3" icon={<TagOutlined  />}>
+          <Item key="2" icon={<ProjectOutlined />}>
+            <Link to='/projet'>
+              Projet
+            </Link>
+          </Item>
+          <Item key="9" icon={<TagOutlined  />}>
             <Link to='/article'>
-              Articles
+              Article
             </Link>
           </Item>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Parametre">
@@ -104,12 +106,12 @@ const SideBar = () => {
                 Liste des fourniseurs
               </Link>
             </Menu.Item>
-            <Menu.Item key="12">
+            <Menu.Item key="13">
               <Link to={'/batiment'}>
                 Liste des bâtiments
               </Link>
             </Menu.Item>
-            <Menu.Item key="13">
+            <Menu.Item key="14">
               <Link to={'/categorie'}>
                 Liste des categories
               </Link>

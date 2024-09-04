@@ -1,8 +1,8 @@
-import { Button, Form, Input, notification, Modal } from 'antd';
+import { Button, Form, Input, notification, Modal, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../../../services/userService';
-import { postCategorie } from '../../../services/typeService';
+import { postBatiment, postCategorie } from '../../../services/typeService';
+import { getProvince } from '../../../services/clientService';
 
 
 const BatimentForm = () => {
@@ -20,7 +20,7 @@ const BatimentForm = () => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const { data } = await getUser();
+            const { data } = await getProvince();
             setData(data);
           } catch (error) {
             notification.error({
@@ -37,12 +37,12 @@ const BatimentForm = () => {
         setIsModalVisible(false);
         setIsLoading(true);
         try {
-            await postCategorie(formValues);
+            await postBatiment(formValues);
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/categorie');
+            navigate('/batiment');
             window.location.reload();
         } catch (error) {
             notification.error({
@@ -70,11 +70,33 @@ const BatimentForm = () => {
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        label="Categorie"
-                        name="nom_cat"
-                        rules={[{ required: true, message: 'Veuillez entrer le nom de categorie !' }]}
+                        label="Nom"
+                        name="nom_batiment"
+                        rules={[{ required: true, message: 'Veuillez entrer le nom du batiment!' }]}
                     >
                         <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Site"
+                        name="site"
+                        rules={[{ required: false, message: 'Veuillez entrer le nom du site!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Ville"
+                        name="ville"
+                        rules={[{ required: true, message: 'Veuillez entrer le nom de la ville!' }]}
+                    >
+                        <Select
+                            showSearch
+                            options={data.map((item) => ({
+                                        value: item.id,
+                                        label: item.name,
+                                    }))}
+                                    placeholder="Sélectionnez une ville..."
+                                    optionFilterProp="label"
+                        />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>

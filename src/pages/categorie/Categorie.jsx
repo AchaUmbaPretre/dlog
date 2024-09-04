@@ -192,7 +192,7 @@ const Categorie = () => {
       </div>
 
       <Modal
-        title=""
+        title="Ajouter une categorie"
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
