@@ -65,7 +65,6 @@ const BudgetForm = ({ idProjet }) => {
     const fetchOffreData = async () => {
       try {
         const response = await getOffreArticleOne(idOffre);
-        console.log('Fetched Offre Data:', response.data);
         setOffreData(response.data);
       } catch (error) {
         handleError('Une erreur est survenue lors du chargement des offres.');
@@ -78,13 +77,12 @@ const BudgetForm = ({ idProjet }) => {
       fetchOffreData();
     }
   }, [idOffre]);
-  
 
   useEffect(() => {
     const fetchFournisseur = async () => {
       try {
         const offreData = await getOffre();
-        console.log('Offre List:', offreData.data);
+
         setOffre(offreData.data);
       } catch (error) {
         handleError('Une erreur est survenue lors du chargement des fournisseurs.');
@@ -96,24 +94,31 @@ const BudgetForm = ({ idProjet }) => {
 
   const handleOfferChange = (value, record) => {
     setIdOffre(value);
+  
+    // Trouver l'offre sélectionnée dans les données d'offres
+    const selectedOffer = offreData.find((item) => item.id_offre === value);
     
-    setTimeout(() => {
-      const selectedOffer = offreData.filter((item) => item.id_offre === value);  
-      if (selectedOffer.length > 0) {
-        const totalMontant = selectedOffer.reduce((total, article) => total + article.prix, 0);
-        form.setFieldsValue({
-          [`montant[${record.id_besoin}]`]: totalMontant
-        });
-        
-      } else {
-        form.setFieldsValue({
-          [`montant[${record.id_besoin}]`]: 0
-        });
-      }
-    }, 0);
+    if (selectedOffer) {
+      // Calculer le montant basé sur le prix et la quantité
+      const montant = selectedOffer.prix * selectedOffer.quantite;
+  
+      // Mettre à jour les champs du formulaire
+      form.setFieldsValue({
+        [`montant_${record.id_besoin}`]: montant,
+      });
+    }
   };
   
-  
+
+  const handleQuantityChange = (value, id_besoin) => {
+    const selectedOffer = offreData.find((item) => item.id_besoin === id_besoin);
+    if (selectedOffer) {
+      const montantValide = value * selectedOffer.prix;
+      form.setFieldsValue({
+        [`montant_valide_${id_besoin}`]: montantValide,
+      });
+    }
+  };
 
   const columns = [
     {
@@ -127,10 +132,13 @@ const BudgetForm = ({ idProjet }) => {
       key: 'quantite',
       render: (_, record) => (
         <Form.Item
-          name={['quantite_demande', record.id_besoin]}
+          name={`quantite_demande_${record.id_besoin}`}
           initialValue={record.quantite}
         >
-          <InputNumber min={0} />
+          <InputNumber
+            min={0}
+            onChange={(value) => handleQuantityChange(value, record.id_besoin)}
+          />
         </Form.Item>
       ),
     },
@@ -140,9 +148,12 @@ const BudgetForm = ({ idProjet }) => {
       key: 'quantite_validee',
       render: (_, record) => (
         <Form.Item
-          name={['quantite_validee', record.id_besoin]}
+          name={`quantite_validee_${record.id_besoin}`}
         >
-          <InputNumber min={0} />
+          <InputNumber
+            min={0}
+            onChange={(value) => handleQuantityChange(value, record.id_besoin)}
+          />
         </Form.Item>
       ),
     },
@@ -152,7 +163,7 @@ const BudgetForm = ({ idProjet }) => {
       key: 'id_offre',
       render: (_, record) => (
         <Form.Item
-          name={['id_offre', record.id_besoin]}
+          name={`id_offre_${record.id_besoin}`}
         >
           <Select
             placeholder="Sélectionnez une offre"
@@ -172,7 +183,7 @@ const BudgetForm = ({ idProjet }) => {
       key: 'montant',
       render: (_, record) => (
         <Form.Item
-          name={['montant', record.id_besoin]}
+          name={`montant_${record.id_besoin}`}
           initialValue={0}
         >
           <InputNumber min={0} readOnly />
@@ -185,7 +196,7 @@ const BudgetForm = ({ idProjet }) => {
       key: 'montant_valide',
       render: (_, record) => (
         <Form.Item
-          name={['montant_valide', record.id_besoin]}
+          name={`montant_valide_${record.id_besoin}`}
         >
           <InputNumber min={0} />
         </Form.Item>
