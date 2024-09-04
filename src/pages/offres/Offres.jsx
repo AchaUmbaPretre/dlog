@@ -142,6 +142,16 @@ const Offres = () => {
       ),
     },
     { 
+        title: 'Entité', 
+        dataIndex: 'nom_batiment', 
+        key: 'nom_batiment',
+        render: text => (
+          <Space>
+            <Tag color='cyan'>{text}</Tag>
+          </Space>
+        ),
+      },
+    { 
       title: 'Date', 
       dataIndex: 'date_creation', 
       key: 'date_creation',
@@ -160,6 +170,7 @@ const Offres = () => {
               icon={<EyeOutlined />}
               onClick={() => handleVoirDetails(record.id_offre)}
               aria-label="Voir les détails de l'offre"
+              style={{color:'green'}}
             />
           </Tooltip>
           <Popover
@@ -187,7 +198,7 @@ const Offres = () => {
           <Tooltip title="Ajouter des articles">
             <Button
               icon={<PlusCircleOutlined />}
-              style={{ color: 'green' }}
+              style={{ color: 'blue' }}
               onClick={() => handleAjouterArticle(record.id_offre)}
             />
           </Tooltip>

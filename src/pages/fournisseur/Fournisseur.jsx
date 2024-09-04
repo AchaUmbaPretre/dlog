@@ -3,7 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Pop
 import { ExportOutlined,HomeOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { getClient } from '../../services/clientService';
 import config from '../../config';
-import { getFournisseur } from '../../services/fournisseurService';
+import { getFournisseur, getFournisseur_activite } from '../../services/fournisseurService';
 import FournisseurForm from './fournisseurForm/FournisseurForm';
 
 const { Search } = Input;
@@ -18,8 +18,22 @@ const Fournisseur = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getFournisseur();
-        setData(data);
+        const { data } = await getFournisseur_activite();
+  
+        const groupedData = data.reduce((acc, curr) => {
+          const found = acc.find(item => item.id_fournisseur === curr.id_fournisseur);
+          if (found) {
+            found.nom_activite.push(curr.nom_activite);
+          } else {
+            acc.push({
+              ...curr,
+              nom_activite: [curr.nom_activite],
+            });
+          }
+          return acc;
+        }, []);
+  
+        setData(groupedData);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -29,9 +43,10 @@ const Fournisseur = () => {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, [DOMAIN]);
+  
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -103,6 +118,18 @@ const Fournisseur = () => {
       ),
     },
     {
+      title: 'Activités',
+      dataIndex: 'nom_activite',
+      key: 'nom_activite',
+      render: (activities) => (
+        activities.map((activite, index) => (
+          <Tag key={index} color="green">
+            {activite}
+          </Tag>
+        ))
+      ),
+    },
+    {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
@@ -116,18 +143,6 @@ const Fournisseur = () => {
       key: 'telephone',
       render: (text) => (
         <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
-      ),
-    },
-    {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
-      render: (text) => (
-        <> 
-          <Tag icon={<HomeOutlined />} color='cyan'>
-            {text}
-          </Tag>
-        </>
       ),
     },
     {
@@ -172,7 +187,8 @@ const Fournisseur = () => {
         </Space>
       ),
     },
-  ]
+  ];
+  
 
   return (
     <>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Button, notification, Select } from 'antd';
+import { Form, Input, InputNumber, Button, notification, Select, Row, Col } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { postOffre } from '../../../services/offreService';
-import { getArticle } from '../../../services/typeService';
+import { getArticle, getBatiment } from '../../../services/typeService';
 import { getFournisseur } from '../../../services/fournisseurService';
+import { getProjet } from '../../../services/projetService';
 
 const { Option } = Select;
 
@@ -11,6 +12,8 @@ const FormOffres = () => {
   const [form] = Form.useForm();
   const [article, setArticle] = useState([]);
   const [fournisseur, setFournisseur] = useState([])
+  const [batiment, setBatiment] = useState([]);
+  const [projet, setProjet] = useState([]);
   const [loading, setLoading] = useState(false); // État de chargement
 
   const handleError = (message) => {
@@ -19,6 +22,36 @@ const FormOffres = () => {
       description: message,
     });
   };
+
+  useEffect(() => {
+    const fetchBatiment = async () => {
+      try {
+        const response = await getBatiment();
+        setBatiment(response.data);
+      } catch (error) {
+        handleError('Une erreur est survenue lors du chargement des besoins. Veuillez réessayer plus tard.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBatiment();
+  }, []);
+
+  useEffect(() => {
+    const fetchOffre = async () => {
+      try {
+        const response = await getProjet();
+        setProjet(response.data);
+      } catch (error) {
+        handleError('Une erreur est survenue lors du chargement des besoins. Veuillez réessayer plus tard.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOffre();
+  }, []);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -81,35 +114,76 @@ const FormOffres = () => {
       layout="vertical"
       style={{ maxWidth: 600, margin: '0 auto' }}
     >
-      <Form.Item
-        label="Fournisseur"
-        name="id_fournisseur"
-        rules={[{ required: true, message: 'Veuillez selectionner un fournisseur' }]}
-      >
-            <Select
-                showSearch
-                options={fournisseur.map((item) => ({
-                    value: item.id_fournisseur,
-                    label: item.nom_fournisseur,
-                }))}
-                placeholder="Sélectionnez un article..."
-                optionFilterProp="label"
-            />
-      </Form.Item>
-      <Form.Item
-        label="Nom de l'offre"
-        name="nom_offre"
-        rules={[{ required: true, message: 'Veuillez entrer le nom de l\'offre.' }]}
-      >
-        <Input placeholder="Nom de l'offre" />
-      </Form.Item>
-
-      <Form.Item
-        label="Description"
-        name="description"
-      >
-        <Input.TextArea rows={4} placeholder="Description de l'offre" />
-      </Form.Item>
+        <Row gutter={24}>
+            <Col xs={24} md={12}>
+                <Form.Item
+                    label="Fournisseur"
+                    name="id_fournisseur"
+                    rules={[{ required: true, message: 'Veuillez selectionner un fournisseur' }]}
+                >
+                    <Select
+                        showSearch
+                        options={fournisseur.map((item) => ({
+                            value: item.id_fournisseur,
+                            label: item.nom_fournisseur,
+                        }))}
+                        placeholder="Sélectionnez un article..."
+                        optionFilterProp="label"
+                    />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+                <Form.Item
+                    label="Titre"
+                    name="nom_offre"
+                    rules={[{ required: true, message: 'Veuillez entrer le nom de l\'offre.' }]}
+                >
+                    <Input placeholder="Titre de l'offre" />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+                <Form.Item
+                    label="Projet"
+                    name="id_projet"
+                    rules={[{ required: false, message: 'Veuillez selectionner un projet' }]}
+                >
+                    <Select
+                        showSearch
+                        options={projet.map((item) => ({
+                            value: item.id_projet,
+                            label: item.nom_projet,
+                        }))}
+                        placeholder="Sélectionnez un projet..."
+                        optionFilterProp="label"
+                    />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+                <Form.Item
+                    label="Entité"
+                    name="id_batiment"
+                    rules={[{ required: false, message: 'Veuillez selectionner une entité' }]}
+                >
+                    <Select
+                        showSearch
+                        options={batiment.map((item) => ({
+                            value: item.id_batiment,
+                            label: item.nom_batiment,
+                        }))}
+                        placeholder="Sélectionnez une entité..."
+                        optionFilterProp="label"
+                    />
+                </Form.Item>
+            </Col>
+            <Col xs={24} md={24}>
+                <Form.Item
+                    label="Description"
+                    name="description"
+                >
+                    <Input.TextArea rows={2} placeholder="Description de l'offre" />
+                </Form.Item>
+            </Col>
+        </Row>
 
       <Form.List
         name="articles"
