@@ -13,7 +13,6 @@ const FormOffres = () => {
   const [article, setArticle] = useState([]);
   const [fournisseur, setFournisseur] = useState([])
   const [batiment, setBatiment] = useState([]);
-  const [projet, setProjet] = useState([]);
   const [loading, setLoading] = useState(false); // État de chargement
 
   const handleError = (message) => {
@@ -36,21 +35,6 @@ const FormOffres = () => {
     };
 
     fetchBatiment();
-  }, []);
-
-  useEffect(() => {
-    const fetchOffre = async () => {
-      try {
-        const response = await getProjet();
-        setProjet(response.data);
-      } catch (error) {
-        handleError('Une erreur est survenue lors du chargement des besoins. Veuillez réessayer plus tard.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOffre();
   }, []);
 
   useEffect(() => {
@@ -141,24 +125,7 @@ const FormOffres = () => {
                     <Input placeholder="Titre de l'offre" />
                 </Form.Item>
             </Col>
-            <Col xs={24} md={12}>
-                <Form.Item
-                    label="Projet"
-                    name="id_projet"
-                    rules={[{ required: false, message: 'Veuillez selectionner un projet' }]}
-                >
-                    <Select
-                        showSearch
-                        options={projet.map((item) => ({
-                            value: item.id_projet,
-                            label: item.nom_projet,
-                        }))}
-                        placeholder="Sélectionnez un projet..."
-                        optionFilterProp="label"
-                    />
-                </Form.Item>
-            </Col>
-            <Col xs={24} md={12}>
+            <Col xs={24} md={24}>
                 <Form.Item
                     label="Entité"
                     name="id_batiment"
