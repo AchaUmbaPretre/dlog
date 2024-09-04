@@ -1,19 +1,37 @@
 import { Button, Form, Input, notification, Modal } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getUser } from '../../../services/userService';
 import { postCategorie } from '../../../services/typeService';
 
 
-const CatForm = () => {
+const BatimentForm = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [formValues, setFormValues] = useState({});
+    const [data, setData] = useState([]);
 
     const showConfirm = (values) => {
         setFormValues(values); 
         setIsModalVisible(true);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const { data } = await getUser();
+            setData(data);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+          }
+        };
+    
+        fetchData();
+      }, []);
 
     const handleOk = async () => {
         setIsModalVisible(false);
@@ -80,4 +98,4 @@ const CatForm = () => {
     );
 };
 
-export default CatForm;
+export default BatimentForm;
