@@ -1,13 +1,44 @@
-import React from 'react';
-import { Form, Input, Button, notification, Row, Col } from 'antd';
+import React, { useEffect } from 'react';
+import { Form, Input, Button, notification, Row, Col, Select } from 'antd';
 import { useState } from 'react';
 import { postFournisseur } from '../../../services/fournisseurService';
+import { getActivite } from '../../../services/typeService';
+import { getProvince } from '../../../services/clientService';
 
 const { TextArea } = Input;
 
 const FournisseurForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [activite, setActivite] = useState([]);
+  const [province, setProvince] = useState([]);
+
+
+  const handleError = (message) => {
+    notification.error({
+        message: 'Erreur de chargement',
+        description: message,
+    });
+};
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const [activiteData, provinceData] = await Promise.all([
+                getActivite(),
+                getProvince()
+
+            ]);
+
+            setActivite(activiteData.data);
+            setProvince(provinceData.data);
+        } catch (error) {
+            handleError('Une erreur est survenue lors du chargement des données.');
+        }
+    };
+
+    fetchData();
+}, []);
 
   const handleSubmit = async (values) => {
     setLoading(true); 
@@ -86,16 +117,42 @@ const FournisseurForm = () => {
             name="ville"
             label="Ville"
           >
-            <Input placeholder="Ville" />
+            <Select
+                showSearch
+                options={province.map((item) => ({
+                value: item.id,
+                label: item.name}))}
+                placeholder="Sélectionnez une province..."
+                optionFilterProp="label"
+            />
           </Form.Item>
         </Col>
 
         <Col span={12}>
           <Form.Item
+            name="nom_activite"
+            label="Activité"
+          >
+           <Select
+                mode="multiple"
+                showSearch
+                options={activite.map((item) => ({
+                value: item.id_activite,
+                label: item.nom_activite}))}
+                placeholder="Sélectionnez une activité..."
+                optionFilterProp="label"
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Row gutter={16}>
+        <Col span={24}>
+          <Form.Item
             name="adresse"
             label="Adresse"
           >
-            <TextArea rows={4} placeholder="Adresse" />
+            <TextArea rows={3} placeholder="Adresse" />
           </Form.Item>
         </Col>
       </Row>

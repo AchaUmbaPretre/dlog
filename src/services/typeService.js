@@ -32,3 +32,12 @@ export const getArticleOne = async (idArt, idFour) => {
   export const postCategorie = async (data) => {
     return axios.post(`${DOMAIN}/api/types/categorie`, data);
   };
+
+  //Activité
+  export const getActivite = async () => {
+    return axios.get(`${DOMAIN}/api/types/activite`);
+  };
+
+  export const postActivite = async (data) => {
+    return axios.post(`${DOMAIN}/api/types/activite`, data);
+  };

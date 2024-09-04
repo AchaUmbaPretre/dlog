@@ -226,6 +226,7 @@ const Fournisseur = () => {
         onCancel={handleCancel}
         footer={null}
         width={800}
+        centered
       >
         <FournisseurForm modalOff={setIsModalVisible} />
       </Modal>
