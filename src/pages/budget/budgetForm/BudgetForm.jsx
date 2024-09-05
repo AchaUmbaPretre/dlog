@@ -108,7 +108,7 @@ const BudgetForm = ({ idProjet }) => {
                 <th>Article</th>
                 <th>Qté demandée</th>
                 <th>Offre</th>
-                <th>Prix unitaire</th>
+                <th>P.U</th>
                 <th>Montant demandé</th>
                 <th>Qté validée</th>
                 <th>Montant validé</th>
