@@ -6,7 +6,7 @@ import { getOffre, getOffreArticleOne } from '../../../services/offreService';
 import './budgetForm.scss'; // Assuming you'll add custom styles
 
 const { Option } = Select;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const BudgetForm = ({ idProjet }) => {
   const [form] = Form.useForm();
@@ -57,31 +57,36 @@ const BudgetForm = ({ idProjet }) => {
   const handleQuantityChange = (id_article, quantiteValide) => {
     const prix = validatedData[id_article]?.prix || 0;
     const montantValide = quantiteValide * prix;
+    const item = besoin.find(b => b.id_article === id_article);
+    const montantDemande = (item?.quantite || 0) * (prix || 0);
 
     setValidatedData((prevState) => ({
       ...prevState,
-      [id_article]: { ...prevState[id_article], quantiteValide, montantValide },
+      [id_article]: { ...prevState[id_article], quantiteValide, montantValide, montantDemande },
     }));
   };
 
   const handleSubmitLine = async (id_article) => {
     try {
-      const { id_offre, quantiteValide, montantValide } = validatedData[id_article] || {};
-
+      const { id_offre, quantiteValide, montantValide, prix, montantDemande } = validatedData[id_article] || {};
+  
       if (!id_offre || !quantiteValide) {
         notification.error({ message: 'Veuillez sélectionner une offre et entrer une quantité validée' });
         return;
       }
-
+  
       setLoading(true);
-      
+  
       const lineData = {
-        id_article,
+        id_projet: idProjet,
+        article: id_article,
         id_offre,
-        quantiteValide,
-        montantValide,
+        quantite_validee: quantiteValide,
+        montant_valide: montantValide,
+        prix_unitaire: prix,
+        montant : montantDemande
       };
-
+  
       await postBudget(lineData);
       notification.success({ message: `Ligne soumise pour l'article ${id_article}` });
     } catch (error) {
@@ -90,6 +95,7 @@ const BudgetForm = ({ idProjet }) => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="budgetForm">
@@ -102,7 +108,7 @@ const BudgetForm = ({ idProjet }) => {
                 <th>Article</th>
                 <th>Qté demandée</th>
                 <th>Offre</th>
-                <th>P.U</th>
+                <th>Prix unitaire</th>
                 <th>Montant demandé</th>
                 <th>Qté validée</th>
                 <th>Montant validé</th>
