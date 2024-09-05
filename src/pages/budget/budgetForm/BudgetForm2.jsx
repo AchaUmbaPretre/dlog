@@ -4,17 +4,15 @@ import { postBudget } from '../../../services/budgetService';
 import { useNavigate } from 'react-router-dom';
 import { getBesoinOne } from '../../../services/besoinsService';
 import { getOffre, getOffreArticleOne } from '../../../services/offreService';
-import './budgetForm.scss'
 
 const { Option } = Select;
 
-const BudgetForm = ({ idProjet }) => {
+const BudgetForm2 = ({ idProjet }) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [idOffre, setIdOffre] = useState(null);
   const [offreData, setOffreData] = useState([]);
   const [besoin, setBesoin] = useState([]);
-  const [nameProjet, setNameProjet] = useState([]);
   const [offre, setOffre] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -47,14 +45,12 @@ const BudgetForm = ({ idProjet }) => {
     });
   };
 
-  // Charger les besoins du projet
   useEffect(() => {
     const fetchBesoin = async () => {
       try {
         const response = await getBesoinOne(idProjet);
         console.log('Besoin Data:', response.data);
         setBesoin(response.data);
-        setNameProjet(response.data[0].nom_projet)
       } catch (error) {
         handleError('Une erreur est survenue lors du chargement des besoins. Veuillez réessayer plus tard.');
       } finally {
@@ -65,7 +61,6 @@ const BudgetForm = ({ idProjet }) => {
     fetchBesoin();
   }, [idProjet]);
 
-  // Charger les offres pour un idOffre sélectionné
   useEffect(() => {
     const fetchOffreData = async () => {
       try {
@@ -77,18 +72,17 @@ const BudgetForm = ({ idProjet }) => {
         setLoading(false);
       }
     };
-
+  
     if (idOffre) {
       fetchOffreData();
     }
   }, [idOffre]);
 
-
-  // Charger la liste des offres
   useEffect(() => {
     const fetchFournisseur = async () => {
       try {
         const offreData = await getOffre();
+
         setOffre(offreData.data);
       } catch (error) {
         handleError('Une erreur est survenue lors du chargement des fournisseurs.');
@@ -98,19 +92,33 @@ const BudgetForm = ({ idProjet }) => {
     fetchFournisseur();
   }, []);
 
-  // Mettre à jour les montants des articles en fonction de l'offre sélectionnée
-  useEffect(() => {
-    if (offreData.length > 0 && besoin.length > 0) {
-      const updatedBesoin = besoin.map((item) => {
-        const matchedOffre = offreData.find((offreItem) => offreItem.id_article === item.id_article);
-        return {
-          ...item,
-          montant: matchedOffre ? matchedOffre.prix * item.quantite : 0, // Calculer le montant
-        };
+  const handleOfferChange = (value, record) => {
+    setIdOffre(value);
+  
+    // Trouver l'offre sélectionnée dans les données d'offres
+    const selectedOffer = offreData.find((item) => item.id_offre === value);
+    
+    if (selectedOffer) {
+      // Calculer le montant basé sur le prix et la quantité
+      const montant = selectedOffer.prix * selectedOffer.quantite;
+  
+      // Mettre à jour les champs du formulaire
+      form.setFieldsValue({
+        [`montant_${record.id_besoin}`]: montant,
       });
-      setBesoin(updatedBesoin);
     }
-  }, [offreData, besoin]);
+  };
+  
+
+  const handleQuantityChange = (value, id_besoin) => {
+    const selectedOffer = offreData.find((item) => item.id_besoin === id_besoin);
+    if (selectedOffer) {
+      const montantValide = value * selectedOffer.prix;
+      form.setFieldsValue({
+        [`montant_valide_${id_besoin}`]: montantValide,
+      });
+    }
+  };
 
   const columns = [
     {
@@ -124,10 +132,13 @@ const BudgetForm = ({ idProjet }) => {
       key: 'quantite',
       render: (_, record) => (
         <Form.Item
-          name={`quantite_demande_${record.id_article}`}
+          name={`quantite_demande_${record.id_besoin}`}
           initialValue={record.quantite}
         >
-          <InputNumber min={0} />
+          <InputNumber
+            min={0}
+            onChange={(value) => handleQuantityChange(value, record.id_besoin)}
+          />
         </Form.Item>
       ),
     },
@@ -137,9 +148,32 @@ const BudgetForm = ({ idProjet }) => {
       key: 'quantite_validee',
       render: (_, record) => (
         <Form.Item
-          name={`quantite_validee_${record.id_article}`}
+          name={`quantite_validee_${record.id_besoin}`}
         >
-          <InputNumber min={0} />
+          <InputNumber
+            min={0}
+            onChange={(value) => handleQuantityChange(value, record.id_besoin)}
+          />
+        </Form.Item>
+      ),
+    },
+    {
+      title: 'Offre',
+      dataIndex: 'id_offre',
+      key: 'id_offre',
+      render: (_, record) => (
+        <Form.Item
+          name={`id_offre_${record.id_besoin}`}
+        >
+          <Select
+            placeholder="Sélectionnez une offre"
+            onChange={(value) => handleOfferChange(value, record)}
+            showSearch
+            options={offre.map((item) => ({
+              value: item.id_offre,
+              label: item.nom_offre,
+            }))}
+          />
         </Form.Item>
       ),
     },
@@ -147,21 +181,14 @@ const BudgetForm = ({ idProjet }) => {
       title: 'Montant',
       dataIndex: 'montant',
       key: 'montant',
-      render: (_, record) => {
-        const offreCorrespondante = offreData.find(
-          (offre) => offre.id_article === record.id_article
-        );
-        const montant = offreCorrespondante ? offreCorrespondante.prix : 0;
-  
-        return (
-          <Form.Item
-            name={`montant_${record.id_article}`}
-            initialValue={montant}
-          >
-            <InputNumber min={0} readOnly />
-          </Form.Item>
-        );
-      },
+      render: (_, record) => (
+        <Form.Item
+          name={`montant_${record.id_besoin}`}
+          initialValue={0}
+        >
+          <InputNumber min={0} readOnly />
+        </Form.Item>
+      ),
     },
     {
       title: 'MT validé',
@@ -169,45 +196,35 @@ const BudgetForm = ({ idProjet }) => {
       key: 'montant_valide',
       render: (_, record) => (
         <Form.Item
-          name={`montant_valide_${record.id_article}`}
+          name={`montant_valide_${record.id_besoin}`}
         >
           <InputNumber min={0} />
         </Form.Item>
       ),
-    },
+    }
   ];
-  
 
   return (
-    <>
-      <div className="budgetForm">
-        <div className="budget-row-h2">
-          <h2 className='budget_h2'>{nameProjet}</h2>
-        </div>
-        <div className="budget_wrapper">
-          <Form.Item name="id_offre">
-            <Select
-              onChange={(value) => setIdOffre(value)}
-              placeholder="Sélectionnez une offre"
-              showSearch
-              options={offre.map((item) => ({
-                value: item.id_offre,
-                label: item.nom_offre,
-              }))}
-            />
-          </Form.Item>
-        </div>
-        <Form form={form} layout="vertical" onFinish={handleFinish}>
-          <Table columns={columns} dataSource={besoin} rowKey="id_besoin" pagination={false} bordered />
-          <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
-              Soumettre
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
-    </>
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={handleFinish}
+    >
+      <Table
+        columns={columns}
+        dataSource={besoin}
+        rowKey="id_besoin"
+        pagination={false}
+        bordered
+      />
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          Soumettre
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 
-export default BudgetForm;
+export default BudgetForm2;

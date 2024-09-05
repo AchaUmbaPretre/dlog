@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Button, notification, Select, Row, Col } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Form, Input, InputNumber, Button, notification, Select, Row, Col, Modal, Spin } from 'antd';
+import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { postOffre } from '../../../services/offreService';
 import { getFournisseur } from '../../../services/fournisseurService';
 import { getArticle, getBatiment } from '../../../services/typeService';
-import { getBesoin } from '../../../services/besoinsService';
+import { getBesoinOne } from '../../../services/besoinsService';
+import { getProjet } from '../../../services/projetService';
 
 const { Option } = Select;
 
@@ -14,13 +15,30 @@ const FormOffres = () => {
   const [fournisseur, setFournisseur] = useState([]);
   const [batiment, setBatiment] = useState([]);
   const [besoin, setBesoin] = useState([]);
+  const [projet, setProjet] = useState([]);
+  const [idProjet, setIdProjet] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
 
   const handleError = (message) => {
     notification.error({
       message: 'Erreur de chargement',
       description: message,
     });
+  };
+
+  const fetchBesoin = async (projetId) => {
+    setModalLoading(true);
+    try {
+      const response = await getBesoinOne(projetId);
+      setBesoin(response.data);
+      setModalVisible(true);
+    } catch (error) {
+      handleError('Une erreur est survenue lors du chargement des besoins.');
+    } finally {
+      setModalLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -51,19 +69,19 @@ const FormOffres = () => {
       }
     };
 
-    const fetchBesoin = async () => {
+    const fetchProjet = async () => {
       try {
-        const response = await getBesoin();
-        setBesoin(response.data);
+        const response = await getProjet();
+        setProjet(response.data);
       } catch (error) {
-        handleError('Erreur lors du chargement des besoins.');
+        handleError('Erreur lors du chargement des projets.');
       }
     };
 
     fetchBatiment();
     fetchArticle();
     fetchFournisseur();
-    fetchBesoin();
+    fetchProjet();
   }, []);
 
   const handleSubmit = async (values) => {
@@ -86,12 +104,17 @@ const FormOffres = () => {
     }
   };
 
+  const openBesoinModal = (projetId) => {
+    if (!projetId) return;
+    fetchBesoin(projetId);
+  };
+
   return (
     <Form
       form={form}
       initialValues={{
         articles: [{}],
-        besoins: [], // Initialiser avec une liste vide de besoins
+        besoins: [],
       }}
       onFinish={handleSubmit}
       layout="vertical"
@@ -128,7 +151,6 @@ const FormOffres = () => {
           <Form.Item
             label="Entité"
             name="id_batiment"
-            rules={[{ required: false, message: 'Veuillez sélectionner une entité.' }]}
           >
             <Select
               showSearch
@@ -143,26 +165,24 @@ const FormOffres = () => {
         </Col>
         <Col xs={24} md={24}>
           <Form.Item
-            label="Besoins"
-            name="besoins"
-            rules={[{ required: true, message: 'Veuillez sélectionner les besoins.' }]}
+            label="Projet"
+            name="id_projet"
+            rules={[{ required: false, message: 'Veuillez sélectionner un projet.' }]}
           >
             <Select
+              onChange={openBesoinModal}
               showSearch
-              options={besoin.map(item => ({
-                value: item.id_besoin,
-                label: `Article : ${item.description} - Offre: ${item.nom_projet}`,
+              options={projet.map(item => ({
+                value: item.id_projet,
+                label: item.nom_projet,
               }))}
-              placeholder="Sélectionnez les besoins..."
+              placeholder="Sélectionnez un projet pour voir ses besoins..."
               optionFilterProp="label"
             />
           </Form.Item>
         </Col>
         <Col xs={24} md={24}>
-          <Form.Item
-            label="Description"
-            name="description"
-          >
+          <Form.Item label="Description" name="description">
             <Input.TextArea rows={2} placeholder="Description de l'offre" />
           </Form.Item>
         </Col>
@@ -183,10 +203,7 @@ const FormOffres = () => {
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, fieldKey, ...restField }) => (
-              <div
-                key={key}
-                style={{ display: 'flex', alignItems: 'center' }}
-              >
+              <div key={key} style={{ display: 'flex', alignItems: 'center' }}>
                 <Form.Item
                   {...restField}
                   name={[name, 'id_article']}
@@ -253,16 +270,36 @@ const FormOffres = () => {
           type="primary"
           htmlType="submit"
           loading={loading}
+          block
         >
-          Enregistrer
-        </Button>
-        <Button
-          style={{ marginLeft: '10px' }}
-          onClick={() => form.resetFields()}
-        >
-          Annuler
+          Soumettre l'offre
         </Button>
       </Form.Item>
+
+      <Modal
+        title={`Besoins du Projet : ${besoin[0]?.nom_projet}`}
+        visible={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        footer={[
+          <Button key="close" onClick={() => setModalVisible(false)}>
+            Fermer
+          </Button>
+        ]}
+      >
+        {modalLoading ? (
+          <Spin tip="Chargement des besoins..." />
+        ) : (
+          besoin.length > 0 ? (
+            besoin.map((b,index) => (
+              <div key={b.id_besoin}>
+                <p>{`${index + 1}. ${b.nom_article}`}</p>
+              </div>
+            ))
+          ) : (
+            <p>Aucun besoin trouvé pour ce projet.</p>
+          )
+        )}
+      </Modal>
     </Form>
   );
 };
