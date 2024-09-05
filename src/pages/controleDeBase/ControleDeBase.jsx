@@ -200,7 +200,7 @@ const ControleDeBase = () => {
             title=""
             trigger="click"
           >
-            <Tooltip title="Contrôler">
+            <Tooltip title="Menu">
               <Button
                 icon={<PlusCircleOutlined />}
                 style={{ color: 'blue' }}

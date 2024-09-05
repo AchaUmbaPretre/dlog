@@ -91,7 +91,7 @@ const FormOffres = () => {
       form={form}
       initialValues={{
         articles: [{}],
-        besoins: [],
+        besoins: [], // Initialiser avec une liste vide de besoins
       }}
       onFinish={handleSubmit}
       layout="vertical"
@@ -141,6 +141,31 @@ const FormOffres = () => {
             />
           </Form.Item>
         </Col>
+        <Col xs={24} md={24}>
+          <Form.Item
+            label="Besoins"
+            name="besoins"
+            rules={[{ required: true, message: 'Veuillez sélectionner les besoins.' }]}
+          >
+            <Select
+              showSearch
+              options={besoin.map(item => ({
+                value: item.id_besoin,
+                label: `Article : ${item.description} - Offre: ${item.nom_projet}`,
+              }))}
+              placeholder="Sélectionnez les besoins..."
+              optionFilterProp="label"
+            />
+          </Form.Item>
+        </Col>
+        <Col xs={24} md={24}>
+          <Form.Item
+            label="Description"
+            name="description"
+          >
+            <Input.TextArea rows={2} placeholder="Description de l'offre" />
+          </Form.Item>
+        </Col>
       </Row>
 
       <Form.List
@@ -160,77 +185,50 @@ const FormOffres = () => {
             {fields.map(({ key, name, fieldKey, ...restField }) => (
               <div
                 key={key}
-                style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}
+                style={{ display: 'flex', alignItems: 'center' }}
               >
-                <Row gutter={24}>
-                  <Col xs={24} md={12}>
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'id_besoin']}
-                      fieldKey={[fieldKey, 'id_besoin']}
-                      rules={[{ required: true, message: 'Veuillez sélectionner un besoin.' }]}
-                      label="Besoin"
-                    >
-                      <Select
-                        showSearch
-                        options={besoin.map(item => ({
-                          value: item.id_besoin,
-                          label: `Article : ${item.description} - Offre: ${item.nom_projet}`,
-                        }))}
-                        placeholder="Sélectionnez un besoin..."
-                        optionFilterProp="label"
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} md={12}>
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'id_article']}
-                      fieldKey={[fieldKey, 'id_article']}
-                      rules={[{ required: true, message: 'Veuillez sélectionner l\'article.' }]}
-                      label="Article"
-                    >
-                      <Select
-                        showSearch
-                        options={article.map(item => ({
-                          value: item.id_article,
-                          label: item.nom_article,
-                        }))}
-                        placeholder="Sélectionnez un article..."
-                        optionFilterProp="label"
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={24}>
-                  <Col xs={24} md={12}>
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'quantite']}
-                      fieldKey={[fieldKey, 'quantite']}
-                      rules={[{ required: true, message: 'Veuillez entrer la quantité.' }]}
-                      label="Quantité"
-                    >
-                      <InputNumber min={0} placeholder="Quantité" style={{ width: '100%' }} />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} md={12}>
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'prix']}
-                      fieldKey={[fieldKey, 'prix']}
-                      rules={[{ required: true, message: 'Veuillez entrer le prix.' }]}
-                      label="Prix"
-                    >
-                      <InputNumber min={0} step={0.01} placeholder="Prix" style={{ width: '100%' }} />
-                    </Form.Item>
-                  </Col>
-                </Row>
+                <Form.Item
+                  {...restField}
+                  name={[name, 'id_article']}
+                  fieldKey={[fieldKey, 'id_article']}
+                  rules={[{ required: true, message: 'Veuillez sélectionner l\'article.' }]}
+                  style={{ flex: 1, marginRight: '10px' }}
+                >
+                  <Select
+                    showSearch
+                    options={article.map(item => ({
+                      value: item.id_article,
+                      label: item.nom_article,
+                    }))}
+                    placeholder="Sélectionnez un article..."
+                    optionFilterProp="label"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  {...restField}
+                  name={[name, 'quantite']}
+                  fieldKey={[fieldKey, 'quantite']}
+                  rules={[{ required: true, message: 'Veuillez entrer la quantité.' }]}
+                  style={{ flex: 1, marginRight: '10px' }}
+                >
+                  <InputNumber min={0} placeholder="quantité" style={{ width: '100%' }} />
+                </Form.Item>
+
+                <Form.Item
+                  {...restField}
+                  name={[name, 'prix']}
+                  fieldKey={[fieldKey, 'prix']}
+                  rules={[{ required: true, message: 'Veuillez entrer le prix.' }]}
+                  style={{ flex: 1 }}
+                >
+                  <InputNumber min={0} step={0.01} placeholder="Prix" style={{ width: '100%' }} />
+                </Form.Item>
 
                 <Button
                   type="link"
                   onClick={() => remove(name)}
-                  style={{ color: 'red', marginTop: '10px' }}
+                  style={{ color: 'red', marginLeft: '10px' }}
                 >
                   Supprimer
                 </Button>
@@ -243,7 +241,7 @@ const FormOffres = () => {
                 onClick={() => add()}
                 icon={<PlusOutlined />}
               >
-                Ajouter un besoin avec article
+                Ajouter un article
               </Button>
             </Form.Item>
           </>

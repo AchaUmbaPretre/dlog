@@ -4,7 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
 import { postProjet } from '../../../services/projetService';
-import { getBatiment } from '../../../services/typeService';
+import { getArticle, getBatiment } from '../../../services/typeService';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -15,7 +15,8 @@ const ProjetForm = () => {
     const [client, setClient] = useState([]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [batiment, setBatiment] = useState([])
+    const [batiment, setBatiment] = useState([]);
+    const [article, setArticle] = useState([])
 
     const handleError = (message) => {
         notification.error({
@@ -27,15 +28,18 @@ const ProjetForm = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [usersData, clientData, batimentData] = await Promise.all([
+                const [usersData, clientData, batimentData, articleData] = await Promise.all([
                     getUser(),
                     getClient(),
-                    getBatiment()
+                    getBatiment(),
+                    getArticle()
                 ]);
 
                 setUsers(usersData.data);
                 setClient(clientData.data);
-                setBatiment(batimentData.data)
+                setBatiment(batimentData.data);
+                setArticle(articleData.data)
+
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
@@ -45,7 +49,8 @@ const ProjetForm = () => {
     }, []);
 
     const onFinish = async (values) => {
-        setLoading(true);
+        console.log(values)
+         setLoading(true);
         try {
             await postProjet(values);
             notification.success({
@@ -159,9 +164,9 @@ const ProjetForm = () => {
             <Row gutter={16}>
                 <Col span={24}>
                     <Form.Item
-                        label="Batiment"
+                        label="Entité"
                         name="id_batiment"
-                        rules={[{ required: true, message: 'Le client est requis' }]}
+                        rules={[{ required: false, message: "L'entité est requise" }]}
                     >
                         <Select
                             placeholder="Sélectionnez un batiment"
@@ -181,12 +186,28 @@ const ProjetForm = () => {
                             <Space key={key} style={{ display: 'flex', marginBottom: 8 }}>
                                 <Form.Item
                                     {...restField}
-                                    name={[name, 'besoin']}
-                                    fieldKey={[fieldKey, 'besoin']}
-                                    label="Besoin"
-                                    rules={[{ required: true, message: 'Le besoin est requis' }]}
+                                    name={[name, 'id_article']}
+                                    fieldKey={[fieldKey, 'id_article']}
+                                    label="Article"
+                                    rules={[{ required: true, message: "Sélectionnez une article..."  }]}
                                 >
-                                    <Input placeholder="Entrez un besoin" />
+                                    <Select
+                                        placeholder="Sélectionnez une article"
+                                        showSearch
+                                        options={article.map((item) => ({
+                                            value: item.id_article,
+                                            label: item.nom_article,
+                                        }))}
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    {...restField}
+                                    name={[name, 'description']}
+                                    fieldKey={[fieldKey, 'description']}
+                                    label="Description"
+                                    rules={[{ required: false, message: 'La description est requise' }]}
+                                >
+                                    <Input placeholder="Entrez une description" />
                                 </Form.Item>
                                 <Form.Item
                                     {...restField}
