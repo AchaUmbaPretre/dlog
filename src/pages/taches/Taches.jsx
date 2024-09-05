@@ -3,7 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { 
   ExportOutlined, FileOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
-  CalendarOutlined, TeamOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
+  CalendarOutlined, TeamOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { getTache } from '../../services/tacheService';
@@ -13,6 +13,7 @@ import TacheDoc from './tacheDoc/TacheDoc';
 import FormatCalendar from './formatCalendar/FormatCalendar';
 import moment from 'moment';
 import DetailTache from './detailTache/DetailTache';
+import SuiviTache from './suiviTache/SuiviTache';
 
 const { Search } = Input;
 
@@ -63,6 +64,10 @@ const Taches = () => {
 
   const handleAjouterDoc = (idTache) => {
     openModal('DocumentTacheForm', idTache);
+  };
+
+  const handleTracking = (idTache) => {
+    openModal('suivi', idTache);
   };
 
   const handleAddTask = () => {
@@ -199,8 +204,31 @@ const Taches = () => {
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record.id_tache)}
               aria-label="Voir les détails de la tâche"
+              style={{color: 'green'}}
             />
           </Tooltip>
+          <Popover
+            content={
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <Link onClick={() => handleTracking(record.id_tache)} >
+                  <FileTextOutlined /> Tracking
+                </Link>
+                <Link >
+                  <FileTextOutlined /> Liste de tracking
+                </Link>
+              </div>
+            }
+            title=""
+            trigger="click"
+          >
+            <Tooltip title="Menu">
+              <Button
+                icon={<PlusCircleOutlined />}
+                style={{ color: 'blue' }}
+                aria-label="Contrôler"
+              />
+            </Tooltip>
+          </Popover>
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -323,6 +351,17 @@ const Taches = () => {
         centered
       >
         <DetailTache idTache={idTache} />
+      </Modal>
+
+      <Modal
+        title="Tracking"
+        visible={modalType === 'suivi'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <SuiviTache idTache={idTache} />
       </Modal>
     </>
   );

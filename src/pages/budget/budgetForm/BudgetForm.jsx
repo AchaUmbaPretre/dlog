@@ -65,6 +65,8 @@ const BudgetForm = ({ idProjet }) => {
     fetchBesoin();
   }, [idProjet]);
 
+  console.log(besoin)
+
   // Charger les offres pour un idOffre sélectionné
   useEffect(() => {
     const fetchOffreData = async () => {
@@ -78,9 +80,7 @@ const BudgetForm = ({ idProjet }) => {
       }
     };
 
-    if (idOffre) {
       fetchOffreData();
-    }
   }, [idOffre]);
 
 
@@ -177,7 +177,6 @@ const BudgetForm = ({ idProjet }) => {
     },
   ];
   
-
   return (
     <>
       <div className="budgetForm">

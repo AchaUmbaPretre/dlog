@@ -6,7 +6,7 @@ import {
 import {
   ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined,
   ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,
-  EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined, FileSearchOutlined,
+  PlusOutlined,DeleteOutlined, FileSearchOutlined,
   FileTextOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';

@@ -248,7 +248,7 @@ const TacheForm = ({idControle, idProjet}) => {
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
-                                        label: `${item.nom} - ${item.prenom}`,
+                                        label: `${item.nom}`,
                                     }))}
                                     placeholder="Sélectionnez un responsable..."
                                     optionFilterProp="label"
