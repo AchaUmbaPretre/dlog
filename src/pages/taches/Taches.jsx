@@ -14,6 +14,7 @@ import FormatCalendar from './formatCalendar/FormatCalendar';
 import moment from 'moment';
 import DetailTache from './detailTache/DetailTache';
 import SuiviTache from './suiviTache/SuiviTache';
+import ListeTracking from './listeTracking/ListeTracking';
 
 const { Search } = Input;
 
@@ -68,6 +69,10 @@ const Taches = () => {
 
   const handleTracking = (idTache) => {
     openModal('suivi', idTache);
+  };
+
+  const handleListeTracking = (idTache) => {
+    openModal('listeTracking', idTache);
   };
 
   const handleAddTask = () => {
@@ -213,7 +218,7 @@ const Taches = () => {
                 <Link onClick={() => handleTracking(record.id_tache)} >
                   <FileTextOutlined /> Tracking
                 </Link>
-                <Link >
+                <Link onClick={()=>handleListeTracking(record.id_tache)}>
                   <FileTextOutlined /> Liste de tracking
                 </Link>
               </div>
@@ -362,6 +367,17 @@ const Taches = () => {
         centered
       >
         <SuiviTache idTache={idTache} />
+      </Modal>
+
+      <Modal
+        title="Liste de tracking"
+        visible={modalType === 'listeTracking'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <ListeTracking idTache={idTache} />
       </Modal>
     </>
   );
