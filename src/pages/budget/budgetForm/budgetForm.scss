@@ -12,3 +12,54 @@
         }
     }
 }
+
+.budgetForm {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+
+  .form-title {
+    text-align: center;
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+
+  .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+      background-color: #34495e;
+      color: white;
+    }
+
+    .table-row:hover {
+      background-color: #ecf0f1;
+    }
+
+    .select-offre {
+      width: 100%;
+    }
+
+    .input-quantity {
+      width: 80px;
+    }
+
+    .submit-button {
+      background-color: #2980b9;
+      color: white;
+      &:hover {
+        background-color: #1abc9c;
+      }
+    }
+  }
+}
+
+  

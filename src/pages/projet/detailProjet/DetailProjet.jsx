@@ -151,7 +151,7 @@ const DetailProjet = ({ idProjet }) => {
                             <Card
                                 style={{ marginBottom: 16 }}
                                 type="inner"
-                                title={item.description}
+                                title={item.nom_article}
                                 extra={<Badge status="default" text={`Quantité: ${item.quantite}`} />}
                             >
                                 <Descriptions size="small" column={1} bordered>

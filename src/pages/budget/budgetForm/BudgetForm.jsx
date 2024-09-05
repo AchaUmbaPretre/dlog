@@ -1,211 +1,165 @@
 import React, { useEffect, useState } from 'react';
-import { Form, InputNumber, Select, Button, notification, Table } from 'antd';
+import { Form, InputNumber, Select, Button, notification, Typography } from 'antd';
 import { postBudget } from '../../../services/budgetService';
-import { useNavigate } from 'react-router-dom';
 import { getBesoinOne } from '../../../services/besoinsService';
 import { getOffre, getOffreArticleOne } from '../../../services/offreService';
-import './budgetForm.scss'
+import './budgetForm.scss'; // Assuming you'll add custom styles
 
 const { Option } = Select;
+const { Title, Text } = Typography;
 
 const BudgetForm = ({ idProjet }) => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
-  const [idOffre, setIdOffre] = useState(null);
-  const [offreData, setOffreData] = useState([]);
   const [besoin, setBesoin] = useState([]);
-  const [nameProjet, setNameProjet] = useState([]);
   const [offre, setOffre] = useState([]);
+  const [validatedData, setValidatedData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const handleFinish = async (values) => {
-    console.log(values);
-    setLoading(true);
-    try {
-      await postBudget(values);
-      notification.success({
-        message: 'Succès',
-        description: 'Le budget a été enregistré avec succès.',
-      });
-      form.resetFields();
-      navigate('/budget');
-      window.location.reload();
-    } catch (error) {
-      notification.error({
-        message: 'Erreur',
-        description: 'Erreur lors de l\'enregistrement du projet.',
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleError = (message) => {
-    notification.error({
-      message: 'Erreur de chargement',
-      description: message,
-    });
-  };
-
-  // Charger les besoins du projet
   useEffect(() => {
     const fetchBesoin = async () => {
       try {
         const response = await getBesoinOne(idProjet);
-        console.log('Besoin Data:', response.data);
         setBesoin(response.data);
-        setNameProjet(response.data[0].nom_projet)
       } catch (error) {
-        handleError('Une erreur est survenue lors du chargement des besoins. Veuillez réessayer plus tard.');
-      } finally {
-        setLoading(false);
+        notification.error({ message: 'Erreur lors du chargement des besoins' });
       }
     };
 
     fetchBesoin();
   }, [idProjet]);
 
-  console.log(besoin)
-
-  // Charger les offres pour un idOffre sélectionné
   useEffect(() => {
-    const fetchOffreData = async () => {
+    const fetchOffres = async () => {
       try {
-        const response = await getOffreArticleOne(idOffre);
-        setOffreData(response.data);
+        const response = await getOffre();
+        setOffre(response.data);
       } catch (error) {
-        handleError('Une erreur est survenue lors du chargement des offres.');
-      } finally {
-        setLoading(false);
+        notification.error({ message: 'Erreur lors du chargement des offres' });
       }
     };
 
-      fetchOffreData();
-  }, [idOffre]);
-
-
-  // Charger la liste des offres
-  useEffect(() => {
-    const fetchFournisseur = async () => {
-      try {
-        const offreData = await getOffre();
-        setOffre(offreData.data);
-      } catch (error) {
-        handleError('Une erreur est survenue lors du chargement des fournisseurs.');
-      }
-    };
-
-    fetchFournisseur();
+    fetchOffres();
   }, []);
 
-  // Mettre à jour les montants des articles en fonction de l'offre sélectionnée
-  useEffect(() => {
-    if (offreData.length > 0 && besoin.length > 0) {
-      const updatedBesoin = besoin.map((item) => {
-        const matchedOffre = offreData.find((offreItem) => offreItem.id_article === item.id_article);
-        return {
-          ...item,
-          montant: matchedOffre ? matchedOffre.prix * item.quantite : 0, // Calculer le montant
-        };
-      });
-      setBesoin(updatedBesoin);
+  const handleOffreChange = async (id_article, id_offre) => {
+    try {
+      const response = await getOffreArticleOne(id_offre);
+      const articleData = response.data.find(item => item.id_article === id_article);
+      setValidatedData((prevState) => ({
+        ...prevState,
+        [id_article]: { ...prevState[id_article], id_offre, prix: articleData.prix },
+      }));
+    } catch (error) {
+      notification.error({ message: 'Erreur lors du chargement de l\'offre' });
     }
-  }, [offreData, besoin]);
+  };
 
-  const columns = [
-    {
-      title: 'Article',
-      dataIndex: 'nom_article',
-      key: 'nom_article',
-    },
-    {
-      title: 'Qté demandée',
-      dataIndex: 'quantite',
-      key: 'quantite',
-      render: (_, record) => (
-        <Form.Item
-          name={`quantite_demande_${record.id_article}`}
-          initialValue={record.quantite}
-        >
-          <InputNumber min={0} />
-        </Form.Item>
-      ),
-    },
-    {
-      title: 'Qté validée',
-      dataIndex: 'quantite_validee',
-      key: 'quantite_validee',
-      render: (_, record) => (
-        <Form.Item
-          name={`quantite_validee_${record.id_article}`}
-        >
-          <InputNumber min={0} />
-        </Form.Item>
-      ),
-    },
-    {
-      title: 'Montant',
-      dataIndex: 'montant',
-      key: 'montant',
-      render: (_, record) => {
-        const offreCorrespondante = offreData.find(
-          (offre) => offre.id_article === record.id_article
-        );
-        const montant = offreCorrespondante ? offreCorrespondante.prix : 0;
-  
-        return (
-          <Form.Item
-            name={`montant_${record.id_article}`}
-            initialValue={montant}
-          >
-            <InputNumber min={0} readOnly />
-          </Form.Item>
-        );
-      },
-    },
-    {
-      title: 'MT validé',
-      dataIndex: 'montant_valide',
-      key: 'montant_valide',
-      render: (_, record) => (
-        <Form.Item
-          name={`montant_valide_${record.id_article}`}
-        >
-          <InputNumber min={0} />
-        </Form.Item>
-      ),
-    },
-  ];
-  
+  const handleQuantityChange = (id_article, quantiteValide) => {
+    const prix = validatedData[id_article]?.prix || 0;
+    const montantValide = quantiteValide * prix;
+
+    setValidatedData((prevState) => ({
+      ...prevState,
+      [id_article]: { ...prevState[id_article], quantiteValide, montantValide },
+    }));
+  };
+
+  const handleSubmitLine = async (id_article) => {
+    try {
+      const { id_offre, quantiteValide, montantValide } = validatedData[id_article] || {};
+
+      if (!id_offre || !quantiteValide) {
+        notification.error({ message: 'Veuillez sélectionner une offre et entrer une quantité validée' });
+        return;
+      }
+
+      setLoading(true);
+      
+      const lineData = {
+        id_article,
+        id_offre,
+        quantiteValide,
+        montantValide,
+      };
+
+      await postBudget(lineData);
+      notification.success({ message: `Ligne soumise pour l'article ${id_article}` });
+    } catch (error) {
+      notification.error({ message: 'Erreur lors de la soumission de la ligne' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <>
-      <div className="budgetForm">
-        <div className="budget-row-h2">
-          <h2 className='budget_h2'>{nameProjet}</h2>
-        </div>
-        <div className="budget_wrapper">
-          <Form.Item name="id_offre">
-            <Select
-              onChange={(value) => setIdOffre(value)}
-              placeholder="Sélectionnez une offre"
-              showSearch
-              options={offre.map((item) => ({
-                value: item.id_offre,
-                label: item.nom_offre,
-              }))}
-            />
-          </Form.Item>
-        </div>
-        <Form form={form} layout="vertical" onFinish={handleFinish}>
-          <Table columns={columns} dataSource={besoin} rowKey="id_besoin" pagination={false} bordered />
-          <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
-              Soumettre
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
-    </>
+    <div className="budgetForm">
+      <Title level={3} className="form-title">Formulaire de Budget</Title>
+      <Form form={form} layout="vertical">
+        {besoin.length > 0 && (
+          <table className="budget-table">
+            <thead>
+              <tr>
+                <th>Article</th>
+                <th>Qté demandée</th>
+                <th>Offre</th>
+                <th>P.U</th>
+                <th>Montant demandé</th>
+                <th>Qté validée</th>
+                <th>Montant validé</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {besoin.map((item) => {
+                const validatedInfo = validatedData[item.id_article] || {};
+                const montantDemande = item.quantite * validatedInfo.prix || 0;
+
+                return (
+                  <tr key={item.id_article} className="table-row">
+                    <td>{item.nom_article}</td>
+                    <td>{item.quantite}</td>
+                    <td>
+                      <Select
+                        placeholder="Sélectionner une offre"
+                        onChange={(value) => handleOffreChange(item.id_article, value)}
+                        className="select-offre"
+                      >
+                        {offre.map((offreItem) => (
+                          <Option key={offreItem.id_offre} value={offreItem.id_offre}>
+                            {offreItem.nom_offre}
+                          </Option>
+                        ))}
+                      </Select>
+                    </td>
+                    <td>{validatedInfo.prix || 'Non défini'}</td>
+                    <td>{montantDemande.toFixed(2)}</td>
+                    <td>
+                      <InputNumber
+                        min={0}
+                        value={validatedInfo.quantiteValide}
+                        onChange={(value) => handleQuantityChange(item.id_article, value)}
+                        className="input-quantity"
+                      />
+                    </td>
+                    <td>{validatedInfo.montantValide?.toFixed(2) || 0}</td>
+                    <td>
+                      <Button
+                        type="primary"
+                        onClick={() => handleSubmitLine(item.id_article)}
+                        loading={loading}
+                        className="submit-button"
+                      >
+                        Soumettre
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </Form>
+    </div>
   );
 };
 
