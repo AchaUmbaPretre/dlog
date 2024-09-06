@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs } from 'antd';
 import { 
   ExportOutlined, FileOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
-  CheckSquareOutlined, HourglassOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
+  CheckSquareOutlined, HourglassOutlined,EditOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
   CalendarOutlined, TeamOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
@@ -25,6 +25,7 @@ const Taches = () => {
   const [modalType, setModalType] = useState(null);
   const [idTache, setIdTache] = useState('');
   const scroll = { x: 400 };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,6 +53,12 @@ const Taches = () => {
     closeAllModals();
     setIdTache(idTache);
     setModalType(type);
+  };
+
+  const handleEdit = (idTache) => {
+    setIdTache(idTache);
+    setIsModalVisible(true);
+
   };
 
   const handleViewDetails = (idTache) => {
@@ -204,6 +211,14 @@ const Taches = () => {
       width: '10%',
       render : (text, record) => (
         <Space size="middle">
+            <Tooltip title="Modifier">
+              <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleEdit(record.id_tache)}
+                aria-label="Edit tache"
+              />
+          </Tooltip>
           <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
@@ -323,7 +338,7 @@ const Taches = () => {
         width={850}
         centered
       >
-        <TacheForm/>
+        <TacheForm idTache={idTache}/>
       </Modal>
 
       <Modal

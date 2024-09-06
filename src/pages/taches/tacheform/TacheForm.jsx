@@ -6,9 +6,10 @@ import { getFormat } from '../../../services/formatService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
 import { useNavigate } from 'react-router-dom';
-import { postTache } from '../../../services/tacheService';
+import { getTacheOneV, postTache } from '../../../services/tacheService';
 
-const TacheForm = ({idControle, idProjet}) => {
+const TacheForm = ({idControle, idProjet, idTache}) => {
+    const [form] = Form.useForm();
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
     const [format, setFormat] = useState([]);
@@ -43,6 +44,13 @@ const TacheForm = ({idControle, idProjet}) => {
                 setUsers(usersData.data);
                 setClient(clientData.data);
                 setProvinces(provinceData.data);
+
+                if (idTache) {
+                    const { data: tache } = await getTacheOneV(idTache);
+                    if(tache) {
+                        form.setFieldsValue(tache[0])
+                    }
+                }
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
