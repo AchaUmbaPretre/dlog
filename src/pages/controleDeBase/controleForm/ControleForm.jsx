@@ -9,7 +9,7 @@ import { postControle } from '../../../services/controleService';
 import { useNavigate } from 'react-router-dom';
 import './controleForm.scss';
 
-const ControleForm = () => {
+const ControleForm = ({id_controle}) => {
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
     const [format, setFormat] = useState([]);

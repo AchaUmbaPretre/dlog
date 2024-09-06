@@ -13,10 +13,14 @@ export const getControle = async (user) => {
   };
 
 export const getControleOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/controle/one?id_tache=${id}`);
+    return axios.get(`${DOMAIN}/api/controle/one?id_controle=${id}`);
   };
 
 export const postControle = async (data) => {
-  console.log(data)
   return axios.post(`${DOMAIN}/api/controle`, data);
 };
+
+export const putControle = async (id, data) => {
+  return axios.get(`${DOMAIN}/api/controle/one?id_tache=${id}`, data);
+
+}

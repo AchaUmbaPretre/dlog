@@ -14,10 +14,13 @@ const Departement = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-
+  const [idDepartement, setIdDapartement] = useState('');
 
   const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
+    message.info(`Modifier departement: ${record.nom}`);
+    setIdDapartement(record)
+    setIsModalVisible(true);
+
   };
 
   const handleDelete = async (id) => {
@@ -146,15 +149,15 @@ const Departement = () => {
               aria-label="View department details"
             />
           </Tooltip> */}
-{/*           <Tooltip title="Edit">
+           <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
+              onClick={() => handleEdit(record.id_departement)}
               aria-label="Edit department"
             />
-          </Tooltip> */}
-          <Tooltip title="Delete">
+          </Tooltip>
+          <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
               onConfirm={() => handleDelete(record.id)}
@@ -235,7 +238,7 @@ const Departement = () => {
         width={600}
         centered
       >
-        <DepartementForm/>
+        <DepartementForm id_departement={idDepartement}/>
       </Modal>
     </>
   );

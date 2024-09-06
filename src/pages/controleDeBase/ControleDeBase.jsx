@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import {
   ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined,
-  ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,
+  ApartmentOutlined,EyeOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,
   PlusOutlined,DeleteOutlined, FileSearchOutlined,
   FileTextOutlined
 } from '@ant-design/icons';
@@ -69,7 +69,7 @@ const ControleDeBase = () => {
     }
   };
 
-  const handleViewDetails = (record) => message.info(`Détails du client: ${record.nom}`);
+  const handleViewDetails = (id) => openModal('controle', id)
 
   const handleAddSuiviList = (id) => openModal('liste', id);
 
@@ -172,14 +172,14 @@ const ControleDeBase = () => {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-{/*           <Tooltip title="Voir les détails">
+           <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
               style={{ color: 'blue' }}
               onClick={() => handleViewDetails(record.id_controle)}
               aria-label="Voir les détails du client"
             />
-          </Tooltip> */}
+          </Tooltip>
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -304,7 +304,7 @@ const ControleDeBase = () => {
         destroyOnClose
         width={850}
       >
-        <ControleForm closeModal={closeModal} />
+        <ControleForm idControle={idControle} closeModal={closeModal} />
       </Modal>
       <Modal
         visible={modalState === 'liste'}
