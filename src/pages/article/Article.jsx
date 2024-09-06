@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, TagOutlined, FileTextOutlined,UserOutlined, FileOutlined, PlusOutlined, PlusCircleOutlined, CalendarOutlined, PrinterOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { ExportOutlined, TagOutlined, FileTextOutlined,PlusOutlined,PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -26,15 +26,6 @@ const Article = () => {
     closeAllModals();
     setIdOffre(idOffre);
     setModalType(type);
-  };
-
-  const handleDetailDoc = (idOffre) => {
-    openModal('ListeDoc', idOffre);
-  };
-
-  const handleVoirDetails = (idOffre) => {
-    message.info(`Visualisation des détails de l'offre : ${idOffre}`);
-    openModal('DetailOffre', idOffre);
   };
 
 

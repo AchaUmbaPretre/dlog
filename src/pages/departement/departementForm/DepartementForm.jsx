@@ -54,7 +54,6 @@ const DepartementForm = ({ id_departement }) => {
         setIsLoading(true);
         try {
             const values = form.getFieldsValue();
-            console.log('Valeurs avant enregistrement :', values); // Débogage
             if (id_departement) {
                 await putDepartement(id_departement, values);
                 notification.success({
