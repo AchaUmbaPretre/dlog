@@ -3,20 +3,21 @@ import { Form, Input, DatePicker, InputNumber, Select, Button, Typography, Row, 
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
-import { postProjet } from '../../../services/projetService';
+import { getProjetOneF, postProjet, putProjet } from '../../../services/projetService';
 import { getArticle, getBatiment } from '../../../services/typeService';
+import moment from 'moment';
 
 const { TextArea } = Input;
 const { Option } = Select;
 const { Title } = Typography;
 
-const ProjetForm = () => {
+const ProjetForm = ({ idProjet }) => {
     const [form] = Form.useForm();
     const [client, setClient] = useState([]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [batiment, setBatiment] = useState([]);
-    const [article, setArticle] = useState([])
+    const [article, setArticle] = useState([]);
 
     const handleError = (message) => {
         notification.error({
@@ -32,37 +33,49 @@ const ProjetForm = () => {
                     getUser(),
                     getClient(),
                     getBatiment(),
-                    getArticle()
+                    getArticle(),
                 ]);
 
                 setUsers(usersData.data);
                 setClient(clientData.data);
                 setBatiment(batimentData.data);
-                setArticle(articleData.data)
+                setArticle(articleData.data);
 
+                if (idProjet) {
+                    const { data: projet } = await getProjetOneF(idProjet);
+                    if (projet) {
+                        form.setFieldsValue({
+                            ...projet[0],
+                            date_debut: moment(projet[0].date_debut, 'YYYY-MM-DD'),
+                            date_fin: moment(projet[0].date_fin, 'YYYY-MM-DD')
+                        });
+                    }
+                }
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
         };
 
         fetchData();
-    }, []);
+    }, [idProjet, form]);
 
     const onFinish = async (values) => {
-        console.log(values)
-         setLoading(true);
+        setLoading(true);
         try {
-            await postProjet(values);
+            if (idProjet) {
+                await putProjet(idProjet, values);
+            } else {
+                await postProjet(values);
+            }
             notification.success({
                 message: 'Succès',
                 description: 'Le projet a été enregistré avec succès.',
             });
             form.resetFields();
-            window.location.reload();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
-                description: 'Erreur lors de l\'enregistrement du projet.',
+                description: "Erreur lors de l'enregistrement du projet.",
             });
         } finally {
             setLoading(false);
@@ -70,14 +83,7 @@ const ProjetForm = () => {
     };
 
     return (
-        <Form
-            layout="vertical"
-            onFinish={onFinish}
-            form={form}
-            initialValues={{
-                budget: 0,
-            }}
-        >
+        <Form layout="vertical" onFinish={onFinish} form={form} initialValues={{ budget: 0 }}>
             <Title level={3}>Créer un Projet</Title>
 
             <Row gutter={16}>
@@ -133,7 +139,7 @@ const ProjetForm = () => {
                     <Form.Item
                         label="Budget"
                         name="budget"
-                        rules={[{ required: false, message: 'Le budget est requis' }]}
+                        rules={[{ required: false }]}
                     >
                         <InputNumber
                             placeholder="Entrez le budget"
@@ -161,15 +167,16 @@ const ProjetForm = () => {
                     </Form.Item>
                 </Col>
             </Row>
+
             <Row gutter={16}>
                 <Col span={24}>
                     <Form.Item
                         label="Entité"
                         name="id_batiment"
-                        rules={[{ required: false, message: "L'entité est requise" }]}
+                        rules={[{ required: false }]}
                     >
                         <Select
-                            placeholder="Sélectionnez un batiment"
+                            placeholder="Sélectionnez un bâtiment"
                             showSearch
                             options={batiment.map((item) => ({
                                 value: item.id_batiment,
@@ -179,6 +186,7 @@ const ProjetForm = () => {
                     </Form.Item>
                 </Col>
             </Row>
+            { idProjet === '' && 
             <Form.List name="besoins">
                 {(fields, { add, remove }) => (
                     <>
@@ -189,10 +197,10 @@ const ProjetForm = () => {
                                     name={[name, 'id_article']}
                                     fieldKey={[fieldKey, 'id_article']}
                                     label="Article"
-                                    rules={[{ required: true, message: "Sélectionnez une article..."  }]}
+                                    rules={[{ required: true, message: "Sélectionnez un article..." }]}
                                 >
                                     <Select
-                                        placeholder="Sélectionnez une article"
+                                        placeholder="Sélectionnez un article"
                                         showSearch
                                         options={article.map((item) => ({
                                             value: item.id_article,
@@ -205,7 +213,7 @@ const ProjetForm = () => {
                                     name={[name, 'description']}
                                     fieldKey={[fieldKey, 'description']}
                                     label="Description"
-                                    rules={[{ required: false, message: 'La description est requise' }]}
+                                    rules={[{ required: false }]}
                                 >
                                     <Input placeholder="Entrez une description" />
                                 </Form.Item>
@@ -234,6 +242,7 @@ const ProjetForm = () => {
                     </>
                 )}
             </Form.List>
+            }
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" loading={loading}>

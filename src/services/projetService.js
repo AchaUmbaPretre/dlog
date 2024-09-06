@@ -7,6 +7,10 @@ export const getProjet = async () => {
     return axios.get(`${DOMAIN}/api/projet`);
   };
 
+export const getProjetOneF = async (id) => {
+    return axios.get(`${DOMAIN}/api/projet/oneF?id_projet=${id}`);
+  };
+
 export const getProjetOne = async (id) => {
     return axios.get(`${DOMAIN}/api/projet/one?id_projet=${id}`);
   };
@@ -18,3 +22,7 @@ export const getProjetTacheOne = async (id) => {
 export const postProjet = async (data) => {
   return axios.post(`${DOMAIN}/api/projet`, data);
 };
+
+export const putProjet = async (id, data) => {
+    return axios.put(`${DOMAIN}/api/projet?id_projet=${id}`, data);
+  };

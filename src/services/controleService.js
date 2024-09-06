@@ -21,6 +21,6 @@ export const postControle = async (data) => {
 };
 
 export const putControle = async (id, data) => {
-  return axios.get(`${DOMAIN}/api/controle/one?id_tache=${id}`, data);
+  return axios.put(`${DOMAIN}/api/controle?id_controle=${id}`, data);
 
 }

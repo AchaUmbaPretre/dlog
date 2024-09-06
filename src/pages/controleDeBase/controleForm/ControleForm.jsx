@@ -47,7 +47,6 @@ const ControleForm = ({ idControle }) => {
                 if (idControle) {
                     const { data: controle } = await getControleOne(idControle);
                     if (controle) {
-                        console.log(controle)
                         form.setFieldsValue(controle[0]);
                     }
                 }
@@ -64,8 +63,12 @@ const ControleForm = ({ idControle }) => {
         try {
             if (idControle) {
                 await putControle(idControle, values);
+                window.location.reload();
+
             } else {
                 await postControle(values);
+                window.location.reload();
+
             }
             notification.success({
                 message: 'Succès',

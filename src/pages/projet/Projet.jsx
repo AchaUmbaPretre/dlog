@@ -26,6 +26,11 @@ const Projet = () => {
   const [idProjet, setIdProjet] = useState('');
   const [form] = Form.useForm();
 
+  const handleEdit = (id) => {
+    setIdProjet(id)
+    setIsModalVisible(true);
+  };
+  
   const handleViewDetails = (id) => {
     message.info(`Affichage des détails de la tache: ${id}`);
     setIsDetailVisible(true)
@@ -108,11 +113,6 @@ const Projet = () => {
     </Menu>
   );
 
-  const handleEdit = (record) => {
-    setEditingRow(record.id_budget);
-    form.setFieldsValue({ quantite_validee: record.quantite_validee });
-  };
-
 
   const columns = [
     { 
@@ -174,6 +174,14 @@ const Projet = () => {
       width: '10%',
       render: (text, record) => (
         <Space >
+          <Tooltip title="Modifier">
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record.id_projet)}
+              aria-label="Edit department"
+            />
+          </Tooltip>
           <Tooltip title="Voir détails">
             <Button
               icon={<EyeOutlined />}
@@ -274,7 +282,7 @@ const Projet = () => {
         width={800}
         centered
       >
-        <ProjetForm/>
+        <ProjetForm idProjet={idProjet}/>
       </Modal>
 
       <Modal
