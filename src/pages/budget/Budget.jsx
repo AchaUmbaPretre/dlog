@@ -194,7 +194,7 @@ const Budget = () => {
       ),
     },
     { 
-      title: 'Montant validé', 
+      title: '$ validé', 
       dataIndex: 'montant_valide',
       key: 'montant_valide',
       render: text => (
