@@ -154,7 +154,7 @@ const BudgetForm = ({ idProjet }) => {
                           ))}
                         </Select>
                       </td>
-                      <td>{validatedInfo.prix !== undefined ? validatedInfo.prix : 'Non défini'} $</td>                      <td>{montantDemande.toFixed(2)}</td>
+                      <td>{validatedInfo.prix !== undefined ? validatedInfo.prix : 'Non défini'} {validatedInfo.prix !== undefined && '$'}</td>                      <td>{montantDemande.toFixed(2)}</td>
                       <td>
                         <InputNumber
                           min={0}
