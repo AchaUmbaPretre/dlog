@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined,FileTextOutlined, PrinterOutlined,EditOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import { getFormat } from '../../services/formatService';
+import FormFormat from './formFormat/FormFormat';
 
 const { Search } = Input;
 
@@ -189,6 +190,7 @@ const Format = () => {
         footer={null}
         width={600}
       >
+        <FormFormat/>
       </Modal>
     </>
   );

@@ -9,5 +9,6 @@ export const getFormat = async () => {
   };
 
 export const postFormat = async (data) => {
+  console.log(data)
   return axios.post(`${DOMAIN}/api/format`, data);
 };

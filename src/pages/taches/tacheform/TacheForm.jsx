@@ -7,6 +7,7 @@ import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
 import { useNavigate } from 'react-router-dom';
 import { getTacheOneV, postTache, putTache } from '../../../services/tacheService';
+import moment from 'moment';
 
 const TacheForm = ({idControle, idProjet, idTache}) => {
     const [form] = Form.useForm();
@@ -45,19 +46,29 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                 setClient(clientData.data);
                 setProvinces(provinceData.data);
 
-                if (idTache) {
-                    const { data: tache } = await getTacheOneV(idTache);
-                    if(tache) {
-                        form.setFieldsValue(tache[0])
-                    }
+                const { data: tache } = await getTacheOneV(idTache);
+                if (tache && tache[0]) {
+                    form.setFieldsValue({
+                        nom_tache: tache[0].nom_tache,
+                        date_debut: moment(tache[0].date_debut, 'YYYY-MM-DD'),
+                        date_fin: moment(tache[0].date_fin, 'YYYY-MM-DD'),
+                        id_departement: tache[0].id_departement,
+                        id_client: tache[0].id_client,
+                        id_ville: tache[0].id_ville,
+                        id_frequence: tache[0].id_frequence,
+                        responsable_principal: tache[0].responsable_principal,
+                        id_demandeur: tache[0].id_demandeur,
+                        description: tache[0].description,
+                    });
                 }
+
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
         };
 
         fetchData();
-    }, []);
+    }, [idTache,form]);
 
     const onFinish = async (values) => {
         const dataAll = {
@@ -92,6 +103,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
         <div className="controle_form">
             <div className="controle_wrapper">
                 <Form
+                    form={form}
                     name="validateOnly"
                     layout="vertical"
                     autoComplete="off"
@@ -187,28 +199,6 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="id_format"
-                                label="Format"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez sélectionner un format.',
-                                    },
-                                ]}
-                            >
-                                <Select
-                                    showSearch
-                                    options={format.map((item) => ({
-                                        value: item.id_format,
-                                        label: item.nom_format,
-                                    }))}
-                                    placeholder="Sélectionnez un format..."
-                                    optionFilterProp="label"
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                            <Form.Item
                                 label="Ville"
                                 name="id_ville"
                                 rules={[
@@ -273,7 +263,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_demandeur"
                                 label="Demandeur"

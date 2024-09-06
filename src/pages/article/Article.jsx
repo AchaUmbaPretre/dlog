@@ -135,14 +135,6 @@ const Article = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Voir détails">
-            <Button
-              icon={<EyeOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleVoirDetails(record.id_article)}
-              aria-label="Voir les détails de l'offre"
-            />
-          </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer cette offre ?"

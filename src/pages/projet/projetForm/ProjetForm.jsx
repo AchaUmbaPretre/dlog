@@ -64,8 +64,10 @@ const ProjetForm = ({ idProjet }) => {
         try {
             if (idProjet) {
                 await putProjet(idProjet, values);
+                window.location.reload();
             } else {
                 await postProjet(values);
+                window.location.reload();
             }
             notification.success({
                 message: 'Succès',

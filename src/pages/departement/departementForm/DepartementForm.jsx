@@ -64,6 +64,7 @@ const DepartementForm = ({ id_departement }) => {
                 window.location.reload();
             } else {
                 await postDepartement(values);
+                window.location.reload();
                 notification.success({
                     message: 'Succès',
                     description: 'Les informations ont été enregistrées avec succès.',
