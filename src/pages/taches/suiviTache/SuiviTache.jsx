@@ -10,9 +10,9 @@ const colorMapping = {
     'En cours': '#1E90FF', 
     'Point bloquant': '#FF4500', 
     'En attente de validation': '#32CD32',
-    'Validé': '#228B22', // Forest Green
-    'Budget': '#FFD700', // Gold
-    'Exécuté': '#A9A9A9', // Dark Gray
+    'Validé': '#228B22',
+    'Budget': '#FFD700',
+    'Exécuté': '#A9A9A9',
     1: '#32CD32',
     0: '#FF6347'
 };
@@ -59,7 +59,6 @@ const SuiviTache = ({idTache}) => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/controle');
             window.location.reload();
         } catch (error) {
             notification.error({
@@ -111,7 +110,7 @@ const SuiviTache = ({idTache}) => {
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
-                                        label: `${item.nom} - ${item.prenom}`,
+                                        label: `${item.nom}`,
                                     }))}
                                     placeholder="Sélectionnez un responsable..."
                                     optionFilterProp="label"

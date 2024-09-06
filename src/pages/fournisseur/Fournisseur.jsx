@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { getClient } from '../../services/clientService';
+import { ExportOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
-import { getFournisseur, getFournisseur_activite } from '../../services/fournisseurService';
+import { getFournisseur_activite } from '../../services/fournisseurService';
 import FournisseurForm from './fournisseurForm/FournisseurForm';
 
 const { Search } = Input;
