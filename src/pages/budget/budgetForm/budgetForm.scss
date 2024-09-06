@@ -5,9 +5,9 @@
     .budget-row-h2{
         border-bottom: 1px solid #e6e6e6;
         padding: 10px 0;
-        .budget_h2{
+        .budget_h1{
             font-size: 16px;
-            font-weight: 300;
+            font-weight: 500;
             text-transform: uppercase;
         }
     }
@@ -36,7 +36,7 @@
     }
 
     th {
-      background-color: #34495e;
+      background-color: #2b81f8;
       color: white;
     }
 
@@ -53,7 +53,7 @@
     }
 
     .submit-button {
-      background-color: #2980b9;
+      background-color: #2b81f8;;
       color: white;
       &:hover {
         background-color: #1abc9c;
