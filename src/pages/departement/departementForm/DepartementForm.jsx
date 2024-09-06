@@ -101,7 +101,7 @@ const DepartementForm = () => {
                     <Form.Item
                         label="Responsable"
                         name="responsable"
-                        rules={[{ required: false, message: 'Veuillez entrer le nom du responsable !' }]}
+                        rules={[{ required: true, message: 'Veuillez entrer le nom du responsable !' }]}
                     >
                         <Select >
                             {data.map((chef) => (
