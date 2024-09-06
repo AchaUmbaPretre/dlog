@@ -39,13 +39,6 @@ const ListeTracking = ({ idTache }) => {
     message.success('Exporting to PDF...');
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
 
   const handleDelete = async (id) => {
     try {
@@ -61,9 +54,6 @@ const ListeTracking = ({ idTache }) => {
     }
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
-  };
 
   const menu = (
     <Menu>

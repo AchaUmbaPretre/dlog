@@ -262,7 +262,7 @@ const ControleDeBase = () => {
                     icon={<PlusOutlined />}
                     onClick={handleAddClient}
                   >
-                    Contrôle
+                    Ajouter contrôle de base
                   </Button>
                   <Dropdown overlay={exportMenu} trigger={['click']}>
                     <Button icon={<ExportOutlined />}>Exporter</Button>
