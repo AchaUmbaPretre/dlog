@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Space, Row, Col, Select, notification, InputNumber, Checkbox } from 'antd';
 import { getUser } from '../../../services/userService';
-import { useNavigate } from 'react-router-dom';
 import { getTypes } from '../../../services/typeService';
 import { postSuiviTache } from '../../../services/suiviService';
 
@@ -21,7 +20,6 @@ const SuiviTache = ({idTache}) => {
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
     const handleError = (message) => {
         notification.error({
