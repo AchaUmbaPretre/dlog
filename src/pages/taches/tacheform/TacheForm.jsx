@@ -6,7 +6,7 @@ import { getFormat } from '../../../services/formatService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
 import { useNavigate } from 'react-router-dom';
-import { getTacheOneV, postTache } from '../../../services/tacheService';
+import { getTacheOneV, postTache, putTache } from '../../../services/tacheService';
 
 const TacheForm = ({idControle, idProjet, idTache}) => {
     const [form] = Form.useForm();
@@ -67,12 +67,16 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
         }
         setIsLoading(true);
         try {
-            await postTache(dataAll);
+            if(idTache) {
+                await putTache(idTache, dataAll)
+            }
+            else{
+                await postTache(dataAll);
+            }
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/tache');
             window.location.reload();
         } catch (error) {
             notification.error({

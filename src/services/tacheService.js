@@ -60,3 +60,7 @@ return axios.post(`${DOMAIN}/api/tache/tache_personne`, data);
 export const deleteTachePersonne = async (id) => {
   return axios.delete(`${DOMAIN}/api/tache/tache_personne/${id}`);
 };
+
+export const putTache = async (id, data) => {
+  return axios.put(`${DOMAIN}/api/tache?${id}`, data);
+};
