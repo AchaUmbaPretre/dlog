@@ -5,11 +5,12 @@ import { getClient } from '../../../services/clientService';
 import { getFormat } from '../../../services/formatService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
-import { postControle } from '../../../services/controleService';
+import { getControleOne, postControle, putControle } from '../../../services/controleService';
 import { useNavigate } from 'react-router-dom';
 import './controleForm.scss';
 
-const ControleForm = ({id_controle}) => {
+const ControleForm = ({ idControle }) => {
+    const [form] = Form.useForm();
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
     const [format, setFormat] = useState([]);
@@ -42,24 +43,35 @@ const ControleForm = ({id_controle}) => {
                 setFrequence(frequenceData.data);
                 setUsers(usersData.data);
                 setClient(clientData.data);
+
+                if (idControle) {
+                    const { data: controle } = await getControleOne(idControle);
+                    if (controle) {
+                        console.log(controle)
+                        form.setFieldsValue(controle[0]);
+                    }
+                }
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
         };
 
         fetchData();
-    }, []);
+    }, [idControle, form]);
 
     const onFinish = async (values) => {
         setIsLoading(true);
         try {
-            await postControle(values);
+            if (idControle) {
+                await putControle(idControle, values);
+            } else {
+                await postControle(values);
+            }
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             navigate('/controle');
-            window.location.reload();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -74,6 +86,7 @@ const ControleForm = ({id_controle}) => {
         <div className="controle_form">
             <div className="controle_wrapper">
                 <Form
+                    form={form}
                     name="validateOnly"
                     layout="vertical"
                     autoComplete="off"
@@ -199,7 +212,7 @@ const ControleForm = ({id_controle}) => {
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
-                                        label: `${item.nom}`,
+                                        label: item.nom,
                                     }))}
                                     placeholder="Sélectionnez des responsables..."
                                     optionFilterProp="label"

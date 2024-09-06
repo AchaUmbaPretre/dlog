@@ -20,7 +20,6 @@ const DepartementForm = ({ id_departement }) => {
 
                 if (id_departement) {
                     const { data: departements } = await getDepartementOne(id_departement);
-                    console.log('Données du département récupérées :', departements); // Débogage
 
                     if (departements.length > 0) {
                         const departement = departements[0]; // Accédez au premier élément du tableau

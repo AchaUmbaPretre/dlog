@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import {
   ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined,
-  ApartmentOutlined,EyeOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,
+  ApartmentOutlined,EditOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,
   PlusOutlined,DeleteOutlined, FileSearchOutlined,
   FileTextOutlined
 } from '@ant-design/icons';
@@ -172,12 +172,12 @@ const ControleDeBase = () => {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-           <Tooltip title="Voir les détails">
+           <Tooltip title="Modifier">
             <Button
-              icon={<EyeOutlined />}
-              style={{ color: 'blue' }}
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
               onClick={() => handleViewDetails(record.id_controle)}
-              aria-label="Voir les détails du client"
+              aria-label=""
             />
           </Tooltip>
           <Popover
