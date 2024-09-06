@@ -158,7 +158,7 @@ const FournisseurForm = () => {
       </Row>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
           Soumettre
         </Button>
       </Form.Item>

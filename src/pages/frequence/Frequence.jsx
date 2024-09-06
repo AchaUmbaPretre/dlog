@@ -60,12 +60,10 @@ const Frequence = () => {
   };
 
   const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
+
   };
 
   const handleExportPDF = () => {
-    // Logic to export data to PDF
-    message.success('Exporting to PDF...');
   };
 
   const handlePrint = () => {
