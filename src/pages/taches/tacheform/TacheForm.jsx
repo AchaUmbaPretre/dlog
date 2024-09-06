@@ -157,7 +157,7 @@ const TacheForm = ({idControle, idProjet}) => {
                                 label="Client"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez sélectionner un client.',
                                     },
                                 ]}
@@ -199,6 +199,12 @@ const TacheForm = ({idControle, idProjet}) => {
                             <Form.Item
                                 label="Ville"
                                 name="id_ville"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez sélectionner une ville.',
+                                    },
+                                ]}
                             >
                                 <Select
                                     showSearch
@@ -257,11 +263,33 @@ const TacheForm = ({idControle, idProjet}) => {
                         </Col>
                         <Col xs={24} md={24}>
                             <Form.Item
+                                name="id_demandeur"
+                                label="Demandeur"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez indiquer un demandeur.',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    showSearch
+                                    options={users.map((item) => ({
+                                        value: item.id_utilisateur,
+                                        label: `${item.nom}`,
+                                    }))}
+                                    placeholder="Sélectionnez un demandeur..."
+                                    optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={24}>
+                            <Form.Item
                                 name="description"
                                 label="Description"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir une description.',
                                     },
                                 ]}
