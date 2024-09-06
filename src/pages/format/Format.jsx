@@ -109,14 +109,6 @@ const Format = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Edit">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
-              aria-label="Edit department"
-            />
-          </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
               title="Are you sure you want to delete this department?"
