@@ -234,7 +234,7 @@ const Budget = () => {
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record.id_budget)}
               aria-label="View budget details"
-            />
+              style={{ color: 'green' }}            />
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
