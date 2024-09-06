@@ -15,3 +15,7 @@ export const getDepartementOne = async (id) => {
 export const postDepartement = async (data) => {
   return axios.post(`${DOMAIN}/api/departement`, data);
 };
+
+export const putDepartement = async (id, data) => {
+  return axios.put(`${DOMAIN}/api/departement?id_departement=${id}`, data);
+};
