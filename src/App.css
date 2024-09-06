@@ -21,6 +21,7 @@
 }
 .app-outlet{
   position: relative;
+  overflow: hidden;
   flex: 5;
   width: 100%;
   background: #f8f8f8f1;

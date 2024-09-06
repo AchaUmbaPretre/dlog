@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { notification, Card, Descriptions, Spin, Typography, Divider, Tag, Space, Button } from 'antd';
+import { notification, Card, Descriptions, Spin, Typography, Divider, Space, Button } from 'antd';
 import { getBudgetOne } from '../../../services/budgetService';
-import { DollarOutlined, CalendarOutlined, ShopOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { DollarOutlined, CalendarOutlined, ShopOutlined, FileTextOutlined} from '@ant-design/icons';
 import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 
@@ -104,6 +104,9 @@ const BudgetDetail = ({ idBudget }) => {
                                 contentStyle={{ fontSize: 16, color: '#555' }}
                                 style={{ backgroundColor: '#fff' }}
                             >
+                                <Descriptions.Item label={<><FileTextOutlined /> Projet</>}>
+                                    <Text>{data.nom_projet}</Text>
+                                </Descriptions.Item>
                                 <Descriptions.Item label={<><ShopOutlined /> Fournisseur</>}>
                                     <Text>{data.nom_fournisseur}</Text>
                                 </Descriptions.Item>

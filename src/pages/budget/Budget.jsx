@@ -20,6 +20,8 @@ const Budget = () => {
   const [form] = Form.useForm();
   const scroll = { x: 400 };
   const [idBudget, setIdBudget] = useState(null)
+  const [searchValue, setSearchValue] = useState('');
+
 
   const handleViewDetails = (record) => {
     message.info(`Affichage des détails du budget: ${record}`);
@@ -119,6 +121,16 @@ const Budget = () => {
       key: 'id',
       render: (text, record, index) => index + 1,
       width: "3%",
+    },
+    { 
+      title: 'Projet', 
+      dataIndex: 'nom_projet', 
+      key: 'nom_projet',
+      render: text => (
+        <Space>
+          <Tag icon={<InfoCircleOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      ),
     },
     { 
       title: 'Items', 
@@ -255,7 +267,10 @@ const Budget = () => {
     },
   ];
   
-
+  const filteredData = data.filter(item =>
+    item.nom_projet?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase()) 
+  );
 
   return (
     <>
@@ -269,7 +284,10 @@ const Budget = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search placeholder="Recherche..."
+               enterButton 
+               onChange={(e) => setSearchValue(e.target.value)}
+               />
             </div>
             <div className="client-rows-right">
                <Button
@@ -292,7 +310,7 @@ const Budget = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             rowKey="id_budget"
             loading={loading}
             scroll={scroll}
