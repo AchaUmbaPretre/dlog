@@ -63,18 +63,17 @@ const ControleForm = ({ idControle }) => {
         try {
             if (idControle) {
                 await putControle(idControle, values);
-                window.location.reload();
 
             } else {
                 await postControle(values);
-                window.location.reload();
 
             }
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/controle');
+            
+            window.location.reload();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -225,7 +224,7 @@ const ControleForm = ({ idControle }) => {
                         <Col xs={24}>
                             <Form.Item>
                                 <Space className="button-group">
-                                    <Button type="primary" htmlType="submit" loading={isLoading}>
+                                    <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
                                         Envoyer
                                     </Button>
                                     <Button htmlType="reset">

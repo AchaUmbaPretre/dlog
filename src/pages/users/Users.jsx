@@ -104,7 +104,7 @@ const Users = () => {
         </Space>
       ),
     },
-    {
+/*     {
       title: 'Action',
       key: 'action',
       width: '10%',
@@ -115,6 +115,7 @@ const Users = () => {
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record)}
               aria-label="View client details"
+              style={{ color: 'green' }}
             />
           </Tooltip>
           <Tooltip title="Edit">
@@ -141,7 +142,7 @@ const Users = () => {
           </Tooltip>
         </Space>
       ),
-    },
+    }, */
   ];
 
   return (

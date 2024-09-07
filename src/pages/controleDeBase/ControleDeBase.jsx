@@ -190,10 +190,10 @@ const ControleDeBase = () => {
                   <FileTextOutlined /> Créer une Tâche
                 </Link>
                 <Link onClick={() => handleAddSuiviListControler(record?.id_controle)}>
-                  <FileTextOutlined /> Liste des controles
+                  <FileTextOutlined /> Liste des tracking
                 </Link>
                 <Link onClick={() => handleAddSuivi(record.id_controle)}>
-                  <FileSearchOutlined /> Contrôler
+                  <FileSearchOutlined /> Tracking
                 </Link>
               </div>
             }
