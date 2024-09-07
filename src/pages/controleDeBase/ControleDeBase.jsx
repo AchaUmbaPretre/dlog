@@ -332,7 +332,7 @@ const ControleDeBase = () => {
 
       <Modal
         visible={modalState === 'suivi'}
-        title="Créer un suivi de controle de base"
+        title="Tracking de controle de base"
         footer={null}
         onCancel={closeModal}
         destroyOnClose

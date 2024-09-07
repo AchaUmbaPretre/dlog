@@ -113,7 +113,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                     <Row gutter={12}>
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="nom_tache"
+                                name="Titre"
                                 label="Nom"
                                 rules={[
                                     {
@@ -302,7 +302,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                         <Col xs={24}>
                             <Form.Item>
                                 <Space className="button-group">
-                                    <Button type="primary" htmlType="submit" loading={isLoading}>
+                                    <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
                                         Envoyer
                                     </Button>
                                     <Button htmlType="reset">
