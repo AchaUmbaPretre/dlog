@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
-import { postFormat } from '../../../services/formatService';
+import { postFrequence } from '../../../services/frequenceService';
 
-const FormFormat = () => {
+const FrequenceForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
   const onFinish = async(values) => {
     setLoading(true)
-    await postFormat(values)
+    await postFrequence(values)
     notification.success({
       message: 'Succès',
       description: 'Le formulaire a été soumis avec succès.',
     });
-    
     window.location.reload();
   };
 
@@ -35,20 +34,13 @@ const FormFormat = () => {
       style={{ maxWidth: 600, margin: '0 auto' }}
     >
       <Form.Item
-        label="Nom du Format"
-        name="nom_format"
-        rules={[{ required: true, message: 'Veuillez entrer le nom du format' }]}
+        label="Frequence"
+        name="nom"
+        rules={[{ required: true, message: 'Veuillez entrer le nom de frequence' }]}
       >
-        <Input placeholder="Entrez le nom du format" />
+        <Input placeholder="Entrez le nom de frequence" />
       </Form.Item>
 
-      <Form.Item
-        label="Description"
-        name="description"
-        rules={[{ required: false, message: 'Veuillez entrer une description' }]}
-      >
-        <Input.TextArea rows={4} placeholder="Entrez une description" />
-      </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
           Soumettre
@@ -58,4 +50,4 @@ const FormFormat = () => {
   );
 };
 
-export default FormFormat;
+export default FrequenceForm;

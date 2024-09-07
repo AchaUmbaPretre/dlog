@@ -3,6 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { ExportOutlined,ScheduleOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import { getFrequence } from '../../services/frequenceService';
+import FrequenceForm from './frequenceForm/FrequenceForm';
 
 const { Search } = Input;
 
@@ -178,6 +179,7 @@ const Frequence = () => {
         footer={null}
         width={600}
       >
+        <FrequenceForm/>
       </Modal>
     </>
   );
