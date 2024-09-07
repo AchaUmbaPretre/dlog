@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
 import './departement.scss';
 import DepartementForm from './departementForm/DepartementForm';
 import config from '../../config';
@@ -110,6 +110,14 @@ const Departement = () => {
         </Space>
       ),
     },
+    {
+      title: 'Responsable',
+      dataIndex: 'nom',
+      key: 'nom',
+      render: (text) => (
+        <Tag icon={<UserOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+      ),
+    },
     { 
       title: 'Email', 
       dataIndex: 'email',
@@ -178,7 +186,8 @@ const Departement = () => {
 
   const filteredData = data.filter(item =>
     item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.code?.toLowerCase().includes(searchValue.toLowerCase()) 
+    item.code?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (

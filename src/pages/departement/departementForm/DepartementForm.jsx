@@ -1,6 +1,5 @@
 import { Button, Form, Input, notification, Modal, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getUser } from '../../../services/userService';
 import { getDepartementOne, postDepartement, putDepartement } from '../../../services/departementService';
 
@@ -22,7 +21,7 @@ const DepartementForm = ({ id_departement }) => {
                     const { data: departements } = await getDepartementOne(id_departement);
 
                     if (departements.length > 0) {
-                        const departement = departements[0]; // Accédez au premier élément du tableau
+                        const departement = departements[0];
                         form.setFieldsValue({
                             nom_departement: departement.nom_departement || '',
                             description: departement.description || '',
@@ -45,7 +44,7 @@ const DepartementForm = ({ id_departement }) => {
     }, [id_departement, form]);
 
     const showConfirm = (values) => {
-        console.log('Valeurs soumises :', values); // Débogage
+        console.log('Valeurs soumises :', values);
         setIsModalVisible(true);
     };
 
@@ -60,10 +59,9 @@ const DepartementForm = ({ id_departement }) => {
                     message: 'Succès',
                     description: 'Les informations ont été mises à jour avec succès.',
                 });
-                window.location.reload();
+
             } else {
                 await postDepartement(values);
-                window.location.reload();
                 notification.success({
                     message: 'Succès',
                     description: 'Les informations ont été enregistrées avec succès.',

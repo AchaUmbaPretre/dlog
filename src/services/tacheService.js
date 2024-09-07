@@ -28,6 +28,7 @@ export const getTacheControleOne = async (id) => {
   };
 
 export const postTache = async (data) => {
+  console.log(data)
   return axios.post(`${DOMAIN}/api/tache`, data);
 };
 
@@ -54,6 +55,7 @@ export const getTachePersonneOne = async (id) => {
 };
 
 export const postTachePersonne = async (data) => {
+  console.log(data)
 return axios.post(`${DOMAIN}/api/tache/tache_personne`, data);
 };
 

@@ -60,6 +60,12 @@ const DetailTache = ({ idTache }) => {
                 {data.owner || 'Non disponible'}
               </Tag>
             </p>
+            <p className="detail-tache-paragraph">
+              <strong>Demandeur : </strong>
+              <Tag icon={<UserOutlined />} color="blue">
+                {data.demandeur || 'Non disponible'}
+              </Tag>
+            </p>
           </Card>
         </Col>
         <Col span={12}>
@@ -108,7 +114,7 @@ const DetailTache = ({ idTache }) => {
             </p>
           </Card>
         </Col>
-        <Col span={12}>
+{/*         <Col span={12}>
           <Card type="inner" title="Contrôle" bordered className="detail-tache-inner-card">
             <p className="detail-tache-paragraph">
               <Tooltip title="Contrôle de base effectué" color="blue">
@@ -118,7 +124,7 @@ const DetailTache = ({ idTache }) => {
               {data.controle_de_base !== null ? 'Effectué' : 'Non effectué'}
             </p>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </Card>
   );

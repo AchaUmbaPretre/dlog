@@ -63,7 +63,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                 }
 
             } catch (error) {
-                handleError('Une erreur est survenue lors du chargement des données.');
+                console.log(error)
             }
         };
 
@@ -88,12 +88,10 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
+
             window.location.reload();
         } catch (error) {
-            notification.error({
-                message: 'Erreur',
-                description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
-            });
+            console.log(error)
         } finally {
             setIsLoading(false);
         }
@@ -113,8 +111,8 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                     <Row gutter={12}>
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="Titre"
-                                label="Nom"
+                                name="nom_tache"
+                                label="Titre"
                                 rules={[
                                     {
                                         required: true,
@@ -269,7 +267,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                                 label="Demandeur"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez indiquer un demandeur.',
                                     },
                                 ]}

@@ -26,7 +26,6 @@ const Taches = () => {
   const [idTache, setIdTache] = useState('');
   const scroll = { x: 400 };
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -157,7 +156,7 @@ const Taches = () => {
       key: 'nom_client',
       render: text => (
         <Space>
-          <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<UserOutlined />} color='cyan'>{text ?? 'Aucun'}</Tag>
         </Space>
       )
     },
