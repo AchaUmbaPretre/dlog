@@ -20,6 +20,10 @@ export const postControle = async (data) => {
   return axios.post(`${DOMAIN}/api/controle`, data);
 };
 
+export const deletePutControle = async (id) => {
+  return axios.put(`${DOMAIN}/api/controle/est_supprime?id=${id}`);
+};
+
 export const putControle = async (id, data) => {
   return axios.put(`${DOMAIN}/api/controle?id_controle=${id}`, data);
 

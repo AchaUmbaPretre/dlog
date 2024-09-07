@@ -53,67 +53,69 @@ const SideBar = () => {
               Controle de base
             </Link>
           </Item>
-          <Item key="3" icon={<ProjectOutlined />}>
-            <Link to='/projet'>
-              Projet
-            </Link>
-          </Item>
-          <SubMenu key="sub5" icon={<FileDoneOutlined />} title="Tâches">
+          <SubMenu key="sub5" icon={<ProjectOutlined />} title="Projet">
+            <Item key="3">
+              <Link to='/projet'>
+                Liste de projet
+              </Link>
+            </Item>
             <Menu.Item key="4">
-              <Link to={'/tache'}>
-                Tâches
+              <Link to='/offre'>
+                Liste des offres
               </Link>
             </Menu.Item>
             <Menu.Item key="5">
-              <Link to='/offre'>
-                Offres
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="6">
               <Link to='/budget'>
                 Budget
               </Link>
             </Menu.Item>
-            <Menu.Item key="7">
-              <Link to='/format'>
-                Format
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="8">
-              <Link to='/frequence'>
-                Frequence
+          </SubMenu>
+          <SubMenu key="sub6" icon={<FileDoneOutlined />} title="Tâches">
+            <Menu.Item key="6">
+              <Link to={'/tache'}>
+                Liste des tâches
               </Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="9" icon={<TagOutlined  />}>
+          <Item key="7" icon={<TagOutlined  />}>
             <Link to='/article'>
               Article
             </Link>
           </Item>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Parametre">
-            <Menu.Item key="10">
+            <Menu.Item key="8">
               <Link to='/utilisateur'>
                 Liste des personnels
               </Link>
             </Menu.Item>
-            <Menu.Item key="11">
+            <Menu.Item key="9">
               <Link to={'/client'}>
                 Liste des clients
               </Link>
             </Menu.Item>
-            <Menu.Item key="12">
+            <Menu.Item key="10">
               <Link to={'/fournisseur'}>
                 Liste des fourniseurs
               </Link>
             </Menu.Item>
-            <Menu.Item key="13">
+            <Menu.Item key="11">
               <Link to={'/batiment'}>
                 Liste des bâtiments
               </Link>
             </Menu.Item>
-            <Menu.Item key="14">
+            <Menu.Item key="12">
               <Link to={'/categorie'}>
                 Liste des categories
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="13">
+              <Link to='/format'>
+                Format
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="14">
+              <Link to='/frequence'>
+                Frequence
               </Link>
             </Menu.Item>
           </SubMenu>

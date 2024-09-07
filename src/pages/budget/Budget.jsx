@@ -3,10 +3,9 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { ExportOutlined, DollarOutlined,InfoCircleOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import BudgetForm from './budgetForm/BudgetForm';
-import { getBudget, putBudget } from '../../services/budgetService';
+import { deletePutBudget, getBudget, putBudget } from '../../services/budgetService';
 import moment from 'moment';
 import BudgetDetail from './budgetDetail/BudgetDetail';
-
 
 const { Search } = Input;
 
@@ -48,8 +47,7 @@ const Budget = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Fonction de suppression commentée
-      // await deleteClient(id);
+       await deletePutBudget(id);
       setData(data.filter((item) => item.id_budget !== id));
       message.success('Budget supprimé avec succès');
     } catch (error) {
@@ -146,6 +144,8 @@ const Budget = () => {
       title: 'Qté demandée', 
       dataIndex: 'quantite_demande', 
       key: 'quantite_demande',
+      sorter: (a, b) => a.quantite_demande - b.quantite_demande,
+      sortDirections: ['descend', 'ascend'],
       render: text => (
         <Tag  color='geekblue'>{text}</Tag>
       ),
@@ -154,6 +154,8 @@ const Budget = () => {
       title: 'Qté validée', 
       dataIndex: 'quantite_validee',
       key: 'quantite_validee',
+      sorter: (a, b) => a.quantite_validee - b.quantite_validee,
+      sortDirections: ['descend', 'ascend'],
       render: (text, record) => (
         editingRow === record.id_budget ? (
           <Form form={form} layout="inline">
@@ -185,6 +187,8 @@ const Budget = () => {
       title: 'P.U', 
       dataIndex: 'prix_unitaire',
       key: 'prix_unitaire',
+      sorter: (a, b) => a.prix_unitaire - b.prix_unitaire,
+      sortDirections: ['descend', 'ascend'],
       render: text => (
         <Space>
           <Tag color={text === null ? 'red' : 'blue'}>
@@ -197,6 +201,8 @@ const Budget = () => {
       title: 'Montant', 
       dataIndex: 'montant',
       key: 'montant',
+      sorter: (a, b) => a.montant - b.montant,
+      sortDirections: ['descend', 'ascend'],
       render: text => (
         <Space>
           <Tag color={text === null ? 'red' : 'blue'}>
@@ -209,6 +215,8 @@ const Budget = () => {
       title: '$ validé', 
       dataIndex: 'montant_valide',
       key: 'montant_valide',
+      sorter: (a, b) => a.montant_valide - b.montant_valide,
+      sortDirections: ['descend', 'ascend'],
       render: text => (
         <Space>
           <Tag icon={<InfoCircleOutlined />} color={text === null ? 'red' : 'blue'}>
@@ -221,6 +229,8 @@ const Budget = () => {
       title: 'Date', 
       dataIndex: 'date_creation', 
       key: 'date_creation',
+      sorter: (a, b) => a.date_creation - b.date_creation,
+      sortDirections: ['descend', 'ascend'],
       render: text => (
         <Tag icon={<CalendarOutlined />} color='purple'>
           {moment(text).format('DD-MM-yyyy')}
@@ -269,7 +279,9 @@ const Budget = () => {
   
   const filteredData = data.filter(item =>
     item.nom_projet?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase()) 
+    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_fournisseur?.toLowerCase().includes(searchValue.toLowerCase()) 
+
   );
 
   return (

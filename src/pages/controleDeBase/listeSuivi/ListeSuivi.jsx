@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Modal, Collapse } from 'antd';
 import { ExportOutlined, PrinterOutlined,PlusCircleOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, DollarOutlined, RocketOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { getTacheControleOne } from '../../../services/tacheService';
+import { deletePutTache, getTacheControleOne } from '../../../services/tacheService';
 import SuiviTache from '../../taches/suiviTache/SuiviTache';
 import { getSuiviTacheOne } from '../../../services/suiviService';
 
@@ -75,14 +75,13 @@ const ListeSuivi = ({ idControle }) => {
 
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
+       await deletePutTache(id);
+      setData(data.filter((item) => item.id_tache !== id));
+      message.success('La tache a été supprimée avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
+        description: 'Une erreur est survenue lors de la suppression de tache.',
       });
     }
   };
@@ -214,8 +213,8 @@ const ListeSuivi = ({ idControle }) => {
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce client ?"
-              onConfirm={() => handleDelete(record.id)}
+              title="Êtes-vous sûr de vouloir supprimer cette tache ?"
+              onConfirm={() => handleDelete(record.id_tache)}
               okText="Oui"
               cancelText="Non"
             >
@@ -242,7 +241,7 @@ const ListeSuivi = ({ idControle }) => {
       <Collapse accordion>
   {suiviData.length ? (
     suiviData.map((item) => (
-      <Panel header={`Suivi du #${moment(item.date_suivi).format('DD-MM-yyyy')}`} key={item.id_suivi}>
+      <Panel header={`Suivi du #${moment(item.date_suivi).format('DD-MM-yyyy')} description : ${item.commentaire} Pourcentage : ${item.pourcentage_avancement}% Statut : ${item.nom_type_statut}`} key={item.id_suivi}>
         <p><strong>Description :</strong>  {item.commentaire}</p>
         <p><strong>Pourcentage d'avancement :</strong>  {item.pourcentage_avancement}%</p>
         <p><strong>Terminé :</strong>  {item.est_termine}</p>

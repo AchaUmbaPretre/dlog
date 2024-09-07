@@ -22,6 +22,10 @@ export const putBudget = async (id, data) => {
         ...data
       });
   };
+  
+export const deletePutBudget = async (id) => {
+    return axios.put(`${DOMAIN}/api/budget/putSupprime?id=${id}`);
+  };
 
 export const deleteBudget = async (id) => {
     return axios.delete(`${DOMAIN}/api/budget/${id}`);

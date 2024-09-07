@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm } from 'antd';
 import { 
   ExportOutlined, FileOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined,EditOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
-  CalendarOutlined, TeamOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
+  CalendarOutlined, TeamOutlined,DeleteOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
-import { getTache } from '../../services/tacheService';
+import { deletePutTache, getTache } from '../../services/tacheService';
 import { Link } from 'react-router-dom';
 import ListeDocTache from './listeDocTache/ListeDocTache';
 import TacheDoc from './tacheDoc/TacheDoc';
@@ -25,6 +25,20 @@ const Taches = () => {
   const [modalType, setModalType] = useState(null);
   const [idTache, setIdTache] = useState('');
   const scroll = { x: 400 };
+
+
+  const handleDelete = async (id) => {
+    try {
+       await deletePutTache(id);
+      setData(data.filter((item) => item.id_tache !== id));
+      message.success('Tache supprimée avec succès');
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de suppression',
+        description: 'Une erreur est survenue lors de la suppression du budget.',
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -270,6 +284,20 @@ const Taches = () => {
               />
             </Tooltip>
           </Popover>
+          <Tooltip title="Supprimer">
+            <Popconfirm
+              title="Êtes-vous sûr de vouloir supprimer cette tache ?"
+              onConfirm={() => handleDelete(record.id_tache)}
+              okText="Oui"
+              cancelText="Non"
+            >
+              <Button
+                icon={<DeleteOutlined />}
+                style={{ color: 'red' }}
+                aria-label="Delete"
+              />
+            </Popconfirm>
+          </Tooltip>
         </Space>
       )
     }

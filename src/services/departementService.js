@@ -17,6 +17,11 @@ export const postDepartement = async (data) => {
   return axios.post(`${DOMAIN}/api/departement`, data);
 };
 
+export const deletePutDepartement = async (id) => {
+  return axios.put(`${DOMAIN}/api/departement/supprime_put?id=${id}`);
+};
+
+
 export const putDepartement = async (id, data) => {
   return axios.put(`${DOMAIN}/api/departement?id_departement=${id}`, data);
 };

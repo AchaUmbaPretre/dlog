@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 import config from '../../config';
 import ControleForm from './controleForm/ControleForm';
-import { getControle } from '../../services/controleService';
+import { deletePutControle, getControle } from '../../services/controleService';
 import SuiviControle from './suiviControle/SuiviControle';
 import ListeSuivi from './listeSuivi/ListeSuivi';
 import TacheForm from '../taches/tacheform/TacheForm';
@@ -57,14 +57,13 @@ const ControleDeBase = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Fonction de suppression commentée
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Client supprimé avec succès');
+         await deletePutControle(id);
+      setData(data.filter((item) => item.id_controle !== id));
+      message.success('Controle de base a été supprimé avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
+        description: 'Une erreur est survenue lors de la suppression de controle de base.',
       });
     }
   };

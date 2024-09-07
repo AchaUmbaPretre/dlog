@@ -4,7 +4,7 @@ import { ExportOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOu
 import './departement.scss';
 import DepartementForm from './departementForm/DepartementForm';
 import config from '../../config';
-import { getDepartement } from '../../services/departementService';
+import { deletePutDepartement, getDepartement } from '../../services/departementService';
 
 const { Search } = Input;
 
@@ -25,9 +25,8 @@ const Departement = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
+      await deletePutDepartement(id);
+      setData(data.filter((item) => item.id_departement !== id));
       message.success('Departement supprimé avec succès');
     } catch (error) {
       notification.error({
@@ -168,7 +167,7 @@ const Departement = () => {
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
-              onConfirm={() => handleDelete(record.id)}
+              onConfirm={() => handleDelete(record.id_departement)}
               okText="Yes"
               cancelText="No"
             >

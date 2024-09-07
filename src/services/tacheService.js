@@ -40,6 +40,10 @@ export const postTacheDoc = async (data) => {
   });
 };
 
+export const deletePutTache = async (id) => {
+  return axios.put(`${DOMAIN}/api/tache/supprime_put?id=${id}`);
+};
+
 export const deleteTache = async (id) => {
   return axios.delete(`${DOMAIN}/api/tache/${id}`);
 };
