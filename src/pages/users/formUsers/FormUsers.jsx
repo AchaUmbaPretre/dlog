@@ -95,7 +95,7 @@ const FormUsers = () => {
           </Col>
         </Row>
         <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading}>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
             Créer l'Utilisateur
           </Button>
         </Form.Item>
