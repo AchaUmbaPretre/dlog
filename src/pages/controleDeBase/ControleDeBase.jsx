@@ -30,7 +30,6 @@ const ControleDeBase = () => {
   const [modalState, setModalState] = useState(null);
   const scroll = { x: 400 };
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getControle();
@@ -45,8 +44,9 @@ const ControleDeBase = () => {
       }
     };
 
+    useEffect(() => {
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
   const openModal = (modalType, id = '') => {
     setIdControle(id);
@@ -303,7 +303,7 @@ const ControleDeBase = () => {
         destroyOnClose
         width={850}
       >
-        <ControleForm idControle={idControle} closeModal={closeModal} />
+        <ControleForm idControle={idControle} fetchData={fetchData} closeModal={closeModal} />
       </Modal>
       <Modal
         visible={modalState === 'liste'}
@@ -350,7 +350,7 @@ const ControleDeBase = () => {
         width={1050}
         centered
       >
-        <TacheForm idControle={idControle} closeModal={closeModal} />
+        <TacheForm idControle={idControle} closeModal={closeModal} fetchData={fetchData}/>
       </Modal>
     </>
   );

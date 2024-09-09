@@ -9,7 +9,7 @@ import { getControleOne, postControle, putControle } from '../../../services/con
 import { useNavigate } from 'react-router-dom';
 import './controleForm.scss';
 
-const ControleForm = ({ idControle }) => {
+const ControleForm = ({ idControle,fetchData,closeModal }) => {
     const [form] = Form.useForm();
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
@@ -72,8 +72,9 @@ const ControleForm = ({ idControle }) => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            
-            window.location.reload();
+
+            fetchData();
+            closeModal()
         } catch (error) {
             notification.error({
                 message: 'Erreur',

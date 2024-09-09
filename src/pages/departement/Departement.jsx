@@ -3,13 +3,11 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { ExportOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
 import './departement.scss';
 import DepartementForm from './departementForm/DepartementForm';
-import config from '../../config';
 import { deletePutDepartement, getDepartement } from '../../services/departementService';
 
 const { Search } = Input;
 
 const Departement = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -36,12 +34,6 @@ const Departement = () => {
     }
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
-  };
-
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getDepartement();
@@ -56,8 +48,9 @@ const Departement = () => {
       }
     };
 
+  useEffect(() => {
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -246,7 +239,7 @@ const Departement = () => {
         width={600}
         centered
       >
-        <DepartementForm id_departement={idDepartement}/>
+        <DepartementForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
     </>
   );

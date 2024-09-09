@@ -5,7 +5,7 @@ import { getDepartementOne, postDepartement, putDepartement } from '../../../ser
 
 const { Option } = Select;
 
-const DepartementForm = ({ id_departement }) => {
+const DepartementForm = ({ id_departement, fetchData, closeModal}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
@@ -67,7 +67,8 @@ const DepartementForm = ({ id_departement }) => {
                     description: 'Les informations ont été enregistrées avec succès.',
                 });
             }
-            window.location.reload();
+            fetchData();
+            closeModal();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
