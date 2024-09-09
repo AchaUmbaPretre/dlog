@@ -297,7 +297,7 @@ const ControleDeBase = () => {
       </div>
       <Modal
         visible={modalState === 'controle'}
-        title="Ajouter un contrôle"
+        title="Ajouter un contrôle de base"
         footer={null}
         onCancel={closeModal}
         destroyOnClose
