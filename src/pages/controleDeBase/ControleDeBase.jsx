@@ -267,7 +267,7 @@ const groupByControle = (data) => {
     },
   ];
 
-  const filteredData = data.filter(item =>
+  const filteredData = groupedData.filter(item =>
     item.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.format?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -318,7 +318,7 @@ const groupByControle = (data) => {
               <div className="tableau_client">
               <Table
                   columns={columns}
-                  dataSource={groupedData}
+                  dataSource={filteredData}
                   loading={loading}
                   rowKey="id_controle"
                   pagination={{ defaultPageSize: 15 }}
