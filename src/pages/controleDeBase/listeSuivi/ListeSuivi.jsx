@@ -283,6 +283,7 @@ const ListeSuivi = ({ idControle }) => {
                 onClick={handlePrint}
               >
                 Imprimer
+
               </Button>
             </div>
           </div>

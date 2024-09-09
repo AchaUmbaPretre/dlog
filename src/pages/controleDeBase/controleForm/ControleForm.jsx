@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Space, Row, Col, Select, notification } from 'antd';
+import { Button, Form, Input, Space, Row, Col, Select, notification, Collapse } from 'antd';
 import { getDepartement } from '../../../services/departementService';
 import { getClient } from '../../../services/clientService';
 import { getFormat } from '../../../services/formatService';
@@ -9,6 +9,9 @@ import { getControleOne, postControle, putControle } from '../../../services/con
 import { useNavigate } from 'react-router-dom';
 import './controleForm.scss';
 
+const { Panel } = Collapse; // Utiliser Collapse.Panel
+
+
 const ControleForm = ({ idControle,fetchData,closeModal }) => {
     const [form] = Form.useForm();
     const [departement, setDepartement] = useState([]);
@@ -17,6 +20,7 @@ const ControleForm = ({ idControle,fetchData,closeModal }) => {
     const [frequence, setFrequence] = useState([]);
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [controleData, setControleData] = useState([]); // Stocker les données de contrôle
     const navigate = useNavigate();
 
     // Function to handle errors
@@ -131,6 +135,7 @@ const ControleForm = ({ idControle,fetchData,closeModal }) => {
                                 ]}
                             >
                                 <Select
+                                    mode="multiple"
                                     showSearch
                                     options={client.map((item) => ({
                                         value: item.id_client,

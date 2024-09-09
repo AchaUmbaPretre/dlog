@@ -22,7 +22,6 @@ import ListeControler from './listeControler/ListeControler';
 const { Search } = Input;
 
 const ControleDeBase = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -97,6 +96,40 @@ const ControleDeBase = () => {
     </Menu>
   );
 
+const groupByControle = (data) => {
+  const grouped = data.reduce((acc, current) => {
+    const { id_controle, departement, nom_client, format, controle_de_base, frequence, responsable } = current;
+
+    if (!acc[id_controle]) {
+      acc[id_controle] = {
+        id_controle,
+        departement,
+        nom_client,
+        format,
+        controle_de_base,
+        frequence,
+        responsables: new Set(), // Utiliser un Set pour éviter les doublons
+        items: []
+      };
+    }
+    acc[id_controle].responsables.add(responsable);
+    acc[id_controle].items.push(current);
+    return acc;
+  }, {});
+
+  // Convertir en tableau et ajuster les données pour les afficher
+  return Object.values(grouped).map(group => ({
+    ...group,
+    responsables: Array.from(group.responsables).join(', '), // Convertir le Set en chaîne de caractères
+    nom_client: group.items.length > 1 ? "ALL" : group.nom_client // Afficher "ALL" si plusieurs entrées
+  }));
+};
+
+  
+  
+
+  const groupedData = groupByControle(data);
+
   const columns = [
     {
       title: '#',
@@ -158,13 +191,21 @@ const ControleDeBase = () => {
     },
     {
       title: 'Owner',
-      dataIndex: 'responsable',
-      key: 'responsable',
-      render: text => (
-        <Space>
-          <Tag icon={<UserOutlined />} color='purple'>{text}</Tag>
-        </Space>
-      ),
+      dataIndex: 'responsables', // Notez le changement de dataIndex
+      key: 'responsables',
+      render: text => {
+        if (!text) {
+          return null; // ou retourner un autre élément pour indiquer que rien n'est disponible
+        }
+    
+        return (
+          <Space>
+            {text.split(', ').map((name, index) => (
+              <Tag icon={<UserOutlined />} color='purple' key={index}>{name}</Tag>
+            ))}
+          </Space>
+        );
+      },
     },
     {
       title: 'Action',
@@ -275,15 +316,27 @@ const ControleDeBase = () => {
                 </div>
               </div>
               <div className="tableau_client">
-                <Table
+              <Table
                   columns={columns}
-                  dataSource={filteredData}
+                  dataSource={groupedData}
                   loading={loading}
                   rowKey="id_controle"
                   pagination={{ defaultPageSize: 15 }}
-                  scroll={scroll}
-                  className='tableau_x'
-                  style={{ fontSize: '12px' }}
+                  expandable={{
+                    expandedRowRender: (record) => (
+                      record.items.length > 1 ? ( // Afficher le détail seulement si plus d'un élément
+                        <Table
+                          columns={columns}
+                          dataSource={record.items}
+                          pagination={false}
+                          rowKey={(record, index) => `${record.id_controle}-${index}`}
+                          showHeader={false}
+                          size="small"
+                        />
+                      ) : null
+                    ),
+                    rowExpandable: (record) => record.items.length > 1, // Activer l'expansion seulement si items.length > 1
+                  }}
                   bordered
                   size="small"
                 />
