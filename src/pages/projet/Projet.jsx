@@ -22,6 +22,8 @@ const Projet = () => {
   const [isBudgetVisible, setIsBudgetVisible] = useState(false);
   const [idProjet, setIdProjet] = useState('');
   const [form] = Form.useForm();
+  const scroll = { x: 400 };
+
 
   const handleEdit = (id) => {
     setIdProjet(id)
@@ -267,6 +269,7 @@ const Projet = () => {
             dataSource={data}
             rowKey="id_projet"
             loading={loading}
+            scroll={scroll}
             size="small"
             bordered
           />
