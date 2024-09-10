@@ -10,7 +10,7 @@ import { getTacheOneV, postTache, putTache } from '../../../services/tacheServic
 import moment from 'moment';
 import { getBatiment } from '../../../services/typeService';
 
-const TacheForm = ({idControle, idProjet, idTache}) => {
+const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
@@ -93,7 +93,8 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/tache')
+            closeModal()
+            fetchData()
         } catch (error) {
             console.log(error)
         } finally {
@@ -326,7 +327,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                             <Form.Item>
                                 <Space className="button-group">
                                     <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
-                                        Envoyer
+                                        { idTache ? 'Modifier' : 'Ajouter'}
                                     </Button>
                                     <Button htmlType="reset">
                                         Réinitialiser

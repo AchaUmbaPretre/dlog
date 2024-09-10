@@ -365,7 +365,7 @@ const Taches = () => {
         width={850}
         centered
       >
-        <TacheForm idTache={idTache}/>
+        <TacheForm idTache={idTache} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
 
       <Modal
