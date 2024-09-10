@@ -4,7 +4,7 @@ import { ExportOutlined, BarsOutlined,CheckSquareOutlined,RocketOutlined,Hourgla
 import moment from 'moment';
 import 'moment/locale/fr';
 import ProjetForm from './projetForm/ProjetForm';
-import { getProjet } from '../../services/projetService';
+import { deletePutProjet, getProjet, putProjet } from '../../services/projetService';
 import TacheForm from '../taches/tacheform/TacheForm';
 import DetailProjet from './detailProjet/DetailProjet';
 import { Link } from 'react-router-dom';
@@ -68,10 +68,9 @@ const Projet = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Fonction de suppression commentée
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id_budget !== id));
-      message.success('Budget supprimé avec succès');
+       await deletePutProjet(id);
+      setData(data.filter((item) => item.id_projet !== id));
+      message.success('Projet a été supprimé avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -232,7 +231,7 @@ const Projet = () => {
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce budget ?"
-              onConfirm={() => handleDelete(record.id_budget)}
+              onConfirm={() => handleDelete(record.id_projet)}
               okText="Oui"
               cancelText="Non"
             >

@@ -23,6 +23,10 @@ export const postProjet = async (data) => {
   return axios.post(`${DOMAIN}/api/projet`, data);
 };
 
+export const deletePutProjet = async (id) => {
+    return axios.put(`${DOMAIN}/api/projet/est_supprime?id_projet=${id}`);
+  };
+
 export const putProjet = async (id, data) => {
     return axios.put(`${DOMAIN}/api/projet?id_projet=${id}`, data);
   };
