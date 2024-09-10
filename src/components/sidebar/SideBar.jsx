@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
@@ -18,11 +18,18 @@ const { Sider } = Layout;
 const { SubMenu, Item } = Menu;
 
 const SideBar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [openKeys, setOpenKeys] = useState([]);
+
+  const onOpenChange = (keys) => {
+    // Si un sous-menu est ouvert, fermer les autres
+    const latestOpenKey = keys.find(key => !openKeys.includes(key));
+    setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+  };
 
   const Logout = async () => {
     try {
-      await logout()
+      await logout();
       localStorage.removeItem('persist:root');
       message.success('Déconnexion réussie !');
       navigate('/login');
@@ -38,85 +45,59 @@ const SideBar = () => {
         <Menu
           mode='inline'
           defaultSelectedKeys={['/']}
-          style={{ height: '100%', borderRight: 0, width: '100%', background:'#fff' }}
+          openKeys={openKeys}
+          onOpenChange={onOpenChange}
+          style={{ height: '100%', borderRight: 0, width: '100%', background: '#fff' }}
         >
           <Item key="/" icon={<HomeOutlined />}>
             <Link to="/">Accueil</Link>
           </Item>
           <Item key="1" icon={<ApartmentOutlined />}>
-            <Link to='/departement'>
-              Département
-            </Link>
+            <Link to='/departement'>Département</Link>
           </Item>
           <Item key="2" icon={<DashboardOutlined />}>
-            <Link to='/controle'>
-              Controle de base
-            </Link>
+            <Link to='/controle'>Contrôle de base</Link>
           </Item>
           <SubMenu key="sub5" icon={<ProjectOutlined />} title="Projet">
             <Item key="3">
-              <Link to='/projet'>
-                Liste de projet
-              </Link>
+              <Link to='/projet'>Liste de projet</Link>
             </Item>
             <Menu.Item key="4">
-              <Link to='/offre'>
-                Liste des offres
-              </Link>
+              <Link to='/offre'>Liste des offres</Link>
             </Menu.Item>
             <Menu.Item key="5">
-              <Link to='/budget'>
-                Budget
-              </Link>
+              <Link to='/budget'>Budget</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub6" icon={<FileDoneOutlined />} title="Tâches">
             <Menu.Item key="6">
-              <Link to={'/tache'}>
-                Liste des tâches
-              </Link>
+              <Link to='/tache'>Liste des tâches</Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="7" icon={<TagOutlined  />}>
-            <Link to='/article'>
-              Article
-            </Link>
+          <Item key="7" icon={<TagOutlined />}>
+            <Link to='/article'>Article</Link>
           </Item>
-          <SubMenu key="sub10" icon={<SettingOutlined />} title="Parametre">
+          <SubMenu key="sub10" icon={<SettingOutlined />} title="Paramètre">
             <Menu.Item key="8">
-              <Link to='/utilisateur'>
-                Liste des personnels
-              </Link>
+              <Link to='/utilisateur'>Liste des personnels</Link>
             </Menu.Item>
             <Menu.Item key="9">
-              <Link to={'/client'}>
-                Liste des clients
-              </Link>
+              <Link to='/client'>Liste des clients</Link>
             </Menu.Item>
             <Menu.Item key="10">
-              <Link to={'/fournisseur'}>
-                Liste des fourniseurs
-              </Link>
+              <Link to='/fournisseur'>Liste des fournisseurs</Link>
             </Menu.Item>
             <Menu.Item key="11">
-              <Link to={'/batiment'}>
-                Liste des bâtiments
-              </Link>
+              <Link to='/batiment'>Liste des bâtiments</Link>
             </Menu.Item>
             <Menu.Item key="12">
-              <Link to={'/categorie'}>
-                Liste des categories
-              </Link>
+              <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
             <Menu.Item key="13">
-              <Link to='/format'>
-                Format
-              </Link>
+              <Link to='/format'>Format</Link>
             </Menu.Item>
             <Menu.Item key="14">
-              <Link to='/frequence'>
-                Frequence
-              </Link>
+              <Link to='/frequence'>Fréquence</Link>
             </Menu.Item>
           </SubMenu>
           <Item key="logout" icon={<LogoutOutlined />} className="logout-item" onClick={Logout}>
@@ -126,6 +107,6 @@ const SideBar = () => {
       </Sider>
     </div>
   );
-}
+};
 
 export default SideBar;
