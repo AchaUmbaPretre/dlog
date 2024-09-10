@@ -81,6 +81,10 @@ const DetailTache = ({ idTache }) => {
               {data.departement || 'Non disponible'}
             </p>
             <p className="detail-tache-paragraph">
+              <strong>Entité : </strong>
+              {data.nom_batiment || 'Non disponible'}
+            </p>
+            <p className="detail-tache-paragraph">
               <strong>Fréquence : </strong>
               <Tag color="blue">{data.frequence || 'Non disponible'}</Tag>
             </p>
