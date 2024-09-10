@@ -16,7 +16,7 @@ const FormatCalendar = () => {
       const response = await getTache();
       const formattedEvents = response.data.map((tache) => ({
         id: tache.id_tache,
-        title: `${tache.nom_tache} - ${tache.description}`,
+        title: `${tache.nom_tache}`,
         start: new Date(tache.date_debut),
         end: new Date(tache.date_fin),
         status: tache.statut,
