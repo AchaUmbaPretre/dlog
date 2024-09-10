@@ -14,6 +14,7 @@ const Batiment = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const scroll = { x: 400 };
 
 
   const handleDelete = async (id) => {
@@ -200,12 +201,11 @@ const Batiment = () => {
           <Table
             columns={columns}
             dataSource={filteredData}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 15 }}
             rowKey="key"
+            scroll={scroll}
+            size="small"
             bordered
-            size="middle"
-            scroll={{ x: 'max-content' }}
-            loading={loading}
           />
         </div>
       </div>
