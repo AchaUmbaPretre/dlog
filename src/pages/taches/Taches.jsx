@@ -40,7 +40,6 @@ const Taches = () => {
     }
   };
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getTache();
@@ -55,6 +54,7 @@ const Taches = () => {
       }
     };
 
+    useEffect(() => {
     fetchData();
   }, []);
 
@@ -408,7 +408,7 @@ const Taches = () => {
         width={850}
         centered
       >
-        <SuiviTache idTache={idTache} />
+        <SuiviTache idTache={idTache} closeModal={() => setModalType(null)} fetchData={fetchData} />
       </Modal>
 
       <Modal
