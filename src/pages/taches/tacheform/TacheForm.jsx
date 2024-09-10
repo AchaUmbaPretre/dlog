@@ -8,6 +8,7 @@ import { getUser } from '../../../services/userService';
 import { useNavigate } from 'react-router-dom';
 import { getTacheOneV, postTache, putTache } from '../../../services/tacheService';
 import moment from 'moment';
+import { getBatiment } from '../../../services/typeService';
 
 const TacheForm = ({idControle, idProjet, idTache}) => {
     const [form] = Form.useForm();
@@ -18,6 +19,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
+    const [batiment, setBatiment] = useState([]);
     const navigate = useNavigate();
 
     const handleError = (message) => {
@@ -30,13 +32,14 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [departementData, formatData, frequenceData, usersData, clientData, provinceData] = await Promise.all([
+                const [departementData, formatData, frequenceData, usersData, clientData, provinceData, batimentData] = await Promise.all([
                     getDepartement(),
                     getFormat(),
                     getFrequence(),
                     getUser(),
                     getClient(),
-                    getProvince()
+                    getProvince(),
+                    getBatiment(),
                 ]);
 
                 setDepartement(departementData.data);
@@ -45,6 +48,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                 setUsers(usersData.data);
                 setClient(clientData.data);
                 setProvinces(provinceData.data);
+                setBatiment(batimentData.data)
 
                 const { data: tache } = await getTacheOneV(idTache);
                 if (tache && tache[0]) {
@@ -59,6 +63,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                         responsable_principal: tache[0].responsable_principal,
                         id_demandeur: tache[0].id_demandeur,
                         description: tache[0].description,
+                        id_batiment: tache[0]?.id_batiment
                     });
                 }
 
@@ -132,6 +137,7 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                                         message: 'Veuillez sélectionner une date de début.',
                                     },
                                 ]}
+                                initialValue={moment()}
                             >
                                 <DatePicker style={{width:'100%'}} />
                             </Form.Item>
@@ -279,6 +285,26 @@ const TacheForm = ({idControle, idProjet, idTache}) => {
                                     }))}
                                     placeholder="Sélectionnez un demandeur..."
                                     optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={24}>
+                            <Form.Item
+                                name="id_batiment"
+                                label="Entité"
+                                rules={[
+                                    {
+                                        required: false
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    placeholder="Sélectionnez un bâtiment"
+                                    showSearch
+                                    options={batiment.map((item) => ({
+                                        value: item.id_batiment,
+                                        label: item.nom_batiment,
+                                    }))}
                                 />
                             </Form.Item>
                         </Col>
