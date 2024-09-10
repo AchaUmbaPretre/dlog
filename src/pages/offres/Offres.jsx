@@ -17,6 +17,7 @@ moment.locale('fr');
 const { Search } = Input;
 
 const Offres = () => {
+  const [searchValue, setSearchValue] = useState('');
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -122,12 +123,12 @@ const Offres = () => {
       width: "8%" 
     },
     { 
-      title: 'Nom de l\'offre', 
+      title: 'Titre', 
       dataIndex: 'nom_offre', 
       key: 'nom_offre',
       render: text => (
         <Space>
-          <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<FileTextOutlined />} color='blue'>{text}</Tag>
         </Space>
       ),
     },
@@ -147,7 +148,7 @@ const Offres = () => {
         key: 'nom_batiment',
         render: text => (
           <Space>
-            <Tag color='cyan'>{text}</Tag>
+            <Tag color='orange'>{text}</Tag>
           </Space>
         ),
       },
@@ -221,6 +222,12 @@ const Offres = () => {
     },
   ];
 
+  const filteredData = data.filter(item =>
+    item.nom_offre?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_fournisseur?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <>
       <div className="client">
@@ -233,7 +240,11 @@ const Offres = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Rechercher une offre..." enterButton />
+              <Search 
+                placeholder="Rechercher une offre..." 
+                enterButton 
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
             </div>
             <div className="client-rows-right">
               <Button
@@ -256,8 +267,8 @@ const Offres = () => {
           </div>
           <Table
             columns={colonnes}
-            dataSource={data}
-            rowKey="id_budget"
+            dataSource={filteredData}
+            rowKey="id_offre"
             loading={loading}
             bordered
           />
