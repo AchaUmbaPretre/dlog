@@ -10,8 +10,6 @@ import {
   FileTextOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-
-import config from '../../config';
 import ControleForm from './controleForm/ControleForm';
 import { deletePutControle, getControle } from '../../services/controleService';
 import SuiviControle from './suiviControle/SuiviControle';
@@ -324,7 +322,7 @@ const groupByControle = (data) => {
                   pagination={{ defaultPageSize: 15 }}
                   expandable={{
                     expandedRowRender: (record) => (
-                      record.items.length > 1 ? ( // Afficher le détail seulement si plus d'un élément
+                      record.items.length > 1 ? (
                         <Table
                           columns={columns}
                           dataSource={record.items}
@@ -332,6 +330,7 @@ const groupByControle = (data) => {
                           rowKey={(record, index) => `${record.id_controle}-${index}`}
                           showHeader={false}
                           size="small"
+                          scroll={{scroll}}
                         />
                       ) : null
                     ),

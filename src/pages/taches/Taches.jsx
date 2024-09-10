@@ -145,7 +145,7 @@ const Taches = () => {
       width: "3%",
     },
     { 
-      title: 'Département', 
+      title: 'DPT', 
       dataIndex: 'departement', 
       key: 'nom_departement',
       render: text => (
