@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, InputNumber, Form, Popover } from 'antd';
-import { ExportOutlined, BarsOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,CalendarOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
-import config from '../../config';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
+import { ExportOutlined, BarsOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ProjetForm from './projetForm/ProjetForm';
@@ -15,10 +14,8 @@ moment.locale('fr');
 const { Search } = Input;
 
 const Projet = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [editingRow, setEditingRow] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTacheVisible, setIsTacheVisible] = useState(false);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
@@ -30,7 +27,7 @@ const Projet = () => {
     setIdProjet(id)
     setIsModalVisible(true);
   };
-  
+
   const handleViewDetails = (id) => {
     message.info(`Affichage des détails de la tache: ${id}`);
     setIsDetailVisible(true)
@@ -84,7 +81,7 @@ const Projet = () => {
     window.print();
   };
 
-  useEffect(() => {
+
     const fetchData = async () => {
       try {
         const { data } = await getProjet();
@@ -99,8 +96,9 @@ const Projet = () => {
       }
     };
 
+  useEffect(() => {
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
   const menu = (
     <Menu>
@@ -282,7 +280,7 @@ const Projet = () => {
         width={800}
         centered
       >
-        <ProjetForm idProjet={idProjet}/>
+        <ProjetForm idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
       </Modal>
 
       <Modal

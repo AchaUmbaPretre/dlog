@@ -64,14 +64,14 @@ const DetailProjet = ({ idProjet }) => {
         fetchTaches();
     }, [idProjet]);
 
-    const statusColor = projet.nom_type_statut === 'En attente' ? 'orange' : 'green';
+    const statusColor = projet?.nom_type_statut === 'En attente' ? 'orange' : 'green';
 
     return (
         <Card
             title={
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <ProjectOutlined style={{ marginRight: 8 }} />
-                    {projet.nom_projet}
+                    {projet?.nom_projet}
                 </div>
             }
             bordered={false}
@@ -82,13 +82,13 @@ const DetailProjet = ({ idProjet }) => {
                 <Col span={24}>
                     <Descriptions size="middle" column={1} bordered>
                         <Descriptions.Item label={<><InfoCircleOutlined /> Description</>}>
-                            <div dangerouslySetInnerHTML={{ __html: projet.description }} />
+                            <div dangerouslySetInnerHTML={{ __html: projet?.description }} />
                         </Descriptions.Item>
                         <Descriptions.Item label={<><CalendarOutlined /> Date de Début</>}>
-                            {new Date(projet.date_debut).toLocaleDateString()}
+                            {new Date(projet?.date_debut).toLocaleDateString()}
                         </Descriptions.Item>
                         <Descriptions.Item label={<><CalendarOutlined /> Date de Fin</>}>
-                            {new Date(projet.date_fin).toLocaleDateString()}
+                            {new Date(projet?.date_fin).toLocaleDateString()}
                         </Descriptions.Item>
                         <Descriptions.Item label={<><InfoCircleOutlined /> Statut</>}>
                             <Badge status={statusColor} text={projet?.nom_type_statut} />
@@ -101,8 +101,8 @@ const DetailProjet = ({ idProjet }) => {
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
                         <div style={{ marginLeft: 16 }}>
-                            <p style={{ margin: 0, fontWeight: 500 }}>{projet.responsable}</p>
-                            <p style={{ margin: 0, color: 'gray' }}>{projet.nom}</p>
+                            <p style={{ margin: 0, fontWeight: 500 }}>{projet?.responsable}</p>
+                            <p style={{ margin: 0, color: 'gray' }}>{projet?.nom}</p>
                         </div>
                     </div>
                 </Col>
@@ -117,24 +117,24 @@ const DetailProjet = ({ idProjet }) => {
                             <Card
                                 style={{ marginBottom: 16 }}
                                 type="inner"
-                                title={tache.nom_tache}
-                                extra={<Badge status={tache.statut === 'En attente' ? 'orange' : 'green'} text={tache.statut} />}
+                                title={tache?.nom_tache}
+                                extra={<Badge status={tache?.statut === 'En attente' ? 'orange' : 'green'} text={tache?.statut} />}
                             >
                                 <Descriptions size="small" column={1} bordered>
                                     <Descriptions.Item label={<><CalendarOutlined /> Date de Début</>}>
-                                        {new Date(tache.date_debut).toLocaleDateString()}
+                                        {new Date(tache?.date_debut).toLocaleDateString()}
                                     </Descriptions.Item>
                                     <Descriptions.Item label={<><CalendarOutlined /> Date de Fin</>}>
-                                        {new Date(tache.date_fin).toLocaleDateString()}
+                                        {new Date(tache?.date_fin).toLocaleDateString()}
                                     </Descriptions.Item>
                                     <Descriptions.Item label={<><UserOutlined /> Responsable</>}>
-                                        {tache.owner}
+                                        {tache?.owner}
                                     </Descriptions.Item>
-                                    <Descriptions.Item label="Fréquence">{tache.frequence}</Descriptions.Item>
-                                    <Descriptions.Item label="Client">{tache.nom_client}</Descriptions.Item>
-                                    <Descriptions.Item label="Ville">{tache.ville}</Descriptions.Item>
-                                    <Descriptions.Item label="Département">{tache.departement}</Descriptions.Item>
-                                    <Descriptions.Item label="Nombre de Jours">{tache.nbre_jour}</Descriptions.Item>
+                                    <Descriptions.Item label="Fréquence">{tache?.frequence}</Descriptions.Item>
+                                    <Descriptions.Item label="Client">{tache?.nom_client}</Descriptions.Item>
+                                    <Descriptions.Item label="Ville">{tache?.ville}</Descriptions.Item>
+                                    <Descriptions.Item label="Département">{tache?.departement}</Descriptions.Item>
+                                    <Descriptions.Item label="Nombre de Jours">{tache?.nbre_jour}</Descriptions.Item>
                                 </Descriptions>
                             </Card>
                         )}
@@ -151,15 +151,15 @@ const DetailProjet = ({ idProjet }) => {
                             <Card
                                 style={{ marginBottom: 16 }}
                                 type="inner"
-                                title={item.nom_article}
-                                extra={<Badge status="default" text={`Quantité: ${item.quantite}`} />}
+                                title={item?.nom_article}
+                                extra={<Badge status="default" text={`Quantité: ${item?.quantite}`} />}
                             >
                                 <Descriptions size="small" column={1} bordered>
                                     <Descriptions.Item label={<><CalendarOutlined /> Date de Création</>}>
-                                        {new Date(item.date_creation).toLocaleDateString()}
+                                        {new Date(item?.date_creation).toLocaleDateString()}
                                     </Descriptions.Item>
                                     <Descriptions.Item label="Priorité">
-                                        {item.priorite}
+                                        {item?.priorite}
                                     </Descriptions.Item>
                                 </Descriptions>
                             </Card>

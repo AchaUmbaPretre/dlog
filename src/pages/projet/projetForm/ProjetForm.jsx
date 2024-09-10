@@ -6,18 +6,20 @@ import { getClient } from '../../../services/clientService';
 import { getProjetOneF, postProjet, putProjet } from '../../../services/projetService';
 import { getArticle, getBatiment } from '../../../services/typeService';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const { TextArea } = Input;
 const { Option } = Select;
 const { Title } = Typography;
 
-const ProjetForm = ({ idProjet }) => {
+const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     const [form] = Form.useForm();
     const [client, setClient] = useState([]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [batiment, setBatiment] = useState([]);
     const [article, setArticle] = useState([]);
+    const navigate = useNavigate();
 
     const handleError = (message) => {
         notification.error({
@@ -64,16 +66,16 @@ const ProjetForm = ({ idProjet }) => {
         try {
             if (idProjet) {
                 await putProjet(idProjet, values);
-                window.location.reload();
             } else {
                 await postProjet(values);
-                window.location.reload();
             }
             notification.success({
                 message: 'Succès',
                 description: 'Le projet a été enregistré avec succès.',
             });
             form.resetFields();
+            fetchData()
+            closeModal()
         } catch (error) {
             notification.error({
                 message: 'Erreur',
