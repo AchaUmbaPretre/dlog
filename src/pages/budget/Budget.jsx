@@ -326,6 +326,8 @@ const Budget = () => {
             rowKey="id_budget"
             loading={loading}
             scroll={scroll}
+            size="small"
+            bordered
           />
         </div>
       </div>
