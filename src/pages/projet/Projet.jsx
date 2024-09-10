@@ -21,6 +21,7 @@ const Projet = () => {
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [isBudgetVisible, setIsBudgetVisible] = useState(false);
   const [idProjet, setIdProjet] = useState('');
+  const [searchValue, setSearchValue] = useState('');
   const [form] = Form.useForm();
   const scroll = { x: 400 };
 
@@ -247,6 +248,13 @@ const Projet = () => {
     },
   ];
 
+  const filteredData = data.filter(item =>
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_projet?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.responsable?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <>
       <div className="client">
@@ -259,7 +267,11 @@ const Projet = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search 
+                placeholder="Recherche..." 
+                onChange={(e) => setSearchValue(e.target.value)}
+                enterButton
+              />
             </div>
             <div className="client-rows-right">
               <Button
@@ -282,7 +294,7 @@ const Projet = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             rowKey="id_projet"
             loading={loading}
             scroll={scroll}

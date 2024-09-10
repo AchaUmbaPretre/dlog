@@ -20,6 +20,7 @@ const { Search } = Input;
 
 const Taches = () => {
   const [data, setData] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalType, setModalType] = useState(null);
@@ -303,6 +304,16 @@ const Taches = () => {
     }
   ];
 
+  const filteredData = data.filter(item =>
+    item.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.statut?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.frequence?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.owner?.toLowerCase().includes(searchValue.toLowerCase())
+
+  );
+
   return (
     <>
       <div className="client">
@@ -317,7 +328,11 @@ const Taches = () => {
             <Tabs.TabPane tab='Liste de tache' key="0">
               <div className="client-actions">
                 <div className="client-row-left">
-                  <Search placeholder="Rechercher des tâches..." enterButton />
+                  <Search 
+                    placeholder="Rechercher des tâches..." 
+                    enterButton 
+                    onChange={(e) => setSearchValue(e.target.value)} 
+                    />
                 </div>
                 <div className="client-rows-right">
                   <Button
@@ -340,9 +355,9 @@ const Taches = () => {
               </div>
               <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={filteredData}
                 loading={loading}
-                pagination={{ pageSize: 10 }}
+                pagination={{ pageSize: 15 }}
                 rowKey="id"
                 bordered
                 size="middle"
