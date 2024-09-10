@@ -93,7 +93,7 @@ const Departement = () => {
       width: "3%" 
     },
     { 
-      title: 'Nom Département', 
+      title: 'Nom', 
       dataIndex: 'nom_departement', 
       key: 'nom_departement',
       render: text => (

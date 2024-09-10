@@ -138,7 +138,7 @@ const groupByControle = (data) => {
       align: 'center',
     },
     {
-      title: 'Département',
+      title: 'DPT',
       dataIndex: 'departement',
       key: 'departement',
       render: text => (
