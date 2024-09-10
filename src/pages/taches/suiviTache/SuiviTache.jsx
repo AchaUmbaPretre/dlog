@@ -16,7 +16,7 @@ const colorMapping = {
     0: '#FF6347'
 };
 
-const SuiviTache = ({idTache}) => {
+const SuiviTache = ({idTache, closeModal, fetchData}) => {
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -57,7 +57,8 @@ const SuiviTache = ({idTache}) => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            window.location.reload();
+            fetchData()
+            closeModal()
         } catch (error) {
             notification.error({
                 message: 'Erreur',

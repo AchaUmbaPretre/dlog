@@ -9,7 +9,7 @@ import { getSuiviTacheOne } from '../../../services/suiviService';
 const { Search } = Input;
 const { Panel } = Collapse;
 
-const ListeSuivi = ({ idControle }) => {
+const ListeSuivi = ({ idControle}) => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -37,11 +37,11 @@ const ListeSuivi = ({ idControle }) => {
     setModalState(modalType);
   };
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getTacheControleOne(idControle);
         setData(response.data);
+        console.log(response.data)
       } catch (error) {
         notification.error({
           message: 'Erreur de chargement',
@@ -52,10 +52,10 @@ const ListeSuivi = ({ idControle }) => {
       }
     };
 
+    useEffect(() => {
     fetchData();
   }, [idControle]);
 
-  useEffect(() => {
     const fetchSuivi = async () => {
       try {
         const response = await getSuiviTacheOne();
@@ -69,7 +69,7 @@ const ListeSuivi = ({ idControle }) => {
         setLoading(false);
       }
     };
-
+    useEffect(() => {
     fetchSuivi();
   }, []);
 
@@ -84,10 +84,6 @@ const ListeSuivi = ({ idControle }) => {
         description: 'Une erreur est survenue lors de la suppression de tache.',
       });
     }
-  };
-
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
   };
 
   const handleExportExcel = () => {
@@ -123,7 +119,7 @@ const ListeSuivi = ({ idControle }) => {
       align: 'center',
     },
     {
-      title: 'Département',
+      title: 'DPT',
       dataIndex: 'departement',
       key: 'departement',
       render: text => (
@@ -133,7 +129,7 @@ const ListeSuivi = ({ idControle }) => {
       ),
     },
     {
-      title: 'Nom',
+      title: 'Titre',
       dataIndex: 'nom_tache',
       key: 'nom',
       render: text => (
@@ -308,9 +304,10 @@ const ListeSuivi = ({ idControle }) => {
           onCancel={closeModal}
           footer={null}
           width={800}
+          centered
         >
           {modalState === 'suivi' && (
-            <SuiviTache idTache={idTache} />
+            <SuiviTache idTache={idTache} closeModal={() => setModalState(false)} fetchData={fetchSuivi} />
           )} 
         </Modal>
       )}
