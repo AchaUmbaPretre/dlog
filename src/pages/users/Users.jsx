@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, Tag, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip } from 'antd';
-import { ExportOutlined, PrinterOutlined,MailOutlined, UserOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, Tag, message, Dropdown, Menu, notification, Space } from 'antd';
+import { ExportOutlined, PrinterOutlined,MailOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
@@ -60,7 +60,7 @@ const Users = () => {
       // Uncomment when delete function is available
       // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
+      message.success("L'utilisateur a été supprimé avec succès");
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
