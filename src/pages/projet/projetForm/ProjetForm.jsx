@@ -28,6 +28,29 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
         });
     };
 
+    const [newArticleName, setNewArticleName] = useState('');
+
+// Fonction pour ajouter un nouvel article
+const addNewArticle = async (name) => {
+    /* if (!name) return;
+    
+    try {
+        const { data } = await postArticle({ nom_article: name });
+        setArticle((prev) => [...prev, { id_article: data.id_article, nom_article: data.nom_article }]);
+        setNewArticleName('');
+        notification.success({
+            message: 'Succès',
+            description: 'L\'article a été ajouté avec succès.',
+        });
+    } catch (error) {
+        notification.error({
+            message: 'Erreur',
+            description: 'Erreur lors de l\'ajout de l\'article.',
+        });
+    } */
+};
+
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -165,7 +188,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                     <Form.Item
                         label="Client"
                         name="client"
-                        rules={[{ required: true, message: 'Le client est requis' }]}
+                        rules={[{ required: false, message: 'Le client est requis' }]}
                     >
                         <Select
                             placeholder="Sélectionnez un client"
@@ -213,6 +236,30 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                     <Select
                                         placeholder="Sélectionnez un article"
                                         showSearch
+                                        dropdownRender={menu => (
+                                            <>
+                                                {menu}
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        flexWrap: 'nowrap',
+                                                        padding: 8,
+                                                    }}
+                                                >
+                                                    <Input
+                                                        style={{ flex: 'auto' }}
+                                                        value={newArticleName}
+                                                        onChange={(e) => setNewArticleName(e.target.value)}
+                                                    />
+                                                    <Button
+                                                        type="link"
+                                                        onClick={() => addNewArticle(newArticleName)}
+                                                    >
+                                                        +
+                                                    </Button>
+                                                </div>
+                                            </>
+                                        )}
                                         options={article.map((item) => ({
                                             value: item.id_article,
                                             label: item.nom_article,
