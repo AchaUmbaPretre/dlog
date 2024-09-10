@@ -267,6 +267,7 @@ const Projet = () => {
             dataSource={data}
             rowKey="id_projet"
             loading={loading}
+            size="small"
             bordered
           />
         </div>

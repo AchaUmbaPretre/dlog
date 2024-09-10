@@ -130,6 +130,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                         label="Date de Début"
                         name="date_debut"
                         rules={[{ required: true, message: 'La date de début est requise' }]}
+                        initialValue={moment()}
                     >
                         <DatePicker placeholder="Sélectionnez la date de début" style={{ width: '100%' }} />
                     </Form.Item>
