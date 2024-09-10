@@ -150,15 +150,15 @@ const Fournisseur = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="View Details">
+{/*           <Tooltip title="View Details">
             <Button
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record)}
               type="link"
               aria-label="View client details"
             />
-          </Tooltip>
-          <Tooltip title="Edit">
+          </Tooltip> */}
+{/*           <Tooltip title="Edit">
             <Popover title="Modifier" trigger="hover">
               <Button
                 icon={<EditOutlined />}
@@ -168,8 +168,8 @@ const Fournisseur = () => {
                 aria-label="Edit client"
               />
             </Popover>
-          </Tooltip>
-          <Tooltip title="Delete">
+          </Tooltip> */}
+{/*           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
               onConfirm={() => handleDelete(record.id)}
@@ -182,7 +182,7 @@ const Fournisseur = () => {
                 aria-label="Delete client"
               />
             </Popconfirm>
-          </Tooltip>
+          </Tooltip> */}
         </Space>
       ),
     },

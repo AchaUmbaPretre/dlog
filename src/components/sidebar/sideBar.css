@@ -7,7 +7,23 @@
     background: #fff;
     padding: 10px;
   }
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
   
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+  
+    ::-webkit-scrollbar-thumb {
+      background-color: #c2c2c2;
+      border-radius: 10px; /* Arrondir les coins de la barre */
+      border: 1px solid #f1f1f1; /* Espace autour de la barre */
+    }
+  
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #8d8d8d; /* Couleur de la barre de défilement au survol */
+    }
   .ant-menu-item,
   .ant-menu-submenu-title {
     font-size: 13px;
