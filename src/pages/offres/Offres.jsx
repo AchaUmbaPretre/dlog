@@ -23,6 +23,8 @@ const Offres = () => {
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null); // Pour suivre le type de modal ouvert
   const [idOffre, setIdOffre] = useState('');
+  const scroll = { x: 400 };
+
 
   const closeAllModals = () => {
     setModalType(null);
@@ -272,6 +274,8 @@ const Offres = () => {
             dataSource={filteredData}
             rowKey="id_offre"
             loading={loading}
+            scroll={scroll}
+            size="small"
             bordered
           />
         </div>
