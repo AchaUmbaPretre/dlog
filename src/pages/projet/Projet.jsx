@@ -138,7 +138,7 @@ const Projet = () => {
       dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="green">{text}</Tag>
+        <Tag icon={<UserOutlined />} color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
     { 
