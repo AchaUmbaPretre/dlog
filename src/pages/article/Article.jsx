@@ -17,6 +17,8 @@ const Article = () => {
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const [idOffre, setIdOffre] = useState('');
+  const scroll = { x: 400 };
+
 
   const closeAllModals = () => {
     setModalType(null);
@@ -183,6 +185,8 @@ const Article = () => {
             dataSource={data}
             rowKey="id_budget"
             loading={loading}
+            scroll={scroll}
+            size="small"
             bordered
           />
         </div>
