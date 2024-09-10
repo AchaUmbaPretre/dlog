@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
-import { ExportOutlined, BarsOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, BarsOutlined,CheckSquareOutlined,RocketOutlined,HourglassOutlined,WarningOutlined,CheckCircleOutlined,ClockCircleOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ProjetForm from './projetForm/ProjetForm';
@@ -113,6 +113,17 @@ const Projet = () => {
     </Menu>
   );
 
+  
+  const statusIcons = {
+    'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
+    'En cours': { icon: <HourglassOutlined />, color: 'blue' },
+    'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
+    'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
+    'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
+    'Budget': { icon: <DollarOutlined />, color: 'gold' },
+    'Executé': { icon: <RocketOutlined />, color: 'cyan' },
+  };
+
 
   const columns = [
     { 
@@ -127,7 +138,7 @@ const Projet = () => {
       dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<UserOutlined />} color="green">{text}</Tag>
       ),
     },
     { 
@@ -136,7 +147,7 @@ const Projet = () => {
       key: 'nom_projet',
       render: text => (
         <Space>
-          <Tag color='cyan'>{text}</Tag>
+          <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
@@ -152,9 +163,14 @@ const Projet = () => {
       title: 'Statut', 
       dataIndex: 'nom_type_statut', 
       key: 'nom_type_statut',
-      render: (text, record) => (
-        <Tag icon={<InfoCircleOutlined />}  color='purple'>{text}</Tag>
-      )
+      render: text => {
+        const { icon, color } = statusIcons[text] || {};
+        return (
+          <Space>
+            <Tag icon={icon} color={color}>{text}</Tag>
+          </Space>
+        );
+      }
     },
     { 
       title: 'Budget', 
