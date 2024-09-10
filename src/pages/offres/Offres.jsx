@@ -143,19 +143,20 @@ const Offres = () => {
       ),
     },
     { 
-        title: 'Entité', 
-        dataIndex: 'nom_batiment', 
-        key: 'nom_batiment',
-        render: text => (
-          <Space>
-            <Tag color='orange'>{text}</Tag>
-          </Space>
-        ),
-      },
+      title: 'Entité', 
+      dataIndex: 'nom_batiment', 
+      key: 'nom_batiment',
+      render: text => (
+        <Space>
+          <Tag color='orange'>{text}</Tag>
+        </Space>
+      ),
+    },
     { 
       title: 'Date', 
       dataIndex: 'date_creation', 
       key: 'date_creation',
+      sorter: (a, b) => moment(a.date_creation).unix() - moment(b.date_creation).unix(), // tri par date
       render: text => (
         <Tag icon={<CalendarOutlined />} color='purple'>{moment(text).format('LL')}</Tag>
       ),
@@ -221,6 +222,7 @@ const Offres = () => {
       ),
     },
   ];
+  
 
   const filteredData = data.filter(item =>
     item.nom_offre?.toLowerCase().includes(searchValue.toLowerCase()) ||
