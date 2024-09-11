@@ -16,3 +16,7 @@ export const getUserOne = async (id) => {
 export const postUser = async (data) => {
   return axios.post(`${DOMAIN}/api/user`, data);
 };
+
+export const putUser = async (id, data) => {
+  return axios.put(`${DOMAIN}/api/user?id=${id}`, data);
+};

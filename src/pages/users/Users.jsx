@@ -9,9 +9,11 @@ const { Search } = Input;
 
 const Users = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const scroll = { x: 400 };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,6 +156,13 @@ const Users = () => {
     },
   ];
 
+  const filteredData = data.filter(item =>
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.prenom?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.email?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
+
   return (
     <>
       <div className="client">
@@ -166,7 +175,11 @@ const Users = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search 
+                placeholder="Recherche..." 
+                enterButton 
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
             </div>
             <div className="client-rows-right">
               <Button
@@ -189,13 +202,13 @@ const Users = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 10 }}
             rowKey="id"
             bordered
             size="middle"
-            scroll={{ x: 'max-content' }}
+            scroll={scroll}
           />
         </div>
       </div>
