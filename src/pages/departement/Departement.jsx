@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { ExportOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined,DeleteOutlined} from '@ant-design/icons';
 import './departement.scss';
 import DepartementForm from './departementForm/DepartementForm';
 import { deletePutDepartement, getDepartement } from '../../services/departementService';
@@ -232,7 +232,7 @@ const Departement = () => {
       </div>
 
       <Modal
-        title="Ajouter Département"
+        title="Ajouter un département"
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
