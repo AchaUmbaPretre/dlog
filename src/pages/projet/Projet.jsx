@@ -9,6 +9,7 @@ import TacheForm from '../taches/tacheform/TacheForm';
 import DetailProjet from './detailProjet/DetailProjet';
 import { Link } from 'react-router-dom';
 import BudgetForm from '../budget/budgetForm/BudgetForm';
+import ProjetBesoin from './projetBesoin/ProjetBesoin';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -20,6 +21,7 @@ const Projet = () => {
   const [isTacheVisible, setIsTacheVisible] = useState(false);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [isBudgetVisible, setIsBudgetVisible] = useState(false);
+  const [isBesoinVisible, setIsBesoinVisible] = useState(false);
   const [idProjet, setIdProjet] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [form] = Form.useForm();
@@ -35,6 +37,11 @@ const Projet = () => {
     message.info(`Affichage des détails de la tache: ${id}`);
     setIsDetailVisible(true)
     setIdProjet(id)
+  };
+
+  const handleAddBesoin = (id) => {
+    setIdProjet(id)
+    setIsBesoinVisible(true);
   };
 
   const handleAddTache = (id) => {
@@ -54,8 +61,9 @@ const Projet = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
     setIsTacheVisible(false);
-    setIsDetailVisible(false)
-    setIsBudgetVisible(false)
+    setIsDetailVisible(false);
+    setIsBudgetVisible(false);
+    setIsBesoinVisible(false)
   };
 
   const handleExportExcel = () => {
@@ -209,7 +217,7 @@ const Projet = () => {
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleAddBudget(record.id_projet)} >
+                <Link onClick={() => handleAddBesoin(record.id_projet)} >
                   <SolutionOutlined /> Ajouter besoins
                 </Link>
                 <Link onClick={() => handleAddTache(record.id_projet)} >
@@ -348,6 +356,17 @@ const Projet = () => {
         centered
       >
         <BudgetForm idProjet={idProjet} />
+      </Modal>
+
+      <Modal
+        title="Ajouter besoin"
+        visible={isBesoinVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={800}
+        centered
+      >
+        <ProjetBesoin idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
       </Modal>
     </>
   );

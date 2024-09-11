@@ -1,14 +1,25 @@
-import React from 'react';
-import { Form, Input, InputNumber, DatePicker, Select, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, InputNumber, DatePicker, Select, Button, notification } from 'antd';
 import moment from 'moment';
 import { getArticle } from '../../../services/typeService';
+import { postBesoin } from '../../../services/besoinsService';
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-const ProjetBesoin = () => {
+const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
   const [form] = Form.useForm();
   const [article, setArticle] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+
+  
+  const handleError = (message) => {
+    notification.error({
+        message: 'Erreur de chargement',
+        description: message,
+    });
+};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,9 +38,28 @@ const ProjetBesoin = () => {
     fetchData();
 }, [form]);
 
-  const handleSubmit = (values) => {
-    console.log('Form Values:', values);
-    // Ajoutez votre logique de soumission ici, telle qu'une requête API
+  const handleSubmit = async(values) => {
+    try {
+
+            await postBesoin({
+                ...values,
+                id_projet: idProjet
+            });
+        notification.success({
+            message: 'Succès',
+            description: 'Le besoin a été enregistré avec succès.',
+        });
+        form.resetFields();
+        fetchData()
+        closeModal()
+    } catch (error) {
+        notification.error({
+            message: 'Erreur',
+            description: "Erreur lors de l'enregistrement du projet.",
+        });
+    } finally {
+        setLoading(false);
+    }
   };
 
 
@@ -91,7 +121,6 @@ const ProjetBesoin = () => {
         </Select>
       </Form.Item>
 
-      {/* Bouton Soumettre */}
       <Form.Item>
         <Button type="primary" htmlType="submit">
           Soumettre
