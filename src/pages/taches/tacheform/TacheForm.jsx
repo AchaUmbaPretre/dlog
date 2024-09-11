@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Space, Row, Col, Select, notification, DatePicker } from 'antd';
 import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
-import { getFormat } from '../../../services/formatService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
-import { useNavigate } from 'react-router-dom';
 import { getTacheOneV, postTache, putTache } from '../../../services/tacheService';
 import moment from 'moment';
 import { getBatiment } from '../../../services/typeService';
@@ -14,13 +12,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
-    const [format, setFormat] = useState([]);
     const [frequence, setFrequence] = useState([]);
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
     const [batiment, setBatiment] = useState([]);
-    const navigate = useNavigate();
 
     const handleError = (message) => {
         notification.error({
@@ -32,9 +28,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [departementData, formatData, frequenceData, usersData, clientData, provinceData, batimentData] = await Promise.all([
+                const [departementData, frequenceData, usersData, clientData, provinceData, batimentData] = await Promise.all([
                     getDepartement(),
-                    getFormat(),
                     getFrequence(),
                     getUser(),
                     getClient(),
@@ -43,7 +38,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 ]);
 
                 setDepartement(departementData.data);
-                setFormat(formatData.data);
                 setFrequence(frequenceData.data);
                 setUsers(usersData.data);
                 setClient(clientData.data);
