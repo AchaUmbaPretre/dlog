@@ -95,6 +95,15 @@ const Users = () => {
         </Space>
     )
     },
+    { title: 'Prénom', 
+      dataIndex: 'prenom', 
+      key: 'prenom',
+      render: text => (
+        <Space>
+          <Tag icon={<UserOutlined />} color='cyan'>{text ?? 'N/A'}</Tag>
+        </Space>
+    )
+    },
     { title: 'Email', 
       dataIndex: 'email', 
       key: 'email',
