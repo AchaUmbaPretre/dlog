@@ -33,14 +33,18 @@ const FormUsers = ({userId, close, fetchData}) => {
         try {
             if(userId) {
                 await putUser(userId, values)
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les informations ont été Modifiées avec succès.',
+                });
             }
             else{
                 await postUser(values);
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les informations ont été enregistrées avec succès.',
+                });
             }
-            notification.success({
-                message: 'Succès',
-                description: 'Les informations ont été enregistrées avec succès.',
-            });
             fetchData();
             close()
         } catch (error) {
