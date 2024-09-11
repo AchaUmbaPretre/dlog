@@ -7,7 +7,7 @@ import { postTacheDoc } from '../../../services/tacheService';
 
 const { Option } = Select;
 
-const TacheDoc = ({idTache}) => {
+const TacheDoc = ({idTache,fetchData,closeModal}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -31,10 +31,10 @@ const TacheDoc = ({idTache}) => {
       await postTacheDoc(formData);
       notification.success({
         message: 'Succès',
-        description: 'La tache a été enregistrée avec succès.',
+        description: 'Le doc a été enregistré avec succès.',
       });
-      navigate('/tache');
-      window.location.reload();
+      fetchData();
+      closeModal();
     } catch (error) {
       notification.error({
         message: 'Erreur',

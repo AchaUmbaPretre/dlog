@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown } from 'antd';
-import { ExportOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown, Modal } from 'antd';
+import { ExportOutlined, FileTextOutlined,PlusOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getDetailTacheDoc } from '../../../services/tacheService';
+import TacheDoc from '../tacheDoc/TacheDoc';
 
 const { Search } = Input;
 
 const ListeDocTache = ({ idTache }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getDetailTacheDoc(idTache);
@@ -27,8 +28,18 @@ const ListeDocTache = ({ idTache }) => {
       }
     };
 
+
+useEffect(() => {
     fetchData();
   }, [idTache]);
+
+  const handleAddDoc = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false)
+  };
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -165,6 +176,13 @@ const ListeDocTache = ({ idTache }) => {
               <Search placeholder="Search doc..." enterButton />
             </div>
             <div className="client-rows-right">
+                <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddDoc}
+                >
+                    Ajouter un document
+                </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
@@ -181,6 +199,17 @@ const ListeDocTache = ({ idTache }) => {
             scroll={scroll}
           />
         </div>
+
+        <Modal
+            title=""
+            visible={isModalVisible}
+            onCancel={handleCancel}
+            footer={null}
+            width={800}
+            centered
+        >
+            <TacheDoc idTache={idTache} fetchData={fetchData} closeModal={handleCancel}/>
+        </Modal>
       </div>
     </>
   );
