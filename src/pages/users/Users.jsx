@@ -12,6 +12,7 @@ const Users = () => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [userId, setUserId] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
@@ -55,8 +56,10 @@ const Users = () => {
 
   const handleEdit = (record) => {
     message.info(`Modification d'utilisateur : ${record.nom}`);
+    setUserId(record.id_utilisateur)
+    setIsModalVisible(true);
   };
-
+console.log(userId)
   const handleDelete = async (id) => {
     try {
       // Uncomment when delete function is available
