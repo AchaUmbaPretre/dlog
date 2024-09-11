@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown, Modal } from 'antd';
-import { ExportOutlined, FileTextOutlined,PlusOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
+import { FileTextOutlined,PlusOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getDetailTacheDoc } from '../../../services/tacheService';
 import TacheDoc from '../tacheDoc/TacheDoc';
@@ -183,9 +183,6 @@ useEffect(() => {
                 >
                     Ajouter un document
                 </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
             </div>
           </div>
           <Table
@@ -205,7 +202,7 @@ useEffect(() => {
             visible={isModalVisible}
             onCancel={handleCancel}
             footer={null}
-            width={800}
+            width={550}
             centered
         >
             <TacheDoc idTache={idTache} fetchData={fetchData} closeModal={handleCancel}/>
