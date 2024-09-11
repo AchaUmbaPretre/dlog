@@ -224,7 +224,7 @@ const Users = () => {
         width={800}
         centered
       >
-        <FormUsers/>
+        <FormUsers userId={userId}/>
       </Modal>
     </>
   );

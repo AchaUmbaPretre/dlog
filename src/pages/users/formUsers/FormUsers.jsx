@@ -5,7 +5,7 @@ import { postUser } from '../../../services/userService';
 
 const { Option } = Select;
 
-const FormUsers = () => {
+const FormUsers = ({userId}) => {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
 
@@ -96,7 +96,7 @@ const FormUsers = () => {
         </Row>
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
-            Créer l'Utilisateur
+            { userId ? "Modifier" : "Créer l'Utilisateur"}
           </Button>
         </Form.Item>
       </Form>
