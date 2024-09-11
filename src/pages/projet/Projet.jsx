@@ -91,7 +91,6 @@ const Projet = () => {
     window.print();
   };
 
-
     const fetchData = async () => {
       try {
         const { data } = await getProjet();
