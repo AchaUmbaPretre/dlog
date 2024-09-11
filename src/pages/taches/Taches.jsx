@@ -171,7 +171,7 @@ const Taches = () => {
       key: 'nom_client',
       render: text => (
         <Space>
-          <Tag icon={<UserOutlined />} color='cyan'>{text ?? 'Aucun'}</Tag>
+          <Tag icon={<UserOutlined />} color='green'>{text ?? 'Aucun'}</Tag>
         </Space>
       )
     },
