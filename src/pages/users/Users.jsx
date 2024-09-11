@@ -59,7 +59,7 @@ const Users = () => {
     setUserId(record.id_utilisateur)
     setIsModalVisible(true);
   };
-console.log(userId)
+
   const handleDelete = async (id) => {
     try {
       // Uncomment when delete function is available
