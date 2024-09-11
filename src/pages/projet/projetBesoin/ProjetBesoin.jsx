@@ -39,6 +39,8 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
 }, [form]);
 
   const handleSubmit = async(values) => {
+
+    setLoading(true)
     try {
 
             await postBesoin({
@@ -98,7 +100,6 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
         <TextArea rows={4} />
       </Form.Item>
 
-      {/* Champ Quantité */}
       <Form.Item
         name="quantite"
         label="Quantité"
@@ -108,7 +109,6 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
       </Form.Item>
 
 
-      {/* Champ Priorité */}
       <Form.Item
         name="priorite"
         label="Priorité"
@@ -122,7 +122,7 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
           Soumettre
         </Button>
       </Form.Item>
