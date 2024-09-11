@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, DatePicker, Select, Button, notification } from 'antd';
+import { Form, Input, InputNumber, Select, Button, notification } from 'antd';
 import moment from 'moment';
 import { getArticle } from '../../../services/typeService';
 import { postBesoin } from '../../../services/besoinsService';
