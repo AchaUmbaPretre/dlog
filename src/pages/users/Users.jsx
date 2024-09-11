@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, Tag, message, Dropdown, Menu, notification, Space } from 'antd';
-import { ExportOutlined, PrinterOutlined,MailOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input,Tooltip, Tag, message,Popconfirm, Dropdown, Menu, notification, Space } from 'antd';
+import { ExportOutlined,EyeOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
@@ -104,7 +104,7 @@ const Users = () => {
         </Space>
       ),
     },
-/*     {
+     {
       title: 'Action',
       key: 'action',
       width: '10%',
@@ -142,7 +142,7 @@ const Users = () => {
           </Tooltip>
         </Space>
       ),
-    }, */
+    },
   ];
 
   return (
