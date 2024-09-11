@@ -1,24 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Select, Row, Col, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { postUser } from '../../../services/userService';
+import { getUserOne, postUser, putUser } from '../../../services/userService';
 
 const { Option } = Select;
 
-const FormUsers = ({userId}) => {
+const FormUsers = ({userId, close, fetchData}) => {
+    const [form] = Form.useForm();
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [usersData] = await Promise.all([
+                    getUserOne(userId)
+                ]);
+                    const { data: user } = usersData;
+                form.setFieldsValue(user[0]);
+    
+            } catch (error) {
+                console.log(error)
+            }
+        };
+    
+        fetchData();
+    }, [userId])
+    
 
   const onFinish = async(values) => {
     setIsLoading(true);
         try {
-            await postUser(values);
+            if(userId) {
+                await putUser(userId, values)
+            }
+            else{
+                await postUser(values);
+            }
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/utilisateur');
-            window.location.reload();
+            fetchData();
+            close()
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -31,11 +55,12 @@ const FormUsers = ({userId}) => {
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}>
-      <h2>Créer un Utilisateur</h2>
+      <h2 style={{paddingBottom:'20px'}}>{ userId ? 'Modifier un utilisateur' : 'Créer un Utilisateur'}</h2>
       <Form
+        form={form}
         layout="vertical"
         onFinish={onFinish}
-        initialValues={{ role: 'Owner' }} // Définir le rôle par défaut comme 'Owner'
+        initialValues={{ role: 'Owner' }}
       >
         <Row gutter={16}>
           <Col span={12}>

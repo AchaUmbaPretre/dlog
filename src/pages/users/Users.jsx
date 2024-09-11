@@ -16,7 +16,6 @@ const Users = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getUser();
@@ -31,6 +30,7 @@ const Users = () => {
       }
     };
 
+    useEffect(() => {
     fetchData();
   }, [DOMAIN]);
 
@@ -224,7 +224,7 @@ const Users = () => {
         width={800}
         centered
       >
-        <FormUsers userId={userId}/>
+        <FormUsers userId={userId} close={()=> setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
     </>
   );
