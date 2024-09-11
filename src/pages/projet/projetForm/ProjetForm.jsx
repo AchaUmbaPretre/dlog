@@ -62,13 +62,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     }, [idProjet, form]);
 
     const onFinish = async (values) => {
-        if (!values.besoins || values.besoins.length === 0) {
-            notification.error({
-                message: 'Erreur',
-                description: 'Veuillez ajouter au moins un article.',
-            });
-            return; // Empêcher la soumission si aucun besoin n'a été ajouté
-        }
+        
         setLoading(true);
         try {
             if (idProjet) {

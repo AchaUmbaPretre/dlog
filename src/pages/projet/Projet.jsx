@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
-import { ExportOutlined, BarsOutlined,CheckSquareOutlined,RocketOutlined,HourglassOutlined,WarningOutlined,CheckCircleOutlined,ClockCircleOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, BarsOutlined,CheckSquareOutlined,SolutionOutlined,RocketOutlined,HourglassOutlined,WarningOutlined,CheckCircleOutlined,ClockCircleOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ProjetForm from './projetForm/ProjetForm';
-import { deletePutProjet, getProjet, putProjet } from '../../services/projetService';
+import { deletePutProjet, getProjet } from '../../services/projetService';
 import TacheForm from '../taches/tacheform/TacheForm';
 import DetailProjet from './detailProjet/DetailProjet';
 import { Link } from 'react-router-dom';
@@ -209,6 +209,9 @@ const Projet = () => {
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <Link onClick={() => handleAddBudget(record.id_projet)} >
+                  <SolutionOutlined /> Ajouter besoins
+                </Link>
                 <Link onClick={() => handleAddTache(record.id_projet)} >
                   <FileTextOutlined /> Créer une tâche
                 </Link>
