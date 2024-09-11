@@ -18,13 +18,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [provinces, setProvinces] = useState([]);
     const [batiment, setBatiment] = useState([]);
 
-    const handleError = (message) => {
-        notification.error({
-            message: 'Erreur de chargement',
-            description: message,
-        });
-    };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
