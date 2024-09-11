@@ -12,7 +12,7 @@ const Users = () => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [userId, setUserId] = useState([]);
+  const [userId, setUserId] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
@@ -124,15 +124,7 @@ const Users = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="View Details">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              aria-label="View client details"
-              style={{ color: 'green' }}
-            />
-          </Tooltip>
-          <Tooltip title="Edit">
+          <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
@@ -140,7 +132,7 @@ const Users = () => {
               aria-label="Edit client"
             />
           </Tooltip>
-          <Tooltip title="Delete">
+          <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
               onConfirm={() => handleDelete(record.id)}

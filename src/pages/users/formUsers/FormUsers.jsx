@@ -99,7 +99,9 @@ const FormUsers = ({userId, close, fetchData}) => {
               <Input placeholder="Entrez l'adresse e-mail" />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          {
+            !userId  &&
+            <Col span={12}>
             <Form.Item
               label="Mot de Passe"
               name="mot_de_passe"
@@ -108,6 +110,7 @@ const FormUsers = ({userId, close, fetchData}) => {
               <Input.Password placeholder="Entrez le mot de passe" />
             </Form.Item>
           </Col>
+          }
         </Row>
         <Row gutter={16}>
           <Col span={12}>
