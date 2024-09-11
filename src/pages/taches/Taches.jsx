@@ -373,7 +373,7 @@ const Taches = () => {
       </div>
 
       <Modal
-        title="Ajouter une nouvelle tâche"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}

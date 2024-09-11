@@ -91,6 +91,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
 
     return (
         <div className="controle_form">
+            <h2 style={{paddingBottom:'20px'}}>{ idTache ? 'Modifier une tâche' : 'Ajouter une nouvelle tâche'}</h2>
             <div className="controle_wrapper">
                 <Form
                     form={form}
