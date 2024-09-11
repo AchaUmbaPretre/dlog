@@ -163,6 +163,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                         rules={[{ required: false, message: 'Le client est requis' }]}
                     >
                         <Select
+                            mode="multiple"
                             placeholder="Sélectionnez un client"
                             showSearch
                             options={client.map((item) => ({
@@ -182,6 +183,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                         rules={[{ required: false }]}
                     >
                         <Select
+                            mode="multiple"
                             placeholder="Sélectionnez un bâtiment"
                             showSearch
                             options={batiment.map((item) => ({
