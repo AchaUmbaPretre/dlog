@@ -36,7 +36,7 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
     };
 
     fetchData();
-}, [form]);
+}, []);
 
   const handleSubmit = async(values) => {
 
