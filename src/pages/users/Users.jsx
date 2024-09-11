@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input,Tooltip, Tag, message,Popconfirm, Dropdown, Menu, notification, Space } from 'antd';
-import { ExportOutlined,EyeOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { ExportOutlined,SafetyOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
@@ -96,7 +96,7 @@ const Users = () => {
       key: 'nom',
       render: text => (
         <Space>
-          <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<UserOutlined />} color='green'>{text}</Tag>
         </Space>
     )
     },
@@ -105,7 +105,7 @@ const Users = () => {
       key: 'prenom',
       render: text => (
         <Space>
-          <Tag icon={<UserOutlined />} color='cyan'>{text ?? 'N/A'}</Tag>
+          <Tag icon={<UserOutlined />} color='green'>{text ?? 'N/A'}</Tag>
         </Space>
     )
     },
@@ -115,6 +115,15 @@ const Users = () => {
       render: text => (
         <Space>
           <Tag icon={<MailOutlined />} color='blue'>{text}</Tag>
+        </Space>
+      ),
+    },
+    { title: 'Role', 
+      dataIndex: 'role', 
+      key: 'role',
+      render: text => (
+        <Space>
+          <Tag icon={<SafetyOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
@@ -199,7 +208,7 @@ const Users = () => {
             columns={columns}
             dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 15 }}
             rowKey="id"
             bordered
             size="middle"

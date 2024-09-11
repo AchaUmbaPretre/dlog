@@ -89,6 +89,7 @@ const DepartementForm = ({ id_departement, fetchData, closeModal}) => {
 
     return (
         <div className="client_form">
+              <h2 style={{paddingBottom:'20px'}}>{ id_departement ? 'Modifier un département' : 'Ajouter un département'}</h2>
             <div className="client_wrapper">
                 <Form
                     form={form}

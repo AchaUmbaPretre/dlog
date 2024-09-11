@@ -13,6 +13,7 @@ const Departement = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [idDepartement, setIdDapartement] = useState('');
+  const scroll = { x: 400 };
 
   const handleEdit = (record) => {
     message.info(`Modifier departement: ${record.nom}`);
@@ -225,14 +226,14 @@ const Departement = () => {
             rowKey="key"
             bordered
             size="middle"
-            scroll={{ x: 'max-content' }}
+            scroll={scroll}
             loading={loading}
           />
         </div>
       </div>
 
       <Modal
-        title="Ajouter un département"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
