@@ -359,7 +359,7 @@ const Projet = () => {
       </Modal>
 
       <Modal
-        title="Ajouter besoin"
+        title="Ajouter un besoin"
         visible={isBesoinVisible}
         onCancel={handleCancel}
         footer={null}
