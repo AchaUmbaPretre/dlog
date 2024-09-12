@@ -7,6 +7,7 @@ import { getUser } from '../../../services/userService';
 import { getTacheOneV, postTache, putTache } from '../../../services/tacheService';
 import moment from 'moment';
 import { getBatiment } from '../../../services/typeService';
+import { useNavigate } from 'react-router-dom';
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -17,6 +18,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
     const [batiment, setBatiment] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -80,6 +82,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
+            navigate('/tache')
             closeModal()
             fetchData()
         } catch (error) {

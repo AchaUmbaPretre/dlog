@@ -358,7 +358,7 @@ const Taches = () => {
                 dataSource={filteredData}
                 loading={loading}
                 pagination={{ pageSize: 15 }}
-                rowKey="id"
+                rowKey="id_tache"
                 bordered
                 size="middle"
                 scroll={scroll}
