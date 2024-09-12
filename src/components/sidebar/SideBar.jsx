@@ -78,29 +78,29 @@ const SideBar = () => {
           <Item key="7" icon={<TagOutlined />}>
             <Link to='/article'>Article</Link>
           </Item>
-          <Item key="7" icon={<FileTextOutlined />}>
-            <Link to='/article'>Document</Link>
+          <Item key="8" icon={<FileTextOutlined />}>
+            <Link to='/dossier'>Document</Link>
           </Item>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Paramètre">
-            <Menu.Item key="8">
+            <Menu.Item key="9">
               <Link to='/utilisateur'>Liste des personnels</Link>
             </Menu.Item>
-            <Menu.Item key="9">
+            <Menu.Item key="10">
               <Link to='/client'>Liste des clients</Link>
             </Menu.Item>
-            <Menu.Item key="10">
+            <Menu.Item key="11">
               <Link to='/fournisseur'>Liste des fournisseurs</Link>
             </Menu.Item>
-            <Menu.Item key="11">
+            <Menu.Item key="12">
               <Link to='/batiment'>Liste des bâtiments</Link>
             </Menu.Item>
-            <Menu.Item key="12">
+            <Menu.Item key="13">
               <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
-            <Menu.Item key="13">
+            <Menu.Item key="14">
               <Link to='/format'>Format</Link>
             </Menu.Item>
-            <Menu.Item key="14">
+            <Menu.Item key="15">
               <Link to='/frequence'>Fréquence</Link>
             </Menu.Item>
           </SubMenu>

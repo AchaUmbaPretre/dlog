@@ -22,6 +22,7 @@ import { Spin } from 'antd';
 import Batiment from './pages/batiment/Batiment';
 import Article from './pages/article/Article';
 import Categorie from './pages/categorie/Categorie';
+import Dossier from './pages/dossier/Dossier';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -104,6 +105,10 @@ function App() {
         {
           path: '/batiment',
           element: <Batiment/>
+        },
+        {
+          path: '/dossier',
+          element: <Dossier/>
         },
         {
           path: '/article',
