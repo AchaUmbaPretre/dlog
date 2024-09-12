@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown } from 'antd';
-import { ExportOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
-import { getDetailDoc } from '../../../services/offreService';
+import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown } from 'antd';
+import { ExportOutlined, FileTextOutlined, EyeOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getTacheDoc } from '../../../services/tacheService';
 
@@ -106,6 +105,14 @@ const DossierTache = () => {
       },
     },
     {
+        title: 'Titre tache',
+        dataIndex: 'nom_tache',
+        key: 'nom_tache',
+        render: (text) => {
+          return <Tag color={'blue'}>{text}</Tag>;
+        },
+      },
+    {
       title: 'Doc',
       dataIndex: 'chemin_document',
       key: 'chemin_document',
@@ -116,28 +123,21 @@ const DossierTache = () => {
       ),
     },
     {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
-      render: (text, record) => (
-        <Space size="middle">
-          <Tooltip title="Delete">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce client?"
-              onConfirm={() => handleDelete(record.id)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete client"
-              />
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ),
-    },
+        title: 'Action',
+        key: 'action',
+        width: '10%',
+        render: (text, record) => (
+          <Space size="middle">
+            <Tooltip title="voir le detail">
+                <Button
+                  icon={<EyeOutlined />}
+                  style={{ color: 'blue' }}
+                  aria-label="Detail"
+                />
+            </Tooltip>
+          </Space>
+        ),
+      },
   ];
 
   return (
