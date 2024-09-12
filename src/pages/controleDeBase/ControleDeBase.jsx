@@ -270,8 +270,9 @@ const groupByControle = (data) => {
     item.format?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.controle_de_base?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.responsable?.toLowerCase().includes(searchValue.toLowerCase())
+    item.responsables?.toLowerCase().includes(searchValue.toLowerCase())  // Utilisez 'responsables' ici
   );
+  
 
   return (
     <>
@@ -326,7 +327,7 @@ const groupByControle = (data) => {
                         <Table
                           columns={columns}
                           dataSource={record.items}
-                          pagination={false}
+                          pagination={{ defaultPageSize: 15, showSizeChanger: true, pageSizeOptions: ['15', '30', '50', '100'] }}
                           rowKey={(record, index) => `${record.id_controle}-${index}`}
                           showHeader={false}
                           size="small"

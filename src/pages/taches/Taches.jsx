@@ -357,7 +357,7 @@ const Taches = () => {
                 columns={columns}
                 dataSource={filteredData}
                 loading={loading}
-                pagination={{ pageSize: 15 }}
+                pagination={{ defaultPageSize: 15, showSizeChanger: true, pageSizeOptions: ['15', '30', '50', '100','200', '300'] }}
                 rowKey="id_tache"
                 bordered
                 size="middle"
