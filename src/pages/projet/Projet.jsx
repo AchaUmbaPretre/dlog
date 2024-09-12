@@ -34,6 +34,10 @@ const Projet = () => {
     setIsModalVisible(true);
   };
 
+  const handleListeTache = (id) => {
+    setIdProjet(id)
+    setIsTacheListeVisible(true)
+  }
   const handleViewDetails = (id) => {
     message.info(`Affichage des détails de la tache: ${id}`);
     setIsDetailVisible(true)
@@ -220,7 +224,7 @@ const Projet = () => {
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleAddTache(record.id_projet)} >
+                <Link onClick={() => handleListeTache(record.id_projet)} >
                   <FileTextOutlined /> Liste de tâche
                 </Link>
                 <Link onClick={() => handleAddTache(record.id_projet)} >
