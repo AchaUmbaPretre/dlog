@@ -11,6 +11,10 @@ export const getTache = async (user) => {
     return axios.get(`${DOMAIN}/api/tache`);
   };
 
+export const getTacheDoc = async (user) => {
+    return axios.get(`${DOMAIN}/api/tache/tache_doc`);
+  };
+
 export const getTacheOneV = async (id) => {
     return axios.get(`${DOMAIN}/api/tache/oneV?id_tache=${id}`);
   };

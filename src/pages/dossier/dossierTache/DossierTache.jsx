@@ -3,6 +3,7 @@ import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip
 import { ExportOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import { getDetailDoc } from '../../../services/offreService';
 import config from '../../../config';
+import { getTacheDoc } from '../../../services/tacheService';
 
 const { Search } = Input;
 
@@ -15,7 +16,7 @@ const DossierTache = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getDetailDoc();
+        const { data } = await getTacheDoc();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -38,9 +39,6 @@ const DossierTache = () => {
     message.success('Exporting to PDF...');
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
 
   const handleDelete = async (id) => {
     try {
@@ -54,10 +52,6 @@ const DossierTache = () => {
         description: 'Une erreur est survenue lors de la suppression du client.',
       });
     }
-  };
-
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
   };
 
   const menu = (
@@ -95,11 +89,11 @@ const DossierTache = () => {
       width: "3%",
     },
     {
-      title: 'Nom doc',
+      title: 'Titre',
       dataIndex: 'nom_document',
       key: 'nom_document',
       render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
       ),
     },
     {
@@ -117,7 +111,7 @@ const DossierTache = () => {
       key: 'chemin_document',
       render: (text) => (
         <a href={`${DOMAIN}/${text}`} target="_blank" rel="noopener noreferrer">
-          <Tag icon={<DownloadOutlined />} color="blue">Télécharger</Tag>
+          <Tag icon={<DownloadOutlined />} color="orange">Télécharger</Tag>
         </a>
       ),
     },

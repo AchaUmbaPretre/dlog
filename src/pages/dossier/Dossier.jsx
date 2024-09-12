@@ -96,11 +96,11 @@ const Dossier = () => {
       width: "3%",
     },
     {
-      title: 'Nom doc',
+      title: 'Titre',
       dataIndex: 'nom_document',
       key: 'nom_document',
       render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
       ),
     },
     {
@@ -118,7 +118,7 @@ const Dossier = () => {
       key: 'chemin_document',
       render: (text) => (
         <a href={`${DOMAIN}/${text}`} target="_blank" rel="noopener noreferrer">
-          <Tag icon={<DownloadOutlined />} color="blue">Télécharger</Tag>
+          <Tag icon={<DownloadOutlined />} color="orange">Télécharger</Tag>
         </a>
       ),
     },
