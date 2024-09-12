@@ -90,7 +90,6 @@ const ControleDeBase = () => {
     XLSX.writeFile(wb, "data.xlsx");
     message.success('Exportation vers Excel réussie.');
   };
-  
 
   const handleExportPDF = () => {
     const element = document.getElementById('printableTable');
