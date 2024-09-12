@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown, Tabs } from 'antd';
+import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Tabs } from 'antd';
 import { ExportOutlined, FileTextOutlined, EyeOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getOffreDoc } from '../../services/offreService';
