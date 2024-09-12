@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown, Tabs } from 'antd';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown } from 'antd';
 import { ExportOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
-import config from '../../config';
-import { getOffreDoc } from '../../services/offreService';
-import DossierTache from './dossierTache/DossierTache';
+import { getDetailDoc } from '../../../services/offreService';
+import config from '../../../config';
 
 const { Search } = Input;
 
-const Dossier = () => {
+const DossierTache = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -16,7 +15,7 @@ const Dossier = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getOffreDoc();
+        const { data } = await getDetailDoc();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -43,10 +42,6 @@ const Dossier = () => {
     window.print();
   };
 
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
-
   const handleDelete = async (id) => {
     try {
       // Uncomment when delete function is available
@@ -59,6 +54,10 @@ const Dossier = () => {
         description: 'Une erreur est survenue lors de la suppression du client.',
       });
     }
+  };
+
+  const handleViewDetails = (record) => {
+    message.info(`Viewing details of client: ${record.nom}`);
   };
 
   const menu = (
@@ -149,45 +148,28 @@ const Dossier = () => {
 
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <FileTextOutlined className='client-icon' />
+          <div className="client-actions">
+            <div className="client-row-left">
+              <Search placeholder="Search doc..." enterButton />
             </div>
-            <h2 className="client-h2">Document</h2>
+            <div className="client-rows-right">
+              <Dropdown overlay={menu} trigger={['click']}>
+                <Button icon={<ExportOutlined />}>Export</Button>
+              </Dropdown>
+            </div>
           </div>
-          <Tabs defaultActiveKey="0">
-                <Tabs.TabPane tab="Liste des documents d'offre" key='0'>
-                    <div className="client-actions">
-                        <div className="client-row-left">
-                        <Search placeholder="Recherche..." enterButton />
-                        </div>
-                        <div className="client-rows-right">
-                        <Dropdown overlay={menu} trigger={['click']}>
-                            <Button icon={<ExportOutlined />}>Export</Button>
-                        </Dropdown>
-                        </div>
-                    </div>
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                        loading={loading}
-                        pagination={{ pageSize: 10 }}
-                        rowKey="id"
-                        bordered
-                        size="middle"
-                        scroll={scroll}
-                    />
-                </Tabs.TabPane>
-                <Tabs.TabPane tab="Liste des documents des taches" key='1'>
-                    <DossierTache/>
-                </Tabs.TabPane>
-          </Tabs>
-        </div>
-      </div>
+          <Table
+            columns={columns}
+            dataSource={data}
+            loading={loading}
+            pagination={{ pageSize: 10 }}
+            rowKey="id"
+            bordered
+            size="middle"
+            scroll={scroll}
+          />
     </>
   );
 };
 
-export default Dossier;
+export default DossierTache;
