@@ -219,14 +219,17 @@ const Projet = () => {
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleAddBesoin(record.id_projet)} >
-                  <SolutionOutlined /> Ajouter besoins
+                <Link onClick={() => handleAddTache(record.id_projet)} >
+                  <FileTextOutlined /> Liste de tâche
                 </Link>
                 <Link onClick={() => handleAddTache(record.id_projet)} >
                   <FileTextOutlined /> Créer une tâche
                 </Link>
                 <Link onClick={() => handleAddBudget(record.id_projet)} >
                   <DollarOutlined /> Créer un budget
+                </Link>
+                <Link onClick={() => handleAddBesoin(record.id_projet)} >
+                  <SolutionOutlined /> Ajouter besoins
                 </Link>
               </div>
             }
