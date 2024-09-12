@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown, Tabs } from 'antd';
-import { ExportOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { ExportOutlined, FileTextOutlined, EyeOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getOffreDoc } from '../../services/offreService';
 import DossierTache from './dossierTache/DossierTache';
@@ -128,19 +128,12 @@ const Dossier = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Delete">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce client?"
-              onConfirm={() => handleDelete(record.id)}
-              okText="Oui"
-              cancelText="Non"
-            >
+          <Tooltip title="voir le detail">
               <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete client"
+                icon={<EyeOutlined />}
+                style={{ color: 'blue' }}
+                aria-label="Detail"
               />
-            </Popconfirm>
           </Tooltip>
         </Space>
       ),
