@@ -314,7 +314,7 @@ const groupByControle = (data) => {
                   </Button>
                 </div>
               </div>
-              <div className="tableau_client">
+              <div className="tableau_client" id="printableTable">
               <Table
                   columns={columns}
                   dataSource={filteredData}
