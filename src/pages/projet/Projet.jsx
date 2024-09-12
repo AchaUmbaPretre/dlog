@@ -387,8 +387,8 @@ const Projet = () => {
         width={800}
         centered
       >
-        <ProjetBesoin idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
-      </Modal>
+{/*         <ProjetBesoin idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
+ */}      </Modal>
     </>
   );
 };
