@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown } from 'antd';
-import { ExportOutlined, FileTextOutlined, EyeOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Popconfirm } from 'antd';
+import { ExportOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getTacheDoc } from '../../../services/tacheService';
 
@@ -128,12 +128,19 @@ const DossierTache = () => {
         width: '10%',
         render: (text, record) => (
           <Space size="middle">
-            <Tooltip title="voir le detail">
+            <Tooltip title="Delete">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer ce dossier?"
+                onConfirm={() => handleDelete(record.id)}
+                okText="Oui"
+                cancelText="Non"
+              >
                 <Button
-                  icon={<EyeOutlined />}
-                  style={{ color: 'blue' }}
-                  aria-label="Detail"
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Delete client"
                 />
+              </Popconfirm>
             </Tooltip>
           </Space>
         ),
