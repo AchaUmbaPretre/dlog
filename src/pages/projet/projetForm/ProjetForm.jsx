@@ -37,29 +37,32 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                     getBatiment(),
                     getArticle(),
                 ]);
-
+    
                 setUsers(usersData.data);
                 setClient(clientData.data);
                 setBatiment(batimentData.data);
                 setArticle(articleData.data);
-
+    
                 if (idProjet) {
                     const { data: projet } = await getProjetOneF(idProjet);
-                    if (projet) {
+                    if (projet && projet.length > 0) {
                         form.setFieldsValue({
                             ...projet[0],
                             date_debut: moment(projet[0].date_debut, 'YYYY-MM-DD'),
                             date_fin: moment(projet[0].date_fin, 'YYYY-MM-DD')
                         });
                     }
+                } else {
+                    form.resetFields();
                 }
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
         };
-
+    
         fetchData();
     }, [idProjet, form]);
+    
 
     const onFinish = async (values) => {
         

@@ -55,10 +55,13 @@ const Projet = () => {
   };
 
   const handleAddClient = () => {
+    setIdProjet(''); // Réinitialiser l'ID du projet
+    form.resetFields(); // Réinitialiser les champs du formulaire
     setIsModalVisible(true);
   };
 
   const handleCancel = () => {
+    form.resetFields(); // Réinitialiser les champs à la fermeture du modal
     setIsModalVisible(false);
     setIsTacheVisible(false);
     setIsDetailVisible(false);
@@ -321,7 +324,7 @@ const Projet = () => {
         width={800}
         centered
       >
-        <ProjetForm idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
+        <ProjetForm idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel} />
       </Modal>
 
       <Modal
