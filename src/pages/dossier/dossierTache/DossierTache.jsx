@@ -150,7 +150,7 @@ const DossierTache = () => {
     <>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search doc..." enterButton />
+              <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-rows-right">
               <Dropdown overlay={menu} trigger={['click']}>
