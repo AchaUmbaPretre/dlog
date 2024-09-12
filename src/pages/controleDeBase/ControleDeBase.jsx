@@ -81,11 +81,16 @@ const ControleDeBase = () => {
   const handleAddClient = () => openModal('controle');
 
   const handleExportExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(filteredData);
+    const filteredData = filteredData.map(({ id_control, ...rest }) => rest);
+      const ws = XLSX.utils.json_to_sheet(filteredData);
+  
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Data');
-    XLSX.writeFile(wb, 'controleDeBase.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+  
+    XLSX.writeFile(wb, "data.xlsx");
+    message.success('Exportation vers Excel réussie.');
   };
+  
 
   const handleExportPDF = () => {
     const element = document.getElementById('printableTable');
