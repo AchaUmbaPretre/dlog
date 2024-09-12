@@ -9,7 +9,7 @@ import { getControleOne, postControle, putControle } from '../../../services/con
 import { useNavigate } from 'react-router-dom';
 import './controleForm.scss';
 
-const { Panel } = Collapse; // Utiliser Collapse.Panel
+const { Panel } = Collapse;
 
 
 const ControleForm = ({ idControle,fetchData,closeModal }) => {
