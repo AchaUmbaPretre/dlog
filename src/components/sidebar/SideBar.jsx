@@ -8,7 +8,8 @@ import {
   LogoutOutlined,
   TagOutlined,
   DashboardOutlined,
-  ProjectOutlined
+  ProjectOutlined,
+  FileTextOutlined
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -76,6 +77,9 @@ const SideBar = () => {
           </SubMenu>
           <Item key="7" icon={<TagOutlined />}>
             <Link to='/article'>Article</Link>
+          </Item>
+          <Item key="7" icon={<FileTextOutlined />}>
+            <Link to='/article'>Document</Link>
           </Item>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Paramètre">
             <Menu.Item key="8">
