@@ -3,6 +3,7 @@ import { Button, Form, Input, Space, Row, Col, Select, notification, InputNumber
 import { getUser } from '../../../services/userService';
 import { getTypes } from '../../../services/typeService';
 import { postSuiviTache } from '../../../services/suiviService';
+import { getTacheOne } from '../../../services/tacheService';
 
 const colorMapping = {
     'En attente': '#FFA500',
@@ -19,6 +20,7 @@ const colorMapping = {
 const SuiviTache = ({idTache, closeModal, fetchData}) => {
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
+    const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleError = (message) => {
@@ -38,6 +40,10 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
 
                 setType(typeData.data);
                 setUsers(userData.data);
+                if(idTache){
+                    const {data} = await getTacheOne(idTache)
+                    setName(data[0])
+                }
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
@@ -71,6 +77,10 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
 
     return (
         <div className="controle_form">
+            <div className="controle_title_row">
+                <h2 className="controle_h2" style={{fontSize:'15px'}} >Tracking de tache : {name?.nom_tache}</h2>
+                <h2 className="controle_h2" style={{fontSize:'15px'}} >Client : {name?.nom_client}</h2>
+            </div>
             <div className="controle_wrapper">
                 <Form
                     name="validateOnly"

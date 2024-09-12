@@ -395,11 +395,11 @@ const groupByControle = (data) => {
 
       <Modal
         visible={modalState === 'creer'}
-        title="Créer une tâche"
+        title=""
         footer={null}
         onCancel={closeModal}
         destroyOnClose
-        width={1050}
+        width={900}
         centered
       >
         <TacheForm idControle={idControle} closeModal={closeModal} fetchData={fetchData}/>

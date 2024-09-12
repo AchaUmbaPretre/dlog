@@ -416,7 +416,7 @@ const Taches = () => {
       </Modal>
 
       <Modal
-        title="Tracking"
+        title=""
         visible={modalType === 'suivi'}
         onCancel={closeAllModals}
         footer={null}

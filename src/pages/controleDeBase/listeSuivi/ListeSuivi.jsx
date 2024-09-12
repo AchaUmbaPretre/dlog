@@ -299,7 +299,7 @@ const ListeSuivi = ({ idControle}) => {
 
       {modalState && idTache && (
         <Modal
-          title={modalState === 'suivi' ? 'Ajouter un suivi' : ''}
+          title={modalState === 'suivi' ? 'Ajouter un Tracking' : ''}
           visible={true}
           onCancel={closeModal}
           footer={null}
