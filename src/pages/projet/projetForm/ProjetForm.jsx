@@ -92,7 +92,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
 
     return (
         <Form layout="vertical" onFinish={onFinish} form={form} initialValues={{ budget: 0 }}>
-            <Title level={3}>Créer un Projet</Title>
+            <Title level={3}>{idProjet ? "Modifier le projet" : "Créer un Projet"} </Title>
 
             <Row gutter={16}>
                 <Col span={12}>
@@ -257,7 +257,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                    Enregistrer
+                    {idProjet ? 'Modifier' : 'Enregistrer'} 
                 </Button>
             </Form.Item>
         </Form>
