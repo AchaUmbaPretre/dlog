@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Tabs } from 'antd';
-import { ExportOutlined, FileTextOutlined, EyeOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Tabs, Popconfirm } from 'antd';
+import { ExportOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getOffreDoc } from '../../services/offreService';
 import DossierTache from './dossierTache/DossierTache';
@@ -113,6 +113,14 @@ const Dossier = () => {
       },
     },
     {
+        title: 'Titre offre',
+        dataIndex: 'nom_offre',
+        key: 'nom_offre',
+        render: (text) => {
+          return <Tag color={'blue'}>{text}</Tag>;
+        },
+      },
+    {
       title: 'Doc',
       dataIndex: 'chemin_document',
       key: 'chemin_document',
@@ -123,21 +131,28 @@ const Dossier = () => {
       ),
     },
     {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
-      render: (text, record) => (
-        <Space size="middle">
-          <Tooltip title="voir le detail">
-              <Button
-                icon={<EyeOutlined />}
-                style={{ color: 'blue' }}
-                aria-label="Detail"
-              />
-          </Tooltip>
-        </Space>
-      ),
-    },
+        title: 'Action',
+        key: 'action',
+        width: '10%',
+        render: (text, record) => (
+          <Space size="middle">
+            <Tooltip title="Delete">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer ce dossier?"
+                onConfirm={() => handleDelete(record.id)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Delete client"
+                />
+              </Popconfirm>
+            </Tooltip>
+          </Space>
+        ),
+      },
   ];
 
   return (
