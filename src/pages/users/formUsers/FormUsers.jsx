@@ -23,7 +23,7 @@ const FormUsers = ({userId, close, fetchData}) => {
         };
     
         fetchData();
-    }, [userId])
+    }, [userId, form])
     
 
   const onFinish = async(values) => {
