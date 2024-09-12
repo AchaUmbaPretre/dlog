@@ -97,6 +97,7 @@ const Taches = () => {
   };
 
   const handleAddTask = () => {
+    setIdTache('')
     setIsModalVisible(true);
   };
 

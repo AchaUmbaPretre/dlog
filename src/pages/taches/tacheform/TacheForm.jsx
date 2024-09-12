@@ -22,8 +22,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [projetName, setProjetName] = useState('');
     const navigate = useNavigate();
 
-    console.log(projetName)
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -72,6 +70,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
 
         fetchData();
     }, [idTache,form]);
+
+    useEffect(() => {
+        // Réinitialiser le formulaire lorsque idTache change
+        form.resetFields();
+      }, [idTache, form]);
 
     const onFinish = async (values) => {
         const dataAll = {
