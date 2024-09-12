@@ -16,6 +16,9 @@ import SuiviControle from './suiviControle/SuiviControle';
 import ListeSuivi from './listeSuivi/ListeSuivi';
 import TacheForm from '../taches/tacheform/TacheForm';
 import ListeControler from './listeControler/ListeControler';
+import html2pdf from 'html2pdf.js';
+import * as XLSX from 'xlsx';
+
 
 const { Search } = Input;
 
@@ -77,9 +80,24 @@ const ControleDeBase = () => {
 
   const handleAddClient = () => openModal('controle');
 
-  const handleExportExcel = () => message.success('Exportation vers Excel...');
+  const handleExportExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(filteredData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data');
+    XLSX.writeFile(wb, 'controleDeBase.xlsx');
+  };
 
-  const handleExportPDF = () => message.success('Exportation vers PDF...');
+  const handleExportPDF = () => {
+    const element = document.getElementById('printableTable');
+    const opt = {
+      margin: [0.5, 0.5, 0.5, 0.5],
+      filename: 'data.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf().from(element).set(opt).save();
+  };
 
   const handlePrint = () => window.print();
 
