@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Select, Row, Col, notification } from 'antd';
-import { useNavigate } from 'react-router-dom';
 import { getUserOne, postUser, putUser } from '../../../services/userService';
 
 const { Option } = Select;
 
 const FormUsers = ({userId, close, fetchData}) => {
     const [form] = Form.useForm();
-    const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
