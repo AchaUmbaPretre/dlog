@@ -91,7 +91,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Input.TextArea style={{ height: '100px' }} placeholder="Commentaire..." />
+                                <Input.TextArea style={{ height: '70px' }} placeholder="Commentaire..." />
                             </Form.Item>
                         </Col>
                         <Col span={24}>

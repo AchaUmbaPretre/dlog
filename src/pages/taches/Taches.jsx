@@ -409,7 +409,7 @@ const Taches = () => {
         visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={850}
+        width={800}
         centered
       >
         <DetailTache idTache={idTache} />
@@ -420,7 +420,7 @@ const Taches = () => {
         visible={modalType === 'suivi'}
         onCancel={closeAllModals}
         footer={null}
-        width={850}
+        width={700}
         centered
       >
         <SuiviTache idTache={idTache} closeModal={() => setModalType(null)} fetchData={fetchData} />
