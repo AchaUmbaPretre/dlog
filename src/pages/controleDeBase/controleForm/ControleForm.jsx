@@ -20,7 +20,6 @@ const ControleForm = ({ idControle,fetchData,closeModal }) => {
     const [frequence, setFrequence] = useState([]);
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
     // Function to handle errors
     const handleError = (message) => {
