@@ -19,6 +19,7 @@ const Projet = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTacheVisible, setIsTacheVisible] = useState(false);
+  const [isTacheListeVisible, setIsTacheListeVisible] = useState(false);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [isBudgetVisible, setIsBudgetVisible] = useState(false);
   const [isBesoinVisible, setIsBesoinVisible] = useState(false);
@@ -55,13 +56,13 @@ const Projet = () => {
   };
 
   const handleAddClient = () => {
-    setIdProjet(''); // Réinitialiser l'ID du projet
-    form.resetFields(); // Réinitialiser les champs du formulaire
+    setIdProjet('');
+    form.resetFields(); 
     setIsModalVisible(true);
   };
 
   const handleCancel = () => {
-    form.resetFields(); // Réinitialiser les champs à la fermeture du modal
+    form.resetFields();
     setIsModalVisible(false);
     setIsTacheVisible(false);
     setIsDetailVisible(false);
@@ -361,6 +362,17 @@ const Projet = () => {
         centered
       >
         <BudgetForm idProjet={idProjet} />
+      </Modal>
+
+      <Modal
+        title="Ajouter un besoin"
+        visible={isBesoinVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={800}
+        centered
+      >
+        <ProjetBesoin idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
       </Modal>
 
       <Modal
