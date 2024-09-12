@@ -10,6 +10,7 @@ import DetailProjet from './detailProjet/DetailProjet';
 import { Link } from 'react-router-dom';
 import BudgetForm from '../budget/budgetForm/BudgetForm';
 import ProjetBesoin from './projetBesoin/ProjetBesoin';
+import ListeTacheProjet from './listeTacheProjet/ListeTacheProjet';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -71,7 +72,8 @@ const Projet = () => {
     setIsTacheVisible(false);
     setIsDetailVisible(false);
     setIsBudgetVisible(false);
-    setIsBesoinVisible(false)
+    setIsBesoinVisible(false);
+    setIsTacheListeVisible(false)
   };
 
   const handleExportExcel = () => {
@@ -384,11 +386,11 @@ const Projet = () => {
         visible={isTacheListeVisible}
         onCancel={handleCancel}
         footer={null}
-        width={800}
+        width={1000}
         centered
       >
-{/*         <ProjetBesoin idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
- */}      </Modal>
+         <ListeTacheProjet idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
+      </Modal>
     </>
   );
 };
