@@ -13,6 +13,7 @@ const { Search } = Input;
 
 const Article = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
@@ -147,6 +148,12 @@ const Article = () => {
     },
   ];
 
+  const filteredData = data.filter(item =>
+    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
+
+  );
+
   return (
     <>
       <div className="client">
@@ -159,7 +166,11 @@ const Article = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Rechercher une offre..." enterButton />
+              <Search 
+                onChange={(e) => setSearchValue(e.target.value)} 
+                placeholder="Recherche..." 
+                enterButton
+               />
             </div>
             <div className="client-rows-right">
               <Button
@@ -182,8 +193,8 @@ const Article = () => {
           </div>
           <Table
             columns={colonnes}
-            dataSource={data}
-            rowKey="id_budget"
+            dataSource={filteredData}
+            rowKey="id_article"
             loading={loading}
             scroll={scroll}
             size="small"
