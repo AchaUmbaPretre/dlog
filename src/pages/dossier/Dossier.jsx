@@ -11,6 +11,7 @@ const Dossier = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const scroll = { x: 400 };
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const Dossier = () => {
       // Uncomment when delete function is available
       // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
+      message.success('Offre a été supprimée');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -155,6 +156,11 @@ const Dossier = () => {
       },
   ];
 
+  const filteredData = data.filter(item =>
+    item.nom_document?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.type_document?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_offre?.toLowerCase().includes(searchValue.toLowerCase())  );
+
   return (
     <>
       <div className="client">
@@ -169,7 +175,12 @@ const Dossier = () => {
                 <Tabs.TabPane tab="Liste des documents d'offre" key='0'>
                     <div className="client-actions">
                         <div className="client-row-left">
-                        <Search placeholder="Recherche..." enterButton />
+                            <Search
+                                placeholder="Recherche..."
+                                value={searchValue}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                enterButton
+                            />
                         </div>
                         <div className="client-rows-right">
                         <Dropdown overlay={menu} trigger={['click']}>
@@ -179,9 +190,9 @@ const Dossier = () => {
                     </div>
                     <Table
                         columns={columns}
-                        dataSource={data}
+                        dataSource={filteredData}
                         loading={loading}
-                        pagination={{ pageSize: 10 }}
+                        pagination={{ pageSize: 15 }}
                         rowKey="id"
                         bordered
                         size="middle"
