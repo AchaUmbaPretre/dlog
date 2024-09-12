@@ -10,6 +10,7 @@ const DossierTache = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const scroll = { x: 400 };
 
   useEffect(() => {
@@ -147,11 +148,22 @@ const DossierTache = () => {
       },
   ];
 
+  const filteredData = data.filter(item =>
+    item.nom_document?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.type_document?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase())  );
+
+
   return (
     <>
-          <div className="client-actions">
+        <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+                <Search
+                    placeholder="Recherche..."
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    enterButton
+                  />
             </div>
             <div className="client-rows-right">
               <Dropdown overlay={menu} trigger={['click']}>
@@ -161,9 +173,9 @@ const DossierTache = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 15 }}
             rowKey="id"
             bordered
             size="middle"

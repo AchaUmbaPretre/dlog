@@ -172,7 +172,7 @@ const Dossier = () => {
             <h2 className="client-h2">Document</h2>
           </div>
           <Tabs defaultActiveKey="0">
-                <Tabs.TabPane tab="Liste des documents d'offre" key='0'>
+                <Tabs.TabPane tab="Liste des documents de l'offre" key='0'>
                     <div className="client-actions">
                         <div className="client-row-left">
                             <Search
@@ -199,7 +199,7 @@ const Dossier = () => {
                         scroll={scroll}
                     />
                 </Tabs.TabPane>
-                <Tabs.TabPane tab="Liste des documents des taches" key='1'>
+                <Tabs.TabPane tab="Liste des documents des tâches" key='1'>
                     <DossierTache/>
                 </Tabs.TabPane>
           </Tabs>
