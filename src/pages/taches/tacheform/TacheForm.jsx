@@ -8,6 +8,7 @@ import { getTacheOneV, postTache, putTache } from '../../../services/tacheServic
 import moment from 'moment';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
+import { getProjetOne } from '../../../services/projetService';
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -18,7 +19,10 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
     const [batiment, setBatiment] = useState([]);
+    const [projetName, setProjetName] = useState('');
     const navigate = useNavigate();
+
+    console.log(projetName)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,6 +42,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 setClient(clientData.data);
                 setProvinces(provinceData.data);
                 setBatiment(batimentData.data)
+
+                if(idProjet){
+                    const {data} = await getProjetOne(idProjet)
+                    setProjetName(data[0]?.nom_projet)
+                }
 
                 const { data: tache } = await getTacheOneV(idTache);
                 if (tache && tache[0]) {
@@ -94,7 +103,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
 
     return (
         <div className="controle_form">
-            <h2 style={{paddingBottom:'20px'}}>{ idTache ? 'Modifier une tâche' : 'Ajouter une nouvelle tâche'}</h2>
+            <h2 style={{paddingBottom:'20px'}}>{ idTache ? 'Modifier une tâche' : idProjet ? `Insérer une nouvelle tache dans le projet ${projetName}` : 'Ajouter une nouvelle tâche'}</h2>
             <div className="controle_wrapper">
                 <Form
                     form={form}
@@ -311,7 +320,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Input.TextArea style={{height:'100px'}} placeholder="Description..." />
+                                <Input.TextArea style={{height:'70px'}} placeholder="Description..." />
                             </Form.Item>
                         </Col>
                         <Col xs={24}>
