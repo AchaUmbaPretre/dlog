@@ -342,15 +342,12 @@ const groupByControle = (data) => {
                 />
               </div>
             </Tabs.TabPane>
-{/*              <Tabs.TabPane tab='Vue calendrier' key="1">
-              <ControleBigCalendar data={data} />
-            </Tabs.TabPane> */}
           </Tabs>
         </div>
       </div>
       <Modal
         visible={modalState === 'controle'}
-        title="Ajouter un contrôle de base"
+        title=""
         footer={null}
         onCancel={closeModal}
         destroyOnClose

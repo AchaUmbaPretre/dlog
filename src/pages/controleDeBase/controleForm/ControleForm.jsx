@@ -90,6 +90,9 @@ const ControleForm = ({ idControle,fetchData,closeModal }) => {
 
     return (
         <div className="controle_form">
+            <div className="controle_title_rows">
+                <h2 className='controle_h2'>{ idControle ? 'Modifier un controle de base': 'Ajouter un controle de base'}</h2>                
+            </div>
             <div className="controle_wrapper">
                 <Form
                     form={form}
