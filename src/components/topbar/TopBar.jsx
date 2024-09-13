@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import './topBar.scss';
 import { useNavigate } from 'react-router-dom';
 import { Popover, Button, Divider, message } from 'antd';
-import { BellOutlined, DashOutlined } from '@ant-design/icons';
+import { BellOutlined, DashOutlined, MailOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png';
 import { useSelector } from 'react-redux';
 import { logout } from '../../services/authService';
 import { useMenu } from '../../context/MenuProvider';
 
-// Composant pour le bouton de déconnexion
 const LogoutButton = ({ onLogout }) => (
   <Button type="primary" danger onClick={onLogout} style={{ width: '100%' }}>
     Déconnexion
@@ -50,6 +49,10 @@ const TopBar = () => {
       <div className="topbar-right">
         <div className="topbar-icons">
           <BellOutlined aria-label="Notifications" />
+        </div>
+        <hr />
+        <div className="topbar-icons">
+          <MailOutlined aria-label="Messages" />
         </div>
         <hr />
         <div className="topbar-user-rows">
