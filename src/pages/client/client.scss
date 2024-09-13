@@ -44,14 +44,23 @@
             justify-content: space-between;
             margin-bottom: 20px;
             gap: 20px;
-            .client-rows-right{
+            .client-rows-right {
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                .client-export{
-                    display: none;
+                overflow-x: auto;
+                scrollbar-width: none;
+                
+                /* Pour Chrome, Edge et Safari */
+                &::-webkit-scrollbar {
+                  display: none;
                 }
-            }
+                
+                .client-export {
+                  display: none;
+                }
+              }
+              
         }
         .tableau_client{
             position: relative;

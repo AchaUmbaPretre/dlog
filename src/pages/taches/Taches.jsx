@@ -386,9 +386,9 @@ const Taches = () => {
                     icon={<PlusOutlined />}
                     onClick={handleAddTask}
                   >
-                    Ajouter une tâche
+                    Tâche
                   </Button>
-                  <Dropdown overlay={menu} trigger={['click']}>
+                  <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                     <Button icon={<ExportOutlined />}>Exporter</Button>
                   </Dropdown>
                   <Dropdown overlay={menus} trigger={['click']}>
