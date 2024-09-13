@@ -301,14 +301,15 @@ const Projet = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Ajouter un projet
+                projet
               </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
+              <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
               <Button
                 icon={<PrinterOutlined />}
                 onClick={handlePrint}
+                className='client-export'
               >
                 Print
               </Button>

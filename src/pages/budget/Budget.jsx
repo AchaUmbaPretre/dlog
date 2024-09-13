@@ -315,6 +315,7 @@ const Budget = () => {
               <Button
                 icon={<PrinterOutlined />}
                 onClick={handlePrint}
+                className='client-export'
               >
                 Print
               </Button>
