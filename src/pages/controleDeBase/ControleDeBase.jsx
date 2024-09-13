@@ -128,7 +128,7 @@ const groupByControle = (data) => {
         format,
         controle_de_base,
         frequence,
-        responsables: new Set(), // Utiliser un Set pour éviter les doublons
+        responsables: new Set(),
         items: []
       };
     }
@@ -320,7 +320,7 @@ const groupByControle = (data) => {
                 <div className="client-row-right" style={{display:'flex', gap:'10px'}}>
                   <Button
                     type="primary"
-                    icon={<PlusOutlined />}
+                    icon={<PlusCircleOutlined />}
                     onClick={handleAddClient}
                   >
                     contrôle de base
