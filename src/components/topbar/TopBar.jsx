@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './topBar.scss';
 import { useNavigate } from 'react-router-dom';
 import { Popover, Button, Divider, message } from 'antd';
@@ -17,6 +17,11 @@ const LogoutButton = ({ onLogout }) => (
 const TopBar = () => {
   const user = useSelector((state) => state.user.currentUser);
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
 
   // Fonction pour gérer la déconnexion
   const handleLogout = async () => {
@@ -69,6 +74,12 @@ const TopBar = () => {
             <DashOutlined className="topbar-icon" aria-label="Options utilisateur" />
           </Popover>
         </div>
+        <div className={`hamburger ${isOpen ? 'open' : ''}`} onClick={handleClick} >
+          <div className="line"></div>
+          <div className="line"></div>
+          <div className="line"></div>
+        </div>
+
       </div>
     </div>
   );
