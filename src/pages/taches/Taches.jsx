@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm } from 'antd';
 import { 
-  ExportOutlined, FileOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
+  ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined,EditOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
   CalendarOutlined, TeamOutlined,DeleteOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
@@ -15,6 +15,8 @@ import moment from 'moment';
 import DetailTache from './detailTache/DetailTache';
 import SuiviTache from './suiviTache/SuiviTache';
 import ListeTracking from './listeTracking/ListeTracking';
+import html2pdf from 'html2pdf.js';
+import * as XLSX from 'xlsx';
 
 const { Search } = Input;
 
@@ -106,11 +108,26 @@ const Taches = () => {
   };
 
   const handleExportExcel = () => {
-    message.success('Exportation vers Excel...');
+    const filteredData = data.map(({ id_tache,id_controle, ...rest }) => rest);
+      const ws = XLSX.utils.json_to_sheet(filteredData);
+  
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+  
+    XLSX.writeFile(wb, "tache.xlsx");
+    message.success('Exportation vers Excel réussie.');
   };
 
   const handleExportPDF = () => {
-    message.success('Exportation au format PDF...');
+    const element = document.getElementById('printableTable');
+    const opt = {
+      margin: [0.5, 0.5, 0.5, 0.5],
+      filename: 'data.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf().from(element).set(opt).save();
   };
 
   const handlePrint = () => {
@@ -251,22 +268,6 @@ const Taches = () => {
                 <Link onClick={()=>handleListeTracking(record.id_tache)}>
                   <FileTextOutlined /> Liste de tracking
                 </Link>
-              </div>
-            }
-            title=""
-            trigger="click"
-          >
-            <Tooltip title="Menu">
-              <Button
-                icon={<PlusCircleOutlined />}
-                style={{ color: 'blue' }}
-                aria-label="Contrôler"
-              />
-            </Tooltip>
-          </Popover>
-          <Popover
-            content={
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <Link onClick={() => handleDetailDoc(record.id_tache)} >
                   <FileTextOutlined /> Liste des docs
                 </Link>
@@ -278,11 +279,11 @@ const Taches = () => {
             title=""
             trigger="click"
           >
-            <Tooltip title="Documents">
+            <Tooltip title="Menu">
               <Button
-                icon={<FileOutlined />}
-                style={{ color: 'green' }}
-                aria-label="Documents"
+                icon={<PlusCircleOutlined />}
+                style={{ color: 'blue' }}
+                aria-label="Contrôler"
               />
             </Tooltip>
           </Popover>
@@ -354,16 +355,18 @@ const Taches = () => {
                   </Button>
                 </div>
               </div>
-              <Table
-                columns={columns}
-                dataSource={filteredData}
-                loading={loading}
-                pagination={{ defaultPageSize: 15, showSizeChanger: true, pageSizeOptions: ['15', '30', '50', '100','200', '300'] }}
-                rowKey="id_tache"
-                bordered
-                size="middle"
-                scroll={scroll}
-              />
+              <div className="tableau_client" id="printableTable">
+                <Table
+                  columns={columns}
+                  dataSource={filteredData}
+                  loading={loading}
+                  pagination={{ defaultPageSize: 15, showSizeChanger: true, pageSizeOptions: ['15', '30', '50', '100','200', '300'] }}
+                  rowKey="id_tache"
+                  bordered
+                  size="middle"
+                  scroll={scroll}
+                />
+              </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab='Vue calendrier' key="1">
               <FormatCalendar/>
