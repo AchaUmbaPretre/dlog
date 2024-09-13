@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Tabs, Popconfirm } from 'antd';
-import { ExportOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Tabs, Popconfirm, Modal } from 'antd';
+import { ExportOutlined, FileTextOutlined, PlusCircleOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getOffreDoc } from '../../services/offreService';
 import DossierTache from './dossierTache/DossierTache';
+import DossierForm from './dossierForm/DossierForm';
 
 const { Search } = Input;
 
@@ -12,6 +13,7 @@ const Dossier = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
   useEffect(() => {
@@ -40,14 +42,6 @@ const Dossier = () => {
     message.success('Exporting to PDF...');
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
-
   const handleDelete = async (id) => {
     try {
       // Uncomment when delete function is available
@@ -61,6 +55,15 @@ const Dossier = () => {
       });
     }
   };
+
+  const handleAddDoc = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
 
   const menu = (
     <Menu>
@@ -183,9 +186,16 @@ const Dossier = () => {
                             />
                         </div>
                         <div className="client-rows-right">
-                        <Dropdown overlay={menu} trigger={['click']}>
-                            <Button icon={<ExportOutlined />}>Export</Button>
-                        </Dropdown>
+                            <Button
+                                type="primary"
+                                icon={<PlusCircleOutlined />}
+                                onClick={handleAddDoc}
+                            >
+                                document
+                            </Button>
+                            <Dropdown overlay={menu} trigger={['click']}>
+                                <Button icon={<ExportOutlined />}>Export</Button>
+                            </Dropdown>
                         </div>
                     </div>
                     <Table
@@ -205,6 +215,17 @@ const Dossier = () => {
           </Tabs>
         </div>
       </div>
+
+        <Modal
+            title=""
+            visible={isModalVisible}
+            onCancel={handleCancel}
+            footer={null}
+            width={600}
+            centered
+        >
+           <DossierForm closeModal={() => setIsModalVisible(false)} />
+        </Modal>
     </>
   );
 };
