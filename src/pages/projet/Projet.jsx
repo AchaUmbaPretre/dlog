@@ -389,7 +389,7 @@ const Projet = () => {
         width={1080}
         centered
       >
-         <ListeTacheProjet idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
+        <ListeTacheProjet idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
       </Modal>
     </>
   );
