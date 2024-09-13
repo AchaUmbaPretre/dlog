@@ -382,11 +382,11 @@ const Projet = () => {
       </Modal>
 
       <Modal
-        title="Liste des taches"
+        title=""
         visible={isTacheListeVisible}
         onCancel={handleCancel}
         footer={null}
-        width={1000}
+        width={1080}
         centered
       >
          <ListeTacheProjet idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
