@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,ProfileOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Collapse } from 'antd';
+import { ExportOutlined, ProfileOutlined,UserOutlined, PlusOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getBesoin } from '../../services/besoinsService';
 
 const { Search } = Input;
+const { Panel } = Collapse;
 
 const Besoins = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -69,9 +70,6 @@ const Besoins = () => {
     }
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
-  };
 
   const menu = (
     <Menu>
@@ -84,28 +82,19 @@ const Besoins = () => {
     </Menu>
   );
 
-  const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
-    },
-    {
-      title: 'Projet',
-      dataIndex: 'nom_projet',
-      key: 'nom_projet',
-      render: (text) => (
-        <Tag color="blue">{text ?? 'Aucun'}</Tag>
-      ),
-    },
+  const groupedData = data.reduce((acc, item) => {
+    (acc[item.nom_projet] = acc[item.nom_projet] || []).push(item);
+    return acc;
+  }, {});
+
+  // Columns for the nested table
+  const nestedColumns = [
     {
       title: 'Client',
       dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined/>} color="green">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<UserOutlined />} color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
@@ -121,11 +110,7 @@ const Besoins = () => {
       dataIndex: 'quantite',
       key: 'quantite',
       render: (text) => (
-        <> 
-          <Tag color='cyan'>
-            {text ?? 'Aucune'}
-          </Tag>
-        </>
+        <Tag color='orange'>{text ?? 'Aucune'}</Tag>
       ),
     },
     {
@@ -133,7 +118,7 @@ const Besoins = () => {
       dataIndex: 'description',
       key: 'description',
       render: (text) => (
-        <Tag color={"magenta"}>{text}</Tag>
+        <Tag color={"magenta"}>{text ?? 'Aucune'}</Tag>
       ),
     },
     {
@@ -142,7 +127,7 @@ const Besoins = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-{/*           <Tooltip title="View Details">
+          {/* <Tooltip title="View Details">
             <Button
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record)}
@@ -150,7 +135,7 @@ const Besoins = () => {
               aria-label="View client details"
             />
           </Tooltip> */}
-{/*           <Tooltip title="Edit">
+          {/* <Tooltip title="Edit">
             <Popover title="Modifier" trigger="hover">
               <Button
                 icon={<EditOutlined />}
@@ -178,7 +163,17 @@ const Besoins = () => {
         </Space>
       ),
     },
-  ]
+  ];
+
+  // Prepare main table columns
+  const mainColumns = [
+    {
+      title: 'Projet',
+      dataIndex: 'nom_projet',
+      key: 'nom_projet',
+      render: (text) => <Tag color="blue">{text}</Tag>,
+    },
+  ];
 
   return (
     <>
@@ -188,23 +183,13 @@ const Besoins = () => {
             <div className="client-row-icon">
               <ProfileOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Besoins</h2>
+            <h2 className="client-h2">Liste des besoins</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
               <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={handleAddClient}
-              >
-                Ajouter un Client
-              </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
               <Button
                 icon={<PrinterOutlined />}
                 onClick={handlePrint}
@@ -214,14 +199,27 @@ const Besoins = () => {
             </div>
           </div>
           <Table
-            columns={columns}
-            dataSource={data}
+            columns={mainColumns}
+            dataSource={Object.keys(groupedData).map(key => ({ nom_projet: key }))}
             loading={loading}
-            pagination={{ pageSize: 10 }}
-            rowKey="id"
+            pagination={false}
+            rowKey="nom_projet"
             bordered
             size="middle"
             scroll={scroll}
+            expandable={{
+              expandedRowRender: record => (
+                <Table
+                  columns={nestedColumns}
+                  dataSource={groupedData[record.nom_projet]}
+                  pagination={false}
+                  rowKey="nom_article"
+                  bordered
+                  size="middle"
+                />
+              ),
+              rowExpandable: record => groupedData[record.nom_projet].length > 0,
+            }}
           />
         </div>
       </div>
