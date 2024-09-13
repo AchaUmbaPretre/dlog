@@ -95,7 +95,7 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
       <Form.Item
         name="description"
         label="Description"
-        rules={[{ required: true, message: 'Veuillez entrer une description' }]}
+        rules={[{ required: false, message: 'Veuillez entrer une description' }]}
       >
         <TextArea rows={4} />
       </Form.Item>
