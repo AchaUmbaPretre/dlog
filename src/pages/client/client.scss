@@ -51,7 +51,6 @@
                 overflow-x: auto;
                 scrollbar-width: none;
                 
-                /* Pour Chrome, Edge et Safari */
                 &::-webkit-scrollbar {
                   display: none;
                 }

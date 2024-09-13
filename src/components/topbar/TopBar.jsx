@@ -19,7 +19,6 @@ const TopBar = () => {
   const navigate = useNavigate();
   const { isOpen, toggleMenu } = useMenu()
 
-  // Fonction pour gérer la déconnexion
   const handleLogout = async () => {
     try {
       await logout(); // Appelle le service de déconnexion
