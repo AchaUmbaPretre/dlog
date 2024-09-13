@@ -108,7 +108,7 @@ const Departement = () => {
       dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<UserOutlined />} color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
     { 

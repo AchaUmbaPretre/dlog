@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Collapse } from 'antd';
-import { ExportOutlined, ProfileOutlined,UserOutlined, PlusOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { ExportOutlined, ProfileOutlined, UserOutlined, PlusOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getBesoin } from '../../services/besoinsService';
 
@@ -11,8 +11,7 @@ const Besoins = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const scroll = { x: 400 };
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,62 +31,30 @@ const Besoins = () => {
     fetchData();
   }, [DOMAIN]);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
-  };
-
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
-
+  // Regrouper les données par id_projet
   const groupedData = data.reduce((acc, item) => {
-    (acc[item.nom_projet] = acc[item.nom_projet] || []).push(item);
+    if (!acc[item.id_projet]) {
+      acc[item.id_projet] = {
+        id_projet: item.id_projet,
+        nom_projet: item.nom_projet,
+        items: []
+      };
+    }
+    acc[item.id_projet].items.push(item);
     return acc;
   }, {});
 
-  // Columns for the nested table
+  // Convertir les données regroupées en tableau
+  const groupedDataArray = Object.values(groupedData);
+
+  // Filtrage des données
+  const filteredData = groupedDataArray.filter(item =>
+    item.nom_projet?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.items.some(subItem =>
+      subItem.nom_article?.toLowerCase().includes(searchValue.toLowerCase())
+    )
+  );
+
   const nestedColumns = [
     {
       title: 'Client',
@@ -127,28 +94,19 @@ const Besoins = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          {/* <Tooltip title="View Details">
+          {/* Exemple de bouton d'édition, commenté pour l'instant */}
+          {/* <Tooltip title="Edit">
             <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record)}
               type="link"
-              aria-label="View client details"
+              aria-label="Edit client"
             />
           </Tooltip> */}
-          {/* <Tooltip title="Edit">
-            <Popover title="Modifier" trigger="hover">
-              <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleEdit(record)}
-                type="link"
-                aria-label="Edit client"
-              />
-            </Popover>
-          </Tooltip> */}
-          <Tooltip title="Delete">
+{/*           <Tooltip title="Delete">
             <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce client?"
+              title="Êtes-vous sûr de vouloir supprimer ce client ?"
               onConfirm={() => handleDelete(record.id)}
               okText="Oui"
               cancelText="Non"
@@ -159,13 +117,13 @@ const Besoins = () => {
                 aria-label="Delete client"
               />
             </Popconfirm>
-          </Tooltip>
+          </Tooltip> */}
         </Space>
       ),
     },
   ];
 
-  // Prepare main table columns
+  // Colonnes pour la table principale
   const mainColumns = [
     {
       title: 'Projet',
@@ -187,12 +145,16 @@ const Besoins = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search
+                placeholder="Recherche..."
+                enterButton
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
             </div>
             <div className="client-rows-right">
               <Button
                 icon={<PrinterOutlined />}
-                onClick={handlePrint}
+                onClick={() => window.print()}
               >
                 Print
               </Button>
@@ -200,25 +162,24 @@ const Besoins = () => {
           </div>
           <Table
             columns={mainColumns}
-            dataSource={Object.keys(groupedData).map(key => ({ nom_projet: key }))}
+            dataSource={filteredData}
             loading={loading}
             pagination={false}
-            rowKey="nom_projet"
+            rowKey="id_projet"
             bordered
             size="middle"
-            scroll={scroll}
             expandable={{
               expandedRowRender: record => (
                 <Table
                   columns={nestedColumns}
-                  dataSource={groupedData[record.nom_projet]}
+                  dataSource={record.items}
                   pagination={false}
                   rowKey="nom_article"
                   bordered
                   size="middle"
                 />
               ),
-              rowExpandable: record => groupedData[record.nom_projet].length > 0,
+              rowExpandable: record => record.items.length > 0,
             }}
           />
         </div>
