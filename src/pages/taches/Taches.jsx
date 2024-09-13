@@ -375,7 +375,7 @@ const Taches = () => {
               <div className="client-actions">
                 <div className="client-row-left">
                   <Search 
-                    placeholder="Rechercher des tâches..." 
+                    placeholder="Recherche..." 
                     enterButton 
                     onChange={(e) => setSearchValue(e.target.value)} 
                     />
