@@ -245,7 +245,7 @@ const Offres = () => {
           <div className="client-actions">
             <div className="client-row-left">
               <Search 
-                placeholder="Rechercher une offre..." 
+                placeholder="Recherche..." 
                 enterButton 
                 onChange={(e) => setSearchValue(e.target.value)}
               />
