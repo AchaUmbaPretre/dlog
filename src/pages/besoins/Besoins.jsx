@@ -123,7 +123,6 @@ const Besoins = () => {
     },
   ];
 
-  // Colonnes pour la table principale
   const mainColumns = [
     {
       title: 'Projet',
