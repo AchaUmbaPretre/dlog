@@ -24,6 +24,8 @@ const Projet = () => {
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [isBudgetVisible, setIsBudgetVisible] = useState(false);
   const [isBesoinVisible, setIsBesoinVisible] = useState(false);
+  const [isUpdateVisible, setIsUpdateVisible] = useState(false);
+
   const [idProjet, setIdProjet] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [form] = Form.useForm();
