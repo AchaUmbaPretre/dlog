@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { getClient } from '../../services/clientService';
+import { ExportOutlined,HomeOutlined,ProfileOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
+import { getBesoin } from '../../services/besoinsService';
 
 const { Search } = Input;
 
@@ -16,7 +16,7 @@ const Besoins = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getClient();
+        const { data } = await getBesoin();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -186,9 +186,9 @@ const Besoins = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <TeamOutlined className='client-icon' />
+              <ProfileOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Client</h2>
+            <h2 className="client-h2">Besoins</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
