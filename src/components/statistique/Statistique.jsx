@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { UserOutlined,FileDoneOutlined } from '@ant-design/icons';
+import { FileSyncOutlined, FileDoneOutlined,TeamOutlined } from '@ant-design/icons';
 import './statistique.scss'
 import StatChart from '../statChart/StatChart';
 import CountUp from 'react-countup';
@@ -66,7 +66,7 @@ const Statistique = () => {
                 <div className="statistique_row">
                     <div className="statistique_row_left" >
                         <div className="statistique_row_icon" style={{background: 'rgba(53, 52, 52, 0.137)'}}>
-                            <FileDoneOutlined style={{color: 'rgba(53, 52, 52, 0.719)'}}/>
+                            <FileSyncOutlined style={{color: 'rgba(53, 52, 52, 0.719)'}}/>
                         </div>
                     </div>
                     <hr style={{ background: 'rgba(53, 52, 52, 0.137)', width: '4px',height:'30px', border: 'none' }}/>
@@ -79,7 +79,7 @@ const Statistique = () => {
                 <div className="statistique_row">
                     <div className="statistique_row_left">
                         <div className="statistique_row_icon"  style={{background : '#f079182d'}}>
-                            <UserOutlined style={{color: 'orange'}}/>
+                            <TeamOutlined style={{color: 'orange'}}/>
                         </div>
                     </div>
                     <hr style={{ backgroundColor: '#f4a261', width: '5px',height:'30px', border: 'none' }} />
@@ -92,7 +92,7 @@ const Statistique = () => {
                 <div className="statistique_row">
                     <div className="statistique_row_left">
                         <div className="statistique_row_icon"  style={{background : 'rgba(255, 0, 0, 0.164)'}}>
-                            <UserOutlined style={{color: 'red'}}/>
+                            <TeamOutlined style={{color: 'red'}}/>
                         </div>
                     </div>
                     <hr style={{ backgroundColor: 'rgba(255, 0, 0, 0.164)', width: '5px',height:'30px', border: 'none' }} />
