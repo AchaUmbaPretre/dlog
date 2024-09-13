@@ -178,14 +178,15 @@ const Article = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAjouterOffre}
               >
-                Ajouter article
+                Article
               </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
+              <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Exporter</Button>
               </Dropdown>
               <Button
                 icon={<PrinterOutlined />}
                 onClick={handleImprimer}
+                className='client-export'
               >
                 Imprimer
               </Button>
