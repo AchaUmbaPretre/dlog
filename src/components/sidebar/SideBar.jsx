@@ -109,25 +109,25 @@ const SideBar = () => {
             <Link to='/dossier'>Document</Link>
           </Item>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Paramètre">
-            <Menu.Item key="9" onClick={toggleMenu}>
+            <Menu.Item key="10" onClick={toggleMenu}>
               <Link to='/utilisateur'>Liste des personnels</Link>
             </Menu.Item>
-            <Menu.Item key="10" onClick={toggleMenu}>
+            <Menu.Item key="11" onClick={toggleMenu}>
               <Link to='/client'>Liste des clients</Link>
             </Menu.Item>
-            <Menu.Item key="11" onClick={toggleMenu}>
+            <Menu.Item key="12" onClick={toggleMenu}>
               <Link to='/fournisseur'>Liste des fournisseurs</Link>
             </Menu.Item>
-            <Menu.Item key="12" onClick={toggleMenu}>
+            <Menu.Item key="13" onClick={toggleMenu}>
               <Link to='/batiment'>Liste des bâtiments</Link>
             </Menu.Item>
-            <Menu.Item key="13" onClick={toggleMenu}>
+            <Menu.Item key="14" onClick={toggleMenu}>
               <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
-            <Menu.Item key="14" onClick={toggleMenu}>
+            <Menu.Item key="15" onClick={toggleMenu}>
               <Link to='/format'>Format</Link>
             </Menu.Item>
-            <Menu.Item key="15" onClick={toggleMenu}>
+            <Menu.Item key="16" onClick={toggleMenu}>
               <Link to='/frequence'>Fréquence</Link>
             </Menu.Item>
           </SubMenu>
