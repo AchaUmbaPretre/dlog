@@ -93,16 +93,19 @@ const SideBar = () => {
             <Menu.Item key="5" onClick={toggleMenu}>
               <Link to='/budget'>Budget</Link>
             </Menu.Item>
+            <Menu.Item key="6" onClick={toggleMenu}>
+              <Link to='/besoins'>Besoins</Link>
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="sub6" icon={<FileDoneOutlined />} title="Tâches">
-            <Menu.Item key="6" onClick={toggleMenu}>
+            <Menu.Item key="7" onClick={toggleMenu}>
               <Link to='/tache'>Liste des tâches</Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="7" icon={<TagOutlined />} onClick={toggleMenu}>
+          <Item key="8" icon={<TagOutlined />} onClick={toggleMenu}>
             <Link to='/article'>Article</Link>
           </Item>
-          <Item key="8" icon={<FileTextOutlined />} onClick={toggleMenu}>
+          <Item key="9" icon={<FileTextOutlined />} onClick={toggleMenu}>
             <Link to='/dossier'>Document</Link>
           </Item>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Paramètre">
