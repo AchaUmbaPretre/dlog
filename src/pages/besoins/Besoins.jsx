@@ -93,47 +93,47 @@ const Besoins = () => {
       width: "3%",
     },
     {
-      title: 'Nom',
+      title: 'Projet',
+      dataIndex: 'nom_projet',
+      key: 'nom_projet',
+      render: (text) => (
+        <Tag color="blue">{text ?? 'Aucun'}</Tag>
+      ),
+    },
+    {
+      title: 'Client',
       dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<UserOutlined/>} color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Article',
+      dataIndex: 'nom_article',
+      key: 'nom_article',
       render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
-      render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
+      title: 'Quantité',
+      dataIndex: 'quantite',
+      key: 'quantite',
       render: (text) => (
         <> 
-          <Tag icon={<HomeOutlined />} color='cyan'>
+          <Tag color='cyan'>
             {text ?? 'Aucune'}
           </Tag>
         </>
       ),
     },
     {
-      title: 'Type',
-      dataIndex: 'nom_type',
-      key: 'nom_type',
+      title: 'Déscription',
+      dataIndex: 'description',
+      key: 'description',
       render: (text) => (
-        <Tag color={ text === 'Interne' ? 'green' : "magenta"}>{text}</Tag>
+        <Tag color={"magenta"}>{text}</Tag>
       ),
     },
     {
@@ -192,7 +192,7 @@ const Besoins = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search clients..." enterButton />
+              <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-rows-right">
               <Button
