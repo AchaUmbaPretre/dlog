@@ -117,7 +117,7 @@ const Departement = () => {
       key: 'email',
       render: text => (
         <Space>
-          <Tag icon={<MailOutlined />} color='blue'>{text ?? 'Aucun'}</Tag>
+          <Tag icon={<MailOutlined />} color='orange'>{text ?? 'Aucun'}</Tag>
         </Space>
       ),
     },
@@ -143,13 +143,6 @@ const Departement = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-{/*           <Tooltip title="View Details">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              aria-label="View department details"
-            />
-          </Tooltip> */}
            <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
