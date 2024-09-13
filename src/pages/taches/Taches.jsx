@@ -38,6 +38,10 @@ const Taches = () => {
     'Fréquence': true,
     "Owner": true
   });
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 15,
+  });
 
 
   const handleDelete = async (id) => {
@@ -190,8 +194,13 @@ const Taches = () => {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
       width: "3%",
+
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
     { 
@@ -399,16 +408,16 @@ const Taches = () => {
                 </div>
               </div>
               <div className="tableau_client" id="printableTable">
-                <Table
-                  columns={columns}
-                  dataSource={filteredData}
-                  loading={loading}
-                  pagination={{ defaultPageSize: 15, showSizeChanger: true, pageSizeOptions: ['15', '30', '50', '100','200', '300'] }}
-                  rowKey="id_tache"
-                  bordered
-                  size="middle"
-                  scroll={scroll}
-                />
+              <Table
+                id="printableTable"
+                columns={columns}
+                dataSource={filteredData}
+                pagination={pagination}
+                onChange={(pagination) => setPagination(pagination)}
+                loading={loading}
+                scroll={scroll}
+                rowKey="id_tache"
+              />
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab='Vue calendrier' key="1">

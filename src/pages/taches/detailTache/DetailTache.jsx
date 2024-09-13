@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getTacheOne } from '../../../services/tacheService';
-import { notification, Spin, Card, Row, Col, Tag, Tooltip } from 'antd';
+import { notification, Skeleton, Card, Row, Col, Tag, Tooltip } from 'antd';
 import { UserOutlined, CalendarOutlined, EnvironmentOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import './detailTache.css';
@@ -28,7 +28,11 @@ const DetailTache = ({ idTache }) => {
   }, [idTache]);
 
   if (loading) {
-    return <Spin tip="Chargement..." />;
+    return (
+      <Card title="Chargement des détails de la tâche">
+        <Skeleton active paragraph={{ rows: 4 }} />
+      </Card>
+    );
   }
 
   if (!data) {
@@ -118,17 +122,6 @@ const DetailTache = ({ idTache }) => {
             </p>
           </Card>
         </Col>
-{/*         <Col span={12}>
-          <Card type="inner" title="Contrôle" bordered className="detail-tache-inner-card">
-            <p className="detail-tache-paragraph">
-              <Tooltip title="Contrôle de base effectué" color="blue">
-                <InfoCircleOutlined style={{ marginRight: 8 }} />
-                <strong>Contrôle de base : </strong>
-              </Tooltip>
-              {data.controle_de_base !== null ? 'Effectué' : 'Non effectué'}
-            </p>
-          </Card>
-        </Col> */}
       </Row>
     </Card>
   );
