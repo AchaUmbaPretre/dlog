@@ -27,3 +27,7 @@
   background: #f8f8f8f1;
   padding: 20px;
 }
+
+.hidden-column {
+  display: none;
+}

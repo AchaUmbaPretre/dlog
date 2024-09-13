@@ -3,7 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { 
   ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined,EditOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
-  CalendarOutlined, TeamOutlined,DeleteOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
+  CalendarOutlined, TeamOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { deletePutTache, getTache } from '../../services/tacheService';
@@ -28,6 +28,16 @@ const Taches = () => {
   const [modalType, setModalType] = useState(null);
   const [idTache, setIdTache] = useState('');
   const scroll = { x: 400 };
+  const [columnsVisibility, setColumnsVisibility] = useState({
+    '#': true,
+    'DPT': true,
+    'Nom': true,
+    'Client': true,
+    "Statut": true,
+    'Date debut & fin': true,
+    'Fréquence': true,
+    "Owner": true
+  });
 
 
   const handleDelete = async (id) => {
@@ -144,6 +154,26 @@ const Taches = () => {
       </Menu.Item>
     </Menu>
   );
+  const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
+
+  const menus = (
+    <Menu>
+      {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
   const statusIcons = {
     'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
@@ -162,6 +192,7 @@ const Taches = () => {
       key: 'id',
       render: (text, record, index) => index + 1,
       width: "3%",
+      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
     { 
       title: 'DPT', 
@@ -172,6 +203,8 @@ const Taches = () => {
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
+      ...(columnsVisibility['DPT'] ? {} : { className: 'hidden-column' })
+
     },
     {   
       title: 'Nom',
@@ -181,7 +214,9 @@ const Taches = () => {
         <Space>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
-      )
+      ),
+      ...(columnsVisibility['Nom'] ? {} : { className: 'hidden-column' })
+
     },
     {   
       title: 'Client', 
@@ -191,7 +226,8 @@ const Taches = () => {
         <Space>
           <Tag icon={<UserOutlined />} color='green'>{text ?? 'Aucun'}</Tag>
         </Space>
-      )
+      ),
+      ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' })
     },
     { 
       title: 'Statut', 
@@ -204,7 +240,9 @@ const Taches = () => {
             <Tag icon={icon} color={color}>{text}</Tag>
           </Space>
         );
-      }
+      },
+      ...(columnsVisibility['statut'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Date debut & fin',
@@ -215,7 +253,9 @@ const Taches = () => {
       render: (text,record) => 
         <Tag icon={<CalendarOutlined />} color="blue">
           {moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}
-        </Tag>
+        </Tag>,
+          ...(columnsVisibility['Date debut & fin'] ? {} : { className: 'hidden-column' })
+
     },
     { 
       title: 'Fréquence', 
@@ -225,7 +265,9 @@ const Taches = () => {
         <Space>
           <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
         </Space>
-      )
+      ),
+      ...(columnsVisibility['Fréquence'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Owner', 
@@ -235,7 +277,9 @@ const Taches = () => {
         <Space>
           <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
         </Space>
-      )
+      ),
+      ...(columnsVisibility['Owner'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Action',
@@ -347,12 +391,11 @@ const Taches = () => {
                   <Dropdown overlay={menu} trigger={['click']}>
                     <Button icon={<ExportOutlined />}>Exporter</Button>
                   </Dropdown>
-                  <Button
-                    icon={<PrinterOutlined />}
-                    onClick={handlePrint}
-                  >
-                    Imprimer
+                  <Dropdown overlay={menus} trigger={['click']}>
+                  <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                    Colonnes <DownOutlined />
                   </Button>
+                </Dropdown>
                 </div>
               </div>
               <div className="tableau_client" id="printableTable">
