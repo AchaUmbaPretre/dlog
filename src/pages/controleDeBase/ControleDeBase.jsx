@@ -323,14 +323,15 @@ const groupByControle = (data) => {
                     icon={<PlusOutlined />}
                     onClick={handleAddClient}
                   >
-                    Ajouter contrôle de base
+                    contrôle de base
                   </Button>
-                  <Dropdown overlay={exportMenu} trigger={['click']}>
-                    <Button icon={<ExportOutlined />}>Exporter</Button>
+                  <Dropdown overlay={exportMenu} trigger={['click']} className='client-export'>
+                    <Button icon={<ExportOutlined />} >Exporter</Button>
                   </Dropdown>
                   <Button
                     icon={<PrinterOutlined />}
                     onClick={handlePrint}
+                    className='client-export'
                   >
                     Imprimer
                   </Button>

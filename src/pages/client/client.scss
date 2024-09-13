@@ -1,7 +1,12 @@
+@import '../../style.scss';
+
 .client{
     position: relative;
     width: 100%;
     max-width: 100%;
+    @include mobileXR{
+        display: flex;
+      }
     .client-wrapper{
         position: relative;
         background: #fff;
@@ -43,6 +48,9 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
+                .client-export{
+                    display: none;
+                }
             }
         }
         .tableau_client{

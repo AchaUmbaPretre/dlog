@@ -6,6 +6,7 @@ import { BellOutlined, DashOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png';
 import { useSelector } from 'react-redux';
 import { logout } from '../../services/authService';
+import { useMenu } from '../../context/MenuProvider';
 
 // Composant pour le bouton de déconnexion
 const LogoutButton = ({ onLogout }) => (
@@ -17,11 +18,7 @@ const LogoutButton = ({ onLogout }) => (
 const TopBar = () => {
   const user = useSelector((state) => state.user.currentUser);
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
+  const { isOpen, toggleMenu } = useMenu()
 
   // Fonction pour gérer la déconnexion
   const handleLogout = async () => {
@@ -44,7 +41,7 @@ const TopBar = () => {
       <LogoutButton onLogout={handleLogout} />
     </div>
   );
-
+  
   return (
     <div className="topbar">
       <div className="topbar-left" onClick={() => navigate('/')} role="button" tabIndex={0}>
@@ -74,12 +71,11 @@ const TopBar = () => {
             <DashOutlined className="topbar-icon" aria-label="Options utilisateur" />
           </Popover>
         </div>
-        <div className={`hamburger ${isOpen ? 'open' : ''}`} onClick={handleClick} >
+        <div className={`hamburger ${isOpen ? 'open' : ''}`} onClick={toggleMenu} >
           <div className="line"></div>
           <div className="line"></div>
           <div className="line"></div>
         </div>
-
       </div>
     </div>
   );

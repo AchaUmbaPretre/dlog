@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
@@ -14,6 +14,7 @@ import {
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authService';
+import { useMenu } from '../../context/MenuProvider';
 
 const { Sider } = Layout;
 const { SubMenu, Item } = Menu;
@@ -21,9 +22,32 @@ const { SubMenu, Item } = Menu;
 const SideBar = () => {
   const navigate = useNavigate();
   const [openKeys, setOpenKeys] = useState([]);
+  const { isOpen, toggleMenu } = useMenu();
+  const sidebarRef = useRef(null);
+  const hamburgerRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (
+      isOpen &&
+      sidebarRef.current &&
+      !sidebarRef.current.contains(event.target) &&
+      hamburgerRef.current &&
+      !hamburgerRef.current.contains(event.target)
+    ) {
+      toggleMenu();
+    }
+  };
+
+  // Attachez et détachez le gestionnaire d'événements de clic
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   const onOpenChange = (keys) => {
-    // Si un sous-menu est ouvert, fermer les autres
     const latestOpenKey = keys.find(key => !openKeys.includes(key));
     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
   };
@@ -41,7 +65,7 @@ const SideBar = () => {
   };
 
   return (
-    <div className="sidebar">
+    <div ref={sidebarRef} className={`sidebar ${isOpen ? 'visible' : ''}`}>
       <Sider>
         <Menu
           mode='inline'
@@ -50,57 +74,57 @@ const SideBar = () => {
           onOpenChange={onOpenChange}
           style={{ height: '100%', borderRight: 0, width: '100%', background: '#fff' }}
         >
-          <Item key="/" icon={<HomeOutlined />}>
+          <Item key="/" icon={<HomeOutlined />} onClick={toggleMenu}>
             <Link to="/">Accueil</Link>
           </Item>
-          <Item key="1" icon={<ApartmentOutlined />}>
+          <Item key="1" icon={<ApartmentOutlined />} onClick={toggleMenu}>
             <Link to='/departement'>Département</Link>
           </Item>
-          <Item key="2" icon={<DashboardOutlined />}>
+          <Item key="2" icon={<DashboardOutlined />} onClick={toggleMenu}>
             <Link to='/controle'>Contrôle de base</Link>
           </Item>
-          <SubMenu key="sub5" icon={<ProjectOutlined />} title="Projet">
+          <SubMenu key="sub5" icon={<ProjectOutlined />} title="Projet" onClick={toggleMenu}>
             <Item key="3">
               <Link to='/projet'>Liste de projet</Link>
             </Item>
-            <Menu.Item key="4">
+            <Menu.Item key="4" onClick={toggleMenu}>
               <Link to='/offre'>Liste des offres</Link>
             </Menu.Item>
-            <Menu.Item key="5">
+            <Menu.Item key="5" onClick={toggleMenu}>
               <Link to='/budget'>Budget</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub6" icon={<FileDoneOutlined />} title="Tâches">
-            <Menu.Item key="6">
+            <Menu.Item key="6" onClick={toggleMenu}>
               <Link to='/tache'>Liste des tâches</Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="7" icon={<TagOutlined />}>
+          <Item key="7" icon={<TagOutlined />} onClick={toggleMenu}>
             <Link to='/article'>Article</Link>
           </Item>
-          <Item key="8" icon={<FileTextOutlined />}>
+          <Item key="8" icon={<FileTextOutlined />} onClick={toggleMenu}>
             <Link to='/dossier'>Document</Link>
           </Item>
           <SubMenu key="sub10" icon={<SettingOutlined />} title="Paramètre">
-            <Menu.Item key="9">
+            <Menu.Item key="9" onClick={toggleMenu}>
               <Link to='/utilisateur'>Liste des personnels</Link>
             </Menu.Item>
-            <Menu.Item key="10">
+            <Menu.Item key="10" onClick={toggleMenu}>
               <Link to='/client'>Liste des clients</Link>
             </Menu.Item>
-            <Menu.Item key="11">
+            <Menu.Item key="11" onClick={toggleMenu}>
               <Link to='/fournisseur'>Liste des fournisseurs</Link>
             </Menu.Item>
-            <Menu.Item key="12">
+            <Menu.Item key="12" onClick={toggleMenu}>
               <Link to='/batiment'>Liste des bâtiments</Link>
             </Menu.Item>
-            <Menu.Item key="13">
+            <Menu.Item key="13" onClick={toggleMenu}>
               <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
-            <Menu.Item key="14">
+            <Menu.Item key="14" onClick={toggleMenu}>
               <Link to='/format'>Format</Link>
             </Menu.Item>
-            <Menu.Item key="15">
+            <Menu.Item key="15" onClick={toggleMenu}>
               <Link to='/frequence'>Fréquence</Link>
             </Menu.Item>
           </SubMenu>

@@ -206,14 +206,15 @@ const Departement = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Ajouter un département
+                département
               </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
+              <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
               <Button
                 icon={<PrinterOutlined />}
                 onClick={handlePrint}
+                className='client-export'
               >
                 Print
               </Button>

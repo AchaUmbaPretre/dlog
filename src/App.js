@@ -23,6 +23,7 @@ import Batiment from './pages/batiment/Batiment';
 import Article from './pages/article/Article';
 import Categorie from './pages/categorie/Categorie';
 import Dossier from './pages/dossier/Dossier';
+import { MenuProvider } from './context/MenuProvider';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -129,7 +130,9 @@ function App() {
   ]);
 
   return (
-    <RouterProvider router={router} />
+    <MenuProvider>
+      <RouterProvider router={router} />
+    </MenuProvider>
   );
 }
 
