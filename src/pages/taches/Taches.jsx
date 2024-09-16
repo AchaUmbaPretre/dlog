@@ -34,7 +34,7 @@ const Taches = () => {
     'Nom': true,
     'Client': true,
     "Statut": true,
-    'Date debut & fin': true,
+    'Date debut & fin': false,
     'Fréquence': true,
     "Owner": true
   });
@@ -94,6 +94,10 @@ const Taches = () => {
   const handleViewDetails = (idTache) => {
     message.info(`Affichage des détails de la tâche : ${idTache}`);
     openModal('detail', idTache);
+  };
+
+  const handleSousTache = (idTache) => {
+    openModal('SousTache', idTache);
   };
 
   const handleDetailDoc = (idTache) => {
@@ -320,6 +324,9 @@ const Taches = () => {
                 </Link>
                 <Link onClick={()=>handleListeTracking(record.id_tache)}>
                   <FileTextOutlined /> Liste de tracking
+                </Link>
+                <Link onClick={() => handleSousTache(record.id_tache)} >
+                  <FileTextOutlined /> Créer sous-tâche
                 </Link>
                 <Link onClick={() => handleDetailDoc(record.id_tache)} >
                   <FileTextOutlined /> Liste des docs
