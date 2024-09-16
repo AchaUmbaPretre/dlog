@@ -129,7 +129,7 @@ const DossierTache = () => {
         render: (text) => {
           return <Tag color={'blue'}>{text}</Tag>;
         },
-        width: '35%', // Ajustez la largeur selon vos besoins
+        width: '35%',
         ellipsis: true,
       },
     {
