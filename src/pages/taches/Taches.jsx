@@ -216,7 +216,7 @@ const Taches = () => {
 
     },
     {   
-      title: 'Nom',
+      title: 'Titre',
       dataIndex: 'nom_tache', 
       key: 'nom_tache', 
       render: text => (
