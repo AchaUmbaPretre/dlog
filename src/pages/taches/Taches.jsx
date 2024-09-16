@@ -581,24 +581,18 @@ const Taches = () => {
               </div>
               <div className="tableau_client" id="printableTable">
               <Table
+                id="printableTable"
                 columns={columns}
                 expandable={{ expandedRowRender, onExpand }}
                 dataSource={filteredData}
                 rowKey="id_tache"
                 size="small"
-              />
-{/*               <Table
-                id="printableTable"
-                columns={columns}
-                dataSource={filteredData}
+                bordered
                 pagination={pagination}
                 onChange={(pagination) => setPagination(pagination)}
                 loading={loading}
                 scroll={scroll}
-                rowKey="id_tache"
-                size="middle"
-                bordered
-              /> */}
+              />
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab='Vue calendrier' key="1">
