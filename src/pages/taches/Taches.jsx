@@ -60,7 +60,7 @@ const Taches = () => {
     'Nom': true,
     'Client': true,
     "Statut": true,
-    'Date debut & fin': false,
+    'Date debut & fin': true,
     'Fréquence': true,
     "Owner": true
   });
@@ -399,6 +399,10 @@ const Taches = () => {
 
   const expandedRowRender = (record) => {
     const sousTaches = record.sousTaches || [];
+    if (sousTaches.length === 0) {
+      return <p>Aucune sous-tâche disponible.</p>;
+    }
+
 
     return (
       <Collapse defaultActiveKey={expandedRowKeys} onChange={() => onExpand(!expandedRowKeys.includes(record.id_tache), record)}>
@@ -581,6 +585,7 @@ const Taches = () => {
                 expandable={{ expandedRowRender, onExpand }}
                 dataSource={filteredData}
                 rowKey="id_tache"
+                size="small"
               />
 {/*               <Table
                 id="printableTable"

@@ -137,7 +137,6 @@ const groupByControle = (data) => {
     return acc;
   }, {});
 
-  // Convertir en tableau et ajuster les données pour les afficher
   return Object.values(grouped).map(group => ({
     ...group,
     responsables: Array.from(group.responsables).join(', '), // Convertir le Set en chaîne de caractères
