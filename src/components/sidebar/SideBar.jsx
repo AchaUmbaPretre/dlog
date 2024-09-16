@@ -102,9 +102,14 @@ const SideBar = () => {
               <Link to='/tache'>Liste des tâches</Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="8" icon={<TagOutlined />} onClick={toggleMenu}>
-            <Link to='/article'>Article</Link>
-          </Item>
+          <SubMenu key="sub7" icon={<TagOutlined />} title="Articles">
+            <Menu.Item key="8" onClick={toggleMenu}>
+              <Link to='/article'>Liste des articles</Link>
+            </Menu.Item>
+            <Menu.Item key="14" onClick={toggleMenu}>
+              <Link to='/categorie'>Liste des catégories</Link>
+            </Menu.Item>
+          </SubMenu>
           <Item key="9" icon={<FileTextOutlined />} onClick={toggleMenu}>
             <Link to='/dossier'>Document</Link>
           </Item>
@@ -120,9 +125,6 @@ const SideBar = () => {
             </Menu.Item>
             <Menu.Item key="13" onClick={toggleMenu}>
               <Link to='/batiment'>Liste des bâtiments</Link>
-            </Menu.Item>
-            <Menu.Item key="14" onClick={toggleMenu}>
-              <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
             <Menu.Item key="15" onClick={toggleMenu}>
               <Link to='/format'>Format</Link>
