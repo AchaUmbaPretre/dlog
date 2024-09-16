@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Row, Col, Button, Card, Spin, notification, Select } from 'antd';
+import { Form, Input, Row, Col, Button, Card, Spin, notification, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { postArticle, postOffreArticle } from '../../../services/offreService';
+import { postArticle } from '../../../services/offreService';
 import { getCategorie } from '../../../services/typeService';
 
 const ArticleForm = ({idOffre}) => {
@@ -140,6 +140,7 @@ const ArticleForm = ({idOffre}) => {
             htmlType="submit"
             loading={loading}
             style={{ width: '100%' }}
+            disabled={loading}
           >
             Soumettre
           </Button>

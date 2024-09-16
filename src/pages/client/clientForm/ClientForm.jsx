@@ -139,7 +139,7 @@ const ClientForm = () => {
 
                         <Tabs.TabPane tab="Actions" key="4">
                             <Form.Item>
-                                <Button style={{padding:'10px'}} type="primary" htmlType="submit" loading={isLoading}>
+                                <Button style={{padding:'10px'}} type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
                                     Ajouter
                                 </Button>
                             </Form.Item>

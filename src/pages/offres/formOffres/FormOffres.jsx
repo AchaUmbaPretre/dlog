@@ -270,6 +270,7 @@ const FormOffres = () => {
           type="primary"
           htmlType="submit"
           loading={loading}
+          disabled={loading}
           block
         >
           Soumettre l'offre

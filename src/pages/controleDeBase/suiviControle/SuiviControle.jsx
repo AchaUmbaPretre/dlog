@@ -173,7 +173,7 @@ const SuiviControle = ({idControle}) => {
                         <Col span={24}>
                             <Form.Item style={{ marginTop: '10px' }}>
                                 <Space className="button-group">
-                                    <Button type="primary" htmlType="submit" loading={isLoading}>
+                                    <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
                                         Envoyer
                                     </Button>
                                     <Button htmlType="reset">
