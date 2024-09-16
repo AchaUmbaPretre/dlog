@@ -229,8 +229,7 @@ const Taches = () => {
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
-      ...(columnsVisibility['Nom'] ? {} : { className: 'hidden-column' })
-
+      ...(columnsVisibility['Nom'] ? {} : { className: 'hidden-column' }),
     },
     {   
       title: 'Client', 
@@ -425,6 +424,7 @@ const Taches = () => {
                 loading={loading}
                 scroll={scroll}
                 rowKey="id_tache"
+                bordered
               />
               </div>
             </Tabs.TabPane>
