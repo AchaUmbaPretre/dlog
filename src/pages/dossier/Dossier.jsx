@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Tabs, Popconfirm, Modal } from 'antd';
-import { ExportOutlined, FileTextOutlined, PlusCircleOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { ExportOutlined, FileTextOutlined,EditOutlined, PlusCircleOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getOffreDoc } from '../../services/offreService';
 import DossierTache from './dossierTache/DossierTache';
@@ -15,6 +15,7 @@ const Dossier = () => {
   const [searchValue, setSearchValue] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +63,11 @@ const Dossier = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const handleViewDetails = (id) => {
+/*     setIdDoc(id)
+    setIsModal(true) */
   };
 
 
@@ -140,6 +146,14 @@ const Dossier = () => {
         width: '10%',
         render: (text, record) => (
           <Space size="middle">
+            <Tooltip title="Modifier">
+                <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleViewDetails(record.id_tache_document )}
+                aria-label=""
+                />
+            </Tooltip>
             <Tooltip title="Delete">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce dossier?"

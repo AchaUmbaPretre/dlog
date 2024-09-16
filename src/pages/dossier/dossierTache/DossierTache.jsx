@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Popconfirm } from 'antd';
-import { ExportOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Popconfirm, Modal } from 'antd';
+import { ExportOutlined, FileTextOutlined,EditOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getTacheDoc } from '../../../services/tacheService';
+import TacheDoc from '../../taches/tacheDoc/TacheDoc';
 
 const { Search } = Input;
 
@@ -12,8 +13,10 @@ const DossierTache = () => {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const scroll = { x: 400 };
+  const [idDoc, setIdDoc] = useState('');
+  const [isModal, setIsModal] = useState(false);
 
-  useEffect(() => {
+
     const fetchData = async () => {
       try {
         const { data } = await getTacheDoc();
@@ -28,8 +31,14 @@ const DossierTache = () => {
       }
     };
 
+    useEffect(() => {
+
     fetchData();
   }, []);
+
+  const handleCancel = () => {
+    setIsModal(false);
+  };
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -39,6 +48,11 @@ const DossierTache = () => {
     message.success('Exporting to PDF...');
   };
 
+
+  const handleViewDetails = (id) => {
+        setIdDoc(id)
+        setIsModal(true)
+      }
 
   const handleDelete = async (id) => {
     try {
@@ -129,6 +143,14 @@ const DossierTache = () => {
         width: '10%',
         render: (text, record) => (
           <Space size="middle">
+            <Tooltip title="Modifier">
+                <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleViewDetails(record.id_tache_document )}
+                aria-label=""
+                />
+            </Tooltip>
             <Tooltip title="Delete">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce dossier?"
@@ -181,6 +203,17 @@ const DossierTache = () => {
             size="middle"
             scroll={scroll}
           />
+
+        <Modal
+            title=""
+            visible={isModal}
+            onCancel={handleCancel}
+            footer={null}
+            width={550}
+            centered
+        >
+            <TacheDoc idTache={''} fetchData={fetchData} closeModal={handleCancel} idTacheDoc={idDoc}/>
+        </Modal>
     </>
   );
 };
