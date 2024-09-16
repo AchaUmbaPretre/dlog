@@ -175,7 +175,10 @@ const Dossier = () => {
             <h2 className="client-h2">Document</h2>
           </div>
           <Tabs defaultActiveKey="0">
-                <Tabs.TabPane tab="Liste des documents de l'offre" key='0'>
+                <Tabs.TabPane tab="Liste des documents des tâches" key='0'>
+                    <DossierTache/>
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="Liste des documents de l'offre" key='1'>
                     <div className="client-actions">
                         <div className="client-row-left">
                             <Search
@@ -208,9 +211,6 @@ const Dossier = () => {
                         size="middle"
                         scroll={scroll}
                     />
-                </Tabs.TabPane>
-                <Tabs.TabPane tab="Liste des documents des tâches" key='1'>
-                    <DossierTache/>
                 </Tabs.TabPane>
           </Tabs>
         </div>
