@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Upload, Select, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
-import { postTacheDoc } from '../../../services/tacheService';
+import { getTacheDocOne, postTacheDoc, putTacheDoc } from '../../../services/tacheService';
 
 const { Option } = Select;
 
-const TacheDoc = ({idTache,fetchData,closeModal}) => {
+const TacheDoc = ({idTache,fetchData,closeModal,idTacheDoc}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(()=> {
+    if(idTacheDoc){
+        const { data: doc} = getTacheDocOne(idTacheDoc)
+        if(doc){
+            form.setFieldsValue(doc[0]);
+        }
+    }
+  },[idTacheDoc])
 
   const handleFinish = async (values) => {
     const formData = new FormData();
@@ -28,7 +37,12 @@ const TacheDoc = ({idTache,fetchData,closeModal}) => {
   
     setIsLoading(true);
     try {
-      await postTacheDoc(formData);
+        if(idTacheDoc){
+            await putTacheDoc(idTacheDoc, fetchData)
+        }
+        else {
+            await postTacheDoc(formData);
+        }
       notification.success({
         message: 'Succès',
         description: 'Le doc a été enregistré avec succès.',

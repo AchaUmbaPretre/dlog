@@ -36,7 +36,7 @@ export const postTache = async (data) => {
 };
 
 export const getTacheDocOne = async (id) => {
-  return axios.get(`${DOMAIN}/api/tache_doc/one?id_tache_document=${id}`);
+  return axios.get(`${DOMAIN}/api/tache/tache_doc/one?id_tache_document=${id}`);
 };
 
 export const postTacheDoc = async (data) => {
