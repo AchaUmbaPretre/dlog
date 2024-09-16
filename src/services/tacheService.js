@@ -47,7 +47,6 @@ export const postTacheDoc = async (data) => {
   });
 };
 
-
 export const putTacheDoc = async (id, data) => {
   return axios.put(`${DOMAIN}/api/tache_doc?id_tache_document=${id}`, data);
 };
