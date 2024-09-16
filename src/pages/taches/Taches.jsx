@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse } from 'antd';
 import { 
   ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined,EditOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
@@ -20,9 +20,34 @@ import * as XLSX from 'xlsx';
 import SousTacheForm from './sousTacheForm/SousTacheForm';
 
 const { Search } = Input;
+const { Panel } = Collapse;
+
+
+function groupTasks(tasks) {
+  const taskMap = new Map();
+  
+  // Créez un dictionnaire avec toutes les tâches, les clés étant les id_tache
+  tasks.forEach(task => {
+      taskMap.set(task.id_tache, { ...task, sousTaches: [] });
+  });
+
+  // Associez les sous-tâches aux tâches principales
+  tasks.forEach(task => {
+      if (task.id_tache_parente !== null) {
+          const parentTask = taskMap.get(task.id_tache_parente);
+          if (parentTask) {
+              parentTask.sousTaches.push(taskMap.get(task.id_tache));
+          }
+      }
+  });
+
+  // Filtrez les tâches principales (celles sans parent)
+  return Array.from(taskMap.values()).filter(task => task.id_tache_parente === null);
+}
 
 const Taches = () => {
   const [data, setData] = useState([]);
+  const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -75,6 +100,7 @@ const Taches = () => {
     useEffect(() => {
     fetchData();
   }, []);
+
 
   const closeAllModals = () => {
     setModalType(null);
@@ -366,7 +392,142 @@ const Taches = () => {
     }
   ];
 
-  const filteredData = data.filter(item =>
+
+  const onExpand = (expanded, record) => {
+    setExpandedRowKeys(expanded ? [record.id_tache] : []);
+  };
+
+  const expandedRowRender = (record) => {
+    const sousTaches = record.sousTaches || [];
+
+    return (
+      <Collapse defaultActiveKey={expandedRowKeys} onChange={() => onExpand(!expandedRowKeys.includes(record.id_tache), record)}>
+        <Panel header="Sous-Tâches" key={record.id_tache}>
+          <Table
+            dataSource={sousTaches}
+            columns={[
+              {
+                title: 'Sous-Tâche',
+                dataIndex: 'nom_tache',
+                key: 'nom_tache',
+                render: text => (
+                  <Space>
+                    <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
+                  </Space>
+                ),
+              },
+              { 
+                title: 'Statut', 
+                dataIndex: 'statut', 
+                key: 'statut',
+                render: text => {
+                  const { icon, color } = statusIcons[text] || {};
+                  return (
+                    <Space>
+                      <Tag icon={icon} color={color}>{text}</Tag>
+                    </Space>
+                  );
+                }
+              },
+              {
+                title: 'Date debut & fin',
+                dataIndex: 'date_debut',
+                key: 'date_debut',
+                sorter: (a, b) => moment(a.date_debut) - moment(b.date_debut),
+                sortDirections: ['descend', 'ascend'],
+                render: (text,record) => 
+                  <Tag icon={<CalendarOutlined />} color="blue">
+                    {moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}
+                  </Tag>
+              },
+              {
+                title: 'Owner', 
+                dataIndex: 'owner', 
+                key: 'owner',
+                render: text => (
+                  <Space>
+                    <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
+                  </Space>
+                )
+              },
+              {
+                title: 'Action',
+                key: 'action',
+                width: '10%',
+                render : (text, record) => (
+                  <Space size="middle">
+                      <Tooltip title="Modifier">
+                        <Button
+                          icon={<EditOutlined />}
+                          style={{ color: 'green' }}
+                          onClick={() => handleEdit(record.id_tache)}
+                          aria-label="Edit tache"
+                        />
+                    </Tooltip>
+                    <Tooltip title="Voir les détails">
+                      <Button
+                        icon={<EyeOutlined />}
+                        onClick={() => handleViewDetails(record.id_tache)}
+                        aria-label="Voir les détails de la tâche"
+                        style={{color: 'green'}}
+                      />
+                    </Tooltip>
+                    <Popover
+                      content={
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                          <Link onClick={() => handleTracking(record.id_tache)} >
+                            <FileTextOutlined /> Tracking
+                          </Link>
+                          <Link onClick={()=>handleListeTracking(record.id_tache)}>
+                            <FileTextOutlined /> Liste de tracking
+                          </Link>
+                          <Link onClick={() => handleDetailDoc(record.id_tache)} >
+                            <FileTextOutlined /> Liste des docs
+                          </Link>
+                          <Link onClick={() => handleAjouterDoc(record.id_tache)} >
+                            <FileTextOutlined /> Ajouter un doc
+                          </Link>
+                        </div>
+                      }
+                      title=""
+                      trigger="click"
+                    >
+                      <Tooltip title="Menu">
+                        <Button
+                          icon={<PlusCircleOutlined />}
+                          style={{ color: 'blue' }}
+                          aria-label="Contrôler"
+                        />
+                      </Tooltip>
+                    </Popover>
+                    <Tooltip title="Supprimer">
+                      <Popconfirm
+                        title="Êtes-vous sûr de vouloir supprimer cette tache ?"
+                        onConfirm={() => handleDelete(record.id_tache)}
+                        okText="Oui"
+                        cancelText="Non"
+                      >
+                        <Button
+                          icon={<DeleteOutlined />}
+                          style={{ color: 'red' }}
+                          aria-label="Delete"
+                        />
+                      </Popconfirm>
+                    </Tooltip>
+                  </Space>
+                )
+              }
+            ]}
+            pagination={false}
+          />
+        </Panel>
+      </Collapse>
+    );
+  };
+
+  const groupedTasks = groupTasks(data);
+
+  const filteredData = groupedTasks.filter(item =>
     item.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -416,6 +577,12 @@ const Taches = () => {
               </div>
               <div className="tableau_client" id="printableTable">
               <Table
+                columns={columns}
+                expandable={{ expandedRowRender, onExpand }}
+                dataSource={filteredData}
+                rowKey="id_tache"
+              />
+{/*               <Table
                 id="printableTable"
                 columns={columns}
                 dataSource={filteredData}
@@ -426,7 +593,7 @@ const Taches = () => {
                 rowKey="id_tache"
                 size="middle"
                 bordered
-              />
+              /> */}
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab='Vue calendrier' key="1">
@@ -510,7 +677,7 @@ const Taches = () => {
         width={850}
         centered
       >
-        <SousTacheForm idTache={idTache} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} />
+        <SousTacheForm idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
       </Modal>
     </>
   );
