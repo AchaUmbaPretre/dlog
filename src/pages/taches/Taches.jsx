@@ -220,6 +220,15 @@ const Taches = () => {
     'Executé': { icon: <RocketOutlined />, color: 'cyan' },
   };
 
+  const columnStyles = {
+    title: {
+      maxWidth: '220px',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    }
+  };
+
   const columns = [
     {
       title: '#',
@@ -251,7 +260,7 @@ const Taches = () => {
       dataIndex: 'nom_tache', 
       key: 'nom_tache', 
       render: text => (
-        <Space>
+        <Space style={columnStyles.title}>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
