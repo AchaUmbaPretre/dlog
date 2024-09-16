@@ -7,45 +7,55 @@ import { getTacheDocOne, postTacheDoc, putTacheDoc } from '../../../services/tac
 
 const { Option } = Select;
 
-const TacheDoc = ({idTache,fetchData,closeModal,idTacheDoc}) => {
+const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(()=> {
-    if(idTacheDoc){
-        const { data: doc} = getTacheDocOne(idTacheDoc)
-        if(doc){
-            form.setFieldsValue(doc[0]);
+  useEffect(() => {
+    if (idTacheDoc) {
+      getTacheDocOne(idTacheDoc).then(({ data }) => {
+        if (data && data.length > 0) {
+          form.setFieldsValue({
+            nom_document: data[0].nom_document,
+            type_document: data[0].type_document,
+            // chemin_document n'est pas nécessaire pour pré-remplir le formulaire, car c'est géré par Upload
+          });
         }
+      });
     }
-  },[idTacheDoc])
+  }, [idTacheDoc]);
 
   const handleFinish = async (values) => {
     const formData = new FormData();
     formData.append('nom_document', values.nom_document);
     formData.append('type_document', values.type_document);
   
+    // Si un document est téléchargé, ajoutez-le à FormData
     if (values.chemin_document && values.chemin_document.length > 0) {
       values.chemin_document.forEach(file => {
         formData.append('chemin_document', file.originFileObj);
       });
     }
-
-     formData.append('id_tache', idTache); 
+  
+    formData.append('id_tache', idTache);
+  
+    // Inspecter le contenu de FormData
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
   
     setIsLoading(true);
     try {
-        if(idTacheDoc){
-            await putTacheDoc(idTacheDoc, fetchData)
-        }
-        else {
-            await postTacheDoc(formData);
-        }
+      if (idTacheDoc) {
+        await putTacheDoc(idTacheDoc, formData); // Passer formData à putTacheDoc
+      } else {
+        await postTacheDoc(formData);
+      }
       notification.success({
         message: 'Succès',
-        description: 'Le doc a été enregistré avec succès.',
+        description: 'Le document a été enregistré avec succès.',
       });
       fetchData();
       closeModal();
@@ -94,7 +104,6 @@ const TacheDoc = ({idTache,fetchData,closeModal,idTacheDoc}) => {
       <Form.Item
         name="chemin_document"
         label="Télécharger le Document"
-        rules={[{ required: true, message: 'Veuillez télécharger le document!' }]}
         valuePropName="fileList"
         getValueFromEvent={handleUpload}
         extra="Formats supportés : PDF, Word, Excel, Image"
