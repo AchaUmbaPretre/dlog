@@ -26,11 +26,27 @@
         border-radius: 50%;
       }
       .logo{
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         text-transform:uppercase;
         font-weight: 900;
         color: rgb(3, 3, 141);
         letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        .logo-d{
+          width: 33px;
+          height: 33px;
+          background: rgb(3, 3, 141);
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #fff;
+          font-size: 22px;
+          font-weight: bold;
+
+        }
       }
     }
     .topbar-right {

@@ -8,6 +8,7 @@ import { getControleCount } from '../../services/controleService';
 import { getTacheCount } from '../../services/tacheService';
 import { getClientCount } from '../../services/clientService';
 import { getFournisseurCount } from '../../services/fournisseurService';
+import { useNavigate } from 'react-router-dom';
 
 const Statistique = () => {
     const [data, setData] = useState(null);
@@ -15,6 +16,7 @@ const Statistique = () => {
     const [client, setClient] = useState(null);
     const [fournisseur, setFournisseur] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const handleError = (message) => {
         notification.error({
@@ -68,7 +70,7 @@ const Statistique = () => {
                     </>
                 ) : (
                     <>
-                        <div className="statistique_row">
+                        <div className="statistique_row" onClick={()=>navigate('/controle')}>
                             <div className="statistique_row_left">
                                 <div className="statistique_row_icon" style={{ background: 'rgba(0, 0, 255, 0.137)' }}>
                                     <FileDoneOutlined style={{ color: 'blue' }} />
@@ -81,7 +83,7 @@ const Statistique = () => {
                                 <span className="row_desc">Contrôle de base</span>
                             </div>
                         </div>
-                        <div className="statistique_row">
+                        <div className="statistique_row"  onClick={()=>navigate('/tache')}>
                             <div className="statistique_row_left">
                                 <div className="statistique_row_icon" style={{ background: 'rgba(53, 52, 52, 0.137)' }}>
                                     <FileSyncOutlined style={{ color: 'rgba(53, 52, 52, 0.719)' }} />
@@ -94,7 +96,7 @@ const Statistique = () => {
                                 <span className="row_desc">Tâche</span>
                             </div>
                         </div>
-                        <div className="statistique_row">
+                        <div className="statistique_row" onClick={()=>navigate('/client')}>
                             <div className="statistique_row_left">
                                 <div className="statistique_row_icon" style={{ background: '#f079182d' }}>
                                     <TeamOutlined style={{ color: 'orange' }} />
@@ -107,13 +109,13 @@ const Statistique = () => {
                                 <span className="row_desc">Client</span>
                             </div>
                         </div>
-                        <div className="statistique_row">
+                        <div className="statistique_row" onClick={()=>navigate('/fournisseur')}>
                             <div className="statistique_row_left">
-                                <div className="statistique_row_icon" style={{ background: 'rgba(255, 0, 0, 0.164)' }}>
-                                    <TeamOutlined style={{ color: 'red' }} />
+                                <div className="statistique_row_icon" style={{ background: '#90e1ef2a' }}>
+                                    <TeamOutlined style={{ color: '#2bd2f0' }} />
                                 </div>
                             </div>
-                            <hr style={{ backgroundColor: 'rgba(255, 0, 0, 0.164)', width: '5px', height: '30px', border: 'none' }} />
+                            <hr style={{ backgroundColor: '#90e1ef83', width: '5px', height: '30px', border: 'none' }} />
                             <div className="statistique_row_right">
                                 <span className="row_title">Total</span>
                                 <h2 className="statistique_h2"><CountUp end={fournisseur} /></h2>

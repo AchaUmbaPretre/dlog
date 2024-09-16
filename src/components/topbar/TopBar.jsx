@@ -43,7 +43,7 @@ const TopBar = () => {
   return (
     <div className="topbar">
       <div className="topbar-left" onClick={() => navigate('/')} role="button" tabIndex={0}>
-        <span className="logo">DLOG</span>
+        <span className="logo"><div className="logo-d">D</div>LOG</span>
       </div>
       <div className="topbar-right">
         <div className="topbar-icons">

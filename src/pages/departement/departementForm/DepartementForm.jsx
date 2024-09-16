@@ -141,7 +141,6 @@ const DepartementForm = ({ id_departement, fetchData, closeModal}) => {
                         </Button>
                     </Form.Item>
                 </Form>
-
                 <Modal
                     title="Confirmer la soumission"
                     visible={isModalVisible}
