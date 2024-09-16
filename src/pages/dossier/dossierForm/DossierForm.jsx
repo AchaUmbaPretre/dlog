@@ -13,13 +13,11 @@ const DossierForm = () => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-
   const handleFinish = async (values) => {
     const formData = new FormData();
     formData.append('nom_document', values.nom_document);
     formData.append('type_document', values.type_document);
   
-    // Ajouter les fichiers
     if (values.chemin_document && values.chemin_document.length > 0) {
       values.chemin_document.forEach(file => {
         formData.append('chemin_document', file.originFileObj);
@@ -28,7 +26,7 @@ const DossierForm = () => {
   
     setIsLoading(true);
     try {
-/*       await postOffreDoc(formData); */
+      /* await postOffreDoc(formData); */
       notification.success({
         message: 'Succès',
         description: 'Le document a été enregistré avec succès.',
@@ -44,9 +42,38 @@ const DossierForm = () => {
       setIsLoading(false);
     }
   };
-  
 
   const handleUpload = (e) => Array.isArray(e) ? e : e?.fileList;
+
+  const handleFileChange = (info) => {
+    const file = info.fileList[0]?.originFileObj;
+    if (file) {
+      const extension = file.name.split('.').pop().toLowerCase();
+      let fileType = '';
+      switch (extension) {
+        case 'pdf':
+          fileType = 'PDF';
+          break;
+        case 'doc':
+        case 'docx':
+          fileType = 'Word';
+          break;
+        case 'xls':
+        case 'xlsx':
+          fileType = 'Excel';
+          break;
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+        case 'gif':
+          fileType = 'Image';
+          break;
+        default:
+          fileType = '';
+      }
+      form.setFieldsValue({ type_document: fileType });
+    }
+  };
 
   return (
     <Form
@@ -85,7 +112,12 @@ const DossierForm = () => {
         getValueFromEvent={handleUpload}
         extra="Formats supportés : PDF, Word, Excel, Image"
       >
-        <Upload name="chemin_document" action={`${DOMAIN}/api/offre/doc`} listType="text">
+        <Upload 
+          name="chemin_document" 
+          action={`${DOMAIN}/api/offre/doc`} 
+          listType="text"
+          onChange={handleFileChange}
+        >
           <Button icon={<UploadOutlined />}>Cliquez pour télécharger</Button>
         </Upload>
       </Form.Item>

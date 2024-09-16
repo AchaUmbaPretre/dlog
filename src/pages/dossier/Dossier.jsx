@@ -168,12 +168,21 @@ const Dossier = () => {
     <>
       <div className="client">
         <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <FileTextOutlined className='client-icon' />
+            <div className="client-rows">
+                <div className="client-row">
+                    <div className="client-row-icon">
+                        <FileTextOutlined className='client-icon' />
+                    </div>
+                    <h2 className="client-h2">Document</h2>
+                </div>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined />}
+                    onClick={handleAddDoc}
+                >
+                    document
+                </Button>
             </div>
-            <h2 className="client-h2">Document</h2>
-          </div>
           <Tabs defaultActiveKey="0">
                 <Tabs.TabPane tab="Liste des documents des tâches" key='0'>
                     <DossierTache/>
@@ -189,13 +198,6 @@ const Dossier = () => {
                             />
                         </div>
                         <div className="client-rows-right">
-                            <Button
-                                type="primary"
-                                icon={<PlusCircleOutlined />}
-                                onClick={handleAddDoc}
-                            >
-                                document
-                            </Button>
                             <Dropdown overlay={menu} trigger={['click']}>
                                 <Button icon={<ExportOutlined />}>Export</Button>
                             </Dropdown>

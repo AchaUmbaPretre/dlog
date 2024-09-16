@@ -15,6 +15,11 @@
         width: 100%;
         max-width: 100%;
         overflow: hidden;
+        .client-rows{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
         .client-row{
             display: flex;
             align-items: center;
