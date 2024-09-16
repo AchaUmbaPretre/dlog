@@ -598,7 +598,6 @@ const Taches = () => {
             <Tabs.TabPane tab='Vue calendrier' key="1">
               <FormatCalendar/>
             </Tabs.TabPane>
-
           </Tabs>
         </div>
       </div>
