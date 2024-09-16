@@ -424,6 +424,7 @@ const Taches = () => {
                 loading={loading}
                 scroll={scroll}
                 rowKey="id_tache"
+                size="middle"
                 bordered
               />
               </div>
