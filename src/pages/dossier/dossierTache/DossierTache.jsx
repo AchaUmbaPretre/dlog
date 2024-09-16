@@ -109,6 +109,8 @@ const DossierTache = () => {
       render: (text) => (
         <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
       ),
+      width: '30%', // Ajustez la largeur selon vos besoins
+      ellipsis: true, //
     },
     {
       title: 'Type',
@@ -118,6 +120,7 @@ const DossierTache = () => {
         const { icon, color } = getTagProps(text);
         return <Tag icon={icon} color={color}>{text}</Tag>;
       },
+        width: '10%'
     },
     {
         title: 'Titre tache',
@@ -126,6 +129,8 @@ const DossierTache = () => {
         render: (text) => {
           return <Tag color={'blue'}>{text}</Tag>;
         },
+        width: '35%', // Ajustez la largeur selon vos besoins
+        ellipsis: true,
       },
     {
       title: 'Doc',
