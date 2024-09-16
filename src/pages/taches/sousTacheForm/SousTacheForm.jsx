@@ -4,7 +4,7 @@ import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
-import { getTacheOneV, postTache, putTache } from '../../../services/tacheService';
+import { getTacheOne, postTache } from '../../../services/tacheService';
 import moment from 'moment';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
     const [batiment, setBatiment] = useState([]);
-    const [projetName, setProjetName] = useState('');
+    const [tacheName, setTacheName] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,9 +41,9 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
                 setProvinces(provinceData.data);
                 setBatiment(batimentData.data)
 
-                if(idProjet){
-                    const {data} = await getProjetOne(idProjet)
-                    setProjetName(data[0]?.nom_projet)
+                if(idTache){
+                    const {data} = await getTacheOne(idTache)
+                    setTacheName(data[0].nom_tache)
                 }
 
             } catch (error) {
@@ -84,7 +84,7 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
     return (
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>Ajouter un sous tâche</h2>                
+                <h2 className='controle_h2'>Ajouter une sous-tâche de {tacheName}</h2>                
             </div>
             <div className="controle_wrapper">
                 <Form
