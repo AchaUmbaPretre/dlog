@@ -66,7 +66,10 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
         }
         setIsLoading(true);
         try {
-                await postTache(dataAll);
+                await postTache({
+                    ...dataAll,
+                    id_tache_parente: idTache
+                });
                 notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
