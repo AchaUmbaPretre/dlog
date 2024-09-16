@@ -32,8 +32,11 @@ export const getTacheControleOne = async (id) => {
   };
 
 export const postTache = async (data) => {
-  console.log(data)
   return axios.post(`${DOMAIN}/api/tache`, data);
+};
+
+export const getTacheDocOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/tache_doc/one?id_tache_document=${id}`);
 };
 
 export const postTacheDoc = async (data) => {
@@ -42,6 +45,11 @@ export const postTacheDoc = async (data) => {
       'Content-Type': 'multipart/form-data',
     },
   });
+};
+
+
+export const putTacheDoc = async (id, data) => {
+  return axios.put(`${DOMAIN}/api/tache_doc?id_tache_document=${id}`, data);
 };
 
 export const deletePutTache = async (id) => {

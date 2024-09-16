@@ -17,6 +17,7 @@ import SuiviTache from './suiviTache/SuiviTache';
 import ListeTracking from './listeTracking/ListeTracking';
 import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
+import SousTacheForm from './sousTacheForm/SousTacheForm';
 
 const { Search } = Input;
 
@@ -498,6 +499,17 @@ const Taches = () => {
         centered
       >
         <ListeTracking idTache={idTache} />
+      </Modal>
+
+      <Modal
+        title="Sous tache"
+        visible={modalType === 'SousTache'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <SousTacheForm idTache={idTache} />
       </Modal>
     </>
   );
