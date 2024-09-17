@@ -19,6 +19,10 @@ const Article = () => {
   const [modalType, setModalType] = useState(null);
   const [idOffre, setIdOffre] = useState('');
   const scroll = { x: 400 };
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
 
   const closeAllModals = () => {
@@ -200,6 +204,8 @@ const Article = () => {
             scroll={scroll}
             size="small"
             bordered
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,PlusCircleOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import CatForm from './catForm/CatForm';
 import { getCategorie } from '../../services/typeService';
@@ -162,7 +162,7 @@ const Categorie = () => {
             <div className="client-rows-right">
               <Button
                 type="primary"
-                icon={<PlusOutlined />}
+                icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
                 Ajouter une categorie
