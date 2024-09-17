@@ -327,8 +327,6 @@ const Taches = () => {
     }
     console.log(`Mise à jour de la tâche ${idTache} avec la nouvelle priorité: ${newPriority}`);
   };
-  
-  
 
   const columns = [
     {
