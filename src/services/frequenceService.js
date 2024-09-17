@@ -16,4 +16,8 @@ export const deleteFrequence = async (id) => {
     return axios.delete(`${DOMAIN}/api/frequence/${id}`,);
   };
   
+export const putFrequence = async (id, data) => {
+    return axios.put(`${DOMAIN}/api/frequence?id_frequence=${id}`, data);
+  };
+  
 
