@@ -19,33 +19,11 @@ import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 import SousTacheForm from './sousTacheForm/SousTacheForm';
 import './taches.scss'
-import { getPriorityTag } from '../../utils/prioriteIcons';
+import { getPriorityColor, getPriorityIcon, getPriorityLabel, getPriorityTag } from '../../utils/prioriteIcons';
+import { groupTasks } from '../../utils/tacheGroup';
 
 const { Search } = Input;
 const { Panel } = Collapse;
-
-
-function groupTasks(tasks) {
-  const taskMap = new Map();
-  
-  // Créez un dictionnaire avec toutes les tâches, les clés étant les id_tache
-  tasks.forEach(task => {
-      taskMap.set(task.id_tache, { ...task, sousTaches: [] });
-  });
-
-  // Associez les sous-tâches aux tâches principales
-  tasks.forEach(task => {
-      if (task.id_tache_parente !== null) {
-          const parentTask = taskMap.get(task.id_tache_parente);
-          if (parentTask) {
-              parentTask.sousTaches.push(taskMap.get(task.id_tache));
-          }
-      }
-  });
-
-  // Filtrez les tâches principales (celles sans parent)
-  return Array.from(taskMap.values()).filter(task => task.id_tache_parente === null);
-}
 
 const Taches = () => {
   const [data, setData] = useState([]);
@@ -71,21 +49,19 @@ const Taches = () => {
     current: 1,
     pageSize: 15,
   });
-  const [editingRow, setEditingRow] = useState(null); // Pour stocker la ligne en cours d'édition
+  const [editingRow, setEditingRow] = useState(null);
   const [newPriority, setNewPriority] = useState(null); 
 
   const handleDoubleClick = (record) => {
-    setEditingRow(record.id_tache); // Définit la ligne en cours d'édition
-    setNewPriority(record.priorite); // Définit la priorité actuelle pour affichage dans le Select
+    setEditingRow(record.id_tache);
+    setNewPriority(record.priorite);
   };
 
   const handleChangePriority = (value, record) => {
     setNewPriority(value);
     setEditingRow(null);
-    // Mettez à jour la priorité dans votre backend ici avec record.id_tache et la nouvelle priorité
     handleUpdatePriority(record.id_tache, value);
   };
-
 
   const handleDelete = async (id) => {
     try {
@@ -192,10 +168,6 @@ const Taches = () => {
     html2pdf().from(element).set(opt).save();
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
@@ -252,57 +224,6 @@ const Taches = () => {
         display: 'none',
       },
     },
-  };
-
-  const getPriorityIcon = (priority) => {
-    switch (priority) {
-      case 1:
-        return '🟢'; // Icone pour Très faible
-      case 2:
-        return '🟡'; // Icone pour Faible
-      case 3:
-        return '🟠'; // Icone pour Moyenne
-      case 4:
-        return '🔴'; // Icone pour Haute
-      case 5:
-        return '⚫'; // Icone pour Très haute
-      default:
-        return '⚪'; // Icone par défaut
-    }
-  };
-
-  const getPriorityColor = (priority) => {
-    switch (priority) {
-      case 1:
-        return 'green';
-      case 2:
-        return 'lime';
-      case 3:
-        return 'orange';
-      case 4:
-        return 'red';
-      case 5:
-        return 'magenta';
-      default:
-        return 'gray';
-    }
-  };
-
-  const getPriorityLabel = (priority) => {
-    switch (priority) {
-      case 1:
-        return 'Très faible';
-      case 2:
-        return 'Faible';
-      case 3:
-        return 'Moyenne';
-      case 4:
-        return 'Haute';
-      case 5:
-        return 'Très haute';
-      default:
-        return 'Non définie';
-    }
   };
 
   const handleUpdatePriority = async (idTache, newPriority) => {
@@ -396,14 +317,13 @@ const Taches = () => {
       dataIndex: 'priorite',
       key: 'priorite',
       render: (priority, record) => {
-        // On vérifie si la ligne actuelle est en mode édition
         if (editingRow === record.id_tache) {
           return (
             <Select
               name='priorite'
               defaultValue={newPriority}
               onChange={(value) => handleChangePriority(value, record)}
-              onBlur={() => setEditingRow(null)} // Quitter le mode édition si on clique ailleurs
+              onBlur={() => setEditingRow(null)}
               options={[
                 { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
                 { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
@@ -411,7 +331,7 @@ const Taches = () => {
                 { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
                 { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
               ]}
-              style={{ width: 150 }}
+              style={{ width: 120 }}
             />
           );
         }
