@@ -224,10 +224,19 @@ const Taches = () => {
     title: {
       maxWidth: '220px',
       whiteSpace: 'nowrap',
-      overflow: 'hidden',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
       textOverflow: 'ellipsis',
-    }
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
   };
+  
 
   const columns = [
     {
@@ -260,7 +269,7 @@ const Taches = () => {
       dataIndex: 'nom_tache', 
       key: 'nom_tache', 
       render: text => (
-        <Space style={columnStyles.title}>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
