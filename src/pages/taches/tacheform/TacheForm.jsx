@@ -334,7 +334,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     options={[
                                         { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
                                         { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
-                                        { value: 3, label: <span>{getPriorityIcon(3)} Priorité</span> },
+                                        { value: 3, label: <span>{getPriorityIcon(3)} Moyenne</span> },
                                         { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
                                         { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
                                     ]}
