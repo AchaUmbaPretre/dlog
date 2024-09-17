@@ -420,7 +420,6 @@ const Taches = () => {
     }
   ];
 
-
   const onExpand = (expanded, record) => {
     const sousTaches = record.sousTaches || [];
     if (sousTaches.length > 0) {
