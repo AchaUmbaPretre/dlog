@@ -14,7 +14,6 @@ const Categorie = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
-
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
   };

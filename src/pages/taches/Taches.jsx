@@ -59,7 +59,7 @@ const Taches = () => {
     'DPT': true,
     'Nom': true,
     'Client': true,
-    "Statut": true,
+    "statut": true,
     'Date debut & fin': true,
     'Fréquence': true,
     "Owner": true
