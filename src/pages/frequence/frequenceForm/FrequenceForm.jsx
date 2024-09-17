@@ -1,20 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
-import { postFrequence } from '../../../services/frequenceService';
+import { getFrequenceOne, postFrequence, putFrequence } from '../../../services/frequenceService';
 
 const FrequenceForm = ({idFrequence}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
   const onFinish = async(values) => {
-    setLoading(true)
-    await postFrequence(values)
-    notification.success({
-      message: 'Succès',
-      description: 'Le formulaire a été soumis avec succès.',
-    });
-    window.location.reload();
+    try {
+        if(idFrequence) {
+            await putFrequence(idFrequence, values)
+        }
+        else {
+            await postFrequence(values)
+        }
+        notification.success({
+          message: 'Succès',
+          description: 'Le formulaire a été soumis avec succès.',
+        });
+        window.location.reload();
+        
+    } catch (error) {
+        
+    }
   };
+
+  useEffect(()=> {
+    const fetchData = async () => {
+        const {data} = await getFrequenceOne(idFrequence)
+        if(data && data[0] ){
+            form.setFieldsValue(data[0])
+        }
+    }
+
+    fetchData();
+  }, [idFrequence])
 
   const onFinishFailed = (errorInfo) => {
     console.log('Échec de la soumission:', errorInfo);
