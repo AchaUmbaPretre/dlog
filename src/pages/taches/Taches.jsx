@@ -81,7 +81,7 @@ const Taches = () => {
 
   const handleChangePriority = (value, record) => {
     setNewPriority(value);
-    setEditingRow(null); // Quitte le mode édition une fois la priorité changée
+    setEditingRow(null);
     // Mettez à jour la priorité dans votre backend ici avec record.id_tache et la nouvelle priorité
     handleUpdatePriority(record.id_tache, value);
   };
@@ -305,18 +305,29 @@ const Taches = () => {
     }
   };
 
-  const handleUpdatePriority = async(idTache, newPriority) => {
+  const handleUpdatePriority = async (idTache, newPriority) => {
     try {
-      await putPriorite(idTache, newPriority)
+      await putPriorite(idTache, newPriority);
+  
       notification.success({
-        message: 'Succès',
-        description: 'Les informations ont été enregistrées avec succès.',
-    });
+        message: 'Mise à jour réussie',
+        description: `La priorité de la tâche ${idTache} a été mise à jour avec succès.`,
+        duration: 3, 
+      });
+  
+      fetchData();
     } catch (error) {
-      console.log(error)
+      notification.error({
+        message: 'Erreur',
+        description: `Une erreur est survenue lors de la mise à jour de la tâche ${idTache}.`,
+        duration: 3,
+      });
+  
+      console.error(`Erreur lors de la mise à jour de la tâche ${idTache}:`, error);
     }
     console.log(`Mise à jour de la tâche ${idTache} avec la nouvelle priorité: ${newPriority}`);
   };
+  
   
 
   const columns = [
