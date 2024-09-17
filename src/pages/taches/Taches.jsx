@@ -431,9 +431,8 @@ const Taches = () => {
   const expandedRowRender = (record) => {
     const sousTaches = record.sousTaches || [];
     
-    // Ne rien afficher si aucune sous-tâche
     if (sousTaches.length === 0) {
-      return null; // Pas d'affichage de Collapse si pas de sous-tâches
+      return null;
     }
   
     return (
@@ -441,16 +440,16 @@ const Taches = () => {
         defaultActiveKey={expandedRowKeys}
         onChange={() => onExpand(!expandedRowKeys.includes(record.id_tache), record)}
       >
-        <Panel header="Sous-Tâches" key={record.id_tache}>
+        <Panel header="Tâche(s) liée(s)" key={record.id_tache}>
           <Table
             dataSource={sousTaches}
             columns={[
               {
-                title: 'Sous-Tâche',
+                title: 'Titre',
                 dataIndex: 'nom_tache',
                 key: 'nom_tache',
                 render: text => (
-                  <Space>
+                  <Space style={columnStyles.title} className={columnStyles.hideScroll}>
                     <Tag icon={<FileTextOutlined />} color="cyan">
                       {text}
                     </Tag>
@@ -472,6 +471,13 @@ const Taches = () => {
                   );
                 },
               },
+              { 
+                title: 'Priorité', 
+                dataIndex: 'priorite', 
+                key: 'priorite',
+                render: priority => getPriorityTag(priority),
+                ...(columnsVisibility['Priorite'] ? {} : { className: 'hidden-column' })
+              },
               {
                 title: 'Date début & fin',
                 dataIndex: 'date_debut',
@@ -483,6 +489,18 @@ const Taches = () => {
                     {moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}
                   </Tag>
                 ),
+              },
+              { 
+                title: 'Fréquence', 
+                dataIndex: 'frequence', 
+                key: 'frequence',
+                render: text => (
+                  <Space>
+                    <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
+                  </Space>
+                ),
+                ...(columnsVisibility['Fréquence'] ? {} : { className: 'hidden-column' })
+
               },
               {
                 title: 'Owner',
