@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,ScheduleOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { ExportOutlined,ScheduleOutlined, PrinterOutlined,PlusCircleOutlined ,EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import { getFrequence } from '../../services/frequenceService';
 import FrequenceForm from './frequenceForm/FrequenceForm';
@@ -154,7 +154,7 @@ const Frequence = () => {
             <div className="client-rows-right">
               <Button
                 type="primary"
-                icon={<PlusOutlined />}
+                icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
                 Frequence
