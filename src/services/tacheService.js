@@ -87,5 +87,6 @@ export const putTache = async (id, data) => {
 };
 
 export const putPriorite = async (id, data) => {
+  console.log(id, data)
   return axios.put(`${DOMAIN}/api/tache/priorite?id_tache=${id}`, data);
 }

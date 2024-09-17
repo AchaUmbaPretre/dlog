@@ -6,7 +6,7 @@ import {
   CalendarOutlined, TeamOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
-import { deletePutTache, getTache } from '../../services/tacheService';
+import { deletePutTache, getTache, putPriorite } from '../../services/tacheService';
 import { Link } from 'react-router-dom';
 import ListeDocTache from './listeDocTache/ListeDocTache';
 import TacheDoc from './tacheDoc/TacheDoc';
@@ -305,9 +305,16 @@ const Taches = () => {
     }
   };
 
-  const handleUpdatePriority = (idTache, newPriority) => {
-    // Envoyer une requête pour mettre à jour la priorité dans la base de données
-    // Par exemple : axios.put(`/api/taches/${idTache}`, { priorite: newPriority });
+  const handleUpdatePriority = async(idTache, newPriority) => {
+    try {
+      await putPriorite(idTache, newPriority)
+      notification.success({
+        message: 'Succès',
+        description: 'Les informations ont été enregistrées avec succès.',
+    });
+    } catch (error) {
+      console.log(error)
+    }
     console.log(`Mise à jour de la tâche ${idTache} avec la nouvelle priorité: ${newPriority}`);
   };
   
@@ -384,6 +391,7 @@ const Taches = () => {
         if (editingRow === record.id_tache) {
           return (
             <Select
+              name='priorite'
               defaultValue={newPriority}
               onChange={(value) => handleChangePriority(value, record)}
               onBlur={() => setEditingRow(null)} // Quitter le mode édition si on clique ailleurs
