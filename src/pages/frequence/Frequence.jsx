@@ -12,6 +12,8 @@ const Frequence = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModal, setIsModal] = useState(false);
+
   const scroll = { x: 400 };
 
 
@@ -162,7 +164,7 @@ const Frequence = () => {
           <Table
             columns={columns}
             dataSource={data}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 15 }}
             rowKey="key"
             bordered
             size="middle"
