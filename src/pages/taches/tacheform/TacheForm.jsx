@@ -9,6 +9,8 @@ import moment from 'moment';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
 import { getProjetOne } from '../../../services/projetService';
+import './tacheForm.scss'
+import { getPriorityIcon } from '../../../utils/prioriteIcons';
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -59,7 +61,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                         responsable_principal: tache[0].responsable_principal,
                         id_demandeur: tache[0].id_demandeur,
                         description: tache[0].description,
-                        id_batiment: tache[0]?.id_batiment
+                        id_batiment: tache[0]?.id_batiment,
+                        priorite: tache[0]?.priorite
                     });
                 }
 
@@ -294,7 +297,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24}>
+                        <Col xs={24} md={12}>
                             <Form.Item
                                 name="id_batiment"
                                 label="Entité"
@@ -311,6 +314,30 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         value: item.id_batiment,
                                         label: item.nom_batiment,
                                     }))}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={12}>
+                        <Form.Item
+                                name="priorite"
+                                label="Priorité"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez sélectionner une priorité.',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    placeholder="Sélectionnez une priorité..."
+                                    optionFilterProp="label"
+                                    options={[
+                                        { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
+                                        { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
+                                        { value: 3, label: <span>{getPriorityIcon(3)} Priorité</span> },
+                                        { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
+                                        { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
+                                    ]}
                                 />
                             </Form.Item>
                         </Col>

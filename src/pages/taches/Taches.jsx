@@ -18,6 +18,8 @@ import ListeTracking from './listeTracking/ListeTracking';
 import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 import SousTacheForm from './sousTacheForm/SousTacheForm';
+import './taches.scss'
+import { getPriorityTag } from '../../utils/prioriteIcons';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -57,9 +59,10 @@ const Taches = () => {
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
     'DPT': true,
-    'Nom': true,
+    'Titre': true,
     'Client': true,
-    "statut": true,
+    "Statut": true,
+    "Priorite": true,
     'Date debut & fin': true,
     'Fréquence': true,
     "Owner": true
@@ -273,7 +276,7 @@ const Taches = () => {
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
-      ...(columnsVisibility['Nom'] ? {} : { className: 'hidden-column' }),
+      ...(columnsVisibility['Titre'] ? {} : { className: 'hidden-column' }),
     },
     {   
       title: 'Client', 
@@ -298,8 +301,15 @@ const Taches = () => {
           </Space>
         );
       },
-      ...(columnsVisibility['statut'] ? {} : { className: 'hidden-column' })
+      ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
 
+    },
+    { 
+      title: 'Priorité', 
+      dataIndex: 'priorite', 
+      key: 'priorite',
+      render: priority => getPriorityTag(priority),
+      ...(columnsVisibility['Priorite'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Date debut & fin',
@@ -412,18 +422,25 @@ const Taches = () => {
 
 
   const onExpand = (expanded, record) => {
-    setExpandedRowKeys(expanded ? [record.id_tache] : []);
+    const sousTaches = record.sousTaches || [];
+    if (sousTaches.length > 0) {
+      setExpandedRowKeys(expanded ? [record.id_tache] : []);
+    }
   };
-
+  
   const expandedRowRender = (record) => {
     const sousTaches = record.sousTaches || [];
+    
+    // Ne rien afficher si aucune sous-tâche
     if (sousTaches.length === 0) {
-      return <p>Aucune sous-tâche disponible.</p>;
+      return null; // Pas d'affichage de Collapse si pas de sous-tâches
     }
-
-
+  
     return (
-      <Collapse defaultActiveKey={expandedRowKeys} onChange={() => onExpand(!expandedRowKeys.includes(record.id_tache), record)}>
+      <Collapse
+        defaultActiveKey={expandedRowKeys}
+        onChange={() => onExpand(!expandedRowKeys.includes(record.id_tache), record)}
+      >
         <Panel header="Sous-Tâches" key={record.id_tache}>
           <Table
             dataSource={sousTaches}
@@ -434,79 +451,86 @@ const Taches = () => {
                 key: 'nom_tache',
                 render: text => (
                   <Space>
-                    <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
+                    <Tag icon={<FileTextOutlined />} color="cyan">
+                      {text}
+                    </Tag>
                   </Space>
                 ),
               },
-              { 
-                title: 'Statut', 
-                dataIndex: 'statut', 
+              {
+                title: 'Statut',
+                dataIndex: 'statut',
                 key: 'statut',
                 render: text => {
                   const { icon, color } = statusIcons[text] || {};
                   return (
                     <Space>
-                      <Tag icon={icon} color={color}>{text}</Tag>
+                      <Tag icon={icon} color={color}>
+                        {text}
+                      </Tag>
                     </Space>
                   );
-                }
+                },
               },
               {
-                title: 'Date debut & fin',
+                title: 'Date début & fin',
                 dataIndex: 'date_debut',
                 key: 'date_debut',
                 sorter: (a, b) => moment(a.date_debut) - moment(b.date_debut),
                 sortDirections: ['descend', 'ascend'],
-                render: (text,record) => 
+                render: (text, record) => (
                   <Tag icon={<CalendarOutlined />} color="blue">
                     {moment(text).format('DD-MM-yyyy')} & {moment(record.date_fin).format('DD-MM-yyyy')}
                   </Tag>
+                ),
               },
               {
-                title: 'Owner', 
-                dataIndex: 'owner', 
+                title: 'Owner',
+                dataIndex: 'owner',
                 key: 'owner',
                 render: text => (
                   <Space>
-                    <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
+                    <Tag icon={<TeamOutlined />} color="purple">
+                      {text}
+                    </Tag>
                   </Space>
-                )
+                ),
               },
               {
                 title: 'Action',
                 key: 'action',
                 width: '10%',
-                render : (text, record) => (
+                render: (text, record) => (
                   <Space size="middle">
-                      <Tooltip title="Modifier">
-                        <Button
-                          icon={<EditOutlined />}
-                          style={{ color: 'green' }}
-                          onClick={() => handleEdit(record.id_tache)}
-                          aria-label="Edit tache"
-                        />
+                    <Tooltip title="Modifier">
+                      <Button
+                        icon={<EditOutlined />}
+                        style={{ color: 'green' }}
+                        onClick={() => handleEdit(record.id_tache)}
+                        aria-label="Edit tache"
+                      />
                     </Tooltip>
                     <Tooltip title="Voir les détails">
                       <Button
                         icon={<EyeOutlined />}
                         onClick={() => handleViewDetails(record.id_tache)}
                         aria-label="Voir les détails de la tâche"
-                        style={{color: 'green'}}
+                        style={{ color: 'green' }}
                       />
                     </Tooltip>
                     <Popover
                       content={
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                          <Link onClick={() => handleTracking(record.id_tache)} >
+                          <Link onClick={() => handleTracking(record.id_tache)}>
                             <FileTextOutlined /> Tracking
                           </Link>
-                          <Link onClick={()=>handleListeTracking(record.id_tache)}>
+                          <Link onClick={() => handleListeTracking(record.id_tache)}>
                             <FileTextOutlined /> Liste de tracking
                           </Link>
-                          <Link onClick={() => handleDetailDoc(record.id_tache)} >
+                          <Link onClick={() => handleDetailDoc(record.id_tache)}>
                             <FileTextOutlined /> Liste des docs
                           </Link>
-                          <Link onClick={() => handleAjouterDoc(record.id_tache)} >
+                          <Link onClick={() => handleAjouterDoc(record.id_tache)}>
                             <FileTextOutlined /> Ajouter un doc
                           </Link>
                         </div>
@@ -524,7 +548,7 @@ const Taches = () => {
                     </Popover>
                     <Tooltip title="Supprimer">
                       <Popconfirm
-                        title="Êtes-vous sûr de vouloir supprimer cette tache ?"
+                        title="Êtes-vous sûr de vouloir supprimer cette tâche ?"
                         onConfirm={() => handleDelete(record.id_tache)}
                         okText="Oui"
                         cancelText="Non"
@@ -537,8 +561,8 @@ const Taches = () => {
                       </Popconfirm>
                     </Tooltip>
                   </Space>
-                )
-              }
+                ),
+              },
             ]}
             pagination={false}
           />
@@ -598,19 +622,24 @@ const Taches = () => {
                 </div>
               </div>
               <div className="tableau_client" id="printableTable">
-              <Table
-                id="printableTable"
-                columns={columns}
-                expandable={{ expandedRowRender, onExpand }}
-                dataSource={filteredData}
-                rowKey="id_tache"
-                size="small"
-                bordered
-                pagination={pagination}
-                onChange={(pagination) => setPagination(pagination)}
-                loading={loading}
-                scroll={scroll}
-              />
+                <Table
+                  id="printableTable"
+                  columns={columns}
+                  expandable={{
+                    // Ne montre l'expandable que si sousTaches est présent et non vide
+                    expandedRowRender: (record) => (record.sousTaches && record.sousTaches.length > 0 ? expandedRowRender(record) : null),
+                    rowExpandable: (record) => record.sousTaches && record.sousTaches.length > 0, // Condition pour montrer l'icône d'expansion
+                    onExpand
+                  }}
+                  dataSource={filteredData}
+                  rowKey="id_tache"
+                  size="small"
+                  bordered
+                  pagination={pagination}
+                  onChange={(pagination) => setPagination(pagination)}
+                  loading={loading}
+                  scroll={scroll}
+                />;
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab='Vue calendrier' key="1">
