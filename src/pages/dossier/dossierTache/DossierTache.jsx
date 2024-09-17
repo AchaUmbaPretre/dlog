@@ -94,6 +94,23 @@ const DossierTache = () => {
     }
   };
 
+  const columnStyles = {
+    title: {
+      maxWidth: '250px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
+
   const columns = [
     {
       title: '#',
@@ -107,10 +124,10 @@ const DossierTache = () => {
       dataIndex: 'nom_document',
       key: 'nom_document',
       render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+            <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
+        </Space>
       ),
-      width: '30%', // Ajustez la largeur selon vos besoins
-      ellipsis: true, //
     },
     {
       title: 'Type',
@@ -119,21 +136,20 @@ const DossierTache = () => {
       render: (text) => {
         const { icon, color } = getTagProps(text);
         return <Tag icon={icon} color={color}>{text}</Tag>;
-      },
-        width: '10%'
+      }
     },
     {
         title: 'Titre tache',
         dataIndex: 'nom_tache',
         key: 'nom_tache',
-        render: (text) => {
-          return <Tag color={'blue'}>{text}</Tag>;
-        },
-        width: '35%',
-        ellipsis: true,
+        render: (text) => (
+            <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+                <Tag color={'blue'}>{text}</Tag>
+            </Space>
+        )
       },
     {
-      title: 'Doc',
+      title: 'Voir',
       dataIndex: 'chemin_document',
       key: 'chemin_document',
       render: (text) => (
