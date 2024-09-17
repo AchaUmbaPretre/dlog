@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select } from 'antd';
 import { 
   ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined,EditOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
@@ -71,6 +71,20 @@ const Taches = () => {
     current: 1,
     pageSize: 15,
   });
+  const [editingRow, setEditingRow] = useState(null); // Pour stocker la ligne en cours d'édition
+  const [newPriority, setNewPriority] = useState(null); 
+
+  const handleDoubleClick = (record) => {
+    setEditingRow(record.id_tache); // Définit la ligne en cours d'édition
+    setNewPriority(record.priorite); // Définit la priorité actuelle pour affichage dans le Select
+  };
+
+  const handleChangePriority = (value, record) => {
+    setNewPriority(value);
+    setEditingRow(null); // Quitte le mode édition une fois la priorité changée
+    // Mettez à jour la priorité dans votre backend ici avec record.id_tache et la nouvelle priorité
+    handleUpdatePriority(record.id_tache, value);
+  };
 
 
   const handleDelete = async (id) => {
@@ -239,6 +253,63 @@ const Taches = () => {
       },
     },
   };
+
+  const getPriorityIcon = (priority) => {
+    switch (priority) {
+      case 1:
+        return '🟢'; // Icone pour Très faible
+      case 2:
+        return '🟡'; // Icone pour Faible
+      case 3:
+        return '🟠'; // Icone pour Moyenne
+      case 4:
+        return '🔴'; // Icone pour Haute
+      case 5:
+        return '⚫'; // Icone pour Très haute
+      default:
+        return '⚪'; // Icone par défaut
+    }
+  };
+
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case 1:
+        return 'green';
+      case 2:
+        return 'lime';
+      case 3:
+        return 'orange';
+      case 4:
+        return 'red';
+      case 5:
+        return 'magenta';
+      default:
+        return 'gray';
+    }
+  };
+
+  const getPriorityLabel = (priority) => {
+    switch (priority) {
+      case 1:
+        return 'Très faible';
+      case 2:
+        return 'Faible';
+      case 3:
+        return 'Moyenne';
+      case 4:
+        return 'Haute';
+      case 5:
+        return 'Très haute';
+      default:
+        return 'Non définie';
+    }
+  };
+
+  const handleUpdatePriority = (idTache, newPriority) => {
+    // Envoyer une requête pour mettre à jour la priorité dans la base de données
+    // Par exemple : axios.put(`/api/taches/${idTache}`, { priorite: newPriority });
+    console.log(`Mise à jour de la tâche ${idTache} avec la nouvelle priorité: ${newPriority}`);
+  };
   
 
   const columns = [
@@ -304,12 +375,36 @@ const Taches = () => {
       ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
 
     },
-    { 
-      title: 'Priorité', 
-      dataIndex: 'priorite', 
+    {
+      title: 'Priorité',
+      dataIndex: 'priorite',
       key: 'priorite',
-      render: priority => getPriorityTag(priority),
-      ...(columnsVisibility['Priorite'] ? {} : { className: 'hidden-column' })
+      render: (priority, record) => {
+        // On vérifie si la ligne actuelle est en mode édition
+        if (editingRow === record.id_tache) {
+          return (
+            <Select
+              defaultValue={newPriority}
+              onChange={(value) => handleChangePriority(value, record)}
+              onBlur={() => setEditingRow(null)} // Quitter le mode édition si on clique ailleurs
+              options={[
+                { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
+                { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
+                { value: 3, label: <span>{getPriorityIcon(3)} Moyenne</span> },
+                { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
+                { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
+              ]}
+              style={{ width: 150 }}
+            />
+          );
+        }
+
+        return (
+          <Tag onDoubleClick={() => handleDoubleClick(record)} color={getPriorityColor(priority)}>
+            {getPriorityIcon(priority)} {getPriorityLabel(priority)}
+          </Tag>
+        );
+      },
     },
     {
       title: 'Date debut & fin',
@@ -419,6 +514,8 @@ const Taches = () => {
       )
     }
   ];
+
+
 
   const onExpand = (expanded, record) => {
     const sousTaches = record.sousTaches || [];

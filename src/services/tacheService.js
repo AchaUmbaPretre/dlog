@@ -85,3 +85,7 @@ export const deleteTachePersonne = async (id) => {
 export const putTache = async (id, data) => {
   return axios.put(`${DOMAIN}/api/tache?id_tache=${id}`, data);
 };
+
+export const putPriorite = async (id, data) => {
+  return axios.put(`${DOMAIN}/api/tache/priorite?id_tache=${id}`, data);
+}
