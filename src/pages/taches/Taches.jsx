@@ -679,10 +679,10 @@ const Taches = () => {
                     <Button icon={<ExportOutlined />}>Exporter</Button>
                   </Dropdown>
                   <Dropdown overlay={menus} trigger={['click']}>
-                  <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                    Colonnes <DownOutlined />
-                  </Button>
-                </Dropdown>
+                    <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                      Colonnes <DownOutlined />
+                    </Button>
+                  </Dropdown>
                 </div>
               </div>
               <div className="tableau_client" id="printableTable">
@@ -690,7 +690,6 @@ const Taches = () => {
                   id="printableTable"
                   columns={columns}
                   expandable={{
-                    // Ne montre l'expandable que si sousTaches est présent et non vide
                     expandedRowRender: (record) => (record.sousTaches && record.sousTaches.length > 0 ? expandedRowRender(record) : null),
                     rowExpandable: (record) => record.sousTaches && record.sousTaches.length > 0, // Condition pour montrer l'icône d'expansion
                     onExpand
