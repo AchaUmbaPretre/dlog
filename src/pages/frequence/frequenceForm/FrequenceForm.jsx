@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { postFrequence } from '../../../services/frequenceService';
 
-const FrequenceForm = () => {
+const FrequenceForm = ({idFrequence}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 

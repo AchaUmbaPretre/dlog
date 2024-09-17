@@ -21,7 +21,6 @@ const ControleForm = ({ idControle,fetchData,closeModal }) => {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Function to handle errors
     const handleError = (message) => {
         notification.error({
             message: 'Erreur de chargement',

@@ -12,13 +12,14 @@ const Frequence = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isModal, setIsModal] = useState(false);
+  const [idFrequence, setIdFrequence] = useState('')
 
   const scroll = { x: 400 };
 
 
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
+  const handleEdit = (id) => {
+    setIdFrequence(id)
+    setIsModalVisible(true)
   };
 
   const handleDelete = async (id) => {
@@ -108,10 +109,18 @@ const Frequence = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Delete">
+          <Tooltip title="Modifier">
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record.id_frequence)}
+              aria-label="Edit client"
+            />
+          </Tooltip>
+          <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
-              onConfirm={() => handleDelete(record.id)}
+              onConfirm={() => handleDelete(record.id_frequence)}
               okText="Oui"
               cancelText="Non"
             >
@@ -181,7 +190,7 @@ const Frequence = () => {
         footer={null}
         width={600}
       >
-        <FrequenceForm/>
+        <FrequenceForm idFrequence={idFrequence}/>
       </Modal>
     </>
   );
