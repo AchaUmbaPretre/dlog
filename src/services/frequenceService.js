@@ -8,6 +8,10 @@ export const getFrequence = async (user) => {
     return axios.get(`${DOMAIN}/api/frequence`);
   };
 
+export const getFrequenceOne= async (id) => {
+    return axios.get(`${DOMAIN}/api/frequence/one?id_frequence=${id}`);
+  };
+
 export const postFrequence = async (data) => {
   return axios.post(`${DOMAIN}/api/frequence`, data);
 };
