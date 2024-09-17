@@ -452,8 +452,6 @@ const Taches = () => {
     }
   ];
 
-
-
   const onExpand = (expanded, record) => {
     const sousTaches = record.sousTaches || [];
     if (sousTaches.length > 0) {
@@ -648,7 +646,6 @@ const Taches = () => {
 
   const groupedTasks = groupTasks(data);
   const displayedData = filteredData(groupedTasks, searchValue);
-
 
   return (
     <>
