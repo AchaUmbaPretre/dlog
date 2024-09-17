@@ -96,7 +96,7 @@ const DossierTache = () => {
 
   const columnStyles = {
     title: {
-      maxWidth: '250px',
+      maxWidth: '220px',
       whiteSpace: 'nowrap',
       overflowX: 'scroll', 
       overflowY: 'hidden',
@@ -209,9 +209,6 @@ const DossierTache = () => {
                   />
             </div>
             <div className="client-rows-right">
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
             </div>
           </div>
           <Table
