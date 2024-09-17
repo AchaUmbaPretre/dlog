@@ -7,6 +7,7 @@ const FrequenceForm = ({idFrequence}) => {
   const [loading, setLoading] = useState(false);
 
   const onFinish = async(values) => {
+    setLoading(true);
     try {
         if(idFrequence) {
             await putFrequence(idFrequence, values)
@@ -21,7 +22,13 @@ const FrequenceForm = ({idFrequence}) => {
         window.location.reload();
         
     } catch (error) {
-        
+        notification.error({
+            message: 'Erreur',
+            description: "Erreur lors de l'enregistrement du projet.",
+        });
+    }
+    finally {
+        setLoading(false);
     }
   };
 
