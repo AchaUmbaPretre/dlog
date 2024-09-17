@@ -96,7 +96,7 @@ const DossierTache = () => {
 
   const columnStyles = {
     title: {
-      maxWidth: '220px',
+      maxWidth: '280px',
       whiteSpace: 'nowrap',
       overflowX: 'scroll', 
       overflowY: 'hidden',
