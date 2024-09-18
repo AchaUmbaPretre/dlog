@@ -132,6 +132,11 @@ const handleFilterChange = (newFilters) => {
     setModalType(type);
   };
 
+  const handFilter = () => {
+    fetchData()
+    setFilterVisible(!filterVisible)
+  }
+
   const handleEdit = (idTache) => {
     setIdTache(idTache);
     setIsModalVisible(true);
@@ -744,7 +749,7 @@ const handleFilterChange = (newFilters) => {
                   </Button>
                   <Button
                     type="default"
-                    onClick={() => setFilterVisible(!filterVisible)}
+                    onClick={handFilter}
                   >
                     {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                   </Button>
