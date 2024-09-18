@@ -23,6 +23,10 @@ export const getTacheOne = async (id) => {
     return axios.get(`${DOMAIN}/api/tache/one?id_tache=${id}`);
   };
 
+export const getAllTache = async (id) => {
+    return axios.get(`${DOMAIN}/api/tache/all_tache?id_tache=${id}`);
+  };
+
 export const getDetailTacheDoc = async (id) => {
     return axios.get(`${DOMAIN}/api/tache/detail_tache_doc?id_tache=${id}`);
   };
@@ -74,7 +78,6 @@ export const getTachePersonneOne = async (id) => {
 };
 
 export const postTachePersonne = async (data) => {
-  console.log(data)
 return axios.post(`${DOMAIN}/api/tache/tache_personne`, data);
 };
 
