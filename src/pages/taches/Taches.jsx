@@ -453,8 +453,8 @@ const Taches = () => {
             <Button
               icon={<FilePdfOutlined />}
               onClick={() => handleViewDetails(record.id_tache)}
-              aria-label="Voir les détails de la tâche"
-              style={{color: 'green'}}
+              aria-label="Voir en pdf"
+              style={{color: 'red'}}
             />
           </Tooltip>
           <Tooltip title="Supprimer">
