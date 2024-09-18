@@ -112,7 +112,7 @@ const Taches = () => {
 
     useEffect(() => {
     fetchData();
-  }, [filteredDatas]);
+  }, []);
 
 
   const closeAllModals = () => {
