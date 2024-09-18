@@ -6,19 +6,30 @@ import './filterTaches.scss'
 import { getDepartement } from '../../../services/departementService';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
+import { getTypes } from '../../../services/typeService';
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
+const colorMapping = {
+    'En attente': '#FFA500',
+    'En cours': '#1E90FF', 
+    'Point bloquant': '#FF4500', 
+    'En attente de validation': '#32CD32',
+    'Validé': '#228B22',
+    'Budget': '#FFD700',
+    'Exécuté': '#A9A9A9',
+    1: '#32CD32',
+    0: '#FF6347'
+};
 
 const FilterTaches = ({ onFilter }) => {
   const [departement, setDepartement] = useState('');
   const [client, setClient] = useState([]);
-  const [frequence, setFrequence] = useState([]);
   const [statut, setStatut] = useState('');
   const [priorite, setPriorite] = useState('');
   const [dateRange, setDateRange] = useState([]);
   const [owners, setOwners] = useState([]);
-
+  const [type, setType] = useState([]);
 
   const handleFilter = () => {
     onFilter({
@@ -34,15 +45,17 @@ const FilterTaches = ({ onFilter }) => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const [departementData, usersData, clientData] = await Promise.all([
+            const [departementData, usersData, clientData, typeData] = await Promise.all([
                 getDepartement(),
                 getUser(),
                 getClient(),
+                getTypes()
             ]);
 
             setDepartement(departementData.data);
             setOwners(usersData.data);
             setClient(clientData.data);
+            setType(typeData.data)
 
         } catch (error) {
             console.log(error)
@@ -69,26 +82,31 @@ const FilterTaches = ({ onFilter }) => {
       <div className='filter_row'>
         <label>Clients:</label>
         <Select
-          mode="multiple"
-          style={{ width: '100%' }}
-          value={client}
-          onChange={value => setClient(value)}
-        >
-          <Option value="client1">Client 1</Option>
-          <Option value="client2">Client 2</Option>
-        </Select>
+            mode="multiple"
+            tyle={{ width: '100%' }}
+            showSearch
+            options={client.map((item) => ({
+                value: item.id_client,
+                label: item.nom,
+            }))}
+            placeholder="Sélectionnez un client..."
+            optionFilterProp="label"
+        />
       </div>
       <div className='filter_row'>
         <label>Statut:</label>
         <Select
-          style={{ width: '100%' }}
-          value={statut}
-          onChange={value => setStatut(value)}
-        >
-          <Option value="">Tous</Option>
-          <Option value="en_cours">En Cours</Option>
-          <Option value="termine">Terminé</Option>
-        </Select>
+            style={{ width: '100%' }}
+            placeholder="Sélectionnez le statut..."
+            options={type.map((item) => ({
+                value: item.id_type_statut_suivi,
+                label: (
+                        <div style={{ color: colorMapping[item.nom_type_statut] }}>
+                            {item.nom_type_statut}
+                        </div>
+                     ),
+            }))}
+        />
       </div>
       <div className='filter_row'>
         <label>Priorité:</label>
@@ -114,15 +132,16 @@ const FilterTaches = ({ onFilter }) => {
       <div className='filter_row'>
         <label>Owner:</label>
         <Select
-          mode="multiple"
-          style={{ width: '100%' }}
-          value={owners}
-          onChange={value => setOwners(value)}
-        >
-          <Option value="owner1">Propriétaire 1</Option>
-          <Option value="owner2">Propriétaire 2</Option>
-          {/* Ajoute d'autres propriétaires selon tes besoins */}
-        </Select>
+            showSearch
+            mode="multiple"
+            style={{ width: '100%' }}
+            options={owners.map((item) => ({
+                value: item.id_utilisateur,
+                label: `${item.nom}`,
+            }))}
+            placeholder="Sélectionnez un responsable..."
+            optionFilterProp="label"
+        />
       </div>
       <Button
         type="primary"
