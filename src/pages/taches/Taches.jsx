@@ -94,25 +94,32 @@ const Taches = () => {
     }
   };
 
-    const fetchData = async (filters) => {
-
-      setFilteredDatas(filters);
-      try {
-        const response = await getTache(filters);
-        setData(response.data);
-        setLoading(false);
-      } catch (error) {
+  const fetchData = async (filters) => {
+    console.log(filters)
+    setLoading(true); 
+    setFilteredDatas(filters);
+    try {
+        const response = await getTache(filters);  // Envoyer les filtres à la requête
+        setData(response.data);  // Mettre à jour les données avec la réponse API
+    } catch (error) {
         notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
+            message: 'Erreur de chargement',
+            description: 'Une erreur est survenue lors du chargement des données.',
         });
-        setLoading(false);
-      }
-    };
+    } finally {
+        setLoading(false);  // Arrêter le chargement
+    }
+};
 
-    useEffect(() => {
-    fetchData();
-  }, []);
+// Appeler fetchData lorsque les filtres sont initialisés ou changés
+useEffect(() => {
+    fetchData(filteredDatas);  // Appeler fetchData avec les filtres actuels
+}, [filteredDatas]);  // Met à jour chaque fois que filteredDatas change
+
+// Fonction pour mettre à jour les filtres
+const handleFilterChange = (newFilters) => {
+    setFilteredDatas(newFilters);  // Cela déclenchera useEffect
+};
 
 
   const closeAllModals = () => {
@@ -716,7 +723,7 @@ const Taches = () => {
             </div>
             <h2 className="client-h2">Tâches</h2>
           </div>
-          {filterVisible && <FilterTaches onFilter={fetchData}/>}
+          {filterVisible && <FilterTaches onFilter={handleFilterChange}/>}
           <Tabs defaultActiveKey="0">
             <Tabs.TabPane tab='Liste de tache' key="0">
               <div className="client-actions">

@@ -35,11 +35,11 @@ const FilterTaches = ({ onFilter }) => {
     const [type, setType] = useState([]);
 
     // Nouveau: Gérer les valeurs sélectionnées
-    const [selectedDepartement, setSelectedDepartement] = useState(null);
-    const [selectedClients, setSelectedClients] = useState([]);
-    const [selectedStatut, setSelectedStatut] = useState(null);
-    const [selectedPriorite, setSelectedPriorite] = useState(null);
-    const [selectedOwners, setSelectedOwners] = useState([]);
+    const [selectedDepartement, setSelectedDepartement] = useState('');
+    const [selectedClients, setSelectedClients] = useState('');
+    const [selectedStatut, setSelectedStatut] = useState('');
+    const [selectedPriorite, setSelectedPriorite] = useState('');
+    const [selectedOwners, setSelectedOwners] = useState('');
 
     const handleFilter = async () => {
         onFilter({
@@ -50,7 +50,6 @@ const FilterTaches = ({ onFilter }) => {
             dateRange,
             owners: selectedOwners,
         });
-        await getTache(onFilter);
     };
 
     useEffect(() => {
