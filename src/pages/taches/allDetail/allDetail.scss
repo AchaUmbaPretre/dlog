@@ -1,0 +1,56 @@
+.allDetail {
+    padding: 20px;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .task-card {
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        background: #ffffff;
+        border: 1px solid #e8e8e8;
+
+        &:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-4px);
+        }
+    }
+
+    .task-title {
+        margin: 0;
+        color: #333;
+    }
+
+    .task-detail {
+        margin-bottom: 16px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .task-details {
+        margin-top: 20px;
+        background: #fafafa;
+        border-radius: 8px;
+        border: 1px solid #e8e8e8;
+    }
+
+    .no-data-card {
+        text-align: center;
+        padding: 40px;
+        border-radius: 8px;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e8e8e8;
+    }
+
+    .ant-card-body {
+        padding: 24px;
+    }
+
+    .ant-tag {
+        font-size: 12px;
+        border-radius: 4px;
+    }
+}
