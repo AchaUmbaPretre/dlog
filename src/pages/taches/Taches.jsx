@@ -51,10 +51,23 @@ const Taches = () => {
   });
   const [editingRow, setEditingRow] = useState(null);
   const [newPriority, setNewPriority] = useState(null); 
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedOperationIds, setSelectedOperationIds] = useState([]);
 
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
     setNewPriority(record.priorite);
+  };
+
+
+  const onSelectChange = (newSelectedRowKeys) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+    setSelectedOperationIds(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
   };
 
   const handleChangePriority = (value, record) => {
@@ -691,6 +704,7 @@ const Taches = () => {
                 <Table
                   id="printableTable"
                   columns={columns}
+                  rowSelection={rowSelection}
                   expandable={{
                     expandedRowRender: (record) => (record.sousTaches && record.sousTaches.length > 0 ? expandedRowRender(record) : null),
                     rowExpandable: (record) => record.sousTaches && record.sousTaches.length > 0, // Condition pour montrer l'icône d'expansion
