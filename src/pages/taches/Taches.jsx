@@ -178,6 +178,7 @@ const Taches = () => {
       </Menu.Item>
     </Menu>
   );
+
   const toggleColumnVisibility = (columnName, e) => {
     e.stopPropagation();
     setColumnsVisibility(prev => ({
@@ -316,6 +317,7 @@ const Taches = () => {
       title: 'Priorité',
       dataIndex: 'priorite',
       key: 'priorite',
+      sorter: (a, b) => a.priorite - b.priorite,
       render: (priority, record) => {
         if (editingRow === record.id_tache) {
           return (
