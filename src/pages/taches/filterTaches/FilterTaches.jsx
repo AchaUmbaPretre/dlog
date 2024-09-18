@@ -75,10 +75,10 @@ const FilterTaches = ({ onFilter }) => {
             options={departement.map((item) => ({
                 value: item.id_departement,
                 label: item.nom_departement,
-            }))}
-            placeholder="Sélectionnez un département..."
-            optionFilterProp="label"
-        />
+                }))}
+                placeholder="Sélectionnez un département..."
+                optionFilterProp="label"
+            />
       </div>
       <div className='filter_row'>
         <label>Clients:</label>
