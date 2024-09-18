@@ -22,12 +22,14 @@ import './taches.scss'
 import { getPriorityColor, getPriorityIcon, getPriorityLabel } from '../../utils/prioriteIcons';
 import { groupTasks } from '../../utils/tacheGroup';
 import AllDetail from './allDetail/AllDetail';
+import FilterTaches from './filterTaches/FilterTaches';
 
 const { Search } = Input;
 const { Panel } = Collapse;
 
 const Taches = () => {
   const [data, setData] = useState([]);
+  const [filterVisible, setFilterVisible] = useState(false);
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -711,6 +713,7 @@ const Taches = () => {
             </div>
             <h2 className="client-h2">Tâches</h2>
           </div>
+          {filterVisible && <FilterTaches />}
           <Tabs defaultActiveKey="0">
             <Tabs.TabPane tab='Liste de tache' key="0">
               <div className="client-actions">
@@ -728,6 +731,12 @@ const Taches = () => {
                     onClick={handleAddTask}
                   >
                     Tâche
+                  </Button>
+                  <Button
+                    type="default"
+                    onClick={() => setFilterVisible(!filterVisible)}
+                  >
+                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                   </Button>
                   <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                     <Button icon={<ExportOutlined />}>Exporter</Button>
