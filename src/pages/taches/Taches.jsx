@@ -21,6 +21,7 @@ import SousTacheForm from './sousTacheForm/SousTacheForm';
 import './taches.scss'
 import { getPriorityColor, getPriorityIcon, getPriorityLabel, getPriorityTag } from '../../utils/prioriteIcons';
 import { groupTasks } from '../../utils/tacheGroup';
+import AllDetail from './allDetail/AllDetail';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -123,6 +124,10 @@ const Taches = () => {
     setIdTache(idTache);
     setIsModalVisible(true);
 
+  };
+
+  const handleAllDetails = (idTache) => {
+    openModal('Alldetail', idTache);
   };
 
   const handleViewDetails = (idTache) => {
@@ -452,7 +457,7 @@ const Taches = () => {
           <Tooltip title="Pdf">
             <Button
               icon={<FilePdfOutlined />}
-              onClick={() => handleViewDetails(record.id_tache)}
+              onClick={() => handleAllDetails(record.id_tache)}
               aria-label="Voir en pdf"
               style={{color: 'red'}}
             />
@@ -812,6 +817,18 @@ const Taches = () => {
       >
         <SousTacheForm idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
       </Modal>
+
+      <Modal
+        title="All tache"
+        visible={modalType === 'Alldetail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <AllDetail idTache={selectedTacheIds} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
+      </Modal>
+      
     </>
   );
 };
