@@ -24,10 +24,10 @@ const colorMapping = {
 };
 
 const FilterTaches = ({ onFilter }) => {
-  const [departement, setDepartement] = useState('');
+  const [departement, setDepartement] = useState([]);
   const [client, setClient] = useState([]);
-  const [statut, setStatut] = useState('');
-  const [priorite, setPriorite] = useState('');
+  const [statut, setStatut] = useState([]);
+  const [priorite, setPriorite] = useState([]);
   const [dateRange, setDateRange] = useState([]);
   const [owners, setOwners] = useState([]);
   const [type, setType] = useState([]);
@@ -71,14 +71,14 @@ const FilterTaches = ({ onFilter }) => {
       <div className='filter_row'>
         <label>Département:</label>
         <Select
-            showSearch
-            options={departement.map((item) => ({
-                value: item.id_departement,
-                label: item.nom_departement,
-                }))}
-                placeholder="Sélectionnez un département..."
-                optionFilterProp="label"
-            />
+                                    showSearch
+                                    options={departement.map((item) => ({
+                                        value: item.id_departement,
+                                        label: item.nom_departement,
+                                    }))}
+                                    placeholder="Sélectionnez un département..."
+                                    optionFilterProp="label"
+                                />
       </div>
       <div className='filter_row'>
         <label>Clients:</label>
