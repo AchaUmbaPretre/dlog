@@ -28,8 +28,6 @@ const colorMapping = {
 const FilterTaches = ({ onFilter }) => {
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
-    const [statut, setStatut] = useState([]);
-    const [priorite, setPriorite] = useState([]);
     const [dateRange, setDateRange] = useState([]);
     const [owners, setOwners] = useState([]);
     const [type, setType] = useState([]);
