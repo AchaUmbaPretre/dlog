@@ -33,8 +33,6 @@ const FilterTaches = ({ onFilter }) => {
     const [dateRange, setDateRange] = useState([]);
     const [owners, setOwners] = useState([]);
     const [type, setType] = useState([]);
-
-    // Nouveau: Gérer les valeurs sélectionnées
     const [selectedDepartement, setSelectedDepartement] = useState('');
     const [selectedClients, setSelectedClients] = useState('');
     const [selectedStatut, setSelectedStatut] = useState('');
@@ -79,6 +77,7 @@ const FilterTaches = ({ onFilter }) => {
             <div className="filter_row">
                 <label>Département:</label>
                 <Select
+                    mode="multiple"
                     showSearch
                     style={{ width: '100%' }}
                     options={departement.map((item) => ({
@@ -87,7 +86,7 @@ const FilterTaches = ({ onFilter }) => {
                     }))}
                     placeholder="Sélectionnez ..."
                     optionFilterProp="label"
-                    onChange={setSelectedDepartement} // Met à jour l'état sélectionné
+                    onChange={setSelectedDepartement}
                 />
             </div>
             <div className="filter_row">
@@ -108,6 +107,7 @@ const FilterTaches = ({ onFilter }) => {
             <div className="filter_row">
                 <label>Statut:</label>
                 <Select
+                    mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Sélectionnez ..."
                     options={type.map((item) => ({
@@ -124,6 +124,7 @@ const FilterTaches = ({ onFilter }) => {
             <div className="filter_row">
                 <label>Priorité:</label>
                 <Select
+                    mode="multiple"
                     placeholder="Sélectionnez..."
                     optionFilterProp="label"
                     options={[
