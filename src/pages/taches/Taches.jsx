@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select } from 'antd';
 import { 
   ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
-  CheckSquareOutlined, HourglassOutlined,EditOutlined, ClockCircleOutlined, CheckCircleOutlined, 
+  CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
   CalendarOutlined, TeamOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
@@ -449,6 +449,14 @@ const Taches = () => {
               />
             </Tooltip>
           </Popover>
+          <Tooltip title="Pdf">
+            <Button
+              icon={<FilePdfOutlined />}
+              onClick={() => handleViewDetails(record.id_tache)}
+              aria-label="Voir les détails de la tâche"
+              style={{color: 'green'}}
+            />
+          </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer cette tache ?"
