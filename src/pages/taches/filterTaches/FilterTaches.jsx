@@ -7,6 +7,7 @@ import { getDepartement } from '../../../services/departementService';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
 import { getTypes } from '../../../services/typeService';
+import { getPriorityIcon } from '../../../utils/prioriteIcons';
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
@@ -111,15 +112,16 @@ const FilterTaches = ({ onFilter }) => {
       <div className='filter_row'>
         <label>Priorité:</label>
         <Select
-          style={{ width: '100%' }}
-          value={priorite}
-          onChange={value => setPriorite(value)}
-        >
-          <Option value="">Toutes</Option>
-          <Option value="haute">Haute</Option>
-          <Option value="moyenne">Moyenne</Option>
-          <Option value="basse">Basse</Option>
-        </Select>
+            placeholder="Sélectionnez..."
+            optionFilterProp="label"
+            options={[
+                        { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
+                        { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
+                        { value: 3, label: <span>{getPriorityIcon(3)} Moyenne</span> },
+                        { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
+                        { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
+                    ]}
+        />
       </div>
       <div className='filter_row'>
         <label>Date de début:</label>
