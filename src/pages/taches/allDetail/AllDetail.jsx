@@ -37,23 +37,19 @@ const AllDetail = ({ idTache }) => {
         }
     };
 
-    // Group tasks by parent ID
     const groupedData = data.reduce((acc, item) => {
         if (item.id_tache) {
             if (!acc[item.id_tache]) {
                 acc[item.id_tache] = { ...item, sous_taches: [], suivis: [] };
             }
 
-            // Add sub-tasks to the correct parent task
             if (item.sous_tache) {
                 acc[item.id_tache].sous_taches.push({ ...item, suivis: [] });
             }
 
-            // Add follow-ups to the correct task
             if (item.id_suivi) {
                 
                 if (item.sous_tache) {
-                    // Find the parent task of this sub-task and add the follow-up to it
                     const parentTask = acc[item.parent_id];
                     if (parentTask) {
                         const subTask = parentTask.sous_taches.find(st => st.id_sous_tache === item.id_sous_tache);
@@ -162,7 +158,7 @@ const AllDetail = ({ idTache }) => {
                                                 <strong>Description:</strong> {sousTache.sous_tache_description}
                                             </Paragraph>
                                             <Paragraph>
-                                                <strong>Statut:</strong> <Tag color={statusColor(sousTache.sous_tache_statut)}>{sousTache.sous_tache_statut === 1 ? 'Complété' : 'En cours'}</Tag>
+                                                <strong>Statut:</strong> <Tag color={statusColor(sousTache.sous_tache_statut)}>{sousTache.sous_tache_statut}</Tag>
                                             </Paragraph>
                                             <Paragraph>
                                                 <strong>Date de Début:</strong> {new Date(sousTache.sous_tache_dateDebut).toLocaleDateString()}
