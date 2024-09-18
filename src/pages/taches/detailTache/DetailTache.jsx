@@ -42,7 +42,7 @@ const DetailTache = ({ idTache }) => {
   return (
     <Card title="Détails de la tâche" bordered className="detail-tache-card">
       <Row gutter={16}>
-        <Col span={12}>
+        <Col xs={24} sm={12}>
           <Card type="inner" title="Informations générales" bordered className="detail-tache-inner-card">
             <p className="detail-tache-paragraph">
               <strong>Nom de la tâche : </strong>
@@ -72,7 +72,7 @@ const DetailTache = ({ idTache }) => {
             </p>
           </Card>
         </Col>
-        <Col span={12}>
+        <Col xs={24} sm={12}>
           <Card type="inner" title="Détails supplémentaires" bordered className="detail-tache-inner-card">
             <p className="detail-tache-paragraph">
               <strong>Ville : </strong>
@@ -102,7 +102,7 @@ const DetailTache = ({ idTache }) => {
         </Col>
       </Row>
       <Row gutter={16} style={{ marginTop: 16 }}>
-        <Col span={12}>
+        <Col xs={24}>
           <Card type="inner" title="Dates" bordered className="detail-tache-inner-card">
             <p className="detail-tache-paragraph">
               <strong>Date de début : </strong>
