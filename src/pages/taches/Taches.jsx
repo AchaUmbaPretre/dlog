@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select } from 'antd';
 import { 
   ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
-  CheckSquareOutlined, HourglassOutlined,EditOutlined, ClockCircleOutlined, PrinterOutlined, CheckCircleOutlined, 
-  CalendarOutlined, TeamOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, PlusOutlined, FileDoneOutlined 
+  CheckSquareOutlined, HourglassOutlined,EditOutlined, ClockCircleOutlined, CheckCircleOutlined, 
+  CalendarOutlined, TeamOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { deletePutTache, getTache, putPriorite } from '../../services/tacheService';
