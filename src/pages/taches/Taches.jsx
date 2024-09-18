@@ -56,6 +56,7 @@ const Taches = () => {
   const [newPriority, setNewPriority] = useState(null); 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedTacheIds, setSelectedTacheIds] = useState([]);
+  const [filteredDatas, setFilteredDatas] = useState(null);
 
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
@@ -93,9 +94,11 @@ const Taches = () => {
     }
   };
 
-    const fetchData = async () => {
+    const fetchData = async (filters) => {
+
+      setFilteredDatas(filters);
       try {
-        const response = await getTache();
+        const response = await getTache(filters);
         setData(response.data);
         setLoading(false);
       } catch (error) {
@@ -109,7 +112,7 @@ const Taches = () => {
 
     useEffect(() => {
     fetchData();
-  }, []);
+  }, [filteredDatas]);
 
 
   const closeAllModals = () => {
@@ -713,7 +716,7 @@ const Taches = () => {
             </div>
             <h2 className="client-h2">Tâches</h2>
           </div>
-          {filterVisible && <FilterTaches />}
+          {filterVisible && <FilterTaches onFilter={fetchData}/>}
           <Tabs defaultActiveKey="0">
             <Tabs.TabPane tab='Liste de tache' key="0">
               <div className="client-actions">

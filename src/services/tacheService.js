@@ -7,8 +7,9 @@ export const getTacheCount = async () => {
   return axios.get(`${DOMAIN}/api/tache/count`);
 };
 
-export const getTache = async (user) => {
-    return axios.get(`${DOMAIN}/api/tache`);
+export const getTache = async (data) => {
+  console.log(data)
+    return axios.get(`${DOMAIN}/api/tache`,data);
   };
 
 export const getTacheDoc = async (user) => {
