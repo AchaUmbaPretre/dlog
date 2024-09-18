@@ -52,7 +52,7 @@ const Taches = () => {
   const [editingRow, setEditingRow] = useState(null);
   const [newPriority, setNewPriority] = useState(null); 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectedOperationIds, setSelectedOperationIds] = useState([]);
+  const [selectedTacheIds, setSelectedTacheIds] = useState([]);
 
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
@@ -62,8 +62,9 @@ const Taches = () => {
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
-    setSelectedOperationIds(newSelectedRowKeys);
+    setSelectedTacheIds(newSelectedRowKeys);
   };
+
 
   const rowSelection = {
     selectedRowKeys,
