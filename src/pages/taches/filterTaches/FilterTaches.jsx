@@ -134,7 +134,7 @@ const FilterTaches = ({ onFilter }) => {
                         { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
                         { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
                     ]}
-                    onChange={setSelectedPriorite} // Met à jour la priorité sélectionnée
+                    onChange={setSelectedPriorite}
                 />
             </div>
             <div className="filter_row">
