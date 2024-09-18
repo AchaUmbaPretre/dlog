@@ -19,7 +19,7 @@ import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 import SousTacheForm from './sousTacheForm/SousTacheForm';
 import './taches.scss'
-import { getPriorityColor, getPriorityIcon, getPriorityLabel, getPriorityTag } from '../../utils/prioriteIcons';
+import { getPriorityColor, getPriorityIcon, getPriorityLabel } from '../../utils/prioriteIcons';
 import { groupTasks } from '../../utils/tacheGroup';
 import AllDetail from './allDetail/AllDetail';
 
@@ -531,13 +531,38 @@ const Taches = () => {
                   );
                 },
               },
-              { 
-                title: 'Priorité', 
-                dataIndex: 'priorite', 
-                key: 'priorite',
-                render: priority => getPriorityTag(priority),
-                ...(columnsVisibility['Priorite'] ? {} : { className: 'hidden-column' })
-              },
+              {
+      title: 'Priorité',
+      dataIndex: 'priorite',
+      key: 'priorite',
+      sorter: (a, b) => a.priorite - b.priorite,
+      render: (priority, record) => {
+        if (editingRow === record.id_tache) {
+          return (
+            <Select
+              name='priorite'
+              defaultValue={newPriority}
+              onChange={(value) => handleChangePriority(value, record)}
+              onBlur={() => setEditingRow(null)}
+              options={[
+                { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
+                { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
+                { value: 3, label: <span>{getPriorityIcon(3)} Moyenne</span> },
+                { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
+                { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
+              ]}
+              style={{ width: 120 }}
+            />
+          );
+        }
+
+        return (
+          <Tag onDoubleClick={() => handleDoubleClick(record)} color={getPriorityColor(priority)}>
+            {getPriorityIcon(priority)} {getPriorityLabel(priority)}
+          </Tag>
+        );
+      },
+    },
               {
                 title: 'Date début & fin',
                 dataIndex: 'date_debut',

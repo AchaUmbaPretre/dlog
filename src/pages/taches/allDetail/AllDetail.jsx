@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Typography, Tag, Popover, Button, Collapse, Divider } from 'antd';
 import { getAllTache } from '../../../services/tacheService';
 import './allDetail.scss';
+import { getPriorityIcon, getPriorityLabel, getPriorityTag } from '../../../utils/prioriteIcons';
 
 const { Title, Paragraph } = Typography;
 const { Panel } = Collapse;
@@ -85,7 +86,7 @@ const AllDetail = ({ idTache }) => {
                         <strong>Date de Fin:</strong> {new Date(parent.date_fin).toLocaleDateString()}
                     </Paragraph>
                     <Paragraph className="task-detail">
-                        <strong>Priorité:</strong> <Tag color={parent.priorite === 1 ? 'red' : 'geekblue'}>{parent.priorite}</Tag>
+                        <strong>Priorité:</strong>{getPriorityTag(parent.priorite)} 
                     </Paragraph>
                     <Paragraph className="task-detail">
                         <strong>Statut:</strong> <Tag color={statusColor(parent.statut)}>{parent.statut}</Tag>
