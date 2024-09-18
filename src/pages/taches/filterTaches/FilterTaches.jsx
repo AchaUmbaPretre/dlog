@@ -71,14 +71,14 @@ const FilterTaches = ({ onFilter }) => {
       <div className='filter_row'>
         <label>Département:</label>
         <Select
-          style={{ width: '100%' }}
-          value={departement}
-          onChange={value => setDepartement(value)}
-        >
-          <Option value="">Tous</Option>
-          <Option value="dept1">Département 1</Option>
-          <Option value="dept2">Département 2</Option>
-        </Select>
+            showSearch
+            options={departement.map((item) => ({
+                value: item.id_departement,
+                label: item.nom_departement,
+            }))}
+            placeholder="Sélectionnez un département..."
+            optionFilterProp="label"
+        />
       </div>
       <div className='filter_row'>
         <label>Clients:</label>
