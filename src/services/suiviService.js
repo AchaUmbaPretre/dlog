@@ -33,7 +33,7 @@ export const deleteSuivi = async (id) => {
   };
 
 export const getDocgeneral = async (data) => {
-    return axios.post(`${DOMAIN}/api/suivi/doc`, data);
+    return axios.get(`${DOMAIN}/api/suivi/doc`, data);
   };
 
 export const postDocGeneral = async (data) => {
