@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select } from 'antd';
 import { 
-  ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
+  ExportOutlined, WarningOutlined, SearchOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
   CalendarOutlined, TeamOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
@@ -23,6 +23,7 @@ import { getPriorityColor, getPriorityIcon, getPriorityLabel } from '../../utils
 import { groupTasks } from '../../utils/tacheGroup';
 import AllDetail from './allDetail/AllDetail';
 import FilterTaches from './filterTaches/FilterTaches';
+import  getColumnSearchProps  from '../../utils/columnSearchUtils';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -57,6 +58,9 @@ const Taches = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedTacheIds, setSelectedTacheIds] = useState([]);
   const [filteredDatas, setFilteredDatas] = useState(null);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
 
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
@@ -303,18 +307,32 @@ const handleFilterChange = (newFilters) => {
       title: 'DPT', 
       dataIndex: 'departement', 
       key: 'nom_departement',
+      ...getColumnSearchProps(
+        'departement',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
       render: text => (
         <Space>
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
-      ...(columnsVisibility['DPT'] ? {} : { className: 'hidden-column' })
+      ...(columnsVisibility['DPT'] ? {} : { className: 'hidden-column' }),
 
     },
     {   
       title: 'Titre',
       dataIndex: 'nom_tache', 
       key: 'nom_tache', 
+      ...getColumnSearchProps(
+        'nom_tache',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
       render: text => (
         <Space style={columnStyles.title} className={columnStyles.hideScroll}>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
@@ -326,6 +344,13 @@ const handleFilterChange = (newFilters) => {
       title: 'Client', 
       dataIndex: 'nom_client', 
       key: 'nom_client',
+      ...getColumnSearchProps(
+        'nom_client',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
       render: text => (
         <Space>
           <Tag icon={<UserOutlined />} color='green'>{text ?? 'Aucun'}</Tag>
@@ -337,6 +362,13 @@ const handleFilterChange = (newFilters) => {
       title: 'Statut', 
       dataIndex: 'statut', 
       key: 'statut',
+      ...getColumnSearchProps(
+        'statut',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
       render: text => {
         const { icon, color } = statusIcons[text] || {};
         return (
@@ -397,6 +429,13 @@ const handleFilterChange = (newFilters) => {
       title: 'Fréquence', 
       dataIndex: 'frequence', 
       key: 'frequence',
+      ...getColumnSearchProps(
+        'frequence',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
       render: text => (
         <Space>
           <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
@@ -409,6 +448,13 @@ const handleFilterChange = (newFilters) => {
       title: 'Owner', 
       dataIndex: 'owner', 
       key: 'owner',
+      ...getColumnSearchProps(
+        'frequence',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
       render: text => (
         <Space>
           <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
@@ -607,6 +653,13 @@ const handleFilterChange = (newFilters) => {
                 title: 'Owner',
                 dataIndex: 'owner',
                 key: 'owner',
+                ...getColumnSearchProps(
+                  'owner',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+                ),
                 render: text => (
                   <Space>
                     <Tag icon={<TeamOutlined />} color="purple">
