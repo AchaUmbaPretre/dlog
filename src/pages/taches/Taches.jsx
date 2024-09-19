@@ -881,7 +881,7 @@ const handleEdit = (idTache) => {
         footer={null}
         centered
       >
-        <TacheDoc idTache={idTache} />
+        <TacheDoc idTache={idTache} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
 
       <Modal
