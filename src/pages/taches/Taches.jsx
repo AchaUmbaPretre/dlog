@@ -50,7 +50,7 @@ const Taches = () => {
   });
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 15,
+    pageSize: 20,
   });
   const [editingRow, setEditingRow] = useState(null);
   const [newPriority, setNewPriority] = useState(null); 
