@@ -31,31 +31,26 @@ const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
     const formData = new FormData();
     formData.append('nom_document', values.nom_document);
     formData.append('type_document', values.type_document);
+    formData.append('id_tache', idTache);
   
-    // Si un document est téléchargé, ajoutez-le à FormData
+    // Ajout de plusieurs fichiers dans FormData
     if (values.chemin_document && values.chemin_document.length > 0) {
-      values.chemin_document.forEach(file => {
+      values.chemin_document.forEach((file) => {
         formData.append('chemin_document', file.originFileObj);
       });
     }
   
-    formData.append('id_tache', idTache);
-  
-    // Inspecter le contenu de FormData
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
-  
+    // Envoyer le formData comme d'habitude
     setIsLoading(true);
     try {
       if (idTacheDoc) {
-        await putTacheDoc(idTacheDoc, formData); // Passer formData à putTacheDoc
+        await putTacheDoc(idTacheDoc, formData);
       } else {
         await postTacheDoc(formData);
       }
       notification.success({
         message: 'Succès',
-        description: 'Le document a été enregistré avec succès.',
+        description: 'Les documents ont été enregistrés avec succès.',
       });
       fetchData();
       closeModal();
@@ -103,15 +98,21 @@ const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
 
       <Form.Item
         name="chemin_document"
-        label="Télécharger le Document"
+        label="Télécharger les Documents"
         valuePropName="fileList"
         getValueFromEvent={handleUpload}
         extra="Formats supportés : PDF, Word, Excel, Image"
-      >
-        <Upload name="chemin_document" action={`${DOMAIN}/api/offre/doc`} listType="text">
-          <Button icon={<UploadOutlined />}>Cliquez pour télécharger</Button>
+        >
+        <Upload 
+            name="chemin_document" 
+            multiple  // Ajout de la possibilité de sélectionner plusieurs fichiers
+            action={`${DOMAIN}/api/offre/doc`} 
+            listType="text"
+        >
+            <Button icon={<UploadOutlined />}>Cliquez pour télécharger</Button>
         </Upload>
-      </Form.Item>
+        </Form.Item>
+
 
       <Form.Item>
         <Button type="primary" htmlType="submit" block loading={isLoading}>
