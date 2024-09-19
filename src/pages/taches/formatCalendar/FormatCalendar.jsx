@@ -14,7 +14,7 @@ const FormatCalendar = () => {
   const fetchTaches = useCallback(async () => {
     try {
       const response = await getTache();
-      const formattedEvents = response.data.map((tache) => ({
+      const formattedEvents = response.data.taches.map((tache) => ({
         id: tache.id_tache,
         title: `${tache.nom_tache}`,
         start: new Date(tache.date_debut),
