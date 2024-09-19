@@ -60,6 +60,7 @@ const Taches = () => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [statistique, setStatistique] = useState('');
   const searchInput = useRef(null);
 
   const handleDoubleClick = (record) => {
@@ -104,7 +105,8 @@ const Taches = () => {
     setFilteredDatas(filters);
     try {
         const response = await getTache(filters);
-        setData(response.data);
+        setData(response.data.taches);
+        setStatistique(response.data.statistiques[0])
     } catch (error) {
         notification.error({
             message: 'Erreur de chargement',
@@ -774,11 +776,16 @@ const handleFilterChange = (newFilters) => {
     <>
       <div className="client">
         <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <FileDoneOutlined className='client-icon'/>
+          <div className="client-rows">
+            <div className="client-row">
+              <div className="client-row-icon">
+                <FileDoneOutlined className='client-icon'/>
+              </div>
+              <h2 className="client-h2">Tâches</h2>
             </div>
-            <h2 className="client-h2">Tâches</h2>
+            <div className='client-row-left'>
+              <span></span>
+            </div>
           </div>
           {filterVisible && <FilterTaches onFilter={handleFilterChange}/>}
           <Tabs defaultActiveKey="0">
