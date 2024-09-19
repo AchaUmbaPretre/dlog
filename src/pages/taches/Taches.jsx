@@ -99,24 +99,24 @@ const Taches = () => {
     setLoading(true); 
     setFilteredDatas(filters);
     try {
-        const response = await getTache(filters);  // Envoyer les filtres à la requête
-        setData(response.data);  // Mettre à jour les données avec la réponse API
+        const response = await getTache(filters);
+        setData(response.data);
     } catch (error) {
         notification.error({
             message: 'Erreur de chargement',
             description: 'Une erreur est survenue lors du chargement des données.',
         });
     } finally {
-        setLoading(false);  // Arrêter le chargement
+        setLoading(false);
     }
 };
 
-// Appeler fetchData lorsque les filtres sont initialisés ou changés
-useEffect(() => {
-    fetchData(filteredDatas);  // Appeler fetchData avec les filtres actuels
-}, [filteredDatas]);  // Met à jour chaque fois que filteredDatas change
 
-// Fonction pour mettre à jour les filtres
+useEffect(() => {
+    fetchData(filteredDatas);
+}, [filteredDatas]);  
+
+
 const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
 };

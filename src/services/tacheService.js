@@ -11,7 +11,6 @@ export const getTache = async (data) => {
   return axios.post(`${DOMAIN}/api/tache/tache`, data);
 };
 
-
 export const getTacheDoc = async (user) => {
     return axios.get(`${DOMAIN}/api/tache/tache_doc`);
   };
