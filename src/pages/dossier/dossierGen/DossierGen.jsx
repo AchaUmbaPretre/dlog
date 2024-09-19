@@ -139,16 +139,6 @@ const DossierGen = () => {
       }
     },
     {
-        title: 'Titre tache',
-        dataIndex: 'nom_tache',
-        key: 'nom_tache',
-        render: (text) => (
-            <Space style={columnStyles.title} className={columnStyles.hideScroll}>
-                <Tag color={'blue'}>{text}</Tag>
-            </Space>
-        )
-      },
-    {
       title: 'Voir',
       dataIndex: 'chemin_document',
       key: 'chemin_document',

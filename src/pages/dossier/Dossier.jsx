@@ -124,14 +124,6 @@ const Dossier = () => {
       },
     },
     {
-        title: 'Titre offre',
-        dataIndex: 'nom_offre',
-        key: 'nom_offre',
-        render: (text) => {
-          return <Tag color={'blue'}>{text}</Tag>;
-        },
-      },
-    {
       title: 'Doc',
       dataIndex: 'chemin_document',
       key: 'chemin_document',
