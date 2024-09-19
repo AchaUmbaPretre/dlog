@@ -107,21 +107,21 @@ const DossierForm = () => {
 
       <Form.Item
         name="chemin_document"
-        label="Télécharger le Document"
-        rules={[{ required: true, message: 'Veuillez télécharger le document!' }]}
+        label="Télécharger les Documents"
         valuePropName="fileList"
         getValueFromEvent={handleUpload}
         extra="Formats supportés : PDF, Word, Excel, Image"
-      >
-        <Upload 
-          name="chemin_document" 
-          action={`${DOMAIN}/api/suivi/doc`} 
-          listType="text"
-          onChange={handleFileChange}
         >
-          <Button icon={<UploadOutlined />}>Cliquez pour télécharger</Button>
+        <Upload 
+            name="chemin_document" 
+            multiple  // Ajout de la possibilité de sélectionner plusieurs fichiers
+            action={`${DOMAIN}/api/offre/doc`} 
+            listType="text"
+        >
+            <Button icon={<UploadOutlined />}>Cliquez pour télécharger</Button>
         </Upload>
-      </Form.Item>
+        </Form.Item>
+
 
       <Form.Item>
         <Button type="primary" htmlType="submit" block loading={isLoading}>

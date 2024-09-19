@@ -37,5 +37,9 @@ export const getDocgeneral = async (data) => {
   };
 
 export const postDocGeneral = async (data) => {
-    return axios.post(`${DOMAIN}/api/suivi/doc`, data);
+    return axios.post(`${DOMAIN}/api/suivi/doc`, data,{
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
   };
