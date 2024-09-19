@@ -87,7 +87,7 @@ const SideBar = () => {
           <Item key="/" icon={<HomeOutlined />} onClick={toggleMenu}>
             <Link to="/">Accueil</Link>
           </Item>
-          <Item key="1" icon={<ApartmentOutlined />} onClick={toggleMenu} to={'/departement'}>
+          <Item key="1" icon={<ApartmentOutlined />} onClick={toggleMenu}>
             <Link to='/departement'>Département</Link>
           </Item>
           <Item key="2" icon={<DashboardOutlined />} onClick={toggleMenu}>
