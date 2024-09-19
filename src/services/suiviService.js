@@ -31,3 +31,7 @@ return axios.post(`${DOMAIN}/api/suivi/suiviTache`, data);
 export const deleteSuivi = async (id) => {
     return axios.delete(`${DOMAIN}/api/suivi/${id}`,);
   };
+
+export const postDocGeneral = async (data) => {
+    return axios.post(`${DOMAIN}/api/suivi/doc`, data);
+  };

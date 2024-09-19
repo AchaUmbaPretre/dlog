@@ -4,6 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { postOffreDoc } from '../../../services/offreService';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
+import { postDocGeneral } from '../../../services/suiviService';
 
 const { Option } = Select;
 
@@ -26,7 +27,7 @@ const DossierForm = () => {
   
     setIsLoading(true);
     try {
-      /* await postOffreDoc(formData); */
+       await postDocGeneral(formData);
       notification.success({
         message: 'Succès',
         description: 'Le document a été enregistré avec succès.',
@@ -114,7 +115,7 @@ const DossierForm = () => {
       >
         <Upload 
           name="chemin_document" 
-          action={`${DOMAIN}/api/offre/doc`} 
+          action={`${DOMAIN}/api/suivi/doc`} 
           listType="text"
           onChange={handleFileChange}
         >
