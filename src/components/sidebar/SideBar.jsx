@@ -9,7 +9,9 @@ import {
   TagOutlined,
   DashboardOutlined,
   ProjectOutlined,
-  FileTextOutlined
+  FileTextOutlined,
+  ArrowLeftOutlined,
+  ArrowRightOutlined // Icônes pour les flèches
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -44,7 +46,6 @@ const SideBar = () => {
     }
   };
 
-  // Attachez et détachez le gestionnaire d'événements de clic
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     
@@ -72,7 +73,9 @@ const SideBar = () => {
 
   return (
     <div ref={sidebarRef} className={`sidebar ${isOpen ? 'visible' : ''} ${isReduced ? 'sidebar-reduced' : ''}`}>
-      <button className="sidebar-toggle" onClick={toggleSidebar}>☰</button>
+      <button className="sidebar-toggle" onClick={toggleSidebar}>
+        {isReduced ? <ArrowRightOutlined /> : <ArrowLeftOutlined />}
+      </button>
       <Sider>
         <Menu
           mode='inline'
