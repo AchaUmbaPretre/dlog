@@ -118,7 +118,7 @@ useEffect(() => {
 
 // Fonction pour mettre à jour les filtres
 const handleFilterChange = (newFilters) => {
-    setFilteredDatas(newFilters);  // Cela déclenchera useEffect
+    setFilteredDatas(newFilters); 
 };
 
 
