@@ -783,7 +783,7 @@ const handleEdit = (idTache) => {
               </div>
               <h2 className="client-h2">Tâches</h2>
             </div>
-            <div className='client-row-left'>
+            <div className='client-row-lefts'>
               <span className='client-title'>Taches trouvées : {total}</span>
                 <div className="client-row-sous">
                   { statistique.map(s => (
