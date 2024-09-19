@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Tabs, Popconfirm, Modal } from 'antd';
-import { ExportOutlined, FileTextOutlined,EditOutlined, PlusCircleOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
-import config from '../../config';
-import { getOffreDoc } from '../../services/offreService';
-import DossierTache from './dossierTache/DossierTache';
-import DossierForm from './dossierForm/DossierForm';
-import DossierGen from './dossierGen/DossierGen';
+import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Menu, Dropdown, Popconfirm, Modal } from 'antd';
+import { FileTextOutlined,EditOutlined, DeleteOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import config from '../../../config';
+import TacheDoc from '../../taches/tacheDoc/TacheDoc';
+import { getDocgeneral } from '../../../services/suiviService';
 
 const { Search } = Input;
 
-const Dossier = () => {
+const DossierGen = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
+  const [idDoc, setIdDoc] = useState('');
+  const [isModal, setIsModal] = useState(false);
 
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getOffreDoc();
+        const { data } = await getDocgeneral();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -33,8 +31,14 @@ const Dossier = () => {
       }
     };
 
+    useEffect(() => {
+
     fetchData();
   }, []);
+
+  const handleCancel = () => {
+    setIsModal(false);
+  };
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -44,12 +48,18 @@ const Dossier = () => {
     message.success('Exporting to PDF...');
   };
 
+
+  const handleViewDetails = (id) => {
+        setIdDoc(id)
+        setIsModal(true)
+      }
+
   const handleDelete = async (id) => {
     try {
       // Uncomment when delete function is available
       // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
-      message.success('Offre a été supprimée');
+      message.success('Client deleted successfully');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -57,20 +67,6 @@ const Dossier = () => {
       });
     }
   };
-
-  const handleAddDoc = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleViewDetails = (id) => {
-/*     setIdDoc(id)
-    setIsModal(true) */
-  };
-
 
   const menu = (
     <Menu>
@@ -98,6 +94,23 @@ const Dossier = () => {
     }
   };
 
+  const columnStyles = {
+    title: {
+      maxWidth: '280px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
+
   const columns = [
     {
       title: '#',
@@ -111,7 +124,9 @@ const Dossier = () => {
       dataIndex: 'nom_document',
       key: 'nom_document',
       render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+            <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
+        </Space>
       ),
     },
     {
@@ -121,18 +136,20 @@ const Dossier = () => {
       render: (text) => {
         const { icon, color } = getTagProps(text);
         return <Tag icon={icon} color={color}>{text}</Tag>;
-      },
+      }
     },
     {
-        title: 'Titre offre',
-        dataIndex: 'nom_offre',
-        key: 'nom_offre',
-        render: (text) => {
-          return <Tag color={'blue'}>{text}</Tag>;
-        },
+        title: 'Titre tache',
+        dataIndex: 'nom_tache',
+        key: 'nom_tache',
+        render: (text) => (
+            <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+                <Tag color={'blue'}>{text}</Tag>
+            </Space>
+        )
       },
     {
-      title: 'Doc',
+      title: 'Voir',
       dataIndex: 'chemin_document',
       key: 'chemin_document',
       render: (text) => (
@@ -177,77 +194,46 @@ const Dossier = () => {
   const filteredData = data.filter(item =>
     item.nom_document?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.type_document?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_offre?.toLowerCase().includes(searchValue.toLowerCase())  );
+    item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase())  );
+
 
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-            <div className="client-rows">
-                <div className="client-row">
-                    <div className="client-row-icon">
-                        <FileTextOutlined className='client-icon' />
-                    </div>
-                    <h2 className="client-h2">Document</h2>
-                </div>
-                <Button
-                    type="primary"
-                    icon={<PlusCircleOutlined />}
-                    onClick={handleAddDoc}
-                >
-                    document
-                </Button>
+        <div className="client-actions">
+            <div className="client-row-left">
+                <Search
+                    placeholder="Recherche..."
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    enterButton
+                  />
             </div>
-          <Tabs defaultActiveKey="0">
-                <Tabs.TabPane tab="Liste des documents des tâches" key='0'>
-                    <DossierTache/>
-                </Tabs.TabPane>
-                <Tabs.TabPane tab="Liste des documents de l'offre" key='1'>
-                    <div className="client-actions">
-                        <div className="client-row-left">
-                            <Search
-                                placeholder="Recherche..."
-                                value={searchValue}
-                                onChange={(e) => setSearchValue(e.target.value)}
-                                enterButton
-                            />
-                        </div>
-                        <div className="client-rows-right">
-                            <Dropdown overlay={menu} trigger={['click']}>
-                                <Button icon={<ExportOutlined />}>Export</Button>
-                            </Dropdown>
-                        </div>
-                    </div>
-                    <Table
-                        columns={columns}
-                        dataSource={filteredData}
-                        loading={loading}
-                        pagination={{ pageSize: 15 }}
-                        rowKey="id"
-                        bordered
-                        size="middle"
-                        scroll={scroll}
-                    />
-                </Tabs.TabPane>
-                <Tabs.TabPane tab="Liste des documents libres" key='2'>
-                    <DossierGen/>
-                </Tabs.TabPane>
-          </Tabs>
-        </div>
-      </div>
+            <div className="client-rows-right">
+            </div>
+          </div>
+          <Table
+            columns={columns}
+            dataSource={filteredData}
+            loading={loading}
+            pagination={{ pageSize: 15 }}
+            rowKey="id"
+            bordered
+            size="middle"
+            scroll={scroll}
+          />
 
         <Modal
             title=""
-            visible={isModalVisible}
+            visible={isModal}
             onCancel={handleCancel}
             footer={null}
-            width={600}
+            width={550}
             centered
         >
-           <DossierForm closeModal={() => setIsModalVisible(false)} />
+            <TacheDoc idTache={''} fetchData={fetchData} closeModal={handleCancel} idTacheDoc={idDoc}/>
         </Modal>
     </>
   );
 };
 
-export default Dossier;
+export default DossierGen;
