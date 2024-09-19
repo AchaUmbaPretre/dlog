@@ -26,6 +26,12 @@ const SideBar = () => {
   const sidebarRef = useRef(null);
   const hamburgerRef = useRef(null);
 
+  const [isReduced, setIsReduced] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsReduced(!isReduced);
+  };
+
   const handleClickOutside = (event) => {
     if (
       isOpen &&
@@ -65,7 +71,8 @@ const SideBar = () => {
   };
 
   return (
-    <div ref={sidebarRef} className={`sidebar ${isOpen ? 'visible' : ''}`}>
+    <div ref={sidebarRef} className={`sidebar ${isOpen ? 'visible' : ''} ${isReduced ? 'sidebar-reduced' : ''}`}>
+      <button className="sidebar-toggle" onClick={toggleSidebar}>☰</button>
       <Sider>
         <Menu
           mode='inline'
