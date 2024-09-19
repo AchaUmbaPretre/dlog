@@ -31,7 +31,7 @@ const DossierForm = () => {
         message: 'Succès',
         description: 'Le document a été enregistré avec succès.',
       });
-      navigate('/offre');
+      navigate('/document');
       window.location.reload();
     } catch (error) {
       notification.error({
