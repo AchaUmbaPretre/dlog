@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton } from 'antd';
 import { 
   ExportOutlined, WarningOutlined, SearchOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
@@ -784,13 +784,20 @@ const handleEdit = (idTache) => {
               <h2 className="client-h2">Tâches</h2>
             </div>
             <div className='client-row-lefts'>
-              <span className='client-title'>Taches trouvées : {total}</span>
-                <div className="client-row-sous">
-                  { statistique.map(s => (
-                    <span>{s.statut} : <strong>{s.nombre_taches}</strong></span>
+              <span className='client-title'>
+                Taches trouvées : {loading ? <Skeleton.Input style={{ width: 100 }} active size='small' /> : total}
+              </span>
+              <div className="client-row-sous">
+                {loading ? (
+                  <Skeleton active paragraph={{ rows: 1 }} />
+                ) : (
+                  statistique.map((s, index) => (
+                    <div key={index}>
+                      <span>{s.statut} : <strong>{s.nombre_taches}</strong></span>
+                    </div>
                   ))
-                  }
-                </div>
+                )}
+              </div>
             </div>
           </div>
           {filterVisible && <FilterTaches onFilter={handleFilterChange}/>}
