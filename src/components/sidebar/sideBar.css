@@ -54,14 +54,13 @@
 /* Styles pour les flèches */
 .sidebar-toggle .anticon-arrow-left,
 .sidebar-toggle .anticon-arrow-right {
-  font-size: 13px; /* Taille des flèches */
-  color: #000; /* Couleur des flèches */
+  font-size: 13px;
+  color: #000;
 }
 
-/* Styles au survol du bouton */
 .sidebar-toggle:hover {
-  background-color: #f0f0f0; /* Couleur de survol */
-  transform: scale(1.1); /* Effet de zoom au survol */
+  background-color: #f0f0f0;
+  transform: scale(1.1);
   color: #000;
 }
 
@@ -69,21 +68,21 @@
 /* Styles pour les éléments du menu */
 .ant-menu-item,
 .ant-menu-submenu-title {
-  font-size: 14px; /* Taille de police légèrement augmentée pour plus de lisibilité */
-  padding: 12px; /* Padding amélioré */
+  font-size: 14px;
+  padding: 12px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Styles au survol des éléments du menu */
 .ant-menu-item:hover,
 .ant-menu-submenu-title:hover {
-  background-color: #1890ff; /* Couleur de survol */
-  color: #fff; /* Couleur du texte au survol */
+  background-color: #1890ff;
+  color: #fff;
 }
 
 /* Styles pour les sous-menus */
 .ant-menu-submenu-popup {
-  background: #fff; /* Couleur de fond des sous-menus */
+  background: #fff;
   border: 1px solid #cfcfcf;
 }
 
@@ -112,7 +111,7 @@
 }
 
 .sidebar-reduced .ant-menu-submenu-popup {
-  left: 80px; /* Ajustez cette valeur selon la largeur de votre sidebar */
+  left: 80px;
   top: 0;
   position: absolute;
   z-index: 1000;
