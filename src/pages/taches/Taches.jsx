@@ -111,7 +111,6 @@ const Taches = () => {
     }
 };
 
-
 useEffect(() => {
     fetchData(filteredDatas);
 }, [filteredDatas]);  
