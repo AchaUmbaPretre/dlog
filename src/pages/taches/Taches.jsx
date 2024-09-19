@@ -61,6 +61,7 @@ const Taches = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [statistique, setStatistique] = useState('');
+  const [total, setTotal] = useState([]);
   const searchInput = useRef(null);
 
   const handleDoubleClick = (record) => {
@@ -107,6 +108,7 @@ const Taches = () => {
         const response = await getTache(filters);
         setData(response.data.taches);
         setStatistique(response.data.statistiques[0])
+        setTotal(response.data[0].total_taches)
     } catch (error) {
         notification.error({
             message: 'Erreur de chargement',
@@ -784,7 +786,15 @@ const handleFilterChange = (newFilters) => {
               <h2 className="client-h2">Tâches</h2>
             </div>
             <div className='client-row-left'>
-              <span></span>
+              <span className='client-title'>Taches trouvées : {}</span>
+                <div className="client-row-sous">
+                  <span>Encours : {}</span>
+                  <span>En attente : {}</span>
+                  <span>Point bloquant : {}</span>
+                  <span>En attente de validation : {}</span>
+                  <span>Executé : {}</span>
+                  <span>Budget : {}</span>
+                </div>
             </div>
           </div>
           {filterVisible && <FilterTaches onFilter={handleFilterChange}/>}
