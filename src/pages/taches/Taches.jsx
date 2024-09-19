@@ -123,28 +123,26 @@ useEffect(() => {
     fetchData(filteredDatas);
 }, [filteredDatas]);  
 
-
 const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
 };
 
+const closeAllModals = () => {
+  setModalType(null);
+};
 
-  const closeAllModals = () => {
-    setModalType(null);
-  };
+const openModal = (type, idTache = '') => {
+  closeAllModals();
+  setIdTache(idTache);
+  setModalType(type);
+};
 
-  const openModal = (type, idTache = '') => {
-    closeAllModals();
-    setIdTache(idTache);
-    setModalType(type);
-  };
+const handFilter = () => {
+  fetchData()
+  setFilterVisible(!filterVisible)
+}
 
-  const handFilter = () => {
-    fetchData()
-    setFilterVisible(!filterVisible)
-  }
-
-  const handleEdit = (idTache) => {
+const handleEdit = (idTache) => {
     setIdTache(idTache);
     setIsModalVisible(true);
 
