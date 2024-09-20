@@ -1,0 +1,60 @@
+.gallery-container {
+    padding: 20px;
+    background-color: #f4f7fa;
+    min-height: 100vh;
+  }
+  
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .gallery-image {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+  
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  .image-card {
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s;
+  
+    &:hover {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+  
+    .ant-card-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  
+  .view-button,
+  .download-button {
+    width: 100%;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #1890ff;
+      color: #fff;
+    }
+  }
+  
+  .image-modal .modal-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: opacity 0.5s;
+  }
+  
