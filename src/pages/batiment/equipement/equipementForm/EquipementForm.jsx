@@ -33,7 +33,6 @@ const EquipementForm = ({idBatiment}) => {
       </Row>
 
       <Row gutter={16}>
-        {/* model */}
         <Col span={12}>
           <Form.Item
             label="Modèle"
