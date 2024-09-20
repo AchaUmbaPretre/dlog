@@ -9,11 +9,20 @@ export const getEquipement = async () => {
   };
 
 export const getEquipementOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/batiment/one?id_equipement=${id}`);
+    return axios.get(`${DOMAIN}/api/batiment/equipement/one?id_equipement=${id}`);
   };
 
 export const postEquipement = async (data) => {
-  return axios.post(`${DOMAIN}/api/batiment`, data);
+  return axios.post(`${DOMAIN}/api/batiment/equipement`, data);
 };
 
 //
+
+export const getPlans = async () => {
+    return axios.get(`${DOMAIN}/api/batiment/plans`);
+  };
+
+export const postPlans = async (data) => {
+    return axios.post(`${DOMAIN}/api/batiment/plans`, data);
+  };
+  
