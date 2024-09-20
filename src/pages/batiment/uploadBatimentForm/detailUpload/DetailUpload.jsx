@@ -82,9 +82,12 @@ const DetailUpload = ({ idBatiment }) => {
 
   return (
     <div className="detail-upload">
-      <Title level={2} className="gallery-title">
-        Galerie des Les croquis ou plans du {name}
-      </Title>
+      {/* Afficher le titre seulement s'il y a des images */}
+      {data.length > 0 && (
+        <Title level={3} className="gallery-title">
+          Galerie des croquis ou plans du {name}
+        </Title>
+      )}
 
       {data.length === 0 ? (
         <Empty description="Aucune image disponible" />
