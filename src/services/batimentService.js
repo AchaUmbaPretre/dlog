@@ -3,6 +3,7 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
+//Equipement
 export const getEquipement = async () => {
     return axios.get(`${DOMAIN}/api/batiment/equipement`);
   };
@@ -14,3 +15,5 @@ export const getEquipementOne = async (id) => {
 export const postEquipement = async (data) => {
   return axios.post(`${DOMAIN}/api/batiment`, data);
 };
+
+//
