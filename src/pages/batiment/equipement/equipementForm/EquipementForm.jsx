@@ -41,8 +41,7 @@ const EquipementForm = ({idBatiment}) => {
             <Input placeholder="Modèle (facultatif)" />
           </Form.Item>
         </Col>
-
-        {/* num_serie */}
+        
         <Col span={12}>
           <Form.Item
             label="Numéro de série"
