@@ -11,7 +11,8 @@ import {
   ProjectOutlined,
   FileTextOutlined,
   ArrowLeftOutlined,
-  ArrowRightOutlined // Icônes pour les flèches
+  ArrowRightOutlined,
+  BankOutlined
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -90,6 +91,9 @@ const SideBar = () => {
           <Item key="1" icon={<ApartmentOutlined />} onClick={toggleMenu}>
             <Link to='/departement'>Département</Link>
           </Item>
+          <Item key="13" icon={<BankOutlined />} onClick={toggleMenu}>
+            <Link to='/batiment'>Bâtiment</Link>
+          </Item>
           <Item key="2" icon={<DashboardOutlined />} onClick={toggleMenu}>
             <Link to='/controle'>Contrôle de base</Link>
           </Item>
@@ -132,9 +136,6 @@ const SideBar = () => {
             </Menu.Item>
             <Menu.Item key="12" onClick={toggleMenu}>
               <Link to='/fournisseur'>Liste des fournisseurs</Link>
-            </Menu.Item>
-            <Menu.Item key="13" onClick={toggleMenu}>
-              <Link to='/batiment'>Liste des bâtiments</Link>
             </Menu.Item>
             <Menu.Item key="15" onClick={toggleMenu}>
               <Link to='/format'>Format</Link>
