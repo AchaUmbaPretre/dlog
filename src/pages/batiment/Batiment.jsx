@@ -156,7 +156,7 @@ const Batiment = () => {
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                           <Link onClick={() => handleListeEquipement(record.id_batiment)}>
-                            <FileTextOutlined /> Liste d'equipements
+                            <FileTextOutlined /> Liste d'equipement
                           </Link>
                           <Link onClick={() => handleAddEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Ajouter un équipement

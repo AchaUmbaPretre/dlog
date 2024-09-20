@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
-import { getStatutEquipement, getTypeEquipement } from '../../../../services/batimentService';
+import { getStatutEquipement, getTypeEquipement, postEquipement } from '../../../../services/batimentService';
 
 const { Option } = Select;
 
@@ -36,9 +36,25 @@ const EquipementForm = ({ idBatiment }) => {
     fetchData();
 }, [idBatiment, form]);
 
-  const handleSubmit = (values) => {
-    console.log('Form values:', values);
-    // Traitement des données
+  const handleSubmit = async(values) => {
+    setIsLoading(true);
+    try {
+            await postEquipement(values);
+        notification.success({
+            message: 'Succès',
+            description: 'Les informations ont été enregistrées avec succès.',
+        });
+
+/*         fetchData();
+        closeModal() */
+    } catch (error) {
+        notification.error({
+            message: 'Erreur',
+            description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+        });
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   return (
@@ -145,7 +161,7 @@ const EquipementForm = ({ idBatiment }) => {
 
       {/* Submit button */}
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
           Soumettre
         </Button>
       </Form.Item>
