@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getPlansOne } from '../../../../services/batimentService';
-import { Spin, notification, Card, Col, Row, Modal, Button, Typography, Pagination } from 'antd';
+import { Spin, notification, Card, Col, Row, Modal, Button, Typography, Pagination, Empty } from 'antd';
 import { EyeOutlined, DownloadOutlined } from '@ant-design/icons';
 import './detailUpload.scss';
 import config from '../../../../config';
@@ -23,7 +23,7 @@ const DetailUpload = ({ idBatiment }) => {
       try {
         const response = await getPlansOne(idBatiment);
         setData(response.data);
-        setName(response.data[0]?.nom_batiment)
+        setName(response.data[0]?.nom_batiment || '');
       } catch (error) {
         notification.error({
           message: 'Erreur de chargement',
@@ -82,53 +82,63 @@ const DetailUpload = ({ idBatiment }) => {
 
   return (
     <div className="detail-upload">
-      <Title level={2} className="gallery-title">Galerie des Les croquis ou plans du {name}</Title>
+      <Title level={2} className="gallery-title">
+        Galerie des Les croquis ou plans du {name}
+      </Title>
 
-      <Row gutter={[16, 16]} className="gallery-row">
-        {paginatedData.map((item) => (
-          <Col key={item.id_batiment_plans} xs={24} sm={12} md={8} lg={6}>
-            <Card
-              hoverable
-              cover={
-                <img
-                  alt={item.nom_document}
-                  src={`${DOMAIN}/${item.chemin_document}`}
-                  className="gallery-image"
-                  onClick={() => showImageModal(item)}
-                />
-              }
-              actions={[
-                <Button
-                  type="link"
-                  icon={<EyeOutlined />}
-                  onClick={() => showImageModal(item)}
-                  className="view-button"
+      {data.length === 0 ? (
+        <Empty description="Aucune image disponible" />
+      ) : (
+        <>
+          <Row gutter={[16, 16]} className="gallery-row">
+            {paginatedData.map((item) => (
+              <Col key={item.id_batiment_plans} xs={24} sm={12} md={8} lg={6}>
+                <Card
+                  hoverable
+                  cover={
+                    <img
+                      alt={item.nom_document}
+                      src={`${DOMAIN}/${item.chemin_document}`}
+                      className="gallery-image"
+                      onClick={() => showImageModal(item)}
+                    />
+                  }
+                  actions={[
+                    <Button
+                      type="link"
+                      icon={<EyeOutlined />}
+                      onClick={() => showImageModal(item)}
+                      className="view-button"
+                    ></Button>,
+                    <Button
+                      type="link"
+                      icon={<DownloadOutlined />}
+                      onClick={() => downloadImage(item.chemin_document)}
+                      className="download-button"
+                    ></Button>,
+                  ]}
+                  className="gallery-card"
                 >
-                </Button>,
-                <Button
-                  type="link"
-                  icon={<DownloadOutlined />}
-                  onClick={() => downloadImage(item.chemin_document)}
-                  className="download-button"
-                >
-                </Button>,
-              ]}
-              className="gallery-card"
-            >
-              <Meta title={item.nom_document} description={`Ajouté le ${new Date(item.date_ajout).toLocaleDateString()}`} />
-            </Card>
-          </Col>
-        ))}
-      </Row>
-      <Pagination
-        current={currentPage}
-        pageSize={pageSize}
-        total={data.length}
-        onChange={handlePaginationChange}
-        showSizeChanger
-        pageSizeOptions={['4', '8', '12']}
-        className="gallery-pagination"
-      />
+                  <Meta
+                    title={item.nom_document}
+                    description={`Ajouté le ${new Date(item.date_ajout).toLocaleDateString()}`}
+                  />
+                </Card>
+              </Col>
+            ))}
+          </Row>
+
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={data.length}
+            onChange={handlePaginationChange}
+            showSizeChanger
+            pageSizeOptions={['4', '8', '12']}
+            className="gallery-pagination"
+          />
+        </>
+      )}
 
       <Modal
         visible={isModalVisible}
