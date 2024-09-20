@@ -164,6 +164,9 @@ const Batiment = () => {
                             <FileTextOutlined /> Tableau de bord
                           </Link>
                           <Link onClick={() => handleAddEquipement(record.id_batiment)}>
+                            <FileTextOutlined /> Liste d'équipement
+                          </Link>
+                          <Link onClick={() => handleAddEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Ajouter un équipement
                           </Link>
                     </div>
