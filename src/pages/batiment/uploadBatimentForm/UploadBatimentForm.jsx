@@ -3,11 +3,11 @@ import { Form, Input, Button, Upload, Select, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
-import { postDocGeneral } from '../../../services/suiviService';
+import { postPlans } from '../../../services/batimentService';
 
 const { Option } = Select;
 
-const UploadBatimentForm = () => {
+const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -17,22 +17,25 @@ const UploadBatimentForm = () => {
     const formData = new FormData();
     formData.append('nom_document', values.nom_document);
     formData.append('type_document', values.type_document);
-  
+    formData.append('id_batiment', idBatiment);  // Ajout de l'id_batiment dans le formData
+    
     if (values.chemin_document && values.chemin_document.length > 0) {
       values.chemin_document.forEach(file => {
-        formData.append('chemin_document', file.originFileObj);
+        formData.append('chemin_document', file.originFileObj);  // Append chaque fichier
       });
     }
   
     setIsLoading(true);
     try {
-       await postDocGeneral(formData);
+      // Envoyer formData plutôt que values
+      await postPlans(formData);
       notification.success({
         message: 'Succès',
         description: 'Le document a été enregistré avec succès.',
       });
-      navigate('/dossier');
-      window.location.reload();
+
+      closeModal();
+      fetchData();
     } catch (error) {
       notification.error({
         message: 'Erreur',
@@ -45,6 +48,7 @@ const UploadBatimentForm = () => {
 
   const handleUpload = (e) => Array.isArray(e) ? e : e?.fileList;
 
+  // Appeler handleFileChange lorsque l'upload change
   const handleFileChange = (info) => {
     const file = info.fileList[0]?.originFileObj;
     if (file) {
@@ -110,17 +114,17 @@ const UploadBatimentForm = () => {
         valuePropName="fileList"
         getValueFromEvent={handleUpload}
         extra="Formats supportés : PDF, Word, Excel, Image"
-        >
+      >
         <Upload 
-            name="chemin_document" 
-            multiple  // Ajout de la possibilité de sélectionner plusieurs fichiers
-            action={`${DOMAIN}/api/offre/doc`} 
-            listType="text"
+          name="chemin_document" 
+          multiple // Possibilité de sélectionner plusieurs fichiers
+          listType="text"
+          beforeUpload={() => false} // Désactive le téléchargement automatique
+          onChange={handleFileChange}  // Appelle handleFileChange pour chaque modification de fichier
         >
-            <Button icon={<UploadOutlined />}>Cliquez pour télécharger</Button>
+          <Button icon={<UploadOutlined />}>Cliquez pour télécharger</Button>
         </Upload>
-        </Form.Item>
-
+      </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit" block loading={isLoading}>

@@ -6,6 +6,7 @@ import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
 import { Link } from 'react-router-dom';
 import EquipementForm from './equipement/equipementForm/EquipementForm';
+import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
 
 const { Search } = Input;
 
@@ -71,6 +72,10 @@ const Batiment = () => {
 
   const handleAddEquipement = ( idBatiment) =>{
     openModal('addEquipement', idBatiment)
+  }
+
+  const handleAddCroquis = ( idBatiment) =>{
+    openModal('addCroquis', idBatiment)
   }
 
   const handleAddClient = () => {
@@ -157,18 +162,18 @@ const Batiment = () => {
            <Popover
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                        <Link onClick={() => handleListeEquipement(record.id_batiment)}>
-                        <CloudDownloadOutlined /> Upload de croquis
-                          </Link>
-                          <Link onClick={() => handleListeEquipement(record.id_batiment)}>
+                            <Link onClick={() => handleAddCroquis(record.id_batiment)}>
+                                <CloudDownloadOutlined /> Upload de croquis
+                            </Link>
+                            <Link onClick={() => handleListeEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Tableau de bord
-                          </Link>
-                          <Link onClick={() => handleAddEquipement(record.id_batiment)}>
+                            </Link>
+                            <Link onClick={() => handleAddEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Liste d'équipement
-                          </Link>
-                          <Link onClick={() => handleAddEquipement(record.id_batiment)}>
-                            <FileTextOutlined /> Ajouter un équipement
-                          </Link>
+                            </Link>
+                            <Link onClick={() => handleAddEquipement(record.id_batiment)}>
+                                <FileTextOutlined /> Ajouter un équipement
+                            </Link>
                     </div>
                 }
                     title=""
@@ -285,6 +290,16 @@ const Batiment = () => {
         <EquipementForm idEquipement = {idBatiment} />
       </Modal> */}
 
+      <Modal
+        title="Upload de croquis"
+        visible={modalType === 'addCroquis'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={600}
+        centered
+      >
+        <UploadBatimentForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
     </>
   );
 };
