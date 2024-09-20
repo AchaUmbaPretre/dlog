@@ -4,7 +4,7 @@ import { getStatutEquipement, getTypeEquipement, postEquipement } from '../../..
 
 const { Option } = Select;
 
-const EquipementForm = ({ idBatiment }) => {
+const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [statutEquipement, setStatutEquipement] = useState([]);
@@ -48,8 +48,8 @@ const EquipementForm = ({ idBatiment }) => {
             description: 'Les informations ont été enregistrées avec succès.',
         });
 
-/*         fetchData();
-        closeModal() */
+         fetchData();
+        closeModal()
     } catch (error) {
         notification.error({
             message: 'Erreur',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, PrinterOutlined,PlusCircleOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,PlusCircleOutlined,CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
@@ -34,7 +34,7 @@ const Batiment = () => {
   };
 
 
-  useEffect(() => {
+
     const fetchData = async () => {
       try {
         const { data } = await getBatiment();
@@ -48,6 +48,8 @@ const Batiment = () => {
         setLoading(false);
       }
     };
+
+    useEffect(() => {
 
     fetchData();
   }, [DOMAIN]);
@@ -155,6 +157,9 @@ const Batiment = () => {
            <Popover
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        <Link onClick={() => handleListeEquipement(record.id_batiment)}>
+                        <CloudDownloadOutlined /> Upload de croquis
+                          </Link>
                           <Link onClick={() => handleListeEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Tableau de bord
                           </Link>
@@ -264,7 +269,7 @@ const Batiment = () => {
         width={800}
         centered
       >
-        <EquipementForm idBatiment = {idBatiment} />
+        <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
 
 {/*       <Modal
