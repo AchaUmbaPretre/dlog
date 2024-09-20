@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getPlansOne } from '../../../../services/batimentService';
 import { Spin, notification, Card, Col, Row, Modal, Button, Typography } from 'antd';
 import { EyeOutlined, DownloadOutlined } from '@ant-design/icons';
-import './detailUpload.scss';
+import { getPlansOne } from '../../../../services/batimentService';
 import config from '../../../../config';
+import './detailUpload.scss';
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -44,66 +44,66 @@ const DetailUpload = ({ idBatiment }) => {
   const downloadImage = (imagePath) => {
     const link = document.createElement('a');
     link.href = `${DOMAIN}/${imagePath}`;
-    link.download = imagePath.split('/').pop(); // Nom du fichier basé sur son chemin
+    link.download = imagePath.split('/').pop();
     link.click();
   };
-
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <Spin tip="Chargement des images..." size="large" />
-      </div>
-    );
-  }
 
   return (
     <div className="detail-upload">
       <Title level={2} className="gallery-title">
         Galerie des plans
       </Title>
-      <Row gutter={[16, 16]} className="gallery-row">
-        {data.map((item) => (
-          <Col key={item.id_batiment_plans} xs={24} sm={12} md={8} lg={6}>
-            <Card
-              hoverable
-              cover={
-                <img
-                  alt={item.nom_document}
-                  src={`${DOMAIN}/${item.chemin_document}`}
-                  className="gallery-image"
-                  onClick={() => showImageModal(item)}
+
+      {loading ? (
+        <div className="loading-container">
+          <Spin tip="Chargement des images..." size="large" />
+        </div>
+      ) : (
+        <Row gutter={[16, 16]} className="gallery-row">
+          {data.map((item) => (
+            <Col key={item.id_batiment_plans} xs={24} sm={12} md={8} lg={6}>
+              <Card
+                hoverable
+                cover={
+                  <img
+                    alt={item.nom_document}
+                    src={`${DOMAIN}/${item.chemin_document}`}
+                    className="gallery-image"
+                    onClick={() => showImageModal(item)}
+                  />
+                }
+                actions={[
+                  <Button
+                    type="link"
+                    icon={<EyeOutlined />}
+                    onClick={() => showImageModal(item)}
+                    className="view-button"
+                  />,
+                  <Button
+                    type="link"
+                    icon={<DownloadOutlined />}
+                    onClick={() => downloadImage(item.chemin_document)}
+                    className="download-button"
+                  />,
+                ]}
+                className="gallery-card"
+              >
+                <Meta
+                  title={item.nom_document}
+                  description={`Ajouté le ${new Date(item.date_ajout).toLocaleDateString()}`}
                 />
-              }
-              actions={[
-                <Button
-                  type="link"
-                  icon={<EyeOutlined />}
-                  onClick={() => showImageModal(item)}
-                  className="view-button"
-                >
-                </Button>,
-                <Button
-                  type="link"
-                  icon={<DownloadOutlined />}
-                  onClick={() => downloadImage(item.chemin_document)}
-                  className="download-button"
-                >
-                </Button>,
-              ]}
-              className="gallery-card"
-            >
-              <Meta title={item.nom_document} description={`Ajouté le ${new Date(item.date_ajout).toLocaleDateString()}`} />
-            </Card>
-          </Col>
-        ))}
-      </Row>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
 
       <Modal
         visible={isModalVisible}
         footer={null}
         onCancel={handleCancel}
         className="image-modal"
-        width={800}
+        width={1000}
         centered
       >
         {selectedImage && (
