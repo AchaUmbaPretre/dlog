@@ -10,6 +10,7 @@ const { Title } = Typography;
 
 const DetailUpload = ({ idBatiment }) => {
   const [data, setData] = useState([]);
+  const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -22,6 +23,7 @@ const DetailUpload = ({ idBatiment }) => {
       try {
         const response = await getPlansOne(idBatiment);
         setData(response.data);
+        setName(response.data[0]?.nom_batiment)
       } catch (error) {
         notification.error({
           message: 'Erreur de chargement',
