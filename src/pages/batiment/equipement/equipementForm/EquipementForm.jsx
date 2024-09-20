@@ -3,7 +3,7 @@ import { Form, Input, DatePicker, Select, Button, Row, Col } from 'antd';
 
 const { Option } = Select;
 
-const EquipementForm = () => {
+const EquipementForm = ({idBatiment}) => {
   const [form] = Form.useForm();
 
   const handleSubmit = (values) => {
@@ -21,22 +21,7 @@ const EquipementForm = () => {
       }}
     >
       <Row gutter={16}>
-        {/* id_batiment Index */}
-        <Col span={12}>
-          <Form.Item
-            label="Bâtiment"
-            name="id_batiment"
-            rules={[{ required: true, message: 'Veuillez sélectionner un bâtiment' }]}
-          >
-            <Select placeholder="Sélectionnez un bâtiment">
-              <Option value="1">Bâtiment 1</Option>
-              <Option value="2">Bâtiment 2</Option>
-            </Select>
-          </Form.Item>
-        </Col>
-
-        {/* id_type_batiment */}
-        <Col span={12}>
+        <Col span={24}>
           <Form.Item
             label="Type de bâtiment"
             name="id_type_batiment"
