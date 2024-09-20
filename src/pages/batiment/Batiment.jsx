@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, PrinterOutlined,PlusCircleOutlined,CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
 import { Link } from 'react-router-dom';
 import EquipementForm from './equipement/equipementForm/EquipementForm';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
+import DetailUpload from './uploadBatimentForm/detailUpload/DetailUpload';
 
 const { Search } = Input;
 
@@ -76,6 +77,10 @@ const Batiment = () => {
 
   const handleAddCroquis = ( idBatiment) =>{
     openModal('addCroquis', idBatiment)
+  }
+
+  const handleDetailCroquis = ( idBatiment) =>{
+    openModal('detailCroquis', idBatiment)
   }
 
   const handleAddClient = () => {
@@ -164,6 +169,9 @@ const Batiment = () => {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             <Link onClick={() => handleAddCroquis(record.id_batiment)}>
                                 <CloudDownloadOutlined /> Upload de croquis
+                            </Link>
+                            <Link onClick={() => handleAddCroquis(record.id_batiment)}>
+                                <EyeOutlined /> Afficher les croquis
                             </Link>
                             <Link onClick={() => handleListeEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Tableau de bord
@@ -299,6 +307,17 @@ const Batiment = () => {
         centered
       >
         <UploadBatimentForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title="Detail"
+        visible={modalType === 'detailCroquis'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={600}
+        centered
+      >
+        <DetailUpload idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
     </>
   );

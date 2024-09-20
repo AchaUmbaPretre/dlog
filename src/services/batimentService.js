@@ -17,7 +17,6 @@ export const postEquipement = async (data) => {
 };
 
 //Batiment plan
-
 export const getPlans = async () => {
     return axios.get(`${DOMAIN}/api/batiment/plans`);
   };
