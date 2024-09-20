@@ -258,12 +258,12 @@ const Batiment = () => {
 
       <Modal
         title=""
-        visible={modalType === 'DocumentTacheForm'}
+        visible={modalType === 'addEquipement'}
         onCancel={closeAllModals}
         footer={null}
         centered
       >
-        <EquipementForm />
+        <EquipementForm idEquipement = {idBatiment} />
       </Modal>
 
     </>
