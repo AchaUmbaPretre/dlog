@@ -257,14 +257,25 @@ const Batiment = () => {
       </Modal>
 
       <Modal
-        title=""
+        title="Ajouter un équipement"
         visible={modalType === 'addEquipement'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <EquipementForm idEquipement = {idBatiment} />
+      </Modal>
+
+{/*       <Modal
+        title=""
+        visible={modalType === 'listeEquipement'}
         onCancel={closeAllModals}
         footer={null}
         centered
       >
         <EquipementForm idEquipement = {idBatiment} />
-      </Modal>
+      </Modal> */}
 
     </>
   );
