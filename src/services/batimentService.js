@@ -22,6 +22,10 @@ export const getPlans = async () => {
     return axios.get(`${DOMAIN}/api/batiment/plans`);
   };
 
+export const getPlansOne = async () => {
+    return axios.get(`${DOMAIN}/api/batiment/plans/one`);
+  };
+
 export const postPlans = async (data) => {
     return axios.post(`${DOMAIN}/api/batiment/plans`, data);
   };
