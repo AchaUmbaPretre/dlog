@@ -5,6 +5,7 @@ import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
 import { Link } from 'react-router-dom';
+import EquipementForm from './equipement/equipementForm/EquipementForm';
 
 const { Search } = Input;
 
@@ -14,6 +15,8 @@ const Batiment = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [modalType, setModalType] = useState(null);
+  const [idBatiment, setIdBatiment] = useState('');
   const scroll = { x: 400 };
 
   const handleDelete = async (id) => {
@@ -48,6 +51,17 @@ const Batiment = () => {
 
     fetchData();
   }, [DOMAIN]);
+
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type, idBatiment = '') => {
+    closeAllModals();
+    setIdBatiment(idBatiment);
+    setModalType(type);
+  };
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -130,19 +144,19 @@ const Batiment = () => {
               aria-label="View department details"
             />
           </Tooltip> */}
-          <Popover
+{/*           <Popover
                 content={
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                          <Link onClick={() => handleListeTracking(record.id_batiment)}>
-                            <FileTextOutlined /> Liste de tracking
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                          <Link onClick={() => handleListeEquipement(record.id_batiment)}>
+                            <FileTextOutlined /> Liste d'equipements
                           </Link>
                           <Link onClick={() => handleDetailDoc(record.id_batiment)}>
-                            <FileTextOutlined /> Liste des docs
+                            <FileTextOutlined /> Ajouter un équipement
                           </Link>
-                        </div>
-                      }
-                      title=""
-                      trigger="click"
+                    </div>
+                }
+                    title=""
+                    trigger="click"
             >
             <Tooltip title="Menu">
                 <Button
@@ -151,7 +165,7 @@ const Batiment = () => {
                 aria-label="Contrôler"
             />
             </Tooltip>
-          </Popover>
+          </Popover> */}
           <Tooltip title="Delete">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
@@ -233,6 +247,17 @@ const Batiment = () => {
       >
         <BatimentForm/>
       </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'DocumentTacheForm'}
+        onCancel={closeAllModals}
+        footer={null}
+        centered
+      >
+        <EquipementForm />
+      </Modal>
+
     </>
   );
 };

@@ -144,7 +144,7 @@ const ListeSuivi = ({ idControle}) => {
       key: 'nom_client',
       render: text => (
         <Space>
-          <Tag icon={<UserOutlined />} color='green'>{text}</Tag>
+          <Tag icon={<UserOutlined />} color='green'>{text ?? 'Aucun'}</Tag>
         </Space>
       ),
     },
@@ -227,7 +227,7 @@ const ListeSuivi = ({ idControle}) => {
   ];
 
   const filteredData = data?.filter((item) =>
-    item.description?.toLowerCase().includes(searchValue.toLowerCase())
+    item.controle_de_base?.toLowerCase().includes(searchValue.toLowerCase())
   )
 
   const renderSuivi = (idTache) => {
