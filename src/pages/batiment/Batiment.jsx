@@ -170,7 +170,7 @@ const Batiment = () => {
                             <Link onClick={() => handleAddCroquis(record.id_batiment)}>
                                 <CloudDownloadOutlined /> Upload de croquis
                             </Link>
-                            <Link onClick={() => handleAddCroquis(record.id_batiment)}>
+                            <Link onClick={() => handleDetailCroquis(record.id_batiment)}>
                                 <EyeOutlined /> Afficher les croquis
                             </Link>
                             <Link onClick={() => handleListeEquipement(record.id_batiment)}>
@@ -180,7 +180,7 @@ const Batiment = () => {
                             <FileTextOutlined /> Liste d'équipement
                             </Link>
                             <Link onClick={() => handleAddEquipement(record.id_batiment)}>
-                                <FileTextOutlined /> Ajouter un équipement
+                                <PlusCircleOutlined /> Ajouter un équipement
                             </Link>
                     </div>
                 }
@@ -314,7 +314,7 @@ const Batiment = () => {
         visible={modalType === 'detailCroquis'}
         onCancel={closeAllModals}
         footer={null}
-        width={600}
+        width={900}
         centered
       >
         <DetailUpload idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
