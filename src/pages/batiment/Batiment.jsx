@@ -160,8 +160,9 @@ const Batiment = () => {
            <Tooltip title="Voir les croquis">
             <Button
               icon={<EyeOutlined />}
+              style={{ color: 'green' }}
               onClick={() => handleDetailCroquis(record.id_batiment)}
-              aria-label="View department details"
+              aria-label="Voir le detail"
             />
           </Tooltip>
            <Popover
