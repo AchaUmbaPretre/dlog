@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
+import { ExportOutlined, PrinterOutlined,PlusCircleOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
+import { Link } from 'react-router-dom';
 
 const { Search } = Input;
 
@@ -129,14 +130,28 @@ const Batiment = () => {
               aria-label="View department details"
             />
           </Tooltip> */}
-{/*           <Tooltip title="Edit">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
-              aria-label="Edit department"
+          <Popover
+                content={
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                          <Link onClick={() => handleListeTracking(record.id_batiment)}>
+                            <FileTextOutlined /> Liste de tracking
+                          </Link>
+                          <Link onClick={() => handleDetailDoc(record.id_batiment)}>
+                            <FileTextOutlined /> Liste des docs
+                          </Link>
+                        </div>
+                      }
+                      title=""
+                      trigger="click"
+            >
+            <Tooltip title="Menu">
+                <Button
+                icon={<PlusCircleOutlined />}
+                style={{ color: 'blue' }}
+                aria-label="Contrôler"
             />
-          </Tooltip> */}
+            </Tooltip>
+          </Popover>
           <Tooltip title="Delete">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
