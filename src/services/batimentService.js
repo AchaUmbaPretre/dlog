@@ -16,7 +16,7 @@ export const postEquipement = async (data) => {
   return axios.post(`${DOMAIN}/api/batiment/equipement`, data);
 };
 
-//
+//Batiment plan
 
 export const getPlans = async () => {
     return axios.get(`${DOMAIN}/api/batiment/plans`);
@@ -24,5 +24,14 @@ export const getPlans = async () => {
 
 export const postPlans = async (data) => {
     return axios.post(`${DOMAIN}/api/batiment/plans`, data);
+  };
+
+//Batiment plan
+export const getMaintenance = async () => {
+    return axios.get(`${DOMAIN}/api/batiment/maintenance`);
+  };
+
+export const postMaintenance = async (data) => {
+    return axios.post(`${DOMAIN}/api/batiment/maintenance`, data);
   };
   
