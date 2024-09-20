@@ -39,7 +39,10 @@ const EquipementForm = ({ idBatiment }) => {
   const handleSubmit = async(values) => {
     setIsLoading(true);
     try {
-            await postEquipement(values);
+            await postEquipement({
+                id_batiment: idBatiment,
+                ...values
+            });
         notification.success({
             message: 'Succès',
             description: 'Les informations ont été enregistrées avec succès.',

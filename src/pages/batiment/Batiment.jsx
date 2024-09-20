@@ -156,7 +156,7 @@ const Batiment = () => {
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                           <Link onClick={() => handleListeEquipement(record.id_batiment)}>
-                            <FileTextOutlined /> Liste d'equipement
+                            <FileTextOutlined /> Tableau de bord
                           </Link>
                           <Link onClick={() => handleAddEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Ajouter un équipement
@@ -264,7 +264,7 @@ const Batiment = () => {
         width={800}
         centered
       >
-        <EquipementForm idEquipement = {idBatiment} />
+        <EquipementForm idBatiment = {idBatiment} />
       </Modal>
 
 {/*       <Modal
