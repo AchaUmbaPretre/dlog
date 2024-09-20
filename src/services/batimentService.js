@@ -34,4 +34,14 @@ export const getMaintenance = async () => {
 export const postMaintenance = async (data) => {
     return axios.post(`${DOMAIN}/api/batiment/maintenance`, data);
   };
+
+//
+
+export const getTypeEquipement = async () => {
+    return axios.get(`${DOMAIN}/api/batiment/type_equipement`);
+  };
+  
+export const getStatutEquipement = async () => {
+    return axios.get(`${DOMAIN}/api/batiment/statut_equipement`);
+  };
   
