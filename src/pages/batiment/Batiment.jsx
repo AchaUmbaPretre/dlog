@@ -63,6 +63,14 @@ const Batiment = () => {
     setModalType(type);
   };
 
+  const handleListeEquipement = ( idBatiment) =>{
+    openModal('listeEquipement', idBatiment)
+  }
+
+  const handleAddEquipement = ( idBatiment) =>{
+    openModal('addEquipement', idBatiment)
+  }
+
   const handleAddClient = () => {
     setIsModalVisible(true);
   };
@@ -144,13 +152,13 @@ const Batiment = () => {
               aria-label="View department details"
             />
           </Tooltip> */}
-{/*           <Popover
+           <Popover
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                           <Link onClick={() => handleListeEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Liste d'equipements
                           </Link>
-                          <Link onClick={() => handleDetailDoc(record.id_batiment)}>
+                          <Link onClick={() => handleAddEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Ajouter un équipement
                           </Link>
                     </div>
@@ -165,7 +173,7 @@ const Batiment = () => {
                 aria-label="Contrôler"
             />
             </Tooltip>
-          </Popover> */}
+          </Popover> 
           <Tooltip title="Delete">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
