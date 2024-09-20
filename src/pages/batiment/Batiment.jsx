@@ -314,7 +314,7 @@ const Batiment = () => {
         visible={modalType === 'detailCroquis'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={1050}
         centered
       >
         <DetailUpload idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />

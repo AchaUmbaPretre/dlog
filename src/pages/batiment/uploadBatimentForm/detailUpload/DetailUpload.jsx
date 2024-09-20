@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getPlansOne } from '../../../../services/batimentService';
-import { Spin, notification, Card, Col, Row, Modal, Button, Typography } from 'antd';
+import { Spin, notification, Card, Col, Row, Modal, Button, Typography, Pagination } from 'antd';
 import { EyeOutlined, DownloadOutlined } from '@ant-design/icons';
 import './detailUpload.scss';
 import config from '../../../../config';
@@ -13,6 +13,8 @@ const DetailUpload = ({ idBatiment }) => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1); // Current page state
+  const [pageSize, setPageSize] = useState(8); // Items per page
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
   useEffect(() => {
@@ -32,11 +34,13 @@ const DetailUpload = ({ idBatiment }) => {
     fetchData();
   }, [idBatiment]);
 
+  // Show modal with the selected image
   const showImageModal = (image) => {
     setSelectedImage(image);
     setIsModalVisible(true);
   };
 
+  // Close modal
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -59,6 +63,13 @@ const DetailUpload = ({ idBatiment }) => {
     }
   };
 
+  const handlePaginationChange = (page, pageSize) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
+  };
+
+  const paginatedData = data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -70,9 +81,9 @@ const DetailUpload = ({ idBatiment }) => {
   return (
     <div className="detail-upload">
       <Title level={2} className="gallery-title">Galerie des plans</Title>
-      
+
       <Row gutter={[16, 16]} className="gallery-row">
-        {data.map((item) => (
+        {paginatedData.map((item) => (
           <Col key={item.id_batiment_plans} xs={24} sm={12} md={8} lg={6}>
             <Card
               hoverable
@@ -91,7 +102,6 @@ const DetailUpload = ({ idBatiment }) => {
                   onClick={() => showImageModal(item)}
                   className="view-button"
                 >
-                  Voir
                 </Button>,
                 <Button
                   type="link"
@@ -99,7 +109,6 @@ const DetailUpload = ({ idBatiment }) => {
                   onClick={() => downloadImage(item.chemin_document)}
                   className="download-button"
                 >
-                  Télécharger
                 </Button>,
               ]}
               className="gallery-card"
@@ -109,6 +118,15 @@ const DetailUpload = ({ idBatiment }) => {
           </Col>
         ))}
       </Row>
+      <Pagination
+        current={currentPage}
+        pageSize={pageSize}
+        total={data.length}
+        onChange={handlePaginationChange}
+        showSizeChanger
+        pageSizeOptions={['4', '8', '12']}
+        className="gallery-pagination"
+      />
 
       <Modal
         visible={isModalVisible}
