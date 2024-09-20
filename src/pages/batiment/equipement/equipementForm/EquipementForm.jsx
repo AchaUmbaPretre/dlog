@@ -1,10 +1,40 @@
-import React from 'react';
-import { Form, Input, DatePicker, Select, Button, Row, Col } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
+import { getStatutEquipement, getTypeEquipement } from '../../../../services/batimentService';
 
 const { Option } = Select;
 
-const EquipementForm = ({idBatiment}) => {
+const EquipementForm = ({ idBatiment }) => {
   const [form] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const [statutEquipement, setStatutEquipement] = useState([]);
+  const [typeEquipement, setTypeEquipement] = useState([]);
+
+  const handleError = (message) => {
+    notification.error({
+        message: 'Erreur de chargement',
+        description: message,
+    });
+};
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const [typeData, statutData] = await Promise.all([
+                getTypeEquipement(),
+                getStatutEquipement()
+            ]);
+
+            setTypeEquipement(typeData.data);
+            setStatutEquipement(statutData.data)
+
+        } catch (error) {
+            handleError('Une erreur est survenue lors du chargement des données.');
+        }
+    };
+
+    fetchData();
+}, [idBatiment, form]);
 
   const handleSubmit = (values) => {
     console.log('Form values:', values);
@@ -17,17 +47,25 @@ const EquipementForm = ({idBatiment}) => {
       layout="vertical"
       onFinish={handleSubmit}
       initialValues={{
-        status: 'active',
+        status: 2,
       }}
     >
       <Row gutter={16}>
         <Col span={24}>
           <Form.Item
-            label="Type de bâtiment"
-            name="id_type_batiment"
-            rules={[{ required: true, message: 'Veuillez sélectionner un type de bâtiment' }]}
+            label="Type d'équipement"
+            name="id_type_equipement"
+            rules={[{ required: true, message: "Veuillez sélectionner un type d'équipement" }]}
           >
-            <Input placeholder="Type de bâtiment" />
+            <Select
+                showSearch
+                options={typeEquipement.map((item) => ({
+                    value: item.id_type_equipement,
+                    label: item.nom_type,
+                }))}
+                placeholder="Sélectionnez un client..."
+                optionFilterProp="label"
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -41,7 +79,7 @@ const EquipementForm = ({idBatiment}) => {
             <Input placeholder="Modèle (facultatif)" />
           </Form.Item>
         </Col>
-        
+
         <Col span={12}>
           <Form.Item
             label="Numéro de série"
@@ -92,10 +130,15 @@ const EquipementForm = ({idBatiment}) => {
             name="status"
             rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
           >
-            <Select placeholder="Sélectionnez le statut">
-              <Option value="active">Actif</Option>
-              <Option value="inactive">Inactif</Option>
-            </Select>
+            <Select
+                showSearch
+                options={statutEquipement.map((item) => ({
+                    value: item.id_statut_equipement,
+                    label: item.nom_statut,
+                }))}
+                placeholder="Sélectionnez un client..."
+                optionFilterProp="label"
+            />
           </Form.Item>
         </Col>
       </Row>
