@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { getPlansOne } from '../../../../services/batimentService';
-import { Spin, notification, Card, Col, Row, Modal, Button } from 'antd';
+import { Spin, notification, Card, Col, Row, Modal, Button, Typography } from 'antd';
 import { EyeOutlined, DownloadOutlined } from '@ant-design/icons';
 import './detailUpload.scss';
 import config from '../../../../config';
 
 const { Meta } = Card;
+const { Title } = Typography;
 
 const DetailUpload = ({ idBatiment }) => {
   const [data, setData] = useState([]);
@@ -22,7 +23,7 @@ const DetailUpload = ({ idBatiment }) => {
       } catch (error) {
         notification.error({
           message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
+          description: 'Impossible de charger les données. Veuillez réessayer plus tard.',
         });
       } finally {
         setLoading(false);
@@ -43,26 +44,28 @@ const DetailUpload = ({ idBatiment }) => {
   const downloadImage = (imagePath) => {
     const link = document.createElement('a');
     link.href = `${DOMAIN}/${imagePath}`;
-    link.download = 'image.jpg';
+    link.download = imagePath.split('/').pop(); // Nom du fichier basé sur son chemin
     link.click();
   };
 
   if (loading) {
     return (
       <div className="loading-container">
-        <Spin tip="Chargement en cours..." size="large" />
+        <Spin tip="Chargement des images..." size="large" />
       </div>
     );
   }
 
   return (
-    <div className="gallery-container">
-      <Row gutter={[16, 16]}>
+    <div className="detail-upload">
+      <Title level={2} className="gallery-title">
+        Galerie des plans
+      </Title>
+      <Row gutter={[16, 16]} className="gallery-row">
         {data.map((item) => (
           <Col key={item.id_batiment_plans} xs={24} sm={12} md={8} lg={6}>
             <Card
               hoverable
-              className="image-card"
               cover={
                 <img
                   alt={item.nom_document}
@@ -73,24 +76,23 @@ const DetailUpload = ({ idBatiment }) => {
               }
               actions={[
                 <Button
-                  type="primary"
+                  type="link"
                   icon={<EyeOutlined />}
                   onClick={() => showImageModal(item)}
                   className="view-button"
                 >
-                  Voir
                 </Button>,
                 <Button
-                  type="default"
+                  type="link"
                   icon={<DownloadOutlined />}
                   onClick={() => downloadImage(item.chemin_document)}
                   className="download-button"
                 >
-                  Télécharger
                 </Button>,
               ]}
+              className="gallery-card"
             >
-              <Meta title={item.nom_document} description={new Date(item.date_ajout).toLocaleDateString()} />
+              <Meta title={item.nom_document} description={`Ajouté le ${new Date(item.date_ajout).toLocaleDateString()}`} />
             </Card>
           </Col>
         ))}
@@ -103,7 +105,6 @@ const DetailUpload = ({ idBatiment }) => {
         className="image-modal"
         width={800}
         centered
-        transitionName="fade"
       >
         {selectedImage && (
           <img
