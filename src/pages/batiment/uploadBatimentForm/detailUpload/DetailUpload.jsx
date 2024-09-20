@@ -82,7 +82,7 @@ const DetailUpload = ({ idBatiment }) => {
 
   return (
     <div className="detail-upload">
-      <Title level={2} className="gallery-title">Galerie des plans</Title>
+      <Title level={2} className="gallery-title">Galerie des Les croquis ou plans du {name}</Title>
 
       <Row gutter={[16, 16]} className="gallery-row">
         {paginatedData.map((item) => (
