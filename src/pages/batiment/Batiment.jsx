@@ -157,21 +157,18 @@ const Batiment = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-{/*           <Tooltip title="View Details">
+           <Tooltip title="Voir les croquis">
             <Button
               icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
+              onClick={() => handleDetailCroquis(record.id_batiment)}
               aria-label="View department details"
             />
-          </Tooltip> */}
+          </Tooltip>
            <Popover
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             <Link onClick={() => handleAddCroquis(record.id_batiment)}>
                                 <CloudDownloadOutlined /> Upload de croquis
-                            </Link>
-                            <Link onClick={() => handleDetailCroquis(record.id_batiment)}>
-                                <EyeOutlined /> Afficher les croquis
                             </Link>
                             <Link onClick={() => handleListeEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Tableau de bord
