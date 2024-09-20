@@ -260,6 +260,7 @@ const Batiment = () => {
             scroll={scroll}
             size="small"
             bordered
+            loading={loading}
           />
         </div>
       </div>
