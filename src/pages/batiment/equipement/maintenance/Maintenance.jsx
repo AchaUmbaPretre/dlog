@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,ToolOutlined, CalendarOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined,ToolOutlined,CheckCircleOutlined, CloseCircleOutlined, CalendarOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import moment from 'moment';
 /* import { deletePutDepartement, getDepartement } from '../../services/departementService';
  */
@@ -116,6 +116,29 @@ const Maintenance = () => {
           </>
         ),
     },
+    {
+        title: 'Statut',
+        dataIndex: 'nom_statut',
+        key: 'nom_statut',
+        render: (text) => {
+          let color = 'green';
+          let icon = <CheckCircleOutlined />;
+      
+          if (text === 'En entretien') {
+            color = 'orange';
+            icon = <ToolOutlined />;
+          } else if (text === 'En panne') {
+            color = 'red';
+            icon = <CloseCircleOutlined />;
+          }
+      
+          return (
+            <Tag icon={icon} color={color}>
+              {text}
+            </Tag>
+          );
+        },
+      },  
     { 
         title: 'Description', 
         dataIndex: 'description',
@@ -127,9 +150,9 @@ const Maintenance = () => {
         ),
       },
     {
-      title: 'Responsable',
-      dataIndex: 'nom',
-      key: 'nom',
+      title: 'Technicien',
+      dataIndex: 'nom_technicien',
+      key: 'nom_technicien',
       render: (text) => (
         <Tag icon={<UserOutlined />} color="green">{text ?? 'Aucun'}</Tag>
       ),
