@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, DatePicker, Select, notification } from 'antd';
-import moment from 'moment';
 import { getStatutMaintenance, postMaintenance } from '../../../../../services/batimentService';
 
 const { Option } = Select;
