@@ -186,7 +186,7 @@ const ListeEquipement = () => {
             <div className="client-row-icon">
               <TeamOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Client</h2>
+            <h2 className="client-h2">Liste de </h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
