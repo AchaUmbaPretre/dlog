@@ -110,7 +110,7 @@ const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
         </Form.Item>
 
         <Form.Item>
-            <Button type="primary" htmlType="submit" block loading={isLoading}>
+            <Button type="primary" htmlType="submit" block loading={isLoading} disabled={isLoading}>
             Soumettre
             </Button>
       </Form.Item>
