@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
 import { getStatutEquipement, getTypeEquipement, postEquipement } from '../../../../services/batimentService';
+import moment from 'moment';
 
 const { Option } = Select;
 
@@ -70,7 +71,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
       }}
     >
       <Row gutter={16}>
-        <Col span={24}>
+        <Col span={12}>
           <Form.Item
             label="Type d'équipement"
             name="id_type_equipement"
@@ -87,9 +88,6 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
             />
           </Form.Item>
         </Col>
-      </Row>
-
-      <Row gutter={16}>
         <Col span={12}>
           <Form.Item
             label="Modèle"
@@ -98,7 +96,9 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
             <Input placeholder="Modèle (facultatif)" />
           </Form.Item>
         </Col>
+      </Row>
 
+      <Row gutter={16}>
         <Col span={12}>
           <Form.Item
             label="Numéro de série"
@@ -107,24 +107,32 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
             <Input placeholder="Numéro de série (facultatif)" />
           </Form.Item>
         </Col>
-      </Row>
-
-      <Row gutter={16}>
-        {/* installation_date */}
         <Col span={12}>
           <Form.Item
             label="Date d'installation"
             name="installation_date"
+            initialValue={moment()}
+          >
+            <DatePicker style={{ width: '100%' }} placeholder="Sélectionnez la date" />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Row gutter={16}>
+
+        <Col span={12}>
+          <Form.Item
+            label="Date de maintenance"
+            name="maintenance_date"
           >
             <DatePicker style={{ width: '100%' }} placeholder="Sélectionnez la date" />
           </Form.Item>
         </Col>
 
-        {/* maintenance_date */}
         <Col span={12}>
           <Form.Item
-            label="Date de maintenance"
-            name="maintenance_date"
+            label="Prochaine date d'entretien"
+            name="prochaine_date_entretien"
           >
             <DatePicker style={{ width: '100%' }} placeholder="Sélectionnez la date" />
           </Form.Item>
