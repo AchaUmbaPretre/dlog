@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Button, notification, Select, Row, Col, Modal, Spin } from 'antd';
-import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { postOffre } from '../../../services/offreService';
 import { getFournisseur } from '../../../services/fournisseurService';
 import { getArticle, getBatiment } from '../../../services/typeService';
@@ -16,7 +16,6 @@ const FormOffres = () => {
   const [batiment, setBatiment] = useState([]);
   const [besoin, setBesoin] = useState([]);
   const [projet, setProjet] = useState([]);
-  const [idProjet, setIdProjet] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
