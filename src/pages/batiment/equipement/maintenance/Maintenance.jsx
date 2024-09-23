@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined,ToolOutlined,CheckCircleOutlined, CloseCircleOutlined, CalendarOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import moment from 'moment';
+import { getMaintenanceOne } from '../../../../services/batimentService';
 
 const { Search } = Input;
 
@@ -33,9 +34,9 @@ const Maintenance = ({idEquipement}) => {
     }
   };
 
-/*     const fetchData = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await getDepartement();
+        const { data } = await getMaintenanceOne(idEquipement);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -45,11 +46,11 @@ const Maintenance = ({idEquipement}) => {
         });
         setLoading(false);
       }
-    }; */
-/* 
+    };
+ 
   useEffect(() => {
     fetchData();
-  }, []); */
+  }, [idEquipement]);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
