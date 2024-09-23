@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
-import { ExportOutlined, EditOutlined,EyeOutlined, CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, FileTextOutlined, CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import { getEquipementOne } from '../../../../services/batimentService';
 import EquipementForm from '../equipementForm/EquipementForm';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const { Search } = Input;
 
@@ -14,6 +15,8 @@ const ListeEquipement = ({idBatiment}) => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
+  const [modalType, setModalType] = useState(null);
+
 
     const fetchData = async () => {
       try {
@@ -37,10 +40,17 @@ const ListeEquipement = ({idBatiment}) => {
     setIsModalVisible(false);
   };
 
-
   const handleAddClient = () => {
     setIsModalVisible(true);
   };
+
+  const handleMaintenance = () => {
+    
+  }
+
+  const handleListeMaintenance = () => {
+
+  }
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -188,16 +198,28 @@ const ListeEquipement = ({idBatiment}) => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="View Details">
-            <Popover title="voir" trigger="hover">
+                    <Popover
+            content={
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <Link onClick={() => handleMaintenance(record.id_tache)} >
+                  <ToolOutlined /> Maitenance
+                </Link>
+                <Link onClick={()=>handleListeMaintenance(record.id_tache)}>
+                  <ToolOutlined /> Liste de maintenance
+                </Link>
+              </div>
+            }
+            title=""
+            trigger="click"
+          >
+            <Tooltip title="Menu">
               <Button
-                icon={<EyeOutlined />}
-                onClick={() => handleViewDetails(record)}
-                aria-label="View client details"
+                icon={<PlusCircleOutlined />}
                 style={{ color: 'blue' }}
+                aria-label="Contrôler"
               />
-            </Popover>
-          </Tooltip>
+            </Tooltip>
+          </Popover>
 {/*            <Tooltip title="Edit">
             <Popover title="Modifier" trigger="hover">
               <Button
