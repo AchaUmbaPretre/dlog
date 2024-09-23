@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, PrinterOutlined,PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
@@ -148,7 +148,7 @@ const Batiment = () => {
       dataIndex: 'name', 
       key: 'name',
       render: text => (
-        <Tag color='magenta'>{text ?? "Aucun"}</Tag>
+        <Tag icon={<EnvironmentOutlined />} color='magenta'>{text ?? "Aucun"}</Tag>
       ),
     },
     {
@@ -168,7 +168,7 @@ const Batiment = () => {
           <Tooltip title="Upload de croquis">
             <Button
               icon={<CloudDownloadOutlined />}
-              style={{ color: 'green' }}
+              style={{ color: 'black' }}
               onClick={() => handleAddCroquis(record.id_batiment)}
               aria-label="Voir le detail"
             />
@@ -177,10 +177,10 @@ const Batiment = () => {
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             <Link onClick={() => handleListeEquipement(record.id_batiment)}>
-                            <FileTextOutlined /> Tableau de bord
+                                <FileTextOutlined /> Tableau de bord
                             </Link>
                             <Link onClick={() => handleAddEquipement(record.id_batiment)}>
-                            <FileTextOutlined /> Liste d'équipement
+                                <FileTextOutlined /> Liste d'équipement
                             </Link>
                             <Link onClick={() => handleAddEquipement(record.id_batiment)}>
                                 <PlusCircleOutlined /> Ajouter un équipement
