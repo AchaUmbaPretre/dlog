@@ -159,7 +159,7 @@ const Maintenance = ({idEquipement}) => {
         <Tag icon={<UserOutlined />} color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
-    {
+/*     {
       title: 'Action',
       key: 'action',
       width: '10%',
@@ -189,7 +189,7 @@ const Maintenance = ({idEquipement}) => {
           </Tooltip>
         </Space>
       ),
-    },
+    }, */
   ];
 
   const filteredData = data.filter(item =>

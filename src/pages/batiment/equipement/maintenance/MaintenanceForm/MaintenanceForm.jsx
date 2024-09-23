@@ -26,6 +26,7 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
 }, []);
 
   const onFinish = async(values) => {
+    setIsLoading(true);
     const formattedValues = {
       ...values,
       id_equipement  : idEquipement,
@@ -95,7 +96,7 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
           Enregistrer la maintenance
         </Button>
       </Form.Item>
