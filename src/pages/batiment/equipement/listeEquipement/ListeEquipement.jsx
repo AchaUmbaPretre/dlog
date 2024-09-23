@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
-import { ExportOutlined, EditOutlined, CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, EditOutlined,EyeOutlined, CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import { getEquipementOne } from '../../../../services/batimentService';
 import EquipementForm from '../equipementForm/EquipementForm';
@@ -13,7 +13,6 @@ const ListeEquipement = ({idBatiment}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalType, setModalType] = useState(null);
   const scroll = { x: 400 };
 
     const fetchData = async () => {
@@ -189,15 +188,17 @@ const ListeEquipement = ({idBatiment}) => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-{/*           <Tooltip title="View Details">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              type="link"
-              aria-label="View client details"
-            />
-          </Tooltip> */}
-           <Tooltip title="Edit">
+          <Tooltip title="View Details">
+            <Popover title="voir" trigger="hover">
+              <Button
+                icon={<EyeOutlined />}
+                onClick={() => handleViewDetails(record)}
+                aria-label="View client details"
+                style={{ color: 'blue' }}
+              />
+            </Popover>
+          </Tooltip>
+{/*            <Tooltip title="Edit">
             <Popover title="Modifier" trigger="hover">
               <Button
                 icon={<EditOutlined />}
@@ -207,7 +208,7 @@ const ListeEquipement = ({idBatiment}) => {
                 aria-label="Edit client"
               />
             </Popover>
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
