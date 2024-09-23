@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getPlansOne } from '../../../../services/batimentService';
-import { Spin, notification, Card, Col, Row, Modal, Button, Typography, Pagination, Empty } from 'antd';
+import { Spin, notification, Card, Col, Row, Modal, Button, Typography, Pagination, Empty, Skeleton } from 'antd';
 import { EyeOutlined, DownloadOutlined } from '@ant-design/icons';
 import './detailUpload.scss';
 import config from '../../../../config';
@@ -72,14 +72,6 @@ const DetailUpload = ({ idBatiment }) => {
 
   const paginatedData = data.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <Spin tip="Chargement des images..." size="large" />
-      </div>
-    );
-  }
-
   return (
     <div className="detail-upload">
       {/* Afficher le titre seulement s'il y a des images */}
@@ -89,7 +81,19 @@ const DetailUpload = ({ idBatiment }) => {
         </Title>
       )}
 
-      {data.length === 0 ? (
+      {loading ? (
+        <Row gutter={[16, 16]} className="gallery-row">
+          {[...Array(8)].map((_, index) => (
+            <Col key={index} xs={24} sm={12} md={8} lg={6}>
+              <Card className="gallery-card">
+                <Skeleton.Image className="gallery-skeleton-image" />
+                <Skeleton active />
+                <Skeleton.Button active style={{ width: '100%', marginTop: 10 }} />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      ) : data.length === 0 ? (
         <Empty description="Aucune image disponible" />
       ) : (
         <>
@@ -112,13 +116,13 @@ const DetailUpload = ({ idBatiment }) => {
                       icon={<EyeOutlined />}
                       onClick={() => showImageModal(item)}
                       className="view-button"
-                    ></Button>,
+                    />,
                     <Button
                       type="link"
                       icon={<DownloadOutlined />}
                       onClick={() => downloadImage(item.chemin_document)}
                       className="download-button"
-                    ></Button>,
+                    />,
                   ]}
                   className="gallery-card"
                 >

@@ -239,7 +239,7 @@ const Batiment = () => {
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
-                Ajouter Batiment
+                Batiment
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
