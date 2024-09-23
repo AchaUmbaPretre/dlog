@@ -328,17 +328,6 @@ const ListeEquipement = ({idBatiment}) => {
       >
         <Maintenance idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
-
-      <Modal
-        title="Maintenance"
-        visible={modalType === 'addMaintenance'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={700}
-        centered
-      >
-        <MaintenanceForm idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
-      </Modal>
     </>
   );
 };

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Modal } from 'antd';
 import { ExportOutlined,ToolOutlined,CheckCircleOutlined, CloseCircleOutlined, CalendarOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import moment from 'moment';
 import { getMaintenanceOne } from '../../../../services/batimentService';
+import MaintenanceForm from './MaintenanceForm/MaintenanceForm';
 
 const { Search } = Input;
 
@@ -245,6 +246,16 @@ const Maintenance = ({idEquipement}) => {
           />
         </div>
       </div>
+      <Modal
+        title="Maintenance"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={700}
+        centered
+      >
+        <MaintenanceForm idEquipement={idEquipement} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} />
+      </Modal>
     </>
   );
 };
