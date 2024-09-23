@@ -10,19 +10,13 @@ const MaintenanceForm = ({ idEquipement }) => {
   const onFinish = (values) => {
     const formattedValues = {
       ...values,
+      id_equipement : idEquipement,
       date_entretien: values.date_entretien.format('YYYY-MM-DD'),
     };
   };
 
   return (
     <Form form={form} layout="vertical" onFinish={onFinish}>
-      <Form.Item
-        name="id_equipement"
-        label="Équipement ID"
-        rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'équipement' }]}
-      >
-        <Input placeholder="Entrez l'ID de l'équipement" />
-      </Form.Item>
 
       <Form.Item
         name="date_entretien"
