@@ -291,7 +291,7 @@ const Batiment = () => {
         visible={modalType === 'addEquipement'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={500}
         centered
       >
         <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
