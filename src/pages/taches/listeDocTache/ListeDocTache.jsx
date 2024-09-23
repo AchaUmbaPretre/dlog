@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
-import { FileTextOutlined,PlusOutlined, DeleteOutlined,EditOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
+import { FileTextOutlined,PlusCircleOutlined, DeleteOutlined,EditOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getDetailTacheDoc } from '../../../services/tacheService';
 import TacheDoc from '../tacheDoc/TacheDoc';
@@ -189,7 +189,7 @@ useEffect(() => {
             <div className="client-rows-right">
                 <Button
                     type="primary"
-                    icon={<PlusOutlined />}
+                    icon={<PlusCircleOutlined />}
                     onClick={handleAddDoc}
                 >
                     Ajouter un document
