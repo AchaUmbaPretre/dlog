@@ -113,7 +113,7 @@ const ListeEquipement = ({idBatiment}) => {
       ),
     },
     {
-      title: 'Date I',
+      title: 'Date Installation',
       dataIndex: 'installation_date',
       key: 'installation_date',
       sorter: (a, b) => moment(a.installation_date) - moment(b.installation_date),
