@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { ExportOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
+import { getEquipement } from '../../../../services/batimentService';
 
 const { Search } = Input;
 
@@ -12,10 +13,10 @@ const ListeEquipement = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
-/*   useEffect(() => {
+   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getClient();
+        const { data } = await getEquipement();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -28,7 +29,7 @@ const ListeEquipement = () => {
     };
 
     fetchData();
-  }, [DOMAIN]); */
+  }, [DOMAIN]);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
