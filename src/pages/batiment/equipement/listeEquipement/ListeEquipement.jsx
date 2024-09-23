@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
 import { ExportOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import { getEquipement } from '../../../../services/batimentService';
+import EquipementForm from '../equipementForm/EquipementForm';
 
 const { Search } = Input;
 
@@ -11,9 +12,10 @@ const ListeEquipement = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalType, setModalType] = useState(null);
+  const [idBatiment, setIdBatiment] = useState('');
   const scroll = { x: 400 };
 
-   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getEquipement();
@@ -28,13 +30,18 @@ const ListeEquipement = () => {
       }
     };
 
+  useEffect(() => {
     fetchData();
   }, [DOMAIN]);
+
+  const closeAllModals = () => {
+    setIsModalVisible(false);
+  };
+
 
   const handleAddClient = () => {
     setIsModalVisible(true);
   };
-
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -242,6 +249,17 @@ const ListeEquipement = () => {
           />
         </div>
       </div>
+
+      <Modal
+        title="Ajouter un équipement"
+        visible={isModalVisible}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
     </>
   );
 };
