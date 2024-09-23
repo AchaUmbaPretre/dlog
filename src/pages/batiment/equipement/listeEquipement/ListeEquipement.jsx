@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 
 const { Search } = Input;
@@ -89,47 +89,59 @@ const ListeEquipement = () => {
       width: "3%",
     },
     {
-      title: 'Nom',
-      dataIndex: 'nom',
-      key: 'nom',
+      title: 'Batiment',
+      dataIndex: 'nom_batiment',
+      key: 'nom_batiment',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<HomeOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Equipement',
+      dataIndex: 'equipement',
+      key: 'equipement',
       render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<ToolOutlined  />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
+      title: 'Date installation',
+      dataIndex: 'installation_date',
+      key: 'installation_date',
       render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<CalendarOutlined />}  color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
+      title: 'Date maintenance',
+      dataIndex: 'maintenance_date',
+      key: 'maintenance_date',
       render: (text) => (
         <> 
-          <Tag icon={<HomeOutlined />} color='cyan'>
+          <Tag icon={<CalendarOutlined />} color='cyan'>
             {text ?? 'Aucune'}
           </Tag>
         </>
       ),
     },
     {
-      title: 'Type',
-      dataIndex: 'nom_type',
-      key: 'nom_type',
+      title: 'Date PM',
+      dataIndex: 'date_prochaine_maintenance',
+      key: 'date_prochaine_maintenance',
       render: (text) => (
-        <Tag color={ text === 'Interne' ? 'green' : "magenta"}>{text}</Tag>
+        <> 
+          <Tag icon={<CalendarOutlined />} color='cyan'>
+            {text ?? 'Aucune'}
+          </Tag>
+        </>
+      ),
+    },
+    {
+      title: 'Emplacement',
+      dataIndex: 'location',
+      key: 'location',
+      render: (text) => (
+        <Tag >{text}</Tag>
       ),
     },
     {
