@@ -121,7 +121,7 @@ const ListeEquipement = ({idBatiment}) => {
       dataIndex: 'nom_batiment',
       key: 'nom_batiment',
       render: (text) => (
-        <Tag icon={<HomeOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<HomeOutlined />} color="orange">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
@@ -327,6 +327,17 @@ const ListeEquipement = ({idBatiment}) => {
         centered
       >
         <Maintenance idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title="Maintenance"
+        visible={modalType === 'addMaintenance'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <MaintenanceForm idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
     </>
   );

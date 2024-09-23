@@ -100,7 +100,7 @@ const Maintenance = ({idEquipement}) => {
       key: 'nom_article',
       render: text => (
         <Space>
-          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<ApartmentOutlined />} color='green'>{text}</Tag>
         </Space>
       ),
     },
@@ -120,16 +120,16 @@ const Maintenance = ({idEquipement}) => {
     },
     {
         title: 'Statut',
-        dataIndex: 'nom_statut_maintenanc',
-        key: 'nom_statut_maintenanc',
+        dataIndex: 'nom_statut_maintenance',
+        key: 'nom_statut_maintenance',
         render: (text) => {
           let color = 'green';
           let icon = <CheckCircleOutlined />;
       
-          if (text === 'En entretien') {
+          if (text === 'Planifie') {
             color = 'orange';
             icon = <ToolOutlined />;
-          } else if (text === 'En panne') {
+          } else if (text === 'Problème') {
             color = 'red';
             icon = <CloseCircleOutlined />;
           }
