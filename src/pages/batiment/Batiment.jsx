@@ -236,7 +236,7 @@ const Batiment = () => {
             <div className="client-rows-right">
               <Button
                 type="primary"
-                icon={<PlusOutlined />}
+                icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
                 Ajouter Batiment
