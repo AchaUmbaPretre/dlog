@@ -186,11 +186,11 @@ const ListeEquipement = () => {
             <div className="client-row-icon">
               <TeamOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste de </h2>
+            <h2 className="client-h2">Liste d'équipement</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search clients..." enterButton />
+              <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-rows-right">
               <Button
