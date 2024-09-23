@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,ToolOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined,ToolOutlined, CalendarOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import moment from 'moment';
 /* import { deletePutDepartement, getDepartement } from '../../services/departementService';
  */
 const { Search } = Input;
@@ -103,9 +104,9 @@ const Maintenance = () => {
     },
     {
         title: "Date d'entretien",
-        dataIndex: 'date_prochaine_maintenance',
-        key: 'date_prochaine_maintenance',
-        sorter: (a, b) => moment(a.date_prochaine_maintenance) - moment(b.date_prochaine_maintenance),
+        dataIndex: 'date_entretien',
+        key: 'date_entretien',
+        sorter: (a, b) => moment(a.date_entretien) - moment(b.date_entretien),
         sortDirections: ['descend', 'ascend'],
         render: (text) => (
           <> 
