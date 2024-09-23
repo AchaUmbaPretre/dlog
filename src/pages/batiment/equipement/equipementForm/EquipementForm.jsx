@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
 import { getStatutEquipement, getTypeEquipement, postEquipement } from '../../../../services/batimentService';
 import moment from 'moment';
+import { getArticle } from '../../../../services/typeService';
 
 const { Option } = Select;
 
@@ -22,7 +23,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
     const fetchData = async () => {
         try {
             const [typeData, statutData] = await Promise.all([
-                getTypeEquipement(),
+                getArticle(),
                 getStatutEquipement()
             ]);
 
@@ -80,10 +81,10 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
             <Select
                 showSearch
                 options={typeEquipement.map((item) => ({
-                    value: item.id_type_equipement,
-                    label: item.nom_type,
+                    value: item.id_article,
+                    label: item.nom_article,
                 }))}
-                placeholder="Sélectionnez un client..."
+                placeholder="Sélectionnez un équipement..."
                 optionFilterProp="label"
             />
           </Form.Item>
