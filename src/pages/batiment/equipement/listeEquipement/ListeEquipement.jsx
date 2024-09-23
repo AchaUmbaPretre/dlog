@@ -106,8 +106,8 @@ const ListeEquipement = ({idBatiment}) => {
     },
     {
       title: 'Equipement',
-      dataIndex: 'equipement',
-      key: 'equipement',
+      dataIndex: 'nom_article',
+      key: 'nom_article',
       render: (text) => (
         <Tag icon={<ToolOutlined  />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
@@ -154,8 +154,8 @@ const ListeEquipement = ({idBatiment}) => {
     },
     {
       title: 'Statut',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'nom_statut',
+      key: 'nom_statut',
       render: (text) => (
         <Tag >{text}</Tag>
       ),

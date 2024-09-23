@@ -178,7 +178,6 @@ const Batiment = () => {
             <Button
               icon={<DashboardOutlined />}
               style={{ color: '#2db7f5' }}
-              onClick={() => handleListeEquipement(record.id_batiment)}
               aria-label="Voir le detail"
             />
           </Tooltip>
