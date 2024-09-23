@@ -52,6 +52,7 @@ const Maintenance = ({idEquipement}) => {
     fetchData();
   }, [idEquipement]);
 
+
   const handleAddClient = () => {
     setIsModalVisible(true);
   };
@@ -94,8 +95,8 @@ const Maintenance = ({idEquipement}) => {
     },
     { 
       title: 'Equipement', 
-      dataIndex: 'nom_equipement', 
-      key: 'nom_equipement',
+      dataIndex: 'nom_article', 
+      key: 'nom_article',
       render: text => (
         <Space>
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
@@ -104,9 +105,9 @@ const Maintenance = ({idEquipement}) => {
     },
     {
         title: "Date d'entretien",
-        dataIndex: 'date_entretien',
-        key: 'date_entretien',
-        sorter: (a, b) => moment(a.date_entretien) - moment(b.date_entretien),
+        dataIndex: 'maintenance_date',
+        key: 'maintenance_date',
+        sorter: (a, b) => moment(a.maintenance_date) - moment(b.maintenance_date),
         sortDirections: ['descend', 'ascend'],
         render: (text) => (
           <> 
@@ -118,8 +119,8 @@ const Maintenance = ({idEquipement}) => {
     },
     {
         title: 'Statut',
-        dataIndex: 'nom_statut',
-        key: 'nom_statut',
+        dataIndex: 'nom_statut_maintenanc',
+        key: 'nom_statut_maintenanc',
         render: (text) => {
           let color = 'green';
           let icon = <CheckCircleOutlined />;
@@ -191,9 +192,8 @@ const Maintenance = ({idEquipement}) => {
   ];
 
   const filteredData = data.filter(item =>
-    item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.code?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom?.toLowerCase().includes(searchValue.toLowerCase())
+    item.description?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (

@@ -16,7 +16,7 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
             const [typeData] = await Promise.all([
               getStatutMaintenance()
             ]);
-            setStatutMaintenance(typeData)
+            setStatutMaintenance(typeData.data)
         } catch (error) {
           console.log(error)
         }
@@ -79,13 +79,13 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
       </Form.Item>
 
       <Form.Item
-        name="statut"
+        name="status"
         label="Statut"
         rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
       >
         <Select
           showSearch
-          options={statutMaintenance.map((item) => ({
+          options={statutMaintenance?.map((item) => ({
             value: item.id_statut_maintenance,
             label: item.nom_statut_maintenance,
           }))}
