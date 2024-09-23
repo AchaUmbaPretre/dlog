@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, PrinterOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
@@ -173,12 +173,17 @@ const Batiment = () => {
               aria-label="Voir le detail"
             />
           </Tooltip>
+          <Tooltip title="Tableau de bord">
+            <Button
+              icon={<DashboardOutlined />}
+              style={{ color: '#2db7f5' }}
+              onClick={() => handleListeEquipement(record.id_batiment)}
+              aria-label="Voir le detail"
+            />
+          </Tooltip>
            <Popover
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            <Link onClick={() => handleListeEquipement(record.id_batiment)}>
-                                <FileTextOutlined /> Tableau de bord
-                            </Link>
                             <Link onClick={() => handleAddEquipement(record.id_batiment)}>
                                 <FileTextOutlined /> Liste d'équipement
                             </Link>

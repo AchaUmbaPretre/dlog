@@ -20,7 +20,6 @@ const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
           form.setFieldsValue({
             nom_document: data[0].nom_document,
             type_document: data[0].type_document,
-            // chemin_document n'est pas nécessaire pour pré-remplir le formulaire, car c'est géré par Upload
           });
         }
       });
@@ -33,14 +32,12 @@ const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
     formData.append('type_document', values.type_document);
     formData.append('id_tache', idTache);
   
-    // Ajout de plusieurs fichiers dans FormData
     if (values.chemin_document && values.chemin_document.length > 0) {
       values.chemin_document.forEach((file) => {
         formData.append('chemin_document', file.originFileObj);
       });
     }
   
-    // Envoyer le formData comme d'habitude
     setIsLoading(true);
     try {
       if (idTacheDoc) {
@@ -64,7 +61,6 @@ const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
     }
   };
   
-
   const handleUpload = (e) => Array.isArray(e) ? e : e?.fileList;
 
   return (
