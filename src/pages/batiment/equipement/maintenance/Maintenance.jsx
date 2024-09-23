@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined,ToolOutlined,CheckCircleOutlined, CloseCircleOutlined, CalendarOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import moment from 'moment';
-/* import { deletePutDepartement, getDepartement } from '../../services/departementService';
- */
+
 const { Search } = Input;
 
-const Maintenance = () => {
+const Maintenance = ({idEquipement}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);

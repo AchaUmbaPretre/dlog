@@ -4,7 +4,7 @@ import moment from 'moment';
 
 const { Option } = Select;
 
-const MaintenanceForm = ({ onSubmit }) => {
+const MaintenanceForm = ({ idEquipement }) => {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
@@ -12,7 +12,6 @@ const MaintenanceForm = ({ onSubmit }) => {
       ...values,
       date_entretien: values.date_entretien.format('YYYY-MM-DD'),
     };
-    onSubmit(formattedValues); // Envoi des données au backend ou autre traitement
   };
 
   return (
