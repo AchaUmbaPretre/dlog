@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
-import { ExportOutlined,CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
+import { ExportOutlined, EditOutlined, CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import { getEquipementOne } from '../../../../services/batimentService';
 import EquipementForm from '../equipementForm/EquipementForm';
@@ -197,7 +197,7 @@ const ListeEquipement = ({idBatiment}) => {
               aria-label="View client details"
             />
           </Tooltip> */}
-{/*           <Tooltip title="Edit">
+           <Tooltip title="Edit">
             <Popover title="Modifier" trigger="hover">
               <Button
                 icon={<EditOutlined />}
@@ -207,7 +207,7 @@ const ListeEquipement = ({idBatiment}) => {
                 aria-label="Edit client"
               />
             </Popover>
-          </Tooltip> */}
+          </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
