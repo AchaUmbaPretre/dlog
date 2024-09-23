@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import EquipementForm from './equipement/equipementForm/EquipementForm';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
 import DetailUpload from './uploadBatimentForm/detailUpload/DetailUpload';
+import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
 
 const { Search } = Input;
 
@@ -184,7 +185,7 @@ const Batiment = () => {
            <Popover
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            <Link onClick={() => handleAddEquipement(record.id_batiment)}>
+                            <Link onClick={() => handleListeEquipement(record.id_batiment)}>
                                 <FileTextOutlined /> Liste d'équipement
                             </Link>
                             <Link onClick={() => handleAddEquipement(record.id_batiment)}>
@@ -297,15 +298,16 @@ const Batiment = () => {
         <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
 
-{/*       <Modal
+       <Modal
         title=""
         visible={modalType === 'listeEquipement'}
         onCancel={closeAllModals}
         footer={null}
+        width={1050}
         centered
       >
-        <EquipementForm idEquipement = {idBatiment} />
-      </Modal> */}
+        <ListeEquipement idEquipement = {idBatiment} />
+      </Modal>
 
       <Modal
         title="Upload de croquis"

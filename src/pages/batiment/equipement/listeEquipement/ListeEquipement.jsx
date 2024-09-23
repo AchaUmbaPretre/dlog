@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
-import './client.scss';
-import { getClient } from '../../services/clientService';
-import config from '../../config';
+import { ExportOutlined,HomeOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
+import config from '../../../../config';
 
 const { Search } = Input;
 
@@ -14,7 +12,7 @@ const ListeEquipement = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
-  useEffect(() => {
+/*   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getClient();
@@ -30,7 +28,7 @@ const ListeEquipement = () => {
     };
 
     fetchData();
-  }, [DOMAIN]);
+  }, [DOMAIN]); */
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -184,7 +182,7 @@ const ListeEquipement = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <TeamOutlined className='client-icon' />
+              <ToolOutlined className='client-icon' />
             </div>
             <h2 className="client-h2">Liste d'équipement</h2>
           </div>
@@ -195,10 +193,10 @@ const ListeEquipement = () => {
             <div className="client-rows-right">
               <Button
                 type="primary"
-                icon={<PlusOutlined />}
+                icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
-                Ajouter un Client
+                Equipement
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
