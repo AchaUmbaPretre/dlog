@@ -45,12 +45,13 @@ const ListeEquipement = ({idBatiment}) => {
   };
 
   const handleMaintenance = () => {
-    
+
   }
 
   const handleListeMaintenance = () => {
 
   }
+
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
