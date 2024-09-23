@@ -137,6 +137,14 @@ const ListeEquipement = () => {
       ),
     },
     {
+      title: 'Statut',
+      dataIndex: 'status',
+      key: 'status',
+      render: (text) => (
+        <Tag >{text}</Tag>
+      ),
+    },
+    {
       title: 'Emplacement',
       dataIndex: 'location',
       key: 'location',
