@@ -1,18 +1,39 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, DatePicker, Select } from 'antd';
+import { Form, Input, Button, DatePicker, Select, notification } from 'antd';
 import moment from 'moment';
+import { postMaintenance } from '../../../../../services/batimentService';
 
 const { Option } = Select;
 
-const MaintenanceForm = ({ idEquipement }) => {
+const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
   const [form] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onFinish = (values) => {
+
+  const onFinish = async(values) => {
     const formattedValues = {
       ...values,
-      id_equipement : idEquipement,
+      id_equipement  : idEquipement,
       date_entretien: values.date_entretien.format('YYYY-MM-DD'),
     };
+    try {
+      await postMaintenance(formattedValues);
+      notification.success({
+          message: 'Succès',
+          description: 'Les informations ont été enregistrées avec succès.',
+      });
+
+   fetchData();
+  closeModal();
+  form.initialValue()
+} catch (error) {
+  notification.error({
+      message: 'Erreur',
+      description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+  });
+} finally {
+  setIsLoading(false);
+}
   };
 
   return (
