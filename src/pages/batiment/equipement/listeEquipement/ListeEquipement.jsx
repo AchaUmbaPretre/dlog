@@ -16,6 +16,7 @@ const ListeEquipement = ({idBatiment}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
   const [modalType, setModalType] = useState(null);
+  const [idEquipement, setIdEquipement] = useState('');
 
 
     const fetchData = async () => {
@@ -202,10 +203,10 @@ const ListeEquipement = ({idBatiment}) => {
                     <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleMaintenance(record.id_tache)} >
+                <Link onClick={() => handleMaintenance(record.id_equipement)} >
                   <ToolOutlined /> Maitenance
                 </Link>
-                <Link onClick={()=>handleListeMaintenance(record.id_tache)}>
+                <Link onClick={()=>handleListeMaintenance(record.id_equipement)}>
                   <ToolOutlined /> Liste de maintenance
                 </Link>
               </div>
