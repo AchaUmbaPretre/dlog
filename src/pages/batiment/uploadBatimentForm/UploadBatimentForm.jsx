@@ -116,8 +116,8 @@ const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
           name="chemin_document" 
           multiple
           listType="text"
-          beforeUpload={() => false} // Désactive le téléchargement automatique
-          onChange={handleFileChange}  // Appelle handleFileChange pour chaque modification de fichier
+          beforeUpload={() => false}
+          onChange={handleFileChange}
         >
           <Button icon={<UploadOutlined />}>Cliquez pour télécharger</Button>
         </Upload>
