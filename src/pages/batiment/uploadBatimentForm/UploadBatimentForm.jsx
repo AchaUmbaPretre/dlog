@@ -27,7 +27,6 @@ const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
   
     setIsLoading(true);
     try {
-      // Envoyer formData plutôt que values
       await postPlans(formData);
       notification.success({
         message: 'Succès',

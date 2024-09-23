@@ -307,7 +307,7 @@ const Batiment = () => {
       >
         <UploadBatimentForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
-
+      
       <Modal
         title="Detail"
         visible={modalType === 'detailCroquis'}
