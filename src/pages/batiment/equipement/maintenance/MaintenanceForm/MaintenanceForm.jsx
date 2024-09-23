@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, DatePicker, Select, notification } from 'antd';
 import moment from 'moment';
-import { postMaintenance } from '../../../../../services/batimentService';
+import { getStatutMaintenance, postMaintenance } from '../../../../../services/batimentService';
 
 const { Option } = Select;
 
 const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const [statutMaintenance, setStatutMaintenance] = useState()
 
   useEffect(() => {
     const fetchData = async () => {
         try {
             const [typeData] = await Promise.all([
-
+              getStatutMaintenance()
             ]);
+            setStatutMaintenance(typeData)
         } catch (error) {
           console.log(error)
         }

@@ -51,4 +51,8 @@ export const getTypeEquipement = async () => {
 export const getStatutEquipement = async () => {
     return axios.get(`${DOMAIN}/api/batiment/statut_equipement`);
   };
+
+  export const getStatutMaintenance = async () => {
+    return axios.get(`${DOMAIN}/api/batiment/statut_maintenance`);
+  };
   
