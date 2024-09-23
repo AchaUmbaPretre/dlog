@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, DatePicker, Select, notification } from 'antd';
 import moment from 'moment';
 import { postMaintenance } from '../../../../../services/batimentService';
@@ -9,12 +9,25 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const [typeData] = await Promise.all([
+
+            ]);
+        } catch (error) {
+          console.log(error)
+        }
+    };
+
+    fetchData();
+}, []);
 
   const onFinish = async(values) => {
     const formattedValues = {
       ...values,
       id_equipement  : idEquipement,
-      date_entretien: values.date_entretien.format('YYYY-MM-DD'),
+      date_entretien: values.maintenance_date.format('YYYY-MM-DD'),
     };
     try {
       await postMaintenance(formattedValues);
@@ -48,8 +61,8 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
       </Form.Item>
 
       <Form.Item
-        name="actions"
-        label="Actions réalisées"
+        name="description"
+        label="Description"
         rules={[{ required: true, message: 'Veuillez décrire les actions réalisées' }]}
       >
         <Input.TextArea placeholder="Décrivez les actions effectuées" />
