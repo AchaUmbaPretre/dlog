@@ -9,7 +9,7 @@ export const getEquipement = async () => {
   };
 
 export const getEquipementOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/batiment/equipement/one?id_equipement=${id}`);
+    return axios.get(`${DOMAIN}/api/batiment/equipement/one?id=${id}`);
   };
 
 export const postEquipement = async (data) => {

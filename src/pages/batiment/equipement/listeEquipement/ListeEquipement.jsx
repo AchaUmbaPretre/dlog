@@ -4,6 +4,7 @@ import { ExportOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOu
 import config from '../../../../config';
 import { getEquipement, getEquipementOne } from '../../../../services/batimentService';
 import EquipementForm from '../equipementForm/EquipementForm';
+import moment from 'moment';
 
 const { Search } = Input;
 
@@ -135,11 +136,12 @@ const ListeEquipement = ({idBatiment}) => {
       title: 'Date PM',
       dataIndex: 'date_prochaine_maintenance',
       key: 'date_prochaine_maintenance',
+      sorter: (a, b) => moment(a.date_prochaine_maintenance) - moment(b.date_prochaine_maintenance),
       render: (text) => (
         <> 
-          <Tag icon={<CalendarOutlined />} color='cyan'>
-            {text ?? 'Aucune'}
-          </Tag>
+          <Tag icon={<CalendarOutlined />} color="blue">
+          {moment(text).format('DD-MM-yyyy')}
+        </Tag>,
         </>
       ),
     },
