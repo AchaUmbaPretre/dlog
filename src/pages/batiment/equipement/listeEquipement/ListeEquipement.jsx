@@ -51,11 +51,11 @@ const ListeEquipement = ({idBatiment}) => {
   };
 
   const handleMaintenance = (idEquipement) => {
-    openModal('listeMaintenance', idEquipement)
+    openModal('addMaintenance', idEquipement)
   }
 
   const handleListeMaintenance = (idEquipement) => {
-    openModal('addMaintenance', idEquipement)
+    openModal('listeMaintenance', idEquipement)
   }
 
   const handleAddClient = () => {
@@ -334,7 +334,7 @@ const ListeEquipement = ({idBatiment}) => {
         visible={modalType === 'addMaintenance'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={700}
         centered
       >
         <MaintenanceForm idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
