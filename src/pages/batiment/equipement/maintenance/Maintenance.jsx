@@ -115,6 +115,16 @@ const Maintenance = () => {
             </Tag>,
           </>
         ),
+    },
+    { 
+        title: 'Description', 
+        dataIndex: 'description',
+        key: 'description',
+        render: text => (
+          <Space>
+            <Tag color='orange'>{text ?? 'Aucun'}</Tag>
+          </Space>
+        ),
       },
     {
       title: 'Responsable',
@@ -122,32 +132,6 @@ const Maintenance = () => {
       key: 'nom',
       render: (text) => (
         <Tag icon={<UserOutlined />} color="green">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    { 
-      title: 'Email', 
-      dataIndex: 'email',
-      key: 'email',
-      render: text => (
-        <Space>
-          <Tag icon={<MailOutlined />} color='orange'>{text ?? 'Aucun'}</Tag>
-        </Space>
-      ),
-    },
-    { 
-      title: 'Téléphone', 
-      dataIndex: 'telephone', 
-      key: 'telephone',
-      render: text => (
-        <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-      ),
-    },
-    { 
-      title: 'Code', 
-      dataIndex: 'code', 
-      key: 'code',
-      render: text => (
-        <Tag color='purple'>{text}</Tag>
       ),
     },
     {
