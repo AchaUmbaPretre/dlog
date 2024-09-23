@@ -116,6 +116,8 @@ const ListeEquipement = ({idBatiment}) => {
       title: 'Date installation',
       dataIndex: 'installation_date',
       key: 'installation_date',
+      sorter: (a, b) => moment(a.installation_date) - moment(b.installation_date),
+      sortDirections: ['descend', 'ascend'],
       render: (text) => (
         <Tag icon={<CalendarOutlined />}  color="blue">{text ?? 'Aucun'}</Tag>
       ),
@@ -124,11 +126,13 @@ const ListeEquipement = ({idBatiment}) => {
       title: 'Date maintenance',
       dataIndex: 'maintenance_date',
       key: 'maintenance_date',
+      sorter: (a, b) => moment(a.maintenance_date) - moment(b.maintenance_date),
+      sortDirections: ['descend', 'ascend'],
       render: (text) => (
         <> 
-          <Tag icon={<CalendarOutlined />} color='cyan'>
-            {text ?? 'Aucune'}
-          </Tag>
+          <Tag icon={<CalendarOutlined />} color="blue">
+            {moment(text).format('DD-MM-yyyy')}
+          </Tag>,
         </>
       ),
     },
@@ -137,11 +141,12 @@ const ListeEquipement = ({idBatiment}) => {
       dataIndex: 'date_prochaine_maintenance',
       key: 'date_prochaine_maintenance',
       sorter: (a, b) => moment(a.date_prochaine_maintenance) - moment(b.date_prochaine_maintenance),
+      sortDirections: ['descend', 'ascend'],
       render: (text) => (
         <> 
           <Tag icon={<CalendarOutlined />} color="blue">
-          {moment(text).format('DD-MM-yyyy')}
-        </Tag>,
+            {moment(text).format('DD-MM-yyyy')}
+          </Tag>,
         </>
       ),
     },
