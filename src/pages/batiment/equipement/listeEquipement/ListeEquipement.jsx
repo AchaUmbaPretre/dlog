@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
-import { ExportOutlined,CheckCircleOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import { getEquipementOne } from '../../../../services/batimentService';
 import EquipementForm from '../equipementForm/EquipementForm';
@@ -180,7 +180,7 @@ const ListeEquipement = ({idBatiment}) => {
       dataIndex: 'location',
       key: 'location',
       render: (text) => (
-        <Tag >{text}</Tag>
+        <Tag icon={<EnvironmentOutlined />} color='geekblue' >{text}</Tag>
       ),
     },
     {
