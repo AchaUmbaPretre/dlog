@@ -8,8 +8,6 @@ import { postPlans } from '../../../services/batimentService';
 const { Option } = Select;
 
 const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -116,7 +114,7 @@ const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
       >
         <Upload 
           name="chemin_document" 
-          multiple // Possibilité de sélectionner plusieurs fichiers
+          multiple
           listType="text"
           beforeUpload={() => false} // Désactive le téléchargement automatique
           onChange={handleFileChange}  // Appelle handleFileChange pour chaque modification de fichier
