@@ -306,7 +306,7 @@ const Batiment = () => {
         width={1050}
         centered
       >
-        <ListeEquipement idEquipement = {idBatiment} />
+        <ListeEquipement idBatiment={idBatiment} />
       </Modal>
 
       <Modal

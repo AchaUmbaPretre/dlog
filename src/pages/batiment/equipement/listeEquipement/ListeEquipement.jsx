@@ -2,23 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
 import { ExportOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
-import { getEquipement } from '../../../../services/batimentService';
+import { getEquipement, getEquipementOne } from '../../../../services/batimentService';
 import EquipementForm from '../equipementForm/EquipementForm';
 
 const { Search } = Input;
 
-const ListeEquipement = () => {
+const ListeEquipement = ({idBatiment}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
-  const [idBatiment, setIdBatiment] = useState('');
   const scroll = { x: 400 };
 
     const fetchData = async () => {
       try {
-        const { data } = await getEquipement();
+        const { data } = await getEquipementOne(idBatiment);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -258,7 +257,7 @@ const ListeEquipement = () => {
         width={800}
         centered
       >
-        <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+        <EquipementForm idBatiment={idBatiment} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} />
       </Modal>
     </>
   );
