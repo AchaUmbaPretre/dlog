@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
-import { ExportOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,CheckCircleOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
-import { getEquipement, getEquipementOne } from '../../../../services/batimentService';
+import { getEquipementOne } from '../../../../services/batimentService';
 import EquipementForm from '../equipementForm/EquipementForm';
 import moment from 'moment';
 
@@ -156,10 +156,25 @@ const ListeEquipement = ({idBatiment}) => {
       title: 'Statut',
       dataIndex: 'nom_statut',
       key: 'nom_statut',
-      render: (text) => (
-        <Tag >{text}</Tag>
-      ),
-    },
+      render: (text) => {
+        let color = 'green';
+        let icon = <CheckCircleOutlined />;
+    
+        if (text === 'En entretien') {
+          color = 'orange';
+          icon = <ToolOutlined />;
+        } else if (text === 'En panne') {
+          color = 'red';
+          icon = <CloseCircleOutlined />;
+        }
+    
+        return (
+          <Tag icon={icon} color={color}>
+            {text}
+          </Tag>
+        );
+      },
+    },    
     {
       title: 'Emplacement',
       dataIndex: 'location',
