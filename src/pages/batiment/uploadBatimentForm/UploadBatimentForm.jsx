@@ -10,6 +10,7 @@ const { Option } = Select;
 const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleFinish = async (values) => {
     const formData = new FormData();
@@ -33,6 +34,8 @@ const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
 
       closeModal();
       fetchData();
+      navigate('/batiment');
+      window.location.reload();
     } catch (error) {
       notification.error({
         message: 'Erreur',
