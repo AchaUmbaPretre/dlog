@@ -218,7 +218,7 @@ const Maintenance = ({idEquipement}) => {
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
-                département
+                Maintenance
               </Button>
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
