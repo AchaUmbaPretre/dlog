@@ -1,87 +1,68 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, DatePicker, Select, notification } from 'antd';
-import axios from 'axios';
+import { Form, Input, Button, DatePicker, Select } from 'antd';
+import moment from 'moment';
 
-const { TextArea } = Input;
+const { Option } = Select;
 
-const MaintenanceForm = () => {
-  const [loading, setLoading] = useState(false);
-  
-  const handleSubmit = async (values) => {
-    setLoading(true);
-    
-    try {
-      // Format date before sending it to the backend
-      const formattedDate = values.date_entretien.format('YYYY-MM-DD');
-      
-      const payload = {
-        ...values,
-        date_entretien: formattedDate,
-      };
+const MaintenanceForm = ({ onSubmit }) => {
+  const [form] = Form.useForm();
 
-      await axios.post('/api/maintenances', payload);
-      notification.success({
-        message: 'Maintenance enregistrée avec succès',
-      });
-    } catch (error) {
-      notification.error({
-        message: 'Erreur lors de l\'enregistrement',
-        description: error.message,
-      });
-    } finally {
-      setLoading(false);
-    }
+  const onFinish = (values) => {
+    const formattedValues = {
+      ...values,
+      date_entretien: values.date_entretien.format('YYYY-MM-DD'),
+    };
+    onSubmit(formattedValues); // Envoi des données au backend ou autre traitement
   };
 
   return (
-    <Form
-      layout="vertical"
-      onFinish={handleSubmit}
-      autoComplete="off"
-    >
-      {/* Equipement ID */}
+    <Form form={form} layout="vertical" onFinish={onFinish}>
       <Form.Item
-        label="ID de l'équipement"
         name="id_equipement"
-        rules={[{ required: true, message: 'Veuillez sélectionner un équipement' }]}
+        label="Équipement ID"
+        rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'équipement' }]}
       >
-        <Select placeholder="Sélectionner un équipement">
-          {/* Vous pouvez remplacer ces options par des données dynamiques */}
-          <Select.Option value="1">Équipement 1</Select.Option>
-          <Select.Option value="2">Équipement 2</Select.Option>
-        </Select>
+        <Input placeholder="Entrez l'ID de l'équipement" />
       </Form.Item>
 
-      {/* Date d'entretien */}
       <Form.Item
-        label="Date d'entretien"
         name="date_entretien"
+        label="Date d'entretien"
         rules={[{ required: true, message: 'Veuillez sélectionner une date' }]}
       >
-        <DatePicker />
+        <DatePicker placeholder="Sélectionnez une date" style={{ width: '100%' }} />
       </Form.Item>
 
-      {/* Actions */}
       <Form.Item
-        label="Actions"
         name="actions"
-        rules={[{ required: true, message: 'Veuillez décrire les actions effectuées' }]}
+        label="Actions réalisées"
+        rules={[{ required: true, message: 'Veuillez décrire les actions réalisées' }]}
       >
-        <TextArea rows={4} placeholder="Décrivez les actions réalisées durant l'entretien" />
+        <Input.TextArea placeholder="Décrivez les actions effectuées" />
       </Form.Item>
 
-      {/* Technicien */}
       <Form.Item
-        label="Technicien"
         name="technicien"
+        label="Technicien"
         rules={[{ required: true, message: 'Veuillez entrer le nom du technicien' }]}
       >
         <Input placeholder="Nom du technicien" />
       </Form.Item>
 
-      {/* Submit button */}
+      <Form.Item
+        name="statut"
+        label="Statut"
+        rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
+      >
+        <Select placeholder="Sélectionnez le statut">
+          <Option value="En cours">En cours</Option>
+          <Option value="Terminée">Terminée</Option>
+          <Option value="Annulée">Annulée</Option>
+        </Select>
+      </Form.Item>
+
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button type="primary" htmlType="submit">
           Enregistrer la maintenance
         </Button>
       </Form.Item>
