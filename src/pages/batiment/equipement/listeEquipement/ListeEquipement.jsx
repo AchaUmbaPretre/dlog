@@ -6,6 +6,8 @@ import { getEquipementOne } from '../../../../services/batimentService';
 import EquipementForm from '../equipementForm/EquipementForm';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import Maintenance from '../maintenance/Maintenance';
+import MaintenanceForm from '../maintenance/MaintenanceForm/MaintenanceForm';
 
 const { Search } = Input;
 
@@ -39,19 +41,26 @@ const ListeEquipement = ({idBatiment}) => {
 
   const closeAllModals = () => {
     setIsModalVisible(false);
+    setModalType(null)
   };
+
+  const openModal = (type, idEquipement = '') => {
+    closeAllModals();
+    setIdEquipement(idEquipement);
+    setModalType(type);
+  };
+
+  const handleMaintenance = (idEquipement) => {
+    openModal('listeMaintenance', idEquipement)
+  }
+
+  const handleListeMaintenance = (idEquipement) => {
+    openModal('addMaintenance', idEquipement)
+  }
 
   const handleAddClient = () => {
     setIsModalVisible(true);
   };
-
-  const handleMaintenance = () => {
-
-  }
-
-  const handleListeMaintenance = () => {
-
-  }
 
 
   const handleExportExcel = () => {
@@ -307,6 +316,28 @@ const ListeEquipement = ({idBatiment}) => {
         centered
       >
         <EquipementForm idBatiment={idBatiment} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title="Liste maintenance"
+        visible={modalType === 'listeMaintenance'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <Maintenance idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title="Maintenance"
+        visible={modalType === 'addMaintenance'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <MaintenanceForm idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
     </>
   );
