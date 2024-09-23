@@ -23,9 +23,9 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
           description: 'Les informations ont été enregistrées avec succès.',
       });
 
-   fetchData();
-  closeModal();
-  form.initialValue()
+    fetchData();
+    closeModal();
+    form.initialValue()
 } catch (error) {
   notification.error({
       message: 'Erreur',
