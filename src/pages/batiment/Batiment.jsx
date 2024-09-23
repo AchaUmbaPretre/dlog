@@ -165,12 +165,17 @@ const Batiment = () => {
               aria-label="Voir le detail"
             />
           </Tooltip>
+          <Tooltip title="Upload de croquis">
+            <Button
+              icon={<CloudDownloadOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleAddCroquis(record.id_batiment)}
+              aria-label="Voir le detail"
+            />
+          </Tooltip>
            <Popover
                 content={
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            <Link onClick={() => handleAddCroquis(record.id_batiment)}>
-                                <CloudDownloadOutlined /> Upload de croquis
-                            </Link>
                             <Link onClick={() => handleListeEquipement(record.id_batiment)}>
                             <FileTextOutlined /> Tableau de bord
                             </Link>
@@ -307,7 +312,7 @@ const Batiment = () => {
       >
         <UploadBatimentForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
-      
+
       <Modal
         title="Detail"
         visible={modalType === 'detailCroquis'}
