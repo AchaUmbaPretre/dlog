@@ -8,7 +8,7 @@ const { Option } = Select;
 const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const [statutMaintenance, setStatutMaintenance] = useState()
+  const [statutMaintenance, setStatutMaintenance] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,11 +83,15 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
         label="Statut"
         rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
       >
-        <Select placeholder="Sélectionnez le statut">
-          <Option value="En cours">En cours</Option>
-          <Option value="Terminée">Terminée</Option>
-          <Option value="Annulée">Annulée</Option>
-        </Select>
+        <Select
+          showSearch
+          options={statutMaintenance.map((item) => ({
+            value: item.id_statut_maintenance,
+            label: item.nom_statut_maintenance,
+          }))}
+          placeholder="Sélectionnez..."
+          optionFilterProp="label"
+        />
       </Form.Item>
 
       <Form.Item>
