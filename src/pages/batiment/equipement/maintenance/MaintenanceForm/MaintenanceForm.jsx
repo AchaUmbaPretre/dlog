@@ -40,8 +40,8 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
     <Form form={form} layout="vertical" onFinish={onFinish}>
 
       <Form.Item
-        name="date_entretien"
-        label="maintenance_date"
+        name="maintenance_date"
+        label="Date d'entretien"
         rules={[{ required: true, message: 'Veuillez sélectionner une date' }]}
       >
         <DatePicker placeholder="Sélectionnez une date" style={{ width: '100%' }} />
