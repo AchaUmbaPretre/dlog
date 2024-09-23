@@ -51,7 +51,8 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
         });
 
          fetchData();
-        closeModal()
+        closeModal();
+        form.initialValue()
     } catch (error) {
         notification.error({
             message: 'Erreur',
@@ -133,7 +134,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
         <Col span={12}>
           <Form.Item
             label="Prochaine date d'entretien"
-            name="prochaine_date_entretien"
+            name="date_prochaine_maintenance"
           >
             <DatePicker style={{ width: '100%' }} placeholder="Sélectionnez la date" />
           </Form.Item>

@@ -119,7 +119,9 @@ const ListeEquipement = ({idBatiment}) => {
       sorter: (a, b) => moment(a.installation_date) - moment(b.installation_date),
       sortDirections: ['descend', 'ascend'],
       render: (text) => (
-        <Tag icon={<CalendarOutlined />}  color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<CalendarOutlined />} color="blue">
+          {moment(text).format('DD-MM-yyyy')}
+        </Tag>
       ),
     },
     {
@@ -132,7 +134,7 @@ const ListeEquipement = ({idBatiment}) => {
         <> 
           <Tag icon={<CalendarOutlined />} color="blue">
             {moment(text).format('DD-MM-yyyy')}
-          </Tag>,
+          </Tag>
         </>
       ),
     },
