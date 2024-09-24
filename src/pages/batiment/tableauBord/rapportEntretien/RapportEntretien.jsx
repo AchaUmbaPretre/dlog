@@ -8,6 +8,7 @@ import moment from 'moment';
 const RapportEntretien = ({ idBatiment }) => {
   const [rapport, setRapport] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [nameBatiment, setNameBatiment] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,6 +16,7 @@ const RapportEntretien = ({ idBatiment }) => {
       try {
         const res = await getRapportOne(idBatiment);
         setRapport(res.data);
+        setNameBatiment(res.data[0].nom_batiment)
       } catch (error) {
         console.log(error);
         notification.error({
@@ -93,7 +95,7 @@ const RapportEntretien = ({ idBatiment }) => {
   return (
     <div className="rapport-entretien-container">
         <div className="title_row">
-            <h1 className="title_h1">Rapport de batiment</h1>
+            <h1 className="title_h1"> { nameBatiment ? `Rapport de ${nameBatiment}` : ''}</h1>
         </div>
       {loading ? (
         <div className="loading-container">

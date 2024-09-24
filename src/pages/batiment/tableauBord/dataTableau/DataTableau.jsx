@@ -12,7 +12,7 @@ const DataTableau = ({ idBatiment }) => {
     setLoading(true);
     try {
       const { data } = await getTableauOne(idBatiment);
-      setData(data);
+      setData(data[0]);
       setLoading(false);
     } catch (error) {
       notification.error({
