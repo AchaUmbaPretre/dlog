@@ -69,8 +69,7 @@ const StockForm = ({closeModal,fetchData}) => {
             ))}
           </Select>
         </Form.Item>
-  
-        {/* Quantité */}
+
         <Form.Item
           name="quantite"
           label="Quantité"
@@ -79,7 +78,6 @@ const StockForm = ({closeModal,fetchData}) => {
           <InputNumber min={0} style={{ width: '100%' }} placeholder="Entrez la quantité" />
         </Form.Item>
   
-        {/* Seuil d'alerte */}
         <Form.Item
           name="seuil_alerte"
           label="Seuil d'alerte"
