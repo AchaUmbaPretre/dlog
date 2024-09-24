@@ -61,8 +61,8 @@ const StockForm = () => {
         >
           <Select placeholder="Sélectionner un type d'équipement">
             {articles.map((type) => (
-              <Option key={type.id_type_equipement} value={type.id_type_equipement}>
-                {type.nom_equipement}
+              <Option key={type.id_article} value={type.id_article}>
+                {type.nom_article}
               </Option>
             ))}
           </Select>
