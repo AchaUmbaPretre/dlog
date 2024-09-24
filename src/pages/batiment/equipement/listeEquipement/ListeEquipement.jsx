@@ -291,7 +291,7 @@ const ListeEquipement = ({idBatiment}) => {
       </div>
 
       <Modal
-        title="Ajouter un équipement"
+        title=""
         visible={isModalVisible}
         onCancel={closeAllModals}
         footer={null}

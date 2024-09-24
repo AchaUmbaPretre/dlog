@@ -284,7 +284,7 @@ const Batiment = () => {
         width={600}
         centered
       >
-        <BatimentForm/>
+        <BatimentForm closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
 
       <Modal

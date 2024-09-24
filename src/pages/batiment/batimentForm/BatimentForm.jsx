@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { postBatiment } from '../../../services/typeService';
 import { getProvince } from '../../../services/clientService';
 
-const BatimentForm = () => {
+const BatimentForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +18,7 @@ const BatimentForm = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchDataGet = async () => {
             try {
                 const response = await getProvince();
                 setData(response.data);
@@ -30,7 +30,7 @@ const BatimentForm = () => {
             }
         };
     
-        fetchData();
+        fetchDataGet();
     }, []);
 
     const handleOk = async () => {
@@ -42,8 +42,9 @@ const BatimentForm = () => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/batiment');
-            form.resetFields(); // Réinitialise le formulaire après soumission
+            form.resetFields();
+            closeModal();
+            fetchData();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -66,7 +67,7 @@ const BatimentForm = () => {
         <div className="client_form">
             <div className="client_wrapper">
                 <Form
-                    form={form} // Ajout de la référence au formulaire
+                    form={form}
                     layout="vertical"
                     onFinish={onFinish}
                 >
