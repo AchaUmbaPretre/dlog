@@ -55,7 +55,6 @@ const StockForm = ({closeModal,fetchData}) => {
         onFinish={onFinish}
         initialValues={{ quantite: 0, seuil_alerte: 1 }}
       >
-        {/* Sélection du type d'équipement */}
         <Form.Item
           name="id_type_equipement"
           label="Type d'équipement"
