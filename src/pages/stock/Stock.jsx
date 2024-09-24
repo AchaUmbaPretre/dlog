@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import './departement.scss';
-import DepartementForm from './departementForm/DepartementForm';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { ExportOutlined, DropboxOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { deletePutDepartement, getDepartement } from '../../services/departementService';
 
 const { Search } = Input;
@@ -182,9 +180,9 @@ const Stock = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ApartmentOutlined className='client-icon'/>
+              <DropboxOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Département</h2>
+            <h2 className="client-h2">Stock</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -225,7 +223,7 @@ const Stock = () => {
           />
         </div>
       </div>
-
+{/* 
       <Modal
         title=""
         visible={isModalVisible}
@@ -235,7 +233,7 @@ const Stock = () => {
         centered
       >
         <DepartementForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

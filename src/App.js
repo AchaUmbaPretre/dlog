@@ -25,6 +25,7 @@ import Categorie from './pages/categorie/Categorie';
 import Dossier from './pages/dossier/Dossier';
 import { MenuProvider } from './context/MenuProvider';
 import Besoins from './pages/besoins/Besoins';
+import Stock from './pages/stock/Stock';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -115,6 +116,10 @@ function App() {
         {
           path: '/article',
           element: <Article/>
+        },
+        {
+          path: '/stock',
+          element: <Stock/>
         },
         {
           path: '/categorie',
