@@ -92,6 +92,9 @@ const RapportEntretien = ({ idBatiment }) => {
 
   return (
     <div className="rapport-entretien-container">
+        <div className="title_row">
+            <h1 className="title_h1">Rapport de batiment</h1>
+        </div>
       {loading ? (
         <div className="loading-container">
           <Spin size="large" />
