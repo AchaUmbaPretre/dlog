@@ -82,3 +82,7 @@ export const getRapport = async () => {
 export const getRapportOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/rapport/one?id=${id}`);
 };
+
+export const getTableauOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/tableau_bord/one?id=${id}`);
+};

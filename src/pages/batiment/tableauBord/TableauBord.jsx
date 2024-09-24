@@ -10,13 +10,13 @@ const TableauBord = ({idBatiment}) => {
         <Tabs.TabPane
           tab={
             <span>
-              <DashboardOutlined /> {/* Icône du tableau de bord */}
+              <DashboardOutlined />
               Tableau de bord
             </span>
           }
           key="0"
         >
-          {/* Contenu du tableau de bord */}
+          
         </Tabs.TabPane>
 
         <Tabs.TabPane
