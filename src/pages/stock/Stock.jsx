@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, DropboxOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { deletePutDepartement, getDepartement } from '../../services/departementService';
+import { getStock } from '../../services/batimentService';
 
 const { Search } = Input;
 
@@ -35,7 +36,7 @@ const Stock = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getDepartement();
+        const { data } = await getStock();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -197,7 +198,7 @@ const Stock = () => {
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
-                département
+                stock
               </Button>
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
