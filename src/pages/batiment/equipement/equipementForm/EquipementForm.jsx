@@ -32,7 +32,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
             setStatutEquipement(statutData.data)
             if(idBatiment){
               const res = await getBatimentOne(idBatiment)
-              setBatimentName(res.data[0])
+              setBatimentName(res.data[0]?.nom_batiment)
             }
 
         } catch (error) {
@@ -71,7 +71,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className='controle_h2'>Ajouter un équipement au {''}</h2>                
+        <h2 className='controle_h2'>Ajouter un équipement au {batimentName}</h2>                
       </div>
       <Form
       form={form}
