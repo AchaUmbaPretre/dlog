@@ -103,11 +103,11 @@ const Stock = () => {
       ),
     },
     {
-      title: 'Responsable',
-      dataIndex: 'nom',
-      key: 'nom',
+      title: 'Quantité',
+      dataIndex: 'quantite',
+      key: 'quantite',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+        <Tag color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
     { 
@@ -128,14 +128,6 @@ const Stock = () => {
         <Tag color='magenta'>{text ?? "Aucun"}</Tag>
       ),
     },
-    { 
-      title: 'Code', 
-      dataIndex: 'code', 
-      key: 'code',
-      render: text => (
-        <Tag color='purple'>{text}</Tag>
-      ),
-    },
     {
       title: 'Action',
       key: 'action',
@@ -146,14 +138,14 @@ const Stock = () => {
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_departement)}
+              onClick={() => handleEdit(record.id_stock)}
               aria-label="Edit department"
             />
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
-              onConfirm={() => handleDelete(record.id_departement)}
+              onConfirm={() => handleDelete(record.id_stock)}
               okText="Yes"
               cancelText="No"
             >
