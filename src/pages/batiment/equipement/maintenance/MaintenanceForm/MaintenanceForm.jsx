@@ -42,10 +42,12 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
     closeModal();
     form.initialValue()
 } catch (error) {
-  notification.error({
+  const errorMessage = error.response?.data?.error || 'Une erreur s\'est produite lors de l\'enregistrement des informations.';
+
+    notification.error({
       message: 'Erreur',
-      description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
-  });
+      description: errorMessage,
+    });
 } finally {
   setIsLoading(false);
 }
