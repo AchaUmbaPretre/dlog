@@ -40,7 +40,7 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
 
     fetchData();
     closeModal();
-    form.initialValue()
+    form.resetFields()
 } catch (error) {
   const errorMessage = error.response?.data?.error || 'Une erreur s\'est produite lors de l\'enregistrement des informations.';
 

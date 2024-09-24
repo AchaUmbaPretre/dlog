@@ -119,28 +119,28 @@ const Maintenance = ({idEquipement}) => {
         ),
     },
     {
-        title: 'Statut',
-        dataIndex: 'nom_statut_maintenance',
-        key: 'nom_statut_maintenance',
-        render: (text) => {
-          let color = 'green';
-          let icon = <CheckCircleOutlined />;
-      
-          if (text === 'Planifie') {
-            color = 'orange';
-            icon = <ToolOutlined />;
-          } else if (text === 'Problème') {
-            color = 'red';
-            icon = <CloseCircleOutlined />;
-          }
-      
-          return (
-            <Tag icon={icon} color={color}>
-              {text}
-            </Tag>
-          );
-        },
-      },  
+      title: 'Statut',
+      dataIndex: 'nom_statut',
+      key: 'nom_statut',
+      render: (text) => {
+        let color = 'green';
+        let icon = <CheckCircleOutlined />;
+    
+        if (text === 'En entretien') {
+          color = 'orange';
+          icon = <ToolOutlined />;
+        } else if (text === 'En panne') {
+          color = 'red';
+          icon = <CloseCircleOutlined />;
+        }
+    
+        return (
+          <Tag icon={icon} color={color}>
+            {text}
+          </Tag>
+        );
+      },
+    },
     { 
         title: 'Description', 
         dataIndex: 'description',
