@@ -74,10 +74,6 @@ const Users = () => {
     }
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Affichage des détails de : ${record.nom}`);
-  };
-
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>

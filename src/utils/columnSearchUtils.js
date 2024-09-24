@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
@@ -9,7 +9,6 @@ const handleSearch = (selectedKeys, confirm, dataIndex, setSearchText, setSearch
   setSearchedColumn(dataIndex);
 };
 
-// Fonction pour réinitialiser les filtres
 const handleReset = (clearFilters, setSearchText) => {
   clearFilters();
   setSearchText('');
