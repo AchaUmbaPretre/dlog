@@ -1,11 +1,11 @@
 import { Button, Form, Input, notification, Modal, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postBatiment, postCategorie } from '../../../services/typeService';
+import { postBatiment } from '../../../services/typeService';
 import { getProvince } from '../../../services/clientService';
 
-
 const BatimentForm = () => {
+    const [form] = Form.useForm();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -19,19 +19,19 @@ const BatimentForm = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const { data } = await getProvince();
-            setData(data);
-          } catch (error) {
-            notification.error({
-              message: 'Erreur de chargement',
-              description: 'Une erreur est survenue lors du chargement des données.',
-            });
-          }
+            try {
+                const response = await getProvince();
+                setData(response.data);
+            } catch (error) {
+                notification.error({
+                    message: 'Erreur de chargement',
+                    description: 'Une erreur est survenue lors du chargement des données.',
+                });
+            }
         };
     
         fetchData();
-      }, []);
+    }, []);
 
     const handleOk = async () => {
         setIsModalVisible(false);
@@ -43,7 +43,7 @@ const BatimentForm = () => {
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             navigate('/batiment');
-            window.location.reload();
+            form.resetFields(); // Réinitialise le formulaire après soumission
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -66,6 +66,7 @@ const BatimentForm = () => {
         <div className="client_form">
             <div className="client_wrapper">
                 <Form
+                    form={form} // Ajout de la référence au formulaire
                     layout="vertical"
                     onFinish={onFinish}
                 >
@@ -91,11 +92,11 @@ const BatimentForm = () => {
                         <Select
                             showSearch
                             options={data.map((item) => ({
-                                        value: item.id,
-                                        label: item.name,
-                                    }))}
-                                    placeholder="Sélectionnez une ville..."
-                                    optionFilterProp="label"
+                                value: item.id,
+                                label: item.name,
+                            }))}
+                            placeholder="Sélectionnez une ville..."
+                            optionFilterProp="label"
                         />
                     </Form.Item>
                     <Form.Item>
