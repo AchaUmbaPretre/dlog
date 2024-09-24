@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, DropboxOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { deletePutDepartement, getDepartement } from '../../services/departementService';
+import { ExportOutlined, DropboxOutlined,ToolOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { deletePutDepartement } from '../../services/departementService';
 import { getStock } from '../../services/batimentService';
 
 const { Search } = Input;
@@ -93,12 +93,12 @@ const Stock = () => {
       width: "3%" 
     },
     { 
-      title: 'Nom', 
-      dataIndex: 'nom_departement', 
-      key: 'nom_departement',
+      title: 'Article', 
+      dataIndex: 'id_type_equipement', 
+      key: 'id_type_equipement',
       render: text => (
         <Space>
-          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<ToolOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
