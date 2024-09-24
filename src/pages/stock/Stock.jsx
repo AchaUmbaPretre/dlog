@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Modal } from 'antd';
 import { ExportOutlined, DropboxOutlined,ToolOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { deletePutDepartement } from '../../services/departementService';
 import { getStock } from '../../services/batimentService';
+import StockForm from './stockForm/StockForm';
 
 const { Search } = Input;
 
@@ -198,7 +199,7 @@ const Stock = () => {
           />
         </div>
       </div>
-{/* 
+ 
       <Modal
         title=""
         visible={isModalVisible}
@@ -207,8 +208,8 @@ const Stock = () => {
         width={600}
         centered
       >
-        <DepartementForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
-      </Modal> */}
+        <StockForm closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+      </Modal>
     </>
   );
 };
