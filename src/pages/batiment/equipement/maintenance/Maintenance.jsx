@@ -13,6 +13,7 @@ const Maintenance = ({idEquipement}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [idDepartement, setIdDapartement] = useState('');
+  const [nameEquipement, setNameEquipement] = useState('');
   const scroll = { x: 400 };
 
   const handleEdit = (record) => {
@@ -39,6 +40,7 @@ const Maintenance = ({idEquipement}) => {
       try {
         const { data } = await getMaintenanceOne(idEquipement);
         setData(data);
+        setNameEquipement(data[0].nom_article)
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -93,16 +95,6 @@ const Maintenance = ({idEquipement}) => {
       key: 'id', 
       render: (text, record, index) => index + 1, 
       width: "3%" 
-    },
-    { 
-      title: 'Equipement', 
-      dataIndex: 'nom_article', 
-      key: 'nom_article',
-      render: text => (
-        <Space>
-          <Tag icon={<ApartmentOutlined />} color='green'>{text}</Tag>
-        </Space>
-      ),
     },
     {
         title: "Date d'entretien",
@@ -205,7 +197,7 @@ const Maintenance = ({idEquipement}) => {
             <div className="client-row-icon">
               <ToolOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Liste de Maintenance</h2>
+            <h2 className="client-h2">Liste de Maintenance de {nameEquipement}</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
