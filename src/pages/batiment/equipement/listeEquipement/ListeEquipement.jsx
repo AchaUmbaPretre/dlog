@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
+import { Table, Button, Input, message, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
 import { ExportOutlined, CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import { getEquipementOne } from '../../../../services/batimentService';

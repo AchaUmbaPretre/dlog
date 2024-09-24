@@ -57,7 +57,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
 
          fetchData();
         closeModal();
-        form.initialValue()
+        form.resetFields();
     } catch (error) {
         notification.error({
             message: 'Erreur',
@@ -74,13 +74,13 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
         <h2 className='controle_h2'>Ajouter un équipement au {batimentName}</h2>                
       </div>
       <Form
-      form={form}
-      layout="vertical"
-      onFinish={handleSubmit}
-      initialValues={{
-        status: 2,
-      }}
-    >
+        form={form}
+        layout="vertical"
+        onFinish={handleSubmit}
+        initialValues={{
+          status: 2,
+        }}
+      >
       <Row gutter={16}>
         <Col span={12}>
           <Form.Item
