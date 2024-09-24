@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, DatePicker, Select, notification } from 'antd';
-import { getStatutMaintenance, postMaintenance } from '../../../../../services/batimentService';
+import { getStatutEquipement, getStatutMaintenance, postMaintenance } from '../../../../../services/batimentService';
 
 const { Option } = Select;
 
@@ -13,7 +13,7 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
     const fetchData = async () => {
         try {
             const [typeData] = await Promise.all([
-              getStatutMaintenance()
+              getStatutEquipement()
             ]);
             setStatutMaintenance(typeData.data)
         } catch (error) {
@@ -88,8 +88,8 @@ const MaintenanceForm = ({ idEquipement, closeModal, fetchData }) => {
         <Select
           showSearch
           options={statutMaintenance?.map((item) => ({
-            value: item.id_statut_maintenance,
-            label: item.nom_statut_maintenance,
+            value: item.id_statut_equipement ,
+            label: item.nom_statut,
           }))}
           placeholder="Sélectionnez..."
           optionFilterProp="label"
