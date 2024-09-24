@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, InputNumber, Button, Select, notification } from 'antd';
-import axios from 'axios';
+import { postStock } from '../../../services/batimentService';
+import { getArticle } from '../../../services/typeService';
 
 const { Option } = Select;
-const StockForm = ({ equipementTypes }) => {
+const StockForm = () => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const [articles, setArticles] = useState([])
+
+    useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const [articleData] = await Promise.all([
+                  getArticle(),
+              ]);
+  
+              setArticles(articleData.data);
+  
+          } catch (error) {
+            console.log(error)
+          }
+      };
+  
+      fetchData();
+  }, [form]);
+  
   
     const onFinish = async (values) => {
       setLoading(true);
       try {
-        await axios.post('/api/stocks_equipements', values);
+        await postStock(values);
         notification.success({
           message: 'Succès',
           description: 'Le stock a été ajouté avec succès.',
@@ -40,7 +60,7 @@ const StockForm = ({ equipementTypes }) => {
           rules={[{ required: true, message: 'Veuillez sélectionner un type d’équipement' }]}
         >
           <Select placeholder="Sélectionner un type d'équipement">
-            {equipementTypes.map((type) => (
+            {articles.map((type) => (
               <Option key={type.id_type_equipement} value={type.id_type_equipement}>
                 {type.nom_equipement}
               </Option>
