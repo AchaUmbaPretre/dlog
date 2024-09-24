@@ -20,6 +20,10 @@ export const getArticleOne = async (idArt, idFour) => {
     return axios.get(`${DOMAIN}/api/types/batiment`);
   };
 
+  export const getBatimentOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/types/batiment/one?id=${id}`);
+  };
+
   export const postBatiment = async (data) => {
     return axios.post(`${DOMAIN}/api/types/batiment`, data);
   };

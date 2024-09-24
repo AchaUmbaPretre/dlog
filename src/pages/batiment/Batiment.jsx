@@ -20,6 +20,7 @@ const Batiment = () => {
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
   const [idBatiment, setIdBatiment] = useState('');
+  const [batimentName, setBatimentName] = useState('');
   const scroll = { x: 400 };
 
   const handleDelete = async (id) => {

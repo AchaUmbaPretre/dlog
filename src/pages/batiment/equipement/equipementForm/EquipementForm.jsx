@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
 import { getStatutEquipement,postEquipement } from '../../../../services/batimentService';
 import moment from 'moment';
-import { getArticle } from '../../../../services/typeService';
+import { getArticle, getBatimentOne } from '../../../../services/typeService';
 
 const { Option } = Select;
 
@@ -11,6 +11,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [statutEquipement, setStatutEquipement] = useState([]);
   const [typeEquipement, setTypeEquipement] = useState([]);
+  const [batimentName, setBatimentName] = useState('');
 
   const handleError = (message) => {
     notification.error({
@@ -29,6 +30,10 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
 
             setTypeEquipement(typeData.data);
             setStatutEquipement(statutData.data)
+            if(idBatiment){
+              const res = await getBatimentOne(idBatiment)
+              setBatimentName(res.data[0])
+            }
 
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
