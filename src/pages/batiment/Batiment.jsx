@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, PrinterOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,HomeOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
@@ -131,7 +131,7 @@ const Batiment = () => {
       key: 'nom_batiment',
       render: text => (
         <Space>
-          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<HomeOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },

@@ -19,12 +19,14 @@ const ListeEquipement = ({idBatiment}) => {
   const scroll = { x: 400 };
   const [modalType, setModalType] = useState(null);
   const [idEquipement, setIdEquipement] = useState('');
+  const [nameBatiment, setNameBatiment] = useState('');
 
 
     const fetchData = async () => {
       try {
         const { data } = await getEquipementOne(idBatiment);
         setData(data);
+        setNameBatiment(data[0].nom_batiment)
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -107,14 +109,6 @@ const ListeEquipement = ({idBatiment}) => {
       key: 'id',
       render: (text, record, index) => index + 1,
       width: "3%",
-    },
-    {
-      title: 'Batiment',
-      dataIndex: 'nom_batiment',
-      key: 'nom_batiment',
-      render: (text) => (
-        <Tag icon={<HomeOutlined />} color="orange">{text ?? 'Aucun'}</Tag>
-      ),
     },
     {
       title: 'Equipement',
@@ -261,7 +255,7 @@ const ListeEquipement = ({idBatiment}) => {
             <div className="client-row-icon">
               <ToolOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste d'équipement</h2>
+            <h2 className="client-h2">Liste d'équipement de {nameBatiment}</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
