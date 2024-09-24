@@ -92,46 +92,46 @@ const SideBar = () => {
           <Item key="1" icon={<ApartmentOutlined />} onClick={toggleMenu}>
             <Link to='/departement'>Département</Link>
           </Item>
-          <Item key="13" icon={<BankOutlined />} onClick={toggleMenu}>
+          <Item key="2" icon={<BankOutlined />} onClick={toggleMenu}>
             <Link to='/batiment'>Bâtiment</Link>
           </Item>
-          <Item key="2" icon={<DashboardOutlined />} onClick={toggleMenu}>
+          <Item key="3" icon={<DashboardOutlined />} onClick={toggleMenu}>
             <Link to='/controle'>Contrôle de base</Link>
           </Item>
-          <SubMenu key="sub5" icon={<ProjectOutlined />} title="Projet" onClick={toggleMenu}>
-            <Item key="3">
+          <SubMenu key="sub1" icon={<ProjectOutlined />} title="Projet" onClick={toggleMenu}>
+            <Item key="4">
               <Link to='/projet'>Liste de projet</Link>
             </Item>
-            <Menu.Item key="4" onClick={toggleMenu}>
+            <Menu.Item key="5" onClick={toggleMenu}>
               <Link to='/offre'>Liste des offres</Link>
             </Menu.Item>
-            <Menu.Item key="5" onClick={toggleMenu}>
+            <Menu.Item key="6" onClick={toggleMenu}>
               <Link to='/budget'>Budget</Link>
             </Menu.Item>
-            <Menu.Item key="6" onClick={toggleMenu}>
+            <Menu.Item key="7" onClick={toggleMenu}>
               <Link to='/besoins'>Besoins</Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub6" icon={<FileDoneOutlined />} title="Tâches">
-            <Menu.Item key="7" onClick={toggleMenu}>
+          <SubMenu key="sub2" icon={<FileDoneOutlined />} title="Tâches">
+            <Menu.Item key="8" onClick={toggleMenu}>
               <Link to='/tache'>Liste des tâches</Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub7" icon={<TagOutlined />} title="Articles">
-            <Menu.Item key="8" onClick={toggleMenu}>
+          <SubMenu key="sub3" icon={<TagOutlined />} title="Articles">
+            <Menu.Item key="9" onClick={toggleMenu}>
               <Link to='/article'>Liste des articles</Link>
             </Menu.Item>
-            <Menu.Item key="14" onClick={toggleMenu}>
+            <Menu.Item key="10" onClick={toggleMenu}>
               <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="10" icon={<DropboxOutlined />} onClick={toggleMenu}>
+          <Item key="11" icon={<DropboxOutlined />} onClick={toggleMenu}>
             <Link to='/stock'>Stock</Link>
           </Item>
-          <Item key="9" icon={<FileTextOutlined />} onClick={toggleMenu}>
+          <Item key="12" icon={<FileTextOutlined />} onClick={toggleMenu}>
             <Link to='/dossier'>Document</Link>
           </Item>
-          <SubMenu key="sub10" icon={<SettingOutlined />} title="Paramètre">
+          <SubMenu key="sub4" icon={<SettingOutlined />} title="Paramètre">
             <Menu.Item key="10" onClick={toggleMenu}>
               <Link to='/utilisateur'>Liste des personnels</Link>
             </Menu.Item>
