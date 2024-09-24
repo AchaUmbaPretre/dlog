@@ -12,7 +12,8 @@ import {
   FileTextOutlined,
   ArrowLeftOutlined,
   ArrowRightOutlined,
-  BankOutlined
+  BankOutlined,
+  DropboxOutlined
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -124,6 +125,9 @@ const SideBar = () => {
               <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
           </SubMenu>
+          <Item key="10" icon={<DropboxOutlined />} onClick={toggleMenu}>
+            <Link to='/stock'>Stock</Link>
+          </Item>
           <Item key="9" icon={<FileTextOutlined />} onClick={toggleMenu}>
             <Link to='/dossier'>Document</Link>
           </Item>
