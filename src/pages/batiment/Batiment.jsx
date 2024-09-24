@@ -172,7 +172,7 @@ const Batiment = () => {
           <Tooltip title="Upload de croquis">
             <Button
               icon={<CloudDownloadOutlined />}
-              style={{ color: 'black' }}
+              style={{ color: 'blue' }}
               onClick={() => handleAddCroquis(record.id_batiment)}
               aria-label="Voir le detail"
             />
