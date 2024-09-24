@@ -8,7 +8,6 @@ export default {
   REACT_APP_SERVER_DOMAIN : 'http://localhost:8080' 
 };
 
-
 export const userRequest = axios.create({
   baseURL: 'http://localhost:8080',
   headers: { Authorization: `Bearer ${TOKEN}` },

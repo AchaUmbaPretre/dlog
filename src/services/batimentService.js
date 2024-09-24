@@ -56,3 +56,16 @@ export const getStatutEquipement = async () => {
     return axios.get(`${DOMAIN}/api/batiment/statut_maintenance`);
   };
   
+
+  //Stock
+export const getStock = async () => {
+    return axios.get(`${DOMAIN}/api/batiment/stock`);
+  };
+
+export const getStockOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/batiment/stock/one?id=${id}`);
+  };
+
+export const postStock = async (data) => {
+  return axios.post(`${DOMAIN}/api/batiment/stock`, data);
+};
