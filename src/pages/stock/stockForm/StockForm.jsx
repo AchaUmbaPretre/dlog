@@ -4,7 +4,7 @@ import { postStock } from '../../../services/batimentService';
 import { getArticle } from '../../../services/typeService';
 
 const { Option } = Select;
-const StockForm = () => {
+const StockForm = ({closeModal,fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [articles, setArticles] = useState([])
@@ -36,6 +36,8 @@ const StockForm = () => {
           description: 'Le stock a été ajouté avec succès.',
         });
         form.resetFields();
+        closeModal();
+        fetchData()
       } catch (error) {
         notification.error({
           message: 'Erreur',
@@ -59,7 +61,7 @@ const StockForm = () => {
           label="Type d'équipement"
           rules={[{ required: true, message: 'Veuillez sélectionner un type d’équipement' }]}
         >
-          <Select placeholder="Sélectionner un type d'équipement">
+          <Select placeholder="Sélectionne...">
             {articles.map((type) => (
               <Option key={type.id_article} value={type.id_article}>
                 {type.nom_article}
@@ -86,9 +88,8 @@ const StockForm = () => {
           <InputNumber min={1} style={{ width: '100%' }} placeholder="Entrez le seuil d'alerte" />
         </Form.Item>
   
-        {/* Bouton de soumission */}
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
             Ajouter Stock
           </Button>
         </Form.Item>

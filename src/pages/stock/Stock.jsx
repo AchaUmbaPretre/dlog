@@ -95,8 +95,8 @@ const Stock = () => {
     },
     { 
       title: 'Article', 
-      dataIndex: 'id_type_equipement', 
-      key: 'id_type_equipement',
+      dataIndex: 'nom_article', 
+      key: 'nom_article',
       render: text => (
         <Space>
           <Tag icon={<ToolOutlined />} color='cyan'>{text}</Tag>
@@ -144,10 +144,10 @@ const Stock = () => {
     },
   ];
 
+  console.log(data)
+
   const filteredData = data.filter(item =>
-    item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.code?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
