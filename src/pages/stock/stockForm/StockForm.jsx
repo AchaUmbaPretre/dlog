@@ -57,7 +57,7 @@ const StockForm = ({closeModal,fetchData}) => {
       >
         <Form.Item
           name="id_type_equipement"
-          label="Type d'équipement"
+          label="Equipement"
           rules={[{ required: true, message: 'Veuillez sélectionner un type d’équipement' }]}
         >
           <Select placeholder="Sélectionne...">
