@@ -98,8 +98,9 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             navigate('/tache')
-            closeModal()
-            fetchData()
+            closeModal();
+            fetchData();
+            form.resetFields();
         } catch (error) {
             console.log(error)
         } finally {
