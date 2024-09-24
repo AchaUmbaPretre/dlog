@@ -197,7 +197,7 @@ const Maintenance = ({idEquipement}) => {
             <div className="client-row-icon">
               <ToolOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Liste de Maintenance de {nameEquipement}</h2>
+            <h2 className="client-h2"> { nameEquipement ? `Liste de Maintenance de ${nameEquipement}`: ''}</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
