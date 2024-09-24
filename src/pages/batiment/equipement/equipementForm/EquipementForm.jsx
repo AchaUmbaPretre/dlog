@@ -64,7 +64,11 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
   };
 
   return (
-    <Form
+    <div className="controle_form">
+      <div className="controle_title_rows">
+        <h2 className='controle_h2'>Ajouter un équipement au {''}</h2>                
+      </div>
+      <Form
       form={form}
       layout="vertical"
       onFinish={handleSubmit}
@@ -178,7 +182,8 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
           Soumettre
         </Button>
       </Form.Item>
-    </Form>
+      </Form>
+    </div>
   );
 };
 

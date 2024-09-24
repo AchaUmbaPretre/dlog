@@ -283,15 +283,6 @@ const ListeEquipement = ({idBatiment}) => {
               >
                 Equipement
               </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
             </div>
           </div>
           <Table

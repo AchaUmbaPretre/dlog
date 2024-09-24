@@ -287,7 +287,7 @@ const Batiment = () => {
       </Modal>
 
       <Modal
-        title="Ajouter un équipement"
+        title=""
         visible={modalType === 'addEquipement'}
         onCancel={closeAllModals}
         footer={null}
