@@ -110,24 +110,6 @@ const Stock = () => {
         <Tag color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
-    { 
-      title: 'Email', 
-      dataIndex: 'email',
-      key: 'email',
-      render: text => (
-        <Space>
-          <Tag icon={<MailOutlined />} color='orange'>{text ?? 'Aucun'}</Tag>
-        </Space>
-      ),
-    },
-    { 
-      title: 'Téléphone', 
-      dataIndex: 'telephone', 
-      key: 'telephone',
-      render: text => (
-        <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-      ),
-    },
     {
       title: 'Action',
       key: 'action',
