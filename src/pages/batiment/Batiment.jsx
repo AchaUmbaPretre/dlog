@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, PrinterOutlined,HomeOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,BankOutlined, HomeOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, MailOutlined ,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
@@ -133,7 +133,7 @@ const Batiment = () => {
       key: 'nom_batiment',
       render: text => (
         <Space>
-          <Tag icon={<HomeOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<BankOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
@@ -236,7 +236,7 @@ const Batiment = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ApartmentOutlined className='client-icon'/>
+              <BankOutlined className='client-icon'/>
             </div>
             <h2 className="client-h2">Bâtiment</h2>
           </div>
