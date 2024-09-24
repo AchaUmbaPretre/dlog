@@ -144,7 +144,7 @@ const Stock = () => {
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
-              title="Etes-vous sûr de vouloir supprimer ce département ?"
+              title="Etes-vous sûr de vouloir supprimer ?"
               onConfirm={() => handleDelete(record.id_stock)}
               okText="Yes"
               cancelText="No"
