@@ -189,7 +189,7 @@ const Batiment = () => {
                                 <FileTextOutlined /> Liste d'équipement
                             </Link>
                             <Link onClick={() => handleAddEquipement(record.id_batiment)}>
-                                <PlusCircleOutlined /> Ajouter un équipement
+                                <PlusCircleOutlined /> Nouveau équipement
                             </Link>
                     </div>
                 }
