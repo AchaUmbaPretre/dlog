@@ -310,7 +310,7 @@ const Batiment = () => {
         </Modal>
 
       <Modal
-        title="Upload de croquis"
+        title=""
         visible={modalType === 'addCroquis'}
         onCancel={closeAllModals}
         footer={null}

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Upload, Select, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import { postPlans } from '../../../services/batimentService';
+import { getBatimentOne } from '../../../services/typeService';
 
 const { Option } = Select;
 
@@ -11,6 +12,22 @@ const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [nameBatiment, setNameBatiment] = useState('')
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try { 
+            const res = await getBatimentOne(idBatiment)
+              setNameBatiment(res.data[0]?.nom_batiment)
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    fetchData();
+}, [idBatiment, form]);
+
 
   const handleFinish = async (values) => {
     const formData = new FormData();
@@ -80,7 +97,11 @@ const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
   };
 
   return (
-    <Form
+    <div className="controle_form">
+      <div className="controle_title_rows">
+        <h2 className='controle_h2'>Upload de croquis {nameBatiment} </h2>                
+      </div>
+      <Form
       form={form}
       layout="vertical"
       onFinish={handleFinish}
@@ -127,11 +148,12 @@ const UploadBatimentForm = ({idBatiment, closeModal, fetchData }) => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" block loading={isLoading}>
+        <Button type="primary" htmlType="submit" block loading={isLoading} disabled={isLoading}>
           Soumettre
         </Button>
       </Form.Item>
-    </Form>
+      </Form>
+    </div>
   );
 };
 
