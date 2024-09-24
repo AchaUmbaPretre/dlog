@@ -12,14 +12,12 @@ const Stock = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [idDepartement, setIdDapartement] = useState('');
+  const [idStock, setIdStock] = useState('');
   const scroll = { x: 400 };
 
-  const handleEdit = (record) => {
-    message.info(`Modifier departement: ${record.nom}`);
-    setIdDapartement(record)
+  const handleEdit = (id) => {
+    setIdStock(id)
     setIsModalVisible(true);
-
   };
 
   const handleDelete = async (id) => {
@@ -144,8 +142,6 @@ const Stock = () => {
     },
   ];
 
-  console.log(data)
-
   const filteredData = data.filter(item =>
     item.nom_article?.toLowerCase().includes(searchValue.toLowerCase())
   );
@@ -208,7 +204,7 @@ const Stock = () => {
         width={600}
         centered
       >
-        <StockForm closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+        <StockForm closeModal={() => setIsModalVisible(false)} fetchData={fetchData} idStock={idStock}/>
       </Modal>
     </>
   );
