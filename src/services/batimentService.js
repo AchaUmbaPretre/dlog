@@ -73,3 +73,12 @@ export const postStock = async (data) => {
 export const putStock = async (id,data) => {
   return axios.put(`${DOMAIN}/api/batiment/stock?id=${id}`, data);
 };
+
+//Rapport
+export const getRapport = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/rapport`);
+};
+
+export const getRapportOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/rapport/one?id=${id}`);
+};

@@ -1,8 +1,9 @@
 import { Tabs } from 'antd';
 import { DashboardOutlined, FileTextOutlined } from '@ant-design/icons'; // Importer les icônes appropriées
 import React from 'react';
+import RapportEntretien from './rapportEntretien/RapportEntretien';
 
-const TableauBord = () => {
+const TableauBord = ({idBatiment}) => {
   return (
     <div>
       <Tabs defaultActiveKey="0">
@@ -21,13 +22,13 @@ const TableauBord = () => {
         <Tabs.TabPane
           tab={
             <span>
-              <FileTextOutlined /> {/* Icône des rapports */}
+              <FileTextOutlined />
               Les rapports d'entretien
             </span>
           }
           key="1"
         >
-          
+          <RapportEntretien idBatiment={idBatiment}/>
         </Tabs.TabPane>
       </Tabs>
     </div>
