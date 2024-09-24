@@ -71,10 +71,6 @@ const ListeEquipement = ({idBatiment}) => {
     message.success('Exporting to PDF...');
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
   };
@@ -91,10 +87,6 @@ const ListeEquipement = ({idBatiment}) => {
         description: 'Une erreur est survenue lors de la suppression du client.',
       });
     }
-  };
-
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
   };
 
   const menu = (
@@ -310,7 +302,7 @@ const ListeEquipement = ({idBatiment}) => {
       </Modal>
 
       <Modal
-        title="Liste maintenance"
+        title=""
         visible={modalType === 'listeMaintenance'}
         onCancel={closeAllModals}
         footer={null}

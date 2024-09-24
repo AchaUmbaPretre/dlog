@@ -205,7 +205,7 @@ const Maintenance = ({idEquipement}) => {
             <div className="client-row-icon">
               <ToolOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Maintenance</h2>
+            <h2 className="client-h2">Liste de Maintenance</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
