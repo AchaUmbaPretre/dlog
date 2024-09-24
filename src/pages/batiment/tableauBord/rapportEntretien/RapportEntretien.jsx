@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './rapportEntretien.scss';
 import { getRapportOne } from '../../../../services/batimentService';
-import { Table, Tag, Spin, notification } from 'antd';
-import { CheckCircleOutlined, ExclamationCircleOutlined,ToolOutlined, CloseCircleOutlined, CalendarOutlined, HomeOutlined } from '@ant-design/icons';
+import { Table, Tag, Spin, notification, Skeleton } from 'antd';
+import { CheckCircleOutlined, ExclamationCircleOutlined, ToolOutlined, CloseCircleOutlined, CalendarOutlined, HomeOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 const RapportEntretien = ({ idBatiment }) => {
@@ -16,7 +16,7 @@ const RapportEntretien = ({ idBatiment }) => {
       try {
         const res = await getRapportOne(idBatiment);
         setRapport(res.data);
-        setNameBatiment(res.data[0].nom_batiment)
+        setNameBatiment(res.data[0]?.nom_batiment || ''); // Handle empty data case
       } catch (error) {
         console.log(error);
         notification.error({
@@ -33,19 +33,19 @@ const RapportEntretien = ({ idBatiment }) => {
 
   const columns = [
     {
-        title: '#',
-        dataIndex: 'id',
-        key: 'id',
-        render: (text, record, index) => index + 1,
-        width: "3%",
-      },
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => index + 1,
+      width: "3%",
+    },
     {
       title: 'Équipement',
       dataIndex: 'nom_article',
       key: 'nom_article',
       render: (text) => (
-        <Tag color='blue'>
-          {text === 'Table' ? <HomeOutlined /> : <ToolOutlined />} {/* Ajouter plus d'icônes selon les équipements */}
+        <Tag color="blue">
+          {text === 'Table' ? <HomeOutlined /> : <ToolOutlined />}
           {` ${text}`}
         </Tag>
       ),
@@ -81,8 +81,8 @@ const RapportEntretien = ({ idBatiment }) => {
       render: (text) => {
         const date = moment(text);
         const isSoon = date.diff(moment(), 'days') < 7;
-        const color = isSoon ? 'volcano' : 'geekblue'; // rouge si la maintenance est proche, bleu sinon
-        
+        const color = isSoon ? 'volcano' : 'geekblue';
+
         return (
           <Tag icon={<CalendarOutlined />} color={color}>
             {date.format('DD MMM YYYY')}
@@ -94,13 +94,11 @@ const RapportEntretien = ({ idBatiment }) => {
 
   return (
     <div className="rapport-entretien-container">
-        <div className="title_row">
-            <h1 className="title_h1"> { nameBatiment ? `Rapport de ${nameBatiment}` : ''}</h1>
-        </div>
+      <div className="title_row">
+        <h1 className="title_h1">{nameBatiment ? `Rapport de ${nameBatiment}` : ''}</h1>
+      </div>
       {loading ? (
-        <div className="loading-container">
-          <Spin size="large" />
-        </div>
+        <Skeleton active paragraph={{ rows: 4 }} />
       ) : (
         <Table 
           columns={columns} 
