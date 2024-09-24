@@ -20,7 +20,7 @@ const FrequenceForm = ({idFrequence}) => {
           description: 'Le formulaire a été soumis avec succès.',
         });
         window.location.reload();
-        
+        form.resetFields();
     } catch (error) {
         notification.error({
             message: 'Erreur',

@@ -32,6 +32,7 @@ const DossierForm = () => {
         message: 'Succès',
         description: 'Le document a été enregistré avec succès.',
       });
+      form.resetFields();
       navigate('/dossier');
       window.location.reload();
     } catch (error) {

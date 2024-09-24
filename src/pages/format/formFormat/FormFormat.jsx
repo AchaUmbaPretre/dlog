@@ -15,6 +15,7 @@ const FormFormat = () => {
     });
     
     window.location.reload();
+    form.resetFields();
   };
 
   const onFinishFailed = (errorInfo) => {
