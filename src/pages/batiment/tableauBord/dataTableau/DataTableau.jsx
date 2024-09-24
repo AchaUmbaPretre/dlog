@@ -7,12 +7,15 @@ import { ToolOutlined, CheckCircleOutlined, SettingOutlined, WarningOutlined } f
 const DataTableau = ({ idBatiment }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [nameBatiment, setNameBatiment] = useState('');
+
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const { data } = await getTableauOne(idBatiment);
       setData(data[0]);
+      setNameBatiment(data[0].nom_batiment)
       setLoading(false);
     } catch (error) {
       notification.error({
@@ -90,7 +93,7 @@ const DataTableau = ({ idBatiment }) => {
   return (
     <div className="dataTableau">
         <div className="title_row">
-            <h1 className="title_h1">Rapport de batiment</h1>
+            <h1 className="title_h1"> { nameBatiment ? `Rapport de ${nameBatiment}` : ''}</h1>
         </div>
       {loading ? (
         <div className="spinner-container">
