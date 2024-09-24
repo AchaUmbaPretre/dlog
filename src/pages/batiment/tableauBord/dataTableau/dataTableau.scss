@@ -1,0 +1,37 @@
+.dataTableau {
+    padding: 20px;
+    background-color: #f5f5f5;
+    .title_row{
+        background: #fff;
+        padding: 10px;
+        margin-bottom: 20px;
+        .title_h1{
+            font-size: .9rem;
+            font-weight: 300;
+        }
+    }
+  }
+  
+  .data-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    
+    &:hover {
+      transform: translateY(-5px);
+    }
+  
+    h3 {
+      margin-top: 15px;
+      font-size: .7rem;
+      font-weight: bold;
+    }
+  }
+  
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+  }
+  

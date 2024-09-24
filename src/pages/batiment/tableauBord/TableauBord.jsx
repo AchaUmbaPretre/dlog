@@ -2,6 +2,7 @@ import { Tabs } from 'antd';
 import { DashboardOutlined, FileTextOutlined } from '@ant-design/icons'; // Importer les icônes appropriées
 import React from 'react';
 import RapportEntretien from './rapportEntretien/RapportEntretien';
+import DataTableau from './dataTableau/DataTableau';
 
 const TableauBord = ({idBatiment}) => {
   return (
@@ -16,7 +17,7 @@ const TableauBord = ({idBatiment}) => {
           }
           key="0"
         >
-          
+          <DataTableau idBatiment={idBatiment}/>
         </Tabs.TabPane>
 
         <Tabs.TabPane
