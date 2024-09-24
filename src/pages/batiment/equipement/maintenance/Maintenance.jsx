@@ -120,8 +120,8 @@ const Maintenance = ({idEquipement}) => {
     },
     {
       title: 'Statut',
-      dataIndex: 'nom_statut_maintenance',
-      key: 'nom_statut_maintenance',
+      dataIndex: 'nom_statut',
+      key: 'nom_statut',
       render: (text) => {
         let color = 'green';
         let icon = <CheckCircleOutlined />;
