@@ -69,3 +69,7 @@ export const getStockOne = async (id) => {
 export const postStock = async (data) => {
   return axios.post(`${DOMAIN}/api/batiment/stock`, data);
 };
+
+export const putStock = async (id,data) => {
+  return axios.put(`${DOMAIN}/api/batiment/stock?id=${id}`, data);
+};
