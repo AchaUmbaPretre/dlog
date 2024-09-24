@@ -84,10 +84,16 @@
   }
 
   .gallery-title {
-    font-size: 24px; // Taille par défaut
+    font-size: 12px;
+    font-weight: 300!important;
+    background: #fff;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px -8px rgba(0, 0, 0, 0.75);
   
     @media (max-width: 768px) {
-      font-size: 18px; // Taille réduite pour les appareils mobiles
+      font-size: 10px;
     }
   }
   

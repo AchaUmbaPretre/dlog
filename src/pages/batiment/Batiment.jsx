@@ -321,7 +321,7 @@ const Batiment = () => {
       </Modal>
 
       <Modal
-        title="Detail"
+        title=""
         visible={modalType === 'detailCroquis'}
         onCancel={closeAllModals}
         footer={null}
