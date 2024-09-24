@@ -92,7 +92,7 @@ const Stock = () => {
       width: "3%" 
     },
     { 
-      title: 'Article', 
+      title: 'Equipement', 
       dataIndex: 'nom_article', 
       key: 'nom_article',
       render: text => (
