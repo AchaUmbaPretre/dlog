@@ -9,6 +9,7 @@ import EquipementForm from './equipement/equipementForm/EquipementForm';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
 import DetailUpload from './uploadBatimentForm/detailUpload/DetailUpload';
 import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
+import TableauBord from './tableauBord/TableauBord';
 
 const { Search } = Input;
 
@@ -20,7 +21,6 @@ const Batiment = () => {
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
   const [idBatiment, setIdBatiment] = useState('');
-  const [batimentName, setBatimentName] = useState('');
   const scroll = { x: 400 };
 
   const handleDelete = async (id) => {
@@ -36,8 +36,6 @@ const Batiment = () => {
       });
     }
   };
-
-
 
     const fetchData = async () => {
       try {
@@ -83,6 +81,10 @@ const Batiment = () => {
 
   const handleDetailCroquis = ( idBatiment) =>{
     openModal('detailCroquis', idBatiment)
+  }
+
+  const handleTableauBord = ( idBatiment) =>{
+    openModal('tableauBord', idBatiment)
   }
 
   const handleAddClient = () => {
@@ -177,6 +179,7 @@ const Batiment = () => {
           </Tooltip>
           <Tooltip title="Tableau de bord">
             <Button
+              onClick={() => handleTableauBord(record.id_batiment)}
               icon={<DashboardOutlined />}
               style={{ color: '#2db7f5' }}
               aria-label="Voir le detail"
@@ -329,6 +332,17 @@ const Batiment = () => {
         centered
       >
         <DetailUpload idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'tableauBord'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1050}
+        centered
+      >
+        <TableauBord idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
     </>
   );
