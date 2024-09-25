@@ -138,6 +138,16 @@ const DetailTacheGlobalOne = ({ idTache }) => {
       >
         <ListeTracking idTache={idTache} />
       </Modal>
+      <Modal
+        title=""
+        visible={modalType === 'document'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <ListeTracking idTache={idTache} />
+      </Modal>
     </div>
   );
 };
