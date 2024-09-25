@@ -45,7 +45,7 @@ const DetailTache = ({ idTache }) => {
         <Col xs={24} sm={12}>
           <Card type="inner" title="Informations générales" bordered className="detail-tache-inner-card">
             <p className="detail-tache-paragraph">
-              <strong>Nom de la tâche : </strong>
+              <strong>Titre : </strong>
               {data.nom_tache || 'Non disponible'}
             </p>
             <p className="detail-tache-paragraph">
