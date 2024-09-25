@@ -37,7 +37,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
           <h3>Infos Générales</h3>
         </Card>
       </Col>
-
+      
       <Col xs={24} sm={12} md={6}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <Badge count={data.nbre_tracking || 0} showZero>
