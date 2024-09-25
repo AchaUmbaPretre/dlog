@@ -4,6 +4,7 @@ import { FileTextOutlined,PlusCircleOutlined, DeleteOutlined,EditOutlined, FileP
 import config from '../../../config';
 import { getDetailTacheDoc } from '../../../services/tacheService';
 import DocFormBatiment from './docFormBatiment/DocFormBatiment';
+import { getBatimentDocOne } from '../../../services/batimentService';
 
 const { Search } = Input;
 
@@ -18,7 +19,7 @@ const ListeDocumentBatiment = ({ idBatiment }) => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getDetailTacheDoc(idBatiment);
+        const { data } = await getBatimentDocOne(idBatiment);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -43,13 +44,6 @@ useEffect(() => {
     setIsModal(false)
   };
 
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
 
   const handleDelete = async (id) => {
     try {
