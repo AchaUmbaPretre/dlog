@@ -91,7 +91,10 @@ const DetailTacheGlobalOne = ({ idTache }) => {
   return (
     <div className="dataTableau">
         <div className="title_row">
-            <h1 className="title_h1"> { idTache ? `Rapport` : 'sssssssssssss'}</h1>
+            <h1 className="title_h1"><strong>Titre : </strong> {data.nom_tache}</h1>
+        </div>
+        <div className="title_row">
+            <h1 className="title_h1"><strong>Description : </strong> {data.description}</h1>
         </div>
       {loading ? (
         <div className="spinner-container">
