@@ -204,8 +204,8 @@ const Batiment = () => {
                     >
                       <Tooltip title="Menu doc">
                         <Button
-                          icon={<PlusCircleOutlined />}
-                          style={{ color: 'blue' }}
+                          icon={<FileTextOutlined />}
+                          style={{ color: 'orange' }}
                           aria-label="Contrôler"
                         />
                       </Tooltip>
