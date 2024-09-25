@@ -189,19 +189,19 @@ const Batiment = () => {
             />
           </Tooltip>
           <Popover
-                      content={
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                          <Link onClick={() => handleDetailDoc(record.id_tache)}>
-                            <FileTextOutlined /> Liste des docs
-                          </Link>
-                          <Link onClick={() => handleAjouterDoc(record.id_tache)}>
-                            <FileTextOutlined /> Ajouter un doc
-                          </Link>
-                        </div>
+            content={
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <Link onClick={() => handleDetailDoc(record.id_tache)}>
+                  <FileTextOutlined /> Liste des docs
+                </Link>
+                <Link onClick={() => handleAjouterDoc(record.id_tache)}>
+                  <FileTextOutlined /> Ajouter un doc
+                </Link>
+              </div>
                       }
                       title=""
                       trigger="click"
-                    >
+          >
                       <Tooltip title="Menu doc">
                         <Button
                           icon={<FileTextOutlined />}
