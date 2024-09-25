@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Space, Row, Col, Select, notification, DatePicker } from 'antd';
+import { Button, Form, Input, Space, Row, Col, Select, notification, DatePicker, Skeleton } from 'antd';
 import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getFrequence } from '../../../services/frequenceService';
@@ -22,10 +22,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [provinces, setProvinces] = useState([]);
     const [batiment, setBatiment] = useState([]);
     const [projetName, setProjetName] = useState('');
+    const [loadingData, setLoadingData] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoadingData(true); // Démarre le chargement des données
+
             try {
                 const [departementData, frequenceData, usersData, clientData, provinceData, batimentData] = await Promise.all([
                     getDepartement(),
@@ -68,6 +71,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
 
             } catch (error) {
                 console.log(error)
+            }finally {
+                setLoadingData(false); 
             }
         };
 
@@ -134,7 +139,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Input placeholder="Nom..." />
+                            {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Nom..." />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
