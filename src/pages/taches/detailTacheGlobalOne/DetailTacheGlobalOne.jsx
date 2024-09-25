@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { notification, Card, Row, Col, Spin, Badge } from 'antd';
 import { InfoCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { getTacheOne } from '../../../services/tacheService';
 
 const DetailTacheGlobalOne = ({ idTache }) => {
   const [data, setData] = useState({});
@@ -9,21 +10,19 @@ const DetailTacheGlobalOne = ({ idTache }) => {
   const [nameBatiment, setNameBatiment] = useState('');
 
 
-  const fetchData = async () => {
-    try {
-      // Uncomment and use this once your data fetching logic is ready
-      // const { data } = await getTableauOne(idBatiment);
-      // setData(data[0]);
-      // setNameBatiment(data[0].nom_batiment)
-      // setLoading(false);
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données.',
-      });
-      setLoading(false);
-    }
-  };
+    const fetchData = async () => {
+      try {
+        const response = await getTacheOne(idTache);
+        setData(response.data[0]);
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données. Veuillez réessayer plus tard.',
+        });
+      } finally {
+        setLoading(false);
+      }
+  }
 
   useEffect(() => {
     fetchData();
@@ -92,7 +91,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
   return (
     <div className="dataTableau">
         <div className="title_row">
-            <h1 className="title_h1"> { nameBatiment ? `Rapport de ${nameBatiment}` : ''}</h1>
+            <h1 className="title_h1"> { idTache ? `Rapport` : 'sssssssssssss'}</h1>
         </div>
       {loading ? (
         <div className="spinner-container">
