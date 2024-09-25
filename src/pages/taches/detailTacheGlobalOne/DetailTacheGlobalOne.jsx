@@ -148,7 +148,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         visible={modalType === 'timing'}
         onCancel={closeAllModals}
         footer={null}
-        width={300}
+        width={400}
         centered
       >
         <Card className="timing-card" bordered={false}>
