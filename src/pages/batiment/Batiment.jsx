@@ -10,6 +10,8 @@ import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
 import DetailUpload from './uploadBatimentForm/detailUpload/DetailUpload';
 import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
 import TableauBord from './tableauBord/TableauBord';
+import ListeDocumentBatiment from './document/ListeDocumentBatiment';
+import DocFormBatiment from './document/docFormBatiment/DocFormBatiment';
 
 const { Search } = Input;
 
@@ -86,6 +88,15 @@ const Batiment = () => {
   const handleTableauBord = ( idBatiment) =>{
     openModal('tableauBord', idBatiment)
   }
+
+  const handleDetailDoc = (idBatiment) => {
+    openModal('ListeDoc', idBatiment);
+  };
+
+  const handleAjouterDoc = (idBatiment) => {
+    openModal('DocumentBatimentForm', idBatiment);
+  };
+
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -177,6 +188,28 @@ const Batiment = () => {
               aria-label="Voir le detail"
             />
           </Tooltip>
+          <Popover
+                      content={
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                          <Link onClick={() => handleDetailDoc(record.id_tache)}>
+                            <FileTextOutlined /> Liste des docs
+                          </Link>
+                          <Link onClick={() => handleAjouterDoc(record.id_tache)}>
+                            <FileTextOutlined /> Ajouter un doc
+                          </Link>
+                        </div>
+                      }
+                      title=""
+                      trigger="click"
+                    >
+                      <Tooltip title="Menu doc">
+                        <Button
+                          icon={<PlusCircleOutlined />}
+                          style={{ color: 'blue' }}
+                          aria-label="Contrôler"
+                        />
+                      </Tooltip>
+                    </Popover>
           <Tooltip title="Tableau de bord">
             <Button
               onClick={() => handleTableauBord(record.id_batiment)}
@@ -343,6 +376,27 @@ const Batiment = () => {
         centered
       >
         <TableauBord idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'DocumentBatimentForm'}
+        onCancel={closeAllModals}
+        footer={null}
+        centered
+      >
+        <DocFormBatiment idBatiment={idBatiment} fetchData={fetchData} closeModal={()=>setModalType(null)} />
+      </Modal>
+
+      <Modal
+        title="Liste des documents"
+        visible={modalType === 'ListeDoc'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <ListeDocumentBatiment idBatiment={idBatiment} />
       </Modal>
     </>
   );
