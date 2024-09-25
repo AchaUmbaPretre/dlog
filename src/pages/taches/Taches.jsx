@@ -950,7 +950,6 @@ const handleEdit = (idTache) => {
       >
         <AllDetail idTache={selectedTacheIds} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
       </Modal>
-      
     </>
   );
 };
