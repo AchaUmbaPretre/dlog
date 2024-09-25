@@ -25,6 +25,7 @@ import AllDetail from './allDetail/AllDetail';
 import FilterTaches from './filterTaches/FilterTaches';
 import  getColumnSearchProps  from '../../utils/columnSearchUtils';
 import DetailTacheGlobalOne from './detailTacheGlobalOne/DetailTacheGlobalOne';
+import UploadTacheExcel from './uploadTacheExcel/UploadTacheExcel';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -175,6 +176,10 @@ const handleEdit = (idTache) => {
 
   const handleListeTracking = (idTache) => {
     openModal('listeTracking', idTache);
+  };
+
+  const handlExcelImport = () => {
+    openModal('excelImport');
   };
 
   const handleAddTask = () => {
@@ -823,7 +828,7 @@ const handleEdit = (idTache) => {
                   <Button
                     className="button-excel"
                     icon={<FileExcelOutlined />}
-                    onClick={handleAddTask}
+                    onClick={handlExcelImport}
                   >
                     Exporter vers Excel
                   </Button>
@@ -956,6 +961,17 @@ const handleEdit = (idTache) => {
         centered
       >
         <AllDetail idTache={selectedTacheIds} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'excelImport'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <UploadTacheExcel closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
       </Modal>
     </>
   );
