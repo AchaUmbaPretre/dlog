@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col, Spin, Badge, Modal } from 'antd';
+import { notification, Card, Row, Col, Spin,Typography, Badge, Modal } from 'antd';
 import { InfoCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
 import ListeDocTache from '../listeDocTache/ListeDocTache';
+
+const { Title, Text } = Typography;
 
 const DetailTacheGlobalOne = ({ idTache }) => {
   const [data, setData] = useState({});
@@ -146,12 +148,18 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         visible={modalType === 'timing'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={300}
         centered
       >
-        <div>
-            
-        </div>
+        <Card className="timing-card" bordered={false}>
+            <Title level={3} style={{ textAlign: 'center' }}>Durée de la Tâche</Title>
+            <div className="timing-content">
+                <Text type="secondary" style={{ fontSize: '18px' }}>Nombre de jours :</Text>
+                <Title level={2} style={{ textAlign: 'center', margin: '20px 0', color: '#1890ff' }}>
+                    {data.nbre_jour}
+                </Title>
+            </div>
+        </Card>
       </Modal>
     </div>
   );
