@@ -20,6 +20,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            @include mobileXR{
+            flex-direction: column;
+            }
         }
         .client-row{
             display: flex;
