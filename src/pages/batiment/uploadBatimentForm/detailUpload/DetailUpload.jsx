@@ -77,7 +77,7 @@ const DetailUpload = ({ idBatiment }) => {
       {/* Afficher le titre seulement s'il y a des images */}
       {data.length > 0 && (
         <Title level={3} className="gallery-title">
-          Galerie des croquis ou plans du {name}
+          Croquis {name}
         </Title>
       )}
 
