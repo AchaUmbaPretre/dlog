@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton } from 'antd';
 import { 
-  ExportOutlined, WarningOutlined, SearchOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
+  ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
   CalendarOutlined, TeamOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
@@ -524,6 +524,7 @@ const handleEdit = (idTache) => {
               onClick={() => handleAllDetails(record.id_tache)}
               aria-label="Voir en pdf"
               style={{color: 'red'}}
+              disabled={selectedRowKeys.length === 0}
             />
           </Tooltip>
           <Tooltip title="Supprimer">
@@ -940,7 +941,7 @@ const handleEdit = (idTache) => {
       </Modal>
 
       <Modal
-        title="All tache"
+        title=""
         visible={modalType === 'Alldetail'}
         onCancel={closeAllModals}
         footer={null}
