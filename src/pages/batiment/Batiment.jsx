@@ -205,7 +205,7 @@ const Batiment = () => {
                       <Tooltip title="Menu doc">
                         <Button
                           icon={<FileTextOutlined />}
-                          style={{ color: 'geekblue' }}
+                          style={{ color: 'cyan' }}
                           aria-label="Contrôler"
                         />
                       </Tooltip>
