@@ -1,18 +1,60 @@
 .timing-modal {
     .ant-modal-content {
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+  
+      &:hover {
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      }
     }
   }
   
   .timing-card {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
     text-align: center;
+  }
+  
+  .timing-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  
+    .timing-icon {
+      font-size: 25px;
+      color: #1890ff;
+      margin-right: 10px;
+    }
+  
+    .timing-title {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
   }
   
   .timing-content {
     margin-top: 20px;
+  }
+  
+  .timing-label {
+    font-size: 15px;
+  }
+  
+  .timing-value {
+    margin: 20px 0;
+    color: #1890ff;
+    font-weight: bold;
+    font-size: 32px;
+  }
+  
+  .timing-note {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #888;
   }
   

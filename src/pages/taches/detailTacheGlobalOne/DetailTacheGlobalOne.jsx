@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col, Spin,Typography, Badge, Modal } from 'antd';
+import { notification, Card, Row, Col, Spin,Typography, Badge, Modal, Divider } from 'antd';
 import { InfoCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -144,23 +144,32 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         <ListeDocTache idTache={idTache} />
       </Modal>
       <Modal
-        title=""
-        visible={modalType === 'timing'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={400}
-        centered
-      >
-        <Card className="timing-card" bordered={false}>
-            <Title level={3} style={{ textAlign: 'center' }}>Durée de la Tâche</Title>
-            <div className="timing-content">
-                <Text type="secondary" style={{ fontSize: '18px' }}>Nombre de jours :</Text>
-                <Title level={2} style={{ textAlign: 'center', margin: '20px 0', color: '#1890ff' }}>
+            title=""
+            visible={modalType === 'timing'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={500}
+            centered
+            className="timing-modal"
+        >
+            <Card className="timing-card" bordered={false}>
+                <div className="timing-header">
+                <ClockCircleOutlined className="timing-icon" />
+                <Title level={3} className="timing-title">Durée de la Tâche</Title>
+                </div>
+                <Divider />
+                <div className="timing-content">
+                <Text type="secondary" className="timing-label">Nombre de jours :</Text>
+                <Title level={2} className="timing-value">
                     {data.nbre_jour}
                 </Title>
-            </div>
-        </Card>
-      </Modal>
+                </div>
+                <Divider />
+                <Text type="secondary" className="timing-note">
+                Ce nombre représente le total des jours entre le début et la fin de la tâche.
+                </Text>
+            </Card>
+        </Modal>
     </div>
   );
 };
