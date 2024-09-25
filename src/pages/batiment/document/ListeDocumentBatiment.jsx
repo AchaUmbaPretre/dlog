@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
 import { FileTextOutlined,PlusCircleOutlined, DeleteOutlined,EditOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../config';
-import { getDetailTacheDoc } from '../../../services/tacheService';
 import DocFormBatiment from './docFormBatiment/DocFormBatiment';
 import { getBatimentDocOne } from '../../../services/batimentService';
 
@@ -124,7 +123,7 @@ useEffect(() => {
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleViewDetails(record.id_tache_document )}
+              onClick={() => handleViewDetails(record.id_document )}
               aria-label=""
             />
           </Tooltip>
@@ -202,7 +201,7 @@ useEffect(() => {
             width={550}
             centered
         >
-            <DocFormBatiment idBatiment={idBatiment} fetchData={fetchData} closeModal={handleCancel} idTacheDoc={idDoc}/>
+            <DocFormBatiment idBatiment={idBatiment} fetchData={fetchData} closeModal={handleCancel} idBatimentDoc={idDoc}/>
         </Modal>
       </div>
     </>
