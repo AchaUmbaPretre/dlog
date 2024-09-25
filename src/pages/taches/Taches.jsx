@@ -24,6 +24,7 @@ import { groupTasks } from '../../utils/tacheGroup';
 import AllDetail from './allDetail/AllDetail';
 import FilterTaches from './filterTaches/FilterTaches';
 import  getColumnSearchProps  from '../../utils/columnSearchUtils';
+import DetailTacheGlobalOne from './detailTacheGlobalOne/DetailTacheGlobalOne';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -901,10 +902,10 @@ const handleEdit = (idTache) => {
         visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={1050}
         centered
       >
-        <DetailTache idTache={idTache} />
+        <DetailTacheGlobalOne idTache={idTache} />
       </Modal>
 
       <Modal
