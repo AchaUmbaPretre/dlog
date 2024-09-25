@@ -29,7 +29,7 @@ export const postPlans = async (data) => {
     return axios.post(`${DOMAIN}/api/batiment/plans`, data);
   };
 
-//Batiment plan
+//Maintenance
 export const getMaintenance = async () => {
     return axios.get(`${DOMAIN}/api/batiment/maintenance`);
   };
@@ -42,8 +42,7 @@ export const postMaintenance = async (data) => {
     return axios.post(`${DOMAIN}/api/batiment/maintenance`, data);
   };
 
-//
-
+// Type Equipement
 export const getTypeEquipement = async () => {
     return axios.get(`${DOMAIN}/api/batiment/type_equipement`);
   };
@@ -55,6 +54,20 @@ export const getStatutEquipement = async () => {
   export const getStatutMaintenance = async () => {
     return axios.get(`${DOMAIN}/api/batiment/statut_maintenance`);
   };
+
+  //Doc
+export const getBatimentDocOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/batiment/doc/one?id_document=${id}`);
+  };
+
+export const postBatimentDoc = async (data) => {
+  return axios.post(`${DOMAIN}/api/batiment/doc`, data);
+};
+
+export const putBatimentDoc = async (id,data) => {
+  return axios.put(`${DOMAIN}/api/batiment/doc?id_document=${id}`, data);
+};
+
   
 
   //Stock
