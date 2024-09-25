@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col, Spin,Typography, Badge, Modal, Divider } from 'antd';
+import { notification, Card, Row, Col, Spin, Typography, Badge, Modal, Divider, Skeleton } from 'antd';
 import { InfoCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -27,7 +27,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -62,8 +62,8 @@ const DetailTacheGlobalOne = ({ idTache }) => {
     <Row gutter={[16, 16]} justify="center" className="data-cards">
       <Col xs={24} sm={12} md={6} onClick={handleInfo}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-            <InfoCircleOutlined style={{ fontSize: '40px', color: '#1890ff', marginBottom: '10px' }} />
-            <h3>Infos Générales</h3>
+          <InfoCircleOutlined style={{ fontSize: '40px', color: '#1890ff', marginBottom: '10px' }} />
+          <h3>Infos Générales</h3>
         </Card>
       </Col>
 
@@ -76,15 +76,15 @@ const DetailTacheGlobalOne = ({ idTache }) => {
 
       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-            <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
+          <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
           <h3>Documents</h3>
         </Card>
       </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleTiming}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-            <ClockCircleOutlined style={{ fontSize: '40px', color: '#f5222d', marginBottom: '10px' }} />
-            <h3>Timing</h3>
+          <ClockCircleOutlined style={{ fontSize: '40px', color: '#f5222d', marginBottom: '10px' }} />
+          <h3>Timing</h3>
         </Card>
       </Col>
     </Row>
@@ -94,20 +94,18 @@ const DetailTacheGlobalOne = ({ idTache }) => {
     <div className="dataTableau">
       <div className="title_row">
         <h1 className="title_h1">
-          <FileTextOutlined style={{ marginRight: '8px' }}/>
+          <FileTextOutlined style={{ marginRight: '8px' }} />
           <strong>Titre : </strong> {data.nom_tache}
         </h1>
       </div>
       <div className="title_row">
         <h1 className="title_h1">
-          <FileTextOutlined style={{ marginRight: '8px' }}/>
+          <FileTextOutlined style={{ marginRight: '8px' }} />
           <strong>Description : </strong> {data.description}
         </h1>
       </div>
       {loading ? (
-        <div className="spinner-container">
-          <Spin size="large" />
-        </div>
+        <Skeleton active />
       ) : (
         renderDataCards()
       )}
@@ -144,32 +142,32 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         <ListeDocTache idTache={idTache} />
       </Modal>
       <Modal
-            title=""
-            visible={modalType === 'timing'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={500}
-            centered
-            className="timing-modal"
-        >
-            <Card className="timing-card" bordered={false}>
-                <div className="timing-header">
-                <ClockCircleOutlined className="timing-icon" />
-                <Title level={3} className="timing-title">Durée de la Tâche</Title>
-                </div>
-                <Divider />
-                <div className="timing-content">
-                <Text type="secondary" className="timing-label">Nombre de jours :</Text>
-                <Title level={2} className="timing-value">
-                    {data.nbre_jour}
-                </Title>
-                </div>
-                <Divider />
-                <Text type="secondary" className="timing-note">
-                Ce nombre représente le total des jours entre le début et la fin de la tâche.
-                </Text>
-            </Card>
-        </Modal>
+        title=""
+        visible={modalType === 'timing'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={500}
+        centered
+        className="timing-modal"
+      >
+        <Card className="timing-card" bordered={false}>
+          <div className="timing-header">
+            <ClockCircleOutlined className="timing-icon" />
+            <Title level={3} className="timing-title">Durée de la Tâche</Title>
+          </div>
+          <Divider />
+          <div className="timing-content">
+            <Text type="secondary" className="timing-label">Nombre de jours :</Text>
+            <Title level={2} className="timing-value">
+              {data.nbre_jour}
+            </Title>
+          </div>
+          <Divider />
+          <Text type="secondary" className="timing-note">
+            Ce nombre représente le total des jours entre le début et la fin de la tâche.
+          </Text>
+        </Card>
+      </Modal>
     </div>
   );
 };
