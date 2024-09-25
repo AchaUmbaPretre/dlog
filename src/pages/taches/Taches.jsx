@@ -968,7 +968,7 @@ const handleEdit = (idTache) => {
         visible={modalType === 'excelImport'}
         onCancel={closeAllModals}
         footer={null}
-        width={850}
+        width={500}
         centered
       >
         <UploadTacheExcel closeModal={()=>closeAllModals(null)} fetchData={fetchData} />

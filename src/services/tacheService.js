@@ -51,6 +51,14 @@ export const postTacheDoc = async (data) => {
   });
 };
 
+export const postTacheDocExcel = async (data) => {
+  return axios.post(`${DOMAIN}/api/tache/tache_doc_excel`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
 export const putTacheDoc = async (id, data) => {
   return axios.put(`${DOMAIN}/api/tache/tache_doc?id_tache_document=${id}`, data,{
     headers: {
