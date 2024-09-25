@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Dropdown } from 'antd';
-import { ExportOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu } from 'antd';
+import { PlusCircleOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import { getSuiviTacheOneV } from '../../../services/suiviService';
 import moment from 'moment';
 
@@ -147,9 +147,13 @@ const ListeTracking = ({ idTache }) => {
               <Search placeholder="Search doc..." enterButton />
             </div>
             <div className="client-rows-right">
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined />}
+                    onClick={''}
+                >
+                    Ajouter un document
+                </Button>
             </div>
           </div>
           <Table
