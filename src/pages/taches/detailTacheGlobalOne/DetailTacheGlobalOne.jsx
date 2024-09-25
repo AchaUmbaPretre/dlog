@@ -141,6 +141,16 @@ const DetailTacheGlobalOne = ({ idTache }) => {
       >
         <ListeDocTache idTache={idTache} />
       </Modal>
+      <Modal
+        title=""
+        visible={modalType === 'timing'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <ListeDocTache idTache={idTache} />
+      </Modal>
     </div>
   );
 };
