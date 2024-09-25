@@ -122,7 +122,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         visible={modalType === 'info'}
         onCancel={closeAllModals}
         footer={null}
-        width={1050}
+        width={800}
         centered
       >
         <DetailTache idTache={idTache} />
@@ -133,7 +133,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         visible={modalType === 'tracking'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={1000}
         centered
       >
         <ListeTracking idTache={idTache} />
