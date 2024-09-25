@@ -63,6 +63,7 @@ useEffect(() => {
     setIsModal(true)
   };
 
+
   const getTagProps = (type) => {
     switch (type) {
       case 'PDF':

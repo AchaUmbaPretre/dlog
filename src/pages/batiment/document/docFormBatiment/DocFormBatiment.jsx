@@ -67,7 +67,7 @@ const DocFormBatiment = ({ idBatiment, fetchData, closeModal, idBatimentDoc }) =
   return (
     <div className="controle_form">
         <div className="controle_title_rows">
-            <h2 className='controle_h2'>{ idBatiment ? 'Modifier un document' : 'Ajouter un nouveau document'}</h2>                
+            <h2 className='controle_h2'>{ idBatimentDoc ? 'Modifier un document' : 'Ajouter un nouveau document'}</h2>                
         </div>
         <Form
             form={form}
