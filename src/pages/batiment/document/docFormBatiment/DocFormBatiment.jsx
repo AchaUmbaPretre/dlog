@@ -65,21 +65,24 @@ const DocFormBatiment = ({ idBatiment, fetchData, closeModal, idBatimentDoc }) =
   const handleUpload = (e) => Array.isArray(e) ? e : e?.fileList;
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={handleFinish}
-      style={{ maxWidth: '600px', margin: 'auto', padding: '20px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}
-      scrollToFirstError
-    >
-      <Form.Item
-        name="nom_document"
-        label="Nom du Document"
-        rules={[{ required: true, message: 'Veuillez entrer le nom du document!' }]}
-      >
-        <Input placeholder="Entrez le nom du document" />
-      </Form.Item>
-
+    <div className="controle_form">
+        <div className="controle_title_rows">
+            <h2 className='controle_h2'>{ idBatiment ? 'Modifier un document' : 'Ajouter un nouveau document'}</h2>                
+        </div>
+        <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleFinish}
+            style={{ maxWidth: '600px', margin: 'auto', padding: '20px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}
+            scrollToFirstError
+        >
+            <Form.Item
+                name="nom_document"
+                label="Nom du Document"
+                rules={[{ required: true, message: 'Veuillez entrer le nom du document!' }]}
+            >
+                <Input placeholder="Entrez le nom du document" />
+            </Form.Item>
       <Form.Item
         name="type_document"
         label="Type de Document"
@@ -116,6 +119,7 @@ const DocFormBatiment = ({ idBatiment, fetchData, closeModal, idBatimentDoc }) =
             </Button>
       </Form.Item>
     </Form>
+    </div>
   );
 };
 
