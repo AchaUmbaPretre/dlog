@@ -5,6 +5,7 @@ import { InfoCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutli
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
+import ListeDocTache from '../listeDocTache/ListeDocTache';
 
 const DetailTacheGlobalOne = ({ idTache }) => {
   const [data, setData] = useState({});
@@ -59,37 +60,29 @@ const DetailTacheGlobalOne = ({ idTache }) => {
     <Row gutter={[16, 16]} justify="center" className="data-cards">
       <Col xs={24} sm={12} md={6} onClick={handleInfo}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <Badge count={data.nbre_info || 0} showZero>
             <InfoCircleOutlined style={{ fontSize: '40px', color: '#1890ff', marginBottom: '10px' }} />
-          </Badge>
-          <h3>Infos Générales</h3>
+            <h3>Infos Générales</h3>
         </Card>
       </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleTracking}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <Badge count={data.nbre_tracking || 0} showZero>
-            <HistoryOutlined style={{ fontSize: '40px', color: '#52c41a', marginBottom: '10px' }} />
-          </Badge>
+          <HistoryOutlined style={{ fontSize: '40px', color: '#52c41a', marginBottom: '10px' }} />
           <h3>Tracking</h3>
         </Card>
       </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <Badge count={data.nbre_documents || 0} showZero>
             <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
-          </Badge>
           <h3>Documents</h3>
         </Card>
       </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleTiming}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <Badge count={data.nbre_timing || 0} showZero>
             <ClockCircleOutlined style={{ fontSize: '40px', color: '#f5222d', marginBottom: '10px' }} />
-          </Badge>
-          <h3>Timing</h3>
+            <h3>Timing</h3>
         </Card>
       </Col>
     </Row>
@@ -143,10 +136,10 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         visible={modalType === 'document'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={800}
         centered
       >
-        <ListeTracking idTache={idTache} />
+        <ListeDocTache idTache={idTache} />
       </Modal>
     </div>
   );
