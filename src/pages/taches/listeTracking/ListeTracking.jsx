@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu } from 'antd';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
 import { PlusCircleOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import { getSuiviTacheOneV } from '../../../services/suiviService';
 import moment from 'moment';
+import SuiviTache from '../suiviTache/SuiviTache';
 
 const { Search } = Input;
 
@@ -10,9 +11,9 @@ const ListeTracking = ({ idTache }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [nameTache, setNameTache] = useState('');
+  const [modalType, setModalType] = useState(null);
   const scroll = { x: 400 };
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getSuiviTacheOneV(idTache);
@@ -28,6 +29,8 @@ const ListeTracking = ({ idTache }) => {
       }
     };
 
+  useEffect(() => {
+
     fetchData();
   }, [idTache]);
 
@@ -37,6 +40,10 @@ const ListeTracking = ({ idTache }) => {
 
   const handleExportPDF = () => {
     message.success('Exporting to PDF...');
+  };
+
+  const handleTracking = () => {
+    openModal('suivi');
   };
 
 
@@ -65,6 +72,15 @@ const ListeTracking = ({ idTache }) => {
       </Menu.Item>
     </Menu>
   );
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+  
+  const openModal = (type) => {
+    closeAllModals();
+    setModalType(type);
+  };
 
 
   const columns = [
@@ -150,7 +166,7 @@ const ListeTracking = ({ idTache }) => {
                 <Button
                     type="primary"
                     icon={<PlusCircleOutlined />}
-                    onClick={''}
+                    onClick={handleTracking}
                 >
                   Tracking
                 </Button>
@@ -168,6 +184,16 @@ const ListeTracking = ({ idTache }) => {
           />
         </div>
       </div>
+      <Modal
+        title=""
+        visible={modalType === 'suivi'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <SuiviTache idTache={idTache} closeModal={() => setModalType(null)} fetchData={fetchData} />
+      </Modal>
     </>
   );
 };
