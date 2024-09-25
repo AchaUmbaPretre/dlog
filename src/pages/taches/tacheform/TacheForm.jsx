@@ -154,7 +154,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 ]}
                                 initialValue={moment()}
                             >
-                                <DatePicker style={{width:'100%'}} />
+                                {loadingData ? <Skeleton.Input active={true} /> : <DatePicker style={{width:'100%'}} />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -168,7 +168,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <DatePicker style={{width:'100%'}}  />
+                                {loadingData ? <Skeleton.Input active={true} />  : <DatePicker style={{width:'100%'}}/>}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -182,7 +182,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Select
+                                {loadingData ? <Skeleton.Input active={true} /> : <Select
                                     showSearch
                                     options={departement.map((item) => ({
                                         value: item.id_departement,
@@ -190,7 +190,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     }))}
                                     placeholder="Sélectionnez un département..."
                                     optionFilterProp="label"
-                                />
+                                />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -204,7 +204,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Select
+                                {loadingData ? <Skeleton.Input active={true} /> : <Select
                                     showSearch
                                     options={client.map((item) => ({
                                         value: item.id_client,
@@ -212,7 +212,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     }))}
                                     placeholder="Sélectionnez un client..."
                                     optionFilterProp="label"
-                                />
+                                />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -226,7 +226,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Select
+                                {loadingData ? <Skeleton.Input active={true} /> : <Select
                                     showSearch
                                     options={provinces?.map((item) => ({
                                         value: item.id,
@@ -234,7 +234,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     }))}
                                     placeholder="Sélectionnez une ville..."
                                     optionFilterProp="label"
-                                />
+                                />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -248,7 +248,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Select
+                                {loadingData ? <Skeleton.Input active={true} /> : <Select
                                     showSearch
                                     options={frequence.map((item) => ({
                                         value: item.id_frequence,
@@ -256,7 +256,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     }))}
                                     placeholder="Sélectionnez une fréquence..."
                                     optionFilterProp="label"
-                                />
+                                />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -270,7 +270,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Select
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
@@ -278,7 +278,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     }))}
                                     placeholder="Sélectionnez un responsable..."
                                     optionFilterProp="label"
-                                />
+                                />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -292,7 +292,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Select
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
@@ -300,7 +300,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     }))}
                                     placeholder="Sélectionnez un demandeur..."
                                     optionFilterProp="label"
-                                />
+                                />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={12}>
@@ -313,14 +313,14 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Select
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
                                     placeholder="Sélectionnez un bâtiment"
                                     showSearch
                                     options={batiment.map((item) => ({
                                         value: item.id_batiment,
                                         label: item.nom_batiment,
                                     }))}
-                                />
+                                />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={12}>
@@ -334,7 +334,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Select
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
                                     placeholder="Sélectionnez une priorité..."
                                     optionFilterProp="label"
                                     options={[
@@ -344,7 +344,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
                                         { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
                                     ]}
-                                />
+                                />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={24}>
@@ -358,7 +358,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Input.TextArea style={{height:'70px'}} placeholder="Description..." />
+                                {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea style={{height:'70px'}} placeholder="Description..." />}
                             </Form.Item>
                         </Col>
                         <Col xs={24}>
