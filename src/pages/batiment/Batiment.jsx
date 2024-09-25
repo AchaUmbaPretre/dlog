@@ -191,10 +191,10 @@ const Batiment = () => {
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleDetailDoc(record.id_tache)}>
+                <Link onClick={() => handleDetailDoc(record.id_batiment)}>
                   <FileTextOutlined /> Liste des docs
                 </Link>
-                <Link onClick={() => handleAjouterDoc(record.id_tache)}>
+                <Link onClick={() => handleAjouterDoc(record.id_batiment)}>
                   <FileTextOutlined /> Ajouter un doc
                 </Link>
               </div>
@@ -205,7 +205,7 @@ const Batiment = () => {
                       <Tooltip title="Menu doc">
                         <Button
                           icon={<FileTextOutlined />}
-                          style={{ color: 'cyan' }}
+                          style={{ color: 'orange' }}
                           aria-label="Contrôler"
                         />
                       </Tooltip>
