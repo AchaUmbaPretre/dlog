@@ -4,6 +4,7 @@ import { notification, Card, Row, Col, Spin, Badge, Modal } from 'antd';
 import { InfoCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
+import ListeTracking from '../listeTracking/ListeTracking';
 
 const DetailTacheGlobalOne = ({ idTache }) => {
   const [data, setData] = useState({});
@@ -125,6 +126,17 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         centered
       >
         <DetailTache idTache={idTache} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'tracking'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <ListeTracking idTache={idTache} />
       </Modal>
     </div>
   );
