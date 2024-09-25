@@ -53,3 +53,13 @@
     text-align: center;
   }
   
+  .button-excel {
+    border: 1px solid green;
+    color: green;
+    transition: all 0.3s ease;
+  
+    &:hover {
+      background-color: green;
+      color: white;
+    }
+  }

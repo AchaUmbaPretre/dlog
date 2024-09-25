@@ -3,7 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { 
   ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
-  CalendarOutlined, TeamOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
+  CalendarOutlined, TeamOutlined,FileExcelOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { deletePutTache, getTache, putPriorite } from '../../services/tacheService';
@@ -819,6 +819,13 @@ const handleEdit = (idTache) => {
                     onClick={handleAddTask}
                   >
                     Tâche
+                  </Button>
+                  <Button
+                    className="button-excel"
+                    icon={<FileExcelOutlined />}
+                    onClick={handleAddTask}
+                  >
+                    Exporter vers Excel
                   </Button>
                   <Button
                     type="default"
