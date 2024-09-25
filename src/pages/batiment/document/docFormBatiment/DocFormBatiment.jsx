@@ -3,19 +3,20 @@ import { Form, Input, Button, Upload, Select, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import config from '../../../../config';
+import { getBatimentDocOne1, postBatimentDoc, putBatimentDoc } from '../../../../services/batimentService';
 
 /* import { getTacheDocOne, postTacheDoc, putTacheDoc } from '../../../services/tacheService';
  */
 const { Option } = Select;
 
-const DocFormBatiment = ({ idBatiment, fetchData, closeModal, idTacheDoc }) => {
+const DocFormBatiment = ({ idBatiment, fetchData, closeModal, idBatimentDoc }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-/*   useEffect(() => {
-    if (idTacheDoc) {
-      getTacheDocOne(idTacheDoc).then(({ data }) => {
+   useEffect(() => {
+    if (idBatimentDoc) {
+      getBatimentDocOne1(idBatimentDoc).then(({ data }) => {
         if (data && data.length > 0) {
           form.setFieldsValue({
             nom_document: data[0].nom_document,
@@ -24,9 +25,9 @@ const DocFormBatiment = ({ idBatiment, fetchData, closeModal, idTacheDoc }) => {
         }
       });
     }
-  }, [idTacheDoc]); */
+  }, [idBatimentDoc]);
 
-/*   const handleFinish = async (values) => {
+   const handleFinish = async (values) => {
     const formData = new FormData();
     formData.append('nom_document', values.nom_document);
     formData.append('type_document', values.type_document);
@@ -40,10 +41,10 @@ const DocFormBatiment = ({ idBatiment, fetchData, closeModal, idTacheDoc }) => {
   
     setIsLoading(true);
     try {
-      if (idTacheDoc) {
-        await putTacheDoc(idTacheDoc, formData);
+      if (idBatimentDoc) {
+        await putBatimentDoc(idBatimentDoc, formData);
       } else {
-        await postTacheDoc(formData);
+        await postBatimentDoc(formData);
       }
       notification.success({
         message: 'Succès',
@@ -59,7 +60,7 @@ const DocFormBatiment = ({ idBatiment, fetchData, closeModal, idTacheDoc }) => {
     } finally {
       setIsLoading(false);
     }
-  }; */
+  };
   
   const handleUpload = (e) => Array.isArray(e) ? e : e?.fileList;
 
@@ -67,6 +68,7 @@ const DocFormBatiment = ({ idBatiment, fetchData, closeModal, idTacheDoc }) => {
     <Form
       form={form}
       layout="vertical"
+      onFinish={handleFinish}
       style={{ maxWidth: '600px', margin: 'auto', padding: '20px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}
       scrollToFirstError
     >
