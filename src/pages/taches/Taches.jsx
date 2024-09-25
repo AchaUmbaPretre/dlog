@@ -102,7 +102,6 @@ const Taches = () => {
   };
 
   const fetchData = async (filters) => {
-    console.log(filters)
     setLoading(true); 
     setFilteredDatas(filters);
     try {

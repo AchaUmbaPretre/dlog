@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col, Spin, Badge } from 'antd';
+import { notification, Card, Row, Col, Spin, Badge, Modal } from 'antd';
 import { InfoCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
+import DetailTache from '../detailTache/DetailTache';
 
 const DetailTacheGlobalOne = ({ idTache }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
   const fetchData = async () => {
     setLoading(true);
@@ -27,9 +29,34 @@ const DetailTacheGlobalOne = ({ idTache }) => {
     fetchData();
   }, [idTache]);
 
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+  
+  const openModal = (type) => {
+    closeAllModals();
+    setModalType(type);
+  };
+
+  const handleInfo = () => {
+    openModal('info');
+  };
+
+  const handleTracking = () => {
+    openModal('tracking');
+  };
+
+  const handleDoc = () => {
+    openModal('document');
+  };
+
+  const handleTiming = () => {
+    openModal('timing');
+  };
+
   const renderDataCards = () => (
     <Row gutter={[16, 16]} justify="center" className="data-cards">
-      <Col xs={24} sm={12} md={6}>
+      <Col xs={24} sm={12} md={6} onClick={handleInfo}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <Badge count={data.nbre_info || 0} showZero>
             <InfoCircleOutlined style={{ fontSize: '40px', color: '#1890ff', marginBottom: '10px' }} />
@@ -37,8 +64,8 @@ const DetailTacheGlobalOne = ({ idTache }) => {
           <h3>Infos Générales</h3>
         </Card>
       </Col>
-      
-      <Col xs={24} sm={12} md={6}>
+
+      <Col xs={24} sm={12} md={6} onClick={handleTracking}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <Badge count={data.nbre_tracking || 0} showZero>
             <HistoryOutlined style={{ fontSize: '40px', color: '#52c41a', marginBottom: '10px' }} />
@@ -47,7 +74,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         </Card>
       </Col>
 
-      <Col xs={24} sm={12} md={6}>
+      <Col xs={24} sm={12} md={6} onClick={handleDoc}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <Badge count={data.nbre_documents || 0} showZero>
             <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
@@ -56,7 +83,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         </Card>
       </Col>
 
-      <Col xs={24} sm={12} md={6}>
+      <Col xs={24} sm={12} md={6} onClick={handleTiming}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <Badge count={data.nbre_timing || 0} showZero>
             <ClockCircleOutlined style={{ fontSize: '40px', color: '#f5222d', marginBottom: '10px' }} />
@@ -88,6 +115,17 @@ const DetailTacheGlobalOne = ({ idTache }) => {
       ) : (
         renderDataCards()
       )}
+
+      <Modal
+        title=""
+        visible={modalType === 'info'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1050}
+        centered
+      >
+        <DetailTache idTache={idTache} />
+      </Modal>
     </div>
   );
 };
