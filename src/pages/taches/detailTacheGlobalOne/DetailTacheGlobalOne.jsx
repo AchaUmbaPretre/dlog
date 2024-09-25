@@ -149,7 +149,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
         width={800}
         centered
       >
-        <ListeDocTache idTache={idTache} />
+{/*         <ListeDocTache idTache={idTache} /> */}
       </Modal>
     </div>
   );
