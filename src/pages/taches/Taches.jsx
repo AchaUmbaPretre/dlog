@@ -918,11 +918,11 @@ const handleEdit = (idTache) => {
       </Modal>
 
       <Modal
-        title="Liste de tracking"
+        title=""
         visible={modalType === 'listeTracking'}
         onCancel={closeAllModals}
         footer={null}
-        width={850}
+        width={950}
         centered
       >
         <ListeTracking idTache={idTache} />
