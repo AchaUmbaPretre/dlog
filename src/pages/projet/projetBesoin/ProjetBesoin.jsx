@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Select, Button, notification } from 'antd';
+import { Form, Input, InputNumber, Select, Button, notification, Row, Col } from 'antd';
 import moment from 'moment';
-import { getArticle } from '../../../services/typeService';
+import { getArticle, getBatiment } from '../../../services/typeService';
 import { postBesoin } from '../../../services/besoinsService';
 import './projetBesoin.css'
+import { getClient } from '../../../services/clientService';
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -11,6 +12,8 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
   const [form] = Form.useForm();
   const [article, setArticle] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [client, setClient] = useState([]);
+  const [batiment, setBatiment] = useState([]);
 
 
   
@@ -24,11 +27,15 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const [articleData] = await Promise.all([
+            const [articleData, clientData, batimentData] = await Promise.all([
                 getArticle(),
+                getClient(),
+                getBatiment(),
             ]);
 
             setArticle(articleData.data);
+            setClient(clientData.data);
+            setBatiment(batimentData.data)
 
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
@@ -82,20 +89,68 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
             date_creation: moment(),
           }}
         >
-          <Form.Item
-            name="id_article"
-            label="Article"
-            rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
-          >
-            <Select
-                placeholder="Sélectionnez un article"
+          <Row gutter={12}>
+            <Col xs={24} md={12}>
+              <Form.Item
+              name="id_article"
+              label="Article"
+              rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
+            >
+              <Select
+                  placeholder="Sélectionnez un article"
+                  showSearch
+                  options={article.map((item) => ({
+                      value: item.id_article,
+                      label: item.nom_article,
+                  }))}
+              />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="id_client"
+                label="Client"
+                rules={[
+                        {
+                          required: false,
+                          message: 'Veuillez sélectionner un client.',
+                        },
+                      ]}
+              >
+                <Select
+                  showSearch
+                  options={client.map((item) => ({
+                    value: item.id_client,
+                    label: item.nom,
+                  }))}
+                    placeholder="Sélectionnez un client..."
+                    optionFilterProp="label"
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={12}>
+          <Col xs={24} md={12}>
+            <Form.Item
+              name="id_batiment"
+              label="Entité"
+              rules={[
+                      {
+                        required: false
+                      },
+                    ]}
+            >
+              <Select
+                placeholder="Sélectionnez un bâtiment"
                 showSearch
-                options={article.map((item) => ({
-                    value: item.id_article,
-                    label: item.nom_article,
-                }))}
-            />
-          </Form.Item>
+                options={batiment.map((item) => ({
+                          value: item.id_batiment,
+                          label: item.nom_batiment,
+                        }))}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
           <Form.Item
             name="description"
             label="Description"
