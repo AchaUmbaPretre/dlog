@@ -313,7 +313,7 @@ const Projet = () => {
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
-                projet
+                Projet
               </Button>
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
