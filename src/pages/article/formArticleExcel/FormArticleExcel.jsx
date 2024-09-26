@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Upload, Button, message, Typography, Card, Spin } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { postTacheDocExcel } from '../../../services/tacheService';
 import { postArticleExcel } from '../../../services/offreService';
 
 const { Title } = Typography;
