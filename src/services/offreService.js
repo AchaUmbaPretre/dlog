@@ -36,6 +36,14 @@ export const postArticle = async (data) => {
     return axios.post(`${DOMAIN}/api/offre/articles`, data);
   };
 
+  export const postArticleExcel = async (data) => {
+    return axios.post(`${DOMAIN}/api/offre/article_excel`, data,{
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  };
+
 export const postOffreArticle = async (data) => {
     return axios.post(`${DOMAIN}/api/offre/article`, data);
   };

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, TagOutlined, FileTextOutlined,PlusCircleOutlined,PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, TagOutlined, FileTextOutlined,PlusCircleOutlined,PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ArticleForm from '../offres/articleForm/ArticleForm';
 import { getArticle } from '../../services/typeService';
+import FormArticleExcel from './formArticleExcel/FormArticleExcel';
 
 moment.locale('fr');
 
@@ -28,6 +29,11 @@ const Article = () => {
   const closeAllModals = () => {
     setModalType(null);
   };
+
+  const handlExcelImport = () => {
+    openModal('excelImport');
+  };
+
 
   const openModal = (type, idOffre = '') => {
     closeAllModals();
@@ -184,9 +190,13 @@ const Article = () => {
               >
                 Article
               </Button>
-              <Dropdown overlay={menu} trigger={['click']} className='client-export'>
-                <Button icon={<ExportOutlined />}>Exporter</Button>
-              </Dropdown>
+              <Button
+                    className="button-excel"
+                    icon={<FileExcelOutlined />}
+                    onClick={handlExcelImport}
+               >
+                    Exporter vers Excel
+              </Button>
               <Button
                 icon={<PrinterOutlined />}
                 onClick={handleImprimer}
@@ -219,6 +229,17 @@ const Article = () => {
         centered
       >
         <ArticleForm/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'excelImport'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+        <FormArticleExcel/>
       </Modal>
     </>
   );
