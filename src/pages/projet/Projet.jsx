@@ -247,9 +247,9 @@ const Projet = () => {
                 <Link onClick={() => handleAddBesoin(record.id_projet)} >
                   <SolutionOutlined /> Ajouter besoins
                 </Link>
-                <Link onClick={() => handleAddBesoinLimit(record.id_projet)} >
+{/*                 <Link onClick={() => handleAddBesoinLimit(record.id_projet)} >
                   <SolutionOutlined /> Limiter besoins
-                </Link>
+                </Link> */}
               </div>
             }
             title=""

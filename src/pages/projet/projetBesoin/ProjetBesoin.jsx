@@ -95,10 +95,10 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
           <Row gutter={12}>
             <Col xs={24} md={12}>
               <Form.Item
-              name="id_article"
-              label="Article"
-              rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
-            >
+                name="id_article"
+                label="Article"
+                rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
+              >
               <Select
                   placeholder="Sélectionnez un article"
                   showSearch
