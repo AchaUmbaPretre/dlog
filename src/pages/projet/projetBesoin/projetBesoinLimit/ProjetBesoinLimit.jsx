@@ -74,108 +74,115 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
 
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={handleSubmit}
-      initialValues={{
-        quantite: 1,
-        priorite: 'Moyenne',
-        date_creation: moment(),
-      }}
-    >
-    <Row gutter={16}>
-        <Col span={12}>
-            <Form.Item
-                name="id_article"
-                label="Article"
-                rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
-            >
-                <Select
-                    mode="multiple"
-                    placeholder="Sélectionnez un article"
-                    showSearch
-                    options={article.map((item) => ({
-                        value: item.id_article,
-                        label: item.nom_article,
-                    }))}
-                />
-            </Form.Item>
-        </Col>
-        <Col span={12}>
-            <Form.Item
-                name="id_client"
-                label="Client"
-                rules={[{ required: true, message: 'Veuillez entrer l\'ID du client' }]}
-            >
-                <Select
-                    mode="multiple"
-                    placeholder="Sélectionnez..."
-                    showSearch
-                    options={client.map((item) => ({
-                        value: item.id_client,
-                        label: item.nom,
-                    }))}
-                />
-            </Form.Item>
-        </Col>
-    </Row>
+    <div className="controle_form">
+        <div className="controle_title_rows">
+            <h2 className='controle_h2'>Insérer un Besoin</h2>                
+        </div>
+        <div className="controle_wrapper">
+            <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleSubmit}
+        initialValues={{
+            quantite: 1,
+            priorite: 'Moyenne',
+            date_creation: moment(),
+        }}
+        >
+        <Row gutter={16}>
+            <Col span={12}>
+                <Form.Item
+                    name="id_article"
+                    label="Article"
+                    rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
+                >
+                    <Select
+                        mode="multiple"
+                        placeholder="Sélectionnez un article"
+                        showSearch
+                        options={article.map((item) => ({
+                            value: item.id_article,
+                            label: item.nom_article,
+                        }))}
+                    />
+                </Form.Item>
+            </Col>
+            <Col span={12}>
+                <Form.Item
+                    name="id_client"
+                    label="Client"
+                    rules={[{ required: true, message: 'Veuillez entrer l\'ID du client' }]}
+                >
+                    <Select
+                        mode="multiple"
+                        placeholder="Sélectionnez..."
+                        showSearch
+                        options={client.map((item) => ({
+                            value: item.id_client,
+                            label: item.nom,
+                        }))}
+                    />
+                </Form.Item>
+            </Col>
+        </Row>
 
-    <Row gutter={16}>
-        <Col span={12}>
-            <Form.Item
-            name="quantite"
-            label="Quantité"
-            rules={[{ required: true, message: 'Veuillez entrer la quantité' }]}
-            >
-                <InputNumber min={1} style={{ width: '100%' }} />
-            </Form.Item>
-        </Col>
-        <Col span={12}>
-            <Form.Item
-                label="Entité"
-                name="id_batiment"
-                rules={[{ required: false }]}
-            >
-                <Select
-                    mode="multiple"
-                    placeholder="Sélectionnez un bâtiment"
-                    showSearch
-                    options={batiment.map((item) => ({
-                        value: item.id_batiment,
-                        label: item.nom_batiment,
-                    }))}
-                />
-            </Form.Item>
-        </Col>
-    </Row>
-      <Form.Item
-        name="description"
-        label="Description"
-        rules={[{ required: false, message: 'Veuillez entrer une description' }]}
-      >
-        <TextArea rows={4} />
-      </Form.Item>
+        <Row gutter={16}>
+            <Col span={12}>
+                <Form.Item
+                name="quantite"
+                label="Quantité"
+                rules={[{ required: true, message: 'Veuillez entrer la quantité' }]}
+                >
+                    <InputNumber min={1} style={{ width: '100%' }} />
+                </Form.Item>
+            </Col>
+            <Col span={12}>
+                <Form.Item
+                    label="Entité"
+                    name="id_batiment"
+                    rules={[{ required: false }]}
+                >
+                    <Select
+                        mode="multiple"
+                        placeholder="Sélectionnez un bâtiment"
+                        showSearch
+                        options={batiment.map((item) => ({
+                            value: item.id_batiment,
+                            label: item.nom_batiment,
+                        }))}
+                    />
+                </Form.Item>
+            </Col>
+        </Row>
+        <Form.Item
+            name="description"
+            label="Description"
+            rules={[{ required: false, message: 'Veuillez entrer une description' }]}
+        >
+            <TextArea rows={4} />
+        </Form.Item>
 
 
-      <Form.Item
-        name="priorite"
-        label="Priorité"
-        rules={[{ required: true, message: 'Veuillez sélectionner la priorité' }]}
-      >
-        <Select>
-          <Option value="Haute">Haute</Option>
-          <Option value="Moyenne">Moyenne</Option>
-          <Option value="Faible">Faible</Option>
-        </Select>
-      </Form.Item>
+        <Form.Item
+            name="priorite"
+            label="Priorité"
+            rules={[{ required: true, message: 'Veuillez sélectionner la priorité' }]}
+        >
+            <Select>
+            <Option value="Haute">Haute</Option>
+            <Option value="Moyenne">Moyenne</Option>
+            <Option value="Faible">Faible</Option>
+            </Select>
+        </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-          Soumettre
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+            Soumettre
+            </Button>
+        </Form.Item>
+            </Form>
+        </div>
+    </div>
   );
 };
 

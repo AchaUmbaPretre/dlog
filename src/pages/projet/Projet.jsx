@@ -395,7 +395,7 @@ const Projet = () => {
       </Modal>
 
       <Modal
-        title="Limité des besoins"
+        title=""
         visible={isUpdateVisible}
         onCancel={handleCancel}
         footer={null}
