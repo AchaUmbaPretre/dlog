@@ -34,13 +34,11 @@ const Article = () => {
     openModal('excelImport');
   };
 
-
   const openModal = (type, idOffre = '') => {
     closeAllModals();
     setIdOffre(idOffre);
     setModalType(type);
   };
-
 
   const handleAjouterOffre  = (idOffre) => {
     openModal('ArticleForm', idOffre);
