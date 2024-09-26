@@ -65,6 +65,9 @@ const BatimentForm = ({closeModal, fetchData}) => {
 
     return (
         <div className="client_form">
+            <div className="controle_title_rows">
+                <h2 className='controle_h2'>Insérer un nouveau batiment</h2>                
+            </div>
             <div className="client_wrapper">
                 <Form
                     form={form}
