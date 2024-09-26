@@ -20,6 +20,10 @@ export const postBesoin = async (data) => {
   return axios.post(`${DOMAIN}/api/besoin`, data);
 };
 
+export const postBesoinClient = async (data) => {
+  return axios.post(`${DOMAIN}/api/besoin/besoin_client`, data);
+};
+
 export const deleteBesoin = async (id) => {
     return axios.delete(`${DOMAIN}/api/besoin/${id}`);
   };
