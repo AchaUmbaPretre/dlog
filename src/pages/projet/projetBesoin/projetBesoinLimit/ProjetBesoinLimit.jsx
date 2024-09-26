@@ -3,6 +3,7 @@ import { Form, Input, InputNumber, Select, Button, notification } from 'antd';
 import moment from 'moment';
 import { getArticle } from '../../../../services/typeService';
 import { postBesoin } from '../../../../services/besoinsService';
+import { getClient } from '../../../../services/clientService';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -10,6 +11,7 @@ const { Option } = Select;
 const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
   const [form] = Form.useForm();
   const [article, setArticle] = useState([]);
+  const [client, setClient] = useState([]);
   const [loading, setLoading] = useState(false);
 
 
@@ -26,9 +28,11 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
         try {
             const [articleData] = await Promise.all([
                 getArticle(),
+                getClient(),
             ]);
 
             setArticle(articleData.data);
+            setClient(articleData.data)
 
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
@@ -77,12 +81,28 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
         date_creation: moment(),
       }}
     >
+        <Form.Item
+            name="id_client"
+            label="Client"
+            rules={[{ required: true, message: 'Veuillez entrer l\'ID du client' }]}
+        >
+            <Select
+                mode="multiple"
+                placeholder="Sélectionnez..."
+                showSearch
+                options={client.map((item) => ({
+                    value: item.id_client,
+                    label: item.nom,
+                }))}
+            />
+      </Form.Item>
       <Form.Item
         name="id_article"
         label="Article"
         rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
       >
         <Select
+            mode="multiple"
             placeholder="Sélectionnez un article"
             showSearch
             options={article.map((item) => ({
