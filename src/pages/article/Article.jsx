@@ -111,7 +111,7 @@ const Article = () => {
           <Tag color='blue'>{index + 1}</Tag>
         </Space>
       ), 
-      width: "8%" 
+      width: "5%" 
     },
     { 
       title: 'Nom', 
@@ -119,7 +119,7 @@ const Article = () => {
       key: 'nom_article',
       render: text => (
         <Space>
-          <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<FileTextOutlined />} color='green'>{text}</Tag>
         </Space>
       ),
     },
