@@ -311,7 +311,7 @@ const Batiment = () => {
           />
         </div>
       </div>
-
+      
       <Modal
         title=""
         visible={isModalVisible}
