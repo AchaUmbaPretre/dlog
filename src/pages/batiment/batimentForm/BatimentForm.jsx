@@ -1,4 +1,4 @@
-import { Button, Form, Input, notification, Modal, Select } from 'antd';
+import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { postBatiment } from '../../../services/typeService';
@@ -71,35 +71,106 @@ const BatimentForm = ({closeModal, fetchData}) => {
                     layout="vertical"
                     onFinish={onFinish}
                 >
-                    <Form.Item
-                        label="Nom"
-                        name="nom_batiment"
-                        rules={[{ required: true, message: 'Veuillez entrer le nom du batiment!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Site"
-                        name="site"
-                        rules={[{ required: false, message: 'Veuillez entrer le nom du site!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Ville"
-                        name="ville"
-                        rules={[{ required: true, message: 'Veuillez entrer le nom de la ville!' }]}
-                    >
-                        <Select
-                            showSearch
-                            options={data.map((item) => ({
-                                value: item.id,
-                                label: item.name,
-                            }))}
-                            placeholder="Sélectionnez une ville..."
-                            optionFilterProp="label"
-                        />
-                    </Form.Item>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Nom du bâtiment"
+                                name="nom_batiment"
+                                rules={[{ required: true, message: 'Veuillez entrer le nom du bâtiment!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Form.Item
+                                label="Site"
+                                name="site"
+                                rules={[{ required: false, message: 'Veuillez entrer le nom du site!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Form.Item
+                                label="Ville"
+                                name="ville"
+                                rules={[{ required: true, message: 'Veuillez sélectionner une ville!' }]}
+                            >
+                                <Select
+                                    showSearch
+                                    options={data.map((item) => ({
+                                        value: item.id,
+                                        label: item.name,
+                                    }))}
+                                    placeholder="Sélectionnez une ville..."
+                                    optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Form.Item
+                                label="Longueur"
+                                name="longueur"
+                                rules={[{ required: true, message: 'Veuillez entrer la longueur!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Form.Item
+                                label="Largeur"
+                                name="largeur"
+                                rules={[{ required: true, message: 'Veuillez entrer la largeur!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Form.Item
+                                label="Hauteur"
+                                name="hauteur"
+                                rules={[{ required: true, message: 'Veuillez entrer la hauteur!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Form.Item
+                                label="Surface du sol"
+                                name="surface_sol"
+                                rules={[{ required: true, message: 'Veuillez entrer la surface du sol!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Form.Item
+                                label="Surface des murs"
+                                name="surface_murs"
+                                rules={[{ required: true, message: 'Veuillez entrer la surface des murs!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Form.Item
+                                label="Mètres linéaires"
+                                name="metres_lineaires"
+                                rules={[{ required: true, message: 'Veuillez entrer les mètres linéaires!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
                             Ajouter
