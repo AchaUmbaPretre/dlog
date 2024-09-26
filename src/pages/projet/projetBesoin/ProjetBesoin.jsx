@@ -5,6 +5,7 @@ import { getArticle, getBatiment } from '../../../services/typeService';
 import { postBesoin } from '../../../services/besoinsService';
 import './projetBesoin.css'
 import { getClient } from '../../../services/clientService';
+import { getUser } from '../../../services/userService';
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -14,7 +15,7 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
   const [loading, setLoading] = useState(false);
   const [client, setClient] = useState([]);
   const [batiment, setBatiment] = useState([]);
-
+  const [users, setUsers] = useState([]);
 
   
   const handleError = (message) => {
@@ -27,15 +28,17 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const [articleData, clientData, batimentData] = await Promise.all([
+            const [articleData, clientData, batimentData, usersData] = await Promise.all([
                 getArticle(),
                 getClient(),
                 getBatiment(),
+                getUser()
             ]);
 
             setArticle(articleData.data);
             setClient(clientData.data);
             setBatiment(batimentData.data)
+            setUsers(usersData.data);
 
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
@@ -130,24 +133,46 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
             </Col>
           </Row>
           <Row gutter={12}>
-          <Col xs={24} md={12}>
-            <Form.Item
-              name="id_batiment"
-              label="Entité"
-              rules={[
-                      {
-                        required: false
-                      },
-                    ]}
-            >
-              <Select
-                placeholder="Sélectionnez un bâtiment"
-                showSearch
-                options={batiment.map((item) => ({
-                          value: item.id_batiment,
-                          label: item.nom_batiment,
-                        }))}
-                />
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="id_batiment"
+                label="Entité"
+                rules={[
+                        {
+                          required: false
+                        },
+                      ]}
+              >
+                <Select
+                  placeholder="Sélectionnez un bâtiment"
+                  showSearch
+                  options={batiment.map((item) => ({
+                            value: item.id_batiment,
+                            label: item.nom_batiment,
+                          }))}
+                  />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="personne"
+                label="personne"
+                rules={[
+                        {
+                          required: false,
+                          message: 'Veuillez indiquer un demandeur.',
+                        },
+                  ]}
+                >
+                  <Select
+                    showSearch
+                    options={users.map((item) => ({
+                      value: item.id_utilisateur,
+                      label: `${item.nom}`,
+                    }))}
+                      placeholder="Sélectionnez un demandeur..."
+                      optionFilterProp="label"
+                  />
               </Form.Item>
             </Col>
           </Row>
