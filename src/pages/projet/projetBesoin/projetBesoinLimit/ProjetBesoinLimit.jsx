@@ -26,13 +26,13 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const [articleData] = await Promise.all([
+            const [articleData, clientDtata] = await Promise.all([
                 getArticle(),
                 getClient(),
             ]);
 
             setArticle(articleData.data);
-            setClient(articleData.data)
+            setClient(clientDtata.data)
 
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
@@ -81,21 +81,6 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
         date_creation: moment(),
       }}
     >
-        <Form.Item
-            name="id_client"
-            label="Client"
-            rules={[{ required: true, message: 'Veuillez entrer l\'ID du client' }]}
-        >
-            <Select
-                mode="multiple"
-                placeholder="Sélectionnez..."
-                showSearch
-                options={client.map((item) => ({
-                    value: item.id_client,
-                    label: item.nom,
-                }))}
-            />
-      </Form.Item>
       <Form.Item
         name="id_article"
         label="Article"
@@ -110,6 +95,21 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
                 label: item.nom_article,
             }))}
         />
+      </Form.Item>
+      <Form.Item
+            name="id_client"
+            label="Client"
+            rules={[{ required: true, message: 'Veuillez entrer l\'ID du client' }]}
+        >
+            <Select
+                mode="multiple"
+                placeholder="Sélectionnez..."
+                showSearch
+                options={client.map((item) => ({
+                    value: item.id_client,
+                    label: item.nom,
+                }))}
+            />
       </Form.Item>
       <Form.Item
         name="description"
