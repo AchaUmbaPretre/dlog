@@ -114,7 +114,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
                             <Form.Item
                                 label="Longueur"
                                 name="longueur"
-                                rules={[{ required: true, message: 'Veuillez entrer la longueur!' }]}
+                                rules={[{ required: false, message: 'Veuillez entrer la longueur!' }]}
                             >
                                 <Input />
                             </Form.Item>
@@ -124,7 +124,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
                             <Form.Item
                                 label="Largeur"
                                 name="largeur"
-                                rules={[{ required: true, message: 'Veuillez entrer la largeur!' }]}
+                                rules={[{ required: false, message: 'Veuillez entrer la largeur!' }]}
                             >
                                 <Input />
                             </Form.Item>
@@ -134,7 +134,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
                             <Form.Item
                                 label="Hauteur"
                                 name="hauteur"
-                                rules={[{ required: true, message: 'Veuillez entrer la hauteur!' }]}
+                                rules={[{ required: false, message: 'Veuillez entrer la hauteur!' }]}
                             >
                                 <Input />
                             </Form.Item>
@@ -144,7 +144,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
                             <Form.Item
                                 label="Surface du sol"
                                 name="surface_sol"
-                                rules={[{ required: true, message: 'Veuillez entrer la surface du sol!' }]}
+                                rules={[{ required: false, message: 'Veuillez entrer la surface du sol!' }]}
                             >
                                 <Input />
                             </Form.Item>
@@ -154,7 +154,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
                             <Form.Item
                                 label="Surface des murs"
                                 name="surface_murs"
-                                rules={[{ required: true, message: 'Veuillez entrer la surface des murs!' }]}
+                                rules={[{ required: false, message: 'Veuillez entrer la surface des murs!' }]}
                             >
                                 <Input />
                             </Form.Item>
@@ -164,7 +164,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
                             <Form.Item
                                 label="Mètres linéaires"
                                 name="metres_lineaires"
-                                rules={[{ required: true, message: 'Veuillez entrer les mètres linéaires!' }]}
+                                rules={[{ required: false, message: 'Veuillez entrer les mètres linéaires!' }]}
                             >
                                 <Input />
                             </Form.Item>
