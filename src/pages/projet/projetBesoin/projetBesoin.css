@@ -1,0 +1,58 @@
+.controle_form {
+    padding: 20px;
+    border-radius: 8px;
+  
+    .controle_title_row{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f2f2f2;
+      padding: 10px;
+      margin-bottom: 20px;
+      .controle_h2{
+        font-weight: 300;
+      }
+    }
+    .controle_title_rows{
+      background: #f2f2f2;
+      padding: 10px;
+      margin-bottom: 20px;
+      .controle_h2{
+        font-weight: 300;
+        font-size: 15px;
+      }
+    }
+    .controle_wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  
+    .custom-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      .ant-form-item {
+        margin-bottom: 20px;
+      }
+  
+      .ant-form-item-label > label {
+        font-weight: 600;
+      }
+  
+      .ant-input, .ant-select-selector {
+        height: 40px;
+        border-radius: 6px;
+      }
+  
+      .button-group {
+        display: flex;
+        justify-content: flex-end;
+  
+        .ant-btn {
+          border-radius: 6px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  

@@ -3,7 +3,7 @@ import { Form, Input, InputNumber, Select, Button, notification } from 'antd';
 import moment from 'moment';
 import { getArticle } from '../../../services/typeService';
 import { postBesoin } from '../../../services/besoinsService';
-
+import './projetBesoin.css'
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -67,65 +67,72 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
 
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={handleSubmit}
-      initialValues={{
-        quantite: 1,
-        priorite: 'Moyenne',
-        date_creation: moment(),
-      }}
-    >
-      <Form.Item
-        name="id_article"
-        label="Article"
-        rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
-      >
-        <Select
-            placeholder="Sélectionnez un article"
-            showSearch
-            options={article.map((item) => ({
-                value: item.id_article,
-                label: item.nom_article,
-            }))}
-        />
-      </Form.Item>
-      <Form.Item
-        name="description"
-        label="Description"
-        rules={[{ required: false, message: 'Veuillez entrer une description' }]}
-      >
-        <TextArea rows={4} />
-      </Form.Item>
+    <div className="controle_form">
+      <div className="controlr_title_row">
+        <h2 className='controle_h2'>Ajouter un besoin</h2>                
+      </div>
+      <div className="controle_wrapper">
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={handleSubmit}
+          initialValues={{
+            quantite: 1,
+            priorite: 'Moyenne',
+            date_creation: moment(),
+          }}
+        >
+          <Form.Item
+            name="id_article"
+            label="Article"
+            rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
+          >
+            <Select
+                placeholder="Sélectionnez un article"
+                showSearch
+                options={article.map((item) => ({
+                    value: item.id_article,
+                    label: item.nom_article,
+                }))}
+            />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label="Description"
+            rules={[{ required: false, message: 'Veuillez entrer une description' }]}
+          >
+            <TextArea rows={4} />
+          </Form.Item>
 
-      <Form.Item
-        name="quantite"
-        label="Quantité"
-        rules={[{ required: true, message: 'Veuillez entrer la quantité' }]}
-      >
-        <InputNumber min={1} style={{ width: '100%' }} />
-      </Form.Item>
+          <Form.Item
+            name="quantite"
+            label="Quantité"
+            rules={[{ required: true, message: 'Veuillez entrer la quantité' }]}
+          >
+            <InputNumber min={1} style={{ width: '100%' }} />
+          </Form.Item>
 
 
-      <Form.Item
-        name="priorite"
-        label="Priorité"
-        rules={[{ required: true, message: 'Veuillez sélectionner la priorité' }]}
-      >
-        <Select>
-          <Option value="Haute">Haute</Option>
-          <Option value="Moyenne">Moyenne</Option>
-          <Option value="Faible">Faible</Option>
-        </Select>
-      </Form.Item>
+          <Form.Item
+            name="priorite"
+            label="Priorité"
+            rules={[{ required: true, message: 'Veuillez sélectionner la priorité' }]}
+          >
+            <Select>
+              <Option value="Haute">Haute</Option>
+              <Option value="Moyenne">Moyenne</Option>
+              <Option value="Faible">Faible</Option>
+            </Select>
+          </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-          Soumettre
-        </Button>
-      </Form.Item>
-    </Form>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+              Soumettre
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    </div>
   );
 };
 

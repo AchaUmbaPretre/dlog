@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Modal, Collapse } from 'antd';
 import { ExportOutlined, PrinterOutlined,PlusCircleOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, DollarOutlined, RocketOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { deletePutTache, getTacheControleOne } from '../../../services/tacheService';
+import { deletePutTache } from '../../../services/tacheService';
 import SuiviTache from '../../taches/suiviTache/SuiviTache';
 import { getSuiviTacheOne } from '../../../services/suiviService';
 import { getProjetTacheOne } from '../../../services/projetService';

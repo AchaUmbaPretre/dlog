@@ -377,14 +377,14 @@ const Projet = () => {
         visible={isBudgetVisible}
         onCancel={handleCancel}
         footer={null}
-        width={1020}
+        width={1050}
         centered
       >
         <BudgetForm idProjet={idProjet} />
       </Modal>
 
       <Modal
-        title="Ajouter un besoin"
+        title=""
         visible={isBesoinVisible}
         onCancel={handleCancel}
         footer={null}
