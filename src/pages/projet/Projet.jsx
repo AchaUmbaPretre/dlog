@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import BudgetForm from '../budget/budgetForm/BudgetForm';
 import ProjetBesoin from './projetBesoin/ProjetBesoin';
 import ListeTacheProjet from './listeTacheProjet/ListeTacheProjet';
+import ProjetBesoinLimit from './projetBesoin/projetBesoinLimit/ProjetBesoinLimit';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -52,6 +53,11 @@ const Projet = () => {
     setIsBesoinVisible(true);
   };
 
+  const handleAddBesoinLimit = (id) => {
+    setIdProjet(id)
+    setIsUpdateVisible(true)
+  }
+
   const handleAddTache = (id) => {
     setIdProjet(id)
     setIsTacheVisible(true);
@@ -75,7 +81,8 @@ const Projet = () => {
     setIsDetailVisible(false);
     setIsBudgetVisible(false);
     setIsBesoinVisible(false);
-    setIsTacheListeVisible(false)
+    setIsTacheListeVisible(false);
+    setIsUpdateVisible(false)
   };
 
   const handleExportExcel = () => {
@@ -240,6 +247,9 @@ const Projet = () => {
                 <Link onClick={() => handleAddBesoin(record.id_projet)} >
                   <SolutionOutlined /> Ajouter besoins
                 </Link>
+                <Link onClick={() => handleAddBesoinLimit(record.id_projet)} >
+                  <SolutionOutlined /> Limiter besoins
+                </Link>
               </div>
             }
             title=""
@@ -382,6 +392,17 @@ const Projet = () => {
         centered
       >
         <ProjetBesoin idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
+      </Modal>
+
+      <Modal
+        title="Limité des besoins"
+        visible={isUpdateVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={800}
+        centered
+      >
+        <ProjetBesoinLimit idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
       </Modal>
 
       <Modal
