@@ -313,7 +313,7 @@ const Batiment = () => {
       </div>
 
       <Modal
-        title="Ajouter un batiment"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
