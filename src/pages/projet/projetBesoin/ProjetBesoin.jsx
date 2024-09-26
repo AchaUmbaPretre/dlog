@@ -77,7 +77,7 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
 
 
   return (
-    <div className="controle_form">
+    <div className="controle_forms">
       <div className="controlr_title_row">
         <h2 className='controle_h2'>Ajouter un besoin</h2>                
       </div>
