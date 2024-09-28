@@ -6,7 +6,7 @@ import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
 import { getTacheOneV, postTache, putTache } from '../../../services/tacheService';
 import moment from 'moment';
-import { getBatiment } from '../../../services/typeService';
+import { getBatiment, getCatTache, getCorpsMetier } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
 import { getProjetOne } from '../../../services/projetService';
 import './tacheForm.scss'
@@ -22,21 +22,25 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [provinces, setProvinces] = useState([]);
     const [batiment, setBatiment] = useState([]);
     const [projetName, setProjetName] = useState('');
+    const [catTache, setCatTache] = useState('');
+    const [corps, setCorps] = useState('');
     const [loadingData, setLoadingData] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoadingData(true); // Démarre le chargement des données
+            setLoadingData(true);
 
             try {
-                const [departementData, frequenceData, usersData, clientData, provinceData, batimentData] = await Promise.all([
+                const [departementData, frequenceData, usersData, clientData, provinceData, batimentData, corpsData, catTacheData] = await Promise.all([
                     getDepartement(),
                     getFrequence(),
                     getUser(),
                     getClient(),
                     getProvince(),
                     getBatiment(),
+                    getCorpsMetier(),
+                    getCatTache()
                 ]);
 
                 setDepartement(departementData.data);
@@ -44,7 +48,9 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 setUsers(usersData.data);
                 setClient(clientData.data);
                 setProvinces(provinceData.data);
-                setBatiment(batimentData.data)
+                setBatiment(batimentData.data);
+                setCorps(corpsData.data)
+                setCatTache(catTacheData.data)
 
                 if(idProjet){
                     const {data} = await getProjetOne(idProjet)
@@ -303,7 +309,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 />}
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_batiment"
                                 label="Entité"
@@ -323,7 +329,47 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 />}
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                name="id_corps_metier"
+                                label="Corps metier"
+                                rules={[
+                                    {
+                                        required: false
+                                    },
+                                ]}
+                            >
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
+                                    placeholder="Sélectionnez.."
+                                    showSearch
+                                    options={corps.map((item) => ({
+                                        value: item.id_corps_metier,
+                                        label: item.nom_corps_metier
+                                    }))}
+                                />}
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                name="id_cat_tache"
+                                label="Cat tache"
+                                rules={[
+                                    {
+                                        required: false
+                                    },
+                                ]}
+                            >
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
+                                    placeholder="Sélectionnez.."
+                                    showSearch
+                                    options={catTache.map((item) => ({
+                                        value: item.id_cat_tache,
+                                        label: item.nom_cat_tache
+                                    }))}
+                                />}
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={24}>
                         <Form.Item
                                 name="priorite"
                                 label="Priorité"
