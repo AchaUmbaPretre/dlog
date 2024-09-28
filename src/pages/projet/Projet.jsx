@@ -216,20 +216,20 @@ const Projet = () => {
       width: '10%',
       render: (text, record) => (
         <Space >
-          <Tooltip title="Modifier">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_projet)}
-              aria-label="Edit department"
-            />
-          </Tooltip>
           <Tooltip title="Voir détails">
             <Button
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record.id_projet)}
               aria-label="View budget details"
               style={{ color: 'green' }}
+          />
+          </Tooltip>
+          <Tooltip title="Modifier">
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record.id_projet)}
+              aria-label="Edit department"
             />
           </Tooltip>
           <Popover
