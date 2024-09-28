@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col, Typography, Badge, Modal, Divider, Skeleton, Button } from 'antd';
+import { notification, Card, Row, Col, Typography, Badge, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined,CalendarOutlined, LeftCircleOutlined,RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne, getTacheOneV } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -135,12 +135,16 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 
       {/* Add Previous and Next buttons */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <Button onClick={goToPreviousTache} disabled={idTache === 1}>
-          <LeftCircleOutlined />
-        </Button>
-        <Button onClick={goToNextTache}>
-          <RightCircleOutlined />
-        </Button>
+        <Tooltip title="Précédent">
+          <Button onClick={goToPreviousTache} disabled={idTache === 1}>
+            <LeftCircleOutlined />
+          </Button>
+        </Tooltip>
+        <Tooltip title="Suivant">
+          <Button onClick={goToNextTache}>
+            <RightCircleOutlined />
+          </Button> 
+        </Tooltip>
       </div>
 
       {loading ? (
