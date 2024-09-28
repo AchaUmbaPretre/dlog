@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { notification, Card, Row, Col, Typography, Badge, Modal, Divider, Skeleton, Button } from 'antd';
-import { InfoCircleOutlined,LeftCircleOutlined,RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
-import { getTacheOne } from '../../../services/tacheService';
+import { InfoCircleOutlined,CalendarOutlined, LeftCircleOutlined,RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { getTacheOne, getTacheOneV } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
 import ListeDocTache from '../listeDocTache/ListeDocTache';
+import { getSuiviTacheOneV } from '../../../services/suiviService';
+import moment from 'moment';
 
 const { Title, Text } = Typography;
 
@@ -14,25 +16,35 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [loading, setLoading] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [idTache, setIdTache] = useState(initialIdTache); 
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await getTacheOne(idTache);
-      setData(response.data[0]);
-    } catch (error) {
-      notification.error({
+  const [dates, setDates] = useState(null)
+  
+  const handleError = (message) => {
+    notification.error({
         message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données. Veuillez réessayer plus tard.',
-      });
-    } finally {
-      setLoading(false);
-    }
+        description: message,
+    });
+  };
+  const fetchData = async () => {
+        try {
+            const [response, dateData] = await Promise.all([
+                getTacheOne(idTache),
+                getSuiviTacheOneV(idTache),
+            ]);
+
+            setData(response.data[0]);
+            setDates(dateData.data[0].date_dernier_suivi);
+
+
+        } catch (error) {
+            handleError('Une erreur est survenue lors du chargement des données.');
+        }
   };
 
   useEffect(() => {
     fetchData();
-  }, [idTache]); // Re-fetch data when idTache changes
+  }, [idTache]); 
+
+  console.log(dates)
 
   const closeAllModals = () => {
     setModalType(null);
@@ -102,10 +114,17 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   return (
     <div className="dataTableau">
       <div className="title_row">
-        <h1 className="title_h1">
-          <FileTextOutlined style={{ marginRight: '8px' }} />
-          <strong>Titre : </strong> {data?.nom_tache}
-        </h1>
+        <div style={{display: 'flex', justifyContent:'space-between'}}>
+          <h1 className="title_h1">
+            <FileTextOutlined style={{ marginRight: '8px' }} />
+            <strong>Titre : </strong> {data?.nom_tache}
+          </h1>
+          <h1 className="title_h1">
+            <CalendarOutlined style={{ marginRight: '8px' }} />
+            <strong>Date du dernier tracking : </strong> {moment(dates).format('LL') || 'Non disponible'}
+          </h1>
+          
+        </div>
       </div>
       <div className="title_row">
         <h1 className="title_h1">
