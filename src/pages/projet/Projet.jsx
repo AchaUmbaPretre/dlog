@@ -12,6 +12,7 @@ import BudgetForm from '../budget/budgetForm/BudgetForm';
 import ProjetBesoin from './projetBesoin/ProjetBesoin';
 import ListeTacheProjet from './listeTacheProjet/ListeTacheProjet';
 import ProjetBesoinLimit from './projetBesoin/projetBesoinLimit/ProjetBesoinLimit';
+import DetailProjetsGlobal from './detailProjet/DetailProjetsGlobal';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -366,10 +367,10 @@ const Projet = () => {
         visible={isDetailVisible}
         onCancel={handleCancel}
         footer={null}
-        width={800}
+        width={1050}
         centered
       >
-        <DetailProjet idProjet={idProjet} />
+        <DetailProjetsGlobal idProjet={idProjet} />
       </Modal>
 
       <Modal
