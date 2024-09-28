@@ -96,7 +96,7 @@ const ListeTracking = ({ idTache }) => {
       dataIndex: 'nom_tache',
       key: 'nom_tache',
       render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
       ),
     },
     {

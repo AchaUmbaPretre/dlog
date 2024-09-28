@@ -916,7 +916,7 @@ const handleEdit = (idTache) => {
         width={1050}
         centered
       >
-        <DetailTacheGlobalOne idTache={idTache} />
+        <DetailTacheGlobalOne initialIdTache={idTache} />
       </Modal>
 
       <Modal

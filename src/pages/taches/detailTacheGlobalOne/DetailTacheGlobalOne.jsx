@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col, Spin, Typography, Badge, Modal, Divider, Skeleton } from 'antd';
+import { notification, Card, Row, Col, Spin, Typography, Badge, Modal, Divider, Skeleton, Button } from 'antd';
 import { InfoCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -9,10 +9,11 @@ import ListeDocTache from '../listeDocTache/ListeDocTache';
 
 const { Title, Text } = Typography;
 
-const DetailTacheGlobalOne = ({ idTache }) => {
+const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const [modalType, setModalType] = useState(null);
+  const [idTache, setIdTache] = useState(initialIdTache); // Use idTache from props and manage it here
 
   const fetchData = async () => {
     setLoading(true);
@@ -31,7 +32,7 @@ const DetailTacheGlobalOne = ({ idTache }) => {
 
   useEffect(() => {
     fetchData();
-  }, [idTache]);
+  }, [idTache]); // Re-fetch data when idTache changes
 
   const closeAllModals = () => {
     setModalType(null);
@@ -56,6 +57,14 @@ const DetailTacheGlobalOne = ({ idTache }) => {
 
   const handleTiming = () => {
     openModal('timing');
+  };
+
+  const goToNextTache = () => {
+    setIdTache((prevId) => prevId + 1); // Increment task ID to go to next
+  };
+
+  const goToPreviousTache = () => {
+    setIdTache((prevId) => (prevId > 1 ? prevId - 1 : prevId)); // Decrement task ID but prevent negative values
   };
 
   const renderDataCards = () => (
@@ -95,15 +104,26 @@ const DetailTacheGlobalOne = ({ idTache }) => {
       <div className="title_row">
         <h1 className="title_h1">
           <FileTextOutlined style={{ marginRight: '8px' }} />
-          <strong>Titre : </strong> {data.nom_tache}
+          <strong>Titre : </strong> {data?.nom_tache}
         </h1>
       </div>
       <div className="title_row">
         <h1 className="title_h1">
           <FileTextOutlined style={{ marginRight: '8px' }} />
-          <strong>Description : </strong> {data.description}
+          <strong>Description : </strong> {data?.description}
         </h1>
       </div>
+
+      {/* Add Previous and Next buttons */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <Button onClick={goToPreviousTache} disabled={idTache === 1}>
+          Précédent
+        </Button>
+        <Button onClick={goToNextTache}>
+          Suivant
+        </Button>
+      </div>
+
       {loading ? (
         <Skeleton active />
       ) : (
