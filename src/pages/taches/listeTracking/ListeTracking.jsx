@@ -92,7 +92,7 @@ const ListeTracking = ({ idTache }) => {
       width: "3%",
     },
     {
-      title: 'Nom tache',
+      title: 'Titre',
       dataIndex: 'nom_tache',
       key: 'nom_tache',
       render: (text) => (
@@ -156,7 +156,7 @@ const ListeTracking = ({ idTache }) => {
             <div className="client-row-icon">
               <FileTextOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">{nameTache ? `Liste des tracking de : ${nameTache}` : 'Liste des tracking'}</h2>
+            <h2 className="client-h2">{nameTache ? `Liste des tracking : ${nameTache}` : 'Liste des tracking'}</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">

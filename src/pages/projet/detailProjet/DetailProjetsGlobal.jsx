@@ -4,6 +4,7 @@ import { InfoCircleOutlined, ReconciliationOutlined, FileTextOutlined, ClockCirc
 import ProjetDetailGeneral from './projetDetailGen/ProjetDetailGeneral';
 import { getProjetOne } from '../../../services/projetService';
 import ListeTacheProjet from '../listeTacheProjet/ListeTacheProjet';
+import DetailProjetBesoin from './detailProjetBesoin/DetailProjetBesoin';
 
 const { Title, Text } = Typography;
 
@@ -72,12 +73,12 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         </Card>
       </Col>
 
-{/*       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
+      <Col xs={24} sm={12} md={6} onClick={handleDoc}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <ReconciliationOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
-          <h3>Documents</h3>
+          <h3>Besoins</h3>
         </Card>
-      </Col> */}
+      </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleTiming}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
@@ -90,11 +91,14 @@ const DetailProjetsGlobal = ({ idProjet }) => {
 
   return (
     <div className="dataTableau">
-      <div className="title_row">
+      <div className="title_row" style={{display:'flex', justifyContent:'space-between'}}>
         <h1 className="title_h1">
           <FileTextOutlined style={{ marginRight: '8px' }} />
           <strong>Titre : </strong> {data.nom_projet}
         </h1>
+        <div>
+            Date
+        </div>
       </div>
       <div className="title_row">
         <h1 className="title_h1">
@@ -137,7 +141,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         width={800}
         centered
       >
-{/*         <ListeDocTache idTache={idTache} /> */}
+        <DetailProjetBesoin idProjet={idProjet} />
       </Modal>
       <Modal
         title=""
