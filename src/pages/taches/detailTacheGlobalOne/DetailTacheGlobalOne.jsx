@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col, Spin, Typography, Badge, Modal, Divider, Skeleton, Button } from 'antd';
+import { notification, Card, Row, Col, Typography, Badge, Modal, Divider, Skeleton, Button } from 'antd';
 import { InfoCircleOutlined,LeftCircleOutlined,RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
