@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { notification, Card, Row, Col, Spin, Typography, Badge, Modal, Divider, Skeleton, Button } from 'antd';
-import { InfoCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined,LeftCircleOutlined,RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
@@ -13,7 +13,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const [modalType, setModalType] = useState(null);
-  const [idTache, setIdTache] = useState(initialIdTache); // Use idTache from props and manage it here
+  const [idTache, setIdTache] = useState(initialIdTache); 
 
   const fetchData = async () => {
     setLoading(true);
@@ -117,10 +117,10 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
       {/* Add Previous and Next buttons */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <Button onClick={goToPreviousTache} disabled={idTache === 1}>
-          Précédent
+          <LeftCircleOutlined />
         </Button>
         <Button onClick={goToNextTache}>
-          Suivant
+          <RightCircleOutlined />
         </Button>
       </div>
 
