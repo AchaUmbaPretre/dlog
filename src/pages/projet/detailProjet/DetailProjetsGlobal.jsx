@@ -96,9 +96,6 @@ const DetailProjetsGlobal = ({ idProjet }) => {
           <FileTextOutlined style={{ marginRight: '8px' }} />
           <strong>Titre : </strong> {data.nom_projet}
         </h1>
-        <div>
-            Date
-        </div>
       </div>
       <div className="title_row">
         <h1 className="title_h1">
