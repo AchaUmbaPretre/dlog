@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { notification, Card, Row, Col, Spin, Typography, Badge, Modal, Divider, Skeleton } from 'antd';
-import { InfoCircleOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, ReconciliationOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
@@ -65,13 +65,13 @@ const DetailProjetsGlobal = ({ idProjet }) => {
       <Col xs={24} sm={12} md={6} onClick={handleTracking}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <FileTextOutlined style={{ fontSize: '40px', color: '#52c41a', marginBottom: '10px' }} />
-          <h3>Tracking</h3>
+          <h3>Tache</h3>
         </Card>
       </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
+          <ReconciliationOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
           <h3>Documents</h3>
         </Card>
       </Col>
