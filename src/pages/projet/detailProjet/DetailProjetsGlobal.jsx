@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { notification, Card, Row, Col, Spin, Typography, Badge, Modal, Divider, Skeleton } from 'antd';
 import { InfoCircleOutlined, ReconciliationOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import ProjetDetailGeneral from './projetDetailGen/ProjetDetailGeneral';
+import { getProjetOne } from '../../../services/projetService';
+import ListeTacheProjet from '../listeTacheProjet/ListeTacheProjet';
 
 const { Title, Text } = Typography;
 
@@ -12,8 +15,8 @@ const DetailProjetsGlobal = ({ idProjet }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-/*       const response = await getTacheOne(idTache);
-      setData(response.data[0]); */
+      const response = await getProjetOne(idProjet);
+      setData(response.data[0]);
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -69,12 +72,12 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         </Card>
       </Col>
 
-      <Col xs={24} sm={12} md={6} onClick={handleDoc}>
+{/*       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <ReconciliationOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
           <h3>Documents</h3>
         </Card>
-      </Col>
+      </Col> */}
 
       <Col xs={24} sm={12} md={6} onClick={handleTiming}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
@@ -90,7 +93,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
       <div className="title_row">
         <h1 className="title_h1">
           <FileTextOutlined style={{ marginRight: '8px' }} />
-          <strong>Titre : </strong> {data.nom_tache}
+          <strong>Titre : </strong> {data.nom_projet}
         </h1>
       </div>
       <div className="title_row">
@@ -113,7 +116,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         width={800}
         centered
       >
-{/*         <DetailTache idTache={idTache} /> */}
+        <ProjetDetailGeneral idProjet={idProjet} />
       </Modal>
 
       <Modal
@@ -124,7 +127,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         width={1000}
         centered
       >
-{/*         <ListeTracking idTache={idTache} /> */}
+         <ListeTacheProjet idProjet={idProjet} />
       </Modal>
       <Modal
         title=""
@@ -148,7 +151,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         <Card className="timing-card" bordered={false}>
           <div className="timing-header">
             <ClockCircleOutlined className="timing-icon" />
-            <Title level={3} className="timing-title">Durée de la Tâche</Title>
+            <Title level={3} className="timing-title">Durée du projet</Title>
           </div>
           <Divider />
           <div className="timing-content">
