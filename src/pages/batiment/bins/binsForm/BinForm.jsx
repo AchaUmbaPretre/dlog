@@ -49,14 +49,16 @@ const BinForm = () => {
 
     return (
         <div className="bin-form-container">
-            <Title level={2} className="form-title">Créer un Bin</Title>
+            <div className="controle_title_rows">
+                <h2 className='controle_h2'>Créer un Nouvel Bin</h2>                
+            </div>
             <Form
                 form={form}
                 layout="vertical"
                 onFinish={onFinish}
                 initialValues={{
-                    statut: 'libre',
-                    type_stockage: 'sec',
+                    statut: 1,
+                    type_stockage: 1,
                 }}
                 className="bin-form"
             >
@@ -147,10 +149,15 @@ const BinForm = () => {
                             name="statut"
                             rules={[{ required: true, message: 'Veuillez sélectionner un statut.' }]}
                         >
-                            <Select placeholder="Sélectionnez un statut">
-                                <Option value="occupé">Occupé</Option>
-                                <Option value="libre">Libre</Option>
-                            </Select>
+                            <Select
+                                showSearch
+                                options={status.map((item) => ({
+                                    value: item.id_statut_bins,
+                                    label: item.nom_statut_bins,
+                                }))}
+                                placeholder="Sélectionnez..."
+                                optionFilterProp="label"
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
