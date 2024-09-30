@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined,BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import BureauForm from './bureauForm/BureauForm';
+import { getBureau, getBureauOne } from '../../../services/batimentService';
 
 const { Search } = Input;
 
-const Bureaux = () => {
+const Bureaux = ({idBatiment}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -35,8 +36,8 @@ const Bureaux = () => {
 
     const fetchData = async () => {
       try {
-/*         const { data } = await getDepartement(); */
-/*         setData(data); */
+        const { data } = await getBureauOne(idBatiment);
+        setData(data);
         setLoading(false);
       } catch (error) {
         notification.error({
