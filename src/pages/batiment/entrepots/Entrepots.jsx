@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined, UserOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { getEntrepot } from '../../../services/batimentService';
 
 const { Search } = Input;
 
@@ -33,8 +34,8 @@ const Entrepots = () => {
 
     const fetchData = async () => {
       try {
-/*         const { data } = await getDepartement();
-        setData(data); */
+         const { data } = await getEntrepot();
+        setData(data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -113,18 +114,18 @@ const Entrepots = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-           <Tooltip title="Modifier">
+            <Tooltip title="Créer de bin">
             <Button
-              icon={<EditOutlined />}
+              icon={<PlusCircleOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_departement)}
-              aria-label="Edit department"
+              onClick={() => handleEdit(record.id_entrepot)}
+              aria-label="Edit entrepot"
             />
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
-              title="Etes-vous sûr de vouloir supprimer ce département ?"
-              onConfirm={() => handleDelete(record.id_departement)}
+              title="Etes-vous sûr de vouloir supprimer ?"
+              onConfirm={() => handleDelete(record.id_entrepot)}
               okText="Yes"
               cancelText="No"
             >
