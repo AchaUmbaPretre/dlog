@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined, UserOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { deletePutDepartement, getDepartement } from '../../services/departementService';
 
 const { Search } = Input;
 
@@ -22,7 +21,6 @@ const Entrepots = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deletePutDepartement(id);
       setData(data.filter((item) => item.id_departement !== id));
       message.success('Departement supprimé avec succès');
     } catch (error) {
@@ -35,8 +33,8 @@ const Entrepots = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getDepartement();
-        setData(data);
+/*         const { data } = await getDepartement();
+        setData(data); */
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -229,7 +227,7 @@ const Entrepots = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={900}
         centered
       >
 {/*         <DepartementForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>

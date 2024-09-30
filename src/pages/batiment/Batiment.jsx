@@ -13,6 +13,7 @@ import TableauBord from './tableauBord/TableauBord';
 import ListeDocumentBatiment from './document/ListeDocumentBatiment';
 import DocFormBatiment from './document/docFormBatiment/DocFormBatiment';
 import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
+import Entrepots from './entrepots/Entrepots';
 
 const { Search } = Input;
 
@@ -100,6 +101,10 @@ const Batiment = () => {
 
   const handleAddEntrepot = (idBatiment) => {
     openModal('FormEntrepot', idBatiment);
+  };
+
+  const handleListEntrepot = (idBatiment) => {
+    openModal('ListEntrepot', idBatiment);
   };
 
 
@@ -213,7 +218,7 @@ const Batiment = () => {
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Entrepôt */}
-            <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
+            <Menu.Item onClick={() => handleListEntrepot(record.id_batiment)}>
               <ContainerOutlined /> Liste d'entrepot
             </Menu.Item>
             <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
@@ -406,6 +411,17 @@ const Batiment = () => {
         centered
       >
         <FormEntrepots idBatiment={idBatiment} closeModal={()=>setModalType(null)}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'ListEntrepot'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1050}
+        centered
+      >
+        <Entrepots idBatiment={idBatiment} closeModal={()=>setModalType(null)}/>
       </Modal>
     </>
   );
