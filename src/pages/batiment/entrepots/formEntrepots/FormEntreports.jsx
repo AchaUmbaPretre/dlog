@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import './formEntreports.css';
+import { postEntrepot } from '../../../../services/batimentService';
 
-const FormEntrepots = () => {
+const FormEntrepots = ({idBatiment,closeModal}) => {
     const [loading, setLoading] = useState(false);
 
     const onFinish = async (values) => {
         setLoading(true);
+        const value = {
+            id_batiment: idBatiment,
+            ...values
+        }
         try {
             // Remplacez par votre URL d'API
-            await 
+            await postEntrepot(value)
             notification.success({
                 message: 'Succès',
                 description: 'Entrepôt créé avec succès.',
             });
+            closeModal()
         } catch (error) {
             notification.error({
                 message: 'Erreur',

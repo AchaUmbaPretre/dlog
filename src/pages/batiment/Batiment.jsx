@@ -405,7 +405,7 @@ const Batiment = () => {
         width={470}
         centered
       >
-        <FormEntrepots idBatiment={idBatiment} />
+        <FormEntrepots idBatiment={idBatiment} closeModal={()=>setModalType(null)}/>
       </Modal>
     </>
   );
