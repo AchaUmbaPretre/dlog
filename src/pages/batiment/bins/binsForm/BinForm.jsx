@@ -3,11 +3,12 @@ import { Form, Input, Select, Button, InputNumber, message, Typography, Row, Col
 import axios from 'axios';
 import './binForm.css'; // Assurez-vous de créer un fichier CSS pour le style personnalisé
 import { getStatutBin, getTypeBin } from '../../../../services/typeService';
+import { postBins } from '../../../../services/batimentService';
 
 const { Option } = Select;
 const { Title } = Typography;
 
-const BinForm = ({id_entrepot}) => {
+const BinForm = ({id_entrepot, closeModal}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [type, setType] = useState([]);
@@ -43,8 +44,9 @@ const BinForm = ({id_entrepot}) => {
             ...values
         }
         try {
-            await axios.post('/api/bins', values);
+            await postBins(value);
             message.success('Bin créé avec succès !', 3);
+            closeModal()
             form.resetFields();
         } catch (error) {
             message.error('Erreur lors de la création du bin. Veuillez réessayer.', 3);
