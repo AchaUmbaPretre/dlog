@@ -24,7 +24,7 @@
 }
 
 .ant-form-item-label > label {
-    font-weight: 600; /* Label en gras pour une meilleure visibilité */
+    font-weight: 300; /* Label en gras pour une meilleure visibilité */
 }
 
 .ant-select-selector {

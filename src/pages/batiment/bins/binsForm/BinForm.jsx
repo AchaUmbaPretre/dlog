@@ -7,7 +7,7 @@ import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 const { Option } = Select;
 const { Title } = Typography;
 
-const BinForm = () => {
+const BinForm = ({id_entrepot}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [type, setType] = useState([]);
@@ -38,8 +38,12 @@ const BinForm = () => {
       }, []);
 
     const onFinish = async (values) => {
+        const value = {
+            id_entrepot  : id_entrepot,
+            ...values
+        }
         try {
-            const response = await axios.post('/api/bins', values);
+            await axios.post('/api/bins', values);
             message.success('Bin créé avec succès !', 3);
             form.resetFields();
         } catch (error) {
