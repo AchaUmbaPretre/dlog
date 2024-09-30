@@ -8,12 +8,14 @@ const BureauForm = ({idBatiment}) => {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  // Fonction de soumission du formulaire
   const onFinish = async (values) => {
     setIsLoading(true)
+    const value = {
+        id_batiment : idBatiment,
+        ...values
+    }
     try {
-      // Effectuer l'appel API pour l'insertion dans la base de données
-      const response = await postBureau() // Modifiez l'URL selon votre API
+      const response = await postBureau(value)
       if (response.status === 200) {
         notification.success({
           message: 'Succès',
