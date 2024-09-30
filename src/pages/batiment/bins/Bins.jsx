@@ -172,27 +172,6 @@ const Bins = () => {
               aria-label="Edit entrepot"
             />
           </Tooltip>
-          <Dropdown
-                overlay={(
-                <Menu>
-                    {/* Actions Équipement */}
-                    <Menu.Item onClick={() => handleListBin(record.id)}>
-                    <ContainerOutlined /> Liste des bins
-                    </Menu.Item>
-                    <Menu.Item onClick={() => handleAddBin(record.id)}>
-                    <ContainerOutlined /> Nouveau Bin
-                    </Menu.Item>
-                    <Menu.Divider />
-                </Menu>
-                )}
-                trigger={['click']}
-            >
-                <Button
-                icon={<MoreOutlined />}
-                style={{ color: 'black', padding: '0' }}
-                aria-label="Menu actions"
-                />
-          </Dropdown>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ?"
