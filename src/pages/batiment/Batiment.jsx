@@ -402,7 +402,7 @@ const Batiment = () => {
         visible={modalType === 'FormEntrepot'}
         onCancel={closeAllModals}
         footer={null}
-        width={500}
+        width={470}
         centered
       >
         <FormEntrepots idBatiment={idBatiment} />
