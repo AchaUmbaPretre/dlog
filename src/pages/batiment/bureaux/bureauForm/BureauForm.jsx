@@ -3,7 +3,7 @@ import { Form, Input, InputNumber, Button, notification } from 'antd';
 import axios from 'axios';
 import { postBureau } from '../../../../services/batimentService';
 
-const BureauForm = ({idBatiment}) => {
+const BureauForm = ({idBatiment, closeModal}) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -14,7 +14,7 @@ const BureauForm = ({idBatiment}) => {
         id_batiment : idBatiment,
         ...values
     }
-    
+
     try {
       const response = await postBureau(value)
       if (response.status === 200) {
@@ -23,6 +23,7 @@ const BureauForm = ({idBatiment}) => {
           description: 'Le bureau a été ajouté avec succès!',
         });
         form.resetFields();
+        closeModal()
       }
     } catch (error) {
       notification.error({
