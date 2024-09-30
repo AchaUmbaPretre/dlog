@@ -102,3 +102,6 @@ export const getRapportOne = async (id) => {
 export const getTableauOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/tableau_bord/one?id=${id}`);
 };
+
+
+//

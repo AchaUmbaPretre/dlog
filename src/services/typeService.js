@@ -57,7 +57,7 @@ export const getCatTache = async () => {
   };
 
 
-    //TYPE BINS
+//TYPE BINS
 export const getTypeBin = async () => {
   return axios.get(`${DOMAIN}/api/types/type_bin`);
 };
