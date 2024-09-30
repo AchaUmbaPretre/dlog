@@ -14,6 +14,7 @@ import DocFormBatiment from './document/docFormBatiment/DocFormBatiment';
 import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
 import Entrepots from './entrepots/Entrepots';
 import Bureaux from './bureaux/Bureaux';
+import BureauForm from './bureaux/bureauForm/BureauForm';
 
 const { Search } = Input;
 
@@ -441,6 +442,17 @@ const Batiment = () => {
         centered
       >
         <Bureaux idBatiment={idBatiment} closeModal={()=>setModalType(null)}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'FormBureau'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1050}
+        centered
+      >
+        <BureauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)}/>
       </Modal>
     </>
   );
