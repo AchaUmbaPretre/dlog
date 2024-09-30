@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Divider, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, MoreOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
+import { ExportOutlined, MoreOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
@@ -211,10 +211,10 @@ const Batiment = () => {
             <Menu.Divider />
             {/* Actions Équipement */}
             <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
-              <FileTextOutlined /> Liste d'équipement
+              <ToolOutlined /> Liste d'équipement
             </Menu.Item>
             <Menu.Item onClick={() => handleAddEquipement(record.id_batiment)}>
-              <PlusCircleOutlined /> Nouveau équipement
+              <ToolOutlined /> Nouveau équipement
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Entrepôt */}
@@ -223,6 +223,14 @@ const Batiment = () => {
             </Menu.Item>
             <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
               <ContainerOutlined /> Créer un entrepot
+            </Menu.Item>
+            <Menu.Divider />
+            {/* Actions Entrepôt */}
+            <Menu.Item onClick={() => handleListEntrepot(record.id_batiment)}>
+              <BankOutlined /> Liste de bureau
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
+              <BankOutlined /> Créer un bureau
             </Menu.Item>
           </Menu>
         )}
