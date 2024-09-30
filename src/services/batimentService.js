@@ -142,3 +142,16 @@ export const getMaintenanceBinsOne = async (id) => {
 export const postMaintenanceBins = async (data) => {
 return axios.post(`${DOMAIN}/api/batiment/maintenance_bins`, data);
 };
+
+//Bureaux
+export const getBureau = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/bureau`);
+};
+
+export const getBureauOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/bureau/one?id_batiment=${id}`);
+};
+
+export const postBureau = async (data) => {
+return axios.post(`${DOMAIN}/api/batiment/bureau`, data);
+};
