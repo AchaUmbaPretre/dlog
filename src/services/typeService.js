@@ -55,3 +55,13 @@ export const getCorpsMetier = async () => {
 export const getCatTache = async () => {
     return axios.get(`${DOMAIN}/api/types/cat_tache`);
   };
+
+
+    //TYPE BINS
+export const getTypeBin = async () => {
+  return axios.get(`${DOMAIN}/api/types/type_bin`);
+};
+
+export const getStatutBin = async () => {
+  return axios.get(`${DOMAIN}/api/types/statut_bin`);
+};
