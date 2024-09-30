@@ -14,6 +14,7 @@ const BureauForm = ({idBatiment}) => {
         id_batiment : idBatiment,
         ...values
     }
+    
     try {
       const response = await postBureau(value)
       if (response.status === 200) {
