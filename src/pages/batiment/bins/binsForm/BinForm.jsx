@@ -127,11 +127,15 @@ const BinForm = () => {
                             name="type_stockage"
                             rules={[{ required: true, message: 'Veuillez sélectionner un type de stockage.' }]}
                         >
-                            <Select placeholder="Sélectionnez un type de stockage">
-                                <Option value="sec">Sec</Option>
-                                <Option value="liquide">Liquide</Option>
-                                <Option value="dangereux">Dangereux</Option>
-                            </Select>
+                            <Select
+                                showSearch
+                                options={type.map((item) => ({
+                                    value: item.id_type_stockage_bins,
+                                    label: item.nom_stockage,
+                                }))}
+                                placeholder="Sélectionnez..."
+                                optionFilterProp="label"
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
