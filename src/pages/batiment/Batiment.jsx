@@ -72,14 +72,6 @@ const Batiment = () => {
     setModalType(type);
   };
 
-  const handleListeEquipement = ( idBatiment) =>{
-    openModal('listeEquipement', idBatiment)
-  }
-
-  const handleAddEquipement = ( idBatiment) =>{
-    openModal('addEquipement', idBatiment)
-  }
-
   const handleAddCroquis = ( idBatiment) =>{
     openModal('addCroquis', idBatiment)
   }
@@ -218,14 +210,6 @@ const Batiment = () => {
               <FileTextOutlined /> Créer un doc
             </Menu.Item>
             <Menu.Divider />
-            {/* Actions Équipement */}
-            <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
-              <ToolOutlined /> Liste d'équipement
-            </Menu.Item>
-            <Menu.Item onClick={() => handleAddEquipement(record.id_batiment)}>
-              <ToolOutlined /> Nouveau équipement
-            </Menu.Item>
-            <Menu.Divider />
             {/* Actions Entrepôt */}
             <Menu.Item onClick={() => handleListEntrepot(record.id_batiment)}>
               <ContainerOutlined /> Liste d'entrepot
@@ -250,7 +234,7 @@ const Batiment = () => {
           style={{ color: 'black', padding: '0' }}
           aria-label="Menu actions"
         />
-      </Dropdown>
+          </Dropdown>
           <Tooltip title="Tableau de bord">
             <Button
               onClick={() => handleTableauBord(record.id_batiment)}
@@ -342,28 +326,6 @@ const Batiment = () => {
       >
         <BatimentForm closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
-
-      <Modal
-        title=""
-        visible={modalType === 'addEquipement'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={700}
-        centered
-      >
-        <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
-      </Modal>
-
-       <Modal
-            title=""
-            visible={modalType === 'listeEquipement'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1050}
-            centered
-        >
-            <ListeEquipement idBatiment={idBatiment} />
-        </Modal>
 
       <Modal
         title=""

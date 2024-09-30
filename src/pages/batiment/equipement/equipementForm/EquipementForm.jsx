@@ -154,8 +154,8 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
         {/* location */}
         <Col span={12}>
           <Form.Item
-            label="Emplacement"
-            name="location"
+            label="Bin"
+            name="id_bin"
           >
             <Input placeholder="Emplacement de l'équipement (facultatif)" />
           </Form.Item>

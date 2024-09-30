@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined,MoreOutlined, PrinterOutlined,BankOutlined,ToolOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import BureauForm from './bureauForm/BureauForm';
-import { getBureau, getBureauOne } from '../../../services/batimentService';
+import { getBureauOne } from '../../../services/batimentService';
+import EquipementForm from '../equipement/equipementForm/EquipementForm';
+import ListeEquipement from '../equipement/listeEquipement/ListeEquipement';
 
 const { Search } = Input;
 
@@ -11,6 +13,7 @@ const Bureaux = ({idBatiment}) => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [modalType, setModalType] = useState(null);
   const [idDepartement, setIdDapartement] = useState('');
   const scroll = { x: 400 };
 
@@ -51,6 +54,24 @@ const Bureaux = ({idBatiment}) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleListeEquipement = ( idBatiment) =>{
+    openModal('listeEquipement', idBatiment)
+  }
+
+  const handleAddEquipement = ( idBatiment) =>{
+    openModal('addEquipement', idBatiment)
+  }
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type, idBatiment = '') => {
+    closeAllModals();
+/*     setIdBatiment(idBatiment); */
+    setModalType(type);
+  };
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -156,6 +177,27 @@ const Bureaux = ({idBatiment}) => {
               aria-label="Edit department"
             />
           </Tooltip>
+          <Dropdown
+        overlay={(
+          <Menu>
+            {/* Actions Équipement */}
+            <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
+              <ToolOutlined /> Liste d'équipement
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAddEquipement(record.id_batiment)}>
+              <ToolOutlined /> Nouveau équipement
+            </Menu.Item>
+            <Menu.Divider />
+          </Menu>
+        )}
+        trigger={['click']}
+      >
+        <Button
+          icon={<MoreOutlined />}
+          style={{ color: 'black', padding: '0' }}
+          aria-label="Menu actions"
+        />
+          </Dropdown>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
@@ -241,6 +283,28 @@ const Bureaux = ({idBatiment}) => {
       >
         <BureauForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'addEquipement'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+       <Modal
+            title=""
+            visible={modalType === 'listeEquipement'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1050}
+            centered
+        >
+            <ListeEquipement idBatiment={idBatiment} />
+        </Modal>
     </>
   );
 };
