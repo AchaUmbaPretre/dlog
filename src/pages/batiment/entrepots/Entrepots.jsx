@@ -124,9 +124,9 @@ const Entrepots = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-            <Tooltip title="Créer de bin">
+            <Tooltip title="Modifier">
             <Button
-              icon={<PlusCircleOutlined />}
+              icon={<EditOutlined />}
               style={{ color: 'green' }}
               onClick={() => handleAddBin(record.id)}
               aria-label="Edit entrepot"
