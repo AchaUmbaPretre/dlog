@@ -4,6 +4,7 @@ import './formEntreports.css';
 import { postEntrepot } from '../../../../services/batimentService';
 
 const FormEntrepots = ({idBatiment,closeModal}) => {
+    const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
     const onFinish = async (values) => {
@@ -19,7 +20,8 @@ const FormEntrepots = ({idBatiment,closeModal}) => {
                 message: 'Succès',
                 description: 'Entrepôt créé avec succès.',
             });
-            closeModal()
+            closeModal();
+            form.resetFields();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -36,6 +38,7 @@ const FormEntrepots = ({idBatiment,closeModal}) => {
                 <h2 className='controle_h2'>Créer un Nouvel Entrepôt</h2>                
             </div>
             <Form
+                form={form}
                 name="warehouseForm"
                 onFinish={onFinish}
                 layout="vertical"
