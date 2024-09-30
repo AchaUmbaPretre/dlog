@@ -195,7 +195,7 @@ const Batiment = () => {
                   <FileTextOutlined /> Liste des docs
                 </Link>
                 <Link onClick={() => handleAjouterDoc(record.id_batiment)}>
-                  <FileTextOutlined /> Ajouter un doc
+                  <FileTextOutlined /> Créer un doc
                 </Link>
                 <Divider style={{ margin: '5px 0' }} />
                 <Link onClick={() => handleListeEquipement(record.id_batiment)}>
