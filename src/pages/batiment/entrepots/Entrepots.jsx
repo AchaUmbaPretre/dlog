@@ -91,46 +91,20 @@ const Entrepots = () => {
     },
     { 
       title: 'Nom', 
-      dataIndex: 'nom_departement', 
-      key: 'nom_departement',
+      dataIndex: 'nom', 
+      key: 'nom',
       render: text => (
         <Space>
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
-    {
-      title: 'Responsable',
-      dataIndex: 'nom',
-      key: 'nom',
-      render: (text) => (
-        <Tag icon={<UserOutlined />} color="green">{text ?? 'Aucun'}</Tag>
-      ),
-    },
     { 
-      title: 'Email', 
-      dataIndex: 'email',
-      key: 'email',
-      render: text => (
-        <Space>
-          <Tag icon={<MailOutlined />} color='orange'>{text ?? 'Aucun'}</Tag>
-        </Space>
-      ),
-    },
-    { 
-      title: 'Téléphone', 
-      dataIndex: 'telephone', 
-      key: 'telephone',
+      title: 'Description', 
+      dataIndex: 'description', 
+      key: 'description',
       render: text => (
         <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-      ),
-    },
-    { 
-      title: 'Code', 
-      dataIndex: 'code', 
-      key: 'code',
-      render: text => (
-        <Tag color='purple'>{text}</Tag>
       ),
     },
     {
@@ -195,7 +169,7 @@ const Entrepots = () => {
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
-                département
+                Entrepot
               </Button>
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
