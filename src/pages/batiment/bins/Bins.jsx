@@ -226,7 +226,7 @@ const Bins = () => {
             <div className="client-row-icon">
               <ContainerOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Entrepot</h2>
+            <h2 className="client-h2">Bins</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -236,13 +236,13 @@ const Bins = () => {
               />
             </div>
             <div className="client-rows-right">
-              <Button
+{/*               <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
                 Entrepot
-              </Button>
+              </Button> */}
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>

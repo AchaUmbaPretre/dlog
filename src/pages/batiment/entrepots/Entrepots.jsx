@@ -3,13 +3,14 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { ExportOutlined, PrinterOutlined,MoreOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getEntrepot } from '../../../services/batimentService';
 import BinForm from '../bins/binsForm/BinForm';
+import Bins from '../bins/Bins';
 
 const { Search } = Input;
 
 const Entrepots = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [idEntrepot, setIdEntrepot] = useState('');
   const scroll = { x: 400 };
@@ -17,18 +18,26 @@ const Entrepots = () => {
   const handleEdit = (record) => {
     message.info(`Modifier departement: ${record.nom}`);
     setIdEntrepot(record)
-    setIsModalVisible(true);
 
   };
 
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
   const handleAddBin = (id) => {
-    setIdEntrepot(id)
-    setIsModalVisible(true)
+    openModal('AddBin', id)
   }
 
-  const handleListBin = () => {
-
+  const handleListBin = (id) => {
+    openModal('ListBin', id)
   }
+
+  const openModal = (type, idEntrepot = '') => {
+    closeAllModals();
+    setIdEntrepot(idEntrepot);
+    setModalType(type);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -61,12 +70,9 @@ const Entrepots = () => {
   }, []);
 
   const handleAddClient = () => {
-    setIsModalVisible(true);
+    
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -229,13 +235,24 @@ const Entrepots = () => {
 
       <Modal
         title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'ListBin'}
+        onCancel={closeAllModals}
         footer={null}
         width={650}
         centered
       >
-        <BinForm id_entrepot={idEntrepot} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+        <Bins id_entrepot={idEntrepot} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
+     </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'AddBin'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={650}
+        centered
+      >
+        <BinForm id_entrepot={idEntrepot} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
      </Modal>
     </>
   );
