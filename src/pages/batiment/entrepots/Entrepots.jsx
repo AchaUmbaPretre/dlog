@@ -208,7 +208,7 @@ const Entrepots = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={900}
+        width={650}
         centered
       >
         <BinForm id_entrepot={idEntrepot} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
