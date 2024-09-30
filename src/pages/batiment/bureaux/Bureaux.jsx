@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined,BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import './departement.scss';
-import DepartementForm from './departementForm/DepartementForm';
-import { deletePutDepartement, getDepartement } from '../../services/departementService';
+import BureauForm from './bureauForm/BureauForm';
 
 const { Search } = Input;
 
@@ -24,7 +22,7 @@ const Bureaux = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deletePutDepartement(id);
+/*       await deletePutDepartement(id); */
       setData(data.filter((item) => item.id_departement !== id));
       message.success('Departement supprimé avec succès');
     } catch (error) {
@@ -37,8 +35,8 @@ const Bureaux = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getDepartement();
-        setData(data);
+/*         const { data } = await getDepartement(); */
+/*         setData(data); */
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -240,7 +238,7 @@ const Bureaux = () => {
         width={600}
         centered
       >
-        <DepartementForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+        <BureauForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
     </>
   );
