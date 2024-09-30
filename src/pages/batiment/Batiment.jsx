@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Divider, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
+import { ExportOutlined, MoreOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
@@ -172,12 +172,12 @@ const Batiment = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-           <Tooltip title="Voir les croquis">
+          <Tooltip title="Voir les croquis">
             <Button
               icon={<EyeOutlined />}
               style={{ color: 'green' }}
               onClick={() => handleDetailCroquis(record.id_batiment)}
-              aria-label="Voir le detail"
+              aria-label="Voir les croquis"
             />
           </Tooltip>
           <Tooltip title="Upload de croquis">
@@ -185,78 +185,70 @@ const Batiment = () => {
               icon={<CloudDownloadOutlined />}
               style={{ color: 'blue' }}
               onClick={() => handleAddCroquis(record.id_batiment)}
-              aria-label="Voir le detail"
+              aria-label="Upload de croquis"
             />
           </Tooltip>
           <Popover
             content={
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
                 <Link onClick={() => handleDetailDoc(record.id_batiment)}>
                   <FileTextOutlined /> Liste des docs
                 </Link>
                 <Link onClick={() => handleAjouterDoc(record.id_batiment)}>
                   <FileTextOutlined /> Ajouter un doc
                 </Link>
+                <Divider style={{ margin: '5px 0' }} />
+                <Link onClick={() => handleListeEquipement(record.id_batiment)}>
+                  <FileTextOutlined /> Liste d'équipement
+                </Link>
+                <Link onClick={() => handleAddEquipement(record.id_batiment)}>
+                  <PlusCircleOutlined /> Nouveau équipement
+                </Link>
               </div>
-                      }
-                      title=""
-                      trigger="click"
+            }
+            title="Actions"
+            trigger="click"
           >
-                      <Tooltip title="Menu doc">
-                        <Button
-                          icon={<FileTextOutlined />}
-                          style={{ color: 'orange' }}
-                          aria-label="Contrôler"
-                        />
-                      </Tooltip>
-                    </Popover>
+            <Button
+              icon={<MoreOutlined />}
+              style={{ color: 'orange' }}
+              aria-label="Menu actions"
+            />
+          </Popover>
+          <Tooltip title="Créer un entrepot">
+            <Button
+              onClick={() => handleTableauBord(record.id_batiment)}
+              icon={<ContainerOutlined />}
+              style={{ color: 'purple' }}
+              aria-label="Créer un entrepot"
+            />
+          </Tooltip>
           <Tooltip title="Tableau de bord">
             <Button
               onClick={() => handleTableauBord(record.id_batiment)}
               icon={<DashboardOutlined />}
               style={{ color: '#2db7f5' }}
-              aria-label="Voir le detail"
+              aria-label="Tableau de bord"
             />
           </Tooltip>
-           <Popover
-                content={
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            <Link onClick={() => handleListeEquipement(record.id_batiment)}>
-                                <FileTextOutlined /> Liste d'équipement
-                            </Link>
-                            <Link onClick={() => handleAddEquipement(record.id_batiment)}>
-                                <PlusCircleOutlined /> Nouveau équipement
-                            </Link>
-                    </div>
-                }
-                    title=""
-                    trigger="click"
-            >
-            <Tooltip title="Menu">
-                <Button
-                icon={<PlusCircleOutlined />}
-                style={{ color: 'blue' }}
-                aria-label="Contrôler"
-            />
-            </Tooltip>
-          </Popover> 
-          <Tooltip title="Delete">
+          <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
               onConfirm={() => handleDelete(record.id)}
-              okText="Yes"
-              cancelText="No"
+              okText="Oui"
+              cancelText="Non"
             >
               <Button
                 icon={<DeleteOutlined />}
                 style={{ color: 'red' }}
-                aria-label="Delete department"
+                aria-label="Supprimer le département"
               />
             </Popconfirm>
           </Tooltip>
         </Space>
       ),
-    },
+    }
+    
   ];
 
   const filteredData = data.filter(item =>
