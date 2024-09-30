@@ -1,38 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import './formEntreports.css';
 import { postEntrepot } from '../../../../services/batimentService';
-import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 
 const FormEntrepots = ({idBatiment,closeModal}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-    const [type, setType] = useState([]);
-    const [status, setStatus] = useState([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const [typeResponse,statusResponse] = await Promise.all([
-              getTypeBin(),
-              getStatutBin()
-            ]);
-
-            setType(typeResponse.data);
-            setStatus(statusResponse.data)
-
-          } catch (error) {
-            notification.error({
-              message: 'Erreur de chargement',
-              description: 'Une erreur est survenue lors du chargement des données.',
-            });
-          } finally {
-            setLoading(false);
-          }
-        };
-    
-        fetchData();
-      }, []);
 
     const onFinish = async (values) => {
         setLoading(true);

@@ -1,13 +1,41 @@
-import React from 'react';
-import { Form, Input, Select, Button, InputNumber, message, Typography, Row, Col } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Select, Button, InputNumber, message, Typography, Row, Col, notification } from 'antd';
 import axios from 'axios';
 import './binForm.css'; // Assurez-vous de créer un fichier CSS pour le style personnalisé
+import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 
 const { Option } = Select;
 const { Title } = Typography;
 
 const BinForm = () => {
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
+    const [type, setType] = useState([]);
+    const [status, setStatus] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const [typeResponse,statusResponse] = await Promise.all([
+              getTypeBin(),
+              getStatutBin()
+            ]);
+
+            setType(typeResponse.data);
+            setStatus(statusResponse.data)
+
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
     const onFinish = async (values) => {
         try {
