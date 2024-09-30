@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Popover } from 'antd';
-import { ExportOutlined, MoreOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined,ApartmentOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { ExportOutlined, MoreOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
-import { Link } from 'react-router-dom';
 import EquipementForm from './equipement/equipementForm/EquipementForm';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
 import DetailUpload from './uploadBatimentForm/detailUpload/DetailUpload';
