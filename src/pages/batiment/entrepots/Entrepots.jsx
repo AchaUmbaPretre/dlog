@@ -231,7 +231,7 @@ const Entrepots = () => {
         visible={modalType === 'ListBin'}
         onCancel={closeAllModals}
         footer={null}
-        width={1025}
+        width={1030}
         centered
       >
         <Bins id_entrepot={idEntrepot} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
