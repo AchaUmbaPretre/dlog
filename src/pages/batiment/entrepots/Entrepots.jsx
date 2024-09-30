@@ -128,7 +128,6 @@ const Entrepots = () => {
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleAddBin(record.id)}
               aria-label="Edit entrepot"
             />
           </Tooltip>
