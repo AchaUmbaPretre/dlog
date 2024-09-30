@@ -181,10 +181,10 @@ const Bureaux = ({idBatiment}) => {
         overlay={(
           <Menu>
             {/* Actions Équipement */}
-            <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
+            <Menu.Item onClick={() => handleListeEquipement(record.id_bureau)}>
               <ToolOutlined /> Liste d'équipement
             </Menu.Item>
-            <Menu.Item onClick={() => handleAddEquipement(record.id_batiment)}>
+            <Menu.Item onClick={() => handleAddEquipement(record.id_bureau)}>
               <ToolOutlined /> Nouveau équipement
             </Menu.Item>
             <Menu.Divider />
