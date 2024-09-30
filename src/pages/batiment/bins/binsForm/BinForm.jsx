@@ -5,14 +5,13 @@ import './binForm.css'; // Assurez-vous de créer un fichier CSS pour le style p
 import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 import { postBins } from '../../../../services/batimentService';
 
-const { Option } = Select;
-const { Title } = Typography;
-
 const BinForm = ({id_entrepot, closeModal}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [type, setType] = useState([]);
     const [status, setStatus] = useState([]);
+
+    console.log(id_entrepot)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,7 +44,7 @@ const BinForm = ({id_entrepot, closeModal}) => {
         }
         try {
             await postBins(value);
-            message.success('Bin créé avec succès !', 3);
+            message.success('Bin créé avec succès !');
             closeModal()
             form.resetFields();
         } catch (error) {

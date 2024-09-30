@@ -124,14 +124,14 @@ const Entrepots = () => {
             <Button
               icon={<PlusCircleOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleAddBin(record.id_entrepot)}
+              onClick={() => handleAddBin(record.id)}
               aria-label="Edit entrepot"
             />
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ?"
-              onConfirm={() => handleDelete(record.id_entrepot)}
+              onConfirm={() => handleDelete(record.id)}
               okText="Yes"
               cancelText="No"
             >
