@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import './departement.scss';
 import DepartementForm from './departementForm/DepartementForm';
 import { deletePutDepartement, getDepartement } from '../../services/departementService';
@@ -188,9 +188,9 @@ const Bureaux = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ApartmentOutlined className='client-icon'/>
+              <BankOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Département</h2>
+            <h2 className="client-h2">Bureau</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
