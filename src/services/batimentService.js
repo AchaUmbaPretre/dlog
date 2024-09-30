@@ -73,7 +73,7 @@ export const putBatimentDoc = async (id,data) => {
 
   
 
-  //Stock
+//Stock
 export const getStock = async () => {
     return axios.get(`${DOMAIN}/api/batiment/stock`);
   };
@@ -103,5 +103,42 @@ export const getTableauOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/tableau_bord/one?id=${id}`);
 };
 
+//Entrepot
+export const getEntrepot = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/entrepot`);
+};
 
-//
+export const getEntrepotOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/entrepot/one?id_batiment=${id}`);
+};
+
+export const postEntrepot = async (data) => {
+return axios.post(`${DOMAIN}/api/batiment/entrepot`, data);
+};
+
+
+//BINS
+export const getBins = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/bins`);
+};
+
+export const getBinsOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/bins/one?id_entrepot=${id}`);
+};
+
+export const postBins = async (data) => {
+return axios.post(`${DOMAIN}/api/batiment/bins`, data);
+};
+
+//Maintenance Bins
+export const getMaintenanceBins = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/maintenance_bins`);
+};
+
+export const getMaintenanceBinsOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/maintenance_bins/one?id_bin=${id}`);
+};
+
+export const postMaintenanceBins = async (data) => {
+return axios.post(`${DOMAIN}/api/batiment/maintenance_bins`, data);
+};
