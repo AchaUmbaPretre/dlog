@@ -204,6 +204,13 @@ const Batiment = () => {
                 <Link onClick={() => handleAddEquipement(record.id_batiment)}>
                   <PlusCircleOutlined /> Nouveau équipement
                 </Link>
+                <Divider style={{ margin: '5px 0' }} />
+                <Link onClick={() => handleListeEquipement(record.id_batiment)}>
+                  <ContainerOutlined /> Liste d'entrepot
+                </Link>
+                <Link onClick={() => handleAddEquipement(record.id_batiment)}>
+                  <ContainerOutlined /> Créer un entrepot
+                </Link>
               </div>
             }
             title="Actions"
@@ -211,7 +218,7 @@ const Batiment = () => {
           >
             <Button
               icon={<MoreOutlined />}
-              style={{ color: 'orange' }}
+              style={{ color: 'black' }}
               aria-label="Menu actions"
             />
           </Popover>
