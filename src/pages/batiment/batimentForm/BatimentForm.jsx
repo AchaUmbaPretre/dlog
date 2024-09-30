@@ -1,12 +1,11 @@
 import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postBatiment } from '../../../services/typeService';
+import { getBatimentOne, postBatiment, putBatiment } from '../../../services/typeService';
 import { getProvince } from '../../../services/clientService';
 
-const BatimentForm = ({closeModal, fetchData}) => {
+const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
     const [form] = Form.useForm();
-    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [formValues, setFormValues] = useState({});
@@ -22,6 +21,12 @@ const BatimentForm = ({closeModal, fetchData}) => {
             try {
                 const response = await getProvince();
                 setData(response.data);
+
+                if (idBatiment) {
+                    const { data: batiments } = await getBatimentOne(idBatiment);
+                    const batiment = batiments[0];
+                    form.setFieldsValue(batiment);  // Correction ici, suppression du [0]
+                }
             } catch (error) {
                 notification.error({
                     message: 'Erreur de chargement',
@@ -29,14 +34,19 @@ const BatimentForm = ({closeModal, fetchData}) => {
                 });
             }
         };
-    
+
         fetchDataGet();
-    }, []);
+    }, [idBatiment, form]);
 
     const handleOk = async () => {
         setIsModalVisible(false);
         setIsLoading(true);
         try {
+            const values = form.getFieldsValue();
+            if(idBatiment){
+                await putBatiment(idBatiment,values )
+            }
+
             await postBatiment(formValues);
             notification.success({
                 message: 'Succès',
@@ -48,7 +58,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
         } catch (error) {
             notification.error({
                 message: 'Erreur',
-                description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+                description: "Une erreur s'est produite lors de l'enregistrement des informations.",
             });
         } finally {
             setIsLoading(false);
@@ -56,7 +66,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
     };
 
     const handleCancel = () => {
-        setIsModalVisible(false); 
+        setIsModalVisible(false);
     };
 
     const onFinish = (values) => {
@@ -66,14 +76,10 @@ const BatimentForm = ({closeModal, fetchData}) => {
     return (
         <div className="client_form">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>Insérer un nouveau batiment</h2>                
+                <h2 className="controle_h2"> {idBatiment ? "Modifier le batiment" : "Insérer un nouveau bâtiment"}</h2>
             </div>
             <div className="client_wrapper">
-                <Form
-                    form={form}
-                    layout="vertical"
-                    onFinish={onFinish}
-                >
+                <Form form={form} layout="vertical" onFinish={onFinish}>
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
@@ -86,11 +92,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
                         </Col>
 
                         <Col span={12}>
-                            <Form.Item
-                                label="Site"
-                                name="site"
-                                rules={[{ required: false, message: 'Veuillez entrer le nom du site!' }]}
-                            >
+                            <Form.Item label="Site" name="site">
                                 <Input />
                             </Form.Item>
                         </Col>
@@ -114,61 +116,37 @@ const BatimentForm = ({closeModal, fetchData}) => {
                         </Col>
 
                         <Col span={12}>
-                            <Form.Item
-                                label="Longueur"
-                                name="longueur"
-                                rules={[{ required: false, message: 'Veuillez entrer la longueur!' }]}
-                            >
+                            <Form.Item label="Longueur" name="longueur">
                                 <Input />
                             </Form.Item>
                         </Col>
 
                         <Col span={12}>
-                            <Form.Item
-                                label="Largeur"
-                                name="largeur"
-                                rules={[{ required: false, message: 'Veuillez entrer la largeur!' }]}
-                            >
+                            <Form.Item label="Largeur" name="largeur">
                                 <Input />
                             </Form.Item>
                         </Col>
 
                         <Col span={12}>
-                            <Form.Item
-                                label="Hauteur"
-                                name="hauteur"
-                                rules={[{ required: false, message: 'Veuillez entrer la hauteur!' }]}
-                            >
+                            <Form.Item label="Hauteur" name="hauteur">
                                 <Input />
                             </Form.Item>
                         </Col>
 
                         <Col span={12}>
-                            <Form.Item
-                                label="Surface du sol"
-                                name="surface_sol"
-                                rules={[{ required: false, message: 'Veuillez entrer la surface du sol!' }]}
-                            >
+                            <Form.Item label="Surface du sol" name="surface_sol">
                                 <Input />
                             </Form.Item>
                         </Col>
 
                         <Col span={12}>
-                            <Form.Item
-                                label="Surface des murs"
-                                name="surface_murs"
-                                rules={[{ required: false, message: 'Veuillez entrer la surface des murs!' }]}
-                            >
+                            <Form.Item label="Surface des murs" name="surface_murs">
                                 <Input />
                             </Form.Item>
                         </Col>
 
                         <Col span={12}>
-                            <Form.Item
-                                label="Mètres linéaires"
-                                name="metres_lineaires"
-                                rules={[{ required: false, message: 'Veuillez entrer les mètres linéaires!' }]}
-                            >
+                            <Form.Item label="Mètres linéaires" name="metres_lineaires">
                                 <Input />
                             </Form.Item>
                         </Col>
@@ -183,7 +161,7 @@ const BatimentForm = ({closeModal, fetchData}) => {
 
                 <Modal
                     title="Confirmer la soumission"
-                    visible={isModalVisible}
+                    open={isModalVisible}  // Utilisez 'open' pour la version actuelle d'Ant Design
                     onOk={handleOk}
                     onCancel={handleCancel}
                     okText="Confirmer"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, MoreOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, MoreOutlined,EditOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
@@ -108,6 +108,9 @@ const Batiment = () => {
     openModal('FormBureau', idBatiment)
   }
 
+  const handleEdit = (idBatiment) => {
+    openModal('editBatiment', idBatiment)
+  }
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -183,6 +186,14 @@ const Batiment = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
+          <Tooltip title="Modifier">
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record.id_batiment)}
+              aria-label="Edit department"
+            />
+          </Tooltip>
           <Tooltip title="Voir les croquis">
             <Button
               icon={<EyeOutlined />}
@@ -324,7 +335,18 @@ const Batiment = () => {
         width={800}
         centered
       >
-        <BatimentForm closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
+        <BatimentForm idBatiment={idBatiment} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'editBatiment'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <BatimentForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
       </Modal>
 
       <Modal
