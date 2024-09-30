@@ -396,7 +396,7 @@ const Batiment = () => {
 
       <Modal
         title=""
-        visible={modalType === 'ListeDoc'}
+        visible={modalType === 'FormEntrepot'}
         onCancel={closeAllModals}
         footer={null}
         width={850}
