@@ -317,7 +317,7 @@ const Batiment = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={800}
         centered
       >
         <BatimentForm closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
