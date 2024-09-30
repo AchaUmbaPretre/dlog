@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Button, notification } from 'antd';
 import axios from 'axios';
+import { postBureau } from '../../../../services/batimentService';
 
-const BureauForm = () => {
+const BureauForm = ({idBatiment}) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -12,7 +13,7 @@ const BureauForm = () => {
     setIsLoading(true)
     try {
       // Effectuer l'appel API pour l'insertion dans la base de données
-      const response = await axios.post('/api/bureaux', values); // Modifiez l'URL selon votre API
+      const response = await postBureau() // Modifiez l'URL selon votre API
       if (response.status === 200) {
         notification.success({
           message: 'Succès',
@@ -80,7 +81,7 @@ const BureauForm = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+        <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
           Ajouter Bureau
         </Button>
       </Form.Item>
