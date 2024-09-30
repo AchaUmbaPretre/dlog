@@ -108,6 +108,14 @@ const Batiment = () => {
     openModal('ListEntrepot', idBatiment);
   };
 
+  const handleListBureau = (idBatiment) => {
+    openModal('ListBureau', idBatiment)
+  }
+
+  const handleAddBureau = (idBatiment) => {
+    openModal('FormBureau', idBatiment)
+  }
+
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -227,10 +235,10 @@ const Batiment = () => {
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Entrepôt */}
-            <Menu.Item onClick={() => handleListEntrepot(record.id_batiment)}>
+            <Menu.Item onClick={() => handleListBureau(record.id_batiment)}>
               <BankOutlined /> Liste de bureau
             </Menu.Item>
-            <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
+            <Menu.Item onClick={() => handleAddBureau(record.id_batiment)}>
               <BankOutlined /> Créer un bureau
             </Menu.Item>
           </Menu>
