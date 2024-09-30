@@ -98,7 +98,7 @@ const Batiment = () => {
     openModal('DocumentBatimentForm', idBatiment);
   };
 
-  const handlEntrepot = (idBatiment) => {
+  const handleAddEntrepot = (idBatiment) => {
     openModal('FormEntrepot', idBatiment);
   };
 
@@ -193,40 +193,42 @@ const Batiment = () => {
               aria-label="Upload de croquis"
             />
           </Tooltip>
-          <Popover
-            content={
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <Link onClick={() => handleDetailDoc(record.id_batiment)}>
-                  <FileTextOutlined /> Liste des docs
-                </Link>
-                <Link onClick={() => handleAjouterDoc(record.id_batiment)}>
-                  <FileTextOutlined /> Créer un doc
-                </Link>
-                <Divider style={{ margin: '5px 0' }} />
-                <Link onClick={() => handleListeEquipement(record.id_batiment)}>
-                  <FileTextOutlined /> Liste d'équipement
-                </Link>
-                <Link onClick={() => handleAddEquipement(record.id_batiment)}>
-                  <PlusCircleOutlined /> Nouveau équipement
-                </Link>
-                <Divider style={{ margin: '5px 0' }} />
-                <Link onClick={() => handleListeEquipement(record.id_batiment)}>
-                  <ContainerOutlined /> Liste d'entrepot
-                </Link>
-                <Link onClick={() => handlEntrepot(record.id_batiment)}>
-                  <ContainerOutlined /> Créer un entrepot
-                </Link>
-              </div>
-            }
-            title="Actions"
-            trigger="click"
-          >
-            <Button
-              icon={<MoreOutlined />}
-              style={{ color: 'black' }}
-              aria-label="Menu actions"
-            />
-          </Popover>
+          <Dropdown
+        overlay={(
+          <Menu>
+            {/* Actions Document */}
+            <Menu.Item onClick={() => handleDetailDoc(record.id_batiment)}>
+              <FileTextOutlined /> Liste des docs
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAjouterDoc(record.id_batiment)}>
+              <FileTextOutlined /> Créer un doc
+            </Menu.Item>
+            <Menu.Divider />
+            {/* Actions Équipement */}
+            <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
+              <FileTextOutlined /> Liste d'équipement
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAddEquipement(record.id_batiment)}>
+              <PlusCircleOutlined /> Nouveau équipement
+            </Menu.Item>
+            <Menu.Divider />
+            {/* Actions Entrepôt */}
+            <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
+              <ContainerOutlined /> Liste d'entrepot
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
+              <ContainerOutlined /> Créer un entrepot
+            </Menu.Item>
+          </Menu>
+        )}
+        trigger={['click']}
+      >
+        <Button
+          icon={<MoreOutlined />}
+          style={{ color: 'black', padding: '0' }}
+          aria-label="Menu actions"
+        />
+      </Dropdown>
           <Tooltip title="Tableau de bord">
             <Button
               onClick={() => handleTableauBord(record.id_batiment)}
