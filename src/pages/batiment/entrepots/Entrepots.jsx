@@ -201,13 +201,6 @@ const Entrepots = () => {
               />
             </div>
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
-              >
-                Entrepot
-              </Button>
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
@@ -238,7 +231,7 @@ const Entrepots = () => {
         visible={modalType === 'ListBin'}
         onCancel={closeAllModals}
         footer={null}
-        width={1020}
+        width={1025}
         centered
       >
         <Bins id_entrepot={idEntrepot} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
