@@ -10,15 +10,20 @@ const Entrepots = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [idDepartement, setIdDapartement] = useState('');
+  const [idEntrepot, setIdEntrepot] = useState('');
   const scroll = { x: 400 };
 
   const handleEdit = (record) => {
     message.info(`Modifier departement: ${record.nom}`);
-    setIdDapartement(record)
+    setIdEntrepot(record)
     setIsModalVisible(true);
 
   };
+
+  const handleAddBin = (id) => {
+    setIdEntrepot(id)
+    setIsModalVisible(true)
+  }
 
   const handleDelete = async (id) => {
     try {
@@ -118,7 +123,7 @@ const Entrepots = () => {
             <Button
               icon={<PlusCircleOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_entrepot)}
+              onClick={() => handleAddBin(record.id_entrepot)}
               aria-label="Edit entrepot"
             />
           </Tooltip>
