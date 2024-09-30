@@ -95,48 +95,54 @@ const Bureaux = () => {
     },
     { 
       title: 'Nom', 
-      dataIndex: 'nom_departement', 
-      key: 'nom_departement',
+      dataIndex: 'nom', 
+      key: 'nom',
       render: text => (
         <Space>
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
-    {
-      title: 'Responsable',
-      dataIndex: 'nom',
-      key: 'nom',
-      render: (text) => (
-        <Tag icon={<UserOutlined />} color="green">{text ?? 'Aucun'}</Tag>
-      ),
-    },
     { 
-      title: 'Email', 
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Longueur', 
+      dataIndex: 'longueur',
+      key: 'longueur',
       render: text => (
         <Space>
-          <Tag icon={<MailOutlined />} color='orange'>{text ?? 'Aucun'}</Tag>
+          <Tag color='blue'>{text ?? 'Aucun'}</Tag>
         </Space>
       ),
     },
     { 
-      title: 'Téléphone', 
-      dataIndex: 'telephone', 
-      key: 'telephone',
-      render: text => (
-        <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-      ),
-    },
-    { 
-      title: 'Code', 
-      dataIndex: 'code', 
-      key: 'code',
-      render: text => (
-        <Tag color='purple'>{text}</Tag>
-      ),
-    },
+        title: 'Largeur', 
+        dataIndex: 'largeur',
+        key: 'largeur',
+        render: text => (
+          <Space>
+            <Tag color='blue'>{text ?? 'Aucun'}</Tag>
+          </Space>
+        ),
+      },
+      { 
+        title: 'Hauteur', 
+        dataIndex: 'hauteur',
+        key: 'hauteur',
+        render: text => (
+          <Space>
+            <Tag color='orange'>{text ?? 'Aucun'}</Tag>
+          </Space>
+        ),
+      },
+      { 
+        title: 'Nbre poste', 
+        dataIndex: 'nombre_postes',
+        key: 'nombre_postes',
+        render: text => (
+          <Space>
+            <Tag color='orange'>{text ?? 'Aucun'}</Tag>
+          </Space>
+        ),
+      },
     {
       title: 'Action',
       key: 'action',
