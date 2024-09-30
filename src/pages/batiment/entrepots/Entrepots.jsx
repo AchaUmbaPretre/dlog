@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined, UserOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getEntrepot } from '../../../services/batimentService';
+import BinForm from '../bins/binsForm/BinForm';
 
 const { Search } = Input;
 
@@ -210,8 +211,8 @@ const Entrepots = () => {
         width={900}
         centered
       >
-{/*         <DepartementForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
- */}      </Modal>
+        <BinForm id_entrepot={idEntrepot} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+     </Modal>
     </>
   );
 };

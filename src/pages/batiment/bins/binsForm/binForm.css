@@ -1,0 +1,37 @@
+.bin-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+    background: #ffffff; /* Couleur de fond propre et moderne */
+    border-radius: 12px; /* Bords arrondis pour un aspect doux */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre douce pour profondeur */
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #333; /* Couleur de texte plus sombre pour le contraste */
+}
+
+.submit-button {
+    font-weight: bold; /* Met le texte en gras pour le mettre en valeur */
+    border-radius: 8px; /* Bords arrondis pour les boutons */
+    transition: background-color 0.3s ease; /* Transition pour le feedback visuel */
+}
+
+.submit-button:hover {
+    background-color: #0056b3; /* Couleur de survol moderne */
+}
+
+.ant-form-item-label > label {
+    font-weight: 600; /* Label en gras pour une meilleure visibilité */
+}
+
+.ant-select-selector {
+    border-radius: 8px; /* Bords arrondis pour le select */
+    transition: border-color 0.3s ease; /* Transition pour un retour visuel */
+}
+
+.ant-select-selector:hover {
+    border-color: #0056b3; /* Couleur de bordure survolée */
+}
