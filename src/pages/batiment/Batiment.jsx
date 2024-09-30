@@ -12,6 +12,7 @@ import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
 import TableauBord from './tableauBord/TableauBord';
 import ListeDocumentBatiment from './document/ListeDocumentBatiment';
 import DocFormBatiment from './document/docFormBatiment/DocFormBatiment';
+import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
 
 const { Search } = Input;
 
@@ -399,10 +400,10 @@ const Batiment = () => {
         visible={modalType === 'FormEntrepot'}
         onCancel={closeAllModals}
         footer={null}
-        width={850}
+        width={500}
         centered
       >
-        <ListeDocumentBatiment idBatiment={idBatiment} />
+        <FormEntrepots idBatiment={idBatiment} />
       </Modal>
     </>
   );

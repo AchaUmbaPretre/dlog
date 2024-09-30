@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
-import axios from 'axios';
 import './formEntreports.css';
 
 const FormEntrepots = () => {
@@ -27,7 +26,9 @@ const FormEntrepots = () => {
 
     return (
         <div className="form-container">
-            <h2>Créer un Nouvel Entrepôt</h2>
+            <div className="controle_title_rows">
+                <h2 className='controle_h2'>Créer un Nouvel Entrepôt</h2>                
+            </div>
             <Form
                 name="warehouseForm"
                 onFinish={onFinish}
@@ -47,14 +48,6 @@ const FormEntrepots = () => {
                     name="description"
                 >
                     <Input.TextArea rows={4} />
-                </Form.Item>
-
-                <Form.Item
-                    label="ID Bâtiment"
-                    name="id_batiment"
-                    rules={[{ required: true, message: 'Veuillez entrer l\'ID du bâtiment' }]}
-                >
-                    <Input type="number" />
                 </Form.Item>
 
                 <Form.Item>

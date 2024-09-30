@@ -7,7 +7,17 @@
     background-color: #ffffff;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
+.controle_title_rows{
+    background: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
 
+  .controle_h2{
+    font-weight: 300;
+    font-size: 15px;
+  }
+  
 .form-container:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
