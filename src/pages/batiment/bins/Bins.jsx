@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined,MoreOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { getEntrepot } from '../../../services/batimentService';
+import { getBinsOne, getEntrepot } from '../../../services/batimentService';
 import BinForm from '../bins/binsForm/BinForm';
 
 const { Search } = Input;
 
-const Bins = () => {
+const Bins = ({id_entrepot}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,7 +37,7 @@ const Bins = () => {
 
     const fetchData = async () => {
       try {
-         const { data } = await getEntrepot();
+         const { data } = await getBinsOne(id_entrepot);
         setData(data);
         setLoading(false);
       } catch (error) {
