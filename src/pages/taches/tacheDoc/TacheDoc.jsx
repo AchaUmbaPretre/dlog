@@ -51,6 +51,7 @@ const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
       });
       fetchData();
       closeModal();
+      form.resetFields();
     } catch (error) {
       notification.error({
         message: 'Erreur',

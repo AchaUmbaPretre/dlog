@@ -457,7 +457,7 @@ const Batiment = () => {
         visible={modalType === 'FormBureau'}
         onCancel={closeAllModals}
         footer={null}
-        width={1050}
+        width={600}
         centered
       >
         <BureauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)}/>

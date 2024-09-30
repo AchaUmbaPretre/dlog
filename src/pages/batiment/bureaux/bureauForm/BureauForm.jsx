@@ -4,9 +4,12 @@ import axios from 'axios';
 
 const BureauForm = () => {
   const [form] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
+
 
   // Fonction de soumission du formulaire
   const onFinish = async (values) => {
+    setIsLoading(true)
     try {
       // Effectuer l'appel API pour l'insertion dans la base de données
       const response = await axios.post('/api/bureaux', values); // Modifiez l'URL selon votre API
@@ -15,13 +18,16 @@ const BureauForm = () => {
           message: 'Succès',
           description: 'Le bureau a été ajouté avec succès!',
         });
-        form.resetFields(); // Réinitialiser le formulaire après la soumission
+        form.resetFields();
       }
     } catch (error) {
       notification.error({
         message: 'Erreur',
         description: 'Une erreur est survenue lors de l\'ajout du bureau.',
       });
+    }
+    finally {
+        setIsLoading(false);
     }
   };
 
@@ -32,13 +38,6 @@ const BureauForm = () => {
       onFinish={onFinish}
       style={{ maxWidth: '600px', margin: '0 auto' }}
     >
-      <Form.Item
-        label="ID Bâtiment"
-        name="id_batiment"
-        rules={[{ required: true, message: 'Veuillez entrer l\'ID du bâtiment' }]}
-      >
-        <InputNumber style={{ width: '100%' }} />
-      </Form.Item>
 
       <Form.Item
         label="Nom du Bureau"
