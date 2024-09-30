@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,MoreOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getEntrepot } from '../../../services/batimentService';
 import BinForm from '../bins/binsForm/BinForm';
 
@@ -24,6 +24,10 @@ const Entrepots = () => {
   const handleAddBin = (id) => {
     setIdEntrepot(id)
     setIsModalVisible(true)
+  }
+
+  const handleListBin = () => {
+
   }
 
   const handleDelete = async (id) => {
@@ -128,6 +132,27 @@ const Entrepots = () => {
               aria-label="Edit entrepot"
             />
           </Tooltip>
+          <Dropdown
+        overlay={(
+          <Menu>
+            {/* Actions Équipement */}
+            <Menu.Item onClick={() => handleListBin(record.id)}>
+              <ContainerOutlined /> Liste des bins
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAddBin(record.id)}>
+              <ContainerOutlined /> Nouveau Bin
+            </Menu.Item>
+            <Menu.Divider />
+          </Menu>
+        )}
+        trigger={['click']}
+      >
+        <Button
+          icon={<MoreOutlined />}
+          style={{ color: 'black', padding: '0' }}
+          aria-label="Menu actions"
+        />
+          </Dropdown>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ?"
