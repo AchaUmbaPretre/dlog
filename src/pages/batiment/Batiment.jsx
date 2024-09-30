@@ -97,6 +97,10 @@ const Batiment = () => {
     openModal('DocumentBatimentForm', idBatiment);
   };
 
+  const handlEntrepot = (idBatiment) => {
+    openModal('FormEntrepot', idBatiment);
+  };
+
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -208,7 +212,7 @@ const Batiment = () => {
                 <Link onClick={() => handleListeEquipement(record.id_batiment)}>
                   <ContainerOutlined /> Liste d'entrepot
                 </Link>
-                <Link onClick={() => handleAddEquipement(record.id_batiment)}>
+                <Link onClick={() => handlEntrepot(record.id_batiment)}>
                   <ContainerOutlined /> Créer un entrepot
                 </Link>
               </div>
@@ -222,14 +226,6 @@ const Batiment = () => {
               aria-label="Menu actions"
             />
           </Popover>
-          <Tooltip title="Créer un entrepot">
-            <Button
-              onClick={() => handleTableauBord(record.id_batiment)}
-              icon={<ContainerOutlined />}
-              style={{ color: 'purple' }}
-              aria-label="Créer un entrepot"
-            />
-          </Tooltip>
           <Tooltip title="Tableau de bord">
             <Button
               onClick={() => handleTableauBord(record.id_batiment)}
@@ -389,6 +385,17 @@ const Batiment = () => {
 
       <Modal
         title="Liste des documents"
+        visible={modalType === 'ListeDoc'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <ListeDocumentBatiment idBatiment={idBatiment} />
+      </Modal>
+
+      <Modal
+        title=""
         visible={modalType === 'ListeDoc'}
         onCancel={closeAllModals}
         footer={null}
