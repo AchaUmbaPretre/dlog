@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
-import { PlusCircleOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getSuiviTacheOne } from '../../services/suiviService';
 
@@ -35,8 +35,14 @@ const ListeTrackingGlobal = ({ idTache }) => {
   }, [idTache]);
 
 
-  const handleTracking = () => {
-    openModal('suivi');
+  const statusIcons = {
+    'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
+    'En cours': { icon: <HourglassOutlined />, color: 'blue' },
+    'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
+    'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
+    'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
+    'Budget': { icon: <DollarOutlined />, color: 'gold' },
+    'Executé': { icon: <RocketOutlined />, color: 'cyan' },
   };
 
 
@@ -84,9 +90,14 @@ const ListeTrackingGlobal = ({ idTache }) => {
         title: 'Statut',
         dataIndex: 'nom_type_statut',
         key: 'nom_type_statut',
-        render: (text) => (
-          <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
-        ),
+        render: text => {
+            const { icon, color } = statusIcons[text] || {};
+            return (
+                <Space>
+                  <Tag icon={icon} color={color}>{text}</Tag>
+                </Space>
+            );
+        }
       },
       {
         title: 'Commentaire	',
