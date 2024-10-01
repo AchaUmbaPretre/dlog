@@ -100,10 +100,10 @@ const SideBar = () => {
               <Link to='/batiment'>Liste des Bâtiments</Link>
             </Item>
             <Item key="4" onClick={toggleMenu}>
-              <Link to='/batiment'>Liste des Bins</Link>
+              <Link to='/liste_bins'>Liste des Bins</Link>
             </Item>
             <Item key="5" onClick={toggleMenu}>
-              <Link to='/batiment'>Liste des equipements</Link>
+              <Link to='/batiment'>Liste d'équipements</Link>
             </Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<ProjectOutlined />} title="Projet" onClick={toggleMenu}>

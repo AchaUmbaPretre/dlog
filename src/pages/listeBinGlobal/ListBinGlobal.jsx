@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined, ContainerOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { getBinsOne } from '../../../services/batimentService';
-import BinForm from '../bins/binsForm/BinForm';
+import { getBins } from '../../services/batimentService';
 
 const { Search } = Input;
 
-const Bins = ({idBatiment}) => {
+const ListBinGlobal = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -33,7 +32,7 @@ const Bins = ({idBatiment}) => {
 
     const fetchData = async () => {
       try {
-         const { data } = await getBinsOne(idBatiment);
+         const { data } = await getBins();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -47,7 +46,7 @@ const Bins = ({idBatiment}) => {
 
   useEffect(() => {
     fetchData();
-  }, [idBatiment]);
+  }, []);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -251,10 +250,10 @@ const Bins = ({idBatiment}) => {
         width={650}
         centered
       >
-        <BinForm idBatiment={idBatiment} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
-     </Modal>
+{/*         <BinForm idBatiment={idBatiment} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+ */}     </Modal>
     </>
   );
 };
 
-export default Bins;
+export default ListBinGlobal;
