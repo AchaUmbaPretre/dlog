@@ -196,7 +196,7 @@ const Batiment = () => {
       key: 'type_batiment',
       render: text => (
         <Space>
-          <Tag icon={<BankOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<BankOutlined />} color='cyan'>{text ?? 'Aucun'}</Tag>
         </Space>
       ),
     },
@@ -225,7 +225,7 @@ const Batiment = () => {
           <Tooltip title="Voir les croquis">
             <Button
               icon={<EyeOutlined />}
-              style={{ color: 'green' }}
+              style={{ color: 'blue' }}
               onClick={() => handleDetailCroquis(record.id_batiment)}
               aria-label="Voir les croquis"
             />

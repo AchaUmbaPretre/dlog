@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col, Typography, Badge, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
-import { InfoCircleOutlined,CalendarOutlined, LeftCircleOutlined,RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
-import { getTacheOne, getTacheOneV } from '../../../services/tacheService';
+import { notification, Card, Row, Col, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
+import { InfoCircleOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
 import ListeDocTache from '../listeDocTache/ListeDocTache';
@@ -13,38 +13,39 @@ const { Title, Text } = Typography;
 
 const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [modalType, setModalType] = useState(null);
   const [idTache, setIdTache] = useState(initialIdTache); 
-  const [dates, setDates] = useState(null)
+  const [dates, setDates] = useState(null);
   
   const handleError = (message) => {
     notification.error({
-        message: 'Erreur de chargement',
-        description: message,
+      message: 'Erreur de chargement',
+      description: message,
     });
   };
+
   const fetchData = async () => {
-        try {
-            const [response, dateData] = await Promise.all([
-                getTacheOne(idTache),
-                getSuiviTacheOneV(idTache),
-            ]);
+    setLoading(true); // Set loading to true when starting to fetch data
+    try {
+      const [response, dateData] = await Promise.all([
+        getTacheOne(idTache),
+        getSuiviTacheOneV(idTache),
+      ]);
 
-            setData(response.data[0]);
-            setDates(dateData.data[0].date_dernier_suivi);
+      setData(response.data[0]);
+      setDates(dateData.data[0]?.date_dernier_suivi);
 
-
-        } catch (error) {
-            handleError('Une erreur est survenue lors du chargement des données.');
-        }
+    } catch (error) {
+      handleError('Une erreur est survenue lors du chargement des données.');
+    } finally {
+      setLoading(false); // Set loading to false once data is fetched
+    }
   };
 
   useEffect(() => {
     fetchData();
   }, [idTache]); 
-
-  console.log(dates)
 
   const closeAllModals = () => {
     setModalType(null);
@@ -55,28 +56,17 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
     setModalType(type);
   };
 
-  const handleInfo = () => {
-    openModal('info');
-  };
-
-  const handleTracking = () => {
-    openModal('tracking');
-  };
-
-  const handleDoc = () => {
-    openModal('document');
-  };
-
-  const handleTiming = () => {
-    openModal('timing');
-  };
+  const handleInfo = () => openModal('info');
+  const handleTracking = () => openModal('tracking');
+  const handleDoc = () => openModal('document');
+  const handleTiming = () => openModal('timing');
 
   const goToNextTache = () => {
-    setIdTache((prevId) => prevId + 1); // Increment task ID to go to next
+    setIdTache((prevId) => prevId + 1);
   };
 
   const goToPreviousTache = () => {
-    setIdTache((prevId) => (prevId > 1 ? prevId - 1 : prevId)); // Decrement task ID but prevent negative values
+    setIdTache((prevId) => (prevId > 1 ? prevId - 1 : prevId));
   };
 
   const renderDataCards = () => (
@@ -117,23 +107,21 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
         <div style={{display: 'flex', justifyContent:'space-between'}}>
           <h1 className="title_h1">
             <FileTextOutlined style={{ marginRight: '8px' }} />
-            <strong>Titre : </strong> {data?.nom_tache}
+            <strong>Titre : </strong> {data?.nom_tache || <Skeleton.Input active />}
           </h1>
           <h1 className="title_h1">
             <CalendarOutlined style={{ marginRight: '8px' }} />
-            <strong>Date du dernier tracking : </strong> {moment(dates).format('LL') || 'Non disponible'}
+            <strong>Date du dernier tracking : </strong> {dates ? moment(dates).format('LL') : <Skeleton.Input active />}
           </h1>
-          
         </div>
       </div>
       <div className="title_row">
         <h1 className="title_h1">
           <FileTextOutlined style={{ marginRight: '8px' }} />
-          <strong>Description : </strong> {data?.description}
+          <strong>Description : </strong> {data?.description || <Skeleton.Input active />}
         </h1>
       </div>
 
-      {/* Add Previous and Next buttons */}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <Tooltip title="Précédent">
           <Button onClick={goToPreviousTache} disabled={idTache === 1}>
@@ -148,10 +136,15 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
       </div>
 
       {loading ? (
-        <Skeleton active />
-      ) : (
-        renderDataCards()
-      )}
+  <Skeleton active />
+) : Object.keys(data).length === 0 ? (
+  <div style={{ textAlign: 'center', padding: '20px' }}>
+    <Text type="secondary">Aucune donnée disponible</Text>
+  </div>
+) : (
+  renderDataCards()
+)}
+
 
       <Modal
         title=""
@@ -174,6 +167,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
       >
         <ListeTracking idTache={idTache} />
       </Modal>
+      
       <Modal
         title=""
         visible={modalType === 'document'}
@@ -184,6 +178,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
       >
         <ListeDocTache idTache={idTache} />
       </Modal>
+
       <Modal
         title=""
         visible={modalType === 'timing'}
