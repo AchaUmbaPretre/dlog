@@ -124,35 +124,38 @@ const SideBar = () => {
             <Menu.Item key="10" onClick={toggleMenu}>
               <Link to='/tache'>Liste des tâches</Link>
             </Menu.Item>
+            <Menu.Item key="11" onClick={toggleMenu}>
+              <Link to='/liste_tracking'>Liste des tracking</Link>
+            </Menu.Item>
           </SubMenu>
           <SubMenu key="sub4" icon={<TagOutlined />} title="Articles">
-            <Menu.Item key="11" onClick={toggleMenu}>
+            <Menu.Item key="12" onClick={toggleMenu}>
               <Link to='/article'>Liste des articles</Link>
             </Menu.Item>
-            <Menu.Item key="12" onClick={toggleMenu}>
+            <Menu.Item key="13" onClick={toggleMenu}>
               <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="13" icon={<DropboxOutlined />} onClick={toggleMenu}>
+          <Item key="14" icon={<DropboxOutlined />} onClick={toggleMenu}>
             <Link to='/stock'>Stock</Link>
           </Item>
-          <Item key="14" icon={<FileTextOutlined />} onClick={toggleMenu}>
+          <Item key="15" icon={<FileTextOutlined />} onClick={toggleMenu}>
             <Link to='/dossier'>Document</Link>
           </Item>
           <SubMenu key="sub5" icon={<SettingOutlined />} title="Paramètre">
-            <Menu.Item key="15" onClick={toggleMenu}>
+            <Menu.Item key="16" onClick={toggleMenu}>
               <Link to='/utilisateur'>Liste des personnels</Link>
             </Menu.Item>
-            <Menu.Item key="16" onClick={toggleMenu}>
+            <Menu.Item key="17" onClick={toggleMenu}>
               <Link to='/client'>Liste des clients</Link>
             </Menu.Item>
-            <Menu.Item key="17" onClick={toggleMenu}>
+            <Menu.Item key="18" onClick={toggleMenu}>
               <Link to='/fournisseur'>Liste des fournisseurs</Link>
             </Menu.Item>
-            <Menu.Item key="18" onClick={toggleMenu}>
+            <Menu.Item key="19" onClick={toggleMenu}>
               <Link to='/format'>Format</Link>
             </Menu.Item>
-            <Menu.Item key="19" onClick={toggleMenu}>
+            <Menu.Item key="20" onClick={toggleMenu}>
               <Link to='/frequence'>Fréquence</Link>
             </Menu.Item>
           </SubMenu>

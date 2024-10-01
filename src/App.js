@@ -28,6 +28,7 @@ import Besoins from './pages/besoins/Besoins';
 import Stock from './pages/stock/Stock';
 import ListBinGlobal from './pages/listeBinGlobal/ListBinGlobal';
 import ListeEquipementGlobal from './pages/listeEquipementGlobal/ListeEquipementGlobal';
+import ListeTrackingGlobal from './pages/listeTrackingGlobal/ListeTrackingGlobal';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -74,6 +75,10 @@ function App() {
         {
           path: '/tache',
           element: <Taches/>
+        },
+        {
+          path: '/liste_tracking',
+          element: <ListeTrackingGlobal/>
         },
         {
           path: '/controle',
