@@ -24,7 +24,7 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
                 if (idBatiment) {
                     const { data: batiments } = await getBatimentOne(idBatiment);
                     const batiment = batiments[0];
-                    form.setFieldsValue(batiment);  // Correction ici, suppression du [0]
+                    form.setFieldsValue(batiment);
                 }
             } catch (error) {
                 notification.error({
@@ -41,16 +41,20 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
         setIsModalVisible(false);
         setIsLoading(true);
         try {
-            const values = form.getFieldsValue();
-            if(idBatiment){
-                await putBatiment(idBatiment,values )
+            const values = form.getFieldsValue(); // Optionnel: Utiliser form.validateFields() pour validation avant soumission
+            if (idBatiment) {
+                await putBatiment(idBatiment, values);
+                notification.success({
+                    message: 'Succès',
+                    description: 'Le bâtiment a été mis à jour avec succès.',
+                });
+            } else {
+                await postBatiment(values); // Correction : Utilisez les valeurs validées
+                notification.success({
+                    message: 'Succès',
+                    description: 'Le bâtiment a été ajouté avec succès.',
+                });
             }
-
-            await postBatiment(formValues);
-            notification.success({
-                message: 'Succès',
-                description: 'Les informations ont été enregistrées avec succès.',
-            });
             form.resetFields();
             closeModal();
             fetchData();
@@ -75,7 +79,7 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
     return (
         <div className="client_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2"> {idBatiment ? "Modifier le batiment" : "Insérer un nouveau bâtiment"}</h2>
+                <h2 className="controle_h2"> {idBatiment ? "Modifier le bâtiment" : "Insérer un nouveau bâtiment"}</h2>
             </div>
             <div className="client_wrapper">
                 <Form form={form} layout="vertical" onFinish={onFinish}>
@@ -153,14 +157,14 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
-                            Ajouter
+                            {idBatiment ? 'Modifier' : 'Ajouter'}
                         </Button>
                     </Form.Item>
                 </Form>
 
                 <Modal
                     title="Confirmer la soumission"
-                    open={isModalVisible}  // Utilisez 'open' pour la version actuelle d'Ant Design
+                    open={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
                     okText="Confirmer"

@@ -29,7 +29,7 @@ export const getArticleOne = async (idArt, idFour) => {
   };
 
   export const putBatiment = async (id,data) => {
-    return axios.put(`${DOMAIN}/api/types/batiment?id_batiment=${id}`, data);
+    return axios.put(`${DOMAIN}/api/types/batiment/update?id_batiment=${id}`, data);
   };
 
   //Categorie
