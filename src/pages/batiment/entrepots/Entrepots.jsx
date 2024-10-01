@@ -121,7 +121,7 @@ const Entrepots = () => {
       dataIndex: 'description', 
       key: 'description',
       render: text => (
-        <Tag color='magenta'>{text ?? "Aucun"}</Tag>
+        <Tag color='blue'>{text ?? "Aucun"}</Tag>
       ),
     },
     {
