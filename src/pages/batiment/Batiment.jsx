@@ -15,6 +15,8 @@ import Bins from './bins/Bins';
 import BinForm from './bins/binsForm/BinForm';
 import EquipementForm from './equipement/equipementForm/EquipementForm';
 import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
+import Entrepots from './entrepots/Entrepots';
+import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
 
 const { Search } = Input;
 
@@ -189,6 +191,16 @@ const Batiment = () => {
       ),
     },
     { 
+      title: 'Type batiment', 
+      dataIndex: 'type_batiment', 
+      key: 'type_batiment',
+      render: text => (
+        <Space>
+          <Tag icon={<BankOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      ),
+    },
+    { 
       title: 'Ville', 
       dataIndex: 'name', 
       key: 'name',
@@ -237,6 +249,14 @@ const Batiment = () => {
               <FileTextOutlined /> Créer un doc
             </Menu.Item>
             <Menu.Divider />
+            {/* Actions Entrepot */}
+            <Menu.Item onClick={() => handleListEntrepot(record.id_batiment)}>
+              <ToolOutlined /> Liste d'entrepot
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
+              <ToolOutlined /> Nouveau entrepôt
+            </Menu.Item>
+            <Menu.Divider />
             {/* Actions Équipement */}
             <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
               <ToolOutlined /> Liste d'équipement
@@ -254,12 +274,16 @@ const Batiment = () => {
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Bureau */}
-            <Menu.Item onClick={() => handleListBureau(record.id_batiment)}>
-              <BankOutlined /> Liste de bureau
-            </Menu.Item>
-            <Menu.Item onClick={() => handleAddBureau(record.id_batiment)}>
-              <BankOutlined /> Créer un bureau
-            </Menu.Item>
+            {record.type_batiment === "bureaux" &&
+              <div>
+                <Menu.Item onClick={() => handleListBureau(record.id_batiment)}>
+                  <BankOutlined /> Liste de bureau
+                </Menu.Item>
+                <Menu.Item onClick={() => handleAddBureau(record.id_batiment)}>
+                  <BankOutlined /> Créer un bureau
+                </Menu.Item>
+              </div>
+            }
           </Menu>
         )}
         trigger={['click']}
@@ -491,6 +515,28 @@ const Batiment = () => {
             centered
         >
           <ListeEquipement idBatiment={idBatiment} />
+        </Modal>
+
+        <Modal
+        title=""
+        visible={modalType === 'addEntrepot'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <FormEntrepots idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+       <Modal
+            title=""
+            visible={modalType === 'listeEntrepot'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1050}
+            centered
+        >
+          <Entrepots idBatiment={idBatiment} />
         </Modal>
     </>
   );
