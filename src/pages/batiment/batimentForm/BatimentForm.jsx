@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { getBatimentOne, postBatiment, putBatiment } from '../../../services/typeService';
 import { getProvince } from '../../../services/clientService';
 
+const { Option } = Select; // Déclaration de l'Option pour Select
+
 const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +43,7 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
         setIsModalVisible(false);
         setIsLoading(true);
         try {
-            const values = form.getFieldsValue(); // Optionnel: Utiliser form.validateFields() pour validation avant soumission
+            const values = form.getFieldsValue();
             if (idBatiment) {
                 await putBatiment(idBatiment, values);
                 notification.success({
@@ -49,7 +51,7 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
                     description: 'Le bâtiment a été mis à jour avec succès.',
                 });
             } else {
-                await postBatiment(values); // Correction : Utilisez les valeurs validées
+                await postBatiment(values);
                 notification.success({
                     message: 'Succès',
                     description: 'Le bâtiment a été ajouté avec succès.',
@@ -61,7 +63,7 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
         } catch (error) {
             notification.error({
                 message: 'Erreur',
-                description: "Une erreur s'est produite lors de l'enregistrement des informations.",
+                description: error.response?.data?.message || "Une erreur s'est produite lors de l'enregistrement des informations.",
             });
         } finally {
             setIsLoading(false);
@@ -79,7 +81,7 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
     return (
         <div className="client_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2"> {idBatiment ? "Modifier le bâtiment" : "Insérer un nouveau bâtiment"}</h2>
+                <h2 className="controle_h2">{idBatiment ? "Modifier le bâtiment" : "Insérer un nouveau bâtiment"}</h2>
             </div>
             <div className="client_wrapper">
                 <Form form={form} layout="vertical" onFinish={onFinish}>
@@ -151,6 +153,15 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
                         <Col span={12}>
                             <Form.Item label="Mètres linéaires" name="metres_lineaires">
                                 <Input />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                            <Form.Item label="Type bâtiment" name="type_batiment">
+                                <Select placeholder="Sélectionnez un type de bâtiment...">
+                                    <Option value="bureaux">Bureaux</Option>
+                                    <Option value="entrepot">Entrepôt</Option>
+                                </Select>
                             </Form.Item>
                         </Col>
                     </Row>
