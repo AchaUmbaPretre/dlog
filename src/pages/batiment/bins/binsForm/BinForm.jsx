@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Button, InputNumber, message, Typography, Row, Col, notification } from 'antd';
-import axios from 'axios';
 import './binForm.css'; // Assurez-vous de créer un fichier CSS pour le style personnalisé
 import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 import { postBins } from '../../../../services/batimentService';
