@@ -20,6 +20,7 @@ const ListeEquipement = ({idBatiment}) => {
   const [modalType, setModalType] = useState(null);
   const [idEquipement, setIdEquipement] = useState('');
   const [nameBatiment, setNameBatiment] = useState('');
+  const [searchValue, setSearchValue] = useState('');
 
 
     const fetchData = async () => {
@@ -90,17 +91,6 @@ const ListeEquipement = ({idBatiment}) => {
       });
     }
   };
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
 
   const columns = [
     {
@@ -182,7 +172,7 @@ const ListeEquipement = ({idBatiment}) => {
       },
     },    
     {
-      title: 'Emplacement',
+      title: 'Bins',
       dataIndex: 'location',
       key: 'location',
       render: (text) => (
@@ -247,6 +237,12 @@ const ListeEquipement = ({idBatiment}) => {
     },
   ]
 
+  const filteredData = data.filter(item =>
+    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_statut?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.location?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <>
       <div className="client">
@@ -259,7 +255,11 @@ const ListeEquipement = ({idBatiment}) => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search 
+                placeholder="Recherche..." 
+                onChange={(e) => setSearchValue(e.target.value)}
+                enterButton
+              />
             </div>
             <div className="client-rows-right">
               <Button

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,MoreOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, ContainerOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getBinsOne } from '../../../services/batimentService';
 import BinForm from '../bins/binsForm/BinForm';
 
 const { Search } = Input;
 
-const Bins = ({id_batiment}) => {
+const Bins = ({idBatiment}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -17,10 +17,6 @@ const Bins = ({id_batiment}) => {
   const handleAddBin = (id) => {
     setIdEntrepot(id)
     setIsModalVisible(true)
-  }
-
-  const handleListBin = () => {
-
   }
 
   const handleDelete = async (id) => {
@@ -37,7 +33,7 @@ const Bins = ({id_batiment}) => {
 
     const fetchData = async () => {
       try {
-         const { data } = await getBinsOne(id_batiment);
+         const { data } = await getBinsOne(idBatiment);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -51,7 +47,7 @@ const Bins = ({id_batiment}) => {
 
   useEffect(() => {
     fetchData();
-  }, [id_batiment]);
+  }, [idBatiment]);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -90,7 +86,7 @@ const Bins = ({id_batiment}) => {
       dataIndex: 'id', 
       key: 'id', 
       render: (text, record, index) => index + 1, 
-      width: "3%" 
+      width: "5%" 
     },
     { 
       title: 'Nom', 
@@ -107,56 +103,56 @@ const Bins = ({id_batiment}) => {
       dataIndex: 'superficie', 
       key: 'superficie',
       render: text => (
-        <Tag color='magenta'>{text ?? "Aucun"}</Tag>
+        <Tag color='volcano'>{text ? `${text} m²` : "Non spécifié"}</Tag>
       ),
     },
     { 
-        title: 'Longueur', 
-        dataIndex: 'longueur', 
-        key: 'longueur',
-        render: text => (
-          <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-        ),
-      },
-      { 
-        title: 'Largeur', 
-        dataIndex: 'largeur', 
-        key: 'largeur',
-        render: text => (
-          <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-        ),
-      },
-      { 
-        title: 'Hauteur', 
-        dataIndex: 'hauteur', 
-        key: 'hauteur',
-        render: text => (
-          <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-        ),
-      },
-      { 
-        title: 'Capacite', 
-        dataIndex: 'capacite', 
-        key: 'capacite',
-        render: text => (
-          <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-        ),
-      },
-      { 
-        title: 'statut', 
-        dataIndex: 'statut', 
-        key: 'statut',
-        render: text => (
-          <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-        ),
-      },
-      { 
-        title: 'Type_stockage ', 
-        dataIndex: 'type_stockage ', 
-        key: 'type_stockage ',
-        render: text => (
-          <Tag color='magenta'>{text ?? "Aucun"}</Tag>
-        ),
+      title: 'Longueur', 
+      dataIndex: 'longueur', 
+      key: 'longueur',
+      render: text => (
+        <Tag color='geekblue'>{text ? `${text} L` : "Non spécifié"}</Tag>
+      ),
+    },
+    { 
+      title: 'Largeur', 
+      dataIndex: 'largeur', 
+      key: 'largeur',
+      render: text => (
+        <Tag color='geekblue'>{text ? `${text} W` : "Non spécifié"}</Tag>
+      ),
+    },
+    { 
+      title: 'Hauteur', 
+      dataIndex: 'hauteur', 
+      key: 'hauteur',
+      render: text => (
+        <Tag color='geekblue'>{text ? `${text} H` : "Non spécifié"}</Tag>
+      ),
+    },
+    { 
+      title: 'Capacité', 
+      dataIndex: 'capacite', 
+      key: 'capacite',
+      render: text => (
+        <Tag color='gold'>{text ? `${text} m³` : "Non spécifié"}</Tag>
+      ),
+    },
+    { 
+      title: 'Statut', 
+      dataIndex: 'statut', 
+      key: 'statut',
+      render: text => (
+        <Tag color='green'>{text || "Non spécifié"}</Tag>
+      ),
+    },
+    { 
+      title: 'Type de Stockage', 
+      dataIndex: 'type_stockage', 
+      key: 'type_stockage',
+      render: text => (
+        <Tag color='purple'>{text || "Non spécifié"}</Tag>
+      ),
     },
     {
       title: 'Action',
@@ -164,24 +160,24 @@ const Bins = ({id_batiment}) => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-            <Tooltip title="Modifier">
+          <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              aria-label="Edit entrepot"
+              aria-label="Modifier entrepôt"
             />
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
-              title="Etes-vous sûr de vouloir supprimer ?"
+              title="Êtes-vous sûr de vouloir supprimer cet entrepôt ?"
               onConfirm={() => handleDelete(record.id)}
-              okText="Yes"
-              cancelText="No"
+              okText="Oui"
+              cancelText="Non"
             >
               <Button
                 icon={<DeleteOutlined />}
                 style={{ color: 'red' }}
-                aria-label="Delete department"
+                aria-label="Supprimer entrepôt"
               />
             </Popconfirm>
           </Tooltip>
@@ -189,6 +185,7 @@ const Bins = ({id_batiment}) => {
       ),
     },
   ];
+  
 
   const filteredData = data.filter(item =>
     item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase()) ||

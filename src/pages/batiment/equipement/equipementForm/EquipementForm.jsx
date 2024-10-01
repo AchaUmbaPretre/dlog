@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
-import { getStatutEquipement,postEquipement } from '../../../../services/batimentService';
+import { getBins, getStatutEquipement,postEquipement } from '../../../../services/batimentService';
 import moment from 'moment';
 import { getArticle, getBatimentOne } from '../../../../services/typeService';
 
@@ -12,6 +12,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
   const [statutEquipement, setStatutEquipement] = useState([]);
   const [typeEquipement, setTypeEquipement] = useState([]);
   const [batimentName, setBatimentName] = useState('');
+  const [bins, setBins] = useState([]);
 
   const handleError = (message) => {
     notification.error({
@@ -23,13 +24,15 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const [typeData, statutData] = await Promise.all([
+            const [typeData, statutData, binData] = await Promise.all([
                 getArticle(),
-                getStatutEquipement()
+                getStatutEquipement(),
+                getBins()
             ]);
 
             setTypeEquipement(typeData.data);
-            setStatutEquipement(statutData.data)
+            setStatutEquipement(statutData.data);
+            setBins(binData.data)
             if(idBatiment){
               const res = await getBatimentOne(idBatiment)
               setBatimentName(res.data[0]?.nom_batiment)
@@ -157,7 +160,15 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
             label="Bin"
             name="id_bin"
           >
-            <Input placeholder="Emplacement de l'équipement (facultatif)" />
+            <Select
+                showSearch
+                options={bins?.map((item) => ({
+                    value: item.id,
+                    label: item.nom,
+                }))}
+                placeholder="Emplacement de l'équipement (facultatif)"
+                optionFilterProp="label"
+            />
           </Form.Item>
         </Col>
 

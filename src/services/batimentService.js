@@ -123,6 +123,7 @@ export const getBins = async () => {
 };
 
 export const getBinsOne = async (id) => {
+  console.log(id)
   return axios.get(`${DOMAIN}/api/batiment/bins/one?id_batiment=${id}`);
 };
 

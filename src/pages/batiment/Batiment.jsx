@@ -112,12 +112,12 @@ const Batiment = () => {
     openModal('editBatiment', idBatiment)
   }
 
-  const handleAddBin = (id) => {
-    openModal('AddBin', id)
+  const handleAddBin = (idBatiment) => {
+    openModal('AddBin', idBatiment)
   }
 
-  const handleListBin = (id) => {
-    openModal('ListBin', id)
+  const handleListBin = (idBatiment) => {
+    openModal('ListBin', idBatiment)
   }
 
   const handleListeEquipement = ( idBatiment) =>{
@@ -454,7 +454,7 @@ const Batiment = () => {
         visible={modalType === 'ListBin'}
         onCancel={closeAllModals}
         footer={null}
-        width={1030}
+        width={1025}
         centered
       >
         <Bins idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
