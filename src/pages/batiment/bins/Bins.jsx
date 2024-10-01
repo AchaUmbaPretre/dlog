@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined,MoreOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { getBinsOne, getEntrepot } from '../../../services/batimentService';
+import { getBinsOne } from '../../../services/batimentService';
 import BinForm from '../bins/binsForm/BinForm';
 
 const { Search } = Input;
 
-const Bins = ({id_entrepot}) => {
+const Bins = ({id_batiment}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,7 +37,7 @@ const Bins = ({id_entrepot}) => {
 
     const fetchData = async () => {
       try {
-         const { data } = await getBinsOne(id_entrepot);
+         const { data } = await getBinsOne(id_batiment);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -51,7 +51,7 @@ const Bins = ({id_entrepot}) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [id_batiment]);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -66,7 +66,6 @@ const Bins = ({id_entrepot}) => {
   };
 
   const handleExportPDF = () => {
-    // Logic to export data to PDF
     message.success('Exporting to PDF...');
   };
 
