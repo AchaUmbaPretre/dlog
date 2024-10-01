@@ -250,13 +250,18 @@ const Batiment = () => {
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Entrepot */}
-            <Menu.Item onClick={() => handleListEntrepot(record.id_batiment)}>
-              <ToolOutlined /> Liste d'entrepot
-            </Menu.Item>
-            <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
-              <ToolOutlined /> Nouveau entrepôt
-            </Menu.Item>
-            <Menu.Divider />
+            {
+              record.type_batiment === 'entrepot' &&
+              <div>
+                <Menu.Item onClick={() => handleListEntrepot(record.id_batiment)}>
+                  <ToolOutlined /> Liste d'entrepot
+                </Menu.Item>
+                <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
+                  <ToolOutlined /> Nouveau entrepôt
+                </Menu.Item>
+                <Menu.Divider />
+              </div>
+            }
             {/* Actions Équipement */}
             <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
               <ToolOutlined /> Liste d'équipement
@@ -266,13 +271,13 @@ const Batiment = () => {
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Bins */}
-            <Menu.Item onClick={() => handleListBin(record.id_batiment)}>
+{/*             <Menu.Item onClick={() => handleListBin(record.id_batiment)}>
               <ContainerOutlined /> Liste des bins
             </Menu.Item>
             <Menu.Item onClick={() => handleAddBin(record.id_batiment)}>
               <ContainerOutlined /> Nouveau Bin
             </Menu.Item>
-            <Menu.Divider />
+            <Menu.Divider /> */}
             {/* Actions Bureau */}
             {record.type_batiment === "bureaux" &&
               <div>
@@ -519,22 +524,22 @@ const Batiment = () => {
 
         <Modal
         title=""
-        visible={modalType === 'addEntrepot'}
+        visible={modalType === 'FormEntrepot'}
         onCancel={closeAllModals}
         footer={null}
-        width={700}
+        width={490}
         centered
       >
         <FormEntrepots idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
 
        <Modal
-            title=""
-            visible={modalType === 'listeEntrepot'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1050}
-            centered
+          title=""
+          visible={modalType === 'ListEntrepot'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1050}
+          centered
         >
           <Entrepots idBatiment={idBatiment} />
         </Modal>
