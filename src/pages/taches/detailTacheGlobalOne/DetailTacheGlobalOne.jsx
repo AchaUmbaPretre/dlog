@@ -202,7 +202,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
           <div className="timing-content">
             <Text type="secondary" className="timing-label">Nombre de jours :</Text>
             <Title level={2} className="timing-value">
-              {data.nbre_jour}
+              {data?.nbre_jour !== undefined ? data.nbre_jour : 'Non disponible'}
             </Title>
           </div>
           <Divider />

@@ -118,8 +118,9 @@ const DetailTache = ({ idTache }) => {
             </p>
             <p className="detail-tache-paragraph">
               <strong>Nombre de jours : </strong>
-              {data.nbre_jour !== null ? `${data.nbre_jour} jours` : 'Non disponible'}
+              {data && data.nbre_jour !== undefined && data.nbre_jour !== null ? `${data.nbre_jour} jours` : 'Non disponible'}
             </p>
+
           </Card>
         </Col>
       </Row>
