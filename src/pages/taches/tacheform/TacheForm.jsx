@@ -83,12 +83,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         };
 
         fetchData();
-    }, [idTache,form]);
+    }, [idTache,idProjet,form]);
 
     useEffect(() => {
-        // Réinitialiser le formulaire lorsque idTache change
         form.resetFields();
-      }, [idTache, form]);
+      }, [idTache, idProjet, form]);
 
     const onFinish = async (values) => {
         const dataAll = {
