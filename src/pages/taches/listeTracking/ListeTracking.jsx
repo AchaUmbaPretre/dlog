@@ -61,18 +61,6 @@ const ListeTracking = ({ idTache }) => {
     }
   };
 
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<FileExcelOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<FilePdfOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
-
   const closeAllModals = () => {
     setModalType(null);
   };

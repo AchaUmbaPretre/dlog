@@ -15,6 +15,8 @@ import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
 import Entrepots from './entrepots/Entrepots';
 import Bureaux from './bureaux/Bureaux';
 import BureauForm from './bureaux/bureauForm/BureauForm';
+import Bins from './bins/Bins';
+import BinForm from './bins/binsForm/BinForm';
 
 const { Search } = Input;
 
@@ -110,6 +112,14 @@ const Batiment = () => {
 
   const handleEdit = (idBatiment) => {
     openModal('editBatiment', idBatiment)
+  }
+
+  const handleAddBin = (id) => {
+    openModal('AddBin', id)
+  }
+
+  const handleListBin = (id) => {
+    openModal('ListBin', id)
   }
 
   const handleAddClient = () => {
@@ -219,6 +229,14 @@ const Batiment = () => {
             </Menu.Item>
             <Menu.Item onClick={() => handleAjouterDoc(record.id_batiment)}>
               <FileTextOutlined /> Créer un doc
+            </Menu.Item>
+            <Menu.Divider />
+            {/* Actions Équipement */}
+            <Menu.Item onClick={() => handleListBin(record.id_batiment)}>
+              <ContainerOutlined /> Liste des bins
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAddBin(record.id_batiment)}>
+              <ContainerOutlined /> Nouveau Bin
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Entrepôt */}
@@ -446,6 +464,28 @@ const Batiment = () => {
       >
         <BureauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)}/>
       </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'ListBin'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1030}
+        centered
+      >
+        <Bins idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
+     </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'AddBin'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={650}
+        centered
+      >
+        <BinForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
+     </Modal>
     </>
   );
 };
