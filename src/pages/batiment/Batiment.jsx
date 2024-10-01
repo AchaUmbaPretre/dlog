@@ -238,10 +238,10 @@ const Batiment = () => {
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Équipement */}
-            <Menu.Item onClick={() => handleListeEquipement(record.id_bureau)}>
+            <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
               <ToolOutlined /> Liste d'équipement
             </Menu.Item>
-            <Menu.Item onClick={() => handleAddEquipement(record.id_bureau)}>
+            <Menu.Item onClick={() => handleAddEquipement(record.id_batiment)}>
               <ToolOutlined /> Nouveau équipement
             </Menu.Item>
             <Menu.Divider />
@@ -253,7 +253,7 @@ const Batiment = () => {
               <ContainerOutlined /> Nouveau Bin
             </Menu.Item>
             <Menu.Divider />
-            {/* Actions Entrepôt */}
+            {/* Actions Bureau */}
             <Menu.Item onClick={() => handleListBureau(record.id_batiment)}>
               <BankOutlined /> Liste de bureau
             </Menu.Item>
