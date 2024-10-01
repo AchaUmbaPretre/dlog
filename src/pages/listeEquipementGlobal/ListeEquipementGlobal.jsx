@@ -4,6 +4,8 @@ import { CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,CalendarOu
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { getEquipement } from '../../services/batimentService';
+import MaintenanceForm from '../batiment/equipement/maintenance/MaintenanceForm/MaintenanceForm';
+import Maintenance from '../batiment/equipement/maintenance/Maintenance';
 
 const { Search } = Input;
 
@@ -245,7 +247,7 @@ const ListeEquipementGlobal = () => {
             <div className="client-row-icon">
               <ToolOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste d'équipement</h2>
+            <h2 className="client-h2">Liste d'équipements</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -286,9 +288,30 @@ const ListeEquipementGlobal = () => {
         width={800}
         centered
       >
-        <EquipementForm closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} />
+        <EquipementForm idBatiment={idBatiment} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} />
       </Modal> */}
 
+      <Modal
+        title=""
+        visible={modalType === 'listeMaintenance'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <Maintenance idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title="Maintenance"
+        visible={modalType === 'addMaintenance'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <MaintenanceForm idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
     </>
   );
 };
