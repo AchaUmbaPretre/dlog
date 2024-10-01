@@ -56,6 +56,10 @@ export const getStatutEquipement = async () => {
   };
 
   //Doc
+export const getBatimentDoc = async (id) => {
+    return axios.get(`${DOMAIN}/api/batiment/doc`);
+  };
+
 export const getBatimentDocOne1 = async (id) => {
     return axios.get(`${DOMAIN}/api/batiment/doc/one1?id_document=${id}`);
   };
