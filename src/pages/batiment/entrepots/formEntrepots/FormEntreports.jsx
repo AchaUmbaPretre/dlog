@@ -35,7 +35,7 @@ const FormEntrepots = ({idBatiment,closeModal}) => {
     return (
         <div className="form-container">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>Créer un Nouvel Entrepôt</h2>                
+                <h2 className='controle_h2'>Créer un nouvel entrepôt</h2>                
             </div>
             <Form
                 form={form}
