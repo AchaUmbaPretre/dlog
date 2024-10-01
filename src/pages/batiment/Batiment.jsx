@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, MoreOutlined,EditOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, MoreOutlined,EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment } from '../../services/typeService';
-import EquipementForm from './equipement/equipementForm/EquipementForm';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
 import DetailUpload from './uploadBatimentForm/detailUpload/DetailUpload';
-import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
 import TableauBord from './tableauBord/TableauBord';
 import ListeDocumentBatiment from './document/ListeDocumentBatiment';
 import DocFormBatiment from './document/docFormBatiment/DocFormBatiment';
-import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
-import Entrepots from './entrepots/Entrepots';
 import Bureaux from './bureaux/Bureaux';
 import BureauForm from './bureaux/bureauForm/BureauForm';
 import Bins from './bins/Bins';
 import BinForm from './bins/binsForm/BinForm';
+import EquipementForm from './equipement/equipementForm/EquipementForm';
+import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
 
 const { Search } = Input;
 
@@ -120,6 +118,14 @@ const Batiment = () => {
 
   const handleListBin = (id) => {
     openModal('ListBin', id)
+  }
+
+  const handleListeEquipement = ( idBatiment) =>{
+    openModal('listeEquipement', idBatiment)
+  }
+
+  const handleAddEquipement = ( idBatiment) =>{
+    openModal('addEquipement', idBatiment)
   }
 
   const handleAddClient = () => {
@@ -232,19 +238,19 @@ const Batiment = () => {
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Équipement */}
+            <Menu.Item onClick={() => handleListeEquipement(record.id_bureau)}>
+              <ToolOutlined /> Liste d'équipement
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAddEquipement(record.id_bureau)}>
+              <ToolOutlined /> Nouveau équipement
+            </Menu.Item>
+            <Menu.Divider />
+            {/* Actions Bins */}
             <Menu.Item onClick={() => handleListBin(record.id_batiment)}>
               <ContainerOutlined /> Liste des bins
             </Menu.Item>
             <Menu.Item onClick={() => handleAddBin(record.id_batiment)}>
               <ContainerOutlined /> Nouveau Bin
-            </Menu.Item>
-            <Menu.Divider />
-            {/* Actions Entrepôt */}
-            <Menu.Item onClick={() => handleListEntrepot(record.id_batiment)}>
-              <ContainerOutlined /> Liste d'entrepot
-            </Menu.Item>
-            <Menu.Item onClick={() => handleAddEntrepot(record.id_batiment)}>
-              <ContainerOutlined /> Créer un entrepot
             </Menu.Item>
             <Menu.Divider />
             {/* Actions Entrepôt */}
@@ -423,28 +429,6 @@ const Batiment = () => {
 
       <Modal
         title=""
-        visible={modalType === 'FormEntrepot'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={470}
-        centered
-      >
-        <FormEntrepots idBatiment={idBatiment} closeModal={()=>setModalType(null)}/>
-      </Modal>
-
-      <Modal
-        title=""
-        visible={modalType === 'ListEntrepot'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1050}
-        centered
-      >
-        <Entrepots idBatiment={idBatiment} closeModal={()=>setModalType(null)}/>
-      </Modal>
-
-      <Modal
-        title=""
         visible={modalType === 'ListBureau'}
         onCancel={closeAllModals}
         footer={null}
@@ -486,6 +470,28 @@ const Batiment = () => {
       >
         <BinForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
      </Modal>
+
+     <Modal
+        title=""
+        visible={modalType === 'addEquipement'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+       <Modal
+            title=""
+            visible={modalType === 'listeEquipement'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1050}
+            centered
+        >
+            <ListeEquipement idBatiment={idBatiment} />
+        </Modal>
     </>
   );
 };
