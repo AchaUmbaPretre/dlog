@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined, ContainerOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getBins } from '../../services/batimentService';
 
 const { Search } = Input;
@@ -87,6 +87,16 @@ const ListBinGlobal = () => {
       render: (text, record, index) => index + 1, 
       width: "5%" 
     },
+    { 
+        title: 'Batiment', 
+        dataIndex: 'nom_batiment', 
+        key: 'nom_batiment',
+        render: text => (
+          <Space>
+            <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+          </Space>
+        ),
+      },
     { 
       title: 'Nom', 
       dataIndex: 'nom', 
@@ -198,7 +208,7 @@ const ListBinGlobal = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ContainerOutlined className='client-icon'/>
+              <BankOutlined className='client-icon'/>
             </div>
             <h2 className="client-h2">Bins</h2>
           </div>
