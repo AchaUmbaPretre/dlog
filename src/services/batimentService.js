@@ -124,7 +124,7 @@ export const getBins = async () => {
 
 export const getBinsOne = async (id) => {
   console.log(id)
-  return axios.get(`${DOMAIN}/api/batiment/bins/one?id_batiment=${id}`);
+  return axios.get(`${DOMAIN}/api/batiment/bins/one?id_entrepot=${id}`);
 };
 
 export const postBins = async (data) => {

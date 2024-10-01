@@ -5,7 +5,7 @@ import './binForm.css'; // Assurez-vous de créer un fichier CSS pour le style p
 import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 import { postBins } from '../../../../services/batimentService';
 
-const BinForm = ({idBatiment, closeModal, fetchData}) => {
+const BinForm = ({id_entrepot, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [type, setType] = useState([]);
@@ -37,7 +37,7 @@ const BinForm = ({idBatiment, closeModal, fetchData}) => {
 
     const onFinish = async (values) => {
         const value = {
-            id_batiment  : idBatiment,
+            id_entrepot  : id_entrepot,
             ...values
         }
         try {

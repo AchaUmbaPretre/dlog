@@ -6,7 +6,7 @@ import BinForm from '../bins/binsForm/BinForm';
 
 const { Search } = Input;
 
-const Bins = ({idBatiment}) => {
+const Bins = ({id_entrepot}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -33,7 +33,7 @@ const Bins = ({idBatiment}) => {
 
     const fetchData = async () => {
       try {
-         const { data } = await getBinsOne(idBatiment);
+         const { data } = await getBinsOne(id_entrepot);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -47,7 +47,7 @@ const Bins = ({idBatiment}) => {
 
   useEffect(() => {
     fetchData();
-  }, [idBatiment]);
+  }, [id_entrepot]);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -251,7 +251,7 @@ const Bins = ({idBatiment}) => {
         width={650}
         centered
       >
-        <BinForm idBatiment={idBatiment} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+        <BinForm id_entrepot={id_entrepot} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
      </Modal>
     </>
   );
