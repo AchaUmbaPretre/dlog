@@ -370,7 +370,7 @@ const Batiment = () => {
         width={800}
         centered
       >
-        <BatimentForm idBatiment={idBatiment} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
+        <BatimentForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
       </Modal>
 
       <Modal

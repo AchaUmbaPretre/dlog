@@ -1,6 +1,5 @@
 import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getBatimentOne, postBatiment, putBatiment } from '../../../services/typeService';
 import { getProvince } from '../../../services/clientService';
 
