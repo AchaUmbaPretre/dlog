@@ -5,7 +5,7 @@ import './binForm.css'; // Assurez-vous de créer un fichier CSS pour le style p
 import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 import { postBins } from '../../../../services/batimentService';
 
-const BinForm = ({idBatiment, closeModal}) => {
+const BinForm = ({idBatiment, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [type, setType] = useState([]);
@@ -43,8 +43,10 @@ const BinForm = ({idBatiment, closeModal}) => {
         try {
             await postBins(value);
             message.success('Bin créé avec succès !');
-            closeModal()
+            closeModal();
             form.resetFields();
+            fetchData()
+            window.location.reload();
         } catch (error) {
             message.error('Erreur lors de la création du bin. Veuillez réessayer.', 3);
         }
