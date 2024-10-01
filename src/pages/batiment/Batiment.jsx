@@ -490,7 +490,7 @@ const Batiment = () => {
             width={1050}
             centered
         >
-            <ListeEquipement idBatiment={idBatiment} />
+          <ListeEquipement idBatiment={idBatiment} />
         </Modal>
     </>
   );
