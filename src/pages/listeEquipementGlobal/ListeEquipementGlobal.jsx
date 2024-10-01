@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
 import { CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined, DeleteOutlined } from '@ant-design/icons';
-import config from '../../../../config';
-import { getEquipementOne } from '../../../../services/batimentService';
-import EquipementForm from '../equipementForm/EquipementForm';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import Maintenance from '../maintenance/Maintenance';
-import MaintenanceForm from '../maintenance/MaintenanceForm/MaintenanceForm';
+import { getEquipement } from '../../services/batimentService';
 
 const { Search } = Input;
 
-const ListeEquipementGlobal = ({idBatiment}) => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+const ListeEquipementGlobal = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -22,10 +17,9 @@ const ListeEquipementGlobal = ({idBatiment}) => {
   const [nameBatiment, setNameBatiment] = useState('');
   const [searchValue, setSearchValue] = useState('');
 
-
     const fetchData = async () => {
       try {
-        const { data } = await getEquipementOne(idBatiment);
+        const { data } = await getEquipement();
         setData(data);
         setNameBatiment(data[0].nom_batiment)
         setLoading(false);
@@ -40,7 +34,7 @@ const ListeEquipementGlobal = ({idBatiment}) => {
 
   useEffect(() => {
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
   const closeAllModals = () => {
     setIsModalVisible(false);
@@ -251,7 +245,7 @@ const ListeEquipementGlobal = ({idBatiment}) => {
             <div className="client-row-icon">
               <ToolOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste d'équipement de {nameBatiment}</h2>
+            <h2 className="client-h2">Liste d'équipement</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -284,7 +278,7 @@ const ListeEquipementGlobal = ({idBatiment}) => {
         </div>
       </div>
 
-      <Modal
+{/*       <Modal
         title=""
         visible={isModalVisible}
         onCancel={closeAllModals}
@@ -292,30 +286,9 @@ const ListeEquipementGlobal = ({idBatiment}) => {
         width={800}
         centered
       >
-        <EquipementForm idBatiment={idBatiment} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} />
-      </Modal>
+        <EquipementForm closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} />
+      </Modal> */}
 
-      <Modal
-        title=""
-        visible={modalType === 'listeMaintenance'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1000}
-        centered
-      >
-        <Maintenance idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
-      </Modal>
-
-      <Modal
-        title="Maintenance"
-        visible={modalType === 'addMaintenance'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={700}
-        centered
-      >
-        <MaintenanceForm idEquipement={idEquipement} closeModal={()=>setModalType(null)} fetchData={fetchData} />
-      </Modal>
     </>
   );
 };

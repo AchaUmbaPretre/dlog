@@ -103,7 +103,7 @@ const SideBar = () => {
               <Link to='/liste_bins'>Liste des Bins</Link>
             </Item>
             <Item key="5" onClick={toggleMenu}>
-              <Link to='/batiment'>Liste d'équipements</Link>
+              <Link to='/liste_equipement'>Liste d'équipements</Link>
             </Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<ProjectOutlined />} title="Projet" onClick={toggleMenu}>

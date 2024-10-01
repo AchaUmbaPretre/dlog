@@ -27,6 +27,7 @@ import { MenuProvider } from './context/MenuProvider';
 import Besoins from './pages/besoins/Besoins';
 import Stock from './pages/stock/Stock';
 import ListBinGlobal from './pages/listeBinGlobal/ListBinGlobal';
+import ListeEquipementGlobal from './pages/listeEquipementGlobal/ListeEquipementGlobal';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -113,6 +114,10 @@ function App() {
         {
           path: '/liste_bins',
           element: <ListBinGlobal/>
+        },
+        {
+          path: '/liste_equipement',
+          element: <ListeEquipementGlobal/>
         },
         {
           path: '/dossier',
