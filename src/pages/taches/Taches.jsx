@@ -340,8 +340,8 @@ const handleEdit = (idTache) => {
         setSearchedColumn,
         searchInput
       ),
-      render: text => (
-        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+      render: (text,record) => (
+        <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id_tache)}>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
