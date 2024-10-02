@@ -457,17 +457,17 @@ const handleEdit = (idTache) => {
       key: 'nom_corps_metier',
       render: text => (
         <Space>
-          <Tag color='blue'>{text}</Tag>
+          <Tag color='blue'>{text ?? 'Aucun'}</Tag>
         </Space>
       )
     },
     { 
-      title: 'Corps metier', 
+      title: 'Categorie', 
       dataIndex: 'id_cat_tache', 
       key: 'id_cat_tache',
       render: text => (
         <Space>
-          <Tag color='blue'>{text}</Tag>
+          <Tag color='blue'>{text ?? 'Aucun'}</Tag>
         </Space>
       )
     },
