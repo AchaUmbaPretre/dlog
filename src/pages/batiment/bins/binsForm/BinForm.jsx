@@ -47,7 +47,7 @@ const BinForm = ({id_entrepot, closeModal, fetchData}) => {
             closeModal();
             form.resetFields();
             fetchData()
-            navigate('/liste_entrepot')
+            navigate('/liste_bins')
             window.location.reload();
         } catch (error) {
             message.error('Erreur lors de la création du bin. Veuillez réessayer.', 3);
