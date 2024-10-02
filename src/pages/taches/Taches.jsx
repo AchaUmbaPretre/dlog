@@ -451,6 +451,26 @@ const handleEdit = (idTache) => {
       ...(columnsVisibility['Fréquence'] ? {} : { className: 'hidden-column' })
 
     },
+    { 
+      title: 'Corps metier', 
+      dataIndex: 'nom_corps_metier', 
+      key: 'nom_corps_metier',
+      render: text => (
+        <Space>
+          <Tag color='blue'>{text}</Tag>
+        </Space>
+      )
+    },
+    { 
+      title: 'Corps metier', 
+      dataIndex: 'id_cat_tache', 
+      key: 'id_cat_tache',
+      render: text => (
+        <Space>
+          <Tag color='blue'>{text}</Tag>
+        </Space>
+      )
+    },
     {
       title: 'Owner', 
       dataIndex: 'owner', 
