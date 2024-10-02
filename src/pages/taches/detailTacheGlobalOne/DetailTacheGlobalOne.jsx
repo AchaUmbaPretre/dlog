@@ -134,16 +134,18 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
           </Button> 
         </Tooltip>
       </div>
-
       {loading ? (
   <Skeleton active />
-) : Object.keys(data).length === 0 ? (
+) : !data || Object.keys(data).length === 0 ? (
   <div style={{ textAlign: 'center', padding: '20px' }}>
     <Text type="secondary">Aucune donnée disponible</Text>
   </div>
 ) : (
   renderDataCards()
 )}
+
+
+
 
 
       <Modal
