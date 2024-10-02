@@ -192,13 +192,12 @@ const FormOffres = () => {
             />
           </Form.Item>
         </Col>
-        <Col xs={24} md={12}>
+        <Col xs={24} md={24}>
           <Form.Item
             label="Categorie"
             name="id_cat_tache"
             rules={[{ required: false, message: 'Veuillez sélectionner une categorie.' }]}
-          >
-                                           
+          >                
           <Select
             placeholder="Sélectionnez.."
             showSearch
@@ -209,9 +208,9 @@ const FormOffres = () => {
           />
           </Form.Item>
         </Col>
-        <Col xs={24} md={12}>
+        <Col xs={24} md={24}>
           <Form.Item label="Description" name="description">
-            <Input.TextArea rows={3} placeholder="Description de l'offre" />
+            <Input.TextArea rows={2} placeholder="Description de l'offre" />
           </Form.Item>
         </Col>
       </Row>
