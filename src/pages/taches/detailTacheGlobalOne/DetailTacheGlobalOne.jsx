@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
+import { notification, Card, Row, Col,Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -72,24 +72,30 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const renderDataCards = () => (
     <Row gutter={[16, 16]} justify="center" className="data-cards">
       <Col xs={24} sm={12} md={6} onClick={handleInfo}>
-        <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <InfoCircleOutlined style={{ fontSize: '40px', color: '#1890ff', marginBottom: '10px' }} />
-          <h3>Infos Générales</h3>
-        </Card>
+          <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
+          <Badge count={data.nbre_enpanne || 0} showZero>
+            <InfoCircleOutlined style={{ fontSize: '40px', color: '#1890ff', marginBottom: '10px' }} />
+          </Badge>
+            <h3>Infos Générales</h3>
+          </Card>
       </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleTracking}>
-        <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <HistoryOutlined style={{ fontSize: '40px', color: '#52c41a', marginBottom: '10px' }} />
-          <h3>Tracking</h3>
-        </Card>
+          <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
+            <Badge count={data.nbre_enpanne || 0} showZero>
+              <HistoryOutlined style={{ fontSize: '40px', color: '#52c41a', marginBottom: '10px' }} />
+            </Badge>
+            <h3>Tracking</h3>
+          </Card>
       </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
-        <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
-          <h3>Documents</h3>
-        </Card>
+          <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
+            <Badge count={data.nbre_enpanne || 0} showZero>
+            <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
+          </Badge>
+            <h3>Documents</h3>
+          </Card>
       </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleTiming}>
