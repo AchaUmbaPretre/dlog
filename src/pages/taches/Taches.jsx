@@ -49,7 +49,9 @@ const Taches = () => {
     "Priorite": true,
     'Date debut & fin': true,
     'Fréquence': true,
-    "Owner": true
+    "Owner": true,
+    "nom_corps_metier": false,
+    "Categorie" : false
   });
   const [pagination, setPagination] = useState({
     current: 1,
@@ -459,7 +461,8 @@ const handleEdit = (idTache) => {
         <Space>
           <Tag color='blue'>{text ?? 'Aucun'}</Tag>
         </Space>
-      )
+      ),
+      ...(columnsVisibility['nom_corps_metier'] ? {} : { className: 'hidden-column' })
     },
     { 
       title: 'Categorie', 
@@ -469,7 +472,8 @@ const handleEdit = (idTache) => {
         <Space>
           <Tag color='blue'>{text ?? 'Aucun'}</Tag>
         </Space>
-      )
+      ),
+      ...(columnsVisibility['Categorie'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Owner', 
