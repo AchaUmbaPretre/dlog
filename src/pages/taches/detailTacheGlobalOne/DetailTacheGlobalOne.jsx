@@ -8,6 +8,7 @@ import ListeTracking from '../listeTracking/ListeTracking';
 import ListeDocTache from '../listeDocTache/ListeDocTache';
 import { getSuiviTacheOneV } from '../../../services/suiviService';
 import moment from 'moment';
+import { getTransitionName } from 'antd/es/_util/motion';
 
 const { Title, Text } = Typography;
 
@@ -17,6 +18,8 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [modalType, setModalType] = useState(null);
   const [idTache, setIdTache] = useState(initialIdTache); 
   const [dates, setDates] = useState(null);
+  const [docs, setDocs] = useState('');
+  const [track, setTrack] = useState('')
   
   const handleError = (message) => {
     notification.error({
@@ -28,13 +31,15 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const fetchData = async () => {
     setLoading(true); // Set loading to true when starting to fetch data
     try {
-      const [response, dateData] = await Promise.all([
+      const [response, dateData, allData] = await Promise.all([
         getTacheOne(idTache),
         getSuiviTacheOneV(idTache),
+        getTransitionName(idTache)
       ]);
 
       setData(response.data[0]);
       setDates(dateData.data[0]?.date_dernier_suivi);
+      setTrack(allData.data[0])
 
     } catch (error) {
       handleError('Une erreur est survenue lors du chargement des données.');

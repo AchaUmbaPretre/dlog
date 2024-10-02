@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,MoreOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { getEntrepot, getEntrepotOne } from '../../../services/batimentService';
-import BinForm from '../bins/binsForm/BinForm';
-import Bins from '../bins/Bins';
+import { ExportOutlined,BankOutlined, PrinterOutlined,MoreOutlined, ContainerOutlined, MailOutlined ,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import BinForm from '../batiment/bins/binsForm/BinForm';
+import Bins from '../batiment/bins/Bins';
+import { getEntrepot } from '../../services/batimentService';
+
 
 const { Search } = Input;
 
-const Entrepots = ({idBatiment}) => {
+const EntrepotListeGlobale = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [idEntrepot, setIdEntrepot] = useState('');
   const scroll = { x: 400 };
-
-  const handleEdit = (record) => {
-    message.info(`Modifier departement: ${record.nom}`);
-    setIdEntrepot(record)
-
-  };
 
   const closeAllModals = () => {
     setModalType(null);
@@ -53,7 +48,7 @@ const Entrepots = ({idBatiment}) => {
 
     const fetchData = async () => {
       try {
-         const { data } = await getEntrepotOne(idBatiment);
+         const { data } = await getEntrepot();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -67,7 +62,7 @@ const Entrepots = ({idBatiment}) => {
 
   useEffect(() => {
     fetchData();
-  }, [idBatiment]);
+  }, []);
 
   const handleAddClient = () => {
     
@@ -107,12 +102,22 @@ const Entrepots = ({idBatiment}) => {
       width: "3%" 
     },
     { 
+        title: 'Nom', 
+        dataIndex: 'nom_batiment', 
+        key: 'nom_batiment',
+        render: text => (
+          <Space>
+            <Tag icon={<BankOutlined />} color='cyan'>{text}</Tag>
+          </Space>
+        ),
+      },
+    { 
       title: 'Nom', 
       dataIndex: 'nom', 
       key: 'nom',
       render: text => (
         <Space>
-          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<ApartmentOutlined />} color='green'>{text}</Tag>
         </Space>
       ),
     },
@@ -121,7 +126,7 @@ const Entrepots = ({idBatiment}) => {
       dataIndex: 'description', 
       key: 'description',
       render: text => (
-        <Tag color='blue'>{text ?? "Aucun"}</Tag>
+        <Tag color='orange'>{text ?? "Aucun"}</Tag>
       ),
     },
     {
@@ -130,19 +135,19 @@ const Entrepots = ({idBatiment}) => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-            <Tooltip title="Modifier">
+{/*             <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               aria-label="Edit entrepot"
             />
-          </Tooltip>
+          </Tooltip> */}
           <Dropdown
         overlay={(
           <Menu>
             {/* Actions Équipement */}
             <Menu.Item onClick={() => handleListBin(record.id)}>
-              <ContainerOutlined /> Liste des bins
+              <ContainerOutlined /> Liste d'entrepot
             </Menu.Item>
             <Menu.Item onClick={() => handleAddBin(record.id)}>
               <ContainerOutlined /> Nouveau Bin
@@ -178,9 +183,9 @@ const Entrepots = ({idBatiment}) => {
   ];
 
   const filteredData = data.filter(item =>
-    item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.code?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.description?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -251,4 +256,4 @@ const Entrepots = ({idBatiment}) => {
   );
 };
 
-export default Entrepots;
+export default EntrepotListeGlobale;

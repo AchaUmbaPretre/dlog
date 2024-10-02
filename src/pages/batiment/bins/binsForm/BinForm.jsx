@@ -3,12 +3,14 @@ import { Form, Input, Select, Button, InputNumber, message, Typography, Row, Col
 import './binForm.css'; // Assurez-vous de créer un fichier CSS pour le style personnalisé
 import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 import { postBins } from '../../../../services/batimentService';
+import { useNavigate } from 'react-router-dom';
 
 const BinForm = ({id_entrepot, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [type, setType] = useState([]);
     const [status, setStatus] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,6 +47,7 @@ const BinForm = ({id_entrepot, closeModal, fetchData}) => {
             closeModal();
             form.resetFields();
             fetchData()
+            navigate('liste_entrepot')
             window.location.reload();
         } catch (error) {
             message.error('Erreur lors de la création du bin. Veuillez réessayer.', 3);

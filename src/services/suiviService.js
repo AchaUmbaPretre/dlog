@@ -11,6 +11,11 @@ export const getSuiviOne = async (id) => {
     return axios.get(`${DOMAIN}/api/suivi/one?id_suivi=${id}`);
   };
 
+
+  export const getTrackingAllOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/suivi/tracking_all_one?id_tache=${id}`);
+  };
+
 export const getSuiviTacheOne = async (id) => {
     return axios.get(`${DOMAIN}/api/suivi/suiviTacheOne?id_tache=${id}`);
   };

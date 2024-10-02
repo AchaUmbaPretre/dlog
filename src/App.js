@@ -29,6 +29,7 @@ import Stock from './pages/stock/Stock';
 import ListBinGlobal from './pages/listeBinGlobal/ListBinGlobal';
 import ListeEquipementGlobal from './pages/listeEquipementGlobal/ListeEquipementGlobal';
 import ListeTrackingGlobal from './pages/listeTrackingGlobal/ListeTrackingGlobal';
+import EntrepotListeGlobale from './pages/entrepotListeGlobal/EntrepotListeGlobal';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -123,6 +124,10 @@ function App() {
         {
           path: '/liste_equipement',
           element: <ListeEquipementGlobal/>
+        },
+        {
+          path: '/liste_entrepot',
+          element: <EntrepotListeGlobale/>
         },
         {
           path: '/dossier',

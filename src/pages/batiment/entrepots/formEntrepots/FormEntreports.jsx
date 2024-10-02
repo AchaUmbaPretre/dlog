@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import './formEntreports.css';
 import { postEntrepot } from '../../../../services/batimentService';
+import { useNavigate } from 'react-router-dom';
 
 const FormEntrepots = ({idBatiment,closeModal}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const onFinish = async (values) => {
         setLoading(true);
@@ -22,6 +24,8 @@ const FormEntrepots = ({idBatiment,closeModal}) => {
             });
             closeModal();
             form.resetFields();
+            navigate('/liste_entrepot')
+            window.location.reload();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -60,7 +64,7 @@ const FormEntrepots = ({idBatiment,closeModal}) => {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" loading={loading}>
+                    <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
                         Créer Entrepôt
                     </Button>
                 </Form.Item>

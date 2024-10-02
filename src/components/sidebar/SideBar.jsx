@@ -105,6 +105,9 @@ const SideBar = () => {
             <Item key="5" onClick={toggleMenu}>
               <Link to='/liste_equipement'>Liste d'équipements</Link>
             </Item>
+            <Item key="6" onClick={toggleMenu}>
+              <Link to='/liste_entrepot'>Liste d'entrepôt</Link>
+            </Item>
           </SubMenu>
           <SubMenu key="sub2" icon={<ProjectOutlined />} title="Projet" onClick={toggleMenu}>
             <Item key="6">
