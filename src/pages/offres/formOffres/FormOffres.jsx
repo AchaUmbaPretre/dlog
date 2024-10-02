@@ -3,9 +3,10 @@ import { Form, Input, InputNumber, Button, notification, Select, Row, Col, Modal
 import { PlusOutlined } from '@ant-design/icons';
 import { postOffre } from '../../../services/offreService';
 import { getFournisseur } from '../../../services/fournisseurService';
-import { getArticle, getBatiment } from '../../../services/typeService';
+import { getArticle, getBatiment, getCatTache } from '../../../services/typeService';
 import { getBesoinOne } from '../../../services/besoinsService';
 import { getProjet } from '../../../services/projetService';
+import { set_cptable } from 'xlsx';
 
 const { Option } = Select;
 
@@ -16,6 +17,7 @@ const FormOffres = () => {
   const [batiment, setBatiment] = useState([]);
   const [besoin, setBesoin] = useState([]);
   const [projet, setProjet] = useState([]);
+  const [cat, setCat] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
@@ -59,6 +61,15 @@ const FormOffres = () => {
       }
     };
 
+    const fetchCat = async () => {
+      try {
+      const response = await getCatTache();
+        setCat(response.data);
+      } catch (error) {
+        handleError('Erreur lors du chargement des articles.');
+      }
+    };
+
     const fetchFournisseur = async () => {
       try {
         const response = await getFournisseur();
@@ -81,6 +92,7 @@ const FormOffres = () => {
     fetchArticle();
     fetchFournisseur();
     fetchProjet();
+    fetchCat()
   }, []);
 
   const handleSubmit = async (values) => {
@@ -146,7 +158,7 @@ const FormOffres = () => {
             <Input placeholder="Titre de l'offre" />
           </Form.Item>
         </Col>
-        <Col xs={24} md={24}>
+        <Col xs={24} md={12}>
           <Form.Item
             label="Entité"
             name="id_batiment"
@@ -162,7 +174,7 @@ const FormOffres = () => {
             />
           </Form.Item>
         </Col>
-        <Col xs={24} md={24}>
+        <Col xs={24} md={12}>
           <Form.Item
             label="Projet"
             name="id_projet"
@@ -183,6 +195,23 @@ const FormOffres = () => {
         <Col xs={24} md={24}>
           <Form.Item label="Description" name="description">
             <Input.TextArea rows={2} placeholder="Description de l'offre" />
+          </Form.Item>
+        </Col>
+        <Col xs={24} md={12}>
+          <Form.Item
+            label="Categorie"
+            name="id_cat_tache"
+            rules={[{ required: false, message: 'Veuillez sélectionner une categorie.' }]}
+          >
+                                           
+          <Select
+            placeholder="Sélectionnez.."
+            showSearch
+            options={cat.map((item) => ({
+                value: item.id_cat_tache,
+                label: item.nom_cat_tache
+            }))}
+          />
           </Form.Item>
         </Col>
       </Row>

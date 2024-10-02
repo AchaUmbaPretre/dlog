@@ -358,7 +358,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 
+                                <Select
                                     placeholder="Sélectionnez.."
                                     showSearch
                                     options={catTache.map((item) => ({
