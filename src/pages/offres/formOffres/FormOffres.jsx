@@ -192,11 +192,6 @@ const FormOffres = () => {
             />
           </Form.Item>
         </Col>
-        <Col xs={24} md={24}>
-          <Form.Item label="Description" name="description">
-            <Input.TextArea rows={2} placeholder="Description de l'offre" />
-          </Form.Item>
-        </Col>
         <Col xs={24} md={12}>
           <Form.Item
             label="Categorie"
@@ -212,6 +207,11 @@ const FormOffres = () => {
                 label: item.nom_cat_tache
             }))}
           />
+          </Form.Item>
+        </Col>
+        <Col xs={24} md={12}>
+          <Form.Item label="Description" name="description">
+            <Input.TextArea rows={3} placeholder="Description de l'offre" />
           </Form.Item>
         </Col>
       </Row>
