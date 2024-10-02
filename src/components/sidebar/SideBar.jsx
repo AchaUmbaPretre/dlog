@@ -50,7 +50,7 @@ const SideBar = () => {
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
-    
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -76,7 +76,7 @@ const SideBar = () => {
   return (
     <div ref={sidebarRef} className={`sidebar ${isOpen ? 'visible' : ''} ${isReduced ? 'sidebar-reduced' : ''}`}>
       <button className="sidebar-toggle" onClick={toggleSidebar}>
-        {isReduced ? <ArrowRightOutlined /> : <ArrowLeftOutlined />}
+        {isReduced ? <ArrowRightOutlined style={{ color: 'grey' }} /> : <ArrowLeftOutlined style={{ color: 'grey' }} />}
       </button>
       <Sider>
         <Menu
@@ -86,16 +86,16 @@ const SideBar = () => {
           onOpenChange={onOpenChange}
           style={{ height: '100%', borderRight: 0, width: '100%', background: '#fff' }}
         >
-          <Item key="/" icon={<HomeOutlined />} onClick={toggleMenu}>
+          <Item key="/" icon={<HomeOutlined style={{ color: '#1890ff' }} />} onClick={toggleMenu}>
             <Link to="/">Accueil</Link>
           </Item>
-          <Item key="1" icon={<ApartmentOutlined />} onClick={toggleMenu}>
+          <Item key="1" icon={<ApartmentOutlined style={{ color: '#722ed1' }} />} onClick={toggleMenu}>
             <Link to='/departement'>Département</Link>
           </Item>
-          <Item key="2" icon={<DashboardOutlined />} onClick={toggleMenu}>
+          <Item key="2" icon={<DashboardOutlined style={{ color: '#fa8c16' }} />} onClick={toggleMenu}>
             <Link to='/controle'>Contrôle de base</Link>
           </Item>
-          <SubMenu key="sub1" icon={<BankOutlined />} title="Bâtiment">
+          <SubMenu key="sub1" icon={<BankOutlined style={{ color: '#13c2c2' }} />} title="Bâtiment">
             <Item key="3" onClick={toggleMenu}>
               <Link to='/batiment'>Liste des Bâtiments</Link>
             </Item>
@@ -109,7 +109,7 @@ const SideBar = () => {
               <Link to='/liste_entrepot'>Liste d'entrepôt</Link>
             </Item>
           </SubMenu>
-          <SubMenu key="sub2" icon={<ProjectOutlined />} title="Projet" onClick={toggleMenu}>
+          <SubMenu key="sub2" icon={<ProjectOutlined style={{ color: '#ff4d4f' }} />} title="Projet" onClick={toggleMenu}>
             <Item key="6">
               <Link to='/projet'>Liste de projet</Link>
             </Item>
@@ -123,7 +123,7 @@ const SideBar = () => {
               <Link to='/besoins'>Besoins</Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub3" icon={<FileDoneOutlined />} title="Tâches">
+          <SubMenu key="sub3" icon={<FileDoneOutlined style={{ color: '#52c41a' }} />} title="Tâches">
             <Menu.Item key="10" onClick={toggleMenu}>
               <Link to='/tache'>Liste des tâches</Link>
             </Menu.Item>
@@ -131,7 +131,7 @@ const SideBar = () => {
               <Link to='/liste_tracking'>Liste des tracking</Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub4" icon={<TagOutlined />} title="Articles">
+          <SubMenu key="sub4" icon={<TagOutlined style={{ color: '#fadb14' }} />} title="Articles">
             <Menu.Item key="12" onClick={toggleMenu}>
               <Link to='/article'>Liste des articles</Link>
             </Menu.Item>
@@ -139,13 +139,13 @@ const SideBar = () => {
               <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="14" icon={<DropboxOutlined />} onClick={toggleMenu}>
+          <Item key="14" icon={<DropboxOutlined style={{ color: '#9254de' }} />} onClick={toggleMenu}>
             <Link to='/stock'>Stock</Link>
           </Item>
-          <Item key="15" icon={<FileTextOutlined />} onClick={toggleMenu}>
+          <Item key="15" icon={<FileTextOutlined style={{ color: '#ffc069' }} />} onClick={toggleMenu}>
             <Link to='/dossier'>Document</Link>
           </Item>
-          <SubMenu key="sub5" icon={<SettingOutlined />} title="Paramètre">
+          <SubMenu key="sub5" icon={<SettingOutlined style={{ color: '#000' }} />} title="Paramètre">
             <Menu.Item key="16" onClick={toggleMenu}>
               <Link to='/utilisateur'>Liste des personnels</Link>
             </Menu.Item>
@@ -162,7 +162,7 @@ const SideBar = () => {
               <Link to='/frequence'>Fréquence</Link>
             </Menu.Item>
           </SubMenu>
-          <Item key="logout" icon={<LogoutOutlined />} className="logout-item" onClick={Logout}>
+          <Item key="logout" icon={<LogoutOutlined style={{ color: '#f5222d' }} />} className="logout-item" onClick={Logout}>
             <Link>Déconnecter</Link>
           </Item>
         </Menu>
