@@ -147,7 +147,7 @@ const EntrepotListeGlobale = () => {
           <Menu>
             {/* Actions Équipement */}
             <Menu.Item onClick={() => handleListBin(record.id)}>
-              <ContainerOutlined /> Liste d'entrepot
+              <ContainerOutlined /> Liste de bins
             </Menu.Item>
             <Menu.Item onClick={() => handleAddBin(record.id)}>
               <ContainerOutlined /> Nouveau Bin
