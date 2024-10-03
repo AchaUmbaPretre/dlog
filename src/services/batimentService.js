@@ -20,6 +20,10 @@ export const postEquipement = async (data) => {
   return axios.post(`${DOMAIN}/api/batiment/equipement`, data);
 };
 
+export const putEquipement = async (id,data) => {
+  return axios.put(`${DOMAIN}/api/batiment/equipement_update?id_equipement=${id}`, data);
+};
+
 //Batiment plan
 export const getPlans = async () => {
     return axios.get(`${DOMAIN}/api/batiment/plans`);

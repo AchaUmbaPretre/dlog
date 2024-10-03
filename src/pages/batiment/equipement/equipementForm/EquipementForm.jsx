@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
-import { getBins, getBinsOne, getStatutEquipement,postEquipement } from '../../../../services/batimentService';
+import { getBins, getBinsOne, getEquipementOneV, getStatutEquipement,postEquipement } from '../../../../services/batimentService';
 import moment from 'moment';
 import { getArticle, getBatimentOne } from '../../../../services/typeService';
 
@@ -36,6 +36,12 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
             if(idBatiment){
               const res = await getBatimentOne(idBatiment)
               setBatimentName(res.data[0]?.nom_batiment)
+            }
+
+            if(idEquipement){
+              const {data} = await getEquipementOneV(idEquipement)
+              form.setFieldsValue(data[0])
+
             }
 
         } catch (error) {
