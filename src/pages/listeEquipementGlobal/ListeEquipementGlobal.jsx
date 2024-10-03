@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
-import { CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined, DeleteOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, EnvironmentOutlined,MoreOutlined, CloseCircleOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { getEquipement } from '../../services/batimentService';
@@ -197,8 +197,8 @@ const ListeEquipementGlobal = () => {
           >
             <Tooltip title="Menu">
               <Button
-                icon={<PlusCircleOutlined />}
-                style={{ color: 'blue' }}
+                icon={<MoreOutlined />}
+                style={{ color: 'black' }}
                 aria-label="Contrôler"
               />
             </Tooltip>
