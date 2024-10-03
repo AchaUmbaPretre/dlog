@@ -95,21 +95,21 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
           <Row gutter={12}>
             <Col xs={24} md={12}>
               <Form.Item
-    name="id_article"
-    label="Article"
-    rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
-  >
-    <Select
-      placeholder="Sélectionnez un article"
-      showSearch
-      options={article.map((item) => ({
-        value: item.id_article,
-        label: item.nom_article,
-      }))}
-      filterOption={(input, option) =>
-        option?.label.toLowerCase().includes(input.toLowerCase())
-      }
-    />
+                name="id_article"
+                label="Article"
+                rules={[{ required: true, message: 'Veuillez entrer l\'ID de l\'article' }]}
+              >
+                <Select
+                  placeholder="Sélectionnez un article"
+                  showSearch
+                  options={article?.map((item) => ({
+                    value: item.id_article,
+                    label: item.nom_article,
+                  }))}
+                  filterOption={(input, option) =>
+                    option?.label.toLowerCase().includes(input.toLowerCase())
+                  }
+                />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
@@ -125,7 +125,7 @@ const ProjetBesoin = ({idProjet,fetchData,closeModal}) => {
               >
                 <Select
                   showSearch
-                  options={client.map((item) => ({
+                  options={client?.map((item) => ({
                     value: item.id_client,
                     label: item.nom,
                   }))}

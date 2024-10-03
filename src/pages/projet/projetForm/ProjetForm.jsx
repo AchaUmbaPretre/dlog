@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, DatePicker, InputNumber, Select, Button, Typography, Row, Col, notification, Space } from 'antd';
+import { Form, Input, DatePicker, InputNumber, Select, Button,Skeleton, Typography, Row, Col, notification, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
@@ -16,7 +16,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     const [form] = Form.useForm();
     const [client, setClient] = useState([]);
     const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [batiment, setBatiment] = useState([]);
     const [article, setArticle] = useState([]);
     const navigate = useNavigate();
@@ -57,6 +57,8 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                 }
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
+            } finally {
+                setLoading(false);
             }
         };
     
@@ -113,13 +115,14 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             name="chef_projet"
                             rules={[{ required: true, message: 'Le chef de projet est requis' }]}
                         >
-                            <Select placeholder="Sélectionnez un chef de projet">
-                                {users.map((chef) => (
+                             {loading ? <Skeleton.Input active /> : 
+                             <Select placeholder="Sélectionnez un chef de projet">
+                                {users?.map((chef) => (
                                     <Option key={chef.id_utilisateur} value={chef.id_utilisateur}>
                                         {chef.nom}
                                     </Option>
                                 ))}
-                            </Select>
+                            </Select>}
                         </Form.Item>
                     </Col>
                 </Row>
@@ -168,15 +171,16 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             name="client"
                             rules={[{ required: false, message: 'Le client est requis' }]}
                         >
+                            {loading ? <Skeleton.Input active /> :                             
                             <Select
                                 mode="multiple"
                                 placeholder="Sélectionnez un client"
                                 showSearch
-                                options={client.map((item) => ({
+                                options={client?.map((item) => ({
                                     value: item.id_client,
                                     label: item.nom,
                                 }))}
-                            />
+                            />}
                         </Form.Item>
                     </Col>
                 </Row>
@@ -192,7 +196,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                 mode="multiple"
                                 placeholder="Sélectionnez un bâtiment"
                                 showSearch
-                                options={batiment.map((item) => ({
+                                options={batiment?.map((item) => ({
                                     value: item.id_batiment,
                                     label: item.nom_batiment,
                                 }))}

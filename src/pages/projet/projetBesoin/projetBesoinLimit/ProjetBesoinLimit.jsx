@@ -98,7 +98,7 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
                                 mode="multiple"
                                 placeholder="Sélectionnez un article"
                                 showSearch
-                                options={article.map((item) => ({
+                                options={article?.map((item) => ({
                                     value: item.id_besoin,
                                     label: item.nom_article,
                                 }))}
@@ -115,7 +115,7 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
                                 mode="multiple"
                                 placeholder="Sélectionnez..."
                                 showSearch
-                                options={client.map((item) => ({
+                                options={client?.map((item) => ({
                                     value: item.id_client,
                                     label: item.nom,
                                 }))}
@@ -144,7 +144,7 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
                                 mode="multiple"
                                 placeholder="Sélectionnez un bâtiment"
                                 showSearch
-                                options={batiment.map((item) => ({
+                                options={batiment?.map((item) => ({
                                     value: item.id_batiment,
                                     label: item.nom_batiment,
                                 }))}
@@ -155,7 +155,7 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                    Soumettre
+                        Soumettre
                     </Button>
                 </Form.Item>
             </Form>
