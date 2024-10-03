@@ -172,7 +172,7 @@ const ListeEquipementGlobal = () => {
       dataIndex: 'location',
       key: 'location',
       render: (text) => (
-        <Tag icon={<EnvironmentOutlined />} color='geekblue' >{text}</Tag>
+        <Tag icon={<EnvironmentOutlined />} color='red' >{text}</Tag>
       ),
     },
     {
@@ -234,9 +234,7 @@ const ListeEquipementGlobal = () => {
   ]
 
   const filteredData = data.filter(item =>
-    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_statut?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.location?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -269,7 +267,7 @@ const ListeEquipementGlobal = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 10 }}
             rowKey="id"
