@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import './formEntreports.css';
-import { postEntrepot } from '../../../../services/batimentService';
+import { getEntrepotOne, postEntrepot, putEntrepot } from '../../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 
 const FormEntrepots = ({idBatiment,closeModal,fetchData,id_entrepot}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+
+    useEffect(()=>{
+        const fetchData = async () => {
+            const {data} = await getEntrepotOne(id_entrepot)
+            form.setFieldsValue(data[0])
+        }
+        fetchData()
+    }, [])
 
     const onFinish = async (values) => {
         setLoading(true);
@@ -16,11 +25,20 @@ const FormEntrepots = ({idBatiment,closeModal,fetchData,id_entrepot}) => {
             ...values
         }
         try {
-            await postEntrepot(value)
-            notification.success({
-                message: 'Succès',
-                description: 'Entrepôt créé avec succès.',
-            });
+            if(id_entrepot){
+                await putEntrepot(id_entrepot)
+                notification.success({
+                    message: 'Succès',
+                    description: 'Entrepôt est mise à jour avec succès.',
+                });
+            } else{
+                await postEntrepot(value)
+                notification.success({
+                    message: 'Succès',
+                    description: 'Entrepôt créé avec succès.',
+                });
+            }
+
             closeModal();
             form.resetFields();
             fetchData();

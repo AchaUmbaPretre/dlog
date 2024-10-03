@@ -262,7 +262,7 @@ const EntrepotListeGlobale = () => {
         visible={modalType === 'Update'}
         onCancel={closeAllModals}
         footer={null}
-        width={650}
+        width={500}
         centered
       >
         <FormEntrepots idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchData} id_entrepot={idEntrepot}/>
