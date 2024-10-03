@@ -116,6 +116,10 @@ export const getEntrepotOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/entrepot/one?id_batiment=${id}`);
 };
 
+export const getEntrepotOneV = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/entrepot/oneV?id=${id}`);
+};
+
 export const postEntrepot = async (data) => {
 return axios.post(`${DOMAIN}/api/batiment/entrepot`, data);
 };
@@ -131,13 +135,20 @@ export const getBins = async () => {
 };
 
 export const getBinsOne = async (id) => {
-  console.log(id)
   return axios.get(`${DOMAIN}/api/batiment/bins/one?id_entrepot=${id}`);
+};
+
+export const getBinsOneV = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/bins/oneV?id=${id}`);
 };
 
 export const postBins = async (data) => {
 return axios.post(`${DOMAIN}/api/batiment/bins`, data);
 };
+
+export const putBins = async (id,data) => {
+  return axios.put(`${DOMAIN}/api/batiment/bins_put?id=${id}`, data);
+  };
 
 //Maintenance Bins
 export const getMaintenanceBins = async () => {

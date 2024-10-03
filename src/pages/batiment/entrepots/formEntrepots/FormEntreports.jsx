@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import './formEntreports.css';
-import { getEntrepotOne, postEntrepot, putEntrepot } from '../../../../services/batimentService';
+import { getEntrepotOne, getEntrepotOneV, postEntrepot, putEntrepot } from '../../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 
 const FormEntrepots = ({idBatiment,closeModal,fetchData,id_entrepot}) => {
@@ -12,7 +12,7 @@ const FormEntrepots = ({idBatiment,closeModal,fetchData,id_entrepot}) => {
 
     useEffect(()=>{
         const fetchData = async () => {
-            const {data} = await getEntrepotOne(id_entrepot)
+            const {data} = await getEntrepotOneV(id_entrepot)
             form.setFieldsValue(data[0])
         }
         fetchData()
@@ -26,7 +26,7 @@ const FormEntrepots = ({idBatiment,closeModal,fetchData,id_entrepot}) => {
         }
         try {
             if(id_entrepot){
-                await putEntrepot(id_entrepot)
+                await putEntrepot(id_entrepot,value)
                 notification.success({
                     message: 'Succès',
                     description: 'Entrepôt est mise à jour avec succès.',
