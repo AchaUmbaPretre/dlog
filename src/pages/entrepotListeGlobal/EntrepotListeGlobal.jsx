@@ -4,6 +4,7 @@ import { ExportOutlined,BankOutlined, PrinterOutlined,MoreOutlined, ContainerOut
 import BinForm from '../batiment/bins/binsForm/BinForm';
 import Bins from '../batiment/bins/Bins';
 import { getEntrepot } from '../../services/batimentService';
+import FormEntrepots from '../batiment/entrepots/formEntrepots/FormEntreports';
 
 
 const { Search } = Input;
@@ -27,6 +28,11 @@ const EntrepotListeGlobale = () => {
   const handleListBin = (id) => {
     openModal('ListBin', id)
   }
+
+  const handleEdit = (id) => {
+    openModal('Update', id)
+
+  };
 
   const openModal = (type, idEntrepot = '') => {
     closeAllModals();
@@ -64,9 +70,6 @@ const EntrepotListeGlobale = () => {
     fetchData();
   }, []);
 
-  const handleAddClient = () => {
-    
-  };
 
 
   const handleExportExcel = () => {
@@ -137,6 +140,7 @@ const EntrepotListeGlobale = () => {
         <Space size="middle">
              <Tooltip title="Modifier">
             <Button
+                onClick={() => handleEdit(record.id)}
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               aria-label="Edit entrepot"
@@ -251,6 +255,17 @@ const EntrepotListeGlobale = () => {
         centered
       >
         <BinForm id_entrepot={idEntrepot} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
+     </Modal>
+
+     <Modal
+        title=""
+        visible={modalType === 'Update'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={650}
+        centered
+      >
+        <FormEntrepots idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchData} id_entrepot={idEntrepot}/>
      </Modal>
     </>
   );

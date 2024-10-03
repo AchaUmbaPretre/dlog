@@ -4,7 +4,7 @@ import './formEntreports.css';
 import { postEntrepot } from '../../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 
-const FormEntrepots = ({idBatiment,closeModal}) => {
+const FormEntrepots = ({idBatiment,closeModal,fetchData,id_entrepot}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -16,7 +16,6 @@ const FormEntrepots = ({idBatiment,closeModal}) => {
             ...values
         }
         try {
-            // Remplacez par votre URL d'API
             await postEntrepot(value)
             notification.success({
                 message: 'Succès',
@@ -24,6 +23,7 @@ const FormEntrepots = ({idBatiment,closeModal}) => {
             });
             closeModal();
             form.resetFields();
+            fetchData();
             navigate('/liste_entrepot')
             window.location.reload();
         } catch (error) {
@@ -39,7 +39,7 @@ const FormEntrepots = ({idBatiment,closeModal}) => {
     return (
         <div className="form-container">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>Créer un nouvel entrepôt</h2>                
+                <h2 className='controle_h2'>{id_entrepot ? "Modifier l'entrepôt" : 'Créer un nouvel entrepôt'}</h2>                
             </div>
             <Form
                 form={form}
@@ -65,7 +65,7 @@ const FormEntrepots = ({idBatiment,closeModal}) => {
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                        Créer Entrepôt
+                       {id_entrepot ? 'mise à jour': 'Créer Entrepôt'}
                     </Button>
                 </Form.Item>
             </Form>
