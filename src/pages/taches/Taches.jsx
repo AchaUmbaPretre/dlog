@@ -544,7 +544,7 @@ const handleEdit = (idTache) => {
                 icon={<MoreOutlined />}
                 style={{ color: 'black' }}
                 aria-label="Contrôler"
-              />
+              />  
             </Tooltip>
           </Popover>
           <Tooltip title="Pdf">
