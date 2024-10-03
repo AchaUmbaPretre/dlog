@@ -5,7 +5,7 @@ import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 import { getBinsOneV, postBins, putBins } from '../../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 
-const BinForm = ({id_entrepot, closeModal, fetchData,idBins}) => {
+const BinForm = ({idBatiment, closeModal, fetchData,idBins}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [type, setType] = useState([]);
@@ -43,7 +43,7 @@ const BinForm = ({id_entrepot, closeModal, fetchData,idBins}) => {
 
     const onFinish = async (values) => {
         const value = {
-            id_entrepot  : id_entrepot,
+            id_batiment  : idBatiment,
             ...values
         }
         try {

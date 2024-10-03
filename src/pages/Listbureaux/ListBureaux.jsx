@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined, ContainerOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { getBinsOne } from '../../../services/batimentService';
-import BinForm from '../bins/binsForm/BinForm';
-
+import { ExportOutlined,MoreOutlined, PrinterOutlined,BankOutlined,ToolOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+/* import BureauForm from './bureauForm/BureauForm'; */
+import { getBureau } from '../../services/batimentService';
+import ListeEquipement from '../batiment/equipement/listeEquipement/ListeEquipement';
+import EquipementForm from '../batiment/equipement/equipementForm/EquipementForm';
+/* import { getBureauOne } from '../../../services/batimentService';
+ *//* import EquipementForm from '../equipement/equipementForm/EquipementForm';
+ */
+/* import ListeEquipement from '../equipement/listeEquipement/ListeEquipement';
+ */
 const { Search } = Input;
 
-const Bins = ({id_batiment}) => {
+const ListBureaux = ({idBatiment}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [idEntrepot, setIdEntrepot] = useState('');
+  const [modalType, setModalType] = useState(null);
+  const [idDepartement, setIdDapartement] = useState('');
   const scroll = { x: 400 };
 
-  const handleAddBin = (id) => {
-    setIdEntrepot(id)
-    setIsModalVisible(true)
-  }
+  const handleEdit = (record) => {
+    message.info(`Modifier departement: ${record.nom}`);
+    setIdDapartement(record)
+    setIsModalVisible(true);
+
+  };
 
   const handleDelete = async (id) => {
     try {
+/*       await deletePutDepartement(id); */
       setData(data.filter((item) => item.id_departement !== id));
       message.success('Departement supprimé avec succès');
     } catch (error) {
@@ -33,7 +43,7 @@ const Bins = ({id_batiment}) => {
 
     const fetchData = async () => {
       try {
-         const { data } = await getBinsOne(id_batiment);
+        const { data } = await getBureau();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -47,7 +57,25 @@ const Bins = ({id_batiment}) => {
 
   useEffect(() => {
     fetchData();
-  }, [id_batiment]);
+  }, []);
+
+  const handleListeEquipement = ( idBatiment) =>{
+    openModal('listeEquipement', idBatiment)
+  }
+
+  const handleAddEquipement = ( idBatiment) =>{
+    openModal('addEquipement', idBatiment)
+  }
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type, idBatiment = '') => {
+    closeAllModals();
+/*     setIdBatiment(idBatiment); */
+    setModalType(type);
+  };
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -62,6 +90,7 @@ const Bins = ({id_batiment}) => {
   };
 
   const handleExportPDF = () => {
+    // Logic to export data to PDF
     message.success('Exporting to PDF...');
   };
 
@@ -86,7 +115,7 @@ const Bins = ({id_batiment}) => {
       dataIndex: 'id', 
       key: 'id', 
       render: (text, record, index) => index + 1, 
-      width: "5%" 
+      width: "3%" 
     },
     { 
       title: 'Nom', 
@@ -96,14 +125,6 @@ const Bins = ({id_batiment}) => {
         <Space>
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
         </Space>
-      ),
-    },
-    { 
-      title: 'Superficie', 
-      dataIndex: 'superficie', 
-      key: 'superficie',
-      render: text => (
-        <Tag color='volcano'>{text ? `${text} m²` : "Non spécifié"}</Tag>
       ),
     },
     { 
@@ -121,63 +142,71 @@ const Bins = ({id_batiment}) => {
       render: text => (
         <Tag color='geekblue'>{text ? `${text} W` : "Non spécifié"}</Tag>
       ),
-    },
-    { 
-      title: 'Hauteur', 
-      dataIndex: 'hauteur', 
-      key: 'hauteur',
-      render: text => (
-        <Tag color='geekblue'>{text ? `${text} H` : "Non spécifié"}</Tag>
-      ),
-    },
-    { 
-      title: 'Capacité', 
-      dataIndex: 'capacite', 
-      key: 'capacite',
-      render: text => (
-        <Tag color='gold'>{text ? `${text} m³` : "Non spécifié"}</Tag>
-      ),
-    },
-    { 
-      title: 'Statut', 
-      dataIndex: 'statut', 
-      key: 'statut',
-      render: text => (
-        <Tag color='green'>{text || "Non spécifié"}</Tag>
-      ),
-    },
-    { 
-      title: 'Type de Stockage', 
-      dataIndex: 'type_stockage', 
-      key: 'type_stockage',
-      render: text => (
-        <Tag color='purple'>{text || "Non spécifié"}</Tag>
-      ),
-    },
+      },
+      { 
+        title: 'Hauteur', 
+        dataIndex: 'hauteur', 
+        key: 'hauteur',
+        render: text => (
+          <Tag color='geekblue'>{text ? `${text} H` : "Non spécifié"}</Tag>
+        ),
+      },
+      { 
+        title: 'Nbre poste', 
+        dataIndex: 'nombre_postes',
+        key: 'nombre_postes',
+        render: text => (
+          <Space>
+            <Tag color='orange'>{text ?? 'Aucun'}</Tag>
+          </Space>
+        ),
+      },
     {
       title: 'Action',
       key: 'action',
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Modifier">
+{/*            <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              aria-label="Modifier entrepôt"
+              onClick={() => handleEdit(record.id_departement)}
+              aria-label="Edit department"
             />
-          </Tooltip>
+          </Tooltip> */}
+          <Dropdown
+        overlay={(
+          <Menu>
+            {/* Actions Équipement */}
+            <Menu.Item onClick={() => handleListeEquipement(record.id_bureau)}>
+              <ToolOutlined /> Liste d'équipement
+            </Menu.Item>
+            <Menu.Item onClick={() => handleAddEquipement(record.id_bureau)}>
+              <ToolOutlined /> Nouveau équipement
+            </Menu.Item>
+            <Menu.Divider />
+          </Menu>
+        )}
+        trigger={['click']}
+      >
+        <Button
+          icon={<MoreOutlined />}
+          style={{ color: 'black', padding: '0' }}
+          aria-label="Menu actions"
+        />
+          </Dropdown>
           <Tooltip title="Supprimer">
             <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer cet entrepôt ?"
-              onConfirm={() => handleDelete(record.id)}
-              okText="Oui"
-              cancelText="Non"
+              title="Etes-vous sûr de vouloir supprimer ce département ?"
+              onConfirm={() => handleDelete(record.id_departement)}
+              okText="Yes"
+              cancelText="No"
             >
               <Button
                 icon={<DeleteOutlined />}
                 style={{ color: 'red' }}
-                aria-label="Supprimer entrepôt"
+                aria-label="Delete department"
               />
             </Popconfirm>
           </Tooltip>
@@ -185,7 +214,6 @@ const Bins = ({id_batiment}) => {
       ),
     },
   ];
-  
 
   const filteredData = data.filter(item =>
     item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -199,9 +227,9 @@ const Bins = ({id_batiment}) => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ContainerOutlined className='client-icon'/>
+              <BankOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Bins</h2>
+            <h2 className="client-h2">Bureau</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -211,12 +239,12 @@ const Bins = ({id_batiment}) => {
               />
             </div>
             <div className="client-rows-right">
-{/*               <Button
+              {/* <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
-                Entrepot
+                Bureau
               </Button> */}
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
@@ -243,18 +271,40 @@ const Bins = ({id_batiment}) => {
         </div>
       </div>
 
-      <Modal
+{/*       <Modal
         title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={650}
+        width={600}
         centered
       >
-        <BinForm id_batiment={id_batiment} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
-     </Modal>
+        <BureauForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+      </Modal> */}
+
+      <Modal
+        title=""
+        visible={modalType === 'addEquipement'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+       <Modal
+            title=""
+            visible={modalType === 'listeEquipement'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1050}
+            centered
+        >
+            <ListeEquipement idBatiment={idBatiment} />
+        </Modal>
     </>
   );
 };
 
-export default Bins;
+export default ListBureaux;

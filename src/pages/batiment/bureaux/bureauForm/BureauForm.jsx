@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Form, Input, InputNumber, Button, notification } from 'antd';
 import axios from 'axios';
 import { postBureau } from '../../../../services/batimentService';
+import { useNavigate } from 'react-router-dom';
 
 const BureauForm = ({idBatiment, closeModal}) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
 
   const onFinish = async (values) => {
@@ -24,6 +26,7 @@ const BureauForm = ({idBatiment, closeModal}) => {
         });
         form.resetFields();
         closeModal()
+        navigate('/liste_bureaux')
       }
     } catch (error) {
       notification.error({

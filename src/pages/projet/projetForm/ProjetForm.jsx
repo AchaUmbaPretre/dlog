@@ -205,6 +205,15 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             />}
                         </Form.Item>
                     </Col>
+                    <Col span={24}>
+                        <Form.Item
+                            label="Description"
+                            name="description"
+                            rules={[{ required: false, message: 'La description est requis' }]}
+                        >
+                            {loading ? <Skeleton.Input active /> : <TextArea placeholder="Entrez la description..." />}
+                        </Form.Item>
+                    </Col>
                 </Row>
                 { idProjet === '' && 
                 <Form.List name="besoins">

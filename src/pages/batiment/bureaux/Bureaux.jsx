@@ -125,32 +125,26 @@ const Bureaux = ({idBatiment}) => {
     },
     { 
       title: 'Longueur', 
-      dataIndex: 'longueur',
+      dataIndex: 'longueur', 
       key: 'longueur',
       render: text => (
-        <Space>
-          <Tag color='blue'>{text ?? 'Aucun'}</Tag>
-        </Space>
+        <Tag color='geekblue'>{text ? `${text} L` : "Non spécifié"}</Tag>
       ),
     },
     { 
-        title: 'Largeur', 
-        dataIndex: 'largeur',
-        key: 'largeur',
-        render: text => (
-          <Space>
-            <Tag color='blue'>{text ?? 'Aucun'}</Tag>
-          </Space>
-        ),
+      title: 'Largeur', 
+      dataIndex: 'largeur', 
+      key: 'largeur',
+      render: text => (
+        <Tag color='geekblue'>{text ? `${text} W` : "Non spécifié"}</Tag>
+      ),
       },
       { 
         title: 'Hauteur', 
-        dataIndex: 'hauteur',
+        dataIndex: 'hauteur', 
         key: 'hauteur',
         render: text => (
-          <Space>
-            <Tag color='orange'>{text ?? 'Aucun'}</Tag>
-          </Space>
+          <Tag color='geekblue'>{text ? `${text} H` : "Non spécifié"}</Tag>
         ),
       },
       { 

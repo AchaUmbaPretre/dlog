@@ -30,6 +30,7 @@ import ListBinGlobal from './pages/listeBinGlobal/ListBinGlobal';
 import ListeEquipementGlobal from './pages/listeEquipementGlobal/ListeEquipementGlobal';
 import ListeTrackingGlobal from './pages/listeTrackingGlobal/ListeTrackingGlobal';
 import EntrepotListeGlobale from './pages/entrepotListeGlobal/EntrepotListeGlobal';
+import ListBureaux from './pages/Listbureaux/ListBureaux';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -128,6 +129,10 @@ function App() {
         {
           path: '/liste_entrepot',
           element: <EntrepotListeGlobale/>
+        },
+        {
+          path: '/liste_bureaux',
+          element: <ListBureaux/>
         },
         {
           path: '/dossier',

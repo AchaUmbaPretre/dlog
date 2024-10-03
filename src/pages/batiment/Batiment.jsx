@@ -254,10 +254,10 @@ const Batiment = () => {
               record.type_batiment === 'entrepot' &&
               <div>
                   {/* Actions Bin */}
-                <Menu.Item onClick={() => handleListBin(record.id)}>
+                <Menu.Item onClick={() => handleListBin(record.id_batiment)}>
                   <ContainerOutlined /> Liste des bins
                 </Menu.Item>
-                <Menu.Item onClick={() => handleAddBin(record.id)}>
+                <Menu.Item onClick={() => handleAddBin(record.id_batiment)}>
                   <ContainerOutlined /> Nouveau Bin
                 </Menu.Item>
                 <Menu.Divider />
