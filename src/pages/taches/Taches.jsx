@@ -966,7 +966,7 @@ const handleEdit = (idTache) => {
       </Modal>
 
       <Modal
-        title="Sous tache"
+        title=""
         visible={modalType === 'SousTache'}
         onCancel={closeAllModals}
         footer={null}
