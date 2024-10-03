@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Button, InputNumber, message, Typography, Row, Col, notification } from 'antd';
 import './binForm.css'; // Assurez-vous de créer un fichier CSS pour le style personnalisé
 import { getStatutBin, getTypeBin } from '../../../../services/typeService';
-import { postBins } from '../../../../services/batimentService';
+import { getBinsOneV, postBins, putBins } from '../../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 
-const BinForm = ({id_entrepot, closeModal, fetchData}) => {
+const BinForm = ({id_entrepot, closeModal, fetchData,idBins}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [type, setType] = useState([]);
@@ -22,6 +22,11 @@ const BinForm = ({id_entrepot, closeModal, fetchData}) => {
 
             setType(typeResponse.data);
             setStatus(statusResponse.data)
+
+            if(idBins){
+                const {data} = await getBinsOneV(idBins)
+                form.setFieldsValue(data[0])
+            }
 
           } catch (error) {
             notification.error({
@@ -42,8 +47,13 @@ const BinForm = ({id_entrepot, closeModal, fetchData}) => {
             ...values
         }
         try {
-            await postBins(value);
-            message.success('Bin créé avec succès !');
+            if(idBins) {
+                await putBins(idBins, value)
+                message.success('Bin a ete mise à jour avec succès !');
+            } else{
+                await postBins(value);
+                message.success('Bin est crée avec succès !');
+            }
             closeModal();
             form.resetFields();
             fetchData()
@@ -57,7 +67,7 @@ const BinForm = ({id_entrepot, closeModal, fetchData}) => {
     return (
         <div className="bin-form-container">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>Créer un Nouvel Bin</h2>                
+                <h2 className='controle_h2'>{idBins ? "Mise à jour" : "Créer un Nouvel Bin"}</h2>                
             </div>
             <Form
                 form={form}
@@ -171,7 +181,7 @@ const BinForm = ({id_entrepot, closeModal, fetchData}) => {
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="submit-button" block>
-                        Créer Bin
+                    {idBins ? 'Mise à jour' : 'Créer Bin'}
                     </Button>
                 </Form.Item>
             </Form>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined, BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getBins } from '../../services/batimentService';
+import BinForm from '../batiment/bins/binsForm/BinForm';
 
 const { Search } = Input;
 
@@ -10,11 +11,11 @@ const ListBinGlobal = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [idEntrepot, setIdEntrepot] = useState('');
+  const [idBins, setIdBins] = useState('')
   const scroll = { x: 400 };
 
-  const handleAddBin = (id) => {
-    setIdEntrepot(id)
+  const handleEdit = (id) => {
+    setIdBins(id)
     setIsModalVisible(true)
   }
 
@@ -172,6 +173,7 @@ const ListBinGlobal = () => {
           <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
+              onClick={() => handleEdit(record.id)}
               style={{ color: 'green' }}
               aria-label="Modifier entrepôt"
             />
@@ -252,16 +254,16 @@ const ListBinGlobal = () => {
         </div>
       </div>
 
-      <Modal
+    <Modal
         title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
         width={650}
         centered
-      >
-{/*         <BinForm idBatiment={idBatiment} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
- */}     </Modal>
+    >
+         <BinForm idBatiment={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData} idBins={idBins}/>
+    </Modal>
     </>
   );
 };
