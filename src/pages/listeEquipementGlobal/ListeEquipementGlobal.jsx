@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
-import { CheckCircleOutlined, EnvironmentOutlined,MoreOutlined, CloseCircleOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined, DeleteOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, EnvironmentOutlined,EditOutlined,MoreOutlined, CloseCircleOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { getEquipement } from '../../services/batimentService';
@@ -181,7 +181,18 @@ const ListeEquipementGlobal = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-                    <Popover
+            <Tooltip title="Edit">
+                <Popover title="Modifier" trigger="hover">
+                    <Button
+                        icon={<EditOutlined />}
+                        style={{ color: 'green' }}
+                        onClick={() => handleEdit(record)}
+                        type="link"
+                        aria-label="Edit client"
+                    />
+                </Popover>
+          </Tooltip>
+        <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <Link onClick={() => handleMaintenance(record.id_equipement)} >
@@ -203,17 +214,6 @@ const ListeEquipementGlobal = () => {
               />
             </Tooltip>
           </Popover>
-{/*            <Tooltip title="Edit">
-            <Popover title="Modifier" trigger="hover">
-              <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleEdit(record)}
-                type="link"
-                aria-label="Edit client"
-              />
-            </Popover>
-          </Tooltip> */}
           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
