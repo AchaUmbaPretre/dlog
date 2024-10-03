@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
-import { ExportOutlined, BarsOutlined,CheckSquareOutlined,SolutionOutlined,RocketOutlined,HourglassOutlined,WarningOutlined,CheckCircleOutlined,ClockCircleOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,MoreOutlined, BarsOutlined,CheckSquareOutlined,SolutionOutlined,RocketOutlined,HourglassOutlined,WarningOutlined,CheckCircleOutlined,ClockCircleOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ProjetForm from './projetForm/ProjetForm';
 import { deletePutProjet, getProjet } from '../../services/projetService';
 import TacheForm from '../taches/tacheform/TacheForm';
-import DetailProjet from './detailProjet/DetailProjet';
 import { Link } from 'react-router-dom';
 import BudgetForm from '../budget/budgetForm/BudgetForm';
 import ProjetBesoin from './projetBesoin/ProjetBesoin';
@@ -222,7 +221,7 @@ const Projet = () => {
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record.id_projet)}
               aria-label="View budget details"
-              style={{ color: 'green' }}
+              style={{ color: 'blue' }}
           />
           </Tooltip>
           <Tooltip title="Modifier">
@@ -258,8 +257,8 @@ const Projet = () => {
           >
             <Tooltip title="Menu">
               <Button
-                icon={<PlusCircleOutlined />}
-                style={{ color: 'blue' }}
+                icon={<MoreOutlined />}
+                style={{ color: 'black' }}
                 aria-label="Créer une tâche"
               />
             </Tooltip>
