@@ -8,7 +8,6 @@ import { getTacheOne, postTache } from '../../../services/tacheService';
 import moment from 'moment';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
-import { getProjetOne } from '../../../services/projetService';
 
 const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -87,7 +86,7 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
     return (
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>Ajouter une sous-tâche de {tacheName}</h2>                
+                <h2 className='controle_h2'>Ajouter une sous-tâche {tacheName}</h2>                
             </div>
             <div className="controle_wrapper">
                 <Form
