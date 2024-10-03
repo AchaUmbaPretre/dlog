@@ -135,7 +135,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             rules={[{ required: true, message: 'La date de début est requise' }]}
                             initialValue={moment()}
                         >
-                            <DatePicker placeholder="Sélectionnez la date de début" style={{ width: '100%' }} />
+                            {loading ? <Skeleton.Input active /> : <DatePicker placeholder="Sélectionnez la date de début" style={{ width: '100%' }} />}
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -144,7 +144,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             name="date_fin"
                             rules={[{ required: true, message: 'La date de fin est requise' }]}
                         >
-                            <DatePicker placeholder="Sélectionnez la date de fin" style={{ width: '100%' }} />
+                            {loading ? <Skeleton.Input active /> : <DatePicker placeholder="Sélectionnez la date de fin" style={{ width: '100%' }} />}
                         </Form.Item>
                     </Col>
                 </Row>
