@@ -187,7 +187,6 @@ const ListeEquipementGlobal = () => {
                         icon={<EditOutlined />}
                         style={{ color: 'green' }}
                         onClick={() => handleEdit(record)}
-                        type="link"
                         aria-label="Edit client"
                     />
                 </Popover>
