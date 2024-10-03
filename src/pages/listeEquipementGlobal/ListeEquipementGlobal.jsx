@@ -259,7 +259,7 @@ const ListeEquipementGlobal = () => {
             columns={columns}
             dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 15 }}
             rowKey="id"
             bordered
             size="middle"
