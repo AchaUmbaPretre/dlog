@@ -20,15 +20,9 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [docs, setDocs] = useState('');
   const [track, setTrack] = useState('')
   
-  const handleError = (message) => {
-    notification.error({
-      message: 'Erreur de chargement',
-      description: message,
-    });
-  };
 
   const fetchData = async () => {
-    setLoading(true); // Set loading to true when starting to fetch data
+    setLoading(true);
     try {
       const [response, dateData, allData] = await Promise.all([
         getTacheOne(idTache),
@@ -44,7 +38,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
     } catch (error) {
       console.log(error)
     } finally {
-      setLoading(false); // Set loading to false once data is fetched
+      setLoading(false);
     }
   };
 
