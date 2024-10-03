@@ -101,7 +101,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                         name="nom_projet"
                         rules={[{ required: true, message: 'Le nom du projet est requis' }]}
                     >
-                        <Input placeholder="Entrez le nom du projet" />
+                        <Input placeholder="Entrez le titre du projet" />
                     </Form.Item>
                 </Col>
                 <Col span={12}>
