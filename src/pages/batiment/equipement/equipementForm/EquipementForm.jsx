@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
-import { getBins, getStatutEquipement,postEquipement } from '../../../../services/batimentService';
+import { getBins, getBinsOne, getStatutEquipement,postEquipement } from '../../../../services/batimentService';
 import moment from 'moment';
 import { getArticle, getBatimentOne } from '../../../../services/typeService';
 
@@ -27,7 +27,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
             const [typeData, statutData, binData] = await Promise.all([
                 getArticle(),
                 getStatutEquipement(),
-                getBins()
+                getBinsOne(idBatiment)
             ]);
 
             setTypeEquipement(typeData.data);
