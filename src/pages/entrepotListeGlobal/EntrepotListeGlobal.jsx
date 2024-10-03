@@ -135,13 +135,13 @@ const EntrepotListeGlobale = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-{/*             <Tooltip title="Modifier">
+             <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               aria-label="Edit entrepot"
             />
-          </Tooltip> */}
+          </Tooltip>
           <Dropdown
         overlay={(
           <Menu>

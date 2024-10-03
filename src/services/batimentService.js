@@ -116,9 +116,13 @@ export const getEntrepotOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/entrepot/one?id_batiment=${id}`);
 };
 
-export const postEntrepot = async (data) => {
-return axios.post(`${DOMAIN}/api/batiment/entrepot`, data);
+export const postEntrepot = async (id,data) => {
+return axios.post(`${DOMAIN}/api/batiment/entrepot_put?id_entrepot=${id}`, data);
 };
+
+export const putEntrepot = async (data) => {
+  return axios.post(`${DOMAIN}/api/batiment/entrepot`, data);
+  };
 
 
 //BINS
