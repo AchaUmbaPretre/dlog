@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Space, Row, Col, Select, notification, DatePicker } from 'antd';
+import { Button, Form, Input, Space,Skeleton, Row, Col, Select, notification, DatePicker } from 'antd';
 import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getFrequence } from '../../../services/frequenceService';
@@ -15,7 +15,7 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
     const [client, setClient] = useState([]);
     const [frequence, setFrequence] = useState([]);
     const [users, setUsers] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // Changed to true to show Skeleton initially
     const [provinces, setProvinces] = useState([]);
     const [batiment, setBatiment] = useState([]);
     const [tacheName, setTacheName] = useState('');
@@ -41,43 +41,45 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
                 setBatiment(batimentData.data)
 
                 if(idTache){
-                    const {data} = await getTacheOne(idTache)
-                    setTacheName(data[0].nom_tache)
+                    const {data} = await getTacheOne(idTache);
+                    setTacheName(data[0].nom_tache);
                 }
 
             } catch (error) {
-                console.log(error)
+                console.log(error);
+            } finally {
+                setIsLoading(false); // Hide Skeleton once data is loaded
             }
         };
 
         fetchData();
-    }, [idTache,form]);
+    }, [idTache, form]);
 
     useEffect(() => {
         form.resetFields();
-      }, [idTache, form]);
+    }, [idTache, form]);
 
     const onFinish = async (values) => {
         const dataAll = {
             ...values,
             id_control : idControle,
             id_projet: idProjet
-        }
+        };
         setIsLoading(true);
         try {
-                await postTache({
-                    ...dataAll,
-                    id_tache_parente: idTache
-                });
-                notification.success({
+            await postTache({
+                ...dataAll,
+                id_tache_parente: idTache
+            });
+            notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            navigate('/tache')
-            closeModal()
-            fetchData()
+            navigate('/tache');
+            closeModal();
+            fetchData();
         } catch (error) {
-            console.log(error)
+            console.log(error);
         } finally {
             setIsLoading(false);
         }
@@ -109,7 +111,7 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
                                     },
                                 ]}
                             >
-                                <Input placeholder="Nom..." />
+                                {isLoading ? <Skeleton.Input active /> : <Input placeholder="Nom..." />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -124,7 +126,7 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
                                 ]}
                                 initialValue={moment()}
                             >
-                                <DatePicker style={{width:'100%'}} />
+                                {isLoading ? <Skeleton.Input active /> : <DatePicker style={{width:'100%'}} />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -138,7 +140,7 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
                                     },
                                 ]}
                             >
-                                <DatePicker style={{width:'100%'}}  />
+                                {isLoading ? <Skeleton.Input active /> : <DatePicker style={{width:'100%'}}  />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -152,37 +154,35 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
                                     },
                                 ]}
                             >
-                                <Select
-                                    showSearch
-                                    options={departement.map((item) => ({
-                                        value: item.id_departement,
-                                        label: item.nom_departement,
-                                    }))}
-                                    placeholder="Sélectionnez un département..."
-                                    optionFilterProp="label"
-                                />
+                                {isLoading ? <Skeleton.Input active /> : (
+                                    <Select
+                                        showSearch
+                                        options={departement.map((item) => ({
+                                            value: item.id_departement,
+                                            label: item.nom_departement,
+                                        }))}
+                                        placeholder="Sélectionnez un département..."
+                                        optionFilterProp="label"
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_client"
                                 label="Client"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez sélectionner un client.',
-                                    },
-                                ]}
                             >
-                                <Select
-                                    showSearch
-                                    options={client.map((item) => ({
-                                        value: item.id_client,
-                                        label: item.nom,
-                                    }))}
-                                    placeholder="Sélectionnez un client..."
-                                    optionFilterProp="label"
-                                />
+                                {isLoading ? <Skeleton.Input active /> : (
+                                    <Select
+                                        showSearch
+                                        options={client.map((item) => ({
+                                            value: item.id_client,
+                                            label: item.nom,
+                                        }))}
+                                        placeholder="Sélectionnez un client..."
+                                        optionFilterProp="label"
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -196,15 +196,17 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
                                     },
                                 ]}
                             >
-                                <Select
-                                    showSearch
-                                    options={provinces?.map((item) => ({
-                                        value: item.id,
-                                        label: item.capital,
-                                    }))}
-                                    placeholder="Sélectionnez une ville..."
-                                    optionFilterProp="label"
-                                />
+                                {isLoading ? <Skeleton.Input active /> : (
+                                    <Select
+                                        showSearch
+                                        options={provinces?.map((item) => ({
+                                            value: item.id,
+                                            label: item.capital,
+                                        }))}
+                                        placeholder="Sélectionnez une ville..."
+                                        optionFilterProp="label"
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -218,15 +220,17 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
                                     },
                                 ]}
                             >
-                                <Select
-                                    showSearch
-                                    options={frequence.map((item) => ({
-                                        value: item.id_frequence,
-                                        label: item.nom,
-                                    }))}
-                                    placeholder="Sélectionnez une fréquence..."
-                                    optionFilterProp="label"
-                                />
+                                {isLoading ? <Skeleton.Input active /> : (
+                                    <Select
+                                        showSearch
+                                        options={frequence.map((item) => ({
+                                            value: item.id_frequence,
+                                            label: item.nom,
+                                        }))}
+                                        placeholder="Sélectionnez une fréquence..."
+                                        optionFilterProp="label"
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -240,71 +244,25 @@ const SousTacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) =>
                                     },
                                 ]}
                             >
-                                <Select
-                                    showSearch
-                                    options={users.map((item) => ({
-                                        value: item.id_utilisateur,
-                                        label: `${item.nom}`,
-                                    }))}
-                                    placeholder="Sélectionnez un responsable..."
-                                    optionFilterProp="label"
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_demandeur"
-                                label="Demandeur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez indiquer un demandeur.',
-                                    },
-                                ]}
-                            >
-                                <Select
-                                    showSearch
-                                    options={users.map((item) => ({
-                                        value: item.id_utilisateur,
-                                        label: `${item.nom}`,
-                                    }))}
-                                    placeholder="Sélectionnez un demandeur..."
-                                    optionFilterProp="label"
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={24}>
-                            <Form.Item
-                                name="id_batiment"
-                                label="Entité"
-                                rules={[
-                                    {
-                                        required: false
-                                    },
-                                ]}
-                            >
-                                <Select
-                                    placeholder="Sélectionnez un bâtiment"
-                                    showSearch
-                                    options={batiment.map((item) => ({
-                                        value: item.id_batiment,
-                                        label: item.nom_batiment,
-                                    }))}
-                                />
+                                {isLoading ? <Skeleton.Input active /> : (
+                                    <Select
+                                        showSearch
+                                        options={users.map((item) => ({
+                                            value: item.id_utilisateur,
+                                            label: `${item.nom}`,
+                                        }))}
+                                        placeholder="Sélectionnez un responsable..."
+                                        optionFilterProp="label"
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={24}>
                             <Form.Item
                                 name="description"
                                 label="Description"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir une description.',
-                                    },
-                                ]}
                             >
-                                <Input.TextArea style={{height:'70px'}} placeholder="Description..." />
+                                {isLoading ? <Skeleton.Input active /> : <Input.TextArea style={{height:'70px'}} placeholder="Description..." />}
                             </Form.Item>
                         </Col>
                         <Col xs={24}>
