@@ -101,7 +101,7 @@ const ListeEquipementGlobal = () => {
       dataIndex: 'nom_article',
       key: 'nom_article',
       render: (text) => (
-        <Tag icon={<ToolOutlined  />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<ToolOutlined  />} color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
