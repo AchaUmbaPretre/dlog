@@ -106,7 +106,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             name="nom_projet"
                             rules={[{ required: true, message: 'Le nom du projet est requis' }]}
                         >
-                            <Input placeholder="Entrez le titre du projet" />
+                            {loading ? <Skeleton.Input active /> : <Input placeholder="Entrez le titre du projet" />}
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -156,13 +156,14 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             name="budget"
                             rules={[{ required: false }]}
                         >
+                            {loading ? <Skeleton.Input active /> :                             
                             <InputNumber
                                 placeholder="Entrez le budget"
                                 style={{ width: '100%' }}
                                 min={0}
                                 formatter={(value) => `${value} $`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                 parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                            />
+                            />}
                         </Form.Item>
                     </Col>
                     <Col span={12}>
@@ -192,6 +193,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             name="id_batiment"
                             rules={[{ required: false }]}
                         >
+                            {loading ? <Skeleton.Input active /> :                             
                             <Select
                                 mode="multiple"
                                 placeholder="Sélectionnez un bâtiment"
@@ -200,7 +202,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                     value: item.id_batiment,
                                     label: item.nom_batiment,
                                 }))}
-                            />
+                            />}
                         </Form.Item>
                     </Col>
                 </Row>
