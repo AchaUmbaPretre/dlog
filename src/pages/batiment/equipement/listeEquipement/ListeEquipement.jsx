@@ -65,15 +65,6 @@ const ListeEquipement = ({idBatiment}) => {
     setIsModalVisible(true);
   };
 
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
   const handleEdit = (record) => {
     message.info(`Editing client: ${record.nom}`);
   };
@@ -105,7 +96,7 @@ const ListeEquipement = ({idBatiment}) => {
       dataIndex: 'nom_article',
       key: 'nom_article',
       render: (text) => (
-        <Tag icon={<ToolOutlined  />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<ToolOutlined  />} color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
