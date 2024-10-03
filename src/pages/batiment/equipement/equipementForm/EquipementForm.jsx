@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
-import { getBins, getBinsOne, getEquipementOneV, getStatutEquipement,postEquipement } from '../../../../services/batimentService';
+import { getBins, getBinsOne, getEquipementOneV, getStatutEquipement,postEquipement, putEquipement } from '../../../../services/batimentService';
 import moment from 'moment';
 import { getArticle, getBatimentOne } from '../../../../services/typeService';
 
@@ -33,10 +33,20 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
             setTypeEquipement(typeData.data);
             setStatutEquipement(statutData.data);
             setBins(binData.data)
-            if(idBatiment){
-              const res = await getBatimentOne(idBatiment)
-              setBatimentName(res.data[0]?.nom_batiment)
+
+            if (idEquipement) {
+              const { data } = await getEquipementOneV(idEquipement);
+              
+              // Conversion des champs de date en objets moment
+              form.setFieldsValue({
+                ...data[0],
+                installation_date: data[0].installation_date ? moment(data[0].installation_date) : null,
+                maintenance_date: data[0].maintenance_date ? moment(data[0].maintenance_date) : null,
+                date_prochaine_maintenance: data[0].date_prochaine_maintenance ? moment(data[0].date_prochaine_maintenance) : null,
+              });
             }
+            
+            
 
             if(idEquipement){
               const {data} = await getEquipementOneV(idEquipement)
@@ -55,14 +65,25 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
   const handleSubmit = async(values) => {
     setIsLoading(true);
     try {
-            await postEquipement({
-                id_batiment: idBatiment,
-                ...values
-            });
+      if(idEquipement) {
+        await putEquipement(idEquipement, values)
+
         notification.success({
-            message: 'Succès',
-            description: 'Les informations ont été enregistrées avec succès.',
-        });
+          message: 'Succès',
+          description: 'Les informations ont été mise à jour avec succès.',
+      });
+      }
+      else{
+        await postEquipement({
+          id_batiment: idBatiment,
+          ...values
+      });
+
+      notification.success({
+        message: 'Succès',
+        description: 'Les informations ont été enregistrées avec succès.',
+    });
+      }
 
          fetchData();
         closeModal();
