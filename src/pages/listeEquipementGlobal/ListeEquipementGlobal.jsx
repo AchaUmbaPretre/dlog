@@ -181,15 +181,13 @@ const ListeEquipementGlobal = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-            <Tooltip title="Edit">
-                <Popover title="Modifier" trigger="hover">
-                    <Button
-                        icon={<EditOutlined />}
-                        style={{ color: 'green' }}
-                        onClick={() => handleEdit(record)}
-                        aria-label="Edit client"
-                    />
-                </Popover>
+            <Tooltip title="Modifier">
+                <Button
+                    icon={<EditOutlined />}
+                    style={{ color: 'green' }}
+                    onClick={() => handleEdit(record)}
+                    aria-label="Edit client"
+                />
           </Tooltip>
         <Popover
             content={
@@ -255,13 +253,6 @@ const ListeEquipementGlobal = () => {
               />
             </div>
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
-              >
-                Equipement
-              </Button>
             </div>
           </div>
           <Table
