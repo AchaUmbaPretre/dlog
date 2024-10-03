@@ -6,7 +6,7 @@ import { getArticle, getBatimentOne } from '../../../../services/typeService';
 
 const { Option } = Select;
 
-const EquipementForm = ({ idBatiment, closeModal, fetchData }) => {
+const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [statutEquipement, setStatutEquipement] = useState([]);

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { getEquipement } from '../../services/batimentService';
 import MaintenanceForm from '../batiment/equipement/maintenance/MaintenanceForm/MaintenanceForm';
 import Maintenance from '../batiment/equipement/maintenance/Maintenance';
+import EquipementForm from '../batiment/equipement/equipementForm/EquipementForm';
 
 const { Search } = Input;
 
@@ -61,17 +62,8 @@ const ListeEquipementGlobal = () => {
     setIsModalVisible(true);
   };
 
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
+  const handleEdit = (idEquipement) => {
+    openModal('update', idEquipement)
   };
 
   const handleDelete = async (id) => {
@@ -185,7 +177,7 @@ const ListeEquipementGlobal = () => {
                 <Button
                     icon={<EditOutlined />}
                     style={{ color: 'green' }}
-                    onClick={() => handleEdit(record)}
+                    onClick={() => handleEdit(record.id_equipement)}
                     aria-label="Edit client"
                 />
           </Tooltip>
@@ -268,17 +260,16 @@ const ListeEquipementGlobal = () => {
         </div>
       </div>
 
-{/*       <Modal
+      <Modal
         title=""
-        visible={isModalVisible}
+        visible={modalType === 'update'}
         onCancel={closeAllModals}
         footer={null}
         width={800}
         centered
       >
-        <EquipementForm idBatiment={idBatiment} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} />
-      </Modal> */}
-
+        <EquipementForm idBatiment={''} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} idEquipement={idEquipement} />
+      </Modal>
       <Modal
         title=""
         visible={modalType === 'listeMaintenance'}

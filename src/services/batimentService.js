@@ -8,6 +8,10 @@ export const getEquipement = async () => {
     return axios.get(`${DOMAIN}/api/batiment/equipement`);
   };
 
+export const getEquipementOneV = async (id) => {
+    return axios.get(`${DOMAIN}/api/batiment/equipement/oneV?id=${id}`);
+  };
+
 export const getEquipementOne = async (id) => {
     return axios.get(`${DOMAIN}/api/batiment/equipement/one?id=${id}`);
   };
