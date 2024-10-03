@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { notification, Card, Row, Col,Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
+import { Card, Row, Col,Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -148,10 +148,6 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 ) : (
   renderDataCards()
 )}
-
-
-
-
 
       <Modal
         title=""
