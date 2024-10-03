@@ -117,7 +117,7 @@ useEffect(() => {
       dataIndex: 'nom_document',
       key: 'nom_document',
       render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
       ),
     },
     {

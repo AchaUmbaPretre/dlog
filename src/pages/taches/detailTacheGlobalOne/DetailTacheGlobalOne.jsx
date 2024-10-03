@@ -6,9 +6,8 @@ import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
 import ListeDocTache from '../listeDocTache/ListeDocTache';
-import { getSuiviTacheOneV } from '../../../services/suiviService';
+import { getSuiviTacheOneV, getTrackingAllOne } from '../../../services/suiviService';
 import moment from 'moment';
-import { getTransitionName } from 'antd/es/_util/motion';
 
 const { Title, Text } = Typography;
 
@@ -34,15 +33,16 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
       const [response, dateData, allData] = await Promise.all([
         getTacheOne(idTache),
         getSuiviTacheOneV(idTache),
-        getTransitionName(idTache)
+        getTrackingAllOne(idTache)
       ]);
 
       setData(response.data[0]);
       setDates(dateData.data[0]?.date_dernier_suivi);
-      setTrack(allData.data[0])
+      setTrack(allData.data?.nbre_tracking)
+      setDocs(allData.data?.nbre_doc)
 
     } catch (error) {
-      handleError('Une erreur est survenue lors du chargement des données.');
+      console.log(error)
     } finally {
       setLoading(false); // Set loading to false once data is fetched
     }
@@ -55,6 +55,8 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const closeAllModals = () => {
     setModalType(null);
   };
+
+  console.log(track)
   
   const openModal = (type) => {
     closeAllModals();
@@ -78,16 +80,14 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
     <Row gutter={[16, 16]} justify="center" className="data-cards">
       <Col xs={24} sm={12} md={6} onClick={handleInfo}>
           <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <Badge count={data.nbre_enpanne || 0} showZero>
             <InfoCircleOutlined style={{ fontSize: '40px', color: '#1890ff', marginBottom: '10px' }} />
-          </Badge>
             <h3>Infos Générales</h3>
           </Card>
       </Col>
 
       <Col xs={24} sm={12} md={6} onClick={handleTracking}>
           <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-            <Badge count={data.nbre_enpanne || 0} showZero>
+            <Badge count={track || 0} showZero>
               <HistoryOutlined style={{ fontSize: '40px', color: '#52c41a', marginBottom: '10px' }} />
             </Badge>
             <h3>Tracking</h3>
@@ -96,7 +96,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 
       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
           <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-            <Badge count={data.nbre_enpanne || 0} showZero>
+            <Badge count={docs || 0} showZero>
             <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
           </Badge>
             <h3>Documents</h3>
