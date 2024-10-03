@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton } from 'antd';
 import { 
-  ExportOutlined, WarningOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
+  ExportOutlined, WarningOutlined,MoreOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
   CalendarOutlined, TeamOutlined,FileExcelOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
@@ -541,8 +541,8 @@ const handleEdit = (idTache) => {
           >
             <Tooltip title="Menu">
               <Button
-                icon={<PlusCircleOutlined />}
-                style={{ color: 'blue' }}
+                icon={<MoreOutlined />}
+                style={{ color: 'black' }}
                 aria-label="Contrôler"
               />
             </Tooltip>
@@ -716,7 +716,7 @@ const handleEdit = (idTache) => {
                     </Tooltip>
                     <Tooltip title="Voir les détails">
                       <Button
-                        icon={<EyeOutlined />}
+                        icon={<MoreOutlined />}
                         onClick={() => handleViewDetails(record.id_tache)}
                         aria-label="Voir les détails de la tâche"
                         style={{ color: 'green' }}
