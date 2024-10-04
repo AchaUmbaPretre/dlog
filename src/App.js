@@ -31,6 +31,7 @@ import ListeEquipementGlobal from './pages/listeEquipementGlobal/ListeEquipement
 import ListeTrackingGlobal from './pages/listeTrackingGlobal/ListeTrackingGlobal';
 import EntrepotListeGlobale from './pages/entrepotListeGlobal/EntrepotListeGlobal';
 import ListBureaux from './pages/Listbureaux/ListBureaux';
+import Tags from './pages/tags/Tags';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -137,6 +138,10 @@ function App() {
         {
           path: '/dossier',
           element: <Dossier/>
+        },
+        {
+          path: '/tags',
+          element: <Tags/>
         },
         {
           path: '/article',
