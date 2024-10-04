@@ -26,6 +26,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [corps, setCorps] = useState('');
     const [loadingData, setLoadingData] = useState(true);
     const navigate = useNavigate();
+    const [tags, setTags] = useState([]);
+
+    const handleAddTag = (value) => {
+        if (value && !tags.includes(value)) {
+            setTags([...tags, value]);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -90,10 +97,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
       }, [idTache, idProjet, form]);
 
     const onFinish = async (values) => {
+        const tagsArray = values.tags ? values.tags.split(',').map(tag => tag.trim()) : [];
+
         const dataAll = {
             ...values,
             id_control : idControle,
-            id_projet: idProjet
+            id_projet: idProjet,
+            tags: tagsArray
         }
         setIsLoading(true);
         try {
@@ -391,6 +401,20 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
                                     ]}
                                 />}
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={24}>
+                            <Form.Item
+                                name="tags"
+                                label="Tag"
+                                rules={[
+                                    {
+                                        required: false,
+                                        message: 'Veuillez fournir un tag.',
+                                    },
+                                ]}
+                            >
+                                {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Tag..." />}
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={24}>

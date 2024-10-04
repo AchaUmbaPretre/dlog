@@ -12,7 +12,6 @@ import ListeDocTache from './listeDocTache/ListeDocTache';
 import TacheDoc from './tacheDoc/TacheDoc';
 import FormatCalendar from './formatCalendar/FormatCalendar';
 import moment from 'moment';
-import DetailTache from './detailTache/DetailTache';
 import SuiviTache from './suiviTache/SuiviTache';
 import ListeTracking from './listeTracking/ListeTracking';
 import html2pdf from 'html2pdf.js';
@@ -51,6 +50,7 @@ const Taches = () => {
     'Fréquence': true,
     "Owner": true,
     "nom_corps_metier": false,
+    "Tag" : false,
     "Categorie" : false
   });
   const [pagination, setPagination] = useState({
@@ -105,13 +105,34 @@ const Taches = () => {
   };
 
   const fetchData = async (filters) => {
-    setLoading(true); 
+    setLoading(true);
     setFilteredDatas(filters);
+
     try {
         const response = await getTache(filters);
-        setData(response.data.taches);
-        setStatistique(response.data.statistiques)
-        setTotal(response.data.total_taches)
+
+        const groupedData = response.data.taches.reduce((acc, curr) => {
+            const found = acc.find(item => item.id_tache === curr.id_tache);
+
+            if (found) {
+                // Ajoute le nom du tag seulement s'il n'est pas déjà présent
+                if (!found.nom_tag.includes(curr.nom_tag)) {
+                    found.nom_tag.push(curr.nom_tag);
+                }
+            } else {
+                acc.push({
+                    ...curr,
+                    nom_tag: [curr.nom_tag], // Initialisation des tags
+                });
+            }
+
+            return acc;
+        }, []);
+
+        // Met à jour l'état avec les données regroupées
+        setData(groupedData);
+        setStatistique(response.data.statistiques);
+        setTotal(response.data.total_taches);
     } catch (error) {
         notification.error({
             message: 'Erreur de chargement',
@@ -298,6 +319,11 @@ const handleEdit = (idTache) => {
     console.log(`Mise à jour de la tâche ${idTache} avec la nouvelle priorité: ${newPriority}`);
   };
 
+  const getColor = (index) => {
+    const colors = ['blue', 'green', 'red', 'yellow', 'orange', 'purple', 'cyan', 'magenta'];
+    return colors[index % colors.length];
+  };
+
   const columns = [
     {
       title: '#',
@@ -452,6 +478,19 @@ const handleEdit = (idTache) => {
       ),
       ...(columnsVisibility['Fréquence'] ? {} : { className: 'hidden-column' })
 
+    },
+    {
+      title: 'Tag',
+      dataIndex: 'nom_tag',
+      key: 'nom_tag',
+      render: (nom_tag) => (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          {nom_tag.map((dd, index) => (
+            <Tag key={index} color={getColor(index)}>{dd ?? 'Aucun'}</Tag>
+          ))}
+        </div>
+      ),
+      ...(columnsVisibility['Tag'] ? {} : { className: 'hidden-column' })
     },
     { 
       title: 'Corps metier', 
