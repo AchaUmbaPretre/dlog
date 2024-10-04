@@ -147,7 +147,7 @@ const SideBar = () => {
             <Link to='/dossier'>Document</Link>
           </Item>
           <Item key="21" icon={<TagsOutlined  style={{ color: 'blue' }} />} onClick={toggleMenu}>
-            <Link to='/tag'>Tags</Link>
+            <Link to='/tags'>Tags</Link>
           </Item>
           <SubMenu key="sub5" icon={<SettingOutlined style={{ color: '#000' }} />} title="Paramètre">
             <Menu.Item key="16" onClick={toggleMenu}>

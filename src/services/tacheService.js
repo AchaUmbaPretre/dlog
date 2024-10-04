@@ -105,3 +105,8 @@ export const putPriorite = async (id, data) => {
 export const postTag = async (id, data) => {
   return axios.post(`${DOMAIN}/api/tache/post_tag?id_tache=${id}`, data);
   };
+
+  //Search
+export const getSearch = async (data) => {
+  return axios.get(`${DOMAIN}/api/tache/get_search?term=${data}`)
+}
