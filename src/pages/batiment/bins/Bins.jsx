@@ -188,9 +188,8 @@ const Bins = ({idBatiment}) => {
   
 
   const filteredData = data.filter(item =>
-    item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.code?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.statut?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
