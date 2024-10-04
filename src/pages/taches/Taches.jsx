@@ -1053,7 +1053,7 @@ const handleEdit = (idTache) => {
         width={500}
         centered
       >
-        <TacheTagsForm closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
+        <TacheTagsForm idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
       </Modal>
     </>
   );

@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button, Select, message, Input } from 'antd';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Form, Button, message, Input } from 'antd';
+import { postTag } from '../../../services/tacheService';
 
-const { Option } = Select;
 
-const TacheTagsForm = () => {
+const TacheTagsForm = ({idTache,closeModal,fetchData}) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values) => {
     setIsLoading(true);
     try {
-      await axios.post('/api/task_tags', values);
-      message.success('Task and tags associated successfully!');
+      await postTag(idTache, values)
+      message.success('Tâche et balises associées avec succès !');
+      closeModal();
+      fetchData();
       form.resetFields();
     } catch (error) {
-      message.error('Failed to associate task with tags');
+      message.error("Impossible d'associer la tâche aux balises");
     } finally {
         setIsLoading(false);
     }
@@ -42,8 +43,8 @@ const TacheTagsForm = () => {
         </Form.Item>
 
         <Form.Item>
-            <Button type="primary" htmlType="submit">
-            Enregister
+            <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
+                Enregister
             </Button>
         </Form.Item>
             </Form>
