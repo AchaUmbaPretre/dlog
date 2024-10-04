@@ -3,7 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { 
   ExportOutlined, WarningOutlined,MoreOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
-  CalendarOutlined, TeamOutlined,FileExcelOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
+  CalendarOutlined, TeamOutlined,FileExcelOutlined,TagOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { deletePutTache, getTache, putPriorite } from '../../services/tacheService';
@@ -25,6 +25,7 @@ import FilterTaches from './filterTaches/FilterTaches';
 import  getColumnSearchProps  from '../../utils/columnSearchUtils';
 import DetailTacheGlobalOne from './detailTacheGlobalOne/DetailTacheGlobalOne';
 import UploadTacheExcel from './uploadTacheExcel/UploadTacheExcel';
+import TacheTagsForm from './tacheTagsForm/TacheTagsForm';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -192,6 +193,10 @@ const handleEdit = (idTache) => {
   const handleAjouterDoc = (idTache) => {
     openModal('DocumentTacheForm', idTache);
   };
+
+  const handleAddTag = (idTache) => {
+    openModal('AddTag', idTache);
+  }
 
   const handleTracking = (idTache) => {
     openModal('suivi', idTache);
@@ -572,6 +577,9 @@ const handleEdit = (idTache) => {
                 </Link>
                 <Link onClick={() => handleAjouterDoc(record.id_tache)} >
                   <FileTextOutlined /> Ajouter un doc
+                </Link>
+                <Link onClick={() => handleAddTag(record.id_tache)} >
+                  <TagOutlined /> Ajouter un tag
                 </Link>
               </div>
             }
@@ -1035,6 +1043,17 @@ const handleEdit = (idTache) => {
         centered
       >
         <UploadTacheExcel closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'AddTag'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={500}
+        centered
+      >
+        <TacheTagsForm closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
       </Modal>
     </>
   );
