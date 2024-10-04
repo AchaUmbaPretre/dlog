@@ -11,7 +11,7 @@ const TacheTagsForm = () => {
   const onFinish = async (values) => {
     setIsLoading(true);
     try {
-      await axios.post('/api/task_tags', values); // Adjust to your API logic
+      await axios.post('/api/task_tags', values);
       message.success('Task and tags associated successfully!');
       form.resetFields();
     } catch (error) {
