@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Input, notification, Table, Typography } from 'antd';
+import { Input, Modal, notification, Table, Typography } from 'antd';
 import { getSearch } from '../../services/tacheService';
+import DetailTacheGlobalOne from '../taches/detailTacheGlobalOne/DetailTacheGlobalOne';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -9,6 +10,17 @@ const Tags = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [idTache, setIdTache] = useState('');
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleRowClick = (id) => {
+    setIdTache(id)
+    setIsModalVisible(true);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,7 +61,7 @@ const Tags = () => {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-      render: (text) => <Text>{highlightText(text)}</Text>,
+      render: (text, record) => <Text onClick={() => handleRowClick(record.id)}>{highlightText(text)}</Text>,
     },
   ];
   
@@ -86,7 +98,19 @@ const Tags = () => {
         loading={loading}
         pagination={false}
       />
+
+    <Modal
+        title=""
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={1050}
+        centered
+      >
+        <DetailTacheGlobalOne initialIdTache={idTache} />
+      </Modal>
     </div>
+    
   );
 };
 
