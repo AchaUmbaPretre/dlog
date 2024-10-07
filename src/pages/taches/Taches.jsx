@@ -158,8 +158,8 @@ const closeAllModals = () => {
 
 const openModal = (type, idTache = '') => {
   closeAllModals();
-  setIdTache(idTache);
   setModalType(type);
+  setIdTache(idTache);
 };
 
 const handFilter = () => {
