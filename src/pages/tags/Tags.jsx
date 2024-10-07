@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Input, message, Modal, notification, Table, Typography } from 'antd';
+import { Input, message, Modal, notification, Table, Tag, Typography } from 'antd';
 import { getSearch } from '../../services/tacheService';
 import DetailTacheGlobalOne from '../taches/detailTacheGlobalOne/DetailTacheGlobalOne';
 import DetailProjetsGlobal from '../projet/detailProjet/DetailProjetsGlobal';
 import DetailOffre from '../offres/detailOffre/DetailOffre';
 import {
-    TagsOutlined 
+    TagsOutlined,
+    FileTextOutlined
   } from '@ant-design/icons';
 
 const { Search } = Input;
@@ -68,17 +69,38 @@ const Tags = () => {
     }
   }, [searchValue]);
 
+  const columnStyles = {
+    title: {
+      maxWidth: '220px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
+
   const columns = [
     {
       title: 'Type',
       dataIndex: 'type',
       key: 'type',
+      render: text => (
+        <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
+      )
     },
     {
       title: 'Nom',
       dataIndex: 'nom',
       key: 'nom',
       render: (text, record) => <Text onClick={() => handleAllDetails(record.id, record.type)}>{highlightText(text)}</Text>,
+      width: '250px'
     },
     {
       title: 'Description',
