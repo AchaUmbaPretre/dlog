@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { Card, Row, Col,Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
+import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -18,8 +18,8 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [idTache, setIdTache] = useState(initialIdTache); 
   const [dates, setDates] = useState(null);
   const [docs, setDocs] = useState('');
-  const [track, setTrack] = useState('')
-  
+  const [track, setTrack] = useState('');
+
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -31,11 +31,11 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 
       setData(response.data[0]);
       setDates(dateData.data[0]?.date_dernier_suivi);
-      setTrack(allData.data?.nbre_tracking)
-      setDocs(allData.data?.nbre_doc)
+      setTrack(allData.data?.nbre_tracking);
+      setDocs(allData.data?.nbre_doc);
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,11 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 
   useEffect(() => {
     fetchData();
-  }, [initialIdTache]); 
+  }, [idTache]); 
+
+  useEffect(() => {
+    setIdTache(initialIdTache);
+  }, [initialIdTache]); // Mettez à jour idTache quand initialIdTache change
 
   const closeAllModals = () => {
     setModalType(null);
@@ -88,8 +92,8 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
           <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
             <Badge count={docs || 0} showZero>
-            <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
-          </Badge>
+              <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
+            </Badge>
             <h3>Documents</h3>
           </Card>
       </Col>
@@ -137,14 +141,14 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
         </Tooltip>
       </div>
       {loading ? (
-  <Skeleton active />
-) : !data || Object.keys(data).length === 0 ? (
-  <div style={{ textAlign: 'center', padding: '20px' }}>
-    <Text type="secondary">Aucune donnée disponible</Text>
-  </div>
-) : (
-  renderDataCards()
-)}
+        <Skeleton active />
+      ) : !data || Object.keys(data).length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '20px' }}>
+          <Text type="secondary">Aucune donnée disponible</Text>
+        </div>
+      ) : (
+        renderDataCards()
+      )}
 
       <Modal
         title=""
@@ -201,9 +205,10 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
             </Title>
           </div>
           <Divider />
-          <Text type="secondary" className="timing-note">
-            Ce nombre représente le total des jours entre le début et la fin de la tâche.
-          </Text>
+          <Text type="secondary" className="timing-label">Durée Estimée :</Text>
+          <Title level={2} className="timing-value">
+            {data?.duree_estimee !== undefined ? data.duree_estimee : 'Non disponible'}
+          </Title>
         </Card>
       </Modal>
     </div>
