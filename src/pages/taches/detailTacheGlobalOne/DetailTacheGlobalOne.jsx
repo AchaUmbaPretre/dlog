@@ -20,7 +20,6 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [docs, setDocs] = useState('');
   const [track, setTrack] = useState('')
   
-
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -44,13 +43,11 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 
   useEffect(() => {
     fetchData();
-  }, [idTache]); 
+  }, [initialIdTache]); 
 
   const closeAllModals = () => {
     setModalType(null);
   };
-
-  console.log(track)
   
   const openModal = (type) => {
     closeAllModals();
