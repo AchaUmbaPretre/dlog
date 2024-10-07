@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { notification, Card, Row, Col, Spin, Typography, Badge, Modal, Divider, Skeleton } from 'antd';
+import { notification, Card, Row, Col, Typography, Modal, Divider, Skeleton } from 'antd';
 import { InfoCircleOutlined, ReconciliationOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import ProjetDetailGeneral from './projetDetailGen/ProjetDetailGeneral';
 import { getProjetOne } from '../../../services/projetService';
@@ -128,7 +128,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         width={1000}
         centered
       >
-         <ListeTacheProjet idProjet={idProjet} />
+        <ListeTacheProjet idProjet={idProjet} />
       </Modal>
       <Modal
         title=""
