@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Modal, notification, Table, Typography } from 'antd';
+import { Input, message, Modal, notification, Table, Typography } from 'antd';
 import { getSearch } from '../../services/tacheService';
 import DetailTacheGlobalOne from '../taches/detailTacheGlobalOne/DetailTacheGlobalOne';
+import DetailProjetsGlobal from '../projet/detailProjet/DetailProjetsGlobal';
+import DetailOffre from '../offres/detailOffre/DetailOffre';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -12,15 +14,33 @@ const Tags = () => {
   const [searchValue, setSearchValue] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [idTache, setIdTache] = useState('');
+  const [modalType, setModalType] = useState(null);
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const closeAllModals = () => {
+    setModalType(null);
   };
 
-  const handleRowClick = (id) => {
-    setIdTache(id)
-    setIsModalVisible(true);
+  const openModal = (type, idTache = '') => {
+    closeAllModals();
+    setIdTache(idTache);
+    setModalType(type);
   };
+
+  const handleAllDetails = (idTache, type) => {
+    const modalTypes = {
+        tache: 'tache',
+        projet: 'projet',
+        offres: 'offres',
+    };
+
+    const modalType = modalTypes[type];
+
+    if (modalType) {
+        openModal(modalType, idTache);
+    } else {
+        message.info(`Type de modal non reconnu: ${type}`);
+    }
+};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,13 +75,13 @@ const Tags = () => {
       title: 'Nom',
       dataIndex: 'nom',
       key: 'nom',
-      render: (text, record) => <Text onClick={() => handleRowClick(record.id)}>{highlightText(text)}</Text>,
+      render: (text, record) => <Text onClick={() => handleAllDetails(record.id, record.type)}>{highlightText(text)}</Text>,
     },
     {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-      render: (text, record) => <Text onClick={() => handleRowClick(record.id)}>{highlightText(text)}</Text>,
+      render: (text, record) => <Text onClick={() => handleAllDetails(record.id, record.type)}>{highlightText(text)}</Text>,
     },
   ];
 
@@ -100,13 +120,35 @@ const Tags = () => {
 
     <Modal
         title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'tache'}
+        onCancel={closeAllModals}
         footer={null}
         width={1050}
         centered
       >
         <DetailTacheGlobalOne initialIdTache={idTache} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'projet'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1050}
+        centered
+      >
+        <DetailProjetsGlobal idProjet={idTache} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'offres'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <DetailOffre idOffre={idTache}/>
       </Modal>
     </div>
     
