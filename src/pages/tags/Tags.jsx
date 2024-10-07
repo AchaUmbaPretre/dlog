@@ -64,7 +64,6 @@ const Tags = () => {
       render: (text, record) => <Text onClick={() => handleRowClick(record.id)}>{highlightText(text)}</Text>,
     },
   ];
-  
 
   const highlightText = (text) => {
     // Vérifiez si le texte est défini et est une chaîne de caractères
