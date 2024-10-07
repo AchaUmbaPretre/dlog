@@ -4,6 +4,9 @@ import { getSearch } from '../../services/tacheService';
 import DetailTacheGlobalOne from '../taches/detailTacheGlobalOne/DetailTacheGlobalOne';
 import DetailProjetsGlobal from '../projet/detailProjet/DetailProjetsGlobal';
 import DetailOffre from '../offres/detailOffre/DetailOffre';
+import {
+    TagsOutlined 
+  } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -104,19 +107,33 @@ const Tags = () => {
   
 
   return (
-    <div>
-      <Search
-        placeholder="Rechercher..."
-        onChange={(e) => setSearchValue(e.target.value)} 
-        style={{ marginBottom: 20 }}
-      />
-      <Table
-        dataSource={results}
-        columns={columns}
-        rowKey="id_tache" // Assurez-vous que le champ de la clé primaire correspond à votre structure
-        loading={loading}
-        pagination={false}
-      />
+    <>
+        <div className="client">
+            <div className="client-wrapper">
+                <div className="client-row">
+                    <div className="client-row-icon">
+                        <TagsOutlined className='client-icon'/>
+                    </div>
+                    <h2 className="client-h2">Tags</h2>
+                </div>
+                <div className="client-actions">
+                    <div className="client-row-left">
+                        <Search
+                            placeholder="Rechercher..."
+                            onChange={(e) => setSearchValue(e.target.value)} 
+                            style={{ marginBottom: 20 }}
+                        />
+                    </div>
+                </div>
+                <Table
+                    dataSource={results}
+                    columns={columns}
+                    rowKey="id_tache" // Assurez-vous que le champ de la clé primaire correspond à votre structure
+                    loading={loading}
+                    pagination={false}
+                />
+            </div>
+        </div>
 
     <Modal
         title=""
@@ -150,7 +167,7 @@ const Tags = () => {
       >
         <DetailOffre idOffre={idTache}/>
       </Modal>
-    </div>
+    </>
     
   );
 };
