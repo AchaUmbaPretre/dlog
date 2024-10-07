@@ -55,7 +55,7 @@ const Tags = () => {
       title: 'Nom',
       dataIndex: 'nom',
       key: 'nom',
-      render: (text) => <Text>{highlightText(text)}</Text>,
+      render: (text, record) => <Text onClick={() => handleRowClick(record.id)}>{highlightText(text)}</Text>,
     },
     {
       title: 'Description',
