@@ -862,7 +862,7 @@ const handleEdit = (idTache) => {
             </div>
             <div className='client-row-lefts'>
               <span className='client-title'>
-                Taches trouvées : {loading ? <Skeleton.Input style={{ width: 100 }} active size='small' /> : total}
+              Tâches trouvées : {loading ? <Skeleton.Input style={{ width: 100 }} active size='small' /> : total}
               </span>
               <div className="client-row-sous">
                 {loading ? (

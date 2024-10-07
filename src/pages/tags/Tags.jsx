@@ -1,120 +1,92 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Input, notification, Space, Tag } from 'antd';
-import { TagsOutlined, ScheduleOutlined } from '@ant-design/icons';
+import { Input, notification, Table, Typography } from 'antd';
 import { getSearch } from '../../services/tacheService';
 
 const { Search } = Input;
+const { Text } = Typography;
 
 const Tags = () => {
+  const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [results, setResults] = useState({
-    projects: [],
-    tasks: [],
-  });
-
-  const scroll = { x: 400 };
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data } = await getSearch(searchValue);
-        setResults(data);
-        setLoading(false);
+        const response = await getSearch(searchValue);
+        setResults(response.data);
       } catch (error) {
         notification.error({
           message: 'Erreur de chargement',
           description: 'Une erreur est survenue lors du chargement des données.',
         });
+      } finally {
         setLoading(false);
       }
     };
 
     if (searchValue) {
-      fetchData();
+      fetchData(); // N'appelle fetchData que si searchValue n'est pas vide
+    } else {
+      setResults([]); // Réinitialiser les résultats si la recherche est vide
     }
   }, [searchValue]);
 
-  const columnsProjects = [
-    { 
-      title: '#', 
-      dataIndex: 'id_projet', 
-      key: 'id_projet', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
+  const columns = [
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
     },
-    { 
-      title: 'Nom du projet', 
-      dataIndex: 'nom_projet', 
-      key: 'nom_projet',
+    {
+      title: 'Nom',
+      dataIndex: 'nom',
+      key: 'nom',
+      render: (text) => <Text>{highlightText(text)}</Text>,
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+      render: (text) => <Text>{highlightText(text)}</Text>,
     },
   ];
+  
 
-  const columnsTasks = [
-    { 
-      title: '#', 
-      dataIndex: 'id_tache', 
-      key: 'id_tache', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
-    },
-    { 
-      title: 'Tâche', 
-      dataIndex: 'nom_tache', 
-      key: 'nom_tache',
-      render: text => (
-        <Space>
-          <Tag icon={<ScheduleOutlined />} color='cyan'>{text}</Tag>
-        </Space>
-      ),
-    },
-  ];
+  const highlightText = (text) => {
+    // Vérifiez si le texte est défini et est une chaîne de caractères
+    if (!text || typeof text !== 'string') return text; // Ne pas surligner si le texte est vide ou non valide
+  
+    if (!searchValue) return text; // Ne pas surligner si la recherche est vide
+  
+    const regex = new RegExp(`(${searchValue})`, 'gi'); // Crée une expression régulière pour le terme de recherche
+    const parts = text.split(regex); // Divise le texte en parties
+    return parts.map((part, index) => 
+      regex.test(part) ? (
+        <Text key={index} style={{ backgroundColor: 'yellow' }}>{part}</Text>
+      ) : (
+        part
+      )
+    );
+  };
+  
 
   return (
-    <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <TagsOutlined className='client-icon'/>
-            </div>
-            <h2 className="client-h2">Recherche par Tags</h2>
-          </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search 
-                placeholder="Recherche..." 
-                enterButton 
-                onSearch={(value) => setSearchValue(value)}
-              />
-            </div>
-          </div>
-          <h3>Projets</h3>
-          <Table
-            columns={columnsProjects}
-            dataSource={results.projects}
-            pagination={{ pageSize: 15 }}
-            rowKey="id_projet"
-            bordered
-            size="middle"
-            scroll={scroll}
-            loading={loading}
-          />
-          <h3>Tâches</h3>
-          <Table
-            columns={columnsTasks}
-            dataSource={results.tasks}
-            pagination={{ pageSize: 15 }}
-            rowKey="id_tache"
-            bordered
-            size="middle"
-            scroll={scroll}
-            loading={loading}
-          />
-        </div>
-      </div>
-    </>
+    <div>
+      <Search
+        placeholder="Rechercher..."
+        onChange={(e) => setSearchValue(e.target.value)} 
+        style={{ marginBottom: 20 }}
+      />
+      <Table
+        dataSource={results}
+        columns={columns}
+        rowKey="id_tache" // Assurez-vous que le champ de la clé primaire correspond à votre structure
+        loading={loading}
+        pagination={false}
+      />
+    </div>
   );
 };
 
