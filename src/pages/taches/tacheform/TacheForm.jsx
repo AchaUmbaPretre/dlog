@@ -11,42 +11,17 @@ import { useNavigate } from 'react-router-dom';
 import { getProjetOne } from '../../../services/projetService';
 import './tacheForm.scss'
 import { getPriorityIcon } from '../../../utils/prioriteIcons';
-import ReactQuill, { Quill } from 'react-quill';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import QuillBetterTable from 'quill-better-table';
-import 'quill-better-table/dist/quill-better-table.css'; // N'oubliez pas d'importer le CSS
 
-
-Quill.register(
-    {
-      'modules/better-table': QuillBetterTable
-    },
-    true
-  );
-
-  const modules = {
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      ['link', 'image'],
-      [{ 'table': true }] 
-    ],
-    'better-table': {
-      operationMenu: {
-        items: {
-          unmergeCells: {
-            text: 'Défusionner les cellules'
-          }
-        }
-      },
-      tableBorderStyles: {
-        solid: 'Solide',
-        dashed: 'Pointillé',
-        dotted: 'Puntillé'
-      },
-      tableCellSelection: true
-    }
-  };
+const modules = {
+  toolbar: [
+    ['bold', 'italic', 'underline'],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    ['link', 'image'],
+    ['clean']
+  ],
+};
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -57,12 +32,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
     const [batiment, setBatiment] = useState([]);
-    const [projetName, setProjetName] = useState('');
-    const [catTache, setCatTache] = useState('');
-    const [corps, setCorps] = useState('');
+    const [projetName, setProjetName] = useState([]);
+    const [catTache, setCatTache] = useState([]);
+    const [corps, setCorps] = useState([]);
     const [loadingData, setLoadingData] = useState(true);
     const navigate = useNavigate();
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -94,22 +68,24 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                     setProjetName(data[0]?.nom_projet)
                 }
 
-                const { data: tache } = await getTacheOneV(idTache);
-                if (tache && tache[0]) {
-                    form.setFieldsValue({
-                        nom_tache: tache[0].nom_tache,
-                        date_debut: moment(tache[0].date_debut, 'YYYY-MM-DD'),
-                        date_fin: moment(tache[0].date_fin, 'YYYY-MM-DD'),
-                        id_departement: tache[0].id_departement,
-                        id_client: tache[0].id_client,
-                        id_ville: tache[0].id_ville,
-                        id_frequence: tache[0].id_frequence,
-                        responsable_principal: tache[0].responsable_principal,
-                        id_demandeur: tache[0].id_demandeur,
-                        description: tache[0].description,
-                        id_batiment: tache[0]?.id_batiment,
-                        priorite: tache[0]?.priorite
-                    });
+                if(idTache){
+                    const { data: tache } = await getTacheOneV(idTache);
+                    if (tache && tache[0]) {
+                        form.setFieldsValue({
+                            nom_tache: tache[0].nom_tache,
+                            date_debut: moment(tache[0].date_debut, 'YYYY-MM-DD'),
+                            date_fin: moment(tache[0].date_fin, 'YYYY-MM-DD'),
+                            id_departement: tache[0].id_departement,
+                            id_client: tache[0].id_client,
+                            id_ville: tache[0].id_ville,
+                            id_frequence: tache[0].id_frequence,
+                            responsable_principal: tache[0].responsable_principal,
+                            id_demandeur: tache[0].id_demandeur,
+                            description: tache[0].description,
+                            id_batiment: tache[0]?.id_batiment,
+                            priorite: tache[0]?.priorite
+                        });
+                    }
                 }
 
             } catch (error) {
@@ -358,7 +334,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
                                     placeholder="Sélectionnez un bâtiment"
                                     showSearch
-                                    options={batiment.map((item) => ({
+                                    options={batiment?.map((item) => ({
                                         value: item.id_batiment,
                                         label: item.nom_batiment,
                                     }))}
@@ -378,7 +354,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
                                     placeholder="Sélectionnez.."
                                     showSearch
-                                    options={corps.map((item) => ({
+                                    options={corps?.map((item) => ({
                                         value: item.id_corps_metier,
                                         label: item.nom_corps_metier
                                     }))}
@@ -399,7 +375,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 <Select
                                     placeholder="Sélectionnez.."
                                     showSearch
-                                    options={catTache.map((item) => ({
+                                    options={catTache?.map((item) => ({
                                         value: item.id_cat_tache,
                                         label: item.nom_cat_tache
                                     }))}
