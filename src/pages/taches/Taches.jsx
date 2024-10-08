@@ -973,7 +973,7 @@ const handleEdit = (idTache) => {
         visible={modalType === 'ListeDoc'}
         onCancel={closeAllModals}
         footer={null}
-        width={850}
+        width={900}
         centered
       >
         <ListeDocTache idTache={idTache} />
