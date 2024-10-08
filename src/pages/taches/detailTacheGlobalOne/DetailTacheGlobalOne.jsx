@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
-import { InfoCircleOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined,EditOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
@@ -122,14 +122,19 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
         </div>
       </div>
       <div className="title_row">
-        <h1 className="title_h1">
-          <FileTextOutlined style={{ marginRight: '8px' }} />
-          <strong>Description : </strong>
-          {data?.description ? (
-            <div dangerouslySetInnerHTML={{ __html: data.description }} />
-          ) : (
-            <Skeleton.Input active />
-          )}
+        <h1 className="title_h1" style={{display:'flex', justifyContent:'space-between'}}>
+          <div>
+            <FileTextOutlined style={{ marginRight: '8px' }} />
+            <strong>Description : </strong>
+            {data?.description ? (
+              <div dangerouslySetInnerHTML={{ __html: data.description }} />
+            ) : (
+              <Skeleton.Input active />
+            )}
+          </div>
+          <div style={{background:'green', height:'30px', width:'30px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', cursor:'pointer'}}>
+            <EditOutlined />
+          </div>
         </h1>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
