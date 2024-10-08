@@ -47,7 +47,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 
   useEffect(() => {
     setIdTache(initialIdTache);
-  }, [initialIdTache]); // Mettez à jour idTache quand initialIdTache change
+  }, [initialIdTache]);
 
   const closeAllModals = () => {
     setModalType(null);
