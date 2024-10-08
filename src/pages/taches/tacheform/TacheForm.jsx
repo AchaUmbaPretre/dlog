@@ -406,6 +406,26 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 />}
                             </Form.Item>
                         </Col>
+                        { idTache ? 
+                            <Col xs={24} md={24}>
+                            <Form.Item
+                                name="description"
+                                label="Description"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez fournir une description.',
+                                    },
+                                ]}
+                            >
+                                {loadingData ? (
+                                    <Skeleton.Input active={true} />
+                                ) : (
+                                    <Input.TextArea style={{ height: '100px', marginBottom:'50px' }} value={form.getFieldValue('description') || ''} onChange={(value) => form.setFieldsValue({ description: value })}  placeholder="Description..." />
+                                )}
+                            </Form.Item>
+                        </Col>
+                        :
                         <Col xs={24} md={24}>
                             <Form.Item
                                 name="description"
@@ -420,10 +440,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 {loadingData ? (
                                     <Skeleton.Input active={true} />
                                 ) : (
-                                    <ReactQuill theme="snow" style={{ height: '200px', marginBottom:'50px' }} modules={modules} placeholder="Description..." />
+                                    <ReactQuill theme="snow" style={{ height: '100px', marginBottom:'50px' }} modules={modules}  value={form.getFieldValue('description') || ''} onChange={(value) => form.setFieldsValue({ description: value })}  placeholder="Description..." />
                                 )}
                             </Form.Item>
                         </Col>
+                        }
                         <Col xs={24}>
                             <Form.Item>
                                 <Space className="button-group">
