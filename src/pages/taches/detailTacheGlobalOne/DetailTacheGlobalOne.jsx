@@ -132,8 +132,6 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
           )}
         </h1>
       </div>
-
-
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <Tooltip title="Précédent">
           <Button onClick={goToPreviousTache} disabled={idTache === 1}>
