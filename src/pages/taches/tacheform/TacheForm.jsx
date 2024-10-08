@@ -11,6 +11,42 @@ import { useNavigate } from 'react-router-dom';
 import { getProjetOne } from '../../../services/projetService';
 import './tacheForm.scss'
 import { getPriorityIcon } from '../../../utils/prioriteIcons';
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import QuillBetterTable from 'quill-better-table';
+import 'quill-better-table/dist/quill-better-table.css'; // N'oubliez pas d'importer le CSS
+
+
+Quill.register(
+    {
+      'modules/better-table': QuillBetterTable
+    },
+    true
+  );
+
+  const modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      ['link', 'image'],
+      [{ 'table': true }] 
+    ],
+    'better-table': {
+      operationMenu: {
+        items: {
+          unmergeCells: {
+            text: 'Défusionner les cellules'
+          }
+        }
+      },
+      tableBorderStyles: {
+        solid: 'Solide',
+        dashed: 'Pointillé',
+        dotted: 'Puntillé'
+      },
+      tableCellSelection: true
+    }
+  };
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -26,13 +62,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [corps, setCorps] = useState('');
     const [loadingData, setLoadingData] = useState(true);
     const navigate = useNavigate();
-    const [tags, setTags] = useState([]);
 
-    const handleAddTag = (value) => {
-        if (value && !tags.includes(value)) {
-            setTags([...tags, value]);
-        }
-    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -97,13 +127,10 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
       }, [idTache, idProjet, form]);
 
     const onFinish = async (values) => {
-        const tagsArray = values.tags ? values.tags.split(',').map(tag => tag.trim()) : [];
-
         const dataAll = {
             ...values,
             id_control : idControle,
-            id_projet: idProjet,
-            tags: tagsArray
+            id_projet: idProjet
         }
         setIsLoading(true);
         try {
@@ -111,7 +138,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 await putTache(idTache, dataAll)
             }
             else{
-                await postTache(dataAll);
+                await postTache(dataAll)
             }
             notification.success({
                 message: 'Succès',
@@ -405,30 +432,20 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                         </Col>
                         <Col xs={24} md={24}>
                             <Form.Item
-                                name="tags"
-                                label="Tag"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un tag.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Tag..." />}
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={24}>
-                            <Form.Item
                                 name="description"
                                 label="Description"
                                 rules={[
                                     {
-                                        required: false,
+                                        required: true,
                                         message: 'Veuillez fournir une description.',
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea style={{height:'70px'}} placeholder="Description..." />}
+                                {loadingData ? (
+                                    <Skeleton.Input active={true} />
+                                ) : (
+                                    <ReactQuill theme="snow" style={{ height: '200px', marginBottom:'50px' }} modules={modules} placeholder="Description..." />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col xs={24}>

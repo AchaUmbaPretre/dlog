@@ -124,9 +124,15 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
       <div className="title_row">
         <h1 className="title_h1">
           <FileTextOutlined style={{ marginRight: '8px' }} />
-          <strong>Description : </strong> {data?.description || <Skeleton.Input active />}
+          <strong>Description : </strong>
+          {data?.description ? (
+            <div dangerouslySetInnerHTML={{ __html: data.description }} />
+          ) : (
+            <Skeleton.Input active />
+          )}
         </h1>
       </div>
+
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <Tooltip title="Précédent">
