@@ -100,6 +100,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
 
     useEffect(() => {
         form.resetFields();
+        setEditorContent();
       }, [idTache, idProjet, form]);
 
     const onFinish = async (values) => {
@@ -426,8 +427,25 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         model={editorContent}
                                         onModelChange={handleEditorChange}
                                         config={{
-                                            toolbarButtons: ['bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertHR', '|', 'undo', 'redo'],
-                                            height: 300,
+                                           toolbarButtons: [
+                                                'bold', 
+                                                'italic', 
+                                                'underline', 
+                                                '|', 
+                                                'insertLink', 
+                                                'insertImage', 
+                                                'insertHR', 
+                                                '|', 
+                                                'undo', 
+                                                'redo', 
+                                                '|', 
+                                                'paragraphFormat',
+                                                'align',
+                                                'insertTable',
+                                                'clearFormatting'
+                                            ],
+                                            height: 200,
+                                            placeholder: 'Entrez votre description ici...'
                                         }}
                                     />
                                 )}
