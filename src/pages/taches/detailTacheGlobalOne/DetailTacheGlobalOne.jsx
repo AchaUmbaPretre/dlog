@@ -177,7 +177,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
         visible={modalType === 'edite'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={850}
         centered
       >
         <EditerDesc idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData}/>
