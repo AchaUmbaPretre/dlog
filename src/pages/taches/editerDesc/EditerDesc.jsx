@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Col, Skeleton } from 'antd';
+import { Form, Col, Skeleton, notification } from 'antd';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
-import { getTacheOneV } from '../../../services/tacheService';
+import { getTacheOneV, putTacheDesc } from '../../../services/tacheService';
 
 
 const EditerDesc = ({idTache, closeModal, fetchData}) => {
@@ -42,17 +42,13 @@ const EditerDesc = ({idTache, closeModal, fetchData}) => {
     }, [idTache]);
 
     const onFinish = async (values) => {
-        /* const dataAll = {
-            ...values,
-            id_control : idControle,
-            id_projet: idProjet
-        }
+
         setIsLoading(true);
         try {
-                await putTache(idTache, dataAll)
+                await putTacheDesc(idTache, values)
             notification.success({
                 message: 'Succès',
-                description: 'Les informations ont été enregistrées avec succès.',
+                description: 'La description été mise à jour avec succès.',
             });
             closeModal();
             fetchData();
@@ -62,7 +58,7 @@ const EditerDesc = ({idTache, closeModal, fetchData}) => {
             console.log(error)
         } finally {
             setIsLoading(false);
-        } */
+        }
     };
 
 
