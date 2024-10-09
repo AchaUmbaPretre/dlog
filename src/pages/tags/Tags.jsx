@@ -103,11 +103,16 @@ const Tags = () => {
       width: '250px'
     },
     {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      render: (text, record) => <Text onClick={() => handleAllDetails(record.id, record.type)}>{highlightText(text)}</Text>,
-    },
+        title: 'Description',
+        dataIndex: 'description',
+        key: 'description',
+        render: (text, record) => (
+          <Text onClick={() => handleAllDetails(record.id, record.type)}>
+            <span dangerouslySetInnerHTML={{ __html: highlightText(text) }} />
+          </Text>
+        ),
+      }
+      
   ];
 
   const highlightText = (text) => {
