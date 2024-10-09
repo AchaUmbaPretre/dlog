@@ -1,11 +1,12 @@
-import React from 'react'
-import { Form, Col } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Form, Col, Skeleton } from 'antd';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
+import { getTacheOneV } from '../../../services/tacheService';
 
 
-const EditerDesc = ({idTache}) => {
+const EditerDesc = ({idTache, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [editorContent, setEditorContent] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -26,8 +27,7 @@ const EditerDesc = ({idTache}) => {
                     const { data: tache } = await getTacheOneV(idTache);
                     
                     if (tache && tache[0]) {
-                        setEditorContent(tache[0].description);
-                        form.setFieldsValue(tache[0]);
+                        setEditorContent(tache[0].description)
                     }
                 }
 
@@ -40,6 +40,30 @@ const EditerDesc = ({idTache}) => {
 
         fetchData();
     }, [idTache]);
+
+    const onFinish = async (values) => {
+        /* const dataAll = {
+            ...values,
+            id_control : idControle,
+            id_projet: idProjet
+        }
+        setIsLoading(true);
+        try {
+                await putTache(idTache, dataAll)
+            notification.success({
+                message: 'Succès',
+                description: 'Les informations ont été enregistrées avec succès.',
+            });
+            closeModal();
+            fetchData();
+            form.resetFields();
+            setEditorContent();
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setIsLoading(false);
+        } */
+    };
 
 
   return (
@@ -93,7 +117,7 @@ const EditerDesc = ({idTache}) => {
                                                 'insertTable',
                                                 'clearFormatting'
                                             ],
-                                            height: 200,
+                                            height: 300,
                                             placeholder: 'Entrez votre description ici...'
                                         }}
                                     />

@@ -8,6 +8,7 @@ import ListeTracking from '../listeTracking/ListeTracking';
 import ListeDocTache from '../listeDocTache/ListeDocTache';
 import { getSuiviTacheOneV, getTrackingAllOne } from '../../../services/suiviService';
 import moment from 'moment';
+import EditerDesc from '../editerDesc/EditerDesc';
 
 const { Title, Text } = Typography;
 
@@ -62,6 +63,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const handleTracking = () => openModal('tracking');
   const handleDoc = () => openModal('document');
   const handleTiming = () => openModal('timing');
+  const handleEditer = () => openModal('edite');
 
   const goToNextTache = () => {
     setIdTache((prevId) => prevId + 1);
@@ -133,7 +135,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
             )}
           </div>
           <div style={{background:'green', height:'30px', width:'30px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', cursor:'pointer', flex:'0.2'}}>
-            <EditOutlined />
+            <EditOutlined onClick={handleEditer}/>
           </div>
         </h1>
       </div>
@@ -178,7 +180,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
         width={800}
         centered
       >
-        <DetailTache idTache={idTache} />
+        <EditerDesc idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData}/>
       </Modal>
 
       <Modal
