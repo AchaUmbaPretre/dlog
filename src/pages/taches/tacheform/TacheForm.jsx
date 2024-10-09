@@ -11,17 +11,9 @@ import { useNavigate } from 'react-router-dom';
 import { getProjetOne } from '../../../services/projetService';
 import './tacheForm.scss'
 import { getPriorityIcon } from '../../../utils/prioriteIcons';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
-const modules = {
-  toolbar: [
-    ['bold', 'italic', 'underline'],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    ['link', 'image'],
-    ['clean']
-  ],
-};
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+import 'froala-editor/css/froala_style.min.css';
+import FroalaEditor from 'react-froala-wysiwyg'
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -37,6 +29,12 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [corps, setCorps] = useState([]);
     const [loadingData, setLoadingData] = useState(true);
     const navigate = useNavigate();
+    const [editorContent, setEditorContent] = useState('');
+
+    const handleEditorChange = (content) => {
+        setEditorContent(content);
+        form.setFieldsValue({ description: content });
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -70,7 +68,9 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
 
                 if(idTache){
                     const { data: tache } = await getTacheOneV(idTache);
+                    
                     if (tache && tache[0]) {
+                        setEditorContent(tache[0].description);
                         form.setFieldsValue({
                             nom_tache: tache[0].nom_tache,
                             date_debut: moment(tache[0].date_debut, 'YYYY-MM-DD'),
@@ -124,6 +124,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
             closeModal();
             fetchData();
             form.resetFields();
+            setEditorContent();
         } catch (error) {
             console.log(error)
         } finally {
@@ -406,26 +407,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 />}
                             </Form.Item>
                         </Col>
-                        { idTache ? 
-                            <Col xs={24} md={24}>
-                            <Form.Item
-                                name="description"
-                                label="Description"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir une description.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? (
-                                    <Skeleton.Input active={true} />
-                                ) : (
-                                    <Input.TextArea style={{ height: '100px', marginBottom:'50px' }} value={form.getFieldValue('description') || ''} onChange={(value) => form.setFieldsValue({ description: value })}  placeholder="Description..." />
-                                )}
-                            </Form.Item>
-                        </Col>
-                        :
                         <Col xs={24} md={24}>
                             <Form.Item
                                 name="description"
@@ -440,11 +421,18 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 {loadingData ? (
                                     <Skeleton.Input active={true} />
                                 ) : (
-                                    <ReactQuill theme="snow" style={{ height: '100px', marginBottom:'50px' }} modules={modules}  value={form.getFieldValue('description') || ''} onChange={(value) => form.setFieldsValue({ description: value })}  placeholder="Description..." />
+                                    <FroalaEditor
+                                        tag='textarea'
+                                        model={editorContent}
+                                        onModelChange={handleEditorChange}
+                                        config={{
+                                            toolbarButtons: ['bold', 'italic', 'underline', '|', 'insertLink', 'insertImage', 'insertHR', '|', 'undo', 'redo'],
+                                            height: 300,
+                                        }}
+                                    />
                                 )}
                             </Form.Item>
                         </Col>
-                        }
                         <Col xs={24}>
                             <Form.Item>
                                 <Space className="button-group">
