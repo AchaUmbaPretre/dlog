@@ -557,7 +557,7 @@ const handleEdit = (idTache) => {
               icon={<EyeOutlined />}
               onClick={() => handleViewDetails(record.id_tache)}
               aria-label="Voir les détails de la tâche"
-              style={{color: 'green'}}
+              style={{color: 'blue'}}
             />
           </Tooltip>
           <Popover
@@ -756,7 +756,7 @@ const handleEdit = (idTache) => {
                     <Tooltip title="Modifier">
                       <Button
                         icon={<EditOutlined />}
-                        style={{ color: 'green' }}
+                        style={{ color: 'blue' }}
                         onClick={() => handleEdit(record.id_tache)}
                         aria-label="Edit tache"
                       />

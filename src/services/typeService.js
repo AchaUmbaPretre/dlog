@@ -56,6 +56,18 @@ export const getCorpsMetier = async () => {
     return axios.get(`${DOMAIN}/api/types/corps_metier`);
   };
 
+export const getCorpsMetierOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/types/corps_metier/one?id_corps=${id}`);
+  };
+
+export const postCorpsMetier = async (data) => {
+    return axios.post(`${DOMAIN}/api/types/corps_metier`, data);
+  };
+
+export const putCorpsMetier = async () => {
+    return axios.get(`${DOMAIN}/api/types/corps_metier_update`);
+  };
+
 export const getCatTache = async () => {
     return axios.get(`${DOMAIN}/api/types/cat_tache`);
   };

@@ -136,17 +136,14 @@ const SideBar = () => {
             <Menu.Item key="12" onClick={toggleMenu}>
               <Link to='/article'>Liste des articles</Link>
             </Menu.Item>
-            <Menu.Item key="13" onClick={toggleMenu}>
-              <Link to='/categorie'>Liste des catégories</Link>
-            </Menu.Item>
           </SubMenu>
-          <Item key="14" icon={<DropboxOutlined style={{ color: '#9254de' }} />} onClick={toggleMenu}>
+          <Item key="13" icon={<DropboxOutlined style={{ color: '#9254de' }} />} onClick={toggleMenu}>
             <Link to='/stock'>Stock</Link>
           </Item>
-          <Item key="15" icon={<FileTextOutlined style={{ color: '#ffc069' }} />} onClick={toggleMenu}>
+          <Item key="14" icon={<FileTextOutlined style={{ color: '#ffc069' }} />} onClick={toggleMenu}>
             <Link to='/dossier'>Document</Link>
           </Item>
-          <Item key="21" icon={<TagsOutlined style={{ color: 'blue' }} />} onClick={toggleMenu}>
+          <Item key="15" icon={<TagsOutlined style={{ color: 'blue' }} />} onClick={toggleMenu}>
             <Link to='/tags'>Tags</Link>
           </Item>
           <SubMenu key="sub5" icon={<SettingOutlined style={{ color: '#000' }} />} title="Paramètre">
@@ -160,9 +157,15 @@ const SideBar = () => {
               <Link to='/fournisseur'>Liste des fournisseurs</Link>
             </Menu.Item>
             <Menu.Item key="19" onClick={toggleMenu}>
-              <Link to='/format'>Format</Link>
+              <Link to='/categorie'>Liste des catégories</Link>
             </Menu.Item>
             <Menu.Item key="20" onClick={toggleMenu}>
+              <Link to='/corpsMetier'>Liste des corps de métier</Link>
+            </Menu.Item>
+            <Menu.Item key="21" onClick={toggleMenu}>
+              <Link to='/format'>Format</Link>
+            </Menu.Item>
+            <Menu.Item key="22" onClick={toggleMenu}>
               <Link to='/frequence'>Fréquence</Link>
             </Menu.Item>
           </SubMenu>

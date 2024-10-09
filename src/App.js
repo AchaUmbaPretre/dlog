@@ -32,6 +32,7 @@ import ListeTrackingGlobal from './pages/listeTrackingGlobal/ListeTrackingGlobal
 import EntrepotListeGlobale from './pages/entrepotListeGlobal/EntrepotListeGlobal';
 import ListBureaux from './pages/Listbureaux/ListBureaux';
 import Tags from './pages/tags/Tags';
+import CorpsMetier from './pages/corpsMetier/CorpsMetier';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -154,6 +155,10 @@ function App() {
         {
           path: '/categorie',
           element: <Categorie/>
+        },
+        {
+          path: '/corpsMetier',
+          element: <CorpsMetier/>
         },
         {
           path: '/utilisateur',
