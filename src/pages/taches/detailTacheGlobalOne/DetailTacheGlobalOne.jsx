@@ -123,7 +123,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
       </div>
       <div className="title_row">
         <h1 className="title_h1" style={{display:'flex', justifyContent:'space-between'}}>
-          <div>
+          <div style={{flex:'6'}}>
             <FileTextOutlined style={{ marginRight: '8px' }} />
             <strong>Description : </strong>
             {data?.description ? (
@@ -132,7 +132,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
               <Skeleton.Input active />
             )}
           </div>
-          <div style={{background:'green', height:'30px', width:'30px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', cursor:'pointer'}}>
+          <div style={{background:'green', height:'30px', width:'30px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', cursor:'pointer', flex:'0.2'}}>
             <EditOutlined />
           </div>
         </h1>
@@ -162,6 +162,17 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
       <Modal
         title=""
         visible={modalType === 'info'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <DetailTache idTache={idTache} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'edite'}
         onCancel={closeAllModals}
         footer={null}
         width={800}
