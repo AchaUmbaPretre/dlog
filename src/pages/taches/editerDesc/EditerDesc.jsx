@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Col, Skeleton, notification } from 'antd';
+import { Form, Col, Skeleton, notification, Button, Space } from 'antd';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
@@ -118,6 +118,15 @@ const EditerDesc = ({idTache, closeModal, fetchData}) => {
                                         }}
                                     />
                                 )}
+                    </Form.Item>
+                </Col>
+                <Col xs={24}>
+                    <Form.Item>
+                        <Space className="button-group">
+                            <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
+                                        { idTache ? 'Modifier' : 'Ajouter'}
+                            </Button>
+                        </Space>
                     </Form.Item>
                 </Col>
             </Form>

@@ -134,8 +134,8 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
               <Skeleton.Input active />
             )}
           </div>
-          <div style={{background:'green', height:'30px', width:'30px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', cursor:'pointer', flex:'0.2'}}>
-            <EditOutlined onClick={handleEditer}/>
+          <div onClick={handleEditer} style={{background:'green', height:'30px', width:'30px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', cursor:'pointer', flex:'0.2'}}>
+            <EditOutlined/>
           </div>
         </h1>
       </div>
@@ -177,7 +177,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
         visible={modalType === 'edite'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={900}
         centered
       >
         <EditerDesc idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData}/>
