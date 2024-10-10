@@ -100,7 +100,11 @@ const DetailProjetsGlobal = ({ idProjet }) => {
       <div className="title_row">
         <h1 className="title_h1">
           <FileTextOutlined style={{ marginRight: '8px' }} />
-          <strong>Description : </strong> {data.description}
+          <strong>Description : </strong> {data?.description ? (
+              <div dangerouslySetInnerHTML={{ __html: data.description }} />
+            ) : (
+              <Skeleton.Input active />
+            )}
         </h1>
       </div>
       {loading ? (

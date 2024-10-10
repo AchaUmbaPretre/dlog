@@ -6,7 +6,9 @@ import { getClient } from '../../../services/clientService';
 import { getProjetOneF, postProjet, putProjet } from '../../../services/projetService';
 import { getArticle, getBatiment } from '../../../services/typeService';
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+import 'froala-editor/css/froala_style.min.css';
+import FroalaEditor from 'react-froala-wysiwyg'
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -19,7 +21,13 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     const [loading, setLoading] = useState(true);
     const [batiment, setBatiment] = useState([]);
     const [article, setArticle] = useState([]);
-    const navigate = useNavigate();
+
+    const [editorContent, setEditorContent] = useState('');
+
+    const handleEditorChange = (content) => {
+        setEditorContent(content);
+        form.setFieldsValue({ description: content });
+    };
 
     const handleError = (message) => {
         notification.error({
@@ -211,7 +219,34 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             name="description"
                             rules={[{ required: false, message: 'La description est requis' }]}
                         >
-                            {loading ? <Skeleton.Input active /> : <TextArea placeholder="Entrez la description..." />}
+                            {loading ? <Skeleton.Input active /> : 
+                                <FroalaEditor
+                                        tag='textarea'
+                                        model={editorContent}
+                                        onModelChange={handleEditorChange}
+                                        config={{
+                                           toolbarButtons: [
+                                                'bold', 
+                                                'italic', 
+                                                'underline', 
+                                                '|', 
+                                                'insertLink', 
+                                                'insertImage', 
+                                                'insertHR', 
+                                                '|', 
+                                                'undo', 
+                                                'redo', 
+                                                '|', 
+                                                'paragraphFormat',
+                                                'align',
+                                                'insertTable',
+                                                'clearFormatting'
+                                            ],
+                                            height: 200,
+                                            placeholder: 'Entrez votre description ici...'
+                                        }}
+                                    />
+                            }
                         </Form.Item>
                     </Col>
                 </Row>

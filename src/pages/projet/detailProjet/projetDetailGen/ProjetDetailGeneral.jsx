@@ -48,8 +48,12 @@ const ProjetDetailGeneral = ({ idProjet }) => {
               {data.nom_projet || 'Non disponible'}
             </p>
             <p className="detail-tache-paragraph">
-              <strong>Description : </strong>
-              {data.description || 'Non disponible'}
+              <strong>DescriptionS : </strong>
+              {data?.description ? (
+              <div dangerouslySetInnerHTML={{ __html: data.description }} />
+            ) : (
+              <Skeleton.Input active />
+            )}
             </p>
             <p className="detail-tache-paragraph">
               <strong>Client : </strong>
