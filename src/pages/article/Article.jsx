@@ -7,6 +7,7 @@ import 'moment/locale/fr';
 import ArticleForm from '../offres/articleForm/ArticleForm';
 import { getArticle } from '../../services/typeService';
 import FormArticleExcel from './formArticleExcel/FormArticleExcel';
+import { estSupprimeArticle } from '../../services/offreService';
 
 moment.locale('fr');
 
@@ -54,10 +55,9 @@ const Article = () => {
 
   const handleSupprimer = async (id) => {
     try {
-      // Fonction de suppression commentée
-      // await deleteOffre(id);
-      setData(data.filter((item) => item.id_budget !== id));
-      message.success('Offre supprimée avec succès');
+       await estSupprimeArticle(id);
+      setData(data.filter((item) => item.id_article !== id));
+      message.success('Article supprimée avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -139,8 +139,8 @@ const Article = () => {
         <Space size="middle">
           <Tooltip title="Supprimer">
             <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer cette offre ?"
-              onConfirm={() => handleSupprimer(record.id_offre)}
+              title="Êtes-vous sûr de vouloir supprimer ?"
+              onConfirm={() => handleSupprimer(record.id_article)}
               okText="Oui"
               cancelText="Non"
             >
