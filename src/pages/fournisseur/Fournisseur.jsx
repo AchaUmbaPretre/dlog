@@ -143,49 +143,7 @@ const Fournisseur = () => {
       render: (text) => (
         <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
       ),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
-      render: (text, record) => (
-        <Space size="middle">
-{/*           <Tooltip title="View Details">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              type="link"
-              aria-label="View client details"
-            />
-          </Tooltip> */}
-{/*           <Tooltip title="Edit">
-            <Popover title="Modifier" trigger="hover">
-              <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleEdit(record)}
-                type="link"
-                aria-label="Edit client"
-              />
-            </Popover>
-          </Tooltip> */}
-{/*           <Tooltip title="Delete">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce client?"
-              onConfirm={() => handleDelete(record.id)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete client"
-              />
-            </Popconfirm>
-          </Tooltip> */}
-        </Space>
-      ),
-    },
+    }
   ];
   
 
