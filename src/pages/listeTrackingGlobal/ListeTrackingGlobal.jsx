@@ -126,7 +126,7 @@ const ListeTrackingGlobal = ({ idTache }) => {
           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
-              onConfirm={() => handleDelete(record.id)}
+              onConfirm={() => handleDelete(record.id_suivi)}
               okText="Oui"
               cancelText="Non"
             >
