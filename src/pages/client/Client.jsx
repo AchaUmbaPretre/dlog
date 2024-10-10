@@ -152,21 +152,20 @@ const Client = () => {
               aria-label="View client details"
             />
           </Tooltip> */}
-{/*           <Tooltip title="Edit">
+           <Tooltip title="Edit">
             <Popover title="Modifier" trigger="hover">
               <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
-                onClick={() => handleEdit(record)}
-                type="link"
+                onClick={() => handleEdit(record.id_client)}
                 aria-label="Edit client"
               />
             </Popover>
-          </Tooltip> */}
+          </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce client?"
-              onConfirm={() => handleDelete(record.id)}
+              onConfirm={() => handleDelete(record.id_client)}
               okText="Oui"
               cancelText="Non"
             >
