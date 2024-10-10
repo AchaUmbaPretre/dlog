@@ -3,6 +3,10 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
+export const getTacheCountChart = async () => {
+  return axios.get(`${DOMAIN}/api/tache/count_chart`);
+};
+
 export const getTacheCount = async () => {
   return axios.get(`${DOMAIN}/api/tache/count`);
 };

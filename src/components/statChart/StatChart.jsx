@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
+import { notification } from 'antd';
+import { getTacheCountChart } from '../../services/tacheService';
 
 const StatChart = () => {
-  const data = [
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(()=>{
+
+    const fetchData = async() => {
+      try {
+        const { data } = await getTacheCountChart();
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données.',
+        });
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [])
+  const datas = [
     {
       task: 'Complété',
       count: 45,
@@ -29,8 +51,8 @@ const StatChart = () => {
     <div style={{ height: 400 }}>
       <ResponsiveBar
         data={data}
-        keys={['count']}
-        indexBy="task"
+        keys={['nombre_taches']}
+        indexBy="statut"
         margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
         padding={0.3}
         colors={({ data }) => data.color}  // Application des couleurs spécifiées pour chaque barre
