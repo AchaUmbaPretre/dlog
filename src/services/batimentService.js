@@ -159,7 +159,6 @@ export const putBins = async (id,data) => {
   };
 
 export const putDeleteBins = async (id) => {
-  console.log(id)
     return axios.put(`${DOMAIN}/api/batiment/bins_delete?id=${id}`);
     };
 
