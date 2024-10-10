@@ -34,7 +34,7 @@ return axios.post(`${DOMAIN}/api/suivi/suiviTache`, data);
 };
 
 export const estSupprimeSuivi = async (id) => {
-  return axios.delete(`${DOMAIN}/api/suivi/est_supprime?id=${id}`,);
+  return axios.put(`${DOMAIN}/api/suivi/est_supprime?id=${id}`,);
 };
 
 
