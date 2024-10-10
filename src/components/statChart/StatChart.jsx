@@ -7,12 +7,29 @@ const StatChart = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  useEffect(()=>{
-
-    const fetchData = async() => {
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         const { data } = await getTacheCountChart();
-        setData(data);
+
+        // Ajoutez des couleurs spécifiques pour chaque statut
+        const colorMapping = {
+          'En attente': '#f4a261',            // Orange clair
+          'En cours': '#6a8caf',              // Bleu
+          'Point bloquant': '#e63946',        // Rouge
+          'En attente de validation': '#f9c74f', // Jaune
+          'Validé': '#2a9d8f',               // Vert
+          'Budget': '#e76f51',               // Orange foncé
+          'Executé': '#264653',              // Vert foncé
+        };
+
+        // Associez les couleurs à vos données
+        const formattedData = data.map(item => ({
+          ...item,
+          color: colorMapping[item.statut] || '#b0b0b0'  // Valeur par défaut si le statut n'a pas de couleur définie
+        }));
+
+        setData(formattedData);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -21,31 +38,9 @@ const StatChart = () => {
         });
         setLoading(false);
       }
-    }
+    };
     fetchData();
-  }, [])
-  const datas = [
-    {
-      task: 'Complété',
-      count: 45,
-      color: '#6a8caf', 
-    },
-    {
-      task: 'En cours',
-      count: 30,
-      color: '#b0b0b0', 
-    },
-    {
-      task: 'En attente',
-      count: 15,
-      color: '#f4a261',  
-    },
-    {
-      task: 'En retard',
-      count: 10,
-      color: '#90e0ef',  
-    },
-  ];
+  }, []);
 
   return (
     <div style={{ height: 400 }}>
@@ -66,8 +61,8 @@ const StatChart = () => {
           legend: 'Statut de la tâche',
           legendPosition: 'middle',
           legendOffset: 32,
-          tickColor: '#d0d0d0',  // Couleur des ticks de l'axe X
-          legendTextColor: '#6a8caf',  // Couleur du texte de la légende de l'axe X
+          tickColor: '#d0d0d0',
+          legendTextColor: '#6a8caf',
         }}
         axisLeft={{
           tickSize: 5,
@@ -76,8 +71,8 @@ const StatChart = () => {
           legend: 'Count',
           legendPosition: 'middle',
           legendOffset: -40,
-          tickColor: '#d0d0d0',  // Couleur des ticks de l'axe Y
-          legendTextColor: '#6a8caf',  // Couleur du texte de la légende de l'axe Y
+          tickColor: '#d0d0d0',
+          legendTextColor: '#6a8caf',
         }}
         labelSkipWidth={12}
         labelSkipHeight={12}
@@ -107,7 +102,7 @@ const StatChart = () => {
                 },
               },
             ],
-            itemTextColor: '#b0b0b0',  // Couleur du texte dans la légende
+            itemTextColor: '#b0b0b0',
           },
         ]}
       />

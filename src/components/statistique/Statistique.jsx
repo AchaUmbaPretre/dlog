@@ -25,6 +25,29 @@ const Statistique = () => {
         });
     };
 
+    const datas = [
+        {
+          task: 'Complété',
+          count: 45,
+          color: '#6a8caf', 
+        },
+        {
+          task: 'En cours',
+          count: 30,
+          color: '#b0b0b0', 
+        },
+        {
+          task: 'En attente',
+          count: 15,
+          color: '#f4a261',  
+        },
+        {
+          task: 'En retard',
+          count: 10,
+          color: '#90e0ef',  
+        },
+      ];
+
     useEffect(() => {
         const fetchData = async () => {
             try {
