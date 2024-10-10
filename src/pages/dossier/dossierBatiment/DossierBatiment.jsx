@@ -5,6 +5,7 @@ import config from '../../../config';
 import TacheDoc from '../../taches/tacheDoc/TacheDoc';
 import { getDocgeneral } from '../../../services/suiviService';
 import { getBatimentDoc } from '../../../services/batimentService';
+import DocFormBatiment from '../../batiment/document/docFormBatiment/DocFormBatiment';
 
 const { Search } = Input;
 
@@ -159,14 +160,14 @@ const DossierBatiment = () => {
                 <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
-                onClick={() => handleViewDetails(record.id_tache_document )}
+                onClick={() => handleViewDetails(record.id_document )}
                 aria-label=""
                 />
             </Tooltip>
             <Tooltip title="Delete">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce dossier?"
-                onConfirm={() => handleDelete(record.id)}
+                onConfirm={() => handleDelete(record.id_document)}
                 okText="Oui"
                 cancelText="Non"
               >
@@ -221,7 +222,7 @@ const DossierBatiment = () => {
             width={550}
             centered
         >
-            <TacheDoc idTache={''} fetchData={fetchData} closeModal={handleCancel} idTacheDoc={idDoc}/>
+            <DocFormBatiment idBatiment={''} fetchData={fetchData} closeModal={handleCancel} idBatimentDoc={idDoc}/>
         </Modal>
     </>
   );

@@ -36,22 +36,13 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
 
             if (idEquipement) {
               const { data } = await getEquipementOneV(idEquipement);
-              
-              // Conversion des champs de date en objets moment
+            
               form.setFieldsValue({
                 ...data[0],
                 installation_date: data[0].installation_date ? moment(data[0].installation_date) : null,
                 maintenance_date: data[0].maintenance_date ? moment(data[0].maintenance_date) : null,
                 date_prochaine_maintenance: data[0].date_prochaine_maintenance ? moment(data[0].date_prochaine_maintenance) : null,
               });
-            }
-            
-            
-
-            if(idEquipement){
-              const {data} = await getEquipementOneV(idEquipement)
-              form.setFieldsValue(data[0])
-
             }
 
         } catch (error) {
