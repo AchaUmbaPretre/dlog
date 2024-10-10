@@ -32,6 +32,10 @@ export const getArticleOne = async (idArt, idFour) => {
     return axios.put(`${DOMAIN}/api/types/batiment/update?id_batiment=${id}`, data);
   };
 
+  export const putDeleteBatiment = async (id) => {
+    return axios.put(`${DOMAIN}/api/types/batiment/update_delete?id=${id}`);
+    };
+
   //Categorie
   export const getCategorie = async () => {
     return axios.get(`${DOMAIN}/api/types/categorie`);

@@ -3,7 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { ExportOutlined, MoreOutlined,EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
-import { getBatiment } from '../../services/typeService';
+import { getBatiment, putDeleteBatiment } from '../../services/typeService';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
 import DetailUpload from './uploadBatimentForm/detailUpload/DetailUpload';
 import TableauBord from './tableauBord/TableauBord';
@@ -32,10 +32,9 @@ const Batiment = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Departement supprimé avec succès');
+        await putDeleteBatiment(id);
+      setData(data.filter((item) => item.id_batiment !== id));
+      message.success('Batiment supprimé avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -310,8 +309,8 @@ const Batiment = () => {
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
-              title="Etes-vous sûr de vouloir supprimer ce département ?"
-              onConfirm={() => handleDelete(record.id)}
+              title="Etes-vous sûr de vouloir supprimer ce batiment ?"
+              onConfirm={() => handleDelete(record.id_batiment)}
               okText="Oui"
               cancelText="Non"
             >

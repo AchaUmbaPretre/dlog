@@ -156,7 +156,7 @@ return axios.post(`${DOMAIN}/api/batiment/bins`, data);
 
 export const putBins = async (id,data) => {
   return axios.put(`${DOMAIN}/api/batiment/bins_put?id=${id}`, data);
-  };
+};
 
 export const putDeleteBins = async (id) => {
     return axios.put(`${DOMAIN}/api/batiment/bins_delete?id=${id}`);
