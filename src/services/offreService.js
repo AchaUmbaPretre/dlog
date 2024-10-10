@@ -49,6 +49,9 @@ export const postOffreArticle = async (data) => {
     return axios.post(`${DOMAIN}/api/offre/article`, data);
   };
 
+export const estSupprimeOffre = async (id) => {
+    return axios.delete(`${DOMAIN}/api/offre/est_supprime?id=${id}`);
+  };
 
 export const deleteOffre = async (id) => {
     return axios.delete(`${DOMAIN}/api/offre/${id}`);

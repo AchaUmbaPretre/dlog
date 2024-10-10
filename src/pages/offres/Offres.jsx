@@ -5,7 +5,7 @@ import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
 import FormOffres from './formOffres/FormOffres';
-import { getOffre } from '../../services/offreService';
+import { estSupprimeOffre, getOffre } from '../../services/offreService';
 import ArticleForm from './articleForm/ArticleForm';
 import DetailOffre from './detailOffre/DetailOffre';
 import DocumentOffreForm from './documentOffreForm/DocumentOffreForm';
@@ -67,9 +67,8 @@ const Offres = () => {
 
   const handleSupprimer = async (id) => {
     try {
-      // Fonction de suppression commentée
-      // await deleteOffre(id);
-      setData(data.filter((item) => item.id_budget !== id));
+       await estSupprimeOffre(id);
+      setData(data.filter((item) => item.id_offre !== id));
       message.success('Offre supprimée avec succès');
     } catch (error) {
       notification.error({
