@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined, ContainerOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { getBinsOne } from '../../../services/batimentService';
+import { getBinsOne, putDeleteBins } from '../../../services/batimentService';
 import BinForm from '../bins/binsForm/BinForm';
 
 const { Search } = Input;
@@ -21,7 +21,8 @@ const Bins = ({idBatiment}) => {
 
   const handleDelete = async (id) => {
     try {
-      setData(data.filter((item) => item.id_departement !== id));
+      await putDeleteBins(id);
+      setData(data.filter((item) => item.id !== id));
       message.success('Departement supprimé avec succès');
     } catch (error) {
       notification.error({
