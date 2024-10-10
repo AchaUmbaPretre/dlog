@@ -87,40 +87,7 @@ const Besoins = () => {
       render: (text) => (
         <Tag color={"magenta"}>{text ?? 'Aucune'}</Tag>
       ),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
-      render: (text, record) => (
-        <Space size="middle">
-          {/* Exemple de bouton d'édition, commenté pour l'instant */}
-          {/* <Tooltip title="Edit">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
-              type="link"
-              aria-label="Edit client"
-            />
-          </Tooltip> */}
-{/*           <Tooltip title="Delete">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce client ?"
-              onConfirm={() => handleDelete(record.id)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete client"
-              />
-            </Popconfirm>
-          </Tooltip> */}
-        </Space>
-      ),
-    },
+    }
   ];
 
   const mainColumns = [

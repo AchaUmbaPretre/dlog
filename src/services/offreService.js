@@ -50,7 +50,7 @@ export const postOffreArticle = async (data) => {
   };
 
 export const estSupprimeOffre = async (id) => {
-    return axios.delete(`${DOMAIN}/api/offre/est_supprime?id=${id}`);
+    return axios.put(`${DOMAIN}/api/offre/est_supprime?id=${id}`);
   };
 
 export const deleteOffre = async (id) => {

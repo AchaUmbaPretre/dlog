@@ -66,6 +66,7 @@ const Offres = () => {
   };
 
   const handleSupprimer = async (id) => {
+    console.log(id)
     try {
        await estSupprimeOffre(id);
       setData(data.filter((item) => item.id_offre !== id));
