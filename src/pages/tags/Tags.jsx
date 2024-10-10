@@ -16,7 +16,6 @@ const Tags = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [idTache, setIdTache] = useState('');
   const [modalType, setModalType] = useState(null);
 
@@ -69,22 +68,6 @@ const Tags = () => {
     }
   }, [searchValue]);
 
-  const columnStyles = {
-    title: {
-      maxWidth: '220px',
-      whiteSpace: 'nowrap',
-      overflowX: 'scroll', 
-      overflowY: 'hidden',
-      textOverflow: 'ellipsis',
-      scrollbarWidth: 'none',
-      '-ms-overflow-style': 'none', 
-    },
-    hideScroll: {
-      '&::-webkit-scrollbar': {
-        display: 'none',
-      },
-    },
-  };
 
   const columns = [
     {
