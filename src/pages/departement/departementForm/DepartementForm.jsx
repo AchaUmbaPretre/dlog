@@ -123,6 +123,12 @@ const DepartementForm = ({ id_departement, fetchData, closeModal}) => {
                         <Input />
                     </Form.Item>
                     <Form.Item
+                        label="Code"
+                        name="code"
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
                         label="Responsable"
                         name="responsable"
                         rules={[{ required: true, message: 'Veuillez entrer le nom du responsable !' }]}
