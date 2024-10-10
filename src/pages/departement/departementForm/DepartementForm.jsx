@@ -1,11 +1,11 @@
-import { Button, Form, Input, notification, Modal, Select } from 'antd';
+import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../services/userService';
 import { getDepartementOne, postDepartement, putDepartement } from '../../../services/departementService';
 
 const { Option } = Select;
 
-const DepartementForm = ({ id_departement, fetchData, closeModal}) => {
+const DepartementForm = ({ id_departement, fetchData, closeModal }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
@@ -88,59 +88,79 @@ const DepartementForm = ({ id_departement, fetchData, closeModal}) => {
     };
 
     return (
-        <div className="client_form">
-              <h2 style={{paddingBottom:'20px'}}>{ id_departement ? 'Modifier un département' : 'Ajouter un département'}</h2>
-            <div className="client_wrapper">
+        <div className="controle_form">
+            <div className="controle_title_rows">
+                <h2 className='controle_h2'>{id_departement ? 'Modifier un département' : 'Ajouter un département'}</h2>                
+            </div>
+            <div className="controle_wrapper">
                 <Form
                     form={form}
                     layout="vertical"
                     onFinish={onFinish}
                 >
-                    <Form.Item
-                        label="Nom de département"
-                        name="nom_departement"
-                        rules={[{ required: true, message: 'Veuillez entrer le nom de département !' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Description"
-                        name="description"
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Téléphone"
-                        name="telephone"
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Email"
-                        name="email"
-                        rules={[{ type: 'email', message: 'Veuillez entrer une adresse email valide !' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Code"
-                        name="code"
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Responsable"
-                        name="responsable"
-                        rules={[{ required: true, message: 'Veuillez entrer le nom du responsable !' }]}
-                    >
-                        <Select>
-                            {data.map((chef) => (
-                                <Option key={chef.id_utilisateur} value={chef.id_utilisateur}>
-                                    {chef.nom}
-                                </Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Nom de département"
+                                name="nom_departement"
+                                rules={[{ required: true, message: 'Veuillez entrer le nom de département !' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Description"
+                                name="description"
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Téléphone"
+                                name="telephone"
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Email"
+                                name="email"
+                                rules={[{ type: 'email', message: 'Veuillez entrer une adresse email valide !' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Code"
+                                name="code"
+                            >
+                                <Input />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Responsable"
+                                name="responsable"
+                                rules={[{ required: true, message: 'Veuillez entrer le nom du responsable !' }]}
+                            >
+                                <Select>
+                                    {data.map((chef) => (
+                                        <Option key={chef.id_utilisateur} value={chef.id_utilisateur}>
+                                            {chef.nom}
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                    </Row>
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
                             {id_departement ? 'Mettre à jour' : 'Ajouter'}

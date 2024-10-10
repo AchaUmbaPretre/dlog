@@ -21,7 +21,6 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     const [loading, setLoading] = useState(true);
     const [batiment, setBatiment] = useState([]);
     const [article, setArticle] = useState([]);
-
     const [editorContent, setEditorContent] = useState('');
 
     const handleEditorChange = (content) => {
@@ -59,6 +58,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             date_debut: moment(projet[0].date_debut, 'YYYY-MM-DD'),
                             date_fin: moment(projet[0].date_fin, 'YYYY-MM-DD')
                         });
+                        setEditorContent(projet[0].description || '');
                     }
                 } else {
                     form.resetFields();
@@ -74,6 +74,11 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     }, [idProjet, form]);
     
 
+    useEffect(() => {
+        form.resetFields();
+        setEditorContent();
+      }, [idProjet, form]);
+
     const onFinish = async (values) => {
         
         setLoading(true);
@@ -88,8 +93,9 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                 description: 'Le projet a été enregistré avec succès.',
             });
             form.resetFields();
-            fetchData()
-            closeModal()
+            fetchData();
+            closeModal();
+            setEditorContent();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
