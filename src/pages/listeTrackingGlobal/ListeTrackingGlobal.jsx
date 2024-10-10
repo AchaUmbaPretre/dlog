@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
 import { ClockCircleOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { getSuiviTacheOne } from '../../services/suiviService';
+import { estSupprimeSuivi, getSuiviTacheOne } from '../../services/suiviService';
 
 const { Search } = Input;
 
@@ -48,10 +48,9 @@ const ListeTrackingGlobal = ({ idTache }) => {
 
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
+       await estSupprimeSuivi(id);
+      setData(data.filter((item) => item.id_suivi !== id));
+      message.success('Suive de tracking est supprimé avec succes');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
