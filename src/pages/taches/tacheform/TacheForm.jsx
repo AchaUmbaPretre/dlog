@@ -38,6 +38,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         form.setFieldsValue({ description: content });
     };
 
+    console.log(totalCost)
+
     useEffect(() => {
         const fetchData = async () => {
             setLoadingData(true);
@@ -117,13 +119,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         setCategories(updatedCategories);
     };
 
-    // Calculate total cost dynamically
+    // Calculate total cout dynamically
     const calculateTotalCost = (categories) => {
-        const total = categories.reduce((acc, curr) => acc + (curr.cost ? parseFloat(curr.cost) : 0), 0);
+        const total = categories.reduce((acc, curr) => acc + (curr.cout ? parseFloat(curr.cout) : 0), 0);
         setTotalCost(total);
     };
 
-    // Add a new category
+    // Ajouter nouvelle categorie
     const handleAddCategory = () => {
         setCategories([...categories, { id_cat: null, cout: 0 }]);
     };
@@ -481,11 +483,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                             <Card 
                                 key={index} 
                                 title={`Catégorie ${index + 1}`} 
-                                style={{ marginBottom: 16 }} // Espacement entre les cartes
+                                style={{ marginBottom: 16 }}
                             >
                                 <Row gutter={12}>
                                     <Col xs={24} md={12}>
-                                        <Form.Item label="Sélectionnez une catégorie" style={{ marginBottom: 0 }}>
+                                        <Form.Item label="Catégorie" style={{ marginBottom: 0 }}>
                                             <Select
                                                 showSearch
                                                 placeholder="Sélectionnez une catégorie"
