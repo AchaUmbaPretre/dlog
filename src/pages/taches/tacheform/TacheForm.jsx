@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Space, Row, Col, Select, notification, DatePicker, Skeleton } from 'antd';
+import { Button, Form,Card, Input, Space, Row, Col, Select, notification, DatePicker, Skeleton } from 'antd';
 import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getFrequence } from '../../../services/frequenceService';
@@ -26,10 +26,12 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [batiment, setBatiment] = useState([]);
     const [projetName, setProjetName] = useState([]);
     const [catTache, setCatTache] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [corps, setCorps] = useState([]);
     const [loadingData, setLoadingData] = useState(true);
     const navigate = useNavigate();
     const [editorContent, setEditorContent] = useState('');
+    const [totalCost, setTotalCost] = useState(0);
 
     const handleEditorChange = (content) => {
         setEditorContent(content);
@@ -102,6 +104,29 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         form.resetFields();
         setEditorContent();
       }, [idTache, idProjet, form]);
+
+          // Handle category cost change
+    const handleCategoryChange = (index, field, value) => {
+        const updatedCategories = [...categories];
+        updatedCategories[index][field] = value;
+
+        if (field === 'cost') {
+            calculateTotalCost(updatedCategories);
+        }
+
+        setCategories(updatedCategories);
+    };
+
+    // Calculate total cost dynamically
+    const calculateTotalCost = (categories) => {
+        const total = categories.reduce((acc, curr) => acc + (curr.cost ? parseFloat(curr.cost) : 0), 0);
+        setTotalCost(total);
+    };
+
+    // Add a new category
+    const handleAddCategory = () => {
+        setCategories([...categories, { name: null, cost: 0 }]);
+    };
 
     const onFinish = async (values) => {
         const dataAll = {
@@ -350,7 +375,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 rules={[
                                     {
                                         required: false
-                                    },
+                                    }
                                 ]}
                             >
                                 {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
@@ -363,7 +388,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 />}
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={8}>
+{/*                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_cat_tache"
                                 label="Cat tache"
@@ -383,8 +408,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     }))}
                                 />}
                             </Form.Item>
-                        </Col>
-                        <Col xs={24} md={24}>
+                        </Col> */}
+                        <Col xs={24} md={8}>
                         <Form.Item
                                 name="priorite"
                                 label="Priorité"
@@ -451,6 +476,49 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 )}
                             </Form.Item>
                         </Col>
+                        {categories.map((category, index) => (
+                            <Card 
+                                key={index} 
+                                title={`Catégorie ${index + 1}`} 
+                                style={{ marginBottom: 16 }} // Espacement entre les cartes
+                            >
+                                <Row gutter={12}>
+                                    <Col xs={24} md={12}>
+                                        <Form.Item label="Sélectionnez une catégorie" style={{ marginBottom: 0 }}>
+                                            <Select
+                                                showSearch
+                                                placeholder="Sélectionnez une catégorie"
+                                                value={category.name}
+                                                onChange={(value) => handleCategoryChange(index, 'name', value)}
+                                                options={catTache.map((item) => ({
+                                                    value: item.id_cat_tache,
+                                                    label: item.nom_cat_tache,
+                                                }))}
+                                                optionFilterProp="label"
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={12}>
+                                        <Form.Item label="Coût" style={{ marginBottom: 0 }}>
+                                            <Input
+                                                type="number"
+                                                placeholder="Entrez le coût"
+                                                value={category.cost}
+                                                onChange={(e) => handleCategoryChange(index, 'cost', e.target.value)}
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                            </Card>
+                        ))}
+                        <Button 
+                            type="dashed" 
+                            onClick={handleAddCategory} 
+                            style={{ marginBottom: 16 }}
+                        >
+                            Ajouter une catégorie
+                        </Button>
+
                         <Col xs={24}>
                             <Form.Item>
                                 <Space className="button-group">
