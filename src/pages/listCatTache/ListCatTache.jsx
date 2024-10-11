@@ -212,6 +212,7 @@ const ListCatTache = () => {
       >
          <ListeCatTacheForm/>
       </Modal>
+      
       <Modal
         title="Modifier la categorie de tache"
         visible={modalType === 'Edit'}
