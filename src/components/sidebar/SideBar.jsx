@@ -157,15 +157,18 @@ const SideBar = () => {
               <Link to='/fournisseur'>Liste des fournisseurs</Link>
             </Menu.Item>
             <Menu.Item key="19" onClick={toggleMenu}>
-              <Link to='/categorie'>Liste des catégories</Link>
+              <Link to='/categorie'>Liste de categorie d'equipement</Link>
             </Menu.Item>
             <Menu.Item key="20" onClick={toggleMenu}>
-              <Link to='/corpsMetier'>Liste des corps de métier</Link>
+              <Link to='/liste_cat_tache'>Liste de cat tache</Link>
             </Menu.Item>
             <Menu.Item key="21" onClick={toggleMenu}>
-              <Link to='/format'>Format</Link>
+              <Link to='/corpsMetier'>Liste des corps de métier</Link>
             </Menu.Item>
             <Menu.Item key="22" onClick={toggleMenu}>
+              <Link to='/format'>Format</Link>
+            </Menu.Item>
+            <Menu.Item key="23" onClick={toggleMenu}>
               <Link to='/frequence'>Fréquence</Link>
             </Menu.Item>
           </SubMenu>
