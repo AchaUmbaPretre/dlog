@@ -2,10 +2,11 @@ import { Button, Form, Input, notification, Select, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './ClientForm.scss';
 import { useNavigate } from 'react-router-dom';
-import { getClient_type, getProvince, postClient } from '../../../services/clientService';
+import { getClient_type, getClientOne, getProvince, postClient, putClient } from '../../../services/clientService';
 
 
-const ClientForm = () => {
+const ClientForm = ({closeModal,idClient }) => {
+    const [form] = Form.useForm();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
@@ -43,14 +44,40 @@ const ClientForm = () => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const fetchOne = async () => {
+            try {
+                const response = await getClientOne(idClient);
+                form.setFieldsValue(response.data[0])
+            } catch (error) {
+                notification.error({
+                    message: 'Erreur de chargement',
+                    description: 'Une erreur est survenue lors du chargement des types de client.',
+                });
+            }
+        };
+
+        fetchOne();
+    }, [idClient]);
+
     const onFinish = async (values) => {
         setIsLoading(true);
         try {
-            await postClient(values);
-            notification.success({
-                message: 'Succès',
-                description: 'Les informations ont été enregistrées avec succès.',
-            });
+            if(idClient){
+                await putClient(idClient, values)
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les informations ont été mise à jour avec succès.',
+                });
+            }
+            else{
+                await postClient(values);
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les informations ont été enregistrées avec succès.',
+                });
+            }
+            closeModal();
             navigate('/client');
             window.location.reload();
         } catch (error) {
@@ -66,7 +93,7 @@ const ClientForm = () => {
     return (
         <div className="client-form-container">
             <div className="client-form-wrapper">
-                <Form layout="vertical" onFinish={onFinish}>
+                <Form form={form} layout="vertical" onFinish={onFinish}>
                     <Tabs defaultActiveKey="1">
                         <Tabs.TabPane tab="Informations Générales" key="1">
                             <Form.Item

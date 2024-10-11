@@ -28,6 +28,10 @@ export const postClient = async (data) => {
   return axios.post(`${DOMAIN}/api/client`, data);
 };
 
-export const putClient = async (data) => {
-    return axios.put(`${DOMAIN}/api/client`, data);
+export const putClient = async (id,data) => {
+    return axios.put(`${DOMAIN}/api/client?id_client=${id}`, data);
+  };
+
+export const estSupprimeClient = async (id) => {
+    return axios.put(`${DOMAIN}/api/client/est_supprime?id=${id}`);
   };

@@ -3,7 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Pop
 import { ExportOutlined,HomeOutlined,PlusCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import './client.scss';
 import ClientForm from './clientForm/ClientForm';
-import { getClient } from '../../services/clientService';
+import { estSupprimeClient, getClient } from '../../services/clientService';
 import config from '../../config';
 
 const { Search } = Input;
@@ -14,6 +14,8 @@ const Client = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
+  const [idClient, setidClient] = useState('');
+  const [modalType, setModalType] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,13 +35,28 @@ const Client = () => {
     fetchData();
   }, [DOMAIN]);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
+  const handleAddClient = (idClient) => {
+    openModal('Add', idClient);
+  };
+
+  const handlEditClient = (idClient) => {
+    openModal('Edit', idClient);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+  
+  const openModal = (type, idClient = '') => {
+    closeAllModals();
+    setModalType(type);
+    setidClient(idClient);
+  };
+  
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -59,9 +76,8 @@ const Client = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
+       await estSupprimeClient(id);
+      setData(data.filter((item) => item.id_client !== id));
       message.success('Client deleted successfully');
     } catch (error) {
       notification.error({
@@ -157,7 +173,7 @@ const Client = () => {
               <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
-                onClick={() => handleEdit(record.id_client)}
+                onClick={() => handlEditClient(record.id_client)}
                 aria-label="Edit client"
               />
             </Popover>
@@ -228,14 +244,25 @@ const Client = () => {
       </div>
 
       <Modal
-        title="Ajouter nouveau Client"
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        title=""
+        visible={modalType === 'Add'}
+        onCancel={closeAllModals}
         footer={null}
         width={800}
         centered
       >
-        <ClientForm modalOff={setIsModalVisible} />
+        <ClientForm modalOff={() => setModalType(null)} />
+      </Modal>
+
+      <Modal
+        title="Editer"
+        visible={modalType === 'Edit'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <ClientForm closeModal={() => setModalType(null)} idClient={idClient} />
       </Modal>
     </>
   );
