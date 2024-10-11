@@ -149,7 +149,7 @@ const Categorie = () => {
             <div className="client-row-icon">
               <ApartmentOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Categorie d'equipement</h2>
+            <h2 className="client-h2">Categorie d'article</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">

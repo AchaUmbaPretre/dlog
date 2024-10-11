@@ -157,7 +157,7 @@ const SideBar = () => {
               <Link to='/fournisseur'>Liste des fournisseurs</Link>
             </Menu.Item>
             <Menu.Item key="19" onClick={toggleMenu}>
-              <Link to='/categorie'>Liste de categorie d'equipement</Link>
+              <Link to='/categorie'>Liste de cat d'article</Link>
             </Menu.Item>
             <Menu.Item key="20" onClick={toggleMenu}>
               <Link to='/liste_cat_tache'>Liste de cat tache</Link>
