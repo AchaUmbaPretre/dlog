@@ -12,6 +12,7 @@ import ProjetBesoin from './projetBesoin/ProjetBesoin';
 import ListeTacheProjet from './listeTacheProjet/ListeTacheProjet';
 import ProjetBesoinLimit from './projetBesoin/projetBesoinLimit/ProjetBesoinLimit';
 import DetailProjetsGlobal from './detailProjet/DetailProjetsGlobal';
+import ListeTacheProjet1 from './listeTacheProjet/ListeTacheProjet1';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -224,14 +225,6 @@ const Projet = () => {
               style={{ color: 'blue' }}
           />
           </Tooltip>
-          <Tooltip title="Modifier">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_projet)}
-              aria-label="Edit department"
-            />
-          </Tooltip>
           <Popover
             content={
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -263,6 +256,14 @@ const Projet = () => {
               />
             </Tooltip>
           </Popover>
+          <Tooltip title="Modifier">
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record.id_projet)}
+              aria-label="Edit department"
+            />
+          </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce budget ?"
@@ -413,7 +414,7 @@ const Projet = () => {
         width={1080}
         centered
       >
-        <ListeTacheProjet idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
+        <ListeTacheProjet1 idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
       </Modal>
     </>
   );
