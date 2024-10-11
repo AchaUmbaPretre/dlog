@@ -444,7 +444,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                                 'insertTable',
                                                 'clearFormatting'
                                             ],
-                                            height: 200,
+                                            height: 150,
                                             placeholder: 'Entrez votre description ici...'
                                         }}
                                     />
