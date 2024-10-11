@@ -14,15 +14,15 @@ const Categorie = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
+  const handleEdit = (id) => {
+    message.info(`Modifier: ${id}`);
   };
 
   const handleDelete = async (id) => {
     try {
       // Uncomment when delete function is available
       // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
+      setData(data.filter((item) => item.id_categorie !== id));
       message.success('Departement supprimé avec succès');
     } catch (error) {
       notification.error({
@@ -111,18 +111,18 @@ const Categorie = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-{/*           <Tooltip title="Edit">
+          <Tooltip title="Edit">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
+              onClick={() => handleEdit(record.id_categorie)}
               aria-label="Edit department"
             />
-          </Tooltip> */}
+          </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
-              title="Etes-vous sûr de vouloir supprimer ce département ?"
-              onConfirm={() => handleDelete(record.id)}
+              title="Etes-vous sûr de vouloir supprimer ?"
+              onConfirm={() => handleDelete(record.id_categorie)}
               okText="Yes"
               cancelText="No"
             >
