@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
-import { InfoCircleOutlined,EditOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined,EditOutlined,DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
@@ -20,6 +20,8 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [dates, setDates] = useState(null);
   const [docs, setDocs] = useState('');
   const [track, setTrack] = useState('');
+  const [cout, setCount] = useState('');
+  const [cat, setCat] = useState([]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -30,7 +32,9 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
         getTrackingAllOne(idTache)
       ]);
 
-      setData(response.data[0]);
+      setData(response.data.tache[0]);
+      setCount(response.data.cout_total);
+      setCat(response.data.categories)
       setDates(dateData.data[0]?.date_dernier_suivi);
       setTrack(allData.data?.nbre_tracking);
       setDocs(allData.data?.nbre_doc);
@@ -139,6 +143,79 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
           </div>
         </h1>
       </div>
+      { cout ? 
+        <div className="title_row">
+          <h1 className="title_h1">
+            <DollarOutlined style={{ marginRight: '8px' }} />
+            <strong>COUT : </strong> {cout || <Skeleton.Input active />} $
+          </h1>
+        </div> : ''
+      }
+      
+      {cat.length > 0 ? (
+  <div className="title_row" style={{ padding: '16px' }}>
+    <h1 className="title_h1" style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+      <DollarOutlined style={{ marginRight: '6px' }} />
+      <strong style={{ marginRight: '8px'}}>Categories</strong>
+    </h1>
+
+    {cat.map((dd, index) => (
+      <Card
+        key={index}
+        hoverable
+        style={{
+          marginBottom: '12px',
+          borderRadius: '6px',
+          boxShadow: '0 1px 4px rgba(0, 0, 0, 0.06)',
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          overflow: 'hidden',
+          padding: '12px',
+        }}
+        bodyStyle={{ padding: '8px 12px' }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.01)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 1px 4px rgba(0, 0, 0, 0.06)';
+        }}
+      >
+        {/* Card content with numbering */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {/* Category Number */}
+          <div style={{ 
+            fontWeight: '600', 
+            fontSize: '12px', 
+            color: '#1890ff', 
+            backgroundColor: '#e6f7ff', 
+            borderRadius: '50%', 
+            width: '28px', 
+            height: '28px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            marginRight: '8px'
+          }}>
+            {index + 1}
+          </div>
+
+          {/* Category Name */}
+          <div style={{ fontWeight: '500', fontSize: '14px', color: '#3f8600', flex: 1 }}>
+            {dd.nom_cat_tache}
+          </div>
+
+          {/* Category Cost */}
+          <div style={{ fontWeight: '500', fontSize: '12px', color: '#52c41a' }}>
+            <Badge count={`${dd.cout} $`} style={{ backgroundColor: '#52c41a', color: '#fff', fontSize: '12px', padding: '5px', display:'flex', alignItems:'center', justifyContent:'center'}} />
+          </div>
+        </div>
+      </Card>
+    ))}
+  </div>
+) : (
+  ''
+)}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <Tooltip title="Précédent">
           <Button onClick={goToPreviousTache} disabled={idTache === 1}>
