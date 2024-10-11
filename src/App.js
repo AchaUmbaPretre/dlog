@@ -33,6 +33,7 @@ import EntrepotListeGlobale from './pages/entrepotListeGlobal/EntrepotListeGloba
 import ListBureaux from './pages/Listbureaux/ListBureaux';
 import Tags from './pages/tags/Tags';
 import CorpsMetier from './pages/corpsMetier/CorpsMetier';
+import ListCatTache from './pages/listCatTache/ListCatTache';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -155,6 +156,10 @@ function App() {
         {
           path: '/categorie',
           element: <Categorie/>
+        },
+        {
+          path: '/liste_cat_tache',
+          element: <ListCatTache/>
         },
         {
           path: '/corpsMetier',

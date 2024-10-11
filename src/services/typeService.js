@@ -68,14 +68,25 @@ export const postCorpsMetier = async (data) => {
     return axios.post(`${DOMAIN}/api/types/corps_metier`, data);
   };
 
-export const putCorpsMetier = async () => {
-    return axios.get(`${DOMAIN}/api/types/corps_metier_update`);
+export const putCorpsMetier = async (id, data) => {
+    return axios.get(`${DOMAIN}/api/types/corps_metier_update?id=${id}`,data);
   };
 
 export const getCatTache = async () => {
     return axios.get(`${DOMAIN}/api/types/cat_tache`);
   };
 
+export const getCatTacheOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/types/cat_tache/one?id=${id}`);
+  };
+
+export const postCatTache = async (data) => {
+  return axios.post(`${DOMAIN}/api/types/cat_tache/post`, data);
+};
+
+export const putCatTache = async (id, data) => {
+  return axios.put(`${DOMAIN}/api/types/cat_tache_put?id=${id}`,data);
+};
 
 //TYPE BINS
 export const getTypeBin = async () => {
