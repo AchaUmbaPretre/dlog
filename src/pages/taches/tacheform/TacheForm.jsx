@@ -110,7 +110,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         const updatedCategories = [...categories];
         updatedCategories[index][field] = value;
 
-        if (field === 'cost') {
+        if (field === 'cout') {
             calculateTotalCost(updatedCategories);
         }
 
@@ -125,14 +125,15 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
 
     // Add a new category
     const handleAddCategory = () => {
-        setCategories([...categories, { name: null, cost: 0 }]);
+        setCategories([...categories, { id_cat: null, cout: 0 }]);
     };
 
     const onFinish = async (values) => {
         const dataAll = {
             ...values,
             id_control : idControle,
-            id_projet: idProjet
+            id_projet: idProjet,
+            categories
         }
         setIsLoading(true);
         try {
@@ -488,8 +489,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                             <Select
                                                 showSearch
                                                 placeholder="Sélectionnez une catégorie"
-                                                value={category.name}
-                                                onChange={(value) => handleCategoryChange(index, 'name', value)}
+                                                value={category.id_cat}
+                                                onChange={(value) => handleCategoryChange(index, 'id_cat', value)}
                                                 options={catTache.map((item) => ({
                                                     value: item.id_cat_tache,
                                                     label: item.nom_cat_tache,
@@ -503,8 +504,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                             <Input
                                                 type="number"
                                                 placeholder="Entrez le coût"
-                                                value={category.cost}
-                                                onChange={(e) => handleCategoryChange(index, 'cost', e.target.value)}
+                                                value={category.cout}
+                                                onChange={(e) => handleCategoryChange(index, 'cout', e.target.value)}
                                             />
                                         </Form.Item>
                                     </Col>
