@@ -3,7 +3,6 @@ import { Form, Input, DatePicker, InputNumber, Select, Button,Skeleton, Typograp
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
-import { getProjetOneF, postProjet, putProjet } from '../../../services/projetService';
 import { getArticle, getBatiment } from '../../../services/typeService';
 import moment from 'moment';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
@@ -11,7 +10,6 @@ import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
 import { postTacheProjet } from '../../../services/tacheService';
 
-const { TextArea } = Input;
 const { Option } = Select;
 
 const TacheProjet = ({ idTache,fetchData,closeModal }) => {
