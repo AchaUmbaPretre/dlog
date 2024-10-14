@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { notification, Card, Row, Col, Typography, Modal, Divider, Skeleton } from 'antd';
-import { InfoCircleOutlined, ReconciliationOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, FileOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import ProjetDetailGeneral from './projetDetailGen/ProjetDetailGeneral';
 import { getProjetOne } from '../../../services/projetService';
 import ListeTacheProjet from '../listeTacheProjet/ListeTacheProjet';
@@ -72,7 +72,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
 
       <Col xs={24} sm={12} md={6} onClick={handleTracking}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-          <FileTextOutlined style={{ fontSize: '40px', color: '#52c41a', marginBottom: '10px' }} />
+          <FileOutlined style={{ fontSize: '40px', color: '#52c41a', marginBottom: '10px' }} />
           <h3>Tache</h3>
         </Card>
       </Col>
