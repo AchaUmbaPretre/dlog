@@ -38,8 +38,7 @@ const Projet = () => {
   };
 
   const handleListeTache = (id) => {
-    setIdProjet(id)
-    setIsTacheListeVisible(true)
+    openModal('list_tache', id)
   }
   const handleViewDetails = (id) => {
     message.info(`Affichage des détails de la tache: ${id}`);
@@ -419,13 +418,13 @@ const Projet = () => {
 
       <Modal
         title=""
-        visible={isTacheListeVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'list_tache'}
+        onCancel={closeAllModals}
         footer={null}
         width={1080}
         centered
       >
-        <ListeTacheProjet1 idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
+        <ListeTacheProjet1 idProjet={idProjet} fetchData={fetchData} closeModal={()=>setModalType(null)}/>
       </Modal>
     </>
   );
