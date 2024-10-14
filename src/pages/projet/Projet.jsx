@@ -9,7 +9,6 @@ import TacheForm from '../taches/tacheform/TacheForm';
 import { Link } from 'react-router-dom';
 import BudgetForm from '../budget/budgetForm/BudgetForm';
 import ProjetBesoin from './projetBesoin/ProjetBesoin';
-import ListeTacheProjet from './listeTacheProjet/ListeTacheProjet';
 import ProjetBesoinLimit from './projetBesoin/projetBesoinLimit/ProjetBesoinLimit';
 import DetailProjetsGlobal from './detailProjet/DetailProjetsGlobal';
 import ListeTacheProjet1 from './listeTacheProjet/ListeTacheProjet1';
@@ -63,8 +62,7 @@ const Projet = () => {
   };
 
   const handleAddBudget = (id) => {
-    setIdProjet(id)
-    setIsBudgetVisible(true);
+   openModal('AddBudget', id)
   };
 
   const handleAddClient = () => {
@@ -388,8 +386,8 @@ const Projet = () => {
 
       <Modal
         title=""
-        visible={isBudgetVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'AddBudget'}
+        onCancel={closeAllModals}
         footer={null}
         width={1050}
         centered
