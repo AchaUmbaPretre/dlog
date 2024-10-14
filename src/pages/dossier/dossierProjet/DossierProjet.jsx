@@ -4,6 +4,8 @@ import { FileTextOutlined,EditOutlined, DeleteOutlined, FilePdfOutlined, FileWor
 import config from '../../../config';
 import { getBatimentDoc } from '../../../services/batimentService';
 import DocFormBatiment from '../../batiment/document/docFormBatiment/DocFormBatiment';
+import { getProjetDoc } from '../../../services/projetService';
+import ProjetDocForm from '../../projet/projetDoc/ProjetDocForm';
 
 const { Search } = Input;
 
@@ -19,7 +21,7 @@ const DossierProjet = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getBatimentDoc();
+        const { data } = await getProjetDoc();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -220,7 +222,7 @@ const DossierProjet = () => {
             width={550}
             centered
         >
-            <DocFormBatiment idBatiment={''} fetchData={fetchData} closeModal={handleCancel} idBatimentDoc={idDoc}/>
+            <ProjetDocForm idprojet={''} fetchData={fetchData} closeModal={handleCancel} idProjetDoc={idDoc}/>
         </Modal>
     </>
   );
