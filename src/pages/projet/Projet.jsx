@@ -27,7 +27,7 @@ const Projet = () => {
   const [isBudgetVisible, setIsBudgetVisible] = useState(false);
   const [isBesoinVisible, setIsBesoinVisible] = useState(false);
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
-
+  const [modalType, setModalType] = useState(null);
   const [idProjet, setIdProjet] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [form] = Form.useForm();
@@ -35,8 +35,7 @@ const Projet = () => {
 
 
   const handleEdit = (id) => {
-    setIdProjet(id)
-    setIsModalVisible(true);
+    openModal('edit', id)
   };
 
   const handleListeTache = (id) => {
@@ -60,8 +59,7 @@ const Projet = () => {
   }
 
   const handleAddTache = (id) => {
-    setIdProjet(id)
-    setIsTacheVisible(true);
+    openModal('AddTache', id)
   };
 
   const handleAddBudget = (id) => {
@@ -70,9 +68,18 @@ const Projet = () => {
   };
 
   const handleAddClient = () => {
-    setIdProjet('');
+    openModal('AddProjet')
     form.resetFields(); 
-    setIsModalVisible(true);
+  };
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+  
+  const openModal = (type, idProjet = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdProjet(idProjet);
   };
 
   const handleCancel = () => {
@@ -237,6 +244,12 @@ const Projet = () => {
                 <Link onClick={() => handleAddBudget(record.id_projet)} >
                   <DollarOutlined /> Créer un budget
                 </Link>
+                <Link onClick={() => handleAddBudget(record.id_projet)} >
+                  <FileTextOutlined /> Liste des docs
+                </Link>
+                <Link onClick={() => handleAddBudget(record.id_projet)} >
+                  <FileTextOutlined /> Ajouter un doc
+                </Link>
                 <Link onClick={() => handleAddBesoin(record.id_projet)} >
                   <SolutionOutlined /> Ajouter besoins
                 </Link>
@@ -342,19 +355,19 @@ const Projet = () => {
 
       <Modal
         title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'AddProjet'}
+        onCancel={closeAllModals}
         footer={null}
         width={700}
         centered
       >
-        <ProjetForm idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel} />
+        <ProjetForm idProjet={idProjet} fetchData={fetchData} closeModal={()=>setModalType(null)} />
       </Modal>
 
       <Modal
         title=""
-        visible={isTacheVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'AddTache'}
+        onCancel={closeAllModals}
         footer={null}
         width={800}
         centered
