@@ -118,3 +118,8 @@ export const postTag = async (id, data) => {
 export const getSearch = async (data) => {
   return axios.get(`${DOMAIN}/api/tache/get_search?term=${data}`)
 }
+
+//Tache projet
+export const postTacheProjet = async (data) => {
+  return axios.get(`${DOMAIN}/api/tache/projet_tache`, data)
+}

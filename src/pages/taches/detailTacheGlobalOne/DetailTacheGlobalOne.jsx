@@ -167,7 +167,6 @@ useEffect(() => {
                 <EditOutlined />
               </div>
             </Tooltip>
-
             <Tooltip title="Créer un document">
               <div 
                 onClick={handleAjouterDoc} 
