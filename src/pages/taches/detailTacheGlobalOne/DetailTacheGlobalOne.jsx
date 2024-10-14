@@ -25,10 +25,6 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [cout, setCount] = useState('');
   const [cat, setCat] = useState([]);
 
-  useEffect(() => {
-    setIdTache(initialIdTache);
-    fetchData();
-}, [initialIdTache]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -85,6 +81,10 @@ useEffect(() => {
   const goToPreviousTache = () => {
     setIdTache((prevId) => (prevId > 1 ? prevId - 1 : prevId));
   };
+
+  useEffect(() => {
+    setIdTache(initialIdTache);
+}, [initialIdTache]);
 
   const renderDataCards = () => (
     <Row gutter={[16, 16]} justify="center" className="data-cards">
@@ -398,7 +398,6 @@ useEffect(() => {
         title=""
         visible={modalType === 'AddProjet'}
         onCancel={closeAllModals}
-        width={900}
         footer={null}
         centered
       >
