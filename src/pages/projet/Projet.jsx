@@ -12,6 +12,8 @@ import ProjetBesoin from './projetBesoin/ProjetBesoin';
 import ProjetBesoinLimit from './projetBesoin/projetBesoinLimit/ProjetBesoinLimit';
 import DetailProjetsGlobal from './detailProjet/DetailProjetsGlobal';
 import ListeTacheProjet1 from './listeTacheProjet/ListeTacheProjet1';
+import ProjetDoc from './projetDoc/ProjetDoc';
+import ProjetDocForm from './projetDoc/ProjetDocForm';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -63,6 +65,14 @@ const Projet = () => {
   const handleAddClient = () => {
     openModal('AddProjet')
     form.resetFields(); 
+  };
+
+  const handleDetailDoc = (id) => {
+    openModal('ListeDoc', id);
+  };
+
+  const handleAjouterDoc = (id) => {
+    openModal('DocumentProjetForm', id);
   };
 
   const closeAllModals = () => {
@@ -237,10 +247,10 @@ const Projet = () => {
                 <Link onClick={() => handleAddBudget(record.id_projet)} >
                   <DollarOutlined /> Créer un budget
                 </Link>
-                <Link onClick={() => handleAddBudget(record.id_projet)} >
+                <Link onClick={() => handleDetailDoc(record.id_projet)} >
                   <FileTextOutlined /> Liste des docs
                 </Link>
-                <Link onClick={() => handleAddBudget(record.id_projet)} >
+                <Link onClick={() => handleAjouterDoc(record.id_projet)} >
                   <FileTextOutlined /> Ajouter un doc
                 </Link>
                 <Link onClick={() => handleAddBesoin(record.id_projet)} >
@@ -421,6 +431,27 @@ const Projet = () => {
         centered
       >
         <ListeTacheProjet1 idProjet={idProjet} fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'DocumentProjetForm'}
+        onCancel={closeAllModals}
+        footer={null}
+        centered
+      >
+        <ProjetDocForm idProjet={idProjet} fetchData={fetchData} closeModal={()=>setModalType(null)} />
+      </Modal>
+
+      <Modal
+        title="Liste des documents"
+        visible={modalType === 'ListeDoc'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+        <ProjetDoc idProjet={idProjet} />
       </Modal>
     </>
   );
