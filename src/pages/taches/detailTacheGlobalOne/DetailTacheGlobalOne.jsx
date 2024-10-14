@@ -195,7 +195,7 @@ useEffect(() => {
 
             <Tooltip title="Créer un projet">
               <div 
-                onClick={handleEditer} 
+                onClick={handleAddProjet} 
                 style={{
                   background:'#2196F3', // bleu pour une action de projet
                   height:'40px',
@@ -398,6 +398,7 @@ useEffect(() => {
         title=""
         visible={modalType === 'AddProjet'}
         onCancel={closeAllModals}
+        width={900}
         footer={null}
         centered
       >
