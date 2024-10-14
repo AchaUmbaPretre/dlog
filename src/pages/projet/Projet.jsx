@@ -19,7 +19,6 @@ const { Search } = Input;
 const Projet = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTacheVisible, setIsTacheVisible] = useState(false);
   const [isTacheListeVisible, setIsTacheListeVisible] = useState(false);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
@@ -41,14 +40,11 @@ const Projet = () => {
     openModal('list_tache', id)
   }
   const handleViewDetails = (id) => {
-    message.info(`Affichage des détails de la tache: ${id}`);
-    setIsDetailVisible(true)
-    setIdProjet(id)
+    openModal('Detail', id)
   };
 
   const handleAddBesoin = (id) => {
-    setIdProjet(id)
-    setIsBesoinVisible(true);
+    openModal('Add_besoin', id)
   };
 
   const handleAddBesoinLimit = (id) => {
@@ -71,6 +67,7 @@ const Projet = () => {
 
   const closeAllModals = () => {
     setModalType(null);
+    form.resetFields();
   };
   
   const openModal = (type, idProjet = '') => {
@@ -81,7 +78,6 @@ const Projet = () => {
 
   const handleCancel = () => {
     form.resetFields();
-    setIsModalVisible(false);
     setIsTacheVisible(false);
     setIsDetailVisible(false);
     setIsBudgetVisible(false);
@@ -374,8 +370,8 @@ const Projet = () => {
 
       <Modal
         title=""
-        visible={isDetailVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'Detail'}
+        onCancel={closeAllModals}
         footer={null}
         width={1050}
         centered
@@ -396,8 +392,8 @@ const Projet = () => {
 
       <Modal
         title=""
-        visible={isBesoinVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'Add_besoin'}
+        onCancel={closeAllModals}
         footer={null}
         width={800}
         centered
