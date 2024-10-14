@@ -72,11 +72,18 @@ const DetailProjetsGlobal = ({ idProjet }) => {
           <h3>Tache</h3>
         </Card>
       </Col>
-
+{/* 
       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <ReconciliationOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
           <h3>Besoins</h3>
+        </Card>
+      </Col> */}
+
+      <Col xs={24} sm={12} md={6} onClick={handleDoc}>
+        <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
+          <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
+          <h3>Document</h3>
         </Card>
       </Col>
 
