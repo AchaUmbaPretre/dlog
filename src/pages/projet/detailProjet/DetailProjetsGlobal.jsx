@@ -49,9 +49,13 @@ const DetailProjetsGlobal = ({ idProjet }) => {
     openModal('tracking');
   };
 
-  const handleDoc = () => {
-    openModal('document');
+  const handleBesoin = () => {
+    openModal('besoin');
   };
+
+  const handleDoc = () => {
+    openModal('add')
+  }
 
   const handleTiming = () => {
     openModal('timing');
@@ -73,7 +77,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         </Card>
       </Col>
 {/* 
-      <Col xs={24} sm={12} md={6} onClick={handleDoc}>
+      <Col xs={24} sm={12} md={6} onClick={handleBesoin}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
           <ReconciliationOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
           <h3>Besoins</h3>
@@ -133,6 +137,17 @@ const DetailProjetsGlobal = ({ idProjet }) => {
 
       <Modal
         title=""
+        visible={modalType === 'add'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <ProjetDetailGeneral idProjet={idProjet} />
+      </Modal>
+
+      <Modal
+        title=""
         visible={modalType === 'tracking'}
         onCancel={closeAllModals}
         footer={null}
@@ -143,7 +158,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
       </Modal>
       <Modal
         title=""
-        visible={modalType === 'document'}
+        visible={modalType === 'besoin'}
         onCancel={closeAllModals}
         footer={null}
         width={800}
