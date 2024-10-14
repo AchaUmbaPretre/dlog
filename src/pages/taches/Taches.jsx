@@ -984,7 +984,7 @@ const handleEdit = (idTache) => {
         visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={1050}
+        width={1070}
         centered
       >
         <DetailTacheGlobalOne initialIdTache={idTache} />
