@@ -5,6 +5,7 @@ import ProjetDetailGeneral from './projetDetailGen/ProjetDetailGeneral';
 import { getProjetOne } from '../../../services/projetService';
 import ListeTacheProjet from '../listeTacheProjet/ListeTacheProjet';
 import DetailProjetBesoin from './detailProjetBesoin/DetailProjetBesoin';
+import ProjetDoc from '../projetDoc/ProjetDoc';
 
 const { Title, Text } = Typography;
 
@@ -54,7 +55,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
   };
 
   const handleDoc = () => {
-    openModal('add')
+    openModal('detail-doc')
   }
 
   const handleTiming = () => {
@@ -137,13 +138,13 @@ const DetailProjetsGlobal = ({ idProjet }) => {
 
       <Modal
         title=""
-        visible={modalType === 'add'}
+        visible={modalType === 'detail-doc'}
         onCancel={closeAllModals}
         footer={null}
         width={800}
         centered
       >
-        <ProjetDetailGeneral idProjet={idProjet} />
+        <ProjetDoc idProjet={idProjet} />
       </Modal>
 
       <Modal
