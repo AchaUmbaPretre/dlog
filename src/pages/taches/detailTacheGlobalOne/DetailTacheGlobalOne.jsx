@@ -9,6 +9,7 @@ import ListeDocTache from '../listeDocTache/ListeDocTache';
 import { getSuiviTacheOneV, getTrackingAllOne } from '../../../services/suiviService';
 import moment from 'moment';
 import EditerDesc from '../editerDesc/EditerDesc';
+import TacheDoc from '../tacheDoc/TacheDoc';
 
 const { Title, Text } = Typography;
 
@@ -63,11 +64,11 @@ useEffect(() => {
     setModalType(null);
   };
   
-  const openModal = (type) => {
+  const openModal = (type ) => {
     closeAllModals();
     setModalType(type);
   };
-
+  const handleAjouterDoc = () => openModal('DocumentTacheForm');
   const handleInfo = () => openModal('info');
   const handleTracking = () => openModal('tracking');
   const handleDoc = () => openModal('document');
@@ -169,7 +170,7 @@ useEffect(() => {
 
             <Tooltip title="Créer un document">
               <div 
-                onClick={handleEditer} 
+                onClick={handleAjouterDoc} 
                 style={{
                   background:'#FF9800', // orange pour une action de création
                   height:'40px',
@@ -380,6 +381,17 @@ useEffect(() => {
           </Title>
         </Card>
       </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'DocumentTacheForm'}
+        onCancel={closeAllModals}
+        footer={null}
+        centered
+      >
+        <TacheDoc idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
+      </Modal>
+
     </div>
   );
 };
