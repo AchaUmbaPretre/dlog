@@ -28,6 +28,7 @@ const ProjetDocForm = ({ idProjet, fetchData, closeModal, idProjetDoc }) => {
     const formData = new FormData();
     formData.append('nom_document', values.nom_document);
     formData.append('type_document', values.type_document);
+    formData.append('ref', values.ref);
     formData.append('id_projet', idProjet);
   
     if (values.chemin_document && values.chemin_document.length > 0) {
@@ -92,6 +93,14 @@ const ProjetDocForm = ({ idProjet, fetchData, closeModal, idProjetDoc }) => {
       </Form.Item>
 
       <Form.Item
+        name="ref"
+        label="Référence"
+        rules={[{ required: true, message: 'Veuillez entrer la réference !' }]}
+      >
+        <Input placeholder="Entrez la référence..." />
+      </Form.Item>
+
+      <Form.Item
         name="chemin_document"
         label="Télécharger les Documents"
         valuePropName="fileList"
@@ -100,7 +109,7 @@ const ProjetDocForm = ({ idProjet, fetchData, closeModal, idProjetDoc }) => {
         >
         <Upload 
             name="chemin_document" 
-            multiple  // Ajout de la possibilité de sélectionner plusieurs fichiers
+            multiple
             action={`${DOMAIN}/api/offre/doc`} 
             listType="text"
         >

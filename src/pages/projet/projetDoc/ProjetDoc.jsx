@@ -131,6 +131,14 @@ useEffect(() => {
       },
     },
     {
+        title: 'Ref',
+        dataIndex: 'ref',
+        key: 'ref',
+        render: (text) => {
+          return <Tag >{text}</Tag>;
+        },
+      },
+    {
       title: 'Doc',
       dataIndex: 'chemin_document',
       key: 'chemin_document',
