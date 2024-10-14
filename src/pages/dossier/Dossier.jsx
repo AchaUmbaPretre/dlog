@@ -7,6 +7,7 @@ import DossierTache from './dossierTache/DossierTache';
 import DossierForm from './dossierForm/DossierForm';
 import DossierGen from './dossierGen/DossierGen';
 import DossierBatiment from './dossierBatiment/DossierBatiment';
+import DossierProjet from './dossierProjet/DossierProjet';
 
 const { Search } = Input;
 
@@ -226,33 +227,9 @@ const Dossier = () => {
                     />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="Docs liés aux projets" key='3'>
-                    <div className="client-actions">
-                        <div className="client-row-left">
-                            <Search
-                                placeholder="Recherche..."
-                                value={searchValue}
-                                onChange={(e) => setSearchValue(e.target.value)}
-                                enterButton
-                            />
-                        </div>
-                        <div className="client-rows-right">
-                            <Dropdown overlay={menu} trigger={['click']}>
-                                <Button icon={<ExportOutlined />}>Export</Button>
-                            </Dropdown>
-                        </div>
-                    </div>
-                    <Table
-                        columns={columns}
-                        dataSource={filteredData}
-                        loading={loading}
-                        pagination={{ pageSize: 15 }}
-                        rowKey="id"
-                        bordered
-                        size="middle"
-                        scroll={scroll}
-                    />
+                  <DossierProjet/>
                 </Tabs.TabPane>
-                <Tabs.TabPane tab="Docs libres" key='3'>
+                <Tabs.TabPane tab="Docs libres" key='4'>
                     <DossierGen/>
                 </Tabs.TabPane>
           </Tabs>
