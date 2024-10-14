@@ -4,6 +4,7 @@ import { FileTextOutlined,PlusCircleOutlined, DeleteOutlined,EditOutlined, FileP
 import config from '../../../config';
 import { getDetailTacheDoc } from '../../../services/tacheService';
 import ProjetDocForm from './ProjetDocForm';
+import { getProjetDocOne } from '../../../services/projetService';
 
 const { Search } = Input;
 
@@ -18,7 +19,7 @@ const ProjetDoc = ({ idProjet }) => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getDetailTacheDoc(idProjet);
+        const { data } = await getProjetDocOne(idProjet);
         setData(data);
         setLoading(false);
       } catch (error) {

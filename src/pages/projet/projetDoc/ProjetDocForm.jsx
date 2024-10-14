@@ -3,17 +3,18 @@ import { Form, Input, Button, Upload, Select, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getTacheDocOne, postTacheDoc, putTacheDoc } from '../../../services/tacheService';
+import { getProjetMoko, postProjetDoc, putProjetDoc } from '../../../services/projetService';
 
 const { Option } = Select;
 
-const ProjetDocForm = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
+const ProjetDocForm = ({ idProjet, fetchData, closeModal, idProjetDoc }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (idTacheDoc) {
-      getTacheDocOne(idTacheDoc).then(({ data }) => {
+    if (idProjetDoc) {
+      getProjetMoko(idProjetDoc).then(({ data }) => {
         if (data && data.length > 0) {
           form.setFieldsValue({
             nom_document: data[0].nom_document,
@@ -22,13 +23,13 @@ const ProjetDocForm = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
         }
       });
     }
-  }, [idTacheDoc, form]);
+  }, [idProjetDoc, form]);
 
   const handleFinish = async (values) => {
     const formData = new FormData();
     formData.append('nom_document', values.nom_document);
     formData.append('type_document', values.type_document);
-    formData.append('id_tache', idTache);
+    formData.append('id_projet', idProjet);
   
     if (values.chemin_document && values.chemin_document.length > 0) {
       values.chemin_document.forEach((file) => {
@@ -38,10 +39,10 @@ const ProjetDocForm = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
   
     setIsLoading(true);
     try {
-      if (idTacheDoc) {
-        await putTacheDoc(idTacheDoc, formData);
+      if (idProjetDoc) {
+        await putProjetDoc(idProjetDoc, formData);
       } else {
-        await postTacheDoc(formData);
+        await postProjetDoc(formData);
       }
       notification.success({
         message: 'Succès',

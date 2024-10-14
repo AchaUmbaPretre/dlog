@@ -15,6 +15,35 @@ export const getProjetOne = async (id) => {
     return axios.get(`${DOMAIN}/api/projet/one?id_projet=${id}`);
   };
 
+//Doc 
+export const getProjetDoc = async () => {
+    return axios.get(`${DOMAIN}/api/projet/projet_doc`);
+  };
+
+export const getProjetMoko = async (id) => {
+    return axios.get(`${DOMAIN}/api/projet/projet_doc/one?id_document=${id}`);
+  };
+
+export const getProjetDocOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/projet/detail_projet_doc?id_projet=${id}`);
+};
+
+export const postProjetDoc = async (data) => {
+  return axios.post(`${DOMAIN}/api/projet/projet_doc`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
+export const putProjetDoc = async (id, data) => {
+  return axios.put(`${DOMAIN}/api/projet/projet_doc?id_document=${id}`, data,{
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
 export const getProjetTacheOne = async (id) => {
     return axios.get(`${DOMAIN}/api/projet/projetTache?id_projet=${id}`);
   };
