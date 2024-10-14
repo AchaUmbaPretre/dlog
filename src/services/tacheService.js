@@ -121,5 +121,5 @@ export const getSearch = async (data) => {
 
 //Tache projet
 export const postTacheProjet = async (data) => {
-  return axios.get(`${DOMAIN}/api/tache/projet_tache`, data)
+  return axios.post(`${DOMAIN}/api/tache/projet_tache`, data)
 }
