@@ -427,7 +427,7 @@ const Projet = () => {
         visible={modalType === 'list_tache'}
         onCancel={closeAllModals}
         footer={null}
-        width={1080}
+        width={1090}
         centered
       >
         <ListeTacheProjet1 idProjet={idProjet} fetchData={fetchData} closeModal={()=>setModalType(null)}/>
