@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
-import { InfoCircleOutlined,EditOutlined,DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined,FileAddOutlined,ProjectOutlined, EditOutlined, DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
@@ -22,6 +22,11 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [track, setTrack] = useState('');
   const [cout, setCount] = useState('');
   const [cat, setCat] = useState([]);
+
+  useEffect(() => {
+    setIdTache(initialIdTache);
+    fetchData();
+}, [initialIdTache]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -46,14 +51,14 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
     }
   };
 
-  useEffect(() => {
+useEffect(() => {
+  if (idTache) {
     fetchData();
-  }, [idTache]); 
+  }
+}, [idTache]);
 
-  useEffect(() => {
-    setIdTache(initialIdTache);
-  }, [initialIdTache]);
 
+  
   const closeAllModals = () => {
     setModalType(null);
   };
@@ -138,8 +143,75 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
               <Skeleton.Input active />
             )}
           </div>
-          <div onClick={handleEditer} style={{background:'green', height:'30px', width:'30px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', cursor:'pointer', flex:'0.2'}}>
-            <EditOutlined/>
+          <div className='rows-menu'>
+            <Tooltip title="Modifier la description">
+              <div 
+                onClick={handleEditer} 
+                style={{
+                  background:'#4CAF50', // vert doux pour l'action de modifier
+                  height:'40px',
+                  width:'40px',
+                  borderRadius:'50%',
+                  display:'flex',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  color:'#fff',
+                  cursor:'pointer',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <EditOutlined />
+              </div>
+            </Tooltip>
+
+            <Tooltip title="Créer un document">
+              <div 
+                onClick={handleEditer} 
+                style={{
+                  background:'#FF9800', // orange pour une action de création
+                  height:'40px',
+                  width:'40px',
+                  borderRadius:'50%',
+                  display:'flex',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  color:'#fff',
+                  cursor:'pointer',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <FileAddOutlined />
+              </div>
+            </Tooltip>
+
+            <Tooltip title="Créer un projet">
+              <div 
+                onClick={handleEditer} 
+                style={{
+                  background:'#2196F3', // bleu pour une action de projet
+                  height:'40px',
+                  width:'40px',
+                  borderRadius:'50%',
+                  display:'flex',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  color:'#fff',
+                  cursor:'pointer',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <ProjectOutlined />
+              </div>
+            </Tooltip>
           </div>
         </h1>
       </div>
@@ -181,9 +253,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
           e.currentTarget.style.boxShadow = '0 1px 4px rgba(0, 0, 0, 0.06)';
         }}
       >
-        {/* Card content with numbering */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          {/* Category Number */}
           <div style={{ 
             fontWeight: '600', 
             fontSize: '12px', 

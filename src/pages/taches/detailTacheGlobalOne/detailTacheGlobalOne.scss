@@ -56,4 +56,9 @@
     font-size: 14px;
     color: #888;
   }
-  
+  .rows-menu{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+  }
