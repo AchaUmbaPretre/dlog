@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Upload, Select, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import config from '../../../config';
-import { getTacheDocOne, postTacheDoc, putTacheDoc } from '../../../services/tacheService';
 import { getProjetMoko, postProjetDoc, putProjetDoc } from '../../../services/projetService';
 
 const { Option } = Select;
