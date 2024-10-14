@@ -13,7 +13,6 @@ import { postTacheProjet } from '../../../services/tacheService';
 
 const { TextArea } = Input;
 const { Option } = Select;
-const { Title } = Typography;
 
 const TacheProjet = ({ idTache,fetchData,closeModal }) => {
     const [form] = Form.useForm();
@@ -51,19 +50,6 @@ const TacheProjet = ({ idTache,fetchData,closeModal }) => {
                 setBatiment(batimentData.data);
                 setArticle(articleData.data);
     
-                if (idProjet) {
-                    const { data: projet } = await getProjetOneF(idProjet);
-                    if (projet && projet.length > 0) {
-                        form.setFieldsValue({
-                            ...projet[0],
-                            date_debut: moment(projet[0].date_debut, 'YYYY-MM-DD'),
-                            date_fin: moment(projet[0].date_fin, 'YYYY-MM-DD')
-                        });
-                        setEditorContent(projet[0].description || '');
-                    }
-                } else {
-                    form.resetFields();
-                }
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             } finally {
@@ -72,13 +58,13 @@ const TacheProjet = ({ idTache,fetchData,closeModal }) => {
         };
     
         fetchData();
-    }, [idProjet, form]);
+    }, [form]);
     
 
     useEffect(() => {
         form.resetFields();
         setEditorContent();
-      }, [idProjet, form]);
+      }, [form]);
 
     const onFinish = async (values) => {
         setLoading(true);
@@ -109,7 +95,7 @@ const TacheProjet = ({ idTache,fetchData,closeModal }) => {
     return (
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>{idProjet ? "Modifier le projet" : "Créer un Projet"}</h2>                
+                <h2 className='controle_h2'>Créer un Projet</h2>                
             </div>
             <div className="controle_wrapper">
                 <Form layout="vertical" onFinish={onFinish} form={form} initialValues={{ budget: 0 }}>
@@ -256,7 +242,7 @@ const TacheProjet = ({ idTache,fetchData,closeModal }) => {
                         </Form.Item>
                     </Col>
                 </Row>
-                { idProjet === '' && 
+                { idTache === '' && 
                 <Form.List name="besoins">
                     {(fields, { add, remove }) => (
                         <>
@@ -316,7 +302,7 @@ const TacheProjet = ({ idTache,fetchData,closeModal }) => {
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                        {idProjet ? 'Modifier' : 'Enregistrer'} 
+                        Enregistrer
                     </Button>
                 </Form.Item>
                 </Form>

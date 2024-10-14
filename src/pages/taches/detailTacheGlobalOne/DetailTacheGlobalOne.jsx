@@ -10,6 +10,7 @@ import { getSuiviTacheOneV, getTrackingAllOne } from '../../../services/suiviSer
 import moment from 'moment';
 import EditerDesc from '../editerDesc/EditerDesc';
 import TacheDoc from '../tacheDoc/TacheDoc';
+import TacheProjet from '../tacheProjet/TacheProjet';
 
 const { Title, Text } = Typography;
 
@@ -68,6 +69,8 @@ useEffect(() => {
     closeAllModals();
     setModalType(type);
   };
+
+  const handleAddProjet = () => openModal('AddProjet');
   const handleAjouterDoc = () => openModal('DocumentTacheForm');
   const handleInfo = () => openModal('info');
   const handleTracking = () => openModal('tracking');
@@ -391,6 +394,15 @@ useEffect(() => {
         <TacheDoc idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
       </Modal>
 
+      <Modal
+        title=""
+        visible={modalType === 'AddProjet'}
+        onCancel={closeAllModals}
+        footer={null}
+        centered
+      >
+        <TacheProjet idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
+      </Modal>
     </div>
   );
 };
