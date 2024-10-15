@@ -13,29 +13,40 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
 
     const handleSubmit = async (values) => {
         setLoadingButton(true);
-        const dataLL  = {
+        const dataLL = {
             id_tache: idTache,
             ...values
-        }
+        };
+    
         try {
-            await putProjetAssocie(dataLL);
-            notification.success({
-                message: 'Succès',
-                description: 'Les informations ont été enregistrées avec succès.',
-            });
-            fetchData();
-            closeModal();
-            form.resetFields();
+            const response = await putProjetAssocie(dataLL);
+    
+            if (response?.status === 200) {
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les informations ont été enregistrées avec succès.',
+                });
+                fetchData();
+                closeModal();
+                form.resetFields();
+            } else {
+                notification.error({
+                    message: 'Erreur',
+                    description: response?.data?.message || 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+                });
+            }
         } catch (error) {
+            // En cas d'erreur lors de l'appel API, capturer l'erreur et afficher son message
             console.log(error);
             notification.error({
                 message: 'Erreur',
-                description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+                description: error.response?.data?.message || 'Une erreur inattendue s\'est produite.',
             });
         } finally {
-            setLoadingButton(false);
+            setLoadingButton(false); // Désactiver le bouton de chargement
         }
     };
+    
 
     const fetchDatas = async () => {
         try {
