@@ -36,7 +36,6 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
                 });
             }
         } catch (error) {
-            // En cas d'erreur lors de l'appel API, capturer l'erreur et afficher son message
             console.log(error);
             notification.error({
                 message: 'Erreur',

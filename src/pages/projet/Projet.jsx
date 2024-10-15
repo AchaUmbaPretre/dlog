@@ -182,9 +182,9 @@ const Projet = () => {
       title: 'Titre', 
       dataIndex: 'nom_projet', 
       key: 'nom_projet',
-      render: text => (
+      render: (text, record) => (
         <Space>
-          <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
+          <Tag onClick={() => handleViewDetails(record.id_projet)} icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
