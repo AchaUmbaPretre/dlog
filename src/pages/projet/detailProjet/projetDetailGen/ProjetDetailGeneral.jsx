@@ -12,7 +12,7 @@ const ProjetDetailGeneral = ({ idProjet }) => {
     const fetchData = async () => {
       try {
         const response = await getProjetOne(idProjet);
-        setData(response.data[0])
+        setData(response.data.projet[0])
       } catch (error) {
         notification.error({
           message: 'Erreur de chargement',

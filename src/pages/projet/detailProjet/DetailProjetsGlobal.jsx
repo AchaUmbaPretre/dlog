@@ -6,6 +6,7 @@ import { getProjetOne } from '../../../services/projetService';
 import ListeTacheProjet from '../listeTacheProjet/ListeTacheProjet';
 import DetailProjetBesoin from './detailProjetBesoin/DetailProjetBesoin';
 import ProjetDoc from '../projetDoc/ProjetDoc';
+import ListeTacheProjet1 from '../listeTacheProjet/ListeTacheProjet1';
 
 const { Title, Text } = Typography;
 
@@ -163,7 +164,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         width={1000}
         centered
       >
-        <ListeTacheProjet idProjet={idProjet} />
+        <ListeTacheProjet1 idProjet={idProjet} fetchData={fetchData} closeModal={()=>setModalType(null)}/>
       </Modal>
       <Modal
         title=""
