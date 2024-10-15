@@ -139,7 +139,7 @@ const DossierTache = () => {
       }
     },
     {
-        title: 'Titre tache',
+        title: 'Ref',
         dataIndex: 'nom_tache',
         key: 'nom_tache',
         render: (text) => (
