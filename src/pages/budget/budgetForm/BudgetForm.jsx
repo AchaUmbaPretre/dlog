@@ -121,6 +121,7 @@ const BudgetForm = ({ idProjet }) => {
             <table className="budget-table">
               <thead>
                 <tr>
+                  <th>N°</th>
                   <th>Article</th>
                   <th>Qté demandée</th>
                   <th>Offre</th>
@@ -132,12 +133,13 @@ const BudgetForm = ({ idProjet }) => {
                 </tr>
               </thead>
               <tbody>
-                {besoin.map((item) => {
+                {besoin.map((item, index) => {
                   const validatedInfo = validatedData[item.id_article] || {};
                   const montantDemande = item.quantite * validatedInfo.prix || 0;
 
                   return (
                     <tr key={item.id_article} className="table-row">
+                      <td>{index + 1}</td>
                       <td>{item.nom_article}</td>
                       <td>{item.quantite}</td>
                       <td>
