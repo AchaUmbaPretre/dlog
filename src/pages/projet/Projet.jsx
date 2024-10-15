@@ -394,7 +394,7 @@ const Projet = () => {
         visible={modalType === 'AddBudget'}
         onCancel={closeAllModals}
         footer={null}
-        width={1050}
+        width={1100}
         centered
       >
         <BudgetForm idProjet={idProjet} />
