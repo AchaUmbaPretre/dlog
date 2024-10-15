@@ -402,7 +402,7 @@ useEffect(() => {
         visible={modalType === 'AddProjet'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={850}
         centered
       >
         <TacheProjet idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
