@@ -11,8 +11,6 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
     const [loadingButton, setLoadingButton] = useState(false); // État pour le bouton de chargement
     const [projet, setProjet] = useState([]);
 
-    console.log(idTache)
-
     const handleSubmit = async (values) => {
         setLoadingButton(true);
         const dataLL  = {
@@ -20,13 +18,14 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
             ...values
         }
         try {
-            await putProjetAssocie(dataLL.idTache, dataLL.id_projet);
+            await putProjetAssocie(dataLL);
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             fetchData();
             closeModal();
+            form.resetFields();
         } catch (error) {
             console.log(error);
             notification.error({

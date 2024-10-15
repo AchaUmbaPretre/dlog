@@ -126,6 +126,5 @@ export const postTacheProjet = async (data) => {
 
 //Projet associé
 export const putProjetAssocie = async (data) => {
-  console.log(data)
   return axios.put(`${DOMAIN}/api/tache/projet_associe?id_tache=${data.id_tache}`, data.id_projet);
 }
