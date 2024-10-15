@@ -123,3 +123,8 @@ export const getSearch = async (data) => {
 export const postTacheProjet = async (data) => {
   return axios.post(`${DOMAIN}/api/tache/projet_tache`, data)
 }
+
+//Projet associé
+export const putProjetAssocie = async (id, data) => {
+  return axios.put(`${DOMAIN}/api/tache/projet_associe?id_tache=${id}`, data);
+}
