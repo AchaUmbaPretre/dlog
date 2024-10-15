@@ -153,8 +153,8 @@ useEffect(() => {
                 onClick={handleEditer} 
                 style={{
                   background:'#4CAF50', // vert doux pour l'action de modifier
-                  height:'40px',
-                  width:'40px',
+                  height:'30px',
+                  width:'30px',
                   borderRadius:'50%',
                   display:'flex',
                   alignItems:'center',
@@ -175,8 +175,8 @@ useEffect(() => {
                 onClick={handleAjouterDoc} 
                 style={{
                   background:'#FF9800', // orange pour une action de création
-                  height:'40px',
-                  width:'40px',
+                  height:'30px',
+                  width:'30px',
                   borderRadius:'50%',
                   display:'flex',
                   alignItems:'center',
@@ -198,8 +198,8 @@ useEffect(() => {
                 onClick={handleAddProjet} 
                 style={{
                   background:'#2196F3', // bleu pour une action de projet
-                  height:'40px',
-                  width:'40px',
+                  height:'30px',
+                  width:'30px',
                   borderRadius:'50%',
                   display:'flex',
                   alignItems:'center',
