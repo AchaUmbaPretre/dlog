@@ -140,9 +140,9 @@ useEffect(() => {
         <h1 className="title_h1" style={{display:'flex', justifyContent:'space-between'}}>
           <div style={{flex:'6'}}>
             <FileTextOutlined style={{ marginRight: '8px' }} />
-            <strong>Description : </strong>
+            <strong >Description : </strong>
             {data?.description ? (
-              <div dangerouslySetInnerHTML={{ __html: data.description }} />
+              <div dangerouslySetInnerHTML={{ __html: data.description }} style={{marginTop:'10px'}} />
             ) : (
               <Skeleton.Input active />
             )}
@@ -157,6 +157,7 @@ useEffect(() => {
                   width:'30px',
                   borderRadius:'50%',
                   display:'flex',
+                  marginLeft:'10px',
                   alignItems:'center',
                   justifyContent:'center',
                   color:'#fff',
@@ -180,6 +181,7 @@ useEffect(() => {
                   borderRadius:'50%',
                   display:'flex',
                   alignItems:'center',
+                  marginLeft:'10px',
                   justifyContent:'center',
                   color:'#fff',
                   cursor:'pointer',
@@ -205,6 +207,7 @@ useEffect(() => {
                   alignItems:'center',
                   justifyContent:'center',
                   color:'#fff',
+                  marginLeft:'10px',
                   cursor:'pointer',
                   boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
                   transition: 'transform 0.2s'
@@ -222,7 +225,7 @@ useEffect(() => {
         <div className="title_row">
           <h1 className="title_h1">
             <DollarOutlined style={{ marginRight: '8px' }} />
-            <strong>COUT : </strong> {cout || <Skeleton.Input active />} $
+            <strong>COÛT : </strong> {cout || <Skeleton.Input active />} $
           </h1>
         </div> : ''
       }
