@@ -11,6 +11,7 @@ import moment from 'moment';
 import EditerDesc from '../editerDesc/EditerDesc';
 import TacheDoc from '../tacheDoc/TacheDoc';
 import TacheProjet from '../tacheProjet/TacheProjet';
+import ProjetAssocieForm from '../projetAssocie/ProjetAssocieForm';
 
 const { Title, Text } = Typography;
 
@@ -439,11 +440,11 @@ useEffect(() => {
         visible={modalType === 'associe_projet'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={500}
         centered
       >
-{/*         <TacheProjet idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
- */}      </Modal>
+        <ProjetAssocieForm idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
+    </Modal>
     </div>
   );
 };

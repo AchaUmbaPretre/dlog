@@ -38,8 +38,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         form.setFieldsValue({ description: content });
     };
 
-    console.log(totalCost)
-
     useEffect(() => {
         const fetchData = async () => {
             setLoadingData(true);
