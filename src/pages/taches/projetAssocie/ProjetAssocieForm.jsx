@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Select, Button, notification } from 'antd';
+import { Form, Select, Button, notification, Skeleton } from 'antd';
 import { getProjet } from '../../../services/projetService';
 import { putProjetAssocie } from '../../../services/tacheService';
 
@@ -7,7 +7,7 @@ const { Option } = Select;
 
 const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); // État de chargement
     const [loadingButton, setLoadingButton] = useState(false); // État pour le bouton de chargement
     const [projet, setProjet] = useState([]);
 
@@ -45,7 +45,6 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
             setLoadingButton(false); // Désactiver le bouton de chargement
         }
     };
-    
 
     const fetchDatas = async () => {
         try {
@@ -71,39 +70,44 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
                 <div className="controle_h2">Projet</div>
             </div>
             <div className="controle_wrapper">
-                <Form
-                    form={form}
-                    layout="vertical"
-                    onFinish={handleSubmit}
-                    style={{ maxWidth: '400px', margin: '0 auto' }}
-                >
-                    <Form.Item
-                        label="Projet Associé"
-                        name="id_projet"
-                        rules={[{ required: true, message: 'Veuillez sélectionner un projet' }]}
+                {loading ? (
+                    <Skeleton active />
+                ) : (
+                    <Form
+                        form={form}
+                        layout="vertical"
+                        onFinish={handleSubmit}
+                        style={{ maxWidth: '400px', margin: '0 auto' }}
                     >
-                        <Select
-                            showSearch
-                            options={projet.map((item) => ({
-                                value: item.id_projet,
-                                label: item.nom_projet,
-                            }))}
-                            placeholder="Sélectionnez un département..."
-                            optionFilterProp="label"
-                        />
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Button 
-                            type="primary" 
-                            htmlType="submit" 
-                            block 
-                            loading={loadingButton}
+                        <Form.Item
+                            label="Projet Associé"
+                            name="id_projet"
+                            rules={[{ required: true, message: 'Veuillez sélectionner un projet' }]}
                         >
-                            Soumettre
-                        </Button>
-                    </Form.Item>
-                </Form>
+                            <Select
+                                showSearch
+                                options={projet?.map((item) => ({
+                                    value: item?.id_projet,
+                                    label: item?.nom_projet,
+                                }))}
+                                placeholder="Sélectionnez un projet..."
+                                optionFilterProp="label"
+                            />
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button 
+                                type="primary" 
+                                htmlType="submit" 
+                                block 
+                                loading={loadingButton}
+                                disabled={loadingButton}
+                            >
+                                Soumettre
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                )}
             </div>
         </div>
     );
