@@ -13,12 +13,15 @@ const DetailProjetsGlobal = ({ idProjet }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const [modalType, setModalType] = useState(null);
+  const [docs, setDocs] = useState('');
+
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await getProjetOne(idProjet);
-      setData(response.data[0]);
+      setData(response.data.projet[0]);
+      setDocs(response.data.total_doc);
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -89,7 +92,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
 
       <Col xs={24} sm={12} md={6} onClick={handleDoc}>
         <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
-        <Badge count={0} showZero>
+        <Badge count={docs || 0} showZero>
           <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
         </Badge>
           <h3>Document</h3>
