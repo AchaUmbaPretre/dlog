@@ -73,7 +73,7 @@ useEffect(() => {
   const handleDoc = () => openModal('document');
   const handleTiming = () => openModal('timing');
   const handleEditer = () => openModal('edite');
-  const handleAssocierProjet = () => openModal('projet')
+  const handleAssocierProjet = () => openModal('associe_projet')
 
   const goToNextTache = () => {
     setIdTache((prevId) => prevId + 1);
@@ -433,6 +433,17 @@ useEffect(() => {
       >
         <TacheProjet idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
       </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'associe_projet'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+{/*         <TacheProjet idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
+ */}      </Modal>
     </div>
   );
 };
