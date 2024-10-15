@@ -11,14 +11,16 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
     const [loadingButton, setLoadingButton] = useState(false); // État pour le bouton de chargement
     const [projet, setProjet] = useState([]);
 
+    console.log(idTache)
+
     const handleSubmit = async (values) => {
         setLoadingButton(true);
         const dataLL  = {
-            ...values,
-            id_tache: idTache
+            id_tache: idTache,
+            ...values
         }
         try {
-            await putProjetAssocie(dataLL);
+            await putProjetAssocie(dataLL.idTache, dataLL.id_projet);
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
@@ -68,7 +70,7 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
                 >
                     <Form.Item
                         label="Projet Associé"
-                        name="projetAssocie"
+                        name="id_projet"
                         rules={[{ required: true, message: 'Veuillez sélectionner un projet' }]}
                     >
                         <Select
