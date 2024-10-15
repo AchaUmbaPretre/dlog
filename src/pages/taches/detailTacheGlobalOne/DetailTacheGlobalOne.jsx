@@ -444,8 +444,8 @@ useEffect(() => {
         centered
       >
         <ProjetAssocieForm idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
-    </Modal>
-    
+      </Modal>
+
     </div>
   );
 };
