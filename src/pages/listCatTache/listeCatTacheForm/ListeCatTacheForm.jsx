@@ -54,28 +54,35 @@ const ListeCatTacheForm = ({idCat}) => {
   };
 
   return (
-    <Form
-      form={form}
-      name="format_form"
-      layout="vertical"
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      style={{ maxWidth: 600, margin: '0 auto' }}
-    >
-      <Form.Item
-        label="Categorie tache"
-        name="nom_cat_tache"
-        rules={[{ required: true, message: 'Veuillez entrer le nom de cat...' }]}
-      >
-        <Input placeholder="Entrez..." />
-      </Form.Item>
+    <div className="controle_form">
+        <div className="controle_title_rows">
+            <h2 className="controle_h2">{ idCat ? 'Modifier la categorie de tache': 'Insérer une nouvelle categorie tache'}</h2>
+        </div>
+        <div className="controle_wrapper">
+        <Form
+            form={form}
+            name="format_form"
+            layout="vertical"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            style={{ maxWidth: 600, margin: '0 auto' }}
+        >
+            <Form.Item
+                label="Categorie tache"
+                name="nom_cat_tache"
+                rules={[{ required: true, message: 'Veuillez entrer le nom de cat...' }]}
+            >
+                <Input placeholder="Entrez..." />
+            </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-          Soumettre
-        </Button>
-      </Form.Item>
-    </Form>
+            <Form.Item>
+                <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                Soumettre
+                </Button>
+            </Form.Item>
+        </Form>
+        </div>
+    </div>
   );
 };
 

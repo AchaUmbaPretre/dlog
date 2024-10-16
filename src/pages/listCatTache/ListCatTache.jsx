@@ -203,7 +203,7 @@ const ListCatTache = () => {
       </div>
 
        <Modal
-        title="Ajouter une categorie de tache"
+        title=""
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
@@ -212,7 +212,7 @@ const ListCatTache = () => {
       >
          <ListeCatTacheForm/>
       </Modal>
-      
+
       <Modal
         title="Modifier la categorie de tache"
         visible={modalType === 'Edit'}
