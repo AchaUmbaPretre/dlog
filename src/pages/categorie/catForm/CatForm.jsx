@@ -1,15 +1,26 @@
 import { Button, Form, Input, notification, Modal } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postCategorie, putCatTache } from '../../../services/typeService';
+import { getCatTacheOne, postCategorie, putCatTache } from '../../../services/typeService';
 
 
 const CatForm = ({idCat}) => {
+    const [form] = Form.useForm();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [formValues, setFormValues] = useState({});
 
+    useEffect(()=>{
+        const fetchData = async() => {
+            if(idCat){
+                const {data: cat} = await getCatTacheOne(idCat)
+                form.setFieldsValue(cat[0])
+            }
+        }
+
+        fetchData()
+    }, [idCat])
     const showConfirm = (values) => {
         setFormValues(values); 
         setIsModalVisible(true);
@@ -60,8 +71,10 @@ const CatForm = ({idCat}) => {
             </div>
             <div className="controle_wrapper">
                 <Form
+                    form={form}
                     layout="vertical"
                     onFinish={onFinish}
+                    autoComplete="off"
                 >
                     <Form.Item
                         label="Categorie"
