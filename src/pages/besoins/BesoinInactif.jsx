@@ -102,7 +102,7 @@ const BesoinInactif = () => {
         <div className="client-wrapper">
             <div className="client-row">
                 <div className="client-row-icon">
-                <ProfileOutlined className='client-icon' />
+                    <ProfileOutlined className='client-icon' />
                 </div>
                 <h2 className="client-h2">Liste des besoins sans projet</h2>
             </div>
