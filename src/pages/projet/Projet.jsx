@@ -400,7 +400,7 @@ const Projet = () => {
         width={800}
         centered
       >
-        <ProjetBesoin idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
+        <ProjetBesoin idProjet={idProjet} fetchData={fetchData} closeModal={()=>setModalType(null)}/>
       </Modal>
 
       <Modal
