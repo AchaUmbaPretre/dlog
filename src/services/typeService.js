@@ -41,8 +41,16 @@ export const getArticleOne = async (idArt, idFour) => {
     return axios.get(`${DOMAIN}/api/types/categorie`);
   };
 
+  export const getCategorieOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/types/categorie/one?id=${id}`);
+  };
+
   export const postCategorie = async (data) => {
     return axios.post(`${DOMAIN}/api/types/categorie`, data);
+  };
+
+  export const putCategorie = async (id,data) => {
+    return axios.put(`${DOMAIN}/api/types/categorie_put?id=${id}`, data);
   };
 
   //Activité

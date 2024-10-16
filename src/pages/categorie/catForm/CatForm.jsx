@@ -1,7 +1,7 @@
 import { Button, Form, Input, notification, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCatTacheOne, postCategorie, putCatTache } from '../../../services/typeService';
+import { getCategorieOne, postCategorie, putCategorie } from '../../../services/typeService';
 
 
 const CatForm = ({idCat}) => {
@@ -14,8 +14,10 @@ const CatForm = ({idCat}) => {
     useEffect(()=>{
         const fetchData = async() => {
             if(idCat){
-                const {data: cat} = await getCatTacheOne(idCat)
-                form.setFieldsValue(cat[0])
+                const {data: cat} = await getCategorieOne(idCat)
+                form.setFieldsValue({
+                    nom_cat : cat[0].nom_cat_tache
+                })
             }
         }
 
@@ -31,7 +33,7 @@ const CatForm = ({idCat}) => {
         setIsLoading(true);
         try {
             if(idCat){
-                await putCatTache(idCat, formValues)
+                await putCategorie(idCat, formValues)
                 notification.success({
                     message: 'Succès',
                     description: 'Les informations ont été modifiées avec succès.',
