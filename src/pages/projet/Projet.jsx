@@ -21,8 +21,6 @@ const { Search } = Input;
 const Projet = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isTacheListeVisible, setIsTacheListeVisible] = useState(false);
-  const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [isBudgetVisible, setIsBudgetVisible] = useState(false);
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
@@ -86,9 +84,7 @@ const Projet = () => {
 
   const handleCancel = () => {
     form.resetFields();
-    setIsDetailVisible(false);
     setIsBudgetVisible(false);
-    setIsTacheListeVisible(false);
     setIsUpdateVisible(false)
   };
 
