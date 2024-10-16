@@ -11,10 +11,10 @@ const Categorie = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [idCat, setIdCat] = useState('');
   const [modalType, setModalType] = useState(null);
+  const scroll = { x: 400 };
 
 
   const handleEdit = (id) => {
@@ -192,7 +192,7 @@ const Categorie = () => {
             rowKey="key"
             bordered
             size="middle"
-            scroll={{ x: 'max-content' }}
+            scroll={scroll}
             loading={loading}
           />
         </div>
