@@ -1,7 +1,7 @@
 import { Button, Form, Input, notification, Modal } from 'antd';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postCategorie } from '../../../services/typeService';
+import { postCategorie, putCatTache } from '../../../services/typeService';
 
 
 const CatForm = ({idCat}) => {
@@ -19,11 +19,20 @@ const CatForm = ({idCat}) => {
         setIsModalVisible(false);
         setIsLoading(true);
         try {
-            await postCategorie(formValues);
-            notification.success({
-                message: 'Succès',
-                description: 'Les informations ont été enregistrées avec succès.',
-            });
+            if(idCat){
+                await putCatTache(idCat, formValues)
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les informations ont été modifiées avec succès.',
+                });
+            }
+            else{
+                await postCategorie(formValues);
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les informations ont été enregistrées avec succès.',
+                });
+            }
             navigate('/categorie');
             window.location.reload();
         } catch (error) {

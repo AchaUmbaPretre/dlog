@@ -44,10 +44,6 @@ const Categorie = () => {
     }
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
-  };
-
 
   useEffect(() => {
     const fetchData = async () => {
