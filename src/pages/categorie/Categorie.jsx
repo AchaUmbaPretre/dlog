@@ -193,14 +193,14 @@ const Categorie = () => {
       </div>
 
       <Modal
-        title="Ajouter une categorie"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
         width={600}
         centered
       >
-         <CatForm/>
+         <CatForm idCat= {idCat}/>
       </Modal>
     </>
   );

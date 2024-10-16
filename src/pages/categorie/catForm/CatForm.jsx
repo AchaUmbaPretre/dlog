@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { postCategorie } from '../../../services/typeService';
 
 
-const CatForm = () => {
+const CatForm = ({idCat}) => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -47,7 +47,7 @@ const CatForm = () => {
     return (
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>{ idTache ? 'Modifier une tâche' : idProjet ? `Insérer une nouvelle tache dans le projet ${projetName}` : 'Ajouter une nouvelle tâche'}</h2>                
+                <h2 className='controle_h2'>{ idCat ? 'Modifier la categorie'  : 'Ajouter une nouvelle categorie'}</h2>                
             </div>
             <div className="controle_wrapper">
                 <Form
