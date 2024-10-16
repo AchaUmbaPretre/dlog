@@ -13,6 +13,7 @@ const Categorie = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [idCat, setIdCat] = useState('');
 
   const handleEdit = (id) => {
     message.info(`Modifier: ${id}`);
@@ -55,8 +56,9 @@ const Categorie = () => {
     fetchData();
   }, [DOMAIN]);
 
-  const handleAddClient = () => {
+  const handleAddClient = (id) => {
     setIsModalVisible(true);
+    setIdCat(id)
   };
 
   const handleCancel = () => {

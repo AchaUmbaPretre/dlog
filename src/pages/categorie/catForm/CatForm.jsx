@@ -45,8 +45,11 @@ const CatForm = () => {
     };
 
     return (
-        <div className="client_form">
-            <div className="client_wrapper">
+        <div className="controle_form">
+            <div className="controle_title_rows">
+                <h2 className='controle_h2'>{ idTache ? 'Modifier une tâche' : idProjet ? `Insérer une nouvelle tache dans le projet ${projetName}` : 'Ajouter une nouvelle tâche'}</h2>                
+            </div>
+            <div className="controle_wrapper">
                 <Form
                     layout="vertical"
                     onFinish={onFinish}
