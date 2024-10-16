@@ -77,7 +77,6 @@ const Categorie = () => {
   };
 
   const handleExportPDF = () => {
-    // Logic to export data to PDF
     message.success('Exporting to PDF...');
   };
 
