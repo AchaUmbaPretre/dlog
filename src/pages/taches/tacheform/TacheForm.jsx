@@ -113,7 +113,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         if (field === 'cout') {
             calculateTotalCost(updatedCategories);
         }
-
         setCategories(updatedCategories);
     };
 

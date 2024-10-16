@@ -12,6 +12,7 @@ const Besoins = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  const [modalType, setModalType] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
