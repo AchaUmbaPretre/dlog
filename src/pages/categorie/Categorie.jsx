@@ -14,10 +14,21 @@ const Categorie = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [idCat, setIdCat] = useState('');
+  const [modalType, setModalType] = useState(null);
+
 
   const handleEdit = (id) => {
-    message.info(`Modifier: ${id}`);
-    setIdCat(id)
+    openModal('edit', id);
+  };
+
+  const openModal = (type, id = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdCat(id);
+  };
+
+  const closeAllModals = () => {
+    setModalType(null);
   };
 
   const handleDelete = async (id) => {
@@ -58,11 +69,7 @@ const Categorie = () => {
   }, [DOMAIN]);
 
   const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
+    openModal('add');
   };
 
   const handleExportExcel = () => {
@@ -194,8 +201,19 @@ const Categorie = () => {
 
       <Modal
         title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'add'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={600}
+        centered
+      >
+         <CatForm idCat= {idCat}/>
+      </Modal>
+
+      <Modal
+        title="Editer"
+        visible={modalType === 'edit'}
+        onCancel={closeAllModals}
         footer={null}
         width={600}
         centered
