@@ -16,7 +16,6 @@ const Categorie = () => {
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 400 };
 
-
   const handleEdit = (id) => {
     openModal('edit', id);
   };
