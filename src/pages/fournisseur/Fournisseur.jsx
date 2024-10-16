@@ -85,10 +85,6 @@ const Fournisseur = () => {
     }
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
-  };
-
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
