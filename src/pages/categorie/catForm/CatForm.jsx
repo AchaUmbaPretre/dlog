@@ -16,7 +16,7 @@ const CatForm = ({idCat}) => {
             if(idCat){
                 const {data: cat} = await getCategorieOne(idCat)
                 form.setFieldsValue({
-                    nom_cat : cat[0].nom_cat_tache
+                    nom_cat : cat[0].nom_cat
                 })
             }
         }
