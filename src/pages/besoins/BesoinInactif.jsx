@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input,notification, Space, Tag, Collapse, Modal, Tabs, Select } from 'antd';
-import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import config from '../../config';
+import { Table, Button, Input, notification, Tag, Modal, Select } from 'antd';
+import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined } from '@ant-design/icons';
 import { getBesoin, getBesoinInactif } from '../../services/besoinsService';
 import ProjetBesoin from '../projet/projetBesoin/ProjetBesoin';
 import { putProjetBesoin } from '../../services/projetService';
 
 const { Search } = Input;
-const { Panel } = Collapse;
 
 const BesoinInactif = () => {
   const [loading, setLoading] = useState(true);
@@ -15,14 +13,13 @@ const BesoinInactif = () => {
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
   const [editingRow, setEditingRow] = useState(null);
-  const [newProjet, setNewProjet] = useState(null); 
-  const [pData, setPData] = useState([]);
-
-
+  const [newProjet, setNewProjet] = useState(null);
+  const [pData, setPData] = useState([]); // Data for projects
 
   const closeAllModals = () => {
-    setModalType(null)
+    setModalType(null);
   };
+
   const handleChangePriority = (value, record) => {
     setNewProjet(value);
     setEditingRow(null);
@@ -30,19 +27,19 @@ const BesoinInactif = () => {
   };
 
   const handleDoubleClick = (record) => {
-    setEditingRow(record.id_projet);
-    setNewProjet(record.priorite);
+    setEditingRow(record.id_besoin);
+    setNewProjet(record.id_projet);
   };
 
   const handleUpdateProjet = async (idprojet, newProjet) => {
     try {
       await putProjetBesoin(idprojet, newProjet);
-  
+
       notification.success({
         message: 'Mise à jour réussie',
-        description: `Le projet a été mise à jour avec succès.`, 
+        description: `Le projet a été mis à jour avec succès.`,
       });
-  
+
       fetchData();
     } catch (error) {
       notification.error({
@@ -50,40 +47,37 @@ const BesoinInactif = () => {
         description: `Une erreur est survenue lors de la mise à jour.`,
         duration: 3,
       });
-  
     }
   };
 
-  const openModal = (type, idBesoin = '') => {
+  const openModal = (type) => {
     closeAllModals();
     setModalType(type);
   };
 
   const handleAddBesoin = () => {
-    openModal('AddBesoin')
+    openModal('AddBesoin');
   };
 
+  const fetchData = async () => {
+    try {
+      const [besoinData, projetData] = await Promise.all([
+        getBesoinInactif(),
+        getBesoin()
+      ]);
+      setData(besoinData.data);
+      setPData(projetData.data);
+      setLoading(false);
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+      setLoading(false);
+    }
+  };
 
-    const fetchData = async () => {
-      try {
-        const [besoinData, projetData] = await Promise.all([
-            getBesoinInactif(),
-
-
-        ])
-        setData(besoinData);
-        setPData(projetData)
-        setLoading(false);
-      } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
-        setLoading(false);
-      }
-    };
-
-    useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -118,88 +112,87 @@ const BesoinInactif = () => {
       ),
     },
     {
-      title: 'Déscription',
+      title: 'Description',
       dataIndex: 'description',
       key: 'description',
       render: (text) => (
-        <Tag color={"magenta"}>{text ?? 'Aucune'}</Tag>
+        <Tag color="magenta">{text ?? 'Aucune'}</Tag>
       ),
     },
     {
-        title:'Affecter à un projet',
-        dateIndex:'id_projet',
-        key: 'id_projet',
-        render: ( text, record) => {
-            if(editingRow === record.id_besoin){
-                return (
-                    <Select
-                        name = 'id_projet'
-                        defaultValue={setNewProjet}
-                        showSearch
-                        onChange={(value) => handleChangePriority(value, record)}
-                        onBlur={() => setEditingRow(null)}
-                        options = {
-                            pData.map((item) => ({
-                                value: item.id_projet,
-                                label: item.nom_projet
-                            }))
-                        }
-                        style={{ width: 120 }}
-                    />
-                )
-            }
-            return (
-                <Tag onDoubleClick={() => handleDoubleClick(record)}>
-                  {text}
-                </Tag>
-              );
+      title: 'Affecter à un projet',
+      dataIndex: 'id_projet',
+      key: 'id_projet',
+      render: (text, record) => {
+        if (editingRow === record.id_besoin) {
+          return (
+            <Select
+              value={newProjet}
+              showSearch
+              onChange={(value) => handleChangePriority(value, record)}
+              onBlur={() => setEditingRow(null)}
+              options={
+                pData.map((item) => ({
+                  value: item.id_projet,
+                  label: item.nom_projet,
+                }))
+              }
+              style={{ width: 120 }}
+            />
+          );
         }
-    }
+        return (
+          <Tag onDoubleClick={() => handleDoubleClick(record)}>
+            {record.nom_projet ?? 'Non assigné'}
+          </Tag>
+        );
+      },
+    },
   ];
 
   return (
     <>
       <div className="client">
         <div className="client-wrapper">
-            <div className="client-row">
-                <div className="client-row-icon">
-                    <ProfileOutlined className='client-icon' />
-                </div>
-                <h2 className="client-h2">Liste des besoins sans projet</h2>
+          <div className="client-row">
+            <div className="client-row-icon">
+              <ProfileOutlined className="client-icon" />
             </div>
-            <div className="client-actions">
-                    <div className="client-row-left">
-                    <Search
-                        placeholder="Recherche..."
-                        enterButton
-                        onChange={(e) => setSearchValue(e.target.value)}
-                    />
-                    </div>
-                <div className="client-rows-right">
-                <Button
-                    type="primary"
-                    icon={<PlusCircleOutlined />}
-                    onClick={handleAddBesoin}
-                    >
-                    Besoin
-                </Button>
-                <Button
-                    icon={<PrinterOutlined />}
-                    onClick={() => window.print()}
-                >
-                    Print
-                </Button>
+            <h2 className="client-h2">Liste des besoins sans projet</h2>
+          </div>
+          <div className="client-actions">
+            <div className="client-row-left">
+              <Search
+                placeholder="Recherche..."
+                enterButton
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
             </div>
+            <div className="client-rows-right">
+              <Button
+                type="primary"
+                icon={<PlusCircleOutlined />}
+                onClick={handleAddBesoin}
+              >
+                Besoin
+              </Button>
+              <Button
+                icon={<PrinterOutlined />}
+                onClick={() => window.print()}
+              >
+                Print
+              </Button>
             </div>
-            <Table
-                columns={nestedColumns}
-                dataSource={filteredData}
-                loading={loading}
-                pagination={false}
-                rowKey="id_projet"
-                bordered
-                size="middle"
-            />
+          </div>
+          <Table
+            columns={nestedColumns}
+            dataSource={filteredData}
+            loading={loading}
+            pagination={false}
+            rowKey="id_besoin"
+            bordered
+            size="middle"
+          />
         </div>
       </div>
       <Modal
@@ -210,7 +203,7 @@ const BesoinInactif = () => {
         width={800}
         centered
       >
-        <ProjetBesoin idProjet={''} fetchData={fetchData} closeModal={closeAllModals}/>
+        <ProjetBesoin idProjet={''} fetchData={fetchData} closeModal={closeAllModals} />
       </Modal>
     </>
   );
