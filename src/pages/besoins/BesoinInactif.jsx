@@ -4,28 +4,54 @@ import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined, Edi
 import config from '../../config';
 import { getBesoin, getBesoinInactif } from '../../services/besoinsService';
 import ProjetBesoin from '../projet/projetBesoin/ProjetBesoin';
+import { putProjetBesoin } from '../../services/projetService';
 
 const { Search } = Input;
 const { Panel } = Collapse;
 
 const BesoinInactif = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
   const [editingRow, setEditingRow] = useState(null);
   const [newProjet, setNewProjet] = useState(null); 
+  const [pData, setPData] = useState([]);
 
 
 
   const closeAllModals = () => {
     setModalType(null)
   };
+  const handleChangePriority = (value, record) => {
+    setNewProjet(value);
+    setEditingRow(null);
+    handleUpdateProjet(record.id_projet, value);
+  };
 
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_projet);
     setNewProjet(record.priorite);
+  };
+
+  const handleUpdateProjet = async (idprojet, newProjet) => {
+    try {
+      await putProjetBesoin(idprojet, newProjet);
+  
+      notification.success({
+        message: 'Mise à jour réussie',
+        description: `Le projet a été mise à jour avec succès.`, 
+      });
+  
+      fetchData();
+    } catch (error) {
+      notification.error({
+        message: 'Erreur',
+        description: `Une erreur est survenue lors de la mise à jour.`,
+        duration: 3,
+      });
+  
+    }
   };
 
   const openModal = (type, idBesoin = '') => {
@@ -40,8 +66,13 @@ const BesoinInactif = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getBesoinInactif();
-        setData(data);
+        const [besoinData, projetData] = await Promise.all([
+            getBesoinInactif(),
+
+
+        ])
+        setData(besoinData);
+        setPData(projetData)
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -54,7 +85,7 @@ const BesoinInactif = () => {
 
     useEffect(() => {
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
   // Filtrage des données
   const filteredData = data.filter(item =>
@@ -103,9 +134,25 @@ const BesoinInactif = () => {
                 return (
                     <Select
                         name = 'id_projet'
+                        defaultValue={setNewProjet}
+                        showSearch
+                        onChange={(value) => handleChangePriority(value, record)}
+                        onBlur={() => setEditingRow(null)}
+                        options = {
+                            pData.map((item) => ({
+                                value: item.id_projet,
+                                label: item.nom_projet
+                            }))
+                        }
+                        style={{ width: 120 }}
                     />
                 )
             }
+            return (
+                <Tag onDoubleClick={() => handleDoubleClick(record)}>
+                  {text}
+                </Tag>
+              );
         }
     }
   ];
