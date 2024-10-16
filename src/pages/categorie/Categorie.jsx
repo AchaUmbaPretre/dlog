@@ -17,6 +17,7 @@ const Categorie = () => {
 
   const handleEdit = (id) => {
     message.info(`Modifier: ${id}`);
+    setIdCat(id)
   };
 
   const handleDelete = async (id) => {
@@ -56,9 +57,8 @@ const Categorie = () => {
     fetchData();
   }, [DOMAIN]);
 
-  const handleAddClient = (id) => {
+  const handleAddClient = () => {
     setIsModalVisible(true);
-    setIdCat(id)
   };
 
   const handleCancel = () => {
