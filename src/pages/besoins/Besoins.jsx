@@ -165,16 +165,6 @@ const Besoins = () => {
             </Tabs.TabPane>
       </Tabs>
       </div>
-      <Modal
-        title=""
-        visible={modalType === 'AddBesoin'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={800}
-        centered
-      >
-        <ProjetBesoin idProjet={''} fetchData={fetchData} closeModal={closeAllModals}/>
-      </Modal>
     </>
   );
 };
