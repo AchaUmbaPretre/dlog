@@ -21,11 +21,9 @@ const { Search } = Input;
 const Projet = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isTacheVisible, setIsTacheVisible] = useState(false);
   const [isTacheListeVisible, setIsTacheListeVisible] = useState(false);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [isBudgetVisible, setIsBudgetVisible] = useState(false);
-  const [isBesoinVisible, setIsBesoinVisible] = useState(false);
   const [isUpdateVisible, setIsUpdateVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [idProjet, setIdProjet] = useState('');
@@ -88,10 +86,8 @@ const Projet = () => {
 
   const handleCancel = () => {
     form.resetFields();
-    setIsTacheVisible(false);
     setIsDetailVisible(false);
     setIsBudgetVisible(false);
-    setIsBesoinVisible(false);
     setIsTacheListeVisible(false);
     setIsUpdateVisible(false)
   };
