@@ -23,17 +23,18 @@ const BesoinInactif = () => {
   const handleChangePriority = (value, record) => {
     setNewProjet(value);
     setEditingRow(null);
-    handleUpdateProjet(record.id_projet, value);
+    handleUpdateProjet(record.id_besoin, value);
   };
+  
 
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_besoin);
     setNewProjet(record.id_projet);
   };
 
-  const handleUpdateProjet = async (idprojet, newProjet) => {
+  const handleUpdateProjet = async (idProjet, id_besoin) => {
     try {
-      await putProjetBesoin(idprojet, newProjet);
+      await putProjetBesoin(idProjet, id_besoin);
 
       notification.success({
         message: 'Mise à jour réussie',
@@ -65,6 +66,7 @@ const BesoinInactif = () => {
         getBesoinInactif(),
         getBesoin()
       ]);
+
       setData(besoinData.data);
       setPData(projetData.data);
       setLoading(false);
@@ -77,13 +79,15 @@ const BesoinInactif = () => {
     }
   };
 
+  console.log(pData)
+
   useEffect(() => {
     fetchData();
   }, []);
 
   // Filtrage des données
   const filteredData = data.filter(item =>
-    item.description?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_article.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   const nestedColumns = [
@@ -120,34 +124,33 @@ const BesoinInactif = () => {
       ),
     },
     {
-      title: 'Affecter à un projet',
-      dataIndex: 'id_projet',
-      key: 'id_projet',
-      render: (text, record) => {
-        if (editingRow === record.id_besoin) {
-          return (
-            <Select
-              value={newProjet}
-              showSearch
-              onChange={(value) => handleChangePriority(value, record)}
-              onBlur={() => setEditingRow(null)}
-              options={
-                pData.map((item) => ({
+        title: 'Affecter à un projet',
+        dataIndex: 'id_projet',
+        key: 'id_projet',
+        render: (text, record) => {
+          if (editingRow === record.id_besoin) {
+            return (
+              <Select
+                value={newProjet}
+                showSearch
+                onChange={(value) => handleChangePriority(value, record)} // Passe l'id_besoin et id_projet
+                onBlur={() => setEditingRow(null)}
+                options={pData.map((item) => ({
                   value: item.id_projet,
                   label: item.nom_projet,
-                }))
-              }
-              style={{ width: 120 }}
-            />
+                }))}
+                style={{ width: 120 }}
+              />
+            );
+          }
+          return (
+            <Tag onDoubleClick={() => handleDoubleClick(record)}>
+              {record.nom_projet ?? 'Non assigné'}
+            </Tag>
           );
-        }
-        return (
-          <Tag onDoubleClick={() => handleDoubleClick(record)}>
-            {record.nom_projet ?? 'Non assigné'}
-          </Tag>
-        );
-      },
-    },
+        },
+      }
+      
   ];
 
   return (

@@ -60,6 +60,6 @@ export const putProjet = async (id, data) => {
     return axios.put(`${DOMAIN}/api/projet?id_projet=${id}`, data);
   };
 
-  export const putProjetBesoin = async (id, data) => {
+export const putProjetBesoin = async (id, data) => {
     return axios.put(`${DOMAIN}/api/projet/projet_besoin?id_besoin=${id}`, data);
   };
