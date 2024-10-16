@@ -11,6 +11,9 @@ export const getBesoin = async () => {
     return axios.get(`${DOMAIN}/api/besoin`);
   };
 
+export const getBesoinInactif = async () => {
+    return axios.get(`${DOMAIN}/api/besoin/besoin-inactif`);
+  };
 
 export const getBesoinOne = async (id) => {
     return axios.get(`${DOMAIN}/api/besoin/one?id_besoin=${id}`);

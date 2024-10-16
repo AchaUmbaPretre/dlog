@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input,notification, Space, Tag, Collapse, Modal, Tabs } from 'antd';
 import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
-import { getBesoin } from '../../services/besoinsService';
+import { getBesoin, getBesoinInactif } from '../../services/besoinsService';
 import ProjetBesoin from '../projet/projetBesoin/ProjetBesoin';
-import BesoinInactif from './BesoinInactif';
 
 const { Search } = Input;
 const { Panel } = Collapse;
 
-const Besoins = () => {
+const BesoinInactif = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -25,9 +24,14 @@ const Besoins = () => {
     setModalType(type);
   };
 
+  const handleAddBesoin = () => {
+    openModal('AddBesoin')
+  };
+
+
     const fetchData = async () => {
       try {
-        const { data } = await getBesoin();
+        const { data } = await getBesoinInactif();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -43,28 +47,9 @@ const Besoins = () => {
     fetchData();
   }, [DOMAIN]);
 
-  // Regrouper les données par id_projet
-  const groupedData = data.reduce((acc, item) => {
-    if (!acc[item.id_projet]) {
-      acc[item.id_projet] = {
-        id_projet: item.id_projet,
-        nom_projet: item.nom_projet,
-        items: []
-      };
-    }
-    acc[item.id_projet].items.push(item);
-    return acc;
-  }, {});
-
-  // Convertir les données regroupées en tableau
-  const groupedDataArray = Object.values(groupedData);
-
   // Filtrage des données
-  const filteredData = groupedDataArray.filter(item =>
-    item.nom_projet?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.items.some(subItem =>
-      subItem.nom_article?.toLowerCase().includes(searchValue.toLowerCase())
-    )
+  const filteredData = data.filter(item =>
+    item.description?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   const nestedColumns = [
@@ -114,61 +99,47 @@ const Besoins = () => {
   return (
     <>
       <div className="client">
-      <Tabs defaultActiveKey="0">
-            <Tabs.TabPane tab='Liste de besoin sans projet' key="0">
-              <BesoinInactif/>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab='Liste des besoins' key="1">
-            <div className="client-wrapper">
-              <div className="client-row">
+        <div className="client-wrapper">
+            <div className="client-row">
                 <div className="client-row-icon">
-                  <ProfileOutlined className='client-icon' />
+                <ProfileOutlined className='client-icon' />
                 </div>
                 <h2 className="client-h2">Liste des besoins</h2>
-              </div>
-              <div className="client-actions">
-                <div className="client-row-left">
-                  <Search
-                    placeholder="Recherche..."
-                    enterButton
-                    onChange={(e) => setSearchValue(e.target.value)}
-                  />
-                </div>
+            </div>
+            <div className="client-actions">
+                    <div className="client-row-left">
+                    <Search
+                        placeholder="Recherche..."
+                        enterButton
+                        onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                    </div>
                 <div className="client-rows-right">
-                  <Button
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined />}
+                    onClick={handleAddBesoin}
+                    >
+                    Besoin
+                </Button>
+                <Button
                     icon={<PrinterOutlined />}
                     onClick={() => window.print()}
-                  >
+                >
                     Print
-                  </Button>
-                </div>
-              </div>
-
-              <Table
-                columns={mainColumns}
+                </Button>
+            </div>
+            </div>
+            <Table
+                columns={nestedColumns}
                 dataSource={filteredData}
                 loading={loading}
                 pagination={false}
                 rowKey="id_projet"
                 bordered
                 size="middle"
-                expandable={{
-                  expandedRowRender: record => (
-                    <Table
-                      columns={nestedColumns}
-                      dataSource={record.items}
-                      pagination={false}
-                      rowKey="nom_article"
-                      bordered
-                      size="middle"
-                    />
-                  ),
-                  rowExpandable: record => record.items.length > 0,
-                }}
-          />
+            />
         </div>
-            </Tabs.TabPane>
-      </Tabs>
       </div>
       <Modal
         title=""
@@ -184,4 +155,4 @@ const Besoins = () => {
   );
 };
 
-export default Besoins;
+export default BesoinInactif;
