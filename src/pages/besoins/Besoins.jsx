@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input,notification, Space, Tag, Collapse } from 'antd';
+import { Table, Button, Input,notification, Space, Tag, Collapse, Modal } from 'antd';
 import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getBesoin } from '../../services/besoinsService';
+import ProjetBesoin from '../projet/projetBesoin/ProjetBesoin';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -27,7 +28,7 @@ const Besoins = () => {
     openModal('AddBesoin')
   };
 
-  useEffect(() => {
+
     const fetchData = async () => {
       try {
         const { data } = await getBesoin();
@@ -42,6 +43,7 @@ const Besoins = () => {
       }
     };
 
+    useEffect(() => {
     fetchData();
   }, [DOMAIN]);
 
@@ -171,6 +173,16 @@ const Besoins = () => {
           />
         </div>
       </div>
+      <Modal
+        title=""
+        visible={modalType === 'AddBesoin'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <ProjetBesoin idProjet={''} fetchData={fetchData} closeModal={closeAllModals}/>
+      </Modal>
     </>
   );
 };
