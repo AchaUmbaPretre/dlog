@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input,notification, Space, Tag, Collapse } from 'antd';
-import { ProfileOutlined, UserOutlined, PlusOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getBesoin } from '../../services/besoinsService';
 
@@ -13,6 +13,19 @@ const Besoins = () => {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
+
+  const closeAllModals = () => {
+    setModalType(null)
+  };
+
+  const openModal = (type, idBesoin = '') => {
+    closeAllModals();
+    setModalType(type);
+  };
+
+  const handleAddBesoin = () => {
+    openModal('AddBesoin')
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,6 +132,13 @@ const Besoins = () => {
               />
             </div>
             <div className="client-rows-right">
+              <Button
+                  type="primary"
+                  icon={<PlusCircleOutlined />}
+                  onClick={handleAddBesoin}
+                >
+                Projet
+              </Button>
               <Button
                 icon={<PrinterOutlined />}
                 onClick={() => window.print()}
