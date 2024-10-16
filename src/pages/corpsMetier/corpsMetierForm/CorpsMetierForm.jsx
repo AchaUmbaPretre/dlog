@@ -53,28 +53,35 @@ const CorpsMetierForm = ({idCorps}) => {
   };
 
   return (
-    <Form
-      form={form}
-      name="format_form"
-      layout="vertical"
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      style={{ maxWidth: 600, margin: '0 auto' }}
-    >
-      <Form.Item
-        label="Corps de métier"
-        name="nom_corps_metier"
-        rules={[{ required: true, message: 'Veuillez entrer le nom du corps de métier' }]}
-      >
-        <Input placeholder="Entrez le nom du corps..." />
-      </Form.Item>
+    <div className="controle_form">
+        <div className="controle_title_rows">
+            <h2 className='controle_h2'>{ idCorps ? 'Modifier le corps metier' :  `Insérer un nouveau corps metier`}</h2>                
+        </div>
+        <div className="controle_wrapper">
+            <Form
+                form={form}
+                name="format_form"
+                layout="vertical"
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                style={{ maxWidth: 600, margin: '0 auto' }}
+            >
+        <Form.Item
+            label="Corps de métier"
+            name="nom_corps_metier"
+            rules={[{ required: true, message: 'Veuillez entrer le nom du corps de métier' }]}
+        >
+            <Input placeholder="Entrez le nom du corps..." />
+        </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-          Soumettre
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+            Soumettre
+            </Button>
+        </Form.Item>
+            </Form>
+        </div>
+    </div>
   );
 };
 
