@@ -118,7 +118,7 @@ const Categorie = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Edit">
+          <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
@@ -209,7 +209,7 @@ const Categorie = () => {
       </Modal>
 
       <Modal
-        title="Editer"
+        title=""
         visible={modalType === 'edit'}
         onCancel={closeAllModals}
         footer={null}
