@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input,notification, Space, Tag, Collapse, Modal, Tabs } from 'antd';
+import { Table, Button, Input,notification, Space, Tag, Collapse, Modal, Tabs, Select } from 'antd';
 import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getBesoin, getBesoinInactif } from '../../services/besoinsService';
@@ -14,9 +14,18 @@ const BesoinInactif = () => {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
+  const [editingRow, setEditingRow] = useState(null);
+  const [newProjet, setNewProjet] = useState(null); 
+
+
 
   const closeAllModals = () => {
     setModalType(null)
+  };
+
+  const handleDoubleClick = (record) => {
+    setEditingRow(record.id_projet);
+    setNewProjet(record.priorite);
   };
 
   const openModal = (type, idBesoin = '') => {
@@ -84,16 +93,21 @@ const BesoinInactif = () => {
       render: (text) => (
         <Tag color={"magenta"}>{text ?? 'Aucune'}</Tag>
       ),
-    }
-  ];
-
-  const mainColumns = [
-    {
-      title: 'Projet',
-      dataIndex: 'nom_projet',
-      key: 'nom_projet',
-      render: (text) => <Tag color="blue">{text}</Tag>,
     },
+    {
+        title:'Affecter à un projet',
+        dateIndex:'id_projet',
+        key: 'id_projet',
+        render: ( text, record) => {
+            if(editingRow === record.id_besoin){
+                return (
+                    <Select
+                        name = 'id_projet'
+                    />
+                )
+            }
+        }
+    }
   ];
 
   return (
