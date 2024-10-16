@@ -20,11 +20,6 @@ const Besoins = () => {
     setModalType(null)
   };
 
-  const openModal = (type, idBesoin = '') => {
-    closeAllModals();
-    setModalType(type);
-  };
-
     const fetchData = async () => {
       try {
         const { data } = await getBesoin();
