@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
 import { ExportOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { getFournisseur_activite } from '../../services/fournisseurService';
-import FournisseurForm from './fournisseurForm/FournisseurForm';
 
 const { Search } = Input;
 
@@ -17,20 +16,7 @@ const ListePrix = () => {
       try {
         const { data } = await getFournisseur_activite();
   
-        const groupedData = data.reduce((acc, curr) => {
-          const found = acc.find(item => item.id_fournisseur === curr.id_fournisseur);
-          if (found) {
-            found.nom_activite.push(curr.nom_activite);
-          } else {
-            acc.push({
-              ...curr,
-              nom_activite: [curr.nom_activite],
-            });
-          }
-          return acc;
-        }, []);
-  
-        setData(groupedData);
+        setData(data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -187,14 +173,14 @@ const ListePrix = () => {
       </div>
 
       <Modal
-        title="Ajouter nouveau fournisseur"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
         width={800}
         centered
       >
-        <FournisseurForm modalOff={setIsModalVisible} />
+{/*         <FournisseurForm modalOff={setIsModalVisible} /> */}
       </Modal>
     </>
   );
