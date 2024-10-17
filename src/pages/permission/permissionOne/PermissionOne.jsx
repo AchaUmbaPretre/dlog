@@ -1,8 +1,13 @@
 import React from 'react'
 
-const PermissionOne = () => {
+const PermissionOne = ({idUser}) => {
+  
+    
   return (
-    <div>PermissionOne</div>
+    <>
+        <div>PermissionOne</div>
+        <div>{idUser}</div>
+    </>
   )
 }
 

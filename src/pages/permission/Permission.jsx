@@ -21,7 +21,7 @@ const Permission = () => {
     setIsModalVisible(true)
   };
 
-  
+
    useEffect(() => {
     const fetchData = async () => {
       try {
@@ -161,7 +161,7 @@ const Permission = () => {
         footer={null}
         width={600}
       >
-        <PermissionOne idUser={idFrequence}/>
+        <PermissionOne idUser={idUser}/>
       </Modal>
     </>
   );
