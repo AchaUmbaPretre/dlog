@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Switch, message, Tag, Input } from 'antd';
-import { EyeOutlined, EditOutlined,BankOutlined, SisternodeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined,UnlockOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getMenus, getMenusOne, putPermission } from '../../../services/permissionService';
 
 const PermissionOne = ({userId}) => {
@@ -132,7 +132,7 @@ const PermissionOne = ({userId}) => {
             <div className="client-wrapper">
                 <div className="client-row">
                     <div className="client-row-icon">
-                        <BankOutlined className='client-icon'/>
+                        <UnlockOutlined className='client-icon' />
                     </div>
                     <h2 className="client-h2">Gestion des permissions</h2>
                 </div>

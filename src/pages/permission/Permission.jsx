@@ -142,7 +142,7 @@ const Permission = () => {
       </div>
 
       <Modal
-        title="Permissions"
+        title=""
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
