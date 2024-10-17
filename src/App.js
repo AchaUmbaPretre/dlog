@@ -35,6 +35,7 @@ import Tags from './pages/tags/Tags';
 import CorpsMetier from './pages/corpsMetier/CorpsMetier';
 import ListCatTache from './pages/listCatTache/ListCatTache';
 import ListePrix from './pages/prix/ListePrix';
+import Permission from './pages/permission/Permission';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -97,6 +98,10 @@ function App() {
         {
           path: '/frequence',
           element: <Frequence/>
+        },
+        {
+          path: '/permission',
+          element: <Permission/>
         },
         {
           path: '/Projet',
