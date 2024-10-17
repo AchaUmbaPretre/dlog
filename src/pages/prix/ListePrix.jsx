@@ -8,20 +8,18 @@ const { Option } = Select;
 
 const ListePrix = () => {
   const [loading, setLoading] = useState(true);
-  const [searchValue, setSearchValue] = useState('');
-  const [data, setData] = useState([]); // Toutes les données sans filtre
-  const [filteredData, setFilteredData] = useState([]); // Données filtrées par article ou recherche
-  const [selectedArticle, setSelectedArticle] = useState(null); // État pour l'article sélectionné
+  const [data, setData] = useState([]); 
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedArticle, setSelectedArticle] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
-  // Charger toutes les données à partir de l'API une seule fois lors du montage du composant
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getOffreArticle({});  // Appel sans filtre, récupérer toutes les données
-        setData(response.data); // Stocker toutes les données dans l'état principal
-        setFilteredData(response.data); // Initialiser les données filtrées avec toutes les données
+        const response = await getOffreArticle({});
+        setData(response.data);
+        setFilteredData(response.data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -34,21 +32,15 @@ const ListePrix = () => {
     fetchData();
   }, []);
 
-  // Filtrer les données par article sélectionné
   const handleArticleFilter = (value) => {
     setSelectedArticle(value);
 
     if (value) {
-      const filtered = data.filter(item => item.nom_article === value); // Filtrer par article
-      setFilteredData(filtered); // Mettre à jour les données affichées
+      const filtered = data.filter(item => item.nom_article === value);
+      setFilteredData(filtered);
     } else {
-      setFilteredData(data); // Si aucun article n'est sélectionné, afficher toutes les données
+      setFilteredData(data);
     }
-  };
-
-
-  const handleAddClient = () => {
-    setIsModalVisible(true);
   };
 
   const handleCancel = () => {
@@ -65,19 +57,6 @@ const ListePrix = () => {
 
   const handlePrint = () => {
     window.print();
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      setData(data.filter((item) => item.id !== id));
-      setFilteredData(filteredData.filter((item) => item.id !== id)); // Mettre à jour les données filtrées aussi
-      message.success('Client deleted successfully');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
   };
 
   const menu = (
