@@ -146,7 +146,8 @@ const Permission = () => {
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
-        width={900}
+        centered
+        width={950}
       >
         <PermissionOne userId={idUser} />
       </Modal>

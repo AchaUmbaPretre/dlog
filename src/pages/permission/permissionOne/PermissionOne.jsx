@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Switch, message, Tag, Input } from 'antd';
-import { EyeOutlined, EditOutlined, SisternodeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined,BankOutlined, SisternodeOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getMenus, getMenusOne, putPermission } from '../../../services/permissionService';
 
 const PermissionOne = ({userId}) => {
@@ -120,10 +120,45 @@ const PermissionOne = ({userId}) => {
       )
     }
   ];
+  
+  const filteredData = options.filter(item =>
+    item.menu_title?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
 
   return (
     <>
-        <div className="products">
+        <div className="client">
+            <div className="client-wrapper">
+                <div className="client-row">
+                    <div className="client-row-icon">
+                        <BankOutlined className='client-icon'/>
+                    </div>
+                    <h2 className="client-h2">Gestion des permissions</h2>
+                </div>
+                <div className="client-actions">
+                    <div className="client-row-left">
+                        <Input
+                            type="search"
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            placeholder="Recherche..."
+                            className="product-search"
+                        />    
+                    </div>
+                </div>
+                    <Table
+                        dataSource={loading ? [] : filteredData}
+                        columns={columns}
+                        scroll={scroll}
+                        rowKey="id"
+                        pagination={false}
+                        loading={loading}
+                        className='table_permission' 
+                    />
+            </div>
+        </div>
+{/*         <div className="products">
             <div className="product-container">
                 <div className="product-container-top">
                     <div className="product-left">
@@ -159,7 +194,7 @@ const PermissionOne = ({userId}) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> */}
     </>
   );
 };
