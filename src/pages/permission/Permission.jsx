@@ -148,6 +148,7 @@ const Permission = () => {
         footer={null}
         centered
         width={950}
+        size="small"
       >
         <PermissionOne userId={idUser} />
       </Modal>

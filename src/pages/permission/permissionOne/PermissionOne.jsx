@@ -152,6 +152,7 @@ const PermissionOne = ({userId}) => {
                         columns={columns}
                         scroll={scroll}
                         rowKey="id"
+                        bordered
                         pagination={false}
                         loading={loading}
                         className='table_permission' 
