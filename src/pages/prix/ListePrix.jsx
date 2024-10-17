@@ -118,7 +118,7 @@ const ListePrix = () => {
       dataIndex: 'prix',
       key: 'prix',
       render: (text) => (
-        <Tag icon={<DollarOutlined />} color="gold">{text}</Tag>
+        <Tag  color="gold">{text} $</Tag>
       ),
     }
   ];
