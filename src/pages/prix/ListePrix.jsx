@@ -8,8 +8,8 @@ const { Option } = Select;
 
 const ListePrix = () => {
   const [loading, setLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]); // Nouveau état pour données filtrées
   const [selectedArticle, setSelectedArticle] = useState(null); // État pour l'article sélectionné
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
@@ -19,7 +19,6 @@ const ListePrix = () => {
       try {
         const { data } = await getOffreArticle();
         setData(data);
-        setFilteredData(data); // Initialement, les données filtrées sont les mêmes que les données complètes
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -33,16 +32,6 @@ const ListePrix = () => {
     fetchData();
   }, []);
 
-  // Fonction pour gérer la sélection d'un article
-  const handleArticleFilter = (value) => {
-    setSelectedArticle(value);
-    if (value) {
-      const filtered = data.filter(item => item.nom_article === value);
-      setFilteredData(filtered);
-    } else {
-      setFilteredData(data); // Réinitialiser si aucun filtre n'est sélectionné
-    }
-  };
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -117,11 +106,17 @@ const ListePrix = () => {
       title: 'Prix',
       dataIndex: 'prix',
       key: 'prix',
+      sorter: (a, b) => a.prix - b.prix,
       render: (text) => (
         <Tag  color="gold">{text} $</Tag>
       ),
     }
   ];
+
+  const filteredData = data.filter(item =>
+    item.nom_fournisseur?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <>
@@ -138,18 +133,18 @@ const ListePrix = () => {
               <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-row-right">
-              <Select
+            <Select
                 placeholder="Filtrer par article"
                 style={{ width: 200, marginRight: 16 }}
-                onChange={handleArticleFilter}
                 allowClear
-              >
-                {data.map((item) => (
-                  <Option key={item.nom_article} value={item.nom_article}>
-                    {item.nom_article}
-                  </Option>
+                >
+                {[...new Set(data.map(item => item.nom_article))].map((article) => (
+                    <Option key={article} value={article}>
+                    {article}
+                    </Option>
                 ))}
-              </Select>
+            </Select>
+
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
