@@ -81,13 +81,16 @@
         }
       }
       .topBar-trait{
+        @include mobileXR{
+          display: none;
+        }
         .topbar-icon{
           font-size: 1rem;
         }
       }
       .hamburger {
-        width: 25px;
-        height: 20px;
+        width: 22px;
+        height: 18px;
         display: none;
         flex-direction: column;
         justify-content: space-between;
