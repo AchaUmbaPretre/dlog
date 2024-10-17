@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,ShoppingOutlined,DollarOutlined, UserOutlined,PrinterOutlined, PlusOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Select } from 'antd';
+import { ExportOutlined, ShoppingOutlined, DollarOutlined, UserOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
 import { getOffreArticle } from '../../services/offreService';
 
 const { Search } = Input;
+const { Option } = Select;
 
 const ListePrix = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]); // Nouveau état pour données filtrées
+  const [selectedArticle, setSelectedArticle] = useState(null); // État pour l'article sélectionné
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
@@ -15,8 +18,8 @@ const ListePrix = () => {
     const fetchData = async () => {
       try {
         const { data } = await getOffreArticle();
-  
         setData(data);
+        setFilteredData(data); // Initialement, les données filtrées sont les mêmes que les données complètes
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -26,10 +29,20 @@ const ListePrix = () => {
         setLoading(false);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
+  // Fonction pour gérer la sélection d'un article
+  const handleArticleFilter = (value) => {
+    setSelectedArticle(value);
+    if (value) {
+      const filtered = data.filter(item => item.nom_article === value);
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(data); // Réinitialiser si aucun filtre n'est sélectionné
+    }
+  };
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -89,7 +102,7 @@ const ListePrix = () => {
       dataIndex: 'nom_fournisseur',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="green">{text}</Tag> // Utilisation d'une couleur plus positive pour les noms
+        <Tag icon={<UserOutlined />} color="green">{text}</Tag>
       ),
     },
     {
@@ -97,7 +110,7 @@ const ListePrix = () => {
       dataIndex: 'nom_article',
       key: 'article',
       render: (text) => (
-        <Tag icon={<ShoppingOutlined />} color="purple">{text}</Tag> // Utilisation d'une icône de shopping pour les articles
+        <Tag icon={<ShoppingOutlined />} color="purple">{text}</Tag>
       ),
     },
     {
@@ -105,11 +118,10 @@ const ListePrix = () => {
       dataIndex: 'prix',
       key: 'prix',
       render: (text) => (
-        <Tag icon={<DollarOutlined />} color="gold">{text}</Tag> // Icône de dollar et couleur or pour les prix
+        <Tag icon={<DollarOutlined />} color="gold">{text}</Tag>
       ),
     }
   ];
-  
 
   return (
     <>
@@ -125,7 +137,19 @@ const ListePrix = () => {
             <div className="client-row-left">
               <Search placeholder="Recherche..." enterButton />
             </div>
-            <div className="client-rows-right">
+            <div className="client-row-right">
+              <Select
+                placeholder="Filtrer par article"
+                style={{ width: 200, marginRight: 16 }}
+                onChange={handleArticleFilter}
+                allowClear
+              >
+                {data.map((item) => (
+                  <Option key={item.nom_article} value={item.nom_article}>
+                    {item.nom_article}
+                  </Option>
+                ))}
+              </Select>
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
@@ -146,7 +170,7 @@ const ListePrix = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData} // Utiliser les données filtrées
             loading={loading}
             pagination={{ pageSize: 10 }}
             rowKey="id"
@@ -165,7 +189,7 @@ const ListePrix = () => {
         width={800}
         centered
       >
-{/*         <FournisseurForm modalOff={setIsModalVisible} /> */}
+        {/* <FournisseurForm modalOff={setIsModalVisible} /> */}
       </Modal>
     </>
   );

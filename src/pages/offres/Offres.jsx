@@ -6,7 +6,7 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import FormOffres from './formOffres/FormOffres';
 import { estSupprimeOffre, getOffre } from '../../services/offreService';
-import ArticleForm from './articleForm/ArticleForm';
+import ArticleForm from '../article/articleForm/ArticleForm';
 import DetailOffre from './detailOffre/DetailOffre';
 import DocumentOffreForm from './documentOffreForm/DocumentOffreForm';
 import { Link } from 'react-router-dom';

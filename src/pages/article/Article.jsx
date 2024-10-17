@@ -4,7 +4,7 @@ import { FileExcelOutlined, TagOutlined, FileTextOutlined,PlusCircleOutlined,Pri
 import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
-import ArticleForm from '../offres/articleForm/ArticleForm';
+import ArticleForm from './articleForm/ArticleForm';
 import { getArticle } from '../../services/typeService';
 import FormArticleExcel from './formArticleExcel/FormArticleExcel';
 import { estSupprimeArticle } from '../../services/offreService';
