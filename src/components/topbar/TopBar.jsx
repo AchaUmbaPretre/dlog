@@ -74,11 +74,11 @@ const TopBar = () => {
           >
             <Select.Option value="en">
               <img src={flagEN} alt="English" style={{ width: 20, marginRight: 8 }} />
-              {t('English')}
+              {t('En')}
             </Select.Option>
             <Select.Option value="fr">
               <img src={flagFR} alt="Français" style={{ width: 20, marginRight: 8 }} />
-              {t('Français')}
+              {t('Fr')}
             </Select.Option>
           </Select>
         </div>
