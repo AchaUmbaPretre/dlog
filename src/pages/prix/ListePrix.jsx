@@ -46,16 +46,6 @@ const ListePrix = () => {
     }
   };
 
-  // Recherche par fournisseur ou article
-  const handleSearch = (value) => {
-    setSearchValue(value);
-
-    const filtered = data.filter(item =>
-      item.nom_fournisseur?.toLowerCase().includes(value.toLowerCase()) ||
-      item.nom_article?.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredData(filtered); // Mettre à jour les données affichées
-  };
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -168,13 +158,6 @@ const ListePrix = () => {
 
             </div>
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={handleAddClient}
-              >
-                Ajouter un fournisseur
-              </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
@@ -188,9 +171,9 @@ const ListePrix = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={filteredData} // Utiliser les données filtrées
+            dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 15 }}
             rowKey="id"
             bordered
             size="middle"
