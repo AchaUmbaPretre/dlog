@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Table, Switch, message, Tag, Input } from 'antd';
 import { EyeOutlined, EditOutlined, SisternodeOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getMenus, getMenusOne, putPermission } from '../../../services/permissionService';
@@ -11,8 +10,6 @@ const PermissionOne = ({userId}) => {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
   const scroll = { x: 400 };
-
-  console.log(userId)
 
   useEffect(() => {
     const fetchOptionsAndPermissions = async () => {
