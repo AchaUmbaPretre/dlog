@@ -214,7 +214,7 @@ const ListCatTache = () => {
       </Modal>
 
       <Modal
-        title="Modifier la categorie de tache"
+        title=""
         visible={modalType === 'Edit'}
         onCancel={closeAllModals}
         footer={null}
