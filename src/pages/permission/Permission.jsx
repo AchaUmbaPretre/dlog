@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button,Input, message, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { SolutionOutlined,UserOutlined, PrinterOutlined,UnlockOutlined ,EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button,Input, message, Menu, notification, Space, Tooltip, Popconfirm, Tag, Modal } from 'antd';
+import { SolutionOutlined,UserOutlined,EyeOutlined, PrinterOutlined,UnlockOutlined ,EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
+import { getUser } from '../../services/userService';
+import PermissionOne from './permissionOne/PermissionOne';
 
 const { Search } = Input;
 
@@ -10,35 +12,20 @@ const Permission = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [idFrequence, setIdFrequence] = useState('')
+  const [idUser, setIdUser] = useState('')
 
   const scroll = { x: 400 };
 
-
   const handleEdit = (id) => {
-    setIdFrequence(id)
+    setIdUser(id)
     setIsModalVisible(true)
   };
 
-  const handleDelete = async (id) => {
-    try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
-  };
-
-
+  
    useEffect(() => {
     const fetchData = async () => {
       try {
-/*         const { data } = await getFrequence(); */
+         const { data } = await getUser();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -117,27 +104,13 @@ const Permission = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Modifier">
+          <Tooltip title="Voir les permissions">
             <Button
-              icon={<EditOutlined />}
+              icon={<EyeOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_frequence)}
-              aria-label="Edit client"
+              onClick={() => handleEdit(record.id_utilisateur)}
+              aria-label="voir"
             />
-          </Tooltip>
-          <Tooltip title="Supprimer">
-            <Popconfirm
-              title="Etes-vous sûr de vouloir supprimer ce département ?"
-              onConfirm={() => handleDelete(record.id_frequence)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete department"
-              />
-            </Popconfirm>
           </Tooltip>
         </Space>
       ),
@@ -181,15 +154,15 @@ const Permission = () => {
         </div>
       </div>
 
-{/*       <Modal
-        title="Ajouter une frequence"
+       <Modal
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
         width={600}
       >
-        <FrequenceForm idFrequence={idFrequence}/>
-      </Modal> */}
+        <PermissionOne idUser={idFrequence}/>
+      </Modal>
     </>
   );
 };
