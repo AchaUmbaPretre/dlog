@@ -3,6 +3,10 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
+export const getMenusAllOne = async (userId) => {
+    return axios.get(`${DOMAIN}/api/permission/addOne?userId=${userId}`);
+  };
+
 
 export const getMenusOne = async () => {
     return axios.get(`${DOMAIN}/api/permission/add`);
