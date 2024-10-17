@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { getFournisseur_activite } from '../../services/fournisseurService';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
+import { ExportOutlined,ShoppingOutlined,DollarOutlined, UserOutlined,PrinterOutlined, PlusOutlined } from '@ant-design/icons';
+import { getOffreArticle } from '../../services/offreService';
 
 const { Search } = Input;
 
@@ -14,7 +14,7 @@ const ListePrix = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getFournisseur_activite();
+        const { data } = await getOffreArticle();
   
         setData(data);
         setLoading(false);
@@ -49,10 +49,6 @@ const ListePrix = () => {
 
   const handlePrint = () => {
     window.print();
-  };
-
-  const handleEdit = (record) => {
-    message.info(`Modification fournisseur : ${record.nom}`);
   };
 
   const handleDelete = async (id) => {
@@ -93,38 +89,27 @@ const ListePrix = () => {
       dataIndex: 'nom_fournisseur',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<UserOutlined />} color="green">{text}</Tag> // Utilisation d'une couleur plus positive pour les noms
       ),
     },
     {
-      title: 'Activités',
-      dataIndex: 'nom_activite',
-      key: 'nom_activite',
-      render: (activities) => (
-        activities.map((activite, index) => (
-          <Tag key={index} color="green">
-            {activite}
-          </Tag>
-        ))
-      ),
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Article',
+      dataIndex: 'nom_article',
+      key: 'article',
       render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<ShoppingOutlined />} color="purple">{text}</Tag> // Utilisation d'une icône de shopping pour les articles
       ),
     },
     {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
+      title: 'Prix',
+      dataIndex: 'prix',
+      key: 'prix',
       render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<DollarOutlined />} color="gold">{text}</Tag> // Icône de dollar et couleur or pour les prix
       ),
     }
   ];
+  
 
   return (
     <>
@@ -132,9 +117,9 @@ const ListePrix = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <TeamOutlined className='client-icon' />
+              <DollarOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Fournisseur</h2>
+            <h2 className="client-h2">Liste des prix</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">

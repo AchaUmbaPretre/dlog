@@ -11,6 +11,10 @@ export const getOffre = async () => {
     return axios.get(`${DOMAIN}/api/offre/offre_doc`);
   };
 
+  export const getOffreArticle = async () => {
+    return axios.get(`${DOMAIN}/api/offre/offre_article`);
+  };
+
   export const getOffreArticleOne = async (id) => {
     return axios.get(`${DOMAIN}/api/offre/one_offre?id_offre=${id}`);
   };
