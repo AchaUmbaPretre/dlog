@@ -9,29 +9,53 @@ const { Option } = Select;
 const ListePrix = () => {
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('');
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); // Toutes les données sans filtre
+  const [filteredData, setFilteredData] = useState([]); // Données filtrées par article ou recherche
   const [selectedArticle, setSelectedArticle] = useState(null); // État pour l'article sélectionné
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
+  // Charger toutes les données à partir de l'API une seule fois lors du montage du composant
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getOffreArticle();
-        setData(data);
+        const response = await getOffreArticle({});  // Appel sans filtre, récupérer toutes les données
+        setData(response.data); // Stocker toutes les données dans l'état principal
+        setFilteredData(response.data); // Initialiser les données filtrées avec toutes les données
         setLoading(false);
       } catch (error) {
         notification.error({
           message: 'Erreur de chargement',
           description: 'Une erreur est survenue lors du chargement des données.',
         });
-        setLoading(false);
       }
     };
-
+    
     fetchData();
   }, []);
 
+  // Filtrer les données par article sélectionné
+  const handleArticleFilter = (value) => {
+    setSelectedArticle(value);
+
+    if (value) {
+      const filtered = data.filter(item => item.nom_article === value); // Filtrer par article
+      setFilteredData(filtered); // Mettre à jour les données affichées
+    } else {
+      setFilteredData(data); // Si aucun article n'est sélectionné, afficher toutes les données
+    }
+  };
+
+  // Recherche par fournisseur ou article
+  const handleSearch = (value) => {
+    setSearchValue(value);
+
+    const filtered = data.filter(item =>
+      item.nom_fournisseur?.toLowerCase().includes(value.toLowerCase()) ||
+      item.nom_article?.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredData(filtered); // Mettre à jour les données affichées
+  };
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -55,9 +79,8 @@ const ListePrix = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
+      setFilteredData(filteredData.filter((item) => item.id !== id)); // Mettre à jour les données filtrées aussi
       message.success('Client deleted successfully');
     } catch (error) {
       notification.error({
@@ -108,15 +131,10 @@ const ListePrix = () => {
       key: 'prix',
       sorter: (a, b) => a.prix - b.prix,
       render: (text) => (
-        <Tag  color="gold">{text} $</Tag>
+        <Tag color="gold">{text} $</Tag>
       ),
     }
   ];
-
-  const filteredData = data.filter(item =>
-    item.nom_fournisseur?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase())
-  );
 
   return (
     <>
@@ -130,21 +148,26 @@ const ListePrix = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
-            </div>
-            <div className="client-row-right">
             <Select
+                showSearch
                 placeholder="Filtrer par article"
                 style={{ width: 200, marginRight: 16 }}
                 allowClear
+                onChange={handleArticleFilter}
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                    option.children.toLowerCase().includes(input.toLowerCase())
+                }
                 >
                 {[...new Set(data.map(item => item.nom_article))].map((article) => (
                     <Option key={article} value={article}>
                     {article}
                     </Option>
                 ))}
-            </Select>
+                </Select>
 
+            </div>
+            <div className="client-rows-right">
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
@@ -177,7 +200,7 @@ const ListePrix = () => {
       </div>
 
       <Modal
-        title=""
+        title="Ajouter un fournisseur"
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
