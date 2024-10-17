@@ -293,7 +293,7 @@ const Offres = () => {
         <FormOffres/>
       </Modal>
 
-      <Modal
+{/*       <Modal
         title=""
         visible={modalType === 'ArticleForm'}
         onCancel={closeAllModals}
@@ -302,7 +302,7 @@ const Offres = () => {
         centered
       >
         <ArticleForm idOffre={idOffre}/>
-      </Modal>
+      </Modal> */}
 
       <Modal
         title=""
