@@ -34,6 +34,7 @@ import ListBureaux from './pages/Listbureaux/ListBureaux';
 import Tags from './pages/tags/Tags';
 import CorpsMetier from './pages/corpsMetier/CorpsMetier';
 import ListCatTache from './pages/listCatTache/ListCatTache';
+import ListePrix from './pages/prix/ListePrix';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -148,6 +149,10 @@ function App() {
         {
           path: '/article',
           element: <Article/>
+        },
+        {
+          path: '/prix',
+          element: <ListePrix/>
         },
         {
           path: '/stock',
