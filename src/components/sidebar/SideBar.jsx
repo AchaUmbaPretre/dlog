@@ -174,6 +174,9 @@ const SideBar = () => {
             <Menu.Item key="24" onClick={toggleMenu}>
               <Link to='/frequence'>Fréquence</Link>
             </Menu.Item>
+            <Menu.Item key="25" onClick={toggleMenu}>
+              <Link to='/permission'>Permission</Link>
+            </Menu.Item>
           </SubMenu>
           <Item key="logout" icon={<LogoutOutlined style={{ color: '#f5222d' }} />} className="logout-item" onClick={Logout}>
             <Link>Déconnecter</Link>
