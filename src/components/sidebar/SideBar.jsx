@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
@@ -20,6 +20,8 @@ import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authService';
 import { useMenu } from '../../context/MenuProvider';
+import { getMenusOne } from '../../services/permissionService';
+import { useSelector } from 'react-redux';
 
 const { Sider } = Layout;
 const { SubMenu, Item } = Menu;
@@ -30,6 +32,8 @@ const SideBar = () => {
   const { isOpen, toggleMenu } = useMenu();
   const sidebarRef = useRef(null);
   const hamburgerRef = useRef(null);
+  const userId = useSelector((state) => state.user?.currentUser.id_utilisateur);
+  const [data, setData] = useState([]);
 
   const [isReduced, setIsReduced] = useState(false);
 
@@ -73,6 +77,19 @@ const SideBar = () => {
       message.error('Erreur lors de la déconnexion.');
     }
   };
+
+  const fetchMenu = useCallback(async () => {
+    try {
+      getMenusOne(userId)
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    fetchMenu();
+  }, [fetchMenu, userId]);
 
   return (
     <div ref={sidebarRef} className={`sidebar ${isOpen ? 'visible' : ''} ${isReduced ? 'sidebar-reduced' : ''}`}>

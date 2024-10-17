@@ -5,11 +5,11 @@ const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
 
 export const getMenusOne = async () => {
-    return axios.get(`${DOMAIN}/api/permission/addOne`);
+    return axios.get(`${DOMAIN}/api/permission/add`);
   };
 
 export const getMenus = async (userId) => {
-    return axios.get(`${DOMAIN}/api/permission/One?userId=${userId}`);
+    return axios.get(`${DOMAIN}/api/permission/one?userId=${userId}`);
   };
 
 export const putPermission = async (userId, optionId,finalPermissions ) => {

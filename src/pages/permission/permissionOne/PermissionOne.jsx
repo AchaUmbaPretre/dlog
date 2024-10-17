@@ -12,6 +12,8 @@ const PermissionOne = ({userId}) => {
   const [loading, setLoading] = useState(true);
   const scroll = { x: 400 };
 
+  console.log(userId)
+
   useEffect(() => {
     const fetchOptionsAndPermissions = async () => {
       setLoading(true);

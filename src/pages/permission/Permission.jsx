@@ -1,6 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button,Input, message, Menu, notification, Space, Tooltip, Popconfirm, Tag, Modal } from 'antd';
-import { SolutionOutlined,UserOutlined,EyeOutlined, PrinterOutlined,UnlockOutlined ,EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import {
+  Table,
+  Button,
+  Input,
+  notification,
+  Space,
+  Tooltip,
+  Tag,
+  Modal,
+} from 'antd';
+import {
+  SolutionOutlined,
+  UserOutlined,
+  EyeOutlined,
+  PrinterOutlined,
+  UnlockOutlined,
+} from '@ant-design/icons';
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import PermissionOne from './permissionOne/PermissionOne';
@@ -12,20 +27,14 @@ const Permission = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [idUser, setIdUser] = useState('')
+  const [idUser, setIdUser] = useState('');
 
   const scroll = { x: 400 };
 
-  const handleEdit = (id) => {
-    setIdUser(id)
-    setIsModalVisible(true)
-  };
-
-
-   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
-         const { data } = await getUser();
+        const { data } = await getUser();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -40,61 +49,35 @@ const Permission = () => {
     fetchData();
   }, [DOMAIN]);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleExportExcel = () => {
-
-  };
-
-  const handleExportPDF = () => {
-  };
-
   const handlePrint = () => {
     window.print();
   };
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        Export to Excel
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        Export to PDF
-      </Menu.Item>
-    </Menu>
-  );
-
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (_, __, index) => index + 1,
+      width: '3%',
     },
-    { 
-      title: 'Nom', 
-      dataIndex: 'nom', 
+    {
+      title: 'Nom',
+      dataIndex: 'nom',
       key: 'nom',
-      render: text => (
+      render: (text) => (
         <Space>
           <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
-    { 
-      title: 'Role', 
-      dataIndex: 'role', 
+    {
+      title: 'Role',
+      dataIndex: 'role',
       key: 'role',
-      render: text => (
+      render: (text) => (
         <Space>
-          <Tag icon={<SolutionOutlined />}  color='cyan'>{text}</Tag>
+          <Tag icon={<SolutionOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
@@ -102,7 +85,7 @@ const Permission = () => {
       title: 'Action',
       key: 'action',
       width: '10%',
-      render: (text, record) => (
+      render: (_, record) => (
         <Space size="middle">
           <Tooltip title="Voir les permissions">
             <Button
@@ -117,15 +100,19 @@ const Permission = () => {
     },
   ];
 
+  const handleEdit = (id) => {
+    setIdUser(id);
+    setIsModalVisible(true);
+  };
+
+  console.log(idUser)
 
   return (
     <>
       <div className="client">
         <div className="client-wrapper">
           <div className="client-row">
-            <div className="client-row-icon">
-              <UnlockOutlined className='client-icon'/>
-            </div>
+            <UnlockOutlined className='client-icon' />
             <h2 className="client-h2">Permission</h2>
           </div>
           <div className="client-actions">
@@ -145,7 +132,7 @@ const Permission = () => {
             columns={columns}
             dataSource={data}
             pagination={{ pageSize: 15 }}
-            rowKey="key"
+            rowKey="id_utilisateur"
             bordered
             size="middle"
             scroll={scroll}
@@ -154,14 +141,14 @@ const Permission = () => {
         </div>
       </div>
 
-       <Modal
-        title=""
+      <Modal
+        title="Permissions"
         visible={isModalVisible}
-        onCancel={handleCancel}
+        onCancel={() => setIsModalVisible(false)}
         footer={null}
-        width={600}
+        width={900}
       >
-        <PermissionOne idUser={idUser}/>
+        <PermissionOne userId={idUser} />
       </Modal>
     </>
   );
