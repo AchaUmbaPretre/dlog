@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,ScheduleOutlined, PrinterOutlined,PlusCircleOutlined ,EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button,Input, message, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { SolutionOutlined,UserOutlined, PrinterOutlined,UnlockOutlined ,EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 
 const { Search } = Input;
@@ -94,10 +94,20 @@ const Permission = () => {
     { 
       title: 'Nom', 
       dataIndex: 'nom', 
-      key: 'nom_departement',
+      key: 'nom',
       render: text => (
         <Space>
-          <Tag icon={<ScheduleOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<UserOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      ),
+    },
+    { 
+      title: 'Role', 
+      dataIndex: 'role', 
+      key: 'role',
+      render: text => (
+        <Space>
+          <Tag icon={<SolutionOutlined />}  color='cyan'>{text}</Tag>
         </Space>
       ),
     },
@@ -141,7 +151,7 @@ const Permission = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ScheduleOutlined className='client-icon'/>
+              <UnlockOutlined className='client-icon'/>
             </div>
             <h2 className="client-h2">Permission</h2>
           </div>
