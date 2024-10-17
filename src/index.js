@@ -5,6 +5,8 @@ import App from './App';
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from 'redux-persist/integration/react'
+import './i18n'; // Importer la configuration i18next
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
