@@ -199,13 +199,13 @@ const Offres = () => {
               />
             </Tooltip>
           </Popover>
-          <Tooltip title="Ajouter des articles">
+{/*           <Tooltip title="Ajouter des articles">
             <Button
               icon={<PlusCircleOutlined />}
               style={{ color: 'blue' }}
               onClick={() => handleAjouterArticle(record.id_offre)}
             />
-          </Tooltip>
+          </Tooltip> */}
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer cette offre ?"
