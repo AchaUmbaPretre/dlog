@@ -95,7 +95,9 @@ const ListeTrackingGlobal = ({ idTache }) => {
       dataIndex: 'nom_tache',
       key: 'nom_tache',
       render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+            <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
+        </Space>
       ),
     },
     {
