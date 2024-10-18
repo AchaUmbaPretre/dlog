@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
-import { ClockCircleOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined,EyeOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { estSupprimeSuivi, getSuiviTacheOne } from '../../services/suiviService';
 
@@ -12,6 +12,7 @@ const ListeTrackingGlobal = () => {
   const [searchValue, setSearchValue] = useState('');
   const [nameTache, setNameTache] = useState('');
   const [modalType, setModalType] = useState(null);
+  const [idTrack, setIdTrack] = useState('')
   const scroll = { x: 400 };
 
     const fetchData = async () => {
@@ -59,8 +60,18 @@ const ListeTrackingGlobal = () => {
     }
   };
 
+  const handleViewDetails = (idTache) => {
+    openModal('detail', idTache);
+  };
+
   const closeAllModals = () => {
     setModalType(null);
+  };
+
+  const openModal = (type, idTrack = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdTrack(idTrack);
   };
   
 
@@ -139,6 +150,14 @@ const ListeTrackingGlobal = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
+        <Tooltip title="Voir les détails">
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() => handleViewDetails(record.id_tache)}
+              aria-label="Voir les détails de la tâche"
+              style={{color: 'blue'}}
+            />
+          </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce tracking ?"
@@ -195,6 +214,16 @@ const ListeTrackingGlobal = () => {
           />
         </div>
       </div>
+      <Modal
+        title=""
+        visible={modalType === 'detail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >aaaaaaaaa
+{/*         <DetailTacheGlobalOne initialIdTache={idTache} />
+ */}      </Modal>
     </>
   );
 };
