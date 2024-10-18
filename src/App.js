@@ -44,32 +44,34 @@ function App() {
   const [currentUser, setCurrentUser] = useState(true);
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user?.currentUser);
-  const userId = useSelector((state) => state.user?.currentUser.id_utilisateur);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [data, setData] = useState([]);
 
 
   const SecureRoute = ({ children }) => {
-    if (!user) {
+    if (!userId) {
       return <Navigate to="/login" />;
     }
     return children;
   };
 
   const fetchMenu = useCallback(async () => {
-    setLoading(true); // Démarre le chargement
+    setLoading(true);
     try {
       const { data } = await getMenusAllOne(userId);
-      setData(data); // Supposons que la réponse est votre tableau de données de menu
+      setData(data);
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); // Arrête le chargement
+      setLoading(false);
     }
   }, [userId]);
 
   useEffect(() => {
     if (userId) {
       fetchMenu();
+    } else {
+      setLoading(false);
     }
   }, [userId, fetchMenu]);
 

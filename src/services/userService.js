@@ -20,3 +20,7 @@ export const postUser = async (data) => {
 export const putUser = async (id, data) => {
   return axios.put(`${DOMAIN}/api/user?id=${id}`, data);
 };
+
+export const putUserOne = async (id, data) => {
+  return axios.put(`${DOMAIN}/api/user/one?id=${id}`, data);
+};

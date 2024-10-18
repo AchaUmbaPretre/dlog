@@ -1,25 +1,59 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Form, Input, Button, Typography, Avatar, notification, Upload } from 'antd';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css'; // Pour Ant Design v5
+import { useSelector } from 'react-redux';
+import { getUserOne, putUserOne } from '../../services/userService';
 
 const { Title, Text } = Typography;
 
 const Profile = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const userId = useSelector((state) => state.user?.currentUser.id_utilisateur);
+  const [data, setData] = useState()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const onFinish = (values) => {
-    setLoading(true);
-    // Simuler un appel API pour mettre à jour les informations
-    setTimeout(() => {
-      setLoading(false);
-      notification.success({
-        message: 'Informations mises à jour',
-        description: 'Vos informations ont été mises à jour avec succès.',
-      });
-      form.resetFields(); // Réinitialise le formulaire après la soumission
-    }, 2000);
+
+    const fetchData = async () => {
+        try {
+            const [usersData] = await Promise.all([
+                getUserOne(userId)
+            ]);
+            setData(usersData?.data[0])
+                const { data: user } = usersData;
+            form.setFieldsValue(user[0]);
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+  
+  
+  useEffect(() => {
+    fetchData();
+}, [userId, form])
+
+const onFinish = async(values) => {
+    setIsLoading(true);
+        try {
+
+            await putUserOne(userId, values)
+            form.resetFields();
+            fetchData()
+            notification.success({
+                message: 'Informations mises à jour',
+                description: 'Vos informations ont été mises à jour avec succès.',
+              });
+        } catch (error) {
+            notification.error({
+                message: 'Erreur',
+                description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+            });
+        } finally {
+            setIsLoading(false);
+        }
   };
 
   return (
@@ -28,8 +62,6 @@ const Profile = () => {
         <Title level={2} style={{ textAlign: 'center', marginBottom: '40px' }}>Mon Profil</Title>
         
         <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
-          
-          {/* Colonne des informations utilisateur */}
           <div style={{ flex: 1, textAlign: 'center' }}>
             <Avatar
               size={120}
@@ -38,15 +70,11 @@ const Profile = () => {
             />
             <div>
               <Text strong>Nom :</Text>
-              <Text> John Doe</Text>
+              <Text>{data?.nom}</Text>
             </div>
             <div style={{ marginTop: '10px' }}>
               <Text strong>Email :</Text>
-              <Text> john.doe@example.com</Text>
-            </div>
-            <div style={{ marginTop: '10px' }}>
-              <Text strong>Mot de passe :</Text>
-              <Text> ********</Text>
+              <Text> {data?.email}</Text>
             </div>
           </div>
 
@@ -54,7 +82,7 @@ const Profile = () => {
           <div style={{ flex: 1 }}>
             <Form form={form} layout="vertical" onFinish={onFinish}>
               <Form.Item
-                name="name"
+                name="nom"
                 label="Nom"
                 rules={[{ required: true, message: 'Veuillez entrer votre nom' }]}
               >
@@ -70,7 +98,7 @@ const Profile = () => {
               </Form.Item>
 
               <Form.Item
-                name="password"
+                name="mot_de_passe"
                 label="Mot de passe"
                 rules={[{ required: true, message: 'Veuillez entrer votre mot de passe' }]}
               >

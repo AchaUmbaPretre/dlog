@@ -60,7 +60,7 @@ const Login = () => {
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox className="login_remember_me">Souviens-toi de moi</Checkbox>
             </Form.Item>
-            <a className="login_form_forgot" href="/">
+            <a className="login_form_forgot" href="/register">
               Mot de passe oublié ?
             </a>
           </Form.Item>
