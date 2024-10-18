@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
 import './App.css';
 import TopBar from './components/topbar/TopBar';
@@ -18,6 +18,7 @@ import Projet from './pages/projet/Projet';
 import Fournisseur from './pages/fournisseur/Fournisseur';
 import Offres from './pages/offres/Offres';
 import { useSelector } from 'react-redux';
+import { PacmanLoader } from 'react-spinners'; // ou tout autre spinner de votre choix
 import { Spin } from 'antd';
 import Batiment from './pages/batiment/Batiment';
 import Article from './pages/article/Article';
@@ -36,11 +37,15 @@ import CorpsMetier from './pages/corpsMetier/CorpsMetier';
 import ListCatTache from './pages/listCatTache/ListCatTache';
 import ListePrix from './pages/prix/ListePrix';
 import Permission from './pages/permission/Permission';
+import { getMenusAllOne } from './services/permissionService';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.user?.currentUser);
+  const userId = useSelector((state) => state.user?.currentUser.id_utilisateur);
+  const [data, setData] = useState([]);
+
 
   const SecureRoute = ({ children }) => {
     if (!user) {
@@ -49,12 +54,30 @@ function App() {
     return children;
   };
 
+  const fetchMenu = useCallback(async () => {
+    setLoading(true); // Démarre le chargement
+    try {
+      const { data } = await getMenusAllOne(userId);
+      setData(data); // Supposons que la réponse est votre tableau de données de menu
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false); // Arrête le chargement
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchMenu();
+    }
+  }, [userId, fetchMenu]);
+
 
   const Layout = () => (
     <div className='app-rows'>
       <TopBar />
       <div className="app-container">
-        <SideBar />
+        <SideBar data = {data} />
         <div className="app-outlet">
           <Outlet />
         </div>
@@ -187,7 +210,15 @@ function App() {
 
   return (
     <MenuProvider>
-      <RouterProvider router={router} />
+    {loading ? (
+      <div className="spinnerContainer">
+        <PacmanLoader color="rgb(131, 159, 241)" loading={loading} height={15} radius={2} margin={2} />
+      </div>
+    ) : (
+      <div>
+        <RouterProvider router={router} />
+      </div>
+    )}
     </MenuProvider>
   );
 }

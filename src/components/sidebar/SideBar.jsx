@@ -26,14 +26,13 @@ import { useSelector } from 'react-redux';
 const { Sider } = Layout;
 const { SubMenu, Item } = Menu;
 
-const SideBar = () => {
+const SideBar = ({data}) => {
   const navigate = useNavigate();
   const [openKeys, setOpenKeys] = useState([]);
   const { isOpen, toggleMenu } = useMenu();
   const sidebarRef = useRef(null);
   const hamburgerRef = useRef(null);
   const userId = useSelector((state) => state.user?.currentUser.id_utilisateur);
-  const [data, setData] = useState([]);
   const [isReduced, setIsReduced] = useState(false);
 
   const toggleSidebar = () => {
@@ -77,15 +76,6 @@ const SideBar = () => {
     }
   };
 
-  const fetchMenu = useCallback(async () => {
-    try {
-      const {data} = await getMenusAllOne(userId);
-      setData(data); // Assuming response is your menu data array
-    } catch (error) {
-      console.log(error);
-    }
-  }, [userId]);
-
   const iconMapping = {
     HomeOutlined: <HomeOutlined style={{ color: '#1890ff' }} />,
     ApartmentOutlined: <ApartmentOutlined style={{ color: '#722ed1' }} />,
@@ -104,11 +94,7 @@ const SideBar = () => {
   const renderIcon = (iconName) => {
     return iconMapping[iconName] || <HomeOutlined />; // Icône par défaut si non trouvée
   };
-  
 
-  useEffect(() => {
-    fetchMenu();
-  }, [fetchMenu, userId]);
 
   return (
     <div ref={sidebarRef} className={`sidebar ${isOpen ? 'visible' : ''} ${isReduced ? 'sidebar-reduced' : ''}`}>
