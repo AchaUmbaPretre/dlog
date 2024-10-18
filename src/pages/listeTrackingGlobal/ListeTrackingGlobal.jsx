@@ -63,9 +63,22 @@ const ListeTrackingGlobal = ({ idTache }) => {
     setModalType(null);
   };
   
-  const openModal = (type) => {
-    closeAllModals();
-    setModalType(type);
+
+  const columnStyles = {
+    title: {
+      maxWidth: '250px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
   };
 
 
@@ -103,7 +116,9 @@ const ListeTrackingGlobal = ({ idTache }) => {
         dataIndex: 'commentaire',
         key: 'commentaire	',
         render: (text) => (
-          <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
+          <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+            <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
+          </Space>
         ),
       },
       { 
