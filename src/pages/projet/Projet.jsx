@@ -14,6 +14,7 @@ import DetailProjetsGlobal from './detailProjet/DetailProjetsGlobal';
 import ListeTacheProjet1 from './listeTacheProjet/ListeTacheProjet1';
 import ProjetDoc from './projetDoc/ProjetDoc';
 import ProjetDocForm from './projetDoc/ProjetDocForm';
+import { useSelector } from 'react-redux';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -28,6 +29,8 @@ const Projet = () => {
   const [searchValue, setSearchValue] = useState('');
   const [form] = Form.useForm();
   const scroll = { x: 400 };
+  const role = useSelector((state) => state.user?.currentUser.role);
+
 
 
   const handleEdit = (id) => {
@@ -218,75 +221,77 @@ const Projet = () => {
       key: 'action',
       width: '10%',
       render: (text, record) => (
-        <Space >
-          <Tooltip title="Voir détails">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record.id_projet)}
-              aria-label="View budget details"
-              style={{ color: 'blue' }}
-          />
-          </Tooltip>
-          <Popover
-            content={
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleListeTache(record.id_projet)} >
-                  <FileTextOutlined /> Liste de tâche
-                </Link>
-                <Link onClick={() => handleAddTache(record.id_projet)} >
-                  <FileTextOutlined /> Créer une tâche
-                </Link>
-                <Link onClick={() => handleAddBudget(record.id_projet)} >
-                  <DollarOutlined /> Créer un budget
-                </Link>
-                <Link onClick={() => handleDetailDoc(record.id_projet)} >
-                  <FileTextOutlined /> Liste des docs
-                </Link>
-                <Link onClick={() => handleAjouterDoc(record.id_projet)} >
-                  <FileTextOutlined /> Ajouter un doc
-                </Link>
-                <Link onClick={() => handleAddBesoin(record.id_projet)} >
-                  <SolutionOutlined /> Ajouter besoins
-                </Link>
-                 <Link onClick={() => handleAddBesoinLimit(record.id_projet)} >
-                  <SolutionOutlined /> Limiter besoins
-                </Link>
-              </div>
-            }
-            title=""
-            trigger="click"
-          >
-            <Tooltip title="Menu">
+        role === 'Admin' && (
+          <Space >
+            <Tooltip title="Voir détails">
               <Button
-                icon={<MoreOutlined />}
-                style={{ color: 'black' }}
-                aria-label="Créer une tâche"
+                icon={<EyeOutlined />}
+                onClick={() => handleViewDetails(record.id_projet)}
+                aria-label="View budget details"
+                style={{ color: 'blue' }}
+            />
+            </Tooltip>
+            <Popover
+              content={
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Link onClick={() => handleListeTache(record.id_projet)} >
+                    <FileTextOutlined /> Liste de tâche
+                  </Link>
+                  <Link onClick={() => handleAddTache(record.id_projet)} >
+                    <FileTextOutlined /> Créer une tâche
+                  </Link>
+                  <Link onClick={() => handleAddBudget(record.id_projet)} >
+                    <DollarOutlined /> Créer un budget
+                  </Link>
+                  <Link onClick={() => handleDetailDoc(record.id_projet)} >
+                    <FileTextOutlined /> Liste des docs
+                  </Link>
+                  <Link onClick={() => handleAjouterDoc(record.id_projet)} >
+                    <FileTextOutlined /> Ajouter un doc
+                  </Link>
+                  <Link onClick={() => handleAddBesoin(record.id_projet)} >
+                    <SolutionOutlined /> Ajouter besoins
+                  </Link>
+                  <Link onClick={() => handleAddBesoinLimit(record.id_projet)} >
+                    <SolutionOutlined /> Limiter besoins
+                  </Link>
+                </div>
+              }
+              title=""
+              trigger="click"
+            >
+              <Tooltip title="Menu">
+                <Button
+                  icon={<MoreOutlined />}
+                  style={{ color: 'black' }}
+                  aria-label="Créer une tâche"
+                />
+              </Tooltip>
+            </Popover>
+            <Tooltip title="Modifier">
+              <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleEdit(record.id_projet)}
+                aria-label="Edit department"
               />
             </Tooltip>
-          </Popover>
-          <Tooltip title="Modifier">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_projet)}
-              aria-label="Edit department"
-            />
-          </Tooltip>
-          <Tooltip title="Supprimer">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce budget ?"
-              onConfirm={() => handleDelete(record.id_projet)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete budget"
-              />
-            </Popconfirm>
-          </Tooltip>
-        </Space>
+            <Tooltip title="Supprimer">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer ce budget ?"
+                onConfirm={() => handleDelete(record.id_projet)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Delete budget"
+                />
+              </Popconfirm>
+            </Tooltip>
+          </Space>
+        )
       ),
     },
   ];

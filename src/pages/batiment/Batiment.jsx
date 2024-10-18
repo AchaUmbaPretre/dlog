@@ -17,6 +17,7 @@ import EquipementForm from './equipement/equipementForm/EquipementForm';
 import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
 import Entrepots from './entrepots/Entrepots';
 import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -29,6 +30,8 @@ const Batiment = () => {
   const [modalType, setModalType] = useState(null);
   const [idBatiment, setIdBatiment] = useState('');
   const scroll = { x: 400 };
+  const role = useSelector((state) => state.user?.currentUser.role);
+
 
   const handleDelete = async (id) => {
     try {
@@ -212,7 +215,9 @@ const Batiment = () => {
       key: 'action',
       width: '10%',
       render: (text, record) => (
-        <Space size="middle">
+        role === 'Admin' && 
+        (
+          <Space size="middle">
           <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
@@ -322,6 +327,7 @@ const Batiment = () => {
             </Popconfirm>
           </Tooltip>
         </Space>
+        )
       ),
     }
     
