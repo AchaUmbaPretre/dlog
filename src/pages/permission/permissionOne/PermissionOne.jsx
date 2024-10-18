@@ -159,43 +159,6 @@ const PermissionOne = ({userId}) => {
                     />
             </div>
         </div>
-{/*         <div className="products">
-            <div className="product-container">
-                <div className="product-container-top">
-                    <div className="product-left">
-                        <h2 className="product-h2">Gestion des permissions pour l'utilisateur {name}</h2>
-                        <span>Bienvenue dans la gestion des permissions. Cette page vous permet de définir les autorisations spécifiques pour chaque utilisateur.</span>
-                    </div>
-                </div>
-                <div className="product-bottom">
-                    <div className="product-bottom-top">
-                        <div className="product-bottom-left">
-                        <SisternodeOutlined className='product-icon' />
-                        <Input
-                            type="search"
-                            value={searchValue}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            placeholder="Recherche..."
-                            className="product-search"
-                        />    
-                        </div>
-                        <div className="product-bottom-right">
-                        </div>
-                    </div>
-                    <div className="rowChart-row-table">
-                        <Table
-                            dataSource={loading ? [] : options}
-                            columns={columns}
-                            scroll={scroll}
-                            rowKey="id"
-                            pagination={false}
-                            loading={loading}
-                            className='table_permission' 
-                        />
-                    </div>
-                </div>
-            </div>
-        </div> */}
     </>
   );
 };

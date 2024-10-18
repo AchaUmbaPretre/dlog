@@ -1,0 +1,36 @@
+.permission-container {
+    padding: 20px;
+    background-color: #f7f9fc;
+  
+    .permission-wrapper {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+  
+    .permission-header {
+      display: flex;
+      align-items: center;
+  
+      .permission-icon {
+        font-size: 30px;
+        color: #1890ff;
+        margin-right: 10px;
+      }
+    }
+  
+    .permission-search {
+      margin-bottom: 20px;
+    }
+  
+    .table_permission {
+      border-radius: 8px;
+    }
+  
+    .ant-card {
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+  }
+  
