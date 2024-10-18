@@ -220,7 +220,7 @@ const ListeTrackingGlobal = () => {
         visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={1000}
         centered
       >
         <DetailGlobalTracking idTrack={idTrack} />

@@ -40,12 +40,12 @@ const DetailGlobalTracking = ({ idTrack }) => {
   }
 
   return (
-    <div >
+    <div style={{ padding: '20px' }}>
       <Title level={1} style={{ textAlign: 'center', marginBottom: '20px', fontSize: '1.5rem', color: '#333' }}>Détails du Suivi</Title>
       <Divider />
       <Row gutter={[24, 24]} justify="center" style={{ width: '100%' }}>
         {data.map(item => (
-          <Col xs={24} sm={12} md={8} key={item.id_suivi}>
+          <Col xs={24} sm={12} md={8} lg={6} key={item.id_suivi}>
             <Card
               title={<Text strong style={{ fontSize: '1.3rem', color: '#007bff' }}>{item.nom_tache}</Text>}
               bordered={false}
@@ -54,25 +54,34 @@ const DetailGlobalTracking = ({ idTrack }) => {
                 borderRadius: '12px',
                 boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
                 transition: 'transform 0.3s',
+                width: '100%', // Ensure the card takes full width
               }}
-              bodyStyle={{ padding: '20px' }}
+              bodyStyle={{ padding: '20px', minHeight: '250px' }} // Added minHeight for better layout
             >
-              <Text strong style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}><UserOutlined style={{ marginRight: '8px', color: '#555' }} /> Effectué par :</Text>
+              <Text strong style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                <UserOutlined style={{ marginRight: '8px', color: '#555' }} /> Effectué par :
+              </Text>
               <p style={{ margin: 0, fontSize: '1rem', color: '#555' }}>{item.nom}</p>
               
-              <Text strong style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}><ClockCircleOutlined style={{ marginRight: '8px', color: '#555' }} /> Date de suivi :</Text>
+              <Text strong style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                <ClockCircleOutlined style={{ marginRight: '8px', color: '#555' }} /> Date de suivi :
+              </Text>
               <p style={{ margin: 0, fontSize: '1rem', color: '#555' }}>{new Date(item.date_suivi).toLocaleString()}</p>
               
-              <Text strong style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}><CheckCircleOutlined style={{ marginRight: '8px', color: '#555' }} /> Statut :</Text>
+              <Text strong style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                <CheckCircleOutlined style={{ marginRight: '8px', color: '#555' }} /> Statut :
+              </Text>
               <p style={{ margin: 0 }}>
                 <Tag color={item.est_termine === 'Oui' ? 'green' : 'volcano'}>
                   {item.nom_type_statut}
                 </Tag>
               </p>
               
-              <Text strong style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}><EditOutlined style={{ marginRight: '8px', color: '#555' }} /> Commentaire :</Text>
-              <p style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '220px', margin: 0 }}>
-                {item.commentaire}
+              <Text strong style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                <EditOutlined style={{ marginRight: '8px', color: '#555' }} /> Commentaire :
+              </Text>
+              <p style={{ margin: 0, fontSize: '1rem', color: '#555', wordWrap: 'break-word' }}>
+                {item.commentaire} {/* Allow comment to wrap */}
               </p>
             </Card>
           </Col>
