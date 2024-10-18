@@ -14,33 +14,36 @@ const ListeTracking = ({ idTache }) => {
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 400 };
 
-    const fetchData = async () => {
-      try {
-        const { data } = await getSuiviTacheOneV(idTache);
+  const fetchData = async () => {
+    try {
+      const { data } = await getSuiviTacheOneV(idTache);
+  
+      if (data.length > 0) {
         setData(data);
-        setNameTache(data[0].nom_tache)
-        setLoading(false);
-      } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
-        setLoading(false);
+        setNameTache(data[0].nom_tache || '');
+        console.log("Nom de la tâche défini:", data[0].nom_tache);
+      } else {
+        setData([]); 
+        setNameTache('');
+        console.log("Aucune tâche trouvée pour cet idTache");
       }
-    };
-
-  useEffect(() => {
-
-    fetchData();
-  }, [idTache]);
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
+      setLoading(false);
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+      setLoading(false);
+    }
   };
+  
+  
 
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
+useEffect(() => {
+  console.log("idTache a changé :", idTache); // Log les changements de idTache
+  fetchData();
+}, [idTache]); // Refait le fetch quand idTache change
+
 
   const handleTracking = () => {
     openModal('suivi');
