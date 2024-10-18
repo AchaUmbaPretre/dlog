@@ -26,6 +26,7 @@ import  getColumnSearchProps  from '../../utils/columnSearchUtils';
 import DetailTacheGlobalOne from './detailTacheGlobalOne/DetailTacheGlobalOne';
 import UploadTacheExcel from './uploadTacheExcel/UploadTacheExcel';
 import TacheTagsForm from './tacheTagsForm/TacheTagsForm';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -68,6 +69,8 @@ const Taches = () => {
   const [statistique, setStatistique] = useState([]);
   const [total, setTotal] = useState([]);
   const searchInput = useRef(null);
+  const role = useSelector((state) => state.user?.currentUser.role);
+
 
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
@@ -542,8 +545,9 @@ const handleEdit = (idTache) => {
       title: 'Action',
       key: 'action',
       width: '10%',
-      render : (text, record) => (
-        <Space size="middle">
+      render: (text, record) => (
+        role === 'Admin' ? (
+          <Space size="middle">
             <Tooltip title="Modifier">
               <Button
                 icon={<EditOutlined />}
@@ -551,75 +555,78 @@ const handleEdit = (idTache) => {
                 onClick={() => handleEdit(record.id_tache)}
                 aria-label="Edit tache"
               />
-          </Tooltip>
-          <Tooltip title="Voir les détails">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record.id_tache)}
-              aria-label="Voir les détails de la tâche"
-              style={{color: 'blue'}}
-            />
-          </Tooltip>
-          <Popover
-            content={
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <Link onClick={() => handleTracking(record.id_tache)} >
-                  <FileTextOutlined /> Tracking
-                </Link>
-                <Link onClick={()=>handleListeTracking(record.id_tache)}>
-                  <FileTextOutlined /> Liste de tracking
-                </Link>
-                <Link onClick={() => handleSousTache(record.id_tache)} >
-                  <FileTextOutlined /> Créer sous-tâche
-                </Link>
-                <Link onClick={() => handleDetailDoc(record.id_tache)} >
-                  <FileTextOutlined /> Liste des docs
-                </Link>
-                <Link onClick={() => handleAjouterDoc(record.id_tache)} >
-                  <FileTextOutlined /> Ajouter un doc
-                </Link>
-                <Link onClick={() => handleAddTag(record.id_tache)} >
-                  <TagOutlined /> Ajouter un tag
-                </Link>
-              </div>
-            }
-            title=""
-            trigger="click"
-          >
-            <Tooltip title="Menu">
-              <Button
-                icon={<MoreOutlined />}
-                style={{ color: 'black' }}
-                aria-label="Contrôler"
-              />  
             </Tooltip>
-          </Popover>
-          <Tooltip title="Pdf">
-            <Button
-              icon={<FilePdfOutlined />}
-              onClick={() => handleAllDetails(record.id_tache)}
-              aria-label="Voir en pdf"
-              style={{color: 'red'}}
-              disabled={selectedRowKeys.length === 0}
-            />
-          </Tooltip>
-          <Tooltip title="Supprimer">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer cette tache ?"
-              onConfirm={() => handleDelete(record.id_tache)}
-              okText="Oui"
-              cancelText="Non"
-            >
+            <Tooltip title="Voir les détails">
               <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete"
+                icon={<EyeOutlined />}
+                onClick={() => handleViewDetails(record.id_tache)}
+                aria-label="Voir les détails de la tâche"
+                style={{ color: 'blue' }}
               />
-            </Popconfirm>
-          </Tooltip>
-        </Space>
+            </Tooltip>
+            <Popover
+              content={
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Link onClick={() => handleTracking(record.id_tache)}>
+                    <FileTextOutlined /> Tracking
+                  </Link>
+                  <Link onClick={() => handleListeTracking(record.id_tache)}>
+                    <FileTextOutlined /> Liste de tracking
+                  </Link>
+                  <Link onClick={() => handleSousTache(record.id_tache)}>
+                    <FileTextOutlined /> Créer sous-tâche
+                  </Link>
+                  <Link onClick={() => handleDetailDoc(record.id_tache)}>
+                    <FileTextOutlined /> Liste des docs
+                  </Link>
+                  <Link onClick={() => handleAjouterDoc(record.id_tache)}>
+                    <FileTextOutlined /> Ajouter un doc
+                  </Link>
+{/*                   <Link onClick={() => handleAddTag(record.id_tache)}>
+                    <TagOutlined /> Ajouter un tag
+                  </Link> */}
+                </div>
+              }
+              title=""
+              trigger="click"
+            >
+              <Tooltip title="Menu">
+                <Button
+                  icon={<MoreOutlined />}
+                  style={{ color: 'black' }}
+                  aria-label="Menu options"
+                />
+              </Tooltip>
+            </Popover>
+            <Tooltip title="Pdf">
+              <Button
+                icon={<FilePdfOutlined />}
+                onClick={() => handleAllDetails(record.id_tache)}
+                aria-label="Voir en pdf"
+                style={{ color: 'red' }}
+                disabled={selectedRowKeys.length === 0}
+              />
+            </Tooltip>
+            <Tooltip title="Supprimer">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer cette tâche ?"
+                onConfirm={() => handleDelete(record.id_tache)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Supprimer"
+                />
+              </Popconfirm>
+            </Tooltip>
+          </Space>
+        ) : null
       )
     }
+    
+    
   ];
 
   const onExpand = (expanded, record) => {
