@@ -6,7 +6,7 @@ import { estSupprimeSuivi, getSuiviTacheOne } from '../../services/suiviService'
 
 const { Search } = Input;
 
-const ListeTrackingGlobal = ({ idTache }) => {
+const ListeTrackingGlobal = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -32,7 +32,7 @@ const ListeTrackingGlobal = ({ idTache }) => {
   useEffect(() => {
 
     fetchData();
-  }, [idTache]);
+  }, []);
 
 
   const statusIcons = {
@@ -171,7 +171,7 @@ const ListeTrackingGlobal = ({ idTache }) => {
             <div className="client-row-icon">
               <FileTextOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste des tracking</h2>
+            <h2 className="client-h2">Listes des tracking</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
