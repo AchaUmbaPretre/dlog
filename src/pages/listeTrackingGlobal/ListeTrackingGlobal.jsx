@@ -3,6 +3,7 @@ import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip
 import { ClockCircleOutlined,EyeOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { estSupprimeSuivi, getSuiviTacheOne } from '../../services/suiviService';
+import DetailGlobalTracking from './detailGlobalTracking/DetailGlobalTracking';
 
 const { Search } = Input;
 
@@ -153,7 +154,7 @@ const ListeTrackingGlobal = () => {
         <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record.id_tache)}
+              onClick={() => handleViewDetails(record.id_suivi)}
               aria-label="Voir les détails de la tâche"
               style={{color: 'blue'}}
             />
@@ -221,9 +222,9 @@ const ListeTrackingGlobal = () => {
         footer={null}
         width={900}
         centered
-      >aaaaaaaaa
-{/*         <DetailTacheGlobalOne initialIdTache={idTache} />
- */}      </Modal>
+      >
+        <DetailGlobalTracking idTrack={idTrack} />
+      </Modal>
     </>
   );
 };
