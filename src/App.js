@@ -38,6 +38,7 @@ import ListCatTache from './pages/listCatTache/ListCatTache';
 import ListePrix from './pages/prix/ListePrix';
 import Permission from './pages/permission/Permission';
 import { getMenusAllOne } from './services/permissionService';
+import Profile from './pages/profile/Profile';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -201,6 +202,10 @@ function App() {
         {
           path: '/utilisateur',
           element: <Users/>
+        },
+        {
+          path: '/profile',
+          element: <Profile/>
         },
       ]
     },
