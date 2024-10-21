@@ -31,7 +31,6 @@ const SideBar = ({data}) => {
   const { isOpen, toggleMenu } = useMenu();
   const sidebarRef = useRef(null);
   const hamburgerRef = useRef(null);
-  const userId = useSelector((state) => state.user?.currentUser.id_utilisateur);
   const [isReduced, setIsReduced] = useState(false);
 
   const toggleSidebar = () => {
