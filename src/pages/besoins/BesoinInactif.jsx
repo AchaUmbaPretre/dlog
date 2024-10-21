@@ -3,7 +3,7 @@ import { Table, Button, Input, notification, Tag, Modal, Select } from 'antd';
 import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined } from '@ant-design/icons';
 import { getBesoin, getBesoinInactif } from '../../services/besoinsService';
 import ProjetBesoin from '../projet/projetBesoin/ProjetBesoin';
-import { putProjetBesoin } from '../../services/projetService';
+import { getProjet, putProjetBesoin } from '../../services/projetService';
 
 const { Search } = Input;
 
@@ -65,7 +65,7 @@ const BesoinInactif = () => {
     try {
       const [besoinData, projetData] = await Promise.all([
         getBesoinInactif(),
-        getBesoin()
+        getProjet()
       ]);
 
       setData(besoinData.data);
