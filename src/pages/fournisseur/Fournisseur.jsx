@@ -189,7 +189,7 @@ const Fournisseur = () => {
       </div>
 
       <Modal
-        title="Ajouter nouveau fournisseur"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
