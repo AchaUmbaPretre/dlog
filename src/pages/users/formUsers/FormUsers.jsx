@@ -56,80 +56,84 @@ const FormUsers = ({userId, close, fetchData}) => {
   };
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', background: '#fff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}>
-      <h2 style={{paddingBottom:'20px'}}>{ userId ? 'Modifier un utilisateur' : 'Créer un Utilisateur'}</h2>
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={onFinish}
-        initialValues={{ role: 'Owner' }}
-      >
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              label="Nom"
-              name="nom"
-              rules={[{ required: true, message: 'Le nom est obligatoire' }]}
-            >
-              <Input placeholder="Entrez le nom" />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label="Prénom"
-              name="prenom"
-              rules={[{ required: false }]}
-            >
-              <Input placeholder="Entrez le prénom" />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                { type: 'email', message: "L'adresse e-mail n'est pas valide" },
-                { required: true, message: 'L’email est obligatoire' },
-              ]}
-            >
-              <Input placeholder="Entrez l'adresse e-mail" />
-            </Form.Item>
-          </Col>
-          {
-            !userId  &&
+    <div className='controle_form'>
+      <div className="controle_title_rows">
+        <h2 className='controle_h2'>{ userId ? 'Modifier un utilisateur' : 'Créer un Utilisateur'}</h2>                
+      </div>
+      <div className="controle_wrapper">
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={onFinish}
+          initialValues={{ role: 'Owner' }}
+        >
+          <Row gutter={16}>
             <Col span={12}>
-            <Form.Item
-              label="Mot de Passe"
-              name="mot_de_passe"
-              rules={[{ required: false, message: 'Le mot de passe n/est obligatoire' }]}
-            >
-              <Input.Password placeholder="Entrez le mot de passe" />
-            </Form.Item>
-          </Col>
-          }
-        </Row>
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              label="Rôle"
-              name="role"
-              rules={[{ required: true, message: 'Le rôle est obligatoire' }]}
-            >
-              <Select>
-                <Option value="Admin">Admin</Option>
-                <Option value="Owner">Owner</Option>
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
-            { userId ? "Modifier" : "Créer l'Utilisateur"}
-          </Button>
-        </Form.Item>
-      </Form>
+              <Form.Item
+                label="Nom"
+                name="nom"
+                rules={[{ required: true, message: 'Le nom est obligatoire' }]}
+              >
+                <Input placeholder="Entrez le nom" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="Prénom"
+                name="prenom"
+                rules={[{ required: false }]}
+              >
+                <Input placeholder="Entrez le prénom" />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  { type: 'email', message: "L'adresse e-mail n'est pas valide" },
+                  { required: true, message: 'L’email est obligatoire' },
+                ]}
+              >
+                <Input placeholder="Entrez l'adresse e-mail" />
+              </Form.Item>
+            </Col>
+            {
+              !userId  &&
+              <Col span={12}>
+              <Form.Item
+                label="Mot de Passe"
+                name="mot_de_passe"
+                rules={[{ required: false, message: 'Le mot de passe n/est obligatoire' }]}
+              >
+                <Input.Password placeholder="Entrez le mot de passe" />
+              </Form.Item>
+            </Col>
+            }
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Rôle"
+                name="role"
+                rules={[{ required: true, message: 'Le rôle est obligatoire' }]}
+              >
+                <Select>
+                  <Option value="Admin">Admin</Option>
+                  <Option value="Owner">Owner</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
+              { userId ? "Modifier" : "Créer l'Utilisateur"}
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
 };

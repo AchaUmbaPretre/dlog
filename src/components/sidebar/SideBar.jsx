@@ -20,7 +20,6 @@ import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authService';
 import { useMenu } from '../../context/MenuProvider';
-import { useSelector } from 'react-redux';
 
 const { Sider } = Layout;
 const { SubMenu, Item } = Menu;
