@@ -14,7 +14,8 @@ const BesoinInactif = () => {
   const [modalType, setModalType] = useState(null);
   const [editingRow, setEditingRow] = useState(null);
   const [newProjet, setNewProjet] = useState(null);
-  const [pData, setPData] = useState([]); // Data for projects
+  const [pData, setPData] = useState([]);
+  const scroll = { x: 400 };
 
   const closeAllModals = () => {
     setModalType(null);
@@ -78,8 +79,6 @@ const BesoinInactif = () => {
       setLoading(false);
     }
   };
-
-  console.log(pData)
 
   useEffect(() => {
     fetchData();
@@ -187,15 +186,17 @@ const BesoinInactif = () => {
               </Button>
             </div>
           </div>
-          <Table
-            columns={nestedColumns}
-            dataSource={filteredData}
-            loading={loading}
-            pagination={false}
-            rowKey="id_besoin"
-            bordered
-            size="middle"
-          />
+          <div className="client-table-container">
+            <Table
+              columns={nestedColumns}
+              dataSource={filteredData}
+              loading={loading}
+              pagination={false}
+              rowKey="id_besoin"
+              bordered
+              size="middle"
+            />
+          </div>
         </div>
       </div>
       <Modal

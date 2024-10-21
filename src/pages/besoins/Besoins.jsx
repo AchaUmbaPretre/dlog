@@ -3,7 +3,6 @@ import { Table, Button, Input,notification, Space, Tag, Collapse, Modal, Tabs } 
 import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getBesoin } from '../../services/besoinsService';
-import ProjetBesoin from '../projet/projetBesoin/ProjetBesoin';
 import BesoinInactif from './BesoinInactif';
 
 const { Search } = Input;
@@ -15,6 +14,7 @@ const Besoins = () => {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
+  const scroll = { x: 400 };
 
   const closeAllModals = () => {
     setModalType(null)
@@ -109,61 +109,63 @@ const Besoins = () => {
   return (
     <>
       <div className="client">
-      <Tabs defaultActiveKey="0">
-            <Tabs.TabPane tab='Liste de besoin sans projet' key="0">
-              <BesoinInactif/>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab='Liste des besoins' key="1">
-            <div className="client-wrapper">
-              <div className="client-row">
-                <div className="client-row-icon">
-                  <ProfileOutlined className='client-icon' />
+        <Tabs defaultActiveKey="0">
+              <Tabs.TabPane tab='Liste de besoin sans projet' key="0">
+                <BesoinInactif/>
+              </Tabs.TabPane>
+              <Tabs.TabPane tab='Liste des besoins' key="1">
+              <div className="client-wrapper">
+                <div className="client-row">
+                  <div className="client-row-icon">
+                    <ProfileOutlined className='client-icon' />
+                  </div>
+                  <h2 className="client-h2">Liste des besoins</h2>
                 </div>
-                <h2 className="client-h2">Liste des besoins</h2>
-              </div>
-              <div className="client-actions">
-                <div className="client-row-left">
-                  <Search
-                    placeholder="Recherche..."
-                    enterButton
-                    onChange={(e) => setSearchValue(e.target.value)}
-                  />
-                </div>
-                <div className="client-rows-right">
-                  <Button
-                    icon={<PrinterOutlined />}
-                    onClick={() => window.print()}
-                  >
-                    Print
-                  </Button>
-                </div>
-              </div>
-
-              <Table
-                columns={mainColumns}
-                dataSource={filteredData}
-                loading={loading}
-                pagination={false}
-                rowKey="id_projet"
-                bordered
-                size="middle"
-                expandable={{
-                  expandedRowRender: record => (
-                    <Table
-                      columns={nestedColumns}
-                      dataSource={record.items}
-                      pagination={false}
-                      rowKey="nom_article"
-                      bordered
-                      size="middle"
+                <div className="client-actions">
+                  <div className="client-row-left">
+                    <Search
+                      placeholder="Recherche..."
+                      enterButton
+                      onChange={(e) => setSearchValue(e.target.value)}
                     />
-                  ),
-                  rowExpandable: record => record.items.length > 0,
-                }}
-          />
-        </div>
-            </Tabs.TabPane>
-      </Tabs>
+                  </div>
+                  <div className="client-rows-right">
+                    <Button
+                      icon={<PrinterOutlined />}
+                      onClick={() => window.print()}
+                    >
+                      Print
+                    </Button>
+                  </div>
+                </div>
+
+                <Table
+                  columns={mainColumns}
+                  dataSource={filteredData}
+                  loading={loading}
+                  pagination={false}
+                  rowKey="id_projet"
+                  bordered
+                  size="middle"
+                  scroll={scroll}
+                  expandable={{
+                    expandedRowRender: record => (
+                      <Table
+                        columns={nestedColumns}
+                        dataSource={record.items}
+                        pagination={false}
+                        rowKey="nom_article"
+                        bordered
+                        size="middle"
+                        scroll={scroll}
+                      />
+                    ),
+                    rowExpandable: record => record.items.length > 0,
+                  }}
+            />
+          </div>
+              </Tabs.TabPane>
+        </Tabs>
       </div>
     </>
   );
