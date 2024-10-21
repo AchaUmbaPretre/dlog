@@ -4,12 +4,17 @@ import { LockOutlined } from '@ant-design/icons';
 import forgot from './../../assets/reset.png';
 import './passwordReset.scss'
 import { passwordReset } from '../../services/authService';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const { Title, Paragraph } = Typography;
 
 const PasswordReset = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
+  const path = location.pathname;
+  const token = path.substring(path.lastIndexOf('/') + 1);
+  const navigate = useNavigate();
 
 
   const onFinish = async(values) => {
@@ -17,11 +22,12 @@ const PasswordReset = () => {
     setIsLoading(true);
         try {
 
-              const response = await passwordReset(values.email);
+              const response = await passwordReset(token,values);
                 notification.success({
                     message: 'Succès',
                     description: response.data.message
                 });
+                navigate('/login')
             } catch (error) {
                 if (error.response) {
                     notification.error({

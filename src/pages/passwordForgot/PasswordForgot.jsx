@@ -3,7 +3,7 @@ import { Form, Input, Button, Typography, notification } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './passwordForgot.scss';
 import forgot from './../../assets/rb_1123.png';
-import { getPasswordForgot } from '../../services/userService';
+import { getPasswordForgot } from '../../services/authService';
 
 const { Title, Paragraph } = Typography;
 

@@ -20,6 +20,12 @@ export const detailForgot  = async (user) => {
     return axios.post(`${DOMAIN}/api/auth/detail_forgot`, user);
   };
 
-export const passwordReset  = async (user) => {
-    return axios.post(`${DOMAIN}/api/auth/password_reset`, user);
+  export const getPasswordForgot = async (email) => {
+
+    return axios.get(`${DOMAIN}/api/auth/password_forgot?email=${email}`);
+  };
+
+export const passwordReset  = async (id,user) => {
+  console.log(id, user)
+    return axios.put(`${DOMAIN}/api/auth/password_reset?id=${id}`, user);
   };
