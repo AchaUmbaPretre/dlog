@@ -195,6 +195,7 @@ const BesoinInactif = () => {
               rowKey="id_besoin"
               bordered
               size="middle"
+              scroll={scroll}
             />
           </div>
         </div>
