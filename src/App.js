@@ -40,6 +40,7 @@ import Permission from './pages/permission/Permission';
 import { getMenusAllOne } from './services/permissionService';
 import Profile from './pages/profile/Profile';
 import PasswordForgot from './pages/passwordForgot/PasswordForgot';
+import PasswordReset from './pages/passwordReset/PasswordReset';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -214,7 +215,8 @@ function App() {
     },
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
-    { path: '/password_forgot', element: <PasswordForgot /> }
+    { path: '/password_forgot', element: <PasswordForgot /> },
+    { path: '/password_reset', element: <PasswordReset /> }
   ]);
 
   return (
