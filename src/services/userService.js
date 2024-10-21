@@ -24,3 +24,8 @@ export const putUser = async (id, data) => {
 export const putUserOne = async (id, data) => {
   return axios.put(`${DOMAIN}/api/user/one?id=${id}`, data);
 };
+
+export const getPasswordForgot = async (email) => {
+
+  return axios.get(`${DOMAIN}/api/user/password_forgot?email=${email}`);
+};

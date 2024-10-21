@@ -216,7 +216,7 @@ function App() {
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
     { path: '/password_forgot', element: <PasswordForgot /> },
-    { path: '/password_reset', element: <PasswordReset /> }
+    { path: '/reset-password', element: <PasswordReset /> }
   ]);
 
   return (

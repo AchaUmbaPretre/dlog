@@ -1,22 +1,44 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Typography, message } from 'antd';
+import { Form, Input, Button, Typography, message, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import forgot from './../../assets/reset.png';
 import './passwordReset.scss'
+import { passwordReset } from '../../services/authService';
 
 const { Title, Paragraph } = Typography;
 
 const PasswordReset = () => {
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onFinish = (values) => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      message.success('Mot de passe réinitialisé avec succès!');
-      console.log('New Password:', values.password);
-    }, 1500);
+
+  const onFinish = async(values) => {
+
+    setIsLoading(true);
+        try {
+
+              const response = await passwordReset(values.email);
+                notification.success({
+                    message: 'Succès',
+                    description: response.data.message
+                });
+            } catch (error) {
+                if (error.response) {
+                    notification.error({
+                        message: 'Erreur',
+                        description: error.response.data.error || error.response.data.message, // Récupérer le message d'erreur
+                    });
+                }
+                else {
+                    notification.error({
+                      message: 'Erreur',
+                      description: 'Une erreur est survenue.',
+                    });
+                  }
+            }
+             finally {
+            setIsLoading(false);
+        }
   };
 
   return (
@@ -61,7 +83,7 @@ const PasswordReset = () => {
                   block
                   size="large"
                   className="reset_button"
-                  loading={loading}
+                  loading={isLoading}
                 >
                   Réinitialiser le mot de passe
                 </Button>
