@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
@@ -20,7 +20,6 @@ import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authService';
 import { useMenu } from '../../context/MenuProvider';
-import { getMenusAllOne } from '../../services/permissionService';
 import { useSelector } from 'react-redux';
 
 const { Sider } = Layout;
@@ -92,7 +91,7 @@ const SideBar = ({data}) => {
   };
   
   const renderIcon = (iconName) => {
-    return iconMapping[iconName] || <HomeOutlined />; // Icône par défaut si non trouvée
+    return iconMapping[iconName] || <HomeOutlined />;
   };
 
 
