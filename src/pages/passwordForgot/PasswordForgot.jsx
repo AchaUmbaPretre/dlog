@@ -4,11 +4,13 @@ import { UserOutlined } from '@ant-design/icons';
 import './passwordForgot.scss';
 import forgot from './../../assets/rb_1123.png';
 import { getPasswordForgot } from '../../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Paragraph } = Typography;
 
 const PasswordForgot = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const onFinish = async(values) => {
 
@@ -20,6 +22,7 @@ const PasswordForgot = () => {
                         message: 'Succès',
                         description: response.data.message
                     });
+                    navigate('/login')
                 } catch (error) {
                     if (error.response) {
                         notification.error({

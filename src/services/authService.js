@@ -16,11 +16,11 @@ export const logout = async (user) => {
     return axios.post(`${DOMAIN}/api/auth/logout`, user);
   };
 
-export const detailForgot  = async (user) => {
+/* export const detailForgot  = async (user) => {
     return axios.post(`${DOMAIN}/api/auth/detail_forgot`, user);
-  };
+  }; */
 
-  export const getPasswordForgot = async (email) => {
+export const getPasswordForgot = async (email) => {
 
     return axios.get(`${DOMAIN}/api/auth/password_forgot?email=${email}`);
   };
