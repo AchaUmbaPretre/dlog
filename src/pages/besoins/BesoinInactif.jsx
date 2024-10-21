@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Tag, Modal, Select } from 'antd';
 import { ProfileOutlined, UserOutlined, PlusCircleOutlined, PrinterOutlined } from '@ant-design/icons';
-import { getBesoin, getBesoinInactif } from '../../services/besoinsService';
+import { getBesoinInactif } from '../../services/besoinsService';
 import ProjetBesoin from '../projet/projetBesoin/ProjetBesoin';
 import { getProjet, putProjetBesoin } from '../../services/projetService';
 
