@@ -59,14 +59,14 @@
 
 .ant-menu-item,
 .ant-menu-submenu-title {
-  font-size: 13px;  /* Taille de la police à 14px */
+  font-size: 13px;
   padding: 10px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .ant-menu-item:hover .ant-menu-item-icon,
 .ant-menu-submenu:hover .ant-menu-submenu-title {
-  transform: scale(1.1); /* Scale the icon slightly on hover */
+  transform: scale(1.1);
 }
 
 /* Styles pour la sidebar réduite */
