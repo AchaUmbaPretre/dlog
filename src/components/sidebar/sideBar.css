@@ -69,6 +69,10 @@
   transform: scale(1.1);
 }
 
+.ant-menu-item:hover{
+  transform: scale(1.1);
+}
+
 /* Styles pour la sidebar réduite */
 .sidebar-reduced {
   width: 80px;
