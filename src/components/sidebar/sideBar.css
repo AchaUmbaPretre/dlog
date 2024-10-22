@@ -64,6 +64,11 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.ant-menu-item:hover .ant-menu-item-icon,
+.ant-menu-submenu:hover .ant-menu-submenu-title {
+  transform: scale(1.1); /* Scale the icon slightly on hover */
+}
+
 /* Styles pour la sidebar réduite */
 .sidebar-reduced {
   width: 80px;
@@ -82,6 +87,16 @@
 .sidebar-reduced .ant-menu-item span,
 .sidebar-reduced .ant-menu-submenu-title span {
   display: none;
+}
+
+.logout-item {
+  margin-top: auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logout-item:hover {
+  background-color: rgba(245, 34, 45, 0.1);
+  color: #f5222d;
 }
 
 /* Styles pour les petits écrans */
