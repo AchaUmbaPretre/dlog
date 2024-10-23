@@ -42,7 +42,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                 setUsers(userData.data);
                 if(idTache){
                     const {data} = await getTacheOne(idTache)
-                    setName(data[0])
+                    setName(data.tache[0])
                 }
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');

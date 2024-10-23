@@ -12,6 +12,7 @@ import EditerDesc from '../editerDesc/EditerDesc';
 import TacheDoc from '../tacheDoc/TacheDoc';
 import TacheProjet from '../tacheProjet/TacheProjet';
 import ProjetAssocieForm from '../projetAssocie/ProjetAssocieForm';
+import SuiviTache from '../suiviTache/SuiviTache';
 
 const { Title, Text } = Typography;
 
@@ -397,6 +398,17 @@ useEffect(() => {
         centered
       >
         <ListeTracking idTache={idTache} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'trackingForm'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+        <SuiviTache idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
       </Modal>
       
       <Modal
