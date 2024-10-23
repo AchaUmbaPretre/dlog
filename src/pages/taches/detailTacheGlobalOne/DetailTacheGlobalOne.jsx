@@ -136,7 +136,7 @@ useEffect(() => {
           </h1>
           <h1 className="title_h1">
             <CalendarOutlined style={{ marginRight: '8px' }} />
-            <strong>Date du dernier tracking : </strong> {dates ? moment(dates).format('LL') : <Skeleton.Input active />}
+            <strong>{dates && `Date du dernier tracking : ${moment(dates).format('LL')}` }</strong>
           </h1>
         </div>
       </div>
