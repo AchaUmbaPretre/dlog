@@ -71,6 +71,7 @@ useEffect(() => {
   const handleAjouterDoc = () => openModal('DocumentTacheForm');
   const handleInfo = () => openModal('info');
   const handleTracking = () => openModal('tracking');
+  const handleAddTracking = () => openModal('trackingForm')
   const handleDoc = () => openModal('document');
   const handleTiming = () => openModal('timing');
   const handleEditer = () => openModal('edite');
@@ -224,7 +225,7 @@ useEffect(() => {
 
             <Tooltip title="Tracking">
               <div 
-                onClick={handleAddProjet} 
+                onClick={handleAddTracking} 
                 style={{
                   background:'#03A9F4',
                   height:'30px',
