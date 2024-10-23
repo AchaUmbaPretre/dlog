@@ -222,6 +222,30 @@ useEffect(() => {
               </div>
             </Tooltip>
 
+            <Tooltip title="Tracking">
+              <div 
+                onClick={handleAddProjet} 
+                style={{
+                  background:'#03A9F4',
+                  height:'30px',
+                  width:'30px',
+                  borderRadius:'50%',
+                  display:'flex',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  color:'#fff',
+                  marginLeft:'10px',
+                  cursor:'pointer',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <HistoryOutlined />
+              </div>
+            </Tooltip>
+
             <Tooltip title="Associer un projet existant">
               <div 
                 onClick={handleAssocierProjet} // Fonction pour associer un projet existant
