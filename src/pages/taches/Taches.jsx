@@ -197,9 +197,6 @@ const handleEdit = (idTache) => {
     openModal('DocumentTacheForm', idTache);
   };
 
-  const handleAddTag = (idTache) => {
-    openModal('AddTag', idTache);
-  }
 
   const handleTracking = (idTache) => {
     openModal('suivi', idTache);
