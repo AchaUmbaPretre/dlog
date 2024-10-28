@@ -133,7 +133,6 @@ const Taches = () => {
             return acc;
         }, []);
 
-        // Met à jour l'état avec les données regroupées
         setData(groupedData);
         setStatistique(response.data.statistiques);
         setTotal(response.data.total_taches);
