@@ -118,7 +118,7 @@ const SideBar = ({data}) => {
                 title={<span className="sidebarH3">{menuItem.menu_title}</span>}
               >
                 {menuItem.subMenus.map(subMenu => (
-                  <Item key={subMenu.submenu_id}>
+                  <Item key={`submenu-${menuItem.menu_id}-${subMenu.submenu_id}`}>
                     <Link to={subMenu.submenu_url} className="sidebarLink" onClick={toggleMenu}>
                       {subMenu.submenu_title}
                     </Link>
