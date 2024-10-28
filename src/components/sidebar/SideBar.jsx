@@ -50,7 +50,6 @@ const SideBar = ({data}) => {
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };

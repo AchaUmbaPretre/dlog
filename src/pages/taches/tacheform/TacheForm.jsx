@@ -105,7 +105,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         setEditorContent();
       }, [idTache, idProjet, form]);
 
-          // Handle category cost change
     const handleCategoryChange = (index, field, value) => {
         const updatedCategories = [...categories];
         updatedCategories[index][field] = value;
