@@ -676,37 +676,37 @@ const handleEdit = (idTache) => {
                 },
               },
               {
-      title: 'Priorité',
-      dataIndex: 'priorite',
-      key: 'priorite',
-      sorter: (a, b) => a.priorite - b.priorite,
-      render: (priority, record) => {
-        if (editingRow === record.id_tache) {
-          return (
-            <Select
-              name='priorite'
-              defaultValue={newPriority}
-              onChange={(value) => handleChangePriority(value, record)}
-              onBlur={() => setEditingRow(null)}
-              options={[
-                { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
-                { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
-                { value: 3, label: <span>{getPriorityIcon(3)} Moyenne</span> },
-                { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
-                { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
-              ]}
-              style={{ width: 120 }}
-            />
-          );
-        }
+              title: 'Priorité',
+              dataIndex: 'priorite',
+              key: 'priorite',
+              sorter: (a, b) => a.priorite - b.priorite,
+              render: (priority, record) => {
+                if (editingRow === record.id_tache) {
+              return (
+                <Select
+                  name='priorite'
+                  defaultValue={newPriority}
+                  onChange={(value) => handleChangePriority(value, record)}
+                  onBlur={() => setEditingRow(null)}
+                  options={[
+                    { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
+                    { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
+                    { value: 3, label: <span>{getPriorityIcon(3)} Moyenne</span> },
+                    { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
+                    { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
+                  ]}
+                  style={{ width: 120 }}
+                />
+              );
+                }
 
-        return (
-          <Tag onDoubleClick={() => handleDoubleClick(record)} color={getPriorityColor(priority)}>
-            {getPriorityIcon(priority)} {getPriorityLabel(priority)}
-          </Tag>
-        );
-      },
-    },
+                return (
+                  <Tag onDoubleClick={() => handleDoubleClick(record)} color={getPriorityColor(priority)}>
+                    {getPriorityIcon(priority)} {getPriorityLabel(priority)}
+                  </Tag>
+                );
+              },
+              },
               {
                 title: 'Date début & fin',
                 dataIndex: 'date_debut',
@@ -759,17 +759,17 @@ const handleEdit = (idTache) => {
                     <Tooltip title="Modifier">
                       <Button
                         icon={<EditOutlined />}
-                        style={{ color: 'blue' }}
+                        style={{ color: 'green' }}
                         onClick={() => handleEdit(record.id_tache)}
                         aria-label="Edit tache"
                       />
                     </Tooltip>
                     <Tooltip title="Voir les détails">
                       <Button
-                        icon={<MoreOutlined />}
+                        icon={<EyeOutlined />}
                         onClick={() => handleViewDetails(record.id_tache)}
                         aria-label="Voir les détails de la tâche"
-                        style={{ color: 'green' }}
+                        style={{ color: 'blue' }}
                       />
                     </Tooltip>
                     <Popover
@@ -794,8 +794,8 @@ const handleEdit = (idTache) => {
                     >
                       <Tooltip title="Menu">
                         <Button
-                          icon={<PlusCircleOutlined />}
-                          style={{ color: 'blue' }}
+                          icon={<MoreOutlined />}
+                          style={{ color: 'black' }}
                           aria-label="Contrôler"
                         />
                       </Tooltip>
@@ -818,6 +818,8 @@ const handleEdit = (idTache) => {
                 ),
               },
             ]}
+            size="small"
+            bordered
             pagination={false}
           />
         </Panel>
