@@ -653,7 +653,7 @@ const handleEdit = (idTache) => {
                 dataIndex: 'nom_tache',
                 key: 'nom_tache',
                 render: text => (
-                  <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+                  <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id_tache)}>
                     <Tag icon={<FileTextOutlined />} color="cyan">
                       {text}
                     </Tag>
