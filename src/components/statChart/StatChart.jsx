@@ -47,7 +47,7 @@ const StatChart = () => {
 
       // Calculer le total des tâches
       const total = formattedData.reduce((acc, item) => acc + item.nombre_taches, 0);
-      setTotalTasks(total); // Mettre à jour le total
+      setTotalTasks(total);
 
       setData(formattedData);
       setLoading(false);
@@ -59,7 +59,7 @@ const StatChart = () => {
 
   useEffect(() => {
     fetchData();
-  }, [filter, dateRange]); // Récupérer les données lorsque le filtre ou la plage de date change
+  }, [filter, dateRange]);
 
   return (
     <div>
@@ -69,7 +69,7 @@ const StatChart = () => {
             value={filter}
             onChange={handleFilterChange}
             style={{ width: 120, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
-            placeholder="Sélectionnez un filtre" // Placeholder ajouté ici
+            placeholder="Sélectionnez un filtre"
           >
             <Option style={{color:'#555', fontSize:'12px',fontWeight:'300'}}value="" disabled> -- filtre -- </Option>
             <Option value="today">Aujourd'hui</Option>
