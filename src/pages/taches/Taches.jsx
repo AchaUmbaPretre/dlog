@@ -1060,7 +1060,6 @@ const handleEdit = (idTache) => {
       >
         <TacheTagsForm idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
       </Modal>
-      
     </>
   );
 };
