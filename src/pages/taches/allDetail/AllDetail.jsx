@@ -97,7 +97,7 @@ const AllDetail = ({ idTache }) => {
                             }
                         >
                             <Paragraph className="task-detail">
-                                <strong>Description:</strong> <div dangerouslySetInnerHTML={{ __html: data.description }} style={{marginTop:'10px'}} />
+                                <strong>Description:</strong> <div dangerouslySetInnerHTML={{ __html: parent.description }} style={{marginTop:'10px'}} />
                             </Paragraph>
                             <Paragraph className="task-detail">
                                 <strong>Date de Début:</strong> {new Date(parent.date_debut).toLocaleDateString()}
