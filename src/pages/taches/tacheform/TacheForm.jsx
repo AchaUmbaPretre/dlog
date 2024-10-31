@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form,Card, Input, Space, Row, Col, Select, notification, DatePicker, Skeleton } from 'antd';
+import { Button, Form,Card, Input, Space, Row, Col, Select, notification, DatePicker, Skeleton, Modal } from 'antd';
 import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getFrequence } from '../../../services/frequenceService';
@@ -38,7 +38,12 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
 
 
     const handlDepartement = () => openModal('AddDepartement');
-    
+    const handOwner = () => openModal('AddOwner');
+    const handlDemandeur = () => openModal('AddDemandeur');
+    const handlEntite = () => openModal('AddEntite');
+    const handlCorpsMetier = () => openModal('AddCorpsMetier');
+    const handlCatTache = () => openModal('AddCatTache');
+
     const closeAllModals = () => {
         setModalType(null);
       };
@@ -52,8 +57,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         setEditorContent(content);
         form.setFieldsValue({ description: content });
     };
-
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -255,6 +258,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 <Button 
                                     style={{ marginTop: '10px' }}
                                     icon={<PlusOutlined />}
+                                    onClick={handlDepartement}
                                 >
                                 </Button>
                             </Form.Item>
@@ -348,6 +352,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 <Button 
                                     style={{ marginTop: '10px' }}
                                     icon={<PlusOutlined />}
+                                    onClick={handOwner}
                                 >
                                 </Button>
                             </Form.Item>
@@ -375,6 +380,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 <Button 
                                     style={{ marginTop: '10px' }}
                                     icon={<PlusOutlined />}
+                                    onClick={handlDemandeur}
                                 >
                                 </Button>
                             </Form.Item>
@@ -397,9 +403,10 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         label: item.nom_batiment,
                                     }))}
                                 />}
-                                                                <Button 
+                                <Button 
                                     style={{ marginTop: '10px' }}
                                     icon={<PlusOutlined />}
+                                    onClick={handlEntite}
                                 >
                                 </Button>
                             </Form.Item>
@@ -425,6 +432,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 <Button 
                                     style={{ marginTop: '10px' }}
                                     icon={<PlusOutlined />}
+                                    onClick={handlCorpsMetier}
                                 >
                                 </Button>
                             </Form.Item>
@@ -451,6 +459,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                 <Button 
                                     style={{ marginTop: '10px' }}
                                     icon={<PlusOutlined />}
+                                    onClick={handlCatTache}
                                 >
                                 </Button>
                             </Form.Item>
@@ -580,6 +589,66 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                     </Row>
                 </Form>
             </div>
+            <Modal
+                title=""
+                visible={modalType === 'AddDepartement'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                departement
+            </Modal>
+            <Modal
+                title=""
+                visible={modalType === 'AddOwner'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                Owner
+            </Modal>
+            <Modal
+                title=""
+                visible={modalType === 'AddDemandeur'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                Demandeur
+            </Modal>
+            <Modal
+                title=""
+                visible={modalType === 'AddEntite'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                Entité
+            </Modal>
+            <Modal
+                title=""
+                visible={modalType === 'AddCorpsMetier'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                corps metier
+            </Modal>
+            <Modal
+                title=""
+                visible={modalType === 'AddCatTache'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                Cat Tache
+            </Modal>
         </div>
     );
 };
