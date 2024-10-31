@@ -45,7 +45,6 @@ const StatChart = () => {
         color: colorMapping[item.statut] || '#b0b0b0',
       }));
 
-      // Calculer le total des tâches
       const total = formattedData.reduce((acc, item) => acc + item.nombre_taches, 0);
       setTotalTasks(total);
 
@@ -97,7 +96,6 @@ const StatChart = () => {
 
         </div>
 
-        {/* Affichage du total des tâches */}
         <div className='total_tache'>
           Total des tâches : {loading ? <Skeleton.Input active size="small" style={{ width: 100 }} /> : totalTasks}
         </div>
