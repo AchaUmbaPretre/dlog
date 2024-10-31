@@ -19,6 +19,7 @@ import FroalaEditor from 'react-froala-wysiwyg'
 import DepartementForm from '../../departement/departementForm/DepartementForm';
 import FormUsers from '../../users/formUsers/FormUsers';
 import BatimentForm from '../../batiment/batimentForm/BatimentForm';
+import CorpsMetierForm from '../../corpsMetier/corpsMetierForm/CorpsMetierForm';
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -641,7 +642,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 width={900}
                 centered
             >
-                corps metier
+                <CorpsMetierForm idCorps={''} closeModal={() => setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
             <Modal
                 title=""
