@@ -358,7 +358,7 @@ const Projet = () => {
         visible={modalType === 'AddProjet'}
         onCancel={closeAllModals}
         footer={null}
-        width={700}
+        width={900}
         centered
       >
         <ProjetForm idProjet={idProjet} fetchData={fetchData} closeModal={()=>setModalType(null)} />

@@ -287,7 +287,7 @@ const Offres = () => {
         visible={modalType === 'FormOffres'}
         onCancel={closeAllModals}
         footer={null}
-        width={700}
+        width={800}
         centered
       >
         <FormOffres/>
