@@ -235,7 +235,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                             <Button 
                                 style={{ marginTop: '10px' }}
                                 icon={<PlusOutlined />}
-                                
+                                onClick={handlBatiment}
                             >
                             </Button>
                         </Form.Item>
