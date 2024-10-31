@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined,LinkOutlined,FileAddOutlined,ProjectOutlined, EditOutlined, DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
-import { getTacheDocOne, getTacheOne } from '../../../services/tacheService';
+import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
 import ListeDocTache from '../listeDocTache/ListeDocTache';

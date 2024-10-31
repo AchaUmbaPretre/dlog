@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
+import { CheckOutlined } from '@ant-design/icons';
 import { Skeleton, Select, DatePicker, Button } from 'antd';
 import { getTacheCountChart } from '../../services/tacheService';
 
