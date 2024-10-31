@@ -13,6 +13,7 @@ const ListCatTache = () => {
   const [searchValue, setSearchValue] = useState('');
   const [idCat, setIdCat] = useState('');
   const [modalType, setModalType] = useState(null);
+  const scroll = { x: 400 };
 
   const handleEdit = (id) => {
     openModal('Edit', id);
@@ -195,8 +196,8 @@ const ListCatTache = () => {
             rowKey="key"
             bordered
             size="middle"
-            scroll={{ x: 'max-content' }}
             loading={loading}
+            scroll={scroll}
           />
         </div>
       </div>
