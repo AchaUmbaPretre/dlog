@@ -30,7 +30,7 @@ const Users = () => {
       }
     };
 
-    useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, [DOMAIN]);
 

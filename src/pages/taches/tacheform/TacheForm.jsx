@@ -17,6 +17,8 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
 import DepartementForm from '../../departement/departementForm/DepartementForm';
+import FormUsers from '../../users/formUsers/FormUsers';
+import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -609,7 +611,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 width={900}
                 centered
             >
-                Owner
+                <FormUsers userId={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
             <Modal
                 title=""
@@ -619,7 +621,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 width={900}
                 centered
             >
-                Demandeur
+                <FormUsers userId={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
             <Modal
                 title=""
@@ -629,7 +631,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 width={900}
                 centered
             >
-                Entité
+                <BatimentForm idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
             <Modal
                 title=""
