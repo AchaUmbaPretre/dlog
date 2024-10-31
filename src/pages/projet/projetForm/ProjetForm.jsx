@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, DatePicker, InputNumber, Select, Button,Skeleton, Row, Col, notification, Space } from 'antd';
+import { Form, Input, DatePicker, InputNumber, Select, Button,Skeleton, Row, Col, notification, Space, Modal } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
@@ -9,6 +9,7 @@ import moment from 'moment';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
+import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 
 const { Option } = Select;
 
@@ -20,6 +21,20 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     const [batiment, setBatiment] = useState([]);
     const [article, setArticle] = useState([]);
     const [editorContent, setEditorContent] = useState('');
+    const [modalType, setModalType] = useState(null);
+
+
+    const handlBatiment = () => openModal('AddBatiment');
+
+    const closeAllModals = () => {
+        setModalType(null);
+      };
+      
+      const openModal = (type) => {
+        closeAllModals();
+        setModalType(type);
+      };
+
 
     const handleEditorChange = (content) => {
         setEditorContent(content);
@@ -33,8 +48,8 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
         });
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
+
+        const fetchDataAll = async () => {
             try {
                 const [usersData, clientData, batimentData, articleData] = await Promise.all([
                     getUser(),
@@ -67,8 +82,10 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                 setLoading(false);
             }
         };
-    
-        fetchData();
+
+        
+    useEffect(() => {
+        fetchDataAll();
     }, [idProjet, form]);
     
 
@@ -231,7 +248,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                         >
                             {loading ? <Skeleton.Input active /> : 
                                 <FroalaEditor
-                                        tag='textarea'
+                                    tag='textarea'
                                         model={editorContent}
                                         onModelChange={handleEditorChange}
                                         config={{
@@ -255,7 +272,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                             height: 200,
                                             placeholder: 'Entrez votre description ici...'
                                         }}
-                                    />
+                                />
                             }
                         </Form.Item>
                     </Col>
@@ -325,6 +342,16 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                 </Form.Item>
                 </Form>
             </div>
+            <Modal
+                title=""
+                visible={modalType === 'AddBatiment'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                <BatimentForm idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchDataAll}/>
+            </Modal>
         </div>
     );
 };
