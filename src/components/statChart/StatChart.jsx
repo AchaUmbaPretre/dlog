@@ -3,6 +3,7 @@ import { ResponsiveBar } from '@nivo/bar';
 import { CheckOutlined } from '@ant-design/icons';
 import { Skeleton, Select, DatePicker, Button } from 'antd';
 import { getTacheCountChart } from '../../services/tacheService';
+import './statChart.css'
 
 const { Option } = Select;
 
@@ -64,13 +65,14 @@ const StatChart = () => {
   return (
     <div>
       <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-        <div style={{display:'flex', alignItems:'center'}}>
+        <div className='row_select' style={{display:'flex', alignItems:'center'}}>
           <Select
             value={filter}
             onChange={handleFilterChange}
             style={{ width: 120, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
             placeholder="Sélectionnez un filtre" // Placeholder ajouté ici
           >
+            <Option style={{color:'#555', fontSize:'12px',fontWeight:'300'}}value="" disabled> -- filtre -- </Option>
             <Option value="today">Aujourd'hui</Option>
             <Option value="yesterday">Hier</Option>
             <Option value="7days">7 jours</Option>
@@ -97,7 +99,7 @@ const StatChart = () => {
         </div>
 
         {/* Affichage du total des tâches */}
-        <div style={{ fontWeight: '300', fontSize:'14px', color:'#555',  boxShadow: '0 4px 6px rgba(0,0,0,0.1)', padding:'10px' }}>
+        <div className='total_tache'>
           Total des tâches : {loading ? <Skeleton.Input active size="small" style={{ width: 100 }} /> : totalTasks}
         </div>
       </div>
