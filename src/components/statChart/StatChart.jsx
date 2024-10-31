@@ -40,7 +40,7 @@ const StatChart = () => {
         'Executé': '#264653',
       };
 
-      const formattedData = data.map(item => ({
+      const formattedData = data.data.map(item => ({
         ...item,
         color: colorMapping[item.statut] || '#b0b0b0',
       }));
@@ -52,10 +52,7 @@ const StatChart = () => {
       setData(formattedData);
       setLoading(false);
     } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données.',
-      });
+      console.log(error)
       setLoading(false);
     }
   };
