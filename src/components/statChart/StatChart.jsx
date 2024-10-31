@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import { notification, Skeleton, Select, DatePicker, Button } from 'antd';
+import { Skeleton, Select, DatePicker, Button } from 'antd';
 import { getTacheCountChart } from '../../services/tacheService';
-import moment from 'moment'; // Assurez-vous d'installer moment.js
 
 const { Option } = Select;
 
@@ -64,11 +63,11 @@ const StatChart = () => {
   return (
     <div>
       <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{display:'flex', alignItems:'center'}}>
           <Select
             value={filter}
             onChange={handleFilterChange}
-            style={{ width: 120 }}
+            style={{ width: 120, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
             placeholder="Sélectionnez un filtre" // Placeholder ajouté ici
           >
             <Option value="today">Aujourd'hui</Option>
@@ -86,9 +85,14 @@ const StatChart = () => {
             />
           )}
 
-          <Button type="primary" style={{ marginLeft: '10px' }} onClick={fetchData}>
+          <Button 
+            style={{ marginLeft: '10px',boxShadow: '0 4px 6px rgba(0,0,0,0.1)', color:'#555', fontSize:'12px',fontWeight:'300' }} 
+            onClick={fetchData}
+            icon={<CheckOutlined />}
+          >
             Appliquer
           </Button>
+
         </div>
 
         {/* Affichage du total des tâches */}
