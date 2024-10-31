@@ -4,6 +4,8 @@ import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
+import {   PlusOutlined } from '@ant-design/icons';
+
 import { getTacheOneV, postTache, putTache } from '../../../services/tacheService';
 import moment from 'moment';
 import { getBatiment, getCatTache, getCorpsMetier } from '../../../services/typeService';
@@ -235,6 +237,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     placeholder="Sélectionnez un département..."
                                     optionFilterProp="label"
                                 />}
+                                <Button 
+                                    style={{ marginTop: '10px' }}
+                                    icon={<PlusOutlined />}
+                                >
+                                </Button>
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -323,6 +330,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     placeholder="Sélectionnez un responsable..."
                                     optionFilterProp="label"
                                 />}
+                                <Button 
+                                    style={{ marginTop: '10px' }}
+                                    icon={<PlusOutlined />}
+                                >
+                                </Button>
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -345,6 +357,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     placeholder="Sélectionnez un demandeur..."
                                     optionFilterProp="label"
                                 />}
+                                <Button 
+                                    style={{ marginTop: '10px' }}
+                                    icon={<PlusOutlined />}
+                                >
+                                </Button>
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -365,6 +382,11 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         label: item.nom_batiment,
                                     }))}
                                 />}
+                                                                <Button 
+                                    style={{ marginTop: '10px' }}
+                                    icon={<PlusOutlined />}
+                                >
+                                </Button>
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -385,9 +407,14 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         label: item.nom_corps_metier
                                     }))}
                                 />}
+                                <Button 
+                                    style={{ marginTop: '10px' }}
+                                    icon={<PlusOutlined />}
+                                >
+                                </Button>
                             </Form.Item>
                         </Col>
-{/*                         <Col xs={24} md={8}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_cat_tache"
                                 label="Cat tache"
@@ -406,9 +433,14 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         label: item.nom_cat_tache
                                     }))}
                                 />}
+                                <Button 
+                                    style={{ marginTop: '10px' }}
+                                    icon={<PlusOutlined />}
+                                >
+                                </Button>
                             </Form.Item>
-                        </Col> */}
-                        <Col xs={24} md={8}>
+                        </Col>
+                        <Col xs={24} md={24}>
                         <Form.Item
                                 name="priorite"
                                 label="Priorité"
