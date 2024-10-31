@@ -53,7 +53,7 @@ const StatChart = () => {
           indexBy="statut"
           margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
           padding={0.3}
-          colors={({ data }) => data.color}  // Application des couleurs spécifiées pour chaque barre
+          colors={({ data }) => data.color}
           borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
           axisTop={null}
           axisRight={null}

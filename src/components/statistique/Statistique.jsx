@@ -48,6 +48,10 @@ const Statistique = () => {
         },
       ];
 
+    const handModal = () => {
+        
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -106,7 +110,7 @@ const Statistique = () => {
                                 <span className="row_desc">Contrôle de base</span>
                             </div>
                         </div>
-                        <div className="statistique_row"  onClick={()=>navigate('/tache')}>
+                        <div className="statistique_row"  onClick={''}>
                             <div className="statistique_row_left">
                                 <div className="statistique_row_icon" style={{ background: 'rgba(53, 52, 52, 0.137)' }}>
                                     <FileSyncOutlined style={{ color: 'rgba(53, 52, 52, 0.719)' }} />
