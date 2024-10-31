@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Typography, Tag, Popover, Button, Collapse, Divider, Skeleton } from 'antd';
+import { Card, Typography, Tag, Popover, Button, Collapse, Skeleton } from 'antd';
 import { getAllTache } from '../../../services/tacheService';
 import html2pdf from 'html2pdf.js';
 import './allDetail.scss';
