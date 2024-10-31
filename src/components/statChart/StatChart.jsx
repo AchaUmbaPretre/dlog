@@ -10,13 +10,12 @@ const { Option } = Select;
 const StatChart = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [totalTasks, setTotalTasks] = useState(0); // État pour le total des tâches
-  const [filter, setFilter] = useState(''); // Pas de filtre par défaut
-  const [dateRange, setDateRange] = useState([null, null]); // Pour la plage de date
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [filter, setFilter] = useState('');
+  const [dateRange, setDateRange] = useState([null, null]);
 
   const handleFilterChange = (value) => {
     setFilter(value);
-    // Réinitialiser la plage de date si un filtre prédéfini est sélectionné
     if (value !== 'range') {
       setDateRange([null, null]);
     }
