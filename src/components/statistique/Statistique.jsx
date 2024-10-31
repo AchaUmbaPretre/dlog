@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FileSyncOutlined, FileDoneOutlined, TeamOutlined } from '@ant-design/icons';
-import { Skeleton, notification } from 'antd';
+import { Modal, Skeleton, notification } from 'antd';
 import './statistique.scss';
 import StatChart from '../statChart/StatChart';
 import CountUp from 'react-countup';
@@ -9,6 +9,7 @@ import { getTacheCount } from '../../services/tacheService';
 import { getClientCount } from '../../services/clientService';
 import { getFournisseurCount } from '../../services/fournisseurService';
 import { useNavigate } from 'react-router-dom';
+import RapportTache from '../../pages/rapportTache/RapportTache';
 
 const Statistique = () => {
     const [data, setData] = useState(null);
@@ -16,6 +17,7 @@ const Statistique = () => {
     const [client, setClient] = useState(null);
     const [fournisseur, setFournisseur] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [modalType, setModalType] = useState(null);
     const navigate = useNavigate();
 
     const handleError = (message) => {
@@ -48,9 +50,16 @@ const Statistique = () => {
         },
       ];
 
-    const handModal = () => {
-        
-    }
+    const handModal = () => openModal('rapportDetail')
+
+    const closeAllModals = () => {
+        setModalType(null);
+      };
+      
+      const openModal = (type ) => {
+        closeAllModals();
+        setModalType(type);
+      };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -110,7 +119,7 @@ const Statistique = () => {
                                 <span className="row_desc">Contrôle de base</span>
                             </div>
                         </div>
-                        <div className="statistique_row"  onClick={''}>
+                        <div className="statistique_row"  onClick={handModal}>
                             <div className="statistique_row_left">
                                 <div className="statistique_row_icon" style={{ background: 'rgba(53, 52, 52, 0.137)' }}>
                                     <FileSyncOutlined style={{ color: 'rgba(53, 52, 52, 0.719)' }} />
@@ -157,6 +166,18 @@ const Statistique = () => {
                     <StatChart />
                 </div>
             </div>
+
+            
+        <Modal
+            title=""
+            visible={modalType === 'rapportDetail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={500}
+            centered
+        >
+            <RapportTache />
+        </Modal>
         </div>
     );
 }
