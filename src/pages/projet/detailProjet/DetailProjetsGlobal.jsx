@@ -3,7 +3,6 @@ import { notification, Card, Row, Col, Typography, Modal, Divider, Skeleton, Bad
 import { InfoCircleOutlined, FileOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import ProjetDetailGeneral from './projetDetailGen/ProjetDetailGeneral';
 import { getProjetOne } from '../../../services/projetService';
-import ListeTacheProjet from '../listeTacheProjet/ListeTacheProjet';
 import DetailProjetBesoin from './detailProjetBesoin/DetailProjetBesoin';
 import ProjetDoc from '../projetDoc/ProjetDoc';
 import ListeTacheProjet1 from '../listeTacheProjet/ListeTacheProjet1';
@@ -122,7 +121,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         <h1 className="title_h1">
           <FileTextOutlined style={{ marginRight: '8px' }} />
           <strong>Description : </strong> {data?.description ? (
-              <div dangerouslySetInnerHTML={{ __html: data.description }} />
+            <div dangerouslySetInnerHTML={{ __html: data.description }} style={{marginTop:'10px'}} />
             ) : (
               <Skeleton.Input active />
             )}

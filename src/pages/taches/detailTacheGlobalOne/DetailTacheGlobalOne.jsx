@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined,LinkOutlined,FileAddOutlined,ProjectOutlined, EditOutlined, DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
-import { getTacheOne } from '../../../services/tacheService';
+import { getTacheDocOne, getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
 import ListeDocTache from '../listeDocTache/ListeDocTache';
@@ -31,10 +31,11 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [response, dateData, allData] = await Promise.all([
+      const [response, dateData, allData ] = await Promise.all([
         getTacheOne(idTache),
         getSuiviTacheOneV(idTache),
         getTrackingAllOne(idTache)
+
       ]);
 
       setData(response.data.tache[0]);
@@ -284,13 +285,13 @@ useEffect(() => {
       }
       
       {cat.length > 0 ? (
-  <div className="title_row" style={{ padding: '16px' }}>
-    <h1 className="title_h1" style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
-      <DollarOutlined style={{ marginRight: '6px' }} />
-      <strong style={{ marginRight: '8px'}}>Categories</strong>
-    </h1>
+    <div className="title_row" style={{ padding: '16px' }}>
+      <h1 className="title_h1" style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+        <DollarOutlined style={{ marginRight: '6px' }} />
+        <strong style={{ marginRight: '8px'}}>Categories</strong>
+      </h1>
 
-    {cat.map((dd, index) => (
+      {cat.map((dd, index) => (
       <Card
         key={index}
         hoverable
