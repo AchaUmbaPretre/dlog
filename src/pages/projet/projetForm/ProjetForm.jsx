@@ -217,6 +217,12 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                     label: item.nom_batiment,
                                 }))}
                             />}
+                            <Button 
+                                style={{ marginTop: '10px' }}
+                                icon={<PlusOutlined />}
+                                
+                            >
+                            </Button>
                         </Form.Item>
                     </Col>
                     <Col span={24}>
