@@ -3,8 +3,13 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
-export const getTacheCountChart = async () => {
-  return axios.get(`${DOMAIN}/api/tache/count_chart`);
+export const getTacheCountChart = async (filter, dateRange) => {
+  const params = {
+    filter,
+    dateRange,
+  };
+
+  return axios.get(`${DOMAIN}/api/tache/count_chart`, { params });
 };
 
 export const getTacheCount = async () => {
