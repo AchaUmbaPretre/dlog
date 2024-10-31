@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getTacheOne } from '../../../services/tacheService';
-import { notification, Skeleton, Card, Row, Col, Tag, Tooltip } from 'antd';
-import { UserOutlined, CalendarOutlined, EnvironmentOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { notification, Skeleton, Card, Row, Col, Tag } from 'antd';
+import { UserOutlined, CalendarOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import './detailTache.css';
 
