@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, DatePicker, InputNumber, Select, Button,Skeleton, Typography, Row, Col, notification, Space } from 'antd';
+import { Form, Input, DatePicker, InputNumber, Select, Button,Skeleton, Row, Col, notification, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
@@ -10,9 +10,7 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
 
-const { TextArea } = Input;
 const { Option } = Select;
-const { Title } = Typography;
 
 const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     const [form] = Form.useForm();
