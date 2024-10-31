@@ -640,7 +640,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 visible={modalType === 'AddCorpsMetier'}
                 onCancel={closeAllModals}
                 footer={null}
-                width={800}
+                width={700}
                 centered
             >
                 <CorpsMetierForm idCorps={''} closeModal={() => setModalType(null)} fetchData={fetchDataAll}/>
