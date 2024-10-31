@@ -18,6 +18,7 @@ const colorMapping = {
 };
 
 const SuiviTache = ({idTache, closeModal, fetchData}) => {
+    const [form] = Form.useForm();
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
     const [name, setName] = useState('');
@@ -63,8 +64,9 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-            fetchData()
-            closeModal()
+            fetchData();
+            closeModal();
+            form.resetFields();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -83,6 +85,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
             </div>
             <div className="controle_wrapper">
                 <Form
+                    form={form}
                     name="validateOnly"
                     layout="vertical"
                     autoComplete="off"
