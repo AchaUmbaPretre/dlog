@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
-import { getFrequenceOne, postFrequence, putFrequence } from '../../../services/frequenceService';
 import { getCatTacheOne, getCorpsMetierOne, postCatTache, postCorpsMetier, putCatTache, putCorpsMetier } from '../../../services/typeService';
 
-const ListeCatTacheForm = ({idCat}) => {
+const ListeCatTacheForm = ({idCat,close, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
@@ -12,11 +11,13 @@ const ListeCatTacheForm = ({idCat}) => {
     try {
         if(idCat) {
             await putCatTache(idCat, values)
-            window.location.reload();
+            fetchData();
+            close()
         }
         else {
             await postCatTache(values)
-            window.location.reload();
+            fetchData();
+            close()
         }
         notification.success({
           message: 'Succès',

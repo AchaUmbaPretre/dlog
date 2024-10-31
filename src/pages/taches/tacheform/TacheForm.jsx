@@ -20,6 +20,7 @@ import DepartementForm from '../../departement/departementForm/DepartementForm';
 import FormUsers from '../../users/formUsers/FormUsers';
 import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 import CorpsMetierForm from '../../corpsMetier/corpsMetierForm/CorpsMetierForm';
+import ListeCatTacheForm from '../../listCatTache/listeCatTacheForm/ListeCatTacheForm';
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -639,7 +640,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 visible={modalType === 'AddCorpsMetier'}
                 onCancel={closeAllModals}
                 footer={null}
-                width={900}
+                width={800}
                 centered
             >
                 <CorpsMetierForm idCorps={''} closeModal={() => setModalType(null)} fetchData={fetchDataAll}/>
@@ -649,10 +650,10 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 visible={modalType === 'AddCatTache'}
                 onCancel={closeAllModals}
                 footer={null}
-                width={900}
+                width={700}
                 centered
             >
-                Cat Tache
+                <ListeCatTacheForm idCat={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
         </div>
     );
