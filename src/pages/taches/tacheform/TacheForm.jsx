@@ -16,6 +16,7 @@ import { getPriorityIcon } from '../../../utils/prioriteIcons';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
+import DepartementForm from '../../departement/departementForm/DepartementForm';
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -58,8 +59,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
         form.setFieldsValue({ description: content });
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
+        const fetchDataAll = async () => {
             setLoadingData(true);
 
             try {
@@ -116,8 +116,10 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 setLoadingData(false); 
             }
         };
+    
+    useEffect(() => {
 
-        fetchData();
+        fetchDataAll();
     }, [idTache,idProjet,form]);
 
     useEffect(() => {
@@ -597,7 +599,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 width={900}
                 centered
             >
-                departement
+                <DepartementForm id_departement={''} closeModal={() => setModalType(null)} fetchData={fetchDataAll } />
             </Modal>
             <Modal
                 title=""
