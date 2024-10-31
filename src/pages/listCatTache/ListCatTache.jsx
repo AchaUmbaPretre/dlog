@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,PlusCircleOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
-import config from '../../config';
-import { getCategorie, getCatTache } from '../../services/typeService';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { ExportOutlined, PrinterOutlined,PlusCircleOutlined ,ApartmentOutlined,EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import { getCatTache } from '../../services/typeService';
 import ListeCatTacheForm from './listeCatTacheForm/ListeCatTacheForm';
 
 const { Search } = Input;
 
 const ListCatTache = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -49,7 +47,7 @@ const ListCatTache = () => {
   };
 
 
-  useEffect(() => {
+
     const fetchData = async () => {
       try {
         const { data } = await getCatTache();
@@ -64,8 +62,9 @@ const ListCatTache = () => {
       }
     };
 
+  useEffect(() => {
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
   const handleAddClient = (id) => {
     openModal('Add', id);
