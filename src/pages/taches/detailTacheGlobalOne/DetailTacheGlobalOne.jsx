@@ -290,8 +290,7 @@ useEffect(() => {
         <DollarOutlined style={{ marginRight: '6px' }} />
         <strong style={{ marginRight: '8px'}}>Categories</strong>
       </h1>
-
-      {cat.map((dd, index) => (
+    {cat.map((dd, index) => (
       <Card
         key={index}
         hoverable
@@ -398,7 +397,7 @@ useEffect(() => {
         width={1000}
         centered
       >
-        <ListeTracking idTache={idTache} />
+        <ListeTracking idTache={idTache} fetchData={fetchData} />
       </Modal>
 
       <Modal

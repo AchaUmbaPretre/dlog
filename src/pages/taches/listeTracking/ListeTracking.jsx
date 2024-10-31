@@ -38,13 +38,14 @@ const ListeTracking = ({ idTache }) => {
   };
   
   
-
-useEffect(() => {
-  console.log("idTache a changé :", idTache); // Log les changements de idTache
-  fetchData();
-}, [idTache]); // Refait le fetch quand idTache change
-
-
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 5000);
+  
+    return () => clearInterval(interval); 
+  }, [idTache]); 
+  
   const handleTracking = () => {
     openModal('suivi');
   };

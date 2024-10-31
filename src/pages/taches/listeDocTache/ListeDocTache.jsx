@@ -30,9 +30,13 @@ const ListeDocTache = ({ idTache }) => {
       }
     };
 
-useEffect(() => {
-    fetchData();
-  }, [idTache]);
+    useEffect(() => {
+      const interval = setInterval(() => {
+        fetchData();
+      }, 5000);
+    
+      return () => clearInterval(interval); 
+    }, [idTache]); 
 
   const handleAddDoc = () => {
     setIsModalVisible(true);
