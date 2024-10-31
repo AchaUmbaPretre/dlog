@@ -10,6 +10,7 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
 import BatimentForm from '../../batiment/batimentForm/BatimentForm';
+import FormUsers from '../../users/formUsers/FormUsers';
 
 const { Option } = Select;
 
@@ -25,6 +26,8 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
 
 
     const handlBatiment = () => openModal('AddBatiment');
+    const handlUser = () => openModal('AddUser');
+
 
     const closeAllModals = () => {
         setModalType(null);
@@ -152,6 +155,12 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                     </Option>
                                 ))}
                             </Select>}
+                            <Button 
+                                style={{ marginTop: '10px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handlUser}
+                            >
+                            </Button>
                         </Form.Item>
                     </Col>
                 </Row>
@@ -351,6 +360,17 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                 centered
             >
                 <BatimentForm idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchDataAll}/>
+            </Modal>
+
+            <Modal
+                title=""
+                visible={modalType === 'AddUser'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                <FormUsers userId={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
         </div>
     );
