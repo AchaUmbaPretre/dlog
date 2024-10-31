@@ -34,11 +34,26 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const navigate = useNavigate();
     const [editorContent, setEditorContent] = useState('');
     const [totalCost, setTotalCost] = useState(0);
+    const [modalType, setModalType] = useState(null);
+
+
+    const handlDepartement = () => openModal('AddDepartement');
+    
+    const closeAllModals = () => {
+        setModalType(null);
+      };
+      
+      const openModal = (type) => {
+        closeAllModals();
+        setModalType(type);
+      };
 
     const handleEditorChange = (content) => {
         setEditorContent(content);
         form.setFieldsValue({ description: content });
     };
+
+
 
     useEffect(() => {
         const fetchData = async () => {
