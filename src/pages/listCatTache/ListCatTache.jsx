@@ -220,7 +220,7 @@ const ListCatTache = () => {
         width={600}
         centered
       >
-         <ListeCatTacheForm idCat={idCat} close={()=> setModalType(null)} fetchData={fetchData}/>
+        <ListeCatTacheForm idCat={idCat} close={()=> setModalType(null)} fetchData={fetchData}/>
       </Modal>
     </>
   );
