@@ -12,12 +12,11 @@ const Client = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
 
-  useEffect(() => {
+
     const fetchData = async () => {
       try {
         const { data } = await getClient();
@@ -32,6 +31,7 @@ const Client = () => {
       }
     };
 
+  useEffect(() => {
     fetchData();
   }, [DOMAIN]);
 
@@ -43,9 +43,6 @@ const Client = () => {
     openModal('Edit', idClient);
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
 
   const closeAllModals = () => {
     setModalType(null);
@@ -70,9 +67,6 @@ const Client = () => {
     window.print();
   };
 
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
 
   const handleDelete = async (id) => {
     try {
@@ -87,9 +81,6 @@ const Client = () => {
     }
   };
 
-  const handleViewDetails = (record) => {
-    message.info(`Viewing details of client: ${record.nom}`);
-  };
 
   const menu = (
     <Menu>
@@ -201,7 +192,7 @@ const Client = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Search clients..." enterButton />
+              <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-rows-right">
               <Button
@@ -243,7 +234,7 @@ const Client = () => {
         width={800}
         centered
       >
-        <ClientForm closeModal={() => setModalType(null)} />
+        <ClientForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchData} />
       </Modal>
 
       <Modal
@@ -254,7 +245,7 @@ const Client = () => {
         width={800}
         centered
       >
-        <ClientForm closeModal={() => setModalType(null)} idClient={idClient} />
+        <ClientForm closeModal={() => setModalType(null)} idClient={idClient} fetchData={fetchData} />
       </Modal>
     </>
   );

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getClient_type, getClientOne, getProvince, postClient, putClient } from '../../../services/clientService';
 
 
-const ClientForm = ({closeModal,idClient }) => {
+const ClientForm = ({closeModal, idClient, fetchData }) => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +60,10 @@ const ClientForm = ({closeModal,idClient }) => {
         fetchOne();
     }, [idClient]);
 
+    useEffect(() => {
+        form.resetFields();
+      }, [idClient, form]);
+
     const onFinish = async (values) => {
         setIsLoading(true);
         try {
@@ -77,9 +81,9 @@ const ClientForm = ({closeModal,idClient }) => {
                     description: 'Les informations ont été enregistrées avec succès.',
                 });
             }
+            form.resetFields();
+            fetchData();
             closeModal();
-            navigate('/client');
-            window.location.reload();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
