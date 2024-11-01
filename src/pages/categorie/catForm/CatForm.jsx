@@ -26,6 +26,10 @@ const CatForm = ({idCat, closeModal, fetchData}) => {
         setIsModalVisible(true);
     };
 
+    useEffect(() => {
+        form.resetFields();
+      }, [idCat, form]);
+
     const handleOk = async () => {
         setIsModalVisible(false);
         setIsLoading(true);
@@ -44,7 +48,7 @@ const CatForm = ({idCat, closeModal, fetchData}) => {
                     description: 'Les informations ont été enregistrées avec succès.',
                 });
             }
-
+            form.resetFields();
             fetchData();
             closeModal();
         } catch (error) {
