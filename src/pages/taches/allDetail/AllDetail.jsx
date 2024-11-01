@@ -3,6 +3,11 @@ import { Card, Typography, Tag, Popover, Button, Collapse, Skeleton } from 'antd
 import { getAllTache } from '../../../services/tacheService';
 import html2pdf from 'html2pdf.js';
 import htmlDocx from 'html-docx-js/dist/html-docx';
+import {
+    FilePdfOutlined,
+    FileExcelOutlined,
+    FileWordOutlined
+  } from '@ant-design/icons';
 import * as XLSX from 'xlsx';
 import './allDetail.scss';
 import { getPriorityTag } from '../../../utils/prioriteIcons';
@@ -101,15 +106,32 @@ const AllDetail = ({ idTache }) => {
 
     return (
         <div className="allDetail">
-            <Button type="primary" onClick={exportToPDF} style={{ marginBottom: '20px' }}>
-                Exporter en PDF
-            </Button>
-            <Button type="primary" onClick={exportToExcel} style={{ marginBottom: '20px', marginLeft: '10px' }}>
-                Exporter en Excel
-            </Button>
-            <Button type="primary" onClick={exportToWord} style={{ marginBottom: '20px', marginLeft: '10px' }}>
-                Exporter en Word
-            </Button>
+            <div style={{ marginBottom: '20px' }}>
+                <Button 
+                    type="primary" 
+                    icon={<FilePdfOutlined />} 
+                    onClick={exportToPDF} 
+                    style={{ marginRight: '10px', backgroundColor: '#ff4d4f', borderColor: '#ff4d4f' }}
+                >
+                    PDF
+                </Button>
+                <Button 
+                    type="primary" 
+                    icon={<FileExcelOutlined />} 
+                    onClick={exportToExcel} 
+                    style={{ marginRight: '10px', backgroundColor: '#52c41a', borderColor: '#52c41a' }}
+                >
+                    Excel
+                </Button>
+                <Button 
+                    type="primary" 
+                    icon={<FileWordOutlined />} 
+                    onClick={exportToWord} 
+                    style={{ backgroundColor: '#1890ff', borderColor: '#1890ff' }}
+                >
+                    Word
+                </Button>
+            </div>
             <div id="allDetailContent">
                 {loading ? (
                     <Skeleton active paragraph={{ rows: 10 }} />
@@ -129,7 +151,7 @@ const AllDetail = ({ idTache }) => {
                             <AntParagraph className="task-detail">
                                 <strong>Description:</strong> <div dangerouslySetInnerHTML={{ __html: parent.description }} style={{ marginTop: '10px' }} />
                             </AntParagraph>
-                            <AntParagraph className="task-detail">
+                            {/* <AntParagraph className="task-detail">
                                 <strong>Date de Début:</strong> {new Date(parent.date_debut).toLocaleDateString()}
                             </AntParagraph>
                             <AntParagraph className="task-detail">
@@ -162,7 +184,7 @@ const AllDetail = ({ idTache }) => {
                             <AntParagraph className="task-detail">
                                 <strong>Nombre de Jours:</strong> {parent.nbre_jour}
                             </AntParagraph>
-
+ */}
                             {/* Display parent task follow-ups */}
                             {parent.suivis.length > 0 && (
                                 <Popover
