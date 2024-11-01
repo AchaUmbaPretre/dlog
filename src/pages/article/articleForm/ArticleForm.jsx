@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Row, Col, Button, Card, Spin, notification, Select } from 'antd';
+import { Form, Input, Row, Col, Button, Card, Spin, notification, Select, Tooltip, Modal } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { postArticle } from '../../../services/offreService';
 import { getCategorie } from '../../../services/typeService';
+import CatForm from '../../categorie/catForm/CatForm';
 
 const ArticleForm = ({idOffre, closeModal, fetchData }) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [cat, setCat] = useState([]);
+  const [modalType, setModalType] = useState(null);
+
 
   const handleError = (message) => {
     notification.error({
@@ -16,8 +19,19 @@ const ArticleForm = ({idOffre, closeModal, fetchData }) => {
     });
 }
 
-  useEffect(() => {
-    const fetchData = async () => {
+const handlCat = () => openModal('AddCat')
+
+const closeAllModals = () => {
+  setModalType(null);
+};
+
+const openModal = (type) => {
+  closeAllModals();
+  setModalType(type);
+};
+
+
+    const fetchDataAll = async () => {
         try {
             const [catData] = await Promise.all([
                 getCategorie()
@@ -29,7 +43,8 @@ const ArticleForm = ({idOffre, closeModal, fetchData }) => {
         }
     };
 
-    fetchData();
+  useEffect(() => {
+    fetchDataAll();
 }, []);
 
 useEffect(() => {
@@ -62,6 +77,16 @@ useEffect(() => {
 
   return (
     <Card title="Gestion des Articles" style={{ width: '100%' }}>
+      <div>
+        <Tooltip title='Ajouter une categorie'>
+          <Button 
+            style={{ margin: '10px 0' }}
+            icon={<PlusOutlined />}
+            onClick={handlCat}
+          >
+          </Button>
+        </Tooltip>
+      </div>
       <Form
         form={form}
         name="article_form"
@@ -114,13 +139,13 @@ useEffect(() => {
                         <Select
                             placeholder="Sélectionnez la categorie..."
                             options={cat.map((item) => ({
-                                        value: item.id_categorie,
-                                        label: (
+                                      value: item.id_categorie,
+                                      label: (
                                             <div>
                                                 {item.nom_cat}
                                             </div>
                                         ),
-                                    }))}
+                            }))}
                         />
                       </Form.Item>
                     </Col>
@@ -157,6 +182,16 @@ useEffect(() => {
           <Spin tip="Envoi en cours..." />
         </div>
       )}
+      <Modal
+        title=""
+        visible={modalType === 'AddCat'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <CatForm idCat= {''} closeModal={() => setModalType(null)} fetchData={fetchDataAll}/>
+      </Modal>
     </Card>
   );
 };
