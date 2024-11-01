@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Card, Typography, Tag, Popover, Button, Collapse, Skeleton } from 'antd';
 import { getAllTache } from '../../../services/tacheService';
 import html2pdf from 'html2pdf.js';
+import htmlDocx from 'html-docx-js/dist/html-docx';
+import * as XLSX from 'xlsx';
 import './allDetail.scss';
 import { getPriorityTag } from '../../../utils/prioriteIcons';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph: AntParagraph } = Typography;
 const { Panel } = Collapse;
 
 const AllDetail = ({ idTache }) => {
@@ -49,7 +51,6 @@ const AllDetail = ({ idTache }) => {
             }
 
             if (item.id_suivi) {
-                
                 if (item.sous_tache) {
                     const parentTask = acc[item.parent_id];
                     if (parentTask) {
@@ -75,10 +76,39 @@ const AllDetail = ({ idTache }) => {
         html2pdf().from(element).set(options).save();
     };
 
+    const exportToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Tasks');
+        XLSX.writeFile(workbook, 'details.xlsx');
+    };
+
+    const exportToWord = () => {
+        const element = document.getElementById('allDetailContent');
+        const html = element.innerHTML;
+
+        // Create a document from HTML
+        const converted = htmlDocx.asBlob(html);
+        const url = URL.createObjectURL(converted);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'details.docx';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
     return (
         <div className="allDetail">
             <Button type="primary" onClick={exportToPDF} style={{ marginBottom: '20px' }}>
                 Exporter en PDF
+            </Button>
+            <Button type="primary" onClick={exportToExcel} style={{ marginBottom: '20px', marginLeft: '10px' }}>
+                Exporter en Excel
+            </Button>
+            <Button type="primary" onClick={exportToWord} style={{ marginBottom: '20px', marginLeft: '10px' }}>
+                Exporter en Word
             </Button>
             <div id="allDetailContent">
                 {loading ? (
@@ -96,42 +126,42 @@ const AllDetail = ({ idTache }) => {
                                 </Title>
                             }
                         >
-                            <Paragraph className="task-detail">
-                                <strong>Description:</strong> <div dangerouslySetInnerHTML={{ __html: parent.description }} style={{marginTop:'10px'}} />
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            <AntParagraph className="task-detail">
+                                <strong>Description:</strong> <div dangerouslySetInnerHTML={{ __html: parent.description }} style={{ marginTop: '10px' }} />
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Date de Début:</strong> {new Date(parent.date_debut).toLocaleDateString()}
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Date de Fin:</strong> {new Date(parent.date_fin).toLocaleDateString()}
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Priorité:</strong>{getPriorityTag(parent.priorite)}
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Statut:</strong> <Tag color={statusColor(parent.statut)}>{parent.statut}</Tag>
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Client:</strong> {parent.nom_client}
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Fréquence:</strong> {parent.frequence}
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Propriétaire:</strong> {parent.owner}
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Ville:</strong> {parent.ville}
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Département:</strong> {parent.departement}
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Contrôle de Base:</strong> {parent.controle_de_base}
-                            </Paragraph>
-                            <Paragraph className="task-detail">
+                            </AntParagraph>
+                            <AntParagraph className="task-detail">
                                 <strong>Nombre de Jours:</strong> {parent.nbre_jour}
-                            </Paragraph>
+                            </AntParagraph>
 
                             {/* Display parent task follow-ups */}
                             {parent.suivis.length > 0 && (
@@ -140,12 +170,12 @@ const AllDetail = ({ idTache }) => {
                                         <div>
                                             {parent.suivis.map((suivi) => (
                                                 <div key={suivi.id_suivi} className="suivi-detail">
-                                                    <Paragraph>
+                                                    <AntParagraph>
                                                         <strong>Commentaire:</strong> {suivi.suivi_commentaire}
-                                                    </Paragraph>
-                                                    <Paragraph>
+                                                    </AntParagraph>
+                                                    <AntParagraph>
                                                         <strong>Pourcentage d'Avancement:</strong> {suivi.suivi_pourcentage_avancement}%
-                                                    </Paragraph>
+                                                    </AntParagraph>
                                                 </div>
                                             ))}
                                         </div>
@@ -167,21 +197,21 @@ const AllDetail = ({ idTache }) => {
                                                 bordered={false}
                                                 className="sub-task-card"
                                             >
-                                                <Paragraph>
+                                                <AntParagraph>
                                                     <strong>Nom:</strong> {sousTache.sous_tache}
-                                                </Paragraph>
-                                                <Paragraph>
+                                                </AntParagraph>
+                                                <AntParagraph>
                                                     <strong>Description:</strong> {sousTache.sous_tache_description}
-                                                </Paragraph>
-                                                <Paragraph>
+                                                </AntParagraph>
+                                                <AntParagraph>
                                                     <strong>Statut:</strong> <Tag color={statusColor(sousTache.sous_tache_statut)}>{sousTache.sous_tache_statut}</Tag>
-                                                </Paragraph>
-                                                <Paragraph>
+                                                </AntParagraph>
+                                                <AntParagraph>
                                                     <strong>Date de Début:</strong> {new Date(sousTache.sous_tache_dateDebut).toLocaleDateString()}
-                                                </Paragraph>
-                                                <Paragraph>
+                                                </AntParagraph>
+                                                <AntParagraph>
                                                     <strong>Date de Fin:</strong> {new Date(sousTache.sous_tache_dateFin).toLocaleDateString()}
-                                                </Paragraph>
+                                                </AntParagraph>
 
                                                 {/* Display sub-task follow-ups */}
                                                 {sousTache.suivis.length > 0 && (
@@ -190,12 +220,12 @@ const AllDetail = ({ idTache }) => {
                                                             <div>
                                                                 {sousTache.suivis.map((suivi) => (
                                                                     <div key={suivi.id_suivi} className="suivi-detail">
-                                                                        <Paragraph>
+                                                                        <AntParagraph>
                                                                             <strong>Commentaire:</strong> {suivi.suivi_commentaire}
-                                                                        </Paragraph>
-                                                                        <Paragraph>
+                                                                        </AntParagraph>
+                                                                        <AntParagraph>
                                                                             <strong>Pourcentage d'Avancement:</strong> {suivi.suivi_pourcentage_avancement}%
-                                                                        </Paragraph>
+                                                                        </AntParagraph>
                                                                     </div>
                                                                 ))}
                                                             </div>
