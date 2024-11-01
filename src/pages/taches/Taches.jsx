@@ -957,7 +957,7 @@ const handleEdit = (idTache) => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={850}
+        width={900}
         centered
       >
         <TacheForm idTache={idTache} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
