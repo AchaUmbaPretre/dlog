@@ -61,7 +61,7 @@ useEffect(() => {
   };
 
   return (
-    <Card title="Gestion des Articlesss" style={{ width: '100%' }}>
+    <Card title="Gestion des Articles" style={{ width: '100%' }}>
       <Form
         form={form}
         name="article_form"
