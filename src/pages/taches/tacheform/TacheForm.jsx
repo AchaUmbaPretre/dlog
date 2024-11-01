@@ -263,13 +263,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     placeholder="Sélectionnez un département..."
                                     optionFilterProp="label"
                                 />}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
+                            </Form.Item>
+                            <Button 
+                                    style={{ marginBotton: '5px' }}
                                     icon={<PlusOutlined />}
                                     onClick={handlDepartement}
                                 >
-                                </Button>
-                            </Form.Item>
+                            </Button>
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
@@ -291,13 +291,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     placeholder="Sélectionnez un client..."
                                     optionFilterProp="label"
                                 />}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handlClient}
-                                >
-                                </Button>
                             </Form.Item>
+                            <Button 
+                                style={{ marginBottom: '5px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handlClient}
+                            >
+                            </Button>
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
@@ -363,13 +363,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     placeholder="Sélectionnez un responsable..."
                                     optionFilterProp="label"
                                 />}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handOwner}
-                                >
-                                </Button>
                             </Form.Item>
+                            <Button 
+                                style={{ marginTop: '5px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handOwner}
+                            >
+                            </Button>
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
@@ -391,13 +391,14 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     placeholder="Sélectionnez un demandeur..."
                                     optionFilterProp="label"
                                 />}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handlDemandeur}
-                                >
-                                </Button>
+                                
                             </Form.Item>
+                            <Button 
+                                style={{ marginTop: '5px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handlDemandeur}
+                            >
+                            </Button>
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
@@ -417,13 +418,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         label: item.nom_batiment,
                                     }))}
                                 />}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handlEntite}
-                                >
-                                </Button>
                             </Form.Item>
+                            <Button 
+                                style={{ marginTop: '5px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handlEntite}
+                            >
+                            </Button>
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
@@ -443,13 +444,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         label: item.nom_corps_metier
                                     }))}
                                 />}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handlCorpsMetier}
-                                >
-                                </Button>
                             </Form.Item>
+                            <Button 
+                                style={{ marginTop: '5px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handlCorpsMetier}
+                            >
+                            </Button>
                         </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
@@ -470,13 +471,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                         label: item.nom_cat_tache
                                     }))}
                                 />}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handlCatTache}
-                                >
-                                </Button>
                             </Form.Item>
+                            <Button 
+                                style={{ marginTop: '5px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handlCatTache}
+                            >
+                            </Button>
                         </Col>
                         <Col xs={24} md={24}>
                         <Form.Item

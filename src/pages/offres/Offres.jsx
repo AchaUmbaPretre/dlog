@@ -283,7 +283,7 @@ const Offres = () => {
       </div>
 
       <Modal
-        title="Ajouter une Offre"
+        title=""
         visible={modalType === 'FormOffres'}
         onCancel={closeAllModals}
         footer={null}
