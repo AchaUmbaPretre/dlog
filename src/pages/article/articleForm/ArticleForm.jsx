@@ -32,6 +32,10 @@ const ArticleForm = ({idOffre, closeModal, fetchData }) => {
     fetchData();
 }, []);
 
+useEffect(() => {
+  form.resetFields();
+}, [form]);
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
@@ -59,11 +63,12 @@ const ArticleForm = ({idOffre, closeModal, fetchData }) => {
   return (
     <Card title="Gestion des Articlesss" style={{ width: '100%' }}>
       <Form
+        form={form}
         name="article_form"
         onFinish={onFinish}
         layout="vertical"
         initialValues={{
-          articles: [{}], // Initialiser avec un article
+          articles: [{}]
         }}
       >
         <Form.List name="articles">
