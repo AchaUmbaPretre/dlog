@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popover, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,PlusCircleOutlined ,ApartmentOutlined,EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined} from '@ant-design/icons';
-import config from '../../config';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { ExportOutlined, PrinterOutlined,PlusCircleOutlined ,ApartmentOutlined,EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import CatForm from './catForm/CatForm';
 import { getCategorie } from '../../services/typeService';
 
 const { Search } = Input;
-
+ 
 const Categorie = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -44,8 +42,6 @@ const Categorie = () => {
     }
   };
 
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getCategorie();
@@ -60,8 +56,9 @@ const Categorie = () => {
       }
     };
 
+  useEffect(() => {
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
   const handleAddClient = () => {
     openModal('add');
