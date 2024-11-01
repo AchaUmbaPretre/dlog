@@ -20,6 +20,7 @@ import FormUsers from '../../users/formUsers/FormUsers';
 import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 import CorpsMetierForm from '../../corpsMetier/corpsMetierForm/CorpsMetierForm';
 import ListeCatTacheForm from '../../listCatTache/listeCatTacheForm/ListeCatTacheForm';
+import ClientForm from '../../client/clientForm/ClientForm';
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -47,6 +48,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const handlEntite = () => openModal('AddEntite');
     const handlCorpsMetier = () => openModal('AddCorpsMetier');
     const handlCatTache = () => openModal('AddCatTache');
+    const handlClient= () => openModal('AddClient');
+
 
     const closeAllModals = () => {
         setModalType(null);
@@ -288,6 +291,12 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                                     placeholder="Sélectionnez un client..."
                                     optionFilterProp="label"
                                 />}
+                                <Button 
+                                    style={{ marginTop: '10px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlClient}
+                                >
+                                </Button>
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={8}>
@@ -653,6 +662,16 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 centered
             >
                 <ListeCatTacheForm idCat={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
+            </Modal>
+            <Modal
+                title=""
+                visible={modalType === 'AddClient'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={700}
+                centered
+            >
+                <ClientForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchDataAll} />
             </Modal>
         </div>
     );
