@@ -668,7 +668,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
                 visible={modalType === 'AddClient'}
                 onCancel={closeAllModals}
                 footer={null}
-                width={700}
+                width={800}
                 centered
             >
                 <ClientForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchDataAll} />
