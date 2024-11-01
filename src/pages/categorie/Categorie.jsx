@@ -198,7 +198,7 @@ const Categorie = () => {
         width={600}
         centered
       >
-         <CatForm idCat= {idCat}/>
+         <CatForm idCat= {idCat} closeModal={() => setModalType(null)} fetchData={fetchData}/>
       </Modal>
 
       <Modal
@@ -209,7 +209,7 @@ const Categorie = () => {
         width={600}
         centered
       >
-         <CatForm idCat= {idCat}/>
+         <CatForm idCat= {idCat} closeModal={() => setModalType(null)} fetchData={fetchData}/>
       </Modal>
     </>
   );

@@ -1,12 +1,10 @@
 import { Button, Form, Input, notification, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getCategorieOne, postCategorie, putCategorie } from '../../../services/typeService';
 
 
-const CatForm = ({idCat}) => {
+const CatForm = ({idCat, closeModal, fetchData}) => {
     const [form] = Form.useForm();
-    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [formValues, setFormValues] = useState({});
@@ -46,8 +44,9 @@ const CatForm = ({idCat}) => {
                     description: 'Les informations ont été enregistrées avec succès.',
                 });
             }
-            navigate('/categorie');
-            window.location.reload();
+
+            fetchData();
+            closeModal();
         } catch (error) {
             notification.error({
                 message: 'Erreur',
