@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, DatePicker, InputNumber, Select, Button,Skeleton, Row, Col, notification, Space, Modal } from 'antd';
+import { Form, Input, DatePicker, InputNumber, Select, Button,Skeleton, Row, Col, notification, Space, Modal, Tooltip } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
@@ -26,6 +26,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
 
 
     const handlBatiment = () => openModal('AddBatiment');
+    const handlArticle = () => openModal('AddArticle');
     const handlUser = () => openModal('AddUser');
 
 
@@ -287,61 +288,72 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                     </Col>
                 </Row>
                 { idProjet === '' && 
-                <Form.List name="besoins">
-                    {(fields, { add, remove }) => (
-                        <>
-                            {fields.map(({ key, name, fieldKey, ...restField }) => (
-                                <Space key={key} style={{ display: 'flex', marginBottom: 8 }}>
-                                    <Form.Item
-                                        {...restField}
-                                        name={[name, 'id_article']}
-                                        fieldKey={[fieldKey, 'id_article']}
-                                        label="Article"
-                                        rules={[{ required: true, message: "Sélectionnez un article..." }]}
+                <div>
+                    <Tooltip title='Ajouter article'>
+                        <Button 
+                            style={{ margin: '10px 0' }}
+                            icon={<PlusOutlined />}
+                            onClick={handlUser}
+                        >
+                        </Button>
+                    </Tooltip>
+                    <Form.List name="besoins">
+                        {(fields, { add, remove }) => (
+                            <>
+                                {fields.map(({ key, name, fieldKey, ...restField }) => (
+                                    <Space key={key} style={{ display: 'flex', marginBottom: 8 }}>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'id_article']}
+                                            fieldKey={[fieldKey, 'id_article']}
+                                            label="Article"
+                                            rules={[{ required: true, message: "Sélectionnez un article..." }]}
+                                        >
+                                            <Select
+                                                placeholder="Sélectionnez un article"
+                                                showSearch
+                                                options={article.map((item) => ({
+                                                    value: item.id_article,
+                                                    label: item.nom_article,
+                                                }))}
+                                                optionFilterProp="label"
+                                            />
+                                        </Form.Item>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'description']}
+                                            fieldKey={[fieldKey, 'description']}
+                                            label="Description"
+                                            rules={[{ required: false }]}
+                                        >
+                                            <Input placeholder="Entrez une description" />
+                                        </Form.Item>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'quantite']}
+                                            fieldKey={[fieldKey, 'quantite']}
+                                            label="Quantité"
+                                            rules={[{ required: true, message: 'La quantité est requise' }]}
+                                        >
+                                            <InputNumber placeholder="Entrez la quantité" min={1} />
+                                        </Form.Item>
+                                        <MinusCircleOutlined onClick={() => remove(name)} />
+                                    </Space>
+                                ))}
+                                <Form.Item>
+                                    <Button
+                                        type="dashed"
+                                        onClick={() => add()}
+                                        block
+                                        icon={<PlusOutlined />}
                                     >
-                                        <Select
-                                            placeholder="Sélectionnez un article"
-                                            showSearch
-                                            options={article.map((item) => ({
-                                                value: item.id_article,
-                                                label: item.nom_article,
-                                            }))}
-                                        />
-                                    </Form.Item>
-                                    <Form.Item
-                                        {...restField}
-                                        name={[name, 'description']}
-                                        fieldKey={[fieldKey, 'description']}
-                                        label="Description"
-                                        rules={[{ required: false }]}
-                                    >
-                                        <Input placeholder="Entrez une description" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        {...restField}
-                                        name={[name, 'quantite']}
-                                        fieldKey={[fieldKey, 'quantite']}
-                                        label="Quantité"
-                                        rules={[{ required: true, message: 'La quantité est requise' }]}
-                                    >
-                                        <InputNumber placeholder="Entrez la quantité" min={1} />
-                                    </Form.Item>
-                                    <MinusCircleOutlined onClick={() => remove(name)} />
-                                </Space>
-                            ))}
-                            <Form.Item>
-                                <Button
-                                    type="dashed"
-                                    onClick={() => add()}
-                                    block
-                                    icon={<PlusOutlined />}
-                                >
-                                    Ajouter un besoin
-                                </Button>
-                            </Form.Item>
-                        </>
-                    )}
-                </Form.List>
+                                        Ajouter un besoin
+                                    </Button>
+                                </Form.Item>
+                            </>
+                        )}
+                    </Form.List>
+                </div>
                 }
 
                 <Form.Item>
@@ -365,6 +377,18 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
             <Modal
                 title=""
                 visible={modalType === 'AddUser'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                <FormUsers userId={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
+            </Modal>
+
+            
+            <Modal
+                title=""
+                visible={modalType === 'AddArticle'}
                 onCancel={closeAllModals}
                 footer={null}
                 width={900}
