@@ -63,7 +63,7 @@ const StatChart = () => {
   return (
     <div>
       <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-        <div className='row_select' style={{display:'flex', alignItems:'center'}}>
+        <div className='row_select'>
           <Select
             value={filter}
             onChange={handleFilterChange}
