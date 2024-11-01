@@ -384,8 +384,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
             >
                 <FormUsers userId={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
-
-            
+             
             <Modal
                 title=""
                 visible={modalType === 'AddArticle'}

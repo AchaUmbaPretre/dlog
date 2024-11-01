@@ -4,7 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { postArticle } from '../../../services/offreService';
 import { getCategorie } from '../../../services/typeService';
 
-const ArticleForm = ({idOffre}) => {
+const ArticleForm = ({idOffre, closeModal, fetchData }) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [cat, setCat] = useState([]);
@@ -44,7 +44,8 @@ const ArticleForm = ({idOffre}) => {
           description: 'L article a été enregistré avec succès.',
         });
         form.resetFields();
-        window.location.reload();
+        closeModal();
+        fetchData()
       } catch (error) {
         notification.error({
           message: 'Erreur',

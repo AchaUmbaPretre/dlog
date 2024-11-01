@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { Table, Button, Modal, Input, message, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { FileExcelOutlined, TagOutlined, FileTextOutlined,PlusCircleOutlined,PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
-import config from '../../config';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ArticleForm from './articleForm/ArticleForm';
@@ -14,7 +13,6 @@ moment.locale('fr');
 const { Search } = Input;
 
 const Article = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -70,7 +68,6 @@ const Article = () => {
     window.print();
   };
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getArticle();
@@ -85,19 +82,10 @@ const Article = () => {
       }
     };
 
+  useEffect(() => {
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExporterExcel}>
-        Exporter vers Excel
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExporterPDF}>
-        Exporter au format PDF
-      </Menu.Item>
-    </Menu>
-  );
 
   const colonnes = [
     { 
@@ -226,7 +214,7 @@ const Article = () => {
         width={900}
         centered
       >
-        <ArticleForm/>
+        <ArticleForm idOffre={''} closeModal={()=> setModalType(null)} fetchData={fetchData}/>
       </Modal>
 
       <Modal
