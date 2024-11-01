@@ -159,13 +159,13 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                         </Option>
                                     ))}
                                 </Select>}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handlUser}
-                                >
-                                </Button>
                             </Form.Item>
+                            <Button 
+                                style={{ marginBottom: '5px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handlUser}
+                            >
+                            </Button>
                         </Col>
                     </Row>
 
@@ -224,13 +224,13 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                         label: item.nom,
                                     }))}
                                 />}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handlClient}
-                                >
-                                </Button>
                             </Form.Item>
+                            <Button 
+                                style={{ marginBottom: '5px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handlClient}
+                            >
+                            </Button>
                         </Col>
                     </Row>
 
@@ -251,13 +251,13 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                         label: item.nom_batiment,
                                     }))}
                                 />}
-                                <Button 
-                                    style={{ marginTop: '10px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handlBatiment}
-                                >
-                                </Button>
                             </Form.Item>
+                            <Button 
+                                style={{ marginBottom: '10px' }}
+                                icon={<PlusOutlined />}
+                                onClick={handlBatiment}
+                            >
+                            </Button>
                         </Col>
                         <Col span={24}>
                             <Form.Item
