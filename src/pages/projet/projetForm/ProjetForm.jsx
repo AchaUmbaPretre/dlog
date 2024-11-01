@@ -12,6 +12,7 @@ import FroalaEditor from 'react-froala-wysiwyg'
 import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 import FormUsers from '../../users/formUsers/FormUsers';
 import ArticleForm from '../../article/articleForm/ArticleForm';
+import ClientForm from '../../client/clientForm/ClientForm';
 
 const { Option } = Select;
 
@@ -412,7 +413,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                 width={900}
                 centered
             >
-                <ArticleForm idOffre={''} closeModal={()=> setModalType(null)} fetchData={fetchDataAll}/>
+                <ClientForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchDataAll} />
             </Modal>
         </div>
     );
