@@ -160,14 +160,6 @@ const Client = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-{/*           <Tooltip title="View Details">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record)}
-              type="link"
-              aria-label="View client details"
-            />
-          </Tooltip> */}
            <Tooltip title="Edit">
             <Popover title="Modifier" trigger="hover">
               <Button
@@ -251,7 +243,7 @@ const Client = () => {
         width={800}
         centered
       >
-        <ClientForm modalOff={() => setModalType(null)} />
+        <ClientForm closeModal={() => setModalType(null)} />
       </Modal>
 
       <Modal

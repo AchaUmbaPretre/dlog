@@ -29,6 +29,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     const handlBatiment = () => openModal('AddBatiment');
     const handlArticle = () => openModal('AddArticle');
     const handlUser = () => openModal('AddUser');
+    const handlClient = () => openModal('AddClient');
 
 
     const closeAllModals = () => {
@@ -222,6 +223,12 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                         label: item.nom,
                                     }))}
                                 />}
+                                <Button 
+                                    style={{ marginTop: '10px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlClient}
+                                >
+                                </Button>
                             </Form.Item>
                         </Col>
                     </Row>
@@ -389,6 +396,17 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
             <Modal
                 title=""
                 visible={modalType === 'AddArticle'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                <ArticleForm idOffre={''} closeModal={()=> setModalType(null)} fetchData={fetchDataAll}/>
+            </Modal>
+
+            <Modal
+                title=""
+                visible={modalType === 'AddClient'}
                 onCancel={closeAllModals}
                 footer={null}
                 width={900}
