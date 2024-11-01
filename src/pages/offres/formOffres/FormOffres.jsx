@@ -6,9 +6,6 @@ import { getFournisseur } from '../../../services/fournisseurService';
 import { getArticle, getBatiment, getCatTache } from '../../../services/typeService';
 import { getBesoinOne } from '../../../services/besoinsService';
 import { getProjet } from '../../../services/projetService';
-import { set_cptable } from 'xlsx';
-
-const { Option } = Select;
 
 const FormOffres = () => {
   const [form] = Form.useForm();
