@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import { CheckOutlined } from '@ant-design/icons';
-import { Skeleton, Select, DatePicker, Button } from 'antd';
+import { CheckOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { Skeleton, Select, DatePicker, Button, Tooltip } from 'antd';
 import { getTacheCountChart } from '../../services/tacheService';
-import './statChart.css'
+import { CSSTransition } from 'react-transition-group';
+import './statChart.css';
 
 const { Option } = Select;
 
@@ -13,6 +14,7 @@ const StatChart = () => {
   const [totalTasks, setTotalTasks] = useState(0);
   const [filter, setFilter] = useState('');
   const [dateRange, setDateRange] = useState([null, null]);
+  const [showRows, setShowRows] = useState(false);
 
   const handleFilterChange = (value) => {
     setFilter(value);
@@ -29,7 +31,6 @@ const StatChart = () => {
     setLoading(true);
     try {
       const { data } = await getTacheCountChart(filter, dateRange);
-
       const colorMapping = {
         'En attente': '#f4a261',
         'En cours': '#6a8caf',
@@ -47,11 +48,10 @@ const StatChart = () => {
 
       const total = formattedData.reduce((acc, item) => acc + item.nombre_taches, 0);
       setTotalTasks(total);
-
       setData(formattedData);
       setLoading(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setLoading(false);
     }
   };
@@ -62,44 +62,59 @@ const StatChart = () => {
 
   return (
     <div>
-      <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-        <div className='row_select'>
-          <Select
-            value={filter}
-            onChange={handleFilterChange}
-            style={{ width: 120, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
-            placeholder="Sélectionnez un filtre"
-          >
-            <Option style={{color:'#555', fontSize:'12px',fontWeight:'300'}}value="" disabled> -- filtre -- </Option>
-            <Option value="today">Aujourd'hui</Option>
-            <Option value="yesterday">Hier</Option>
-            <Option value="7days">7 jours</Option>
-            <Option value="30days">30 jours</Option>
-            <Option value="range">Plage de date</Option>
-          </Select>
+      <Tooltip title='Afficher Filtres'>
+        <Button 
+          style={{ marginBottom: '10px' }}
+          onClick={() => setShowRows(!showRows)}
+          icon={showRows ? <EyeInvisibleOutlined style={{color:'red'}} /> : <EyeOutlined style={{color:'blue'}} />}
+        >
+        </Button>
+      </Tooltip>
 
-          {filter === 'range' && (
-            <DatePicker.RangePicker
-              style={{ marginLeft: '10px' }}
-              onChange={handleDateRangeChange}
-              value={dateRange}
-            />
-          )}
+      <CSSTransition
+        in={showRows}
+        timeout={300}
+        classNames="filter-transition"
+        unmountOnExit
+      >
+        <div className='rows' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div className='row_select'>
+            <Select
+              value={filter}
+              onChange={handleFilterChange}
+              style={{ width: 120, boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
+              placeholder="Sélectionnez un filtre"
+            >
+              <Option style={{ color: '#555', fontSize: '12px', fontWeight: '300' }} value="" disabled> -- filtre -- </Option>
+              <Option value="today">Aujourd'hui</Option>
+              <Option value="yesterday">Hier</Option>
+              <Option value="7days">7 jours</Option>
+              <Option value="30days">30 jours</Option>
+              <Option value="range">Plage de date</Option>
+            </Select>
 
-          <Button 
-            style={{ marginLeft: '10px',boxShadow: '0 4px 6px rgba(0,0,0,0.1)', color:'#555', fontSize:'12px',fontWeight:'300' }} 
-            onClick={fetchData}
-            icon={<CheckOutlined />}
-          >
-            Appliquer
-          </Button>
+            {filter === 'range' && (
+              <DatePicker.RangePicker
+                style={{ marginLeft: '10px' }}
+                onChange={handleDateRangeChange}
+                value={dateRange}
+              />
+            )}
 
+            <Button 
+              style={{ marginLeft: '10px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', color: '#555', fontSize: '12px', fontWeight: '300' }} 
+              onClick={fetchData}
+              icon={<CheckOutlined />}
+            >
+              Appliquer
+            </Button>
+          </div>
+
+          <div className='total_tache'>
+            Total des tâches : {loading ? <Skeleton.Input active size="small" style={{ width: 100 }} /> : totalTasks}
+          </div>
         </div>
-
-        <div className='total_tache'>
-          Total des tâches : {loading ? <Skeleton.Input active size="small" style={{ width: 100 }} /> : totalTasks}
-        </div>
-      </div>
+      </CSSTransition>
 
       <div style={{ height: 400 }}>
         {loading ? (
