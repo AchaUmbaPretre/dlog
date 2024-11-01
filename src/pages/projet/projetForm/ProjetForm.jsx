@@ -11,6 +11,7 @@ import 'froala-editor/css/froala_style.min.css';
 import FroalaEditor from 'react-froala-wysiwyg'
 import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 import FormUsers from '../../users/formUsers/FormUsers';
+import ArticleForm from '../../article/articleForm/ArticleForm';
 
 const { Option } = Select;
 
@@ -293,7 +294,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                         <Button 
                             style={{ margin: '10px 0' }}
                             icon={<PlusOutlined />}
-                            onClick={handlUser}
+                            onClick={handlArticle}
                         >
                         </Button>
                     </Tooltip>
@@ -384,7 +385,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
             >
                 <FormUsers userId={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
-             
+
             <Modal
                 title=""
                 visible={modalType === 'AddArticle'}
@@ -393,7 +394,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                 width={900}
                 centered
             >
-                <FormUsers userId={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
+                <ArticleForm idOffre={''} closeModal={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
         </div>
     );
