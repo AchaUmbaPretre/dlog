@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { CheckOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { Skeleton, Select, DatePicker, Button, Tooltip } from 'antd';
+import { Skeleton, Select, DatePicker, Button, Tooltip, Modal } from 'antd';
 import { getTacheCountChart } from '../../services/tacheService';
 import { CSSTransition } from 'react-transition-group';
 import './statChart.css';
+import FilterTache from '../../pages/FilterTache/FilterTache';
 
 const { Option } = Select;
 
@@ -15,6 +16,10 @@ const StatChart = () => {
   const [filter, setFilter] = useState('');
   const [dateRange, setDateRange] = useState([null, null]);
   const [showRows, setShowRows] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  console.log(selectedStatus, filter, dateRange)
 
   const handleFilterChange = (value) => {
     setFilter(value);
@@ -25,6 +30,10 @@ const StatChart = () => {
 
   const handleDateRangeChange = (dates) => {
     setDateRange(dates);
+  };
+  const handleBarClick = (bar) => {
+    setSelectedStatus(bar.indexValue);
+    setIsModalVisible(true);
   };
 
   const fetchData = async () => {
@@ -124,6 +133,7 @@ const StatChart = () => {
             data={data}
             keys={['nombre_taches']}
             indexBy="statut"
+            onClick={handleBarClick}
             margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
             padding={0.3}
             colors={({ data }) => data.color}
@@ -184,6 +194,16 @@ const StatChart = () => {
           />
         )}
       </div>
+      <Modal
+        title={''}
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <FilterTache selected ={selectedStatus} filters ={filter} dateRange={dateRange} />
+      </Modal>
     </div>
   );
 };
