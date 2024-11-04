@@ -20,6 +20,10 @@ import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
 import { useSelector } from 'react-redux';
 import Niveau from './niveau/Niveau';
 import NiveauForm from './niveau/niveauForm/NiveauForm';
+import Denomination from './denomination/Denomination';
+import DenominationForm from './denomination/denominationForm/DenominationForm';
+import WhseFact from './whseFact/WhseFact';
+import WhseFactForm from './whseFact/whseFactForm/WhseFactForm';
 
 const { Search } = Input;
 
@@ -320,26 +324,26 @@ const Batiment = () => {
                 <Menu.Divider />
               </div>
             }
-                <Menu.Item onClick={''}>
+                <Menu.Item onClick={() => handListeNiveau(record.id_batiment)}>
                   <ApartmentOutlined /> Liste des niveaux
                 </Menu.Item>
-                <Menu.Item onClick={''}>
+                <Menu.Item onClick={() => handleAddNiveau(record.id_batiment)}>
                   <ApartmentOutlined /> Créer un niveau
                 </Menu.Item>
                 <Menu.Divider />
 
-                <Menu.Item onClick={''}>
+                <Menu.Item onClick={() => handListeDenomination(record.id_batiment)}>
                   <FileTextOutlined /> Liste des denominations
                 </Menu.Item>
-                <Menu.Item onClick={''}>
+                <Menu.Item onClick={() => handleAddDenomination(record.id_batiment)}>
                   <FileTextOutlined /> Créer une denomination
                 </Menu.Item>
                 <Menu.Divider />
 
-                <Menu.Item onClick={''}>
+                <Menu.Item onClick={() => handListeWhseFacture(record.id_batiment)}>
                   <FileTextOutlined /> Liste des WHSE FACT
                 </Menu.Item>
-                <Menu.Item onClick={''}>
+                <Menu.Item onClick={() => handleAddWhseFacture(record.id_batiment)}>
                   <FileTextOutlined /> Créer un WHSE FACT
                 </Menu.Item>
           </Menu>
@@ -618,6 +622,51 @@ const Batiment = () => {
           centered
         >
           <NiveauForm idBatiment={idBatiment} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'listeDenomination'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <Denomination idBatiment={idBatiment} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'addDenomination'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <DenominationForm idBatiment={idBatiment} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'listeWhseFacture'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <WhseFact idBatiment={idBatiment} />
+        </Modal>
+
+        
+        <Modal
+          title=""
+          visible={modalType === 'addWhseFacture'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <WhseFactForm idBatiment={idBatiment} />
         </Modal>
     </>
   );

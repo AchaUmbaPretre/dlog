@@ -1,9 +1,9 @@
 import React from 'react'
 
-const denominationForm = () => {
+const DenominationForm = () => {
   return (
     <div>denominationForm</div>
   )
 }
 
-export default denominationForm
+export default DenominationForm
