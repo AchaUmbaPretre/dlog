@@ -16,12 +16,13 @@ const TemplateForm = () => {
     const [niveau, setNiveau] = useState([]);
     const [denomination, setDenomination] = useState([]);
     const [whse_fact, setWhse_fact] = useState([]);
+    const [objet, setObjet] = useState([]);
 
     const fetchDataAll = async () => {
         setIsLoading(true);
 
         try {
-            const [clientData, typeOccupationData, batimentData] = await Promise.all([
+            const [clientData, typeOccupationData, batimentData, objetData] = await Promise.all([
                 getClient(),
                 getTypeOccupation(),
                 getBatiment(),
@@ -32,6 +33,7 @@ const TemplateForm = () => {
             setClient(clientData.data);
             setTypeOccupation(typeOccupationData.data);
             setBatiment(batimentData.data);
+            setObjet(objetData.data)
             
             if (idBatiment) {
                 const niveauData = await getNiveauOne(idBatiment);
@@ -174,7 +176,7 @@ const TemplateForm = () => {
                             >
                                 <Select
                                     showSearch
-                                    options={whse_fact.map((item) => ({
+                                    options={objet.map((item) => ({
                                         value: item.id_objet_fact,
                                         label: item.nom_objet_fact
                                     }))}
