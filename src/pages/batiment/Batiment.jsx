@@ -127,9 +127,12 @@ const Batiment = () => {
   const handleListeEquipement = ( idBatiment) =>{
     openModal('listeEquipement', idBatiment)
   }
+  const handleAddEquipement = ( idBatiment) =>{
+    openModal('addEquipement', idBatiment)
+  }
 
   const handListeNiveau = ( idBatiment) =>{
-    openModal('ListNiveau', idBatiment)
+    openModal('listeNiveau', idBatiment)
   }
 
   const handleAddNiveau = ( idBatiment) =>{
