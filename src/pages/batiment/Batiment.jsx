@@ -663,7 +663,7 @@ const Batiment = () => {
           visible={modalType === 'addWhseFacture'}
           onCancel={closeAllModals}
           footer={null}
-          width={800}
+          width={700}
           centered
         >
           <WhseFactForm idBatiment={idBatiment} />
