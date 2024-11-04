@@ -139,6 +139,22 @@ const Batiment = () => {
     openModal('addNiveau', idBatiment)
   }
 
+  const handListeDenomination = ( idBatiment) =>{
+    openModal('listeDenomination', idBatiment)
+  }
+
+  const handleAddDenomination = ( idBatiment) =>{
+    openModal('addDenomination', idBatiment)
+  }
+
+  const handListeWhseFacture = ( idBatiment) =>{
+    openModal('listeWhseFacture', idBatiment)
+  }
+
+  const handleAddWhseFacture = ( idBatiment) =>{
+    openModal('addWhseFacture', idBatiment)
+  }
+
   const handleAddClient = () => {
     setIsModalVisible(true);
   };
