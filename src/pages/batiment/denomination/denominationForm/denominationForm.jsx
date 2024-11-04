@@ -53,7 +53,7 @@ const DenominationForm= ({idBatiment}) => {
   return (
     <div className="controle_form">
         <div className="controle_title_rows">
-            <h2 className='controle_h2'>Insérer un Warehouse facturation</h2>                
+            <h2 className='controle_h2'>Insérer une dénomination</h2>                
         </div>
         <div className="controle_wrapper">
             <Form
