@@ -128,8 +128,12 @@ const Batiment = () => {
     openModal('listeEquipement', idBatiment)
   }
 
-  const handleAddEquipement = ( idBatiment) =>{
-    openModal('addEquipement', idBatiment)
+  const handListeNiveau = ( idBatiment) =>{
+    openModal('ListNiveau', idBatiment)
+  }
+
+  const handleAddNiveau = ( idBatiment) =>{
+    openModal('addNiveau', idBatiment)
   }
 
   const handleAddClient = () => {
