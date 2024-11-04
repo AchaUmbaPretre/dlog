@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
+import { Button, Form, Input, notification, Modal, Select, Row, Col, DatePicker } from 'antd';
 import { getClient } from '../../../services/clientService';
 import { getObjetFacture, getTypeOccupation } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
 import { getDenominationOne, getNiveauOne, getWHSEFACTOne } from '../../../services/batimentService';
+import moment from 'moment';
 
 const TemplateForm = () => {
     const [form] = Form.useForm();
@@ -183,6 +184,16 @@ const TemplateForm = () => {
                                     placeholder="Sélectionnez un objet facture..."
                                     optionFilterProp="label"
                                 />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item
+                                label="Date actif"
+                                name="date_actif"
+                                rules={[{ required: true, message: 'La date active est requise' }]}
+                                initialValue={moment()}
+                            >
+                                <DatePicker placeholder="Sélectionnez la date active" style={{ width: '100%' }} />
                             </Form.Item>
                         </Col>
                     </Row>
