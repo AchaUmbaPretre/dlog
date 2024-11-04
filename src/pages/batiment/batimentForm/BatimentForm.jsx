@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getBatimentOne, postBatiment, putBatiment } from '../../../services/typeService';
 import { getProvince } from '../../../services/clientService';
 
-const { Option } = Select; // Déclaration de l'Option pour Select
+const { Option } = Select;
 
 const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
     const [form] = Form.useForm();

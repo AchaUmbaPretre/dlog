@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, notification, InputNumber } from 'antd';
 
 const WhseFactForm = ({idBatiment}) => {
   const [form] = Form.useForm();
@@ -69,7 +69,11 @@ const WhseFactForm = ({idBatiment}) => {
             name="nom_whse_fact"
             rules={[{ required: true, message: 'Veuillez entrer le Warehouse facture' }]}
         >
-            <Input placeholder="Entrez le Warehouse facture..." />
+            <InputNumber 
+                placeholder="Entrez le Warehouse facture..." 
+                style={{ width: '100%' }}
+                min={0}
+            />
         </Form.Item>
 
         <Form.Item>
