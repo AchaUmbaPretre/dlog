@@ -197,8 +197,12 @@ export const getNiveauOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/niveau_batiment/one?id_batiment=${id}`);
 };
 
-export const postNiveau = async (data) => {
-return axios.post(`${DOMAIN}/api/batiment/niveaau_batiment`, data);
+export const postNiveau = async (idBatiment, data) => {
+  const params = {
+    id_batiment:idBatiment,
+    ...data
+  }
+return axios.post(`${DOMAIN}/api/batiment/niveaau_batiment`, params);
 };
 
 //Dénomination batiment
@@ -210,8 +214,13 @@ export const getDenominationOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/denomination/one?id_batiment=${id}`);
 };
 
-export const postDenomination = async (data) => {
-return axios.post(`${DOMAIN}/api/batiment/denomination`, data);
+export const postDenomination = async (idBatiment, data) => {
+
+  const params = {
+    id_batiment:idBatiment,
+    ...data
+  }
+return axios.post(`${DOMAIN}/api/batiment/denomination`, params);
 };
 
 ////WHSE FACT
@@ -228,6 +237,5 @@ export const postWHSEFACT = async (idBatiment, data) => {
     id_batiment:idBatiment,
     ...data
   }
-  console.log(params)
 return axios.post(`${DOMAIN}/api/batiment/whse_fact`, params);
 };
