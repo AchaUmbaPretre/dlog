@@ -18,6 +18,8 @@ import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
 import Entrepots from './entrepots/Entrepots';
 import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
 import { useSelector } from 'react-redux';
+import Niveau from './niveau/Niveau';
+import NiveauForm from './niveau/niveauForm/NiveauForm';
 
 const { Search } = Input;
 
@@ -594,6 +596,28 @@ const Batiment = () => {
           centered
         >
           <Entrepots idBatiment={idBatiment} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'listeNiveau'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <Niveau idBatiment={idBatiment} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'addNiveau'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <NiveauForm idBatiment={idBatiment} />
         </Modal>
     </>
   );

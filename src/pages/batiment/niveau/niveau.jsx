@@ -1,9 +1,9 @@
 import React from 'react'
 
-const niveau = () => {
+const Niveau = () => {
   return (
     <div>niveau</div>
   )
 }
 
-export default niveau
+export default Niveau
