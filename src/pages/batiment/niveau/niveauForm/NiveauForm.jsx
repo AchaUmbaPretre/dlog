@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
+import { postNiveau } from '../../../../services/batimentService';
 
-const NiveauForm = ({idCorps}) => {
+const NiveauForm = ({idBatiment}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
   const onFinish = async(values) => {
-/*     setLoading(true);
+     setLoading(true);
     try {
-        if(idCorps) {
-            await putCorpsMetier(idCorps, values)
-        }
-        else {
-            await postCorpsMetier(values)
-        }
+
+        await postNiveau(idBatiment,values)
         notification.success({
           message: 'Succès',
           description: 'Le formulaire a été soumis avec succès.',
@@ -28,7 +25,7 @@ const NiveauForm = ({idCorps}) => {
     }
     finally {
         setLoading(false);
-    } */
+    }
   };
 
 /*   useEffect(()=> {
