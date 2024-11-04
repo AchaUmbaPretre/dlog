@@ -187,3 +187,30 @@ export const getBureauOne = async (id) => {
 export const postBureau = async (data) => {
 return axios.post(`${DOMAIN}/api/batiment/bureau`, data);
 };
+
+//Niveau batiment
+export const getNiveau = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/niveaau_batiment`);
+};
+
+export const getNiveauOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/niveau_batiment/one?id_batiment=${id}`);
+};
+
+export const postNiveau = async (data) => {
+return axios.post(`${DOMAIN}/api/batiment/niveaau_batiment`, data);
+};
+
+//Dénomination batiment
+export const getDenomination = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/denomination`);
+};
+
+export const getDenominationOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/denomination/one?id_batiment=${id}`);
+};
+
+export const postDenomination = async (data) => {
+return axios.post(`${DOMAIN}/api/batiment/denomination`, data);
+};
+
