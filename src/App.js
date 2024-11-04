@@ -41,6 +41,8 @@ import { getMenusAllOne } from './services/permissionService';
 import Profile from './pages/profile/Profile';
 import PasswordForgot from './pages/passwordForgot/PasswordForgot';
 import PasswordReset from './pages/passwordReset/PasswordReset';
+import TemplateForm from './pages/template/templateForm/TemplateForm';
+import Template from './pages/template/Template';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -202,6 +204,14 @@ function App() {
         {
           path: '/corpsMetier',
           element: <CorpsMetier/>
+        },
+        {
+          path: '/liste_template',
+          element: <Template/>
+        },
+        {
+          path: '/template_form',
+          element: <TemplateForm/>
         },
         {
           path: '/utilisateur',

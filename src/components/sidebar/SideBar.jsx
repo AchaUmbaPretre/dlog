@@ -14,7 +14,8 @@ import {
   ArrowRightOutlined,
   BankOutlined,
   DropboxOutlined,
-  TagsOutlined 
+  TagsOutlined,
+  ScheduleOutlined 
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -84,6 +85,7 @@ const SideBar = ({data}) => {
     FileTextOutlined: <FileTextOutlined style={{ color: '#ffc069' }} />,
     TagsOutlined: <TagsOutlined style={{ color: 'blue' }} />,
     SettingOutlined: <SettingOutlined style={{ color: '#000' }} />,
+    ScheduleOutlined: <ScheduleOutlined style={{ color: 'cyan' }} />,
     LogoutOutlined: <LogoutOutlined style={{ color: '#f5222d' }} />,
   };
   
