@@ -223,6 +223,10 @@ export const getWHSEFACTOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/whse_fact/one?id_batiment=${id}`);
 };
 
-export const postWHSEFACT = async (data) => {
-return axios.post(`${DOMAIN}/api/batiment/whse_fact`, data);
+export const postWHSEFACT = async (idBatiment, data) => {
+  const params = {
+    idBatiment,
+    data
+  }
+return axios.post(`${DOMAIN}/api/batiment/whse_fact`, params);
 };
