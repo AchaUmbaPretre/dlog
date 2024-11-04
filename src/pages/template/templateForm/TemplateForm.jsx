@@ -3,7 +3,7 @@ import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd
 import { getClient } from '../../../services/clientService';
 import { getTypeOccupation } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
-import { getDenominationOne, getNiveauOne } from '../../../services/batimentService';
+import { getDenominationOne, getNiveauOne, getWHSEFACTOne } from '../../../services/batimentService';
 
 const TemplateForm = () => {
     const [form] = Form.useForm();
@@ -15,6 +15,7 @@ const TemplateForm = () => {
     const [idBatiment, setIdBatiment] = useState('');
     const [niveau, setNiveau] = useState([]);
     const [denomination, setDenomination] = useState([]);
+    const [whse_fact, setWhse_fact] = useState([]);
 
     const fetchDataAll = async () => {
         setIsLoading(true);
@@ -33,8 +34,10 @@ const TemplateForm = () => {
             if (idBatiment) {
                 const niveauData = await getNiveauOne(idBatiment);
                 const denominationData = await getDenominationOne(idBatiment);
+                const whseData = await getWHSEFACTOne(idBatiment);
                 setNiveau(niveauData.data);
-                setDenomination(denominationData.data)
+                setDenomination(denominationData.data);
+                setWhse_fact(whseData.data)
             }
         } catch (error) {
             console.log(error);
@@ -45,10 +48,9 @@ const TemplateForm = () => {
 
     useEffect(() => {
         fetchDataAll();
-    }, [idBatiment]); // Recharge les données lorsque idBatiment change
+    }, [idBatiment]);
 
     const onFinish = async (values) => {
-        // Action à effectuer lors de la soumission du formulaire
     };
 
     return (
@@ -132,6 +134,23 @@ const TemplateForm = () => {
                             <Form.Item
                                 label="Dénomination"
                                 name="id_denomination_bat"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un niveau!' }]}
+                            >
+                                <Select
+                                    showSearch
+                                    options={denomination.map((item) => ({
+                                        value: item.id_denomination_bat,
+                                        label: item.nom_denomination_bat
+                                    }))}
+                                    placeholder="Sélectionnez une dénomination..."
+                                    optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item
+                                label="Werahouse facture"
+                                name="id_whse_fact"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un niveau!' }]}
                             >
                                 <Select
