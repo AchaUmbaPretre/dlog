@@ -9,7 +9,6 @@ import moment from 'moment';
 const TemplateForm = () => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
-    const [data, setData] = useState([]);
     const [client, setClient] = useState([]);
     const [typeOccupation, setTypeOccupation] = useState([]);
     const [batiment, setBatiment] = useState([]);
@@ -19,49 +18,54 @@ const TemplateForm = () => {
     const [whse_fact, setWhse_fact] = useState([]);
     const [objet, setObjet] = useState([]);
 
+    // Fetch data from multiple services
     const fetchDataAll = async () => {
         setIsLoading(true);
-
         try {
             const [clientData, typeOccupationData, batimentData, objetData] = await Promise.all([
                 getClient(),
                 getTypeOccupation(),
                 getBatiment(),
                 getObjetFacture()
-                
             ]);
 
             setClient(clientData.data);
             setTypeOccupation(typeOccupationData.data);
             setBatiment(batimentData.data);
-            setObjet(objetData.data)
-            
+            setObjet(objetData.data);
+
             if (idBatiment) {
-                const niveauData = await getNiveauOne(idBatiment);
-                const denominationData = await getDenominationOne(idBatiment);
-                const whseData = await getWHSEFACTOne(idBatiment);
+                const [niveauData, denominationData, whseData] = await Promise.all([
+                    getNiveauOne(idBatiment),
+                    getDenominationOne(idBatiment),
+                    getWHSEFACTOne(idBatiment)
+                ]);
                 setNiveau(niveauData.data);
                 setDenomination(denominationData.data);
-                setWhse_fact(whseData.data)
+                setWhse_fact(whseData.data);
             }
         } catch (error) {
-            console.log(error);
+            console.error('Error fetching data:', error);
         } finally {
             setIsLoading(false);
         }
     };
 
+    // Re-fetch relevant data when idBatiment changes
     useEffect(() => {
         fetchDataAll();
     }, [idBatiment]);
 
+    // Handle form submission
     const onFinish = async (values) => {
+        console.log('Form values:', values);
+        // Add your submit logic here
     };
 
     return (
-        <div className="client_form" style={{padding:'20px', background:'#fff', borderRadius:'5px'}}>
+        <div className="client_form" style={{ padding: '20px', background: '#fff', borderRadius: '5px' }}>
             <div className="controle_title_rows">
-                <h2 className="controle_h2">Insérer un nouveau template </h2>
+                <h2 className="controle_h2">Insérer un nouveau template</h2>
             </div>
             <div className="client_wrapper">
                 <Form form={form} layout="vertical" onFinish={onFinish}>
@@ -74,15 +78,13 @@ const TemplateForm = () => {
                             >
                                 <Select
                                     showSearch
-                                    options={client.map((item) => ({
-                                        value: item.id_client,
-                                        label: item.nom
-                                    }))}
+                                    options={client.map(item => ({ value: item.id_client, label: item.nom }))}
                                     placeholder="Sélectionnez un client..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={8}>
                             <Form.Item
                                 label="Type d'occupation"
@@ -91,33 +93,29 @@ const TemplateForm = () => {
                             >
                                 <Select
                                     showSearch
-                                    options={typeOccupation.map((item) => ({
-                                        value: item.id_type_occupation,
-                                        label: item.nom_type_d_occupation
-                                    }))}
+                                    options={typeOccupation.map(item => ({ value: item.id_type_occupation, label: item.nom_type_d_occupation }))}
                                     placeholder="Sélectionnez un type d'occupation..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={8}>
                             <Form.Item
-                                label="Batiment"
+                                label="Bâtiment"
                                 name="id_batiment"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un bâtiment!' }]}
                             >
                                 <Select
                                     showSearch
-                                    options={batiment.map((item) => ({
-                                        value: item.id_batiment,
-                                        label: item.nom_batiment
-                                    }))}
+                                    options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
                                     placeholder="Sélectionnez un bâtiment..."
                                     optionFilterProp="label"
-                                    onChange={(value) => setIdBatiment(value)} // Met à jour idBatiment lorsque le bâtiment est sélectionné
+                                    onChange={(value) => setIdBatiment(value)}
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={8}>
                             <Form.Item
                                 label="Niveau"
@@ -126,49 +124,43 @@ const TemplateForm = () => {
                             >
                                 <Select
                                     showSearch
-                                    options={niveau.map((item) => ({
-                                        value: item.id_niveau,
-                                        label: item.nom_niveau
-                                    }))}
+                                    options={niveau.map(item => ({ value: item.id_niveau, label: item.nom_niveau }))}
                                     placeholder="Sélectionnez un niveau..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={8}>
                             <Form.Item
                                 label="Dénomination"
                                 name="id_denomination_bat"
-                                rules={[{ required: true, message: 'Veuillez sélectionner un niveau!' }]}
+                                rules={[{ required: true, message: 'Veuillez sélectionner une dénomination!' }]}
                             >
                                 <Select
                                     showSearch
-                                    options={denomination.map((item) => ({
-                                        value: item.id_denomination_bat,
-                                        label: item.nom_denomination_bat
-                                    }))}
+                                    options={denomination.map(item => ({ value: item.id_denomination_bat, label: item.nom_denomination_bat }))}
                                     placeholder="Sélectionnez une dénomination..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={8}>
                             <Form.Item
-                                label="Werahouse facture"
+                                label="Warehouse facture"
                                 name="id_whse_fact"
-                                rules={[{ required: true, message: 'Veuillez sélectionner un Werahouse facture!' }]}
+                                rules={[{ required: true, message: 'Veuillez sélectionner un Warehouse facture!' }]}
                             >
                                 <Select
                                     showSearch
-                                    options={whse_fact.map((item) => ({
-                                        value: item.id_whse_fact,
-                                        label: item.nom_whse_fact
-                                    }))}
-                                    placeholder="Sélectionnez un Werahouse facture..."
+                                    options={whse_fact.map(item => ({ value: item.id_whse_fact, label: item.nom_whse_fact }))}
+                                    placeholder="Sélectionnez un Warehouse facture..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={12}>
                             <Form.Item
                                 label="Objet facture"
@@ -177,15 +169,13 @@ const TemplateForm = () => {
                             >
                                 <Select
                                     showSearch
-                                    options={objet.map((item) => ({
-                                        value: item.id_objet_fact,
-                                        label: item.nom_objet_fact
-                                    }))}
+                                    options={objet.map(item => ({ value: item.id_objet_fact, label: item.nom_objet_fact }))}
                                     placeholder="Sélectionnez un objet facture..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={12}>
                             <Form.Item
                                 label="Date actif"
@@ -196,20 +186,23 @@ const TemplateForm = () => {
                                 <DatePicker placeholder="Sélectionnez la date active" style={{ width: '100%' }} />
                             </Form.Item>
                         </Col>
+
                         <Col span={24}>
                             <Form.Item
                                 label="Description"
                                 name="desc_template"
-                                rules={[{ required: false}]}
                             >
-                                <Input.TextArea style={{height:'100px', resize:'none'}} placeholder="Entrez la description..." />
+                                <Input.TextArea
+                                    style={{ height: '100px', resize: 'none' }}
+                                    placeholder="Entrez la description..."
+                                />
                             </Form.Item>
                         </Col>
                     </Row>
                     
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
-                            'Enregistrer
+                            Enregistrer
                         </Button>
                     </Form.Item>
                 </Form>
