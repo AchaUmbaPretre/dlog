@@ -214,3 +214,15 @@ export const postDenomination = async (data) => {
 return axios.post(`${DOMAIN}/api/batiment/denomination`, data);
 };
 
+////WHSE FACT
+export const getWHSEFACT = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/whse_fact`);
+};
+
+export const getWHSEFACTOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/whse_fact/one?id_batiment=${id}`);
+};
+
+export const postWHSEFACT = async (data) => {
+return axios.post(`${DOMAIN}/api/batiment/whse_fact`, data);
+};
