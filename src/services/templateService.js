@@ -14,3 +14,7 @@ export const getTemplate = async () => {
 export const getTypeOccupation = async () => {
     return axios.get(`${DOMAIN}/api/template/type_occupation`);
   };
+
+export const getObjetFacture = async () => {
+    return axios.get(`${DOMAIN}/api/template/objet_facture`);
+  };

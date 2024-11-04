@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
 import { getClient } from '../../../services/clientService';
-import { getTypeOccupation } from '../../../services/templateService';
+import { getObjetFacture, getTypeOccupation } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
 import { getDenominationOne, getNiveauOne, getWHSEFACTOne } from '../../../services/batimentService';
 
@@ -25,6 +25,8 @@ const TemplateForm = () => {
                 getClient(),
                 getTypeOccupation(),
                 getBatiment(),
+                getObjetFacture()
+                
             ]);
 
             setClient(clientData.data);
@@ -160,6 +162,23 @@ const TemplateForm = () => {
                                         label: item.nom_whse_fact
                                     }))}
                                     placeholder="Sélectionnez un Werahouse facture..."
+                                    optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item
+                                label="Objet facture"
+                                name="id_objet_fact"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un objet facture!' }]}
+                            >
+                                <Select
+                                    showSearch
+                                    options={whse_fact.map((item) => ({
+                                        value: item.id_objet_fact,
+                                        label: item.nom_objet_fact
+                                    }))}
+                                    placeholder="Sélectionnez un objet facture..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
