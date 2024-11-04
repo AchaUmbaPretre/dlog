@@ -284,8 +284,8 @@ const FilterTache = ({ selected, filters, dateRange }) => {
       <div className="filterTache">
         <div className="filterWrapper">
             <div className="filter_rows">
-                <span className="filter_desc">Status : {selected} </span>
-                <span className="filter_desc">Filtre appliqué : {filters}</span>
+                { selected && <span className="filter_desc">Status : {selected} </span> }
+                { filters && <span className="filter_desc">Filtre appliqué : {filters}</span>  }
                 { dateRange && <span className="filter_desc">Plage de dates : {dateRange[0]?.format('YYYY-MM-DD')} à {dateRange[1]?.format('YYYY-MM-DD')}</span>  }
             </div>
             <div>

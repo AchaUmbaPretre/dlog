@@ -199,7 +199,7 @@ const StatChart = () => {
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
-        width={1000}
+        width={1035}
         centered
       >
         <FilterTache selected ={selectedStatus} filters ={filter} dateRange={dateRange} />

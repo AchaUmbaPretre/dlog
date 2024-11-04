@@ -292,8 +292,23 @@ const Batiment = () => {
                 <Menu.Item onClick={() => handleAddBureau(record.id_batiment)}>
                   <BankOutlined /> Créer un bureau
                 </Menu.Item>
+                <Menu.Divider />
               </div>
             }
+                <Menu.Item onClick={''}>
+                  <BankOutlined /> Liste des niveaux
+                </Menu.Item>
+                <Menu.Item onClick={''}>
+                  <BankOutlined /> Créer un niveau
+                </Menu.Item>
+                <Menu.Divider />
+
+                <Menu.Item onClick={''}>
+                  <FileTextOutlined /> Liste des denominations
+                </Menu.Item>
+                <Menu.Item onClick={''}>
+                  <FileTextOutlined /> Créer une denomination
+                </Menu.Item>
           </Menu>
         )}
         trigger={['click']}
