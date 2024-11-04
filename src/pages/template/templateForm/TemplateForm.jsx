@@ -3,7 +3,7 @@ import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd
 import { getClient } from '../../../services/clientService';
 import { getTypeOccupation } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
-import { getNiveauOne } from '../../../services/batimentService';
+import { getDenominationOne, getNiveauOne } from '../../../services/batimentService';
 
 const TemplateForm = () => {
     const [form] = Form.useForm();
@@ -14,6 +14,7 @@ const TemplateForm = () => {
     const [batiment, setBatiment] = useState([]);
     const [idBatiment, setIdBatiment] = useState('');
     const [niveau, setNiveau] = useState([]);
+    const [denomination, setDenomination] = useState([]);
 
     const fetchDataAll = async () => {
         setIsLoading(true);
@@ -29,10 +30,11 @@ const TemplateForm = () => {
             setTypeOccupation(typeOccupationData.data);
             setBatiment(batimentData.data);
             
-            // Charge les niveaux en fonction de idBatiment, si disponible
             if (idBatiment) {
                 const niveauData = await getNiveauOne(idBatiment);
+                const denominationData = await getDenominationOne(idBatiment);
                 setNiveau(niveauData.data);
+                setDenomination(denominationData.data)
             }
         } catch (error) {
             console.log(error);
@@ -122,6 +124,23 @@ const TemplateForm = () => {
                                         label: item.nom_niveau
                                     }))}
                                     placeholder="Sélectionnez un niveau..."
+                                    optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                            <Form.Item
+                                label="Dénomination"
+                                name="id_denomination_bat"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un niveau!' }]}
+                            >
+                                <Select
+                                    showSearch
+                                    options={denomination.map((item) => ({
+                                        value: item.id_denomination_bat,
+                                        label: item.nom_denomination_bat
+                                    }))}
+                                    placeholder="Sélectionnez une dénomination..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
