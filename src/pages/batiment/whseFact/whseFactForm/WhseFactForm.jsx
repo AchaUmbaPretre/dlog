@@ -10,7 +10,7 @@ const WhseFactForm = ({idBatiment}) => {
      setLoading(true);
     try {
         
-        await postWHSEFACT(values)
+        await postWHSEFACT(idBatiment, values)
         notification.success({
           message: 'Succès',
           description: 'Le formulaire a été soumis avec succès.',

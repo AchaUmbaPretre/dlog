@@ -225,8 +225,9 @@ export const getWHSEFACTOne = async (id) => {
 
 export const postWHSEFACT = async (idBatiment, data) => {
   const params = {
-    idBatiment,
-    data
+    id_batiment:idBatiment,
+    ...data
   }
+  console.log(params)
 return axios.post(`${DOMAIN}/api/batiment/whse_fact`, params);
 };
