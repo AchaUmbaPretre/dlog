@@ -309,6 +309,14 @@ const Batiment = () => {
                 <Menu.Item onClick={''}>
                   <FileTextOutlined /> Créer une denomination
                 </Menu.Item>
+                <Menu.Divider />
+
+                <Menu.Item onClick={''}>
+                  <FileTextOutlined /> Liste des WHSE FACT
+                </Menu.Item>
+                <Menu.Item onClick={''}>
+                  <FileTextOutlined /> Créer un WHSE FACT
+                </Menu.Item>
           </Menu>
         )}
         trigger={['click']}
