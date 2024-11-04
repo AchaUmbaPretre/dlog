@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, MoreOutlined,EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, MoreOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
 import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment, putDeleteBatiment } from '../../services/typeService';
@@ -296,10 +296,10 @@ const Batiment = () => {
               </div>
             }
                 <Menu.Item onClick={''}>
-                  <BankOutlined /> Liste des niveaux
+                  <ApartmentOutlined /> Liste des niveaux
                 </Menu.Item>
                 <Menu.Item onClick={''}>
-                  <BankOutlined /> Créer un niveau
+                  <ApartmentOutlined /> Créer un niveau
                 </Menu.Item>
                 <Menu.Divider />
 
