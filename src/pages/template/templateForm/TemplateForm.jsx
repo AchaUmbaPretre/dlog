@@ -151,15 +151,15 @@ const TemplateForm = () => {
                             <Form.Item
                                 label="Werahouse facture"
                                 name="id_whse_fact"
-                                rules={[{ required: true, message: 'Veuillez sélectionner un niveau!' }]}
+                                rules={[{ required: true, message: 'Veuillez sélectionner un Werahouse facture!' }]}
                             >
                                 <Select
                                     showSearch
-                                    options={denomination.map((item) => ({
-                                        value: item.id_denomination_bat,
-                                        label: item.nom_denomination_bat
+                                    options={whse_fact.map((item) => ({
+                                        value: item.id_whse_fact,
+                                        label: item.nom_whse_fact
                                     }))}
-                                    placeholder="Sélectionnez une dénomination..."
+                                    placeholder="Sélectionnez un Werahouse facture..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
