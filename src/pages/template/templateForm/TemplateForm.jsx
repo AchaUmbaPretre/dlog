@@ -59,7 +59,7 @@ const TemplateForm = () => {
     };
 
     return (
-        <div className="client_form">
+        <div className="client_form" style={{padding:'20px', background:'#fff', borderRadius:'5px'}}>
             <div className="controle_title_rows">
                 <h2 className="controle_h2">Insérer un nouveau template </h2>
             </div>
@@ -169,7 +169,7 @@ const TemplateForm = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col span={12}>
                             <Form.Item
                                 label="Objet facture"
                                 name="id_objet_fact"
@@ -186,7 +186,7 @@ const TemplateForm = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col span={12}>
                             <Form.Item
                                 label="Date actif"
                                 name="date_actif"
@@ -196,7 +196,22 @@ const TemplateForm = () => {
                                 <DatePicker placeholder="Sélectionnez la date active" style={{ width: '100%' }} />
                             </Form.Item>
                         </Col>
+                        <Col span={24}>
+                            <Form.Item
+                                label="Description"
+                                name="desc_template"
+                                rules={[{ required: false}]}
+                            >
+                                <Input.TextArea style={{height:'100px', resize:'none'}} placeholder="Entrez la description..." />
+                            </Form.Item>
+                        </Col>
                     </Row>
+                    
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
+                            'Enregistrer
+                        </Button>
+                    </Form.Item>
                 </Form>
             </div>
         </div>
