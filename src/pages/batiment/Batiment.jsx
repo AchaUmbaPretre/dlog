@@ -618,7 +618,7 @@ const Batiment = () => {
           visible={modalType === 'addNiveau'}
           onCancel={closeAllModals}
           footer={null}
-          width={900}
+          width={600}
           centered
         >
           <NiveauForm idBatiment={idBatiment} />
@@ -663,7 +663,7 @@ const Batiment = () => {
           visible={modalType === 'addWhseFacture'}
           onCancel={closeAllModals}
           footer={null}
-          width={900}
+          width={800}
           centered
         >
           <WhseFactForm idBatiment={idBatiment} />
