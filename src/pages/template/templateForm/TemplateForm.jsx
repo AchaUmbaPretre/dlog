@@ -70,7 +70,7 @@ const TemplateForm = () => {
             <div className="client_wrapper">
                 <Form form={form} layout="vertical" onFinish={onFinish}>
                     <Row gutter={16}>
-                        <Col span={8}>
+                        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Client"
                                 name="id_client"
@@ -85,7 +85,7 @@ const TemplateForm = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Type d'occupation"
                                 name="id_type_occupation"
@@ -93,14 +93,14 @@ const TemplateForm = () => {
                             >
                                 <Select
                                     showSearch
-                                    options={typeOccupation.map(item => ({ value: item.id_type_occupation, label: item.nom_type_d_occupation }))}
+                                    options={typeOccupation.map(item => ({ value: item.id_type_d_occupation, label: item.nom_type_d_occupation }))}
                                     placeholder="Sélectionnez un type d'occupation..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Bâtiment"
                                 name="id_batiment"
@@ -116,7 +116,7 @@ const TemplateForm = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Niveau"
                                 name="id_niveau"
@@ -131,7 +131,7 @@ const TemplateForm = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Dénomination"
                                 name="id_denomination_bat"
@@ -146,7 +146,7 @@ const TemplateForm = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Warehouse facture"
                                 name="id_whse_fact"
@@ -161,7 +161,7 @@ const TemplateForm = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
                             <Form.Item
                                 label="Objet facture"
                                 name="id_objet_fact"
@@ -176,7 +176,7 @@ const TemplateForm = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
                             <Form.Item
                                 label="Date actif"
                                 name="date_actif"
