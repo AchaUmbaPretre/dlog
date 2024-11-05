@@ -43,6 +43,8 @@ import PasswordForgot from './pages/passwordForgot/PasswordForgot';
 import PasswordReset from './pages/passwordReset/PasswordReset';
 import TemplateForm from './pages/template/templateForm/TemplateForm';
 import Template from './pages/template/Template';
+import DeclarationForm from './pages/declaration/declarationForm/DeclarationForm';
+import Declaration from './pages/declaration/Declaration';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -212,6 +214,14 @@ function App() {
         {
           path: '/template_form',
           element: <TemplateForm/>
+        },
+        {
+          path: '/declaration_form',
+          element: <DeclarationForm/>
+        },
+        {
+          path: '/declaration',
+          element: <Declaration/>
         },
         {
           path: '/utilisateur',

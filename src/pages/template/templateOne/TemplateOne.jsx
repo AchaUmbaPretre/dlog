@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { ExportOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
-import config from '../../config';
-import TemplateForm from './templateForm/TemplateForm';
-import { getTemplate } from '../../services/templateService';
 import moment from 'moment';
 
 const { Search } = Input;
 
-const Template = () => {
+const TemplateOne = ({idTemplate}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
-
+/* 
     const fetchData = async () => {
 
       try {
@@ -32,7 +29,7 @@ const Template = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [idTemplate]); */
 
   const handleAddTemplate = (idTemplate) => {
     openModal('Add', idTemplate);
@@ -224,24 +221,6 @@ const Template = () => {
             <div className="client-row-left">
               <Search placeholder="Recherche..." enterButton />
             </div>
-            <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddTemplate}
-              >
-                Ajouter un template
-              </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
-            </div>
           </div>
           <Table
             columns={columns}
@@ -256,19 +235,8 @@ const Template = () => {
         </div>
       </div>
 
-      <Modal
-        title=""
-        visible={modalType === 'Add'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={800}
-        centered
-      >
-        <TemplateForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchData} />
-      </Modal>
-
     </>
   );
 };
 
-export default Template;
+export default TemplateOne;
