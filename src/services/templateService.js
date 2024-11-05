@@ -7,7 +7,9 @@ export const getTemplate = async () => {
     return axios.get(`${DOMAIN}/api/template`);
   };
 
-
+export const postTemplate = async (data) => {
+    return axios.post(`${DOMAIN}/api/template`, data);
+  };
 
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Select, Row, Col, DatePicker } from 'antd';
+import { Button, Form, Input, Select, Row, Col, DatePicker, notification } from 'antd';
 import { getClient } from '../../../services/clientService';
-import { getObjetFacture, getTypeOccupation } from '../../../services/templateService';
+import { getObjetFacture, getTypeOccupation, postTemplate } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
 import { getDenominationOne, getNiveauOne, getWHSEFACTOne } from '../../../services/batimentService';
 import moment from 'moment';
@@ -51,15 +51,25 @@ const TemplateForm = () => {
         }
     };
 
-    // Re-fetch relevant data when idBatiment changes
     useEffect(() => {
         fetchDataAll();
     }, [idBatiment]);
 
-    // Handle form submission
     const onFinish = async (values) => {
-        console.log('Form values:', values);
-        // Add your submit logic here
+        setIsLoading(true)
+
+        try {
+            await postTemplate(values)
+            notification.success({
+                message: 'Succès',
+                description: 'Les informations ont été enregistrées avec succès.',
+            });
+
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
