@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,ScheduleOutlined,PlusCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
+import { ExportOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../config';
 import TemplateForm from './templateForm/TemplateForm';
 import { getTemplate } from '../../services/templateService';
+import moment from 'moment';
 
 const { Search } = Input;
 
 const Template = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
 
-
     const fetchData = async () => {
+        
       try {
         const { data } = await getTemplate();
         setData(data);
@@ -144,6 +144,23 @@ const Template = () => {
         key: 'id_whse_fact',
         render: (text) => (
           <Tag>{text}</Tag>
+        ),
+      },
+      {
+        title: 'Objet fact',
+        dataIndex: 'id_objet_fact',
+        key: 'id_objet_fact',
+        render: (text) => (
+          <Tag>{text}</Tag>
+        ),
+      },
+      { 
+        title: 'Date', 
+        dataIndex: 'date_actif', 
+        key: 'date_actif',
+        sorter: (a, b) => moment(a.date_actif).unix() - moment(b.date_actif).unix(), // tri par date
+        render: text => (
+          <Tag icon={<CalendarOutlined />} color='purple'>{moment(text).format('LL')}</Tag>
         ),
       },
     {
