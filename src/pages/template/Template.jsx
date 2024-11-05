@@ -140,8 +140,8 @@ const Template = () => {
     },
     {
         title: 'Whse fact',
-        dataIndex: 'whse_fact',
-        key: 'whse_fact',
+        dataIndex: 'id_whse_fact',
+        key: 'id_whse_fact',
         render: (text) => (
           <Tag>{text}</Tag>
         ),
