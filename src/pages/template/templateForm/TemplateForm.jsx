@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, notification, Modal, Select, Row, Col, DatePicker } from 'antd';
+import { Button, Form, Input, Select, Row, Col, DatePicker } from 'antd';
 import { getClient } from '../../../services/clientService';
 import { getObjetFacture, getTypeOccupation } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
