@@ -203,12 +203,6 @@ const TemplateOne = ({idTemplate}) => {
     <>
       <div className="client">
         <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <ScheduleOutlined className='client-icon' />
-            </div>
-            <h2 className="client-h2">Template</h2>
-          </div>
           <div className="client-actions">
             <div className="client-row-left">
               <Search placeholder="Recherche..." enterButton />

@@ -261,12 +261,11 @@ const Template = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={1000}
         centered
       >
         <TemplateForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchData} />
       </Modal>
-
     </>
   );
 };

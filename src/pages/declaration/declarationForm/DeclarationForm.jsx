@@ -53,12 +53,12 @@ const DeclarationForm = () => {
                                 label="Template"
                                 rules={[{ required: true, message: "Veuillez entrer l'ID Template Occupé" }]}
                             >
-{/*                                 <Select
+                                <Select
                                     showSearch
-                                    options={template?.map(item => ({ value: item.id_template, label: item.nom }))}
+                                    options={templates?.map(item => ({ value: item.id_template, label: item.desc_template }))}
                                     placeholder="Sélectionnez..."
                                     optionFilterProp="label"
-                                />  */}
+                                /> 
                             </Form.Item>
 
                             <Form.Item
@@ -136,7 +136,7 @@ const DeclarationForm = () => {
                             <Panel header="Section Manutention" key="2">
                             <Form.Item
                                 name="id_ville"
-                                label="ID Ville"
+                                label="Ville"
                                 rules={[{ required: true, message: "Veuillez entrer l'ID de la ville" }]}
                             >
                                 <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Ville" />
@@ -144,7 +144,7 @@ const DeclarationForm = () => {
 
                             <Form.Item
                                 name="id_client"
-                                label="ID Client"
+                                label="Client"
                                 rules={[{ required: true, message: "Veuillez entrer l'ID du client" }]}
                             >
                                 <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Client" />
@@ -152,7 +152,7 @@ const DeclarationForm = () => {
 
                             <Form.Item
                                 name="id_batiment"
-                                label="ID Bâtiment"
+                                label="Bâtiment"
                                 rules={[{ required: true, message: "Veuillez entrer l'ID du bâtiment" }]}
                             >
                                 <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Bâtiment" />
@@ -160,7 +160,7 @@ const DeclarationForm = () => {
 
                             <Form.Item
                                 name="id_objet"
-                                label="ID Objet (sauf Superficie)"
+                                label="Objet"
                                 rules={[{ required: true, message: "Veuillez entrer l'ID de l'objet" }]}
                             >
                                 <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Objet" />
