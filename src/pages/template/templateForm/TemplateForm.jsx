@@ -55,6 +55,10 @@ const TemplateForm = () => {
         fetchDataAll();
     }, [idBatiment]);
 
+    useEffect(() => {
+        form.resetFields()
+      }, [form]);
+
     const onFinish = async (values) => {
         setIsLoading(true)
 
@@ -64,7 +68,7 @@ const TemplateForm = () => {
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
-
+            form.resetFields();
         } catch (error) {
             console.log(error)
         } finally {
