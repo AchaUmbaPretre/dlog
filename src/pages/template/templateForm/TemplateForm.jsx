@@ -148,7 +148,7 @@ const TemplateForm = () => {
                         <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Dénomination"
-                                name="id_denomination_bat"
+                                name="id_denomination"
                                 rules={[{ required: true, message: 'Veuillez sélectionner une dénomination!' }]}
                             >
                                 <Select
