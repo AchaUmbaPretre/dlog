@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { ExportOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { getTemplateOne } from '../../../services/templateService';
 
 const { Search } = Input;
 
@@ -11,11 +12,11 @@ const TemplateOne = ({idTemplate}) => {
   const scroll = { x: 400 };
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
-/* 
+
     const fetchData = async () => {
 
       try {
-        const { data } = await getTemplate();
+        const { data } = await getTemplateOne(idTemplate);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -29,11 +30,7 @@ const TemplateOne = ({idTemplate}) => {
 
   useEffect(() => {
     fetchData();
-  }, [idTemplate]); */
-
-  const handleAddTemplate = (idTemplate) => {
-    openModal('Add', idTemplate);
-  };
+  }, [idTemplate]);
 
   const closeAllModals = () => {
     setModalType(null);
@@ -53,11 +50,6 @@ const TemplateOne = ({idTemplate}) => {
   const handleExportPDF = () => {
     message.success('Exporting to PDF...');
   };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
 
   const handleDelete = async (id) => {
     try {
