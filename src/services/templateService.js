@@ -7,6 +7,10 @@ export const getTemplate = async () => {
     return axios.get(`${DOMAIN}/api/template`);
   };
 
+export const getTemplate5derniers = async () => {
+    return axios.get(`${DOMAIN}/api/template/5derniers`);
+  };
+
 export const getTemplateOne = async (id) => {
     return axios.get(`${DOMAIN}/api/template/one?id_template=${id}`);
   };
@@ -22,4 +26,13 @@ export const getTypeOccupation = async () => {
 
 export const getObjetFacture = async () => {
     return axios.get(`${DOMAIN}/api/template/objet_facture`);
+  };
+
+  //Déclaration superficie
+export const getDeclaration = async () => {
+    return axios.get(`${DOMAIN}/api/template/declaration_superficie`);
+  };
+
+export const postDeclaration = async (data) => {
+    return axios.post(`${DOMAIN}/api/template/declaration_superficie`, data);
   };

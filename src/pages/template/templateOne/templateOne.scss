@@ -1,0 +1,45 @@
+.client {
+    background-color: #f5f7fa;
+    padding: 20px;
+    
+    .client-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+  
+    .client_h2 {
+      color: #4a4a4a;
+      font-weight: 300;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+  
+    .ant-table {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+      th {
+        background-color: #f0f2f5;
+        font-weight: bold;
+      }
+    }
+  
+    .action-button {
+      display: flex;
+      gap: 8px;
+  
+      .ant-btn {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 500;
+      }
+  
+      .delete-button {
+        color: red;
+      }
+    }
+  }
+  
