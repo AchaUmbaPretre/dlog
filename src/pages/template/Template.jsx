@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,PlusCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { ExportOutlined,HomeOutlined,ScheduleOutlined,PlusCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import config from '../../config';
 import TemplateForm from './templateForm/TemplateForm';
 import { getTemplate } from '../../services/templateService';
@@ -95,49 +95,57 @@ const Template = () => {
       width: "3%",
     },
     {
-      title: 'Nom',
-      dataIndex: 'nom',
-      key: 'nom',
+      title: 'Client',
+      dataIndex: 'id_client',
+      key: 'id_client',
       render: (text) => (
         <Tag icon={<UserOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Type occu',
+      dataIndex: 'id_type_occupation',
+      key: 'id_type_occupation',
       render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
+      title: 'Batiment',
+      dataIndex: 'id_batiment',
+      key: 'id_batiment',
       render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag color="blue">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
+      title: 'Niveau',
+      dataIndex: 'id_niveau ',
+      key: 'id_niveau ',
       render: (text) => (
         <> 
-          <Tag icon={<HomeOutlined />} color='cyan'>
+          <Tag color='cyan'>
             {text ?? 'Aucune'}
           </Tag>
         </>
       ),
     },
     {
-      title: 'Type',
-      dataIndex: 'nom_type',
-      key: 'nom_type',
+      title: 'Dénomination',
+      dataIndex: 'id_denomination',
+      key: 'id_denomination',
       render: (text) => (
-        <Tag color={ text === 'Interne' ? 'green' : "magenta"}>{text}</Tag>
+        <Tag>{text}</Tag>
       ),
     },
+    {
+        title: 'Whse fact',
+        dataIndex: 'whse_fact',
+        key: 'whse_fact',
+        render: (text) => (
+          <Tag>{text}</Tag>
+        ),
+      },
     {
       title: 'Action',
       key: 'action',
@@ -179,9 +187,9 @@ const Template = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <TeamOutlined className='client-icon' />
+              <ScheduleOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Client</h2>
+            <h2 className="client-h2">Template</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -193,7 +201,7 @@ const Template = () => {
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddTemplate}
               >
-                Ajouter un Client
+                Ajouter un template
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
