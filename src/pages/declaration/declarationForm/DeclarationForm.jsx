@@ -1,18 +1,39 @@
-import React from 'react'
-import { Form, Input, InputNumber, Button, Select, message, Collapse } from 'antd';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Form, Input, InputNumber, Button, Select, message, Collapse, notification } from 'antd';
 import './declarationForm.scss'
 import TemplateOne from '../../template/templateOne/TemplateOne';
+import { getTemplate } from '../../../services/templateService';
+import { getClient } from '../../../services/clientService';
 
 const { Option } = Select;
 const { Panel } = Collapse;
 
 const DeclarationForm = () => {
     const [form] = Form.useForm();
+    const [templates, setTemplates] = useState([]);
+    const [idTemplate, setIdTemplate] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
+
+    const fetchData = async () => {
+
+        try {
+          const { data } = await getTemplate();
+          setTemplates(data);
+        } catch (error) {
+          notification.error({
+            message: 'Erreur de chargement',
+            description: 'Une erreur est survenue lors du chargement des données.',
+          });
+        }
+      };
+  
+    useEffect(() => {
+      fetchData();
+    }, []);
     const onFinish = async (values) => {
 
-      };
+    };
 
   return (
     <>
@@ -29,10 +50,15 @@ const DeclarationForm = () => {
                             <Panel header="Section Entreposage" key="1">
                             <Form.Item
                                 name="id_template_occu"
-                                label="ID Template Occupé"
+                                label="Template"
                                 rules={[{ required: true, message: "Veuillez entrer l'ID Template Occupé" }]}
                             >
-                                <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Template Occupé" />
+{/*                                 <Select
+                                    showSearch
+                                    options={template?.map(item => ({ value: item.id_template, label: item.nom }))}
+                                    placeholder="Sélectionnez..."
+                                    optionFilterProp="label"
+                                />  */}
                             </Form.Item>
 
                             <Form.Item
@@ -190,7 +216,7 @@ const DeclarationForm = () => {
                     </Form>
                 </div>
                 <div className="declaration-right">
-                    <TemplateOne/>
+                    <TemplateOne idTemplate={idTemplate} />
                 </div>
             </div>
         </div>
