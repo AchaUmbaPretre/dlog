@@ -20,7 +20,7 @@ const TemplateForm = () => {
     const [objet, setObjet] = useState([]);
     const navigate = useNavigate();
 
-    // Fetch data from multiple services
+
     const fetchDataAll = async () => {
         setIsLoading(true);
         try {
