@@ -215,7 +215,7 @@ const TemplateForm = () => {
                                 rules={[{ required: true, message: 'La date active est requise' }]}
                                 initialValue={moment()}
                             >
-                                { isLoading ? <Skeleton.Input active={true} /> : 
+                                { isLoading ? <Skeleton.Input active={true} style={{ width: '100%' }}  /> : 
                                     <DatePicker placeholder="Sélectionnez la date active" style={{ width: '100%' }} />
                                 }
                             </Form.Item>
@@ -226,10 +226,12 @@ const TemplateForm = () => {
                                 label="Description"
                                 name="desc_template"
                             >
+                                { isLoading ? <Skeleton.Input active={true} style={{ width: '100%' }}  /> : 
                                 <Input.TextArea
                                     style={{ height: '100px', resize: 'none' }}
                                     placeholder="Entrez la description..."
                                 />
+                                }
                             </Form.Item>
                         </Col>
                     </Row>
