@@ -288,6 +288,7 @@ const DeclarationForm = () => {
                                 htmlType="submit" 
                                 style={{ margin: '10px 0' }} 
                                 loading={isLoading}
+                                disabled={isLoading}
                             >
                                 Soumettre
                             </Button>
