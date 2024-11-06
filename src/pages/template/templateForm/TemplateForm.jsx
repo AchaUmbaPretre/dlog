@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Select, Row, Col, DatePicker, notification } from 'antd';
+import { Button, Form, Input, Select, Row, Col, DatePicker, notification, Skeleton } from 'antd';
 import { getClient } from '../../../services/clientService';
 import { getObjetFacture, getTypeOccupation, postTemplate } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
@@ -93,12 +93,14 @@ const TemplateForm = () => {
                                 name="id_client"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un client!' }]}
                             >
-                                <Select
+                            { isLoading ? <Skeleton.Input active={true} /> : 
+                            <Select
                                     showSearch
                                     options={client.map(item => ({ value: item.id_client, label: item.nom }))}
                                     placeholder="Sélectionnez un client..."
                                     optionFilterProp="label"
                                 />
+                            }
                             </Form.Item>
                         </Col>
 
@@ -108,12 +110,14 @@ const TemplateForm = () => {
                                 name="id_type_occupation"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un type d\'occupation!' }]}
                             >
+                            { isLoading ? <Skeleton.Input active={true} /> : 
                                 <Select
                                     showSearch
                                     options={typeOccupation.map(item => ({ value: item.id_type_d_occupation, label: item.nom_type_d_occupation }))}
                                     placeholder="Sélectionnez un type d'occupation..."
                                     optionFilterProp="label"
                                 />
+                            }
                             </Form.Item>
                         </Col>
 
@@ -123,6 +127,7 @@ const TemplateForm = () => {
                                 name="id_batiment"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un bâtiment!' }]}
                             >
+                            { isLoading ? <Skeleton.Input active={true} /> : 
                                 <Select
                                     showSearch
                                     options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
@@ -130,6 +135,7 @@ const TemplateForm = () => {
                                     optionFilterProp="label"
                                     onChange={(value) => setIdBatiment(value)}
                                 />
+                            }
                             </Form.Item>
                         </Col>
 
@@ -139,12 +145,14 @@ const TemplateForm = () => {
                                 name="id_niveau"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un niveau!' }]}
                             >
-                                <Select
-                                    showSearch
-                                    options={niveau.map(item => ({ value: item.id_niveau, label: item.nom_niveau }))}
-                                    placeholder="Sélectionnez un niveau..."
-                                    optionFilterProp="label"
-                                />
+                                { isLoading ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        showSearch
+                                        options={niveau.map(item => ({ value: item.id_niveau, label: item.nom_niveau }))}
+                                        placeholder="Sélectionnez un niveau..."
+                                        optionFilterProp="label"
+                                    />
+                                }
                             </Form.Item>
                         </Col>
 
@@ -154,12 +162,15 @@ const TemplateForm = () => {
                                 name="id_denomination"
                                 rules={[{ required: true, message: 'Veuillez sélectionner une dénomination!' }]}
                             >
-                                <Select
-                                    showSearch
-                                    options={denomination.map(item => ({ value: item.id_denomination_bat, label: item.nom_denomination_bat }))}
-                                    placeholder="Sélectionnez une dénomination..."
-                                    optionFilterProp="label"
-                                />
+                                {
+                                     isLoading ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        showSearch
+                                        options={denomination.map(item => ({ value: item.id_denomination_bat, label: item.nom_denomination_bat }))}
+                                        placeholder="Sélectionnez une dénomination..."
+                                        optionFilterProp="label"
+                                    />
+                                }
                             </Form.Item>
                         </Col>
 
@@ -169,12 +180,14 @@ const TemplateForm = () => {
                                 name="id_whse_fact"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un Warehouse facture!' }]}
                             >
-                                <Select
-                                    showSearch
-                                    options={whse_fact.map(item => ({ value: item.id_whse_fact, label: item.nom_whse_fact }))}
-                                    placeholder="Sélectionnez un Warehouse facture..."
-                                    optionFilterProp="label"
-                                />
+                                { isLoading ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        showSearch
+                                        options={whse_fact.map(item => ({ value: item.id_whse_fact, label: item.nom_whse_fact }))}
+                                        placeholder="Sélectionnez un Warehouse facture..."
+                                        optionFilterProp="label"
+                                    />
+                                }
                             </Form.Item>
                         </Col>
 
@@ -184,12 +197,14 @@ const TemplateForm = () => {
                                 name="id_objet_fact"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un objet facture!' }]}
                             >
+                                { isLoading ? <Skeleton.Input active={true} /> : 
                                 <Select
                                     showSearch
                                     options={objet.map(item => ({ value: item.id_objet_fact, label: item.nom_objet_fact }))}
                                     placeholder="Sélectionnez un objet facture..."
                                     optionFilterProp="label"
                                 />
+                                }
                             </Form.Item>
                         </Col>
 
@@ -200,7 +215,9 @@ const TemplateForm = () => {
                                 rules={[{ required: true, message: 'La date active est requise' }]}
                                 initialValue={moment()}
                             >
-                                <DatePicker placeholder="Sélectionnez la date active" style={{ width: '100%' }} />
+                                { isLoading ? <Skeleton.Input active={true} /> : 
+                                    <DatePicker placeholder="Sélectionnez la date active" style={{ width: '100%' }} />
+                                }
                             </Form.Item>
                         </Col>
 
