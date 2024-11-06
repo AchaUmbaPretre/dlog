@@ -216,6 +216,10 @@ function App() {
           element: <TemplateForm/>
         },
         {
+          path: '/liste_declaration',
+          element: <Declaration/>
+        },
+        {
           path: '/declaration_form',
           element: <DeclarationForm/>
         },

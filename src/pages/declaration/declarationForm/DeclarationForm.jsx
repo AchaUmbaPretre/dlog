@@ -5,6 +5,7 @@ import TemplateOne from '../../template/templateOne/TemplateOne';
 import { getObjetFacture, getTemplate, getTemplateOne, postDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -17,7 +18,8 @@ const DeclarationForm = () => {
     const [objet, setObjet] = useState([]);
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
-    const [batiment, setBatiment] = useState([])
+    const [batiment, setBatiment] = useState([]);
+    const navigate = useNavigate();
 
     const fetchDataAll = async () => {
         try {
@@ -80,6 +82,7 @@ const DeclarationForm = () => {
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             form.resetFields();
+            navigate('/liste_declaration')
         } catch (error) {
             console.error("Erreur lors de l'ajout de la déclaration:", error);
             notification.error({
@@ -254,23 +257,23 @@ const DeclarationForm = () => {
                                 </Form.Item>
 
                                 <Form.Item
-                                    name="manutention"
-                                    label="Manutention"
+                                    name="manutation"
+                                    label="Manutation"
                                     rules={[{ required: true, message: "Veuillez entrer la manutention" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Manutention" />
                                 </Form.Item>
 
                                 <Form.Item
-                                    name="tarif_manutention"
-                                    label="Tarif Manutention"
+                                    name="tarif_manutation"
+                                    label="Tarif Manutation"
                                     rules={[{ required: true, message: "Veuillez entrer le tarif de manutention" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Tarif Manutention" />
                                 </Form.Item>
 
                                 <Form.Item
-                                    name="debours_manutention"
+                                    name="debours_manutation"
                                     label="Débours"
                                     rules={[{ required: true, message: "Veuillez entrer les débours" }]}
                                 >
@@ -278,7 +281,7 @@ const DeclarationForm = () => {
                                 </Form.Item>
 
                                 <Form.Item
-                                    name="total_manutention"
+                                    name="total_manutation"
                                     label="Total"
                                     rules={[{ required: true, message: "Veuillez entrer le total" }]}
                                 >
@@ -286,7 +289,7 @@ const DeclarationForm = () => {
                                 </Form.Item>
 
                                 <Form.Item
-                                    name="ttc_manutention"
+                                    name="ttc_manutation"
                                     label="TTC"
                                     rules={[{ required: true, message: "Veuillez entrer le TTC" }]}
                                 >
