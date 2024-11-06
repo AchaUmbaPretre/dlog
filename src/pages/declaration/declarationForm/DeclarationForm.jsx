@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Button, Select, DatePicker, Collapse, notification } from 'antd';
 import './declarationForm.scss';
 import TemplateOne from '../../template/templateOne/TemplateOne';
-import { getTemplate, postDeclaration } from '../../../services/templateService';
+import { getObjetFacture, getTemplate, postDeclaration } from '../../../services/templateService';
+import { getClient, getProvince } from '../../../services/clientService';
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -12,13 +13,23 @@ const DeclarationForm = () => {
     const [templates, setTemplates] = useState([]);
     const [idTemplate, setIdTemplate] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [objet, setObjet] = useState([]);
+    const [province, setProvince] = useState([]);
+    const [client, setClient] = useState([]);
 
     const fetchDataAll = async () => {
         try {
-            const [ templateData] = await Promise.all([
-                getTemplate()
+            const [ templateData, objetData, provinceData, clientData] = await Promise.all([
+                getTemplate(),
+                getObjetFacture(),
+                getProvince(),
+                getClient()
             ])
             setTemplates(templateData.data);
+            setObjet(objetData.data);
+            setProvince(provinceData.data);
+            setClient(clientData.data)
+
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -32,7 +43,6 @@ const DeclarationForm = () => {
     }, []);
 
     const onFinish = async (values) => {
-        console.log(values);
         setIsLoading(true);
 
         try {
@@ -161,7 +171,11 @@ const DeclarationForm = () => {
                                     label="Ville"
                                     rules={[{ required: true, message: "Veuillez entrer l'ID de la ville" }]}
                                 >
-                                    <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Ville" />
+                                    <Select
+                                        showSearch
+                                        options={province.map(item => ({ value: item.id, label: item.name }))}
+                                        placeholder="Sélectionnez..."
+                                    />
                                 </Form.Item>
 
                                 <Form.Item
@@ -169,7 +183,11 @@ const DeclarationForm = () => {
                                     label="Client"
                                     rules={[{ required: true, message: "Veuillez entrer l'ID du client" }]}
                                 >
-                                    <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Client" />
+                                    <Select
+                                        showSearch
+                                        options={client.map(item => ({ value: item.id_client, label: item.nom }))}
+                                        placeholder="Sélectionnez..."
+                                    />
                                 </Form.Item>
 
                                 <Form.Item
@@ -180,13 +198,28 @@ const DeclarationForm = () => {
                                     <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Bâtiment" />
                                 </Form.Item>
 
-                                <Form.Item
+                                <Form.Item 
                                     name="id_objet"
                                     label="Objet"
-                                    rules={[{ required: true, message: "Veuillez entrer l'ID de l'objet" }]}
+                                    rules={[{ required: true, message: "Veuillez sélectionner un objet" }]}
                                 >
-                                    <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Objet" />
+                                    <Select
+                                        showSearch
+                                        placeholder="Sélectionnez un objet"
+                                        options={objet
+                                            .filter(item => item.nom_objet_fact.toLowerCase() !== 'superficie') // Filtre "superficie"
+                                            .map(item => ({
+                                                value: item.id_objet_fact,
+                                                label: item.nom_objet_fact
+                                            }))
+                                        }
+                                        optionFilterProp="label"
+                                        filterOption={(input, option) => 
+                                            option.label.toLowerCase().includes(input.toLowerCase())
+                                        }
+                                    />
                                 </Form.Item>
+
 
                                 <Form.Item
                                     name="manutention"
