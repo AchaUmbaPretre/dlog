@@ -112,58 +112,78 @@ const Declaration = () => {
                 : 'Aucun';
     
             return (
-                <Tag color="blue">{formattedDate}</Tag>
+                <Tag icon={<CalendarOutlined />} color='purple'>{formattedDate}</Tag>
             );
         },
     },    
     {
+      title: 'M² occupe',
+      dataIndex: 'm2_occupe',
+      key: 'm2_occupe',
+      render: (text) => (
+        <Tag color="blue">{text ?? 'Aucun'}</Tag>
+      ),
+    },
+    {
+      title: 'M2 facture',
+      dataIndex: 'm2_facture',
+      key: 'm2_facture',
+      render: (text) => (
+        <Tag color="blue">{text ?? 'Aucun'}</Tag>
+      ),
+    },
+    {
+      title: 'Tarif Entr',
+      dataIndex: 'tarif_entreposage',
+      key: 'tarif_entreposage',
+      render: (text) => (
+        <Tag color="blue">{text ?? 'Aucun'}</Tag>
+      ),
+    },
+    {
+        title: 'debours entr',
+        dataIndex: 'debours_entreposage',
+        key: 'debours_entreposage',
+        render: (text) => (
+          <Tag color="blue">{text ?? 'Aucun'}</Tag>
+        ),
+      },
+      {
+        title: 'Total entr',
+        dataIndex: 'total_entreposage',
+        key: 'total_entreposage',
+        render: (text) => (
+          <Tag color="blue">{text ?? 'Aucun'}</Tag>
+        ),
+      },
+      {
+        title: 'TTC Entr',
+        dataIndex: 'ttc_entreposage',
+        key: 'ttc_entreposage',
+        render: (text) => (
+          <Tag color="blue">{text ?? 'Aucun'}</Tag>
+        ),
+      },
+      {
+        title: 'ville',
+        dataIndex: 'name',
+        key: 'name',
+        render: (text) => (
+          <Tag color="blue">{text ?? 'Aucun'}</Tag>
+        ),
+      },
+    {
       title: 'Client',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
-      render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    {
-      title: 'Type occu',
-      dataIndex: 'nom_type_d_occupation',
-      key: 'nom_type_d_occupation',
-      render: (text) => (
-        <Tag color="blue">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    {
-      title: 'Batiment',
-      dataIndex: 'nom_batiment',
-      key: 'nom_batiment',
-      render: (text) => (
-        <Tag color="blue">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    {
-      title: 'Niveau',
-      dataIndex: 'nom_niveau',
-      key: 'nom_niveau',
-      render: (text) => (
-        <> 
-          <Tag color='cyan'>
-            {text ?? 'Aucune'}
-          </Tag>
-        </>
-      ),
-    },
-    {
-      title: 'Dénomination',
-      dataIndex: 'nom_denomination_bat',
-      key: 'nom_denomination_bat',
+      dataIndex: 'nom',
+      key: 'nom',
       render: (text) => (
         <Tag>{text}</Tag>
       ),
     },
     {
-        title: 'Whse fact',
-        dataIndex: 'nom_whse_fact',
-        key: 'nom_whse_fact',
+        title: 'Batiment',
+        dataIndex: 'nom_batiment',
+        key: 'nom_batiment',
         render: (text) => (
           <Tag>{text}</Tag>
         ),
@@ -176,27 +196,46 @@ const Declaration = () => {
           <Tag>{text}</Tag>
         ),
       },
-      { 
-        title: 'Date active', 
-        dataIndex: 'date_actif', 
-        key: 'date_actif',
-        sorter: (a, b) => moment(a.date_actif).unix() - moment(b.date_actif).unix(), // tri par date
-        render: text => (
-          <Tag icon={<CalendarOutlined />} color='purple'>{moment(text).format('LL')}</Tag>
+      {
+        title: 'Manutention',
+        dataIndex: 'manutation',
+        key: 'manutation',
+        render: (text) => (
+          <Tag color="blue">{text ?? 'Aucun'}</Tag>
         ),
       },
       {
-        title: 'Statut',
-        dataIndex: 'nom_niveau',
-        key: 'nom_niveau',
+        title: 'Tarif manu',
+        dataIndex: 'tarif_manutation',
+        key: 'tarif_manutation',
         render: (text) => (
-          <> 
-            <Tag color='cyan'>
-              {text ?? 'Aucune'}
-            </Tag>
-          </>
+          <Tag color="blue">{text ?? 'Aucun'}</Tag>
         ),
-      }
+      },
+      {
+          title: 'debours manu',
+          dataIndex: 'debours_manutation',
+          key: 'debours_manutation',
+          render: (text) => (
+            <Tag color="blue">{text ?? 'Aucun'}</Tag>
+          ),
+        },
+        {
+          title: 'Total Manu',
+          dataIndex: 'total_manutation',
+          key: 'total_manutation',
+          render: (text) => (
+            <Tag color="blue">{text ?? 'Aucun'}</Tag>
+          ),
+        },
+        {
+          title: 'TTC Manu',
+          dataIndex: 'ttc_manutation',
+          key: 'ttc_manutation',
+          render: (text) => (
+            <Tag color="blue">{text ?? 'Aucun'}</Tag>
+          ),
+        }
   ]
 
   return (
