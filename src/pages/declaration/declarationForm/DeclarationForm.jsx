@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Button, Select, DatePicker, Collapse, notification } from 'antd';
 import './declarationForm.scss';
 import TemplateOne from '../../template/templateOne/TemplateOne';
-import { getObjetFacture, getTemplate, postDeclaration } from '../../../services/templateService';
+import { getObjetFacture, getTemplate, getTemplateOne, postDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 
@@ -33,6 +33,10 @@ const DeclarationForm = () => {
             setProvince(provinceData.data);
             setClient(clientData.data);
             setBatiment(batimentData.data)
+
+            if(idTemplate) {
+                getTemplateOne(idTemplate)
+            }
 
         } catch (error) {
             notification.error({
