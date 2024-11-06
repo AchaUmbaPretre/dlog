@@ -94,6 +94,29 @@ const Declaration = () => {
       width: "3%",
     },
     {
+        title: 'Template',
+        dataIndex: 'desc_template',
+        key: 'desc_template',
+        render: (text) => (
+          <Tag  color="blue">{text ?? 'Aucun'}</Tag>
+        ),
+      },
+      {
+        title: 'Periode',
+        dataIndex: 'periode',
+        key: 'periode',
+        render: (text) => {
+            const date = text ? new Date(text) : null;
+                        const formattedDate = date 
+                ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
+                : 'Aucun';
+    
+            return (
+                <Tag color="blue">{formattedDate}</Tag>
+            );
+        },
+    },    
+    {
       title: 'Client',
       dataIndex: 'nom_client',
       key: 'nom_client',
