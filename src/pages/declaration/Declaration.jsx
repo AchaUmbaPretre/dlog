@@ -3,6 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Pop
 import { ExportOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getDeclaration, getTemplate } from '../../services/templateService';
 import moment from 'moment';
+import DeclarationForm from './declarationForm/DeclarationForm';
 
 const { Search } = Input;
 
@@ -195,7 +196,7 @@ const Declaration = () => {
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddTemplate}
               >
-                Ajouter un template
+                Ajouter une déclaration
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
@@ -226,11 +227,11 @@ const Declaration = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={1200}
         centered
       >
-{/*         <TemplateForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchData} />
- */}      </Modal>
+         <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+     </Modal>
     </>
   );
 };

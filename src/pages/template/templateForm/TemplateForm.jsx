@@ -5,6 +5,7 @@ import { getObjetFacture, getTypeOccupation, postTemplate } from '../../../servi
 import { getBatiment } from '../../../services/typeService';
 import { getDenominationOne, getNiveauOne, getWHSEFACTOne } from '../../../services/batimentService';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const TemplateForm = () => {
     const [form] = Form.useForm();
@@ -17,6 +18,7 @@ const TemplateForm = () => {
     const [denomination, setDenomination] = useState([]);
     const [whse_fact, setWhse_fact] = useState([]);
     const [objet, setObjet] = useState([]);
+    const navigate = useNavigate();
 
     // Fetch data from multiple services
     const fetchDataAll = async () => {
@@ -69,6 +71,7 @@ const TemplateForm = () => {
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             form.resetFields();
+            navigate('/liste_template')
         } catch (error) {
             console.log(error)
         } finally {
