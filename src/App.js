@@ -45,6 +45,9 @@ import TemplateForm from './pages/template/templateForm/TemplateForm';
 import Template from './pages/template/Template';
 import DeclarationForm from './pages/declaration/declarationForm/DeclarationForm';
 import Declaration from './pages/declaration/Declaration';
+import Niveau from './pages/batiment/niveau/Niveau';
+import Denomination from './pages/batiment/denomination/Denomination';
+import WhseFact from './pages/batiment/whseFact/WhseFact';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -206,6 +209,18 @@ function App() {
         {
           path: '/corpsMetier',
           element: <CorpsMetier/>
+        },
+        {
+          path: '/niveau',
+          element: <Niveau/>
+        },
+        {
+          path: '/denomination',
+          element: <Denomination/>
+        },
+        {
+          path: '/whseFact',
+          element: <WhseFact/>
         },
         {
           path: '/liste_template',
