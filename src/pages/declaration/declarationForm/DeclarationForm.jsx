@@ -4,6 +4,7 @@ import './declarationForm.scss';
 import TemplateOne from '../../template/templateOne/TemplateOne';
 import { getObjetFacture, getTemplate, postDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
+import { getBatiment } from '../../../services/typeService';
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -16,19 +17,22 @@ const DeclarationForm = () => {
     const [objet, setObjet] = useState([]);
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
+    const [batiment, setBatiment] = useState([])
 
     const fetchDataAll = async () => {
         try {
-            const [ templateData, objetData, provinceData, clientData] = await Promise.all([
+            const [ templateData, objetData, provinceData, clientData, batimentData] = await Promise.all([
                 getTemplate(),
                 getObjetFacture(),
                 getProvince(),
-                getClient()
+                getClient(),
+                getBatiment()
             ])
             setTemplates(templateData.data);
             setObjet(objetData.data);
             setProvince(provinceData.data);
-            setClient(clientData.data)
+            setClient(clientData.data);
+            setBatiment(batimentData.data)
 
         } catch (error) {
             notification.error({
@@ -187,6 +191,7 @@ const DeclarationForm = () => {
                                         showSearch
                                         options={client.map(item => ({ value: item.id_client, label: item.nom }))}
                                         placeholder="Sélectionnez..."
+                                        optionFilterProp="label"
                                     />
                                 </Form.Item>
 
@@ -195,7 +200,11 @@ const DeclarationForm = () => {
                                     label="Bâtiment"
                                     rules={[{ required: true, message: "Veuillez entrer l'ID du bâtiment" }]}
                                 >
-                                    <InputNumber min={1} style={{ width: '100%' }} placeholder="ID Bâtiment" />
+                                    <Select
+                                        showSearch
+                                        options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
+                                        placeholder="Sélectionnez..."
+                                    />
                                 </Form.Item>
 
                                 <Form.Item 
@@ -219,7 +228,6 @@ const DeclarationForm = () => {
                                         }
                                     />
                                 </Form.Item>
-
 
                                 <Form.Item
                                     name="manutention"
