@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,CalendarOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getDeclaration, getTemplate } from '../../services/templateService';
 import moment from 'moment';
 import DeclarationForm from './declarationForm/DeclarationForm';
@@ -86,157 +86,158 @@ const Declaration = () => {
   );
 
   const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
-    },
-    {
-        title: 'Template',
-        dataIndex: 'desc_template',
-        key: 'desc_template',
+      {
+        title: '#',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index) => index + 1,
+        width: "3%",
+      },
+      {
+          title: 'Template',
+          dataIndex: 'desc_template',
+          key: 'desc_template',
+          render: (text) => (
+            <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
+          ),
+      },
+      {
+          title: 'Periode',
+          dataIndex: 'periode',
+          key: 'periode',
+          render: (text) => {
+              const date = text ? new Date(text) : null;
+              const formattedDate = date 
+                  ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
+                  : 'Aucun';
+      
+              return (
+                  <Tag icon={<CalendarOutlined />} color="purple">{formattedDate}</Tag>
+              );
+          },
+      },
+      {
+        title: 'M² occupe',
+        dataIndex: 'm2_occupe',
+        key: 'm2_occupe',
         render: (text) => (
-          <Tag  color="blue">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
         ),
       },
       {
-        title: 'Periode',
-        dataIndex: 'periode',
-        key: 'periode',
-        render: (text) => {
-            const date = text ? new Date(text) : null;
-                        const formattedDate = date 
-                ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
-                : 'Aucun';
-    
-            return (
-                <Tag icon={<CalendarOutlined />} color='purple'>{formattedDate}</Tag>
-            );
-        },
-    },    
-    {
-      title: 'M² occupe',
-      dataIndex: 'm2_occupe',
-      key: 'm2_occupe',
-      render: (text) => (
-        <Tag color="blue">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    {
-      title: 'M2 facture',
-      dataIndex: 'm2_facture',
-      key: 'm2_facture',
-      render: (text) => (
-        <Tag color="blue">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    {
-      title: 'Tarif Entr',
-      dataIndex: 'tarif_entreposage',
-      key: 'tarif_entreposage',
-      render: (text) => (
-        <Tag color="blue">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    {
-        title: 'debours entr',
-        dataIndex: 'debours_entreposage',
-        key: 'debours_entreposage',
+        title: 'M² facture',
+        dataIndex: 'm2_facture',
+        key: 'm2_facture',
         render: (text) => (
-          <Tag color="blue">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
         ),
       },
       {
-        title: 'Total entr',
-        dataIndex: 'total_entreposage',
-        key: 'total_entreposage',
+        title: 'Tarif Entr',
+        dataIndex: 'tarif_entreposage',
+        key: 'tarif_entreposage',
         render: (text) => (
-          <Tag color="blue">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
         ),
       },
       {
-        title: 'TTC Entr',
-        dataIndex: 'ttc_entreposage',
-        key: 'ttc_entreposage',
+          title: 'Debours Entr',
+          dataIndex: 'debours_entreposage',
+          key: 'debours_entreposage',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          ),
+      },
+      {
+          title: 'Total Entr',
+          dataIndex: 'total_entreposage',
+          key: 'total_entreposage',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+          ),
+      },
+      {
+          title: 'TTC Entr',
+          dataIndex: 'ttc_entreposage',
+          key: 'ttc_entreposage',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+          ),
+      },
+      {
+          title: 'Ville',
+          dataIndex: 'name',
+          key: 'name',
+          render: (text) => (
+            <Tag icon={<EnvironmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+          ),
+      },
+      {
+        title: 'Client',
+        dataIndex: 'nom',
+        key: 'nom',
         render: (text) => (
-          <Tag color="blue">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<UserOutlined />} color="orange">{text ?? 'Aucun'}</Tag>
         ),
       },
       {
-        title: 'ville',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text) => (
-          <Tag color="blue">{text ?? 'Aucun'}</Tag>
-        ),
-      },
-    {
-      title: 'Client',
-      dataIndex: 'nom',
-      key: 'nom',
-      render: (text) => (
-        <Tag>{text}</Tag>
-      ),
-    },
-    {
-        title: 'Batiment',
-        dataIndex: 'nom_batiment',
-        key: 'nom_batiment',
-        render: (text) => (
-          <Tag>{text}</Tag>
-        ),
+          title: 'Bâtiment',
+          dataIndex: 'nom_batiment',
+          key: 'nom_batiment',
+          render: (text) => (
+            <Tag icon={<HomeOutlined />} color="purple">{text ?? 'Aucun'}</Tag>
+          ),
       },
       {
-        title: 'Objet fact',
-        dataIndex: 'nom_objet_fact',
-        key: 'nom_objet_fact',
-        render: (text) => (
-          <Tag>{text}</Tag>
-        ),
+          title: 'Objet fact',
+          dataIndex: 'nom_objet_fact',
+          key: 'nom_objet_fact',
+          render: (text) => (
+            <Tag icon={<FileTextOutlined />} color="magenta">{text ?? 'Aucun'}</Tag>
+          ),
       },
       {
-        title: 'Manutention',
-        dataIndex: 'manutation',
-        key: 'manutation',
-        render: (text) => (
-          <Tag color="blue">{text ?? 'Aucun'}</Tag>
-        ),
+          title: 'Manutention',
+          dataIndex: 'manutation',
+          key: 'manutation',
+          render: (text) => (
+            <Tag icon={<ToolOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          ),
       },
       {
-        title: 'Tarif manu',
-        dataIndex: 'tarif_manutation',
-        key: 'tarif_manutation',
-        render: (text) => (
-          <Tag color="blue">{text ?? 'Aucun'}</Tag>
-        ),
+          title: 'Tarif Manu',
+          dataIndex: 'tarif_manutation',
+          key: 'tarif_manutation',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          ),
       },
       {
-          title: 'debours manu',
+          title: 'Debours Manu',
           dataIndex: 'debours_manutation',
           key: 'debours_manutation',
           render: (text) => (
-            <Tag color="blue">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
           ),
-        },
-        {
+      },
+      {
           title: 'Total Manu',
           dataIndex: 'total_manutation',
           key: 'total_manutation',
           render: (text) => (
-            <Tag color="blue">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
           ),
-        },
-        {
+      },
+      {
           title: 'TTC Manu',
           dataIndex: 'ttc_manutation',
           key: 'ttc_manutation',
           render: (text) => (
-            <Tag color="blue">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
           ),
-        }
-  ]
+      },
+  ];
+  
 
   return (
     <>
