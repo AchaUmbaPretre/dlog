@@ -235,11 +235,15 @@ const TemplateForm = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    
+                
                     <Form.Item>
+                    {
+                        isLoading ? <Skeleton.Input active={true} /> : 
                         <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
                             Enregistrer
                         </Button>
+                    }
+    
                     </Form.Item>
                 </Form>
             </div>
