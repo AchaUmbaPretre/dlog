@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, notification, Tag } from 'antd';
-import { CalendarOutlined, UserOutlined } from '@ant-design/icons';
+import { CalendarOutlined, UserOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getTemplate5derniers, getTemplateOne } from '../../../services/templateService';
 import './templateOne.scss';
@@ -70,6 +70,18 @@ const TemplateOne = ({ idTemplate }) => {
     { title: 'Type', dataIndex: 'nom_type_d_occupation', key: 'nom_type_d_occupation', render: (text) => <Tag color="blue">{text ?? 'Aucun'}</Tag> },
     { title: 'Bâtiment', dataIndex: 'nom_batiment', key: 'nom_batiment', render: (text) => <Tag color="blue">{text ?? 'Aucun'}</Tag> },
     { title: 'Niveau', dataIndex: 'nom_niveau', key: 'nom_niveau', render: (text) => <Tag color="cyan">{text ?? 'Aucune'}</Tag> },
+    {
+        title: 'Statut',
+        dataIndex: 'id_statut_template',
+        key: 'id_statut_template',
+        render: (text) => (
+          text === 1 ? (
+            <Tag color="green" icon={<CheckCircleOutlined />}>Activé</Tag>
+          ) : (
+            <Tag color="red" icon={<CloseCircleOutlined />}>Désactivé</Tag>
+          )
+        ),
+      },
     { title: 'Dénomination', dataIndex: 'nom_denomination_bat', key: 'nom_denomination_bat', render: (text) => <Tag>{text}</Tag> },
     { title: 'fact', dataIndex: 'nom_whse_fact', key: 'nom_whse_fact', render: (text) => <Tag>{text}</Tag> },
     { title: 'Objet', dataIndex: 'nom_objet_fact', key: 'nom_objet_fact', render: (text) => <Tag>{text}</Tag> },
@@ -79,12 +91,6 @@ const TemplateOne = ({ idTemplate }) => {
       key: 'date_actif',
       sorter: (a, b) => moment(a.date_actif).unix() - moment(b.date_actif).unix(),
       render: text => <Tag icon={<CalendarOutlined />} color="purple">{moment(text).format('LL')}</Tag>,
-    },
-    {
-      title: 'Statut',
-      dataIndex: 'nom_niveau',
-      key: 'nom_niveau',
-      render: (text) => <Tag color="cyan">{text ?? 'Aucune'}</Tag>,
     }
   ];
 
