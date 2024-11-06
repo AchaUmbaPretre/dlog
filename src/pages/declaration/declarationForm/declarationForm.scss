@@ -1,11 +1,12 @@
 .declarationForm{
     width: 100%;
-    background: #fff;
     padding: 20px;
+    background: #fff;
+    border-radius: 5px;
     .declaration-wrapper{
         width: 100%;
         display: flex;
-        gap: 20px;
+        gap: 25px;
         .declaration-left{
             flex: 1;
         }

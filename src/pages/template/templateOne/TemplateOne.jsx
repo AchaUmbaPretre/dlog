@@ -56,17 +56,17 @@ const TemplateOne = ({ idTemplate }) => {
     { title: 'Bâtiment', dataIndex: 'nom_batiment', key: 'nom_batiment', render: (text) => <Tag color="blue">{text ?? 'Aucun'}</Tag> },
     { title: 'Niveau', dataIndex: 'nom_niveau', key: 'nom_niveau', render: (text) => <Tag color="cyan">{text ?? 'Aucune'}</Tag> },
     {
-        title: 'Statut',
-        dataIndex: 'id_statut_template',
-        key: 'id_statut_template',
-        render: (text) => (
-          text === 1 ? (
-            <Tag color="green" icon={<CheckCircleOutlined />}>Activé</Tag>
-          ) : (
-            <Tag color="red" icon={<CloseCircleOutlined />}>Désactivé</Tag>
-          )
-        ),
-      },
+      title: 'Statut',
+      dataIndex: 'id_statut_template',
+      key: 'id_statut_template',
+      render: (text) => (
+        text === 1 ? (
+          <Tag color="green" icon={<CheckCircleOutlined />}>Activé</Tag>
+        ) : (
+          <Tag color="red" icon={<CloseCircleOutlined />}>Désactivé</Tag>
+        )
+      ),
+    },
     { title: 'Dénomination', dataIndex: 'nom_denomination_bat', key: 'nom_denomination_bat', render: (text) => <Tag>{text}</Tag> },
     { title: 'fact', dataIndex: 'nom_whse_fact', key: 'nom_whse_fact', render: (text) => <Tag>{text}</Tag> },
     { title: 'Objet', dataIndex: 'nom_objet_fact', key: 'nom_objet_fact', render: (text) => <Tag>{text}</Tag> },
@@ -81,28 +81,35 @@ const TemplateOne = ({ idTemplate }) => {
 
   return (
     <div className="client">
-      <div className="client-wrapper">
-        <h2 className='client_h2'>5 derniers templates</h2>
-        <Table
-          columns={columns}
-          dataSource={dernier}
-          loading={loading}
-          pagination={{ pageSize: 5 }}
-          rowKey="id"
-          bordered
-          size="middle"
-          scroll={scroll}
-        />
-        <Table
-          columns={columns}
-          dataSource={data}
-          loading={loading}
-          pagination={{ pageSize: 10 }}
-          rowKey="id"
-          bordered
-          size="middle"
-          scroll={scroll}
-        />
+      <div className="row">
+        <div className="column table-container">
+          <h2 className='table-title'>5 derniers templates</h2>
+          <Table
+            columns={columns}
+            dataSource={dernier}
+            loading={loading}
+            pagination={{ pageSize: 5 }}
+            rowKey="id"
+            bordered
+            size="middle"
+            scroll={scroll}
+          />
+        </div>
+        { idTemplate && 
+        <div className="column table-container">
+          <h2 className='table-title'>Détails du Template</h2>
+          <Table
+            columns={columns}
+            dataSource={data}
+            loading={loading}
+            pagination={{ pageSize: 10 }}
+            rowKey="id"
+            bordered
+            size="middle"
+            scroll={scroll}
+          />
+        </div>
+        }   
       </div>
     </div>
   );

@@ -34,10 +34,6 @@ const DeclarationForm = () => {
             setClient(clientData.data);
             setBatiment(batimentData.data)
 
-            if(idTemplate) {
-                getTemplateOne(idTemplate)
-            }
-
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -49,6 +45,30 @@ const DeclarationForm = () => {
     useEffect(() => {
         fetchDataAll()
     }, []);
+
+    const handleTemplateChange = async () => {
+        try {
+            const { data} = await getTemplateOne(idTemplate);
+            const { id_client, id_batiment, id_ville } = data[0];
+    
+            console.log("Données du template sélectionné:", id_client, id_batiment, id_ville);
+    
+            form.setFieldsValue({
+                id_client,
+                id_batiment,
+                id_ville
+            });
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement du template',
+                description: 'Impossible de charger les informations du template sélectionné.',
+            });
+        }
+    };
+    
+    useEffect(() => {
+        handleTemplateChange()
+    }, [idTemplate]);
 
     const onFinish = async (values) => {
         setIsLoading(true);
@@ -84,7 +104,7 @@ const DeclarationForm = () => {
                         <Collapse defaultActiveKey={['1', '2']} accordion>
                             <Panel header="Section Entreposage" key="1">
                                 <Form.Item
-                                    name="id_template_occu"
+                                    name="id_template"
                                     label="Template"
                                     rules={[{ required: true, message: "Veuillez entrer l'ID Template Occupé" }]}
                                 >
