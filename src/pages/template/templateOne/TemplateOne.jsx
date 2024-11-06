@@ -44,21 +44,6 @@ const TemplateOne = ({ idTemplate }) => {
     fetchData5derniers();
   }, [idTemplate]);
 
-  const handleDelete = async (id) => {
-    try {
-      setData(data.filter((item) => item.id_client !== id));
-      notification.success({
-        message: 'Suppression réussie',
-        description: 'Le client a été supprimé avec succès.',
-      });
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
-  };
-
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (_, __, index) => index + 1, width: "5%" },
     {

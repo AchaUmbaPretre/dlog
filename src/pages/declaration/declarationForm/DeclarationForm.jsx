@@ -13,10 +13,12 @@ const DeclarationForm = () => {
     const [idTemplate, setIdTemplate] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const fetchData = async () => {
+    const fetchDataAll = async () => {
         try {
-            const { data } = await getTemplate();
-            setTemplates(data);
+            const [ templateData] = await Promise.all([
+                getTemplate()
+            ])
+            setTemplates(templateData.data);
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -26,7 +28,7 @@ const DeclarationForm = () => {
     };
 
     useEffect(() => {
-        fetchData();
+        fetchDataAll()
     }, []);
 
     const onFinish = async (values) => {
