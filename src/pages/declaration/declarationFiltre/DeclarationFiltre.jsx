@@ -3,8 +3,8 @@ import { Select, DatePicker, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { getClient, getProvince } from '../../../services/clientService';
-import { getBatiment, getTypes } from '../../../services/typeService';
-import { getPriorityIcon } from '../../../utils/prioriteIcons';
+import { getBatiment } from '../../../services/typeService';
+import dayjs from 'dayjs';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -12,22 +12,23 @@ const { RangePicker } = DatePicker;
 const DeclarationFiltre = ({ onFilter }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
-    const [dateRange, setDateRange] = useState([]);
     const [batiment, setBatiment] = useState([]);
-    const [selectedDepartement, setSelectedDepartement] = useState('');
-    const [selectedClients, setSelectedClients] = useState('');
-    const [selectedStatut, setSelectedStatut] = useState('');
-    const [selectedPriorite, setSelectedPriorite] = useState('');
-    const [selectedOwners, setSelectedOwners] = useState('');
+    const [selectedVille, setSelectedVille] = useState([]);
+    const [selectedClients, setSelectedClients] = useState([]);
+    const [selectedBatiment, setSelectedBatiment] = useState([]);
+    const [selectedPeriods, setSelectedPeriods] = useState([]);
 
-    const handleFilter = async () => {
+    const handleFilter = () => {
+        const formattedPeriods = selectedPeriods.map(date => ({
+            month: dayjs(date).format('MM'),
+            year: dayjs(date).format('YYYY')
+        }));
+        
         onFilter({
-            departement: selectedDepartement,
+            ville: selectedVille,
             client: selectedClients,
-            statut: selectedStatut,
-            priorite: selectedPriorite,
-            dateRange,
-            owners: selectedOwners,
+            batiment: selectedBatiment,
+            periods: formattedPeriods        
         });
     };
 
@@ -42,7 +43,7 @@ const DeclarationFiltre = ({ onFilter }) => {
 
                 setBatiment(batimentData.data);
                 setClient(clientData.data);
-                setProvince(provinceData.data)
+                setProvince(provinceData.data);
             } catch (error) {
                 console.error(error);
             }
@@ -52,7 +53,7 @@ const DeclarationFiltre = ({ onFilter }) => {
     }, []);
 
     return (
-        <div className="filterTache" style={{margin:'10px 0'}}>
+        <div className="filterTache" style={{ margin: '10px 0' }}>
             <div className="filter_row">
                 <label>Ville :</label>
                 <Select
@@ -63,9 +64,9 @@ const DeclarationFiltre = ({ onFilter }) => {
                         value: item.id,
                         label: item.name,
                     }))}
-                    placeholder="Sélectionnez ..."
+                    placeholder="Sélectionnez..."
                     optionFilterProp="label"
-                    onChange={setSelectedDepartement}
+                    onChange={setSelectedVille}
                 />
             </div>
             <div className="filter_row">
@@ -84,7 +85,7 @@ const DeclarationFiltre = ({ onFilter }) => {
                 />
             </div>
             <div className="filter_row">
-                <label>Batiment :</label>
+                <label>Bâtiment :</label>
                 <Select
                     mode="multiple"
                     style={{ width: '100%' }}
@@ -93,19 +94,20 @@ const DeclarationFiltre = ({ onFilter }) => {
                         value: item.id_batiment,
                         label: item.nom_batiment,
                     }))}
-                    placeholder="Sélectionnez un client..."
+                    placeholder="Sélectionnez un bâtiment..."
                     optionFilterProp="label"
-                    onChange={setSelectedClients} // Met à jour les clients sélectionnés
+                    onChange={setSelectedBatiment}
                 />
             </div>
 
             <div className="filter_row">
-                <label>Periode :</label>
+                <label>Périodes :</label>
                 <DatePicker
                     picker="month"
-                    placeholder="Sélectionnez le mois"
-                    format="YYYY-MM-DD"
+                    mode="multiple"
                     style={{ width: '100%' }}
+                    placeholder="Sélectionnez les mois..."
+                    onChange={setSelectedPeriods}
                 />
             </div>
             <Button type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
