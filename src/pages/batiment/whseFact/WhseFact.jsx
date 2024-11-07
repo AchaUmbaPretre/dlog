@@ -93,7 +93,7 @@ const WhseFact = () => {
       dataIndex: 'nom_whse_fact',
       key: 'nom_whse_fact',
       render: (text) => (
-        <Tag color="blue">{`${text}` ?? 'Aucun'}</Tag>
+        <Tag icon={<DollarOutlined />} color="blue">{`${text}` ?? 'Aucun'}</Tag>
       ),
     }
   ]
