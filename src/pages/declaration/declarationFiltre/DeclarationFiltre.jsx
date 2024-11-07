@@ -104,7 +104,7 @@ const DeclarationFiltre = ({ onFilter }) => {
                 <label>Périodes :</label>
                 <DatePicker
                     picker="month"
-                    mode="multiple"
+                    format="YYYY-MM-DD"
                     style={{ width: '100%' }}
                     placeholder="Sélectionnez les mois..."
                     onChange={setSelectedPeriods}
