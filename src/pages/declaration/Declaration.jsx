@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { MenuOutlined,CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
-import { getDeclaration, getTemplate } from '../../services/templateService';
-import moment from 'moment';
+import { getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
 
 const { Search } = Input;
@@ -29,6 +28,7 @@ const Declaration = () => {
     "Total Manu": true,
     "TTC Manu": true
   });
+  const [filterVisible, setFilterVisible] = useState(false);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
   const [idClient, setidClient] = useState('');
@@ -48,6 +48,11 @@ const Declaration = () => {
         setLoading(false);
       }
     };
+
+    const handFilter = () => {
+      fetchData()
+      setFilterVisible(!filterVisible)
+    }
 
   useEffect(() => {
     fetchData();
@@ -122,6 +127,8 @@ const Declaration = () => {
         key: 'id',
         render: (text, record, index) => index + 1,
         width: "3%",
+        ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Template',
@@ -130,6 +137,8 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Periode',
@@ -145,6 +154,8 @@ const Declaration = () => {
                   <Tag icon={<CalendarOutlined />} color="purple">{formattedDate}</Tag>
               );
           },
+          ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
+
       },
       {
         title: 'M² occupe',
@@ -153,6 +164,8 @@ const Declaration = () => {
         render: (text) => (
           <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
         ),
+        ...(columnsVisibility['M² occupe'] ? {} : { className: 'hidden-column' }),
+
       },
       {
         title: 'M² facture',
@@ -161,6 +174,8 @@ const Declaration = () => {
         render: (text) => (
           <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
         ),
+        ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
+
       },
       {
         title: 'Tarif Entr',
@@ -169,6 +184,8 @@ const Declaration = () => {
         render: (text) => (
           <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
         ),
+        ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Debours Entr',
@@ -177,6 +194,8 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Debours Entr'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Total Entr',
@@ -185,6 +204,8 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'TTC Entr',
@@ -193,6 +214,8 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Ville',
@@ -201,6 +224,8 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<EnvironmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Ville'] ? {} : { className: 'hidden-column' }),
+
       },
       {
         title: 'Client',
@@ -209,6 +234,8 @@ const Declaration = () => {
         render: (text) => (
           <Tag icon={<UserOutlined />} color="orange">{text ?? 'Aucun'}</Tag>
         ),
+        ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Bâtiment',
@@ -217,6 +244,8 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<HomeOutlined />} color="purple">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Bâtiment'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Objet fact',
@@ -225,6 +254,8 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<FileTextOutlined />} color="magenta">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Objet fact'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Manutention',
@@ -233,6 +264,8 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<ToolOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Manutention'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Tarif Manu',
@@ -241,6 +274,8 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
+
       },
       {
           title: 'Debours Manu',
@@ -249,6 +284,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Debours Manu'] ? {} : { className: 'hidden-column' }),
       },
       {
           title: 'Total Manu',
@@ -257,6 +293,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
       },
       {
           title: 'TTC Manu',
@@ -265,6 +302,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
           ),
+          ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
       },
   ];
   
@@ -289,6 +327,12 @@ const Declaration = () => {
                 onClick={handleAddTemplate}
               >
                 Ajouter une déclaration
+              </Button>
+              <Button
+                    type="default"
+                    onClick={handFilter}
+                  >
+                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
               </Button>
               <Dropdown overlay={menus} trigger={['click']}>
                 <Button icon={<MenuOutlined />} className="ant-dropdown-link">
