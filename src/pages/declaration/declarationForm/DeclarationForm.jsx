@@ -127,7 +127,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                     <DatePicker
                                         picker="month"
                                         placeholder="Sélectionnez le mois"
-                                        format="YYYY-MM-DD" // Adjust according to your backend requirements
+                                        format="YYYY-MM-DD"
                                         style={{ width: '100%' }}
                                     />
                                 </Form.Item>
@@ -135,7 +135,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="m2_occupe"
                                     label="M² Occupé"
-                                    rules={[{ required: true, message: "Veuillez entrer la superficie occupée" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer la superficie occupée" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Occupé" />
                                 </Form.Item>
@@ -143,7 +143,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="m2_facture"
                                     label="M² Facturé"
-                                    rules={[{ required: true, message: "Veuillez entrer la superficie facturée" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer la superficie facturée" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Facturé" />
                                 </Form.Item>
@@ -151,7 +151,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="tarif_entreposage"
                                     label="Tarif Entreposage"
-                                    rules={[{ required: true, message: "Veuillez entrer le tarif d'entreposage" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer le tarif d'entreposage" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Tarif Entreposage" />
                                 </Form.Item>
@@ -159,7 +159,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="entreposage"
                                     label="Entreposage"
-                                    rules={[{ required: true, message: "Veuillez entrer l'Entreposage" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer l'Entreposage" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Entreposage" />
                                 </Form.Item>
@@ -167,7 +167,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="debours_entreposage"
                                     label="Débours"
-                                    rules={[{ required: true, message: "Veuillez entrer les débours" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer les débours" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" />
                                 </Form.Item>
@@ -175,7 +175,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="total_entreposage"
                                     label="Total"
-                                    rules={[{ required: true, message: "Veuillez entrer le total" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer le total" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
                                 </Form.Item>
@@ -183,7 +183,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="ttc_entreposage"
                                     label="TTC"
-                                    rules={[{ required: true, message: "Veuillez entrer le TTC" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer le TTC" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="TTC" />
                                 </Form.Item>
@@ -212,7 +212,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="id_client"
                                     label="Client"
-                                    rules={[{ required: true, message: "Veuillez entrer l'ID du client" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer l'ID du client" }]}
                                 >
                                     <Select
                                         showSearch
@@ -225,7 +225,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="id_batiment"
                                     label="Bâtiment"
-                                    rules={[{ required: true, message: "Veuillez entrer l'ID du bâtiment" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer l'ID du bâtiment" }]}
                                 >
                                     <Select
                                         showSearch
@@ -237,7 +237,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item 
                                     name="id_objet"
                                     label="Objet"
-                                    rules={[{ required: true, message: "Veuillez sélectionner un objet" }]}
+                                    rules={[{ required: false, message: "Veuillez sélectionner un objet" }]}
                                 >
                                     <Select
                                         showSearch
@@ -259,7 +259,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="manutation"
                                     label="Manutation"
-                                    rules={[{ required: true, message: "Veuillez entrer la manutention" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer la manutention" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Manutention" />
                                 </Form.Item>
@@ -267,7 +267,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="tarif_manutation"
                                     label="Tarif Manutation"
-                                    rules={[{ required: true, message: "Veuillez entrer le tarif de manutention" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer le tarif de manutention" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Tarif Manutention" />
                                 </Form.Item>
@@ -275,7 +275,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="debours_manutation"
                                     label="Débours"
-                                    rules={[{ required: true, message: "Veuillez entrer les débours" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer les débours" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" />
                                 </Form.Item>
@@ -283,7 +283,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="total_manutation"
                                     label="Total"
-                                    rules={[{ required: true, message: "Veuillez entrer le total" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer le total" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
                                 </Form.Item>
@@ -291,7 +291,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 <Form.Item
                                     name="ttc_manutation"
                                     label="TTC"
-                                    rules={[{ required: true, message: "Veuillez entrer le TTC" }]}
+                                    rules={[{ required: false, message: "Veuillez entrer le TTC" }]}
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="TTC" />
                                 </Form.Item>
