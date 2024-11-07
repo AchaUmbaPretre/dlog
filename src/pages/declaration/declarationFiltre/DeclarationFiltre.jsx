@@ -4,7 +4,6 @@ import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
-import dayjs from 'dayjs';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -12,23 +11,18 @@ const { RangePicker } = DatePicker;
 const DeclarationFiltre = ({ onFilter }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
+    const [dateRange, setDateRange] = useState([]);
     const [batiment, setBatiment] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
     const [selectedBatiment, setSelectedBatiment] = useState([]);
-    const [selectedPeriods, setSelectedPeriods] = useState([]);
 
     const handleFilter = () => {
-        const formattedPeriods = selectedPeriods.map(date => ({
-            month: dayjs(date).format('MM'),
-            year: dayjs(date).format('YYYY')
-        }));
-        
         onFilter({
             ville: selectedVille,
             client: selectedClients,
             batiment: selectedBatiment,
-            periods: formattedPeriods        
+            dateRange        
         });
     };
 
@@ -101,16 +95,15 @@ const DeclarationFiltre = ({ onFilter }) => {
             </div>
 
             <div className="filter_row">
-                <label>Périodes :</label>
-                <DatePicker
+                <label>Période :</label>
+                <RangePicker
                     picker="month"
                     format="YYYY-MM-DD"
                     style={{ width: '100%' }}
-                    placeholder="Sélectionnez les mois..."
-                    onChange={setSelectedPeriods}
+                    onChange={(dates) => setDateRange(dates ? dates.map(date => date.format('YYYY-MM-DD')) : [])}
+                    placeholder={['Date de début', 'Date de fin']}
                 />
             </div>
-            
             <Button type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
                 Filtrer
             </Button>

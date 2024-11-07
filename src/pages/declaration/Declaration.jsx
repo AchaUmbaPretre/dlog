@@ -36,10 +36,11 @@ const Declaration = () => {
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
 
+
     const fetchData = async () => {
 
       try {
-        const { data } = await getDeclaration();
+        const { data } = await getDeclaration(filteredDatas);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -310,7 +311,7 @@ const Declaration = () => {
 
   const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
-};
+  };
   
   return (
     <>
