@@ -110,6 +110,7 @@ const DeclarationFiltre = ({ onFilter }) => {
                     onChange={setSelectedPeriods}
                 />
             </div>
+            
             <Button type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
                 Filtrer
             </Button>
