@@ -9,7 +9,7 @@ const Denomination = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
-  const [idClient, setidClient] = useState('');
+  const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
 
      const fetchData = async () => {
@@ -82,7 +82,7 @@ const Denomination = () => {
       dataIndex: 'nom_batiment',
       key: 'nom_batiment',
       render: (text) => (
-        <Tag icon={<BankOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<BankOutlined />} color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
@@ -94,6 +94,12 @@ const Denomination = () => {
       ),
     }
   ]
+
+  const filteredData = data.filter(item =>
+    item.nom_denomination_bat?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())
+   );
+
 
   return (
     <>
@@ -107,12 +113,16 @@ const Denomination = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search 
+                placeholder="Recherche..." 
+                enterButton 
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
             </div>
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 10 }}
             rowKey="id"

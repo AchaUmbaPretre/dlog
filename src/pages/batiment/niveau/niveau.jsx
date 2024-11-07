@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,CalendarOutlined,ClusterOutlined,BankOutlined, DeleteOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import { Table, Input, message, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
+import { ClusterOutlined,BankOutlined } from '@ant-design/icons';
 import { getNiveau } from '../../../services/batimentService';
 
 const { Search } = Input;
 
 const Niveau = () => {
   const [loading, setLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
-  const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
 
   const fetchData = async () => {
@@ -36,19 +35,6 @@ const Niveau = () => {
   const closeAllModals = () => {
     setModalType(null);
   };
-  
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
 
 
   const handleDelete = async (id) => {
@@ -63,18 +49,6 @@ const Niveau = () => {
     }
   };
 
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
-
   const columns = [
     {
       title: '#',
@@ -88,7 +62,7 @@ const Niveau = () => {
       dataIndex: 'nom_batiment',
       key: 'nom_batiment',
       render: (text) => (
-        <Tag icon={<BankOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag icon={<BankOutlined />} color="green">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
@@ -100,6 +74,11 @@ const Niveau = () => {
       ),
     }
   ]
+
+  const filteredData = data.filter(item =>
+    item.nom_niveau?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())
+   );
 
   return (
     <>
@@ -113,7 +92,11 @@ const Niveau = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search 
+                placeholder="Recherche..." 
+                enterButton 
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
             </div>
           </div>
           <Table
@@ -128,17 +111,6 @@ const Niveau = () => {
           />
         </div>
       </div>
-
-      <Modal
-        title=""
-        visible={modalType === 'Add'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1000}
-        centered
-      >
-{/*         <TemplateForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchData} />
- */}      </Modal>
     </>
   );
 };
