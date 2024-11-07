@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Modal, Input, message, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,FileTextOutlined,BankOutlined } from '@ant-design/icons';
+import { ExportOutlined,FileTextOutlined,DollarOutlined,BankOutlined } from '@ant-design/icons';
 import { getWHSEFACT } from '../../../services/batimentService';
 
 const { Search } = Input;
@@ -93,7 +93,7 @@ const WhseFact = () => {
       dataIndex: 'nom_whse_fact',
       key: 'nom_whse_fact',
       render: (text) => (
-        <Tag color="blue">{text ?? 'Aucun'}</Tag>
+        <Tag color="blue">{`${text}` ?? 'Aucun'}</Tag>
       ),
     }
   ]
