@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,CalendarOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { MenuOutlined,CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getDeclaration, getTemplate } from '../../services/templateService';
 import moment from 'moment';
 import DeclarationForm from './declarationForm/DeclarationForm';
@@ -9,6 +9,26 @@ const { Search } = Input;
 
 const Declaration = () => {
   const [loading, setLoading] = useState(true);
+  const [columnsVisibility, setColumnsVisibility] = useState({
+    '#': true,
+    'Template': true,
+    'Periode': true,
+    'M² occupe': true,
+    "M² facture": true,
+    "Tarif Entr": true,
+    'Debours Entr': true,
+    'Total Entr': true,
+    "TTC Entr": true,
+    "Ville": true,
+    "Client": true,
+    "Bâtiment": true,
+    "Objet fact": true,
+    "Manutention": true,
+    "Tarif Manu": true,
+    "Debours Manu": true,
+    "Total Manu": true,
+    "TTC Manu": true
+  });
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
   const [idClient, setidClient] = useState('');
@@ -73,17 +93,27 @@ const Declaration = () => {
     }
   };
 
-
-  const menu = (
+  const menus = (
     <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
+      {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+      ))}
     </Menu>
-  );
+  ); 
+
+  const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
+
 
   const columns = [
       {
@@ -238,7 +268,6 @@ const Declaration = () => {
       },
   ];
   
-
   return (
     <>
       <div className="client">
@@ -261,15 +290,12 @@ const Declaration = () => {
               >
                 Ajouter une déclaration
               </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
+              <Dropdown overlay={menus} trigger={['click']}>
+                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                  Colonnes <DownOutlined />
+                </Button>
               </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
+
             </div>
           </div>
           <Table
