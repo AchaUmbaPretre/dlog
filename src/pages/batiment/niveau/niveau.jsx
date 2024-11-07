@@ -32,9 +32,6 @@ const Niveau = () => {
     fetchData();
   }, []);
 
-  const handleAddTemplate = (idTemplate) => {
-    openModal('Add', idTemplate);
-  };
 
   const closeAllModals = () => {
     setModalType(null);
