@@ -30,20 +30,9 @@ const WhseFact = () => {
     fetchData();
   }, []); */
 
-  const handleAddTemplate = (idTemplate) => {
-    openModal('Add', idTemplate);
-  };
-
   const closeAllModals = () => {
     setModalType(null);
   };
-  
-  const openModal = (type, idClient = '') => {
-    closeAllModals();
-    setModalType(type);
-    setidClient(idClient);
-  };
-  
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
