@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const DeclarationForm = () => {
+const DeclarationForm = ({closeModal, fetchData, }) => {
     const [form] = Form.useForm();
     const [templates, setTemplates] = useState([]);
     const [idTemplate, setIdTemplate] = useState(null);
@@ -52,9 +52,7 @@ const DeclarationForm = () => {
         try {
             const { data} = await getTemplateOne(idTemplate);
             const { id_client, id_batiment, id_ville } = data[0];
-    
-            console.log("Données du template sélectionné:", id_client, id_batiment, id_ville);
-    
+        
             form.setFieldsValue({
                 id_client,
                 id_batiment,
