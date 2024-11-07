@@ -86,9 +86,9 @@ const Denomination = () => {
       ),
     },
     {
-      title: 'Niveau',
-      dataIndex: 'nom_niveau',
-      key: 'nom_niveau',
+      title: 'Dénomination',
+      dataIndex: 'nom_denomination_bat',
+      key: 'nom_denomination_bat',
       render: (text) => (
         <Tag color="blue">{text ?? 'Aucun'}</Tag>
       ),
