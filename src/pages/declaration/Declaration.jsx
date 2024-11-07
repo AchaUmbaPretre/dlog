@@ -3,6 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag
 import { MenuOutlined,CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
+import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
 
 const { Search } = Input;
 
@@ -316,6 +317,7 @@ const Declaration = () => {
             </div>
             <h2 className="client-h2">Déclarations</h2>
           </div>
+          {filterVisible && <DeclarationFiltre onFilter={''} />}
           <div className="client-actions">
             <div className="client-row-left">
               <Search placeholder="Recherche..." enterButton />
