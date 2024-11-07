@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,CalendarOutlined,ClusterOutlined,BankOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, BankOutlined } from '@ant-design/icons';
+import { getDenomination } from '../../../services/batimentService';
 
 const { Search } = Input;
 
@@ -11,10 +12,10 @@ const Denomination = () => {
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
 
-/*     const fetchData = async () => {
+     const fetchData = async () => {
 
       try {
-        const { data } = await getTemplate();
+        const { data } = await getDenomination();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -24,26 +25,16 @@ const Denomination = () => {
         });
         setLoading(false);
       }
-    }; */
+    }; 
 
-/*   useEffect(() => {
+  useEffect(() => {
     fetchData();
-  }, []); */
-
-  const handleAddTemplate = (idTemplate) => {
-    openModal('Add', idTemplate);
-  };
+  }, []);
+;
 
   const closeAllModals = () => {
     setModalType(null);
   };
-  
-  const openModal = (type, idClient = '') => {
-    closeAllModals();
-    setModalType(type);
-    setidClient(idClient);
-  };
-  
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -51,10 +42,6 @@ const Denomination = () => {
 
   const handleExportPDF = () => {
     message.success('Exporting to PDF...');
-  };
-
-  const handlePrint = () => {
-    window.print();
   };
 
 
