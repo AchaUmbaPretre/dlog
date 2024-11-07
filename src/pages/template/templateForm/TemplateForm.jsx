@@ -7,7 +7,7 @@ import { getDenominationOne, getNiveauOne, getWHSEFACTOne } from '../../../servi
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
-const TemplateForm = () => {
+const TemplateForm = ({ closeModal, fetchData }) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [client, setClient] = useState([]);
@@ -71,6 +71,8 @@ const TemplateForm = () => {
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             form.resetFields();
+            closeModal();
+            fetchData();
             navigate('/liste_template')
         } catch (error) {
             console.log(error)

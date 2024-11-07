@@ -313,7 +313,7 @@ const Template = () => {
         width={1000}
         centered
       >
-        <TemplateForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchData} />
+        <TemplateForm closeModal={() => setModalType(null)} fetchData={fetchData} />
       </Modal>
     </>
   );
