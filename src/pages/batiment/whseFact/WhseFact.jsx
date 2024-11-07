@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Table, Button, Modal, Input, message, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,CalendarOutlined,ClusterOutlined,BankOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Modal, Input, message, Menu, notification, Tag } from 'antd';
+import { ExportOutlined,FileTextOutlined,BankOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 
@@ -114,7 +114,7 @@ const WhseFact = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ClusterOutlined className='client-icon' />
+              <FileTextOutlined className='client-icon' />
             </div>
             <h2 className="client-h2">Liste des WhseFact</h2>
           </div>
