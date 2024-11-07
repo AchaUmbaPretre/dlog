@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { ExportOutlined,CalendarOutlined,ClusterOutlined,BankOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { getNiveau } from '../../../services/batimentService';
 
 const { Search } = Input;
 
@@ -12,10 +13,10 @@ const Niveau = () => {
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
 
-/*     const fetchData = async () => {
+  const fetchData = async () => {
 
       try {
-        const { data } = await getTemplate();
+        const { data } = await getNiveau();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -25,11 +26,11 @@ const Niveau = () => {
         });
         setLoading(false);
       }
-    }; */
+    };
 
-/*   useEffect(() => {
+  useEffect(() => {
     fetchData();
-  }, []); */
+  }, []);
 
   const handleAddTemplate = (idTemplate) => {
     openModal('Add', idTemplate);
