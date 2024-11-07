@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Select, DatePicker, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import 'antd/dist/reset.css'; // Assure-toi que le CSS d'Ant Design est bien importé
+import 'antd/dist/reset.css';
 import './filterTaches.scss';
 import { getDepartement } from '../../../services/departementService';
 import { getUser } from '../../../services/userService';
