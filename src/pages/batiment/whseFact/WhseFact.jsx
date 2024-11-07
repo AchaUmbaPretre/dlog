@@ -43,7 +43,6 @@ const WhseFact = () => {
     }
   };
 
-
   const columns = [
     {
       title: '#',
@@ -56,19 +55,30 @@ const WhseFact = () => {
       title: 'Batiment',
       dataIndex: 'nom_batiment',
       key: 'nom_batiment',
-      render: (text) => (
-        <Tag icon={<BankOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
-      ),
+      render: (text) => {
+        const color = text ? 'green' : 'volcano';
+        return (
+          <Tag icon={<BankOutlined />} color={color}>
+            {text ?? 'Aucun'}
+          </Tag>
+        );
+      },
     },
     {
       title: 'Warehouse fact.',
       dataIndex: 'nom_whse_fact',
       key: 'nom_whse_fact',
-      render: (text) => (
-        <Tag icon={<DollarOutlined />} color="blue">{`${text}` ?? 'Aucun'}</Tag>
-      ),
-    }
-  ]
+      render: (text) => {
+        const color = text ? 'blue' : 'red';
+        return (
+          <Tag icon={<DollarOutlined />} color={color}>
+            {text ?? 'Aucun'}
+          </Tag>
+        );
+      },
+    },
+  ];
+  
 
   return (
     <>
