@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Modal, Input, message, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,FileTextOutlined,DollarOutlined,BankOutlined } from '@ant-design/icons';
+import { Table, Input, message, notification, Tag } from 'antd';
+import { FileTextOutlined,DollarOutlined,BankOutlined } from '@ant-design/icons';
 import { getWHSEFACT } from '../../../services/batimentService';
 
 const { Search } = Input;
@@ -9,8 +9,6 @@ const WhseFact = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
-  const [idClient, setidClient] = useState('');
-  const [modalType, setModalType] = useState(null);
 
      const fetchData = async () => {
 
@@ -31,21 +29,6 @@ const WhseFact = () => {
     fetchData();
   }, []);
 
-  const closeAllModals = () => {
-    setModalType(null);
-  };
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
 
 
   const handleDelete = async (id) => {
@@ -60,17 +43,6 @@ const WhseFact = () => {
     }
   };
 
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
 
   const columns = [
     {
@@ -125,17 +97,6 @@ const WhseFact = () => {
           />
         </div>
       </div>
-
-      <Modal
-        title=""
-        visible={modalType === 'Add'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1000}
-        centered
-      >
-{/*         <TemplateForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchData} />
- */}      </Modal>
     </>
   );
 };
