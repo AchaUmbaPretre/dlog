@@ -119,6 +119,10 @@ function App() {
           element: <Taches/>
         },
         {
+          path: '/tache_form',
+          element: <Taches/>
+        },
+        {
           path: '/liste_tracking',
           element: <ListeTrackingGlobal/>
         },
