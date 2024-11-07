@@ -69,6 +69,8 @@ const WhseFact = () => {
       title: 'Warehouse fact.',
       dataIndex: 'nom_whse_fact',
       key: 'nom_whse_fact',
+      sorter: (a, b) => a.nom_whse_fact - b.nom_whse_fact,
+      sortDirections: ['descend', 'ascend'],
       render: (text) => {
         const color = text ? 'blue' : 'red';
         return (
