@@ -88,9 +88,9 @@ const WhseFact = () => {
       ),
     },
     {
-      title: 'Niveau',
-      dataIndex: 'nom_niveau',
-      key: 'nom_niveau',
+      title: 'Warehouse fact.',
+      dataIndex: 'nom_whse_fact',
+      key: 'nom_whse_fact',
       render: (text) => (
         <Tag color="blue">{text ?? 'Aucun'}</Tag>
       ),
