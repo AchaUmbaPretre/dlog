@@ -30,6 +30,7 @@ const Declaration = () => {
     "TTC Manu": true
   });
   const [filterVisible, setFilterVisible] = useState(false);
+  const [filteredDatas, setFilteredDatas] = useState(null);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
   const [idClient, setidClient] = useState('');
@@ -306,6 +307,10 @@ const Declaration = () => {
           ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
       },
   ];
+
+  const handleFilterChange = (newFilters) => {
+    setFilteredDatas(newFilters); 
+};
   
   return (
     <>
@@ -317,7 +322,7 @@ const Declaration = () => {
             </div>
             <h2 className="client-h2">Déclarations</h2>
           </div>
-          {filterVisible && <DeclarationFiltre onFilter={''} />}
+          {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} />}
           <div className="client-actions">
             <div className="client-row-left">
               <Search placeholder="Recherche..." enterButton />
