@@ -222,8 +222,8 @@ const Declaration = () => {
       },
       {
           title: 'Ville',
-          dataIndex: 'name',
-          key: 'name',
+          dataIndex: 'capital',
+          key: 'capital',
           render: (text) => (
             <Tag icon={<EnvironmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
           ),

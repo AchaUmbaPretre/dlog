@@ -204,7 +204,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 >
                                     <Select
                                         showSearch
-                                        options={province.map(item => ({ value: item.id, label: item.name }))}
+                                        options={province.map(item => ({ value: item.id, label: item.capital }))}
                                         placeholder="Sélectionnez..."
                                     />
                                 </Form.Item>
