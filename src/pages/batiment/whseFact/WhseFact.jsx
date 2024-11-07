@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Modal, Input, message, Menu, notification, Tag } from 'antd';
 import { ExportOutlined,FileTextOutlined,BankOutlined } from '@ant-design/icons';
+import { getWHSEFACT } from '../../../services/batimentService';
 
 const { Search } = Input;
 
@@ -11,10 +12,10 @@ const WhseFact = () => {
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
 
-/*     const fetchData = async () => {
+     const fetchData = async () => {
 
       try {
-        const { data } = await getTemplate();
+        const { data } = await getWHSEFACT();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -24,11 +25,11 @@ const WhseFact = () => {
         });
         setLoading(false);
       }
-    }; */
+    };
 
-/*   useEffect(() => {
+   useEffect(() => {
     fetchData();
-  }, []); */
+  }, []);
 
   const closeAllModals = () => {
     setModalType(null);
