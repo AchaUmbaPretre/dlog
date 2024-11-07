@@ -101,7 +101,7 @@ const Niveau = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 10 }}
             rowKey="id"

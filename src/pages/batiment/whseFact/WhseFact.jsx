@@ -8,6 +8,7 @@ const { Search } = Input;
 const WhseFact = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const scroll = { x: 400 };
 
      const fetchData = async () => {
@@ -78,7 +79,11 @@ const WhseFact = () => {
       },
     },
   ];
-  
+
+  const filteredData = data.filter(item =>
+    item.nom_niveau?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_whse_fact?.toLowerCase().includes(searchValue.toLowerCase())
+   );
 
   return (
     <>
@@ -92,12 +97,15 @@ const WhseFact = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search placeholder="Recherche..." 
+                enterButton 
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
             </div>
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 10 }}
             rowKey="id"
