@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
-import { PlusCircleOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal, Skeleton } from 'antd';
+import { PlusCircleOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getSuiviTacheOneV } from '../../../services/suiviService';
 import moment from 'moment';
 import SuiviTache from '../suiviTache/SuiviTache';
@@ -12,49 +12,42 @@ const ListeTracking = ({ idTache }) => {
   const [data, setData] = useState([]);
   const [nameTache, setNameTache] = useState('');
   const [modalType, setModalType] = useState(null);
-  const scroll = { x: 400 };
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const { data } = await getSuiviTacheOneV(idTache);
-  
       if (data.length > 0) {
         setData(data);
         setNameTache(data[0].nom_tache || '');
-        console.log("Nom de la tâche défini:", data[0].nom_tache);
       } else {
-        setData([]); 
+        setData([]);
         setNameTache('');
-        console.log("Aucune tâche trouvée pour cet idTache");
       }
-      setLoading(false);
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
         description: 'Une erreur est survenue lors du chargement des données.',
       });
+    } finally {
       setLoading(false);
     }
   };
-  
-  
+
   useEffect(() => {
+    fetchData();
     const interval = setInterval(() => {
       fetchData();
     }, 5000);
-  
-    return () => clearInterval(interval); 
-  }, [idTache]); 
-  
+    return () => clearInterval(interval);
+  }, [idTache]);
+
   const handleTracking = () => {
     openModal('suivi');
   };
 
-
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
       message.success('Client deleted successfully');
     } catch (error) {
@@ -68,72 +61,18 @@ const ListeTracking = ({ idTache }) => {
   const closeAllModals = () => {
     setModalType(null);
   };
-  
+
   const openModal = (type) => {
     closeAllModals();
     setModalType(type);
   };
 
-  const columnStyles = {
-    title: {
-      maxWidth: '220px',
-      whiteSpace: 'nowrap',
-      overflowX: 'scroll', 
-      overflowY: 'hidden',
-      textOverflow: 'ellipsis',
-      scrollbarWidth: 'none',
-      '-ms-overflow-style': 'none', 
-    },
-    hideScroll: {
-      '&::-webkit-scrollbar': {
-        display: 'none',
-      },
-    },
-  };
-
-
   const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
-    },
-    {
-      title: 'Titre',
-      dataIndex: 'nom_tache',
-      key: 'nom_tache',
-      render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
-      ),
-    },
-    {
-        title: 'Statut',
-        dataIndex: 'nom_type_statut',
-        key: 'nom_type_statut',
-        render: (text) => (
-          <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
-        ),
-      },
-      {
-        title: 'Commentaire	',
-        dataIndex: 'commentaire',
-        key: 'commentaire	',
-        render: (text) => (
-          <Space style={columnStyles.title} className={columnStyles.hideScroll}>
-            <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
-          </Space>
-        ),
-      },
-      { 
-        title: 'Date', 
-        dataIndex: 'date_suivi', 
-        key: 'date_suivi',
-        render: text => (
-          <Tag icon={<CalendarOutlined />} color='purple'>{moment(text).format('LL')}</Tag>
-        ),
-      },
+    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
+    { title: 'Titre', dataIndex: 'nom_tache', key: 'nom_tache', render: (text) => <Tag color="green">{text}</Tag> },
+    { title: 'Statut', dataIndex: 'nom_type_statut', key: 'nom_type_statut', render: (text) => <Tag color="blue">{text}</Tag> },
+    { title: 'Commentaire', dataIndex: 'commentaire', key: 'commentaire', render: (text) => <Tag color="blue">{text}</Tag> },
+    { title: 'Date', dataIndex: 'date_suivi', key: 'date_suivi', render: (text) => <Tag color='purple'>{moment(text).format('LL')}</Tag> },
     {
       title: 'Action',
       key: 'action',
@@ -147,11 +86,7 @@ const ListeTracking = ({ idTache }) => {
               okText="Oui"
               cancelText="Non"
             >
-              <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete client"
-              />
+              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
             </Popconfirm>
           </Tooltip>
         </Space>
@@ -160,40 +95,36 @@ const ListeTracking = ({ idTache }) => {
   ];
 
   return (
-    <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <FileTextOutlined className='client-icon' />
-            </div>
-            <h2 className="client-h2">{nameTache ? `Liste des tracking : ${nameTache}` : 'Liste des tracking'}</h2>
+    <div className="client">
+      <div className="client-wrapper">
+        <div className="client-row">
+          <div className="client-row-icon">
+            <FileTextOutlined className='client-icon' />
           </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search placeholder="Search doc..." enterButton />
-            </div>
-            <div className="client-rows-right">
-                <Button
-                    type="primary"
-                    icon={<PlusCircleOutlined />}
-                    onClick={handleTracking}
-                >
-                  Tracking
-                </Button>
-            </div>
+          <h2 className="client-h2">{nameTache ? `Liste des tracking : ${nameTache}` : 'Liste des tracking'}</h2>
+        </div>
+        <div className="client-actions">
+          <div className="client-row-left">
+            <Search placeholder="Search doc..." enterButton />
           </div>
+          <div className="client-rows-right">
+            <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleTracking}>
+              Tracking
+            </Button>
+          </div>
+        </div>
+        {loading ? (
+          <Skeleton active />
+        ) : (
           <Table
             columns={columns}
             dataSource={data}
-            loading={loading}
             pagination={{ pageSize: 10 }}
             rowKey="id"
             bordered
             size="middle"
-            scroll={scroll}
           />
-        </div>
+        )}
       </div>
       <Modal
         title=""
@@ -205,7 +136,7 @@ const ListeTracking = ({ idTache }) => {
       >
         <SuiviTache idTache={idTache} closeModal={() => setModalType(null)} fetchData={fetchData} />
       </Modal>
-    </>
+    </div>
   );
 };
 
