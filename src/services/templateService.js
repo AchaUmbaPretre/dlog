@@ -29,8 +29,8 @@ export const getObjetFacture = async () => {
   };
 
   //Déclaration superficie
-export const getDeclaration = async () => {
-    return axios.get(`${DOMAIN}/api/template/declaration_superficie`);
+export const getDeclaration = async (data) => {
+    return axios.post(`${DOMAIN}/api/template/declaration_superficies`, data);
   };
 
 export const postDeclaration = async (data) => {
