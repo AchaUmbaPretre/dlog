@@ -10,6 +10,7 @@ const { Search } = Input;
 
 const Template = () => {
   const [loading, setLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
   const [idClient, setidClient] = useState('');
@@ -210,6 +211,15 @@ const Template = () => {
     },
   ]
 
+  const filteredData = data.filter(item =>
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_type_d_occupation?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_niveau?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_denomination_bat?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_objet_fact?.toLowerCase().includes(searchValue.toLowerCase())
+
+   );
+
   return (
     <>
       <div className="client">
@@ -222,7 +232,11 @@ const Template = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search 
+                placeholder="Recherche..." 
+                onChange={(e) => setSearchValue(e.target.value)}
+                enterButton 
+              />
             </div>
             <div className="client-rows-right">
               <Button
@@ -245,9 +259,9 @@ const Template = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 15 }}
             rowKey="id"
             bordered
             size="middle"
