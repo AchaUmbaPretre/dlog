@@ -3,7 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { 
   ExportOutlined, WarningOutlined,MoreOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
-  CalendarOutlined, TeamOutlined,FileExcelOutlined,TagOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
+  CalendarOutlined, TeamOutlined,FileExcelOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { deletePutTache, getTache, putPriorite } from '../../services/tacheService';
@@ -241,6 +241,19 @@ const handleEdit = (idTache) => {
     html2pdf().from(element).set(opt).save();
   };
 
+  const menus = (
+    <Menu>
+      {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );  
+  
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
@@ -260,18 +273,7 @@ const handleEdit = (idTache) => {
     }));
   };
 
-  const menus = (
-    <Menu>
-      {Object.keys(columnsVisibility).map(columnName => (
-        <Menu.Item key={columnName}>
-          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
-            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
-            <span style={{ marginLeft: 8 }}>{columnName}</span>
-          </span>
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
+
 
   const statusIcons = {
     'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },

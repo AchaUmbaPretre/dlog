@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,FileTextOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { getTemplate } from '../../services/templateService';
 import moment from 'moment';
@@ -9,6 +9,18 @@ const { Search } = Input;
 
 const Template = () => {
   const [loading, setLoading] = useState(true);
+  const [columnsVisibility, setColumnsVisibility] = useState({
+    '#': true,
+    'Client': true,
+    'Type occu': true,
+    'Batiment': true,
+    "Niveau": true,
+    "Dénomination": true,
+    'Whse fact': true,
+    'Objet fact': true,
+    "Date active": true,
+    "Statut": true
+  });
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
@@ -74,17 +86,28 @@ const Template = () => {
     }
   };
 
-
-  const menu = (
+  const menus = (
     <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
+      {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+      ))}
     </Menu>
-  );
+  );  
+
+  
+  const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
+
 
   const columns = [
     {
@@ -93,6 +116,7 @@ const Template = () => {
       key: 'id',
       render: (text, record, index) => index + 1,
       width: "3%",
+      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Client',
@@ -101,6 +125,8 @@ const Template = () => {
       render: (text) => (
         <Tag icon={<UserOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
+      ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Type occu',
@@ -109,6 +135,8 @@ const Template = () => {
       render: (text) => (
         <Tag icon={<ApartmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
+      ...(columnsVisibility['Type occu'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Batiment',
@@ -117,6 +145,8 @@ const Template = () => {
       render: (text) => (
         <Tag icon={<HomeOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
+      ...(columnsVisibility['Batiment'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Niveau',
@@ -125,6 +155,8 @@ const Template = () => {
       render: (text) => (
         <Tag icon={<OrderedListOutlined />} color="cyan">{text ?? 'Aucune'}</Tag>
       ),
+      ...(columnsVisibility['Niveau'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Dénomination',
@@ -133,6 +165,8 @@ const Template = () => {
       render: (text) => (
         <Tag icon={<TagOutlined />} color="purple">{text ?? 'Aucune'}</Tag>
       ),
+      ...(columnsVisibility['Dénomination'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Whse fact',
@@ -141,6 +175,8 @@ const Template = () => {
       render: (text) => (
         <Tag icon={<ShopOutlined />} color="geekblue">{text ?? 'Aucune'}</Tag>
       ),
+      ...(columnsVisibility['Whse fact'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Objet fact',
@@ -149,6 +185,8 @@ const Template = () => {
       render: (text) => (
         <Tag icon={<FileTextOutlined />} color="green">{text ?? 'Aucun'}</Tag>
       ),
+      ...(columnsVisibility['Objet fact'] ? {} : { className: 'hidden-column' })
+
     },
     { 
       title: 'Date active', 
@@ -160,6 +198,8 @@ const Template = () => {
           {text ? moment(text).format('DD-MM-yyyy') : 'Aucune'}
         </Tag>
       ),
+      ...(columnsVisibility['Date active'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Statut',
@@ -176,6 +216,8 @@ const Template = () => {
           </Tag>
         )
       ),
+      ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Action',
@@ -237,15 +279,17 @@ const Template = () => {
               >
                 Ajouter un template
               </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
               <Button
                 icon={<PrinterOutlined />}
                 onClick={handlePrint}
               >
                 Print
               </Button>
+              <Dropdown overlay={menus} trigger={['click']}>
+                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                  Colonnes <DownOutlined />
+                </Button>
+              </Dropdown>
             </div>
           </div>
           <Table
