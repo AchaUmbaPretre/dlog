@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
-import config from '../../config';
+import { ExportOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { getTemplate } from '../../services/templateService';
 import moment from 'moment';
@@ -166,13 +165,19 @@ const Template = () => {
       },
       {
         title: 'Statut',
-        dataIndex: 'nom_niveau',
-        key: 'nom_niveau',
+        dataIndex: 'id_statut_template',
+        key: 'id_statut_template',
         render: (text) => (
-          <> 
-            <Tag color='cyan'>
-              {text ?? 'Aucune'}
-            </Tag>
+          <>
+            {text === 1 ? (
+              <Tag color="cyan" icon={<CheckCircleOutlined style={{ color: 'green' }} />}>
+                Activé
+              </Tag>
+            ) : (
+              <Tag color="gray" icon={<CloseCircleOutlined style={{ color: 'red' }} />}>
+                Désactivé
+              </Tag>
+            )}
           </>
         ),
       },
