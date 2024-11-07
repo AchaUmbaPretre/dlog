@@ -80,6 +80,8 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             form.resetFields();
+            closeModal();
+            fetchData()
             navigate('/liste_declaration')
         } catch (error) {
             console.error("Erreur lors de l'ajout de la déclaration:", error);
