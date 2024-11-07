@@ -104,8 +104,7 @@ const DeclarationFiltre = ({ onFilter }) => {
                     placeholder={['Date de début', 'Date de fin']}
                 />
             </div>
-            <Button type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
-                Filtrer
+            <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
             </Button>
         </div>
     );
