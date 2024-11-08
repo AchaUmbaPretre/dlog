@@ -48,6 +48,7 @@ import Declaration from './pages/declaration/Declaration';
 import Niveau from './pages/batiment/niveau/Niveau';
 import Denomination from './pages/batiment/denomination/Denomination';
 import WhseFact from './pages/batiment/whseFact/WhseFact';
+import TacheForm from './pages/taches/tacheform/TacheForm';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(true);
@@ -120,7 +121,7 @@ function App() {
         },
         {
           path: '/tache_form',
-          element: <Taches/>
+          element: <TacheForm/>
         },
         {
           path: '/liste_tracking',

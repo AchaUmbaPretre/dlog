@@ -5,6 +5,8 @@ import CountUp from 'react-countup';
 import { getBatimentCount } from '../../services/typeService';
 import { getProjetCount } from '../../services/projetService';
 import { getDeclarationCount, getTemplateCount } from '../../services/templateService';
+import { Skeleton } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 
 const StatistiqueItems = () => {
@@ -13,6 +15,8 @@ const StatistiqueItems = () => {
   const [projet, setProjet] = useState([]);
   const [template, setTemplate] = useState([]);
   const [declaration, setDeclaration] = useState([]);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +48,16 @@ const StatistiqueItems = () => {
       <div className="statistique_items">
         <div className="statistiqueItems_wrapper">
           <div className="statistiqueItems_rows">
-            <div className="statistiqueItems-row items_orange">
+          { loading ? (
+            <>
+              <Skeleton active paragraph={{ rows: 1 }} />
+              <Skeleton active paragraph={{ rows: 1 }} />
+              <Skeleton active paragraph={{ rows: 1 }} />
+              <Skeleton active paragraph={{ rows: 1 }} />
+            </>
+          ) : (
+            <>
+            <div className="statistiqueItems-row items_orange" onClick={() => navigate('/batiment')}>
               <div className="statistiqueItems-top">
                 <div className="statistique_row_icon" style={{ backgroundColor: '#f4a261' }}>
                   <BankOutlined style={{ color: '#FFF' }} />
@@ -57,7 +70,7 @@ const StatistiqueItems = () => {
                 <span className="row_desc">Batiment</span>
               </div>
             </div>
-            <div className="statistiqueItems-row items_blue">
+            <div className="statistiqueItems-row items_blue" onClick={() => navigate('/projet')}>
               <div className="statistiqueItems-top">
                 <div className="statistique_row_icon" style={{ backgroundColor: '#6a8caf' }}>
                   <ProjectOutlined style={{ color: '#FFF' }} />
@@ -70,7 +83,7 @@ const StatistiqueItems = () => {
                 <span className="row_desc">Projet</span>
               </div>
             </div>
-            <div className="statistiqueItems-row items_yellow">
+            <div className="statistiqueItems-row items_yellow" onClick={() => navigate('/liste_template')}>
               <div className="statistiqueItems-top">
                 <div className="statistique_row_icon" style={{ backgroundColor: '#f9c74f' }}>
                   <ScheduleOutlined style={{ color: '#FFF' }} />
@@ -83,7 +96,7 @@ const StatistiqueItems = () => {
                 <span className="row_desc">Template</span>
               </div>
             </div>
-            <div className="statistiqueItems-row items_red">
+            <div className="statistiqueItems-row items_red" onClick={() => navigate('/liste_declaration')}>
               <div className="statistiqueItems-top">
                 <div className="statistique_row_icon" style={{ backgroundColor: '#e63946'}}>
                   <ScheduleOutlined  style={{ color: '#FFF' }} />
@@ -96,6 +109,9 @@ const StatistiqueItems = () => {
                 <span className="row_desc">Déclaration</span>
               </div>
             </div>
+            </>
+          )
+          }
           </div>
         </div>
       </div>
