@@ -9,6 +9,7 @@ import { getTacheCount } from '../../services/tacheService';
 import { getClientCount } from '../../services/clientService';
 import { getFournisseurCount } from '../../services/fournisseurService';
 import { useNavigate } from 'react-router-dom';
+import StatistiqueItems from '../statistiqueItems/StatistiqueItems';
 
 const Statistique = () => {
     const [data, setData] = useState(null);
@@ -121,7 +122,7 @@ const Statistique = () => {
                     <StatChart />
                 </div>
                 <div className="statistique_bottom_rows2">
-                    <StatChart />
+                    <StatistiqueItems />
                 </div>
             </div>
         </div>

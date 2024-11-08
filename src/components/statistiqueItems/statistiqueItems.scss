@@ -1,0 +1,57 @@
+.statistique_items{
+    height: 100%;
+    .statistiqueItems_wrapper{
+        height: 100%; 
+        .statistiqueItems_rows{
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 10px;
+            height: 100%; 
+            .statistiqueItems-row{
+                position: relative;
+                flex: 1;
+                overflow: hidden;
+                background: #fff;
+                box-shadow: 0px 0px 10px -8px rgba(0, 0, 0, 0.75);
+                padding: 15px 20px;
+                border: 1px solid #f1f1f1;
+                border-radius: 20px;
+                display: flex;
+                justify-content: space-between;
+                gap: 10px;
+                cursor: pointer;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                &:hover {
+                    transform: translateY(-10px);
+                    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+                }
+                
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 100px;
+                    height: 100%;
+                    background: rgba(0, 0, 255, 0.034);
+                    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 75%);
+                    pointer-events: none;
+                }
+
+                .statistiqueItems-top{
+                    display: flex;
+                    flex-direction: column;
+                }
+                .statistiqueItems-bottom{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}
