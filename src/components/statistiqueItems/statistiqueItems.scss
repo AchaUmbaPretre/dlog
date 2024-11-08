@@ -29,19 +29,7 @@
                     transform: translateY(-10px);
                     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
                 }
-                
-                &::after {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    width: 100px;
-                    height: 100%;
-                    background: rgba(0, 0, 255, 0.034);
-                    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 75%);
-                    pointer-events: none;
-                }
-
+            
                 .statistiqueItems-top{
                     display: flex;
                     flex-direction: column;
@@ -65,6 +53,84 @@
                     display: flex;
                     flex-direction: column;
                     align-items: center;
+                    .row_title{
+                        font-size: 1rem;
+                        font-weight: 300;
+                        letter-spacing: 1px;
+                        color: #555;
+                    }
+                    .statistique_h2{
+                        color: rgba(1, 20, 129, 0.726);
+                        font-size: 1.8rem;
+                        letter-spacing: 4px;
+                        font-weight: 900;
+                    }
+                    .row_desc{
+                        font-size: .7rem;
+                        color: #555;
+                        letter-spacing: 1px;
+                        font-weight: 200;
+                    }
+                }
+            }
+            .items_orange{
+                border-color: #f4a361d7;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 95px;
+                    height: 100%;
+                    background: #f4a3613f;
+                    clip-path: polygon(100% 1%, 100% 49%, 100% 100%, 0 44%, 0 9%, 0% 0%); // Angled shape
+    
+    /*                 clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+     */                pointer-events: none;
+                }
+            }
+            .items_blue{
+                border-color: #6a8cafd3;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 95px;
+                    height: 100%;
+                    background: #6a8caf38;
+                    clip-path: polygon(100% 1%, 100% 49%, 100% 100%, 0 44%, 0 9%, 0% 0%); // Angled shape
+                    pointer-events: none;
+                }
+            }
+            .items_yellow{
+                border-color: #f9c64fb0;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 95px;
+                    height: 100%;
+                    background: #f9c64f5b;
+                    clip-path: polygon(100% 1%, 100% 49%, 100% 100%, 0 44%, 0 9%, 0% 0%); // Angled shape
+                    pointer-events: none;
+                }
+            }
+            .items_red{
+                border-color: #e63947cc;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 95px;
+                    height: 100%;
+                    background: #e6394723;
+                    clip-path: polygon(100% 1%, 100% 49%, 100% 100%, 0 44%, 0 9%, 0% 0%); // Angled shape
+    
+    /*                 clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+     */                pointer-events: none;
                 }
             }
         }

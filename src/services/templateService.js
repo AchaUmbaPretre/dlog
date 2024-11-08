@@ -3,6 +3,10 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
+export const getTemplateCount = async () => {
+  return axios.get(`${DOMAIN}/api/template/count`);
+};
+
 export const getTemplate = async () => {
     return axios.get(`${DOMAIN}/api/template`);
   };
@@ -35,6 +39,9 @@ export const getObjetFacture = async () => {
   };
 
   //Déclaration superficie
+export const getDeclarationCount = async () => {
+    return axios.get(`${DOMAIN}/api/template/declaration_count`);
+  };
 export const getDeclaration = async (data) => {
     return axios.post(`${DOMAIN}/api/template/declaration_superficies`, data);
   };
