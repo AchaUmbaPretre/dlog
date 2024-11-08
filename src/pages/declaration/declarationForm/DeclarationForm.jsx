@@ -51,11 +51,9 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
     const handleTemplateChange = async () => {
         try {
             const { data} = await getTemplateOne(idTemplate);
-            const { id_client, id_batiment, id_ville } = data[0];
+            const { id_ville } = data[0];
         
             form.setFieldsValue({
-                id_client,
-                id_batiment,
                 id_ville
             });
         } catch (error) {
