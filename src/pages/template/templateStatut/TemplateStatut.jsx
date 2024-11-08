@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Tag, message } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import { putTemplateStatus } from '../../../services/templateService';
 
 
