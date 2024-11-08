@@ -117,7 +117,10 @@ const Statistique = () => {
                 )}
             </div>
             <div className="statistique_bottom">
-                <div className="statistique_bottom_rows">
+                <div className="statistique_bottom_rows1">
+                    <StatChart />
+                </div>
+                <div className="statistique_bottom_rows2">
                     <StatChart />
                 </div>
             </div>
