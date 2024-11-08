@@ -22,7 +22,7 @@ export const StatutColumn = ({ initialStatus, id }) => {
     const handleDoubleClick = () => {
       const newStatus = status === 1 ? 2 : 1;
       setStatus(newStatus);
-      updateStatus(newStatus); // Mettre à jour dans la base de données
+      updateStatus(newStatus);
     };
   
     return (
