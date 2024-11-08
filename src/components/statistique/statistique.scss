@@ -40,11 +40,11 @@
                 position: absolute;
                 top: 0;
                 right: 0;
-                width: 80px; // Adjust width as needed
+                width: 80px;
                 height: 100%;
-                background: rgba(0, 0, 255, 0.034); // Adjust color as needed
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 75%); // Angled shape
-                pointer-events: none; // Ensures it doesn’t interfere with clicks
+                background: rgba(0, 0, 255, 0.034);
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 75%);
+                pointer-events: none;
             }
 
             @include mobileXR {
@@ -113,11 +113,11 @@
                 right: 0;
                 width: 110px;
                 height: 100%;
-                background: #3A5FCD1A; // Adjust color as needed
+                background: #3A5FCD1A;
                 clip-path: polygon(100% 1%, 100% 49%, 100% 100%, 0 44%, 0 9%, 0% 0%); // Angled shape
 
 /*                 clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
- */                pointer-events: none; // Ensures it doesn’t interfere with clicks
+ */                pointer-events: none;
             }
         }
         .static_gris{
