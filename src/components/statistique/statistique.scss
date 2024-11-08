@@ -111,11 +111,13 @@
                 position: absolute;
                 top: 0;
                 right: 0;
-                width: 90px;
+                width: 110px;
                 height: 100%;
                 background: #3A5FCD1A; // Adjust color as needed
-                clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
-                pointer-events: none; // Ensures it doesn’t interfere with clicks
+                clip-path: polygon(100% 1%, 100% 49%, 100% 100%, 0 44%, 0 9%, 0% 0%); // Angled shape
+
+/*                 clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+ */                pointer-events: none; // Ensures it doesn’t interfere with clicks
             }
         }
         .static_gris{
@@ -124,10 +126,10 @@
                 position: absolute;
                 top: 0;
                 right: 0;
-                width: 90px; // Adjust width as needed
+                width: 110px; // Adjust width as needed
                 height: 100%;
                 background: #7070701A;// Adjust color as needed
-                clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+                clip-path: polygon(100% 1%, 100% 49%, 100% 100%, 0 44%, 0 9%, 0% 0%); // Angled shape
                 pointer-events: none; // Ensures it doesn’t interfere with clicks
             }
         }
@@ -137,10 +139,10 @@
                 position: absolute;
                 top: 0;
                 right: 0;
-                width: 90px; // Adjust width as needed
+                width: 110px; // Adjust width as needed
                 height: 100%;
                 background: #FF8C421A;// Adjust color as needed
-                clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+                clip-path: polygon(100% 1%, 100% 49%, 100% 100%, 0 44%, 0 9%, 0% 0%); // Angled shape
                 pointer-events: none; // Ensures it doesn’t interfere with clicks
             }
         }
@@ -150,10 +152,10 @@
                 position: absolute;
                 top: 0;
                 right: 0;
-                width: 90px;
+                width: 110px;
                 height: 100%;
                 background: #2BA4C61A;// Adjust color as needed
-                clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+                clip-path: polygon(100% 1%, 100% 49%, 100% 100%, 0 44%, 0 9%, 0% 0%); // Angled shape
                 pointer-events: none; // Ensures it doesn’t interfere with clicks
             }
         }
