@@ -74,20 +74,6 @@ const Declaration = () => {
     setModalType(type);
     setidClient(idClient);
   };
-  
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
 
   const handleDelete = async (id) => {
     try {
