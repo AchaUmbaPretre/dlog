@@ -20,14 +20,14 @@ export const StatutColumn = ({ initialStatus, id }) => {
   
     // Fonction de gestion du double-clic
     const handleDoubleClick = () => {
-      const newStatus = status === 1 ? 0 : 1;
+      const newStatus = status === 1 ? 2 : 1;
       setStatus(newStatus);
       updateStatus(newStatus); // Mettre à jour dans la base de données
     };
   
     return (
       <Tag
-        color={status === 1 ? 'cyan' : 'gray'}
+        color={status === 1 ? 'green' : 'red'}
         icon={status === 1 ? <CheckCircleOutlined style={{ color: 'green' }} /> : <CloseCircleOutlined style={{ color: 'red' }} />}
         onDoubleClick={handleDoubleClick}
         style={{ cursor: 'pointer' }}

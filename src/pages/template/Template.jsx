@@ -207,7 +207,7 @@ const Template = () => {
       dataIndex: 'id_statut_template',
       key: 'id_statut_template',
       render: (text, record) => (
-        <StatutColumn initialStatus={text} id={record.id_statut_template} />
+        <StatutColumn initialStatus={text} id={record.id_template} />
       ),
       ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
 
