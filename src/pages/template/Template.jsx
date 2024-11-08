@@ -4,6 +4,7 @@ import { ExportOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,S
 import TemplateForm from './templateForm/TemplateForm';
 import { getTemplate } from '../../services/templateService';
 import moment from 'moment';
+import { StatutColumn } from './templateStatut/TemplateStatut';
 
 const { Search } = Input;
 
@@ -205,16 +206,8 @@ const Template = () => {
       title: 'Statut',
       dataIndex: 'id_statut_template',
       key: 'id_statut_template',
-      render: (text) => (
-        text === 1 ? (
-          <Tag color="cyan" icon={<CheckCircleOutlined style={{ color: 'green' }} />}>
-            Activé
-          </Tag>
-        ) : (
-          <Tag color="gray" icon={<CloseCircleOutlined style={{ color: 'red' }} />}>
-            Désactivé
-          </Tag>
-        )
+      render: (text, record) => (
+        <StatutColumn initialStatus={text} id={record.id_statut_template} />
       ),
       ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
 

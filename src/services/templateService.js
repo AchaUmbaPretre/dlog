@@ -11,6 +11,12 @@ export const getTemplate5derniers = async () => {
     return axios.get(`${DOMAIN}/api/template/5derniers`);
   };
 
+export const putTemplateStatus = async (id, data) => {
+    return axios.put(`${DOMAIN}/api/template/statut?id_template=${id}`, {
+      status_template : data
+    });
+  };
+
 export const getTemplateOne = async (id) => {
     return axios.get(`${DOMAIN}/api/template/one?id_template=${id}`);
   };
