@@ -2,6 +2,9 @@ import axios from 'axios';
 import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+export const getProjetCount = async () => {
+  return axios.get(`${DOMAIN}/api/projet/count`);
+};
 
 export const getProjet = async () => {
     return axios.get(`${DOMAIN}/api/projet`);
