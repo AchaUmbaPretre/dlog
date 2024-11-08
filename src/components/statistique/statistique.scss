@@ -164,6 +164,10 @@
     .statistique_bottom {
         display: flex;
         gap: 10px;
+        @include mobileXR {
+            flex-direction: column;
+        }
+
         .statistique_bottom_rows1{
             flex: 2;
             background: #fff;
