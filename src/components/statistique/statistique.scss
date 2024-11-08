@@ -16,7 +16,9 @@
         }
 
         .statistique_row {
+            position: relative;
             flex: 1;
+            overflow: hidden;
             background: #fff;
             box-shadow: 0px 0px 10px -8px rgba(0, 0, 0, 0.75);
             padding: 15px 20px;
@@ -31,6 +33,18 @@
             &:hover {
                 transform: translateY(-10px);
                 box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 80px; // Adjust width as needed
+                height: 100%;
+                background: rgba(0, 0, 255, 0.034); // Adjust color as needed
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 75%); // Angled shape
+                pointer-events: none; // Ensures it doesn’t interfere with clicks
             }
 
             @include mobileXR {
@@ -56,7 +70,7 @@
                     transition: background 0.3s ease;
 
                     &:hover {
-                        background: rgba(1, 20, 129, 0.726); // Changement de couleur de l'icône au survol
+                        background: rgba(1, 20, 129, 0.726);
                     }
                 }
             }
@@ -89,6 +103,58 @@
                     letter-spacing: 1px;
                     font-weight: 200;
                 }
+            }
+        }
+        .static_bleu{
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 80px; // Adjust width as needed
+                height: 100%;
+                background: #3A5FCD1A; // Adjust color as needed
+                clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+                pointer-events: none; // Ensures it doesn’t interfere with clicks
+            }
+        }
+        .static_gris{
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 80px; // Adjust width as needed
+                height: 100%;
+                background: #7070701A;// Adjust color as needed
+                clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+                pointer-events: none; // Ensures it doesn’t interfere with clicks
+            }
+        }
+        .static_orange{
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 80px; // Adjust width as needed
+                height: 100%;
+                background: #FF8C421A;// Adjust color as needed
+                clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+                pointer-events: none; // Ensures it doesn’t interfere with clicks
+            }
+        }
+        .static_cyan{
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 80px; // Adjust width as needed
+                height: 100%;
+                background: #2BA4C61A;// Adjust color as needed
+                clip-path: polygon(85% 0, 100% 0, 100% 100%, 0 0%); // Angled shape
+                pointer-events: none; // Ensures it doesn’t interfere with clicks
             }
         }
     }

@@ -25,29 +25,6 @@ const Statistique = () => {
         });
     };
 
-    const datas = [
-        {
-          task: 'Complété',
-          count: 45,
-          color: '#6a8caf', 
-        },
-        {
-          task: 'En cours',
-          count: 30,
-          color: '#b0b0b0', 
-        },
-        {
-          task: 'En attente',
-          count: 15,
-          color: '#f4a261',  
-        },
-        {
-          task: 'En retard',
-          count: 10,
-          color: '#90e0ef',  
-        },
-      ];
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -63,7 +40,6 @@ const Statistique = () => {
                 setClient(clientData.data[0].nbre_client);
                 setFournisseur(fournisseurData.data[0].nbre_fournisseur);
                 setLoading(false);
-
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
                 setLoading(false);
@@ -78,67 +54,59 @@ const Statistique = () => {
             <div className="statistique_rows">
                 {loading ? (
                     <>
-                        <div className="statistique_row">
-                            <Skeleton active paragraph={{ rows: 1 }} />
-                        </div>
-                        <div className="statistique_row">
-                            <Skeleton active paragraph={{ rows: 1 }} />
-                        </div>
-                        <div className="statistique_row">
-                            <Skeleton active paragraph={{ rows: 1 }} />
-                        </div>
-                        <div className="statistique_row">
-                            <Skeleton active paragraph={{ rows: 1 }} />
-                        </div>
+                        <Skeleton active paragraph={{ rows: 1 }} />
+                        <Skeleton active paragraph={{ rows: 1 }} />
+                        <Skeleton active paragraph={{ rows: 1 }} />
+                        <Skeleton active paragraph={{ rows: 1 }} />
                     </>
                 ) : (
                     <>
-                        <div className="statistique_row" onClick={()=>navigate('/controle')}>
+                        <div className="statistique_row static_bleu" style={{ borderColor: '#3A5FCD' }} onClick={() => navigate('/controle')}>
                             <div className="statistique_row_left">
-                                <div className="statistique_row_icon" style={{ background: 'rgba(0, 0, 255, 0.137)' }}>
-                                    <FileDoneOutlined style={{ color: 'blue' }} />
+                                <div className="statistique_row_icon" style={{ backgroundColor: '#3A5FCD1A' }}>
+                                    <FileDoneOutlined style={{ color: '#3A5FCD' }} />
                                 </div>
                             </div>
-                            <hr style={{ background: 'rgba(0, 0, 255, 0.137)', width: '4px', height: '30px', border: 'none' }} />
+                            <hr style={{ backgroundColor: '#3A5FCD', width: '4px', height: '30px', border: 'none' }} />
                             <div className="statistique_row_right">
                                 <span className="row_title">Total</span>
                                 <h2 className="statistique_h2"><CountUp end={data} /></h2>
-                                <span className="row_desc">Contrôle de base</span>
+                                <span className="row_desc">Ctrl de base</span>
                             </div>
                         </div>
-                        <div className="statistique_row"  onClick={()=>navigate('/tache')}>
+                        <div className="statistique_row static_gris" style={{ borderColor: '#707070' }} onClick={() => navigate('/tache')}>
                             <div className="statistique_row_left">
-                                <div className="statistique_row_icon" style={{ background: 'rgba(53, 52, 52, 0.137)' }}>
-                                    <FileSyncOutlined style={{ color: 'rgba(53, 52, 52, 0.719)' }} />
+                                <div className="statistique_row_icon" style={{ backgroundColor: '#7070701A' }}>
+                                    <FileSyncOutlined style={{ color: '#707070' }} />
                                 </div>
                             </div>
-                            <hr style={{ background: 'rgba(53, 52, 52, 0.137)', width: '4px', height: '30px', border: 'none' }} />
+                            <hr style={{ backgroundColor: '#707070', width: '4px', height: '30px', border: 'none' }} />
                             <div className="statistique_row_right">
                                 <span className="row_title">Total</span>
                                 <h2 className="statistique_h2"><CountUp end={tache} /></h2>
                                 <span className="row_desc">Tâche</span>
                             </div>
                         </div>
-                        <div className="statistique_row" onClick={()=>navigate('/client')}>
+                        <div className="statistique_row static_orange" style={{ borderColor: '#FF8C42' }} onClick={() => navigate('/client')}>
                             <div className="statistique_row_left">
-                                <div className="statistique_row_icon" style={{ background: '#f079182d' }}>
-                                    <TeamOutlined style={{ color: 'orange' }} />
+                                <div className="statistique_row_icon" style={{ backgroundColor: '#FF8C421A' }}>
+                                    <TeamOutlined style={{ color: '#FF8C42' }} />
                                 </div>
                             </div>
-                            <hr style={{ backgroundColor: '#f4a261', width: '5px', height: '30px', border: 'none' }} />
+                            <hr style={{ backgroundColor: '#FF8C42', width: '5px', height: '30px', border: 'none' }} />
                             <div className="statistique_row_right">
                                 <span className="row_title">Total</span>
                                 <h2 className="statistique_h2"><CountUp end={client} /></h2>
                                 <span className="row_desc">Client</span>
                             </div>
                         </div>
-                        <div className="statistique_row" onClick={()=>navigate('/fournisseur')}>
+                        <div className="statistique_row static_cyan" style={{ borderColor: '#2BA4C6' }} onClick={() => navigate('/fournisseur')}>
                             <div className="statistique_row_left">
-                                <div className="statistique_row_icon" style={{ background: '#90e1ef2a' }}>
-                                    <TeamOutlined style={{ color: '#2bd2f0' }} />
+                                <div className="statistique_row_icon" style={{ backgroundColor: '#2BA4C61A' }}>
+                                    <TeamOutlined style={{ color: '#2BA4C6' }} />
                                 </div>
                             </div>
-                            <hr style={{ backgroundColor: '#90e1ef83', width: '5px', height: '30px', border: 'none' }} />
+                            <hr style={{ backgroundColor: '#2BA4C6', width: '5px', height: '30px', border: 'none' }} />
                             <div className="statistique_row_right">
                                 <span className="row_title">Total</span>
                                 <h2 className="statistique_h2"><CountUp end={fournisseur} /></h2>
