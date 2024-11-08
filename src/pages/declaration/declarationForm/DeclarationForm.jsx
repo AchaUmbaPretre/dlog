@@ -223,14 +223,16 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 </Form.Item>
 
                                 <Form.Item
-                                    name="id_batiment"
+                                    name="id_batiments"
                                     label="Bâtiment"
                                     rules={[{ required: false, message: "Veuillez entrer l'ID du bâtiment" }]}
                                 >
                                     <Select
+                                        mode="multiple"
                                         showSearch
                                         options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
                                         placeholder="Sélectionnez..."
+                                        optionFilterProp="label"
                                     />
                                 </Form.Item>
 
