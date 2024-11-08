@@ -41,7 +41,21 @@ const Declaration = () => {
 
       try {
         const { data } = await getDeclaration(filteredDatas);
-        setData(data);
+
+        const groupedData = data.reduce((acc, curr) => {
+          const found = acc.find(item => item.id_declaration_super === curr.id_declaration_super);
+          if(found) {
+            found.nom_batiment.push(curr.nom_batiment)
+          } else {
+            acc.push({
+              ...curr,
+              nom_batiment: [curr.nom_batiment]
+            });
+          }
+          return acc;
+        }, []);
+
+        setData(groupedData);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -230,9 +244,12 @@ const Declaration = () => {
           title: 'Bâtiment',
           dataIndex: 'nom_batiment',
           key: 'nom_batiment',
-          render: (text) => (
-            <Tag icon={<HomeOutlined />} color="purple">{text ?? 'Aucun'}</Tag>
-          ),
+          render: (nom_batiment) => (
+            nom_batiment.map((nb, index) => (
+              <div style={{display:'flex', gap:'10px'}}>
+                <Tag key={index} icon={<HomeOutlined />} color="purple">{nb ?? 'Aucun'}</Tag>
+              </div>
+            ))),
           ...(columnsVisibility['Bâtiment'] ? {} : { className: 'hidden-column' }),
 
       },
