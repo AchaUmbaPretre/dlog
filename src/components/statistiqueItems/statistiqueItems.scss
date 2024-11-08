@@ -45,6 +45,21 @@
                 .statistiqueItems-top{
                     display: flex;
                     flex-direction: column;
+                    .statistique_row_icon{
+                        background: #eeeeee;
+                        padding: 5px;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: background 0.3s ease;
+    
+                        &:hover {
+                            background: rgba(1, 20, 129, 0.726);
+                        }
+                    }
                 }
                 .statistiqueItems-bottom{
                     display: flex;

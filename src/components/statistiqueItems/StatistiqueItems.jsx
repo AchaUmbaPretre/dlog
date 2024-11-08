@@ -12,11 +12,11 @@ const StatistiqueItems = () => {
           <div className="statistiqueItems_rows">
             <div className="statistiqueItems-row">
               <div className="statistiqueItems-top">
-                <div className="statistique_row_icon" style={{ backgroundColor: '#3A5FCD1A' }}>
-                  <FileDoneOutlined style={{ color: '#3A5FCD' }} />
+                <div className="statistique_row_icon" style={{ backgroundColor: '#f4a261' }}>
+                  <FileDoneOutlined style={{ color: '#FFF' }} />
                 </div>
               </div>
-              <hr style={{ backgroundColor: '#3A5FCD', width: '4px', height: '30px', border: 'none' }} />
+              <hr style={{ backgroundColor: '#f4a261', width: '4px', height: '30px', border: 'none' }} />
               <div className="statistiqueItems-bottom">
                 <span className="row_title">Total</span>
                   <h2 className="statistique_h2"><CountUp end={''} /></h2>
@@ -25,11 +25,11 @@ const StatistiqueItems = () => {
             </div>
             <div className="statistiqueItems-row">
               <div className="statistiqueItems-top">
-                <div className="statistique_row_icon" style={{ backgroundColor: '#3A5FCD1A' }}>
-                  <FileDoneOutlined style={{ color: '#3A5FCD' }} />
+                <div className="statistique_row_icon" style={{ backgroundColor: '#6a8caf' }}>
+                  <FileDoneOutlined style={{ color: '#FFF' }} />
                 </div>
               </div>
-              <hr style={{ backgroundColor: '#3A5FCD', width: '4px', height: '30px', border: 'none' }} />
+              <hr style={{ backgroundColor: '#6a8caf', width: '4px', height: '30px', border: 'none' }} />
               <div className="statistiqueItems-bottom">
                 <span className="row_title">Total</span>
                   <h2 className="statistique_h2"><CountUp end={''} /></h2>
@@ -38,11 +38,11 @@ const StatistiqueItems = () => {
             </div>
             <div className="statistiqueItems-row">
               <div className="statistiqueItems-top">
-                <div className="statistique_row_icon" style={{ backgroundColor: '#3A5FCD1A' }}>
-                  <FileDoneOutlined style={{ color: '#3A5FCD' }} />
+                <div className="statistique_row_icon" style={{ backgroundColor: '#f9c74f' }}>
+                  <FileDoneOutlined style={{ color: '#FFF' }} />
                 </div>
               </div>
-              <hr style={{ backgroundColor: '#3A5FCD', width: '4px', height: '30px', border: 'none' }} />
+              <hr style={{ backgroundColor: '#f9c74f', width: '4px', height: '30px', border: 'none' }} />
               <div className="statistiqueItems-bottom">
                 <span className="row_title">Total</span>
                   <h2 className="statistique_h2"><CountUp end={''} /></h2>
@@ -51,11 +51,11 @@ const StatistiqueItems = () => {
             </div>
             <div className="statistiqueItems-row">
               <div className="statistiqueItems-top">
-                <div className="statistique_row_icon" style={{ backgroundColor: '#3A5FCD1A' }}>
-                  <FileDoneOutlined style={{ color: '#3A5FCD' }} />
+                <div className="statistique_row_icon" style={{ backgroundColor: '#e63946'}}>
+                  <FileDoneOutlined style={{ color: '#FFF' }} />
                 </div>
               </div>
-              <hr style={{ backgroundColor: '#3A5FCD', width: '4px', height: '30px', border: 'none' }} />
+              <hr style={{ backgroundColor: '#e63946', width: '4px', height: '30px', border: 'none' }} />
               <div className="statistiqueItems-bottom">
                 <span className="row_title">Total</span>
                   <h2 className="statistique_h2"><CountUp end={''} /></h2>
