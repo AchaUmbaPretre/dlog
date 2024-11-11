@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { getTemplate } from '../../services/templateService';
 import moment from 'moment';
@@ -61,14 +61,9 @@ const Template = () => {
     setidClient(idClient);
   };
   
+  const handleEdit = (id) => {
 
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
+  }
 
   const handlePrint = () => {
     window.print();
@@ -77,8 +72,8 @@ const Template = () => {
 
   const handleDelete = async (id) => {
     try {
-      setData(data.filter((item) => item.id_client !== id));
-      message.success('Client deleted successfully');
+      setData(data.filter((item) => item.id_template !== id));
+      message.success('Template deleted successfully');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -218,20 +213,28 @@ const Template = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Delete">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce client?"
-              onConfirm={() => handleDelete(record.id_client)}
-              okText="Oui"
-              cancelText="Non"
-            >
+          <Tooltip title="Modifier">
               <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete client"
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleEdit(record.id_tache)}
+                aria-label="Edit tache"
               />
-            </Popconfirm>
-          </Tooltip>
+            </Tooltip>
+            <Tooltip title="Delete">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer ce client?"
+                onConfirm={() => handleDelete(record.id_client)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Delete client"
+                />
+              </Popconfirm>
+            </Tooltip>
         </Space>
       ),
     },
