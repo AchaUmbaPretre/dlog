@@ -84,6 +84,10 @@ const Declaration = () => {
     openModal('Add', idDeclaration);
   };
 
+  const handleUpdateTemplate = (idDeclaration) => {
+    openModal('Update', idDeclaration);
+  };
+
   const closeAllModals = () => {
     setModalType(null);
   };
@@ -127,10 +131,6 @@ const Declaration = () => {
       [columnName]: !prev[columnName]
     }));
   };
-
-  const handleEdit = (id) => {
-
-  }
   
   const columns = [
     {
@@ -335,7 +335,7 @@ const Declaration = () => {
               <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
-                onClick={() => handleEdit(record.id_declaration_super)}
+                onClick={() => handleUpdateTemplate(record.id_declaration_super)}
               />
             </Tooltip>
             <Tooltip title="Supprimer">
