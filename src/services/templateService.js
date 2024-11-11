@@ -29,6 +29,9 @@ export const postTemplate = async (data) => {
     return axios.post(`${DOMAIN}/api/template`, data);
   };
 
+export const deletePutTemplate = async (id) => {
+    return axios.put(`${DOMAIN}/api/template/template_update_delete?id=${id}`);
+  };
 
 export const getTypeOccupation = async () => {
     return axios.get(`${DOMAIN}/api/template/type_occupation`);
@@ -48,4 +51,8 @@ export const getDeclaration = async (data) => {
 
 export const postDeclaration = async (data) => {
     return axios.post(`${DOMAIN}/api/template/declaration_superficie`, data);
+  };
+
+export const deletePutDeclaration = async (id) => {
+    return axios.put(`${DOMAIN}/api/template/declaration_superficie_delete?id=${id}`);
   };
