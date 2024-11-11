@@ -49,22 +49,28 @@ const NiveauForm = ({ idBatiment }) => {
           onFinishFailed={onFinishFailed}
           style={{ maxWidth: 600, margin: '0 auto' }}
         >
-          <Form.List name="niveaux" rules={[{ required: true, message: 'Veuillez ajouter au moins un niveau.' }]}>
+          <Form.List
+            name="niveaux"
+            initialValue={[{ nom_niveau: '' }]}
+          >
             {(fields, { add, remove }) => (
               <>
                 {fields.map((field, index) => (
-                  <Space key={field.key} align="baseline">
+                  <div key={field.key} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                     <Form.Item
                       {...field}
-                      label={`Nom du niveau ${index + 1}`}
+                      label={`Nom du niveau`}
                       name={[field.name, 'nom_niveau']}
                       fieldKey={[field.fieldKey, 'nom_niveau']}
                       rules={[{ required: true, message: 'Veuillez entrer le nom du niveau' }]}
+                      style={{ flex: 1 }}
                     >
                       <Input placeholder="Entrez le nom du niveau..." />
                     </Form.Item>
-                    <MinusCircleOutlined onClick={() => remove(field.name)} />
-                  </Space>
+                    {fields.length > 1 && (
+                      <MinusCircleOutlined onClick={() => remove(field.name)} style={{ marginLeft: 8 }} />
+                    )}
+                  </div>
                 ))}
                 <Form.Item>
                   <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
