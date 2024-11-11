@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
 import { MenuOutlined, EditOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
-import { getDeclaration } from '../../services/templateService';
+import { deletePutDeclaration, getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
 import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
 
@@ -90,6 +90,7 @@ const Declaration = () => {
 
   const handleDelete = async (id) => {
     try {
+      await deletePutDeclaration(id)
       setData(data.filter((item) => item.id_declaration_super !== id));
       message.success('Déclaration deleted successfully');
     } catch (error) {
