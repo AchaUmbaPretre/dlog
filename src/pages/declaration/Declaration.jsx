@@ -428,7 +428,7 @@ const Declaration = () => {
         visible={modalType === 'Detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={1200}
+        width={900}
         centered
       >
         <DeclarationDetail idDeclaration={idDeclaration} />

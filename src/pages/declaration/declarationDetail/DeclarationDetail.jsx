@@ -38,7 +38,6 @@ const DeclarationDetail = ({ idDeclaration }) => {
       <Card loading={loading} title="Détails de la Déclaration" bordered={false} style={{ maxWidth: 800, margin: 'auto' }}>
         {data ? (
           <>
-            {/* General Information Section */}
             <Descriptions title="Informations Générales" column={1} bordered>
               <Descriptions.Item label="Nom"><strong>{data.nom}</strong></Descriptions.Item>
               <Descriptions.Item label="Capital">{data.capital || 'N/A'}</Descriptions.Item>
@@ -48,7 +47,6 @@ const DeclarationDetail = ({ idDeclaration }) => {
 
             <Divider />
 
-            {/* Entreposage Section */}
             <Descriptions title={<><HomeOutlined /> Entreposage</>} column={1} bordered>
               <Descriptions.Item label="Débours Entreposage">{data.debours_entreposage}</Descriptions.Item>
               <Descriptions.Item label="Description">{data.desc_entreposage}</Descriptions.Item>
@@ -60,7 +58,6 @@ const DeclarationDetail = ({ idDeclaration }) => {
 
             <Divider />
 
-            {/* Manutention Section */}
             <Descriptions title={<><InfoCircleOutlined /> Manutention</>} column={1} bordered>
               <Descriptions.Item label="Débours Manutention">{data.debours_manutation}</Descriptions.Item>
               <Descriptions.Item label="Description">{data.desc_manutation}</Descriptions.Item>
@@ -72,7 +69,6 @@ const DeclarationDetail = ({ idDeclaration }) => {
 
             <Divider />
 
-            {/* Additional Information */}
             <Descriptions title="Informations Supplémentaires" column={1} bordered>
               <Descriptions.Item label="Nom Bâtiment">{data.nom_batiment || 'N/A'}</Descriptions.Item>
               <Descriptions.Item label="Nom Objet Facturé">{data.nom_objet_fact}</Descriptions.Item>
