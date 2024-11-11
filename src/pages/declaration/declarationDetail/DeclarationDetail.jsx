@@ -63,7 +63,7 @@ const DeclarationDetail = ({ idDeclaration }) => {
               <Descriptions.Item label="Description">{data.desc_manutation}</Descriptions.Item>
               <Descriptions.Item label="Manutention">{data.manutation}</Descriptions.Item>
               <Descriptions.Item label="Tarif Manutention">{data.tarif_manutation}</Descriptions.Item>
-              <Descriptions.Item label="Total Manutention">{data.total_manutation} £</Descriptions.Item>
+              <Descriptions.Item label="Total Manutention">{data.total_manutation} $</Descriptions.Item>
               <Descriptions.Item label="TTC Manutention">{data.ttc_manutation} $</Descriptions.Item>
             </Descriptions>
 
