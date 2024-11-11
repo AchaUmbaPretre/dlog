@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
-import { MenuOutlined, EditOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { MenuOutlined, EditOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { deletePutDeclaration, getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
 import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
+import moment from 'moment';
 
 const { Search } = Input;
 
@@ -73,6 +74,10 @@ const Declaration = () => {
   useEffect(() => {
     fetchData();
   }, [filteredDatas]);
+
+  const handleDetails = () => {
+
+  }
 
   const handleAddTemplate = (idTemplate) => {
     openModal('Add', idTemplate);
@@ -153,6 +158,8 @@ const Declaration = () => {
           title: 'Periode',
           dataIndex: 'periode',
           key: 'periode',
+          sorter: (a, b) => moment(a.periode) - moment(b.periode),
+          sortDirections: ['descend', 'ascend'],
           render: (text) => {
             const date = text ? new Date(text) : null;
             const formattedDate = date 
@@ -315,6 +322,14 @@ const Declaration = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
+          <Tooltip title="Voir les détails">
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() => handleDetails(record.id_tache)}
+              aria-label="Voir les détails de la tâche"
+              style={{ color: 'blue' }}
+            />
+          </Tooltip>
           <Tooltip title="Modifier">
               <Button
                 icon={<EditOutlined />}
