@@ -3,7 +3,7 @@ import { Button, Form, Input, Select, Row, Col, DatePicker, notification, Skelet
 import { getClient } from '../../../services/clientService';
 import { getObjetFacture, getTypeOccupation, postTemplate } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
-import { getDenominationOne, getNiveauOne, getWHSEFACTOne } from '../../../services/batimentService';
+import { getDenominationOne, getNiveauOne } from '../../../services/batimentService';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,8 +40,8 @@ const TemplateForm = ({ closeModal, fetchData }) => {
                 const [niveauData, denominationData, whseData] = await Promise.all([
                     getNiveauOne(idBatiment),
                     getDenominationOne(idBatiment),
-                    getWHSEFACTOne(idBatiment)
-                ]);
+/*                     getWHSEFACTOne(idBatiment)
+ */                ]);
                 setNiveau(niveauData.data);
                 setDenomination(denominationData.data);
                 setWhse_fact(whseData.data);
