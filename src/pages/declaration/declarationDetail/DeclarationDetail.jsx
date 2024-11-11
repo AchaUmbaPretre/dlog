@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DeclarationDetail = () => {
+const DeclarationDetail = ({closeModal, fetchData}) => {
   return (
     <div>DeclarationDetail</div>
   )

@@ -35,7 +35,7 @@ const Declaration = () => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
-  const [idClient, setidClient] = useState('');
+  const [idDeclaration, setidDeclaration] = useState('');
   const [modalType, setModalType] = useState(null);
 
     const fetchData = async () => {
@@ -88,10 +88,10 @@ const Declaration = () => {
     setModalType(null);
   };
   
-  const openModal = (type, idClient = '') => {
+  const openModal = (type, idDeclaration = '') => {
     closeAllModals();
     setModalType(type);
-    setidClient(idClient);
+    setidDeclaration(idDeclaration);
   };
 
   const handleDelete = async (id) => {
@@ -431,7 +431,7 @@ const Declaration = () => {
         width={1200}
         centered
       >
-        <DeclarationDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
+        <DeclarationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idDeclaration} />
      </Modal>
     </>
   );
