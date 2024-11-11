@@ -51,7 +51,8 @@ export const getDeclaration = async (data) => {
   };
 
 export const getDeclarationOne = async (id) => {
-    return axios.post(`${DOMAIN}/api/template/declaration_superficies/one?id=${id}`);
+  console.log(id)
+    return axios.get(`${DOMAIN}/api/template/declaration_superficie/one?id=${id}`);
   };
 
 export const postDeclaration = async (data) => {

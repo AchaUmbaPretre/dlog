@@ -6,6 +6,8 @@ const DeclarationDetail = ({idDeclaration}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    console.log(idDeclaration)
+
         const fetchDatas = async () => {
           try {
             const response = await getDeclarationOne(idDeclaration);

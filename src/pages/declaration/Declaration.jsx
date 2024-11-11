@@ -76,12 +76,12 @@ const Declaration = () => {
     fetchData();
   }, [filteredDatas]);
 
-  const handleDetails = (idTemplate) => {
-    openModal('Detail', idTemplate);
+  const handleDetails = (idDeclaration) => {
+    openModal('Detail', idDeclaration);
   }
 
-  const handleAddTemplate = (idTemplate) => {
-    openModal('Add', idTemplate);
+  const handleAddTemplate = (idDeclaration) => {
+    openModal('Add', idDeclaration);
   };
 
   const closeAllModals = () => {
@@ -326,7 +326,7 @@ const Declaration = () => {
           <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
-              onClick={() => handleDetails(record.id_tache)}
+              onClick={() => handleDetails(record.id_declaration_super)}
               aria-label="Voir les détails de la tâche"
               style={{ color: 'blue' }}
             />
