@@ -95,7 +95,6 @@ const Template = () => {
     </Menu>
   );  
 
-  
   const toggleColumnVisibility = (columnName, e) => {
     e.stopPropagation();
     setColumnsVisibility(prev => ({
