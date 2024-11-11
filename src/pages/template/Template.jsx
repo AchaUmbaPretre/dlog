@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { EditOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
-import { getTemplate } from '../../services/templateService';
+import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
 import { StatutColumn } from './templateStatut/TemplateStatut';
 
@@ -69,11 +69,11 @@ const Template = () => {
     window.print();
   };
 
-
   const handleDelete = async (id) => {
     try {
+      await deletePutTemplate(id)
       setData(data.filter((item) => item.id_template !== id));
-      message.success('Template deleted successfully');
+      message.success('Template a été supprimé avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',

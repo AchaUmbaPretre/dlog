@@ -99,7 +99,7 @@ const Taches = () => {
     try {
        await deletePutTache(id);
       setData(data.filter((item) => item.id_tache !== id));
-      message.success('Tache supprimée avec succès');
+      message.success('Tache a ete supprimée avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
