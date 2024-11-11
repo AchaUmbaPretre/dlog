@@ -216,14 +216,14 @@ const Template = () => {
               <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
-                onClick={() => handleEdit(record.id_tache)}
+                onClick={() => handleEdit(record.id_template)}
                 aria-label="Edit tache"
               />
             </Tooltip>
             <Tooltip title="Delete">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce client?"
-                onConfirm={() => handleDelete(record.id_client)}
+                onConfirm={() => handleDelete(record.id_template)}
                 okText="Oui"
                 cancelText="Non"
               >
