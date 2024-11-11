@@ -5,6 +5,7 @@ import { deletePutDeclaration, getDeclaration } from '../../services/templateSer
 import DeclarationForm from './declarationForm/DeclarationForm';
 import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
 import moment from 'moment';
+import DeclarationDetail from './declarationDetail/DeclarationDetail';
 
 const { Search } = Input;
 
@@ -75,8 +76,8 @@ const Declaration = () => {
     fetchData();
   }, [filteredDatas]);
 
-  const handleDetails = () => {
-
+  const handleDetails = (idTemplate) => {
+    openModal('Detail', idTemplate);
   }
 
   const handleAddTemplate = (idTemplate) => {
@@ -420,6 +421,17 @@ const Declaration = () => {
         centered
       >
          <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+     </Modal>
+
+     <Modal
+        title=""
+        visible={modalType === 'Detail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1200}
+        centered
+      >
+         <DeclarationDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
      </Modal>
     </>
   );
