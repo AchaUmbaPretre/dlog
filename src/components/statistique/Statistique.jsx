@@ -121,9 +121,9 @@ const Statistique = () => {
                 <div className="statistique_bottom_rows1">
                     <StatChart />
                 </div>
-                <div className="statistique_bottom_rows2">
+                {/* <div className="statistique_bottom_rows2">
                     <StatistiqueItems />
-                </div>
+                </div> */}
             </div>
         </div>
     );
