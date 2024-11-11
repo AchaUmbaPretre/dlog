@@ -323,6 +323,13 @@ const Declaration = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
+          <Tooltip title="Modifier">
+            <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleUpdateTemplate(record.id_declaration_super)}
+              />
+          </Tooltip>
           <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
@@ -331,13 +338,6 @@ const Declaration = () => {
               style={{ color: 'blue' }}
             />
           </Tooltip>
-          <Tooltip title="Modifier">
-              <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleUpdateTemplate(record.id_declaration_super)}
-              />
-            </Tooltip>
             <Tooltip title="Supprimer">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer cette déclaration ?"
