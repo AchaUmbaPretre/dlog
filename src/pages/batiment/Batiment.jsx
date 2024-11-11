@@ -382,7 +382,6 @@ const Batiment = () => {
         )
       ),
     }
-    
   ];
 
   const filteredData = data.filter(item =>
