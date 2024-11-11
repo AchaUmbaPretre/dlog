@@ -71,11 +71,11 @@ const TemplateForm = ({ closeModal, fetchData }) => {
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             form.resetFields();
-            closeModal();
-            fetchData();
             navigate('/liste_template')
+            fetchData();
+            closeModal();
         } catch (error) {
-            console.log(error)
+            console.error("Erreur lors de l'enregistrement : ", error);
         } finally {
             setIsLoading(false);
         }
