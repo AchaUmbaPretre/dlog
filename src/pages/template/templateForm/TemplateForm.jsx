@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Select, Row, Col, DatePicker, notification, Skeleton } from 'antd';
+import { Button, Form, Input, Select, Row, Col, DatePicker, notification, Skeleton, InputNumber } from 'antd';
 import { getClient } from '../../../services/clientService';
 import { getObjetFacture, getTypeOccupation, postTemplate } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
@@ -179,16 +179,15 @@ const TemplateForm = ({ closeModal, fetchData }) => {
                         <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Warehouse facture"
-                                name="id_whse_fact"
+                                name="nom_whse_fact"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un Warehouse facture!' }]}
                             >
                                 { isLoading ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        showSearch
-                                        options={whse_fact.map(item => ({ value: item.id_whse_fact, label: item.nom_whse_fact }))}
-                                        placeholder="Sélectionnez un Warehouse facture..."
-                                        optionFilterProp="label"
-                                    />
+                                <InputNumber 
+                                    placeholder="Entrez le Warehouse facture..." 
+                                    style={{ width: '100%' }}
+                                    min={0}
+                                />
                                 }
                             </Form.Item>
                         </Col>
