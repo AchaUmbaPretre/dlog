@@ -6,8 +6,6 @@ const DeclarationDetail = ({idDeclaration}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    console.log(idDeclaration)
-
         const fetchDatas = async () => {
           try {
             const response = await getDeclarationOne(idDeclaration);
@@ -25,10 +23,15 @@ const DeclarationDetail = ({idDeclaration}) => {
     useEffect(() => {
         fetchDatas();
       }, [idDeclaration]);
-    
 
   return (
-    <div>DeclarationDetail</div>
+    <>
+        <div className="declaration">
+            <div className="declaration_wrapper">
+
+            </div>
+        </div>
+    </>
   )
 }
 
