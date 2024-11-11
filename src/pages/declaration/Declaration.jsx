@@ -90,8 +90,8 @@ const Declaration = () => {
 
   const handleDelete = async (id) => {
     try {
-      setData(data.filter((item) => item.id_client !== id));
-      message.success('Client deleted successfully');
+      setData(data.filter((item) => item.id_declaration_super !== id));
+      message.success('Déclaration deleted successfully');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
