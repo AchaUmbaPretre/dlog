@@ -52,8 +52,8 @@ const DeclarationDetail = ({ idDeclaration }) => {
               <Descriptions.Item label="Description">{data.desc_entreposage}</Descriptions.Item>
               <Descriptions.Item label="Entreposage">{data.entreposage}</Descriptions.Item>
               <Descriptions.Item label="Tarif Entreposage">{data.tarif_entreposage}</Descriptions.Item>
-              <Descriptions.Item label="Total Entreposage">{data.total_entreposage}</Descriptions.Item>
-              <Descriptions.Item label="TTC Entreposage">{data.ttc_entreposage}</Descriptions.Item>
+              <Descriptions.Item label="Total Entreposage">{data.total_entreposage} $</Descriptions.Item>
+              <Descriptions.Item label="TTC Entreposage">{data.ttc_entreposage} $</Descriptions.Item>
             </Descriptions>
 
             <Divider />
@@ -63,8 +63,8 @@ const DeclarationDetail = ({ idDeclaration }) => {
               <Descriptions.Item label="Description">{data.desc_manutation}</Descriptions.Item>
               <Descriptions.Item label="Manutention">{data.manutation}</Descriptions.Item>
               <Descriptions.Item label="Tarif Manutention">{data.tarif_manutation}</Descriptions.Item>
-              <Descriptions.Item label="Total Manutention">{data.total_manutation}</Descriptions.Item>
-              <Descriptions.Item label="TTC Manutention">{data.ttc_manutation}</Descriptions.Item>
+              <Descriptions.Item label="Total Manutention">{data.total_manutation} £</Descriptions.Item>
+              <Descriptions.Item label="TTC Manutention">{data.ttc_manutation} $</Descriptions.Item>
             </Descriptions>
 
             <Divider />
