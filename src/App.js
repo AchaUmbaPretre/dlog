@@ -18,8 +18,7 @@ import Projet from './pages/projet/Projet';
 import Fournisseur from './pages/fournisseur/Fournisseur';
 import Offres from './pages/offres/Offres';
 import { useSelector } from 'react-redux';
-import { PacmanLoader } from 'react-spinners'; // ou tout autre spinner de votre choix
-import { Spin } from 'antd';
+import { PacmanLoader } from 'react-spinners';
 import Batiment from './pages/batiment/Batiment';
 import Article from './pages/article/Article';
 import Categorie from './pages/categorie/Categorie';
@@ -51,9 +50,7 @@ import WhseFact from './pages/batiment/whseFact/WhseFact';
 import TacheForm from './pages/taches/tacheform/TacheForm';
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(true);
   const [loading, setLoading] = useState(true);
-  const user = useSelector((state) => state.user?.currentUser);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [data, setData] = useState([]);
 
