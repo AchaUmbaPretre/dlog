@@ -315,14 +315,13 @@ const Declaration = () => {
                   <Button
                     icon={<EditOutlined />}
                     style={{ color: 'green' }}
-                    onClick={() => handleEdit(record.id_template)}
-                    aria-label="Edit tache"
+                    onClick={() => handleEdit(record.id_declaration_super)}
                   />
                 </Tooltip>
-                <Tooltip title="Delete">
+                <Tooltip title="Supprimer">
                   <Popconfirm
-                    title="Êtes-vous sûr de vouloir supprimer ce client?"
-                    onConfirm={() => handleDelete(record.id_template)}
+                    title="Êtes-vous sûr de vouloir supprimer cette déclaration ?"
+                    onConfirm={() => handleDelete(record.id_declaration_super)}
                     okText="Oui"
                     cancelText="Non"
                   >
