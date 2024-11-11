@@ -425,6 +425,17 @@ const Declaration = () => {
 
      <Modal
         title=""
+        visible={modalType === 'Update'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1200}
+        centered
+      >
+        <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idDeclaration} />
+     </Modal>
+
+     <Modal
+        title=""
         visible={modalType === 'Detail'}
         onCancel={closeAllModals}
         footer={null}

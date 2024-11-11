@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Button, Select, DatePicker, Collapse, notification } from 'antd';
 import './declarationForm.scss';
 import TemplateOne from '../../template/templateOne/TemplateOne';
-import { getObjetFacture, getTemplate, getTemplateOne, postDeclaration } from '../../../services/templateService';
+import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const DeclarationForm = ({closeModal, fetchData, }) => {
+const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const [form] = Form.useForm();
     const [templates, setTemplates] = useState([]);
     const [idTemplate, setIdTemplate] = useState(null);
@@ -35,6 +36,16 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
             setProvince(provinceData.data);
             setClient(clientData.data);
             setBatiment(batimentData.data)
+
+            if(idDeclaration) {
+                const { data : declaration } = await getDeclarationOne(idDeclaration)
+                if( declaration && declaration[0]){
+                    form.setFieldsValue({
+                        ...declaration[0],
+                        periode : moment(declaration[0].periode, 'YYYY-MM-DD')
+                    })
+                }
+            }
 
         } catch (error) {
             notification.error({
@@ -313,7 +324,7 @@ const DeclarationForm = ({closeModal, fetchData, }) => {
                                 loading={isLoading}
                                 disabled={isLoading}
                             >
-                                Soumettre
+                                { idDeclaration ? 'Modifier' : 'Soumettre' }
                             </Button>
                         </Form.Item>
                     </Form>
