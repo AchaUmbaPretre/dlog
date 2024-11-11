@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { MenuOutlined,CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
+import { MenuOutlined, EditOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
 import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
@@ -35,7 +35,6 @@ const Declaration = () => {
   const scroll = { x: 400 };
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
-
 
     const fetchData = async () => {
 
@@ -122,197 +121,10 @@ const Declaration = () => {
     }));
   };
 
+  const handleEdit = (id) => {
 
-/*   const columns = [
-      {
-        title: '#',
-        dataIndex: 'id',
-        key: 'id',
-        render: (text, record, index) => index + 1,
-        width: "3%",
-        ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Template',
-          dataIndex: 'desc_template',
-          key: 'desc_template',
-          render: (text) => (
-            <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Periode',
-          dataIndex: 'periode',
-          key: 'periode',
-          render: (text) => {
-              const date = text ? new Date(text) : null;
-              const formattedDate = date 
-                  ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
-                  : 'Aucun';
-      
-              return (
-                  <Tag icon={<CalendarOutlined />} color="purple">{formattedDate}</Tag>
-              );
-          },
-          ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-        title: 'M² occupe',
-        dataIndex: 'm2_occupe',
-        key: 'm2_occupe',
-        render: (text) => (
-          <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
-        ),
-        ...(columnsVisibility['M² occupe'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-        title: 'M² facture',
-        dataIndex: 'm2_facture',
-        key: 'm2_facture',
-        render: (text) => (
-          <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
-        ),
-        ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-        title: 'Tarif Entr',
-        dataIndex: 'tarif_entreposage',
-        key: 'tarif_entreposage',
-        render: (text) => (
-          <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
-        ),
-        ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Debours Entr',
-          dataIndex: 'debours_entreposage',
-          key: 'debours_entreposage',
-          render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Debours Entr'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Total Entr',
-          dataIndex: 'total_entreposage',
-          key: 'total_entreposage',
-          render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'TTC Entr',
-          dataIndex: 'ttc_entreposage',
-          key: 'ttc_entreposage',
-          render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Ville',
-          dataIndex: 'capital',
-          key: 'capital',
-          render: (text) => (
-            <Tag icon={<EnvironmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Ville'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-        title: 'Client',
-        dataIndex: 'nom',
-        key: 'nom',
-        render: (text) => (
-          <Tag icon={<UserOutlined />} color="orange">{text ?? 'Aucun'}</Tag>
-        ),
-        ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Bâtiment',
-          dataIndex: 'nom_batiment',
-          key: 'nom_batiment',
-          render: (nom_batiment) => (
-            nom_batiment.map((nb, index) => (
-              <div style={{display:'flex', gap:'10px'}}>
-                <Tag key={index} icon={<HomeOutlined />} color="purple">{nb ?? 'Aucun'}</Tag>
-              </div>
-            ))),
-          ...(columnsVisibility['Bâtiment'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Objet fact',
-          dataIndex: 'nom_objet_fact',
-          key: 'nom_objet_fact',
-          render: (text) => (
-            <Tag icon={<FileTextOutlined />} color="magenta">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Objet fact'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Manutention',
-          dataIndex: 'manutation',
-          key: 'manutation',
-          render: (text) => (
-            <Tag icon={<ToolOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Manutention'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Tarif Manu',
-          dataIndex: 'tarif_manutation',
-          key: 'tarif_manutation',
-          render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
-
-      },
-      {
-          title: 'Debours Manu',
-          dataIndex: 'debours_manutation',
-          key: 'debours_manutation',
-          render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Debours Manu'] ? {} : { className: 'hidden-column' }),
-      },
-      {
-          title: 'Total Manu',
-          dataIndex: 'total_manutation',
-          key: 'total_manutation',
-          render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
-      },
-      {
-          title: 'TTC Manu',
-          dataIndex: 'ttc_manutation',
-          key: 'ttc_manutation',
-          render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
-      },
-  ]; */
-
-
+  }
+  
   const columns = [
     {
       title: '#',
@@ -492,6 +304,37 @@ const Declaration = () => {
             <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Action',
+          key: 'action',
+          width: '10%',
+          render: (text, record) => (
+            <Space size="middle">
+              <Tooltip title="Modifier">
+                  <Button
+                    icon={<EditOutlined />}
+                    style={{ color: 'green' }}
+                    onClick={() => handleEdit(record.id_template)}
+                    aria-label="Edit tache"
+                  />
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <Popconfirm
+                    title="Êtes-vous sûr de vouloir supprimer ce client?"
+                    onConfirm={() => handleDelete(record.id_template)}
+                    okText="Oui"
+                    cancelText="Non"
+                  >
+                    <Button
+                      icon={<DeleteOutlined />}
+                      style={{ color: 'red' }}
+                      aria-label="Delete client"
+                    />
+                  </Popconfirm>
+                </Tooltip>
+            </Space>
+          ),
         },
       ]
     }
