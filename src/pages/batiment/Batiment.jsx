@@ -339,13 +339,13 @@ const Batiment = () => {
                   <FileTextOutlined /> Créer une denomination
                 </Menu.Item>
                 <Menu.Divider />
-
+{/* 
                 <Menu.Item onClick={() => handListeWhseFacture(record.id_batiment)}>
                   <FileTextOutlined /> Liste des WHSE FACT
                 </Menu.Item>
                 <Menu.Item onClick={() => handleAddWhseFacture(record.id_batiment)}>
                   <FileTextOutlined /> Créer un WHSE FACT
-                </Menu.Item>
+                </Menu.Item> */}
           </Menu>
         )}
         trigger={['click']}
