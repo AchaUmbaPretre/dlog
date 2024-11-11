@@ -97,11 +97,11 @@ const TemplateForm = ({ closeModal, fetchData }) => {
                             >
                             { isLoading ? <Skeleton.Input active={true} /> : 
                             <Select
-                                    showSearch
-                                    options={client.map(item => ({ value: item.id_client, label: item.nom }))}
-                                    placeholder="Sélectionnez un client..."
-                                    optionFilterProp="label"
-                                />
+                                showSearch
+                                options={client.map(item => ({ value: item.id_client, label: item.nom }))}
+                                placeholder="Sélectionnez un client..."
+                                optionFilterProp="label"
+                            />
                             }
                             </Form.Item>
                         </Col>
