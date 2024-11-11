@@ -431,7 +431,7 @@ const Declaration = () => {
         width={1200}
         centered
       >
-         <DeclarationDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
+        <DeclarationDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
      </Modal>
     </>
   );
