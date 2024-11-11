@@ -623,7 +623,6 @@ const Batiment = () => {
         >
           <NiveauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
         </Modal>
-
         <Modal
           title=""
           visible={modalType === 'listeDenomination'}

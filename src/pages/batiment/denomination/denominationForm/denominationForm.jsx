@@ -1,81 +1,91 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { postDenomination } from '../../../../services/batimentService';
 
-const DenominationForm= ({idBatiment}) => {
+const DenominationForm = ({ idBatiment }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [denominations, setDenominations] = useState([{ nom_denomination_bat: '' }]);
 
-  const onFinish = async(values) => {
-     setLoading(true);
+  const onFinish = async (values) => {
+    setLoading(true);
     try {
-        
-        await postDenomination(idBatiment,values)
-        notification.success({
-          message: 'Succès',
-          description: 'Le formulaire a été soumis avec succès.',
-        });
-        window.location.reload();
-        form.resetFields();
+      // Appel à postDenomination avec plusieurs dénominations
+      await postDenomination(idBatiment, { denominations });
+      notification.success({
+        message: 'Succès',
+        description: 'Les dénominations ont été ajoutées avec succès.',
+      });
+      window.location.reload();
+      form.resetFields();
+      setDenominations([{ nom_denomination_bat: '' }]); // Réinitialiser les champs de dénomination
     } catch (error) {
-        notification.error({
-            message: 'Erreur',
-            description: "Erreur lors de l'enregistrement du projet.",
-        });
-    }
-    finally {
-        setLoading(false);
+      notification.error({
+        message: 'Erreur',
+        description: "Erreur lors de l'enregistrement des dénominations.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
-/*   useEffect(()=> {
-    const fetchData = async () => {
-        const {data} = await getCorpsMetierOne(idCorps)
-        if(data && data[0] ){
-            form.setFieldsValue(data[0])
-        }
-    }
+  const addDenominationField = () => {
+    setDenominations([...denominations, { nom_denomination_bat: '' }]);
+  };
 
-    fetchData();
-  }, [idCorps]) */
+  const removeDenominationField = (index) => {
+    const newDenominations = denominations.filter((_, i) => i !== index);
+    setDenominations(newDenominations);
+  };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Échec de la soumission:', errorInfo);
-    notification.error({
-      message: 'Erreur',
-      description: 'Veuillez vérifier les champs du formulaire.',
-    });
+  const handleDenominationChange = (index, value) => {
+    const newDenominations = [...denominations];
+    newDenominations[index].nom_denomination_bat = value;
+    setDenominations(newDenominations);
   };
 
   return (
     <div className="controle_form">
-        <div className="controle_title_rows">
-            <h2 className='controle_h2'>Insérer une dénomination</h2>                
-        </div>
-        <div className="controle_wrapper">
-            <Form
-                form={form}
-                name="format_form"
-                layout="vertical"
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                style={{ maxWidth: 600, margin: '0 auto' }}
+      <div className="controle_title_rows">
+        <h2 className='controle_h2'>Insérer des dénominations</h2>
+      </div>
+      <div className="controle_wrapper">
+        <Form
+          form={form}
+          name="format_form"
+          layout="vertical"
+          onFinish={onFinish}
+          style={{ maxWidth: 600, margin: '0 auto' }}
+        >
+          {denominations.map((denomination, index) => (
+            <Form.Item
+              key={index}
+              label={`Dénomination`}
+              required
+              rules={[{ required: true, message: 'Veuillez entrer la dénomination' }]}
             >
-                <Form.Item
-                    label="Dénomination"
-                    name="nom_denomination_bat"
-                    rules={[{ required: true, message: 'Veuillez entrer la dénomination' }]}
-                >
-                    <Input placeholder="Entrez la dénomination..." />
-                </Form.Item>
-
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                    Soumettre
-                    </Button>
-                </Form.Item>
-            </Form>
-        </div>
+              <Input
+                placeholder="Entrez la dénomination..."
+                value={denomination.nom_denomination_bat}
+                onChange={(e) => handleDenominationChange(index, e.target.value)}
+              />
+              {denominations.length > 1 && (
+                <Button type="link" onClick={() => removeDenominationField(index)}>
+                  Supprimer
+                </Button>
+              )}
+            </Form.Item>
+          ))}
+          <Button type="dashed" onClick={addDenominationField} style={{ width: '100%' }}>
+            Ajouter une autre dénomination
+          </Button>
+          <Form.Item>
+            <Button style={{marginTop:'15px'}} type="primary" htmlType="submit" loading={loading} disabled={loading}>
+              Soumettre
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
 };
