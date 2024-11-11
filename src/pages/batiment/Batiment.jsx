@@ -621,7 +621,7 @@ const Batiment = () => {
           width={600}
           centered
         >
-          <NiveauForm idBatiment={idBatiment} />
+          <NiveauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
         </Modal>
 
         <Modal

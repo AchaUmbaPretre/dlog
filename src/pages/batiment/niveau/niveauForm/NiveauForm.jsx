@@ -3,20 +3,21 @@ import { Form, Input, Button, notification, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { postNiveau } from '../../../../services/batimentService';
 
-const NiveauForm = ({ idBatiment }) => {
+const NiveauForm = ({ idBatiment, closeModal, fetchData }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // Envoyer tous les noms de niveaux sous forme de tableau
       await postNiveau(idBatiment, values.niveaux);
       notification.success({
         message: 'Succès',
         description: 'Les niveaux ont été ajoutés avec succès.',
       });
       form.resetFields();
+      closeModal();
+      fetchData();
     } catch (error) {
       notification.error({
         message: 'Erreur',

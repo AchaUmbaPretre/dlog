@@ -199,9 +199,11 @@ export const getNiveauOne = async (id) => {
 
 export const postNiveau = async (idBatiment, data) => {
   const params = {
-    id_batiment:idBatiment,
-    ...data
-  }
+    id_batiment: idBatiment,
+    niveaux: Object.keys(data)
+      .filter(key => key !== 'id_batiment')
+      .map(key => data[key])
+  };
 return axios.post(`${DOMAIN}/api/batiment/niveaau_batiment`, params);
 };
 
