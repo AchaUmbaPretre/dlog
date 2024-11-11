@@ -107,7 +107,7 @@ const DataTableau = ({ idBatiment }) => {
           bodyStyle={{ padding: '20px' }}
         >
           <Badge count={data.nbre_enpanne || 0} showZero>
-            <BankOutlined style={{ fontSize: '40px', color: 'blue', marginBottom: '10px' }} />
+            <BankOutlined style={{ fontSize: '40px', color: 'black', marginBottom: '10px' }} />
           </Badge>
           <h3>Dénomination</h3>
         </Card>
