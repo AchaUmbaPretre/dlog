@@ -306,38 +306,39 @@ const Declaration = () => {
           ),
           ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
         },
-        {
-          title: 'Action',
-          key: 'action',
-          width: '10%',
-          render: (text, record) => (
-            <Space size="middle">
-              <Tooltip title="Modifier">
-                  <Button
-                    icon={<EditOutlined />}
-                    style={{ color: 'green' }}
-                    onClick={() => handleEdit(record.id_declaration_super)}
-                  />
-                </Tooltip>
-                <Tooltip title="Supprimer">
-                  <Popconfirm
-                    title="Êtes-vous sûr de vouloir supprimer cette déclaration ?"
-                    onConfirm={() => handleDelete(record.id_declaration_super)}
-                    okText="Oui"
-                    cancelText="Non"
-                  >
-                    <Button
-                      icon={<DeleteOutlined />}
-                      style={{ color: 'red' }}
-                      aria-label="Delete client"
-                    />
-                  </Popconfirm>
-                </Tooltip>
-            </Space>
-          ),
-        },
       ]
-    }
+    },
+
+    {
+      title: 'Action',
+      key: 'action',
+      width: '10%',
+      render: (text, record) => (
+        <Space size="middle">
+          <Tooltip title="Modifier">
+              <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleEdit(record.id_declaration_super)}
+              />
+            </Tooltip>
+            <Tooltip title="Supprimer">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer cette déclaration ?"
+                onConfirm={() => handleDelete(record.id_declaration_super)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Delete client"
+                />
+              </Popconfirm>
+            </Tooltip>
+        </Space>
+      ),
+    },
   ];
   
 
