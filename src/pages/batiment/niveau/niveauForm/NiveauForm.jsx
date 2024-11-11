@@ -1,43 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, notification } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, notification, Space } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { postNiveau } from '../../../../services/batimentService';
 
-const NiveauForm = ({idBatiment}) => {
+const NiveauForm = ({ idBatiment }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  const onFinish = async(values) => {
-     setLoading(true);
+  const onFinish = async (values) => {
+    setLoading(true);
     try {
-
-        await postNiveau(idBatiment,values)
-        notification.success({
-          message: 'Succès',
-          description: 'Le formulaire a été soumis avec succès.',
-        });
-        window.location.reload();
-        form.resetFields();
+      // Envoyer tous les noms de niveaux sous forme de tableau
+      await postNiveau(idBatiment, values.niveaux);
+      notification.success({
+        message: 'Succès',
+        description: 'Les niveaux ont été ajoutés avec succès.',
+      });
+      form.resetFields();
     } catch (error) {
-        notification.error({
-            message: 'Erreur',
-            description: "Erreur lors de l'enregistrement du projet.",
-        });
-    }
-    finally {
-        setLoading(false);
+      notification.error({
+        message: 'Erreur',
+        description: "Erreur lors de l'enregistrement des niveaux.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
-
-/*   useEffect(()=> {
-    const fetchData = async () => {
-        const {data} = await getCorpsMetierOne(idCorps)
-        if(data && data[0] ){
-            form.setFieldsValue(data[0])
-        }
-    }
-
-    fetchData();
-  }, [idCorps]) */
 
   const onFinishFailed = (errorInfo) => {
     console.log('Échec de la soumission:', errorInfo);
@@ -49,33 +37,50 @@ const NiveauForm = ({idBatiment}) => {
 
   return (
     <div className="controle_form">
-        <div className="controle_title_rows">
-            <h2 className='controle_h2'>Insérer un nouveau niveau</h2>                
-        </div>
-        <div className="controle_wrapper">
-            <Form
-                form={form}
-                name="format_form"
-                layout="vertical"
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                style={{ maxWidth: 600, margin: '0 auto' }}
-            >
-        <Form.Item
-            label="Nom niveau"
-            name="nom_niveau"
-            rules={[{ required: true, message: 'Veuillez entrer le nom du niveau' }]}
+      <div className="controle_title_rows">
+        <h2 className="controle_h2">Insérer plusieurs niveaux</h2>
+      </div>
+      <div className="controle_wrapper">
+        <Form
+          form={form}
+          name="format_form"
+          layout="vertical"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          style={{ maxWidth: 600, margin: '0 auto' }}
         >
-            <Input placeholder="Entrez le nom du niveau..." />
-        </Form.Item>
-
-        <Form.Item>
+          <Form.List name="niveaux" rules={[{ required: true, message: 'Veuillez ajouter au moins un niveau.' }]}>
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map((field, index) => (
+                  <Space key={field.key} align="baseline">
+                    <Form.Item
+                      {...field}
+                      label={`Nom du niveau ${index + 1}`}
+                      name={[field.name, 'nom_niveau']}
+                      fieldKey={[field.fieldKey, 'nom_niveau']}
+                      rules={[{ required: true, message: 'Veuillez entrer le nom du niveau' }]}
+                    >
+                      <Input placeholder="Entrez le nom du niveau..." />
+                    </Form.Item>
+                    <MinusCircleOutlined onClick={() => remove(field.name)} />
+                  </Space>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+                    Ajouter un niveau
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+          <Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-            Soumettre
+              Soumettre
             </Button>
-        </Form.Item>
-            </Form>
-        </div>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
 };
