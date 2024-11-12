@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Button, InputNumber, message, Row, Col, notification, Skeleton } from 'antd';
-import './binForm.css'; // Assurez-vous de créer un fichier CSS pour le style personnalisé
+import './binForm.css';
 import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 import { getBinsOneV, postBins, putBins } from '../../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 
 const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState(true); // Défini le loading à true par défaut
+    const [loading, setLoading] = useState(true);
     const [type, setType] = useState([]);
     const [status, setStatus] = useState([]);
     const navigate = useNavigate();
