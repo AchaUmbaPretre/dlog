@@ -206,6 +206,18 @@ const Template = () => {
       ...(columnsVisibility['Date active'] ? {} : { className: 'hidden-column' })
 
     },
+    { 
+      title: 'Date inactive', 
+      dataIndex: 'date_inactif', 
+      key: 'date_inactif',
+      sorter: (a, b) => moment(a.date_inactif).unix() - moment(b.date_inactif).unix(),
+      render: (text) => (
+        <Tag icon={<CalendarOutlined />} color='red'>
+          {text ? moment(text).format('DD-MM-yyyy') : 'Aucune'}
+        </Tag>
+      ),
+      ...(columnsVisibility['Date active'] ? {} : { className: 'hidden-column' })
+    },
     {
       title: 'Statut',
       dataIndex: 'id_statut_template',
