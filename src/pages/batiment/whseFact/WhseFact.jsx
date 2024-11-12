@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, message, notification, Tag } from 'antd';
-import { FileTextOutlined,DollarOutlined,BankOutlined } from '@ant-design/icons';
+import { FileTextOutlined,ApartmentOutlined,ShareAltOutlined,LockOutlined,DollarOutlined,BankOutlined } from '@ant-design/icons';
 import { getWHSEFACT } from '../../../services/batimentService';
 
 const { Search } = Input;
@@ -52,6 +52,47 @@ const WhseFact = () => {
       render: (text, record, index) => index + 1,
       width: "3%",
     },
+    {
+      title: 'Template',
+      dataIndex: 'desc_template',
+      key: 'desc_template',
+      render: (text) => {
+        return (
+          <Tag color= 'blue'>
+            {text ?? 'Aucun'}
+          </Tag>
+        );
+      },
+    },
+    {
+      title: 'Type occu',
+      dataIndex: 'nom_type_d_occupation',
+      key: 'nom_type_d_occupation',
+      render: (text) => {
+        let color;
+        let icon;
+        switch (text) {
+          case 'Dedié':
+            color = 'green'; // Couleur pour "Dedié"
+            icon = <ApartmentOutlined />; // Icône pour "Dedié"
+            break;
+          case 'Partagé':
+            color = 'orange'; // Couleur pour "Partagé"
+            icon = <ShareAltOutlined />; // Icône pour "Partagé"
+            break;
+          case 'Réservé':
+            color = 'red';
+            icon = <LockOutlined />;
+            break;
+          default:
+            color = 'blue';
+            icon = <ApartmentOutlined />; 
+        }
+        return (
+          <Tag icon={icon} color={color}>{text ?? 'Aucun'}</Tag>
+        );
+      }    
+    }, 
     {
       title: 'Batiment',
       dataIndex: 'nom_batiment',
