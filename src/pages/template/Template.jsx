@@ -287,8 +287,8 @@ const Template = () => {
     item.nom_type_d_occupation?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.nom_niveau?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.nom_denomination_bat?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom_objet_fact?.toLowerCase().includes(searchValue.toLowerCase())
-
+    item.nom_objet_fact?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())
    );
 
   return (
