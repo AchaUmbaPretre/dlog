@@ -36,14 +36,6 @@ const Adresse = () => {
     setModalType(null);
   };
 
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
 
   const handleDelete = async (id) => {
     try {
