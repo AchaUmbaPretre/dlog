@@ -1,13 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import './dataTableau.scss';
 import { getTableauOne } from '../../../../services/batimentService';
-import { notification, Card, Row, Col, Spin, Badge } from 'antd';
+import { notification, Card, Row, Col, Spin, Badge, Modal } from 'antd';
 import { ToolOutlined, ApartmentOutlined, CheckCircleOutlined,BankOutlined, SettingOutlined, WarningOutlined } from '@ant-design/icons';
+import DenominationForm from '../../denomination/denominationForm/DenominationForm';
+import NiveauForm from '../../niveau/niveauForm/NiveauForm';
 
 const DataTableau = ({ idBatiment }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const [nameBatiment, setNameBatiment] = useState('');
+  const [modalType, setModalType] = useState(null);
+
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type, idBatiment = '') => {
+    closeAllModals();
+    setModalType(type);
+  };
+
+  const handleAddNiveau = ( idBatiment) =>{
+    openModal('addNiveau', idBatiment)
+  }
+
+  const handleAddDenom = ( idBatiment) =>{
+    openModal('addDenomination', idBatiment)
+  }
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -86,7 +108,7 @@ const DataTableau = ({ idBatiment }) => {
           <h3>En Panne</h3>
         </Card>
       </Col>
-      <Col xs={24} sm={12} md={6}>
+      <Col xs={24} sm={12} md={6} onClick={handleAddNiveau}>
         <Card
           className="data-card"
           hoverable
@@ -99,7 +121,7 @@ const DataTableau = ({ idBatiment }) => {
           <h3>Niveau</h3>
         </Card>
       </Col>
-      <Col xs={24} sm={12} md={6}>
+      <Col xs={24} sm={12} md={6} onClick={handleAddDenom}>
         <Card
           className="data-card"
           hoverable
@@ -127,6 +149,28 @@ const DataTableau = ({ idBatiment }) => {
       ) : (
         renderDataCards()
       )}
+      <Modal
+          title=""
+          visible={modalType === 'addNiveau'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={600}
+          centered
+        >
+          <NiveauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'addDenomination'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={600}
+          centered
+        >
+          <DenominationForm idBatiment={idBatiment} />
+        </Modal>
+
     </div>
   );
 };
