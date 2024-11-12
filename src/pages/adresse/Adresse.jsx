@@ -78,19 +78,19 @@ const Adresse = () => {
       width: "3%",
     },
     {
+        title: 'Bin',
+        dataIndex: 'nom',
+        key: 'nom',
+        render: (text) => (
+          <Tag color="blue">{text ?? 'Aucun'}</Tag>
+        ),
+      },
+    {
       title: 'Adresse',
       dataIndex: 'adresse',
       key: 'adresse',
       render: (text) => (
         <Tag icon={<BankOutlined />} color="green">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    {
-      title: 'Bin',
-      dataIndex: 'nom_bin',
-      key: 'nom_bin',
-      render: (text) => (
-        <Tag color="blue">{text ?? 'Aucun'}</Tag>
       ),
     }
   ]
