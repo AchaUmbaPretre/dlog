@@ -48,6 +48,7 @@ import Niveau from './pages/batiment/niveau/Niveau';
 import Denomination from './pages/batiment/denomination/Denomination';
 import WhseFact from './pages/batiment/whseFact/WhseFact';
 import TacheForm from './pages/taches/tacheform/TacheForm';
+import Adresse from './pages/adresse/Adresse';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -167,6 +168,10 @@ function App() {
         {
           path: '/liste_bins',
           element: <ListBinGlobal/>
+        },
+        {
+          path: '/adresse',
+          element: <Adresse/>
         },
         {
           path: '/liste_equipement',

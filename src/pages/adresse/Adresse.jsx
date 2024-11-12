@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Modal, Input, message, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, BankOutlined } from '@ant-design/icons';
-import { getDenomination } from '../../../services/batimentService';
 
 const { Search } = Input;
 
@@ -12,7 +11,7 @@ const Adresse = () => {
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
 
-     const fetchData = async () => {
+/*      const fetchData = async () => {
 
       try {
         const { data } = await getDenomination();
@@ -29,7 +28,7 @@ const Adresse = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); */
 ;
 
   const closeAllModals = () => {
@@ -107,7 +106,7 @@ const Adresse = () => {
             <div className="client-row-icon">
             🏢
             </div>
-            <h2 className="client-h2">Liste des dénominations</h2>
+            <h2 className="client-h2">Liste des adresses</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
