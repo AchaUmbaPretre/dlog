@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { EditOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
