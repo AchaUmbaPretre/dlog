@@ -14,6 +14,7 @@ const Declaration = () => {
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
     'Template': true,
+    'Desc man': true,
     'Periode': true,
     'M² occupe': true,
     "M² facture": true,
@@ -37,6 +38,8 @@ const Declaration = () => {
   const scroll = { x: 400 };
   const [idDeclaration, setidDeclaration] = useState('');
   const [modalType, setModalType] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
+
 
     const fetchData = async () => {
 
@@ -234,6 +237,15 @@ const Declaration = () => {
       title: 'Manutention',
       children: [
         {
+          title: 'Desc Man',
+          dataIndex: 'desc_manutation',
+          key: 'desc_manutation',
+          render: (text) => (
+            <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Desc man'] ? {} : { className: 'hidden-column' }),
+        },
+        {
           title: 'Ville',
           dataIndex: 'capital',
           key: 'capital',
@@ -361,6 +373,11 @@ const Declaration = () => {
   const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
   };
+
+  const filteredData = data.filter(item =>
+    item.desc_template?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())   );
   
   return (
     <>
@@ -375,7 +392,11 @@ const Declaration = () => {
           {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} />}
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search 
+                placeholder="Recherche..." 
+                enterButton
+                onChange={(e) => setSearchValue(e.target.value)}
+               />
             </div>
             <div className="client-rows-right">
               <Button
