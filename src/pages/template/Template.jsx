@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { EditOutlined,ShareAltOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
@@ -57,6 +57,8 @@ const Template = () => {
   const handleEdit = (idTemplate) => {
     openModal('Edit', idTemplate);
   }
+
+  const handleDetail = (idTemplate) => openModal('Detail', idTemplate)
 
   const closeAllModals = () => {
     setModalType(null);
@@ -263,6 +265,14 @@ const Template = () => {
                 aria-label="Edit tache"
               />
             </Tooltip>
+            <Tooltip title="Voir les détails">
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() => handleDetail(record.id_template)}
+              aria-label="détail"
+              style={{ color: 'blue' }}
+            />
+          </Tooltip>
             <Tooltip title="Delete">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce client?"
