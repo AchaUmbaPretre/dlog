@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Button, Select, DatePicker, Collapse, notification } from 'antd';
 import './declarationForm.scss';
 import TemplateOne from '../../template/templateOne/TemplateOne';
-import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration } from '../../../services/templateService';
+import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
@@ -83,7 +83,12 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
         setIsLoading(true);
 
         try {
-            await postDeclaration(values);
+            if(idDeclaration) {
+                await putDeclaration(values)
+            }
+            else{
+                await postDeclaration(values);
+            }
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',

@@ -58,6 +58,10 @@ export const postDeclaration = async (data) => {
     return axios.post(`${DOMAIN}/api/template/declaration_superficie`, data);
   };
 
+export const putDeclaration = async (data) => {
+    return axios.put(`${DOMAIN}/api/template/declaration_superficie`, data);
+  };
+
 export const deletePutDeclaration = async (id) => {
     return axios.put(`${DOMAIN}/api/template/declaration_superficie_delete?id=${id}`);
   };
