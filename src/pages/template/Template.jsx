@@ -12,6 +12,7 @@ const Template = () => {
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
+    'Template' : true,
     'Client': true,
     'Type occu': true,
     'Batiment': true,
@@ -120,8 +121,7 @@ const Template = () => {
       render: (text) => (
         <Tag icon={<FileTextOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
       ),
-      ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' })
-
+      ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Client',
