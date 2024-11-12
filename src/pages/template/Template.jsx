@@ -114,6 +114,16 @@ const Template = () => {
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
     {
+      title: 'Template',
+      dataIndex: 'desc_template',
+      key: 'desc_template',
+      render: (text) => (
+        <Tag icon={<FileTextOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+      ),
+      ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' })
+
+    },
+    {
       title: 'Client',
       dataIndex: 'nom_client',
       key: 'nom_client',
