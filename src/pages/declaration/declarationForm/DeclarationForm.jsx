@@ -84,7 +84,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
 
         try {
             if(idDeclaration) {
-                await putDeclaration(values)
+                await putDeclaration(idDeclaration, values)
             }
             else{
                 await postDeclaration(values);
