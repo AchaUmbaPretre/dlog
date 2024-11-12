@@ -241,3 +241,8 @@ export const postWHSEFACT = async (idBatiment, data) => {
   }
 return axios.post(`${DOMAIN}/api/batiment/whse_fact`, params);
 };
+
+//Adresse
+export const getAdresse = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/adresse`);
+};

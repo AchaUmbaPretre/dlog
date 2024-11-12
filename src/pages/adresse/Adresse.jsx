@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Modal, Input, message, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, BankOutlined } from '@ant-design/icons';
+import { getAdresse } from '../../services/batimentService';
 
 const { Search } = Input;
 
@@ -11,10 +12,10 @@ const Adresse = () => {
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
 
-/*      const fetchData = async () => {
+      const fetchData = async () => {
 
       try {
-        const { data } = await getDenomination();
+        const { data } = await getAdresse();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -28,7 +29,7 @@ const Adresse = () => {
 
   useEffect(() => {
     fetchData();
-  }, []); */
+  }, []);
 ;
 
   const closeAllModals = () => {
@@ -95,7 +96,7 @@ const Adresse = () => {
   ]
 
   const filteredData = data.filter(item =>
-        item.nom_bin?.toLowerCase().includes(searchValue.toLowerCase())
+        item.adresse?.toLowerCase().includes(searchValue.toLowerCase())
    );
 
   return (
