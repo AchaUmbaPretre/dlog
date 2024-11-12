@@ -21,6 +21,7 @@ const Template = () => {
     'Whse fact': true,
     'Objet fact': true,
     "Date active": true,
+    "Date inactive": true,
     "Statut": true
   });
   const [searchValue, setSearchValue] = useState('');
@@ -216,7 +217,7 @@ const Template = () => {
           {text ? moment(text).format('DD-MM-yyyy') : 'Aucune'}
         </Tag>
       ),
-      ...(columnsVisibility['Date active'] ? {} : { className: 'hidden-column' })
+      ...(columnsVisibility['Date inactive'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Statut',
@@ -226,7 +227,6 @@ const Template = () => {
         <StatutColumn initialStatus={text} id={record.id_template} />
       ),
       ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
-
     },
     {
       title: 'Action',
