@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, notification, Tag } from 'antd';
-import { CalendarOutlined, UserOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { CalendarOutlined,FileTextOutlined, UserOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getTemplate5derniers, getTemplateOne } from '../../../services/templateService';
 import './templateOne.scss';
@@ -47,6 +47,14 @@ const TemplateOne = ({ idTemplate }) => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (_, __, index) => index + 1, width: "5%" },
     {
+      title: 'Template',
+      dataIndex: 'desc_template',
+      key: 'desc_template',
+      render: (text) => (
+        <Tag icon={<FileTextOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+      )    
+    },
+    {
       title: 'Client',
       dataIndex: 'nom_client',
       key: 'nom_client',
@@ -67,9 +75,9 @@ const TemplateOne = ({ idTemplate }) => {
         )
       ),
     },
-    { title: 'Dénomination', dataIndex: 'nom_denomination_bat', key: 'nom_denomination_bat', render: (text) => <Tag>{text}</Tag> },
-    { title: 'fact', dataIndex: 'nom_whse_fact', key: 'nom_whse_fact', render: (text) => <Tag>{text}</Tag> },
-    { title: 'Objet', dataIndex: 'nom_objet_fact', key: 'nom_objet_fact', render: (text) => <Tag>{text}</Tag> },
+    { title: 'Dénomination', dataIndex: 'nom_denomination_bat', key: 'nom_denomination_bat', render: (text) => <Tag color="purple">{text}</Tag> },
+    { title: 'fact', dataIndex: 'nom_whse_fact', key: 'nom_whse_fact', render: (text) => <Tag color="geekblue">{text}</Tag> },
+    { title: 'Objet', dataIndex: 'nom_objet_fact', key: 'nom_objet_fact', render: (text) => <Tag color="green">{text}</Tag> },
     {
       title: 'Date active',
       dataIndex: 'date_actif',
