@@ -179,6 +179,15 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 />
                             </Form.Item>
                         </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                label="Adresse"
+                                name="adresse"
+                                rules={[{ required: false, message: 'Veuillez entrer l adresse.' }]}
+                            >
+                                <Input placeholder="Entrer l'adresse..." style={{ width: '100%' }} />
+                            </Form.Item>
+                        </Col>
                     </Row>
 
                     <Form.Item>
