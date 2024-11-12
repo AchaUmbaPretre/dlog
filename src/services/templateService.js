@@ -33,6 +33,10 @@ export const deletePutTemplate = async (id) => {
     return axios.put(`${DOMAIN}/api/template/template_update_delete?id=${id}`);
   };
 
+export const putTemplate = async (id,data) => {
+    return axios.put(`${DOMAIN}/api/template/template_update?id_template=${id}`, data);
+  };
+
 export const getTypeOccupation = async () => {
     return axios.get(`${DOMAIN}/api/template/type_occupation`);
   };

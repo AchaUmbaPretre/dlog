@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Select, Row, Col, DatePicker, notification, Skeleton, InputNumber } from 'antd';
 import { getClient } from '../../../services/clientService';
-import { getObjetFacture, getTypeOccupation, postTemplate } from '../../../services/templateService';
+import { getObjetFacture, getTemplateOne, getTypeOccupation, postTemplate, putTemplate } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
 import { getDenominationOne, getNiveauOne } from '../../../services/batimentService';
 import moment from 'moment';
@@ -61,12 +61,32 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
         form.resetFields()
       }, [form]);
 
+      const handleTemplateChange = async () => {
+        try {
+            const { data} = await getTemplateOne(idTemplate);
+        
+            form.setFieldsValue({
+                ...data[0],
+                date_actif : moment(data[0].date_actif, 'YYYY-MM-DD')
+            });
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement du template',
+                description: 'Impossible de charger les informations du template sélectionné.',
+            });
+        }
+    };
+    
+    useEffect(() => {
+        handleTemplateChange()
+    }, [idTemplate]);
+
     const onFinish = async (values) => {
         setIsLoading(true)
 
         try {
             if(idTemplate) {
-
+                await putTemplate(idTemplate, values)
             }
             else{
                 await postTemplate(values)
@@ -246,7 +266,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                     {
                         isLoading ? <Skeleton.Input active={true} /> : 
                         <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
-                            Enregistrer
+                            { idTemplate ? 'Modifier' : 'Enregistrer'}
                         </Button>
                     }
     

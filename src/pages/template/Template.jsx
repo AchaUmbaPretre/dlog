@@ -52,7 +52,7 @@ const Template = () => {
   };
 
   const handleEdit = (idTemplate) => {
-    openModal('Add', idTemplate);
+    openModal('Edit', idTemplate);
   }
 
   const closeAllModals = () => {
