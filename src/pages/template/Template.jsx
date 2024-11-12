@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { EditOutlined,ShareAltOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined,ShareAltOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
@@ -199,7 +199,7 @@ const Template = () => {
       dataIndex: 'nom_whse_fact',
       key: 'nom_whse_fact',
       render: (text) => (
-        <Tag icon={<ShopOutlined />} color="geekblue">{text ?? 'Aucune'}</Tag>
+        <Tag color="geekblue">{text ?? 'Aucune'} $</Tag>
       ),
       ...(columnsVisibility['Whse fact'] ? {} : { className: 'hidden-column' })
 
@@ -209,7 +209,7 @@ const Template = () => {
       dataIndex: 'nom_objet_fact',
       key: 'nom_objet_fact',
       render: (text) => (
-        <Tag color="green">{text ?? 'Aucun'} $</Tag>
+        <Tag icon={<FileTextOutlined />} color="green">{text ?? 'Aucun'}</Tag>
       ),
       ...(columnsVisibility['Objet fact'] ? {} : { className: 'hidden-column' })
 
