@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Modal, Input, message, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, BankOutlined } from '@ant-design/icons';
+import { Table, Input, message, notification, Tag } from 'antd';
+import { BankOutlined } from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
 
 const { Search } = Input;
@@ -56,18 +56,6 @@ const Adresse = () => {
       });
     }
   };
-
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
 
   const columns = [
     {
