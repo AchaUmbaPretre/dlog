@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { EditOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CheckCircleOutlined, CloseCircleOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined,ShareAltOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,ShopOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
@@ -138,12 +138,32 @@ const Template = () => {
       title: 'Type occu',
       dataIndex: 'nom_type_d_occupation',
       key: 'nom_type_d_occupation',
-      render: (text) => (
-        <Tag icon={<ApartmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
-      ),
+      render: (text) => {
+        let color;
+        let icon;
+        switch (text) {
+          case 'Dedié':
+            color = 'green'; // Couleur pour "Dedié"
+            icon = <ApartmentOutlined />; // Icône pour "Dedié"
+            break;
+          case 'Partagé':
+            color = 'orange'; // Couleur pour "Partagé"
+            icon = <ShareAltOutlined />; // Icône pour "Partagé"
+            break;
+          case 'Réservé':
+            color = 'red'; // Couleur pour "Réservé"
+            icon = <LockOutlined />; // Icône pour "Réservé"
+            break;
+          default:
+            color = 'blue'; // Couleur par défaut
+            icon = <ApartmentOutlined />; // Icône par défaut
+        }
+        return (
+          <Tag icon={icon} color={color}>{text ?? 'Aucun'}</Tag>
+        );
+      },
       ...(columnsVisibility['Type occu'] ? {} : { className: 'hidden-column' })
-
-    },
+    },    
     {
       title: 'Batiment',
       dataIndex: 'nom_batiment',
@@ -189,7 +209,7 @@ const Template = () => {
       dataIndex: 'nom_objet_fact',
       key: 'nom_objet_fact',
       render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+        <Tag color="green">{text ?? 'Aucun'} $</Tag>
       ),
       ...(columnsVisibility['Objet fact'] ? {} : { className: 'hidden-column' })
 
