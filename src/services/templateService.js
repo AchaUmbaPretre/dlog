@@ -41,7 +41,7 @@ export const getObjetFacture = async () => {
     return axios.get(`${DOMAIN}/api/template/objet_facture`);
   };
 
-  //Déclaration superficie
+//Déclaration superficie
 export const getDeclarationCount = async () => {
     return axios.get(`${DOMAIN}/api/template/declaration_count`);
   };
