@@ -5,6 +5,7 @@ import TemplateForm from './templateForm/TemplateForm';
 import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
 import { StatutColumn } from './templateStatut/TemplateStatut';
+import TemplateDetail from './templateDetail/TemplateDetail';
 
 const { Search } = Input;
 
@@ -362,6 +363,17 @@ const Template = () => {
         centered
       >
         <TemplateForm closeModal={() => setModalType(null)} fetchData={fetchData} idTemplate={idTemplate} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Detail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <TemplateDetail idTemplate={idTemplate} />
       </Modal>
     </>
   );
