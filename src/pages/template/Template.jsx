@@ -25,7 +25,7 @@ const Template = () => {
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
-  const [idClient, setidClient] = useState('');
+  const [idTemplate, setidTemplate] = useState('');
   const [modalType, setModalType] = useState(null);
 
     const fetchData = async () => {
@@ -51,19 +51,19 @@ const Template = () => {
     openModal('Add', idTemplate);
   };
 
+  const handleEdit = (idTemplate) => {
+    openModal('Add', idTemplate);
+  }
+
   const closeAllModals = () => {
     setModalType(null);
   };
   
-  const openModal = (type, idClient = '') => {
+  const openModal = (type, idTemplate = '') => {
     closeAllModals();
     setModalType(type);
-    setidClient(idClient);
+    setidTemplate(idTemplate);
   };
-  
-  const handleEdit = (id) => {
-
-  }
 
   const handlePrint = () => {
     window.print();
@@ -309,6 +309,17 @@ const Template = () => {
         centered
       >
         <TemplateForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Edit'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <TemplateForm closeModal={() => setModalType(null)} fetchData={fetchData} idTemplate={idTemplate} />
       </Modal>
     </>
   );

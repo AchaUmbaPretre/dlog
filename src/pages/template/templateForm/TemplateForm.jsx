@@ -7,7 +7,7 @@ import { getDenominationOne, getNiveauOne } from '../../../services/batimentServ
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
-const TemplateForm = ({ closeModal, fetchData }) => {
+const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [client, setClient] = useState([]);
@@ -65,7 +65,12 @@ const TemplateForm = ({ closeModal, fetchData }) => {
         setIsLoading(true)
 
         try {
-            await postTemplate(values)
+            if(idTemplate) {
+
+            }
+            else{
+                await postTemplate(values)
+            }
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
