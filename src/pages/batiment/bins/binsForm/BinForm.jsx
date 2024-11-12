@@ -133,7 +133,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                     </Row>
 
                     <Row gutter={16}>
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item
                                 label="Capacité"
                                 name="capacite"
@@ -142,7 +142,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 <InputNumber min={0} placeholder="Capacité" style={{ width: '100%' }} />
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item
                                 label="Type de stockage"
                                 name="type_stockage"
@@ -159,10 +159,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 />
                             </Form.Item>
                         </Col>
-                    </Row>
-
-                    <Row gutter={16}>
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item
                                 label="Statut"
                                 name="statut"
@@ -179,13 +176,16 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                    </Row>
+
+                    <Row gutter={16}>
+                        <Col span={24}>
                             <Form.Item
                                 label="Adresse"
                                 name="adresse"
                                 rules={[{ required: false, message: 'Veuillez entrer l adresse.' }]}
                             >
-                                <Input placeholder="Entrer l'adresse..." style={{ width: '100%' }} />
+                                <Input.TextArea placeholder="Entrer l'adresse..." style={{ width: '100%', height:'100px', resize:'none' }} />
                             </Form.Item>
                         </Col>
                     </Row>
