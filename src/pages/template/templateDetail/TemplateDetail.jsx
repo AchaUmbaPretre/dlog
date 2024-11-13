@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getTemplateOne } from '../../../services/templateService';
-import { notification, Card, Tag, Typography, Descriptions } from 'antd';
+import { notification, Card, Tag, Descriptions } from 'antd';
 import { FileTextOutlined, UserOutlined, ApartmentOutlined, HomeOutlined, OrderedListOutlined, TagOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
-
-const { Title, Text } = Typography;
 
 const TemplateDetail = ({ idTemplate }) => {
   const [loading, setLoading] = useState(true);
