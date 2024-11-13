@@ -87,7 +87,6 @@ const Adresse = () => {
         item.adresse?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.nom?.toLowerCase().includes(searchValue.toLowerCase())
-
    );
 
   return (
