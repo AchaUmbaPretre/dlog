@@ -68,10 +68,10 @@ const Declaration = () => {
       }
     };
 
-    const handFilter = () => {
-      fetchData()
-      setFilterVisible(!filterVisible)
-    }
+  const handFilter = () => {
+    fetchData()
+    setFilterVisible(!filterVisible)
+  }
 
   useEffect(() => {
     fetchData();
