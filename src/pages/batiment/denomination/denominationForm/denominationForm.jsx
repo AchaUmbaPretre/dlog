@@ -101,9 +101,12 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
               )}
             </Form.Item>
           ))}
-          <Button type="dashed" onClick={addDenominationField} style={{ width: '100%' }}>
-            Ajouter une autre dénomination
-          </Button>
+          {
+            !idDenomination_bat &&
+            <Button type="dashed" onClick={addDenominationField} style={{ width: '100%' }}>
+              Ajouter une autre dénomination
+            </Button>
+          }
           <Form.Item>
             <Button style={{marginTop:'15px'}} type="primary" htmlType="submit" loading={loading} disabled={loading}>
               Soumettre
