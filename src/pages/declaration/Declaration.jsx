@@ -40,7 +40,6 @@ const Declaration = () => {
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
 
-
     const fetchData = async () => {
       try {
         const { data } = await getDeclaration(filteredDatas);
