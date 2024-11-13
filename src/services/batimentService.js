@@ -201,6 +201,10 @@ export const getNiveauOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/niveau_batiment/one?id_batiment=${id}`);
 };
 
+export const getNiveauOnev = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/niveau_batiment/onev?id_niveau=${id}`);
+};
+
 export const postNiveau = async (idBatiment, data) => {
   const params = {
     id_batiment: idBatiment,
