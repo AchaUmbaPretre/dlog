@@ -220,7 +220,7 @@ export const putNiveau = async (id,data) => {
 };
 
 export const putNiveauDelete = async (id) => {
-  return axios.put(`${DOMAIN}/api/batiment/niveau_batiment_put?id=${id}`);
+  return axios.put(`${DOMAIN}/api/batiment/niveau_batiment_delete?id=${id}`);
 };
 
 //Dénomination batiment

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, message,Button, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
 import { ClusterOutlined,BankOutlined,EyeOutlined,DeleteOutlined,EditOutlined} from '@ant-design/icons';
-import { getNiveau } from '../../../services/batimentService';
+import { getNiveau, putNiveauDelete } from '../../../services/batimentService';
 import NiveauForm from './niveauForm/NiveauForm';
 
 const { Search } = Input;
@@ -49,8 +49,9 @@ const Niveau = () => {
 
   const handleDelete = async (id) => {
     try {
-      setData(data.filter((item) => item.id_client !== id));
-      message.success('Client deleted successfully');
+      await putNiveauDelete(id)
+      setData(data.filter((item) => item.id_niveau !== id));
+      message.success('Niveau a été supprimé');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
