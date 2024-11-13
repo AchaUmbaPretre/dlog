@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, message,Button, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
-import { ClusterOutlined,BankOutlined,EyeOutlined,DeleteOutlined,EditOutlined} from '@ant-design/icons';
+import { ClusterOutlined,BankOutlined,DeleteOutlined,EditOutlined} from '@ant-design/icons';
 import { getNiveau, putNiveauDelete } from '../../../services/batimentService';
 import NiveauForm from './niveauForm/NiveauForm';
 
@@ -35,7 +35,6 @@ const Niveau = () => {
 
   const handleEdit = (idNiveau) => openModal('Edit', idNiveau)
 
-
   const openModal = (type, idNiveau = '') => {
     closeAllModals();
     setModalType(type);
@@ -45,7 +44,6 @@ const Niveau = () => {
   const closeAllModals = () => {
     setModalType(null);
   };
-
 
   const handleDelete = async (id) => {
     try {
