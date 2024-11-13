@@ -42,7 +42,6 @@ const Declaration = () => {
 
 
     const fetchData = async () => {
-
       try {
         const { data } = await getDeclaration(filteredDatas);
 
@@ -369,7 +368,6 @@ const Declaration = () => {
     },
   ];
   
-
   const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
   };
@@ -422,7 +420,7 @@ const Declaration = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 10 }}
             rowKey="id"
