@@ -211,6 +211,11 @@ export const postNiveau = async (idBatiment, data) => {
 return axios.post(`${DOMAIN}/api/batiment/niveaau_batiment`, params);
 };
 
+export const putNiveau = async (id,data) => {
+  return axios.put(`${DOMAIN}/api/batiment/niveau_batiment_put?id_niveau=${id}`, data);
+};
+
+
 //Dénomination batiment
 export const getDenomination = async () => {
   return axios.get(`${DOMAIN}/api/batiment/denomination`);

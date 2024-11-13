@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { postNiveau } from '../../../../services/batimentService';
+import { postNiveau, putNiveau } from '../../../../services/batimentService';
 
 const NiveauForm = ({ idBatiment, closeModal, fetchData, idNiveau }) => {
   const [form] = Form.useForm();
@@ -11,7 +11,7 @@ const NiveauForm = ({ idBatiment, closeModal, fetchData, idNiveau }) => {
     setLoading(true);
     try {
       if(idNiveau){
-
+        await putNiveau(idNiveau, values)
       }
       else{
         await postNiveau(idBatiment, values.niveaux);
