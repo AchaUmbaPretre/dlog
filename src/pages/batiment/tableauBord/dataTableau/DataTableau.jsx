@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './dataTableau.scss';
-import { getNiveauCount, getTableauOne } from '../../../../services/batimentService';
+import { getDenominationCount, getNiveauCount, getTableauOne } from '../../../../services/batimentService';
 import { notification, Card, Row, Col, Spin, Badge, Modal } from 'antd';
 import { ToolOutlined, ApartmentOutlined, CheckCircleOutlined,BankOutlined, SettingOutlined, WarningOutlined } from '@ant-design/icons';
 import DenominationForm from '../../denomination/denominationForm/DenominationForm';
@@ -11,7 +11,8 @@ const DataTableau = ({ idBatiment }) => {
   const [loading, setLoading] = useState(false);
   const [nameBatiment, setNameBatiment] = useState('');
   const [modalType, setModalType] = useState(null);
-  const [niveau, setNiveau] = useState([])
+  const [niveau, setNiveau] = useState([]);
+  const [denomination, setDenomination] = useState([])
 
 
   const closeAllModals = () => {
@@ -51,8 +52,12 @@ const DataTableau = ({ idBatiment }) => {
   const fetchDatas = async () => {
     setLoading(true);
     try {
-      const { data } = await getNiveauCount();
-      setNiveau(data[0])
+      const [ niveauData, denominationData] = await Promise.all([
+        getNiveauCount(idBatiment),
+        getDenominationCount(idBatiment)
+      ])
+      setNiveau(niveauData.data[0])
+      setDenomination(denominationData.data[0])
       setLoading(false);
     } catch (error) {
       notification.error({
@@ -146,7 +151,7 @@ const DataTableau = ({ idBatiment }) => {
           style={{ textAlign: 'center' }}
           bodyStyle={{ padding: '20px' }}
         >
-          <Badge count={data.nbre_enpanne || 0} showZero>
+          <Badge count={denomination.nbre_denomination || 0} showZero>
             <BankOutlined style={{ fontSize: '40px', color: 'black', marginBottom: '10px' }} />
           </Badge>
           <h3>Dénomination</h3>

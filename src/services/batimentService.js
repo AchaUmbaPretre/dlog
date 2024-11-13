@@ -189,8 +189,8 @@ return axios.post(`${DOMAIN}/api/batiment/bureau`, data);
 };
 
 //Niveau batiment
-export const getNiveauCount = async () => {
-  return axios.get(`${DOMAIN}/api/batiment/niveau_count`);
+export const getNiveauCount = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/niveau_count?id_batiment=${id}`);
 };
 
 export const getNiveau = async () => {
@@ -224,6 +224,10 @@ export const putNiveauDelete = async (id) => {
 };
 
 //Dénomination batiment
+export const getDenominationCount = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/denomination_count?id_batiment=${id}`);
+};
+
 export const getDenomination = async () => {
   return axios.get(`${DOMAIN}/api/batiment/denomination`);
 };
