@@ -245,6 +245,10 @@ export const postDenomination = async (idBatiment, data) => {
 return axios.post(`${DOMAIN}/api/batiment/denomination`, params);
 };
 
+export const putDenomination = async (id,data) => {
+  return axios.put(`${DOMAIN}/api/batiment/denomination_update?id_denomination_bat=${id}`, data);
+};
+
 ////WHSE FACT
 export const getWHSEFACT = async () => {
   return axios.get(`${DOMAIN}/api/batiment/whse_fact`);

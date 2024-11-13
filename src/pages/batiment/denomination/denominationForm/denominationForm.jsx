@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
-import { getDenominationOneV, postDenomination } from '../../../../services/batimentService';
+import { getDenominationOneV, postDenomination, putDenomination } from '../../../../services/batimentService';
 
 const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
   const [form] = Form.useForm();
@@ -34,8 +34,12 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // Appel à postDenomination avec les valeurs actuelles
-      await postDenomination(idBatiment, { denominations: values.denomination });
+      if(idDenomination_bat){
+        await putDenomination(idDenomination_bat, values.denominations[0])
+      }
+      else{
+        await postDenomination(idBatiment, { denominations: values.denomination });
+      }
       notification.success({
         message: 'Succès',
         description: 'Les dénominations ont été ajoutées avec succès.',
