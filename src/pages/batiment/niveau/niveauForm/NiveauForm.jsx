@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, notification, Space } from 'antd';
+import { Form, Input, Button, notification } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { postNiveau } from '../../../../services/batimentService';
 
-const NiveauForm = ({ idBatiment, closeModal, fetchData }) => {
+const NiveauForm = ({ idBatiment, closeModal, fetchData, idNiveau }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
