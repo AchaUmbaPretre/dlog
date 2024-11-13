@@ -1,11 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
-import { postDenomination } from '../../../../services/batimentService';
+import { getDenominationOneV, postDenomination } from '../../../../services/batimentService';
 
-const DenominationForm = ({ idBatiment }) => {
+const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [denominations, setDenominations] = useState([{ nom_denomination_bat: '' }]);
+
+  const fetchDataOne = async () => {
+    setLoading(true);
+    try {
+      const { data } = await getDenominationOneV(idDenomination_bat);
+      form.setFieldsValue({ denominations : [{ nom_denomination_bat: data[0].nom_denomination_bat }] });
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (idDenomination_bat) fetchDataOne();
+  }, [idDenomination_bat]);
 
   const onFinish = async (values) => {
     setLoading(true);

@@ -228,6 +228,10 @@ export const getDenomination = async () => {
   return axios.get(`${DOMAIN}/api/batiment/denomination`);
 };
 
+export const getDenominationOneV = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/denomination/oneV?id_denomination_bat=${id}`);
+};
+
 export const getDenominationOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/denomination/one?id_batiment=${id}`);
 };

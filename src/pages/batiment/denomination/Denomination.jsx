@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Modal, Input, message, Button, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { BankOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getDenomination } from '../../../services/batimentService';
+import DenominationForm from './denominationForm/DenominationForm';
 
 const { Search } = Input;
 
@@ -47,8 +48,8 @@ const Denomination = () => {
 
   const handleDelete = async (id) => {
     try {
-      setData(data.filter((item) => item.id_client !== id));
-      message.success('Client deleted successfully');
+      setData(data.filter((item) => item.id_denomination_bat !== id));
+      message.success('denomination deleted successfully');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -91,14 +92,14 @@ const Denomination = () => {
               <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
-                onClick={() => handleEdit(record.id_niveau)}
+                onClick={() => handleEdit(record.id_denomination_bat)}
                 aria-label="Edit tache"
               />
             </Tooltip>
             <Tooltip title="Delete">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce client?"
-                onConfirm={() => handleDelete(record.id_niveau)}
+                onConfirm={() => handleDelete(record.id_denomination_bat)}
                 okText="Oui"
                 cancelText="Non"
               >
@@ -154,14 +155,14 @@ const Denomination = () => {
 
       <Modal
         title=""
-        visible={modalType === 'Add'}
+        visible={modalType === 'Edit'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={700}
         centered
       >
-{/*         <TemplateForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchData} />
- */}      </Modal>
+        <DenominationForm idBatiment={''} idDenomination_bat={idDenom}/>
+    </Modal>
     </>
   );
 };
