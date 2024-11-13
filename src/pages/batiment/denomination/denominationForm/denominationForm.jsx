@@ -113,7 +113,7 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
           }
           <Form.Item>
             <Button style={{marginTop:'15px'}} type="primary" htmlType="submit" loading={loading} disabled={loading}>
-              Soumettre
+              { idDenomination_bat ? 'Modifier' : 'Soumettre'}
             </Button>
           </Form.Item>
         </Form>
