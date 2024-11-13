@@ -10,7 +10,12 @@ const NiveauForm = ({ idBatiment, closeModal, fetchData, idNiveau }) => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      await postNiveau(idBatiment, values.niveaux);
+      if(idNiveau){
+
+      }
+      else{
+        await postNiveau(idBatiment, values.niveaux);
+      }
       notification.success({
         message: 'Succès',
         description: 'Les niveaux ont été ajoutés avec succès.',
