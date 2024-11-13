@@ -219,6 +219,9 @@ export const putNiveau = async (id,data) => {
   return axios.put(`${DOMAIN}/api/batiment/niveau_batiment_put?id_niveau=${id}`, data);
 };
 
+export const putNiveauDelete = async (id) => {
+  return axios.put(`${DOMAIN}/api/batiment/niveau_batiment_put?id=${id}`);
+};
 
 //Dénomination batiment
 export const getDenomination = async () => {
