@@ -415,9 +415,9 @@ const Declaration = () => {
                   Colonnes <DownOutlined />
                 </Button>
               </Dropdown>
-
             </div>
           </div>
+
           <Table
             columns={columns}
             dataSource={filteredData}
