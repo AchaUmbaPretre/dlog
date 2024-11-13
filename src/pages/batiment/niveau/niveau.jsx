@@ -155,7 +155,7 @@ const Niveau = () => {
           visible={modalType === 'Edit'}
           onCancel={closeAllModals}
           footer={null}
-          width={800}
+          width={700}
           centered
         >
           <NiveauForm idBatiment={''} closeModal={() => setModalType(null)} fetchData={fetchData} idNiveau={idNiveau} />
