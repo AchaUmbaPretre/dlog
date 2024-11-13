@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Modal, Input, message, Button, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { BankOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { getDenomination } from '../../../services/batimentService';
+import { getDenomination, putDenominationDelete } from '../../../services/batimentService';
 import DenominationForm from './denominationForm/DenominationForm';
 
 const { Search } = Input;
@@ -48,6 +48,7 @@ const Denomination = () => {
 
   const handleDelete = async (id) => {
     try {
+      await putDenominationDelete(id)
       setData(data.filter((item) => item.id_denomination_bat !== id));
       message.success('denomination deleted successfully');
     } catch (error) {

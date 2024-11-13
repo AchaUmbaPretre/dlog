@@ -249,6 +249,10 @@ export const putDenomination = async (id,data) => {
   return axios.put(`${DOMAIN}/api/batiment/denomination_update?id_denomination_bat=${id}`, data);
 };
 
+export const putDenominationDelete = async (id) => {
+  return axios.put(`${DOMAIN}/api/batiment/denomination_delete?id=${id}`);
+};
+
 ////WHSE FACT
 export const getWHSEFACT = async () => {
   return axios.get(`${DOMAIN}/api/batiment/whse_fact`);
