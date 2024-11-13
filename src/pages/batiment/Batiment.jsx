@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, MoreOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
-import config from '../../config';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment, putDeleteBatiment } from '../../services/typeService';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
@@ -28,7 +27,6 @@ import WhseFactForm from './whseFact/whseFactForm/WhseFactForm';
 const { Search } = Input;
 
 const Batiment = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -37,7 +35,6 @@ const Batiment = () => {
   const [idBatiment, setIdBatiment] = useState('');
   const scroll = { x: 400 };
   const role = useSelector((state) => state.user?.currentUser.role);
-
 
   const handleDelete = async (id) => {
     try {
@@ -69,7 +66,7 @@ const Batiment = () => {
     useEffect(() => {
 
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
 
   const closeAllModals = () => {

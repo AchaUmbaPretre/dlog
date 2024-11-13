@@ -14,7 +14,6 @@ const DataTableau = ({ idBatiment }) => {
   const [niveau, setNiveau] = useState([]);
   const [denomination, setDenomination] = useState([])
 
-
   const closeAllModals = () => {
     setModalType(null);
   };
@@ -31,7 +30,6 @@ const DataTableau = ({ idBatiment }) => {
   const handleAddDenom = ( idBatiment) =>{
     openModal('addDenomination', idBatiment)
   }
-
 
   const fetchData = async () => {
     setLoading(true);
