@@ -189,6 +189,10 @@ return axios.post(`${DOMAIN}/api/batiment/bureau`, data);
 };
 
 //Niveau batiment
+export const getNiveauCount = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/niveau_count`);
+};
+
 export const getNiveau = async () => {
   return axios.get(`${DOMAIN}/api/batiment/niveaau_batiment`);
 };
