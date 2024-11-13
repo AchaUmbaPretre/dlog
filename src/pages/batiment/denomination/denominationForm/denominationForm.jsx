@@ -11,7 +11,12 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
     setLoading(true);
     try {
       const { data } = await getDenominationOneV(idDenomination_bat);
-      form.setFieldsValue({ denominations : [{ nom_denomination_bat: data[0].nom_denomination_bat }] });
+
+      // Utiliser setFieldsValue pour définir les données dans le formulaire directement
+      form.setFieldsValue({ denominations: data.map(d => ({ nom_denomination_bat: d.nom_denomination_bat })) });
+      
+      // Mettre à jour l'état `denominations` pour que le rendu soit correct
+      setDenominations(data.map(d => ({ nom_denomination_bat: d.nom_denomination_bat })));
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -29,8 +34,8 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      // Appel à postDenomination avec plusieurs dénominations
-      await postDenomination(idBatiment, { denominations });
+      // Appel à postDenomination avec les valeurs actuelles
+      await postDenomination(idBatiment, { denominations: values.denomination });
       notification.success({
         message: 'Succès',
         description: 'Les dénominations ont été ajoutées avec succès.',
@@ -66,7 +71,7 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className='controle_h2'>Insérer des dénominations</h2>
+        <h2 className='controle_h2'>{idDenomination_bat ? 'Mettre à jour la dénomination' : 'Insérer des dénominations'}</h2>
       </div>
       <div className="controle_wrapper">
         <Form
@@ -74,13 +79,14 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
           name="format_form"
           layout="vertical"
           onFinish={onFinish}
+          initialValues={{ denominations }}
           style={{ maxWidth: 600, margin: '0 auto' }}
         >
           {denominations.map((denomination, index) => (
             <Form.Item
               key={index}
-              label={`Dénomination`}
-              required
+              label={`Dénomination ${index + 1}`}
+              name={['denominations', index, 'nom_denomination_bat']}
               rules={[{ required: true, message: 'Veuillez entrer la dénomination' }]}
             >
               <Input
