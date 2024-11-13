@@ -92,14 +92,14 @@ const Niveau = () => {
               <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
-                onClick={() => handleEdit(record.id_denomination_bat)}
+                onClick={() => handleEdit(record.id_niveau)}
                 aria-label="Edit tache"
               />
             </Tooltip>
             <Tooltip title="Delete">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce client?"
-                onConfirm={() => handleDelete(record.id_denomination_bat)}
+                onConfirm={() => handleDelete(record.id_niveau)}
                 okText="Oui"
                 cancelText="Non"
               >
