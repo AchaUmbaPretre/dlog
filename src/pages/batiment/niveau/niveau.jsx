@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Input, message, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ClusterOutlined,BankOutlined } from '@ant-design/icons';
+import { Table, Input, message,Button, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
+import { ClusterOutlined,BankOutlined,EyeOutlined,DeleteOutlined,EditOutlined} from '@ant-design/icons';
 import { getNiveau } from '../../../services/batimentService';
+import NiveauForm from './niveauForm/NiveauForm';
 
 const { Search } = Input;
 
@@ -11,6 +12,7 @@ const Niveau = () => {
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
   const [modalType, setModalType] = useState(null);
+  const [idNiveau, setIdNiveau] = useState([]);
 
   const fetchData = async () => {
 
@@ -31,6 +33,14 @@ const Niveau = () => {
     fetchData();
   }, []);
 
+  const handleEdit = (idNiveau) => openModal('Edit', idNiveau)
+
+
+  const openModal = (type, idNiveau = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdNiveau(idNiveau);
+  };
 
   const closeAllModals = () => {
     setModalType(null);
@@ -72,7 +82,38 @@ const Niveau = () => {
       render: (text) => (
         <Tag color="blue">{text ?? 'Aucun'}</Tag>
       ),
-    }
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      width: '10%',
+      render: (text, record) => (
+        <Space size="middle">
+          <Tooltip title="Modifier">
+              <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleEdit(record.id_template)}
+                aria-label="Edit tache"
+              />
+            </Tooltip>
+            <Tooltip title="Delete">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer ce client?"
+                onConfirm={() => handleDelete(record.id_template)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Delete client"
+                />
+              </Popconfirm>
+            </Tooltip>
+        </Space>
+      ),
+    },
   ]
 
   const filteredData = data.filter(item =>
@@ -110,6 +151,16 @@ const Niveau = () => {
             scroll={scroll}
           />
         </div>
+        <Modal
+          title=""
+          visible={modalType === 'Edit'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
+        >
+          <NiveauForm closeModal={() => setModalType(null)} fetchData={fetchData} idNiveau={idNiveau} />
+        </Modal>
       </div>
     </>
   );
