@@ -48,8 +48,8 @@ const Niveau = () => {
   const handleDelete = async (id) => {
     try {
       await putNiveauDelete(id)
-      setData(data.filter((item) => item.id_niveau !== id));
-      message.success('Niveau a été supprimé');
+      setData(data.filter((item) => item.id_denomination_bat !== id));
+      message.success('Dénomination a été supprimée');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -92,14 +92,14 @@ const Niveau = () => {
               <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
-                onClick={() => handleEdit(record.id_niveau)}
+                onClick={() => handleEdit(record.id_denomination_bat)}
                 aria-label="Edit tache"
               />
             </Tooltip>
             <Tooltip title="Delete">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce client?"
-                onConfirm={() => handleDelete(record.id_niveau)}
+                onConfirm={() => handleDelete(record.id_denomination_bat)}
                 okText="Oui"
                 cancelText="Non"
               >

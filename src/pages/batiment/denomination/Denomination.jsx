@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined, BankOutlined } from '@ant-design/icons';
+import { Table, Modal, Input, message, Button, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
+import { BankOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getDenomination } from '../../../services/batimentService';
 
 const { Search } = Input;
@@ -11,6 +11,7 @@ const Denomination = () => {
   const scroll = { x: 400 };
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
+  const [idDenom, setIdDenom] = useState([]);
 
      const fetchData = async () => {
 
@@ -35,14 +36,13 @@ const Denomination = () => {
   const closeAllModals = () => {
     setModalType(null);
   };
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
+  const openModal = (type, idDenom = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdDenom(idDenom);
   };
 
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
+  const handleEdit = (idDenom) => openModal('Edit', idDenom)
 
 
   const handleDelete = async (id) => {
@@ -56,18 +56,6 @@ const Denomination = () => {
       });
     }
   };
-
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
 
   const columns = [
     {
@@ -92,7 +80,38 @@ const Denomination = () => {
       render: (text) => (
         <Tag color="blue">{text ?? 'Aucun'}</Tag>
       ),
-    }
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      width: '10%',
+      render: (text, record) => (
+        <Space size="middle">
+          <Tooltip title="Modifier">
+              <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleEdit(record.id_niveau)}
+                aria-label="Edit tache"
+              />
+            </Tooltip>
+            <Tooltip title="Delete">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer ce client?"
+                onConfirm={() => handleDelete(record.id_niveau)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Delete client"
+                />
+              </Popconfirm>
+            </Tooltip>
+        </Space>
+      ),
+    },
   ]
 
   const filteredData = data.filter(item =>
