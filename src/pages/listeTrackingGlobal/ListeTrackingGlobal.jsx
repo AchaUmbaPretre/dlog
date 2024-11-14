@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
-import { ClockCircleOutlined,EyeOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
+import { ClockCircleOutlined,EyeOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { estSupprimeSuivi, getSuiviTacheOne } from '../../services/suiviService';
 import DetailGlobalTracking from './detailGlobalTracking/DetailGlobalTracking';
@@ -11,7 +11,6 @@ const ListeTrackingGlobal = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [nameTache, setNameTache] = useState('');
   const [modalType, setModalType] = useState(null);
   const [idTrack, setIdTrack] = useState('')
   const scroll = { x: 400 };
@@ -20,7 +19,6 @@ const ListeTrackingGlobal = () => {
       try {
         const { data } = await getSuiviTacheOne();
         setData(data);
-        setNameTache(data[0].nom_tache)
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -32,7 +30,6 @@ const ListeTrackingGlobal = () => {
     };
 
   useEffect(() => {
-
     fetchData();
   }, []);
 
