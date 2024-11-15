@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined ,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { getCorpsMetier } from '../../services/typeService';
+import { ExportOutlined,HomeOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined ,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspection } from '../../services/batimentService';
 
 const { Search } = Input;
@@ -24,7 +23,7 @@ const Instructions = () => {
   const handleDelete = async (id) => {
     try {
 /*       await deletePutDepartement(id); */
-      setData(data.filter((item) => item.id_corps_metier !== id));
+      setData(data.filter((item) => item.id_inspection !== id));
       message.success('Corps metier a ete supprimé avec succès');
     } catch (error) {
       notification.error({
@@ -98,7 +97,7 @@ const Instructions = () => {
       key: 'nom_batiment',
       render: text => (
         <Space>
-          <Tag color='cyan'>{text}</Tag>
+          <Tag icon={<HomeOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
     },
