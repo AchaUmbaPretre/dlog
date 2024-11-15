@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined,ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined ,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getCorpsMetier } from '../../services/typeService';
 
 const { Search } = Input;
@@ -120,6 +120,31 @@ const Instructions = () => {
             <Tag color='cyan'>{text}</Tag>
           </Space>
         ),
+      },
+      {
+        title: 'Type',
+        dataIndex: 'nom_type_instruction',
+        key: 'nom_type_instruction',
+        render: text => {
+          let icon = null;
+          let color = 'default';
+    
+          if (text === 'Avant') {
+            icon = <ArrowLeftOutlined />;
+            color = 'blue'; 
+          } else if (text === 'Après') {
+            icon = <ArrowRightOutlined />;
+            color = 'green'; 
+          }
+    
+          return (
+            <Space>
+              <Tag color={color}>
+                {icon} {text}
+              </Tag>
+            </Space>
+          );
+        }
       },
     {
       title: 'Action',
