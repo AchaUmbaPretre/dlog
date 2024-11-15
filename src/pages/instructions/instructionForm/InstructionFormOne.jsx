@@ -37,7 +37,6 @@ const InstructionFormOne = ({idBatiment}) => {
   const handleSubmit = async (values) => {
     setLoading(true);
 
-    // Extraire les noms des fichiers
     const uploadedFiles = values.img.map((file) => file.originFileObj);
 
     const formData = new FormData();
