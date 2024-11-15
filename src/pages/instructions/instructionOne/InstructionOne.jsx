@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Image } from 'antd';
 import { ExportOutlined, PrinterOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { getInspectionOne } from '../../../services/batimentService';
+import config from '../../../config';
 
 const { Search } = Input;
 
-const InstructionOne = () => {
+const InstructionOne = ({idBatiment}) => {
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -32,9 +35,9 @@ const InstructionOne = () => {
     }
   };
 
-/*     const fetchData = async () => {
+     const fetchData = async () => {
       try {
-        const { data } = await getCorpsMetier();
+        const { data } = await getInspectionOne(idBatiment);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -48,7 +51,7 @@ const InstructionOne = () => {
 
   useEffect(() => {
     fetchData();
-  }, []); */
+  }, [idBatiment]);
 
   const handleAddClient = () => {
     setIsModalVisible(true);
@@ -120,6 +123,25 @@ const InstructionOne = () => {
           </Space>
         ),
       },
+      {
+        title: 'Image',
+        dataIndex: 'img',
+        key: 'img',
+        render: (text, record) => { // Ajout du log pour debug
+          return (
+            <div className="userList">
+              <Image
+                className="userImg"
+                src={`${DOMAIN}/${record.img}`} // Utilisation de l'URL générée
+                alt="Inspection Image"
+                fallback="/path-to-default-image.png" // Image par défaut si le chemin est invalide
+                width={50} // Ajustez la taille selon vos besoins
+              />
+            </div>
+          );
+        },
+      },
+      
     {
       title: 'Action',
       key: 'action',
@@ -154,7 +176,7 @@ const InstructionOne = () => {
   ];
 
   const filteredData = data.filter(item =>
-    item.nom_corps_metier?.toLowerCase().includes(searchValue.toLowerCase())
+    item.commentaire?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
