@@ -205,13 +205,6 @@ const InstructionOne = ({idBatiment}) => {
               />
             </div>
             <div className="client-rows-right">
-{/*               <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
-              >
-                corps metier
-              </Button> */}
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
