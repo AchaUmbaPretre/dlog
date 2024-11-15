@@ -651,18 +651,6 @@ const Batiment = () => {
         >
           <WhseFact idBatiment={idBatiment} />
         </Modal>
-
-        
-        <Modal
-          title=""
-          visible={modalType === 'addWhseFacture'}
-          onCancel={closeAllModals}
-          footer={null}
-          width={600}
-          centered
-        >
-          <WhseFactForm idBatiment={idBatiment} />
-        </Modal>
     </>
   );
 };

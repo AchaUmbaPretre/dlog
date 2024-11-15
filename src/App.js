@@ -49,6 +49,7 @@ import Denomination from './pages/batiment/denomination/Denomination';
 import WhseFact from './pages/batiment/whseFact/WhseFact';
 import TacheForm from './pages/taches/tacheform/TacheForm';
 import Adresse from './pages/adresse/Adresse';
+import Instructions from './pages/instructions/Instructions';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -228,6 +229,10 @@ function App() {
         {
           path: '/whseFact',
           element: <WhseFact/>
+        },
+        {
+          path: '/liste_instruction',
+          element: <Instructions/>
         },
         {
           path: '/liste_template',
