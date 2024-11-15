@@ -22,6 +22,7 @@ import NiveauForm from './niveau/niveauForm/NiveauForm';
 import Denomination from './denomination/Denomination';
 import DenominationForm from './denomination/denominationForm/DenominationForm';
 import WhseFact from './whseFact/WhseFact';
+import InstructionOne from '../instructions/instructionOne/InstructionOne';
 
 const { Search } = Input;
 
@@ -642,7 +643,18 @@ const Batiment = () => {
 
         <Modal
           title=""
-          visible={modalType === 'listeWhseFacture'}
+          visible={modalType === 'listeInstruction'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <InstructionOne idBatiment={idBatiment} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'addInstruction'}
           onCancel={closeAllModals}
           footer={null}
           width={900}
