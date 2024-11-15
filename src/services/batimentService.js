@@ -278,3 +278,24 @@ return axios.post(`${DOMAIN}/api/batiment/whse_fact`, params);
 export const getAdresse = async () => {
   return axios.get(`${DOMAIN}/api/batiment/adresse`);
 };
+
+//Inspection
+export const getInspection = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/inspections`);
+};
+
+export const getInspectionOne = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/inspectionsOne`);
+};
+
+export const postInspection = async (data) => {
+  return axios.post(`${DOMAIN}/api/batiment/inspections_post`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
+export const getType_instruction = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/instruction_type`);
+};

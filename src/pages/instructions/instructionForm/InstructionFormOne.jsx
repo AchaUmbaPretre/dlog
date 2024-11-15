@@ -1,21 +1,78 @@
-import React, { useState } from 'react';
-import { Form, Input, Select, Upload, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Select, Upload, Button, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { getType_instruction, postInspection } from '../../../services/batimentService';
 
 const { TextArea } = Input;
 const { Option } = Select;
 
 const InstructionFormOne = ({idBatiment}) => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [instructionData, setInstructionData] = useState([]);
 
-  const handleSubmit = (values) => {
-    console.log('Form Values:', values);
-  };
+  const fetchData = async() => {
+    setLoading(true)
+
+    try{
+        const [typeInspe] = await Promise.all([
+            getType_instruction()
+        ]);
+
+        setInstructionData(typeInspe.data)
+
+    } catch (error){
+        console.log(error)
+
+    }finally {
+        setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    form.resetFields();
+    fetchData();
+  }, [idBatiment,form]);
+
+  const handleSubmit = async (values) => {
+    setLoading(true);
+
+    // Extraire les noms des fichiers
+    const uploadedFiles = values.img.map((file) => file.originFileObj);
+
+    const formData = new FormData();
+    formData.append('id_batiment', idBatiment);
+    formData.append('commentaire', values.commentaire);
+    formData.append('id_cat_instruction', values.id_cat_instruction);
+    formData.append('id_type_instruction', values.id_type_instruction);
+
+    uploadedFiles.forEach((file) => {
+        formData.append('files', file);
+    });
+
+    try {
+        await postInspection(formData);
+        notification.success({
+            message: 'Succès',
+            description: 'Les informations ont été enregistrées avec succès.',
+        });
+        form.resetFields();
+    } catch (error) {
+        console.error(error);
+        notification.error({
+            message: 'Erreur',
+            description: "Une erreur s'est produite lors de l'enregistrement.",
+        });
+    } finally {
+        setLoading(false);
+    }
+};
+
 
   return (
     <div className="controle_form">
         <div className="controle_title_rows">
-            <h2 className="controle_h2">Insérer une instruction</h2>
+            <h2 className="controle_h2">Insérer une inspection</h2>
         </div>
         <div className="controle_wrapper">
             <Form
@@ -52,15 +109,19 @@ const InstructionFormOne = ({idBatiment}) => {
 
                 {/* Type instruction */}
                 <Form.Item
-                label="Type d'instruction"
+                label="Type d'inspection"
                 name="id_type_instruction"
-                rules={[{ required: true, message: 'Veuillez sélectionner un type d instruction' }]}
+                rules={[{ required: true, message: 'Veuillez sélectionner un type d inspection' }]}
                 >
-                    <Select placeholder="Sélectionnez une catégorie">
-                        <Option value={1}>Catégorie 1</Option>
-                        <Option value={2}>Catégorie 2</Option>
-                        <Option value={3}>Catégorie 3</Option>
-                    </Select>
+                    <Select 
+                        showSearch
+                        options={instructionData.map((item) => ({
+                            value: item.id_type_instruction,
+                            label: item.nom_type_instruction,
+                        }))}
+                        placeholder="Sélectionnez un type d inspection" 
+
+                    />
                 </Form.Item>
 
                 {/* Image Upload */}
