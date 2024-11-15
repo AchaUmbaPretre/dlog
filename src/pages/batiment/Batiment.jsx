@@ -24,6 +24,7 @@ import DenominationForm from './denomination/denominationForm/DenominationForm';
 import WhseFact from './whseFact/WhseFact';
 import InstructionOne from '../instructions/instructionOne/InstructionOne';
 import InstructionForm from '../instructions/instructionForm/InstructionForm';
+import InstructionFormOne from '../instructions/instructionForm/InstructionFormOne';
 
 const { Search } = Input;
 
@@ -661,7 +662,7 @@ const Batiment = () => {
           width={700}
           centered
         >
-          <InstructionForm idBatiment={idBatiment} />
+          <InstructionFormOne idBatiment={idBatiment} />
         </Modal>
     </>
   );
