@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, message,Button, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
 import { ClusterOutlined,BankOutlined,DeleteOutlined,EditOutlined} from '@ant-design/icons';
-import { getNiveau, putNiveauDelete } from '../../../services/batimentService';
+import { getNiveau, getNiveauOne, putNiveauDelete } from '../../../services/batimentService';
 import NiveauForm from './niveauForm/NiveauForm';
 
 const { Search } = Input;
 
-const Niveau = ({idBatiment}) => {
+const NiveauOne = ({idBatiment}) => {
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
@@ -17,7 +17,7 @@ const Niveau = ({idBatiment}) => {
   const fetchData = async () => {
 
       try {
-        const { data } = await getNiveau();
+        const { data } = await getNiveauOne(idBatiment);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -165,4 +165,4 @@ const Niveau = ({idBatiment}) => {
   );
 };
 
-export default Niveau;
+export default NiveauOne;
