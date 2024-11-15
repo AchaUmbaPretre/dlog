@@ -31,7 +31,7 @@ const NiveauOne = ({idBatiment}) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [idBatiment]);
 
   const handleEdit = (idNiveau) => openModal('Edit', idNiveau)
 

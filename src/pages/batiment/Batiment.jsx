@@ -25,6 +25,7 @@ import WhseFact from './whseFact/WhseFact';
 import InstructionOne from '../instructions/instructionOne/InstructionOne';
 import InstructionForm from '../instructions/instructionForm/InstructionForm';
 import InstructionFormOne from '../instructions/instructionForm/InstructionFormOne';
+import NiveauOne from './niveau/NiveauOne';
 
 const { Search } = Input;
 
@@ -608,7 +609,7 @@ const Batiment = () => {
           width={900}
           centered
         >
-          <Niveau idBatiment={idBatiment} />
+          <NiveauOne idBatiment={idBatiment} />
         </Modal>
 
         <Modal
