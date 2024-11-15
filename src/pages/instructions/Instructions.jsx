@@ -164,7 +164,7 @@ const Instructions = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ApartmentOutlined className='client-icon'/>
+                📝
             </div>
             <h2 className="client-h2">Corps de métier</h2>
           </div>

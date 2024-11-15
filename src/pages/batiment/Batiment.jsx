@@ -22,7 +22,6 @@ import NiveauForm from './niveau/niveauForm/NiveauForm';
 import Denomination from './denomination/Denomination';
 import DenominationForm from './denomination/denominationForm/DenominationForm';
 import WhseFact from './whseFact/WhseFact';
-import WhseFactForm from './whseFact/whseFactForm/WhseFactForm';
 
 const { Search } = Input;
 
@@ -150,12 +149,12 @@ const Batiment = () => {
     openModal('addDenomination', idBatiment)
   }
 
-  const handListeWhseFacture = ( idBatiment) =>{
-    openModal('listeWhseFacture', idBatiment)
+  const handListeInstruction = ( idBatiment) =>{
+    openModal('listeInstruction', idBatiment)
   }
 
-  const handleAddWhseFacture = ( idBatiment) =>{
-    openModal('addWhseFacture', idBatiment)
+  const handleAddInstruction = ( idBatiment) =>{
+    openModal('addInstruction', idBatiment)
   }
 
   const handleAddClient = () => {
@@ -336,13 +335,13 @@ const Batiment = () => {
                   <FileTextOutlined /> Créer une denomination
                 </Menu.Item>
                 <Menu.Divider />
-{/* 
-                <Menu.Item onClick={() => handListeWhseFacture(record.id_batiment)}>
-                  <FileTextOutlined /> Liste des WHSE FACT
+ 
+                <Menu.Item onClick={() => handListeInstruction(record.id_batiment)}>
+                  <FileTextOutlined /> Liste des instructions
                 </Menu.Item>
-                <Menu.Item onClick={() => handleAddWhseFacture(record.id_batiment)}>
-                  <FileTextOutlined /> Créer un WHSE FACT
-                </Menu.Item> */}
+                <Menu.Item onClick={() => handleAddInstruction(record.id_batiment)}>
+                  <FileTextOutlined /> Nouvelle instruction
+                </Menu.Item>
           </Menu>
         )}
         trigger={['click']}
