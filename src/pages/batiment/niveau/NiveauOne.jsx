@@ -151,7 +151,7 @@ const NiveauOne = ({idBatiment}) => {
             <div className="client-row-icon">
               <ClusterOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste des niveaux</h2>
+            <h2 className="client-h2">Liste des niveaux du {nameBatiment}</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
