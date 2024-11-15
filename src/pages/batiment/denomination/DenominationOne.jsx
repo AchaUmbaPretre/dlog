@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Modal, Input, message, Button, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { BankOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { getDenomination, putDenominationDelete } from '../../../services/batimentService';
+import { getDenomination, getDenominationOne, putDenominationDelete } from '../../../services/batimentService';
 import DenominationForm from './denominationForm/DenominationForm';
 
 const { Search } = Input;
 
-const Denomination = () => {
+const DenominationOne = ({idBatiment}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
@@ -17,7 +17,7 @@ const Denomination = () => {
      const fetchData = async () => {
 
       try {
-        const { data } = await getDenomination();
+        const { data } = await getDenominationOne(idBatiment);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -31,7 +31,7 @@ const Denomination = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [idBatiment]);
 ;
 
   const closeAllModals = () => {
@@ -167,4 +167,4 @@ const Denomination = () => {
   );
 };
 
-export default Denomination;
+export default DenominationOne;

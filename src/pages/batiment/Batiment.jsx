@@ -26,6 +26,7 @@ import InstructionOne from '../instructions/instructionOne/InstructionOne';
 import InstructionForm from '../instructions/instructionForm/InstructionForm';
 import InstructionFormOne from '../instructions/instructionForm/InstructionFormOne';
 import NiveauOne from './niveau/NiveauOne';
+import DenominationOne from './denomination/DenominationOne';
 
 const { Search } = Input;
 
@@ -630,7 +631,7 @@ const Batiment = () => {
           width={900}
           centered
         >
-          <Denomination idBatiment={idBatiment} />
+          <DenominationOne idBatiment={idBatiment} />
         </Modal>
 
         <Modal
