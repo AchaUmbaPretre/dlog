@@ -6,12 +6,12 @@ import { getType_instruction, postInspection } from '../../../services/batimentS
 const { TextArea } = Input;
 const { Option } = Select;
 
-const InstructionFormOne = ({idBatiment}) => {
+const InstructionFormOne = ({idBatiment, closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [instructionData, setInstructionData] = useState([]);
 
-  const fetchData = async() => {
+  const fetchDataAll = async() => {
     setLoading(true)
 
     try{
@@ -31,7 +31,7 @@ const InstructionFormOne = ({idBatiment}) => {
 
   useEffect(() => {
     form.resetFields();
-    fetchData();
+    fetchDataAll();
   }, [idBatiment,form]);
 
   const handleSubmit = async (values) => {
@@ -56,6 +56,8 @@ const InstructionFormOne = ({idBatiment}) => {
             description: 'Les informations ont été enregistrées avec succès.',
         });
         form.resetFields();
+        closeModal();
+        fetchData()
     } catch (error) {
         console.error(error);
         notification.error({
@@ -82,6 +84,7 @@ const InstructionFormOne = ({idBatiment}) => {
                 id_batiment: '',
                 commentaire: '',
                 id_cat_instruction: '',
+                id_type_instruction: 1
                 }}
             >
                 {/* Commentaire */}
@@ -95,7 +98,7 @@ const InstructionFormOne = ({idBatiment}) => {
 
                 {/* Catégorie d'instruction */}
                 <Form.Item
-                label="Catégorie d'Instruction"
+                label="Catégorie d'Inspection"
                 name="id_cat_instruction"
                 rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
                 >
@@ -138,7 +141,7 @@ const InstructionFormOne = ({idBatiment}) => {
 
                 {/* Bouton de soumission */}
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
                         Soumettre
                     </Button>
                 </Form.Item>

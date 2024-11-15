@@ -662,7 +662,7 @@ const Batiment = () => {
           width={700}
           centered
         >
-          <InstructionFormOne idBatiment={idBatiment} />
+          <InstructionFormOne idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
         </Modal>
     </>
   );
