@@ -127,7 +127,7 @@ const InstructionOne = ({idBatiment}) => {
         ),
       },
       { 
-        title: 'Instruction', 
+        title: 'Categorie', 
         dataIndex: 'id_cat_instruction', 
         key: 'id_cat_instruction',
         render: text => (

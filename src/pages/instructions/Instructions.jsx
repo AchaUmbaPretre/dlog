@@ -112,7 +112,7 @@ const Instructions = () => {
         ),
       },
       { 
-        title: 'Instruction', 
+        title: 'Cat', 
         dataIndex: 'id_cat_instruction', 
         key: 'id_cat_instruction',
         render: text => (
