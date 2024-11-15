@@ -3,6 +3,7 @@ import { Table, Input, message,Button, notification, Popconfirm, Space, Tooltip,
 import { ClusterOutlined,BankOutlined,DeleteOutlined,EditOutlined} from '@ant-design/icons';
 import { getNiveau, getNiveauOne, putNiveauDelete } from '../../../services/batimentService';
 import NiveauForm from './niveauForm/NiveauForm';
+import { getBatimentOne } from '../../../services/typeService';
 
 const { Search } = Input;
 
@@ -13,6 +14,28 @@ const NiveauOne = ({idBatiment}) => {
   const scroll = { x: 400 };
   const [modalType, setModalType] = useState(null);
   const [idNiveau, setIdNiveau] = useState([]);
+  const [nameBatiment, setNameBatiment] = useState('');
+
+
+  const fetchDataBatiment = async () => {
+    setLoading(true);
+    try {
+      const { data } = await getBatimentOne(idBatiment);
+      setNameBatiment(data[0]?.nom_batiment)
+
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (idBatiment) fetchDataBatiment();
+  }, [idBatiment]);
 
   const fetchData = async () => {
 

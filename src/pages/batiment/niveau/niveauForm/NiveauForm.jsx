@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getNiveauOnev, postNiveau, putNiveau } from '../../../../services/batimentService';
+import { getBatimentOne } from '../../../../services/typeService';
 
 const NiveauForm = ({ idBatiment, closeModal, fetchData, idNiveau }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [nameBatiment, setNameBatiment] = useState('');
+
 
   const fetchDataOne = async () => {
     setLoading(true);
@@ -22,9 +25,29 @@ const NiveauForm = ({ idBatiment, closeModal, fetchData, idNiveau }) => {
     }
   };
 
+  const fetchDataBatiment = async () => {
+    setLoading(true);
+    try {
+      const { data } = await getBatimentOne(idBatiment);
+      setNameBatiment(data[0]?.nom_batiment)
+
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (idNiveau) fetchDataOne();
   }, [idNiveau]);
+
+  useEffect(() => {
+    if (idBatiment) fetchDataBatiment();
+  }, [idBatiment]);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -67,7 +90,7 @@ const NiveauForm = ({ idBatiment, closeModal, fetchData, idNiveau }) => {
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className="controle_h2">Insérer plusieurs niveaux</h2>
+        <h2 className="controle_h2">Insérer plusieurs niveaux {nameBatiment}</h2>
       </div>
       <div className="controle_wrapper">
         <Form

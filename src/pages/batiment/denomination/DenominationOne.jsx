@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Modal, Input, message, Button, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { BankOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { getDenomination, getDenominationOne, putDenominationDelete } from '../../../services/batimentService';
+import { getDenominationOne, putDenominationDelete } from '../../../services/batimentService';
 import DenominationForm from './denominationForm/DenominationForm';
 
 const { Search } = Input;
