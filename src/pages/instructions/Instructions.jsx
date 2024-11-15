@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined,HomeOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined ,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspection } from '../../services/batimentService';
+import InstructionForm from './instructionForm/InstructionForm';
 
 const { Search } = Input;
 
@@ -51,7 +52,7 @@ const Instructions = () => {
     fetchData();
   }, []);
 
-  const handleAddClient = () => {
+  const handleAddInstruction = () => {
     setIsModalVisible(true);
   };
 
@@ -201,13 +202,13 @@ const Instructions = () => {
               />
             </div>
             <div className="client-rows-right">
-{/*               <Button
+               <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
+                onClick={handleAddInstruction}
               >
-                corps metier
-              </Button> */}
+                Inspection
+              </Button>
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
@@ -241,6 +242,7 @@ const Instructions = () => {
         width={600}
         centered
       >
+        <InstructionForm idBatiment={''} closeModal={handleCancel}/>
       </Modal>
     </>
   );
