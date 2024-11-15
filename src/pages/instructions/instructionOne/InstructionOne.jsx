@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Image } from 'antd';
-import { ExportOutlined, PrinterOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspectionOne } from '../../../services/batimentService';
 import config from '../../../config';
 
@@ -10,6 +10,7 @@ const InstructionOne = ({idBatiment}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [nameBatiment, setNameBatiment] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [idCorps, setIdCorps] = useState('');
@@ -39,6 +40,7 @@ const InstructionOne = ({idBatiment}) => {
       try {
         const { data } = await getInspectionOne(idBatiment);
         setData(data);
+        setNameBatiment(data[0]?.nom_batiment)
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -94,16 +96,6 @@ const InstructionOne = ({idBatiment}) => {
       width: "3%" 
     },
     { 
-      title: 'Batiment', 
-      dataIndex: 'nom_batiment', 
-      key: 'nom_batiment',
-      render: text => (
-        <Space>
-          <Tag color='cyan'>{text}</Tag>
-        </Space>
-      ),
-    },
-    { 
         title: 'Commentaire', 
         dataIndex: 'commentaire', 
         key: 'commentaire',
@@ -124,6 +116,31 @@ const InstructionOne = ({idBatiment}) => {
         ),
       },
       {
+        title: 'Type',
+        dataIndex: 'nom_type_instruction',
+        key: 'nom_type_instruction',
+        render: text => {
+          let icon = null;
+          let color = 'default';
+    
+          if (text === 'Avant') {
+            icon = <ArrowLeftOutlined />;
+            color = 'blue'; 
+          } else if (text === 'Après') {
+            icon = <ArrowRightOutlined />;
+            color = 'green'; 
+          }
+    
+          return (
+            <Space>
+              <Tag color={color}>
+                {icon} {text}
+              </Tag>
+            </Space>
+          );
+        }
+      },
+      {
         title: 'Image',
         dataIndex: 'img',
         key: 'img',
@@ -142,7 +159,7 @@ const InstructionOne = ({idBatiment}) => {
         },
       },
       
-    {
+/*     {
       title: 'Action',
       key: 'action',
       width: '10%',
@@ -172,7 +189,7 @@ const InstructionOne = ({idBatiment}) => {
           </Tooltip>
         </Space>
       ),
-    },
+    }, */
   ];
 
   const filteredData = data.filter(item =>
@@ -187,7 +204,7 @@ const InstructionOne = ({idBatiment}) => {
             <div className="client-row-icon">
                 📝
             </div>
-            <h2 className="client-h2">Instruction</h2>
+            <h2 className="client-h2">Instruction du {nameBatiment}</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
