@@ -284,6 +284,10 @@ export const getInspection = async () => {
   return axios.get(`${DOMAIN}/api/batiment/inspections`);
 };
 
+export const getInspectionOneV = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/inspectionsOneV?id=${id}`);
+};
+
 export const getInspectionOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/inspectionsOne?id_batiment=${id}`);
 };

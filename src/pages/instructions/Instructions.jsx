@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined ,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined,HomeOutlined,EyeOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined ,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspection } from '../../services/batimentService';
 import InstructionForm from './instructionForm/InstructionForm';
+import InstructionsDetail from './instructionsDetail/InstructionsDetail';
 
 const { Search } = Input;
 
@@ -10,17 +11,21 @@ const Instructions = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisibleEyes, setIsModalVisibleEyes] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [idCorps, setIdCorps] = useState('');
+  const [idInspection, setIdInspection] = useState('');
   const scroll = { x: 400 };
 
   const handleEdit = (record) => {
-    message.info(`Modifier corps metier: ${record}`);
-    setIdCorps(record)
+    message.info(`Modifier inspection: ${record}`);
+    setIdInspection(record)
     setIsModalVisible(true);
-
   };
 
+  const handleViewDetails = (id) => {
+    setIsModalVisibleEyes(true);
+    setIdInspection(id)
+  }
   const handleDelete = async (id) => {
     try {
 /*       await deletePutDepartement(id); */
@@ -58,6 +63,7 @@ const Instructions = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setIsModalVisibleEyes(false)
   };
 
   const handleExportExcel = () => {
@@ -153,18 +159,26 @@ const Instructions = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
+            <Tooltip title="Voir les détails">
+              <Button
+                icon={<EyeOutlined />}
+                onClick={() => handleViewDetails(record.id_inspection)}
+                aria-label="Voir les détails de la tâche"
+                style={{ color: 'blue' }}
+              />
+            </Tooltip>
            <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_corps_metier)}
+              onClick={() => handleEdit(record.id_inspection)}
               aria-label="Edit department"
             />
           </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
-              onConfirm={() => handleDelete(record.id_corps_metier)}
+              onConfirm={() => handleDelete(record.id_inspection)}
               okText="Yes"
               cancelText="No"
             >
@@ -243,6 +257,16 @@ const Instructions = () => {
         centered
       >
         <InstructionForm idBatiment={''} closeModal={handleCancel}/>
+      </Modal>
+      <Modal
+        title=""
+        visible={isModalVisibleEyes}
+        onCancel={handleCancel}
+        footer={null}
+        width={900}
+        centered
+      >
+        <InstructionsDetail idInspection={idInspection}/>
       </Modal>
     </>
   );
