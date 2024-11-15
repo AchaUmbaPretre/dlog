@@ -3,6 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { ExportOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspectionOne } from '../../../services/batimentService';
 import config from '../../../config';
+import { getBatimentOne } from '../../../services/typeService';
 
 const { Search } = Input;
 
@@ -36,11 +37,31 @@ const InstructionOne = ({idBatiment}) => {
     }
   };
 
+  const fetchDataBatiment = async () => {
+    setLoading(true);
+    try {
+      const { data } = await getBatimentOne(idBatiment);
+      setNameBatiment(data[0]?.nom_batiment)
+
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (idBatiment) fetchDataBatiment();
+  }, [idBatiment]);
+
+
      const fetchData = async () => {
       try {
         const { data } = await getInspectionOne(idBatiment);
         setData(data);
-        setNameBatiment(data[0]?.nom_batiment)
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -144,15 +165,15 @@ const InstructionOne = ({idBatiment}) => {
         title: 'Image',
         dataIndex: 'img',
         key: 'img',
-        render: (text, record) => { // Ajout du log pour debug
+        render: (text, record) => { 
           return (
             <div className="userList">
               <Image
                 className="userImg"
-                src={`${DOMAIN}/${record.img}`} // Utilisation de l'URL générée
+                src={`${DOMAIN}/${record.img}`}
                 alt="Inspection Image"
-                fallback="/path-to-default-image.png" // Image par défaut si le chemin est invalide
-                width={50} // Ajustez la taille selon vos besoins
+                fallback="/path-to-default-image.png"
+                width={80}
               />
             </div>
           );
