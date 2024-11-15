@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined ,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getCorpsMetier } from '../../services/typeService';
+import { getInspection } from '../../services/batimentService';
 
 const { Search } = Input;
 
@@ -35,7 +36,7 @@ const Instructions = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getCorpsMetier();
+        const { data } = await getInspection();
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -180,7 +181,7 @@ const Instructions = () => {
   ];
 
   const filteredData = data.filter(item =>
-    item.nom_corps_metier?.toLowerCase().includes(searchValue.toLowerCase())
+    item.commentaire?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -191,7 +192,7 @@ const Instructions = () => {
             <div className="client-row-icon">
                 📝
             </div>
-            <h2 className="client-h2">Corps de métier</h2>
+            <h2 className="client-h2">Liste des inspections</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -201,13 +202,13 @@ const Instructions = () => {
               />
             </div>
             <div className="client-rows-right">
-              <Button
+{/*               <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
                 onClick={handleAddClient}
               >
                 corps metier
-              </Button>
+              </Button> */}
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>

@@ -231,7 +231,7 @@ function App() {
           element: <WhseFact/>
         },
         {
-          path: '/liste_instruction',
+          path: '/liste_inspection',
           element: <Instructions/>
         },
         {
