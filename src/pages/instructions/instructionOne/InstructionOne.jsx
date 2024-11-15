@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Image } from 'antd';
+import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Image } from 'antd';
 import { ExportOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspectionOne } from '../../../services/batimentService';
 import config from '../../../config';
@@ -12,30 +12,8 @@ const InstructionOne = ({idBatiment}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [nameBatiment, setNameBatiment] = useState('');
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [idCorps, setIdCorps] = useState('');
   const scroll = { x: 400 };
-
-  const handleEdit = (record) => {
-    message.info(`Modifier corps metier: ${record}`);
-    setIdCorps(record)
-    setIsModalVisible(true);
-
-  };
-
-  const handleDelete = async (id) => {
-    try {
-/*       await deletePutDepartement(id); */
-      setData(data.filter((item) => item.id_corps_metier !== id));
-      message.success('Corps metier a ete supprimé avec succès');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
-  };
 
   const fetchDataBatiment = async () => {
     setLoading(true);
@@ -75,14 +53,6 @@ const InstructionOne = ({idBatiment}) => {
   useEffect(() => {
     fetchData();
   }, [idBatiment]);
-
-  const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -266,16 +236,6 @@ const InstructionOne = ({idBatiment}) => {
           />
         </div>
       </div>
-
-      <Modal
-        title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-        width={600}
-        centered
-      >
-      </Modal>
     </>
   );
 };
