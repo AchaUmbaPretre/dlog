@@ -239,7 +239,7 @@ const Instructions = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={700}
         centered
       >
         <InstructionForm idBatiment={''} closeModal={handleCancel}/>
