@@ -5,6 +5,7 @@ import { notification, Card, Row, Col, Spin, Badge, Modal } from 'antd';
 import { ToolOutlined, ApartmentOutlined, CheckCircleOutlined,BankOutlined, SettingOutlined, WarningOutlined } from '@ant-design/icons';
 import DenominationForm from '../../denomination/denominationForm/DenominationForm';
 import NiveauForm from '../../niveau/niveauForm/NiveauForm';
+import { getBatimentOne } from '../../../../services/typeService';
 
 const DataTableau = ({ idBatiment }) => {
   const [data, setData] = useState({});
@@ -36,7 +37,6 @@ const DataTableau = ({ idBatiment }) => {
     try {
       const { data } = await getTableauOne(idBatiment);
       setData(data[0]);
-      setNameBatiment(data[0].nom_batiment)
       setLoading(false);
     } catch (error) {
       notification.error({
@@ -50,12 +50,14 @@ const DataTableau = ({ idBatiment }) => {
   const fetchDatas = async () => {
     setLoading(true);
     try {
-      const [ niveauData, denominationData] = await Promise.all([
+      const [ niveauData, denominationData, batimentData] = await Promise.all([
         getNiveauCount(idBatiment),
-        getDenominationCount(idBatiment)
+        getDenominationCount(idBatiment),
+        getBatimentOne(idBatiment)
       ])
       setNiveau(niveauData.data[0])
       setDenomination(denominationData.data[0])
+      setNameBatiment(batimentData.data[0].nom_batiment)
       setLoading(false);
     } catch (error) {
       notification.error({
@@ -161,7 +163,7 @@ const DataTableau = ({ idBatiment }) => {
   return (
     <div className="dataTableau">
         <div className="title_row">
-            <h1 className="title_h1"> { nameBatiment ? `Rapport de ${nameBatiment}` : ''}</h1>
+            <h1 className="title_h1">{ nameBatiment ? `Rapport de ${nameBatiment}` : ''}</h1>
         </div>
       {loading ? (
         <div className="spinner-container">

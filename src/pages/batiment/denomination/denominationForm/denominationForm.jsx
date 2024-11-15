@@ -1,22 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { getDenominationOneV, postDenomination, putDenomination } from '../../../../services/batimentService';
+import { getBatimentOne } from '../../../../services/typeService';
 
 const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [denominations, setDenominations] = useState([{ nom_denomination_bat: '' }]);
+  const [nameBatiment, setNameBatiment] = useState('');
 
   const fetchDataOne = async () => {
     setLoading(true);
     try {
       const { data } = await getDenominationOneV(idDenomination_bat);
 
-      // Utiliser setFieldsValue pour définir les données dans le formulaire directement
       form.setFieldsValue({ denominations: data.map(d => ({ nom_denomination_bat: d.nom_denomination_bat })) });
       
-      // Mettre à jour l'état `denominations` pour que le rendu soit correct
       setDenominations(data.map(d => ({ nom_denomination_bat: d.nom_denomination_bat })));
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchDataBatiment = async () => {
+    setLoading(true);
+    try {
+      const { data } = await getBatimentOne(idBatiment);
+      setNameBatiment(data[0]?.nom_batiment)
+
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -30,6 +46,10 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
   useEffect(() => {
     if (idDenomination_bat) fetchDataOne();
   }, [idDenomination_bat]);
+
+  useEffect(() => {
+    if (idBatiment) fetchDataBatiment();
+  }, [idBatiment]);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -75,7 +95,7 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className='controle_h2'>{idDenomination_bat ? 'Mettre à jour la dénomination' : 'Insérer des dénominations'}</h2>
+        <h2 className='controle_h2'>{idDenomination_bat ? 'Mettre à jour la dénomination' : idBatiment ? `Insérer des dénominations du batiment ${nameBatiment}` : 'Insérer des dénominations'}</h2>
       </div>
       <div className="controle_wrapper">
         <Form
