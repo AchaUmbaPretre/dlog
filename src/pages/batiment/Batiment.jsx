@@ -23,6 +23,7 @@ import Denomination from './denomination/Denomination';
 import DenominationForm from './denomination/denominationForm/DenominationForm';
 import WhseFact from './whseFact/WhseFact';
 import InstructionOne from '../instructions/instructionOne/InstructionOne';
+import InstructionForm from '../instructions/instructionForm/InstructionForm';
 
 const { Search } = Input;
 
@@ -657,10 +658,10 @@ const Batiment = () => {
           visible={modalType === 'addInstruction'}
           onCancel={closeAllModals}
           footer={null}
-          width={900}
+          width={700}
           centered
         >
-          <WhseFact idBatiment={idBatiment} />
+          <InstructionForm idBatiment={idBatiment} />
         </Modal>
     </>
   );
