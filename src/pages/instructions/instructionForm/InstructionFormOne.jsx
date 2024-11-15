@@ -135,11 +135,11 @@ const InstructionFormOne = ({idBatiment, closeModal, fetchData}) => {
 
                 {/* Image Upload */}
                 <Form.Item
-                label="Image"
-                name="img"
-                valuePropName="fileList"
-                getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-                rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
+                    label="Image"
+                    name="img"
+                    valuePropName="fileList"
+                    getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+                    rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
                 >
                 <Upload name="img" listType="picture" beforeUpload={() => false}>
                     <Button icon={<UploadOutlined />}>Télécharger une image</Button>

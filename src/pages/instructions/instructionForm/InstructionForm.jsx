@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { postInspection } from '../../../services/batimentService';
+import { getType_instruction, postInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
 
 const { TextArea } = Input;
@@ -11,13 +11,17 @@ const InstructionForm = ({idBatiment, closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
+  const [instructionData, setInstructionData] = useState([]);
+
 
   const fetchDataAll = async() => {
     try {
-        const [batimentData] = await Promise.all([
-            getBatiment()
+        const [batimentData, typeInspe] = await Promise.all([
+            getBatiment(),
+            getType_instruction(),
         ])
         setBatiment(batimentData.data)
+        setInstructionData(typeInspe.data)
     } catch (error) {
         console.log(error)
     }
@@ -80,7 +84,7 @@ useEffect(() => {
             >
                 {/* ID Bâtiment */}
                 <Form.Item
-                label="ID Bâtiment"
+                label="Bâtiment"
                 name="id_batiment"
                 rules={[{ required: false, message: 'Veuillez entrer l’ID du bâtiment' }]}
                 >
@@ -118,6 +122,23 @@ useEffect(() => {
                 </Select>
                 </Form.Item>
 
+                {/* Type instruction */}
+                <Form.Item
+                label="Type d'inspection"
+                name="id_type_instruction"
+                rules={[{ required: true, message: 'Veuillez sélectionner un type d inspection' }]}
+                >
+                    <Select 
+                        showSearch
+                        options={instructionData.map((item) => ({
+                            value: item.id_type_instruction,
+                            label: item.nom_type_instruction,
+                        }))}
+                        placeholder="Sélectionnez un type d inspection" 
+
+                    />
+                </Form.Item>
+
                 {/* Image Upload */}
                 <Form.Item
                 label="Image"
@@ -133,7 +154,7 @@ useEffect(() => {
 
                 {/* Bouton de soumission */}
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
                         Soumettre
                     </Button>
                 </Form.Item>
