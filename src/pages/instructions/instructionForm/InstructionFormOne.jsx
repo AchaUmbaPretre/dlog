@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { getType_instruction, postInspection } from '../../../services/batimentService';
+import { getBatimentOne } from '../../../services/typeService';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -10,15 +11,21 @@ const InstructionFormOne = ({idBatiment, closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [instructionData, setInstructionData] = useState([]);
+  const [nameBatiment, setNameBatiment] = useState('');
+
 
   const fetchDataAll = async() => {
     setLoading(true)
 
     try{
         const [typeInspe] = await Promise.all([
-            getType_instruction()
+            getType_instruction(),
         ]);
 
+        if(idBatiment) {
+            const { data } = await getBatimentOne(idBatiment);
+            setNameBatiment(data[0]?.nom_batiment)
+        }
         setInstructionData(typeInspe.data)
 
     } catch (error){
@@ -73,7 +80,7 @@ const InstructionFormOne = ({idBatiment, closeModal, fetchData}) => {
   return (
     <div className="controle_form">
         <div className="controle_title_rows">
-            <h2 className="controle_h2">Insérer une inspection</h2>
+            <h2 className="controle_h2">Insérer une inspection du {nameBatiment}</h2>
         </div>
         <div className="controle_wrapper">
             <Form

@@ -5,7 +5,7 @@ import { UploadOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 const { Option } = Select;
 
-const InstructionForm = () => {
+const InstructionForm = ({idBatiment}) => {
   const [form] = Form.useForm();
 
   const handleSubmit = (values) => {
