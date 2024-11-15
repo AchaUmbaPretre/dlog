@@ -204,15 +204,16 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                         <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Warehouse facture"
-                                name="nom_whse_fact"
+                                name="id_batiment_fact"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un Warehouse facture!' }]}
                             >
                                 { isLoading ? <Skeleton.Input active={true} /> : 
-                                <InputNumber 
-                                    placeholder="Entrez le Warehouse facture..." 
-                                    style={{ width: '100%' }}
-                                    min={0}
-                                />
+                                    <Select
+                                        showSearch
+                                        options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
+                                        placeholder="Sélectionnez un bâtiment..."
+                                        optionFilterProp="label"
+                                    />
                                 }
                             </Form.Item>
                         </Col>

@@ -63,7 +63,7 @@ const TemplateDetail = ({ idTemplate }) => {
             <Tag icon={<TagOutlined />} color="purple">{data.nom_denomination_bat ?? 'Aucun'}</Tag>
           </Descriptions.Item>
           <Descriptions.Item label="Whse fact">
-            <Tag color="geekblue">{data.nom_whse_fact ?? 'Aucun'} $</Tag>
+            <Tag color="geekblue">{data.nom_whse_fact ?? 'Aucun'}</Tag>
           </Descriptions.Item>
           <Descriptions.Item label="Objet fact">
             <Tag icon={<FileTextOutlined />} color="green">{data.nom_objet_fact ?? 'Aucun'}</Tag>

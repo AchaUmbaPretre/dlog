@@ -115,7 +115,7 @@ const WhseFact = () => {
       render: (text) => {
         const color = text ? 'blue' : 'red';
         return (
-          <Tag icon={<DollarOutlined />} color={color}>
+          <Tag color={color}>
             {text ?? 'Aucun'}
           </Tag>
         );

@@ -202,7 +202,7 @@ const Template = () => {
       dataIndex: 'nom_whse_fact',
       key: 'nom_whse_fact',
       render: (text) => (
-        <Tag color="geekblue">{text ?? 'Aucune'} $</Tag>
+        <Tag icon={<HomeOutlined />} color="geekblue">{text ?? 'Aucune'}</Tag>
       ),
       ...(columnsVisibility['Whse fact'] ? {} : { className: 'hidden-column' })
 
