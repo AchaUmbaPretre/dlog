@@ -300,6 +300,14 @@ export const postInspection = async (data) => {
   });
 };
 
+export const putInspection = async (id,data) => {
+  return axios.put(`${DOMAIN}/api/batiment/inspection_update?id_inspection=${id}`, data);
+};
+
+export const putInspectionDelete = async (id) => {
+  return axios.put(`${DOMAIN}/api/batiment/inspection_delete?id=${id}`);
+};
+
 export const getType_instruction = async () => {
   return axios.get(`${DOMAIN}/api/batiment/instruction_type`);
 };
