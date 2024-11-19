@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Card, Spin, notification, Typography, Row, Col, Button, Space } from "antd";
 import { getInspectionOneV } from "../../../services/batimentService";
 import html2pdf from "html2pdf.js";
+import htmlDocx from "html-docx-js/dist/html-docx";
 import config from "../../../config";
-import './instructionsDetail.scss'
+import "./instructionsDetail.scss";
 
 const { Title, Text } = Typography;
 
@@ -11,12 +12,23 @@ const InstructionsDetail = ({ idInspection }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [groupedData, setGroupedData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [nameBatiment, setNameBatiment] = useState("");
   const exportRef = useRef();
 
   // Fonction pour charger les données
   const fetchData = async () => {
     try {
       const { data } = await getInspectionOneV(idInspection);
+
+      if (data.length === 0) {
+        notification.warning({
+          message: "Aucune donnée trouvée",
+          description: "Il n'y a aucune instruction disponible pour cet ID d'inspection.",
+        });
+        return;
+      }
+
+      setNameBatiment(data[0]?.nom_batiment || "Inconnu");
 
       // Regrouper les données par leurs champs communs
       const grouped = data.reduce((acc, instruction) => {
@@ -35,7 +47,7 @@ const InstructionsDetail = ({ idInspection }) => {
     } catch (error) {
       notification.error({
         message: "Erreur de chargement",
-        description: "Une erreur est survenue lors du chargement des données.",
+        description: `Une erreur est survenue lors du chargement des données : ${error.message}`,
       });
     } finally {
       setLoading(false);
@@ -74,6 +86,18 @@ const InstructionsDetail = ({ idInspection }) => {
     });
   };
 
+  // Fonction pour exporter en Word
+  const exportToWord = () => {
+    const content = `<html><body>${exportRef.current.innerHTML}</body></html>`;
+    const blob = htmlDocx.asBlob(content);
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Instructions_${nameBatiment}.docx`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div style={{ padding: 16 }}>
       {loading ? (
@@ -84,9 +108,12 @@ const InstructionsDetail = ({ idInspection }) => {
             <Button type="primary" onClick={exportToPDF}>
               Exporter en PDF
             </Button>
+            <Button type="default" onClick={exportToWord}>
+              Exporter en Word
+            </Button>
           </Space>
           <div ref={exportRef}>
-            <Title level={3} style={{ textAlign: "center", marginBottom: 24 }}>
+            <Title level={3} style={{ textAlign: "center", marginBottom: 24, fontWeight: 300 }}>
               Détails des Instructions
             </Title>
             <Row gutter={[16, 16]}>
