@@ -180,6 +180,10 @@ export const getBureau = async () => {
   return axios.get(`${DOMAIN}/api/batiment/bureau`);
 };
 
+export const getBureauOneV = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/bureau/oneV?id_bureau=${id}`);
+};
+
 export const getBureauOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/bureau/one?id_batiment=${id}`);
 };

@@ -5,11 +5,7 @@ import { ExportOutlined,MoreOutlined, PrinterOutlined,BankOutlined,ToolOutlined,
 import { getBureau } from '../../services/batimentService';
 import ListeEquipement from '../batiment/equipement/listeEquipement/ListeEquipement';
 import EquipementForm from '../batiment/equipement/equipementForm/EquipementForm';
-/* import { getBureauOne } from '../../../services/batimentService';
- *//* import EquipementForm from '../equipement/equipementForm/EquipementForm';
- */
-/* import ListeEquipement from '../equipement/listeEquipement/ListeEquipement';
- */
+import BureauForm from '../batiment/bureaux/bureauForm/BureauForm';
 const { Search } = Input;
 
 const ListBureaux = ({idBatiment}) => {
@@ -18,21 +14,15 @@ const ListBureaux = ({idBatiment}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
-  const [idDepartement, setIdDapartement] = useState('');
+  const [idBureau, setIdBureau] = useState('');
   const scroll = { x: 400 };
 
-  const handleEdit = (record) => {
-    message.info(`Modifier departement: ${record.nom}`);
-    setIdDapartement(record)
-    setIsModalVisible(true);
-
-  };
 
   const handleDelete = async (id) => {
     try {
 /*       await deletePutDepartement(id); */
-      setData(data.filter((item) => item.id_departement !== id));
-      message.success('Departement supprimé avec succès');
+      setData(data.filter((item) => item.id_bureau !== id));
+      message.success('le bureau a été supprimé avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -58,6 +48,12 @@ const ListBureaux = ({idBatiment}) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleEdit = (id) => {
+    setIdBureau(id)
+    setIsModalVisible(true);
+
+  };
 
   const handleListeEquipement = ( idBatiment) =>{
     openModal('listeEquipement', idBatiment)
@@ -118,6 +114,16 @@ const ListBureaux = ({idBatiment}) => {
       width: "3%" 
     },
     { 
+      title: 'Batiment', 
+      dataIndex: 'nom_batiment', 
+      key: 'nom_batiment',
+      render: text => (
+        <Space>
+          <Tag icon={<ApartmentOutlined />} color='green'>{text}</Tag>
+        </Space>
+      ),
+    },
+    { 
       title: 'Nom', 
       dataIndex: 'nom', 
       key: 'nom',
@@ -167,14 +173,14 @@ const ListBureaux = ({idBatiment}) => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-{/*            <Tooltip title="Modifier">
+            <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_departement)}
+              onClick={() => handleEdit(record.id_bureau)}
               aria-label="Edit department"
             />
-          </Tooltip> */}
+          </Tooltip>
           <Dropdown
         overlay={(
           <Menu>
@@ -199,7 +205,7 @@ const ListBureaux = ({idBatiment}) => {
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
-              onConfirm={() => handleDelete(record.id_departement)}
+              onConfirm={() => handleDelete(record.id_bureau)}
               okText="Yes"
               cancelText="No"
             >
@@ -236,13 +242,7 @@ const ListBureaux = ({idBatiment}) => {
               />
             </div>
             <div className="client-rows-right">
-              {/* <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
-              >
-                Bureau
-              </Button> */}
+
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
@@ -268,7 +268,7 @@ const ListBureaux = ({idBatiment}) => {
         </div>
       </div>
 
-{/*       <Modal
+       <Modal
         title=""
         visible={isModalVisible}
         onCancel={handleCancel}
@@ -276,8 +276,8 @@ const ListBureaux = ({idBatiment}) => {
         width={600}
         centered
       >
-        <BureauForm id_departement={idDepartement} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
-      </Modal> */}
+        <BureauForm idBatiment={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData} idBureau={idBureau}/>
+      </Modal>
 
       <Modal
         title=""

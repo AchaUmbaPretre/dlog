@@ -1,14 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Button, notification } from 'antd';
-import axios from 'axios';
-import { postBureau } from '../../../../services/batimentService';
+import { getBureauOneV, postBureau } from '../../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 
-const BureauForm = ({idBatiment, closeModal}) => {
+const BureauForm = ({idBatiment, closeModal, fetchData, idBureau}) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const fetchDatas = async () => {
+    try {
+      const { data: datas } = await getBureauOneV(idBureau);
+      
+      if (datas && datas.length > 0) {
+        const bureau = datas[0];
+        form.setFieldsValue({
+          nom: bureau.nom,
+          longueur: bureau.longueur,
+          largeur: bureau.largeur,
+          hauteur: bureau.hauteur,
+          nombre_postes: bureau.nombre_postes,
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+    }
+  };
+  
+
+  useEffect(()=> {
+    fetchDatas()
+  }, [idBureau])
 
   const onFinish = async (values) => {
     setIsLoading(true)
