@@ -59,8 +59,6 @@ const InstructionsDetail = ({ idInspection }) => {
     });
   };
   
-
-  // Fonction pour exporter en Word
   const exportToWord = () => {
     
   };
