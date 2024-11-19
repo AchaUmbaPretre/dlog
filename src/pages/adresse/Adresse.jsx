@@ -97,7 +97,7 @@ const Adresse = () => {
             <div className="client-row-icon">
             🏢
             </div>
-            <h2 className="client-h2">Liste des adresses</h2>
+            <h2 className="client-h2">Liste d'adresses</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
