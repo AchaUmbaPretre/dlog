@@ -73,59 +73,66 @@ const BureauForm = ({idBatiment, closeModal, fetchData, idBureau}) => {
   };
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={onFinish}
-      style={{ maxWidth: '600px', margin: '0 auto' }}
-    >
-
-      <Form.Item
-        label="Nom du Bureau"
-        name="nom"
-        rules={[{ required: true, message: 'Veuillez entrer le nom du bureau' }]}
+    <div className="controle_form">
+      <div className="controle_title_rows">
+        <h2 className='controle_h2'>{ idBureau ? 'Modifier un bureau' : 'Insérer un nouveau bureau'}</h2>                
+      </div>
+      <div className="controle_wrapper">
+        <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        style={{ maxWidth: '600px', margin: '0 auto' }}
       >
-        <Input placeholder="Nom du bureau" />
-      </Form.Item>
 
-      <Form.Item
-        label="Longueur (m)"
-        name="longueur"
-        rules={[{ required: true, message: 'Veuillez entrer la longueur du bureau' }]}
-      >
-        <InputNumber min={0} style={{ width: '100%' }} placeholder="Longueur en mètres" />
-      </Form.Item>
+        <Form.Item
+          label="Nom du Bureau"
+          name="nom"
+          rules={[{ required: true, message: 'Veuillez entrer le nom du bureau' }]}
+        >
+          <Input placeholder="Nom du bureau" />
+        </Form.Item>
 
-      <Form.Item
-        label="Largeur (m)"
-        name="largeur"
-        rules={[{ required: true, message: 'Veuillez entrer la largeur du bureau' }]}
-      >
-        <InputNumber min={0} style={{ width: '100%' }} placeholder="Largeur en mètres" />
-      </Form.Item>
+        <Form.Item
+          label="Longueur (m)"
+          name="longueur"
+          rules={[{ required: true, message: 'Veuillez entrer la longueur du bureau' }]}
+        >
+          <InputNumber min={0} style={{ width: '100%' }} placeholder="Longueur en mètres" />
+        </Form.Item>
 
-      <Form.Item
-        label="Hauteur (m)"
-        name="hauteur"
-        rules={[{ required: true, message: 'Veuillez entrer la hauteur du bureau' }]}
-      >
-        <InputNumber min={0} style={{ width: '100%' }} placeholder="Hauteur en mètres" />
-      </Form.Item>
+        <Form.Item
+          label="Largeur (m)"
+          name="largeur"
+          rules={[{ required: true, message: 'Veuillez entrer la largeur du bureau' }]}
+        >
+          <InputNumber min={0} style={{ width: '100%' }} placeholder="Largeur en mètres" />
+        </Form.Item>
 
-      <Form.Item
-        label="Nombre de postes"
-        name="nombre_postes"
-        rules={[{ required: true, message: 'Veuillez entrer le nombre de postes' }]}
-      >
-        <InputNumber min={0} style={{ width: '100%' }} placeholder="Nombre de postes" />
-      </Form.Item>
+        <Form.Item
+          label="Hauteur (m)"
+          name="hauteur"
+          rules={[{ required: true, message: 'Veuillez entrer la hauteur du bureau' }]}
+        >
+          <InputNumber min={0} style={{ width: '100%' }} placeholder="Hauteur en mètres" />
+        </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
-          Ajouter Bureau
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item
+          label="Nombre de postes"
+          name="nombre_postes"
+          rules={[{ required: true, message: 'Veuillez entrer le nombre de postes' }]}
+        >
+          <InputNumber min={0} style={{ width: '100%' }} placeholder="Nombre de postes" />
+        </Form.Item>
+
+        <Form.Item>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
+            { idBureau ? 'Modifier' : 'Ajouter Bureau'}
+          </Button>
+        </Form.Item>
+        </Form>
+      </div>
+    </div>
   );
 };
 

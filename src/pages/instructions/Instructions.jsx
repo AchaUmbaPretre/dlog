@@ -38,7 +38,6 @@ const Instructions = () => {
   };
   
   const openModal = (type, idInspection = '') => {
-    closeAllModals();
     setModalType(type);
     setIdInspection(idInspection);
   };
@@ -73,11 +72,6 @@ const Instructions = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-    setIsModalVisibleEyes(false)
-  };
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -283,7 +277,7 @@ const Instructions = () => {
       <Modal
         title=""
         visible={modalType === 'detail'}
-        onCancel={handleCancel}
+        onCancel={closeAllModals}
         footer={null}
         width={900}
         centered
