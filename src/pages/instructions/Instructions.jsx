@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined,HomeOutlined,EyeOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined ,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { getInspection } from '../../services/batimentService';
+import { getInspection, putInspectionDelete } from '../../services/batimentService';
 import InstructionForm from './instructionForm/InstructionForm';
 import InstructionsDetail from './instructionsDetail/InstructionsDetail';
 
@@ -26,11 +26,12 @@ const Instructions = () => {
     setIsModalVisibleEyes(true);
     setIdInspection(id)
   }
+  
   const handleDelete = async (id) => {
     try {
-/*       await deletePutDepartement(id); */
+       await putInspectionDelete(id);
       setData(data.filter((item) => item.id_inspection !== id));
-      message.success('Corps metier a ete supprimé avec succès');
+      message.success('Inspection a ete supprimé avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
