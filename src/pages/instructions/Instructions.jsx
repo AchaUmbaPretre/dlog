@@ -15,17 +15,32 @@ const Instructions = () => {
   const [searchValue, setSearchValue] = useState('');
   const [idInspection, setIdInspection] = useState('');
   const scroll = { x: 400 };
+  const [modalType, setModalType] = useState(null);
 
-  const handleEdit = (record) => {
-    message.info(`Modifier inspection: ${record}`);
-    setIdInspection(record)
-    setIsModalVisible(true);
+  const handleAddInstruction = (id) => {
+    openModal('add', id);
+    setIdInspection(id)
+  };
+
+  const handleEdit = (id) => {
+    openModal('edit', id);
+    setIdInspection(id)
   };
 
   const handleViewDetails = (id) => {
-    setIsModalVisibleEyes(true);
+    openModal('detail', id);
     setIdInspection(id)
   }
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+  
+  const openModal = (type, idInspection = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdInspection(idInspection);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -57,10 +72,6 @@ const Instructions = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const handleAddInstruction = () => {
-    setIsModalVisible(true);
-  };
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -250,17 +261,27 @@ const Instructions = () => {
 
       <Modal
         title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'add'}
+        onCancel={closeAllModals}
         footer={null}
         width={700}
         centered
       >
-        <InstructionForm idBatiment={''} closeModal={handleCancel}/>
+        <InstructionForm idBatiment={''} closeModal={closeAllModals}/>
       </Modal>
       <Modal
         title=""
-        visible={isModalVisibleEyes}
+        visible={modalType === 'edit'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <InstructionForm idBatiment={''} closeModal={closeAllModals}/>
+      </Modal>
+      <Modal
+        title=""
+        visible={modalType === 'detail'}
         onCancel={handleCancel}
         footer={null}
         width={900}
