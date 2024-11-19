@@ -26,7 +26,7 @@ const Instructions = () => {
     setIsModalVisibleEyes(true);
     setIdInspection(id)
   }
-  
+
   const handleDelete = async (id) => {
     try {
        await putInspectionDelete(id);
@@ -72,7 +72,6 @@ const Instructions = () => {
   };
 
   const handleExportPDF = () => {
-    // Logic to export data to PDF
     message.success('Exporting to PDF...');
   };
 
