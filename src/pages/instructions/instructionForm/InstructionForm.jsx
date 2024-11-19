@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { getType_instruction, postInspection } from '../../../services/batimentService';
+import { getType_instruction, postInspection, putInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-const InstructionForm = ({idBatiment, closeModal, fetchData}) => {
+const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
@@ -46,11 +46,21 @@ useEffect(() => {
     });
 
     try {
-        await postInspection(formData);
-        notification.success({
-            message: 'Succès',
-            description: 'Les informations ont été enregistrées avec succès.',
-        });
+        if(idInspection){
+            await putInspection(formData)
+            notification.success({
+                message: 'Succès',
+                description: 'Les informations ont été mise à jour avec succès.',
+            });
+        }
+        else{
+            await postInspection(formData);
+            notification.success({
+                message: 'Succès',
+                description: 'Les informations ont été enregistrées avec succès.',
+            });
+        }
+        
         form.resetFields();
         closeModal();
         fetchData()
