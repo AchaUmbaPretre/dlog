@@ -193,6 +193,7 @@ return axios.post(`${DOMAIN}/api/batiment/bureau`, data);
 };
 
 export const putBureau = async (id,data) => {
+  console.log(id, data)
   return axios.put(`${DOMAIN}/api/batiment/bureau_put?id_bureau=${id}`, data);
 };
 

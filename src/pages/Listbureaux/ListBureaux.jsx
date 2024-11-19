@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined,MoreOutlined, PrinterOutlined,BankOutlined,ToolOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 /* import BureauForm from './bureauForm/BureauForm'; */
-import { getBureau } from '../../services/batimentService';
+import { getBureau, putDeleteBureau } from '../../services/batimentService';
 import ListeEquipement from '../batiment/equipement/listeEquipement/ListeEquipement';
 import EquipementForm from '../batiment/equipement/equipementForm/EquipementForm';
 import BureauForm from '../batiment/bureaux/bureauForm/BureauForm';
@@ -20,7 +20,7 @@ const ListBureaux = ({idBatiment}) => {
 
   const handleDelete = async (id) => {
     try {
-/*       await deletePutDepartement(id); */
+      await putDeleteBureau(id);
       setData(data.filter((item) => item.id_bureau !== id));
       message.success('le bureau a été supprimé avec succès');
     } catch (error) {

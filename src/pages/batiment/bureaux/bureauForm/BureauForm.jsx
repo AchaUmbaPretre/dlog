@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Button, notification } from 'antd';
-import { getBureauOneV, postBureau } from '../../../../services/batimentService';
+import { getBureauOneV, postBureau, putBureau } from '../../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 
 const BureauForm = ({idBatiment, closeModal, fetchData, idBureau}) => {
@@ -43,15 +43,23 @@ const BureauForm = ({idBatiment, closeModal, fetchData, idBureau}) => {
     }
 
     try {
-      const response = await postBureau(value)
-      if (response.status === 200) {
-        notification.success({
-          message: 'Succès',
-          description: 'Le bureau a été ajouté avec succès!',
-        });
-        form.resetFields();
+      if(idBureau){
+        await putBureau(idBureau, value)
         closeModal()
+        form.resetFields();
         navigate('/liste_bureaux')
+      }
+      else{
+        const response = await postBureau(value)
+        if (response.status === 200) {
+          notification.success({
+            message: 'Succès',
+            description: 'Le bureau a été ajouté avec succès!',
+          });
+          form.resetFields();
+          closeModal()
+          navigate('/liste_bureaux')
+        }
       }
     } catch (error) {
       notification.error({
