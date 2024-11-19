@@ -192,6 +192,14 @@ export const postBureau = async (data) => {
 return axios.post(`${DOMAIN}/api/batiment/bureau`, data);
 };
 
+export const putBureau = async (id,data) => {
+  return axios.put(`${DOMAIN}/api/batiment/bureau_put?id_bureau=${id}`, data);
+};
+
+export const putDeleteBureau = async (id) => {
+    return axios.put(`${DOMAIN}/api/batiment/bureau_delete?id=${id}`);
+    };
+
 //Niveau batiment
 export const getNiveauCount = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/niveau_count?id_batiment=${id}`);
@@ -305,7 +313,6 @@ export const postInspection = async (data) => {
 };
 
 export const putInspection = async (id,data) => {
-  console.log(data)
   return axios.put(`${DOMAIN}/api/batiment/inspection_update?id_inspection=${id}`, data);
 };
 
