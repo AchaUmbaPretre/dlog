@@ -15,7 +15,6 @@ const InstructionsDetail = ({ idInspection }) => {
   const [nameBatiment, setNameBatiment] = useState("");
   const exportRef = useRef();
 
-  // Fonction pour charger les données
   const fetchData = async () => {
     try {
       const { data } = await getInspectionOneV(idInspection);
@@ -54,7 +53,6 @@ const InstructionsDetail = ({ idInspection }) => {
     }
   };
 
-  // Charger les données au montage du composant ou si l'idInspection change
   useEffect(() => {
     if (idInspection) {
       fetchData();
