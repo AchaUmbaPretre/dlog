@@ -301,6 +301,7 @@ export const postInspection = async (data) => {
 };
 
 export const putInspection = async (id,data) => {
+  console.log(data)
   return axios.put(`${DOMAIN}/api/batiment/inspection_update?id_inspection=${id}`, data);
 };
 

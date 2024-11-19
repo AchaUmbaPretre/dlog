@@ -4,6 +4,7 @@ import { ExportOutlined,HomeOutlined,EyeOutlined, PrinterOutlined,ArrowLeftOutli
 import { getInspection, putInspectionDelete } from '../../services/batimentService';
 import InstructionForm from './instructionForm/InstructionForm';
 import InstructionsDetail from './instructionsDetail/InstructionsDetail';
+import InstructionFormEdit from './instructionForm/InstructionFormEdit';
 
 const { Search } = Input;
 
@@ -277,7 +278,7 @@ const Instructions = () => {
         width={700}
         centered
       >
-        <InstructionForm idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
+        <InstructionFormEdit idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
       </Modal>
       <Modal
         title=""

@@ -7,7 +7,7 @@ import { getBatiment } from '../../../services/typeService';
 const { TextArea } = Input;
 const { Option } = Select;
 
-const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection}) => {
+const InstructionFormEdit = ({idBatiment, closeModal, fetchData, idInspection}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
@@ -38,25 +38,18 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection}) => {
 
 useEffect(() => {
     fetchDataAll();
-}, [form]);
+}, [form, idInspection]);
 
   const handleSubmit = async (values) => {
     setLoading(true);
-
-    const uploadedFiles = values.img.map((file) => file.originFileObj);
-
     const formData = new FormData();
     formData.append('commentaire', values.commentaire);
     formData.append('id_cat_instruction', values.id_cat_instruction);
     formData.append('id_type_instruction', values.id_type_instruction);
 
-    uploadedFiles.forEach((file) => {
-        formData.append('files', file);
-    });
-
     try {
         if(idInspection){
-            await putInspection(formData)
+            await putInspection(idInspection, values)
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été mise à jour avec succès.',
@@ -158,19 +151,6 @@ useEffect(() => {
                     />
                 </Form.Item>
 
-                {/* Image Upload */}
-                <Form.Item
-                label="Image"
-                name="img"
-                valuePropName="fileList"
-                getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-                rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
-                >
-                    <Upload name="img" listType="picture" beforeUpload={() => false}>
-                        <Button icon={<UploadOutlined />}>Télécharger une image</Button>
-                    </Upload>
-                </Form.Item>
-
                 {/* Bouton de soumission */}
                 <Form.Item>
                     <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
@@ -183,4 +163,4 @@ useEffect(() => {
   );
 };
 
-export default InstructionForm;
+export default InstructionFormEdit;
