@@ -5,8 +5,7 @@ import {
 } from 'antd';
 import {
   ExportOutlined, PrinterOutlined, TagOutlined, PlusCircleOutlined,
-  ApartmentOutlined,EditOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,
-  PlusOutlined,DeleteOutlined, FileSearchOutlined,
+  ApartmentOutlined,EditOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined,DeleteOutlined, FileSearchOutlined,
   FileTextOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -143,9 +142,6 @@ const groupByControle = (data) => {
     nom_client: group.items.length > 1 ? "ALL" : group.nom_client // Afficher "ALL" si plusieurs entrées
   }));
 };
-
-  
-  
 
   const groupedData = groupByControle(data);
 
@@ -349,7 +345,6 @@ const groupByControle = (data) => {
                         <Table
                           columns={columns}
                           dataSource={record.items}
-                          pagination={{ defaultPageSize: 15, showSizeChanger: true, pageSizeOptions: ['15', '30', '50', '100'] }}
                           rowKey={(record, index) => `${record.id_controle}-${index}`}
                           showHeader={false}
                           size="small"
