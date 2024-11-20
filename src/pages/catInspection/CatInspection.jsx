@@ -119,7 +119,7 @@ const CatInspection = () => {
           </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
-              title="Are you sure you want to delete this department?"
+              title="Êtes-vous sûr de vouloir supprimer cette categorie?"
               onConfirm={() => handleDelete(record.id_cat_inspection)}
               okText="Yes"
               cancelText="No"
