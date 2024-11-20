@@ -27,6 +27,25 @@
       font-size: .8rem;
       font-weight: bold;
     }
+    .row-flex{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      .row-icon{
+        height:30px;
+        width:30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+        background: #ecebeb;
+      }
+    }
   }
   
   .spinner-container {

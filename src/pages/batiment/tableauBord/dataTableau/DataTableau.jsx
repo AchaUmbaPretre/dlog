@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './dataTableau.scss';
 import { getDenominationCount, getNiveauCount, getTableauOne } from '../../../../services/batimentService';
-import { notification, Card, Row, Col, Spin, Badge, Modal } from 'antd';
-import { ToolOutlined, ApartmentOutlined, CheckCircleOutlined,BankOutlined, SettingOutlined, WarningOutlined } from '@ant-design/icons';
+import { notification,Tooltip, Card, Row, Col, Spin, Badge, Modal } from 'antd';
+import { ToolOutlined, UnorderedListOutlined, PlusCircleOutlined, ApartmentOutlined, CheckCircleOutlined,BankOutlined, SettingOutlined, WarningOutlined } from '@ant-design/icons';
 import DenominationForm from '../../denomination/denominationForm/DenominationForm';
 import NiveauForm from '../../niveau/niveauForm/NiveauForm';
 import { getBatimentOne } from '../../../../services/typeService';
@@ -155,6 +155,14 @@ const DataTableau = ({ idBatiment }) => {
             <BankOutlined style={{ fontSize: '40px', color: 'black', marginBottom: '10px' }} />
           </Badge>
           <h3>Dénomination</h3>
+          <div className="row-flex">
+            <Tooltip title="voir la liste">
+              <UnorderedListOutlined className='row-icon'/>
+            </Tooltip>
+            <Tooltip title="Ajoutez une denomination">
+              <PlusCircleOutlined className='row-icon'/>
+            </Tooltip>
+          </div>
         </Card>
       </Col>
     </Row>
