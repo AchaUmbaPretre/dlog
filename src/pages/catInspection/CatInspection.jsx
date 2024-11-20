@@ -174,7 +174,7 @@ const CatInspection = () => {
         footer={null}
         width={600}
       >
-        <CatInspectionForm fetchData={fetchData}/>
+        <CatInspectionForm closeModal={handleCancel} fetchData={fetchData}/>
       </Modal>
     </>
   );

@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { postCat_inspection } from '../../../services/batimentService';
 
-const CatInspectionForm = () => {
+const CatInspectionForm = ({closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
   const onFinish = async(values) => {
     setLoading(true)
     await postCat_inspection(values)
+
     notification.success({
       message: 'Succès',
       description: 'Le formulaire a été soumis avec succès.',
     });
-    
-    window.location.reload();
+    fetchData();
+    closeModal();
     form.resetFields();
   };
 
