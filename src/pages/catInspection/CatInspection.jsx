@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined,FileTextOutlined, PrinterOutlined,EditOutlined, PlusOutlined, DeleteOutlined} from '@ant-design/icons';
-import { getCat_inspection } from '../../services/batimentService';
+import { deleteCat_inspection, getCat_inspection } from '../../services/batimentService';
 import CatInspectionForm from './catInspectionForm/CatInspectionForm';
 
 const { Search } = Input;
@@ -16,10 +16,9 @@ const CatInspection = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Format supprimé avec succès');
+        await deleteCat_inspection(id);
+      setData(data.filter((item) => item.id_cat_inspection !== id));
+      message.success('Cat inspection supprimé avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
@@ -96,7 +95,7 @@ const CatInspection = () => {
         </Space>
       ),
     },
-/*     {
+    {
       title: 'Action',
       key: 'action',
       width: '10%',
@@ -105,7 +104,7 @@ const CatInspection = () => {
           <Tooltip title="Delete">
             <Popconfirm
               title="Are you sure you want to delete this department?"
-              onConfirm={() => handleDelete(record.id)}
+              onConfirm={() => handleDelete(record.id_cat_inspection)}
               okText="Yes"
               cancelText="No"
             >
@@ -118,7 +117,7 @@ const CatInspection = () => {
           </Tooltip>
         </Space>
       ),
-    }, */
+    },
   ];
 
   const filteredData = data.filter(item =>

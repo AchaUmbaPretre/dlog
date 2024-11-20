@@ -328,6 +328,18 @@ export const getCat_inspection = async () => {
   return axios.get(`${DOMAIN}/api/batiment/cat_inspection`);
 };
 
+export const getCat_inspectionOne = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/cat_inspectionOne`);
+};
+
 export const postCat_inspection = async (data) => {
   return axios.post(`${DOMAIN}/api/batiment/cat_inspection`, data);
+};
+
+export const putCat_inspection = async (id,data) => {
+  return axios.put(`${DOMAIN}/api/batiment/cat_inspection?id_cat_inspection=${id}`, data);
+};
+
+export const deleteCat_inspection = async (id) => {
+  return axios.delete(`${DOMAIN}/api/batiment/cat_inspection/${id}`);
 };
