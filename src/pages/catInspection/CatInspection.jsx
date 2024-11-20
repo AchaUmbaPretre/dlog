@@ -27,8 +27,6 @@ const CatInspection = () => {
     }
   };
 
-
- useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getCat_inspection();
@@ -43,6 +41,7 @@ const CatInspection = () => {
       }
     };
 
+    useEffect(() => {
     fetchData();
   }, []);
 
@@ -175,7 +174,7 @@ const CatInspection = () => {
         footer={null}
         width={600}
       >
-        <CatInspectionForm/>
+        <CatInspectionForm fetchData={fetchData}/>
       </Modal>
     </>
   );
