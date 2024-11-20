@@ -16,7 +16,6 @@ const Article = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
-  const [idOffre, setIdOffre] = useState('');
   const scroll = { x: 400 };
   const [pagination, setPagination] = useState({
     current: 1,
@@ -35,12 +34,16 @@ const Article = () => {
 
   const openModal = (type, idArticle = '') => {
     closeAllModals();
-    setIdOffre(idArticle);
+    setIdArticle(idArticle);
     setModalType(type);
   };
 
-  const handleAjouterOffre  = (idOffre) => {
-    openModal('ArticleForm', idOffre);
+  const handleAjouterOffre  = (idArticle) => {
+    openModal('ArticleForm', idArticle);
+  };
+
+  const handleEditArticle  = (idArticle) => {
+    openModal('ArticleEdit', idArticle);
   };
 
   const handleSupprimer = async (id) => {
@@ -55,10 +58,6 @@ const Article = () => {
       });
     }
   };
-
-  const handleEdit = () => {
-
-  }
 
   const handleImprimer = () => {
     window.print();
@@ -125,7 +124,7 @@ const Article = () => {
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_article)}
+              onClick={() => handleEditArticle(record.id_article)}
               aria-label="Edit tache"
             />
           </Tooltip>
@@ -218,6 +217,17 @@ const Article = () => {
         centered
       >
         <ArticleForm idOffre={''} closeModal={()=> setModalType(null)} fetchData={fetchData}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'ArticleEdit'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+        <ArticleForm idOffre={''} closeModal={()=> setModalType(null)} fetchData={fetchData} idArticle={idArticle}/>
       </Modal>
 
       <Modal

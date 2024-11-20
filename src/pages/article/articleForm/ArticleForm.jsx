@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Row, Col, Button, Card, Spin, notification, Select, Tooltip, Modal } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { postArticle } from '../../../services/offreService';
-import { getCategorie } from '../../../services/typeService';
+import { getArticleOneV, getCategorie } from '../../../services/typeService';
 import CatForm from '../../categorie/catForm/CatForm';
 
-const ArticleForm = ({idOffre, closeModal, fetchData }) => {
+const ArticleForm = ({idOffre, closeModal, fetchData, idArticle}) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [cat, setCat] = useState([]);
   const [modalType, setModalType] = useState(null);
-
 
   const handleError = (message) => {
     notification.error({
@@ -38,6 +37,10 @@ const openModal = (type) => {
             ]);
 
             setCat(catData.data);
+
+            if(idArticle){
+              const {data: art} = await getArticleOneV
+            }
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
         }
@@ -54,14 +57,19 @@ useEffect(() => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
+      if(idArticle){
+
+      }
+      else{
         await postArticle({
-            ...values,
-            id_offre : idOffre
+          ...values,
+          id_offre : idOffre
         });
         notification.success({
           message: 'Succès',
           description: 'L article a été enregistré avec succès.',
         });
+      }
         form.resetFields();
         closeModal();
         fetchData()

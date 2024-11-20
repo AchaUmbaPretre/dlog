@@ -11,6 +11,10 @@ export const getArticle = async () => {
     return axios.get(`${DOMAIN}/api/types/article`);
   };
 
+export const getArticleOneV = async (idArt) => {
+    return axios.get(`${DOMAIN}/api/types/articleOneV?id_article=${idArt}`);
+  };
+
 export const getArticleOne = async (idArt, idFour) => {
     return axios.get(`${DOMAIN}/api/types/articleOne?id_article=${idArt}&id_fournisseur=${idFour}`);
   };
