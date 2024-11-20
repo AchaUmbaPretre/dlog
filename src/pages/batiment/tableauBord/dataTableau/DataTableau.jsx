@@ -7,6 +7,7 @@ import DenominationForm from '../../denomination/denominationForm/DenominationFo
 import NiveauForm from '../../niveau/niveauForm/NiveauForm';
 import { getBatimentOne } from '../../../../services/typeService';
 import NiveauOne from '../../niveau/NiveauOne';
+import DenominationOne from '../../denomination/DenominationOne';
 
 const DataTableau = ({ idBatiment }) => {
   const [data, setData] = useState({});
@@ -34,6 +35,8 @@ const DataTableau = ({ idBatiment }) => {
   const handleAddDenom = ( idBatiment) =>{
     openModal('addDenomination', idBatiment)
   }
+
+  const handleListeDenom = (idBatiment) => openModal('listeDenom', idBatiment)
 
   const fetchData = async () => {
     setLoading(true);
@@ -154,7 +157,7 @@ const DataTableau = ({ idBatiment }) => {
           </div>
         </Card>
       </Col>
-      <Col xs={24} sm={12} md={6} onClick={handleAddDenom}>
+      <Col xs={24} sm={12} md={6}>
         <Card
           className="data-card"
           hoverable
@@ -167,10 +170,10 @@ const DataTableau = ({ idBatiment }) => {
           <h3>Dénomination</h3>
           <div className="row-flex">
             <Tooltip title="voir la liste">
-              <UnorderedListOutlined className='row-icon'/>
+              <UnorderedListOutlined className='row-icon' onClick={handleListeDenom}/>
             </Tooltip>
             <Tooltip title="Ajoutez une denomination">
-              <PlusCircleOutlined className='row-icon'/>
+              <PlusCircleOutlined className='row-icon' onClick={handleAddDenom}/>
             </Tooltip>
           </div>
         </Card>
@@ -220,6 +223,17 @@ const DataTableau = ({ idBatiment }) => {
           centered
         >
           <DenominationForm idBatiment={idBatiment} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'listeDenom'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <DenominationOne idBatiment={idBatiment} />
         </Modal>
 
     </div>
