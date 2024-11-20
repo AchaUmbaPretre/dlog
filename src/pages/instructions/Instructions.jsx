@@ -163,6 +163,14 @@ const Instructions = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
+          <Tooltip title="Modifier">
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record.id_inspection)}
+              aria-label="Edit department"
+            />
+          </Tooltip>
             <Tooltip title="Voir les détails">
               <Button
                 icon={<EyeOutlined />}
@@ -171,14 +179,6 @@ const Instructions = () => {
                 style={{ color: 'blue' }}
               />
             </Tooltip>
-           <Tooltip title="Modifier">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_inspection)}
-              aria-label="Edit department"
-            />
-          </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
