@@ -10,7 +10,8 @@ const CatInspection = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalType, setModalType] = useState(null);
+  const [idCatInspection, setIdCatInspection] = useState('')
   const scroll = { x: 400 };
 
 
@@ -25,6 +26,10 @@ const CatInspection = () => {
         description: 'Une erreur est survenue lors de la suppression du client.',
       });
     }
+  }
+
+  const handleEdit = () => {
+
   }
 
     const fetchData = async () => {
@@ -45,12 +50,21 @@ const CatInspection = () => {
     fetchData();
   }, []);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
+  const handleAddCat = (idCatInspection) => {
+    openModal('addCatInspection', idCatInspection)
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const handleEditCat = (idCatInspection) => {
+    openModal('editCatInspection', idCatInspection)
+  };
+
+  const openModal = (type, idCatInspection = '') => {
+    setIdCatInspection(idCatInspection);
+    setModalType(type);
+  };
+
+  const closeAllModals = () => {
+    setModalType(null);
   };
 
   const handleExportExcel = () => {
@@ -101,6 +115,14 @@ const CatInspection = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
+            <Tooltip title="Modifier">
+                <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleEditCat(record.id_cat_inspection)}
+                aria-label="Edit department"
+                />
+          </Tooltip>
           <Tooltip title="Delete">
             <Popconfirm
               title="Are you sure you want to delete this department?"
@@ -146,7 +168,7 @@ const CatInspection = () => {
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
-                onClick={handleAddClient}
+                onClick={handleAddCat}
               >
                 Ajouter une categorie
               </Button>
@@ -176,13 +198,24 @@ const CatInspection = () => {
 
       <Modal
         title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'addCatInspection'}
+        onCancel={closeAllModals}
         footer={null}
         width={600}
       >
-        <CatInspectionForm closeModal={handleCancel} fetchData={fetchData}/>
+        <CatInspectionForm closeModal={closeAllModals} fetchData={fetchData} idCatInspection={idCatInspection} />
       </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'addCatInspection'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={600}
+      >
+        <CatInspectionForm closeModal={closeAllModals} fetchData={fetchData}/>
+      </Modal>
+
     </>
   );
 };

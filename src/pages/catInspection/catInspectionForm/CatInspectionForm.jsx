@@ -1,19 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
-import { postCat_inspection } from '../../../services/batimentService';
+import { getCat_inspectionOne, postCat_inspection, putCat_inspection } from '../../../services/batimentService';
 
-const CatInspectionForm = ({closeModal, fetchData}) => {
+const CatInspectionForm = ({closeModal, fetchData, idCatInspection}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
+  const fetchDataOne = async () => {
+    try {
+      const { data: catInspect } = await getCat_inspectionOne(idCatInspection);
+      form.setFieldsValue({
+        nom_cat_inspection: catInspect[0].nom_cat_inspection
+      })
+      
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+      setLoading(false);
+    }
+  };
+
+  useEffect(()=> {
+    fetchDataOne()
+  }, [idCatInspection])
+
   const onFinish = async(values) => {
     setLoading(true)
-    await postCat_inspection(values)
+    if(idCatInspection){
+      await putCat_inspection(idCatInspection, values)
+    } else{
+        await postCat_inspection(values)
 
-    notification.success({
-      message: 'Succès',
-      description: 'Le formulaire a été soumis avec succès.',
-    });
+        notification.success({
+          message: 'Succès',
+          description: 'Le formulaire a été soumis avec succès.',
+        });
+    }
     fetchData();
     closeModal();
     form.resetFields();
@@ -34,13 +58,13 @@ const CatInspectionForm = ({closeModal, fetchData}) => {
       </div>
       <div className="controle_wrapper">
         <Form
-        form={form}
-        name="format_form"
-        layout="vertical"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        style={{ maxWidth: 600, margin: '0 auto' }}
-      >
+          form={form}
+          name="format_form"
+          layout="vertical"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          style={{ maxWidth: 600, margin: '0 auto' }}
+        >
         <Form.Item
           label="Nom categorie inspection"
           name="nom_cat_inspection"
