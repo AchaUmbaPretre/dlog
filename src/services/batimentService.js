@@ -327,3 +327,7 @@ export const getType_instruction = async () => {
 export const getCat_inspection = async () => {
   return axios.get(`${DOMAIN}/api/batiment/cat_inspection`);
 };
+
+export const postCat_inspection = async () => {
+  return axios.post(`${DOMAIN}/api/batiment/cat_inspection`);
+};

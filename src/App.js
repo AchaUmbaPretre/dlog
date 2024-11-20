@@ -50,6 +50,7 @@ import WhseFact from './pages/batiment/whseFact/WhseFact';
 import TacheForm from './pages/taches/tacheform/TacheForm';
 import Adresse from './pages/adresse/Adresse';
 import Instructions from './pages/instructions/Instructions';
+import CatInspection from './pages/catInspection/CatInspection';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -253,6 +254,10 @@ function App() {
         {
           path: '/declaration',
           element: <Declaration/>
+        },
+        {
+          path: '/liste_cat_inspection',
+          element: <CatInspection/>
         },
         {
           path: '/utilisateur',
