@@ -138,7 +138,6 @@ const Article = () => {
   const filteredData = data.filter(item =>
     item.nom_article?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
-
   );
 
   return (
