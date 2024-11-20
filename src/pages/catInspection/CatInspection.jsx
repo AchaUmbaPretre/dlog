@@ -28,10 +28,6 @@ const CatInspection = () => {
     }
   }
 
-  const handleEdit = () => {
-
-  }
-
     const fetchData = async () => {
       try {
         const { data } = await getCat_inspection();
@@ -203,19 +199,18 @@ const CatInspection = () => {
         footer={null}
         width={600}
       >
-        <CatInspectionForm closeModal={closeAllModals} fetchData={fetchData} idCatInspection={idCatInspection} />
+        <CatInspectionForm closeModal={closeAllModals} fetchData={fetchData} idCatInspection={''} />
       </Modal>
 
       <Modal
         title=""
-        visible={modalType === 'addCatInspection'}
+        visible={modalType === 'editCatInspection'}
         onCancel={closeAllModals}
         footer={null}
         width={600}
       >
-        <CatInspectionForm closeModal={closeAllModals} fetchData={fetchData}/>
+        <CatInspectionForm closeModal={closeAllModals} fetchData={fetchData} idCatInspection={idCatInspection}/>
       </Modal>
-
     </>
   );
 };

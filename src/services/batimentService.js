@@ -328,9 +328,9 @@ export const getCat_inspection = async () => {
   return axios.get(`${DOMAIN}/api/batiment/cat_inspection`);
 };
 
-export const getCat_inspectionOne = async () => {
-  return axios.get(`${DOMAIN}/api/batiment/cat_inspectionOne`);
-};
+export const getCat_inspectionOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/cat_inspectionOne?id_cat_inspection=${id}`);
+}; 
 
 export const postCat_inspection = async (data) => {
   return axios.post(`${DOMAIN}/api/batiment/cat_inspection`, data);

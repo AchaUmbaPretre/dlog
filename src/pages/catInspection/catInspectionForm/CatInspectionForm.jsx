@@ -18,7 +18,6 @@ const CatInspectionForm = ({closeModal, fetchData, idCatInspection}) => {
         message: 'Erreur de chargement',
         description: 'Une erreur est survenue lors du chargement des données.',
       });
-      setLoading(false);
     }
   };
 
@@ -44,7 +43,6 @@ const CatInspectionForm = ({closeModal, fetchData, idCatInspection}) => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Échec de la soumission:', errorInfo);
     notification.error({
       message: 'Erreur',
       description: 'Veuillez vérifier les champs du formulaire.',
@@ -54,7 +52,7 @@ const CatInspectionForm = ({closeModal, fetchData, idCatInspection}) => {
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className="controle_h2">Inserer une nouvelle categorie inspection</h2>
+        <h2 className="controle_h2">{ idCatInspection ? "Modifier la categorie inspection" : "Inserer une nouvelle categorie inspection"}</h2>
       </div>
       <div className="controle_wrapper">
         <Form
@@ -74,7 +72,7 @@ const CatInspectionForm = ({closeModal, fetchData, idCatInspection}) => {
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-            Soumettre
+            { idCatInspection ? 'Modifier' : 'Soumettre'}
           </Button>
         </Form.Item>
         </Form>
