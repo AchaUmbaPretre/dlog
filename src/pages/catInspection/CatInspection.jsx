@@ -9,6 +9,7 @@ const { Search } = Input;
 const CatInspection = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
@@ -137,7 +138,10 @@ const CatInspection = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+              <Search
+               placeholder="Recherche..." 
+               onChange={(e) => setSearchValue(e.target.value)}
+               enterButton />
             </div>
             <div className="client-rows-right">
               <Button
