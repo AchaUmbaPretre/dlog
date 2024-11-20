@@ -71,7 +71,6 @@ const DataTableau = ({ idBatiment }) => {
     }
   };
 
-
   useEffect(() => {
     fetchData();
     fetchDatas()
