@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { FileExcelOutlined, TagOutlined, FileTextOutlined,PlusCircleOutlined,PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, TagOutlined, EditOutlined, FileTextOutlined,PlusCircleOutlined,PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ArticleForm from './articleForm/ArticleForm';
@@ -54,6 +54,10 @@ const Article = () => {
       });
     }
   };
+
+  const handleEdit = () => {
+
+  }
 
   const handleImprimer = () => {
     window.print();
@@ -116,6 +120,14 @@ const Article = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
+          <Tooltip title="Modifier">
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              onClick={() => handleEdit(record.id_tache)}
+              aria-label="Edit tache"
+            />
+          </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ?"
