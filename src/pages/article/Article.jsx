@@ -22,6 +22,7 @@ const Article = () => {
     current: 1,
     pageSize: 20,
   });
+  const [idArticle, setIdArticle] = useState('')
 
 
   const closeAllModals = () => {
@@ -32,9 +33,9 @@ const Article = () => {
     openModal('excelImport');
   };
 
-  const openModal = (type, idOffre = '') => {
+  const openModal = (type, idArticle = '') => {
     closeAllModals();
-    setIdOffre(idOffre);
+    setIdOffre(idArticle);
     setModalType(type);
   };
 
@@ -124,7 +125,7 @@ const Article = () => {
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_tache)}
+              onClick={() => handleEdit(record.id_article)}
               aria-label="Edit tache"
             />
           </Tooltip>
