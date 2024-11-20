@@ -11,8 +11,6 @@ const { Search } = Input;
 const Instructions = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isModalVisibleEyes, setIsModalVisibleEyes] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [idInspection, setIdInspection] = useState('');
   const scroll = { x: 400 };
@@ -110,7 +108,7 @@ const Instructions = () => {
       key: 'nom_batiment',
       render: text => (
         <Space>
-          <Tag icon={<HomeOutlined />} color='cyan'>{text}</Tag>
+          <Tag icon={<HomeOutlined />} color='green'>{text ?? 'Aucun'}</Tag>
         </Space>
       ),
     },
@@ -125,9 +123,9 @@ const Instructions = () => {
         ),
       },
       { 
-        title: 'Cat', 
-        dataIndex: 'id_cat_instruction', 
-        key: 'id_cat_instruction',
+        title: 'Categorie', 
+        dataIndex: 'nom_cat_inspection', 
+        key: 'nom_cat_inspection',
         render: text => (
           <Space>
             <Tag color='cyan'>{text}</Tag>

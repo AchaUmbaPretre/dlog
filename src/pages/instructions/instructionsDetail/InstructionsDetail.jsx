@@ -125,6 +125,10 @@ const InstructionsDetail = ({ idInspection }) => {
                     <Text strong>Commentaire :</Text>{" "}
                     <Text>{instruction.commentaire}</Text>
                     <br />
+                    <Text strong>Categorie :</Text>{" "}
+                    <Text>{instruction.nom_cat_inspection}</Text>
+                    <br />
+                    
                     <Text strong>Date de Création :</Text>{" "}
                     <Text>{new Date(instruction.date_creation).toLocaleString()}</Text>
                     <br />
