@@ -120,6 +120,10 @@ const CatInspection = () => {
     },
   ];
 
+  const filteredData = data.filter(item =>
+    item.nom_cat_inspection?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
 
   return (
     <>
@@ -156,7 +160,7 @@ const CatInspection = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             pagination={{ pageSize: 10 }}
             rowKey="key"
             bordered
