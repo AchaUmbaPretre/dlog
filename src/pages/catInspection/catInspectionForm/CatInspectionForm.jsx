@@ -6,7 +6,6 @@ const CatInspectionForm = ({ closeModal, fetchData, idCatInspection }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  // Fonction pour charger les données existantes
   const fetchDataOne = async () => {
     if (!idCatInspection) return;
 
@@ -27,7 +26,6 @@ const CatInspectionForm = ({ closeModal, fetchData, idCatInspection }) => {
     fetchDataOne();
   }, [idCatInspection]);
 
-  // Soumission du formulaire
   const onFinish = async (values) => {
     setLoading(true);
     try {
