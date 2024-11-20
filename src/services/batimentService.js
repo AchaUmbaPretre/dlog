@@ -328,6 +328,6 @@ export const getCat_inspection = async () => {
   return axios.get(`${DOMAIN}/api/batiment/cat_inspection`);
 };
 
-export const postCat_inspection = async () => {
-  return axios.post(`${DOMAIN}/api/batiment/cat_inspection`);
+export const postCat_inspection = async (data) => {
+  return axios.post(`${DOMAIN}/api/batiment/cat_inspection`, data);
 };

@@ -36,11 +36,11 @@ const CatInspectionForm = () => {
       style={{ maxWidth: 600, margin: '0 auto' }}
     >
       <Form.Item
-        label="Nom du Format"
-        name="nom_format"
-        rules={[{ required: true, message: 'Veuillez entrer le nom du format' }]}
+        label="Nom categorie inspection"
+        name="nom_cat_inspection"
+        rules={[{ required: true, message: 'Veuillez entrer la categorie d inspection' }]}
       >
-        <Input placeholder="Entrez le nom du format" />
+        <Input placeholder="Entrez la categorie" />
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>

@@ -87,9 +87,9 @@ const CatInspection = () => {
       width: "3%" 
     },
     { 
-      title: 'Format', 
-      dataIndex: 'nom_format', 
-      key: 'nom_format',
+      title: 'Categorie', 
+      dataIndex: 'nom_cat_inspection', 
+      key: 'nom_cat_inspection',
       render: text => (
         <Space>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
@@ -134,7 +134,7 @@ const CatInspection = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche de format..." enterButton />
+              <Search placeholder="Recherche..." enterButton />
             </div>
             <div className="client-rows-right">
               <Button
