@@ -199,7 +199,8 @@ const Instructions = () => {
   ];
 
   const filteredData = data.filter(item =>
-    item.commentaire?.toLowerCase().includes(searchValue.toLowerCase())
+    item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
