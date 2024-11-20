@@ -6,6 +6,7 @@ import { ToolOutlined, UnorderedListOutlined, PlusCircleOutlined, ApartmentOutli
 import DenominationForm from '../../denomination/denominationForm/DenominationForm';
 import NiveauForm from '../../niveau/niveauForm/NiveauForm';
 import { getBatimentOne } from '../../../../services/typeService';
+import NiveauOne from '../../niveau/NiveauOne';
 
 const DataTableau = ({ idBatiment }) => {
   const [data, setData] = useState({});
@@ -27,6 +28,8 @@ const DataTableau = ({ idBatiment }) => {
   const handleAddNiveau = ( idBatiment) =>{
     openModal('addNiveau', idBatiment)
   }
+
+  const handleListeNiveau = (idBatiment) => openModal('listeNiveau', idBatiment)
 
   const handleAddDenom = ( idBatiment) =>{
     openModal('addDenomination', idBatiment)
@@ -131,7 +134,7 @@ const DataTableau = ({ idBatiment }) => {
           <h3>En Panne</h3>
         </Card>
       </Col>
-      <Col xs={24} sm={12} md={6} onClick={handleAddNiveau}>
+      <Col xs={24} sm={12} md={6}>
         <Card
           className="data-card"
           hoverable
@@ -142,6 +145,14 @@ const DataTableau = ({ idBatiment }) => {
             <ApartmentOutlined style={{ fontSize: '40px', color: 'blue', marginBottom: '10px' }} />
           </Badge>
           <h3>Niveau</h3>
+          <div className="row-flex">
+            <Tooltip title="voir la liste">
+              <UnorderedListOutlined className='row-icon' onClick={handleListeNiveau}/>
+            </Tooltip>
+            <Tooltip title="Ajoutez un niveau">
+              <PlusCircleOutlined className='row-icon' onClick={handleAddNiveau}/>
+            </Tooltip>
+          </div>
         </Card>
       </Col>
       <Col xs={24} sm={12} md={6} onClick={handleAddDenom}>
@@ -189,6 +200,16 @@ const DataTableau = ({ idBatiment }) => {
           centered
         >
           <NiveauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+        </Modal>
+        <Modal
+          title=""
+          visible={modalType === 'listeNiveau'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <NiveauOne idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
         </Modal>
 
         <Modal
