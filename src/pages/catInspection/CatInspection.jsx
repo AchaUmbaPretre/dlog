@@ -26,7 +26,7 @@ const CatInspection = () => {
         description: 'Une erreur est survenue lors de la suppression du client.',
       });
     }
-  };
+  }
 
     const fetchData = async () => {
       try {
@@ -96,7 +96,7 @@ const CatInspection = () => {
         </Space>
       ),
     },
-    {
+/*     {
       title: 'Action',
       key: 'action',
       width: '10%',
@@ -118,7 +118,7 @@ const CatInspection = () => {
           </Tooltip>
         </Space>
       ),
-    },
+    }, */
   ];
 
   const filteredData = data.filter(item =>
