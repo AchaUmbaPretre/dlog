@@ -7,7 +7,6 @@ import ArticleForm from './articleForm/ArticleForm';
 import { getArticle } from '../../services/typeService';
 import FormArticleExcel from './formArticleExcel/FormArticleExcel';
 import { estSupprimeArticle } from '../../services/offreService';
-
 moment.locale('fr');
 
 const { Search } = Input;
@@ -41,14 +40,6 @@ const Article = () => {
 
   const handleAjouterOffre  = (idOffre) => {
     openModal('ArticleForm', idOffre);
-  };
-
-  const handleExporterExcel = () => {
-    message.success('Exportation vers Excel...');
-  };
-
-  const handleExporterPDF = () => {
-    message.success('Exportation au format PDF...');
   };
 
   const handleSupprimer = async (id) => {
