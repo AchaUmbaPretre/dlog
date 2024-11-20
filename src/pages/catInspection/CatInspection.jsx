@@ -13,8 +13,7 @@ const CatInspection = () => {
   const [modalType, setModalType] = useState(null);
   const [idCatInspection, setIdCatInspection] = useState('')
   const scroll = { x: 400 };
-
-
+  
   const handleDelete = async (id) => {
     try {
         await deleteCat_inspection(id);
@@ -68,7 +67,6 @@ const CatInspection = () => {
   };
 
   const handleExportPDF = () => {
-    // Logic to export data to PDF
     message.success('Exporting to PDF...');
   };
 
