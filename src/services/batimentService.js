@@ -193,7 +193,6 @@ return axios.post(`${DOMAIN}/api/batiment/bureau`, data);
 };
 
 export const putBureau = async (id,data) => {
-  console.log(id, data)
   return axios.put(`${DOMAIN}/api/batiment/bureau_put?id_bureau=${id}`, data);
 };
 
@@ -323,4 +322,8 @@ export const putInspectionDelete = async (id) => {
 
 export const getType_instruction = async () => {
   return axios.get(`${DOMAIN}/api/batiment/instruction_type`);
+};
+
+export const getCat_inspection = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/cat_inspection`);
 };

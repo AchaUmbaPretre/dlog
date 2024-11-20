@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { getInspectionOneV, getType_instruction, postInspection, putInspection } from '../../../services/batimentService';
+import { getCat_inspection, getInspectionOneV, getType_instruction, postInspection, putInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
 
 const { TextArea } = Input;
@@ -12,16 +12,18 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection}) => {
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
   const [instructionData, setInstructionData] = useState([]);
-
+  const [cat, setCat] = useState([])
 
   const fetchDataAll = async() => {
     try {
-        const [batimentData, typeInspe] = await Promise.all([
+        const [batimentData, typeInspe, inspectionData] = await Promise.all([
             getBatiment(),
             getType_instruction(),
+            getCat_inspection()
         ])
         setBatiment(batimentData.data)
         setInstructionData(typeInspe.data)
+        setCat(inspectionData.data)
         if(idInspection){
             const { data: inspect} = await getInspectionOneV(idInspection);
             form.setFieldsValue({
@@ -134,11 +136,15 @@ useEffect(() => {
                 name="id_cat_instruction"
                 rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
                 >
-                <Select placeholder="Sélectionnez une catégorie">
-                    <Option value={1}>Catégorie 1</Option>
-                    <Option value={2}>Catégorie 2</Option>
-                    <Option value={3}>Catégorie 3</Option>
-                </Select>
+                    <Select
+                        showSearch
+                        options={cat.map((item) => ({
+                                value: item.id_cat_inspection,
+                                label: item.nom_cat_inspection,
+                            }))}
+                        placeholder="Sélectionnez une categorie..."
+                        optionFilterProp="label"
+                    />
                 </Form.Item>
 
                 {/* Type instruction */}
