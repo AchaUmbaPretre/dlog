@@ -159,14 +159,14 @@ const ListeEquipementGlobal = () => {
         );
       },
     },    
-    {
+/*     {
       title: 'Bins',
       dataIndex: 'location',
       key: 'location',
       render: (text) => (
         <Tag icon={<EnvironmentOutlined />} color='red' >{text}</Tag>
       ),
-    },
+    }, */
     {
       title: 'Action',
       key: 'action',
