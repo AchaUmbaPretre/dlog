@@ -70,10 +70,11 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                 date_actif : moment(data[0].date_actif, 'YYYY-MM-DD')
             });
         } catch (error) {
-            notification.error({
+            console.log(error)
+/*             notification.error({
                 message: 'Erreur de chargement du template',
                 description: 'Impossible de charger les informations du template sélectionné.',
-            });
+            }); */
         }
     };
     
