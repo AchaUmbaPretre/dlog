@@ -19,7 +19,11 @@ export const getArticleOne = async (idArt, idFour) => {
     return axios.get(`${DOMAIN}/api/types/articleOne?id_article=${idArt}&id_fournisseur=${idFour}`);
   };
 
-  export const getBatimentCount = async () => {
+export const putArticle = async (id, data) => {
+    return axios.put(`${DOMAIN}/api/types/article?id_article=${id}`, data);
+  };
+
+export const getBatimentCount = async () => {
     return axios.get(`${DOMAIN}/api/types/batimentcount`);
   };
 
