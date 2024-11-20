@@ -13,7 +13,7 @@ const CatInspection = () => {
   const [modalType, setModalType] = useState(null);
   const [idCatInspection, setIdCatInspection] = useState('')
   const scroll = { x: 400 };
-  
+
   const handleDelete = async (id) => {
     try {
         await deleteCat_inspection(id);
@@ -154,9 +154,10 @@ const CatInspection = () => {
           <div className="client-actions">
             <div className="client-row-left">
               <Search
-               placeholder="Recherche..." 
-               onChange={(e) => setSearchValue(e.target.value)}
-               enterButton />
+                placeholder="Recherche..." 
+                onChange={(e) => setSearchValue(e.target.value)}
+                enterButton 
+               />
             </div>
             <div className="client-rows-right">
               <Button
