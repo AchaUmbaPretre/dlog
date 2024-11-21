@@ -16,8 +16,7 @@ const ListeTachePermi = () => {
     current: 1,
     pageSize: 20,
   });
-  const searchInput = useRef(null);
-
+  const [total, setTotal] = useState([]);
 
     const fetchData = async () => {
       try {
@@ -225,7 +224,8 @@ const ListeTachePermi = () => {
             columns={columns}
             dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
             bordered
             size="middle"
