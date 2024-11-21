@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { getType_instruction, getType_photo, postInspection } from '../../../services/batimentService';
+import { getType_instruction, getType_photo, postInspection, postInspectionApres } from '../../../services/batimentService';
 import { getBatimentOne } from '../../../services/typeService';
 
 const { TextArea } = Input;
@@ -54,7 +54,7 @@ const InstructionFormApres = ({closeModal, fetchData, idInspection}) => {
     });
 
     try {
-        await postInspection(formData);
+        await postInspectionApres(formData);
         notification.success({
             message: 'Succès',
             description: 'Les informations ont été enregistrées avec succès.',
