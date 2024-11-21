@@ -116,24 +116,19 @@ const Permission = () => {
           </div>
           <Tabs defaultActiveKey="0">
             <Tabs.TabPane tab="Permission d'options" key="0">
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="Permission des taches" key="1">
-            </Tabs.TabPane>
-
-          </Tabs>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search placeholder="recherche..." enterButton />
+            <div className="client-actions">
+              <div className="client-row-left">
+                <Search placeholder="recherche..." enterButton />
+              </div>
+              <div className="client-rows-right">
+                <Button
+                  icon={<PrinterOutlined />}
+                  onClick={handlePrint}
+                >
+                  Print
+                </Button>
+              </div>
             </div>
-            <div className="client-rows-right">
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
-            </div>
-          </div>
           <Table
             columns={columns}
             dataSource={data}
@@ -144,6 +139,11 @@ const Permission = () => {
             scroll={scroll}
             loading={loading}
           />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Permission des taches" key="1">
+            </Tabs.TabPane>
+
+          </Tabs>
         </div>
       </div>
 
