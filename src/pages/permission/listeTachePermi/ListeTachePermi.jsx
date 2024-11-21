@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
 import { ClockCircleOutlined,InfoCircleOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getTache } from '../../../services/tacheService';
+import PermissionTache from '../permissionTache/PermissionTache';
 
 const { Search } = Input;
 
@@ -10,13 +11,12 @@ const ListeTachePermi = () => {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
-  const [idTrack, setIdTrack] = useState('')
+  const [idTache, setIdTache] = useState('')
   const scroll = { x: 400 };
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
   });
-  const [total, setTotal] = useState([]);
 
     const fetchData = async () => {
       try {
@@ -37,7 +37,6 @@ const ListeTachePermi = () => {
     fetchData();
   }, []);
 
-
   const statusIcons = {
     'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
     'En cours': { icon: <HourglassOutlined />, color: 'blue' },
@@ -48,7 +47,6 @@ const ListeTachePermi = () => {
     'Executé': { icon: <RocketOutlined />, color: 'cyan' },
   };
 
-
   const handleViewDetails = (idTache) => {
     openModal('detail', idTache);
   };
@@ -57,12 +55,11 @@ const ListeTachePermi = () => {
     setModalType(null);
   };
 
-  const openModal = (type, idTrack = '') => {
+  const openModal = (type, idTache = '') => {
     closeAllModals();
     setModalType(type);
-    setIdTrack(idTrack);
-  };
-  
+    setIdTache(idTache);
+  };  
 
   const columnStyles = {
     title: {
@@ -80,7 +77,6 @@ const ListeTachePermi = () => {
       },
     },
   };
-
 
   const columns = [
     {
@@ -193,12 +189,12 @@ const ListeTachePermi = () => {
           </Space>
         )
     }
-    
-    
   ];
 
   const filteredData = data.filter(item =>
     item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase())  );
+
+
   return (
     <>
       <div className="client">
@@ -220,17 +216,17 @@ const ListeTachePermi = () => {
             <div className="client-rows-right">
             </div>
           </div>
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            loading={loading}
-            pagination={pagination}
-            onChange={(pagination) => setPagination(pagination)}
-            rowKey="id"
-            bordered
-            size="middle"
-            scroll={scroll}
-          />
+            <Table
+                columns={columns}
+                dataSource={filteredData}
+                loading={loading}
+                pagination={pagination}
+                onChange={(pagination) => setPagination(pagination)}
+                rowKey="id"
+                bordered
+                size="middle"
+                scroll={scroll}
+            />
         </div>
       </div>
       <Modal
@@ -241,7 +237,7 @@ const ListeTachePermi = () => {
         width={1070}
         centered
       >
-      aaaaaaaaaa
+        <PermissionTache idTache={idTache}/>
       </Modal>
     </>
   );
