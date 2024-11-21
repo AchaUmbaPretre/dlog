@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Select, Tooltip, Row, Col, DatePicker, notification, Skeleton } from 'antd';
+import { Button, Form, Input, Select, Tooltip, Row, Col, DatePicker, notification, Skeleton, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { getClient } from '../../../services/clientService';
 import { getObjetFacture, getTemplateOne, getTypeOccupation, postTemplate, putTemplate } from '../../../services/templateService';
@@ -7,6 +7,8 @@ import { getBatiment } from '../../../services/typeService';
 import { getDenominationOne, getNiveauOne } from '../../../services/batimentService';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import ClientForm from '../../client/clientForm/ClientForm';
+import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 
 const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [form] = Form.useForm();
@@ -55,14 +57,16 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
         }
     };
 
-    const handlUser = () => openModal('AddUser');
+    const handlClient = () => openModal('AddClient');
+    const handlBatiment = () => openModal('AddBatiment');
+    const handlNiveau = () => openModal('AddNiveau');
+    const handlDenom = () => openModal('AddDenom');
 
     const closeAllModals = () => {
         setModalType(null);
       };
       
       const openModal = (type) => {
-        closeAllModals();
         setModalType(type);
       };
 
@@ -144,7 +148,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                                 <Button 
                                     style={{ marginBottom: '5px' }}
                                     icon={<PlusOutlined />}
-                                    onClick={handlUser}
+                                    onClick={handlClient}
                                 >
                                 </Button>
                             </Tooltip>
@@ -187,7 +191,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                                 <Button 
                                     style={{ marginBottom: '5px' }}
                                     icon={<PlusOutlined />}
-                                    onClick={handlUser}
+                                    onClick={handlBatiment}
                                 >
                                 </Button>
                             </Tooltip>
@@ -212,7 +216,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                                 <Button 
                                     style={{ marginBottom: '5px' }}
                                     icon={<PlusOutlined />}
-                                    onClick={handlUser}
+                                    onClick={handlNiveau}
                                 >
                                 </Button>
                             </Tooltip>
@@ -238,7 +242,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                                 <Button 
                                     style={{ marginBottom: '5px' }}
                                     icon={<PlusOutlined />}
-                                    onClick={handlUser}
+                                    onClick={handlDenom}
                                 >
                                 </Button>
                             </Tooltip>
@@ -317,6 +321,29 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                     </Form.Item>
                 </Form>
             </div>
+
+            <Modal
+                title=""
+                visible={modalType === 'AddClient'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={750}
+                centered
+            >
+                <ClientForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchDataAll} />
+            </Modal>
+
+            <Modal
+                title=""
+                visible={modalType === 'AddBatiment'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                <BatimentForm idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchDataAll}/>
+            </Modal>
+            
         </div>
     );
 };
