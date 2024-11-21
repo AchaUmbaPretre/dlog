@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
-import { ClockCircleOutlined,EyeOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Modal } from 'antd';
+import { ClockCircleOutlined,EyeOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { estSupprimeSuivi, getSuiviTacheOne } from '../../services/suiviService';
-import DetailGlobalTracking from './detailGlobalTracking/DetailGlobalTracking';
+import { getTache } from '../../../services/tacheService';
 
 const { Search } = Input;
 
@@ -14,13 +13,20 @@ const ListeTachePermi = () => {
   const [modalType, setModalType] = useState(null);
   const [idTrack, setIdTrack] = useState('')
   const scroll = { x: 400 };
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
+  const searchInput = useRef(null);
+
 
     const fetchData = async () => {
       try {
-        const { data } = await getSuiviTacheOne();
-        setData(data);
+        const { data } = await getTache();
+        setData(data.taches);
         setLoading(false);
-      } catch (error) {
+      } 
+      catch (error) {
         notification.error({
           message: 'Erreur de chargement',
           description: 'Une erreur est survenue lors du chargement des données.',
@@ -44,19 +50,6 @@ const ListeTachePermi = () => {
     'Executé': { icon: <RocketOutlined />, color: 'cyan' },
   };
 
-
-  const handleDelete = async (id) => {
-    try {
-       await estSupprimeSuivi(id);
-      setData(data.filter((item) => item.id_suivi !== id));
-      message.success('Suive de tracking est supprimé avec succes');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
-  };
 
   const handleViewDetails = (idTache) => {
     openModal('detail', idTache);
@@ -96,90 +89,118 @@ const ListeTachePermi = () => {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%",    },
+    { 
+      title: 'DPT', 
+      dataIndex: 'departement', 
+      key: 'nom_departement',
+      render: text => (
+        <Space>
+          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      )
     },
-    {
+    {   
       title: 'Titre',
-      dataIndex: 'nom_tache',
-      key: 'nom_tache',
-      render: (text) => (
-        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
-            <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
+      dataIndex: 'nom_tache', 
+      key: 'nom_tache', 
+      render: (text,record) => (
+        <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id_tache)}>
+          <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      )
+    },
+    {   
+      title: 'Client', 
+      dataIndex: 'nom_client', 
+      key: 'nom_client',
+      render: text => (
+        <Space>
+          <Tag icon={<UserOutlined />} color='green'>{text ?? 'Aucun'}</Tag>
+        </Space>
+      )    
+    },
+    { 
+      title: 'Statut', 
+      dataIndex: 'statut', 
+      key: 'statut',
+      render: text => {
+        const { icon, color } = statusIcons[text] || {};
+        return (
+          <Space>
+            <Tag icon={icon} color={color}>{text}</Tag>
+          </Space>
+        );
+      }
+    },
+    { 
+      title: 'Fréquence', 
+      dataIndex: 'frequence', 
+      key: 'frequence',
+      render: text => (
+        <Space>
+          <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
+        </Space>
+      )
+    },
+    { 
+      title: 'Corps metier', 
+      dataIndex: 'nom_corps_metier', 
+      key: 'nom_corps_metier',
+      render: text => (
+        <Space>
+          <Tag color='blue'>{text ?? 'Aucun'}</Tag>
+        </Space>
+      ),
+    },
+    { 
+      title: 'Categorie', 
+      dataIndex: 'id_cat_tache', 
+      key: 'id_cat_tache',
+      render: text => (
+        <Space>
+          <Tag color='blue'>{text ?? 'Aucun'}</Tag>
         </Space>
       ),
     },
     {
-        title: 'Statut',
-        dataIndex: 'nom_type_statut',
-        key: 'nom_type_statut',
-        render: text => {
-            const { icon, color } = statusIcons[text] || {};
-            return (
-                <Space>
-                  <Tag icon={icon} color={color}>{text}</Tag>
-                </Space>
-            );
-        }
-      },
-      {
-        title: 'Commentaire	',
-        dataIndex: 'commentaire',
-        key: 'commentaire	',
-        render: (text) => (
-          <Space style={columnStyles.title} className={columnStyles.hideScroll}>
-            <Tag icon={<FileTextOutlined />} color="blue">{text}</Tag>
-          </Space>
-        ),
-      },
-      { 
-        title: 'Date', 
-        dataIndex: 'date_suivi', 
-        key: 'date_suivi',
-        sorter: (a, b) => moment(a.date_suivi) - moment(b.date_suivi),
-        sortDirections: ['descend', 'ascend'],
-        render: text => (
-          <Tag icon={<CalendarOutlined />} color='purple'>{moment(text).format('LL')}</Tag>
-        ),
-      },
+      title: 'Owner', 
+      dataIndex: 'owner', 
+      key: 'owner',
+      render: text => (
+        <Space>
+          <Tag icon={<TeamOutlined />} color='purple'>{text}</Tag>
+        </Space>
+      ),
+    },
     {
       title: 'Action',
       key: 'action',
       width: '10%',
       render: (text, record) => (
-        <Space size="middle">
-        <Tooltip title="Voir les détails">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleViewDetails(record.id_suivi)}
-              aria-label="Voir les détails de la tâche"
-              style={{color: 'blue'}}
-            />
-          </Tooltip>
-          <Tooltip title="Delete">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce tracking ?"
-              onConfirm={() => handleDelete(record.id_suivi)}
-              okText="Oui"
-              cancelText="Non"
-            >
+          <Space size="middle">
+            <Tooltip title="Voir les détails">
               <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete client"
+                icon={<EyeOutlined />}
+                onClick={() => handleViewDetails(record.id_tache)}
+                aria-label="Voir les détails de la tâche"
+                style={{ color: 'blue' }}
               />
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ),
-    },
+            </Tooltip>
+          </Space>
+        )
+    }
+    
+    
   ];
 
   const filteredData = data.filter(item =>
-    item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+    item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase())  );
   return (
     <>
       <div className="client">
@@ -213,16 +234,6 @@ const ListeTachePermi = () => {
           />
         </div>
       </div>
-      <Modal
-        title=""
-        visible={modalType === 'detail'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={850}
-        centered
-      >
-        <DetailGlobalTracking idTrack={idTrack} />
-      </Modal>
     </>
   );
 };

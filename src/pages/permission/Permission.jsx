@@ -20,6 +20,7 @@ import {
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import PermissionOne from './permissionOne/PermissionOne';
+import ListeTachePermi from './listeTachePermi/ListeTachePermi';
 
 const { Search } = Input;
 
@@ -141,6 +142,7 @@ const Permission = () => {
           />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Permission des taches" key="1">
+              <ListeTachePermi/>
             </Tabs.TabPane>
 
           </Tabs>
