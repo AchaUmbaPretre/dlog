@@ -148,14 +148,14 @@ const PermissionOne = ({userId}) => {
                     </div>
                 </div>
                     <Table
-                        dataSource={loading ? [] : filteredData}
-                        columns={columns}
-                        scroll={scroll}
-                        rowKey="id"
-                        bordered
-                        pagination={false}
-                        loading={loading}
-                        className='table_permission' 
+                      dataSource={loading ? [] : filteredData}
+                      columns={columns}
+                      scroll={scroll}
+                      rowKey="id"
+                      bordered
+                      pagination={false}
+                      loading={loading}
+                      className='table_permission' 
                     />
             </div>
         </div>

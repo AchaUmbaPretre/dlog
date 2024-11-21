@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { notification, Switch, Tag } from 'antd';
-import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Input, notification, Switch, Tag, Table } from 'antd';
+import { EyeOutlined, EditOutlined, DeleteOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 
 
@@ -9,7 +9,8 @@ const PermissionTache = ({idTache}) => {
     const [user, setUser] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const [searchValue, setSearchValue] = useState('');
+    const scroll = { x: 400 };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,7 +31,7 @@ const PermissionTache = ({idTache}) => {
       }, []);
 
       const handlePermissionChange = () => {
-        
+
       }
 
     const columns = [
@@ -42,7 +43,7 @@ const PermissionTache = ({idTache}) => {
           width: "3%" 
         },
         {
-          title: 'Option',
+          title: 'Utilisateur',
           dataIndex: 'menu_title',
           key: 'menu_title',
           render: (text) => (
@@ -84,8 +85,44 @@ const PermissionTache = ({idTache}) => {
         }
       ];
 
+      const filteredData = data.filter(item =>
+        item.nom?.toLowerCase().includes(searchValue.toLowerCase())
+      );
+
   return (
-    <div>PermissionTache</div>
+    <>
+        <div className="client">
+            <div className="client-wrapper">
+                <div className="client-row">
+                    <div className="client-row-icon">
+                        <UnlockOutlined className='client-icon' />
+                    </div>
+                    <h2 className="client-h2">Gestion des permissions</h2>
+                </div>
+                <div className="client-actions">
+                    <div className="client-row-left">
+                        <Input
+                            type="search"
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            placeholder="Recherche..."
+                            className="product-search"
+                        />    
+                    </div>
+                </div>
+                    <Table
+                      dataSource={loading ? [] : filteredData}
+                      columns={columns}
+                      scroll={scroll}
+                      rowKey="id"
+                      bordered
+                      pagination={false}
+                      loading={loading}
+                      className='table_permission' 
+                    />
+            </div>
+        </div>
+    </>
   )
 }
 
