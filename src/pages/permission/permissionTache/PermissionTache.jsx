@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Input, notification, Switch, Tag, Table } from 'antd';
-import { EyeOutlined, EditOutlined, DeleteOutlined, UnlockOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
-
 
 const PermissionTache = ({idTache}) => {
     const [permissions, setPermissions] = useState({});
-    const [user, setUser] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
@@ -46,8 +44,8 @@ const PermissionTache = ({idTache}) => {
           title: 'Utilisateur',
           dataIndex: 'menu_title',
           key: 'menu_title',
-          render: (text) => (
-            <Tag color='blue'>{text}</Tag>
+          render: (text, record) => (
+            <Tag color='blue'>{`${record.nom} - ${record.prenom}`}</Tag>
           ),
         },
         {
@@ -56,7 +54,7 @@ const PermissionTache = ({idTache}) => {
           key: 'can_read',
           render: (text, record) => (
             <Switch
-              checked={permissions[record.menu_id]?.can_read || false}
+              checked={permissions[record.id]?.can_view || false}
               onChange={value => handlePermissionChange(record.menu_id, 'can_read', value)}
             />
           )
@@ -73,12 +71,12 @@ const PermissionTache = ({idTache}) => {
           )
         },
         {
-          title: <span style={{ color: '#ff4d4f' }}><DeleteOutlined /></span>,
+          title: <span style={{ color: '#ff4d4f' }}><FormOutlined /></span>,
           dataIndex: 'can_delete',
           key: 'can_delete',
           render: (text, record) => (
             <Switch
-              checked={permissions[record.menu_id]?.can_delete || false}
+              checked={permissions[record.id]?.can_comment || false}
               onChange={value => handlePermissionChange(record.menu_id, 'can_delete', value)}
             />
           )
@@ -97,7 +95,7 @@ const PermissionTache = ({idTache}) => {
                     <div className="client-row-icon">
                         <UnlockOutlined className='client-icon' />
                     </div>
-                    <h2 className="client-h2">Gestion des permissions</h2>
+                    <h2 className="client-h2">Gestion des permissions de tache</h2>
                 </div>
                 <div className="client-actions">
                     <div className="client-row-left">
