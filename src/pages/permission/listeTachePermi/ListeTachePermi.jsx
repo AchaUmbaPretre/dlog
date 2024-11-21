@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Table, Button, Input, message, notification, Space, Tooltip, Tag, Modal } from 'antd';
-import { ClockCircleOutlined,EyeOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
+import { ClockCircleOutlined,InfoCircleOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getTache } from '../../../services/tacheService';
 
 const { Search } = Input;
@@ -186,7 +185,7 @@ const ListeTachePermi = () => {
           <Space size="middle">
             <Tooltip title="Voir les détails">
               <Button
-                icon={<EyeOutlined />}
+                icon={<InfoCircleOutlined />}
                 onClick={() => handleViewDetails(record.id_tache)}
                 aria-label="Voir les détails de la tâche"
                 style={{ color: 'blue' }}
