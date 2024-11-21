@@ -10,9 +10,9 @@ const { Title, Text } = Typography;
 
 const InstructionsDetail = ({ idInspection }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [groupedData, setGroupedData] = useState([]);
+  const [groupedData, setGroupedData] = useState({ avant: [], apres: [] });
   const [loading, setLoading] = useState(true);
-  const [nameBatiment, setNameBatiment] = useState("");
+  const [batimentInfo, setBatimentInfo] = useState({});
   const exportRef = useRef();
 
   const fetchData = async () => {
@@ -27,22 +27,20 @@ const InstructionsDetail = ({ idInspection }) => {
         return;
       }
 
-      setNameBatiment(data[0]?.nom_batiment || "Inconnu");
+      // Informations générales (on suppose qu'elles sont identiques pour toutes les données)
+      const generalInfo = {
+        name: data[0]?.nom_batiment || "Inconnu",
+        typeInstruction: data[0]?.type_instruction || "Inconnu",
+        categorie: data[0]?.nom_cat_inspection || "Inconnu",
+        dateCreation: data[0]?.date_creation || "Inconnu",
+      };
+      setBatimentInfo(generalInfo);
 
-      // Regrouper les données par leurs champs communs
-      const grouped = data.reduce((acc, instruction) => {
-        const key = `${instruction.nom_batiment}_${instruction.nom_type_instruction}_${instruction.commentaire}_${instruction.date_creation}`;
-        if (!acc[key]) {
-          acc[key] = {
-            ...instruction,
-            images: [],
-          };
-        }
-        acc[key].images.push(instruction.img);
-        return acc;
-      }, {});
+      // Séparer les données en "Avant" et "Après"
+      const avant = data.filter((instruction) => instruction.nom_type_photo === "Avant");
+      const apres = data.filter((instruction) => instruction.nom_type_photo === "Après");
 
-      setGroupedData(Object.values(grouped));
+      setGroupedData({ avant, apres });
     } catch (error) {
       notification.error({
         message: "Erreur de chargement",
@@ -90,7 +88,7 @@ const InstructionsDetail = ({ idInspection }) => {
     const blob = htmlDocx.asBlob(content);
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `Instructions_${nameBatiment}.docx`;
+    link.download = `Instructions_${batimentInfo.name}.docx`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -114,53 +112,88 @@ const InstructionsDetail = ({ idInspection }) => {
             <Title level={3} style={{ textAlign: "center", marginBottom: 24, fontWeight: 300 }}>
               Détails des Instructions
             </Title>
+
+            {/* Informations générales */}
+            <Card style={{ marginBottom: 24, borderRadius: 8, display:'flex', flexDirection:"column", gap:'15px' }}>
+              <Text strong>Bâtiment :</Text> <Text>{batimentInfo.name}</Text>
+              <br />
+              <Text strong>Type d'Instruction :</Text> <Text>{batimentInfo.typeInstruction}</Text>
+              <br />
+              <Text strong>Catégorie :</Text> <Text>{batimentInfo.categorie}</Text>
+              <br />
+              <Text strong>Date de Création :</Text> <Text>{new Date(batimentInfo.dateCreation).toLocaleString()}</Text>
+            </Card>
+
+            {/* Section "Avant" */}
             <Row gutter={[16, 16]}>
-              {groupedData.map((instruction, index) => (
-                <Col xs={24} key={index}>
-                  <Card hoverable style={{ borderRadius: 8 }}>
-                    <Title level={4}>{instruction.nom_batiment}</Title>
-                    <Text strong>Type d'Instruction :</Text>{" "}
-                    <Text>{instruction.nom_type_instruction}</Text>
-                    <br />
-                    <Text strong>Commentaire :</Text>{" "}
-                    <Text>{instruction.commentaire}</Text>
-                    <br />
-                    <Text strong>Categorie :</Text>{" "}
-                    <Text>{instruction.nom_cat_inspection}</Text>
-                    <br />
-                    
-                    <Text strong>Date de Création :</Text>{" "}
-                    <Text>{new Date(instruction.date_creation).toLocaleString()}</Text>
-                    <br />
-                    <div style={{ marginTop: 16 }}>
-                      <Text strong>Images :</Text>
-                      <Row gutter={[16, 16]}>
-                        {instruction.images.map((img, imgIndex) => (
-                          <Col xs={24} sm={12} lg={8} key={imgIndex}>
-                            <a
-                              href={`${DOMAIN}/${img}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <img
-                                alt="Instruction"
-                                src={`${DOMAIN}/${img}`}
-                                style={{
-                                  width: "100%",
-                                  height: 200,
-                                  objectFit: "cover",
-                                  borderRadius: 8,
-                                }}
-                              />
-                            </a>
-                          </Col>
-                        ))}
-                      </Row>
-                    </div>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
+  <Col xs={24}>
+    <Title level={4}>Avant</Title>
+    {groupedData.avant.length > 0 && (
+      <Card style={{ marginBottom: 24, borderRadius: 8 }}>
+        <Text strong>Commentaire Avant :</Text>{" "}
+        <Text>{groupedData.avant[0]?.commentaire || "Aucun commentaire"}</Text>
+        <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
+          {groupedData.avant.map((instruction, index) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={`avant-img-${index}`}>
+              <a
+                href={`${DOMAIN}/${instruction.img}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  alt="Avant"
+                  src={`${DOMAIN}/${instruction.img}`}
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                    borderRadius: 8,
+                    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                  }}
+                />
+              </a>
+            </Col>
+          ))}
+        </Row>
+      </Card>
+    )}
+  </Col>
+
+  {/* Section "Après" */}
+  <Col xs={24}>
+    <Title level={4}>Après</Title>
+    {groupedData.apres.length > 0 && (
+      <Card style={{ marginBottom: 24, borderRadius: 8 }}>
+        <Text strong>Commentaire Après :</Text>{" "}
+        <Text>{groupedData.apres[0]?.commentaire || "Aucun commentaire"}</Text>
+        <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
+          {groupedData.apres.map((instruction, index) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={`apres-img-${index}`}>
+              <a
+                href={`${DOMAIN}/${instruction.img}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  alt="Après"
+                  src={`${DOMAIN}/${instruction.img}`}
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                    borderRadius: 8,
+                    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                  }}
+                />
+              </a>
+            </Col>
+          ))}
+        </Row>
+      </Card>
+    )}
+  </Col>
+</Row>
+
           </div>
         </div>
       )}
