@@ -343,7 +343,6 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
             >
                 <BatimentForm idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
-            
         </div>
     );
 };
