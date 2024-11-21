@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,EyeOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined ,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined,HomeOutlined,EyeOutlined, PrinterOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspection, putInspectionDelete } from '../../services/batimentService';
 import InstructionForm from './instructionForm/InstructionForm';
 import InstructionsDetail from './instructionsDetail/InstructionsDetail';
 import InstructionFormEdit from './instructionForm/InstructionFormEdit';
+import InstructionFormApres from './instructionForm/InspectionFormApres';
 
 const { Search } = Input;
 
@@ -31,6 +32,10 @@ const Instructions = () => {
     setIdInspection(id)
   }
 
+  const handleApres = (id) => {
+    openModal('addApres', id)
+    setIdInspection(id)
+  }
   const closeAllModals = () => {
     setModalType(null);
   };
@@ -133,25 +138,14 @@ const Instructions = () => {
         ),
       },
       {
-        title: 'Type',
+        title: "Type d'inspection",
         dataIndex: 'nom_type_instruction',
         key: 'nom_type_instruction',
         render: text => {
-          let icon = null;
-          let color = 'default';
-    
-          if (text === 'Avant') {
-            icon = <ArrowLeftOutlined />;
-            color = 'blue'; 
-          } else if (text === 'Après') {
-            icon = <ArrowRightOutlined />;
-            color = 'green'; 
-          }
-    
           return (
             <Space>
-              <Tag color={color}>
-                {icon} {text}
+              <Tag color={"green"}>
+                 {text}
               </Tag>
             </Space>
           );
@@ -171,14 +165,22 @@ const Instructions = () => {
               aria-label="Edit department"
             />
           </Tooltip>
-            <Tooltip title="Voir les détails">
+          <Tooltip title="Voir les détails">
               <Button
                 icon={<EyeOutlined />}
                 onClick={() => handleViewDetails(record.id_inspection)}
                 aria-label="Voir les détails de la tâche"
                 style={{ color: 'blue' }}
               />
-            </Tooltip>
+          </Tooltip>
+          <Tooltip title="Ajoutez l'inspection après">
+              <Button
+                icon={<PlusCircleOutlined />}
+                onClick={() => handleApres(record.id_inspection)}
+                aria-label="Ajoutez l'inspection après"
+                style={{ color: 'blue' }}
+              />
+          </Tooltip>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
@@ -273,6 +275,7 @@ const Instructions = () => {
       >
         <InstructionFormEdit idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
       </Modal>
+
       <Modal
         title=""
         visible={modalType === 'detail'}
@@ -282,6 +285,17 @@ const Instructions = () => {
         centered
       >
         <InstructionsDetail idInspection={idInspection}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'addApres'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+        <InstructionFormApres closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
       </Modal>
     </>
   );

@@ -53,6 +53,7 @@ useEffect(() => {
     const formData = new FormData();
     formData.append('id_batiment', values.id_batiment);
     formData.append('commentaire', values.commentaire);
+    formData.append('id_type_photo', values.id_type_photo);
     formData.append('id_cat_instruction', values.id_cat_instruction);
     formData.append('id_type_instruction', values.id_type_instruction);
 
@@ -152,22 +153,6 @@ useEffect(() => {
                     />
                 </Form.Item>
 
-                <Form.Item
-                label="Status"
-                name="id_type_photo"
-                rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
-                >
-                    <Select
-                        showSearch
-                        options={cat.map((item) => ({
-                                value: item.id_type_photo,
-                                label: item.nom_type_photo,
-                            }))}
-                        placeholder="Sélectionnez un statut..."
-                        optionFilterProp="label"
-                    />
-                </Form.Item>
-
                 {/* Type instruction */}
                 <Form.Item
                 label="Type d'inspection"
@@ -182,6 +167,22 @@ useEffect(() => {
                         }))}
                         placeholder="Sélectionnez un type d inspection" 
 
+                    />
+                </Form.Item>
+
+                <Form.Item
+                label="Status"
+                name="id_type_photo"
+                rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
+                >
+                    <Select
+                        showSearch
+                        options={typePhoto.map((item) => ({
+                                value: item.id_type_photo,
+                                label: item.nom_type_photo,
+                            }))}
+                        placeholder="Sélectionnez un statut..."
+                        optionFilterProp="label"
                     />
                 </Form.Item>
 
