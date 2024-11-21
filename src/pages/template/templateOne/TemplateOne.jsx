@@ -42,6 +42,7 @@ const TemplateOne = ({ idTemplate }) => {
   useEffect(() => {
     fetchData();
     fetchData5derniers();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idTemplate]);
 
   const columns = [

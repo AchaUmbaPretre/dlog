@@ -68,6 +68,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
 
     useEffect(() => {
         fetchDataAll();
+          // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [idBatiment]);
 
     useEffect(() => {
