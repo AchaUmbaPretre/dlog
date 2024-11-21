@@ -233,6 +233,16 @@ const ListeTachePermi = () => {
           />
         </div>
       </div>
+      <Modal
+        title=""
+        visible={modalType === 'detail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1070}
+        centered
+      >
+      aaaaaaaaaa
+      </Modal>
     </>
   );
 };
