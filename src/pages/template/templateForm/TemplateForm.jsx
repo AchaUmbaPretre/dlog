@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Select, Row, Col, DatePicker, notification, Skeleton, InputNumber } from 'antd';
+import { Button, Form, Input, Select, Tooltip, Row, Col, DatePicker, notification, Skeleton } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { getClient } from '../../../services/clientService';
 import { getObjetFacture, getTemplateOne, getTypeOccupation, postTemplate, putTemplate } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
@@ -17,6 +18,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [niveau, setNiveau] = useState([]);
     const [denomination, setDenomination] = useState([]);
     const [whse_fact, setWhse_fact] = useState([]);
+    const [modalType, setModalType] = useState(null);
     const [objet, setObjet] = useState([]);
     const navigate = useNavigate();
 
@@ -53,6 +55,17 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
         }
     };
 
+    const handlUser = () => openModal('AddUser');
+
+    const closeAllModals = () => {
+        setModalType(null);
+      };
+      
+      const openModal = (type) => {
+        closeAllModals();
+        setModalType(type);
+      };
+
     useEffect(() => {
         fetchDataAll();
     }, [idBatiment]);
@@ -71,10 +84,6 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
             });
         } catch (error) {
             console.log(error)
-/*             notification.error({
-                message: 'Erreur de chargement du template',
-                description: 'Impossible de charger les informations du template sélectionné.',
-            }); */
         }
     };
     
@@ -121,15 +130,23 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                                 name="id_client"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un client!' }]}
                             >
-                            { isLoading ? <Skeleton.Input active={true} /> : 
-                            <Select
-                                showSearch
-                                options={client.map(item => ({ value: item.id_client, label: item.nom }))}
-                                placeholder="Sélectionnez un client..."
-                                optionFilterProp="label"
-                            />
-                            }
+                                { isLoading ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    showSearch
+                                    options={client.map(item => ({ value: item.id_client, label: item.nom }))}
+                                    placeholder="Sélectionnez un client..."
+                                    optionFilterProp="label"
+                                />
+                                }
                             </Form.Item>
+                            <Tooltip title="Créer un nouveau client">
+                                <Button 
+                                    style={{ marginBottom: '5px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlUser}
+                                >
+                                </Button>
+                            </Tooltip>
                         </Col>
 
                         <Col xs={{ span: 24 }} sm={{ span: 8 }}>
@@ -165,6 +182,14 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                                 />
                             }
                             </Form.Item>
+                            <Tooltip title="Créer un nouveau batiment">
+                                <Button 
+                                    style={{ marginBottom: '5px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlUser}
+                                >
+                                </Button>
+                            </Tooltip>
                         </Col>
 
                         <Col xs={{ span: 24 }} sm={{ span: 8 }}>
@@ -182,6 +207,14 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                                     />
                                 }
                             </Form.Item>
+                            <Tooltip title="Créer un nouveau niveau">
+                                <Button 
+                                    style={{ marginBottom: '5px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlUser}
+                                >
+                                </Button>
+                            </Tooltip>
                         </Col>
 
                         <Col xs={{ span: 24 }} sm={{ span: 8 }}>
@@ -200,6 +233,14 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                                     />
                                 }
                             </Form.Item>
+                            <Tooltip title="Créer une nouvelle dénomination">
+                                <Button 
+                                    style={{ marginBottom: '5px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlUser}
+                                >
+                                </Button>
+                            </Tooltip>
                         </Col>
 
                         <Col xs={{ span: 24 }} sm={{ span: 8 }}>
