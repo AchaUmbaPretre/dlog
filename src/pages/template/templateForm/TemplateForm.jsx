@@ -9,6 +9,8 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import ClientForm from '../../client/clientForm/ClientForm';
 import BatimentForm from '../../batiment/batimentForm/BatimentForm';
+import NiveauForm from '../../batiment/niveau/niveauForm/NiveauForm';
+import DenominationForm from '../../batiment/denomination/denominationForm/DenominationForm';
 
 const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [form] = Form.useForm();
@@ -342,6 +344,28 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                 centered
             >
                 <BatimentForm idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchDataAll}/>
+            </Modal>
+
+            <Modal
+                title=""
+                visible={modalType === 'AddNiveau'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={600}
+                centered
+            >
+                <NiveauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+            </Modal>
+
+            <Modal
+                title=""
+                visible={modalType === 'AddDenom'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={600}
+                centered
+            >
+                <DenominationForm idBatiment={idBatiment} />
             </Modal>
         </div>
     );
