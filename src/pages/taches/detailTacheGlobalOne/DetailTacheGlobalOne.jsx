@@ -251,9 +251,9 @@ useEffect(() => {
 
             <Tooltip title="Associer un projet existant">
               <div 
-                onClick={handleAssocierProjet} // Fonction pour associer un projet existant
+                onClick={handleAssocierProjet}
                 style={{
-                  background:'#FFC107', // jaune pour l'action d'association
+                  background:'#FFC107',
                   height:'30px',
                   width:'30px',
                   borderRadius:'50%',
