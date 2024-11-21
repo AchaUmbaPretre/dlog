@@ -324,6 +324,10 @@ export const getType_instruction = async () => {
   return axios.get(`${DOMAIN}/api/batiment/instruction_type`);
 };
 
+export const getType_photo = async () => {
+  return axios.get(`${DOMAIN}/api/batiment/type_photo`);
+};
+
 export const getCat_inspection = async () => {
   return axios.get(`${DOMAIN}/api/batiment/cat_inspection`);
 };

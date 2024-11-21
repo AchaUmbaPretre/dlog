@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { getCat_inspection, getInspectionOneV, getType_instruction, postInspection, putInspection } from '../../../services/batimentService';
+import { getCat_inspection, getInspectionOneV, getType_instruction, getType_photo, postInspection, putInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
 
 const { TextArea } = Input;
@@ -12,18 +12,21 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection}) => {
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
   const [instructionData, setInstructionData] = useState([]);
-  const [cat, setCat] = useState([])
+  const [cat, setCat] = useState([]);
+  const [typePhoto, setTypePhoto] = useState([])
 
   const fetchDataAll = async() => {
     try {
-        const [batimentData, typeInspe, inspectionData] = await Promise.all([
+        const [batimentData, typeInspe, inspectionData, typePhotoData] = await Promise.all([
             getBatiment(),
             getType_instruction(),
-            getCat_inspection()
+            getCat_inspection(),
+            getType_photo()
         ])
         setBatiment(batimentData.data)
         setInstructionData(typeInspe.data)
         setCat(inspectionData.data)
+        setTypePhoto(typePhotoData.data)
         if(idInspection){
             const { data: inspect} = await getInspectionOneV(idInspection);
             form.setFieldsValue({
@@ -48,6 +51,7 @@ useEffect(() => {
     const uploadedFiles = values.img.map((file) => file.originFileObj);
 
     const formData = new FormData();
+    formData.append('id_batiment', values.id_batiment);
     formData.append('commentaire', values.commentaire);
     formData.append('id_cat_instruction', values.id_cat_instruction);
     formData.append('id_type_instruction', values.id_type_instruction);
@@ -100,6 +104,7 @@ useEffect(() => {
                 id_batiment: '',
                 commentaire: '',
                 id_cat_instruction: '',
+                id_type_photo: 1,
                 id_type_instruction: 1
                 }}
             >
@@ -126,7 +131,7 @@ useEffect(() => {
                 name="commentaire"
                 rules={[{ required: true, message: 'Veuillez entrer un commentaire' }]}
                 >
-                <TextArea rows={4} placeholder="Entrez votre commentaire" />
+                <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
                 </Form.Item>
 
 
@@ -143,6 +148,22 @@ useEffect(() => {
                                 label: item.nom_cat_inspection,
                             }))}
                         placeholder="Sélectionnez une categorie..."
+                        optionFilterProp="label"
+                    />
+                </Form.Item>
+
+                <Form.Item
+                label="Status"
+                name="id_type_photo"
+                rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
+                >
+                    <Select
+                        showSearch
+                        options={cat.map((item) => ({
+                                value: item.id_type_photo,
+                                label: item.nom_type_photo,
+                            }))}
+                        placeholder="Sélectionnez un statut..."
                         optionFilterProp="label"
                     />
                 </Form.Item>

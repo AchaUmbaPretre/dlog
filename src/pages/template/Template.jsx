@@ -205,7 +205,6 @@ const Template = () => {
         <Tag icon={<HomeOutlined />} color="geekblue">{text ?? 'Aucune'}</Tag>
       ),
       ...(columnsVisibility['Whse fact'] ? {} : { className: 'hidden-column' })
-
     },
     {
       title: 'Objet fact',

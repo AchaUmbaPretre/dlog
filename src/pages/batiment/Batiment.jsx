@@ -342,10 +342,10 @@ const Batiment = () => {
                 <Menu.Divider />
  
                 <Menu.Item onClick={() => handListeInstruction(record.id_batiment)}>
-                  <FileTextOutlined /> Liste des instructions
+                  <FileTextOutlined /> Liste d'instructions
                 </Menu.Item>
                 <Menu.Item onClick={() => handleAddInstruction(record.id_batiment)}>
-                  <FileTextOutlined /> Nouvelle instruction
+                  <FileTextOutlined /> Nouvel instruction
                 </Menu.Item>
           </Menu>
         )}
