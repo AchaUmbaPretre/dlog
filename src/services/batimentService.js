@@ -312,6 +312,14 @@ export const postInspection = async (data) => {
   });
 };
 
+export const postInspectionApres = async (data) => {
+  return axios.post(`${DOMAIN}/api/batiment/inspections_post_apres`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
 export const putInspection = async (id,data) => {
   return axios.put(`${DOMAIN}/api/batiment/inspection_update?id_inspection=${id}`, data);
 };
