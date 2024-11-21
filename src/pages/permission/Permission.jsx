@@ -8,6 +8,7 @@ import {
   Tooltip,
   Tag,
   Modal,
+  Tabs,
 } from 'antd';
 import {
   SolutionOutlined,
@@ -105,8 +106,6 @@ const Permission = () => {
     setIsModalVisible(true);
   };
 
-  console.log(idUser)
-
   return (
     <>
       <div className="client">
@@ -115,6 +114,13 @@ const Permission = () => {
             <UnlockOutlined className='client-icon' />
             <h2 className="client-h2">Permission</h2>
           </div>
+          <Tabs defaultActiveKey="0">
+            <Tabs.TabPane tab="Permission d'options" key="0">
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Permission des taches" key="1">
+            </Tabs.TabPane>
+
+          </Tabs>
           <div className="client-actions">
             <div className="client-row-left">
               <Search placeholder="recherche..." enterButton />
