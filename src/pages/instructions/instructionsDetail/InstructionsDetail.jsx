@@ -30,7 +30,7 @@ const InstructionsDetail = ({ idInspection }) => {
       // Informations générales (on suppose qu'elles sont identiques pour toutes les données)
       const generalInfo = {
         name: data[0]?.nom_batiment || "Inconnu",
-        typeInstruction: data[0]?.type_instruction || "Inconnu",
+        typeInstruction: data[0]?.nom_type_instruction || "Inconnu",
         categorie: data[0]?.nom_cat_inspection || "Inconnu",
         dateCreation: data[0]?.date_creation || "Inconnu",
       };
