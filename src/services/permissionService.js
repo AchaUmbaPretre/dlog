@@ -19,3 +19,11 @@ export const getMenus = async (userId) => {
 export const putPermission = async (userId, optionId,finalPermissions ) => {
     return axios.put(`${DOMAIN}/api/permission/update/${userId}/permissions/add/${optionId}`, finalPermissions)
 }
+
+export const getPermissionsTache = async (userId) => {
+  return axios.get(`${DOMAIN}/api/permission/permission_tache?id_tache=${userId}`);
+};
+
+export const updatePermissionTache = async (data) => {
+  return axios.post(`${DOMAIN}/api/permission/permission_tache`, data)
+}
