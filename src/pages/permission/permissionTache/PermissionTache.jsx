@@ -158,12 +158,13 @@ const PermissionTache = ({idTache}) => {
                 </div>
                 <div className="client-actions">
                     <div className="client-row-left">
-                        <Input
+                        <Input.Search
                             type="search"
                             value={searchValue}
                             onChange={(e) => setSearchValue(e.target.value)}
                             placeholder="Recherche..."
                             className="product-search"
+                            enterButton
                         />    
                     </div>
                 </div>
