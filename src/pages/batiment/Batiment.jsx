@@ -273,89 +273,89 @@ const Batiment = () => {
             />
           </Tooltip>
           <Dropdown
-        overlay={(
-          <Menu>
-            {/* Actions Document */}
-            <Menu.Item onClick={() => handleDetailDoc(record.id_batiment)}>
-              <FileTextOutlined /> Liste des docs
-            </Menu.Item>
-            <Menu.Item onClick={() => handleAjouterDoc(record.id_batiment)}>
-              <FileTextOutlined /> Créer un doc
-            </Menu.Item>
-            <Menu.Divider />
-            {/* Actions Entrepot */}
-            {
-              record.type_batiment === 'entrepot' &&
-              <div>
-                  {/* Actions Bin */}
-                <Menu.Item onClick={() => handleListBin(record.id_batiment)}>
+            overlay={(
+              <Menu>
+                {/* Actions Document */}
+                <Menu.Item onClick={() => handleDetailDoc(record.id_batiment)}>
+                  <FileTextOutlined /> Liste des docs
+                </Menu.Item>
+                <Menu.Item onClick={() => handleAjouterDoc(record.id_batiment)}>
+                  <FileTextOutlined /> Créer un doc
+                </Menu.Item>
+                <Menu.Divider />
+                {/* Actions Entrepot */}
+                {
+                  record.type_batiment === 'entrepot' &&
+                  <div>
+                      {/* Actions Bin */}
+                    <Menu.Item onClick={() => handleListBin(record.id_batiment)}>
+                      <ContainerOutlined /> Liste des bins
+                    </Menu.Item>
+                    <Menu.Item onClick={() => handleAddBin(record.id_batiment)}>
+                      <ContainerOutlined /> Nouveau Bin
+                    </Menu.Item>
+                    <Menu.Divider />
+                  </div>
+                }
+                {/* Actions Équipement */}
+                <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
+                  <ToolOutlined /> Liste d'équipement
+                </Menu.Item>
+                <Menu.Item onClick={() => handleAddEquipement(record.id_batiment)}>
+                  <ToolOutlined /> Nouveau équipement
+                </Menu.Item>
+                <Menu.Divider />
+                {/* Actions Bins */}
+    {/*             <Menu.Item onClick={() => handleListBin(record.id_batiment)}>
                   <ContainerOutlined /> Liste des bins
                 </Menu.Item>
                 <Menu.Item onClick={() => handleAddBin(record.id_batiment)}>
                   <ContainerOutlined /> Nouveau Bin
                 </Menu.Item>
-                <Menu.Divider />
-              </div>
-            }
-            {/* Actions Équipement */}
-            <Menu.Item onClick={() => handleListeEquipement(record.id_batiment)}>
-              <ToolOutlined /> Liste d'équipement
-            </Menu.Item>
-            <Menu.Item onClick={() => handleAddEquipement(record.id_batiment)}>
-              <ToolOutlined /> Nouveau équipement
-            </Menu.Item>
-            <Menu.Divider />
-            {/* Actions Bins */}
-{/*             <Menu.Item onClick={() => handleListBin(record.id_batiment)}>
-              <ContainerOutlined /> Liste des bins
-            </Menu.Item>
-            <Menu.Item onClick={() => handleAddBin(record.id_batiment)}>
-              <ContainerOutlined /> Nouveau Bin
-            </Menu.Item>
-            <Menu.Divider /> */}
-            {/* Actions Bureau */}
-            {record.type_batiment === "bureaux" &&
-              <div>
-                <Menu.Item onClick={() => handleListBureau(record.id_batiment)}>
-                  <BankOutlined /> Liste de bureau
-                </Menu.Item>
-                <Menu.Item onClick={() => handleAddBureau(record.id_batiment)}>
-                  <BankOutlined /> Créer un bureau
-                </Menu.Item>
-                <Menu.Divider />
-              </div>
-            }
-                <Menu.Item onClick={() => handListeNiveau(record.id_batiment)}>
-                  <ApartmentOutlined /> Liste des niveaux
-                </Menu.Item>
-                <Menu.Item onClick={() => handleAddNiveau(record.id_batiment)}>
-                  <ApartmentOutlined /> Créer un niveau
-                </Menu.Item>
-                <Menu.Divider />
+                <Menu.Divider /> */}
+                {/* Actions Bureau */}
+                {record.type_batiment === "bureaux" &&
+                  <div>
+                    <Menu.Item onClick={() => handleListBureau(record.id_batiment)}>
+                      <BankOutlined /> Liste de bureau
+                    </Menu.Item>
+                    <Menu.Item onClick={() => handleAddBureau(record.id_batiment)}>
+                      <BankOutlined /> Créer un bureau
+                    </Menu.Item>
+                    <Menu.Divider />
+                  </div>
+                }
+                    <Menu.Item onClick={() => handListeNiveau(record.id_batiment)}>
+                      <ApartmentOutlined /> Liste des niveaux
+                    </Menu.Item>
+                    <Menu.Item onClick={() => handleAddNiveau(record.id_batiment)}>
+                      <ApartmentOutlined /> Créer un niveau
+                    </Menu.Item>
+                    <Menu.Divider />
 
-                <Menu.Item onClick={() => handListeDenomination(record.id_batiment)}>
-                  <FileTextOutlined /> Liste des denominations
-                </Menu.Item>
-                <Menu.Item onClick={() => handleAddDenomination(record.id_batiment)}>
-                  <FileTextOutlined /> Créer une denomination
-                </Menu.Item>
-                <Menu.Divider />
- 
-                <Menu.Item onClick={() => handListeInstruction(record.id_batiment)}>
-                  <FileTextOutlined /> Liste d'instructions
-                </Menu.Item>
-                <Menu.Item onClick={() => handleAddInstruction(record.id_batiment)}>
-                  <FileTextOutlined /> Nouvel instruction
-                </Menu.Item>
-          </Menu>
-        )}
-        trigger={['click']}
-      >
-        <Button
-          icon={<MoreOutlined />}
-          style={{ color: 'black', padding: '0' }}
-          aria-label="Menu actions"
-        />
+                    <Menu.Item onClick={() => handListeDenomination(record.id_batiment)}>
+                      <FileTextOutlined /> Liste des denominations
+                    </Menu.Item>
+                    <Menu.Item onClick={() => handleAddDenomination(record.id_batiment)}>
+                      <FileTextOutlined /> Créer une denomination
+                    </Menu.Item>
+                    <Menu.Divider />
+    
+                    <Menu.Item onClick={() => handListeInstruction(record.id_batiment)}>
+                      <FileTextOutlined /> Liste d'instructions
+                    </Menu.Item>
+                    <Menu.Item onClick={() => handleAddInstruction(record.id_batiment)}>
+                      <FileTextOutlined /> Nouvel instruction
+                    </Menu.Item>
+              </Menu>
+            )}
+            trigger={['click']}
+          >
+            <Button
+              icon={<MoreOutlined />}
+              style={{ color: 'black', padding: '0' }}
+              aria-label="Menu actions"
+            />
           </Dropdown>
           <Tooltip title="Tableau de bord">
             <Button

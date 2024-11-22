@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,EyeOutlined, PrinterOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, HomeOutlined, FormOutlined, EyeOutlined,MoreOutlined, PrinterOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspection, putInspectionDelete } from '../../services/batimentService';
 import InstructionForm from './instructionForm/InstructionForm';
 import InstructionsDetail from './instructionsDetail/InstructionsDetail';
 import InstructionFormEdit from './instructionForm/InstructionFormEdit';
 import InstructionFormApres from './instructionForm/InspectionFormApres';
+import InspectionTache from './inspectionTache/InspectionTache';
 
 const { Search } = Input;
 
@@ -36,6 +37,12 @@ const Instructions = () => {
     openModal('addApres', id)
     setIdInspection(id)
   }
+
+  const handleTache = (id) => {
+    openModal('relieTache', id)
+    setIdInspection(id)
+  }
+
   const closeAllModals = () => {
     setModalType(null);
   };
@@ -173,14 +180,26 @@ const Instructions = () => {
                 style={{ color: 'blue' }}
               />
           </Tooltip>
-          <Tooltip title="Ajoutez l'inspection après">
-              <Button
-                icon={<PlusCircleOutlined />}
-                onClick={() => handleApres(record.id_inspection)}
-                aria-label="Ajoutez l'inspection après"
-                style={{ color: 'blue' }}
-              />
-          </Tooltip>
+          <Dropdown
+            overlay={(
+              <Menu>
+                <Menu.Item onClick={() => handleApres(record.id_inspection)}>
+                  <FormOutlined /> Faire encore une inspection
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item onClick={() => handleTache(record.id_inspection)}>
+                  <FormOutlined /> Relier tache
+                </Menu.Item>
+              </Menu>
+            )}
+            trigger={['click']}
+          >
+            <Button
+              icon={<MoreOutlined />}
+              style={{ color: 'black', padding: '0' }}
+              aria-label="Menu actions"
+            />
+          </Dropdown>
           <Tooltip title="Supprimer">
             <Popconfirm
               title="Etes-vous sûr de vouloir supprimer ce département ?"
@@ -296,6 +315,17 @@ const Instructions = () => {
         centered
       >
         <InstructionFormApres closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'relieTache'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+        <InspectionTache closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
       </Modal>
     </>
   );
