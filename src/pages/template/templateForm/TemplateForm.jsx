@@ -15,6 +15,7 @@ import DenominationForm from '../../batiment/denomination/denominationForm/Denom
 const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [client, setClient] = useState([]);
     const [typeOccupation, setTypeOccupation] = useState([]);
     const [batiment, setBatiment] = useState([]);
@@ -99,7 +100,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     }, [idTemplate]);
 
     const onFinish = async (values) => {
-        setIsLoading(true)
+        setLoading(true)
 
         try {
             if(idTemplate) {
@@ -119,7 +120,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
         } catch (error) {
             console.error("Erreur lors de l'enregistrement : ", error);
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     };
 
@@ -312,14 +313,10 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                         </Col>
                     </Row>
                 
-                    <Form.Item>
-                    {
-                        isLoading ? <Skeleton.Input active={true} /> : 
-                        <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
+                    <Form.Item> 
+                        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
                             { idTemplate ? 'Modifier' : 'Enregistrer'}
                         </Button>
-                    }
-    
                     </Form.Item>
                 </Form>
             </div>
