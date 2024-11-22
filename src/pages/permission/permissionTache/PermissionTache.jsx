@@ -108,7 +108,7 @@ const PermissionTache = ({idTache}) => {
             ),
         },
         {
-            title: <span style={{ color: '#52c41a' }}><EyeOutlined /></span>,
+            title: <span style={{ color: '#52c41a' }}>Voir <EyeOutlined /></span>,
             dataIndex: 'can_view',
             key: 'can_view',
             render: (text, record) => (
@@ -119,7 +119,7 @@ const PermissionTache = ({idTache}) => {
             ),
         },
         {
-            title: <span style={{ color: '#1890ff' }}><EditOutlined /></span>,
+            title: <span style={{ color: '#1890ff' }}>Modifier <EditOutlined /></span>,
             dataIndex: 'can_edit',
             key: 'can_edit',
             render: (text, record) => (
@@ -130,7 +130,7 @@ const PermissionTache = ({idTache}) => {
             ),
         },
         {
-            title: <span style={{ color: '#ff4d4f' }}><FormOutlined /></span>,
+            title: <span style={{ color: '#000' }}>Ajouter <FormOutlined /></span>,
             dataIndex: 'can_comment',
             key: 'can_comment',
             render: (text, record) => (
