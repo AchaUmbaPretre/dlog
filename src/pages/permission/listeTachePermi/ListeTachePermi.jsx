@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
 import { ClockCircleOutlined,InfoCircleOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
-import { getTache, getTacheAll } from '../../../services/tacheService';
+import { getTacheAll } from '../../../services/tacheService';
 import PermissionTache from '../permissionTache/PermissionTache';
 
 const { Search } = Input;
