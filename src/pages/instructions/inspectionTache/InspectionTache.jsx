@@ -74,33 +74,33 @@ const InspectionTache = ({ closeModal, fetchData, idInspection }) => {
         </div>
         <div className="controle_wrapper">
             <Form
-        form={form}
-        name="inspectionTache_form"
-        layout="vertical"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        style={{ maxWidth: 600, margin: '0 auto' }}
-        >
-        <Form.Item
-            label="Tâche"
-            name="id_tache"
-            rules={[{ required: true, message: 'Veuillez sélectionner une tâche' }]}
-        >
-            <Select placeholder="Sélectionnez une tâche">
-            {/* Affichage des tâches sans doublons */}
-            {data?.map((dd) => (
-                <Option key={dd.id_tache} value={dd.id_tache}>
-                {dd.nom_tache}
-                </Option>
-            ))}
-            </Select>
-        </Form.Item>
+                form={form}
+                name="inspectionTache_form"
+                layout="vertical"
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                style={{ maxWidth: 600, margin: '0 auto' }}
+            >
+                <Form.Item
+                    label="Tâche"
+                    name="id_tache"
+                    rules={[{ required: true, message: 'Veuillez sélectionner une tâche' }]}
+                >
+                    <Select placeholder="Sélectionnez une tâche">
+                    {/* Affichage des tâches sans doublons */}
+                    {data?.map((dd) => (
+                        <Option key={dd.id_tache} value={dd.id_tache}>
+                        {dd.nom_tache}
+                        </Option>
+                    ))}
+                    </Select>
+                </Form.Item>
 
-        <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-            Soumettre
-            </Button>
-        </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                        Soumettre
+                    </Button>
+                </Form.Item>
             </Form>
         </div>
     </div>

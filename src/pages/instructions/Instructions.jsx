@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, HomeOutlined, FormOutlined, EyeOutlined,MoreOutlined, PrinterOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, HomeOutlined, FileTextOutlined, FormOutlined, EyeOutlined,MoreOutlined, PrinterOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspection, putInspectionDelete } from '../../services/batimentService';
 import InstructionForm from './instructionForm/InstructionForm';
 import InstructionsDetail from './instructionsDetail/InstructionsDetail';
@@ -153,6 +153,20 @@ const Instructions = () => {
             <Space>
               <Tag color={"green"}>
                  {text}
+              </Tag>
+            </Space>
+          );
+        }
+      },
+      {
+        title: "Tache",
+        dataIndex: 'nom_tache',
+        key: 'nom_tache',
+        render: text => {
+          return (
+            <Space>
+              <Tag icon={<FileTextOutlined />} color={"cyan"}>
+                 {text ?? 'Aucune'}
               </Tag>
             </Space>
           );
