@@ -18,8 +18,6 @@ const PermissionTache = ({idTache}) => {
                 setData(users);
     
                 const permissionsData = await getPermissionsTache(idTache);
-
-                console.log(permissionsData);
     
                 const formattedPermissions = permissionsData.data.reduce((acc, permission) => {
                     acc[permission.id_user] = {

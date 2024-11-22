@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
 import { ClockCircleOutlined,InfoCircleOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
-import { getTache } from '../../../services/tacheService';
+import { getTache, getTacheAll } from '../../../services/tacheService';
 import PermissionTache from '../permissionTache/PermissionTache';
 
 const { Search } = Input;
@@ -20,7 +20,7 @@ const ListeTachePermi = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getTache();
+        const { data } = await getTacheAll();
         setData(data.taches);
         setLoading(false);
       } 

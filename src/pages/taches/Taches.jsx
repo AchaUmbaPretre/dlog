@@ -70,7 +70,7 @@ const Taches = () => {
   const [total, setTotal] = useState([]);
   const searchInput = useRef(null);
   const role = useSelector((state) => state.user?.currentUser.role);
-
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
@@ -113,7 +113,7 @@ const Taches = () => {
     setFilteredDatas(filters);
 
     try {
-        const response = await getTache(filters);
+        const response = await getTache(filters,userId);
 
         const groupedData = response.data.taches.reduce((acc, curr) => {
             const found = acc.find(item => item.id_tache === curr.id_tache);
