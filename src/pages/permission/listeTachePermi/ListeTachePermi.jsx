@@ -133,16 +133,6 @@ const ListeTachePermi = () => {
       }
     },
     { 
-      title: 'Fréquence', 
-      dataIndex: 'frequence', 
-      key: 'frequence',
-      render: text => (
-        <Space>
-          <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
-        </Space>
-      )
-    },
-    { 
       title: 'Corps metier', 
       dataIndex: 'nom_corps_metier', 
       key: 'nom_corps_metier',
