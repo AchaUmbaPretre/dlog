@@ -82,7 +82,6 @@ const Taches = () => {
     setSelectedTacheIds(newSelectedRowKeys);
   };
 
-
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
