@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button, notification, Select } from 'antd';
 import { putInspectionTache } from '../../../services/batimentService';
 import { getTache } from '../../../services/tacheService';
+import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 
@@ -9,11 +10,14 @@ const InspectionTache = ({ closeModal, fetchData, idInspection }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const role = useSelector((state) => state.user?.currentUser.role);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const [filters, setFilters] = useState('');
 
   // Fonction pour récupérer les tâches et éliminer les doublons par id_tache
   const fetchDataTache = async () => {
     try {
-      const { data } = await getTache();
+      const { data } = await getTache(filters, userId, role);
       
       // Eliminer les doublons en utilisant un Set basé sur id_tache
       const uniqueTasks = data.taches.reduce((acc, task) => {

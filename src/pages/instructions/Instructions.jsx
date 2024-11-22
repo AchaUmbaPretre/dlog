@@ -336,7 +336,7 @@ const Instructions = () => {
         visible={modalType === 'relieTache'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={700}
         centered
       >
         <InspectionTache closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
