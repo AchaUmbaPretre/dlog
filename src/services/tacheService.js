@@ -30,8 +30,8 @@ export const getTache = async (data, id) => {
   return axios.post(`${DOMAIN}/api/tache/tache?id_user=${id}`, data);
 };
 
-export const getTacheAll = async (data) => {
-  return axios.post(`${DOMAIN}/api/tache/tache_permissionAll`, data);
+export const getTacheAll = async () => {
+  return axios.post(`${DOMAIN}/api/tache/tache_permissionAll`);
 };
 
 export const getTacheDoc = async (user) => {

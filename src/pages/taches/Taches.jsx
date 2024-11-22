@@ -77,7 +77,6 @@ const Taches = () => {
     setNewPriority(record.priorite);
   };
 
-
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
     setSelectedTacheIds(newSelectedRowKeys);

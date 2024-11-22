@@ -27,7 +27,6 @@ const PermissionTache = ({idTache}) => {
                     };
                     return acc;
                 }, {});
-                console.log(formattedPermissions);  // Ajoutez ce log pour vérifier le contenu de formattedPermissions
     
                 setPermissions(formattedPermissions);
                 setLoading(false);
@@ -143,7 +142,6 @@ const PermissionTache = ({idTache}) => {
             ),
         },
     ];
-    
     
       const filteredData = data.filter(item =>
         item.nom?.toLowerCase().includes(searchValue.toLowerCase())
