@@ -26,8 +26,8 @@ export const getTacheCount = async () => {
   return axios.get(`${DOMAIN}/api/tache/count`);
 };
 
-export const getTache = async (data, id) => {
-  return axios.post(`${DOMAIN}/api/tache/tache?id_user=${id}`, data);
+export const getTache = async (data, id, role) => {
+  return axios.post(`${DOMAIN}/api/tache/tache?id_user=${id}&role=${role}`, data);
 };
 
 export const getTacheAll = async () => {

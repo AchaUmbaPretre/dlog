@@ -111,7 +111,7 @@ const Taches = () => {
     setFilteredDatas(filters);
 
     try {
-        const response = await getTache(filters,userId);
+        const response = await getTache(filters, userId, role);
 
         const groupedData = response.data.taches.reduce((acc, curr) => {
             const found = acc.find(item => item.id_tache === curr.id_tache);
