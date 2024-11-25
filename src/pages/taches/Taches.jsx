@@ -71,6 +71,10 @@ const Taches = () => {
   const searchInput = useRef(null);
   const role = useSelector((state) => state.user?.currentUser.role);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const [permissions, setPermissions] = useState({});
+  const [isAuthorizedToAdd, setIsAuthorizedToAdd] = useState(false);
+  const [isAuthorizedToEdit, setIsAuthorizedToEdit] = useState(false);
+  const [isAuthorizedToViews, setIsAuthorizedToViews] = useState(false);
 
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
@@ -113,6 +117,8 @@ const Taches = () => {
     try {
         const response = await getTache(filters, userId, role);
 
+        console.log(response.data.taches)
+
         const groupedData = response.data.taches.reduce((acc, curr) => {
             const found = acc.find(item => item.id_tache === curr.id_tache);
 
@@ -124,12 +130,26 @@ const Taches = () => {
             } else {
                 acc.push({
                     ...curr,
-                    nom_tag: [curr.nom_tag], // Initialisation des tags
+                    nom_tag: [curr.nom_tag],
                 });
             }
 
             return acc;
         }, []);
+
+        const permissionsMap = response.data.taches.reduce((acc, permission) => {
+          acc[userId] = {
+            can_comment: Boolean(permission.can_comment), // Correspond à can_comment dans vos données
+            can_edit: Boolean(permission.can_edit),  // Correspond à can_edit dans vos données
+            can_view: Boolean(permission.can_view), // Correspond à can_view dans vos données
+          };
+          return acc;
+        }, {});
+
+        setPermissions(permissionsMap);
+        setIsAuthorizedToAdd(permissionsMap[userId]?.can_comment || false); 
+        setIsAuthorizedToEdit(permissionsMap[userId]?.can_edit || false); 
+        setIsAuthorizedToViews(permissionsMap[userId]?.can_view || false); 
 
         setData(groupedData);
         setStatistique(response.data.statistiques);
@@ -143,6 +163,9 @@ const Taches = () => {
         setLoading(false);
     }
 };
+
+console.log(permissions)
+console.log(isAuthorizedToAdd)
 
 useEffect(() => {
     fetchData(filteredDatas);
@@ -193,7 +216,6 @@ const handleEdit = (idTache) => {
   const handleAjouterDoc = (idTache) => {
     openModal('DocumentTacheForm', idTache);
   };
-
 
   const handleTracking = (idTache) => {
     openModal('suivi', idTache);
@@ -542,13 +564,14 @@ const handleEdit = (idTache) => {
       key: 'action',
       width: '10%',
       render: (text, record) => (
-        role === 'Admin' ? (
+  
           <Space size="middle">
             <Tooltip title="Modifier">
               <Button
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
                 onClick={() => handleEdit(record.id_tache)}
+                disabled={role !== 'Admin'&& !permissions[userId]?.can_edit}
                 aria-label="Edit tache"
               />
             </Tooltip>
@@ -603,6 +626,7 @@ const handleEdit = (idTache) => {
                 disabled={selectedRowKeys.length === 0}
               />
             </Tooltip>
+            {role === 'Admin' ? (
             <Tooltip title="Supprimer">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer cette tâche ?"
@@ -617,8 +641,8 @@ const handleEdit = (idTache) => {
                 />
               </Popconfirm>
             </Tooltip>
+          ) : null}
           </Space>
-        ) : null
       )
     }
     
