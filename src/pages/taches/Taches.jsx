@@ -27,6 +27,8 @@ import DetailTacheGlobalOne from './detailTacheGlobalOne/DetailTacheGlobalOne';
 import UploadTacheExcel from './uploadTacheExcel/UploadTacheExcel';
 import TacheTagsForm from './tacheTagsForm/TacheTagsForm';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { PacmanLoader } from 'react-spinners';
 
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -72,10 +74,10 @@ const Taches = () => {
   const role = useSelector((state) => state.user?.currentUser.role);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [permissions, setPermissions] = useState({});
-  const [isAuthorizedToAdd, setIsAuthorizedToAdd] = useState(false);
-  const [isAuthorizedToEdit, setIsAuthorizedToEdit] = useState(false);
-  const [isAuthorizedToViews, setIsAuthorizedToViews] = useState(false);
-
+  const [isAuthorizedToAdd, setIsAuthorizedToAdd] = useState(null);
+  const [isAuthorizedToEdit, setIsAuthorizedToEdit] = useState(null);
+  const [isAuthorizedToViews, setIsAuthorizedToViews] = useState(null);
+  const navigate = useNavigate();
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
     setNewPriority(record.priorite);
@@ -116,8 +118,6 @@ const Taches = () => {
 
     try {
         const response = await getTache(filters, userId, role);
-
-        console.log(response.data.taches)
 
         const groupedData = response.data.taches.reduce((acc, curr) => {
             const found = acc.find(item => item.id_tache === curr.id_tache);
@@ -163,9 +163,6 @@ const Taches = () => {
         setLoading(false);
     }
 };
-
-console.log(permissions)
-console.log(isAuthorizedToAdd)
 
 useEffect(() => {
     fetchData(filteredDatas);
@@ -349,6 +346,14 @@ const handleEdit = (idTache) => {
     const colors = ['blue', 'green', 'red', 'yellow', 'orange', 'purple', 'cyan', 'magenta'];
     return colors[index % colors.length];
   };
+
+  if (isAuthorizedToViews === null) return <div className="spinnerContainer">
+                                                <PacmanLoader color="rgb(131, 159, 241)" loading={loading} height={15} radius={2} margin={2} />
+                                              </div>;
+  if (!isAuthorizedToViews) {
+      notification.error({ message: 'Accès refusé', description: "Vous n'avez pas l'autorisation." });
+      return navigate('/');
+    }
 
   const columns = [
     {
