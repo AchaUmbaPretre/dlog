@@ -577,12 +577,12 @@ const handleEdit = (idTache) => {
               <Button
                 icon={<EyeOutlined />}
                 onClick={() => handleViewDetails(record.id_tache)}
-                disabled={role !== 'Admin'&& !permissions[userId]?.can_view}
+                disabled={role !== 'Admin' && !permissions[record.id_tache]?.can_view}
                 aria-label="Voir les détails de la tâche"
                 style={{ color: 'blue' }}
               />
             </Tooltip>
-            {role == 'Admin'&& permissions[userId]?.can_edit ? (
+            { role === 'Admin' || permissions[record.id_tache]?.can_comment ? (
               <Popover
               content={
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
