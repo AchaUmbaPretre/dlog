@@ -28,8 +28,6 @@ import UploadTacheExcel from './uploadTacheExcel/UploadTacheExcel';
 import TacheTagsForm from './tacheTagsForm/TacheTagsForm';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { PacmanLoader } from 'react-spinners';
-
 const { Search } = Input;
 const { Panel } = Collapse;
 
@@ -576,6 +574,7 @@ const handleEdit = (idTache) => {
               <Button
                 icon={<EyeOutlined />}
                 onClick={() => handleViewDetails(record.id_tache)}
+                disabled={role !== 'Admin'&& !permissions[userId]?.can_view}
                 aria-label="Voir les détails de la tâche"
                 style={{ color: 'blue' }}
               />
@@ -611,6 +610,7 @@ const handleEdit = (idTache) => {
                   icon={<MoreOutlined />}
                   style={{ color: 'black' }}
                   aria-label="Menu options"
+                  disabled={role !== 'Admin'&& !permissions[userId]?.can_view}
                 />
               </Tooltip>
             </Popover>
@@ -915,7 +915,6 @@ const handleEdit = (idTache) => {
                   />
                 </div>
                 <div className="client-rows-right">
-                { isAuthorizedToAdd &&
                   <Button
                     type="primary"
                     icon={<PlusCircleOutlined />}
@@ -923,7 +922,6 @@ const handleEdit = (idTache) => {
                   >
                     Tâche
                   </Button>
-                }
                   <Button
                     className="button-excel"
                     icon={<FileExcelOutlined />}
