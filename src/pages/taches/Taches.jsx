@@ -143,11 +143,6 @@ const Taches = () => {
         }, {});
 
         setPermissions(permissionsMap);
-        
-        setIsAuthorizedToAdd(permissionsMap[userId]?.can_comment || false); 
-        setIsAuthorizedToEdit(permissionsMap[userId]?.can_edit || false); 
-        setIsAuthorizedToViews(permissionsMap[userId]?.can_view || false); 
-
         setData(groupedData);
         setStatistique(response.data.statistiques);
         setTotal(response.data.total_taches);
