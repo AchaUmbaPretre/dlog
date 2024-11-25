@@ -601,9 +601,11 @@ const handleEdit = (idTache) => {
                   <Link onClick={() => handleAjouterDoc(record.id_tache)}>
                     <FileTextOutlined /> Ajouter un doc
                   </Link>
+                  { role === 'Manager' &&
                   <Link onClick={() => handleAuto(record.id_tache)}>
-                    <UnlockOutlined/> Ajouter un tag
+                    <UnlockOutlined/> Permission
                   </Link>
+                  }
                 </div>
               }
               title=""
