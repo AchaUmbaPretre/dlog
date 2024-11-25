@@ -4,6 +4,7 @@ import { ClockCircleOutlined,EyeOutlined,CheckSquareOutlined,RocketOutlined,Chec
 import moment from 'moment';
 import { estSupprimeSuivi, getSuiviTacheOne } from '../../services/suiviService';
 import DetailGlobalTracking from './detailGlobalTracking/DetailGlobalTracking';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -14,10 +15,13 @@ const ListeTrackingGlobal = () => {
   const [modalType, setModalType] = useState(null);
   const [idTrack, setIdTrack] = useState('')
   const scroll = { x: 400 };
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const role = useSelector((state) => state.user?.currentUser.role);
+
 
     const fetchData = async () => {
       try {
-        const { data } = await getSuiviTacheOne();
+        const { data } = await getSuiviTacheOne(userId);
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -89,7 +93,6 @@ const ListeTrackingGlobal = () => {
       },
     },
   };
-
 
   const columns = [
     {
@@ -180,7 +183,7 @@ const ListeTrackingGlobal = () => {
     item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase())
   );
-  
+
   return (
     <>
       <div className="client">
