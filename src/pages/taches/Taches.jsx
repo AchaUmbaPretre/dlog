@@ -136,15 +136,18 @@ const Taches = () => {
         }, []);
 
         const permissionsMap = response.data.taches.reduce((acc, permission) => {
-          acc[userId] = {
-            can_comment: Boolean(permission.can_comment), // Correspond à can_comment dans vos données
-            can_edit: Boolean(permission.can_edit),  // Correspond à can_edit dans vos données
-            can_view: Boolean(permission.can_view), // Correspond à can_view dans vos données
-          };
+          if (!acc[permission.id_tache]) {
+            acc[permission.id_tache] = {
+              can_comment: Boolean(permission.can_comment),
+              can_edit: Boolean(permission.can_edit),
+              can_view: Boolean(permission.can_view),
+            };
+          }
           return acc;
         }, {});
 
         setPermissions(permissionsMap);
+        
         setIsAuthorizedToAdd(permissionsMap[userId]?.can_comment || false); 
         setIsAuthorizedToEdit(permissionsMap[userId]?.can_edit || false); 
         setIsAuthorizedToViews(permissionsMap[userId]?.can_view || false); 
@@ -566,7 +569,7 @@ const handleEdit = (idTache) => {
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
                 onClick={() => handleEdit(record.id_tache)}
-                disabled={role !== 'Admin'&& !permissions[userId]?.can_edit}
+                disabled={role !== 'Admin' && !permissions[record.id_tache]?.can_edit}
                 aria-label="Edit tache"
               />
             </Tooltip>
@@ -579,7 +582,8 @@ const handleEdit = (idTache) => {
                 style={{ color: 'blue' }}
               />
             </Tooltip>
-            <Popover
+            {role == 'Admin'&& permissions[userId]?.can_edit ? (
+              <Popover
               content={
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   <Link onClick={() => handleTracking(record.id_tache)}>
@@ -610,10 +614,21 @@ const handleEdit = (idTache) => {
                   icon={<MoreOutlined />}
                   style={{ color: 'black' }}
                   aria-label="Menu options"
-                  disabled={role !== 'Admin'&& !permissions[userId]?.can_view}
                 />
               </Tooltip>
             </Popover>
+            ) : 
+            (
+              <Tooltip title="Vous n'avez pas l'autorisation">
+                <Button
+                  icon={<MoreOutlined />}
+                  style={{ color: 'grey', cursor: 'not-allowed' }}
+                  aria-label="Menu désactivé"
+                  disabled
+                />
+              </Tooltip>
+            )
+            }
             <Tooltip title="Pdf">
               <Button
                 icon={<FilePdfOutlined />}
