@@ -6,13 +6,16 @@ const { Option } = Select;
 
 const FormUsers = ({userId, close, fetchData}) => {
     const [form] = Form.useForm();
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [provinces, setProvinces] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [usersData] = await Promise.all([
-                    getUserOne(userId)
+                const [usersData,provinceData] = await Promise.all([
+                    getUserOne(userId),
+                    setProvinces(provinceData.data)
+
                 ]);
                     const { data: user } = usersData;
                 form.setFieldsValue(user[0]);
@@ -125,6 +128,25 @@ const FormUsers = ({userId, close, fetchData}) => {
                   <Option value="Owner">Owner</Option>
                   <Option value="Manager">Manager</Option>
                 </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Ville"
+                name="id_ville"
+                rules={[{ required: true, message: 'La ville est obligatoire' }]}
+              >
+                <Select
+                  showSearch
+                  options={provinces?.map((item) => ({
+                    value: item.id,
+                    label: item.capital,
+                    }))}
+                  placeholder="Sélectionnez une ville..."
+                  optionFilterProp="label"
+                  />
               </Form.Item>
             </Col>
           </Row>
