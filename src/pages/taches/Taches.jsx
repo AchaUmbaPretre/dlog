@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton } from 'antd';
 import { 
-  ExportOutlined, WarningOutlined,MoreOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
+  ExportOutlined, WarningOutlined,MoreOutlined, UnlockOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
   CalendarOutlined, TeamOutlined,FileExcelOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
@@ -28,6 +28,7 @@ import UploadTacheExcel from './uploadTacheExcel/UploadTacheExcel';
 import TacheTagsForm from './tacheTagsForm/TacheTagsForm';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import PermissionTache from '../permission/permissionTache/PermissionTache';
 const { Search } = Input;
 const { Panel } = Collapse;
 
@@ -226,6 +227,10 @@ const handleEdit = (idTache) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const handleAuto = (idTache) => {
+    openModal('addAuto', idTache);
+  }
 
   const handleExportExcel = () => {
     const filteredData = data.map(({ id_tache,id_controle, ...rest }) => rest);
@@ -568,12 +573,16 @@ const handleEdit = (idTache) => {
               <Button
                 icon={<EyeOutlined />}
                 onClick={() => handleViewDetails(record.id_tache)}
-                disabled={role !== 'Admin' && !permissions[record.id_tache]?.can_view}
+                disabled={
+                  role !== 'Admin' && 
+                  !(role === 'Manager' && permissions[record.id_tache]?.can_view)
+                }
                 aria-label="Voir les détails de la tâche"
-                style={{ color: 'blue' }}
+                className="view-details-btn"
               />
             </Tooltip>
-            { role === 'Admin' || permissions[record.id_tache]?.can_comment ? (
+
+            { role === 'Admin' || role === 'Manager' || permissions[record.id_tache]?.can_comment ? (
               <Popover
               content={
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -592,9 +601,9 @@ const handleEdit = (idTache) => {
                   <Link onClick={() => handleAjouterDoc(record.id_tache)}>
                     <FileTextOutlined /> Ajouter un doc
                   </Link>
-{/*                   <Link onClick={() => handleAddTag(record.id_tache)}>
-                    <TagOutlined /> Ajouter un tag
-                  </Link> */}
+                  <Link onClick={() => handleAuto(record.id_tache)}>
+                    <UnlockOutlined/> Ajouter un tag
+                  </Link>
                 </div>
               }
               title=""
@@ -607,18 +616,18 @@ const handleEdit = (idTache) => {
                   aria-label="Menu options"
                 />
               </Tooltip>
-            </Popover>
-            ) : 
-            (
-              <Tooltip title="Vous n'avez pas l'autorisation">
-                <Button
-                  icon={<MoreOutlined />}
-                  style={{ color: 'grey', cursor: 'not-allowed' }}
-                  aria-label="Menu désactivé"
-                  disabled
-                />
-              </Tooltip>
-            )
+              </Popover>
+              ) : 
+              (
+                <Tooltip title="Vous n'avez pas l'autorisation">
+                  <Button
+                    icon={<MoreOutlined />}
+                    style={{ color: 'grey', cursor: 'not-allowed' }}
+                    aria-label="Menu désactivé"
+                    disabled
+                  />
+                </Tooltip>
+              )
             }
             <Tooltip title="Pdf">
               <Button
@@ -1103,6 +1112,17 @@ const handleEdit = (idTache) => {
         centered
       >
         <TacheTagsForm idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'addAuto'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1070}
+        centered
+      >
+        <PermissionTache idTache={idTache}/>
       </Modal>
     </>
   );
