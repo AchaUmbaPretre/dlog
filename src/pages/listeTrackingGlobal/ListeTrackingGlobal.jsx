@@ -180,6 +180,7 @@ const ListeTrackingGlobal = () => {
     item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase())
   );
+  
   return (
     <>
       <div className="client">
