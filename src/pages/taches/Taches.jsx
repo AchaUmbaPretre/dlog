@@ -72,10 +72,6 @@ const Taches = () => {
   const role = useSelector((state) => state.user?.currentUser.role);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [permissions, setPermissions] = useState({});
-  const [isAuthorizedToAdd, setIsAuthorizedToAdd] = useState(null);
-  const [isAuthorizedToEdit, setIsAuthorizedToEdit] = useState(null);
-  const [isAuthorizedToViews, setIsAuthorizedToViews] = useState(null);
-  const navigate = useNavigate();
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
     setNewPriority(record.priorite);
