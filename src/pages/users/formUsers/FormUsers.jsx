@@ -26,10 +26,9 @@ const FormUsers = ({userId, close, fetchData}) => {
                 console.log(error)
             }
         };
-    
+  
         fetchData();
     }, [userId, form])
-    
 
   const onFinish = async(values) => {
     setIsLoading(true);
@@ -132,8 +131,6 @@ const FormUsers = ({userId, close, fetchData}) => {
                 </Select>
               </Form.Item>
             </Col>
-          </Row>
-          <Row gutter={16}>
             <Col span={12}>
               <Form.Item
                 label="Ville"
@@ -152,6 +149,7 @@ const FormUsers = ({userId, close, fetchData}) => {
               </Form.Item>
             </Col>
           </Row>
+
           <Form.Item>
             <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
               { userId ? "Modifier" : "Créer l'Utilisateur"}
