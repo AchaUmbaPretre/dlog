@@ -788,6 +788,7 @@ const handleEdit = (idTache) => {
                         icon={<EditOutlined />}
                         style={{ color: 'green' }}
                         onClick={() => handleEdit(record.id_tache)}
+                        disabled={role !== 'Admin' && !permissions[record.id_tache]?.can_edit}
                         aria-label="Edit tache"
                       />
                     </Tooltip>
@@ -795,11 +796,13 @@ const handleEdit = (idTache) => {
                       <Button
                         icon={<EyeOutlined />}
                         onClick={() => handleViewDetails(record.id_tache)}
+                        disabled={role !== 'Admin' && !permissions[record.id_tache]?.can_view}
                         aria-label="Voir les détails de la tâche"
                         style={{ color: 'blue' }}
                       />
                     </Tooltip>
-                    <Popover
+                    { role === 'Admin' || permissions[record.id_tache]?.can_comment ? (
+                      <Popover
                       content={
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                           <Link onClick={() => handleTracking(record.id_tache)}>
@@ -827,6 +830,18 @@ const handleEdit = (idTache) => {
                         />
                       </Tooltip>
                     </Popover>
+                    ) : 
+                    (
+                      <Tooltip title="Vous n'avez pas l'autorisation">
+                        <Button
+                          icon={<MoreOutlined />}
+                          style={{ color: 'grey', cursor: 'not-allowed' }}
+                          aria-label="Menu désactivé"
+                          disabled
+                        />
+                      </Tooltip>
+                    )
+                    }
                     <Tooltip title="Supprimer">
                       <Popconfirm
                         title="Êtes-vous sûr de vouloir supprimer cette tâche ?"
