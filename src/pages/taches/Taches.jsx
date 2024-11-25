@@ -347,14 +347,6 @@ const handleEdit = (idTache) => {
     return colors[index % colors.length];
   };
 
-  if (isAuthorizedToViews === null) return <div className="spinnerContainer">
-                                                <PacmanLoader color="rgb(131, 159, 241)" loading={loading} height={15} radius={2} margin={2} />
-                                              </div>;
-  if (!isAuthorizedToViews) {
-      notification.error({ message: 'Accès refusé', description: "Vous n'avez pas l'autorisation." });
-      return navigate('/');
-    }
-
   const columns = [
     {
       title: '#',
