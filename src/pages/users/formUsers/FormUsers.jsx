@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Select, Row, Col, notification } from 'antd';
 import { getUserOne, postUser, putUser } from '../../../services/userService';
+import { getProvince } from '../../../services/clientService';
 
 const { Option } = Select;
 
@@ -14,10 +15,11 @@ const FormUsers = ({userId, close, fetchData}) => {
             try {
                 const [usersData,provinceData] = await Promise.all([
                     getUserOne(userId),
-                    setProvinces(provinceData.data)
-
+                    getProvince()
                 ]);
-                    const { data: user } = usersData;
+
+                setProvinces(provinceData.data)
+                const { data: user } = usersData;
                 form.setFieldsValue(user[0]);
     
             } catch (error) {
