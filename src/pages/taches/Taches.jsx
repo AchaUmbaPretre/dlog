@@ -923,6 +923,7 @@ const handleEdit = (idTache) => {
                   />
                 </div>
                 <div className="client-rows-right">
+                { isAuthorizedToAdd &&
                   <Button
                     type="primary"
                     icon={<PlusCircleOutlined />}
@@ -930,6 +931,7 @@ const handleEdit = (idTache) => {
                   >
                     Tâche
                   </Button>
+                }
                   <Button
                     className="button-excel"
                     icon={<FileExcelOutlined />}
