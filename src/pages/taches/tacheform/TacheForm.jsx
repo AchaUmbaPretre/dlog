@@ -21,6 +21,7 @@ import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 import CorpsMetierForm from '../../corpsMetier/corpsMetierForm/CorpsMetierForm';
 import ListeCatTacheForm from '../../listCatTache/listeCatTacheForm/ListeCatTacheForm';
 import ClientForm from '../../client/clientForm/ClientForm';
+import { useSelector } from 'react-redux';
 
 const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [form] = Form.useForm();
@@ -40,7 +41,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
     const [editorContent, setEditorContent] = useState('');
     const [totalCost, setTotalCost] = useState(0);
     const [modalType, setModalType] = useState(null);
-
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const handlDepartement = () => openModal('AddDepartement');
     const handOwner = () => openModal('AddOwner');
@@ -159,6 +160,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData}) => {
             ...values,
             id_control : idControle,
             id_projet: idProjet,
+            user_cr: userId,
             categories
         }
         setIsLoading(true);

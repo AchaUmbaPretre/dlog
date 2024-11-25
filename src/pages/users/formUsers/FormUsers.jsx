@@ -123,6 +123,7 @@ const FormUsers = ({userId, close, fetchData}) => {
                 <Select>
                   <Option value="Admin">Admin</Option>
                   <Option value="Owner">Owner</Option>
+                  <Option value="Manager">Manager</Option>
                 </Select>
               </Form.Item>
             </Col>
