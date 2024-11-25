@@ -892,6 +892,7 @@ const handleEdit = (idTache) => {
               </div>
               <h2 className="client-h2">Tâches</h2>
             </div>
+            { role === 'Admin' && 
             <div className='client-row-lefts'>
               <span className='client-title'>
               Tâches trouvées : {loading ? <Skeleton.Input style={{ width: 100 }} active size='small' /> : total}
@@ -908,6 +909,7 @@ const handleEdit = (idTache) => {
                 )}
               </div>
             </div>
+            }
           </div>
           {filterVisible && <FilterTaches onFilter={handleFilterChange}/>}
           <Tabs defaultActiveKey="0">
