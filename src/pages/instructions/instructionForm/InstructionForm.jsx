@@ -7,7 +7,7 @@ import { getBatiment } from '../../../services/typeService';
 const { TextArea } = Input;
 const { Option } = Select;
 
-const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection}) => {
+const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTache}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
@@ -51,6 +51,7 @@ useEffect(() => {
     const uploadedFiles = values.img.map((file) => file.originFileObj);
 
     const formData = new FormData();
+    formData.append('id_tache', idTache);
     formData.append('id_batiment', values.id_batiment);
     formData.append('commentaire', values.commentaire);
     formData.append('id_type_photo', values.id_type_photo);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
-import { InfoCircleOutlined,LinkOutlined,FileAddOutlined,ProjectOutlined, EditOutlined, DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined,LinkOutlined,FormOutlined,FileAddOutlined,ProjectOutlined, EditOutlined, DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
@@ -13,6 +13,7 @@ import TacheDoc from '../tacheDoc/TacheDoc';
 import TacheProjet from '../tacheProjet/TacheProjet';
 import ProjetAssocieForm from '../projetAssocie/ProjetAssocieForm';
 import SuiviTache from '../suiviTache/SuiviTache';
+import InstructionForm from '../../instructions/instructionForm/InstructionForm';
 
 const { Title, Text } = Typography;
 
@@ -77,7 +78,9 @@ useEffect(() => {
   const handleDoc = () => openModal('document');
   const handleTiming = () => openModal('timing');
   const handleEditer = () => openModal('edite');
-  const handleAssocierProjet = () => openModal('associe_projet')
+  const handleAssocierProjet = () => openModal('associe_projet');
+  const handleInspection = () => openModal('add_inspection');
+
 
   const goToNextTache = () => {
     setIdTache((prevId) => prevId + 1);
@@ -270,6 +273,30 @@ useEffect(() => {
                 onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
                 <LinkOutlined /> {/* Icône pour associer un projet */}
+              </div>
+            </Tooltip>
+
+            <Tooltip title="Créer une inspection">
+              <div 
+                onClick={handleInspection} 
+                style={{
+                  background:'#f50',
+                  height:'30px',
+                  width:'30px',
+                  borderRadius:'50%',
+                  display:'flex',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  color:'#fff',
+                  marginLeft:'10px',
+                  cursor:'pointer',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <FormOutlined />
               </div>
             </Tooltip>
           </div>
@@ -481,6 +508,17 @@ useEffect(() => {
         centered
       >
         <ProjetAssocieForm idTache={idTache} fetchData={fetchData} closeModal={()=>setModalType(null)} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'add_inspection'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={700}
+        centered
+      >
+        <InstructionForm idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={''} idTache={idTache}/>
       </Modal>
 
     </div>

@@ -15,7 +15,6 @@ const InstructionFormApres = ({closeModal, fetchData, idInspection}) => {
   const [typePhoto, setTypePhoto] = useState([])
 
 
-
   const fetchDataAll = async() => {
     setLoading(true)
 
