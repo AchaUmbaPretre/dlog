@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, notification, Space,Tag } from 'antd';
-import { ClockCircleOutlined, PlusCircleOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ApartmentOutlined, UserOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, PlusCircleOutlined, AuditOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ApartmentOutlined, UserOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getAuditLog } from '../../../services/tacheService';
 import moment from 'moment';
 
@@ -36,30 +36,7 @@ const AuditLogTache = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const statusIcons = {
-    'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
-    'En cours': { icon: <HourglassOutlined />, color: 'blue' },
-    'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
-    'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
-    'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
-    'Budget': { icon: <DollarOutlined />, color: 'gold' },
-    'Executé': { icon: <RocketOutlined />, color: 'cyan' },
-  };
-
-  const handleViewDetails = (idTache) => {
-    openModal('detail', idTache);
-  };
-
-  const closeAllModals = () => {
-    setModalType(null);
-  };
-
-  const openModal = (type, idTache = '') => {
-    closeAllModals();
-    setModalType(type);
-    setIdTache(idTache);
-  };  
+  
 
   const columnStyles = {
     title: {
@@ -105,7 +82,7 @@ const AuditLogTache = () => {
       dataIndex: 'nom_tache', 
       key: 'nom_tache', 
       render: (text, record) => (
-        <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id_tache)}>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll} >
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
@@ -176,7 +153,7 @@ const AuditLogTache = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <FileTextOutlined className='client-icon' />
+              <AuditOutlined className='client-icon' />
             </div>
             <h2 className="client-h2">Liste des audit logs tache</h2>
           </div>
