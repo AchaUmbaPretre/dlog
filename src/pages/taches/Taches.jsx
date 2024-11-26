@@ -96,7 +96,7 @@ const Taches = () => {
 
   const handleDelete = async (id) => {
     try {
-       await deletePutTache(id);
+       await deletePutTache(id, userId);
       setData(data.filter((item) => item.id_tache !== id));
       message.success('Tache a ete supprimée avec succès');
     } catch (error) {

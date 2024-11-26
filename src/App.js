@@ -51,6 +51,7 @@ import TacheForm from './pages/taches/tacheform/TacheForm';
 import Adresse from './pages/adresse/Adresse';
 import Instructions from './pages/instructions/Instructions';
 import CatInspection from './pages/catInspection/CatInspection';
+import AuditLogsTache from './pages/taches/auditLogsTache/AuditLogsTache';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -194,6 +195,10 @@ function App() {
         {
           path: '/tags',
           element: <Tags/>
+        },
+        {
+          path: '/auditLogs',
+          element: <AuditLogsTache/>
         },
         {
           path: '/article',

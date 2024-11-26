@@ -90,8 +90,8 @@ export const putTacheDoc = async (id, data) => {
   });
 };
 
-export const deletePutTache = async (id) => {
-  return axios.put(`${DOMAIN}/api/tache/supprime_put?id=${id}`);
+export const deletePutTache = async (id,userId) => {
+  return axios.put(`${DOMAIN}/api/tache/supprime_put?id=${id}`,{user_id:userId});
 };
 
 export const deleteTache = async (id) => {
@@ -146,4 +146,9 @@ export const postTacheProjet = async (data) => {
 //Projet associé
 export const putProjetAssocie = async (data) => {
   return axios.put(`${DOMAIN}/api/tache/projet_associe?id_tache=${data.id_tache}`, data.id_projet);
+}
+
+//Audit log
+export const getAuditLog = async () => {
+  return axios.get(`${DOMAIN}/api/tache/audit_logs`)
 }
