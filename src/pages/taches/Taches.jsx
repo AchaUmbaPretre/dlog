@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton } from 'antd';
 import { 
   ExportOutlined, WarningOutlined,MoreOutlined, UnlockOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
-  CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
+  CheckSquareOutlined,EnvironmentOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
   CalendarOutlined, TeamOutlined,FileExcelOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
@@ -27,7 +27,6 @@ import DetailTacheGlobalOne from './detailTacheGlobalOne/DetailTacheGlobalOne';
 import UploadTacheExcel from './uploadTacheExcel/UploadTacheExcel';
 import TacheTagsForm from './tacheTagsForm/TacheTagsForm';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import PermissionTache from '../permission/permissionTache/PermissionTache';
 const { Search } = Input;
 const { Panel } = Collapse;
@@ -54,7 +53,8 @@ const Taches = () => {
     "Owner": true,
     "nom_corps_metier": false,
     "Tag" : false,
-    "Categorie" : false
+    "Categorie" : false,
+    "Ville" : false
   });
   const [pagination, setPagination] = useState({
     current: 1,
@@ -533,6 +533,17 @@ const handleEdit = (idTache) => {
         </Space>
       ),
       ...(columnsVisibility['Categorie'] ? {} : { className: 'hidden-column' })
+    },
+    { 
+      title: 'Ville', 
+      dataIndex: 'ville', 
+      key: 'ville',
+      render: text => (
+        <Space>
+          <Tag color='red' icon={<EnvironmentOutlined />}>{text ?? 'Aucun'}</Tag>
+        </Space>
+      ),
+      ...(columnsVisibility['Ville'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Owner', 
