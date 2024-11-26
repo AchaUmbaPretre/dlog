@@ -21,7 +21,7 @@ const ListeTrackingGlobal = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getSuiviTacheOne(userId);
+        const { data } = await getSuiviTacheOne(userId, role);
         setData(data);
         setLoading(false);
       } catch (error) {
