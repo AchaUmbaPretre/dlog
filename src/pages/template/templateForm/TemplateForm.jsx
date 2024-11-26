@@ -22,7 +22,6 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [idBatiment, setIdBatiment] = useState('');
     const [niveau, setNiveau] = useState([]);
     const [denomination, setDenomination] = useState([]);
-    const [whse_fact, setWhse_fact] = useState([]);
     const [modalType, setModalType] = useState(null);
     const [objet, setObjet] = useState([]);
     const navigate = useNavigate();
@@ -44,14 +43,13 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
             setObjet(objetData.data);
 
             if (idBatiment) {
-                const [niveauData, denominationData, whseData] = await Promise.all([
+                const [niveauData, denominationData] = await Promise.all([
                     getNiveauOne(idBatiment),
                     getDenominationOne(idBatiment),
 /*                     getWHSEFACTOne(idBatiment)
  */                ]);
                 setNiveau(niveauData.data);
                 setDenomination(denominationData.data);
-                setWhse_fact(whseData.data);
             }
         } catch (error) {
             console.error('Error fetching data:', error);
