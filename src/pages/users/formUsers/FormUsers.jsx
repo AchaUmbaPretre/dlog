@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Select, Row, Col, notification } from 'antd';
 import { getUserOne, postUser, putUser } from '../../../services/userService';
 import { getProvince } from '../../../services/clientService';
+import { getDepartement } from '../../../services/departementService';
 
 const { Option } = Select;
 
@@ -9,16 +10,19 @@ const FormUsers = ({userId, close, fetchData}) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
+    const [departement, setDepartement] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [usersData,provinceData] = await Promise.all([
+                const [usersData,provinceData, departementData] = await Promise.all([
                     getUserOne(userId),
-                    getProvince()
+                    getProvince(),
+                    getDepartement(),
                 ]);
 
                 setProvinces(provinceData.data)
+                setDepartement(departementData.data)
                 const { data: user } = usersData;
                 form.setFieldsValue(user[0]);
     
@@ -135,7 +139,7 @@ const FormUsers = ({userId, close, fetchData}) => {
               <Form.Item
                 label="Ville"
                 name="id_ville"
-                rules={[{ required: true, message: 'La ville est obligatoire' }]}
+                rules={[{ required: false, message: 'La ville est obligatoire' }]}
               >
                 <Select
                   showSearch
@@ -146,6 +150,29 @@ const FormUsers = ({userId, close, fetchData}) => {
                   placeholder="Sélectionnez une ville..."
                   optionFilterProp="label"
                   />
+              </Form.Item>
+            </Col>
+
+            <Col xs={24} md={24}>
+              <Form.Item
+                name="id_departement"
+                label="Département"
+                rules={[
+                        {
+                          required: false,
+                          message: 'Veuillez sélectionner un département.',
+                        },
+                      ]}
+              >
+                <Select
+                  showSearch
+                  options={departement.map((item) => ({
+                          value: item.id_departement,
+                          label: item.nom_departement,
+                  }))}
+                  placeholder="Sélectionnez un département..."
+                  optionFilterProp="label"
+                />
               </Form.Item>
             </Col>
           </Row>
