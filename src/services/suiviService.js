@@ -11,7 +11,6 @@ export const getSuiviOne = async (id) => {
     return axios.get(`${DOMAIN}/api/suivi/one?id_suivi=${id}`);
   };
 
-
   export const getTrackingAllOne = async (id) => {
     return axios.get(`${DOMAIN}/api/suivi/tracking_all_one?id_tache=${id}`);
   };
@@ -27,7 +26,6 @@ export const getSuiviTacheOne = async (id, role) => {
   export const getSuiviTacheOneV = async (id) => {
     return axios.get(`${DOMAIN}/api/suivi/suiviTacheOneV?id_tache=${id}`);
   };
-
 
 export const postSuivi = async (data) => {
   return axios.post(`${DOMAIN}/api/suivi`, data);
