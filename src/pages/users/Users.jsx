@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input,Tooltip, Tag, message,Popconfirm, Dropdown, Menu, notification, Space } from 'antd';
-import { ExportOutlined,SafetyOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { ExportOutlined,SafetyOutlined, EnvironmentOutlined, ApartmentOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
@@ -111,6 +111,24 @@ const Users = () => {
       render: text => (
         <Space>
           <Tag icon={<MailOutlined />} color='blue'>{text}</Tag>
+        </Space>
+      ),
+    },
+    { title: 'Ville', 
+      dataIndex: 'name', 
+      key: 'name',
+      render: text => (
+        <Space>
+          <Tag icon={<EnvironmentOutlined />} color='red'>{text ?? 'N/A'}</Tag>
+        </Space>
+      ),
+    },
+    { title: 'Departement', 
+      dataIndex: 'nom_departement', 
+      key: 'nom_departement',
+      render: text => (
+        <Space>
+          <Tag icon={<ApartmentOutlined />} color='cyan'>{text ?? 'N/A'}</Tag>
         </Space>
       ),
     },
