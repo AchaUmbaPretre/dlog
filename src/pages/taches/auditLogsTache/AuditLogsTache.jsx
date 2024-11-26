@@ -110,7 +110,7 @@ const AuditLogTache = () => {
       ),
     },
     {
-      title: 'Action', 
+      title: 'Actions', 
       dataIndex: 'action', 
       key: 'action',
       render: text => {
