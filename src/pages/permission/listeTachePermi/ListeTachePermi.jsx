@@ -133,17 +133,7 @@ const ListeTachePermi = () => {
       }
     },
     { 
-      title: 'Corps metier', 
-      dataIndex: 'nom_corps_metier', 
-      key: 'nom_corps_metier',
-      render: text => (
-        <Space>
-          <Tag color='blue'>{text ?? 'Aucun'}</Tag>
-        </Space>
-      ),
-    },
-    { 
-      title: 'Categorie', 
+      title: 'Cat', 
       dataIndex: 'id_cat_tache', 
       key: 'id_cat_tache',
       render: text => (
