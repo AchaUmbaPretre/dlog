@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './topBar.scss';
 import { useNavigate } from 'react-router-dom';
-import { Popover, Button, Divider, message, Select } from 'antd';
+import { Popover, Button, Divider, message, Select, Badge, List } from 'antd';
 import { BellOutlined, DashOutlined, MailOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png';
 import { useSelector } from 'react-redux';
@@ -9,39 +9,58 @@ import { logout } from '../../services/authService';
 import { useMenu } from '../../context/MenuProvider';
 import flagFR from './../../assets/Flag_france.svg.png';
 import flagEN from './../../assets/Flag_english.svg.png';
-import { useTranslation } from 'react-i18next'; 
+import { useTranslation } from 'react-i18next';
+import { io } from 'socket.io-client';
 
+const socket = io('http://localhost:8070');
 
 const TopBar = () => {
   const user = useSelector((state) => state.user.currentUser);
   const navigate = useNavigate();
   const { isOpen, toggleMenu } = useMenu();
-  const { t, i18n } = useTranslation(); 
+  const { t, i18n } = useTranslation();
 
-  const LogoutButton = ({ onLogout }) => (
-    <Button type="primary" danger onClick={onLogout} style={{ width: '100%' }}>
-      {t('logout')}
-    </Button>
-  );
+  const [notifications, setNotifications] = useState([]); // État des notifications
+  const [visible, setVisible] = useState(false); // Contrôle de la visibilité du Popover
+
+  // Charger les notifications en temps réel via Socket.IO
+  useEffect(() => {
+    // Enregistrez l'utilisateur avec Socket.IO
+    if (user?.id_utilisateur) {
+      console.log("Enregistrement de l'utilisateur avec ID :", user.id_utilisateur); // Vérifier ici
+      socket.emit('register', user.id_utilisateur);
+    }
+
+    // Écouter les notifications
+    socket.on('notification', (notification) => {
+      console.log(notification)
+      setNotifications((prev) => [notification, ...prev]); // Ajouter la notification à la liste
+    });
+
+    return () => {
+      socket.disconnect(); // Déconnecter Socket.IO lors du démontage du composant
+    };
+  }, [user?.id_utilisateur]);
 
   const handleLogout = async () => {
     try {
       await logout();
       localStorage.removeItem('persist:root');
-      message.success(t('Déconnexion réussie !')); // Utilisation de t ici aussi
+      message.success(t('Déconnexion réussie !'));
       navigate('/login');
       window.location.reload();
     } catch (error) {
-      message.error(t('Erreur lors de la déconnexion.')); // Utilisation de t ici aussi
+      message.error(t('Erreur lors de la déconnexion.'));
     }
   };
 
-  // Contenu du popover de déconnexion
   const renderLogoutContent = () => (
     <div style={{ textAlign: 'center' }}>
       <p>{t('Voulez-vous vraiment vous déconnecter ?')}</p>
       <Divider />
-      <LogoutButton onLogout={handleLogout} />
+      <Button type="primary" danger onClick={handleLogout} style={{ width: '100%' }}>
+        {t('logout')}
+      </Button>
     </div>
   );
 
@@ -50,24 +69,47 @@ const TopBar = () => {
     i18n.changeLanguage(value);
   };
 
+  // Afficher les notifications dans le Popover
+  const renderNotifications = () => (
+    <List
+      dataSource={notifications}
+      renderItem={(item) => (
+        <List.Item>
+          <span>{item.message}</span>
+        </List.Item>
+      )}
+      locale={{ emptyText: t('Aucune notification') }}
+    />
+  );
+
   return (
     <div className="topbar">
       <div className="topbar-left" onClick={() => navigate('/')} role="button" tabIndex={0}>
         <span className="logo"><div className="logo-d">D</div>LOG</span>
       </div>
       <div className="topbar-right">
-        <div className="topbar-icons">
-          <BellOutlined aria-label="Notifications" />
-        </div>
+        <Popover
+          content={renderNotifications()}
+          title={t('Notifications')}
+          trigger="click"
+          placement="bottomRight"
+          visible={visible}
+          onVisibleChange={setVisible}
+        >
+          <Badge count={notifications.length} overflowCount={99}>
+            <div className="topbar-icons">
+              <BellOutlined aria-label="Notifications" />
+            </div>
+          </Badge>
+        </Popover>
         <hr />
         <div className="topbar-icons">
           <MailOutlined aria-label="Messages" />
         </div>
         <hr />
         <div className="topBar-trait">
-          {/* Sélecteur de langue */}
           <Select
-            value={i18n.language} // Utilisez la langue actuelle
+            value={i18n.language}
             style={{ width: 100 }}
             onChange={handleLanguageChange}
             dropdownMatchSelectWidth={false}
@@ -95,7 +137,6 @@ const TopBar = () => {
           <div className="line"></div>
         </div>
         <div className="topBar-logout">
-          {/* Utilisation du Popover pour la déconnexion */}
           <Popover
             content={renderLogoutContent}
             title={t('Déconnexion')}
