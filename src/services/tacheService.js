@@ -152,3 +152,12 @@ export const putProjetAssocie = async (data) => {
 export const getAuditLog = async () => {
   return axios.get(`${DOMAIN}/api/tache/audit_logs`)
 }
+
+//Notification
+export const getNotification = async () => {
+  return axios.get(`${DOMAIN}/api/tache/notification`)
+}
+
+export const getNotificationOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/tache/notification/one?id_notification=${id}`)
+}

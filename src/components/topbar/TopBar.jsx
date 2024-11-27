@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './topBar.scss';
 import { useNavigate } from 'react-router-dom';
-import { Popover, Button, Divider, message, Select, Badge, List } from 'antd';
+import { Popover, Button, Divider, message, Select, Badge, List, notification, Modal } from 'antd';
 import { BellOutlined, DashOutlined, MailOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import flagFR from './../../assets/Flag_france.svg.png';
 import flagEN from './../../assets/Flag_english.svg.png';
 import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
+import Notification from './notification/Notification';
 
 const socket = io('http://localhost:8070');
 
@@ -19,12 +20,24 @@ const TopBar = () => {
   const navigate = useNavigate();
   const { isOpen, toggleMenu } = useMenu();
   const { t, i18n } = useTranslation();
+  const [open, setOpen] = useState(false)
 
   const [notifications, setNotifications] = useState([]); // État des notifications
-  const [visible, setVisible] = useState(false); // Contrôle de la visibilité du Popover
+  const [visible, setVisible] = useState(false);
+  const [idNotif, setIdNotif] = useState('')
+
+  const closeAllModals = () => {
+    setOpen(!open)
+  }
+
+  const handModal = (id) => {
+    setOpen(true)
+    setIdNotif(id)
+
+    console.log(id)
+  }
 
   useEffect(() => {
-    // Enregistrez l'utilisateur avec Socket.IO
     if (user?.id_utilisateur) {
       console.log("Enregistrement de l'utilisateur avec ID :", user.id_utilisateur); // Vérifier ici
       socket.emit('register', user.id_utilisateur);
@@ -33,13 +46,14 @@ const TopBar = () => {
     // Écouter les notifications
     socket.on('notification', (notification) => {
       console.log(notification)
-      setNotifications((prev) => [notification, ...prev]); // Ajouter la notification à la liste
+      setNotifications((prev) => [notification, ...prev]);
     });
 
     return () => {
-      socket.disconnect(); // Déconnecter Socket.IO lors du démontage du composant
+      socket.disconnect();
     };
   }, [user?.id_utilisateur]);
+
 
   const handleLogout = async () => {
     try {
@@ -73,13 +87,14 @@ const TopBar = () => {
     <List
       dataSource={notifications}
       renderItem={(item) => (
-        <List.Item>
+        <List.Item onClick={() => handModal(item.id_notif)}>
           <span>{item.message}</span>
         </List.Item>
       )}
       locale={{ emptyText: t('Aucune notification') }}
     />
   );
+  
 
   return (
     <div className="topbar">
@@ -147,6 +162,16 @@ const TopBar = () => {
           </Popover>
         </div>
       </div>
+      <Modal
+        title=""
+        visible={open}
+        onCancel={closeAllModals}
+        footer={null}
+        width={600}
+        centered
+      >
+        <Notification idNotif={idNotif}/>
+      </Modal>
     </div>
   );
 };
