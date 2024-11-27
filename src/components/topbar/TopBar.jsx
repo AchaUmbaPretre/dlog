@@ -23,7 +23,6 @@ const TopBar = () => {
   const [notifications, setNotifications] = useState([]); // État des notifications
   const [visible, setVisible] = useState(false); // Contrôle de la visibilité du Popover
 
-  // Charger les notifications en temps réel via Socket.IO
   useEffect(() => {
     // Enregistrez l'utilisateur avec Socket.IO
     if (user?.id_utilisateur) {
