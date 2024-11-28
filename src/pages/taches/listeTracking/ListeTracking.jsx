@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal, Skeleton } from 'antd';
-import { PlusCircleOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getSuiviTacheOneV } from '../../../services/suiviService';
 import moment from 'moment';
 import SuiviTache from '../suiviTache/SuiviTache';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
-import { getBins, getBinsOne, getEquipementOneV, getStatutEquipement,postEquipement, putEquipement } from '../../../../services/batimentService';
+import { getBinsOne, getEquipementOneV, getStatutEquipement,postEquipement, putEquipement } from '../../../../services/batimentService';
 import moment from 'moment';
 import { getArticle, getBatimentOne } from '../../../../services/typeService';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Menu, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
-import { ExportOutlined, CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,HomeOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal, Popover } from 'antd';
+import { CheckCircleOutlined, EnvironmentOutlined,CloseCircleOutlined,CalendarOutlined,PlusCircleOutlined, ToolOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import { getEquipementOne } from '../../../../services/batimentService';
 import EquipementForm from '../equipementForm/EquipementForm';
