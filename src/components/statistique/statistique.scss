@@ -7,11 +7,12 @@
     gap: 20px;
 
     .statistique_rows {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        display: flex;
         gap: 20px;
+        width: 100%;
 
         @include mobileXR {
+            display: grid;
             grid-template-columns: repeat(2, 1fr);
         }
 
