@@ -20,6 +20,7 @@ const Statistique = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const role = useSelector((state) => state.user?.currentUser.role);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
 
     const handleError = (message) => {
@@ -34,7 +35,7 @@ const Statistique = () => {
             try {
                 const [controleData, tacheData, clientData, fournisseurData] = await Promise.all([
                     getControleCount(),
-                    getTacheCount(),
+                    getTacheCount(userId),
                     getClientCount(),
                     getFournisseurCount()
                 ]);

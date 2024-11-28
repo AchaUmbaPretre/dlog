@@ -22,8 +22,8 @@ export const getTacheChartFilter = async (selected, filters, dateRange) => {
   return axios.get(`${DOMAIN}/api/tache/tache_filter_chart`, { params });
 };
 
-export const getTacheCount = async () => {
-  return axios.get(`${DOMAIN}/api/tache/count`);
+export const getTacheCount = async (userId) => {
+  return axios.get(`${DOMAIN}/api/tache/count?userId=${userId}`);
 };
 
 export const getTache = async (data, id, role) => {
