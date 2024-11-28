@@ -10,6 +10,7 @@ import { getClientCount } from '../../services/clientService';
 import { getFournisseurCount } from '../../services/fournisseurService';
 import { useNavigate } from 'react-router-dom';
 import StatistiqueItems from '../statistiqueItems/StatistiqueItems';
+import { useSelector } from 'react-redux';
 
 const Statistique = () => {
     const [data, setData] = useState(null);
@@ -18,6 +19,8 @@ const Statistique = () => {
     const [fournisseur, setFournisseur] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const role = useSelector((state) => state.user?.currentUser.role);
+
 
     const handleError = (message) => {
         notification.error({
@@ -62,6 +65,8 @@ const Statistique = () => {
                     </>
                 ) : (
                     <>
+                    {
+                        role === 'Admin' &&
                         <div className="statistique_row static_bleu" style={{ borderColor: '#3A5FCD' }} onClick={() => navigate('/controle')}>
                             <div className="statistique_row_left">
                                 <div className="statistique_row_icon" style={{ backgroundColor: '#3A5FCD1A' }}>
@@ -75,6 +80,7 @@ const Statistique = () => {
                                 <span className="row_desc">Ctrl de base</span>
                             </div>
                         </div>
+                    }
                         <div className="statistique_row static_gris" style={{ borderColor: '#707070' }} onClick={() => navigate('/tache')}>
                             <div className="statistique_row_left">
                                 <div className="statistique_row_icon" style={{ backgroundColor: '#7070701A' }}>
