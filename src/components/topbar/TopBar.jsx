@@ -33,8 +33,6 @@ const TopBar = () => {
   const handModal = (id) => {
     setOpen(true)
     setIdNotif(id)
-
-    console.log(id)
   }
 
  /*  useEffect(() => {
@@ -55,7 +53,6 @@ const TopBar = () => {
     };
   }, [user?.id_utilisateur]);
  */
-
 
   const handleLogout = async () => {
     try {
