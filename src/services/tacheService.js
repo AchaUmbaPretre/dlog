@@ -161,3 +161,7 @@ export const getNotification = async () => {
 export const getNotificationOne = async (id) => {
   return axios.get(`${DOMAIN}/api/tache/notification/one?id_notification=${id}`)
 }
+
+export const deletePutNotification = async (id) => {
+  return axios.put(`${DOMAIN}/api/tache/notificationUpdate?id=${id}`);
+};

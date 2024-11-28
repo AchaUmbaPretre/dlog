@@ -10,8 +10,11 @@ import { useMenu } from '../../context/MenuProvider';
 import flagFR from './../../assets/Flag_france.svg.png';
 import flagEN from './../../assets/Flag_english.svg.png';
 import { useTranslation } from 'react-i18next';
+import { io } from 'socket.io-client';
 import Notification from './notification/Notification';
-import { deletePutNotification, getNotification } from '../../services/tacheService';
+import { getNotification } from '../../services/tacheService';
+
+/* const socket = io('http://localhost:8070'); */
 
 const TopBar = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -20,36 +23,37 @@ const TopBar = () => {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false)
 
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([]); // État des notifications
   const [visible, setVisible] = useState(false);
   const [idNotif, setIdNotif] = useState('')
-  const [selectedNotif, setSelectedNotif] = useState(null);
 
-  // Fermer le modal
-  const closeModal = () => {
-    setSelectedNotif(null);
-  };
+  const closeAllModals = () => {
+    setOpen(!open)
+  }
 
   const handModal = (id) => {
     setOpen(true)
     setIdNotif(id)
   }
 
-  const handleNotificationClick = async (notif) => {
-    console.log(notif)
-    try {
-      setSelectedNotif(notif); // Ouvrir le modal pour afficher les détails
-      await deletePutNotification(notif.id_notifications); // API pour marquer comme lue
-      setNotifications((prev) =>
-        prev.filter((item) => item.id_notifications !== notif.id_notifications) // Retirer de la liste
-      );
-    } catch (error) {
-      notification.error({
-        message: t('Erreur'),
-        description: t('Impossible de marquer la notification comme lue.'),
-      });
+ /*  useEffect(() => {
+    if (user?.id_utilisateur) {
+      console.log("Enregistrement de l'utilisateur avec ID :", user.id_utilisateur); // Vérifier ici
+      socket.emit('register', user.id_utilisateur);
     }
-  };
+
+    // Écouter les notifications
+    socket.on('notification', (notification) => {
+      console.log(notification)
+      setNotifications((prev) => [notification, ...prev]);
+    });
+
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [user?.id_utilisateur]);
+ */
 
   useEffect(() => {
     const fetchData = async() => {
@@ -64,7 +68,6 @@ const TopBar = () => {
       }
     }
 
-    fetchData();
   }, []) 
 
   const handleLogout = async () => {
@@ -99,7 +102,7 @@ const TopBar = () => {
     <List
       dataSource={notifications}
       renderItem={(item) => (
-        <List.Item onClick={() => handleNotificationClick(item)}>
+        <List.Item onClick={() => handModal(item.id_notif)}>
           <span>{item.message}</span>
         </List.Item>
       )}
@@ -175,12 +178,14 @@ const TopBar = () => {
         </div>
       </div>
       <Modal
-        title={t('Détails de la notification')}
-        visible={!!selectedNotif}
-        onCancel={closeModal}
+        title=""
+        visible={open}
+        onCancel={closeAllModals}
         footer={null}
+        width={600}
+        centered
       >
-        {selectedNotif && <Notification idNotif={selectedNotif.id_notifications} />}
+        <Notification idNotif={idNotif}/>
       </Modal>
     </div>
   );
