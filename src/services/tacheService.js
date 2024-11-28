@@ -98,7 +98,6 @@ export const deleteTache = async (id) => {
   return axios.delete(`${DOMAIN}/api/tache/${id}`);
 };
 
-
 //Tache personne
 export const getTachePersonne = async (user) => {
   return axios.get(`${DOMAIN}/api/tache/tache_personne`);
