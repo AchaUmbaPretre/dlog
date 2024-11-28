@@ -86,7 +86,6 @@ function App() {
     }
   }, [userId, fetchMenu]);
 
-
   const Layout = () => (
     <div className='app-rows'>
       <TopBar />
