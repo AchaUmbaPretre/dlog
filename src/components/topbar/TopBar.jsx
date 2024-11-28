@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
 import Notification from './notification/Notification';
 
-const socket = io('http://localhost:8070');
+/* const socket = io('http://localhost:8070'); */
 
 const TopBar = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -37,7 +37,7 @@ const TopBar = () => {
     console.log(id)
   }
 
-  useEffect(() => {
+ /*  useEffect(() => {
     if (user?.id_utilisateur) {
       console.log("Enregistrement de l'utilisateur avec ID :", user.id_utilisateur); // Vérifier ici
       socket.emit('register', user.id_utilisateur);
@@ -49,10 +49,12 @@ const TopBar = () => {
       setNotifications((prev) => [notification, ...prev]);
     });
 
+
     return () => {
       socket.disconnect();
     };
   }, [user?.id_utilisateur]);
+ */
 
 
   const handleLogout = async () => {
