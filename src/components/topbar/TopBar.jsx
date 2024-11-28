@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './topBar.scss';
 import { useNavigate } from 'react-router-dom';
-import { Popover, Button, Divider, message, Select, Badge, List, notification, Modal } from 'antd';
-import { BellOutlined, DashOutlined, MailOutlined } from '@ant-design/icons';
+import { Popover, Button, Divider, message, Select, Badge, List, notification, Modal, Typography, Space } from 'antd';
+import { BellOutlined, DashOutlined, MailOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png';
 import { useSelector } from 'react-redux';
 import { logout } from '../../services/authService';
@@ -15,6 +15,7 @@ import { deletePutNotification, getNotification } from '../../services/tacheServ
 
 const TopBar = () => {
   const user = useSelector((state) => state.user.currentUser);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const navigate = useNavigate();
   const { isOpen, toggleMenu } = useMenu();
   const { t, i18n } = useTranslation();
@@ -38,10 +39,10 @@ const TopBar = () => {
   const handleNotificationClick = async (notif) => {
     console.log(notif)
     try {
-      setSelectedNotif(notif); // Ouvrir le modal pour afficher les détails
-      await deletePutNotification(notif.id_notifications); // API pour marquer comme lue
+      setSelectedNotif(notif);
+      await deletePutNotification(notif.id_notifications);
       setNotifications((prev) =>
-        prev.filter((item) => item.id_notifications !== notif.id_notifications) // Retirer de la liste
+        prev.filter((item) => item.id_notifications !== notif.id_notifications)
       );
     } catch (error) {
       notification.error({
@@ -52,20 +53,22 @@ const TopBar = () => {
   };
 
   useEffect(() => {
-    const fetchData = async() => {
+    const fetchNotifications = async () => {
       try {
-        const { data } = await getNotification();
+        const { data } = await getNotification(userId);
         setNotifications(data);
       } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
+        console.log(error)
       }
-    }
-
-    fetchData();
-  }, []) 
+    };
+  
+    fetchNotifications();
+  
+    const interval = setInterval(fetchNotifications, 5000);
+  
+    return () => clearInterval(interval);
+  }, [userId]);
+  
 
   const handleLogout = async () => {
     try {
@@ -99,11 +102,37 @@ const TopBar = () => {
     <List
       dataSource={notifications}
       renderItem={(item) => (
-        <List.Item onClick={() => handleNotificationClick(item)}>
-          <span>{item.message}</span>
+        <List.Item
+          onClick={() => handleNotificationClick(item)}
+          style={{
+            cursor: 'pointer',
+            transition: 'background-color 0.3s ease',
+            borderBottom: '1px solid #f0f0f0',
+            padding: '12px 16px',
+            borderRadius: '8px',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f7f7f7')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+        >
+          <Space>
+            {item.type === 'success' ? (
+              <CheckCircleOutlined style={{ color: '#52c41a' }} />
+            ) : item.type === 'info' ? (
+              <InfoCircleOutlined style={{ color: '#1890ff' }} />
+            ) : (
+              <BellOutlined style={{ color: '#faad14' }} />
+            )}
+            <Typography.Text style={{ fontSize: '16px', fontWeight: 500 }}>{item.message}</Typography.Text>
+          </Space>
         </List.Item>
       )}
       locale={{ emptyText: t('Aucune notification') }}
+      style={{
+        backgroundColor: '#fff',
+        borderRadius: '8px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        padding: '10px 20px',
+      }}
     />
   );
   

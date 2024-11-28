@@ -154,8 +154,8 @@ export const getAuditLog = async () => {
 }
 
 //Notification
-export const getNotification = async () => {
-  return axios.get(`${DOMAIN}/api/tache/notification`)
+export const getNotification = async (id) => {
+  return axios.get(`${DOMAIN}/api/tache/notification?user_id=${id}`)
 }
 
 export const getNotificationOne = async (id) => {
