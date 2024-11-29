@@ -115,7 +115,6 @@ const PermissionDepart = () => {
                 icon={<ApartmentOutlined />}
                 onClick={() => handleViewDetailsDepart(record.id)}
                 aria-label="Voir les détails de la tâche"
-                style={{ color: 'blue' }}
               />
             </Tooltip>
           </Space>
