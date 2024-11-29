@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
-import { ClockCircleOutlined,InfoCircleOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getDepartement } from '../../../../services/departementService';
 import PermissionDepart from '../PermissionDepart';
 
