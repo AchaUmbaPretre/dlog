@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Switch, message, Tag, Input, Typography, Divider, Card } from 'antd';
+import { Table, Switch, message, Tag, Input, Typography, Card } from 'antd';
 import { EyeOutlined, EditOutlined, UnlockOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getMenus, getMenusOne, putPermission } from '../../../services/permissionService';
-import './permissionOne.scss'; // Assuming you have a SCSS file for styles
+import './permissionOne.scss';
 
 const { Title, Text } = Typography;
 

@@ -22,7 +22,6 @@ import { getUser } from '../../services/userService';
 import PermissionOne from './permissionOne/PermissionOne';
 import ListeTachePermi from './listeTachePermi/ListeTachePermi';
 import PermissionVille from './permissionVille/PermissionVille';
-import PermissionDepart from './permissionDepart/PermissionDepart';
 
 const { Search } = Input;
 
