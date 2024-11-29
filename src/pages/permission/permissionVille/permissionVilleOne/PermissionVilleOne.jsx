@@ -103,7 +103,7 @@ const PermissionVilleOne = ({ idVille }) => {
             <div className="client-row-icon">
               <UnlockOutlined className="client-icon" />
             </div>
-            <h2 className="client-h2">Gestion des permissions de tache</h2>
+            <h2 className="client-h2">Gestion des permissions pour la ville</h2>
           </div>
           <Table
             dataSource={data}

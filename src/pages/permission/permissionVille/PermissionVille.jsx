@@ -134,7 +134,7 @@ const PermissionDepart = () => {
             <div className="client-row-icon">
               <FileTextOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste des taches</h2>
+            <h2 className="client-h2">Liste des villes</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
