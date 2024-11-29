@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getUser } from '../../../../services/userService';
 import {  UnlockOutlined } from '@ant-design/icons';
 import { Switch, Table, Tag } from 'antd';
+import { getPermissionsVille } from '../../../../services/permissionService';
 
 const PermissionVilleOne = ({idVille}) => {
     const scroll = { x: 400 };
@@ -13,13 +14,17 @@ const PermissionVilleOne = ({idVille}) => {
             try {
                 const { data: users } = await getUser();
                 setData(users);
-                
+                const permissionData = await getPermissionsVille(idVille)
             } catch (error) {
                 console.log(error)
             }
         }
         fetchPermission()
-    }, []);
+    }, [idVille]); 
+
+    const handlePermissionChange = async () => {
+
+    }
 
     const columns = [
         {
