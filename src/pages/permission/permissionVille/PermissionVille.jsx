@@ -100,7 +100,7 @@ const PermissionDepart = () => {
       width: '10%',
       render: (text, record) => (
           <Space size="middle">
-            <Tooltip title="Voir les détails">
+            <Tooltip title="Voir les permissions de cette ville">
               <Button
                 icon={<InfoCircleOutlined />}
                 onClick={() => handleViewDetails(record.id)}
