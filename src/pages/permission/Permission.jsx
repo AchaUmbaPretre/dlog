@@ -21,6 +21,7 @@ import config from '../../config';
 import { getUser } from '../../services/userService';
 import PermissionOne from './permissionOne/PermissionOne';
 import ListeTachePermi from './listeTachePermi/ListeTachePermi';
+import PermissionVille from './permissionVille/PermissionVille';
 
 const { Search } = Input;
 
@@ -141,8 +142,16 @@ const Permission = () => {
             loading={loading}
           />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Permission des taches" key="1">
+            <Tabs.TabPane tab="Permission des taches" key="2">
               <ListeTachePermi/>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab="Permission des villes" key="3">
+              <PermissionVille/>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab="Permission des departements" key="4">
+              <PermissionVille/>
             </Tabs.TabPane>
 
           </Tabs>
