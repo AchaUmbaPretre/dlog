@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { UnlockOutlined } from '@ant-design/icons';
 import { Switch, Table, Tag } from 'antd';
-import { getDepartement } from '../../../services/departementService';
 import { getPermissionsDepart, updatePermissionDepart } from '../../../services/permissionService';
+import { getUser } from '../../../services/userService';
 
-const PermissionDepart = ({ idDepartement }) => {
+const PermissionDepart = ({ idDepartement, idVille }) => {
   const scroll = { x: 400 };
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
 
-  // Récupération des données des utilisateurs et de leurs permissions
   useEffect(() => {
     const fetchPermission = async () => {
       try {
-        const { data: departe } = await getDepartement();
-        setData(departe);
+        const { data: userData } = await getUser();
+        setData(userData);
         
         // Récupérer les permissions pour cette ville
         const permissionData = await getPermissionsDepart(idDepartement);
@@ -46,7 +45,7 @@ const PermissionDepart = ({ idDepartement }) => {
       const dataAll = {
         id_user: userId,
         id_departement: idDepartement,
-        id_ville: '',
+        id_ville: idVille,
         can_view: checked
       }
       await updatePermissionDepart(dataAll);

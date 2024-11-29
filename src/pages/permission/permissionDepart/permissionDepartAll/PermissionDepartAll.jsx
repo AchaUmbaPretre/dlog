@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
 import { ClockCircleOutlined,InfoCircleOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
-import { getTacheAll } from '../../../services/tacheService';
-import PermissionTache from '../permissionTache/PermissionTache';
-import { getProvince } from '../../../services/clientService';
-import PermissionVilleOne from './permissionVilleOne/PermissionVilleOne';
-import PermissionDepartAll from '../permissionDepart/permissionDepartAll/PermissionDepartAll';
+import { getDepartement } from '../../../../services/departementService';
+import PermissionDepart from '../PermissionDepart';
 
 const { Search } = Input;
 
-const PermissionDepart = () => {
+const PermissionDepartAll = ({idVille}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
-  const [idVille, setIdVille] = useState('')
+  const [idDeparte, setIdDeparte] = useState('')
   const scroll = { x: 400 };
   const [pagination, setPagination] = useState({
     current: 1,
@@ -23,7 +20,7 @@ const PermissionDepart = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getProvince();
+        const { data } = await getDepartement();
         setData(data);
         setLoading(false);
       } 
@@ -40,22 +37,8 @@ const PermissionDepart = () => {
     fetchData();
   }, []);
 
-  const statusIcons = {
-    'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
-    'En cours': { icon: <HourglassOutlined />, color: 'blue' },
-    'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
-    'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
-    'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
-    'Budget': { icon: <DollarOutlined />, color: 'gold' },
-    'Executé': { icon: <RocketOutlined />, color: 'cyan' },
-  };
-
   const handleViewDetails = (id) => {
     openModal('detail', id);
-  };
-
-  const handleViewDetailsDepart = (id) => {
-    openModal('detailDepartement', id);
   };
 
   const closeAllModals = () => {
@@ -65,7 +48,7 @@ const PermissionDepart = () => {
   const openModal = (type, id = '') => {
     closeAllModals();
     setModalType(type);
-    setIdVille(id);
+    setIdDeparte(id);
   };  
 
   const columnStyles = {
@@ -97,9 +80,9 @@ const PermissionDepart = () => {
       },
       width: "4%",    },
     {   
-      title: 'Ville',
-      dataIndex: 'name', 
-      key: 'name', 
+      title: 'département',
+      dataIndex: 'nom_departement', 
+      key: 'nom_departement', 
       render: (text,record) => (
         <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id_tache)}>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
@@ -115,15 +98,7 @@ const PermissionDepart = () => {
             <Tooltip title="Voir les détails">
               <Button
                 icon={<InfoCircleOutlined />}
-                onClick={() => handleViewDetails(record.id)}
-                aria-label="Voir les détails de la tâche"
-                style={{ color: 'blue' }}
-              />
-            </Tooltip>
-            <Tooltip title="Permission pour les departements de cette ville">
-              <Button
-                icon={<ApartmentOutlined />}
-                onClick={() => handleViewDetailsDepart(record.id)}
+                onClick={() => handleViewDetails(record.id_departement)}
                 aria-label="Voir les détails de la tâche"
                 style={{ color: 'blue' }}
               />
@@ -134,7 +109,7 @@ const PermissionDepart = () => {
   ];
 
   const filteredData = data.filter(item =>
-    item.name?.toLowerCase().includes(searchValue.toLowerCase())  );
+    item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase())  );
 
   return (
     <>
@@ -178,32 +153,11 @@ const PermissionDepart = () => {
         width={1070}
         centered
       >
-        <PermissionVilleOne idVille={idVille}/>
+        <PermissionDepart idDepartement={idDeparte} idVille={idVille}/>
       </Modal>
 
-      <Modal
-        title=""
-        visible={modalType === 'detail'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1070}
-        centered
-      >
-        <PermissionVilleOne idVille={idVille}/>
-      </Modal>
-
-      <Modal
-        title=""
-        visible={modalType === 'detailDepartement'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1070}
-        centered
-      >
-        <PermissionDepartAll idVille={idVille}/>
-      </Modal>
     </>
   );
 };
 
-export default PermissionDepart;
+export default PermissionDepartAll;
