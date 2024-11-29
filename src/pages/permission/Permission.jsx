@@ -147,7 +147,7 @@ const Permission = () => {
               <ListeTachePermi/>
             </Tabs.TabPane>
 
-            <Tabs.TabPane tab="Permission des villes" key="3">
+            <Tabs.TabPane tab="Permissions des villes et départements" key="3">
               <PermissionVille/>
             </Tabs.TabPane>
 
