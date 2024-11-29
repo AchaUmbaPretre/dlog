@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
-import { ClockCircleOutlined,InfoCircleOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined,ApartmentOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getProvince } from '../../../services/clientService';
 import PermissionVilleOne from './permissionVilleOne/PermissionVilleOne';
 import PermissionDepartAll from '../permissionDepart/permissionDepartAll/PermissionDepartAll';
@@ -108,7 +108,7 @@ const PermissionDepart = () => {
                 style={{ color: 'blue' }}
               />
             </Tooltip>
-            <Tooltip title="Permission pour les departements de cette ville">
+            <Tooltip title="Permission pour les departements de cette vie">
               <Button
                 icon={<ApartmentOutlined />}
                 onClick={() => handleViewDetailsDepart(record.id)}
