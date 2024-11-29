@@ -28,10 +28,21 @@ export const updatePermissionTache = async (data) => {
   return axios.post(`${DOMAIN}/api/permission/permission_tache`, data)
 }
 
+//Permission ville
+
 export const getPermissionsVille = async (userId) => {
   return axios.get(`${DOMAIN}/api/permission/permission_ville?id_ville=${userId}`);
 };
 
 export const updatePermissionVille = async (data) => {
   return axios.post(`${DOMAIN}/api/permission/permission_ville`, data)
+}
+
+//Permission departement
+export const getPermissionsDepart = async (userId) => {
+  return axios.get(`${DOMAIN}/api/permission/permission_departement?id_departement=${userId}`);
+};
+
+export const updatePermissionDepart = async (data) => {
+  return axios.post(`${DOMAIN}/api/permission/permission_departement`, data)
 }
