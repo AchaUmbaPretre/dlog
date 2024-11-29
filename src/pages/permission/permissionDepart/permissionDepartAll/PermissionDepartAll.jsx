@@ -145,6 +145,7 @@ const PermissionDepartAll = ({idVille}) => {
             />
         </div>
       </div>
+      
       <Modal
         title=""
         visible={modalType === 'detail'}
