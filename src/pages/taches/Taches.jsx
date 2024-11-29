@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton, Alert } from 'antd';
 import { 
   ExportOutlined, WarningOutlined,MoreOutlined, UnlockOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined,EnvironmentOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
@@ -918,6 +918,22 @@ const handleEdit = (idTache) => {
   const groupedTasks = groupTasks(data);
   const displayedData = filteredData(groupedTasks, searchValue);
 
+  if (role === 'Manager' || role === 'Owner') {
+    if (displayedData.length === 0) {
+      return (
+        <div className="access-message">
+          <Alert
+            message="Accès Restreint"
+            description="Vous n'avez pas l'accès à cette fonctionnalité. Veuillez contacter votre administrateur."
+            type="error"
+            showIcon
+            closable
+            style={{ marginTop: 20 }}
+          />
+        </div>
+      );
+    }}
+
   return (
     <>
       <div className="client">
@@ -929,7 +945,9 @@ const handleEdit = (idTache) => {
               </div>
               <h2 className="client-h2">Tâches</h2>
             </div>
-            <div className='client-row-lefts'>
+            {
+              role === 'Admin' &&
+              <div className='client-row-lefts'>
               <span className='client-title'>
               Tâches trouvées : {loading ? <Skeleton.Input style={{ width: 100 }} active size='small' /> : total}
               </span>
@@ -945,6 +963,7 @@ const handleEdit = (idTache) => {
                 )}
               </div>
             </div>
+            }
           </div>
           {filterVisible && <FilterTaches onFilter={handleFilterChange}/>}
           <Tabs defaultActiveKey="0">
