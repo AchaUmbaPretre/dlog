@@ -151,10 +151,6 @@ const Permission = () => {
               <PermissionVille/>
             </Tabs.TabPane>
 
-            <Tabs.TabPane tab="Permission des departements" key="4">
-              <PermissionDepart/>
-            </Tabs.TabPane>
-
           </Tabs>
         </div>
       </div>
