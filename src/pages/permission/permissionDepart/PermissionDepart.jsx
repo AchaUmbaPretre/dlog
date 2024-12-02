@@ -50,11 +50,9 @@ const PermissionDepart = ({ idDepartement, idVille }) => {
       }
       await updatePermissionDepart(dataAll);
 
-      // Optionnel: Afficher un message de succès ou gérer d'autres actions si nécessaire
       console.log(`Permission de l'utilisateur ${userId} mise à jour à ${checked}`);
     } catch (error) {
       console.error("Erreur lors de la mise à jour de la permission:", error);
-      // Vous pouvez également rétablir la valeur précédente en cas d'erreur
       setPermissions(prevPermissions => ({
         ...prevPermissions,
         [userId]: !checked
