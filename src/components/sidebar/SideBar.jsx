@@ -93,7 +93,6 @@ const SideBar = ({data}) => {
     return iconMapping[iconName] || <HomeOutlined />;
   };
 
-
   return (
     <div ref={sidebarRef} className={`sidebar ${isOpen ? 'visible' : ''} ${isReduced ? 'sidebar-reduced' : ''}`}>
       <button className="sidebar-toggle" onClick={toggleSidebar}>

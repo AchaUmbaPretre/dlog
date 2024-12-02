@@ -10,11 +10,8 @@ import { useMenu } from '../../context/MenuProvider';
 import flagFR from './../../assets/Flag_france.svg.png';
 import flagEN from './../../assets/Flag_english.svg.png';
 import { useTranslation } from 'react-i18next';
-import { io } from 'socket.io-client';
 import Notification from './notification/Notification';
 import { getNotification } from '../../services/tacheService';
-
-/* const socket = io('http://localhost:8070'); */
 
 const TopBar = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -22,8 +19,7 @@ const TopBar = () => {
   const { isOpen, toggleMenu } = useMenu();
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false)
-
-  const [notifications, setNotifications] = useState([]); // État des notifications
+  const [notifications, setNotifications] = useState([]);
   const [visible, setVisible] = useState(false);
   const [idNotif, setIdNotif] = useState('')
 
@@ -36,24 +32,6 @@ const TopBar = () => {
     setIdNotif(id)
   }
 
- /*  useEffect(() => {
-    if (user?.id_utilisateur) {
-      console.log("Enregistrement de l'utilisateur avec ID :", user.id_utilisateur); // Vérifier ici
-      socket.emit('register', user.id_utilisateur);
-    }
-
-    // Écouter les notifications
-    socket.on('notification', (notification) => {
-      console.log(notification)
-      setNotifications((prev) => [notification, ...prev]);
-    });
-
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [user?.id_utilisateur]);
- */
 
   useEffect(() => {
     const fetchData = async() => {
@@ -92,12 +70,10 @@ const TopBar = () => {
     </div>
   );
 
-  // Fonction pour changer la langue
   const handleLanguageChange = (value) => {
     i18n.changeLanguage(value);
   };
 
-  // Afficher les notifications dans le Popover
   const renderNotifications = () => (
     <List
       dataSource={notifications}

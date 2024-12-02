@@ -8,7 +8,6 @@ import { getDeclarationCount, getTemplateCount } from '../../services/templateSe
 import { Skeleton } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-
 const StatistiqueItems = () => {
   const [loading, setLoading] = useState(true);
   const [batiment, setBatiment] = useState([]);

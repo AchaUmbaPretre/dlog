@@ -23,18 +23,12 @@ const TopBar = () => {
 
   const [notifications, setNotifications] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [idNotif, setIdNotif] = useState('')
   const [selectedNotif, setSelectedNotif] = useState(null);
 
   // Fermer le modal
   const closeModal = () => {
     setSelectedNotif(null);
   };
-
-  const handModal = (id) => {
-    setOpen(true)
-    setIdNotif(id)
-  }
 
   const handleNotificationClick = async (notif) => {
     console.log(notif)
