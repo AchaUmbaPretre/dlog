@@ -12,7 +12,6 @@ const PermissionVilleOne = ({ idVille }) => {
   const [title, setTitle] = useState('')
 
 
-  // Récupération des données des utilisateurs et de leurs permissions
   useEffect(() => {
     const fetchPermission = async () => {
       try {
@@ -27,7 +26,7 @@ const PermissionVilleOne = ({ idVille }) => {
         permissionData.data.forEach((permission) => {
           permissionMap[permission.id_user] = permission.can_view;
         });
-        
+
         if(idVille){
             const {data} = await getProvinceOne(idVille)
             setTitle(data[0].name)

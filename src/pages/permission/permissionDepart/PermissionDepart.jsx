@@ -17,10 +17,8 @@ const PermissionDepart = ({ idDepartement, idVille }) => {
         const { data: userData } = await getUser();
         setData(userData);
         
-        // Récupérer les permissions pour cette ville
         const permissionData = await getPermissionsDepart(idDepartement);
         
-        // Initialiser l'état des permissions (clé = id_utilisateur, valeur = true/false)
         const permissionMap = {};
         permissionData.data.forEach((permission) => {
           permissionMap[permission.id_user] = permission.can_view;
