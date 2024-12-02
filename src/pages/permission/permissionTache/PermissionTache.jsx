@@ -153,7 +153,6 @@ const PermissionTache = ({idTache}) => {
         item.nom?.toLowerCase().includes(searchValue.toLowerCase())
       );
 
-      console.log(title)
   return (
     <>
         <div className="client">
