@@ -3,11 +3,14 @@ import { getUser } from '../../../../services/userService';
 import { UnlockOutlined } from '@ant-design/icons';
 import { Switch, Table, Tag } from 'antd';
 import { getPermissionsVille, updatePermissionVille } from '../../../../services/permissionService';
+import { getProvinceOne } from '../../../../services/clientService';
 
 const PermissionVilleOne = ({ idVille }) => {
   const scroll = { x: 400 };
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
+  const [title, setTitle] = useState('')
+
 
   // Récupération des données des utilisateurs et de leurs permissions
   useEffect(() => {
@@ -18,14 +21,17 @@ const PermissionVilleOne = ({ idVille }) => {
         
         // Récupérer les permissions pour cette ville
         const permissionData = await getPermissionsVille(idVille);
-
-        console.log(permissionData)
         
         // Initialiser l'état des permissions (clé = id_utilisateur, valeur = true/false)
         const permissionMap = {};
         permissionData.data.forEach((permission) => {
           permissionMap[permission.id_user] = permission.can_view;
         });
+        if(idVille){
+            const {data} = await getProvinceOne(idVille)
+            setTitle(data[0].name)
+        }
+
         setPermissions(permissionMap);
       } catch (error) {
         console.log(error);
@@ -103,7 +109,7 @@ const PermissionVilleOne = ({ idVille }) => {
             <div className="client-row-icon">
               <UnlockOutlined className="client-icon" />
             </div>
-            <h2 className="client-h2">Gestion des permissions pour la ville</h2>
+            <h2 className="client-h2">Gestion des permissions pour la ville de {title} </h2>
           </div>
           <Table
             dataSource={data}

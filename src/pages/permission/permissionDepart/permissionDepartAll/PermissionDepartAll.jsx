@@ -3,6 +3,7 @@ import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from '
 import { InfoCircleOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getDepartement } from '../../../../services/departementService';
 import PermissionDepart from '../PermissionDepart';
+import { getProvinceOne } from '../../../../services/clientService';
 
 const { Search } = Input;
 
@@ -17,7 +18,6 @@ const PermissionDepartAll = ({idVille}) => {
     current: 1,
     pageSize: 20,
   });
-  const [title, setTitle] = useState('')
 
     const fetchData = async () => {
       try {
