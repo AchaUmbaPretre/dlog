@@ -17,6 +17,7 @@ const PermissionDepartAll = ({idVille}) => {
     current: 1,
     pageSize: 20,
   });
+  const [title, setTitle] = useState('')
 
     const fetchData = async () => {
       try {
@@ -145,7 +146,7 @@ const PermissionDepartAll = ({idVille}) => {
             />
         </div>
       </div>
-      
+
       <Modal
         title=""
         visible={modalType === 'detail'}
