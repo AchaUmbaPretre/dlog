@@ -38,7 +38,6 @@ const PermissionDepart = ({ idDepartement, idVille }) => {
   }, [idDepartement]);
 
 
-  // Gérer le changement de permission
   const handlePermissionChange = async (userId, checked) => {
     try {
       // Mettre à jour l'état local des permissions
@@ -47,7 +46,6 @@ const PermissionDepart = ({ idDepartement, idVille }) => {
         [userId]: checked
       }));
 
-      // Mettre à jour la permission dans la base de données
       const dataAll = {
         id_user: userId,
         id_departement: idDepartement,
