@@ -3,12 +3,14 @@ import { Input, notification, Switch, Tag, Table } from 'antd';
 import { EyeOutlined, EditOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getPermissionsTache, updatePermissionTache } from '../../../services/permissionService';
+import { getTacheOneV } from '../../../services/tacheService';
 
 const PermissionTache = ({idTache}) => {
     const [permissions, setPermissions] = useState({});
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
+    const [title, setTitle] = useState('');
     const scroll = { x: 400 };
 
     useEffect(() => {
@@ -27,6 +29,11 @@ const PermissionTache = ({idTache}) => {
                     };
                     return acc;
                 }, {});
+
+                if(idTache){
+                    const {data} = await getTacheOneV(idTache)
+                    setTitle(data[0].nom_tache)
+                }
     
                 setPermissions(formattedPermissions);
                 setLoading(false);
@@ -146,6 +153,7 @@ const PermissionTache = ({idTache}) => {
         item.nom?.toLowerCase().includes(searchValue.toLowerCase())
       );
 
+      console.log(title)
   return (
     <>
         <div className="client">
@@ -154,7 +162,7 @@ const PermissionTache = ({idTache}) => {
                     <div className="client-row-icon">
                         <UnlockOutlined className='client-icon' />
                     </div>
-                    <h2 className="client-h2">Gestion des permissions de tache</h2>
+                    <h2 className="client-h2">Gestion des permissions de tache {title}</h2>
                 </div>
                 <div className="client-actions">
                     <div className="client-row-left">

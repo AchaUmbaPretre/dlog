@@ -60,7 +60,6 @@ const PermissionDepart = ({ idDepartement, idVille }) => {
     }
   };
 
-  // Colonnes du tableau
   const columns = [
     {
       title: <span>#</span>,
