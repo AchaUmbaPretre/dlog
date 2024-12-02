@@ -108,7 +108,7 @@ const PermissionDepart = () => {
                 style={{ color: 'blue' }}
               />
             </Tooltip>
-            <Tooltip title="Permission pour les departements de cette vie">
+            <Tooltip title="Permissions pour les départements de cette ville">
               <Button
                 icon={<ApartmentOutlined />}
                 onClick={() => handleViewDetailsDepart(record.id)}
