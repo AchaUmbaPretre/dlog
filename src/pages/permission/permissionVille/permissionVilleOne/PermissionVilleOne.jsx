@@ -27,6 +27,7 @@ const PermissionVilleOne = ({ idVille }) => {
         permissionData.data.forEach((permission) => {
           permissionMap[permission.id_user] = permission.can_view;
         });
+        
         if(idVille){
             const {data} = await getProvinceOne(idVille)
             setTitle(data[0].name)

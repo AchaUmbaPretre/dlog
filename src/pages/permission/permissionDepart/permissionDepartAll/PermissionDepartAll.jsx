@@ -18,12 +18,19 @@ const PermissionDepartAll = ({idVille}) => {
     current: 1,
     pageSize: 20,
   });
+  const [title, setTitle] = useState('');
 
     const fetchData = async () => {
       try {
         const { data } = await getDepartement();
         setData(data);
         setLoading(false);
+
+
+        if(idVille){
+            const {data} = await getProvinceOne(idVille)
+            setTitle(data[0].name)
+        }
       } 
       catch (error) {
         notification.error({
@@ -120,7 +127,7 @@ const PermissionDepartAll = ({idVille}) => {
             <div className="client-row-icon">
               <FileTextOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste des departements</h2>
+            <h2 className="client-h2">Liste des departements de {title}</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
