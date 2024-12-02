@@ -3,11 +3,13 @@ import { UnlockOutlined } from '@ant-design/icons';
 import { Switch, Table, Tag } from 'antd';
 import { getPermissionsDepart, updatePermissionDepart } from '../../../services/permissionService';
 import { getUser } from '../../../services/userService';
+import { getDepartementOne } from '../../../services/departementService';
 
 const PermissionDepart = ({ idDepartement, idVille }) => {
   const scroll = { x: 400 };
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
     const fetchPermission = async () => {
@@ -24,6 +26,10 @@ const PermissionDepart = ({ idDepartement, idVille }) => {
           permissionMap[permission.id_user] = permission.can_view;
         });
         setPermissions(permissionMap);
+        if(idDepartement){
+            const {data} = await getDepartementOne(idDepartement)
+            setTitle(data[0].nom_departement)
+        }
       } catch (error) {
         console.log(error);
       }
@@ -97,7 +103,7 @@ const PermissionDepart = ({ idDepartement, idVille }) => {
             <div className="client-row-icon">
               <UnlockOutlined className="client-icon" />
             </div>
-            <h2 className="client-h2">Gestion des permissions des departements</h2>
+            <h2 className="client-h2">Gestion des permissions du departement {title}</h2>
           </div>
           <Table
             dataSource={data}
