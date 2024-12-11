@@ -9,6 +9,7 @@
   .uploaded-image {
     max-width: 100%; /* S'assure que l'image ne dépasse pas la taille de son conteneur */
     height: auto;
+    margin: 20px 0;
   }
   
 .icon-container {
