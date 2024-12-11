@@ -7,13 +7,22 @@ import { getBatiment } from '../../../services/typeService';
 const { TextArea } = Input;
 const { Option } = Select;
 
+const icons = [
+    { id: 'danger', label: 'Danger', icon: '⚠️' },
+    { id: 'arrow', label: 'Flèche', icon: '➡️' },
+    { id: 'hammer', label: 'Marteau', icon: '🔨' },
+    { id: 'water', label: 'Goutte d’eau', icon: '💧' },
+  ];
+
 const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTache}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
   const [instructionData, setInstructionData] = useState([]);
   const [cat, setCat] = useState([]);
-  const [typePhoto, setTypePhoto] = useState([])
+  const [typePhoto, setTypePhoto] = useState([]);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [iconPositions, setIconPositions] = useState([]);
 
   const fetchDataAll = async() => {
     try {
