@@ -338,7 +338,7 @@ const addIcon = (icon) => {
                             >
                                 <div
                                 style={{
-                                    fontSize: '28px',
+                                    fontSize: '30px',
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
