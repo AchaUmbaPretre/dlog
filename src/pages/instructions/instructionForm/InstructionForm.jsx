@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Form, Input, Select, Upload, Button, notification, Row, Col } from 'antd';
+import { Form, Input, Select, Upload, Button, notification, Row, Col, Skeleton } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { Rnd } from 'react-rnd';
 import { getCat_inspection, getInspectionOneV, getType_instruction, getType_photo, postInspection, putInspection } from '../../../services/batimentService';
@@ -20,6 +20,7 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTac
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
   const [instructionData, setInstructionData] = useState([]);
   const [cat, setCat] = useState([]);
   const [typePhoto, setTypePhoto] = useState([]);
@@ -29,6 +30,8 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTac
 
 
   const fetchDataAll = async() => {
+    setLoadingData(true);
+
     try {
         const [batimentData, typeInspe, inspectionData, typePhotoData] = await Promise.all([
             getBatiment(),
@@ -51,6 +54,8 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTac
         }   
     } catch (error) {
         console.log(error)
+    } finally {
+        setLoadingData(false); 
     }
   }
 
@@ -202,6 +207,7 @@ const addIcon = (icon) => {
                             name="id_batiment"
                             rules={[{ required: false, message: 'Veuillez entrer l’ID du bâtiment' }]}
                         >
+                        { loadingData ? <Skeleton.Input active={true} /> :
                             <Select
                                 showSearch
                                 options={batiment.map((item) => ({
@@ -210,7 +216,7 @@ const addIcon = (icon) => {
                                     }))}
                                 placeholder="Sélectionnez un batiment..."
                                 optionFilterProp="label"
-                            />
+                            />}
                         </Form.Item>
                     </Col>
 
