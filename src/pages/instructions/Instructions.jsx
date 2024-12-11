@@ -296,7 +296,7 @@ const Instructions = () => {
         width={700}
         centered
       >
-        <InstructionForm idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={''}/>
+        <InstructionForm idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={''} idTache={''}/>
       </Modal>
       <Modal
         title=""
