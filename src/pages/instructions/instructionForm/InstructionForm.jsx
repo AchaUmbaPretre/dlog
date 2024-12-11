@@ -236,6 +236,7 @@ const addIcon = (icon) => {
                         name="id_cat_instruction"
                         rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
                         >
+                            { loadingData ? <Skeleton.Input active={true} /> : 
                             <Select
                                 showSearch
                                 options={cat.map((item) => ({
@@ -244,7 +245,7 @@ const addIcon = (icon) => {
                                     }))}
                                 placeholder="Sélectionnez une categorie..."
                                 optionFilterProp="label"
-                            />
+                            /> }
                         </Form.Item>
                     </Col>
 
@@ -254,7 +255,9 @@ const addIcon = (icon) => {
                             name="id_type_instruction"
                             rules={[{ required: true, message: 'Veuillez sélectionner un type d inspection' }]}
                         >
-                            <Select 
+                            {
+                                loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select 
                                 showSearch
                                 options={instructionData.map((item) => ({
                                     value: item.id_type_instruction,
@@ -263,24 +266,27 @@ const addIcon = (icon) => {
                                 placeholder="Sélectionnez un type d inspection" 
 
                             />
+                            }
                         </Form.Item>
                     </Col>
 
                     <Col xs={24} md={12}>
                         <Form.Item
-                        label="Status"
-                        name="id_type_photo"
-                        rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
-                    >
-                        <Select
-                            showSearch
-                            options={typePhoto.map((item) => ({
-                                    value: item.id_type_photo,
-                                    label: item.nom_type_photo,
-                                }))}
-                            placeholder="Sélectionnez un statut..."
-                            optionFilterProp="label"
-                        />
+                            label="Status"
+                            name="id_type_photo"
+                            rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
+                        >
+                            { loadingData ? <Skeleton.Input active={true} /> : 
+                            <Select
+                                showSearch
+                                options={typePhoto.map((item) => ({
+                                        value: item.id_type_photo,
+                                        label: item.nom_type_photo,
+                                    }))}
+                                placeholder="Sélectionnez un statut..."
+                                optionFilterProp="label"
+                            />
+                            }
                         </Form.Item>
                     </Col>
 
