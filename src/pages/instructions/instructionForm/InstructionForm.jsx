@@ -195,7 +195,6 @@ const addIcon = (icon) => {
                 id_type_instruction: 1
                 }}
             >
-                {/* ID Bâtiment */}
                 <Row gutter={12}>
                     <Col xs={24} md={12}>
                         <Form.Item
@@ -216,7 +215,6 @@ const addIcon = (icon) => {
                     </Col>
 
                     <Col xs={24} md={12}>
-                        {/* Commentaire */}
                         <Form.Item
                             label="Commentaire"
                             name="commentaire"
@@ -346,7 +344,6 @@ const addIcon = (icon) => {
                             )}
 
                     <Col xs={24} md={12}>
-                        {/* Bouton de soumission */}
                         <Form.Item>
                             <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
                                 Soumettre
