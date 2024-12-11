@@ -89,7 +89,19 @@ const InstructionsDetail = ({ idInspection }) => {
 
   // Fonction pour exporter en Word
   const exportToWord = () => {
-    const content = `<html><body>${exportRef.current.innerHTML}</body></html>`;
+    const content = `
+      <!DOCTYPE html>
+      <html lang="fr">
+      <head>
+        <meta charset="UTF-8">
+        <title>Instructions</title>
+      </head>
+      <body>
+        ${exportRef.current.innerHTML}
+      </body>
+      </html>
+      `;
+
     const blob = htmlDocx.asBlob(content);
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
