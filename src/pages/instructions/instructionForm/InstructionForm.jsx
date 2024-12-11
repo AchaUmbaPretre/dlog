@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { Rnd } from 'react-rnd';
 import { getCat_inspection, getInspectionOneV, getType_instruction, getType_photo, postInspection, putInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
-
+import './instructionForm.css'
+import html2canvas from 'html2canvas';
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -23,6 +25,8 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTac
   const [typePhoto, setTypePhoto] = useState([]);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [iconPositions, setIconPositions] = useState([]);
+  const canvasRef = useRef(null);
+
 
   const fetchDataAll = async() => {
     try {
@@ -54,11 +58,10 @@ useEffect(() => {
     fetchDataAll();
 }, [form]);
 
-  const handleSubmit = async (values) => {
+const handleSubmit = async (values) => {
     setLoading(true);
 
     const uploadedFiles = values.img.map((file) => file.originFileObj);
-
     const formData = new FormData();
     formData.append('id_tache', idTache);
     formData.append('id_batiment', values.id_batiment);
@@ -67,29 +70,82 @@ useEffect(() => {
     formData.append('id_cat_instruction', values.id_cat_instruction);
     formData.append('id_type_instruction', values.id_type_instruction);
 
-    uploadedFiles.forEach((file) => {
+/*     uploadedFiles.forEach((file) => {
         formData.append('files', file);
-    });
+    }); */
 
+    if (uploadedImage) {
+        // Capture de l'image avec html2canvas
+        const imageContainer = document.querySelector('.image-container');
+        
+        if (!imageContainer) {
+            console.error("L'élément .image-container n'a pas été trouvé dans le DOM.");
+            submitData(formData); // Soumettre les autres données sans image modifiée
+            return;
+        }
+
+        html2canvas(imageContainer).then((canvas) => {
+            const originalWidth = canvas.width;
+            const originalHeight = canvas.height;
+            
+            // Si la largeur de l'image est trop petite, redimensionner tout en respectant le ratio
+            let targetWidth = 500; // Nouvelle largeur souhaitée (en pixels)
+            let targetHeight;
+
+            if (originalWidth < targetWidth) {
+                // Calcul du ratio en fonction de la largeur et de la hauteur originales
+                const ratio = targetWidth / originalWidth;
+                targetHeight = originalHeight * ratio;
+            } else {
+                // Garder la taille originale si la largeur est suffisante
+                targetWidth = originalWidth;
+                targetHeight = originalHeight;
+            }
+
+            // Créer un nouveau canvas avec la largeur et la hauteur redimensionnées
+            const resizedCanvas = document.createElement('canvas');
+            const ctx = resizedCanvas.getContext('2d');
+            resizedCanvas.width = targetWidth;
+            resizedCanvas.height = targetHeight;
+
+            // Redessiner l'image redimensionnée sur le nouveau canvas
+            ctx.drawImage(canvas, 0, 0, originalWidth, originalHeight, 0, 0, targetWidth, targetHeight);
+
+            // Convertir le canvas redimensionné en Blob
+            resizedCanvas.toBlob((blob) => {
+                const file = new File([blob], 'image_with_icons_resized.png', { type: 'image/png' });
+                formData.append('files', file);
+                
+                // Soumission des données après avoir ajouté l'image redimensionnée
+                submitData(formData);
+            });
+        });
+    } else {
+        // Si aucune image n'est téléchargée, soumettez simplement les autres données
+        submitData(formData);
+    }
+};
+
+
+const submitData = async (formData) => {
     try {
-        if(idInspection){
-            await putInspection(formData)
+        if (idInspection) {
+            await putInspection(formData);
             notification.success({
                 message: 'Succès',
-                description: 'Les informations ont été mise à jour avec succès.',
+                description: 'Les informations ont été mises à jour avec succès.',
             });
-        }
-        else{
+        } else {
             await postInspection(formData);
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
         }
-        
+
         form.resetFields();
         closeModal();
-        fetchData()
+        fetchData();
     } catch (error) {
         console.error(error);
         notification.error({
@@ -100,6 +156,26 @@ useEffect(() => {
         setLoading(false);
     }
 };
+
+
+const addIcon = (icon) => {
+    setIconPositions([...iconPositions, { icon, x: 50, y: 50, width: 50, height: 50 }]);
+  };
+
+  const moveIcon = (index, x, y) => {
+    const updatedIcons = [...iconPositions];
+    updatedIcons[index] = { ...updatedIcons[index], x, y };
+    setIconPositions(updatedIcons);
+  };
+
+  const handleImageUpload = (info) => {
+    const file = info.fileList[0]?.originFileObj;
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => setUploadedImage(e.target.result);
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div className="controle_form">
@@ -204,10 +280,62 @@ useEffect(() => {
                 getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
                 rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
                 >
-                    <Upload name="img" listType="picture" beforeUpload={() => false}>
-                        <Button icon={<UploadOutlined />}>Télécharger une image</Button>
+                    <Upload name="img" listType="picture" beforeUpload={() => false} onChange={handleImageUpload}>
+                        <Button icon={<UploadOutlined />}  className="custom-button">Télécharger une image</Button>
                     </Upload>
                 </Form.Item>
+
+                {uploadedImage && (
+            <div className="image-editor">
+              <div className="icon-toolbar">
+                {icons.map((icon) => (
+                  <Button key={icon.id} onClick={() => addIcon(icon.icon)}>
+                    {icon.icon} {icon.label}
+                  </Button>
+                ))}
+              </div>
+              <div className="image-container">
+                <img src={uploadedImage} alt="Uploaded" className="uploaded-image" />
+                {iconPositions.map((pos, index) => (
+                  <Rnd
+                    key={index}
+                    bounds="parent"
+                    size={{ width: pos.width, height: pos.height }}
+                    position={{ x: pos.x, y: pos.y }}
+                    onDragStop={(e, d) => {
+                      const updatedIcons = [...iconPositions];
+                      updatedIcons[index] = { ...updatedIcons[index], x: d.x, y: d.y };
+                      setIconPositions(updatedIcons);
+                    }}
+                    onResizeStop={(e, direction, ref, delta, position) => {
+                      const updatedIcons = [...iconPositions];
+                      updatedIcons[index] = {
+                        ...updatedIcons[index],
+                        width: ref.offsetWidth,
+                        height: ref.offsetHeight,
+                        ...position,
+                      };
+                      setIconPositions(updatedIcons);
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: '28px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '100%',
+                        height: '100%',
+                        cursor: 'move',
+                      }}
+                    >
+                      {pos.icon}
+                    </div>
+                  </Rnd>
+                ))}
+              </div>
+            </div>
+                )}
 
                 {/* Bouton de soumission */}
                 <Form.Item>

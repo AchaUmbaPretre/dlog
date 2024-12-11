@@ -5,6 +5,8 @@ import html2pdf from "html2pdf.js";
 import htmlDocx from "html-docx-js/dist/html-docx";
 import config from "../../../config";
 import "./instructionsDetail.scss";
+import html2canvas from 'html2canvas'; // Importer la bibliothèque
+
 
 const { Title, Text } = Typography;
 
@@ -18,6 +20,8 @@ const InstructionsDetail = ({ idInspection }) => {
   const fetchData = async () => {
     try {
       const { data } = await getInspectionOneV(idInspection);
+      
+      console.log(data)
 
       if (data.length === 0) {
         notification.warning({
@@ -50,6 +54,7 @@ const InstructionsDetail = ({ idInspection }) => {
       setLoading(false);
     }
   };
+
 
   useEffect(() => {
     if (idInspection) {

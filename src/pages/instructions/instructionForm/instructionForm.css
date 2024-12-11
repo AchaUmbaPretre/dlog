@@ -1,0 +1,44 @@
+/* instructionForm.css */
+
+.image-container {
+    position: relative; /* Permet aux éléments enfants d'être positionnés relativement à ce conteneur */
+    width: 100%; /* Ajuste la largeur de l'image pour prendre toute la largeur de son parent */
+    height: auto; /* Maintient la proportion de l'image */
+  }
+  
+  .uploaded-image {
+    max-width: 100%; /* S'assure que l'image ne dépasse pas la taille de son conteneur */
+    height: auto;
+  }
+  
+.icon-container {
+    display: inline-flex; /* Permet un placement fluide */
+    align-items: center;  /* Centrage vertical */
+    margin-left: 8px;     /* Exemple de marge */
+  }
+
+  .icon-wrapper {
+    position: relative; /* Définit une base de positionnement */
+  }
+  
+  .my-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Exemple : déplacer à droite */
+    transform: translateY(-50%); /* Centrer verticalement */
+  }
+
+  .custom-button .anticon {
+    margin-left: 8px; /* Exemple : Ajouter un espace */
+    font-size: 16px;  /* Ajuster la taille */
+  }
+
+  .ant-upload .anticon {
+    margin-left: 10px; /* Ajuste l'espacement de l'icône */
+  }
+  .parent-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+    
