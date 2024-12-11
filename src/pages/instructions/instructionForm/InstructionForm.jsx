@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Form, Input, Select, Upload, Button, notification } from 'antd';
+import { Form, Input, Select, Upload, Button, notification, Row, Col } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { Rnd } from 'react-rnd';
 import { getCat_inspection, getInspectionOneV, getType_instruction, getType_photo, postInspection, putInspection } from '../../../services/batimentService';
@@ -196,65 +196,72 @@ const addIcon = (icon) => {
                 }}
             >
                 {/* ID Bâtiment */}
-                <Form.Item
-                label="Bâtiment"
-                name="id_batiment"
-                rules={[{ required: false, message: 'Veuillez entrer l’ID du bâtiment' }]}
-                >
-                    <Select
-                        showSearch
-                        options={batiment.map((item) => ({
-                                value: item.id_batiment,
-                                label: item.nom_batiment,
-                            }))}
-                        placeholder="Sélectionnez un batiment..."
-                        optionFilterProp="label"
-                    />
-                </Form.Item>
+                <Row gutter={12}>
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                            label="Bâtiment"
+                            name="id_batiment"
+                            rules={[{ required: false, message: 'Veuillez entrer l’ID du bâtiment' }]}
+                        >
+                            <Select
+                                showSearch
+                                options={batiment.map((item) => ({
+                                        value: item.id_batiment,
+                                        label: item.nom_batiment,
+                                    }))}
+                                placeholder="Sélectionnez un batiment..."
+                                optionFilterProp="label"
+                            />
+                        </Form.Item>
+                    </Col>
 
-                {/* Commentaire */}
-                <Form.Item
-                label="Commentaire"
-                name="commentaire"
-                rules={[{ required: true, message: 'Veuillez entrer un commentaire' }]}
-                >
-                <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
-                </Form.Item>
+                    <Col xs={24} md={12}>
+                        {/* Commentaire */}
+                        <Form.Item
+                            label="Commentaire"
+                            name="commentaire"
+                            rules={[{ required: true, message: 'Veuillez entrer un commentaire' }]}
+                        >
+                        <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
+                        </Form.Item>
+                    </Col>
 
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                        label="Catégorie d'Instruction"
+                        name="id_cat_instruction"
+                        rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
+                        >
+                            <Select
+                                showSearch
+                                options={cat.map((item) => ({
+                                        value: item.id_cat_inspection,
+                                        label: item.nom_cat_inspection,
+                                    }))}
+                                placeholder="Sélectionnez une categorie..."
+                                optionFilterProp="label"
+                            />
+                        </Form.Item>
+                    </Col>
 
-                {/* Catégorie d'instruction */}
-                <Form.Item
-                label="Catégorie d'Instruction"
-                name="id_cat_instruction"
-                rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
-                >
-                    <Select
-                        showSearch
-                        options={cat.map((item) => ({
-                                value: item.id_cat_inspection,
-                                label: item.nom_cat_inspection,
-                            }))}
-                        placeholder="Sélectionnez une categorie..."
-                        optionFilterProp="label"
-                    />
-                </Form.Item>
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                            label="Type d'inspection"
+                            name="id_type_instruction"
+                            rules={[{ required: true, message: 'Veuillez sélectionner un type d inspection' }]}
+                        >
+                            <Select 
+                                showSearch
+                                options={instructionData.map((item) => ({
+                                    value: item.id_type_instruction,
+                                    label: item.nom_type_instruction,
+                                }))}
+                                placeholder="Sélectionnez un type d inspection" 
 
-                {/* Type instruction */}
-                <Form.Item
-                label="Type d'inspection"
-                name="id_type_instruction"
-                rules={[{ required: true, message: 'Veuillez sélectionner un type d inspection' }]}
-                >
-                    <Select 
-                        showSearch
-                        options={instructionData.map((item) => ({
-                            value: item.id_type_instruction,
-                            label: item.nom_type_instruction,
-                        }))}
-                        placeholder="Sélectionnez un type d inspection" 
-
-                    />
-                </Form.Item>
+                            />
+                        </Form.Item>
+                    </Col>
+                </Row>
 
                 <Form.Item
                 label="Status"
