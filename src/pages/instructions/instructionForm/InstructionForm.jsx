@@ -261,95 +261,99 @@ const addIcon = (icon) => {
                             />
                         </Form.Item>
                     </Col>
-                </Row>
 
-                <Form.Item
-                label="Status"
-                name="id_type_photo"
-                rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
-                >
-                    <Select
-                        showSearch
-                        options={typePhoto.map((item) => ({
-                                value: item.id_type_photo,
-                                label: item.nom_type_photo,
-                            }))}
-                        placeholder="Sélectionnez un statut..."
-                        optionFilterProp="label"
-                    />
-                </Form.Item>
-
-                {/* Image Upload */}
-                <Form.Item
-                label="Image"
-                name="img"
-                valuePropName="fileList"
-                getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-                rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
-                >
-                    <Upload name="img" listType="picture" beforeUpload={() => false} onChange={handleImageUpload}>
-                        <Button icon={<UploadOutlined />}  className="custom-button">Télécharger une image</Button>
-                    </Upload>
-                </Form.Item>
-
-                {uploadedImage && (
-            <div className="image-editor">
-              <div className="icon-toolbar">
-                {icons.map((icon) => (
-                  <Button key={icon.id} onClick={() => addIcon(icon.icon)}>
-                    {icon.icon} {icon.label}
-                  </Button>
-                ))}
-              </div>
-              <div className="image-container">
-                <img src={uploadedImage} alt="Uploaded" className="uploaded-image" />
-                {iconPositions.map((pos, index) => (
-                  <Rnd
-                    key={index}
-                    bounds="parent"
-                    size={{ width: pos.width, height: pos.height }}
-                    position={{ x: pos.x, y: pos.y }}
-                    onDragStop={(e, d) => {
-                      const updatedIcons = [...iconPositions];
-                      updatedIcons[index] = { ...updatedIcons[index], x: d.x, y: d.y };
-                      setIconPositions(updatedIcons);
-                    }}
-                    onResizeStop={(e, direction, ref, delta, position) => {
-                      const updatedIcons = [...iconPositions];
-                      updatedIcons[index] = {
-                        ...updatedIcons[index],
-                        width: ref.offsetWidth,
-                        height: ref.offsetHeight,
-                        ...position,
-                      };
-                      setIconPositions(updatedIcons);
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: '28px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '100%',
-                        height: '100%',
-                        cursor: 'move',
-                      }}
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                        label="Status"
+                        name="id_type_photo"
+                        rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
                     >
-                      {pos.icon}
-                    </div>
-                  </Rnd>
-                ))}
-              </div>
-            </div>
-                )}
+                        <Select
+                            showSearch
+                            options={typePhoto.map((item) => ({
+                                    value: item.id_type_photo,
+                                    label: item.nom_type_photo,
+                                }))}
+                            placeholder="Sélectionnez un statut..."
+                            optionFilterProp="label"
+                        />
+                        </Form.Item>
+                    </Col>
 
-                {/* Bouton de soumission */}
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
-                        Soumettre
-                    </Button>
-                </Form.Item>
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                            label="Image"
+                            name="img"
+                            valuePropName="fileList"
+                            getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+                            rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
+                        >
+                            <Upload name="img" listType="picture" beforeUpload={() => false} onChange={handleImageUpload}>
+                                <Button icon={<UploadOutlined />}  className="custom-button">Télécharger une image</Button>
+                            </Upload>
+                        </Form.Item>
+                    </Col>
+                    {uploadedImage && (
+                        <div className="image-editor">
+                        <div className="icon-toolbar">
+                            {icons.map((icon) => (
+                            <Button key={icon.id} onClick={() => addIcon(icon.icon)}>
+                                {icon.icon} {icon.label}
+                            </Button>
+                            ))}
+                        </div>
+                        <div className="image-container">
+                            <img src={uploadedImage} alt="Uploaded" className="uploaded-image" />
+                            {iconPositions.map((pos, index) => (
+                            <Rnd
+                                key={index}
+                                bounds="parent"
+                                size={{ width: pos.width, height: pos.height }}
+                                position={{ x: pos.x, y: pos.y }}
+                                onDragStop={(e, d) => {
+                                const updatedIcons = [...iconPositions];
+                                updatedIcons[index] = { ...updatedIcons[index], x: d.x, y: d.y };
+                                setIconPositions(updatedIcons);
+                                }}
+                                onResizeStop={(e, direction, ref, delta, position) => {
+                                const updatedIcons = [...iconPositions];
+                                updatedIcons[index] = {
+                                    ...updatedIcons[index],
+                                    width: ref.offsetWidth,
+                                    height: ref.offsetHeight,
+                                    ...position,
+                                };
+                                setIconPositions(updatedIcons);
+                                }}
+                            >
+                                <div
+                                style={{
+                                    fontSize: '28px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    height: '100%',
+                                    cursor: 'move',
+                                }}
+                                >
+                                {pos.icon}
+                                </div>
+                            </Rnd>
+                            ))}
+                        </div>
+                        </div>
+                            )}
+
+                    <Col xs={24} md={12}>
+                        {/* Bouton de soumission */}
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
+                                Soumettre
+                            </Button>
+                        </Form.Item>
+                    </Col>
+                </Row>
             </Form>
         </div>
     </div>
