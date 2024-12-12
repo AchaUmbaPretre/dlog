@@ -152,7 +152,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         width={800}
         centered
       >
-        <ProjetDoc idProjet={idProjet} />
+        <ProjetDoc idProjet={idProjet} fetchDatas={fetchData} />
       </Modal>
 
       <Modal

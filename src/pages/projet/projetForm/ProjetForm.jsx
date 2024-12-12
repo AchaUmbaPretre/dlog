@@ -152,13 +152,15 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                 rules={[{ required: true, message: 'Le chef de projet est requis' }]}
                             >
                                 {loading ? <Skeleton.Input active /> : 
-                                <Select placeholder="Sélectionnez un chef de projet">
-                                    {users?.map((chef) => (
-                                        <Option key={chef.id_utilisateur} value={chef.id_utilisateur}>
-                                            {chef.nom}
-                                        </Option>
-                                    ))}
-                                </Select>}
+                                    <Select
+                                    placeholder="Sélectionnez un chef de projet"
+                                    showSearch
+                                    options={users?.map((chef) => ({
+                                        value: chef.id_utilisateur,
+                                        label: `${chef.nom} - ${chef.prenom}`,
+                                    }))}
+                                    optionFilterProp="label"
+                                />}
                             </Form.Item>
                             <Button 
                                 style={{ marginBottom: '5px' }}
@@ -223,6 +225,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                         value: item.id_client,
                                         label: item.nom,
                                     }))}
+                                    optionFilterProp="label"
                                 />}
                             </Form.Item>
                             <Button 
@@ -250,6 +253,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                         value: item.id_batiment,
                                         label: item.nom_batiment,
                                     }))}
+                                    optionFilterProp="label"
                                 />}
                             </Form.Item>
                             <Button 

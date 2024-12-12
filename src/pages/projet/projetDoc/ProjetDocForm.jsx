@@ -6,7 +6,7 @@ import { getProjetMoko, postProjetDoc, putProjetDoc } from '../../../services/pr
 
 const { Option } = Select;
 
-const ProjetDocForm = ({ idProjet, fetchData, closeModal, idProjetDoc }) => {
+const ProjetDocForm = ({ idProjet, fetchData, closeModal, idProjetDoc, fetchDatas }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +49,7 @@ const ProjetDocForm = ({ idProjet, fetchData, closeModal, idProjetDoc }) => {
         description: 'Les documents ont été enregistrés avec succès.',
       });
       fetchData();
+      fetchDatas();
       closeModal();
       form.resetFields();
     } catch (error) {

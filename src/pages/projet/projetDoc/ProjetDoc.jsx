@@ -8,7 +8,7 @@ import { getProjetDocOne } from '../../../services/projetService';
 
 const { Search } = Input;
 
-const ProjetDoc = ({ idProjet }) => {
+const ProjetDoc = ({ idProjet, fetchDatas }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModal, setIsModal] = useState(false);
@@ -225,7 +225,7 @@ useEffect(() => {
             width={550}
             centered
         >
-            <ProjetDocForm idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel}/>
+            <ProjetDocForm idProjet={idProjet} fetchData={fetchData} closeModal={handleCancel} fetchDatas={fetchDatas} />
         </Modal>
 
 {/*         <Modal
