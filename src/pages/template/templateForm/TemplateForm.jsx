@@ -298,12 +298,13 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
 
                         <Col span={24}>
                             <Form.Item
-                                label="Description"
+                                label="Description (Titre)"
                                 name="desc_template"
+                                rules={[{ required: true, message: 'Veuillez entrez la description!' }]}
                             >
                                 { isLoading ? <Skeleton.Input active={true} style={{ width: '100%' }}  /> : 
                                 <Input.TextArea
-                                    style={{ height: '100px', resize: 'none' }}
+                                    style={{ height: '80px', resize: 'none' }}
                                     placeholder="Entrez la description..."
                                 />
                                 }
