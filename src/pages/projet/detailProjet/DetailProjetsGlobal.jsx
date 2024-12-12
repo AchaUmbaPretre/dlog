@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { notification, Card, Row, Col, Typography, Modal, Divider, Skeleton, Badge } from 'antd';
-import { InfoCircleOutlined, FileOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { notification, Card, Row, Col, Typography, Modal, Divider, Skeleton, Badge, Tooltip } from 'antd';
+import { InfoCircleOutlined, FileOutlined, FileAddOutlined, EditOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import ProjetDetailGeneral from './projetDetailGen/ProjetDetailGeneral';
 import { getProjetOne } from '../../../services/projetService';
 import DetailProjetBesoin from './detailProjetBesoin/DetailProjetBesoin';
@@ -66,6 +66,14 @@ const DetailProjetsGlobal = ({ idProjet }) => {
     openModal('timing');
   };
 
+  const handleEditer = (id) => {
+
+  }
+
+  const handleAjouterDoc = () => {
+
+  }
+
   const renderDataCards = () => (
     <Row gutter={[16, 16]} justify="center" className="data-cards">
       <Col xs={24} sm={12} md={6} onClick={handleInfo}>
@@ -118,13 +126,66 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         </h1>
       </div>
       <div className="title_row">
-        <h1 className="title_h1">
-          <FileTextOutlined style={{ marginRight: '8px' }} />
-          <strong>Description : </strong> {data?.description ? (
-            <div dangerouslySetInnerHTML={{ __html: data.description }} style={{marginTop:'10px'}} />
-            ) : (
-              <Skeleton.Input active />
-            )}
+        <h1 className="title_h1" style={{display:'flex', justifyContent:'space-between'}}>
+          <div style={{flex:'6'}}>
+            <FileTextOutlined style={{ marginRight: '8px' }} />
+            <strong>Description : </strong> {data?.description ? (
+              <div dangerouslySetInnerHTML={{ __html: data.description }} style={{marginTop:'10px'}} />
+              ) : (
+                <Skeleton.Input active />
+              )}
+          </div>
+
+          <div className='rows-menu'>
+            <Tooltip title="Modifier la description">
+              <div 
+                onClick={handleEditer} 
+                style={{
+                  background:'#4CAF50', // vert doux pour l'action de modifier
+                  height:'30px',
+                  width:'30px',
+                  borderRadius:'50%',
+                  display:'flex',
+                  marginLeft:'10px',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  color:'#fff',
+                  cursor:'pointer',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <EditOutlined />
+              </div>
+            </Tooltip>
+
+            <Tooltip title="Ajouter un document">
+              <div 
+                onClick={handleAjouterDoc} 
+                style={{
+                  background:'#FF9800', // orange pour une action de création
+                  height:'30px',
+                  width:'30px',
+                  borderRadius:'50%',
+                  display:'flex',
+                  alignItems:'center',
+                  marginLeft:'10px',
+                  justifyContent:'center',
+                  color:'#fff',
+                  cursor:'pointer',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <FileAddOutlined />
+              </div>
+            </Tooltip>
+          </div>
+
         </h1>
       </div>
       {loading ? (
