@@ -28,7 +28,7 @@ import ListeDocTache from '../../taches/listeDocTache/ListeDocTache';
 const { Search } = Input;
 const { Panel } = Collapse;
 
-const ListeTacheProjet1 = ({ idProjet }) => {
+const ListeTacheProjet1 = ({ idProjet, fetchDatas }) => {
   const [data, setData] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
@@ -142,7 +142,6 @@ const ListeTacheProjet1 = ({ idProjet }) => {
     }
 };
 
-console.log(data)
 
 useEffect(() => {
     fetchData(filteredDatas);
@@ -936,7 +935,7 @@ const handleEdit = (idTache) => {
         width={850}
         centered
       >
-        <TacheForm idTache={idTache} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
+        <TacheForm idProjet ={idProjet} idTache={idTache} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData} fetchDatas={fetchDatas}/>
       </Modal>
 
       <Modal

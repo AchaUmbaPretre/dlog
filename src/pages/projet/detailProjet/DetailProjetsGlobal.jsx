@@ -6,6 +6,8 @@ import { getProjetOne } from '../../../services/projetService';
 import DetailProjetBesoin from './detailProjetBesoin/DetailProjetBesoin';
 import ProjetDoc from '../projetDoc/ProjetDoc';
 import ListeTacheProjet1 from '../listeTacheProjet/ListeTacheProjet1';
+import ProjetDocForm from '../projetDoc/ProjetDocForm';
+import TacheForm from '../../taches/tacheform/TacheForm';
 
 const { Title, Text } = Typography;
 
@@ -254,7 +256,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         width={1000}
         centered
       >
-        <ListeTacheProjet1 idProjet={idProjet} fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+        <ListeTacheProjet1 idProjet={idProjet} fetchDatas={fetchData} closeModal={()=>setModalType(null)}/>
       </Modal>
       <Modal
         title=""
@@ -266,6 +268,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
       >
         <DetailProjetBesoin idProjet={idProjet} />
       </Modal>
+
       <Modal
         title=""
         visible={modalType === 'timing'}
@@ -293,6 +296,40 @@ const DetailProjetsGlobal = ({ idProjet }) => {
           </Text>
         </Card>
       </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'edit'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+{/*         <DetailProjetBesoin idProjet={idProjet} /> */}
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'add-doc'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <ProjetDocForm idProjet={idProjet} fetchData={fetchData} closeModal={closeAllModals} fetchDatas={fetchData} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'add-tache'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <TacheForm idProjet ={idProjet} idTache={''} closeModal={closeAllModals} fetchData={fetchData}/>
+      </Modal>
+
     </div>
   );
 };
