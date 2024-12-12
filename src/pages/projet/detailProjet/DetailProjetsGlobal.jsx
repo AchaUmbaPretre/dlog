@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { notification, Card, Row, Col, Typography, Modal, Divider, Skeleton, Badge, Tooltip } from 'antd';
-import { InfoCircleOutlined, FileOutlined, FileAddOutlined, EditOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, FileOutlined, FormOutlined, FileAddOutlined, EditOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import ProjetDetailGeneral from './projetDetailGen/ProjetDetailGeneral';
 import { getProjetOne } from '../../../services/projetService';
 import DetailProjetBesoin from './detailProjetBesoin/DetailProjetBesoin';
@@ -74,6 +74,10 @@ const DetailProjetsGlobal = ({ idProjet }) => {
 
   }
 
+  const handleInspection = () => {
+
+  }
+
   const renderDataCards = () => (
     <Row gutter={[16, 16]} justify="center" className="data-cards">
       <Col xs={24} sm={12} md={6} onClick={handleInfo}>
@@ -137,7 +141,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
           </div>
 
           <div className='rows-menu'>
-            <Tooltip title="Modifier la description">
+            <Tooltip title="Modifier cette description">
               <div 
                 onClick={handleEditer} 
                 style={{
@@ -182,6 +186,30 @@ const DetailProjetsGlobal = ({ idProjet }) => {
                 onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
                 <FileAddOutlined />
+              </div>
+            </Tooltip>
+
+            <Tooltip title="Ajouter une tache">
+              <div 
+                onClick={handleInspection} 
+                style={{
+                  background:'#f50',
+                  height:'30px',
+                  width:'30px',
+                  borderRadius:'50%',
+                  display:'flex',
+                  alignItems:'center',
+                  justifyContent:'center',
+                  color:'#fff',
+                  marginLeft:'10px',
+                  cursor:'pointer',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <FormOutlined />
               </div>
             </Tooltip>
           </div>
