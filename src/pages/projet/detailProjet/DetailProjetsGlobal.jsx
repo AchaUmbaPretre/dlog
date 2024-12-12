@@ -67,14 +67,16 @@ const DetailProjetsGlobal = ({ idProjet }) => {
   };
 
   const handleEditer = (id) => {
+    openModal('edit');
 
   }
 
   const handleAjouterDoc = () => {
-
+    openModal('add-doc');
   }
 
-  const handleInspection = () => {
+  const handleTache = () => {
+    openModal('add-tache');
 
   }
 
@@ -191,7 +193,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
 
             <Tooltip title="Ajouter une tache">
               <div 
-                onClick={handleInspection} 
+                onClick={handleTache} 
                 style={{
                   background:'#f50',
                   height:'30px',
