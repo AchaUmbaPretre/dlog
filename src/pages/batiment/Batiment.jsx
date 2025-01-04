@@ -642,7 +642,7 @@ const Batiment = () => {
           width={600}
           centered
         >
-          <DenominationForm idBatiment={idBatiment} />
+          <DenominationForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
         </Modal>
 
         <Modal

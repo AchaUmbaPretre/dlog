@@ -3,7 +3,7 @@ import { Form, Input, Button, notification } from 'antd';
 import { getDenominationOneV, postDenomination, putDenomination } from '../../../../services/batimentService';
 import { getBatimentOne } from '../../../../services/typeService';
 
-const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
+const DenominationForm = ({ idBatiment, idDenomination_bat, closeModal, fetchData }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [denominations, setDenominations] = useState([{ nom_denomination_bat: '' }]);
@@ -65,8 +65,9 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
         message: 'Succès',
         description: 'Les dénominations ont été ajoutées avec succès.',
       });
-      window.location.reload();
+      fetchData();
       form.resetFields();
+      closeModal();
       setDenominations([{ nom_denomination_bat: '' }]); // Réinitialiser les champs de dénomination
     } catch (error) {
       notification.error({

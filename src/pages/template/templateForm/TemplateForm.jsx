@@ -74,7 +74,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     useEffect(() => {
         fetchDataAll();
           // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idBatiment]);
+    }, [idBatiment, ]);
 
     useEffect(() => {
         form.resetFields()
@@ -350,7 +350,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                 width={600}
                 centered
             >
-                <NiveauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+                <NiveauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchDataAll} />
             </Modal>
 
             <Modal
@@ -361,7 +361,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                 width={600}
                 centered
             >
-                <DenominationForm idBatiment={idBatiment} />
+                <DenominationForm idBatiment={idBatiment} idDenomination_bat={''} closeModal={()=>setModalType(null)} fetchData={fetchDataAll}  />
             </Modal>
         </div>
     );
