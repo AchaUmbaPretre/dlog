@@ -52,13 +52,14 @@ const DenominationForm = ({ idBatiment, idDenomination_bat }) => {
   }, [idBatiment]);
 
   const onFinish = async (values) => {
+    
     setLoading(true);
     try {
       if(idDenomination_bat){
         await putDenomination(idDenomination_bat, values.denominations[0])
       }
       else{
-        await postDenomination(idBatiment, { denominations: values.denomination });
+        await postDenomination(idBatiment, { denominations: values.denominations });
       }
       notification.success({
         message: 'Succès',

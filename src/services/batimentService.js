@@ -253,7 +253,6 @@ export const getDenominationOne = async (id) => {
 };
 
 export const postDenomination = async (idBatiment, data) => {
-
   const params = {
     id_batiment:idBatiment,
     ...data
