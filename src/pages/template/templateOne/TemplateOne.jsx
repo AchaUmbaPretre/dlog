@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Tag, Empty } from 'antd';
+import { Table, Tag, Empty, Select } from 'antd';
 import { CalendarOutlined, FileTextOutlined, UserOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getTemplate5derniers, getTemplateDeuxMoisPrecedent } from '../../../services/templateService';
 import './templateOne.scss';
+import { getProvince } from '../../../services/clientService';
 
 const TemplateOne = ({ idClient, idTemplate, periode }) => {
   const [loadingData, setLoadingData] = useState(true);
@@ -18,6 +19,10 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
     setLoadingData(true);
     try {
       const response = await getTemplateDeuxMoisPrecedent(idClient, periode);
+      const resProvince = await getProvince();
+
+      setProvince(resProvince?.data)
+
       if (response?.data) {
         setData(response.data);
         setNomClient(response.data[0]?.nom_client || 'Client non spécifié');
@@ -114,7 +119,15 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
               <div className="row-title">
                 <h2 className='table-title'>Liste des templates de {nomClient}</h2>
                 <div>
-
+                  <Select
+                    showSearch
+                    options={province.map((item) => ({
+                      value: item.id,
+                      label: item.capital,
+                      }))}
+                      placeholder="Sélectionnez une ville..."
+                      optionFilterProp="label"
+                  />
                 </div>
               </div>
               <Table
@@ -135,7 +148,9 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
 
         {dernier.length > 0 ? (
           <div className="column table-container">
-            <h2 className='table-title'>Période de {formatPeriod(periode)}</h2>
+            <div className="row-title">
+              <h2 className='table-title'>Période de {formatPeriod(periode)}</h2>
+            </div>
             <Table
               columns={columns}
               dataSource={dernier}
