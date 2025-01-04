@@ -10,6 +10,8 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
   const [data, setData] = useState([]);
   const [dernier, setDernier] = useState([]);
   const [nomClient, setNomClient] = useState('');
+  const [province, setProvince] = useState([]);
+  const [idProvince, setIdProvice] = useState('');
   const scroll = { x: 400 };
 
   const fetchData = async () => {
@@ -111,7 +113,9 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
             <div>
               <div className="row-title">
                 <h2 className='table-title'>Liste des templates de {nomClient}</h2>
+                <div>
 
+                </div>
               </div>
               <Table
                 columns={columns}
