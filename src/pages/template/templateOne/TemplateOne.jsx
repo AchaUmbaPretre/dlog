@@ -18,7 +18,7 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
   const fetchData = async () => {
     setLoadingData(true);
     try {
-      const response = await getTemplateDeuxMoisPrecedent(idClient, periode);
+      const response = await getTemplateDeuxMoisPrecedent(idClient, periode, idProvince);
       const resProvince = await getProvince();
 
       setProvince(resProvince?.data)
@@ -52,7 +52,7 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
     fetchData();
     fetchData5derniers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idClient, periode]);
+  }, [idClient, periode, idProvince]);
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (_, __, index) => index + 1, width: "5%" },
@@ -101,9 +101,8 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
     }
   ];
 
-  // Fonction pour formater la période au mois
   const formatPeriod = (period) => {
-    return moment(period, "YYYY-MM").format("MMMM"); // Format mois (ex : "Novembre")
+    return moment(period, "YYYY-MM").format("MMMM");
   };
 
   const renderEmptyData = (message) => (
@@ -127,6 +126,7 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
                       }))}
                       placeholder="Sélectionnez une ville..."
                       optionFilterProp="label"
+                      onChange={setIdProvice}
                   />
                 </div>
               </div>
@@ -134,7 +134,7 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
                 columns={columns}
                 dataSource={data}
                 loading={loadingData}
-                pagination={{ pageSize: 10 }}
+                pagination={{ pageSize: 8 }}
                 rowKey="id"
                 bordered
                 size="middle"
