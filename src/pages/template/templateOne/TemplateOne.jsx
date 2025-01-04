@@ -109,7 +109,10 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
         <div className="column table-container">
           {data.length > 0 ? (
             <div>
-              <h2 className='table-title'>Liste des templates de {nomClient}</h2>
+              <div className="row-title">
+                <h2 className='table-title'>Liste des templates de {nomClient}</h2>
+
+              </div>
               <Table
                 columns={columns}
                 dataSource={data}
