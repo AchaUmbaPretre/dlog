@@ -112,7 +112,7 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
                                     showSearch
                                     options={data.map((item) => ({
                                         value: item.id,
-                                        label: item.name,
+                                        label: item.capital,
                                     }))}
                                     placeholder="Sélectionnez une ville..."
                                     optionFilterProp="label"
