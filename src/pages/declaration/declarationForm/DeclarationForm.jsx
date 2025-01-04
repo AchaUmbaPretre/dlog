@@ -21,6 +21,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const [client, setClient] = useState([]);
     const [batiment, setBatiment] = useState([]);
     const navigate = useNavigate();
+    const [idClient, setIdClient] = useState([]);
+    const [periode, setPeriode] = useState(null);
 
     const fetchDataAll = async () => {
         try {
@@ -62,16 +64,16 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const handleTemplateChange = async () => {
         try {
             const { data} = await getTemplateOne(idTemplate);
-            const { id_ville } = data[0];
+            const { id_ville, id_client} = data[0];
         
             form.setFieldsValue({
-                id_ville
+                id_ville,
+                id_client
             });
+
+            setIdClient(id_client)
         } catch (error) {
-            notification.error({
-                message: 'Erreur de chargement du template',
-                description: 'Impossible de charger les informations du template sélectionné.',
-            });
+            console.log(error)
         }
     };
     
@@ -130,6 +132,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                                         options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
                                         placeholder="Sélectionnez..."
                                         onChange={setIdTemplate}
+                                        optionFilterProp="label"
                                     />
                                 </Form.Item>
 
@@ -143,6 +146,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                                         placeholder="Sélectionnez le mois"
                                         format="YYYY-MM-DD"
                                         style={{ width: '100%' }}
+                                        onChange={(date, dateString) => setPeriode(dateString)}
                                     />
                                 </Form.Item>
 
@@ -335,7 +339,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                     </Form>
                 </div>
                 <div className="declaration-right">
-                    <TemplateOne idTemplate={idTemplate} />
+                    <TemplateOne idClient={idClient} idTemplate={idTemplate} periode={periode} />
                 </div>
             </div>
         </div>

@@ -11,8 +11,14 @@ export const getTemplate = async () => {
     return axios.get(`${DOMAIN}/api/template`);
   };
 
-export const getTemplate5derniers = async () => {
-    return axios.get(`${DOMAIN}/api/template/5derniers`);
+export const getTemplate5derniers = async (id, periode) => {
+  console.log(periode)
+    return axios.get(`${DOMAIN}/api/template/5derniers?id_client=${id}&periode=${periode}`);
+  };
+
+export const getTemplateDeuxMoisPrecedent = async (id, periode) => {
+  console.log(periode)
+    return axios.get(`${DOMAIN}/api/template/2mois_precedents?id_client=${id}`);
   };
 
 export const putTemplateStatus = async (id, data) => {

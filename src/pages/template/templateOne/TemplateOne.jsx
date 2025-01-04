@@ -1,40 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Table, notification, Tag } from 'antd';
+import { Table, Tag } from 'antd';
 import { CalendarOutlined,FileTextOutlined, UserOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { getTemplate5derniers, getTemplateOne } from '../../../services/templateService';
+import { getTemplate5derniers, getTemplateDeuxMoisPrecedent } from '../../../services/templateService';
 import './templateOne.scss';
 
-const TemplateOne = ({ idTemplate }) => {
+const TemplateOne = ({ idClient, idTemplate, periode }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [dernier, setDernier] = useState([]);
   const scroll = { x: 400 };
+  const [nom, setNom] = useState('');
 
   const fetchData = async () => {
     try {
-      const { data } = await getTemplateOne(idTemplate);
+      const { data } = await getTemplateDeuxMoisPrecedent(idClient, periode);
       setData(data);
+      setNom(data[0].nom_client)
       setLoading(false);
     } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données.',
-      });
+      console.log(error)
       setLoading(false);
     }
   };
 
   const fetchData5derniers = async () => {
     try {
-      const { data } = await getTemplate5derniers();
+      const { data } = await getTemplate5derniers(idClient,periode);
       setDernier(data);
       setLoading(false);
     } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données.',
-      });
+      console.log(error)
       setLoading(false);
     }
   };
@@ -42,8 +38,8 @@ const TemplateOne = ({ idTemplate }) => {
   useEffect(() => {
     fetchData();
     fetchData5derniers();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idTemplate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idClient,periode]);
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (_, __, index) => index + 1, width: "5%" },
@@ -51,9 +47,17 @@ const TemplateOne = ({ idTemplate }) => {
       title: 'Template',
       dataIndex: 'desc_template',
       key: 'desc_template',
-      render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
-      )    
+        render: (text, record) => {
+          const isTemplateMatch = idTemplate && record.id_template === idTemplate;
+          return (
+            <Tag 
+              icon={<FileTextOutlined />} 
+              color={isTemplateMatch ? "red" : "blue"}
+            >
+              {text ?? 'Aucun'}
+            </Tag>
+          );
+        }   
     },
     {
       title: 'Client',
@@ -77,7 +81,6 @@ const TemplateOne = ({ idTemplate }) => {
       ),
     },
     { title: 'Dénomination', dataIndex: 'nom_denomination_bat', key: 'nom_denomination_bat', render: (text) => <Tag color="purple">{text}</Tag> },
-    { title: 'fact', dataIndex: 'nom_whse_fact', key: 'nom_whse_fact', render: (text) => <Tag color="geekblue">{text}</Tag> },
     { title: 'Objet', dataIndex: 'nom_objet_fact', key: 'nom_objet_fact', render: (text) => <Tag color="green">{text}</Tag> },
     {
       title: 'Date active',
@@ -92,26 +95,31 @@ const TemplateOne = ({ idTemplate }) => {
     <div className="client">
       <div className="row">
         <div className="column table-container">
-          <h2 className='table-title'>5 derniers templates</h2>
+          {
+            data.length > 1 &&
+            <div>
+              <h2 className='table-title'>Liste des templates de {nom}</h2>
+              <Table
+                columns={columns}
+                dataSource={data}
+                loading={loading}
+                pagination={{ pageSize: 10 }}
+                rowKey="id"
+                bordered
+                size="middle"
+                scroll={scroll}
+              />
+            </div>
+          }
+        </div>
+        { dernier.length > 1 && 
+        <div className="column table-container">
+          <h2 className='table-title'>Du période de {periode}</h2>
           <Table
             columns={columns}
             dataSource={dernier}
             loading={loading}
             pagination={{ pageSize: 5 }}
-            rowKey="id"
-            bordered
-            size="middle"
-            scroll={scroll}
-          />
-        </div>
-        { idTemplate && 
-        <div className="column table-container">
-          <h2 className='table-title'>Détails du Template</h2>
-          <Table
-            columns={columns}
-            dataSource={data}
-            loading={loading}
-            pagination={{ pageSize: 10 }}
             rowKey="id"
             bordered
             size="middle"
