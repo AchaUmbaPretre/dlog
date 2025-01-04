@@ -18,7 +18,7 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
   const fetchData = async () => {
     setLoadingData(true);
     try {
-      const response = await getTemplateDeuxMoisPrecedent(idClient, periode, idProvince);
+      const response = await getTemplateDeuxMoisPrecedent(idClient, idProvince);
       const resProvince = await getProvince();
 
       setProvince(resProvince?.data)
@@ -37,7 +37,7 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
   const fetchData5derniers = async () => {
     setLoadingData(true);
     try {
-      const response = await getTemplate5derniers(idClient, periode);
+      const response = await getTemplate5derniers(idClient, periode, idProvince);
       if (response?.data) {
         setDernier(response.data);
       }
@@ -113,23 +113,26 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
     <div className="client">
       <div className="row">
         <div className="column table-container">
-          {data.length > 0 ? (
+          
             <div>
               <div className="row-title">
-                <h2 className='table-title'>Liste des templates de {nomClient}</h2>
-                <div>
-                  <Select
-                    showSearch
-                    options={province.map((item) => ({
-                      value: item.id,
-                      label: item.capital,
-                      }))}
-                      placeholder="Sélectionnez une ville..."
-                      optionFilterProp="label"
-                      onChange={setIdProvice}
-                  />
-                </div>
+                <h2 className='table-title'>{ idTemplate ? `Liste des templates de ${nomClient}` : 'Aucun client sélectionné'}</h2>
+                { idTemplate && 
+                  <div>
+                    <Select
+                      showSearch
+                      options={province.map((item) => ({
+                        value: item.id,
+                        label: item.capital,
+                        }))}
+                        placeholder="Sélectionnez une ville..."
+                        optionFilterProp="label"
+                        onChange={setIdProvice}
+                    />
+                  </div> 
+                }
               </div>
+              {data.length > 0 ? (
               <Table
                 columns={columns}
                 dataSource={data}
@@ -139,11 +142,10 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
                 bordered
                 size="middle"
                 scroll={scroll}
-              />
+              /> ) : (
+                renderEmptyData('Aucun template trouvé pour ce client.')
+              )}
             </div>
-          ) : (
-            renderEmptyData('Aucun template trouvé pour ce client.')
-          )}
         </div>
 
         {dernier.length > 0 ? (

@@ -59,7 +59,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
 
     useEffect(() => {
         fetchDataAll()
-    }, []);
+    }, [idClient]);
 
     const handleTemplateChange = async () => {
         try {
