@@ -361,7 +361,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
-                                        label: `${item.nom}`,
+                                        label: `${item.prenom} - ${item.nom}`,
                                     }))}
                                     placeholder="Sélectionnez un responsable..."
                                     optionFilterProp="label"
@@ -389,7 +389,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
-                                        label: `${item.nom}`,
+                                        label: `${item.prenom} - ${item.nom}`,
                                     }))}
                                     placeholder="Sélectionnez un demandeur..."
                                     optionFilterProp="label"
