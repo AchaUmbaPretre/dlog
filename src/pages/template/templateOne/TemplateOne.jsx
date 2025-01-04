@@ -1,37 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Tag } from 'antd';
-import { CalendarOutlined,FileTextOutlined, UserOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Table, Tag, Empty } from 'antd';
+import { CalendarOutlined, FileTextOutlined, UserOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getTemplate5derniers, getTemplateDeuxMoisPrecedent } from '../../../services/templateService';
 import './templateOne.scss';
 
 const TemplateOne = ({ idClient, idTemplate, periode }) => {
-  const [loading, setLoading] = useState(true);
+  const [loadingData, setLoadingData] = useState(true);
   const [data, setData] = useState([]);
   const [dernier, setDernier] = useState([]);
+  const [nomClient, setNomClient] = useState('');
   const scroll = { x: 400 };
-  const [nom, setNom] = useState('');
 
   const fetchData = async () => {
+    setLoadingData(true);
     try {
-      const { data } = await getTemplateDeuxMoisPrecedent(idClient, periode);
-      setData(data);
-      setNom(data[0].nom_client)
-      setLoading(false);
+      const response = await getTemplateDeuxMoisPrecedent(idClient, periode);
+      if (response?.data) {
+        setData(response.data);
+        setNomClient(response.data[0]?.nom_client || 'Client non spécifié');
+      }
     } catch (error) {
-      console.log(error)
-      setLoading(false);
+      console.error('Erreur lors de la récupération des données:', error);
+    } finally {
+      setLoadingData(false);
     }
   };
 
   const fetchData5derniers = async () => {
+    setLoadingData(true);
     try {
-      const { data } = await getTemplate5derniers(idClient,periode);
-      setDernier(data);
-      setLoading(false);
+      const response = await getTemplate5derniers(idClient, periode);
+      if (response?.data) {
+        setDernier(response.data);
+      }
     } catch (error) {
-      console.log(error)
-      setLoading(false);
+      console.error('Erreur lors de la récupération des 5 derniers:', error);
+    } finally {
+      setLoadingData(false);
     }
   };
 
@@ -39,7 +45,7 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
     fetchData();
     fetchData5derniers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idClient,periode]);
+  }, [idClient, periode]);
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (_, __, index) => index + 1, width: "5%" },
@@ -47,17 +53,14 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
       title: 'Template',
       dataIndex: 'desc_template',
       key: 'desc_template',
-        render: (text, record) => {
-          const isTemplateMatch = idTemplate && record.id_template === idTemplate;
-          return (
-            <Tag 
-              icon={<FileTextOutlined />} 
-              color={isTemplateMatch ? "red" : "blue"}
-            >
-              {text ?? 'Aucun'}
-            </Tag>
-          );
-        }   
+      render: (text, record) => {
+        const isTemplateMatch = idTemplate && record.id_template === idTemplate;
+        return (
+          <Tag icon={<FileTextOutlined />} color={isTemplateMatch ? "red" : "blue"}>
+            {text ?? 'Aucun'}
+          </Tag>
+        );
+      }
     },
     {
       title: 'Client',
@@ -91,18 +94,26 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
     }
   ];
 
+  // Fonction pour formater la période au mois
+  const formatPeriod = (period) => {
+    return moment(period, "YYYY-MM").format("MMMM"); // Format mois (ex : "Novembre")
+  };
+
+  const renderEmptyData = (message) => (
+    <Empty description={message || 'Aucune donnée disponible'} image={Empty.PRESENTED_IMAGE_SIMPLE} />
+  );
+
   return (
     <div className="client">
       <div className="row">
         <div className="column table-container">
-          {
-            data.length > 1 &&
+          {data.length > 0 ? (
             <div>
-              <h2 className='table-title'>Liste des templates de {nom}</h2>
+              <h2 className='table-title'>Liste des templates de {nomClient}</h2>
               <Table
                 columns={columns}
                 dataSource={data}
-                loading={loading}
+                loading={loadingData}
                 pagination={{ pageSize: 10 }}
                 rowKey="id"
                 bordered
@@ -110,23 +121,28 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
                 scroll={scroll}
               />
             </div>
-          }
+          ) : (
+            renderEmptyData('Aucun template trouvé pour ce client.')
+          )}
         </div>
-        { dernier.length > 1 && 
-        <div className="column table-container">
-          <h2 className='table-title'>Du période de {periode}</h2>
-          <Table
-            columns={columns}
-            dataSource={dernier}
-            loading={loading}
-            pagination={{ pageSize: 5 }}
-            rowKey="id"
-            bordered
-            size="middle"
-            scroll={scroll}
-          />
-        </div>
-        }   
+
+        {dernier.length > 0 ? (
+          <div className="column table-container">
+            <h2 className='table-title'>Période de {formatPeriod(periode)}</h2>
+            <Table
+              columns={columns}
+              dataSource={dernier}
+              loading={loadingData}
+              pagination={{ pageSize: 5 }}
+              rowKey="id"
+              bordered
+              size="middle"
+              scroll={scroll}
+            />
+          </div>
+        ) : (
+          renderEmptyData('Aucune donnée pour la période spécifiée.')
+        )}
       </div>
     </div>
   );
