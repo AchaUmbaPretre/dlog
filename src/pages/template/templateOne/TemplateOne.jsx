@@ -113,7 +113,6 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
     <div className="client">
       <div className="row">
         <div className="column table-container">
-          
             <div>
               <div className="row-title">
                 <h2 className='table-title'>{ idTemplate ? `Liste des templates de ${nomClient}` : 'Aucun client sélectionné'}</h2>

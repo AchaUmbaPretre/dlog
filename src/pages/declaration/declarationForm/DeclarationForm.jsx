@@ -22,7 +22,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const [client, setClient] = useState([]);
     const [batiment, setBatiment] = useState([]);
     const navigate = useNavigate();
-    const [idClient, setIdClient] = useState([]);
+    const [idClient, setIdClient] = useState('');
     const [periode, setPeriode] = useState(null);
 
     const fetchDataAll = async () => {
@@ -81,6 +81,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     useEffect(() => {
         handleTemplateChange()
     }, [idTemplate]);
+
+    console.log(idClient)
 
     const onFinish = async (values) => {
         setIsLoading(true);
