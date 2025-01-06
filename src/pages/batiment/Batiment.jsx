@@ -581,15 +581,15 @@ const Batiment = () => {
         </Modal>
 
         <Modal
-        title=""
-        visible={modalType === 'FormEntrepot'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={490}
-        centered
-      >
-        <FormEntrepots idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
-      </Modal>
+          title=""
+          visible={modalType === 'FormEntrepot'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={490}
+          centered
+        >
+          <FormEntrepots idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+        </Modal>
 
        <Modal
           title=""
