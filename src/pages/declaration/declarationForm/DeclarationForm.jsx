@@ -24,6 +24,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const [idClient, setIdClient] = useState('');
     const [idDeclarations, setIdDeclarations] = useState(idDeclaration);
     const [periode, setPeriode] = useState(null);
+    const [refreshKey, setRefreshKey] = useState(0); // Clé de rafraîchissement
 
 
     useEffect(() => {
@@ -110,6 +111,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
             }
             else{
                 await postDeclaration(values);
+                setRefreshKey((prev) => prev + 1);
             }
             notification.success({
                 message: 'Succès',
@@ -122,7 +124,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
             console.error("Erreur lors de l'ajout de la déclaration:", error);
             notification.error({
                 message: 'Erreur',
-                description: 'Une erreur s\'est produite lors de l\'ajout de la déclaration.',
+                description: `${error.response.data.error}`,
             });
         } finally {
             setIsLoading(false);
@@ -379,7 +381,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                     </Form>
                 </div>
                 <div className="declaration-right">
-                    <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations} />
+                    <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations}         key={refreshKey} />
                 </div>
             </div>
         </div>
