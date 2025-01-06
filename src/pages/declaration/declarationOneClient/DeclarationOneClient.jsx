@@ -18,7 +18,7 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
     'Debours Entr': false,
     'Total Entr': false,
     "TTC Entr": true,
-    "Ville": false,
+    "Ville": true,
     "Client": false,
     "Bâtiment": false,
     "Objet fact": false,
