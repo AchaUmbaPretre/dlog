@@ -59,6 +59,8 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
   };
 
     const fetchData = async () => {
+        setData([]); // Réinitialise l'état avant de charger de nouvelles données
+
       try {
         const { data } = await getDeclarationOneClient(idClient, idProvince);
         const resProvince = await getProvince();
