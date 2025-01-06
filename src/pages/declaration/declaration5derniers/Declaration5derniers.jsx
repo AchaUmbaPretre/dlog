@@ -317,8 +317,10 @@ const Declaration5derners = () => {
     <>
         <div>
             <div className="row-title">
-                        <h2 className="table-title">5 dernières declarations</h2>
-                        <div></div>
+                <h2 className="table-title">5 dernières declarations</h2>
+                <div>
+                    
+                </div>
             </div>
             <Table
                 columns={columns}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Menu, notification, Tag, Dropdown, Button } from 'antd';
+import { Table, Menu, Tag, Dropdown, Button } from 'antd';
 import { CalendarOutlined,MenuOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getDeclarationOneClient } from '../../../services/templateService';
@@ -30,6 +30,7 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
   });
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
+  const [nameTemplate, setNameTemplate] = useState('')
 
   const groupDataByMonth = (data) => {
     const groupedData = {};
@@ -57,7 +58,7 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
     const fetchData = async () => {
       try {
         const { data } = await getDeclarationOneClient(idClient);
-
+        setNameTemplate(data[0].desc_template)
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -287,7 +288,7 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
                     ?
                     <>
                         <div className="row-title" style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%', marginBottom:'15px', borderBottom:'2px solid #e8e8e8', paddingBottom:'10px'}}>
-                            <h2 className="table-title">Declaration</h2>
+                            <h2 className="table-title">Declaration {nameTemplate} </h2>
                             <div>
                                 <Dropdown overlay={menus} trigger={['click']}>
                                     <Button icon={<MenuOutlined />} className="ant-dropdown-link">
