@@ -1,4 +1,6 @@
 .client {
+    height: 500px;
+    overflow-y: scroll;
     .row {
       display: flex;
       flex-direction: column;
