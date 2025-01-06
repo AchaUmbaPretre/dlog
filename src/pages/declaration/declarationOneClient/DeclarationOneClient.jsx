@@ -40,7 +40,6 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
     idDeclarations(id)
 };
 
-
   const groupDataByMonth = (data) => {
     const groupedData = {};
   
