@@ -60,7 +60,7 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getDeclarationOneClient(idClient);
+        const { data } = await getDeclarationOneClient(idClient, idProvince);
         const resProvince = await getProvince();
 
         setProvince(resProvince.data)
@@ -75,8 +75,7 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
 
   useEffect(() => {
     fetchData();
-  }, [idClient]);
-
+  }, [idClient, idProvince]);
 
   const menus = (
     <Menu>
