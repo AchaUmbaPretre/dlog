@@ -288,7 +288,7 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
                     ?
                     <>
                         <div className="row-title" style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%', marginBottom:'15px', borderBottom:'2px solid #e8e8e8', paddingBottom:'10px'}}>
-                            <h2 className="table-title">Declaration {nameTemplate} </h2>
+                            <h2 className="table-title" style={{fontSize:'17px', fontWeight:'600', color:'#333'}}>Declaration {nameTemplate} </h2>
                             <div>
                                 <Dropdown overlay={menus} trigger={['click']}>
                                     <Button icon={<MenuOutlined />} className="ant-dropdown-link">
