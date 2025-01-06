@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Menu, Tag, Dropdown, Button } from 'antd';
+import { Table, Menu, Tag, Dropdown, Button, Select } from 'antd';
 import { CalendarOutlined,MenuOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getDeclarationOneClient } from '../../../services/templateService';
 import Declaration5derners from '../declaration5derniers/Declaration5derniers';
+import { getProvince } from '../../../services/clientService';
 
 const DeclarationOneClient = ({idClient, idTemplate}) => {
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,10 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
   });
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
-  const [nameTemplate, setNameTemplate] = useState('')
+  const [nameTemplate, setNameTemplate] = useState('');
+  const [province, setProvince] = useState([]);
+  const [idProvince, setIdProvice] = useState('');
+
 
   const groupDataByMonth = (data) => {
     const groupedData = {};
@@ -58,6 +62,9 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
     const fetchData = async () => {
       try {
         const { data } = await getDeclarationOneClient(idClient);
+        const resProvince = await getProvince();
+
+        setProvince(resProvince.data)
         setNameTemplate(data[0].desc_template)
         setData(data);
         setLoading(false);
@@ -289,12 +296,23 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
                     <>
                         <div className="row-title" style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%', marginBottom:'15px', borderBottom:'2px solid #e8e8e8', paddingBottom:'10px'}}>
                             <h2 className="table-title" style={{fontSize:'17px', fontWeight:'600', color:'#333'}}>Declaration {nameTemplate} </h2>
-                            <div>
+                            <div style={{display:'flex', gap:'10px'}}>
                                 <Dropdown overlay={menus} trigger={['click']}>
                                     <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                                     Colonnes <DownOutlined />
                                     </Button>
                                 </Dropdown>
+
+                                <Select
+                                    showSearch
+                                    options={province.map((item) => ({
+                                    value: item.id,
+                                    label: item.capital,
+                                    }))}
+                                    placeholder="Sélectionnez une ville..."
+                                    optionFilterProp="label"
+                                    onChange={setIdProvice}
+                                />
                             </div>
                         </div>
                         {groupedData.map(({ month, items }) => (
