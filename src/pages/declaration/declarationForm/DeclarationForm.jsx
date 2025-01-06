@@ -155,7 +155,11 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                                     label="M² Occupé"
                                     rules={[{ required: false, message: "Veuillez entrer la superficie occupée" }]}
                                 >
-                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Occupé" />
+                                    <InputNumber min={0}
+                                     style={{ width: '100%' }}
+                                      placeholder="M² Occupé"
+                                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                      />
                                 </Form.Item>
 
                                 <Form.Item
@@ -163,7 +167,11 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                                     label="M² Facturé"
                                     rules={[{ required: false, message: "Veuillez entrer la superficie facturée" }]}
                                 >
-                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Facturé" />
+                                    <InputNumber min={0} 
+                                        style={{ width: '100%' }} 
+                                        placeholder="M² Facturé"
+                                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                     />
                                 </Form.Item>
 
                                 <Form.Item
@@ -171,7 +179,11 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                                     label="Tarif Entreposage"
                                     rules={[{ required: false, message: "Veuillez entrer le tarif d'entreposage" }]}
                                 >
-                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Tarif Entreposage" />
+                                    <InputNumber min={0}
+                                        style={{ width: '100%' }}
+                                      placeholder="Tarif Entreposage" 
+                                      parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                      />
                                 </Form.Item>
 
                                 <Form.Item
@@ -187,7 +199,11 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                                     label="Débours"
                                     rules={[{ required: false, message: "Veuillez entrer les débours" }]}
                                 >
-                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" />
+                                    <InputNumber min={0}
+                                        style={{ width: '100%' }}
+                                      placeholder="Débours"
+                                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                      />
                                 </Form.Item>
 
                                 <Form.Item
@@ -195,7 +211,12 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                                     label="Total"
                                     rules={[{ required: false, message: "Veuillez entrer le total" }]}
                                 >
-                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
+                                    <InputNumber min={0}
+                                        style={{ width: '100%' }}
+                                        placeholder="Total"
+                                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                     />
+                                    
                                 </Form.Item>
 
                                 <Form.Item
