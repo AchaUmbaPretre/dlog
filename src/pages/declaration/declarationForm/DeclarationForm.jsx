@@ -140,6 +140,26 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                         name="declaration_form"
                         layout="vertical"
                         onFinish={onFinish}
+                        onValuesChange={(changedValues, allValues) => {
+                            const { m2_facture, tarif_entreposage, entreposage } = allValues;
+
+                            // Convertissez les valeurs en nombres pour éviter les erreurs
+                            const m2Facture = parseFloat(m2_facture) || 0;
+                            const tarifEntreposage = parseFloat(tarif_entreposage) || 0;
+                            const entreposageVal = parseFloat(entreposage) || 0;
+
+                            // Calcul du Total Entreposage
+                            const totalEntreposage = (m2Facture * tarifEntreposage) + entreposageVal;
+
+                            // Calcul du TTC Entreposage
+                            const ttcEntreposage = totalEntreposage * 1.16;
+
+                            // Mise à jour des champs
+                            form.setFieldsValue({
+                                total_entreposage: totalEntreposage.toFixed(2),
+                                ttc_entreposage: ttcEntreposage.toFixed(2),
+                            });
+                        }}
                     >
                         <Collapse defaultActiveKey={['1', '2']} accordion>
                             <Panel header="Section Entreposage" key="1">
