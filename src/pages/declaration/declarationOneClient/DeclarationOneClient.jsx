@@ -10,7 +10,7 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
-    'Template': true,
+    'Template': false,
     'Desc man': false,
     'Periode': false,
     'M² occupe': false,
@@ -19,7 +19,7 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
     'Debours Entr': false,
     'Total Entr': false,
     "TTC Entr": true,
-    "Ville": true,
+    "Ville": false,
     "Client": false,
     "Bâtiment": false,
     "Objet fact": false,
