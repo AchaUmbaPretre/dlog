@@ -5,19 +5,19 @@ import moment from 'moment';
 import { getDeclarationOneClient } from '../../../services/templateService';
 import Declaration5derners from '../declaration5derniers/Declaration5derniers';
 
-const DeclarationOneClient = ({idClient, idDeclaration}) => {
+const DeclarationOneClient = ({idClient, idTemplate}) => {
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
-    'Template': false,
+    'Template': true,
     'Desc man': false,
     'Periode': false,
     'M² occupe': false,
     "M² facture": true,
-    "Tarif Entr": false,
+    "Tarif Entr": true,
     'Debours Entr': false,
     'Total Entr': false,
-    "TTC Entr": false,
+    "TTC Entr": true,
     "Ville": false,
     "Client": false,
     "Bâtiment": false,
@@ -286,7 +286,7 @@ const DeclarationOneClient = ({idClient, idDeclaration}) => {
                     idClient 
                     ?
                     <>
-                        <div className="row-title">
+                        <div className="row-title" style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%', marginBottom:'15px', borderBottom:'2px solid #e8e8e8', paddingBottom:'10px'}}>
                             <h2 className="table-title">Declaration</h2>
                             <div>
                                 <Dropdown overlay={menus} trigger={['click']}>

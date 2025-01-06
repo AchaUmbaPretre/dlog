@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Button, Select, DatePicker, Collapse, notification } from 'antd';
 import './declarationForm.scss';
-import TemplateOne from '../../template/templateOne/TemplateOne';
 import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
@@ -82,7 +81,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
         handleTemplateChange()
     }, [idTemplate]);
 
-    console.log(idClient)
 
     const onFinish = async (values) => {
         setIsLoading(true);
@@ -363,7 +361,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                     </Form>
                 </div>
                 <div className="declaration-right">
-                    <DeclarationOneClient idClient={idClient} idDeclaration={idTemplate} periode={periode} />
+                    <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} />
                 </div>
             </div>
         </div>
