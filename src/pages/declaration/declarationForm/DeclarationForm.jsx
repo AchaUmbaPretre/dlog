@@ -286,6 +286,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                                         showSearch
                                         options={province.map(item => ({ value: item.id, label: item.capital }))}
                                         placeholder="Sélectionnez..."
+                                        optionFilterProp="label"
                                     />
                                 </Form.Item>
 

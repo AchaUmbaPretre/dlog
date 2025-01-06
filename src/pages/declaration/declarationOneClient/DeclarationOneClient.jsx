@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Menu, Tag, Dropdown, Button, Select } from 'antd';
+import { Table, Menu, Tag, Dropdown, Button, Select, Skeleton } from 'antd';
 import { CalendarOutlined,MenuOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getDeclarationOneClient } from '../../../services/templateService';
 import Declaration5derners from '../declaration5derniers/Declaration5derniers';
 import { getProvince } from '../../../services/clientService';
+import './../../template/templateOne/templateOne.scss'
 
 const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) => {
   const [loading, setLoading] = useState(true);
@@ -17,9 +18,9 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
     "M² facture": true,
     "Tarif Entr": true,
     'Debours Entr': false,
-    'Total Entr': false,
+    'Total Entr': true,
     "TTC Entr": true,
-    "Ville": false,
+    "Ville": true,
     "Client": false,
     "Bâtiment": false,
     "Objet fact": false,
@@ -64,7 +65,8 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
   };
 
     const fetchData = async () => {
-        setData([]); // Réinitialise l'état avant de charger de nouvelles données
+        setLoading(true);
+        setData([]); 
 
       try {
         const { data } = await getDeclarationOneClient(idClient, idProvince);
@@ -77,6 +79,8 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
       } catch (error) {
         console.log(error)
         setLoading(false);
+      } finally {
+        setLoading(false); 
       }
     };
 
@@ -287,6 +291,12 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
       },
   ];
+
+  if(loading) {
+    return (
+        <Skeleton active paragraph={{ rows: 10 }} />
+    )
+  }
   
   return (
     <>
