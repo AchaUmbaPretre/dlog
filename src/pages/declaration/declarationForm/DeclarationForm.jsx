@@ -7,6 +7,7 @@ import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import DeclarationOneClient from '../declarationOneClient/DeclarationOneClient';
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -360,7 +361,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                     </Form>
                 </div>
                 <div className="declaration-right">
-                    <TemplateOne idClient={idClient} idTemplate={idTemplate} periode={periode} />
+                    <DeclarationOneClient idClient={idClient} idDeclaration={idTemplate} periode={periode} />
                 </div>
             </div>
         </div>
