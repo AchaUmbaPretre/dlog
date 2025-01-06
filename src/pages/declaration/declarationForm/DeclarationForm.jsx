@@ -115,7 +115,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
             });
             form.resetFields();
             navigate('/liste_declaration')
-            closeModal();
             fetchData()
         } catch (error) {
             console.error("Erreur lors de l'ajout de la déclaration:", error);
