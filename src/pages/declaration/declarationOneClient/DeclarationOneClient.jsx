@@ -35,7 +35,6 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
   const [province, setProvince] = useState([]);
   const [idProvince, setIdProvice] = useState('');
 
-
   const groupDataByMonth = (data) => {
     const groupedData = {};
   
@@ -101,7 +100,6 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
   };
 
   const groupedData = groupDataByMonth(data);
-
   
   const columns = [
     {
