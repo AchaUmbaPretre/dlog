@@ -3,6 +3,7 @@ import { Table, Menu, notification, Tag, Dropdown, Button } from 'antd';
 import { CalendarOutlined,MenuOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getDeclarationOneClient } from '../../../services/templateService';
+import Declaration5derners from '../declaration5derniers/Declaration5derniers';
 
 const DeclarationOneClient = ({idClient, idDeclaration}) => {
   const [loading, setLoading] = useState(true);
@@ -60,10 +61,7 @@ const DeclarationOneClient = ({idClient, idDeclaration}) => {
         setData(data);
         setLoading(false);
       } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
+        console.log(error)
         setLoading(false);
       }
     };
@@ -284,30 +282,38 @@ const DeclarationOneClient = ({idClient, idDeclaration}) => {
         <div className="row">
             <div className="column table-container">
                 <div>
-                    <div className="row-title">
-                        <h2 className="table-title">Declaration</h2>
-                        <div>
-                            <Dropdown overlay={menus} trigger={['click']}>
-                                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                                Colonnes <DownOutlined />
-                                </Button>
-                            </Dropdown>
+                { 
+                    idClient 
+                    ?
+                    <>
+                        <div className="row-title">
+                            <h2 className="table-title">Declaration</h2>
+                            <div>
+                                <Dropdown overlay={menus} trigger={['click']}>
+                                    <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                                    Colonnes <DownOutlined />
+                                    </Button>
+                                </Dropdown>
+                            </div>
                         </div>
-                    </div>
-                    {groupedData.map(({ month, items }) => (
-                    <div key={month}>
-                        <h3>{month}</h3>
-                        <Table
-                        dataSource={items}
-                        columns={columns}
-                        loading={loading}
-                        pagination={{ pageSize: 10 }}
-                        bordered
-                        size="middle"
-                        scroll={scroll}
-                        />
-                    </div>
-                    ))}
+                        {groupedData.map(({ month, items }) => (
+                        <div key={month}>
+                            <h3 style={{paddingBottom:'10px', fontSize:'14px'}}>{month}</h3>
+                            <Table
+                                dataSource={items}
+                                columns={columns}
+                                loading={loading}
+                                pagination={{ pageSize: 10 }}
+                                bordered
+                                size="middle"
+                                scroll={scroll}
+                            />
+                        </div>
+                        ))}
+                    </>
+                    :
+                    <Declaration5derners/>
+                }
                 </div>
             </div>
         </div>
