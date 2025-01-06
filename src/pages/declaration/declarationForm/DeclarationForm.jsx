@@ -60,6 +60,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                 if( declaration && declaration[0]){
                     form.setFieldsValue({
                         ...declaration[0],
+                        id_ville: declaration[0].id_ville,
+                        id_client: declaration[0].id_client,
                         periode : moment(declaration[0].periode, 'YYYY-MM-DD')
                     })
                 }
@@ -268,7 +270,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                                 <Form.Item
                                     name="id_client"
                                     label="Client"
-                                    rules={[{ required: false, message: "Veuillez entrer l'ID du client" }]}
+                                    rules={[{ required: true, message: "Veuillez entrer l'ID du client" }]}
                                 >
                                     <Select
                                         showSearch
