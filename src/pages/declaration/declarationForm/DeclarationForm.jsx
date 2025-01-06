@@ -22,7 +22,13 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const [batiment, setBatiment] = useState([]);
     const navigate = useNavigate();
     const [idClient, setIdClient] = useState('');
+    const [idDeclarations, setIdDeclarations] = useState(idDeclaration);
     const [periode, setPeriode] = useState(null);
+
+
+    useEffect(() => {
+        setIdDeclarations(idDeclaration);
+    }, [idDeclaration]);
 
     const fetchDataAll = async () => {
         try {
@@ -49,6 +55,17 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                 }
             }
 
+            if(idDeclarations) {
+                const { data : declaration } = await getDeclarationOne(idDeclarations)
+                if( declaration && declaration[0]){
+                    form.setFieldsValue({
+                        ...declaration[0],
+                        periode : moment(declaration[0].periode, 'YYYY-MM-DD')
+                    })
+                }
+            }
+            
+
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -59,7 +76,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
 
     useEffect(() => {
         fetchDataAll()
-    }, [idClient]);
+    }, [idClient, idDeclarations]);
 
     const handleTemplateChange = async () => {
         try {
@@ -361,7 +378,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                     </Form>
                 </div>
                 <div className="declaration-right">
-                    <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} />
+                    <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations} />
                 </div>
             </div>
         </div>

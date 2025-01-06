@@ -6,7 +6,7 @@ import { getDeclarationOneClient } from '../../../services/templateService';
 import Declaration5derners from '../declaration5derniers/Declaration5derniers';
 import { getProvince } from '../../../services/clientService';
 
-const DeclarationOneClient = ({idClient, idTemplate}) => {
+const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) => {
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
@@ -34,6 +34,12 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
   const [nameTemplate, setNameTemplate] = useState('');
   const [province, setProvince] = useState([]);
   const [idProvince, setIdProvice] = useState('');
+
+
+  const handleRowClick = (id) => {
+    idDeclarations(id)
+};
+
 
   const groupDataByMonth = (data) => {
     const groupedData = {};
@@ -325,6 +331,11 @@ const DeclarationOneClient = ({idClient, idTemplate}) => {
                                 bordered
                                 size="middle"
                                 scroll={scroll}
+                                onRow={(record) => ({
+                                        onClick: () => {
+                                            handleRowClick(record.id_declaration_super);
+                                        },
+                                    })}
                             />
                         </div>
                         ))}
