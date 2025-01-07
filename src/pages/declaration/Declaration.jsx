@@ -401,6 +401,7 @@ const Declaration = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
                />
             </div>
+            
             <div className="client-rows-right">
               <Button
                 type="primary"
