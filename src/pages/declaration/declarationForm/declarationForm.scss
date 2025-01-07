@@ -14,6 +14,23 @@
             width: 100%;
             overflow-x: scroll;
             flex: 2;
+            .declaration-modal-templ{
+                .templ-icon{
+                    background: #2196F3;
+                    height: 30px;
+                    width: 30px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-left: 10px;
+                    margin-top: 10px;
+                    color: #fff;
+                    cursor: pointer;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    transition: transform 0.2s
+                }
+            }
         }
     }
 }

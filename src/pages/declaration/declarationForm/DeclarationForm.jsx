@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs } from 'antd';
+import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
@@ -8,6 +8,7 @@ import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import DeclarationOneClient from '../declarationOneClient/DeclarationOneClient';
+import TemplateForm from '../../template/templateForm/TemplateForm';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -27,6 +28,20 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const [periode, setPeriode] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
     const [activeKey, setActiveKey] = useState(['1', '2']);
+    const [modalType, setModalType] = useState(null);
+
+    const closeAllModals = () => {
+        setModalType(null);
+      };
+      
+      const openModal = (type, idDeclaration = '') => {
+        closeAllModals();
+        setModalType(type);
+      };
+
+    const handleAdd = () => {
+        openModal('Add');
+      }
 
     const handleTabChange = (key) => {
       setActiveKey(key);
@@ -449,13 +464,32 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                 </div>
                 <div className="declaration-right">
                     <div className="declaration-modal-templ">
-                        <div className="templ-icon">
-                            <PlusCircleOutlined />
-                        </div>
+                        <Tooltip title="Créer un template">
+                            <div className="templ-icon"
+                                onClick={handleAdd}
+                                style={{
+                                        transition: 'transform 0.2s'
+                                    }}
+                                    onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                                    onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                            >
+                                <PlusCircleOutlined/>
+                            </div>
+                        </Tooltip>
                     </div>
                     <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations}         key={refreshKey} />
                 </div>
             </div>
+            <Modal
+                title=""
+                visible={modalType === 'Add'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                <TemplateForm closeModal={() => setModalType(null)} fetchData={fetchDataAll} />
+            </Modal>
         </div>
     );
 };
