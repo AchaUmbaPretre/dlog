@@ -401,7 +401,7 @@ const Declaration = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
                />
             </div>
-            
+
             <div className="client-rows-right">
               <Button
                 type="primary"
@@ -411,10 +411,10 @@ const Declaration = () => {
                 Ajouter une déclaration
               </Button>
               <Button
-                    type="default"
-                    onClick={handFilter}
-                  >
-                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                type="default"
+                onClick={handFilter}
+              >
+                {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
               </Button>
               <Dropdown overlay={menus} trigger={['click']}>
                 <Button icon={<MenuOutlined />} className="ant-dropdown-link">
