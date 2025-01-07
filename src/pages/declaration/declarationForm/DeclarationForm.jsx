@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, InputNumber, Button, Select, DatePicker, Collapse, notification, Tabs } from 'antd';
+import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
@@ -9,7 +9,6 @@ import moment from 'moment';
 import DeclarationOneClient from '../declarationOneClient/DeclarationOneClient';
 
 const { Option } = Select;
-const { Panel } = Collapse;
 const { TabPane } = Tabs;
 
 const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
@@ -26,13 +25,19 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const [idDeclarations, setIdDeclarations] = useState(idDeclaration);
     const [periode, setPeriode] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0); // Clé de rafraîchissement
+    const [activeKey, setActiveKey] = useState(['1', '2']); // Activer plusieurs onglets en même temps
 
+    // Pour afficher ou masquer un onglet en fonction de l'état
+    const handleTabChange = (key) => {
+      setActiveKey(key);
+    };
 
     useEffect(() => {
         setIdDeclarations(idDeclaration);
     }, [idDeclaration]);
 
     const fetchDataAll = async () => {
+        
         try {
             const [ templateData, objetData, provinceData, clientData, batimentData] = await Promise.all([
                 getTemplate(),
@@ -103,13 +108,17 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     };
     
     useEffect(() => {
-        handleTemplateChange();
+        if (idTemplate) {
+            handleTemplateChange();
+        }
     }, [idTemplate]);
     
 
 
     const onFinish = async (values) => {
+        console.log(values)
         setIsLoading(true);
+        await form.validateFields();
 
         try {
             if(idDeclaration) {
@@ -148,27 +157,41 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                     layout="vertical"
                     onFinish={onFinish}
                     onValuesChange={(changedValues, allValues) => {
-                        const { m2_facture, tarif_entreposage, entreposage } = allValues;
+                            const { m2_facture, tarif_entreposage, entreposage, total_entreposage, ttc_entreposage } = allValues;
 
-                        // Convertir les valeurs en nombres pour éviter les erreurs
-                        const m2Facture = parseFloat(m2_facture) || 0;
-                        const tarifEntreposage = parseFloat(tarif_entreposage) || 0;
-                        const entreposageVal = parseFloat(entreposage) || 0;
+                            const m2Facture = parseFloat(m2_facture) || 0;
+                            const tarifEntreposage = parseFloat(tarif_entreposage) || 0;
+                            const entreposageVal = parseFloat(entreposage) || 0;
 
-                        // Calcul du Total Entreposage
-                        const totalEntreposage = (m2Facture * tarifEntreposage) + entreposageVal;
+                            if (changedValues.total_entreposage !== undefined || changedValues.ttc_entreposage !== undefined) {
+                            return; 
+                            }
 
-                        // Calcul du TTC Entreposage
-                        const ttcEntreposage = totalEntreposage * 1.16;
+                            if (!total_entreposage) {
+                            const totalEntreposage = (m2Facture * tarifEntreposage) + entreposageVal;
+                            form.setFieldsValue({
+                                total_entreposage: totalEntreposage.toFixed(2),
+                            });
+                            }
 
-                        // Mise à jour des champs
-                        form.setFieldsValue({
-                        total_entreposage: totalEntreposage.toFixed(2),
-                        ttc_entreposage: ttcEntreposage.toFixed(2),
-                        });
-                    }}
+                            if (!ttc_entreposage) {
+                            const totalEntreposage = (m2Facture * tarifEntreposage) + entreposageVal;
+                            const ttcEntreposage = totalEntreposage * 1.16;
+                            form.setFieldsValue({
+                                ttc_entreposage: ttcEntreposage.toFixed(2),
+                            });
+                            }
+                        }}
                     >
-                    <Tabs defaultActiveKey="1">
+                    <Tabs
+                        activeKey={activeKey[0]}
+                        onChange={handleTabChange}
+                        type="card"
+                        tabPosition="top"
+                        renderTabBar={(props, DefaultTabBar) => (
+                        <DefaultTabBar {...props} />
+                        )}
+                    >
                         <TabPane tab="Section Entreposage" key="1">
                         <Form.Item
                             name="id_template"
@@ -219,7 +242,10 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                             label="Tarif Entreposage"
                             rules={[{ required: false, message: "Veuillez entrer le tarif d'entreposage" }]}
                         >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Tarif Entreposage" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                            <InputNumber 
+                                min={0} style={{ width: '100%' }} placeholder="Tarif Entreposage" 
+                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
+                            />
                         </Form.Item>
 
                         <Form.Item
@@ -237,21 +263,54 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                         >
                             <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
                         </Form.Item>
-
+                        <div style={{display:'flex', gap:'10px', alignItems:'center', width:'100%'}}>
                         <Form.Item
                             name="total_entreposage"
                             label="Total"
                             rules={[{ required: false, message: "Veuillez entrer le total" }]}
+                            style={{flex:'6'}}
                         >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
+                                onChange={(value) => {
+                                        form.setFieldsValue({
+                                        total_entreposage: value,
+                                        });
+                                 }} 
+                            />
                         </Form.Item>
+                        <Button
+                            type="default"
+                            style={{ marginLeft: '10px', flex:'1' }}
+                            onClick={() => {
+                                const m2Facture = parseFloat(form.getFieldValue('m2_facture')) || 0;
+                                const tarifEntreposage = parseFloat(form.getFieldValue('tarif_entreposage')) || 0;
+                                const entreposageVal = parseFloat(form.getFieldValue('entreposage')) || 0;
+                                
+                                const totalEntreposage = (m2Facture * tarifEntreposage) + entreposageVal;
+                                form.setFieldsValue({
+                                total_entreposage: totalEntreposage.toFixed(2),
+                                });
+
+                                const ttcEntreposage = totalEntreposage * 1.16;
+                                form.setFieldsValue({
+                                ttc_entreposage: ttcEntreposage.toFixed(2),
+                                });
+                            }}
+                        >
+                            +
+                        </Button>
+                        </div>
 
                         <Form.Item
                             name="ttc_entreposage"
                             label="TTC"
-                            rules={[{ required: false, message: "Veuillez entrer le TTC" }]}
+                            rules={[{ required: false, message: "Veuillez entrer le TTC" }] }
                         >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="TTC" />
+                            <InputNumber min={0} style={{ width: '100%' }} placeholder="TTC" onChange={(value) => {
+                                        form.setFieldsValue({
+                                        ttc_entreposage: value,
+                                        });
+                                 }}  />
                         </Form.Item>
 
                         <Form.Item
