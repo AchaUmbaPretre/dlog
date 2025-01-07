@@ -300,7 +300,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
   
   return (
     <>
-      <div className="client">
+      <div className="clients">
         <div className="row">
             <div className="column table-container">
                 <div>

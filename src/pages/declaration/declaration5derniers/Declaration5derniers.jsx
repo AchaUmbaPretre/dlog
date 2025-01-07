@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
-import {  EditOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { Table, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
+import { CalendarOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getDeclaration5derniers } from '../../../services/templateService';
 
@@ -29,7 +29,6 @@ const Declaration5derners = () => {
     "Total Manu": true,
     "TTC Manu": true
   });
-  const [filterVisible, setFilterVisible] = useState(false);
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
@@ -319,7 +318,7 @@ const Declaration5derners = () => {
             <div className="row-title">
                 <h2 className="table-title">5 dernières declarations</h2>
                 <div>
-                    
+
                 </div>
             </div>
             <Table
