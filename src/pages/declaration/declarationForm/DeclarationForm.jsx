@@ -13,7 +13,7 @@ import TemplateForm from '../../template/templateForm/TemplateForm';
 const { Option } = Select;
 const { TabPane } = Tabs;
 
-const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
+const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss}) => {
     const [form] = Form.useForm();
     const [templates, setTemplates] = useState([]);
     const [idTemplate, setIdTemplate] = useState(null);
@@ -24,7 +24,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const [batiment, setBatiment] = useState([]);
     const navigate = useNavigate();
     const [idClient, setIdClient] = useState('');
-    const [idDeclarations, setIdDeclarations] = useState(idDeclaration);
+    const [idDeclarations, setIdDeclarations] = useState(idDeclarationss);
     const [periode, setPeriode] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
     const [activeKey, setActiveKey] = useState(['1', '2']);
@@ -49,7 +49,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
 
     useEffect(() => {
         setIdDeclarations(idDeclaration);
-    }, [idDeclaration]);
+    }, [idDeclarationss]);
 
     const fetchDataAll = async () => {
         
@@ -100,7 +100,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
 
     useEffect(() => {
         fetchDataAll()
-    }, [idClient, idDeclarations]);
+    }, [idClient, idDeclarations, idDeclarationss]);
 
     const handleTemplateChange = async () => {
         try {

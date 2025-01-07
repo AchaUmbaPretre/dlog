@@ -85,6 +85,10 @@ const Declaration = () => {
     openModal('Add', idDeclaration);
   };
 
+  const handleAddDecl = (idDeclaration) => {
+    openModal('AddDecl', idDeclaration);
+  };
+
   const handleUpdateTemplate = (idDeclaration) => {
     openModal('Update', idDeclaration);
   };
@@ -151,8 +155,8 @@ const Declaration = () => {
           title: 'Template',
           dataIndex: 'desc_template',
           key: 'desc_template',
-          render: (text) => (
-            <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
+          render: (text, record) => (
+            <Tag icon={<FileTextOutlined />} color="geekblue" onClick={() => handleAddDecl(record.id_declaration_super)}>{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
         },
@@ -403,7 +407,7 @@ const Declaration = () => {
             </div>
 
             <div className="client-rows-right">
-            
+
               <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
@@ -472,6 +476,17 @@ const Declaration = () => {
         centered
       >
         <DeclarationDetail idDeclaration={idDeclaration} />
+     </Modal>
+
+     <Modal
+        title=""
+        visible={modalType === 'AddDecl'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1250}
+        centered
+      >
+        <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} />
      </Modal>
     </>
   );
