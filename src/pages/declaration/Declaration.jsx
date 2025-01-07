@@ -68,14 +68,14 @@ const Declaration = () => {
       }
     };
 
-  const handFilter = () => {
-    fetchData()
-    setFilterVisible(!filterVisible)
-  }
+    const handFilter = () => {
+      fetchData()
+      setFilterVisible(!filterVisible)
+    }
 
-  useEffect(() => {
-    fetchData();
-  }, [filteredDatas]);
+    useEffect(() => {
+      fetchData();
+    }, [filteredDatas]);
 
   const handleDetails = (idDeclaration) => {
     openModal('Detail', idDeclaration);
@@ -177,6 +177,8 @@ const Declaration = () => {
           title: 'M² occupe',
           dataIndex: 'm2_occupe',
           key: 'm2_occupe',
+          sorter: (a, b) => a.m2_occupe - b.m2_occupe,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
           ),
@@ -186,6 +188,8 @@ const Declaration = () => {
           title: 'M² facture',
           dataIndex: 'm2_facture',
           key: 'm2_facture',
+          sorter: (a, b) => a.m2_facture - b.m2_facture,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
           ),
@@ -195,6 +199,8 @@ const Declaration = () => {
           title: 'Tarif Entr',
           dataIndex: 'tarif_entreposage',
           key: 'tarif_entreposage',
+          sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
           ),
