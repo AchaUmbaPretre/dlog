@@ -477,7 +477,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                             </div>
                         </Tooltip>
                     </div>
-                    <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations}         key={refreshKey} />
+                    <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations} key={refreshKey} />
                 </div>
             </div>
             <Modal
