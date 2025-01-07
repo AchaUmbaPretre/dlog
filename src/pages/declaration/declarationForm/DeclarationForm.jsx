@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
@@ -447,6 +448,11 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
 
                 </div>
                 <div className="declaration-right">
+                    <div className="declaration-modal-templ">
+                        <div className="templ-icon">
+                            <PlusCircleOutlined />
+                        </div>
+                    </div>
                     <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations}         key={refreshKey} />
                 </div>
             </div>
