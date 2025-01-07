@@ -403,6 +403,7 @@ const Declaration = () => {
             </div>
 
             <div className="client-rows-right">
+            
               <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
@@ -410,17 +411,20 @@ const Declaration = () => {
               >
                 Ajouter une déclaration
               </Button>
+
               <Button
                 type="default"
                 onClick={handFilter}
               >
                 {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
               </Button>
+
               <Dropdown overlay={menus} trigger={['click']}>
                 <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                   Colonnes <DownOutlined />
                 </Button>
               </Dropdown>
+
             </div>
           </div>
 
