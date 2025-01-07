@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Menu, Tag, Dropdown, Button, Select, Skeleton } from 'antd';
 import { CalendarOutlined,MenuOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { getDeclarationOneClient } from '../../../services/templateService';
+import { getDeclarationOneClient, getTemplateOne } from '../../../services/templateService';
 import Declaration5derners from '../declaration5derniers/Declaration5derniers';
 import { getProvince } from '../../../services/clientService';
 import './../../template/templateOne/templateOne.scss'
@@ -71,9 +71,10 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
       try {
         const { data } = await getDeclarationOneClient(idClient, idProvince);
         const resProvince = await getProvince();
+        const res = await getTemplateOne(idTemplate)
 
         setProvince(resProvince.data)
-        setNameTemplate(data[0].desc_template)
+        setNameTemplate(res.data[0]?.desc_template)
         setData(data);
         setLoading(false);
       } catch (error) {
@@ -86,7 +87,9 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
 
   useEffect(() => {
     fetchData();
-  }, [idClient, idProvince]);
+  }, [idClient, idProvince, idTemplate]);
+
+  console.log(nameTemplate)
 
   const menus = (
     <Menu>

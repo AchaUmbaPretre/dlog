@@ -52,7 +52,7 @@ const TemplateOne = ({ idClient, idTemplate, periode }) => {
     fetchData();
     fetchData5derniers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idClient, periode, idProvince]);
+  }, [idClient, periode, idProvince, idTemplate]);
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (_, __, index) => index + 1, width: "5%" },

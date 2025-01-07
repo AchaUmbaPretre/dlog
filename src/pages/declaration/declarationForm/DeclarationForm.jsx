@@ -84,23 +84,28 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
 
     const handleTemplateChange = async () => {
         try {
-            const { data} = await getTemplateOne(idTemplate);
-            const { id_ville, id_client} = data[0];
-        
+            const { data } = await getTemplateOne(idTemplate);
+            const { id_ville, id_client } = data[0];
+    
+            form.resetFields();
+    
             form.setFieldsValue({
                 id_ville,
-                id_client
+                id_client,
+                id_template: idTemplate,
             });
-
-            setIdClient(id_client)
+    
+            setIdDeclarations('')
+            setIdClient(id_client);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     };
     
     useEffect(() => {
-        handleTemplateChange()
+        handleTemplateChange();
     }, [idTemplate]);
+    
 
 
     const onFinish = async (values) => {
@@ -264,10 +269,10 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
                             rules={[{ required: true, message: "Veuillez entrer l'ID de la ville" }]}
                         >
                             <Select
-                            showSearch
-                            options={province.map(item => ({ value: item.id, label: item.capital }))}
-                            placeholder="Sélectionnez..."
-                            optionFilterProp="label"
+                                showSearch
+                                options={province.map(item => ({ value: item.id, label: item.capital }))}
+                                placeholder="Sélectionnez..."
+                                optionFilterProp="label"
                             />
                         </Form.Item>
 
