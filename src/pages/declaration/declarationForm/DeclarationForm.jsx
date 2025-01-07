@@ -24,10 +24,9 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration}) => {
     const [idClient, setIdClient] = useState('');
     const [idDeclarations, setIdDeclarations] = useState(idDeclaration);
     const [periode, setPeriode] = useState(null);
-    const [refreshKey, setRefreshKey] = useState(0); // Clé de rafraîchissement
-    const [activeKey, setActiveKey] = useState(['1', '2']); // Activer plusieurs onglets en même temps
+    const [refreshKey, setRefreshKey] = useState(0);
+    const [activeKey, setActiveKey] = useState(['1', '2']);
 
-    // Pour afficher ou masquer un onglet en fonction de l'état
     const handleTabChange = (key) => {
       setActiveKey(key);
     };
