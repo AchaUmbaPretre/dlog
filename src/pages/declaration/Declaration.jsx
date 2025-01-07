@@ -37,6 +37,7 @@ const Declaration = () => {
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
   const [idDeclaration, setidDeclaration] = useState('');
+  const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
 
@@ -85,8 +86,8 @@ const Declaration = () => {
     openModal('Add', idDeclaration);
   };
 
-  const handleAddDecl = (idDeclaration) => {
-    openModal('AddDecl', idDeclaration);
+  const handleAddDecl = (idDeclaration, idClient) => {
+    openModal('AddDecl', idDeclaration,idClient );
   };
 
   const handleUpdateTemplate = (idDeclaration) => {
@@ -97,10 +98,11 @@ const Declaration = () => {
     setModalType(null);
   };
   
-  const openModal = (type, idDeclaration = '') => {
+  const openModal = (type, idDeclaration = '', idClient='') => {
     closeAllModals();
     setModalType(type);
     setidDeclaration(idDeclaration);
+    setidClient(idClient)
   };
 
   const handleDelete = async (id) => {
@@ -156,7 +158,7 @@ const Declaration = () => {
           dataIndex: 'desc_template',
           key: 'desc_template',
           render: (text, record) => (
-            <Tag icon={<FileTextOutlined />} color="geekblue" onClick={() => handleAddDecl(record.id_declaration_super)}>{text ?? 'Aucun'}</Tag>
+            <Tag icon={<FileTextOutlined />} color="geekblue" onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
         },
@@ -486,7 +488,7 @@ const Declaration = () => {
         width={1250}
         centered
       >
-        <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} />
+        <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} idClients={idClient} />
      </Modal>
     </>
   );
