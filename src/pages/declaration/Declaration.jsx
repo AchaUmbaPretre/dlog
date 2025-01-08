@@ -132,7 +132,7 @@ const Declaration = () => {
     };
     
     
-
+    console.log(data)
     
     const handFilter = () => {
       fetchData()
@@ -305,7 +305,7 @@ const Declaration = () => {
           dataIndex: 'capital',
           key: 'capital',
           render: (text) => (
-            <Tag icon={<EnvironmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<EnvironmentOutlined />} color="blue">{ text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Ville'] ? {} : { className: 'hidden-column' }),
         },
