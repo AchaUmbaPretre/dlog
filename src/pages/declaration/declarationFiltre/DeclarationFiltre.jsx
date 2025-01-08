@@ -6,12 +6,11 @@ import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 
 const { Option } = Select;
-const { RangePicker } = DatePicker;
 
 const DeclarationFiltre = ({ onFilter }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
-    const [dateRange, setDateRange] = useState([]);
+    const [dateRange, setDateRange] = useState(null);
     const [batiment, setBatiment] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
@@ -96,12 +95,12 @@ const DeclarationFiltre = ({ onFilter }) => {
 
             <div className="filter_row">
                 <label>Période :</label>
-                <RangePicker
+                <DatePicker
                     picker="month"
+                    placeholder="Sélectionnez le mois"
                     format="YYYY-MM-DD"
                     style={{ width: '100%' }}
-                    onChange={(dates) => setDateRange(dates ? dates.map(date => date.format('YYYY-MM-DD')) : [])}
-                    placeholder={['Date de début', 'Date de fin']}
+                    onChange={(date, dateString) => setDateRange(dateString)}
                 />
             </div>
             <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
