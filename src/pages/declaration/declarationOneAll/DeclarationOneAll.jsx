@@ -166,15 +166,6 @@ const DeclarationOneAll = ({idClients}) => {
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
         },
         {
-          title: 'Client',
-          dataIndex: 'nom',
-          key: 'nom',
-          render: (text) => (
-            <Tag icon={<UserOutlined />} color="orange">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' }),
-        },
-        {
           title: 'Periode',
           dataIndex: 'periode',
           key: 'periode',
