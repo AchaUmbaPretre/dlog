@@ -44,23 +44,18 @@ const Declaration = () => {
     try {
       const { data } = await getDeclaration(filteredDatas);
   
-      // Regroupement des données par client
       const groupedData = data.reduce((acc, curr) => {
-        // Chercher si le client existe déjà dans le tableau
         const existingClient = acc.find(item => item.id_client === curr.id_client);
   
         if (existingClient) {
-          // Ajouter les bâtiments s'ils ne sont pas déjà inclus
           if (curr.nom_batiment) {
             existingClient.nom_batiment = [...new Set([...existingClient.nom_batiment, curr.nom_batiment])];
           }
   
-          // Ajouter les capitales s'il y en a de nouvelles
           if (curr.capital) {
             existingClient.capital = [...new Set([...existingClient.capital, curr.capital])];
           }
   
-          // Additionner les colonnes numériques pertinentes
           existingClient.m2_occupe += curr.m2_occupe || 0;
           existingClient.m2_facture += curr.m2_facture || 0;
           existingClient.tarif_entreposage += curr.tarif_entreposage || 0;
@@ -103,12 +98,7 @@ const Declaration = () => {
       setLoading(false);
     }
   };
-  
-  
-
-  
-  console.log(data)
-        
+          
     const handFilter = () => {
       fetchData()
       setFilterVisible(!filterVisible)
