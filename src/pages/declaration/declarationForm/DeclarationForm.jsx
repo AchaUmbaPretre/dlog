@@ -146,6 +146,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
             else{
                 await postDeclaration(values);
                 setRefreshKey((prev) => prev + 1);
+                setPeriode(null)
             }
             notification.success({
                 message: 'Succès',

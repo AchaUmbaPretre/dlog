@@ -56,7 +56,7 @@ const DeclarationFiltre = ({ onFilter }) => {
                     style={{ width: '100%' }}
                     options={province.map((item) => ({
                         value: item.id,
-                        label: item.name,
+                        label: item.capital,
                     }))}
                     placeholder="Sélectionnez..."
                     optionFilterProp="label"

@@ -58,6 +58,10 @@ export const getDeclaration = async (data) => {
     return axios.post(`${DOMAIN}/api/template/declaration_superficies`, data);
   };
 
+export const getDeclarationClientOneAll= async (idClient, data) => {
+    return axios.post(`${DOMAIN}/api/template/declaration_superficies_client_OneAll?idClient=${idClient}`, data);
+  };
+
 export const getDeclaration5derniers = async () => {
     return axios.get(`${DOMAIN}/api/template/declaration_superficies_5derniers`);
   };
@@ -66,8 +70,8 @@ export const getDeclarationOne = async (id) => {
     return axios.get(`${DOMAIN}/api/template/declaration_superficie/one?id=${id}`);
   };
 
-export const getDeclarationOneClient = async (id, idProvince) => {
-    return axios.get(`${DOMAIN}/api/template/declaration_superficie/oneClient?id_client=${id}&idProvince=${idProvince}`);
+export const getDeclarationOneClient = async (id, idProvince, periode) => {
+    return axios.get(`${DOMAIN}/api/template/declaration_superficie/oneClient?id_client=${id}&idProvince=${idProvince}&periode=${periode}`);
   };
 
 export const postDeclaration = async (data) => {

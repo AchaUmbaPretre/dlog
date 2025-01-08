@@ -4,7 +4,7 @@ import { CalendarOutlined,MenuOutlined,DownOutlined,EnvironmentOutlined, HomeOut
 import moment from 'moment';
 import { getDeclarationOneClient, getTemplateOne } from '../../../services/templateService';
 import Declaration5derners from '../declaration5derniers/Declaration5derniers';
-import { getProvince } from '../../../services/clientService';
+import { getProvince, getProvinceClientOne } from '../../../services/clientService';
 import './../../template/templateOne/templateOne.scss'
 
 const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) => {
@@ -39,7 +39,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
 
   const handleRowClick = (id) => {
     idDeclarations(id)
-};
+    };
 
   const groupDataByMonth = (data) => {
     const groupedData = {};
@@ -69,8 +69,8 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         setData([]); 
 
       try {
-        const { data } = await getDeclarationOneClient(idClient, idProvince);
-        const resProvince = await getProvince();
+        const { data } = await getDeclarationOneClient(idClient, idProvince, periode);
+        const resProvince = await getProvinceClientOne(idClient);
         const res = await getTemplateOne(idTemplate)
 
         setProvince(resProvince.data)
@@ -87,9 +87,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
 
   useEffect(() => {
     fetchData();
-  }, [idClient, idProvince, idTemplate]);
-
-  console.log(nameTemplate)
+  }, [idClient, idProvince, idTemplate, periode]);
 
   const menus = (
     <Menu>
