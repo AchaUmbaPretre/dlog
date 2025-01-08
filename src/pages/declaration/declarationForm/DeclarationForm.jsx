@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, EyeOutlined } from '@ant-design/icons';
 import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
@@ -481,6 +481,17 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                 <PlusCircleOutlined/>
                             </div>
                         </Tooltip>
+                        <div className="templ-icon"
+                            onClick={handleAdd}
+                            style={{
+                                    transition: 'transform 0.2s',
+                                    background:'#88bfec'
+                                }}
+                            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        >
+                            <EyeOutlined/>
+                        </div>
                     </div>
                     <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations} key={refreshKey} />
                 </div>
