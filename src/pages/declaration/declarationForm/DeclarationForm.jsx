@@ -483,7 +483,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                         </Tooltip>
                         <Tooltip title="Voir le détail">
                             <div className="templ-icon"
-                                onClick={handleAdd}
                                 style={{
                                         transition: 'transform 0.2s',
                                         background:'#88bfec'

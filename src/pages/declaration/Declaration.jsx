@@ -432,7 +432,7 @@ const Declaration = () => {
         width={1250}
         centered
       >
-        <DeclarationOneAll idClients={idClient} />
+        <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} idClients={idClient} />
      </Modal>
     </>
   );
