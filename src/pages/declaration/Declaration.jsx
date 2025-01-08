@@ -131,9 +131,7 @@ const Declaration = () => {
       }
     };
     
-    
-    console.log(data)
-    
+        
     const handFilter = () => {
       fetchData()
       setFilterVisible(!filterVisible)
@@ -203,6 +201,8 @@ const Declaration = () => {
       [columnName]: !prev[columnName]
     }));
   };
+
+  console.log(data)
   
   const columns = [
     {
@@ -304,11 +304,14 @@ const Declaration = () => {
           title: 'Ville',
           dataIndex: 'capital',
           key: 'capital',
-          render: (text) => (
-            <Tag icon={<EnvironmentOutlined />} color="blue">{ text ?? 'Aucun'}</Tag>
-          ),
+          render: (capital) => {
+            const formattedCapital = Array.isArray(capital) ? capital.join(', ') : 'Aucun'; // Joindre les villes par des virgules
+            return (
+              <Tag icon={<EnvironmentOutlined />} color="blue">{formattedCapital}</Tag>
+            );
+          },
           ...(columnsVisibility['Ville'] ? {} : { className: 'hidden-column' }),
-        },
+        },        
         {
           title: 'Tarif Manu',
           dataIndex: 'tarif_manutation',
