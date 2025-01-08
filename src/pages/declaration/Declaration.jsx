@@ -44,7 +44,7 @@ const Declaration = () => {
     try {
       const { data } = await getDeclaration(filteredDatas);
   
-      const groupedData = data.reduce((acc, curr) => {
+/*       const groupedData = data.reduce((acc, curr) => {
         const existingClient = acc.find(item => item.id_client === curr.id_client);
   
         if (existingClient) {
@@ -86,9 +86,9 @@ const Declaration = () => {
         }
   
         return acc;
-      }, []);
+      }, []); */
   
-      setData(groupedData);
+      setData(data);
       setLoading(false);
     } catch (error) {
       notification.error({
