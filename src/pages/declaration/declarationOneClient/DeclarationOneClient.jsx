@@ -23,7 +23,6 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
     "Ville": true,
     "Client": false,
     "Bâtiment": false,
-    "Objet fact": false,
     "Manutention": false,
     "Tarif Manu": false,
     "Debours Manu": false,
@@ -218,15 +217,6 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
           <Tag icon={<EnvironmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['Ville'] ? {} : { className: 'hidden-column' }),
-      },
-      {
-        title: 'Client',
-        dataIndex: 'nom',
-        key: 'nom',
-        render: (text) => (
-          <Tag icon={<UserOutlined />} color="orange">{text ?? 'Aucun'}</Tag>
-        ),
-        ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' }),
       },
       {
         title: 'Bâtiment',
