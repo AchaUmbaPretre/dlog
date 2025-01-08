@@ -346,8 +346,7 @@ const Declaration = () => {
 
   const filteredData = data.filter(item =>
     item.desc_template?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())   );
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase()));
   
   return (
     <>
