@@ -7,7 +7,7 @@ import { getBatiment } from '../../../services/typeService';
 
 const { Option } = Select;
 
-const DeclarationFiltre = ({ onFilter }) => {
+const DeclarationFiltre = ({ onFilter, visible }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
     const [dateRange, setDateRange] = useState(null);
@@ -62,6 +62,7 @@ const DeclarationFiltre = ({ onFilter }) => {
                     onChange={setSelectedVille}
                 />
             </div>
+            { !visible &&
             <div className="filter_row">
                 <label>Clients :</label>
                 <Select
@@ -77,6 +78,8 @@ const DeclarationFiltre = ({ onFilter }) => {
                     onChange={setSelectedClients}
                 />
             </div>
+            }
+
             <div className="filter_row">
                 <label>Bâtiment :</label>
                 <Select

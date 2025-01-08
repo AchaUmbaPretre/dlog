@@ -401,7 +401,7 @@ const DeclarationOneAll = ({idClients}) => {
             </div>
             <h2 className="client-h2">Déclarations {titre}</h2>
           </div>
-          {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} />}
+          {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} visible={true}/>}
           <div className="client-actions">
             <div className="client-row-left">
               <Search 

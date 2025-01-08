@@ -40,34 +40,6 @@ const Declaration = () => {
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
 
-/*     const fetchData = async () => {
-      try {
-        const { data } = await getDeclaration(filteredDatas);
-
-        const groupedData = data.reduce((acc, curr) => {
-          const found = acc.find(item => item.id_declaration_super === curr.id_declaration_super);
-          if(found) {
-            found.nom_batiment.push(curr.nom_batiment)
-          } else {
-            acc.push({
-              ...curr,
-              nom_batiment: [curr.nom_batiment]
-            });
-          }
-          return acc;
-        }, []);
-
-        setData(groupedData);
-        setLoading(false);
-      } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
-        setLoading(false);
-      }
-    }; */
-
     const fetchData = async () => {
       try {
         const { data } = await getDeclaration(filteredDatas);
