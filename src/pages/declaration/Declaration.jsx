@@ -40,69 +40,74 @@ const Declaration = () => {
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
 
-    const fetchData = async () => {
-      try {
-        const { data } = await getDeclaration(filteredDatas);
-    
-        const groupedData = data.reduce((acc, curr) => {
-          // Chercher si le client existe déjà dans le tableau
-          const existingClient = acc.find(item => item.id_client === curr.id_client);
-    
-          if (existingClient) {
-            // Ajouter les bâtiments s'ils ne sont pas déjà inclus
-            if (curr.nom_batiment) {
-              existingClient.nom_batiment = [...new Set([...existingClient.nom_batiment, curr.nom_batiment])];
-            }
-    
-            // Ajouter les capitales s'il y en a de nouvelles
-            if (curr.capital) {
-              existingClient.capital = [...new Set([...existingClient.capital, curr.capital])];
-            }
-    
-            // Additionner les colonnes numériques pertinentes
-            existingClient.m2_occupe += curr.m2_occupe || 0;
-            existingClient.m2_facture += curr.m2_facture || 0;
-            existingClient.tarif_entreposage += curr.tarif_entreposage || 0;
-            existingClient.total_entreposage += curr.total_entreposage || 0;
-            existingClient.debours_entreposage += curr.debours_entreposage || 0;
-            existingClient.ttc_entreposage += curr.ttc_entreposage || 0;
-            existingClient.total_manutation += curr.total_manutation || 0;
-            existingClient.ttc_manutation += curr.ttc_manutation || 0;
-    
-          } else {
-            // Ajouter un nouveau client avec les colonnes numériques initialisées
-            acc.push({
-              id_client: curr.id_client,
-              nom: curr.nom,
-              nom_batiment: curr.nom_batiment ? [curr.nom_batiment] : [],
-              capital: curr.capital ? [curr.capital] : [],
-              m2_occupe: curr.m2_occupe || 0,
-              m2_facture: curr.m2_facture || 0,
-              tarif_entreposage : curr.tarif_entreposage || 0,
-              debours_entreposage: curr.debours_entreposage || 0,
-              total_entreposage: curr.total_entreposage || 0,
-              ttc_entreposage: curr.ttc_entreposage || 0,
-              total_manutation: curr.total_manutation || 0,
-              ttc_manutation: curr.ttc_manutation || 0,
-              desc_template: curr.desc_template
-            });
+  const fetchData = async () => {
+    try {
+      const { data } = await getDeclaration(filteredDatas);
+  
+      // Regroupement des données par client
+      const groupedData = data.reduce((acc, curr) => {
+        // Chercher si le client existe déjà dans le tableau
+        const existingClient = acc.find(item => item.id_client === curr.id_client);
+  
+        if (existingClient) {
+          // Ajouter les bâtiments s'ils ne sont pas déjà inclus
+          if (curr.nom_batiment) {
+            existingClient.nom_batiment = [...new Set([...existingClient.nom_batiment, curr.nom_batiment])];
           }
-    
-          return acc;
-        }, []);
-    
-        // Mettre à jour l'état
-        setData(groupedData);
-        setLoading(false);
-      } catch (error) {
-        notification.error({
-          message: "Erreur de chargement",
-          description: "Une erreur est survenue lors du chargement des données.",
-        });
-        setLoading(false);
-      }
-    };
-    
+  
+          // Ajouter les capitales s'il y en a de nouvelles
+          if (curr.capital) {
+            existingClient.capital = [...new Set([...existingClient.capital, curr.capital])];
+          }
+  
+          // Additionner les colonnes numériques pertinentes
+          existingClient.m2_occupe += curr.m2_occupe || 0;
+          existingClient.m2_facture += curr.m2_facture || 0;
+          existingClient.tarif_entreposage += curr.tarif_entreposage || 0;
+          existingClient.total_entreposage += curr.total_entreposage || 0;
+          existingClient.debours_entreposage += curr.debours_entreposage || 0;
+          existingClient.ttc_entreposage += curr.ttc_entreposage || 0;
+          existingClient.total_manutation += curr.total_manutation || 0;
+          existingClient.ttc_manutation += curr.ttc_manutation || 0;
+  
+          existingClient.declarations_count += 1;
+        } else {
+          acc.push({
+            id_client: curr.id_client,
+            nom: curr.nom,
+            nom_batiment: curr.nom_batiment ? [curr.nom_batiment] : [],
+            capital: curr.capital ? [curr.capital] : [],
+            m2_occupe: curr.m2_occupe || 0,
+            m2_facture: curr.m2_facture || 0,
+            tarif_entreposage: curr.tarif_entreposage || 0,
+            debours_entreposage: curr.debours_entreposage || 0,
+            total_entreposage: curr.total_entreposage || 0,
+            ttc_entreposage: curr.ttc_entreposage || 0,
+            total_manutation: curr.total_manutation || 0,
+            ttc_manutation: curr.ttc_manutation || 0,
+            desc_template: curr.desc_template,
+            declarations_count: 1
+          });
+        }
+  
+        return acc;
+      }, []);
+  
+      setData(groupedData);
+      setLoading(false);
+    } catch (error) {
+      notification.error({
+        message: "Erreur de chargement",
+        description: "Une erreur est survenue lors du chargement des données.",
+      });
+      setLoading(false);
+    }
+  };
+  
+  
+
+  
+  console.log(data)
         
     const handFilter = () => {
       fetchData()
@@ -112,10 +117,6 @@ const Declaration = () => {
     useEffect(() => {
       fetchData();
     }, [filteredDatas]);
-
-  const handleDetails = (idDeclaration) => {
-    openModal('Detail', idDeclaration);
-  }
 
   const handleAddTemplate = (idDeclaration) => {
     openModal('Add', idDeclaration);
@@ -173,8 +174,6 @@ const Declaration = () => {
       [columnName]: !prev[columnName]
     }));
   };
-
-  console.log(data)
   
   const columns = [
     {
@@ -195,7 +194,11 @@ const Declaration = () => {
           dataIndex: 'desc_template',
           key: 'desc_template',
           render: (text, record) => (
-            <Tag icon={<FileTextOutlined />} color="geekblue" onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>{text ?? 'Aucun'}</Tag>
+            <div>
+              <Tooltip title={`Cliquez ici pour afficher les détails de ${record.nom}`}>
+                <Tag icon={<FileTextOutlined />} color="geekblue" onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>{text ?? 'Aucun'}</Tag>
+              </Tooltip>
+            </div>
           ),
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
         },
@@ -264,6 +267,16 @@ const Declaration = () => {
             <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Nbre',
+          dataIndex: 'declarations_count',
+          key: 'declarations_count',
+          sorter: (a, b) => a.declarations_count - b.declarations_count,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          ),
         },
       ]
     },
