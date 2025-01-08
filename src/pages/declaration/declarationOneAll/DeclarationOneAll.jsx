@@ -15,7 +15,7 @@ const DeclarationOneAll = ({idClients}) => {
     '#': true,
     'Template': true,
     'Desc man': false,
-    'Periode': false,
+    'Periode': true,
     'M² occupe': false,
     "M² facture": true,
     "Tarif Entr": true,
@@ -40,10 +40,12 @@ const DeclarationOneAll = ({idClients}) => {
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
+  const [titre, setTitre] = useState('');
 
     const fetchData = async () => {
       try {
         const { data } = await getDeclarationClientOneAll(idClients,filteredDatas);
+        setTitre(data[0]?.nom)
 
         const groupedData = data.reduce((acc, curr) => {
           const found = acc.find(item => item.id_declaration_super === curr.id_declaration_super);
@@ -77,7 +79,7 @@ const DeclarationOneAll = ({idClients}) => {
 
     useEffect(() => {
       fetchData();
-    }, [filteredDatas]);
+    }, [filteredDatas, idClients]);
 
   const handleDetails = (idDeclaration) => {
     openModal('Detail', idDeclaration);
@@ -397,7 +399,7 @@ const DeclarationOneAll = ({idClients}) => {
             <div className="client-row-icon">
               <ScheduleOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Déclarations</h2>
+            <h2 className="client-h2">Déclarations {titre}</h2>
           </div>
           {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} />}
           <div className="client-actions">
