@@ -208,7 +208,7 @@ useEffect(() => {
               <div 
                 onClick={handleAddProjet} 
                 style={{
-                  background:'#2196F3', // bleu pour une action de projet
+                  background:'#2196F3',
                   height:'30px',
                   width:'30px',
                   borderRadius:'50%',

@@ -25,7 +25,7 @@ const DeclarationOneAll = ({idClients}) => {
     "Ville": true,
     "Client": true,
     "Bâtiment": false,
-    "Objet fact": true,
+    "Objet fact": false,
     "Manutention": true,
     "Tarif Manu": true,
     "Debours Manu": true,
@@ -228,6 +228,8 @@ const DeclarationOneAll = ({idClients}) => {
           title: 'Debours Entr',
           dataIndex: 'debours_entreposage',
           key: 'debours_entreposage',
+          sorter: (a, b) => a.debours_entreposage - b.debours_entreposage,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
           ),
@@ -237,6 +239,8 @@ const DeclarationOneAll = ({idClients}) => {
           title: 'Total Entr',
           dataIndex: 'total_entreposage',
           key: 'total_entreposage',
+          sorter: (a, b) => a.total_entreposage - b.total_entreposage,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
           ),
@@ -246,6 +250,8 @@ const DeclarationOneAll = ({idClients}) => {
           title: 'TTC Entr',
           dataIndex: 'ttc_entreposage',
           key: 'ttc_entreposage',
+          sorter: (a, b) => a.ttc_entreposage - b.ttc_entreposage,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
           ),

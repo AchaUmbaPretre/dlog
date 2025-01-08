@@ -254,8 +254,10 @@ const Declaration = () => {
           title: 'Total Entr',
           dataIndex: 'total_entreposage',
           key: 'total_entreposage',
+          sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text ? parseFloat(text).toFixed(2) : 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
         },
@@ -263,11 +265,15 @@ const Declaration = () => {
           title: 'TTC Entr',
           dataIndex: 'ttc_entreposage',
           key: 'ttc_entreposage',
+          sorter: (a, b) => a.total_entreposage - b.total_entreposage,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="volcano">
+              {text ? parseFloat(text).toFixed(2) : 'Aucun'}
+            </Tag>
           ),
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
-        },
+        },        
         {
           title: 'Nbre',
           dataIndex: 'declarations_count',
