@@ -5,6 +5,7 @@ import config from '../../config';
 import { getFournisseur_activite } from '../../services/fournisseurService';
 import moment from 'moment';
 import ContratForm from './contratForm/ContratForm';
+import { getContrat } from '../../services/templateService';
 
 const { Search } = Input;
 
@@ -15,10 +16,9 @@ const Contrat = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getFournisseur_activite();
+        const { data } = await getContrat();
   
         setData(data);
         setLoading(false);
@@ -31,8 +31,9 @@ const Contrat = () => {
       }
     };
   
-    fetchData();
-  }, [DOMAIN]);
+    useEffect(() => {
+        fetchData();
+    }, [DOMAIN]);
   
 
   const handleAddClient = () => {
@@ -93,9 +94,17 @@ const Contrat = () => {
       width: "3%",
     },
     {
+        title: 'Conditions',
+        dataIndex: 'conditions',
+        key: 'conditions',
+        render: (text) => (
+          <Tag color="blue">{text}</Tag>
+        ),
+      },
+    {
       title: 'Client',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
+      dataIndex: 'nom',
+      key: 'nom',
       render: (text) => (
         <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
       ),
@@ -140,28 +149,12 @@ const Contrat = () => {
     },
     {
       title: 'Type contrat',
-      dataIndex: 'type_contrat',
-      key: 'type_contrat',
+      dataIndex: 'nom_type_contrat',
+      key: 'nom_type_contrat',
       render: (text) => (
         <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
       ),
-    },
-    {
-        title: 'Statut',
-        dataIndex: 'statut',
-        key: 'statut',
-        render: (text) => (
-          <Tag color="blue">{text}</Tag>
-        ),
-    },
-    {
-        title: 'Conditions',
-        dataIndex: 'conditions',
-        key: 'conditions',
-        render: (text) => (
-          <Tag color="blue">{text}</Tag>
-        ),
-      }
+    }
   ];
 
   return (
@@ -218,7 +211,7 @@ const Contrat = () => {
         width={800}
         centered
       >
-        <ContratForm />
+        <ContratForm closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
     </>
   );

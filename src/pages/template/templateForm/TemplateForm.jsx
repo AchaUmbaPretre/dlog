@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Select, Tooltip, Row, Col, DatePicker, notification, Skeleton, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { getClient } from '../../../services/clientService';
-import { getObjetFacture, getTemplateOne, getTypeOccupation, postTemplate, putTemplate } from '../../../services/templateService';
+import { getContrat, getObjetFacture, getTemplateOne, getTypeOccupation, postTemplate, putTemplate } from '../../../services/templateService';
 import { getBatiment } from '../../../services/typeService';
 import { getDenominationOne, getNiveauOne } from '../../../services/batimentService';
 import moment from 'moment';
@@ -11,6 +11,7 @@ import ClientForm from '../../client/clientForm/ClientForm';
 import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 import NiveauForm from '../../batiment/niveau/niveauForm/NiveauForm';
 import DenominationForm from '../../batiment/denomination/denominationForm/DenominationForm';
+import ContratForm from '../../contrat/contratForm/ContratForm';
 
 const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [form] = Form.useForm();
@@ -24,23 +25,26 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [denomination, setDenomination] = useState([]);
     const [modalType, setModalType] = useState(null);
     const [objet, setObjet] = useState([]);
+    const [contrat, setContrat] = useState([]);
     const navigate = useNavigate();
 
 
     const fetchDataAll = async () => {
         setIsLoading(true);
         try {
-            const [clientData, typeOccupationData, batimentData, objetData] = await Promise.all([
+            const [clientData, typeOccupationData, batimentData, objetData, contratData] = await Promise.all([
                 getClient(),
                 getTypeOccupation(),
                 getBatiment(),
-                getObjetFacture()
+                getObjetFacture(),
+                getContrat()
             ]);
 
             setClient(clientData.data);
             setTypeOccupation(typeOccupationData.data);
             setBatiment(batimentData.data);
             setObjet(objetData.data);
+            setContrat(contratData.data)
 
             if (idBatiment) {
                 const [niveauData, denominationData] = await Promise.all([
@@ -62,6 +66,8 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const handlBatiment = () => openModal('AddBatiment');
     const handlNiveau = () => openModal('AddNiveau');
     const handlDenom = () => openModal('AddDenom');
+    const handlContrat = () => openModal('AddContrat');
+
 
     const closeAllModals = () => {
         setModalType(null);
@@ -266,7 +272,32 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                             </Form.Item>
                         </Col>
 
-                        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+                        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
+                            <Form.Item
+                                label="Contrat"
+                                name="id_contrat"
+                                rules={[{ required: false, message: 'Veuillez sélectionner un contrat!' }]}
+                            >
+                                { isLoading ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    showSearch
+                                    options={contrat.map(item => ({ value: item.id_contrat, label: item.conditions }))}
+                                    placeholder="Sélectionnez un contrat..."
+                                    optionFilterProp="label"
+                                />
+                                }
+                            </Form.Item>
+                            <Tooltip title="Créer un contrat">
+                                <Button 
+                                    style={{ marginBottom: '5px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlContrat}
+                                >
+                                </Button>
+                            </Tooltip>
+                        </Col>
+
+                        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Objet facture"
                                 name="id_objet_fact"
@@ -283,7 +314,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                             </Form.Item>
                         </Col>
 
-                        <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+                        <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
                                 label="Date actif"
                                 name="date_actif"
@@ -362,6 +393,17 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                 centered
             >
                 <DenominationForm idBatiment={idBatiment} idDenomination_bat={''} closeModal={()=>setModalType(null)} fetchData={fetchDataAll}  />
+            </Modal>
+
+            <Modal
+                title=""
+                visible={modalType === 'AddContrat'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={600}
+                centered
+            >
+                <ContratForm closeModal={()=>setModalType(null)} fetchData={fetchDataAll}  />
             </Modal>
         </div>
     );

@@ -1,21 +1,57 @@
-import React, { useState } from 'react';
-import { Form, Input, DatePicker, Select, Button, notification, Row, Col } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, DatePicker, Select, Button, notification, Row, Col, Skeleton } from 'antd';
 import moment from 'moment';
+import { getClient } from '../../../services/clientService';
+import { getTypeContrat, postContrat } from '../../../services/templateService';
 
 const { Option } = Select;
 
-const ContratForm = () => {
-  // Gestion de l'état pour les champs du formulaire
-  const [formData, setFormData] = useState({
-    id_client: '',
-    date_debut: '',
-    date_fin: '',
-    montant: '',
-    type_contrat: '',
-    statut: 'actif',
-    date_signature: '',
-    conditions: ''
-  });
+const ContratForm = ({closeModal,fetchData }) => {
+    const [form] = Form.useForm();
+    const [formData, setFormData] = useState({
+        id_client: '',
+        date_debut: '',
+        date_fin: '',
+        montant: '',
+        type_contrat: '',
+        statut: 'actif',
+        date_signature: '',
+        conditions: ''
+    });
+    const [loadingData, setLoadingData] = useState(true);
+    const [client, setClient] = useState([]);
+    const [typeContrat, setTypeContrat] = useState([]);
+
+
+
+    const fetchDataAll = async () => {
+        setLoadingData(true);
+      
+        try {
+          const [clientData, typeData] = await Promise.all([
+            getClient(),
+            getTypeContrat()
+          ]);
+      
+          setClient(clientData.data);
+          setTypeContrat(typeData.data);
+      
+        } catch (error) {
+          console.error('Erreur lors de la récupération des données :', error);
+          notification.error({
+            message: 'Erreur de récupération',
+            description: 'Une erreur est survenue lors de la récupération des données.',
+          });
+      
+        } finally {
+          setLoadingData(false);
+        }
+      };
+      
+
+  useEffect(() => {
+    fetchDataAll();
+}, [form]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,17 +64,20 @@ const ContratForm = () => {
   // Fonction pour envoyer le formulaire
   const handleSubmit = async (values) => {
     try {
-      console.log(values);
-      setFormData({
-        id_client: '',
-        date_debut: '',
-        date_fin: '',
-        montant: '',
-        type_contrat: '',
-        statut: 'actif',
-        date_signature: '',
-        conditions: ''
-      });
+        await postContrat(values);
+    
+        fetchData();
+        closeModal();
+        setFormData({
+            id_client: '',
+            date_debut: '',
+            date_fin: '',
+            montant: '',
+            type_contrat: '',
+            statut: 'actif',
+            date_signature: '',
+            conditions: ''
+          });
       notification.success({
         message: 'Contrat créé',
         description: 'Le contrat a été créé avec succès.',
@@ -68,15 +107,19 @@ const ContratForm = () => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="ID Client"
+                label="Client"
                 name="id_client"
                 rules={[{ required: true, message: 'Veuillez entrer l\'ID client!' }]}
               >
-                <Input
-                  type="number"
-                  value={formData.id_client}
-                  onChange={handleChange}
-                />
+                {loadingData ? <Skeleton.Input active={true} /> : <Select
+                                    showSearch
+                                    options={client.map((item) => ({
+                                        value: item.id_client,
+                                        label: item.nom,
+                                    }))}
+                                    placeholder="Sélectionnez un client..."
+                                    optionFilterProp="label"
+                                />}
               </Form.Item>
             </Col>
 
@@ -134,22 +177,15 @@ const ContratForm = () => {
                 name="type_contrat"
                 rules={[{ required: true, message: 'Veuillez sélectionner le type de contrat!' }]}
               >
-                <Select
-                  value={formData.type_contrat}
-                  onChange={(value) => setFormData({ ...formData, type_contrat: value })}
-                  style={{ width: '100%' }}
-                >
-                  <Option value="CDI">CDI</Option>
-                  <Option value="CDD">CDD</Option>
-                  <Option value="Contrat de prestation de services">Contrat de prestation de services</Option>
-                  <Option value="Contrat de vente">Contrat de vente</Option>
-                  <Option value="Contrat d'apprentissage">Contrat d'apprentissage</Option>
-                  <Option value="Contrat d'intérim">Contrat d'intérim</Option>
-                  <Option value="Contrat de sous-traitance">Contrat de sous-traitance</Option>
-                  <Option value="Contrat d'assurance vie">Contrat d'assurance vie</Option>
-                  <Option value="Contrat de location">Contrat de location</Option>
-                  <Option value="Contrat de franchise">Contrat de franchise</Option>
-                </Select>
+                {loadingData ? <Skeleton.Input active={true} /> : <Select
+                                    showSearch
+                                    options={typeContrat.map((item) => ({
+                                        value: item.id_type_contrat,
+                                        label: item.nom_type_contrat,
+                                    }))}
+                                    placeholder="Sélectionnez un contrat..."
+                                    optionFilterProp="label"
+                                />}
               </Form.Item>
             </Col>
 
@@ -188,7 +224,7 @@ const ContratForm = () => {
 
             <Col span={12}>
               <Form.Item
-                label="Conditions"
+                label="Conditions(Titre)"
                 name="conditions"
               >
                 <Input
