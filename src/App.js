@@ -52,6 +52,7 @@ import Adresse from './pages/adresse/Adresse';
 import Instructions from './pages/instructions/Instructions';
 import CatInspection from './pages/catInspection/CatInspection';
 import AuditLogsTache from './pages/taches/auditLogsTache/AuditLogsTache';
+import Contrat from './pages/contrat/Contrat';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -271,6 +272,10 @@ function App() {
           path: '/profile',
           element: <Profile/>
         },
+        {
+          path: '/contrat',
+          element: <Contrat/>
+        }
       ]
     },
     { path: '/login', element: <Login /> },

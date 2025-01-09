@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { ExportOutlined,DollarOutlined,CalendarOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getFournisseur_activite } from '../../services/fournisseurService';
+import moment from 'moment';
 
 const { Search } = Input;
 
@@ -104,41 +105,75 @@ const Contrat = () => {
       width: "3%",
     },
     {
-      title: 'Nom',
-      dataIndex: 'nom_fournisseur',
-      key: 'nom',
+      title: 'Client',
+      dataIndex: 'nom_client',
+      key: 'nom_client',
       render: (text) => (
         <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
       ),
     },
     {
-      title: 'Activités',
-      dataIndex: 'nom_activite',
-      key: 'nom_activite',
-      render: (activities) => (
-        activities.map((activite, index) => (
-          <Tag key={index} color="green">
-            {activite}
-          </Tag>
-        ))
-      ),
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Date debut',
+      dataIndex: 'date_debut',
+      key: 'date_debut',
       render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text}</Tag>
+        <Tag icon={<CalendarOutlined />} color="green">
+            {moment(text).format('DD-MM-yyyy')}
+        </Tag>
       ),
     },
     {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
+        title: 'Date fin',
+        dataIndex: 'date_fin',
+        key: 'date_fin',
+        render: (text) => (
+          <Tag icon={<CalendarOutlined />} color="green">
+              {moment(text).format('DD-MM-yyyy')}
+          </Tag>
+        ),
+    },
+    {
+        title: 'Date signature',
+        dataIndex: 'date_signature',
+        key: 'date_signature',
+        render: (text) => (
+          <Tag icon={<CalendarOutlined />} color="green">
+              {moment(text).format('DD-MM-yyyy')}
+          </Tag>
+        ),
+      },
+    {
+      title: 'Montant',
+      dataIndex: 'montant',
+      key: 'montant',
+      render: (text) => (
+        <Tag icon={<DollarOutlined />} color="blue">{text}</Tag>
+      ),
+    },
+    {
+      title: 'Type contrat',
+      dataIndex: 'type_contrat',
+      key: 'type_contrat',
       render: (text) => (
         <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
       ),
-    }
+    },
+    {
+        title: 'Statut',
+        dataIndex: 'statut',
+        key: 'statut',
+        render: (text) => (
+          <Tag color="blue">{text}</Tag>
+        ),
+    },
+    {
+        title: 'Conditions',
+        dataIndex: 'conditions',
+        key: 'conditions',
+        render: (text) => (
+          <Tag color="blue">{text}</Tag>
+        ),
+      }
   ];
 
   return (
@@ -149,7 +184,7 @@ const Contrat = () => {
             <div className="client-row-icon">
               <TeamOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Fournisseur</h2>
+            <h2 className="client-h2">Contrat</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -161,7 +196,7 @@ const Contrat = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Ajouter un fournisseur
+                Ajouter un contrat
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
@@ -195,7 +230,7 @@ const Contrat = () => {
         width={800}
         centered
       >
-        <FournisseurForm modalOff={setIsModalVisible} />
+        aaaa
       </Modal>
     </>
   );
