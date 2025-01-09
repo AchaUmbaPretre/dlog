@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,DollarOutlined,CalendarOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { ExportOutlined,DollarOutlined,TagOutlined,FileTextOutlined,CalendarOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getFournisseur_activite } from '../../services/fournisseurService';
 import moment from 'moment';
@@ -87,46 +87,46 @@ const Contrat = () => {
 
   const columns = [
     {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
+        title: '#',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index) => index + 1,
+        width: "3%",
     },
     {
-        title: 'Conditions',
+        title: 'Conditions(Titre)',
         dataIndex: 'conditions',
         key: 'conditions',
         render: (text) => (
-          <Tag color="blue">{text}</Tag>
+            <Tag icon={<TagOutlined />} color="blue">{text}</Tag>
         ),
-      },
-    {
-      title: 'Client',
-      dataIndex: 'nom',
-      key: 'nom',
-      render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
-      ),
     },
     {
-      title: 'Date debut',
-      dataIndex: 'date_debut',
-      key: 'date_debut',
-      render: (text) => (
-        <Tag icon={<CalendarOutlined />} color="green">
-            {moment(text).format('DD-MM-yyyy')}
-        </Tag>
-      ),
+        title: 'Client',
+        dataIndex: 'nom',
+        key: 'nom',
+        render: (text) => (
+            <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
+        ),
+    },
+    {
+        title: 'Date début',
+        dataIndex: 'date_debut',
+        key: 'date_debut',
+        render: (text) => (
+            <Tag icon={<CalendarOutlined />} color="green">
+                {moment(text).format('DD-MM-yyyy')}
+            </Tag>
+        ),
     },
     {
         title: 'Date fin',
         dataIndex: 'date_fin',
         key: 'date_fin',
         render: (text) => (
-          <Tag icon={<CalendarOutlined />} color="green">
-              {moment(text).format('DD-MM-yyyy')}
-          </Tag>
+            <Tag icon={<CalendarOutlined />} color="red">
+                {moment(text).format('DD-MM-yyyy')}
+            </Tag>
         ),
     },
     {
@@ -134,28 +134,28 @@ const Contrat = () => {
         dataIndex: 'date_signature',
         key: 'date_signature',
         render: (text) => (
-          <Tag icon={<CalendarOutlined />} color="green">
-              {moment(text).format('DD-MM-yyyy')}
-          </Tag>
+            <Tag icon={<CalendarOutlined />} color="orange">
+                {moment(text).format('DD-MM-yyyy')}
+            </Tag>
         ),
-      },
-    {
-      title: 'Montant',
-      dataIndex: 'montant',
-      key: 'montant',
-      render: (text) => (
-        <Tag icon={<DollarOutlined />} color="blue">{text}</Tag>
-      ),
     },
     {
-      title: 'Type contrat',
-      dataIndex: 'nom_type_contrat',
-      key: 'nom_type_contrat',
-      render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
-      ),
+        title: 'Montant',
+        dataIndex: 'montant',
+        key: 'montant',
+        render: (text) => (
+            <Tag icon={<DollarOutlined />} color="gold">{`$${text}`}</Tag>
+        ),
+    },
+    {
+        title: 'Type contrat',
+        dataIndex: 'nom_type_contrat',
+        key: 'nom_type_contrat',
+        render: (text) => (
+            <Tag icon={<FileTextOutlined />} color="cyan">{text}</Tag>
+        ),
     }
-  ];
+];
 
   return (
     <>

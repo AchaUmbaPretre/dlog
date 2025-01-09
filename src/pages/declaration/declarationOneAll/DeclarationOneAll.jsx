@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Collapse } from 'antd';
-import { MenuOutlined, EditOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined } from '@ant-design/icons';
+import { MenuOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import DeclarationDetail from '../declarationDetail/DeclarationDetail';
 import DeclarationFiltre from '../declarationFiltre/DeclarationFiltre';
@@ -274,17 +274,6 @@ const DeclarationOneAll = ({idClients}) => {
             <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-          title: 'Tarif Entr',
-          dataIndex: 'tarif_entreposage',
-          key: 'tarif_entreposage',
-          sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
-          sortDirections: ['descend', 'ascend'],
-          render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
-          ),
-          ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
         },
         {
           title: 'Total Entr',
