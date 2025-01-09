@@ -402,7 +402,7 @@ const DeclarationOneAll = ({idClients}) => {
           sorter: (a, b) => a.m2_facture - b.m2_facture,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
         },
@@ -489,6 +489,8 @@ const DeclarationOneAll = ({idClients}) => {
     }
   ];
 
+  console.log(villeData)
+
   const columnsVilleSous = [
     {
       title: '#',
@@ -498,22 +500,44 @@ const DeclarationOneAll = ({idClients}) => {
       width: "3%",
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' }),
     },
-    
     {
-      title: 'Entreposage',
-      children: [
-        {
+      title: 'Template',
+      dataIndex: 'desc_template',
+      key: 'desc_template',
+        render: (text, record) => (
+            <Tag icon={<FileTextOutlined />} color="geekblue" onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>{text ?? 'Aucun'}</Tag>
+          ),
+        ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
+    },
+    {
+      title: 'Periode',
+      dataIndex: 'periode',
+      key: 'periode',
+          sorter: (a, b) => moment(a.periode) - moment(b.periode),
+          sortDirections: ['descend', 'ascend'],
+        render: (text) => {
+            const date = text ? new Date(text) : null;
+            const formattedDate = date 
+              ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
+              : 'Aucun';
+            return (
+              <Tag icon={<CalendarOutlined />} color="purple">{formattedDate}</Tag>
+            );
+          },
+          ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
+    },
+    {
           title: 'M² facture',
           dataIndex: 'm2_facture',
           key: 'm2_facture',
           sorter: (a, b) => a.m2_facture - b.m2_facture,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
-        },
-        {
+    },
+    {
           title: 'Tarif Entr',
           dataIndex: 'tarif_entreposage',
           key: 'tarif_entreposage',
@@ -523,8 +547,8 @@ const DeclarationOneAll = ({idClients}) => {
             <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
-        },
-        {
+    },
+    {
           title: 'Total Entr',
           dataIndex: 'total_entreposage',
           key: 'total_entreposage',
@@ -534,8 +558,8 @@ const DeclarationOneAll = ({idClients}) => {
             <Tag icon={<DollarOutlined />} color="gold">{text ? parseFloat(text).toFixed(2) : 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
-        },
-        {
+    },
+    {
           title: 'TTC Entr',
           dataIndex: 'ttc_entreposage',
           key: 'ttc_entreposage',
@@ -547,10 +571,7 @@ const DeclarationOneAll = ({idClients}) => {
             </Tag>
           ),
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
-        }
-      ]
     },
-  
     {
       title: 'Manutention',
       children: [       
@@ -642,7 +663,9 @@ const DeclarationOneAll = ({idClients}) => {
             size="middle"
             scroll={scroll}
           />
-
+          <div className="title_row_ville">
+            <h2 className="title_h2" style={{ width:'100%', textAlign:'center', fontSize:'1.2rem', color:'#292929ee', fontWeight:'300'}}>Par ville :</h2>
+          </div>
           <Table
             id="printableTable"
             columns={columnsVille}
@@ -650,21 +673,20 @@ const DeclarationOneAll = ({idClients}) => {
               expandedRowRender: (record) => (
                 <Table
                   columns={columnsVilleSous}
-                  dataSource={record.rows} // Chaque ligne contient les sous-données sous la clé 'rows'
-                  pagination={false} // Désactiver la pagination pour les sous-lignes
-                  rowKey="id" // Identifiant unique des sous-lignes
+                  dataSource={record.rows}
+                  rowKey="id"
                   size="small"
                   bordered
                 />
               ),
               rowExpandable: (record) => record.rows && record.rows.length > 0, // Si la ligne a des sous-lignes
             }}
-            dataSource={villeData} // Assurez-vous d'utiliser les données regroupées
-            rowKey="capital" // Utiliser le capital comme clé pour chaque ligne
+            dataSource={villeData}
+            rowKey="capital"
             size="small"
             bordered
-            loading={loading} // Affichage du chargement si nécessaire
-            scroll={scroll} // Défilement si nécessaire
+            loading={loading}
+            scroll={scroll}
           />
 
         </div>
