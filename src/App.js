@@ -53,6 +53,7 @@ import Instructions from './pages/instructions/Instructions';
 import CatInspection from './pages/catInspection/CatInspection';
 import AuditLogsTache from './pages/taches/auditLogsTache/AuditLogsTache';
 import Contrat from './pages/contrat/Contrat';
+import RapportDeclaration from './pages/declaration/rapportDeclaration/RapportDeclaration';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -275,6 +276,10 @@ function App() {
         {
           path: '/contrat',
           element: <Contrat/>
+        },
+        {
+          path: '/rapport_declaration',
+          element: <RapportDeclaration/>
         }
       ]
     },
