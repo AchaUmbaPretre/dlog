@@ -44,50 +44,6 @@ const Declaration = () => {
     try {
       const { data } = await getDeclaration(filteredDatas);
   
-/*       const groupedData = data.reduce((acc, curr) => {
-        const existingClient = acc.find(item => item.id_client === curr.id_client);
-  
-        if (existingClient) {
-          if (curr.nom_batiment) {
-            existingClient.nom_batiment = [...new Set([...existingClient.nom_batiment, curr.nom_batiment])];
-          }
-  
-          if (curr.capital) {
-            existingClient.capital = [...new Set([...existingClient.capital, curr.capital])];
-          }
-  
-          existingClient.m2_occupe += curr.m2_occupe || 0;
-          existingClient.m2_facture += curr.m2_facture || 0;
-          existingClient.tarif_entreposage += curr.tarif_entreposage || 0;
-          existingClient.total_entreposage += curr.total_entreposage || 0;
-          existingClient.debours_entreposage += curr.debours_entreposage || 0;
-          existingClient.ttc_entreposage += curr.ttc_entreposage || 0;
-          existingClient.total_manutation += curr.total_manutation || 0;
-          existingClient.ttc_manutation += curr.ttc_manutation || 0;
-  
-          existingClient.declarations_count += 1;
-        } else {
-          acc.push({
-            id_client: curr.id_client,
-            nom: curr.nom,
-            nom_batiment: curr.nom_batiment ? [curr.nom_batiment] : [],
-            capital: curr.capital ? [curr.capital] : [],
-            m2_occupe: curr.m2_occupe || 0,
-            m2_facture: curr.m2_facture || 0,
-            tarif_entreposage: curr.tarif_entreposage || 0,
-            debours_entreposage: curr.debours_entreposage || 0,
-            total_entreposage: curr.total_entreposage || 0,
-            ttc_entreposage: curr.ttc_entreposage || 0,
-            total_manutation: curr.total_manutation || 0,
-            ttc_manutation: curr.ttc_manutation || 0,
-            desc_template: curr.desc_template,
-            declarations_count: 1
-          });
-        }
-  
-        return acc;
-      }, []); */
-  
       setData(data);
       setLoading(false);
     } catch (error) {
