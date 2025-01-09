@@ -4,6 +4,7 @@ import { ExportOutlined,DollarOutlined,CalendarOutlined,UserOutlined,PhoneOutlin
 import config from '../../config';
 import { getFournisseur_activite } from '../../services/fournisseurService';
 import moment from 'moment';
+import ContratForm from './contratForm/ContratForm';
 
 const { Search } = Input;
 
@@ -19,20 +20,7 @@ const Contrat = () => {
       try {
         const { data } = await getFournisseur_activite();
   
-        const groupedData = data.reduce((acc, curr) => {
-          const found = acc.find(item => item.id_fournisseur === curr.id_fournisseur);
-          if (found) {
-            found.nom_activite.push(curr.nom_activite);
-          } else {
-            acc.push({
-              ...curr,
-              nom_activite: [curr.nom_activite],
-            });
-          }
-          return acc;
-        }, []);
-  
-        setData(groupedData);
+        setData(data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -230,7 +218,7 @@ const Contrat = () => {
         width={800}
         centered
       >
-        aaaa
+        <ContratForm />
       </Modal>
     </>
   );
