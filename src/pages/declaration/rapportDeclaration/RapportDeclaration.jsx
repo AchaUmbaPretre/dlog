@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
 import { Tabs } from 'antd';
+import {
+    AreaChartOutlined,
+    ContainerOutlined,
+    AppstoreOutlined,
+    DatabaseOutlined,
+    EyeOutlined,
+} from '@ant-design/icons';
 import './rapportDeclaration.scss'
+import RapportFacture from './rapportFacture/RapportFacture';
 
 const { TabPane } = Tabs;
 
@@ -23,25 +31,56 @@ const RapportDeclaration = () => {
                     <DefaultTabBar {...props} />
                 )}
             >
-
-                <TabPane tab="M² Facturé" key="1">
-                    <div>
-                        11111
-                    </div>
+                <TabPane
+                    tab={
+                        <span>
+                            <AreaChartOutlined /> M² Facturé
+                        </span>
+                    }
+                    key="1"
+                >
+                    <RapportFacture/>
                 </TabPane>
 
-                <TabPane tab="Total Entrepo et Manut" key="2">
+                <TabPane
+                    tab={
+                        <span>
+                            <ContainerOutlined /> Total Entrepo et Manut
+                        </span>
+                    }
+                    key="2"
+                >
                 </TabPane>
 
-                <TabPane tab="Total Manutention" key="3">
+                <TabPane
+                    tab={
+                        <span>
+                            <AppstoreOutlined /> Total Manutention
+                        </span>
+                    }
+                    key="3"
+                >
                 </TabPane>
 
-                <TabPane tab="Total Entreposage" key="4">
+                <TabPane
+                    tab={
+                        <span>
+                            <DatabaseOutlined /> Total Entreposage
+                        </span>
+                    }
+                    key="4"
+                >
                 </TabPane>
 
-                <TabPane tab="Vue d'ensemble" key="5">
+                <TabPane
+                    tab={
+                        <span>
+                            <EyeOutlined /> Vue d'ensemble
+                        </span>
+                    }
+                    key="5"
+                >
                 </TabPane>
-
             </Tabs>
         </div>
     </>
