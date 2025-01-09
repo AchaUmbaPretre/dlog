@@ -6,7 +6,7 @@ import DeclarationForm from './declarationForm/DeclarationForm';
 import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
 import moment from 'moment';
 import DeclarationDetail from './declarationDetail/DeclarationDetail';
-import DeclarationOneClient from './declarationOneClient/DeclarationOneClient';
+import DeclarationOneAll from './declarationOneAll/DeclarationOneAll';
 
 const { Search } = Input;
 
@@ -172,7 +172,8 @@ const Declaration = () => {
       [columnName]: !prev[columnName]
     }));
   };
-  
+
+
   const columns = [
     {
       title: '#',
@@ -192,11 +193,7 @@ const Declaration = () => {
           dataIndex: 'desc_template',
           key: 'desc_template',
           render: (text, record) => (
-            <div>
-              <Tooltip title={`Cliquez ici pour afficher les détails de ${record.nom}`}>
-                <Tag icon={<FileTextOutlined />} color="geekblue" onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>{text ?? 'Aucun'}</Tag>
-              </Tooltip>
-            </div>
+            <Tag icon={<FileTextOutlined />} color="geekblue" onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
         },
@@ -229,6 +226,17 @@ const Declaration = () => {
           ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
         },
         {
+          title: 'M² occupe',
+          dataIndex: 'm2_occupe',
+          key: 'm2_occupe',
+          sorter: (a, b) => a.m2_occupe - b.m2_occupe,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['M² occupe'] ? {} : { className: 'hidden-column' }),
+        },
+        {
           title: 'M² facture',
           dataIndex: 'm2_facture',
           key: 'm2_facture',
@@ -251,13 +259,24 @@ const Declaration = () => {
           ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
         },
         {
+          title: 'Debours Entr',
+          dataIndex: 'debours_entreposage',
+          key: 'debours_entreposage',
+          sorter: (a, b) => a.debours_entreposage - b.debours_entreposage,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Debours Entr'] ? {} : { className: 'hidden-column' }),
+        },
+        {
           title: 'Total Entr',
           dataIndex: 'total_entreposage',
           key: 'total_entreposage',
-          sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
+          sorter: (a, b) => a.total_entreposage - b.total_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ? parseFloat(text).toFixed(2) : 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
         },
@@ -265,24 +284,12 @@ const Declaration = () => {
           title: 'TTC Entr',
           dataIndex: 'ttc_entreposage',
           key: 'ttc_entreposage',
-          sorter: (a, b) => a.total_entreposage - b.total_entreposage,
+          sorter: (a, b) => a.ttc_entreposage - b.ttc_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">
-              {text ? parseFloat(text).toFixed(2) : 'Aucun'}
-            </Tag>
+            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
-        },        
-        {
-          title: 'Nbre',
-          dataIndex: 'declarations_count',
-          key: 'declarations_count',
-          sorter: (a, b) => a.declarations_count - b.declarations_count,
-          sortDirections: ['descend', 'ascend'],
-          render: (text) => (
-            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
-          ),
         },
       ]
     },
@@ -292,17 +299,50 @@ const Declaration = () => {
       title: 'Manutention',
       children: [
         {
+          title: 'Desc Man',
+          dataIndex: 'desc_manutation',
+          key: 'desc_manutation',
+          render: (text) => (
+            <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Desc man'] ? {} : { className: 'hidden-column' }),
+        },
+        {
           title: 'Ville',
           dataIndex: 'capital',
           key: 'capital',
-          render: (capital) => {
-            const formattedCapital = Array.isArray(capital) ? capital.join(', ') : 'Aucun'; // Joindre les villes par des virgules
-            return (
-              <Tag icon={<EnvironmentOutlined />} color="blue">{formattedCapital}</Tag>
-            );
-          },
+          render: (text) => (
+            <Tag icon={<EnvironmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+          ),
           ...(columnsVisibility['Ville'] ? {} : { className: 'hidden-column' }),
-        },        
+        },
+        {
+          title: 'Bâtiment',
+          dataIndex: 'nom_batiment',
+          key: 'nom_batiment',
+          render: (text) => (
+            <Tag icon={<HomeOutlined />} color="purple">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Bâtiment'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Objet fact',
+          dataIndex: 'nom_objet_fact',
+          key: 'nom_objet_fact',
+          render: (text) => (
+            <Tag icon={<FileTextOutlined />} color="magenta">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Objet fact'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Manutention',
+          dataIndex: 'manutation',
+          key: 'manutation',
+          render: (text) => (
+            <Tag icon={<ToolOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Manutention'] ? {} : { className: 'hidden-column' }),
+        },
         {
           title: 'Tarif Manu',
           dataIndex: 'tarif_manutation',
@@ -311,6 +351,15 @@ const Declaration = () => {
             <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Debours Manu',
+          dataIndex: 'debours_manutation',
+          key: 'debours_manutation',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Debours Manu'] ? {} : { className: 'hidden-column' }),
         },
         {
           title: 'Total Manu',
@@ -332,7 +381,7 @@ const Declaration = () => {
         },
       ]
     },
-    
+
     {
       title: 'Action',
       key: 'action',
@@ -492,7 +541,7 @@ const Declaration = () => {
         width={1250}
         centered
       >
-        <DeclarationOneClient closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} idClients={idClient} />
+        <DeclarationOneAll idClients={idClient} />
      </Modal>
     </>
   );
