@@ -400,7 +400,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                 visible={modalType === 'AddContrat'}
                 onCancel={closeAllModals}
                 footer={null}
-                width={600}
+                width={900}
                 centered
             >
                 <ContratForm closeModal={()=>setModalType(null)} fetchData={fetchDataAll}  />

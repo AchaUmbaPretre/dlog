@@ -68,6 +68,7 @@ const ContratForm = ({closeModal,fetchData }) => {
     
         fetchData();
         closeModal();
+
         setFormData({
             id_client: '',
             date_debut: '',
@@ -78,6 +79,7 @@ const ContratForm = ({closeModal,fetchData }) => {
             date_signature: '',
             conditions: ''
           });
+          
       notification.success({
         message: 'Contrat créé',
         description: 'Le contrat a été créé avec succès.',
@@ -157,7 +159,7 @@ const ContratForm = ({closeModal,fetchData }) => {
               <Form.Item
                 label="Montant"
                 name="montant"
-                rules={[{ required: true, message: 'Veuillez entrer le montant!' }]}
+                rules={[{ required: false, message: 'Veuillez entrer le montant!' }]}
               >
                 <Input
                   type="number"
@@ -226,6 +228,8 @@ const ContratForm = ({closeModal,fetchData }) => {
               <Form.Item
                 label="Conditions(Titre)"
                 name="conditions"
+                rules={[{ required: true, message: 'Veuillez saisir le titre!' }]}
+
               >
                 <Input
                   value={formData.conditions}
