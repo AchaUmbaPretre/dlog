@@ -103,3 +103,8 @@ export const postContrat = async (data) => {
 export const getTypeContrat = async () => {
   return axios.get(`${DOMAIN}/api/template/type_contrat`);
 };
+
+//Rapport facture
+export const getRapportFacture = async () => {
+  return axios.get(`${DOMAIN}/api/template/rapport_facture`);
+};
