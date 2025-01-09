@@ -85,3 +85,21 @@ export const putDeclaration = async (id,data) => {
 export const deletePutDeclaration = async (id) => {
     return axios.put(`${DOMAIN}/api/template/declaration_superficie_delete?id=${id}`);
   };
+
+
+export const getContrat = async () => {
+    return axios.get(`${DOMAIN}/api/template/contrat`);
+  };
+
+export const getContratOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/template/contratOne?id_client=${id}`);
+};
+
+export const postContrat = async (data) => {
+  return axios.post(`${DOMAIN}/api/template/contrat`, data);
+};
+
+//Type contrat
+export const getTypeContrat = async () => {
+  return axios.get(`${DOMAIN}/api/template/type_contrat`);
+};
