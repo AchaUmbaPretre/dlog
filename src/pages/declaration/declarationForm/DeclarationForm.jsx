@@ -481,18 +481,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                 <PlusCircleOutlined/>
                             </div>
                         </Tooltip>
-                        <Tooltip title="Voir le détail">
-                            <div className="templ-icon"
-                                style={{
-                                        transition: 'transform 0.2s',
-                                        background:'#88bfec'
-                                    }}
-                                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-                                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                            >
-                                <EyeOutlined/>
-                            </div>    
-                        </Tooltip>
                     </div>
                     <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations} key={refreshKey} />
                 </div>
