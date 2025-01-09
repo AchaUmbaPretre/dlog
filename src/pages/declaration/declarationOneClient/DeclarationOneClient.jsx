@@ -4,7 +4,7 @@ import { CalendarOutlined,MenuOutlined,DownOutlined,EnvironmentOutlined, HomeOut
 import moment from 'moment';
 import { getDeclarationOneClient, getTemplateOne } from '../../../services/templateService';
 import Declaration5derners from '../declaration5derniers/Declaration5derniers';
-import { getProvince, getProvinceClientOne } from '../../../services/clientService';
+import { getProvinceClientOne } from '../../../services/clientService';
 import './../../template/templateOne/templateOne.scss'
 
 const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) => {

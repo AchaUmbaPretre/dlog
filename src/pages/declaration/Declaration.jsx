@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
-import { MenuOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { MenuOutlined,EditOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { deletePutDeclaration, getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
 import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
 import moment from 'moment';
 import DeclarationDetail from './declarationDetail/DeclarationDetail';
-import DeclarationOneAll from './declarationOneAll/DeclarationOneAll';
+import DeclarationOneClient from './declarationOneClient/DeclarationOneClient';
 
 const { Search } = Input;
 
@@ -112,8 +112,16 @@ const Declaration = () => {
     openModal('Add', idDeclaration);
   };
 
+  const handleDetails = (idDeclaration) => {
+    openModal('Detail', idDeclaration);
+  }
+
   const handleAddDecl = (idDeclaration, idClient) => {
     openModal('AddDecl', idDeclaration,idClient );
+  };
+
+  const handleDeclarationOneAll = (idDeclaration, idClient) => {
+    openModal('OneAll', idDeclaration,idClient );
   };
 
   const handleUpdateTemplate = (idDeclaration) => {
@@ -196,8 +204,10 @@ const Declaration = () => {
           title: 'Client',
           dataIndex: 'nom',
           key: 'nom',
-          render: (text) => (
-            <Tag icon={<UserOutlined />} color="orange">{text ?? 'Aucun'}</Tag>
+          render: (text, record) => (
+            <Tag icon={<UserOutlined />} color="orange" onClick={() => handleDeclarationOneAll(record.id_declaration_super, record.id_client)}>
+              {text ?? 'Aucun'}
+            </Tag>
           ),
           ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' }),
         },
@@ -322,6 +332,45 @@ const Declaration = () => {
         },
       ]
     },
+    
+    {
+      title: 'Action',
+      key: 'action',
+      width: '10%',
+      render: (text, record) => (
+        <Space size="middle">
+          <Tooltip title="Modifier">
+            <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleUpdateTemplate(record.id_declaration_super)}
+              />
+          </Tooltip>
+          <Tooltip title="Voir les détails">
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() => handleDetails(record.id_declaration_super)}
+              aria-label="Voir les détails de la tâche"
+              style={{ color: 'blue' }}
+            />
+          </Tooltip>
+            <Tooltip title="Supprimer">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer cette déclaration ?"
+                onConfirm={() => handleDelete(record.id_declaration_super)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Delete client"
+                />
+              </Popconfirm>
+            </Tooltip>
+        </Space>
+      ),
+    },
   ];
   
   const handleFilterChange = (newFilters) => {
@@ -433,6 +482,17 @@ const Declaration = () => {
         centered
       >
         <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} idClients={idClient} />
+     </Modal>
+
+     <Modal
+        title=""
+        visible={modalType === 'OneAll'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1250}
+        centered
+      >
+        <DeclarationOneClient closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} idClients={idClient} />
      </Modal>
     </>
   );
