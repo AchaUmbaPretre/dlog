@@ -499,7 +499,6 @@ const DeclarationOneAll = ({idClients}) => {
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' }),
     },
     
-    // Groupe Entreposage
     {
       title: 'Entreposage',
       children: [
@@ -552,7 +551,6 @@ const DeclarationOneAll = ({idClients}) => {
       ]
     },
   
-    // Groupe Manutention
     {
       title: 'Manutention',
       children: [       
