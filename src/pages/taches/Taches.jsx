@@ -287,8 +287,6 @@ const handleEdit = (idTache) => {
     }));
   };
 
-
-
   const statusIcons = {
     'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
     'En cours': { icon: <HourglassOutlined />, color: 'blue' },

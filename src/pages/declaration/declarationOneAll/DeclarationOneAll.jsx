@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Collapse } from 'antd';
 import { MenuOutlined, EditOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import DeclarationDetail from '../declarationDetail/DeclarationDetail';
@@ -8,6 +8,8 @@ import DeclarationForm from '../declarationForm/DeclarationForm';
 import { deletePutDeclaration, getDeclarationClientOneAll } from '../../../services/templateService';
 
 const { Search } = Input;
+const { Panel } = Collapse;
+
 
 const DeclarationOneAll = ({idClients}) => {
   console.log(idClients)
@@ -42,6 +44,7 @@ const DeclarationOneAll = ({idClients}) => {
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [titre, setTitre] = useState('');
+  const [villeData, setVilleData] = useState([]);
 
     const fetchData = async () => {
       try {
@@ -102,8 +105,80 @@ const DeclarationOneAll = ({idClients}) => {
         setLoading(false);
       }
     };
+
+    const fetchDataVille = async () => {
+      try {
+        // Appel de l'API pour récupérer les données
+        const { data } = await getDeclarationClientOneAll(idClients, filteredDatas);
+        
+        // Vérification des données reçues
+        if (!data || data.length === 0) {
+          notification.warning({
+            message: 'Aucune donnée disponible',
+            description: 'Aucune déclaration n’a été trouvée pour le client sélectionné.',
+          });
+          setData([]);
+          setLoading(false);
+          return;
+        }
     
+        // Définir le titre à partir des données reçues
+        setTitre(data[0]?.nom);
     
+        // Initialiser l'objet pour regrouper les données
+        const grouped = {};
+    
+        // Regrouper et calculer les totaux
+        data.forEach((curr) => {
+          const capital = curr.capital;
+    
+          if (!grouped[capital]) {
+            grouped[capital] = {
+              capital,
+              m2_occupe: 0,
+              m2_facture: 0,
+              tarif_entreposage: 0,
+              total_entreposage: 0,
+              debours_entreposage: 0,
+              ttc_entreposage: 0,
+              total_manutation: 0,
+              ttc_manutation: 0,
+              declarations_count: 0,
+              rows: [],
+            };
+          }
+    
+          const existingClient = grouped[capital];
+          existingClient.m2_occupe += curr.m2_occupe || 0;
+          existingClient.m2_facture += curr.m2_facture || 0;
+          existingClient.tarif_entreposage += curr.tarif_entreposage || 0;
+          existingClient.total_entreposage += curr.total_entreposage || 0;
+          existingClient.debours_entreposage += curr.debours_entreposage || 0;
+          existingClient.ttc_entreposage += curr.ttc_entreposage || 0;
+          existingClient.total_manutation += curr.total_manutation || 0;
+          existingClient.ttc_manutation += curr.ttc_manutation || 0;
+          existingClient.declarations_count += 1;
+    
+          // Ajouter la déclaration brute
+          existingClient.rows.push(curr);
+        });
+    
+        // Convertir l'objet en tableau
+        const groupedData = Object.values(grouped);
+    
+        // Mettre à jour l'état avec les données regroupées
+        setVilleData(groupedData);
+        setLoading(false);
+      } catch (error) {
+        // Gestion des erreurs
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données.',
+        });
+        setLoading(false);
+      }
+    };
+        
     const handFilter = () => {
       fetchData()
       setFilterVisible(!filterVisible)
@@ -111,6 +186,7 @@ const DeclarationOneAll = ({idClients}) => {
 
     useEffect(() => {
       fetchData();
+      fetchDataVille();
     }, [filteredDatas, idClients]);
 
   const handleDetails = (idDeclaration) => {
@@ -293,6 +369,223 @@ const DeclarationOneAll = ({idClients}) => {
       ]
     }
   ];
+
+  const columnsVille = [
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => index + 1,
+      width: "3%",
+      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' }),
+    },
+    
+    // Groupe Entreposage
+    {
+      title: 'Entreposage',
+      children: [
+        {
+          title: 'Ville',
+          dataIndex: 'capital',
+          key: 'capital',
+          render: (text) => {
+            return (
+              <Tag icon={<EnvironmentOutlined />} color="blue">{text}</Tag>
+            );
+          },
+          ...(columnsVisibility['Ville'] ? {} : { className: 'hidden-column' }),
+        }, 
+        {
+          title: 'M² facture',
+          dataIndex: 'm2_facture',
+          key: 'm2_facture',
+          sorter: (a, b) => a.m2_facture - b.m2_facture,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Tarif Entr',
+          dataIndex: 'tarif_entreposage',
+          key: 'tarif_entreposage',
+          sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Total Entr',
+          dataIndex: 'total_entreposage',
+          key: 'total_entreposage',
+          sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="gold">{text ? parseFloat(text).toFixed(2) : 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'TTC Entr',
+          dataIndex: 'ttc_entreposage',
+          key: 'ttc_entreposage',
+          sorter: (a, b) => a.total_entreposage - b.total_entreposage,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="volcano">
+              {text ? parseFloat(text).toFixed(2) : 'Aucun'}
+            </Tag>
+          ),
+          ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
+        },        
+        {
+          title: 'Nbre',
+          dataIndex: 'declarations_count',
+          key: 'declarations_count',
+          sorter: (a, b) => a.declarations_count - b.declarations_count,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          ),
+        },
+      ]
+    },
+  
+    // Groupe Manutention
+    {
+      title: 'Manutention',
+      children: [       
+        {
+          title: 'Tarif Manu',
+          dataIndex: 'tarif_manutation',
+          key: 'tarif_manutation',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Total Manu',
+          dataIndex: 'total_manutation',
+          key: 'total_manutation',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'TTC Manu',
+          dataIndex: 'ttc_manutation',
+          key: 'ttc_manutation',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
+        },
+      ]
+    }
+  ];
+
+  const columnsVilleSous = [
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => index + 1,
+      width: "3%",
+      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' }),
+    },
+    
+    // Groupe Entreposage
+    {
+      title: 'Entreposage',
+      children: [
+        {
+          title: 'M² facture',
+          dataIndex: 'm2_facture',
+          key: 'm2_facture',
+          sorter: (a, b) => a.m2_facture - b.m2_facture,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Tarif Entr',
+          dataIndex: 'tarif_entreposage',
+          key: 'tarif_entreposage',
+          sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Total Entr',
+          dataIndex: 'total_entreposage',
+          key: 'total_entreposage',
+          sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="gold">{text ? parseFloat(text).toFixed(2) : 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'TTC Entr',
+          dataIndex: 'ttc_entreposage',
+          key: 'ttc_entreposage',
+          sorter: (a, b) => a.total_entreposage - b.total_entreposage,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="volcano">
+              {text ? parseFloat(text).toFixed(2) : 'Aucun'}
+            </Tag>
+          ),
+          ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
+        }
+      ]
+    },
+  
+    // Groupe Manutention
+    {
+      title: 'Manutention',
+      children: [       
+        {
+          title: 'Tarif Manu',
+          dataIndex: 'tarif_manutation',
+          key: 'tarif_manutation',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Total Manu',
+          dataIndex: 'total_manutation',
+          key: 'total_manutation',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'TTC Manu',
+          dataIndex: 'ttc_manutation',
+          key: 'ttc_manutation',
+          render: (text) => (
+            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+          ),
+          ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
+        },
+      ]
+    }
+  ];
   
   const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
@@ -351,6 +644,31 @@ const DeclarationOneAll = ({idClients}) => {
             size="middle"
             scroll={scroll}
           />
+
+          <Table
+            id="printableTable"
+            columns={columnsVille}
+            expandable={{
+              expandedRowRender: (record) => (
+                <Table
+                  columns={columnsVilleSous}
+                  dataSource={record.rows} // Chaque ligne contient les sous-données sous la clé 'rows'
+                  pagination={false} // Désactiver la pagination pour les sous-lignes
+                  rowKey="id" // Identifiant unique des sous-lignes
+                  size="small"
+                  bordered
+                />
+              ),
+              rowExpandable: (record) => record.rows && record.rows.length > 0, // Si la ligne a des sous-lignes
+            }}
+            dataSource={villeData} // Assurez-vous d'utiliser les données regroupées
+            rowKey="capital" // Utiliser le capital comme clé pour chaque ligne
+            size="small"
+            bordered
+            loading={loading} // Affichage du chargement si nécessaire
+            scroll={scroll} // Défilement si nécessaire
+          />
+
         </div>
       </div>
 
