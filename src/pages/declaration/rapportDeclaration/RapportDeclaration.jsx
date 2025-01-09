@@ -12,6 +12,7 @@ import RapportFacture from './rapportFacture/RapportFacture';
 import RapportEntrepoEtManu from './rapportEntrepoEtManu/RapportEntrepoEtManu';
 import RapportManu from './rapportManu/RapportManu';
 import RapportEntreposage from './rapportEntreposage/RapportEntreposage';
+import RapportVueEnsemble from './rapportVueEnsemble/RapportVueEnsemble';
 
 const { TabPane } = Tabs;
 
@@ -87,7 +88,7 @@ const RapportDeclaration = () => {
                         }
                         key="5"
                     >
-                        <RapportFacture/>
+                        <RapportVueEnsemble/>
                     </TabPane>
                 </Tabs>
             </div>
