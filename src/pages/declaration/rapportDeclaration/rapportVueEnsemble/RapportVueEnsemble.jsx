@@ -85,7 +85,7 @@ const RapportVueEnsemble = () => {
                       render: text => (
                         <Space>
                           <Tag color={text == null ? 'red' : 'blue'}>
-                            {text == null ? "Aucun" : `${text} $`}
+                            {text == null ? "Aucun" : `${text.toFixed(2)} $`}
                           </Tag>
                         </Space>
                       ),
@@ -97,7 +97,7 @@ const RapportVueEnsemble = () => {
                       render: text => (
                         <Space>
                           <Tag color={text == null ? 'red' : 'purple'}>
-                            {text == null ? "Aucun" : `${text} $`}
+                            {text == null ? "Aucun" : `${text.toFixed(2)} $`}
                           </Tag>
                         </Space>
                       ),
@@ -109,7 +109,7 @@ const RapportVueEnsemble = () => {
                       render: text => (
                         <Space>
                           <Tag color={text == null ? 'red' : '#87d068'}>
-                            {text == null ? "Aucun" : `${text} $`}
+                            {text == null ? "Aucun" : `${text.toFixed(2)} $`}
                           </Tag>
                         </Space>
                       ),

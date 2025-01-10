@@ -62,6 +62,12 @@ const RapportEntreposage = () => {
                 title: <Tag color={'#2db7f5'}>{monthName}</Tag>,
                 dataIndex: monthName,
                 key: monthName,
+                sorter: (a, b) => {
+                    const valueA = a[monthName] || 0;
+                    const valueB = b[monthName] || 0;
+                    return valueA - valueB;
+                  },
+                  sortDirections: ['descend', 'ascend'],
                 render: text => (
                     <Space>
                       <Tag color={text == null ? 'red' : 'blue'}>
