@@ -4,6 +4,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
+import moment from 'moment';
 
 const { Option } = Select;
 
@@ -15,7 +16,23 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
     const [selectedVille, setSelectedVille] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
     const [selectedBatiment, setSelectedBatiment] = useState([]);
+    const [selectedMonths, setSelectedMonths] = useState([]);
 
+
+    const handleMonthChange = (values) => {
+        setSelectedMonths(values);
+    };
+
+    const handleSort = () => {
+        // Trier les mois sélectionnés
+        const sortedMonths = [...selectedMonths].sort();
+        setSelectedMonths(sortedMonths);
+    };
+
+    // Générer la liste des mois de l'année
+    const months = moment.months(); // Cela retourne un tableau des mois en texte (ex: "January", "February", etc.)
+
+    
     const handleFilter = () => {
         onFilter({
             ville: selectedVille,
@@ -98,13 +115,17 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
 
             <div className="filter_row">
                 <label>Période :</label>
-                <DatePicker
-                    picker="month"
-                    placeholder="Sélectionnez le mois"
-                    format="YYYY-MM-DD"
+                <Select
+                    mode="multiple"
+                    placeholder="Sélectionnez les mois"
+                    value={selectedMonths}
+                    onChange={handleMonthChange}
                     style={{ width: '100%' }}
-                    onChange={(date, dateString) => setDateRange(dateString)}
-                />
+                >
+                {months.map((month, index) => (
+                    <Option key={index} value={month}>{month}</Option>
+                ))}
+            </Select>
             </div>
             <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
             </Button>
