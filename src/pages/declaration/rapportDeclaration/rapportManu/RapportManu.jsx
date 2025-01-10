@@ -19,7 +19,6 @@ const RapportManu = () => {
               data.map((item) => `${item.Mois}-${item.Année}`)
             )
           ).sort((a, b) => {
-            // Trier par année et mois
             const [monthA, yearA] = a.split("-");
             const [monthB, yearB] = b.split("-");
             return yearA - yearB || monthA - monthB;
@@ -55,6 +54,12 @@ const RapportManu = () => {
                 title: <Tag color={'#2db7f5'}>{monthName}</Tag>,
                 dataIndex: monthName,
                 key: monthName,
+                sorter: (a, b) => {
+                    const valueA = a[monthName] || 0;
+                    const valueB = b[monthName] || 0;
+                    return valueA - valueB;
+                  },
+                  sortDirections: ['descend', 'ascend'],
                 render: text => (
                     <Space>
                       <Tag color={text == null ? 'red' : 'blue'}>

@@ -140,7 +140,7 @@ const RapportVueEnsemble = () => {
   return (
     <>
         <div className="rapport_facture">
-            <h2 className="rapport_h2">CLIENT DIVERS VILLE</h2>
+            <h2 className="rapport_h2">DIVERS VILLE</h2>
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}
