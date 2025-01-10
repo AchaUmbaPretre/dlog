@@ -9,6 +9,10 @@ const RapportFacture = () => {
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
     const scroll = { x: 400 };
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 10,
+      });
 
 
 
@@ -33,7 +37,11 @@ const RapportFacture = () => {
                 title: '#',
                 dataIndex: 'id',
                 key: 'id',
-                render: (text, record, index) => index + 1,
+                render: (text, record, index) => {
+                    const pageSize = pagination.pageSize || 10;
+                    const pageIndex = pagination.current || 1;
+                    return (pageIndex - 1) * pageSize + index + 1;
+                  },
                 width: "3%",
             },
             {
@@ -128,10 +136,11 @@ const RapportFacture = () => {
                     dataSource={dataSource}
                     columns={columns}
                     bordered
-                    pagination={false}
                     scroll={scroll}
                     loading={loading}
                     size="small"
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
                 />
             </div>
         </div>

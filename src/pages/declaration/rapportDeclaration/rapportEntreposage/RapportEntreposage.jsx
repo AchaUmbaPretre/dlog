@@ -7,6 +7,10 @@ const RapportEntreposage = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 20,
+      });
     const scroll = { x: 400 };
 
     const fetchData = async () => {
@@ -30,7 +34,11 @@ const RapportEntreposage = () => {
                 title: '#',
                 dataIndex: 'id',
                 key: 'id',
-                render: (text, record, index) => index + 1,
+                render: (text, record, index) => {
+                    const pageSize = pagination.pageSize || 10;
+                    const pageIndex = pagination.current || 1;
+                    return (pageIndex - 1) * pageSize + index + 1;
+                  },
                 width: "3%",
             },
             {
@@ -57,7 +65,7 @@ const RapportEntreposage = () => {
                 render: text => (
                     <Space>
                       <Tag color={text == null ? 'red' : 'blue'}>
-                        {text == null ? "Aucun" : `${text} $`}
+                        {text == null ? "Aucun" : `${text.toFixed(2)} $`}
                       </Tag>
                     </Space>
                   ),
@@ -125,10 +133,11 @@ const RapportEntreposage = () => {
                     dataSource={dataSource}
                     columns={columns}
                     bordered
-                    pagination={false}
                     scroll={scroll}
                     loading={loading}
                     size="small"
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
                 />
 
             </div>

@@ -8,6 +8,11 @@ const RapportVueEnsemble = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 10,
+      });
+
     const scroll = { x: 400 };
 
     const fetchData = async () => {
@@ -47,7 +52,11 @@ const RapportVueEnsemble = () => {
                 title: '#',
                 dataIndex: 'id',
                 key: 'id',
-                render: (text, record, index) => index + 1,
+                render: (text, record, index) => {
+                    const pageSize = pagination.pageSize || 10;
+                    const pageIndex = pagination.current || 1;
+                    return (pageIndex - 1) * pageSize + index + 1;
+                  },
                 width: "3%",
             },
             {
@@ -137,10 +146,11 @@ const RapportVueEnsemble = () => {
                     dataSource={dataSource}
                     columns={columns}
                     bordered
-                    pagination={false}
                     scroll={scroll}
                     loading={loading}
                     size="small"
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
                 />
             </div>
         </div>
