@@ -108,7 +108,7 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     mode="multiple"
                     placeholder="Sélectionnez les mois"
                     value={selectedMonths}
-                    onChange={setSelectedMonths} // Utilisation correcte ici
+                    onChange={setSelectedMonths}
                     style={{ width: '100%' }}
                     optionFilterProp="label"
                 >

@@ -186,8 +186,11 @@ const DeclarationOneAll = ({idClients}) => {
 
     useEffect(() => {
       fetchData();
-      fetchDataVille();
     }, [filteredDatas, idClients]);
+
+    useEffect(() => {
+      fetchDataVille();
+    }, [idClients]);
 
   const handleDetails = (idDeclaration) => {
     openModal('Detail', idDeclaration);
