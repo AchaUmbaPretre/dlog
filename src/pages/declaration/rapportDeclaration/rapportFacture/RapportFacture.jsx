@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './rapportFacture.scss'
-import { notification, Space, Table, Tag } from 'antd';
+import { Button, notification, Space, Table, Tag } from 'antd';
 import { getRapportFacture } from '../../../../services/templateService';
 import moment from 'moment';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -125,12 +125,24 @@ const RapportFacture = () => {
         setFilteredDatas(newFilters); 
       };
 
+      const handFilter = () => {
+        fetchData()
+        setFilterVisible(!filterVisible)
+      }
 
   return (
     <>
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS M² FACTURE</h2>
-            <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>
+                <Button
+                type="default"
+                onClick={handFilter}
+                style={{margin:'10px 0'}}
+              >
+                {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+              </Button>
+
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}
