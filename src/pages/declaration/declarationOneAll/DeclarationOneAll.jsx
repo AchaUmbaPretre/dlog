@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Collapse } from 'antd';
+import { Table, Button, Modal, Input, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Collapse } from 'antd';
 import { MenuOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import DeclarationDetail from '../declarationDetail/DeclarationDetail';
 import DeclarationFiltre from '../declarationFiltre/DeclarationFiltre';
 import DeclarationForm from '../declarationForm/DeclarationForm';
-import { deletePutDeclaration, getDeclarationClientOneAll } from '../../../services/templateService';
+import { getDeclarationClientOneAll } from '../../../services/templateService';
 
 const { Search } = Input;
 const { Panel } = Collapse;
 
 
 const DeclarationOneAll = ({idClients}) => {
-  console.log(idClients)
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
@@ -217,19 +216,6 @@ const DeclarationOneAll = ({idClients}) => {
     setModalType(type);
     setidDeclaration(idDeclaration);
     setidClient(idClient)
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deletePutDeclaration(id)
-      setData(data.filter((item) => item.id_declaration_super !== id));
-      message.success('Déclaration deleted successfully');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
   };
 
   const menus = (
