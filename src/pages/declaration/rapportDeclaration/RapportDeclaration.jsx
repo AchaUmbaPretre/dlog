@@ -47,7 +47,7 @@ const RapportDeclaration = () => {
                         <RapportFacture/>
                     </TabPane>
 
-                    <TabPane
+{/*                     <TabPane
                         tab={
                             <span>
                                 <ContainerOutlined /> Total Entrepo et Manut
@@ -57,7 +57,7 @@ const RapportDeclaration = () => {
                     >
                         <RapportEntrepoEtManu/>
                     </TabPane>
-
+ */}
                     <TabPane
                         tab={
                             <span>
