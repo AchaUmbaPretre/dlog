@@ -110,7 +110,8 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     value={selectedMonths}
                     onChange={setSelectedMonths}
                     style={{ width: '100%' }}
-                    optionFilterProp="label"
+                    showSearch
+                    optionFilterProp="children"
                 >
                     {months.map((month) => (
                         <Option key={month} value={month}>
@@ -118,6 +119,7 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                         </Option>
                     ))}
                 </Select>
+
             </div>
             <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
             </Button>
