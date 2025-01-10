@@ -41,13 +41,20 @@ const RapportFacture = () => {
               dataIndex: "Client",
               key: "Client",
               fixed: "left",
+              render: text => (
+                <Space>
+                  <Tag color={'green'}>
+                    {text}
+                  </Tag>
+                </Space>
+              ),
             },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
               const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
   
               return {
-                title: monthName,
+                title: <Tag color={'#2db7f5'}>{monthName}</Tag>,
                 dataIndex: monthName,
                 key: monthName,
                 render: text => (
@@ -69,7 +76,11 @@ const RapportFacture = () => {
                     const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
                     return sum + (record[monthName] || 0);
                   }, 0);
-                  return total.toFixed(2);
+                  return <Space>
+                  <Tag color={'#87d068'}>
+                    {`${total.toFixed(2)} $`}
+                  </Tag>
+                </Space> ;
                 },
               },
           ];

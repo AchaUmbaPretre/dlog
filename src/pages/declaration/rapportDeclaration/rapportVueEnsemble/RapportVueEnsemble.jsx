@@ -55,6 +55,13 @@ const RapportVueEnsemble = () => {
               dataIndex: "Mois",
               key: "Mois",
               fixed: "left",
+              render: text => (
+                <Space>
+                  <Tag color={'#2db7f5'}>
+                    {text}
+                  </Tag>
+                </Space>
+              ),
             },
             ...data.reduce((acc, item) => {
               const capital = item.capital;
@@ -66,16 +73,37 @@ const RapportVueEnsemble = () => {
                       title: "Entrep",
                       dataIndex: `${capital}_Entreposage`,
                       key: `${capital}_Entreposage`,
+                      render: text => (
+                        <Space>
+                          <Tag color={text == null ? 'red' : 'blue'}>
+                            {text == null ? "Aucun" : `${text} $`}
+                          </Tag>
+                        </Space>
+                      ),
                     },
                     {
                       title: "Manut",
                       dataIndex: `${capital}_Manutention`,
                       key: `${capital}_Manutention`,
+                      render: text => (
+                        <Space>
+                          <Tag color={text == null ? 'red' : 'purple'}>
+                            {text == null ? "Aucun" : `${text} $`}
+                          </Tag>
+                        </Space>
+                      ),
                     },
                     {
                       title: "Total",
                       dataIndex: `${capital}_Total`,
                       key: `${capital}_Total`,
+                      render: text => (
+                        <Space>
+                          <Tag color={text == null ? 'red' : '#87d068'}>
+                            {text == null ? "Aucun" : `${text} $`}
+                          </Tag>
+                        </Space>
+                      ),
                     },
                   ],
                 });
