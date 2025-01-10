@@ -85,6 +85,7 @@ const RapportVueEnsemble = () => {
           ];
   
           setColumns(dynamicColumns);
+          setDataSource(formattedData);
           setLoading(false);
         } catch (error) {
           notification.error({

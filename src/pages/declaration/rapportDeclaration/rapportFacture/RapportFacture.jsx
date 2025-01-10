@@ -52,8 +52,8 @@ const RapportFacture = () => {
                 key: monthName,
                 render: text => (
                     <Space>
-                      <Tag color={text === null ? 'red' : 'blue'}>
-                        {text === null ? "Aucun" : `${text} $`}
+                      <Tag color={text == null ? 'red' : 'blue'}>
+                        {text == null ? "Aucun" : `${text} $`}
                       </Tag>
                     </Space>
                   ),
