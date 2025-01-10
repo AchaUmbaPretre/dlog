@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Collapse } from 'antd';
-import { MenuOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, Dropdown, Menu, notification, Tag } from 'antd';
+import { MenuOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import DeclarationDetail from '../declarationDetail/DeclarationDetail';
 import DeclarationFiltre from '../declarationFiltre/DeclarationFiltre';
@@ -8,7 +8,6 @@ import DeclarationForm from '../declarationForm/DeclarationForm';
 import { getDeclarationClientOneAll } from '../../../services/templateService';
 
 const { Search } = Input;
-const { Panel } = Collapse;
 
 
 const DeclarationOneAll = ({idClients}) => {
