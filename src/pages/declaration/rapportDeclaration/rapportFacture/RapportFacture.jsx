@@ -60,6 +60,19 @@ const RapportFacture = () => {
                   ),
               };
             }),
+            {
+                title: "Total", 
+                dataIndex: "Total",
+                key: "Total",
+                render: (_, record) => {
+                  const total = uniqueMonths.reduce((sum, month) => {
+                    const [numMonth, year] = month.split("-");
+                    const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+                    return sum + (record[monthName] || 0);
+                  }, 0);
+                  return total.toFixed(2);
+                },
+              },
           ];
   
           // Transformer les données pour correspondre aux colonnes
