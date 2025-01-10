@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Select, DatePicker, Button } from 'antd';
+import { Select, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { getClient, getProvince } from '../../../services/clientService';
@@ -11,34 +11,22 @@ const { Option } = Select;
 const DeclarationFiltre = ({ onFilter, visible }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
-    const [dateRange, setDateRange] = useState(null);
     const [batiment, setBatiment] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
     const [selectedBatiment, setSelectedBatiment] = useState([]);
     const [selectedMonths, setSelectedMonths] = useState([]);
 
-
-    const handleMonthChange = (values) => {
-        setSelectedMonths(values);
-    };
-
-    const handleSort = () => {
-        // Trier les mois sélectionnés
-        const sortedMonths = [...selectedMonths].sort();
-        setSelectedMonths(sortedMonths);
-    };
-
     // Générer la liste des mois de l'année
-    const months = moment.months(); // Cela retourne un tableau des mois en texte (ex: "January", "February", etc.)
+    const months = Array.from({ length: 12 }, (_, index) => index + 1);
 
-    
     const handleFilter = () => {
+        // Assurez-vous que la dateRange contient les mois sélectionnés
         onFilter({
             ville: selectedVille,
             client: selectedClients,
             batiment: selectedBatiment,
-            dateRange        
+            dateRange: selectedMonths // Assurez-vous de passer les mois sélectionnés
         });
     };
 
@@ -79,23 +67,24 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     onChange={setSelectedVille}
                 />
             </div>
-            { !visible &&
-            <div className="filter_row">
-                <label>Clients :</label>
-                <Select
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    showSearch
-                    options={client.map((item) => ({
-                        value: item.id_client,
-                        label: item.nom,
-                    }))}
-                    placeholder="Sélectionnez un client..."
-                    optionFilterProp="label"
-                    onChange={setSelectedClients}
-                />
-            </div>
-            }
+            
+            { !visible && (
+                <div className="filter_row">
+                    <label>Clients :</label>
+                    <Select
+                        mode="multiple"
+                        style={{ width: '100%' }}
+                        showSearch
+                        options={client.map((item) => ({
+                            value: item.id_client,
+                            label: item.nom,
+                        }))}
+                        placeholder="Sélectionnez un client..."
+                        optionFilterProp="label"
+                        onChange={setSelectedClients}
+                    />
+                </div>
+            )}
 
             <div className="filter_row">
                 <label>Bâtiment :</label>
@@ -119,13 +108,16 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     mode="multiple"
                     placeholder="Sélectionnez les mois"
                     value={selectedMonths}
-                    onChange={handleMonthChange}
+                    onChange={setSelectedMonths} // Utilisation correcte ici
                     style={{ width: '100%' }}
+                    optionFilterProp="label"
                 >
-                {months.map((month, index) => (
-                    <Option key={index} value={month}>{month}</Option>
-                ))}
-            </Select>
+                    {months.map((month) => (
+                        <Option key={month} value={month}>
+                            {moment().month(month - 1).format('MMMM')} {/* Affiche le mois en texte */}
+                        </Option>
+                    ))}
+                </Select>
             </div>
             <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
             </Button>

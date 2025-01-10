@@ -649,7 +649,7 @@ const DeclarationOneAll = ({idClients}) => {
             size="middle"
             scroll={scroll}
           />
-          
+
           <div className="title_row_ville">
             <h2 className="title_h2" style={{ width:'100%', textAlign:'center', fontSize:'1.2rem', color:'#292929ee', fontWeight:'300'}}>Par ville :</h2>
           </div>

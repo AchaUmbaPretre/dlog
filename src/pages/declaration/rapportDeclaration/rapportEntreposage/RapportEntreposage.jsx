@@ -120,7 +120,7 @@ const RapportEntreposage = () => {
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS ENTREPOSAGE</h2>
             <div className="rapport_wrapper_facture">
-            
+
                 <Table
                     dataSource={dataSource}
                     columns={columns}
