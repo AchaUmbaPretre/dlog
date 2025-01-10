@@ -10,7 +10,7 @@ const RapportVueEnsemble = () => {
     const [dataSource, setDataSource] = useState([]);
     const [pagination, setPagination] = useState({
         current: 1,
-        pageSize: 10,
+        pageSize: 20,
       });
 
     const scroll = { x: 400 };
