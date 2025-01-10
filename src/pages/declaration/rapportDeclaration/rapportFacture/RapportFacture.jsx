@@ -3,6 +3,7 @@ import './rapportFacture.scss'
 import { notification, Space, Table, Tag } from 'antd';
 import { getRapportFacture } from '../../../../services/templateService';
 import moment from 'moment';
+import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
 const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
@@ -13,10 +14,11 @@ const RapportFacture = () => {
         current: 1,
         pageSize: 15,
       });
+    const [filteredDatas, setFilteredDatas] = useState(null);
 
       const fetchData = async () => {
         try {
-          const { data } = await getRapportFacture();
+          const { data } = await getRapportFacture(filteredDatas);
       
           const uniqueMonths = Array.from(
             new Set(data.map((item) => `${item.Mois}-${item.Année}`))
@@ -116,13 +118,18 @@ const RapportFacture = () => {
   
     useEffect(() => {
       fetchData();
-    }, []);
+    }, [filteredDatas]);
+
+    const handleFilterChange = (newFilters) => {
+        setFilteredDatas(newFilters); 
+      };
 
 
   return (
     <>
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS M² FACTURE</h2>
+            <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}

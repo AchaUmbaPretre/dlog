@@ -2,19 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Select, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
-import { getClient, getProvince } from '../../../services/clientService';
-import { getBatiment } from '../../../services/typeService';
 import moment from 'moment';
+import { getClient, getProvince } from '../../../../services/clientService';
 
 const { Option } = Select;
 
-const DeclarationFiltre = ({ onFilter, visible }) => {
+const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
-    const [batiment, setBatiment] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
-    const [selectedBatiment, setSelectedBatiment] = useState([]);
     const [selectedMonths, setSelectedMonths] = useState([]);
 
     // Générer la liste des mois de l'année
@@ -24,7 +21,6 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
         onFilter({
             ville: selectedVille,
             client: selectedClients,
-            batiment: selectedBatiment,
             dateRange: selectedMonths
         });
     };
@@ -32,13 +28,11 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [batimentData, clientData, provinceData] = await Promise.all([
-                    getBatiment(),
+                const [clientData, provinceData] = await Promise.all([
                     getClient(),
                     getProvince()
                 ]);
 
-                setBatiment(batimentData.data);
                 setClient(clientData.data);
                 setProvince(provinceData.data);
             } catch (error) {
@@ -51,6 +45,8 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
 
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
+        {
+            filtraVille && (
             <div className="filter_row">
                 <label>Ville :</label>
                 <Select
@@ -66,8 +62,9 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     onChange={setSelectedVille}
                 />
             </div>
+            )
+        }
             
-            { !visible && (
                 <div className="filter_row">
                     <label>Clients :</label>
                     <Select
@@ -83,23 +80,6 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                         onChange={setSelectedClients}
                     />
                 </div>
-            )}
-
-            <div className="filter_row">
-                <label>Bâtiment :</label>
-                <Select
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    showSearch
-                    options={batiment.map((item) => ({
-                        value: item.id_batiment,
-                        label: item.nom_batiment,
-                    }))}
-                    placeholder="Sélectionnez un bâtiment..."
-                    optionFilterProp="label"
-                    onChange={setSelectedBatiment}
-                />
-            </div>
 
             <div className="filter_row">
                 <label>Période :</label>
@@ -126,4 +106,4 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
     );
 };
 
-export default DeclarationFiltre;
+export default RapportFiltrage;
