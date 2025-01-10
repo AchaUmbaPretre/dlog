@@ -108,3 +108,8 @@ export const getTypeContrat = async () => {
 export const getRapportFacture = async () => {
   return axios.get(`${DOMAIN}/api/template/rapport_facture`);
 };
+
+//Rapport ville
+export const getRapportVille = async () => {
+  return axios.get(`${DOMAIN}/api/template/rapport_ville`);
+};

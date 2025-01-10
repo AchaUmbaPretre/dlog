@@ -8,7 +8,6 @@ const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
-    const [data, setData] = useState([]);
     const scroll = { x: 400 };
 
 
