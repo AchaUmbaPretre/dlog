@@ -83,7 +83,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <EyeOutlined /> Vue d'ensemble
+                                <EyeOutlined /> Total par ville
                             </span>
                         }
                         key="5"
