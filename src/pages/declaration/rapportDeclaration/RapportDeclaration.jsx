@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 import { Tabs } from 'antd';
 import {
     AreaChartOutlined,
-    ContainerOutlined,
     AppstoreOutlined,
     DatabaseOutlined,
     EyeOutlined,
 } from '@ant-design/icons';
 import './rapportDeclaration.scss'
 import RapportFacture from './rapportFacture/RapportFacture';
-import RapportEntrepoEtManu from './rapportEntrepoEtManu/RapportEntrepoEtManu';
 import RapportManu from './rapportManu/RapportManu';
 import RapportEntreposage from './rapportEntreposage/RapportEntreposage';
 import RapportVueEnsemble from './rapportVueEnsemble/RapportVueEnsemble';
