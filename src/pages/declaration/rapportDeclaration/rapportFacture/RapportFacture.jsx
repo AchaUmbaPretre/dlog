@@ -15,6 +15,7 @@ const RapportFacture = () => {
         pageSize: 15,
       });
     const [filteredDatas, setFilteredDatas] = useState(null);
+    const [filterVisible, setFilterVisible] = useState(false);
 
       const fetchData = async () => {
         try {
