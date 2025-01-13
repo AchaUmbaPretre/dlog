@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton } from 'antd';
 import { MenuOutlined,EditOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { deletePutDeclaration, getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
@@ -7,6 +7,7 @@ import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
 import moment from 'moment';
 import DeclarationDetail from './declarationDetail/DeclarationDetail';
 import DeclarationOneAll from './declarationOneAll/DeclarationOneAll';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -39,12 +40,15 @@ const Declaration = () => {
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
+  const role = useSelector((state) => state.user?.currentUser.role);
+  const [statistique, setStatistique] = useState([]);
 
   const fetchData = async () => {
     try {
       const { data } = await getDeclaration(filteredDatas);
   
-      setData(data);
+      setData(data.declarations);
+      setStatistique(data.totals);
       setLoading(false);
     } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -398,11 +402,35 @@ const Declaration = () => {
     <>
       <div className="client">
         <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <ScheduleOutlined className='client-icon' />
+          <div className="client-rows">
+            <div className="client-row">
+              <div className="client-row-icon">
+                <ScheduleOutlined className='client-icon' />
+              </div>
+              <h2 className="client-h2">Déclarations</h2>
             </div>
-            <h2 className="client-h2">Déclarations</h2>
+            {
+              role === 'Admin' &&
+              <div className='client-row-lefts'>
+              <span className='client-title'>
+              Resumé :
+              </span>
+              <div className="client-row-sou">
+                {loading ? (
+                  <Skeleton active paragraph={{ rows: 1 }} />
+                ) : (
+                    <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong>{statistique.nbre_client}</strong></span>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total de M2 Facture : <strong>{statistique.total_m2_facture}</strong></span>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total entreposage : <strong>{statistique.total_entreposage}</strong></span>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Entreposage : <strong>{statistique.total_ttc_entreposage}</strong></span>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total Manutention : <strong>{statistique.total_manutation || 0}</strong></span>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Manutention : <strong>{statistique.total_ttc_manutation || 0}</strong></span>
+                    </div>
+                )}
+              </div>
+            </div>
+            }
           </div>
           {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} />}
           <div className="client-actions">
