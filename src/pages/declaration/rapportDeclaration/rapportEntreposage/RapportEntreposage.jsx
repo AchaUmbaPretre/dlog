@@ -11,6 +11,11 @@ const RapportEntreposage = () => {
         current: 1,
         pageSize: 20,
       });
+    const [columnsVisibility, setColumnsVisibility] = useState({
+        '#': true,
+        'Total Entr': true,
+        "TTC Entr": true
+    });
     const scroll = { x: 400 };
 
     const fetchData = async () => {
@@ -22,13 +27,11 @@ const RapportEntreposage = () => {
               data.map((item) => `${item.Mois}-${item.Année}`)
             )
           ).sort((a, b) => {
-            // Trier par année et mois
             const [monthA, yearA] = a.split("-");
             const [monthB, yearB] = b.split("-");
             return yearA - yearB || monthA - monthB;
           });
   
-          // Générer dynamiquement les colonnes avec le nom abrégé du mois
           const generatedColumns = [
             {
                 title: '#',
