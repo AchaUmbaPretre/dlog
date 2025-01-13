@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PlusCircleOutlined, EyeOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
@@ -141,20 +141,25 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
         try {
             if(idDeclaration) {
-                await putDeclaration(idDeclaration, values)
+                await putDeclaration(idDeclaration, values);
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les informations ont été modifiées avec succès.',
+                });
+                closeModal();
             }
             else{
                 await postDeclaration(values);
                 setRefreshKey((prev) => prev + 1);
-                setPeriode(null)
+                setPeriode(null);
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les informations ont été enregistrées avec succès.',
+                });
             }
-            notification.success({
-                message: 'Succès',
-                description: 'Les informations ont été enregistrées avec succès.',
-            });
             form.resetFields();
+            fetchData();
             navigate('/liste_declaration')
-            fetchData()
         } catch (error) {
             console.error("Erreur lors de l'ajout de la déclaration:", error);
             notification.error({
