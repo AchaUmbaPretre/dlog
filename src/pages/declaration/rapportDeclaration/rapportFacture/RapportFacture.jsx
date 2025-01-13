@@ -112,8 +112,8 @@ const RapportFacture = () => {
           setLoading(false);
         } catch (error) {
           notification.error({
-            message: 'Erreur de chargement',
-            description: 'Une erreur est survenue lors du chargement des données.',
+            message: 'Erreur',
+            description: `${error.response.data.message}`,
           });
           setLoading(false);
         }

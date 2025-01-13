@@ -13,15 +13,20 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const [selectedVille, setSelectedVille] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
     const [selectedMonths, setSelectedMonths] = useState([]);
-
+    const [selectedYear, setSelectedYear] = useState(null);
     // Générer la liste des mois de l'année
+    const years = Array.from({ length: 10 }, (_, i) => moment().year() - i); // Génère les années (10 dernières)
+
     const months = Array.from({ length: 12 }, (_, index) => index + 1);
 
     const handleFilter = () => {
         onFilter({
             ville: selectedVille,
             client: selectedClients,
-            dateRange: selectedMonths
+            dateRange: {
+                months: selectedMonths,
+                year: selectedYear,
+            },
         });
     };
 
@@ -42,6 +47,15 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
 
         fetchData();
     }, []);
+
+    const handleMonthChange = (months) => {
+        setSelectedMonths(months);
+    };
+
+    // Gérer les changements de l'année sélectionnée
+    const handleYearChange = (year) => {
+        setSelectedYear(year);
+    };
 
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
@@ -81,14 +95,16 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                     />
                 </div>
 
-            <div className="filter_row">
-                <label>Période :</label>
+                <div className="filter_row">
+            <label>Période :</label>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+                {/* Sélection des mois */}
                 <Select
                     mode="multiple"
                     placeholder="Sélectionnez les mois"
                     value={selectedMonths}
-                    onChange={setSelectedMonths}
-                    style={{ width: '100%' }}
+                    onChange={handleMonthChange}
+                    style={{ width: '60%' }}
                     showSearch
                     optionFilterProp="children"
                 >
@@ -99,7 +115,23 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                     ))}
                 </Select>
 
+                {/* Sélection de l'année */}
+                <Select
+                    placeholder="Sélectionnez l'année"
+                    value={selectedYear}
+                    onChange={handleYearChange}
+                    style={{ width: '40%' }}
+                    showSearch
+                    optionFilterProp="children"
+                >
+                    {years.map((year) => (
+                        <Option key={year} value={year}>
+                            {year}
+                        </Option>
+                    ))}
+                </Select>
             </div>
+        </div>
             <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
             </Button>
         </div>
