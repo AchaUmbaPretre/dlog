@@ -47,20 +47,20 @@ const Declaration = () => {
       setData(data);
       setLoading(false);
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-          // Gérer l'erreur 404
-          notification.error({
-              message: 'Erreur',
-              description: `${error.response.data.message}`,
-          });
-      } else {
-          notification.error({
-              message: 'Erreur',
-              description: 'Une erreur est survenue lors de la récupération des données.',
-          });
+        if (error.response && error.response.status === 404) {
+            // Gérer l'erreur 404
+            notification.error({
+                message: 'Erreur',
+                description: `${error.response.data.message}`,
+            });
+        } else {
+            notification.error({
+                message: 'Erreur',
+                description: 'Une erreur est survenue lors de la récupération des données.',
+            });
+        }
+        setLoading(false);
       }
-      setLoading(false);
-  }
   };
           
     const handFilter = () => {
