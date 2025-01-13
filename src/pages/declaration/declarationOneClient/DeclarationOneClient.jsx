@@ -11,7 +11,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
-    'Template': false,
+    'Template': true,
     'Desc man': false,
     'Periode': false,
     'M² occupe': false,
@@ -125,9 +125,10 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         title: 'Template',
         dataIndex: 'desc_template',
         key: 'desc_template',
-        render: (text) => (
-          <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
-        ),
+        render: (text, record) => {
+          const isTrue = record.id_template === idTemplate;
+          return <Tag icon={<FileTextOutlined />} color= {isTrue ? 'red' : "geekblue"}>{text ?? 'Aucun'}</Tag>
+        },
         ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
       },
       {
