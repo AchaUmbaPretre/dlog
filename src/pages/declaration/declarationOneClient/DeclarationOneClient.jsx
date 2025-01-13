@@ -198,7 +198,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'ttc_entreposage',
         key: 'ttc_entreposage',
         render: (text) => (
-          <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
       },
