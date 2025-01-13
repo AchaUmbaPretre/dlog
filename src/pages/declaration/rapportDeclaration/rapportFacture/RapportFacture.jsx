@@ -70,6 +70,7 @@ const RapportFacture = () => {
                   <Tag color="green">{text}</Tag>
                 </Space>
               ),
+              align: 'right'
             },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
@@ -84,10 +85,11 @@ const RapportFacture = () => {
                 render: (text) => (
                   <Space>
                     <Tag color={text == null ? 'red' : 'blue'}>
-                      {text == null ? "Aucun" : `${text.toFixed(2)} $`}
+                      {text == null ? "Aucun" : `${text.toFixed(2)}`}
                     </Tag>
                   </Space>
                 ),
+                align: 'right'
               };
             }),
             {
@@ -101,6 +103,7 @@ const RapportFacture = () => {
                   <Tag color="#87d068">{`${text.toFixed(2)} $`}</Tag>
                 </Space>
               ),
+              align: 'right'
             },
           ];
       
