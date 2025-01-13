@@ -111,11 +111,19 @@ const RapportFacture = () => {
           setDataSource(groupedData);
           setLoading(false);
         } catch (error) {
-          notification.error({
-            message: 'Erreur',
-            description: `${error.response.data.message}`,
-          });
-          setLoading(false);
+            if (error.response && error.response.status === 404) {
+                // Gérer l'erreur 404
+                notification.error({
+                    message: 'Erreur',
+                    description: `${error.response.data.message}`,
+                });
+            } else {
+                notification.error({
+                    message: 'Erreur',
+                    description: 'Une erreur est survenue lors de la récupération des données.',
+                });
+            }
+            setLoading(false);
         }
       };
       
