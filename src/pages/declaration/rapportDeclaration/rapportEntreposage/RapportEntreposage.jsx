@@ -16,121 +16,137 @@ const RapportEntreposage = () => {
         'Total Entr': true,
         "TTC Entr": true
     });
-    
+
     const scroll = { x: 400 };
 
     const fetchData = async () => {
         try {
           const { data } = await getRapportEntreposage();
-         
+      
           const uniqueMonths = Array.from(
-            new Set(
-              data.map((item) => `${item.Mois}-${item.Année}`)
-            )
+            new Set(data.map((item) => `${item.Mois}-${item.Année}`))
           ).sort((a, b) => {
             const [monthA, yearA] = a.split("-");
             const [monthB, yearB] = b.split("-");
             return yearA - yearB || monthA - monthB;
           });
-  
+      
           const generatedColumns = [
             {
-                title: '#',
-                dataIndex: 'id',
-                key: 'id',
-                render: (text, record, index) => {
-                    const pageSize = pagination.pageSize || 10;
-                    const pageIndex = pagination.current || 1;
-                    return (pageIndex - 1) * pageSize + index + 1;
-                  },
-                width: "3%",
+              title: "#",
+              dataIndex: "id",
+              key: "id",
+              render: (text, record, index) => {
+                const pageSize = pagination.pageSize || 10;
+                const pageIndex = pagination.current || 1;
+                return (pageIndex - 1) * pageSize + index + 1;
+              },
+              width: "3%",
             },
             {
               title: "Client",
               dataIndex: "Client",
               key: "Client",
               fixed: "left",
-              render: text => (
+              render: (text) => (
                 <Space>
-                  <Tag color={'green'}>
-                    {text}
-                  </Tag>
+                  <Tag color={"green"}>{text}</Tag>
                 </Space>
-              ), 
-              align: 'right'
+              ),
+              align: "right",
             },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
               const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-  
+      
               return {
-                title: <Tag color={'#2db7f5'}>{monthName}</Tag>,
+                title: <Tag color={"#2db7f5"}>{monthName}</Tag>,
                 dataIndex: monthName,
                 key: monthName,
                 sorter: (a, b) => {
-                    const valueA = a[monthName] || 0;
-                    const valueB = b[monthName] || 0;
-                    return valueA - valueB;
-                  },
-                  sortDirections: ['descend', 'ascend'],
-                render: text => (
-                    <Space>
-                      <Tag color={text == null ? 'red' : 'blue'}>
-                        {text == null ? "Aucun" : `${text.toLocaleString()}`}
-                      </Tag>
-                    </Space>
-                  ),
-                  align: 'right'
+                  const valueA = a[monthName] || 0;
+                  const valueB = b[monthName] || 0;
+                  return valueA - valueB;
+                },
+                sortDirections: ["descend", "ascend"],
+                render: (text) => (
+                  <Space>
+                    <Tag color={text == null ? "red" : "blue"}>
+                      {text == null ? "Aucun" : `${text.toLocaleString()}`}
+                    </Tag>
+                  </Space>
+                ),
+                align: "right",
               };
             }),
             {
-                title: "Total", 
-                dataIndex: "Total",
-                key: "Total",
-                render: (_, record) => {
-                  const total = uniqueMonths.reduce((sum, month) => {
-                    const [numMonth, year] = month.split("-");
-                    const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-                    return sum + (record[monthName] || 0);
-                  }, 0);
-                  return <Space>
-                  <Tag color={'#87d068'}>
-                    {`${total?.toLocaleString()}`}
-                  </Tag>
-                </Space> ;
-                },
-                align: 'right'
+              title: "Total",
+              dataIndex: "Total",
+              key: "Total",
+              render: (_, record) => {
+                const total = uniqueMonths.reduce((sum, month) => {
+                  const [numMonth, year] = month.split("-");
+                  const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+                  return sum + (record[monthName] || 0);
+                }, 0);
+                return (
+                  <Space>
+                    <Tag color={"#87d068"}>{`${total?.toLocaleString()}`}</Tag>
+                  </Space>
+                );
               },
+              align: "right",
+            },
+            {
+              title: "Total TTC",
+              dataIndex: "TotalTTC",
+              key: "TotalTTC",
+              render: (_, record) => {
+                const totalTTC = uniqueMonths.reduce((sum, month) => {
+                  const [numMonth, year] = month.split("-");
+                  const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+                  return sum + (record[`${monthName}_TTC`] || 0);
+                }, 0);
+                return (
+                  <Space>
+                    <Tag color={"#108ee9"}>{`${totalTTC?.toLocaleString()}`}</Tag>
+                  </Space>
+                );
+              },
+              align: "right",
+            },
           ];
-  
-          // Transformer les données pour correspondre aux colonnes
+      
           const groupedData = data.reduce((acc, curr) => {
             const client = acc.find((item) => item.Client === curr.Client);
             const [numMonth, year] = [curr.Mois, curr.Année];
             const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-  
+      
             if (client) {
               client[monthName] = curr.Montant;
+              client[`${monthName}_TTC`] = curr.TTC_montant;
             } else {
               acc.push({
                 Client: curr.Client,
                 [monthName]: curr.Montant,
+                [`${monthName}_TTC`]: curr.TTC_montant,
               });
             }
             return acc;
           }, []);
-  
+      
           setColumns(generatedColumns);
           setDataSource(groupedData);
           setLoading(false);
         } catch (error) {
           notification.error({
-            message: 'Erreur de chargement',
-            description: 'Une erreur est survenue lors du chargement des données.',
+            message: "Erreur de chargement",
+            description: "Une erreur est survenue lors du chargement des données.",
           });
           setLoading(false);
         }
       };
+      
   
     useEffect(() => {
       fetchData();

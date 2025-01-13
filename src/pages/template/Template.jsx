@@ -30,6 +30,10 @@ const Template = () => {
   const scroll = { x: 400 };
   const [idTemplate, setidTemplate] = useState('');
   const [modalType, setModalType] = useState(null);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
     const fetchData = async () => {
 
@@ -114,8 +118,13 @@ const Template = () => {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%",
+
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
     {
@@ -343,7 +352,8 @@ const Template = () => {
             columns={columns}
             dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 15 }}
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
             bordered
             size="middle"
