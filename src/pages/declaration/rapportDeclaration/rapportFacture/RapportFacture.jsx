@@ -47,7 +47,6 @@ const RapportFacture = () => {
             return acc;
           }, []);
       
-          // Générer dynamiquement les colonnes
           const generatedColumns = [
             {
               title: '#',

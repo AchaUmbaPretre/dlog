@@ -96,8 +96,8 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                 </div>
 
                 <div className="filter_row">
-            <label>Période :</label>
-            <div style={{ display: 'flex', gap: '1rem' }}>
+                    <label>Période :</label>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
                 {/* Sélection des mois */}
                 <Select
                     mode="multiple"
@@ -130,8 +130,8 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                         </Option>
                     ))}
                 </Select>
-            </div>
-        </div>
+                    </div>
+                </div>
             <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
             </Button>
         </div>
