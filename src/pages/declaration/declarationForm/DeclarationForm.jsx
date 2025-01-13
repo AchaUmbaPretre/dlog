@@ -146,7 +146,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                     message: 'Succès',
                     description: 'Les informations ont été modifiées avec succès.',
                 });
-                closeModal();
+                
+                window.location.reload()
             }
             else{
                 await postDeclaration(values);
