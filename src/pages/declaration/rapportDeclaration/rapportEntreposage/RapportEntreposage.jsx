@@ -52,7 +52,9 @@ const RapportEntreposage = () => {
                     {text}
                   </Tag>
                 </Space>
-              ),            },
+              ), 
+              align: 'right'
+            },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
               const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
@@ -81,7 +83,6 @@ const RapportEntreposage = () => {
                 title: "Total", 
                 dataIndex: "Total",
                 key: "Total",
-                align: 'right',
                 render: (_, record) => {
                   const total = uniqueMonths.reduce((sum, month) => {
                     const [numMonth, year] = month.split("-");
@@ -94,6 +95,7 @@ const RapportEntreposage = () => {
                   </Tag>
                 </Space> ;
                 },
+                align: 'right'
               },
           ];
   
