@@ -162,7 +162,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'm2_facture',
         key: 'm2_facture',
         render: (text) => (
-          <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<BarcodeOutlined />} color="cyan">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
       },
@@ -171,7 +171,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'tarif_entreposage',
         key: 'tarif_entreposage',
         render: (text) => (
-          <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
       },
@@ -189,7 +189,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'total_entreposage',
         key: 'total_entreposage',
         render: (text) => (
-          <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
       },
@@ -252,7 +252,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'manutation',
         key: 'manutation',
         render: (text) => (
-          <Tag icon={<ToolOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<ToolOutlined />} color="cyan">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['Manutention'] ? {} : { className: 'hidden-column' }),
       },
@@ -261,7 +261,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'tarif_manutation',
         key: 'tarif_manutation',
         render: (text) => (
-          <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
       },
@@ -270,7 +270,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'debours_manutation',
         key: 'debours_manutation',
         render: (text) => (
-          <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['Debours Manu'] ? {} : { className: 'hidden-column' }),
       },
@@ -279,7 +279,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'total_manutation',
         key: 'total_manutation',
         render: (text) => (
-          <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
       },
@@ -288,7 +288,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'ttc_manutation',
         key: 'ttc_manutation',
         render: (text) => (
-          <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
       },

@@ -84,7 +84,7 @@ const RapportFacture = () => {
                 render: (text) => (
                   <Space>
                     <Tag color={text == null ? 'red' : 'blue'}>
-                      {text == null ? "Aucun" : `${text.toFixed(2)}`}
+                      {text == null ? "Aucun" : `${text?.toLocaleString()}`}
                     </Tag>
                   </Space>
                 ),
@@ -99,7 +99,7 @@ const RapportFacture = () => {
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
                 <Space>
-                  <Tag color="#87d068">{`${text.toFixed(2)} $`}</Tag>
+                  <Tag color="#87d068">{`${text?.toLocaleString()}`}</Tag>
                 </Space>
               ),
               align: 'right'
