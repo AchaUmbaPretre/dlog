@@ -85,10 +85,11 @@ const RapportVueEnsemble = () => {
                       render: text => (
                         <Space>
                           <Tag color={text == null ? 'red' : 'blue'}>
-                            {text == null ? "Aucun" : `${text.toFixed(2)} $`}
+                            {text == null ? "Aucun" : `${text.toLocaleString()}`}
                           </Tag>
                         </Space>
                       ),
+                      align: 'right'
                     },
                     {
                       title: "Manut",
@@ -97,10 +98,11 @@ const RapportVueEnsemble = () => {
                       render: text => (
                         <Space>
                           <Tag color={text == null ? 'red' : 'purple'}>
-                            {text == null ? "Aucun" : `${text.toFixed(2)} $`}
+                            {text == null ? "Aucun" : `${text.toLocaleString()}`}
                           </Tag>
                         </Space>
                       ),
+                      align: 'right'
                     },
                     {
                       title: "Total",
@@ -109,10 +111,11 @@ const RapportVueEnsemble = () => {
                       render: text => (
                         <Space>
                           <Tag color={text == null ? 'red' : '#87d068'}>
-                            {text == null ? "Aucun" : `${text.toFixed(2)} $`}
+                            {text == null ? "Aucun" : `${text.toLocaleString()}`}
                           </Tag>
                         </Space>
                       ),
+                      align: 'right'
                     },
                   ],
                 });

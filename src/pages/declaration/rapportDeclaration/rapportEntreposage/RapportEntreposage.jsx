@@ -52,9 +52,7 @@ const RapportEntreposage = () => {
                     {text}
                   </Tag>
                 </Space>
-              ),
-              align: 'right'
-            },
+              ),            },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
               const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");

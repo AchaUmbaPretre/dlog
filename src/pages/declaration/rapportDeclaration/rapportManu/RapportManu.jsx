@@ -45,6 +45,7 @@ const RapportManu = () => {
                   </Tag>
                 </Space>
               ),
+              align: 'right'
             },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
@@ -67,6 +68,7 @@ const RapportManu = () => {
                       </Tag>
                     </Space>
                   ),
+                  align: 'right'
               };
             }),
             {
@@ -85,6 +87,7 @@ const RapportManu = () => {
                   </Tag>
                 </Space> ;
                 },
+                align: 'right'
               },
           ];
   

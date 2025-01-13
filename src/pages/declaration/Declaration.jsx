@@ -211,7 +211,7 @@ const Declaration = () => {
           sorter: (a, b) => a.m2_facture - b.m2_facture,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<BarcodeOutlined />} color="cyan">{text.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
         },
@@ -222,7 +222,7 @@ const Declaration = () => {
           sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">{text.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
         },
@@ -244,7 +244,7 @@ const Declaration = () => {
           sorter: (a, b) => a.total_entreposage - b.total_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
         },
@@ -255,7 +255,7 @@ const Declaration = () => {
           sorter: (a, b) => a.ttc_entreposage - b.ttc_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="volcano">{text.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
         },
@@ -307,7 +307,7 @@ const Declaration = () => {
           dataIndex: 'manutation',
           key: 'manutation',
           render: (text) => (
-            <Tag icon={<ToolOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<ToolOutlined />} color="cyan">{text.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Manutention'] ? {} : { className: 'hidden-column' }),
         },
@@ -316,7 +316,7 @@ const Declaration = () => {
           dataIndex: 'tarif_manutation',
           key: 'tarif_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">{text.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -325,7 +325,7 @@ const Declaration = () => {
           dataIndex: 'debours_manutation',
           key: 'debours_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">{text.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Debours Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -334,7 +334,7 @@ const Declaration = () => {
           dataIndex: 'total_manutation',
           key: 'total_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -343,7 +343,7 @@ const Declaration = () => {
           dataIndex: 'ttc_manutation',
           key: 'ttc_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="volcano">{text.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
         },
