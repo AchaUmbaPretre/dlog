@@ -126,7 +126,6 @@ const RapportFacture = () => {
             setLoading(false);
         }
       };
-      
   
     useEffect(() => {
       fetchData();
