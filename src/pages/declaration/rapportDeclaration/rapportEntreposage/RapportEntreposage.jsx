@@ -16,6 +16,7 @@ const RapportEntreposage = () => {
         'Total Entr': true,
         "TTC Entr": true
     });
+    
     const scroll = { x: 400 };
 
     const fetchData = async () => {
