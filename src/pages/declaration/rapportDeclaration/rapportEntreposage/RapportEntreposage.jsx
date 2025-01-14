@@ -72,7 +72,7 @@ const RapportEntreposage = () => {
                 render: (text) => (
                   <Space>
                     <Tag color={text == null ? "red" : "blue"}>
-                      {text == null ? "Aucun" : `${text.toLocaleString()}`}
+                      {text == null ? "Aucun" : `${text.toLocaleString()} $`}
                     </Tag>
                   </Space>
                 ),
@@ -91,7 +91,7 @@ const RapportEntreposage = () => {
                 }, 0);
                 return (
                   <Space>
-                    <Tag color={"#87d068"}>{`${total?.toLocaleString()}`}</Tag>
+                    <Tag color={"#87d068"}>{`${total?.toLocaleString()} $`}</Tag>
                   </Space>
                 );
               },
@@ -109,7 +109,7 @@ const RapportEntreposage = () => {
                 }, 0);
                 return (
                   <Space>
-                    <Tag color={"#108ee9"}>{`${totalTTC?.toLocaleString()}`}</Tag>
+                    <Tag color={"#108ee9"}>{`${totalTTC?.toLocaleString()} $`}</Tag>
                   </Space>
                 );
               },

@@ -58,6 +58,7 @@ const RapportFacture = () => {
                 return (pageIndex - 1) * pageSize + index + 1;
               },
               width: "3%",
+              align: 'right', // Les données restent alignées à droite
             },
             {
               title: "Client",
@@ -69,14 +70,16 @@ const RapportFacture = () => {
                   <Tag color="green">{text}</Tag>
                 </Space>
               ),
-              align: 'right'
+              align: 'right', // Les données restent alignées à droite
+              // Centrer le titre uniquement
+              title: <div style={{ textAlign: 'center' }}>Client</div>,
             },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
               const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-      
+          
               return {
-                title: <Tag color="#2db7f5">{monthName}</Tag>,
+                title: <div style={{ textAlign: 'center' }}><Tag color="#2db7f5">{monthName}</Tag></div>,
                 dataIndex: monthName,
                 key: monthName,
                 sorter: (a, b) => (a[monthName] || 0) - (b[monthName] || 0),
@@ -88,7 +91,7 @@ const RapportFacture = () => {
                     </Tag>
                   </Space>
                 ),
-                align: 'right'
+                align: 'right' // Les données restent alignées à droite
               };
             }),
             {
@@ -102,9 +105,12 @@ const RapportFacture = () => {
                   <Tag color="#87d068">{`${text?.toLocaleString()}`}</Tag>
                 </Space>
               ),
-              align: 'right'
+              align: 'right', // Les données restent alignées à droite
+              // Centrer le titre uniquement
+              title: <div style={{ textAlign: 'center' }}>Total</div>,
             },
           ];
+          
       
           setColumns(generatedColumns);
           setDataSource(groupedData);
