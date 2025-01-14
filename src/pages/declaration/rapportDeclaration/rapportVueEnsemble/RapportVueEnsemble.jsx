@@ -36,10 +36,6 @@ const RapportVueEnsemble = () => {
             return acc;
           }, {});
       
-          // Log pour vérifier la structure des données après regroupement
-          console.log('Grouped Data:', groupedData);
-      
-          // Transformer les données pour le tableau
           const formattedData = Object.entries(groupedData).map(([mois, provinces]) => {
             const row = { Mois: mois };
             for (const [province, valeurs] of Object.entries(provinces)) {

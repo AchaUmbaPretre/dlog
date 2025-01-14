@@ -230,6 +230,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['M² occupe'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -241,6 +242,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<BarcodeOutlined />} color="cyan">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -252,6 +254,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -263,6 +266,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['Debours Entr'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -274,6 +278,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -285,6 +290,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
         },
       ]
@@ -337,6 +343,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<ToolOutlined />} color="cyan">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['Manutention'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -346,6 +353,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -355,6 +363,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['Debours Manu'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -364,6 +373,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right',
           ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -373,6 +383,7 @@ const Declaration = () => {
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
+          align: 'right', 
           ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
         },
       ]
