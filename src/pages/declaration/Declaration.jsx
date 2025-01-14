@@ -57,6 +57,15 @@ const Declaration = () => {
       scrollbarWidth: 'none',
       '-ms-overflow-style': 'none', 
     },
+    titleClient: {
+      maxWidth: '150px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
     hideScroll: {
       '&::-webkit-scrollbar': {
         display: 'none',
@@ -198,9 +207,11 @@ const Declaration = () => {
           dataIndex: 'nom',
           key: 'nom',
           render: (text, record) => (
-            <Tag icon={<UserOutlined />} color="orange" onClick={() => handleDeclarationOneAll(record.id_declaration_super, record.id_client)}>
-              {text ?? 'Aucun'}
-            </Tag>
+            <Space style={columnStyles.titleClient} className={columnStyles.hideScroll} onClick={() => handleDeclarationOneAll(record.id_declaration_super, record.id_client)}>
+              <Tag icon={<UserOutlined />} color="orange">
+                {text ?? 'Aucun'}
+              </Tag>
+            </Space>
           ),
           ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' }),
         },
@@ -461,10 +472,10 @@ const Declaration = () => {
                     <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
                       <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong>{statistique.nbre_client}</strong></span>
                       <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total de M2 Facture : <strong>{statistique.total_m2_facture?.toLocaleString()}</strong></span>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total entreposage : <strong>{statistique.total_entreposage?.toLocaleString()}</strong></span>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Entreposage : <strong>{statistique.total_ttc_entreposage?.toLocaleString()}</strong></span>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total Manutention : <strong>{statistique.total_manutation?.toLocaleString() || 0}</strong></span>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Manutention : <strong>{statistique.total_ttc_manutation?.toLocaleString() || 0}</strong></span>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total entreposage : <strong>{statistique.total_entreposage?.toLocaleString()} $</strong></span>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Entreposage : <strong>{statistique.total_ttc_entreposage?.toLocaleString()} $</strong></span>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total Manutention : <strong>{statistique.total_manutation?.toLocaleString() || 0} $</strong></span>
+                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Manutention : <strong>{statistique.total_ttc_manutation?.toLocaleString() || 0} $</strong></span>
                     </div>
                 )}
               </div>
