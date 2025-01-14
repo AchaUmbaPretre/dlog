@@ -3,6 +3,7 @@ import { MenuOutlined,DownOutlined } from '@ant-design/icons';
 import { notification,Button, Space,Menu, Table, Tag, Dropdown } from 'antd';
 import moment from 'moment';
 import { getRapportEntreposage } from '../../../../services/templateService';
+import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
 const RapportEntreposage = () => {
     const [loading, setLoading] = useState(true);
@@ -20,8 +21,9 @@ const RapportEntreposage = () => {
         "Mois" : true
     });
     const [filterVisible, setFilterVisible] = useState(false);
-
     const scroll = { x: 400 };
+    const [filteredDatas, setFilteredDatas] = useState(null);
+
 
     const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
@@ -30,10 +32,15 @@ const RapportEntreposage = () => {
           [columnName]: !prev[columnName],
         }));
       };
+
+      const handleFilterChange = (newFilters) => {
+        setFilteredDatas(newFilters); 
+      };
+
       
     const fetchData = async () => {
         try {
-          const { data } = await getRapportEntreposage();
+          const { data } = await getRapportEntreposage(filteredDatas);
       
           const uniqueMonths = Array.from(
             new Set(data.map((item) => `${item.Mois}-${item.Année}`))
@@ -173,7 +180,7 @@ const RapportEntreposage = () => {
   
     useEffect(() => {
       fetchData();
-    }, [columnsVisibility])
+    }, [columnsVisibility, filteredDatas])
 
     const handFilter = () => {
         fetchData()
@@ -212,12 +219,14 @@ const RapportEntreposage = () => {
                 >
                     {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                 </Button>
+
                 <Dropdown overlay={menus} trigger={['click']}>
                     <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                         Colonnes <DownOutlined />
                     </Button>
                 </Dropdown>
             </div>
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
             <div className="rapport_wrapper_facture">
 
                 <Table
