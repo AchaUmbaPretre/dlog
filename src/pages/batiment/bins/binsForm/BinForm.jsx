@@ -69,7 +69,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                 <h2 className="controle_h2">{idBins ? 'Mise à jour' : 'Créer un Nouvel Bin'}</h2>
             </div>
             {loading ? (
-                <Skeleton active /> // Skeleton visible pendant le chargement
+                <Skeleton active />
             ) : (
                 <Form
                     form={form}
@@ -178,7 +178,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                         </Col>
                     </Row>
 
-                    <Row gutter={16}>
+{/*                     <Row gutter={16}>
                         <Col span={24}>
                             <Form.Item
                                 label="Adresse"
@@ -188,7 +188,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 <Input.TextArea placeholder="Entrer l'adresse..." style={{ width: '100%', height:'100px', resize:'none' }} />
                             </Form.Item>
                         </Col>
-                    </Row>
+                    </Row> */}
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className="submit-button" block loading={loading} disabled={loading}>
