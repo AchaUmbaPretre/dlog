@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification, Select } from 'antd';
-import { getBatiment } from '../../../services/typeService';
 import { getBins, postAdresse } from '../../../services/batimentService';
 
-const AdresseForm = () => {
+const AdresseForm = ({closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
@@ -15,7 +14,6 @@ const AdresseForm = () => {
             getBins()
         ])
         setBatiment(binData.data)
-        
 
     } catch (error) {
         notification.error({
@@ -37,7 +35,8 @@ useEffect(() => {
       description: 'Le formulaire a été soumis avec succès.',
     });
     
-    window.location.reload();
+    fetchData();
+    closeModal();
     form.resetFields();
   };
 
