@@ -164,11 +164,9 @@ const DeclarationOneAll = ({idClients}) => {
         // Convertir l'objet en tableau
         const groupedData = Object.values(grouped);
     
-        // Mettre à jour l'état avec les données regroupées
         setVilleData(groupedData);
         setLoading(false);
       } catch (error) {
-        // Gestion des erreurs
         notification.error({
           message: 'Erreur de chargement',
           description: 'Une erreur est survenue lors du chargement des données.',
@@ -259,7 +257,7 @@ const DeclarationOneAll = ({idClients}) => {
           sorter: (a, b) => a.m2_facture - b.m2_facture,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<BarcodeOutlined />} color="cyan">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
         },
@@ -270,7 +268,7 @@ const DeclarationOneAll = ({idClients}) => {
           sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ? parseFloat(text).toFixed(2) : 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text ? text?.toLocaleString() : 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
         },
@@ -282,7 +280,7 @@ const DeclarationOneAll = ({idClients}) => {
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="volcano">
-              {text ? parseFloat(text).toFixed(2) : 'Aucun'}
+              {text ? text?.toLocaleString() : 'Aucun'}
             </Tag>
           ),
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
@@ -321,7 +319,7 @@ const DeclarationOneAll = ({idClients}) => {
           dataIndex: 'tarif_manutation',
           key: 'tarif_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -330,7 +328,7 @@ const DeclarationOneAll = ({idClients}) => {
           dataIndex: 'total_manutation',
           key: 'total_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -339,7 +337,7 @@ const DeclarationOneAll = ({idClients}) => {
           dataIndex: 'ttc_manutation',
           key: 'ttc_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -379,7 +377,7 @@ const DeclarationOneAll = ({idClients}) => {
           sorter: (a, b) => a.m2_facture - b.m2_facture,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="cyan">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
         },
@@ -390,7 +388,7 @@ const DeclarationOneAll = ({idClients}) => {
           sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
         },
@@ -401,7 +399,7 @@ const DeclarationOneAll = ({idClients}) => {
           sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ? parseFloat(text).toFixed(2) : 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ? parseFloat(text).toFixed(2) : 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
         },
@@ -413,7 +411,7 @@ const DeclarationOneAll = ({idClients}) => {
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="volcano">
-              {text ? parseFloat(text).toFixed(2) : 'Aucun'}
+              {text ? text?.toLocaleString() : 'Aucun'}
             </Tag>
           ),
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
@@ -440,7 +438,7 @@ const DeclarationOneAll = ({idClients}) => {
           dataIndex: 'tarif_manutation',
           key: 'tarif_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -449,7 +447,7 @@ const DeclarationOneAll = ({idClients}) => {
           dataIndex: 'total_manutation',
           key: 'total_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -458,7 +456,7 @@ const DeclarationOneAll = ({idClients}) => {
           dataIndex: 'ttc_manutation',
           key: 'ttc_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -508,7 +506,7 @@ const DeclarationOneAll = ({idClients}) => {
           sorter: (a, b) => a.m2_facture - b.m2_facture,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="cyan">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
     },
@@ -519,7 +517,7 @@ const DeclarationOneAll = ({idClients}) => {
           sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
     },
@@ -530,7 +528,7 @@ const DeclarationOneAll = ({idClients}) => {
           sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ? parseFloat(text).toFixed(2) : 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text ? text?.toLocaleString() : 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
     },
@@ -542,7 +540,7 @@ const DeclarationOneAll = ({idClients}) => {
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="volcano">
-              {text ? parseFloat(text).toFixed(2) : 'Aucun'}
+              {text ? text?.toLocaleString() : 'Aucun'}
             </Tag>
           ),
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
@@ -555,7 +553,7 @@ const DeclarationOneAll = ({idClients}) => {
           dataIndex: 'tarif_manutation',
           key: 'tarif_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -564,7 +562,7 @@ const DeclarationOneAll = ({idClients}) => {
           dataIndex: 'total_manutation',
           key: 'total_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
         },
@@ -573,7 +571,7 @@ const DeclarationOneAll = ({idClients}) => {
           dataIndex: 'ttc_manutation',
           key: 'ttc_manutation',
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text ?? 'Aucun'}</Tag>
+            <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
           ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
         },
