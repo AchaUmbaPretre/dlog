@@ -153,7 +153,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         dataIndex: 'm2_occupe',
         key: 'm2_occupe',
         render: (text) => (
-          <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? 'Aucun'}</Tag>
+          <Tag icon={<BarcodeOutlined />} color="cyan">{text?.toLocaleString() ?? 'Aucun'}</Tag>
         ),
         ...(columnsVisibility['M² occupe'] ? {} : { className: 'hidden-column' }),
       },
