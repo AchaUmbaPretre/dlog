@@ -9,7 +9,6 @@ import { getDeclarationClientOneAll } from '../../../services/templateService';
 
 const { Search } = Input;
 
-
 const DeclarationOneAll = ({idClients}) => {
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
@@ -106,7 +105,6 @@ const DeclarationOneAll = ({idClients}) => {
 
     const fetchDataVille = async () => {
       try {
-        // Appel de l'API pour récupérer les données
         const { data } = await getDeclarationClientOneAll(idClients, filteredDatas);
         
         // Vérification des données reçues
@@ -120,7 +118,6 @@ const DeclarationOneAll = ({idClients}) => {
           return;
         }
     
-        // Définir le titre à partir des données reçues
         setTitre(data[0]?.nom);
     
         // Initialiser l'objet pour regrouper les données
