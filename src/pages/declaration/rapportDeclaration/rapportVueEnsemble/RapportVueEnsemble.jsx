@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { notification, Space, Table, Tag } from 'antd';
+import { Button, notification, Space, Table, Tag } from 'antd';
 import moment from 'moment';
 import { getRapportVille } from '../../../../services/templateService';
+import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
 
 const RapportVueEnsemble = () => {
@@ -12,12 +13,13 @@ const RapportVueEnsemble = () => {
         current: 1,
         pageSize: 20,
       });
-
+    const [filterVisible, setFilterVisible] = useState(false);
+    const [filteredDatas, setFilteredDatas] = useState(null);
     const scroll = { x: 400 };
 
     const fetchData = async () => {
         try {
-          const { data } = await getRapportVille();
+          const { data } = await getRapportVille(filteredDatas);
       
           // Regrouper les données par mois
           const groupedData = data.reduce((acc, item) => {
@@ -143,12 +145,30 @@ const RapportVueEnsemble = () => {
   
     useEffect(() => {
       fetchData();
-    }, []);
+    }, [filteredDatas]);
+
+    const handleFilterChange = (newFilters) => {
+        setFilteredDatas(newFilters); 
+      };
+
+    const handFilter = () => {
+        fetchData()
+        setFilterVisible(!filterVisible)
+      }
 
   return (
     <>
         <div className="rapport_facture">
             <h2 className="rapport_h2">DIVERS VILLE</h2>
+                <Button
+                    type="default"
+                    onClick={handFilter}
+                    style={{margin:'10px 0'}}
+                >
+                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                </Button>
+                { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true}/>        }
+
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}

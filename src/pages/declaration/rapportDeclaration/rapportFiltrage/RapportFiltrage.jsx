@@ -78,8 +78,10 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
             </div>
             )
         }
-            
-                <div className="filter_row">
+
+        {
+            !filtraVille && 
+            <div className="filter_row">
                     <label>Clients :</label>
                     <Select
                         mode="multiple"
@@ -94,42 +96,41 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                         onChange={setSelectedClients}
                     />
                 </div>
-
+        }
+            
                 <div className="filter_row">
                     <label>Période :</label>
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                {/* Sélection des mois */}
-                <Select
-                    mode="multiple"
-                    placeholder="Sélectionnez les mois"
-                    value={selectedMonths}
-                    onChange={handleMonthChange}
-                    style={{ width: '60%' }}
-                    showSearch
-                    optionFilterProp="children"
-                >
-                    {months.map((month) => (
-                        <Option key={month} value={month}>
-                            {moment().month(month - 1).format('MMMM')} {/* Affiche le mois en texte */}
-                        </Option>
-                    ))}
-                </Select>
+                        <Select
+                            mode="multiple"
+                            placeholder="Sélectionnez les mois"
+                            value={selectedMonths}
+                            onChange={handleMonthChange}
+                            style={{ width: '60%' }}
+                            showSearch
+                            optionFilterProp="children"
+                        >
+                            {months.map((month) => (
+                                <Option key={month} value={month}>
+                                    {moment().month(month - 1).format('MMMM')} {/* Affiche le mois en texte */}
+                                </Option>
+                            ))}
+                        </Select>
 
-                {/* Sélection de l'année */}
-                <Select
-                    placeholder="Sélectionnez l'année"
-                    value={selectedYear}
-                    onChange={handleYearChange}
-                    style={{ width: '40%' }}
-                    showSearch
-                    optionFilterProp="children"
-                >
-                    {years.map((year) => (
-                        <Option key={year} value={year}>
-                            {year}
-                        </Option>
-                    ))}
-                </Select>
+                        <Select
+                            placeholder="Sélectionnez l'année"
+                            value={selectedYear}
+                            onChange={handleYearChange}
+                            style={{ width: '40%' }}
+                            showSearch
+                            optionFilterProp="children"
+                        >
+                            {years.map((year) => (
+                                <Option key={year} value={year}>
+                                    {year}
+                                </Option>
+                            ))}
+                        </Select>
                     </div>
                 </div>
             <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
