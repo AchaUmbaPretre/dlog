@@ -45,7 +45,8 @@ const RapportManu = () => {
                   </Tag>
                 </Space>
               ),
-              align: 'right'
+              align: 'right',
+              title: <div style={{ textAlign: 'center' }}>Client</div>
             },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
@@ -68,7 +69,9 @@ const RapportManu = () => {
                       </Tag>
                     </Space>
                   ),
-                  align: 'right'
+                  align: 'right',
+                  title: <div style={{ textAlign: 'center' }}> <Tag color={'#2db7f5'}>{monthName}</Tag></div>
+
               };
             }),
             {
@@ -87,7 +90,9 @@ const RapportManu = () => {
                   </Tag>
                 </Space> ;
                 },
-                align: 'right'
+                align: 'right',
+                title: <div style={{ textAlign: 'center' }}>Total</div>
+
               },
           ];
   

@@ -54,13 +54,14 @@ const RapportEntreposage = () => {
                 </Space>
               ),
               align: "right",
+              title: <div style={{ textAlign: 'center' }}>Client</div>
             },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
               const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
       
               return {
-                title: <Tag color={"#2db7f5"}>{monthName}</Tag>,
+                title: <div style={{ textAlign: 'center' }}><Tag color={"#2db7f5"}>{monthName}</Tag></div>,
                 dataIndex: monthName,
                 key: monthName,
                 sorter: (a, b) => {
@@ -76,8 +77,8 @@ const RapportEntreposage = () => {
                     </Tag>
                   </Space>
                 ),
-                align: "right",
-              };
+                align: "right"    
+            };
             }),
             {
               title: "Total",
@@ -96,6 +97,7 @@ const RapportEntreposage = () => {
                 );
               },
               align: "right",
+              title: <div style={{ textAlign: 'center' }}>Total</div>
             },
             {
               title: "Total TTC",
@@ -114,6 +116,7 @@ const RapportEntreposage = () => {
                 );
               },
               align: "right",
+              title: <div style={{ textAlign: 'center' }}>Total TTC</div>
             },
           ];
       
