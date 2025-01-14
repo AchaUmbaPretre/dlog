@@ -141,7 +141,6 @@ const RapportEntreposage = () => {
                 align: "right",
                 ...(columnsVisibility["TotalTTC"] ? {} : { className: "hidden-column" }),
             }
-            
             ];
           
             return columns;
@@ -199,9 +198,7 @@ const RapportEntreposage = () => {
           ))}
         </Menu>
       );
-      
-
-      
+        
       const getVisibleColumns = () => {
         return columns.filter((col) => columnsVisibility[col.key]);
       };
