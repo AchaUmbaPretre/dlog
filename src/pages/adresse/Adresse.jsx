@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Input, message, notification, Tag } from 'antd';
-import { BankOutlined } from '@ant-design/icons';
+import { Table, Input, message, notification, Tag, Button, Dropdown, Modal } from 'antd';
+import { BankOutlined, DownOutlined, MenuOutlined,PlusCircleOutlined, PrinterOutlined} from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
+import AdresseForm from './adresseForm/AdresseForm';
 
 const { Search } = Input;
 
@@ -35,6 +36,15 @@ const Adresse = () => {
   const closeAllModals = () => {
     setModalType(null);
   };
+
+  const openModal = (type, idBin = '') => {
+    closeAllModals();
+    setModalType(type);
+  };
+
+  const handleAddBin = (idBin) => {
+    openModal('Add', idBin);
+  }
 
 
   const handleDelete = async (id) => {
@@ -107,6 +117,15 @@ const Adresse = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
               />
             </div>
+
+            <div className="client-rows-right">
+              <Button
+                type="primary"
+                icon={<PlusCircleOutlined />}
+                onClick={handleAddBin}
+              >
+              </Button>
+            </div>
           </div>
           <Table
             columns={columns}
@@ -119,6 +138,18 @@ const Adresse = () => {
             scroll={scroll}
           />
         </div>
+
+        <Modal
+          title=""
+          visible={modalType === 'Add'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={700}
+          centered
+        >
+          <AdresseForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
       </div>
     </>
   );

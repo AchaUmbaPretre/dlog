@@ -290,6 +290,10 @@ export const getAdresse = async () => {
   return axios.get(`${DOMAIN}/api/batiment/adresse`);
 };
 
+export const postAdresse = async (data) => {
+  return axios.post(`${DOMAIN}/api/batiment/adresse`, data);
+  };
+
 //Inspection
 export const getInspection = async () => {
   return axios.get(`${DOMAIN}/api/batiment/inspections`);
