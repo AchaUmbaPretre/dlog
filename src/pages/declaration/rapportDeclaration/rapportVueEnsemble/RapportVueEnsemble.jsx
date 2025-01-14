@@ -47,10 +47,7 @@ const RapportVueEnsemble = () => {
             }
             return row;
           });
-      
-          // Log pour vérifier les données formatées avant d'afficher dans la table
-          console.log('Formatted Data:', formattedData);
-      
+            
           const dynamicColumns = [
             {
               title: '#',
@@ -74,7 +71,7 @@ const RapportVueEnsemble = () => {
                   <Tag color={'#2db7f5'}>{text}</Tag>
                 </Space>
               ),
-              align: 'center', // Centrer le titre de la colonne "Mois"
+              align: 'center',
             },
             ...data.reduce((acc, item) => {
               const capital = item.capital;
@@ -89,11 +86,12 @@ const RapportVueEnsemble = () => {
                       render: (text) => (
                         <Space>
                           <Tag color={text == null ? 'red' : 'blue'}>
-                            {text == null ? "Aucun" : `${text.toLocaleString()}`}
+                            {text == null ? "Aucun" : `${text.toLocaleString()} $`}
                           </Tag>
                         </Space>
                       ),
-                      align: 'right', // Aligner à droite pour les valeurs de "Entrep"
+                      align: 'right',
+                      title: <div style={{ textAlign: 'center' }}>Entrep</div>,
                     },
                     {
                       title: "Manut",
@@ -102,11 +100,12 @@ const RapportVueEnsemble = () => {
                       render: (text) => (
                         <Space>
                           <Tag color={text == null ? 'red' : 'purple'}>
-                            {text === 0 ? "0" : text == null ? "Aucun" : `${text.toLocaleString()}`}
+                            {text === 0 ? "0" : text == null ? "Aucun" : `${text.toLocaleString()} $`}
                           </Tag>
                         </Space>
                       ),
-                      align: 'right', // Aligner à droite pour les valeurs de "Manut"
+                      align: 'right',
+                      title: <div style={{ textAlign: 'center' }}>Manut</div>
                     },
                     {
                       title: "Total",
@@ -115,11 +114,12 @@ const RapportVueEnsemble = () => {
                       render: (text) => (
                         <Space>
                           <Tag color={text == null ? 'red' : '#87d068'}>
-                            {text == null ? "Aucun" : `${text.toLocaleString()}`}
+                            {text == null ? "Aucun" : `${text.toLocaleString()} $`}
                           </Tag>
                         </Space>
                       ),
-                      align: 'right', // Aligner à droite pour les valeurs de "Total"
+                      align: 'right',
+                      title: <div style={{ textAlign: 'center' }}>Total</div>
                     },
                   ],
                 });
@@ -127,9 +127,6 @@ const RapportVueEnsemble = () => {
               return acc;
             }, []),
           ];
-      
-          // Log pour vérifier la création des colonnes
-          console.log('Dynamic Columns:', dynamicColumns);
       
           setColumns(dynamicColumns);
           setDataSource(formattedData);
