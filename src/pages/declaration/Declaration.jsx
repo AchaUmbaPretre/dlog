@@ -42,10 +42,31 @@ const Declaration = () => {
   const [searchValue, setSearchValue] = useState('');
   const role = useSelector((state) => state.user?.currentUser.role);
   const [statistique, setStatistique] = useState([]);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 25,
+  });
+
+  const columnStyles = {
+    title: {
+      maxWidth: '220px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
 
   const fetchData = async () => {
     try {
-      const { data } = await getDeclaration(filteredDatas);
+      const { data } = await getDeclaration(filteredDatas, searchValue);
   
       setData(data.declarations);
       setStatistique(data.totals);
@@ -74,7 +95,7 @@ const Declaration = () => {
 
     useEffect(() => {
       fetchData();
-    }, [filteredDatas]);
+    }, [filteredDatas, searchValue]);
 
   const handleAddTemplate = (idDeclaration) => {
     openModal('Add', idDeclaration);
@@ -147,9 +168,14 @@ const Declaration = () => {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
-      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' }),
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%",
+
+      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
     
     // Groupe Entreposage
@@ -161,7 +187,9 @@ const Declaration = () => {
           dataIndex: 'desc_template',
           key: 'desc_template',
           render: (text, record) => (
-            <Tag icon={<FileTextOutlined />} color="geekblue" onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>{text ?? 'Aucun'}</Tag>
+            <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>
+              <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
+            </Space>
           ),
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
         },
@@ -472,7 +500,8 @@ const Declaration = () => {
             columns={columns}
             dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
             bordered
             size="middle"
