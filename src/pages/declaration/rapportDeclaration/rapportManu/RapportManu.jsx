@@ -31,7 +31,7 @@ const RapportManu = () => {
                 dataIndex: 'id',
                 key: 'id',
                 render: (text, record, index) => index + 1,
-                width: "3%",
+                width: "4%",
             },
             {
               title: "Client",

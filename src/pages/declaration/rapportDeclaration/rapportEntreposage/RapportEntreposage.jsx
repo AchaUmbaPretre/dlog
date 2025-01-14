@@ -61,7 +61,7 @@ const RapportEntreposage = () => {
                   const pageIndex = pagination.current || 1;
                   return (pageIndex - 1) * pageSize + index + 1;
                 },
-                width: "3%",
+                width: "4%",
               },
               {
                 title: "Client",
