@@ -112,6 +112,23 @@ const Template = () => {
     }));
   };
 
+  const columnStyles = {
+    title: {
+      maxWidth: '220px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
+
 
   const columns = [
     {
@@ -132,7 +149,9 @@ const Template = () => {
       dataIndex: 'desc_template',
       key: 'desc_template',
       render: (text) => (
-        <Tag icon={<FileTextOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+          <Tag icon={<FileTextOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+        </Space>
       ),
       ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' })
     },
