@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { notification, Space, Table, Tag } from 'antd';
+import { MenuOutlined,DownOutlined } from '@ant-design/icons';
+import { notification,Button, Space,Menu, Table, Tag, Dropdown } from 'antd';
 import moment from 'moment';
 import { getRapportEntreposage } from '../../../../services/templateService';
 
@@ -12,13 +13,24 @@ const RapportEntreposage = () => {
         pageSize: 20,
       });
     const [columnsVisibility, setColumnsVisibility] = useState({
-        '#': true,
-        'Total Entr': true,
-        "TTC Entr": true
+        'id': true,
+        'Total': true,
+        "TotalTTC": false,
+        "Client" : true,
+        "Mois" : true
     });
+    const [filterVisible, setFilterVisible] = useState(false);
 
     const scroll = { x: 400 };
 
+    const toggleColumnVisibility = (columnName, e) => {
+        e.stopPropagation();
+        setColumnsVisibility((prev) => ({
+          ...prev,
+          [columnName]: !prev[columnName],
+        }));
+      };
+      
     const fetchData = async () => {
         try {
           const { data } = await getRapportEntreposage();
@@ -31,95 +43,103 @@ const RapportEntreposage = () => {
             return yearA - yearB || monthA - monthB;
           });
       
-          const generatedColumns = [
-            {
-              title: "#",
-              dataIndex: "id",
-              key: "id",
-              render: (text, record, index) => {
-                const pageSize = pagination.pageSize || 10;
-                const pageIndex = pagination.current || 1;
-                return (pageIndex - 1) * pageSize + index + 1;
-              },
-              width: "3%",
-            },
-            {
-              title: "Client",
-              dataIndex: "Client",
-              key: "Client",
-              fixed: "left",
-              render: (text) => (
-                <Space>
-                  <Tag color={"green"}>{text}</Tag>
-                </Space>
-              ),
-              align: "right",
-              title: <div style={{ textAlign: 'center' }}>Client</div>
-            },
-            ...uniqueMonths.map((month) => {
-              const [numMonth, year] = month.split("-");
-              const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-      
-              return {
-                title: <div style={{ textAlign: 'center' }}><Tag color={"#2db7f5"}>{monthName}</Tag></div>,
-                dataIndex: monthName,
-                key: monthName,
-                sorter: (a, b) => {
-                  const valueA = a[monthName] || 0;
-                  const valueB = b[monthName] || 0;
-                  return valueA - valueB;
+          const generatedColumns = () => {
+            const columns = [
+              {
+                title: "#",
+                dataIndex: "id",
+                key: "id",
+                render: (text, record, index) => {
+                  const pageSize = pagination.pageSize || 10;
+                  const pageIndex = pagination.current || 1;
+                  return (pageIndex - 1) * pageSize + index + 1;
                 },
-                sortDirections: ["descend", "ascend"],
+                width: "3%",
+              },
+              {
+                title: "Client",
+                dataIndex: "Client",
+                key: "Client",
+                fixed: "left",
                 render: (text) => (
                   <Space>
-                    <Tag color={text == null ? "red" : "blue"}>
-                      {text == null ? "Aucun" : `${text.toLocaleString()} $`}
-                    </Tag>
+                    <Tag color={"green"}>{text}</Tag>
                   </Space>
                 ),
-                align: "right"    
-            };
-            }),
-            {
-              title: "Total",
-              dataIndex: "Total",
-              key: "Total",
-              render: (_, record) => {
-                const total = uniqueMonths.reduce((sum, month) => {
-                  const [numMonth, year] = month.split("-");
-                  const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-                  return sum + (record[monthName] || 0);
-                }, 0);
-                return (
-                  <Space>
-                    <Tag color={"#87d068"}>{`${total?.toLocaleString()} $`}</Tag>
-                  </Space>
-                );
+                align: "left",
+                title: <div style={{ textAlign: 'left' }}>Client</div>
               },
-              align: "right",
-              title: <div style={{ textAlign: 'center' }}>Total</div>
-            },
-            {
-              title: "Total TTC",
-              dataIndex: "TotalTTC",
-              key: "TotalTTC",
-              render: (_, record) => {
-                const totalTTC = uniqueMonths.reduce((sum, month) => {
-                  const [numMonth, year] = month.split("-");
-                  const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-                  return sum + (record[`${monthName}_TTC`] || 0);
-                }, 0);
-                return (
-                  <Space>
-                    <Tag color={"#108ee9"}>{`${totalTTC?.toLocaleString()} $`}</Tag>
-                  </Space>
-                );
+              ...uniqueMonths.map((month) => {
+                const [numMonth, year] = month.split("-");
+                const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+          
+                return {
+                  title: <div style={{ textAlign: 'center' }}><Tag color={"#2db7f5"}>{monthName}</Tag></div>,
+                  dataIndex: monthName,
+                  key: 'Mois',
+                  sorter: (a, b) => {
+                    const valueA = a[monthName] || 0;
+                    const valueB = b[monthName] || 0;
+                    return valueA - valueB;
+                  },
+                  sortDirections: ["descend", "ascend"],
+                  render: (text) => (
+                    <Space>
+                      <Tag color={text == null ? "red" : "blue"}>
+                        {text == null ? "Aucun" : `${text.toLocaleString()} $`}
+                      </Tag>
+                    </Space>
+                  ),
+                  align: "right",
+                  ...(columnsVisibility['Mois'] ? {} : { className: 'hidden-column' })
+
+                };
+              }),
+              {
+                title: "Total",
+                dataIndex: "Total",
+                key: "Total",
+                render: (_, record) => {
+                  const total = uniqueMonths.reduce((sum, month) => {
+                    const [numMonth, year] = month.split("-");
+                    const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+                    return sum + (record[monthName] || 0);
+                  }, 0);
+                  return (
+                    <Space>
+                      <Tag color={"#87d068"}>{`${total?.toLocaleString()} $`}</Tag>
+                    </Space>
+                  );
+                },
+                align: "right",
+                title: <div style={{ textAlign: 'center' }}>Total</div>,
+                ...(columnsVisibility['Total'] ? {} : { className: 'hidden-column' })
               },
-              align: "right",
-              title: <div style={{ textAlign: 'center' }}>Total TTC</div>
-            },
-          ];
-      
+              {
+                title: "Total TTC",
+                dataIndex: "TotalTTC",
+                key: "TotalTTC",
+                render: (_, record) => {
+                    const totalTTC = uniqueMonths.reduce((sum, month) => {
+                        const [numMonth, year] = month.split("-");
+                        const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+                        return sum + (record[`${monthName}_TTC`] || 0);
+                    }, 0);
+                    return (
+                        <Tag color="blue">
+                            {totalTTC ? `${totalTTC.toLocaleString()} $` : "0 $"}
+                        </Tag>
+                    );
+                },
+                align: "right",
+                ...(columnsVisibility["TotalTTC"] ? {} : { className: "hidden-column" }),
+            }
+            
+            ];
+          
+            return columns;
+          };
+          
           const groupedData = data.reduce((acc, curr) => {
             const client = acc.find((item) => item.Client === curr.Client);
             const [numMonth, year] = [curr.Mois, curr.Année];
@@ -138,7 +158,7 @@ const RapportEntreposage = () => {
             return acc;
           }, []);
       
-          setColumns(generatedColumns);
+          setColumns(generatedColumns());
           setDataSource(groupedData);
           setLoading(false);
         } catch (error) {
@@ -153,17 +173,56 @@ const RapportEntreposage = () => {
   
     useEffect(() => {
       fetchData();
-    }, [])
+    }, [columnsVisibility])
+
+    const handFilter = () => {
+        fetchData()
+        setFilterVisible(!filterVisible)
+    }
+
+    const menus = (
+        <Menu>
+          {Object.keys(columnsVisibility).map((columnName) => (
+            <Menu.Item key={columnName}>
+              <span onClick={(e) => toggleColumnVisibility(columnName, e)}>
+                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+                <span style={{ marginLeft: 8 }}>{columnName}</span>
+              </span>
+            </Menu.Item>
+          ))}
+        </Menu>
+      );
+      
+
+      
+      const getVisibleColumns = () => {
+        return columns.filter((col) => columnsVisibility[col.key]);
+      };
+      
 
   return (
     <>
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS ENTREPOSAGE</h2>
+            <div style={{display:'flex', gap:'10px', alignItems:'center'}}>
+                <Button
+                    type="default"
+                    onClick={handFilter}
+                    style={{margin:'10px 0'}}
+                >
+                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                </Button>
+                <Dropdown overlay={menus} trigger={['click']}>
+                    <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                        Colonnes <DownOutlined />
+                    </Button>
+                </Dropdown>
+            </div>
             <div className="rapport_wrapper_facture">
 
                 <Table
                     dataSource={dataSource}
-                    columns={columns}
+                    columns={getVisibleColumns()}
                     bordered
                     scroll={scroll}
                     loading={loading}

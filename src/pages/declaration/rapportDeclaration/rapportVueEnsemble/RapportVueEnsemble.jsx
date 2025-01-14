@@ -71,7 +71,7 @@ const RapportVueEnsemble = () => {
                   <Tag color={'#2db7f5'}>{text}</Tag>
                 </Space>
               ),
-              align: 'center',
+              align: 'left',
             },
             ...data.reduce((acc, item) => {
               const capital = item.capital;

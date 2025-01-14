@@ -45,8 +45,7 @@ const RapportManu = () => {
                   </Tag>
                 </Space>
               ),
-              align: 'right',
-              title: <div style={{ textAlign: 'center' }}>Client</div>
+              align: 'left',
             },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
@@ -96,7 +95,6 @@ const RapportManu = () => {
               },
           ];
   
-          // Transformer les données pour correspondre aux colonnes
           const groupedData = data.reduce((acc, curr) => {
             const client = acc.find((item) => item.Client === curr.Client);
             const [numMonth, year] = [curr.Mois, curr.Année];

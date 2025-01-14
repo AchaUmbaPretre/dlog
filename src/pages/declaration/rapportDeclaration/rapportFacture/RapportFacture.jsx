@@ -70,9 +70,8 @@ const RapportFacture = () => {
                   <Tag color="green">{text}</Tag>
                 </Space>
               ),
-              align: 'right', // Les données restent alignées à droite
-              // Centrer le titre uniquement
-              title: <div style={{ textAlign: 'center' }}>Client</div>,
+              align: 'left', // Les données restent alignées à droite
+              title: <div style={{ textAlign: 'left' }}>Client</div>,
             },
             ...uniqueMonths.map((month) => {
               const [numMonth, year] = month.split("-");
