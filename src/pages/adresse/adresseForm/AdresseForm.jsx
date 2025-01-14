@@ -1,10 +1,33 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { postFormat } from '../../../services/formatService';
+import { getBatiment } from '../../../services/typeService';
 
 const AdresseForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [batiment, setBatiment] = useState([]);
+
+  const fetchDataAll = async () => {
+        
+    try {
+        const [batimentData] = await Promise.all([
+            getBatiment()
+        ])
+        setBatiment(batimentData.data)
+        
+
+    } catch (error) {
+        notification.error({
+            message: 'Erreur de chargement',
+            description: 'Une erreur est survenue lors du chargement des données.',
+        });
+    }
+};
+
+useEffect(() => {
+  fetchDataAll()
+}, []);
 
   const onFinish = async(values) => {
     setLoading(true)
@@ -36,17 +59,23 @@ const AdresseForm = () => {
       style={{ maxWidth: 600, margin: '0 auto' }}
     >
       <Form.Item
-        label="Nom du Format"
-        name="nom_format"
-        rules={[{ required: true, message: 'Veuillez entrer le nom du format' }]}
+        label="Batiment"
+        name="id_batiment"
+        rules={[{ required: true, message: 'Veuillez entrer le batiment' }]}
       >
-        <Input placeholder="Entrez le nom du format" />
+        <Select
+          showSearch
+          options={templates.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
+          placeholder="Sélectionnez..."
+          onChange={setIdTemplate}
+          optionFilterProp="label"
+        />
       </Form.Item>
 
       <Form.Item
-        label="Description"
-        name="description"
-        rules={[{ required: false, message: 'Veuillez entrer une description' }]}
+        label="Adresse"
+        name="adresse"
+        rules={[{ required: false, message: 'Veuillez entrer une adresse' }]}
       >
         <Input.TextArea rows={4} placeholder="Entrez une description" />
       </Form.Item>
