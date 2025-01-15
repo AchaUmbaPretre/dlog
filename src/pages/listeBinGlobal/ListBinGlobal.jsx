@@ -3,6 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import { ExportOutlined, PrinterOutlined, BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getBins, putDeleteBins } from '../../services/batimentService';
 import BinForm from '../batiment/bins/binsForm/BinForm';
+import AdresseForm from '../adresse/adresseForm/AdresseForm';
 
 const { Search } = Input;
 
@@ -13,6 +14,8 @@ const ListBinGlobal = () => {
   const [searchValue, setSearchValue] = useState('');
   const [idBins, setIdBins] = useState('')
   const scroll = { x: 400 };
+  const [modalType, setModalType] = useState(null)
+
 
   const handleEdit = (id) => {
     setIdBins(id)
@@ -50,8 +53,15 @@ const ListBinGlobal = () => {
     fetchData();
   }, []);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
+  const handleAddresse = () => openModal('Addresse');
+
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type) => {
+    setModalType(type);
   };
 
   const handleCancel = () => {
@@ -93,8 +103,8 @@ const ListBinGlobal = () => {
         title: 'Batiment', 
         dataIndex: 'nom_batiment', 
         key: 'nom_batiment',
-        render: text => (
-          <Space>
+        render: (text, record) => (
+          <Space onClick={()=>handleAddresse(record.id)}>
             <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
           </Space>
         ),
@@ -103,8 +113,8 @@ const ListBinGlobal = () => {
       title: 'Nom', 
       dataIndex: 'nom', 
       key: 'nom',
-      render: text => (
-        <Space>
+      render: (text, record) => (
+        <Space onClick={()=>handleAddresse(record.id)}>
           <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
@@ -264,6 +274,16 @@ const ListBinGlobal = () => {
     >
          <BinForm idBatiment={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData} idBins={idBins}/>
     </Modal>
+
+    <Modal
+        title=""
+        visible={modalType === 'Addresse'}
+        onCancel={closeAllModals}
+        width={900}
+        centered
+      >
+        <AdresseForm closeModal={()=>setModalType(null)} fetchData={fetchData}  />
+      </Modal>
     </>
   );
 };
