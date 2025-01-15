@@ -133,12 +133,12 @@ const ListeTracking = ({ idTache }) => {
           <Table
             columns={columns}
             dataSource={data}
+            onChange={(pagination) => setPagination(pagination)}
             pagination={pagination}
             rowKey="id"
             bordered
             size="small"
             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-            onChange={(pagination) => setPagination(pagination)}
           />
         )}
       </div>

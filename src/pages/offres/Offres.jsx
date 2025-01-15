@@ -21,9 +21,13 @@ const Offres = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [modalType, setModalType] = useState(null); // Pour suivre le type de modal ouvert
+  const [modalType, setModalType] = useState(null);
   const [idOffre, setIdOffre] = useState('');
   const scroll = { x: 400 };
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 15,
+  });
 
 
   const closeAllModals = () => {
@@ -273,11 +277,14 @@ const Offres = () => {
           <Table
             columns={colonnes}
             dataSource={filteredData}
+            onChange={(pagination) => setPagination(pagination)}
+            pagination={pagination}
             rowKey="id_offre"
             loading={loading}
             scroll={scroll}
             size="small"
             bordered
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
         </div>
       </div>
