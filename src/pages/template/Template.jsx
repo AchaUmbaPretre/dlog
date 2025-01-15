@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { EditOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined,FileSyncOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
@@ -224,6 +224,15 @@ const Template = () => {
       ),
       ...(columnsVisibility['Dénomination'] ? {} : { className: 'hidden-column' })
 
+    },
+    {
+      title: 'Contrat',
+      dataIndex: 'conditions',
+      key: 'conditions',
+      render: (text) => (
+        <Tag icon={<FileSyncOutlined />} color="yellow">{text ?? 'Aucune'}</Tag>
+      ),
+      ...(columnsVisibility['Whse fact'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Whse fact',

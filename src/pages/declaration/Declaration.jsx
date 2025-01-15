@@ -9,6 +9,7 @@ import DeclarationDetail from './declarationDetail/DeclarationDetail';
 import DeclarationOneAll from './declarationOneAll/DeclarationOneAll';
 import { useSelector } from 'react-redux';
 import TabPane from 'antd/es/tabs/TabPane';
+import RapportDeclaration from './rapportDeclaration/RapportDeclaration';
 
 const { Search } = Input;
 
@@ -622,7 +623,7 @@ const Declaration = () => {
             <span>
               <PieChartOutlined
                 style={{
-                  color: '#faad14', // Orangé pour les rapports visuels
+                  color: '#faad14',
                   fontSize: '18px',
                   marginRight: '8px',
                 }}
@@ -632,7 +633,7 @@ const Declaration = () => {
           }
           key="2"
         >
-          {/* Contenu pour Rapport */}
+          <RapportDeclaration/>
         </TabPane>
       </Tabs>
     </>
