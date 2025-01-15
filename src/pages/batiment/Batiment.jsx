@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, MoreOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Tabs } from 'antd';
+import { ExportOutlined, MoreOutlined,AreaChartOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment, putDeleteBatiment } from '../../services/typeService';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
@@ -27,6 +27,7 @@ import InstructionForm from '../instructions/instructionForm/InstructionForm';
 import InstructionFormOne from '../instructions/instructionForm/InstructionFormOne';
 import NiveauOne from './niveau/NiveauOne';
 import DenominationOne from './denomination/DenominationOne';
+import TabPane from 'antd/es/tabs/TabPane';
 
 const { Search } = Input;
 
@@ -43,6 +44,7 @@ const Batiment = () => {
     current: 1,
     pageSize: 20,
   });
+  const [activeKey, setActiveKey] = useState(['1', '2']);
 
   const handleDelete = async (id) => {
     try {
@@ -393,12 +395,109 @@ const Batiment = () => {
     }
   ];
 
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
+
   const filteredData = data.filter(item =>
     item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
     <>
+      <Tabs
+        activeKey={activeKey[0]}
+        onChange={handleTabChange}
+        type="card"
+        tabPosition="top"
+        renderTabBar={(props, DefaultTabBar) => (
+          <DefaultTabBar {...props} />
+        )}
+      >
+        <TabPane
+          tab={
+                <span>
+                  <AreaChartOutlined /> Liste de bins
+                </span>
+              }
+              key="1"
+          >
+            
+        </TabPane>
+        <TabPane
+          tab={
+                <span>
+                  <AreaChartOutlined /> Liste des equipements
+                </span>
+              }
+              key="2"
+          >
+            
+        </TabPane>
+        <TabPane
+          tab={
+                <span>
+                  <AreaChartOutlined /> Liste des equipements
+                </span>
+              }
+              key="3"
+          >
+            
+        </TabPane>
+        <TabPane
+          tab={
+                <span>
+                  <AreaChartOutlined /> Liste des bureaux
+                </span>
+              }
+              key="4"
+          >
+            
+        </TabPane>
+        <TabPane
+          tab={
+                <span>
+                  <AreaChartOutlined /> Liste des niveaux
+                </span>
+              }
+              key="5"
+          >
+            
+        </TabPane>
+
+        <TabPane
+          tab={
+                <span>
+                  <AreaChartOutlined /> Liste des dénominations
+                </span>
+              }
+              key="6"
+          >
+            
+        </TabPane>
+
+        <TabPane
+          tab={
+                <span>
+                  <AreaChartOutlined /> Liste des adresses
+                </span>
+              }
+              key="7"
+          >
+            
+        </TabPane>
+
+        <TabPane
+          tab={
+                <span>
+                  <AreaChartOutlined /> Liste des inspections
+                </span>
+              }
+              key="8"
+          >
+            
+        </TabPane>
+      </Tabs>
       <div className="client">
         <div className="client-wrapper">
           <div className="client-row">
