@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, message, notification, Tag, Button, Dropdown, Modal } from 'antd';
-import { BankOutlined, DownOutlined, MenuOutlined,PlusCircleOutlined, PrinterOutlined} from '@ant-design/icons';
+import { BankOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
 import AdresseForm from './adresseForm/AdresseForm';
 
@@ -132,6 +132,7 @@ const Adresse = () => {
             dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 15 }}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             rowKey="id"
             bordered
             size="middle"

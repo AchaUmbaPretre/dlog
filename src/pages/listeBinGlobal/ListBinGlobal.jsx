@@ -16,7 +16,6 @@ const ListBinGlobal = () => {
   const scroll = { x: 400 };
   const [modalType, setModalType] = useState(null)
 
-
   const handleEdit = (id) => {
     setIdBins(id)
     setIsModalVisible(true)
@@ -277,7 +276,8 @@ const ListBinGlobal = () => {
         title=""
         visible={modalType === 'Addresse'}
         onCancel={closeAllModals}
-        width={900}
+        width={700}
+        footer={null}
         centered
       >
         <AdresseForm closeModal={()=>setModalType(null)} fetchData={fetchData} idBin={idBins}  />

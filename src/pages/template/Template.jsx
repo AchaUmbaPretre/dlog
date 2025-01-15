@@ -377,6 +377,7 @@ const Template = () => {
             bordered
             size="middle"
             scroll={scroll}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
         </div>
       </div>

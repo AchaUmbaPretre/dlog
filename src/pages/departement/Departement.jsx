@@ -14,6 +14,10 @@ const Departement = () => {
   const [searchValue, setSearchValue] = useState('');
   const [idDepartement, setIdDapartement] = useState('');
   const scroll = { x: 400 };
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
   const handleEdit = (record) => {
     message.info(`Modifier departement: ${record.nom}`);
@@ -86,12 +90,16 @@ const Departement = () => {
   );
 
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     { 
       title: 'Nom', 
@@ -216,12 +224,14 @@ const Departement = () => {
           <Table
             columns={columns}
             dataSource={filteredData}
-            pagination={{ pageSize: 10 }}
             rowKey="key"
             bordered
             size="middle"
             scroll={scroll}
             loading={loading}
+            pagination={pagination}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+
           />
         </div>
       </div>

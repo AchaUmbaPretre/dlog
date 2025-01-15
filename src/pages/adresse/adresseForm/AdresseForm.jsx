@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification, Select } from 'antd';
 import { getBins, getBinsOneV, postAdresse } from '../../../services/batimentService';
+import { useNavigate } from 'react-router-dom';
 
 const AdresseForm = ({closeModal, fetchData, idBin}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
+  const navigate = useNavigate()
 
   const fetchDataAll = async () => {
         
@@ -44,6 +46,7 @@ useEffect(() => {
     
     fetchData();
     closeModal();
+    navigate('/adresse')
     form.resetFields();
   };
 

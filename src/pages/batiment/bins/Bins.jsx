@@ -14,6 +14,7 @@ const Bins = ({idBatiment}) => {
   const [searchValue, setSearchValue] = useState('');
   const [idEntrepot, setIdEntrepot] = useState('');
   const [modalType, setModalType] = useState(null);
+  const [nameBatiment, setNameBatiment] = useState('')
 
   const scroll = { x: 400 };
 
@@ -44,6 +45,7 @@ const Bins = ({idBatiment}) => {
       try {
          const { data } = await getBinsOne(idBatiment);
         setData(data);
+        setNameBatiment(data[0]?.nom_batiment)
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -206,7 +208,7 @@ const Bins = ({idBatiment}) => {
             <div className="client-row-icon">
               <ContainerOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Bins</h2>
+            <h2 className="client-h2">Liste des Bins de {nameBatiment}</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">

@@ -39,6 +39,10 @@ const Batiment = () => {
   const [idBatiment, setIdBatiment] = useState('');
   const scroll = { x: 400 };
   const role = useSelector((state) => state.user?.currentUser.role);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
   const handleDelete = async (id) => {
     try {
@@ -195,12 +199,16 @@ const Batiment = () => {
   );
 
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     { 
       title: 'Nom', 
@@ -428,12 +436,14 @@ const Batiment = () => {
           <Table
             columns={columns}
             dataSource={filteredData}
-            pagination={{ pageSize: 15 }}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             rowKey="key"
             scroll={scroll}
             size="small"
             bordered
             loading={loading}
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
           />
         </div>
       </div>
