@@ -12,7 +12,6 @@ const Bins = ({idBatiment}) => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [idEntrepot, setIdEntrepot] = useState('');
   const [modalType, setModalType] = useState(null);
   const [nameBatiment, setNameBatiment] = useState('')
   const [pagination, setPagination] = useState({

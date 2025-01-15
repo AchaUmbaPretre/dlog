@@ -111,9 +111,11 @@ const ListBinGlobal = () => {
       dataIndex: 'nom', 
       key: 'nom',
       render: (text, record) => (
-        <Space onClick={()=>handleAddresse(record.id)}>
-          <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
+        <Tooltip title="Ajouter une adresse pour ce batiment">
+          <Space onClick={()=>handleAddresse(record.id)}>
+            <Tag icon={<ApartmentOutlined />} color='cyan'>{text}</Tag>
         </Space>
+        </Tooltip>
       ),
     },
     { 
