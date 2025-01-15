@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton } from 'antd';
-import { MenuOutlined,EditOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs } from 'antd';
+import { MenuOutlined,EditOutlined,PieChartOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { deletePutDeclaration, getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
 import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
@@ -8,6 +8,7 @@ import moment from 'moment';
 import DeclarationDetail from './declarationDetail/DeclarationDetail';
 import DeclarationOneAll from './declarationOneAll/DeclarationOneAll';
 import { useSelector } from 'react-redux';
+import TabPane from 'antd/es/tabs/TabPane';
 
 const { Search } = Input;
 
@@ -46,6 +47,7 @@ const Declaration = () => {
     current: 1,
     pageSize: 25,
   });
+  const [activeKey, setActiveKey] = useState(['1', '2']);
 
   const columnStyles = {
     title: {
@@ -444,149 +446,195 @@ const Declaration = () => {
     setFilteredDatas(newFilters); 
   };
 
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
+
   const filteredData = data.filter(item =>
     item.desc_template?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.nom?.toLowerCase().includes(searchValue.toLowerCase()));
   
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-rows">
-            <div className="client-row">
-              <div className="client-row-icon">
-                <ScheduleOutlined className='client-icon' />
-              </div>
-              <h2 className="client-h2">Déclarations</h2>
-            </div>
-            {
-              role === 'Admin' &&
-              <div className='client-row-lefts'>
-              <span className='client-title'>
-              Resumé :
-              </span>
-              <div className="client-row-sou">
-                {loading ? (
-                  <Skeleton active paragraph={{ rows: 1 }} />
-                ) : (
-                    <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong>{statistique.nbre_client}</strong></span>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total de M2 Facture : <strong>{statistique.total_m2_facture?.toLocaleString()}</strong></span>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total entreposage : <strong>{statistique.total_entreposage?.toLocaleString()} $</strong></span>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Entreposage : <strong>{statistique.total_ttc_entreposage?.toLocaleString()} $</strong></span>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total Manutention : <strong>{statistique.total_manutation?.toLocaleString() || 0} $</strong></span>
-                      <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Manutention : <strong>{statistique.total_ttc_manutation?.toLocaleString() || 0} $</strong></span>
+      <Tabs
+        activeKey={activeKey[0]}
+        onChange={handleTabChange}
+        type="card"
+        tabPosition="top"
+        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+      >
+        <TabPane
+          tab={
+            <span>
+              <FileTextOutlined
+                style={{
+                  color: '#1890ff',
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+              Liste des déclarations
+            </span>
+          }
+          key="1"
+        >
+            <div className="client">
+              <div className="client-wrapper">
+                <div className="client-rows">
+                  <div className="client-row">
+                    <div className="client-row-icon">
+                      <ScheduleOutlined className='client-icon' />
                     </div>
-                )}
+                    <h2 className="client-h2">Déclarations</h2>
+                  </div>
+                  {
+                    role === 'Admin' &&
+                    <div className='client-row-lefts'>
+                    <span className='client-title'>
+                    Resumé :
+                    </span>
+                    <div className="client-row-sou">
+                      {loading ? (
+                        <Skeleton active paragraph={{ rows: 1 }} />
+                      ) : (
+                          <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong>{statistique.nbre_client}</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total de M2 Facture : <strong>{statistique.total_m2_facture?.toLocaleString()}</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total entreposage : <strong>{statistique.total_entreposage?.toLocaleString()} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Entreposage : <strong>{statistique.total_ttc_entreposage?.toLocaleString()} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total Manutention : <strong>{statistique.total_manutation?.toLocaleString() || 0} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Manutention : <strong>{statistique.total_ttc_manutation?.toLocaleString() || 0} $</strong></span>
+                          </div>
+                      )}
+                    </div>
+                  </div>
+                  }
+                </div>
+                {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} />}
+                <div className="client-actions">
+                  <div className="client-row-left">
+                    <Search 
+                      placeholder="Recherche..." 
+                      enterButton
+                      onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="client-rows-right">
+
+                    <Button
+                      type="primary"
+                      icon={<PlusCircleOutlined />}
+                      onClick={handleAddTemplate}
+                    >
+                      Ajouter une déclaration
+                    </Button>
+
+                    <Button
+                      type="default"
+                      onClick={handFilter}
+                    >
+                      {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                    </Button>
+
+                    <Dropdown overlay={menus} trigger={['click']}>
+                      <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                        Colonnes <DownOutlined />
+                      </Button>
+                    </Dropdown>
+
+                  </div>
+                </div>
+
+                <Table
+                  columns={columns}
+                  dataSource={filteredData}
+                  loading={loading}
+                  pagination={pagination}
+                  onChange={(pagination) => setPagination(pagination)}
+                  rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                  rowKey="id"
+                  bordered
+                  size="small"
+                  scroll={scroll}
+                />
               </div>
             </div>
-            }
-          </div>
-          {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} />}
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search 
-                placeholder="Recherche..." 
-                enterButton
-                onChange={(e) => setSearchValue(e.target.value)}
-               />
-            </div>
 
-            <div className="client-rows-right">
+            <Modal
+              title=""
+              visible={modalType === 'Add'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={1200}
+              centered
+            >
+              <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+          </Modal>
 
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddTemplate}
-              >
-                Ajouter une déclaration
-              </Button>
+          <Modal
+              title=""
+              visible={modalType === 'Update'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={1200}
+              centered
+            >
+              <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idDeclaration} />
+          </Modal>
 
-              <Button
-                type="default"
-                onClick={handFilter}
-              >
-                {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-              </Button>
+          <Modal
+              title=""
+              visible={modalType === 'Detail'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={900}
+              centered
+            >
+              <DeclarationDetail idDeclaration={idDeclaration} />
+          </Modal>
 
-              <Dropdown overlay={menus} trigger={['click']}>
-                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                  Colonnes <DownOutlined />
-                </Button>
-              </Dropdown>
+          <Modal
+              title=""
+              visible={modalType === 'AddDecl'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={1250}
+              centered
+            >
+              <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} idClients={idClient} />
+          </Modal>
 
-            </div>
-          </div>
+          <Modal
+              title=""
+              visible={modalType === 'OneAll'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={1250}
+              centered
+            >
+              <DeclarationOneAll idClients={idClient} />
+          </Modal>
+        </TabPane>
 
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            loading={loading}
-            pagination={pagination}
-            onChange={(pagination) => setPagination(pagination)}
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-            rowKey="id"
-            bordered
-            size="small"
-            scroll={scroll}
-          />
-        </div>
-      </div>
-
-      <Modal
-        title=""
-        visible={modalType === 'Add'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1200}
-        centered
-      >
-         <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
-     </Modal>
-
-     <Modal
-        title=""
-        visible={modalType === 'Update'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1200}
-        centered
-      >
-        <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idDeclaration} />
-     </Modal>
-
-     <Modal
-        title=""
-        visible={modalType === 'Detail'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={900}
-        centered
-      >
-        <DeclarationDetail idDeclaration={idDeclaration} />
-     </Modal>
-
-     <Modal
-        title=""
-        visible={modalType === 'AddDecl'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1250}
-        centered
-      >
-        <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} idClients={idClient} />
-     </Modal>
-
-     <Modal
-        title=""
-        visible={modalType === 'OneAll'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1250}
-        centered
-      >
-        <DeclarationOneAll idClients={idClient} />
-     </Modal>
+        <TabPane
+          tab={
+            <span>
+              <PieChartOutlined
+                style={{
+                  color: '#faad14', // Orangé pour les rapports visuels
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+              Rapport
+            </span>
+          }
+          key="2"
+        >
+          {/* Contenu pour Rapport */}
+        </TabPane>
+      </Tabs>
     </>
   );
 };
