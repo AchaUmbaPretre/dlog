@@ -114,7 +114,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
             const { id_ville, id_client } = data[0];
     
             form.resetFields();
-    
+
             form.setFieldsValue({
                 id_ville,
                 id_client,
@@ -132,7 +132,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         if (idTemplate) {
             handleTemplateChange();
         }
-    }, [idTemplate]);
+    }, [province,idTemplate]);
     
 
 
