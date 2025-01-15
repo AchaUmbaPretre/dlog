@@ -15,6 +15,10 @@ const Bins = ({idBatiment}) => {
   const [idEntrepot, setIdEntrepot] = useState('');
   const [modalType, setModalType] = useState(null);
   const [nameBatiment, setNameBatiment] = useState('')
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
   const scroll = { x: 400 };
 
@@ -89,12 +93,16 @@ const Bins = ({idBatiment}) => {
   );
 
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => index + 1, 
-      width: "5%" 
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     { 
       title: 'Nom', 
@@ -240,12 +248,13 @@ const Bins = ({idBatiment}) => {
           <Table
             columns={columns}
             dataSource={filteredData}
-            pagination={{ pageSize: 10 }}
             rowKey="key"
             bordered
             size="middle"
             scroll={scroll}
             loading={loading}
+            pagination={pagination}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
         </div>
       </div>
