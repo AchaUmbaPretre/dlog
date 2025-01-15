@@ -27,6 +27,10 @@ import InstructionFormOne from '../instructions/instructionForm/InstructionFormO
 import NiveauOne from './niveau/NiveauOne';
 import DenominationOne from './denomination/DenominationOne';
 import TabPane from 'antd/es/tabs/TabPane';
+import ListBureaux from '../Listbureaux/ListBureaux';
+import Niveau from './niveau/Niveau';
+import Adresse from '../adresse/Adresse';
+import Instructions from '../instructions/Instructions';
 
 const { Search } = Input;
 
@@ -405,124 +409,68 @@ const Batiment = () => {
   return (
     <>
       <Tabs
-        activeKey={activeKey[0]}
-        onChange={handleTabChange}
-        type="card"
-        tabPosition="top"
-        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
-      >
-        <TabPane
-          tab={
-            <span>
-              <BankOutlined  /> Liste des batiments
-            </span>
-          }
-          key="1"
+          activeKey={activeKey[0]}
+          onChange={handleTabChange}
+          type="card"
+          tabPosition="top"
+          renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
         >
-          {/* Contenu pour Liste de bins */}
-        </TabPane>
-
-        <TabPane
-          tab={
-            <span>
-              <ApartmentOutlined /> Liste des bureaux
-            </span>
-          }
-          key="2"
-        >
-          {/* Contenu pour Liste des bureaux */}
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <TeamOutlined /> Liste des niveaux
-            </span>
-          }
-          key="3"
-        >
-          {/* Contenu pour Liste des niveaux */}
-        </TabPane>
-        <TabPane
-          tab={
-            <span>
-              <LineChartOutlined /> Liste des dénominations
-            </span>
-          }
-          key="4"
-        >
-          {/* Contenu pour Liste des dénominations */}
-        </TabPane>
-
-        <TabPane
-          tab={
-            <span>
-              <HomeOutlined /> Liste des adresses
-            </span>
-          }
-          key="5"
-        >
-          {/* Contenu pour Liste des adresses */}
-        </TabPane>
-
-        <TabPane
-          tab={
-            <span>
-              <EnvironmentOutlined /> Liste des inspections
-            </span>
-          }
-          key="6"
-        >
-          {/* Contenu pour Liste des inspections */}
-        </TabPane>
-      </Tabs>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <BankOutlined className='client-icon'/>
+          <TabPane
+            tab={
+              <span>
+                <BankOutlined style={{ color: '#1890ff' }} /> Liste des bâtiments
+              </span>
+            }
+            key="1"
+          >
+        <div className="client">
+          <div className="client-wrapper">
+            <div className="client-row">
+              <div className="client-row-icon">
+                <BankOutlined className='client-icon'/>
+              </div>
+              <h2 className="client-h2">Bâtiment</h2>
             </div>
-            <h2 className="client-h2">Bâtiment</h2>
+            <div className="client-actions">
+              <div className="client-row-left">
+                <Search placeholder="Recherche..." 
+                  enterButton 
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
+              </div>
+              <div className="client-rows-right">
+                <Button
+                  type="primary"
+                  icon={<PlusCircleOutlined />}
+                  onClick={handleAddClient}
+                >
+                  Batiment
+                </Button>
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <Button icon={<ExportOutlined />}>Export</Button>
+                </Dropdown>
+                <Button
+                  icon={<PrinterOutlined />}
+                  onClick={handlePrint}
+                >
+                  Print
+                </Button>
+              </div>
+            </div>
+            <Table
+              columns={columns}
+              dataSource={filteredData}
+              rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+              rowKey="key"
+              scroll={scroll}
+              size="small"
+              bordered
+              loading={loading}
+              pagination={pagination}
+              onChange={(pagination) => setPagination(pagination)}
+            />
           </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search placeholder="Recherche..." 
-                enterButton 
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-            </div>
-            <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
-              >
-                Batiment
-              </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
-            </div>
-          </div>
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-            rowKey="key"
-            scroll={scroll}
-            size="small"
-            bordered
-            loading={loading}
-            pagination={pagination}
-            onChange={(pagination) => setPagination(pagination)}
-          />
         </div>
-      </div>
       
       <Modal
         title=""
@@ -752,6 +700,63 @@ const Batiment = () => {
         >
           <InstructionFormOne idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
         </Modal>
+          </TabPane>
+
+          <TabPane
+            tab={
+              <span>
+                <ApartmentOutlined style={{ color: '#52c41a' }} /> Liste des bureaux
+              </span>
+            }
+            key="2"
+          >
+            <ListBureaux/>
+          </TabPane>
+
+          <TabPane
+            tab={
+              <span>
+                <ApartmentOutlined style={{ color: '#eb2f96' }} /> Liste des niveaux
+              </span>
+            }
+            key="3"
+          >
+            <Niveau/>
+          </TabPane>
+
+          <TabPane
+            tab={
+              <span>
+                <LineChartOutlined style={{ color: '#fa8c16' }} /> Liste des dénominations
+              </span>
+            }
+            key="4"
+          >
+            <Denomination/>
+          </TabPane>
+
+          <TabPane
+            tab={
+              <span>
+                <HomeOutlined style={{ color: '#13c2c2' }} /> Liste des adresses
+              </span>
+            }
+            key="5"
+          >
+            <Adresse/>
+          </TabPane>
+
+          <TabPane
+            tab={
+              <span>
+                <EnvironmentOutlined style={{ color: '#722ed1' }} /> Liste des inspections
+              </span>
+            }
+            key="6"
+          >
+            <Instructions/>
+          </TabPane>
+      </Tabs>
     </>
   );
 };

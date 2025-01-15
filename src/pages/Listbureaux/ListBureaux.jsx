@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined,MoreOutlined, PrinterOutlined,BankOutlined,ToolOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-/* import BureauForm from './bureauForm/BureauForm'; */
 import { getBureau, putDeleteBureau } from '../../services/batimentService';
 import ListeEquipement from '../batiment/equipement/listeEquipement/ListeEquipement';
 import EquipementForm from '../batiment/equipement/equipementForm/EquipementForm';
@@ -16,6 +15,10 @@ const ListBureaux = ({idBatiment}) => {
   const [modalType, setModalType] = useState(null);
   const [idBureau, setIdBureau] = useState('');
   const scroll = { x: 400 };
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 15,
+  });
 
 
   const handleDelete = async (id) => {
@@ -106,12 +109,16 @@ const ListBureaux = ({idBatiment}) => {
   );
 
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     { 
       title: 'Batiment', 
@@ -258,7 +265,9 @@ const ListBureaux = ({idBatiment}) => {
           <Table
             columns={columns}
             dataSource={filteredData}
-            pagination={{ pageSize: 10 }}
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             rowKey="key"
             bordered
             size="middle"
