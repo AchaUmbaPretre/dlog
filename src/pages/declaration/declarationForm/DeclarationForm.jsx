@@ -56,7 +56,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     }, [idClients]);
 
     const fetchDataAll = async () => {
-        
+        setIsLoading(true)
         try {
             const [ templateData, objetData, provinceData, clientData, batimentData] = await Promise.all([
                 getTemplate(),
@@ -137,7 +137,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
 
     const onFinish = async (values) => {
-        console.log(values)
         setIsLoading(true);
         await form.validateFields();
 
@@ -356,12 +355,14 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                     label="Ville"
                                     rules={[{ required: true, message: "Veuillez entrer l'ID de la ville" }]}
                                 >
+                                    { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         showSearch
                                         options={province.map(item => ({ value: item.id, label: item.capital }))}
                                         placeholder="Sélectionnez..."
                                         optionFilterProp="label"
                                     />
+                                     }
                                 </Form.Item>
 
                                 <Form.Item
@@ -369,12 +370,15 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                     label="Client"
                                     rules={[{ required: true, message: "Veuillez entrer l'ID du client" }]}
                                 >
+                                    { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
-                                    showSearch
-                                    options={client.map(item => ({ value: item.id_client, label: item.nom }))}
-                                    placeholder="Sélectionnez..."
-                                    optionFilterProp="label"
+                                        showSearch
+                                        options={client.map(item => ({ value: item.id_client, label: item.nom }))}
+                                        placeholder="Sélectionnez..."
+                                        optionFilterProp="label"
                                     />
+                                    }
+
                                 </Form.Item>
 
                                 <Form.Item
@@ -382,6 +386,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                     label="Bâtiment"
                                     rules={[{ required: false, message: "Veuillez entrer l'ID du bâtiment" }]}
                                 >
+                                    {isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
                                     mode="multiple"
                                     showSearch
@@ -389,6 +394,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                     placeholder="Sélectionnez..."
                                     optionFilterProp="label"
                                     />
+                                    }
+
                                 </Form.Item>
 
                                 <Form.Item
