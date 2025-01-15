@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag } from 'antd';
-import { EditOutlined,FileSyncOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Tabs } from 'antd';
+import { EditOutlined,FileSyncOutlined,SnippetsOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
 import { StatutColumn } from './templateStatut/TemplateStatut';
 import TemplateDetail from './templateDetail/TemplateDetail';
+import TabPane from 'antd/es/tabs/TabPane';
+import Contrat from '../contrat/Contrat';
 
 const { Search } = Input;
 
@@ -34,6 +36,12 @@ const Template = () => {
     current: 1,
     pageSize: 20,
   });
+  const [activeKey, setActiveKey] = useState(['1', '2']);
+
+
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
 
     const fetchData = async () => {
 
@@ -339,57 +347,79 @@ const Template = () => {
 
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <ScheduleOutlined className='client-icon' />
-            </div>
-            <h2 className="client-h2">Template</h2>
-          </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search 
-                placeholder="Recherche..." 
-                onChange={(e) => setSearchValue(e.target.value)}
-                enterButton 
+      <Tabs
+        activeKey={activeKey[0]}
+        onChange={handleTabChange}
+        type="card"
+        tabPosition="top"
+        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+      >
+        <TabPane
+          tab={
+            <span>
+              <SnippetsOutlined
+                style={{
+                  color: '#52c41a', // Vert pour les templates
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+              Liste des templates
+            </span>
+          }
+          key="1"
+        >
+          <div className="client">
+            <div className="client-wrapper">
+              <div className="client-row">
+                <div className="client-row-icon">
+                  <ScheduleOutlined className='client-icon' />
+                </div>
+                <h2 className="client-h2">Template</h2>
+              </div>
+              <div className="client-actions">
+                <div className="client-row-left">
+                  <Search 
+                    placeholder="Recherche..." 
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    enterButton 
+                  />
+                </div>
+                <div className="client-rows-right">
+                  <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined />}
+                    onClick={handleAddTemplate}
+                  >
+                    Ajouter un template
+                  </Button>
+                  <Button
+                    icon={<PrinterOutlined />}
+                    onClick={handlePrint}
+                  >
+                    Print
+                  </Button>
+                  <Dropdown overlay={menus} trigger={['click']}>
+                    <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                      Colonnes <DownOutlined />
+                    </Button>
+                  </Dropdown>
+                </div>
+              </div>
+              <Table
+                columns={columns}
+                dataSource={filteredData}
+                loading={loading}
+                pagination={pagination}
+                onChange={(pagination) => setPagination(pagination)}
+                rowKey="id"
+                bordered
+                size="small"
+                scroll={scroll}
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
               />
             </div>
-            <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddTemplate}
-              >
-                Ajouter un template
-              </Button>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
-              <Dropdown overlay={menus} trigger={['click']}>
-                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                  Colonnes <DownOutlined />
-                </Button>
-              </Dropdown>
-            </div>
           </div>
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            loading={loading}
-            pagination={pagination}
-            onChange={(pagination) => setPagination(pagination)}
-            rowKey="id"
-            bordered
-            size="small"
-            scroll={scroll}
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-          />
-        </div>
-      </div>
 
       <Modal
         title=""
@@ -423,6 +453,26 @@ const Template = () => {
       >
         <TemplateDetail idTemplate={idTemplate} />
       </Modal>
+        </TabPane>
+
+        <TabPane
+          tab={
+            <span>
+              <FileTextOutlined
+                style={{
+                  color: '#1890ff',
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+              Contrat
+            </span>
+          }
+          key="2"
+        >
+          <Contrat />
+        </TabPane>
+      </Tabs>;
     </>
   );
 };
