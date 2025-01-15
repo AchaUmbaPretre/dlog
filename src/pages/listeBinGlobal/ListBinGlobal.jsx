@@ -14,7 +14,11 @@ const ListBinGlobal = () => {
   const [searchValue, setSearchValue] = useState('');
   const [idBins, setIdBins] = useState('')
   const scroll = { x: 400 };
-  const [modalType, setModalType] = useState(null)
+  const [modalType, setModalType] = useState(null);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 15,
+  });
 
   const handleEdit = (id) => {
     setIdBins(id)
@@ -89,12 +93,16 @@ const ListBinGlobal = () => {
   );
 
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => index + 1, 
-      width: "5%" 
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     { 
         title: 'Batiment', 
@@ -253,12 +261,14 @@ const ListBinGlobal = () => {
           <Table
             columns={columns}
             dataSource={filteredData}
-            pagination={{ pageSize: 10 }}
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
             rowKey="key"
             bordered
             size="middle"
             scroll={scroll}
             loading={loading}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
         </div>
       </div>
