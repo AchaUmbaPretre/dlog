@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Button } from 'antd';
+import { Select, Button, Skeleton } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import moment from 'moment';
@@ -14,7 +14,8 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const [selectedClients, setSelectedClients] = useState([]);
     const [selectedMonths, setSelectedMonths] = useState([]);
     const [selectedYear, setSelectedYear] = useState(null);
-    // Générer la liste des mois de l'année
+    const [isLoading, setIsLoading] = useState(false);
+
     const years = Array.from({ length: 10 }, (_, i) => moment().year() - i); // Génère les années (10 dernières)
 
     const months = Array.from({ length: 12 }, (_, index) => index + 1);
@@ -32,6 +33,7 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true);
             try {
                 const [clientData, provinceData] = await Promise.all([
                     getClient(),
@@ -42,6 +44,8 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                 setProvince(provinceData.data);
             } catch (error) {
                 console.error(error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -63,7 +67,9 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
             filtraVille && (
             <div className="filter_row">
                 <label>Ville :</label>
-                <Select
+                {
+                    isLoading ? <Skeleton.Input active={true} /> :
+                    <Select
                     mode="multiple"
                     showSearch
                     style={{ width: '100%' }}
@@ -75,6 +81,7 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                     optionFilterProp="label"
                     onChange={setSelectedVille}
                 />
+                }
             </div>
             )
         }
@@ -83,18 +90,21 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
             !filtraVille && 
             <div className="filter_row">
                     <label>Clients :</label>
-                    <Select
-                        mode="multiple"
-                        style={{ width: '100%' }}
-                        showSearch
-                        options={client.map((item) => ({
-                            value: item.id_client,
-                            label: item.nom,
-                        }))}
-                        placeholder="Sélectionnez un client..."
-                        optionFilterProp="label"
-                        onChange={setSelectedClients}
-                    />
+                    {
+                        isLoading ? <Skeleton.Input active={true} /> :
+                        <Select
+                            mode="multiple"
+                            style={{ width: '100%' }}
+                            showSearch
+                            options={client.map((item) => ({
+                                value: item.id_client,
+                                label: item.nom,
+                            }))}
+                            placeholder="Sélectionnez un client..."
+                            optionFilterProp="label"
+                            onChange={setSelectedClients}
+                        />
+                    }
                 </div>
         }
             

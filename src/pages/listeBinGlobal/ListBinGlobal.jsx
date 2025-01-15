@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined, BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Tabs } from 'antd';
+import { ExportOutlined, PrinterOutlined, EnvironmentOutlined, BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getBins, putDeleteBins } from '../../services/batimentService';
 import BinForm from '../batiment/bins/binsForm/BinForm';
 import AdresseForm from '../adresse/adresseForm/AdresseForm';
+import TabPane from 'antd/es/tabs/TabPane';
+import Adresse from '../adresse/Adresse';
 
 const { Search } = Input;
 
@@ -19,6 +21,8 @@ const ListBinGlobal = () => {
     current: 1,
     pageSize: 15,
   });
+  const [activeKey, setActiveKey] = useState(['1', '2']);
+
 
   const handleEdit = (id) => {
     setIdBins(id)
@@ -214,6 +218,10 @@ const ListBinGlobal = () => {
       ),
     },
   ];
+
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
   
 
   const filteredData = data.filter(item =>
@@ -223,77 +231,105 @@ const ListBinGlobal = () => {
 
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <BankOutlined className='client-icon'/>
+        <Tabs
+          activeKey={activeKey[0]}
+          onChange={handleTabChange}
+          type="card"
+          tabPosition="top"
+          renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+        >
+          <TabPane
+            tab={
+              <span>
+                <ApartmentOutlined style={{ color: '#722ed1' }} /> Liste des bins
+              </span>
+            }
+            key="1"
+          >
+            <div className="client">
+                <div className="client-wrapper">
+                  <div className="client-row">
+                    <div className="client-row-icon">
+                      <BankOutlined className='client-icon'/>
+                    </div>
+                    <h2 className="client-h2">Bins</h2>
+                  </div>
+                  <div className="client-actions">
+                    <div className="client-row-left">
+                      <Search placeholder="Recherche..." 
+                        enterButton 
+                        onChange={(e) => setSearchValue(e.target.value)}
+                      />
+                    </div>
+                    <div className="client-rows-right">
+        {/*               <Button
+                        type="primary"
+                        icon={<PlusCircleOutlined />}
+                        onClick={handleAddClient}
+                      >
+                        Entrepot
+                      </Button> */}
+                      <Dropdown overlay={menu} trigger={['click']} className='client-export'>
+                        <Button icon={<ExportOutlined />}>Export</Button>
+                      </Dropdown>
+                      <Button
+                        icon={<PrinterOutlined />}
+                        onClick={handlePrint}
+                        className='client-export'
+                      >
+                        Print
+                      </Button>
+                    </div>
+                  </div>
+                  <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
+                    rowKey="key"
+                    bordered
+                    size="middle"
+                    scroll={scroll}
+                    loading={loading}
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                  />
+                </div>
             </div>
-            <h2 className="client-h2">Bins</h2>
-          </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search placeholder="Recherche..." 
-                enterButton 
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-            </div>
-            <div className="client-rows-right">
-{/*               <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
-              >
-                Entrepot
-              </Button> */}
-              <Dropdown overlay={menu} trigger={['click']} className='client-export'>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-                className='client-export'
-              >
-                Print
-              </Button>
-            </div>
-          </div>
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            pagination={pagination}
-            onChange={(pagination) => setPagination(pagination)}
-            rowKey="key"
-            bordered
-            size="middle"
-            scroll={scroll}
-            loading={loading}
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-          />
-        </div>
-      </div>
 
-    <Modal
-        title=""
-        visible={modalType === 'Add'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={650}
-        centered
-    >
-         <BinForm idBatiment={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData} idBins={idBins}/>
-    </Modal>
+            <Modal
+                title=""
+                visible={modalType === 'Add'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={650}
+                centered
+            >
+                <BinForm idBatiment={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData} idBins={idBins}/>
+            </Modal>
 
-    <Modal
-        title=""
-        visible={modalType === 'Addresse'}
-        onCancel={closeAllModals}
-        width={700}
-        footer={null}
-        centered
-      >
-        <AdresseForm closeModal={()=>setModalType(null)} fetchData={fetchData} idBin={idBins}  />
-      </Modal>
+            <Modal
+              title=""
+              visible={modalType === 'Addresse'}
+              onCancel={closeAllModals}
+              width={700}
+              footer={null}
+              centered
+            >
+              <AdresseForm closeModal={()=>setModalType(null)} fetchData={fetchData} idBin={idBins}  />
+            </Modal> 
+          </TabPane>
+
+          <TabPane
+            tab={
+              <span>
+                <EnvironmentOutlined style={{ color: 'red' }} /> Liste des adresses
+              </span>
+            }
+            key="2"
+          >
+            <Adresse/>
+          </TabPane>
+        </Tabs>
     </>
   );
 };
