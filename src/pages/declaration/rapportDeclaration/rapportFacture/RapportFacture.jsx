@@ -4,6 +4,7 @@ import { Button, notification, Space, Table, Tag } from 'antd';
 import { getRapportFacture } from '../../../../services/templateService';
 import moment from 'moment';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
+import RapportFactureChart from './rapportFactureChart/RapportFactureChart';
 
 const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ const RapportFacture = () => {
       });
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
-
+    const [ uniqueMonths, setUniqueMonths] = useState([]);
       const fetchData = async () => {
         try {
           const { data } = await getRapportFacture(filteredDatas);
@@ -46,6 +47,8 @@ const RapportFacture = () => {
             }
             return acc;
           }, []);
+
+          setUniqueMonths(uniqueMonths)
       
           const generatedColumns = [
             {
@@ -58,7 +61,7 @@ const RapportFacture = () => {
                 return (pageIndex - 1) * pageSize + index + 1;
               },
               width: "4%",
-              align: 'right', // Les données restent alignées à droite
+              align: 'right',
             },
             {
               title: "Client",
@@ -169,6 +172,9 @@ const RapportFacture = () => {
                     onChange={(pagination) => setPagination(pagination)}
                 />
             </div>
+        </div>
+        <div className="rappoty_chart">
+            <RapportFactureChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
         </div>
     </>
   )
