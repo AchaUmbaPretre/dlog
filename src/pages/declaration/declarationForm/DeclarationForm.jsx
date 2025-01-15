@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton } from 'antd';
+import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton, Divider } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
@@ -179,7 +179,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
             <div className="declaration-wrapper">
                 <div className="declaration-left">
 
-                    <Form
+                <Form
                     form={form}
                     name="declaration_form"
                     layout="vertical"
@@ -210,258 +210,257 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                             });
                             }
                         }}
+
+                        style={{width:'100%'}}
                     >
-                    <Tabs
-                        activeKey={activeKey[0]}
-                        onChange={handleTabChange}
-                        type="card"
-                        tabPosition="top"
-                        renderTabBar={(props, DefaultTabBar) => (
-                        <DefaultTabBar {...props} />
-                        )}
-                    >
-                        <TabPane tab="Section Entreposage" key="1">
-                        <Form.Item
-                            name="id_template"
-                            label="Template"
-                            rules={[{ required: true, message: "Veuillez entrer l'ID Template Occupé" }]}
-                        >
-                            { isLoading ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                showSearch
-                                options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
-                                placeholder="Sélectionnez..."
-                                onChange={setIdTemplate}
-                                optionFilterProp="label"
-                            />
-                                }
-                        </Form.Item>
 
-                        <Form.Item
-                            name="periode"
-                            label="Période"
-                            rules={[{ required: true, message: "Veuillez entrer la période" }]}
-                        >
-                            <DatePicker
-                            picker="month"
-                            placeholder="Sélectionnez le mois"
-                            format="YYYY-MM-DD"
-                            style={{ width: '100%' }}
-                            onChange={(date, dateString) => setPeriode(dateString)}
-                            />
-                        </Form.Item>
+                        <div style={{display:'flex', gap:'20px', width:'100%'}}>
+                            <div style={{flex:'1'}}>
+                                <Divider  style={{ fontSize:'16px', fontWeight:'600', color:'#1890ff', marginBottom :'16px', border:'1px solid #1890ff', borderRadius:'5px', padding:'4px'}} className='title_row' orientation="Center" plain>Section Entreposage</Divider>
 
-                        <Form.Item
-                            name="m2_occupe"
-                            label="M² Occupé"
-                            rules={[{ required: false, message: "Veuillez entrer la superficie occupée" }]}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Occupé" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
-                        </Form.Item>
+                                <Form.Item
+                                    name="id_template"
+                                    label="Template"
+                                    rules={[{ required: true, message: "Veuillez entrer l'ID Template Occupé" }]}
+                                >
+                                    { isLoading ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                        showSearch
+                                        options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
+                                        placeholder="Sélectionnez..."
+                                        onChange={setIdTemplate}
+                                        optionFilterProp="label"
+                                    />
+                                        }
+                                </Form.Item>
 
-                        <Form.Item
-                            name="m2_facture"
-                            label="M² Facturé"
-                            rules={[{ required: false, message: "Veuillez entrer la superficie facturée" }]}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Facturé" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
-                        </Form.Item>
+                                <Form.Item
+                                    name="periode"
+                                    label="Période"
+                                    rules={[{ required: true, message: "Veuillez entrer la période" }]}
+                                >
+                                    <DatePicker
+                                    picker="month"
+                                    placeholder="Sélectionnez le mois"
+                                    format="YYYY-MM-DD"
+                                    style={{ width: '100%' }}
+                                    onChange={(date, dateString) => setPeriode(dateString)}
+                                    />
+                                </Form.Item>
 
-                        <Form.Item
-                            name="tarif_entreposage"
-                            label="Tarif Entreposage"
-                            rules={[{ required: false, message: "Veuillez entrer le tarif d'entreposage" }]}
-                        >
-                            <InputNumber 
-                                min={0} style={{ width: '100%' }} placeholder="Tarif Entreposage" 
-                                parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
-                            />
-                        </Form.Item>
+                                <Form.Item
+                                    name="m2_occupe"
+                                    label="M² Occupé"
+                                    rules={[{ required: false, message: "Veuillez entrer la superficie occupée" }]}
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Occupé" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                                </Form.Item>
 
-                        <Form.Item
-                            name="entreposage"
-                            label="Entreposage"
-                            rules={[{ required: false, message: "Veuillez entrer l'Entreposage" }]}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Entreposage" />
-                        </Form.Item>
+                                <Form.Item
+                                    name="m2_facture"
+                                    label="M² Facturé"
+                                    rules={[{ required: false, message: "Veuillez entrer la superficie facturée" }]}
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Facturé" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                                </Form.Item>
 
-                        <Form.Item
-                            name="debours_entreposage"
-                            label="Débours"
-                            rules={[{ required: false, message: "Veuillez entrer les débours" }]}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
-                        </Form.Item>
-                        <div style={{display:'flex', gap:'10px', alignItems:'center', width:'100%'}}>
-                        <Form.Item
-                            name="total_entreposage"
-                            label="Total"
-                            rules={[{ required: false, message: "Veuillez entrer le total" }]}
-                            style={{flex:'6'}}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
-                                onChange={(value) => {
-                                        form.setFieldsValue({
-                                        total_entreposage: value,
-                                        });
-                                 }} 
-                            />
-                        </Form.Item>
-                        <Button
-                            type="default"
-                            style={{ marginLeft: '10px', flex:'1' }}
-                            onClick={() => {
-                                const m2Facture = parseFloat(form.getFieldValue('m2_facture')) || 0;
-                                const tarifEntreposage = parseFloat(form.getFieldValue('tarif_entreposage')) || 0;
-                                const entreposageVal = parseFloat(form.getFieldValue('entreposage')) || 0;
-                                
-                                const totalEntreposage = (m2Facture * tarifEntreposage) + entreposageVal;
-                                form.setFieldsValue({
-                                total_entreposage: totalEntreposage.toFixed(2),
-                                });
+                                <Form.Item
+                                    name="tarif_entreposage"
+                                    label="Tarif Entreposage"
+                                    rules={[{ required: false, message: "Veuillez entrer le tarif d'entreposage" }]}
+                                >
+                                    <InputNumber 
+                                        min={0} style={{ width: '100%' }} placeholder="Tarif Entreposage" 
+                                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
+                                    />
+                                </Form.Item>
 
-                                const ttcEntreposage = totalEntreposage * 1.16;
-                                form.setFieldsValue({
-                                ttc_entreposage: ttcEntreposage.toFixed(2),
-                                });
-                            }}
-                        >
-                            +
-                        </Button>
+                                <Form.Item
+                                    name="entreposage"
+                                    label="Entreposage"
+                                    rules={[{ required: false, message: "Veuillez entrer l'Entreposage" }]}
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Entreposage" />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="debours_entreposage"
+                                    label="Débours"
+                                    rules={[{ required: false, message: "Veuillez entrer les débours" }]}
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                                </Form.Item>
+                                    <div style={{display:'flex', gap:'10px', alignItems:'center', width:'100%'}}>
+        <Form.Item
+            name="total_entreposage"
+            label="Total"
+            rules={[{ required: false, message: "Veuillez entrer le total" }]}
+            style={{flex:'6'}}
+        >
+            <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
+                onChange={(value) => {
+                        form.setFieldsValue({
+                        total_entreposage: value,
+                        });
+                }} 
+            />
+        </Form.Item>
+        <Button
+            type="default"
+            style={{ marginLeft: '10px', flex:'1' }}
+            onClick={() => {
+                const m2Facture = parseFloat(form.getFieldValue('m2_facture')) || 0;
+                const tarifEntreposage = parseFloat(form.getFieldValue('tarif_entreposage')) || 0;
+                const entreposageVal = parseFloat(form.getFieldValue('entreposage')) || 0;
+                
+                const totalEntreposage = (m2Facture * tarifEntreposage) + entreposageVal;
+                form.setFieldsValue({
+                total_entreposage: totalEntreposage.toFixed(2),
+                });
+
+                const ttcEntreposage = totalEntreposage * 1.16;
+                form.setFieldsValue({
+                ttc_entreposage: ttcEntreposage.toFixed(2),
+                });
+            }}
+        >
+            +
+        </Button>
+                                    </div>
+
+                                <Form.Item
+                                    name="ttc_entreposage"
+                                    label="TTC"
+                                    rules={[{ required: false, message: "Veuillez entrer le TTC" }] }
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="TTC" onChange={(value) => {
+                                                form.setFieldsValue({
+                                                ttc_entreposage: value,
+                                                });
+                                        }}  />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="desc_entreposage"
+                                    label="Observation"
+                                >
+                                    <Input.TextArea rows={4} placeholder="Observation" />
+                                </Form.Item>
+                            </div>
+
+                            <div style={{flex:'1'}}>
+                                <Divider style={{ fontSize:'16px', fontWeight:'600', color:'#1890ff', marginBottom :'16px', border:'1px solid #1890ff', borderRadius:'5px', padding:'4px'}} className='title_row' orientation="center" plain>Section Manutention</Divider>
+
+                                <Form.Item
+                                    name="id_ville"
+                                    label="Ville"
+                                    rules={[{ required: true, message: "Veuillez entrer l'ID de la ville" }]}
+                                >
+                                    <Select
+                                        showSearch
+                                        options={province.map(item => ({ value: item.id, label: item.capital }))}
+                                        placeholder="Sélectionnez..."
+                                        optionFilterProp="label"
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="id_client"
+                                    label="Client"
+                                    rules={[{ required: true, message: "Veuillez entrer l'ID du client" }]}
+                                >
+                                    <Select
+                                    showSearch
+                                    options={client.map(item => ({ value: item.id_client, label: item.nom }))}
+                                    placeholder="Sélectionnez..."
+                                    optionFilterProp="label"
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="id_batiments"
+                                    label="Bâtiment"
+                                    rules={[{ required: false, message: "Veuillez entrer l'ID du bâtiment" }]}
+                                >
+                                    <Select
+                                    mode="multiple"
+                                    showSearch
+                                    options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
+                                    placeholder="Sélectionnez..."
+                                    optionFilterProp="label"
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="id_objet"
+                                    label="Objet"
+                                    rules={[{ required: false, message: "Veuillez sélectionner un objet" }]}
+                                >
+                                    <Select
+                                    showSearch
+                                    placeholder="Sélectionnez un objet"
+                                    options={objet
+                                        .filter(item => item.nom_objet_fact.toLowerCase() !== 'superficie') // Filtrer "superficie"
+                                        .map(item => ({
+                                        value: item.id_objet_fact,
+                                        label: item.nom_objet_fact
+                                        }))
+                                    }
+                                    optionFilterProp="label"
+                                    filterOption={(input, option) => 
+                                        option.label.toLowerCase().includes(input.toLowerCase())
+                                    }
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="manutation"
+                                    label="Manutation"
+                                    rules={[{ required: false, message: "Veuillez entrer la manutention" }]}
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Manutention" />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="tarif_manutation"
+                                    label="Tarif Manutation"
+                                    rules={[{ required: false, message: "Veuillez entrer le tarif de manutention" }]}
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Tarif Manutation" />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="debours_manutation"
+                                    label="Débours"
+                                    rules={[{ required: false, message: "Veuillez entrer les débours" }]}
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="total_manutation"
+                                    label="Total"
+                                    rules={[{ required: false, message: "Veuillez entrer le total" }]}
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="ttc_manutation"
+                                    label="TTC"
+                                    rules={[{ required: false, message: "Veuillez entrer le TTC" }]}
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="TTC" />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="desc_manutation"
+                                    label="Observation"
+                                >
+                                    <Input.TextArea rows={4} placeholder="Observation" />
+                                </Form.Item>
+                            </div>
                         </div>
-
-                        <Form.Item
-                            name="ttc_entreposage"
-                            label="TTC"
-                            rules={[{ required: false, message: "Veuillez entrer le TTC" }] }
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="TTC" onChange={(value) => {
-                                        form.setFieldsValue({
-                                        ttc_entreposage: value,
-                                        });
-                                 }}  />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="desc_entreposage"
-                            label="Observation"
-                        >
-                            <Input.TextArea rows={4} placeholder="Observation" />
-                        </Form.Item>
-                        </TabPane>
-
-                        <TabPane tab="Section Manutention" key="2">
-                        <Form.Item
-                            name="id_ville"
-                            label="Ville"
-                            rules={[{ required: true, message: "Veuillez entrer l'ID de la ville" }]}
-                        >
-                            <Select
-                                showSearch
-                                options={province.map(item => ({ value: item.id, label: item.capital }))}
-                                placeholder="Sélectionnez..."
-                                optionFilterProp="label"
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="id_client"
-                            label="Client"
-                            rules={[{ required: true, message: "Veuillez entrer l'ID du client" }]}
-                        >
-                            <Select
-                            showSearch
-                            options={client.map(item => ({ value: item.id_client, label: item.nom }))}
-                            placeholder="Sélectionnez..."
-                            optionFilterProp="label"
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="id_batiments"
-                            label="Bâtiment"
-                            rules={[{ required: false, message: "Veuillez entrer l'ID du bâtiment" }]}
-                        >
-                            <Select
-                            mode="multiple"
-                            showSearch
-                            options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
-                            placeholder="Sélectionnez..."
-                            optionFilterProp="label"
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="id_objet"
-                            label="Objet"
-                            rules={[{ required: false, message: "Veuillez sélectionner un objet" }]}
-                        >
-                            <Select
-                            showSearch
-                            placeholder="Sélectionnez un objet"
-                            options={objet
-                                .filter(item => item.nom_objet_fact.toLowerCase() !== 'superficie') // Filtrer "superficie"
-                                .map(item => ({
-                                value: item.id_objet_fact,
-                                label: item.nom_objet_fact
-                                }))
-                            }
-                            optionFilterProp="label"
-                            filterOption={(input, option) => 
-                                option.label.toLowerCase().includes(input.toLowerCase())
-                            }
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="manutation"
-                            label="Manutation"
-                            rules={[{ required: false, message: "Veuillez entrer la manutention" }]}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Manutention" />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="tarif_manutation"
-                            label="Tarif Manutation"
-                            rules={[{ required: false, message: "Veuillez entrer le tarif de manutention" }]}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Tarif Manutation" />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="debours_manutation"
-                            label="Débours"
-                            rules={[{ required: false, message: "Veuillez entrer les débours" }]}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="total_manutation"
-                            label="Total"
-                            rules={[{ required: false, message: "Veuillez entrer le total" }]}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="ttc_manutation"
-                            label="TTC"
-                            rules={[{ required: false, message: "Veuillez entrer le TTC" }]}
-                        >
-                            <InputNumber min={0} style={{ width: '100%' }} placeholder="TTC" />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="desc_manutation"
-                            label="Observation"
-                        >
-                            <Input.TextArea rows={4} placeholder="Observation" />
-                        </Form.Item>
-                        </TabPane>
-                    </Tabs>
 
                     <Form.Item>
                         <Button
