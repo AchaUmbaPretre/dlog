@@ -53,19 +53,17 @@ const ListBinGlobal = () => {
     fetchData();
   }, []);
 
-  const handleAddresse = () => openModal('Addresse');
+  const handleAddresse = (idBin) => openModal('Addresse', idBin);
+  const handleAdd = () => openModal('Add');
 
 
   const closeAllModals = () => {
     setModalType(null);
   };
 
-  const openModal = (type) => {
+  const openModal = (type, idBin = '') => {
     setModalType(type);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
+    setIdBins(idBin)
   };
 
   const handleExportExcel = () => {
@@ -266,8 +264,8 @@ const ListBinGlobal = () => {
 
     <Modal
         title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'Add'}
+        onCancel={closeAllModals}
         footer={null}
         width={650}
         centered
@@ -282,7 +280,7 @@ const ListBinGlobal = () => {
         width={900}
         centered
       >
-        <AdresseForm closeModal={()=>setModalType(null)} fetchData={fetchData}  />
+        <AdresseForm closeModal={()=>setModalType(null)} fetchData={fetchData} idBin={idBins}  />
       </Modal>
     </>
   );

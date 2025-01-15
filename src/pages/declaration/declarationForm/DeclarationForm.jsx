@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip } from 'antd';
+import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
@@ -99,6 +99,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                 message: 'Erreur de chargement',
                 description: 'Une erreur est survenue lors du chargement des données.',
             });
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -146,7 +148,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                     message: 'Succès',
                     description: 'Les informations ont été modifiées avec succès.',
                 });
-                
+
                 window.location.reload()
             }
             else{
@@ -224,13 +226,15 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                             label="Template"
                             rules={[{ required: true, message: "Veuillez entrer l'ID Template Occupé" }]}
                         >
-                            <Select
-                            showSearch
-                            options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
-                            placeholder="Sélectionnez..."
-                            onChange={setIdTemplate}
-                            optionFilterProp="label"
+                            { isLoading ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                showSearch
+                                options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
+                                placeholder="Sélectionnez..."
+                                onChange={setIdTemplate}
+                                optionFilterProp="label"
                             />
+                                }
                         </Form.Item>
 
                         <Form.Item

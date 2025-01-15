@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, notification, Select } from 'antd';
-import { getBins, postAdresse } from '../../../services/batimentService';
+import { getBins, getBinsOneV, postAdresse } from '../../../services/batimentService';
 
-const AdresseForm = ({closeModal, fetchData}) => {
+const AdresseForm = ({closeModal, fetchData, idBin}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
@@ -15,6 +15,13 @@ const AdresseForm = ({closeModal, fetchData}) => {
         ])
         setBatiment(binData.data)
 
+        if (idBin) {
+          const {data} = await getBinsOneV(idBin)
+          form.setFieldsValue({
+            id_bin : data[0].id
+        })
+        }
+
     } catch (error) {
         notification.error({
             message: 'Erreur de chargement',
@@ -25,7 +32,7 @@ const AdresseForm = ({closeModal, fetchData}) => {
 
 useEffect(() => {
   fetchDataAll()
-}, []);
+}, [idBin]);
 
   const onFinish = async(values) => {
     setLoading(true)
