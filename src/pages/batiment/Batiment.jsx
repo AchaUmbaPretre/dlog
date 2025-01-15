@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Tabs } from 'antd';
-import { ExportOutlined, MoreOutlined,AreaChartOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, MoreOutlined,HomeOutlined,DatabaseOutlined,LineChartOutlined,TeamOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment, putDeleteBatiment } from '../../services/typeService';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
@@ -17,7 +17,6 @@ import ListeEquipement from './equipement/listeEquipement/ListeEquipement';
 import Entrepots from './entrepots/Entrepots';
 import FormEntrepots from './entrepots/formEntrepots/FormEntreports';
 import { useSelector } from 'react-redux';
-import Niveau from './niveau/Niveau';
 import NiveauForm from './niveau/niveauForm/NiveauForm';
 import Denomination from './denomination/Denomination';
 import DenominationForm from './denomination/denominationForm/DenominationForm';
@@ -410,92 +409,70 @@ const Batiment = () => {
         onChange={handleTabChange}
         type="card"
         tabPosition="top"
-        renderTabBar={(props, DefaultTabBar) => (
-          <DefaultTabBar {...props} />
-        )}
+        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
       >
         <TabPane
           tab={
-                <span>
-                  <AreaChartOutlined /> Liste de bins
-                </span>
-              }
-              key="1"
-          >
-            
-        </TabPane>
-        <TabPane
-          tab={
-                <span>
-                  <AreaChartOutlined /> Liste des equipements
-                </span>
-              }
-              key="2"
-          >
-            
-        </TabPane>
-        <TabPane
-          tab={
-                <span>
-                  <AreaChartOutlined /> Liste des equipements
-                </span>
-              }
-              key="3"
-          >
-            
-        </TabPane>
-        <TabPane
-          tab={
-                <span>
-                  <AreaChartOutlined /> Liste des bureaux
-                </span>
-              }
-              key="4"
-          >
-            
-        </TabPane>
-        <TabPane
-          tab={
-                <span>
-                  <AreaChartOutlined /> Liste des niveaux
-                </span>
-              }
-              key="5"
-          >
-            
+            <span>
+              <BankOutlined  /> Liste des batiments
+            </span>
+          }
+          key="1"
+        >
+          {/* Contenu pour Liste de bins */}
         </TabPane>
 
         <TabPane
           tab={
-                <span>
-                  <AreaChartOutlined /> Liste des dénominations
-                </span>
-              }
-              key="6"
-          >
-            
+            <span>
+              <ApartmentOutlined /> Liste des bureaux
+            </span>
+          }
+          key="2"
+        >
+          {/* Contenu pour Liste des bureaux */}
+        </TabPane>
+        <TabPane
+          tab={
+            <span>
+              <TeamOutlined /> Liste des niveaux
+            </span>
+          }
+          key="3"
+        >
+          {/* Contenu pour Liste des niveaux */}
+        </TabPane>
+        <TabPane
+          tab={
+            <span>
+              <LineChartOutlined /> Liste des dénominations
+            </span>
+          }
+          key="4"
+        >
+          {/* Contenu pour Liste des dénominations */}
         </TabPane>
 
         <TabPane
           tab={
-                <span>
-                  <AreaChartOutlined /> Liste des adresses
-                </span>
-              }
-              key="7"
-          >
-            
+            <span>
+              <HomeOutlined /> Liste des adresses
+            </span>
+          }
+          key="5"
+        >
+          {/* Contenu pour Liste des adresses */}
         </TabPane>
 
         <TabPane
           tab={
-                <span>
-                  <AreaChartOutlined /> Liste des inspections
-                </span>
-              }
-              key="8"
-          >
-            
+            <span>
+              <EnvironmentOutlined /> Liste des inspections
+            </span>
+          }
+          key="6"
+        >
+          {/* Contenu pour Liste des inspections */}
         </TabPane>
       </Tabs>
       <div className="client">
