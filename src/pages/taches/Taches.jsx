@@ -1019,6 +1019,7 @@ const handleEdit = (idTache) => {
                   rowKey="id_tache"
                   size="small"
                   bordered
+                  rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                   pagination={pagination}
                   onChange={(pagination) => setPagination(pagination)}
                   loading={loading}

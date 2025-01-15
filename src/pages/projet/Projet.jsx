@@ -30,8 +30,10 @@ const Projet = () => {
   const [form] = Form.useForm();
   const scroll = { x: 400 };
   const role = useSelector((state) => state.user?.currentUser.role);
-
-
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 15,
+  });
 
   const handleEdit = (id) => {
     openModal('edit', id)
@@ -158,12 +160,16 @@ const Projet = () => {
 
 
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id_budget', 
-      key: 'id_budget', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     {
       title: 'Client',
@@ -349,6 +355,7 @@ const Projet = () => {
             scroll={scroll}
             size="small"
             bordered
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
         </div>
       </div>

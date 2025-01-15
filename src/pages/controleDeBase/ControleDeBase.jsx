@@ -356,6 +356,7 @@ const groupByControle = (data) => {
                   }}
                   bordered
                   size="small"
+                  rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                 />
               </div>
             </Tabs.TabPane>

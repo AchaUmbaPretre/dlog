@@ -375,7 +375,7 @@ const Template = () => {
             onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
             bordered
-            size="middle"
+            size="small"
             scroll={scroll}
             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />

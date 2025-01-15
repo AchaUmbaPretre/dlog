@@ -12,6 +12,10 @@ const ListeTracking = ({ idTache }) => {
   const [data, setData] = useState([]);
   const [nameTache, setNameTache] = useState('');
   const [modalType, setModalType] = useState(null);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
   const fetchData = async () => {
     setLoading(true);
@@ -68,7 +72,17 @@ const ListeTracking = ({ idTache }) => {
   };
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
+    },
     { title: 'Titre', dataIndex: 'nom_tache', key: 'nom_tache', render: (text) => <Tag color="green">{text}</Tag> },
     { title: 'Statut', dataIndex: 'nom_type_statut', key: 'nom_type_statut', render: (text) => <Tag color="blue">{text}</Tag> },
     { title: 'Commentaire', dataIndex: 'commentaire', key: 'commentaire', render: (text) => <Tag color="blue">{text}</Tag> },
@@ -119,10 +133,12 @@ const ListeTracking = ({ idTache }) => {
           <Table
             columns={columns}
             dataSource={data}
-            pagination={{ pageSize: 10 }}
+            pagination={pagination}
             rowKey="id"
             bordered
-            size="middle"
+            size="small"
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+            onChange={(pagination) => setPagination(pagination)}
           />
         )}
       </div>

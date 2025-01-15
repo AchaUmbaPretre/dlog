@@ -524,9 +524,10 @@ const Declaration = () => {
             loading={loading}
             pagination={pagination}
             onChange={(pagination) => setPagination(pagination)}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             rowKey="id"
             bordered
-            size="middle"
+            size="small"
             scroll={scroll}
           />
         </div>

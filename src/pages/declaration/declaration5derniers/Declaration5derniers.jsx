@@ -323,12 +323,13 @@ const Declaration5derners = () => {
             </div>
             <Table
                 columns={columns}
-                            dataSource={data}
-                            loading={loading}
-                            pagination={{ pageSize: 8 }}
-                            rowKey="id"
-                            bordered
-                            size="middle"
+                dataSource={data}
+                loading={loading}
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                pagination={{ pageSize: 8 }}
+                rowKey="id"
+                bordered
+                size="middle"
                 scroll={scroll}
             /> 
         </div>
