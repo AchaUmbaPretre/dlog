@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { ResponsiveLine } from '@nivo/line';
 
-const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
+const RapportManuChart = ({ groupedData, uniqueMonths }) => {
 
     // Générer les données pour le graphique
     const generateNivoData = () => {
@@ -33,7 +33,7 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
     return (
         <div style={{ width: '100%', textAlign: 'center' }}>
             <h2 style={{ fontSize: '1rem', fontWeight: '300', marginBottom: '15px', borderBottom:'2px solid #e8e8e8', paddingBottom:'10px' }}>
-                CHART DE RAPPORT ENTREPOSAGE
+                CHART DE RAPPORT MANUTENTION
             </h2>
 
             <div style={{ height: 400 }}>
@@ -70,4 +70,4 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
     );
 };
 
-export default RapportEntreposageChart;
+export default RapportManuChart;

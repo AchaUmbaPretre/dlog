@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { notification, Space, Table, Tag } from 'antd';
 import moment from 'moment';
 import { getRapportManutentation } from '../../../../services/templateService';
+import RapportManuChart from './rapportManuChart/RapportManuChart';
 
 
 const RapportManu = () => {
@@ -9,6 +10,8 @@ const RapportManu = () => {
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
     const scroll = { x: 400 };
+    const [ uniqueMonths, setUniqueMonths] = useState([]);
+
 
     const fetchData = async () => {
         try {
@@ -23,6 +26,9 @@ const RapportManu = () => {
             const [monthB, yearB] = b.split("-");
             return yearA - yearB || monthA - monthB;
           });
+
+          setUniqueMonths(uniqueMonths)
+
   
           // Générer dynamiquement les colonnes avec le nom abrégé du mois
           const generatedColumns = [
@@ -141,6 +147,9 @@ const RapportManu = () => {
                     loading={loading}
                     size="small"
                 />
+            </div>
+            <div className="rapport_chart" style={{marginTop:'40px'}}>
+                <RapportManuChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
             </div>
         </div>
     </>

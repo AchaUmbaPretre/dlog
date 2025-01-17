@@ -58,7 +58,7 @@ const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
           axisBottom={{
             tickSize: 5,
             tickPadding: 5,
-            tickRotation: -45, // Rotation des ticks pour une meilleure lisibilité
+            tickRotation: -45,
           }}
           axisLeft={{
             tickSize: 5,
@@ -68,7 +68,7 @@ const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
             legendOffset: -40
           }}
           tooltip={(data) => (
-            <strong>{`${data.id}: ${data.value} $`}</strong>
+            <strong>{`${data.id}: ${data.value}`}</strong>
           )}
           theme={{
             axis: {

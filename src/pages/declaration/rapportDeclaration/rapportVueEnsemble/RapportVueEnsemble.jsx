@@ -3,6 +3,7 @@ import { Button, notification, Space, Table, Tag } from 'antd';
 import moment from 'moment';
 import { getRapportVille } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
+import RapportVueEnsembleChart from './rapportVueEnsembleChart/RapportVueEnsembleChart';
 
 
 const RapportVueEnsemble = () => {
@@ -16,6 +17,8 @@ const RapportVueEnsemble = () => {
     const [filterVisible, setFilterVisible] = useState(false);
     const [filteredDatas, setFilteredDatas] = useState(null);
     const scroll = { x: 400 };
+    const [ uniqueMonths, setUniqueMonths] = useState([]);
+
 
     const fetchData = async () => {
         try {
@@ -178,6 +181,9 @@ const RapportVueEnsemble = () => {
                 />
             </div>
         </div>
+{/*         <div className="rapport_chart">
+            <RapportVueEnsembleChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+        </div> */}
     </>
   )
 }
