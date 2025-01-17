@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { ResponsiveLine } from '@nivo/line';
 
@@ -22,8 +22,8 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
             });
 
             return {
-                id: client.Client,  // Identifiant basé sur le client
-                data: data  // Données pour ce client
+                id: client.Client,
+                data: data
             };
         });
     };
