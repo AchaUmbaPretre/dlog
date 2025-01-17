@@ -57,7 +57,7 @@ const RapportVueEnsemble = () => {
                 const pageIndex = pagination.current || 1;
                 return (pageIndex - 1) * pageSize + index + 1;
               },
-              align: 'right', // Aligner à droite pour cette colonne
+              align: 'right',
             },
             {
               title: "Mois",

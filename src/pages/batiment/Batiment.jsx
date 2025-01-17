@@ -595,19 +595,19 @@ const Batiment = () => {
         visible={modalType === 'addEquipement'}
         onCancel={closeAllModals}
         footer={null}
-        width={700}
+        width={800}
         centered
       >
         <EquipementForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
       </Modal>
 
        <Modal
-            title=""
-            visible={modalType === 'listeEquipement'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1050}
-            centered
+          title=""
+          visible={modalType === 'listeEquipement'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1050}
+          centered
         >
           <ListeEquipement idBatiment={idBatiment} />
         </Modal>

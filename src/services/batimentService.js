@@ -290,6 +290,10 @@ export const getAdresse = async () => {
   return axios.get(`${DOMAIN}/api/batiment/adresse`);
 };
 
+export const getAdresseBinOne = async (id) => {
+  return axios.get(`${DOMAIN}/api/batiment/adresseBinOne?id_bin=${id}`);
+};
+
 export const postAdresse = async (data) => {
   return axios.post(`${DOMAIN}/api/batiment/adresse`, data);
   };

@@ -19,6 +19,10 @@ const ListeEquipementGlobal = () => {
   const [idEquipement, setIdEquipement] = useState('');
   const [nameBatiment, setNameBatiment] = useState('');
   const [searchValue, setSearchValue] = useState('');
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 15,
+  });
 
     const fetchData = async () => {
       try {
@@ -85,8 +89,12 @@ const ListeEquipementGlobal = () => {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     {
       title: 'Equipement',
@@ -94,6 +102,22 @@ const ListeEquipementGlobal = () => {
       key: 'nom_article',
       render: (text) => (
         <Tag icon={<ToolOutlined  />} color="green">{text ?? 'Aucun'}</Tag>
+      ),
+    },
+    {
+      title: 'Bin',
+      dataIndex: 'nom_bin',
+      key: 'nom_bin',
+      render: (text) => (
+        <Tag icon={<EnvironmentOutlined  />} color="red">{text ?? 'Aucun'}</Tag>
+      ),
+    },
+    {
+      title: 'Adresse',
+      dataIndex: 'adresse',
+      key: 'adresse',
+      render: (text) => (
+        <Tag icon={<EnvironmentOutlined  />} color="red">{text ?? 'Aucun'}</Tag>
       ),
     },
     {
@@ -251,10 +275,11 @@ const ListeEquipementGlobal = () => {
             columns={columns}
             dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 15 }}
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
             bordered
-            size="middle"
+            size="small"
             scroll={scroll}
           />
         </div>

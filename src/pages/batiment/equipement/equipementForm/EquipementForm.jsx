@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
-import { getBinsOne, getEquipementOneV, getStatutEquipement,postEquipement, putEquipement } from '../../../../services/batimentService';
+import { getAdresseBinOne, getBinsOne, getEquipementOneV, getStatutEquipement,postEquipement, putEquipement } from '../../../../services/batimentService';
 import moment from 'moment';
 import { getArticle, getBatimentOne } from '../../../../services/typeService';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -13,6 +14,9 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
   const [typeEquipement, setTypeEquipement] = useState([]);
   const [batimentName, setBatimentName] = useState('');
   const [bins, setBins] = useState([]);
+  const [idBin, setIdBin] = useState('');
+  const [adresse, setAdresse] = useState([]);
+  const navigate = useNavigate();
 
   const handleError = (message) => {
     notification.error({
@@ -32,7 +36,12 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
 
             setTypeEquipement(typeData.data);
             setStatutEquipement(statutData.data);
-            setBins(binData.data)
+            setBins(binData.data);
+
+            if(idBin) {
+              const { data } = await getAdresseBinOne(idBin)
+              setAdresse(data)
+            }
 
             if (idEquipement) {
               const { data } = await getEquipementOneV(idEquipement);
@@ -51,7 +60,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
     };
 
     fetchData();
-}, [idBatiment, form]);
+}, [idBatiment, form, idBin]);
 
   const handleSubmit = async(values) => {
     setIsLoading(true);
@@ -76,8 +85,9 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
     });
       }
 
-         fetchData();
+        fetchData();
         closeModal();
+        navigate('/liste_equipement');
         form.resetFields();
     } catch (error) {
         notification.error({
@@ -92,7 +102,7 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className='controle_h2'>Ajouter un équipement au {batimentName}</h2>                
+        <h2 className='controle_h2'>Ajouter un équipement</h2>                
       </div>
       <Form
         form={form}
@@ -186,12 +196,34 @@ const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => 
                 }))}
                 placeholder="Emplacement de l'équipement (facultatif)"
                 optionFilterProp="label"
+                onChange={setIdBin}
             />
           </Form.Item>
         </Col>
 
         {/* status */}
         <Col span={12}>
+          <Form.Item
+            label="Adresse"
+            name="location"
+            rules={[{ required: true, message: 'Veuillez sélectionner une adresse' }]}
+          >
+            <Select
+                showSearch
+                options={adresse?.map((item) => ({
+                    value: item.id_adresse,
+                    label: item.adresse,
+                }))}
+                placeholder="Emplacement de l'équipement (facultatif)"
+                optionFilterProp="label"
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <Row gutter={16}>
+        {/* status */}
+        <Col span={24}>
           <Form.Item
             label="Statut"
             name="status"

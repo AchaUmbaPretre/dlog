@@ -18,6 +18,7 @@ const RapportFacture = () => {
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
     const [ uniqueMonths, setUniqueMonths] = useState([]);
+    
       const fetchData = async () => {
         try {
           const { data } = await getRapportFacture(filteredDatas);

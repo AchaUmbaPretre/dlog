@@ -37,7 +37,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <AreaChartOutlined /> M² Facturé
+                                <AreaChartOutlined style={{ color: '#13c2c2' }} /> M² Facturé
                             </span>
                         }
                         key="1"
@@ -59,7 +59,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <AppstoreOutlined /> Total Manutention
+                                <AppstoreOutlined style={{ color: '#1890ff' }} /> Total Manutention
                             </span>
                         }
                         key="3"
@@ -70,7 +70,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <DatabaseOutlined /> Total Entreposage
+                                <DatabaseOutlined style={{ color: '#fa8c16' }} /> Total Entreposage
                             </span>
                         }
                         key="4"
@@ -81,7 +81,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <EyeOutlined /> Total par ville
+                                <EyeOutlined style={{ color: 'blue' }} /> Total par ville
                             </span>
                         }
                         key="5"
