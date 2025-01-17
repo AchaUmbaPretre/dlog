@@ -4,6 +4,7 @@ import { notification,Button, Space,Menu, Table, Tag, Dropdown } from 'antd';
 import moment from 'moment';
 import { getRapportEntreposage } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
+import RapportEntreposageChart from './rapportEntreposageChart/RapportEntreposageChart';
 
 const RapportEntreposage = () => {
     const [loading, setLoading] = useState(true);
@@ -23,6 +24,7 @@ const RapportEntreposage = () => {
     const [filterVisible, setFilterVisible] = useState(false);
     const scroll = { x: 400 };
     const [filteredDatas, setFilteredDatas] = useState(null);
+    const [ uniqueMonths, setUniqueMonths] = useState([]);
 
 
     const toggleColumnVisibility = (columnName, e) => {
@@ -50,6 +52,8 @@ const RapportEntreposage = () => {
             return yearA - yearB || monthA - monthB;
           });
       
+          setUniqueMonths(uniqueMonths)
+
           const generatedColumns = () => {
             const columns = [
               {
@@ -237,6 +241,9 @@ const RapportEntreposage = () => {
                     onChange={(pagination) => setPagination(pagination)}
                 />
 
+            </div>
+            <div className="rapport_chart">
+                <RapportEntreposageChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
             </div>
         </div>
     </>

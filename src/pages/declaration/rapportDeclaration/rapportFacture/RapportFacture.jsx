@@ -173,7 +173,7 @@ const RapportFacture = () => {
                 />
             </div>
         </div>
-        <div className="rappoty_chart">
+        <div className="rapport_chart">
             <RapportFactureChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
         </div>
     </>

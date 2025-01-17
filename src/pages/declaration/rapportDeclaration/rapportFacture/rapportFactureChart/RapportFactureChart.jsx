@@ -3,7 +3,6 @@ import { ResponsiveBar } from '@nivo/bar';
 import moment from 'moment';
 
 const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
-  console.log(groupedData, uniqueMonths);
 
   const prepareChartData = (groupedData, uniqueMonths) => {
     const formattedMonths = uniqueMonths.map((month) => {
