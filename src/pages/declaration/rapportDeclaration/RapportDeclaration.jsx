@@ -5,6 +5,7 @@ import {
     AppstoreOutlined,
     DatabaseOutlined,
     EyeOutlined,
+    SwapOutlined
 } from '@ant-design/icons';
 import './rapportDeclaration.scss'
 import RapportFacture from './rapportFacture/RapportFacture';
@@ -85,6 +86,17 @@ const RapportDeclaration = () => {
                             </span>
                         }
                         key="5"
+                    >
+                        <RapportVueEnsemble/>
+                    </TabPane>
+
+                    <TabPane
+                        tab={
+                            <span>
+                                <SwapOutlined style={{ color: 'blue' }} />
+                            </span>
+                        }
+                        key="6"
                     >
                         <RapportVueEnsemble/>
                     </TabPane>

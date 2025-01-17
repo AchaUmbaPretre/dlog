@@ -635,6 +635,7 @@ const Declaration = () => {
         >
           <RapportDeclaration/>
         </TabPane>
+        
       </Tabs>
     </>
   );

@@ -31,13 +31,12 @@ const RapportManuChart = ({ groupedData, uniqueMonths }) => {
       });
 
       return {
-        id: client.Client,  // Nom du client pour la série
-        data: data  // Données pour ce client
+        id: client.Client,
+        data: data 
       };
     });
   };
 
-  // Préparation des données à afficher dans le graphique
   const nivoData = generateNivoData();
 
   return (
@@ -52,10 +51,9 @@ const RapportManuChart = ({ groupedData, uniqueMonths }) => {
           paddingBottom: '10px' 
         }}
       >
-        Rapport Manutention - Evolution des Montants par Client
+        Rapport manutention
       </h2>
 
-      {/* Graphique Responsive */}
       <div style={{ height: 400 }}>
         <ResponsiveLine
           data={nivoData}

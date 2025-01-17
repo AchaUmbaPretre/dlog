@@ -38,7 +38,7 @@ const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
     <div style={{ width: '100%', textAlign: 'center' }}>
       {/* Titre du graphique */}
       <h2 style={{ fontSize: '1rem', fontWeight: '300', marginBottom: '15px', borderBottom:'2px solid #e8e8e8', paddingBottom:'10px' }}>
-        Chart DIVERS M² FACTURE
+        RAPPORT M² FACTURE
       </h2>
 
       <div style={{ height: 400 }}>

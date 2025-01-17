@@ -181,9 +181,9 @@ const RapportVueEnsemble = () => {
                 />
             </div>
         </div>
-{/*         <div className="rapport_chart">
+        <div className="rapport_chart">
             <RapportVueEnsembleChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
-        </div> */}
+        </div>
     </>
   )
 }

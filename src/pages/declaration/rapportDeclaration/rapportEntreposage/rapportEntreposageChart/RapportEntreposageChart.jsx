@@ -55,7 +55,7 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
           paddingBottom: '10px' 
         }}
       >
-        Rapport Entreposage - Evolution des Montants par Client
+        Rapport Entreposage
       </h2>
 
       {/* Graphique Responsive */}
