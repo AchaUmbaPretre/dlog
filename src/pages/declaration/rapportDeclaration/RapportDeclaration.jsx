@@ -93,12 +93,11 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <SwapOutlined style={{ color: 'blue' }} />
+                                <SwapOutlined style={{ color: 'red' }} /> Interieure & Exterieure
                             </span>
                         }
                         key="6"
                     >
-                        <RapportVueEnsemble/>
                     </TabPane>
                 </Tabs>
             </div>
