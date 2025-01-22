@@ -109,6 +109,10 @@ export const getRapportFacture = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_facture`, filter);
 };
 
+export const getRapportFactureVille = async (filter) => {
+  return axios.post(`${DOMAIN}/api/template/rapport_facture_ville`, filter);
+};
+
 //Rapport ville
 export const getRapportVille = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_ville`,filter);

@@ -1,22 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './rapportFacture.scss'
-import { Button, notification, Space, Table, Tabs, Tag } from 'antd';
-import { getRapportFacture } from '../../../../services/templateService';
+import { Button, notification, Space, Table, Tag } from 'antd';
 import moment from 'moment';
-import {
-    AreaChartOutlined,
-    AppstoreOutlined,
-    DatabaseOutlined,
-    EyeOutlined,
-    SwapOutlined
-} from '@ant-design/icons';
-import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
-import RapportFactureChart from './rapportFactureChart/RapportFactureChart';
-import getColumnSearchProps from '../../../../utils/columnSearchUtils';
-import TabPane from 'antd/es/tabs/TabPane';
-import RapportFactureVille from './rapportFactureVille/RapportFactureVille';
+import { getRapportFacture, getRapportFactureVille } from '../../../../../services/templateService';
 
-const RapportFacture = () => {
+const RapportFactureVille = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
@@ -39,7 +26,7 @@ const RapportFacture = () => {
 
       const fetchData = async () => {
         try {
-          const { data } = await getRapportFacture(filteredDatas);
+          const { data } = await getRapportFactureVille(filteredDatas);
       
           const uniqueMonths = Array.from(
             new Set(data.map((item) => `${item.Mois}-${item.Année}`))
@@ -50,7 +37,7 @@ const RapportFacture = () => {
           });
       
           const groupedData = data.reduce((acc, curr) => {
-            const client = acc.find((item) => item.Client === curr.Client);
+            const client = acc.find((item) => item.capital === curr.capital);
             const [numMonth, year] = [curr.Mois, curr.Année];
             const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
       
@@ -59,7 +46,7 @@ const RapportFacture = () => {
               client.Total = (client.Total || 0) + (curr.Montant || 0);
             } else {
               acc.push({
-                Client: curr.Client,
+                Client: curr.capital,
                 [monthName]: curr.Montant || 0,
                 Total: curr.Montant || 0,
               });
@@ -87,13 +74,6 @@ const RapportFacture = () => {
               dataIndex: "Client",
               key: "Client",
               fixed: "left",
-              ...getColumnSearchProps(
-                'Client',
-                searchText,
-                setSearchText,
-                setSearchedColumn,
-                searchInput
-              ),
               render: (text) => (
                 <Space>
                   <div>
@@ -177,67 +157,33 @@ const RapportFacture = () => {
 
   return (
     <>
-        <Tabs
-            activeKey={activeKey[0]}
-            onChange={handleTabChange}
-            type="card"
-            tabPosition="top"
-            renderTabBar={(props, DefaultTabBar) => (
-                <DefaultTabBar {...props} />
-            )}
-        >
-            <TabPane
-                tab={
-                    <span>
-                        <AreaChartOutlined style={{ color: '#13c2c2' }} /> CLIENT DIVERS M² FACTURE
-                    </span>
-                }
-                    key="1"
-            >
-                <div className="rapport_facture">
+        <div className="rapport_facture">
 {/*                                 <h2 className="rapport_h2">CLIENT DIVERS M² FACTURE</h2>
- */}                                    <Button
-                                    type="default"
-                                    onClick={handFilter}
-                                    style={{margin:'10px 0'}}
-                                >
-                                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-                                </Button>
-
-                            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
-                            <div className="rapport_wrapper_facture">
-                                <Table
-                                    dataSource={dataSource}
-                                    columns={columns}
-                                    bordered
-                                    scroll={scroll}
-                                    loading={loading}
-                                    size="small"
-                                    pagination={pagination}
-                                    onChange={(pagination) => setPagination(pagination)}
-                                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                                />
-                            </div>
-                </div>
-            </TabPane>
-
-            <TabPane
-                tab={
-                    <span>
-                        <AreaChartOutlined style={{ color: 'ORANGE' }} /> DETAIL PAR VILLE
-                    </span>
-                }
-                    key="2"
+ */}        <Button
+                type="default"
+                onClick={handFilter}
+                style={{margin:'10px 0'}}
             >
-                 <RapportFactureVille/>
-            </TabPane>
-            
-        </Tabs>
-        <div className="rapport_chart">
-            <RapportFactureChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+            </Button>
+
+{/*                 { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
+ */}            <div className="rapport_wrapper_facture">
+                <Table
+                    dataSource={dataSource}
+                    columns={columns}
+                    bordered
+                    scroll={scroll}
+                    loading={loading}
+                    size="small"
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                />
+            </div>
         </div>
     </>
   )
 }
 
-export default RapportFacture
+export default RapportFactureVille
