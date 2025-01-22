@@ -21,6 +21,8 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
     const years = Array.from({ length: 10 }, (_, i) => moment().year() - i);
     const months = Array.from({ length: 12 }, (_, index) => index + 1);
 
+    const yearss = [2020, 2021, 2022, 2023];
+
     const handleFilter = () => {
         onFilter({
             ville: selectedVille,
@@ -61,6 +63,15 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
     const handleYearChange = (year) => {
         setSelectedYear(year);
     };
+
+      // Fonction pour obtenir les mois sous forme de groupe par année
+  const renderMonthsByYear = (year) => {
+    return months.map((month) => (
+      <Option key={`${year}-${month}`} value={`${year}-${month}`}>
+        {moment().month(month - 1).format('MMMM')} {/* Affiche le mois en texte */}
+      </Option>
+    ));
+  };
 
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
@@ -117,38 +128,37 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
             <div className="filter_row">
                     <label>Période :</label>
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                {/* Sélection des mois */}
-                <Select
-                    mode="multiple"
-                    placeholder="Sélectionnez les mois"
-                    value={selectedMonths}
-                    onChange={handleMonthChange}
-                    style={{ width: '60%' }}
-                    showSearch
-                    optionFilterProp="children"
-                >
-                    {months.map((month) => (
-                        <Option key={month} value={month}>
-                            {moment().month(month - 1).format('MMMM')} {/* Affiche le mois en texte */}
-                        </Option>
-                    ))}
-                </Select>
+                        <Select
+                            mode="multiple"
+                            placeholder="Sélectionnez les mois"
+                            value={selectedMonths}
+                            onChange={handleMonthChange}
+                            style={{ width: '60%' }}
+                            showSearch
+                            optionFilterProp="children"
+                        >
+                            {months.map((month) => (
+                                <Option key={month} value={month}>
+                                    {moment().month(month - 1).format('MMMM')} {/* Affiche le mois en texte */}
+                                </Option>
+                            ))}
+                        </Select>
 
-                {/* Sélection de l'année */}
-                <Select
-                    placeholder="Sélectionnez l'année"
-                    value={selectedYear}
-                    onChange={handleYearChange}
-                    style={{ width: '40%' }}
-                    showSearch
-                    optionFilterProp="children"
-                >
-                    {years.map((year) => (
-                        <Option key={year} value={year}>
-                            {year}
-                        </Option>
-                    ))}
-                </Select>
+                        {/* Sélection de l'année */}
+                        <Select
+                            placeholder="Sélectionnez l'année"
+                            value={selectedYear}
+                            onChange={handleYearChange}
+                            style={{ width: '40%' }}
+                            showSearch
+                            optionFilterProp="children"
+                        >
+                            {years.map((year) => (
+                                <Option key={year} value={year}>
+                                    {year}
+                                </Option>
+                            ))}
+                        </Select>
                     </div>
                 </div>
             <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
