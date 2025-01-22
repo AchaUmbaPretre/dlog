@@ -1,189 +1,151 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, notification, Space, Table, Tag } from 'antd';
 import moment from 'moment';
-import { getRapportFacture, getRapportFactureVille } from '../../../../../services/templateService';
+import { getRapportFactureVille } from '../../../../../services/templateService';
+import RapportFiltrage from '../../rapportFiltrage/RapportFiltrage';
 
 const RapportFactureVille = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
-    const scroll = { x: 400 };
-    const [searchText, setSearchText] = useState('');
-    const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef(null);
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 15,
-      });
+    });
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
-    const [ uniqueMonths, setUniqueMonths] = useState([]);
-    const [activeKey, setActiveKey] = useState(['1', '2']);
+    const [uniqueMonths, setUniqueMonths] = useState([]);
 
-    const handleTabChange = (key) => {
-        setActiveKey(key);
-      };
-
-      const fetchData = async () => {
+    const fetchData = async () => {
+        setLoading(true);
         try {
-          const { data } = await getRapportFactureVille(filteredDatas);
-      
-          const uniqueMonths = Array.from(
-            new Set(data.map((item) => `${item.Mois}-${item.Année}`))
-          ).sort((a, b) => {
-            const [monthA, yearA] = a.split("-");
-            const [monthB, yearB] = b.split("-");
-            return yearA - yearB || monthA - monthB;
-          });
-      
-          const groupedData = data.reduce((acc, curr) => {
-            const client = acc.find((item) => item.capital === curr.capital);
-            const [numMonth, year] = [curr.Mois, curr.Année];
-            const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-      
-            if (client) {
-              client[monthName] = curr.Montant || 0;
-              client.Total = (client.Total || 0) + (curr.Montant || 0);
-            } else {
-              acc.push({
-                Client: curr.capital,
-                [monthName]: curr.Montant || 0,
-                Total: curr.Montant || 0,
-              });
-            }
-            return acc;
-          }, []);
+            const { data } = await getRapportFactureVille(filteredDatas);
 
-          setUniqueMonths(uniqueMonths)
-      
-          const generatedColumns = [
-            {
-              title: '#',
-              dataIndex: 'id',
-              key: 'id',
-              render: (text, record, index) => {
-                const pageSize = pagination.pageSize || 10;
-                const pageIndex = pagination.current || 1;
-                return (pageIndex - 1) * pageSize + index + 1;
-              },
-              width: "4%",
-              align: 'right',
-            },
-            {
-              title: "Client",
-              dataIndex: "Client",
-              key: "Client",
-              fixed: "left",
-              render: (text) => (
-                <Space>
-                  <div>
-                    {text}
-                  </div>
-                </Space>
-              ),
-              align: 'left', // Les données restent alignées à droite
-              title: <div style={{ textAlign: 'left' }}>Client</div>,
-            },
-            ...uniqueMonths.map((month) => {
-              const [numMonth, year] = month.split("-");
-              const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-          
-              return {
-                title: <div style={{ textAlign: 'center' }}><Tag color="#2db7f5">{monthName}</Tag></div>,
-                dataIndex: monthName,
-                key: monthName,
-                sorter: (a, b) => (a[monthName] || 0) - (b[monthName] || 0),
-                sortDirections: ['descend', 'ascend'],
-                render: (text) => (
-                  <Space>
-                    <div style={{color: text ? 'black' : 'red'}}>
-                        {text ? `${text.toLocaleString()}` : 0}
-                    </div>
-                  </Space>
-                ),
-                align: 'right' 
-              };
-            }),
-            {
-              title: "Total",
-              dataIndex: "Total",
-              key: "Total",
-              sorter: (a, b) => a.Total - b.Total,
-              sortDirections: ['descend', 'ascend'],
-              render: (text) => (
-                <div style={{color: text ? 'black' : 'red'}}>
-                  {text ? `${text.toLocaleString()}` : 0}
-                </div>
-              ),
-              align: 'right', // Les données restent alignées à droite
-              // Centrer le titre uniquement
-              title: <div style={{ textAlign: 'center' }}>Total</div>,
-            },
-          ];
-          
-      
-          setColumns(generatedColumns);
-          setDataSource(groupedData);
-          setLoading(false);
+            const uniqueMonths = Array.from(
+                new Set(data.map((item) => `${item.Mois}-${item.Année}`))
+            ).sort((a, b) => {
+                const [monthA, yearA] = a.split('-').map(Number);
+                const [monthB, yearB] = b.split('-').map(Number);
+                return yearA - yearB || monthA - monthB;
+            });
+
+            // Grouper les données par "capital"
+            const groupedData = data.reduce((acc, curr) => {
+                const client = acc.find((item) => item.Client === curr.capital);
+                const monthName = moment(`${curr.Année}-${curr.Mois}-01`).format('MMM-YYYY');
+
+                if (client) {
+                    client[monthName] = curr.Montant || 0;
+                    client.Total = (client.Total || 0) + (curr.Montant || 0);
+                } else {
+                    acc.push({
+                        Client: curr.capital,
+                        [monthName]: curr.Montant || 0,
+                        Total: curr.Montant || 0,
+                    });
+                }
+                return acc;
+            }, []);
+
+            // Générer les colonnes dynamiques
+            const generatedColumns = [
+                {
+                    title: '#',
+                    dataIndex: 'id',
+                    key: 'id',
+                    render: (text, record, index) => {
+                        const pageSize = pagination.pageSize || 10;
+                        const pageIndex = pagination.current || 1;
+                        return (pageIndex - 1) * pageSize + index + 1;
+                    },
+                    width: '4%',
+                    align: 'right',
+                },
+                {
+                    title: 'Client',
+                    dataIndex: 'Client',
+                    key: 'Client',
+                    fixed: 'left',
+                    align: 'left',
+                },
+                ...uniqueMonths.map((month) => {
+                    const monthName = moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY');
+                    return {
+                        title: <Tag color="#2db7f5">{monthName}</Tag>,
+                        dataIndex: monthName,
+                        key: monthName,
+                        sorter: (a, b) => (a[monthName] || 0) - (b[monthName] || 0),
+                        sortDirections: ['descend', 'ascend'],
+                        render: (text) => (
+                            <div style={{ color: text ? 'black' : 'red' }}>
+                                {text ? text.toLocaleString() : 0}
+                            </div>
+                        ),
+                        align: 'right',
+                    };
+                }),
+                {
+                    title: 'Total',
+                    dataIndex: 'Total',
+                    key: 'Total',
+                    sorter: (a, b) => a.Total - b.Total,
+                    sortDirections: ['descend', 'ascend'],
+                    render: (text) => (
+                        <div style={{ color: text ? 'black' : 'red' }}>
+                            {text ? text.toLocaleString() : 0}
+                        </div>
+                    ),
+                    align: 'right',
+                },
+            ];
+
+            setColumns(generatedColumns);
+            setDataSource(groupedData);
+            setUniqueMonths(uniqueMonths);
         } catch (error) {
-            if (error.response && error.response.status === 404) {
-                // Gérer l'erreur 404
-                notification.error({
-                    message: 'Erreur',
-                    description: `${error.response.data.message}`,
-                });
-            } else {
-                notification.error({
-                    message: 'Erreur',
-                    description: 'Une erreur est survenue lors de la récupération des données.',
-                });
-            }
+            const errorMessage = error.response?.data?.message || 'Une erreur est survenue.';
+            notification.error({
+                message: 'Erreur',
+                description: errorMessage,
+            });
+        } finally {
             setLoading(false);
         }
-      };
-  
+    };
+
     useEffect(() => {
-      fetchData();
+        fetchData();
     }, [filteredDatas]);
+
+    const handleFilterToggle = () => {
+        setFilterVisible(!filterVisible);
+    };
 
     const handleFilterChange = (newFilters) => {
         setFilteredDatas(newFilters); 
       };
 
-      const handFilter = () => {
-        fetchData()
-        setFilterVisible(!filterVisible)
-      }
-
-  return (
-    <>
+    return (
         <div className="rapport_facture">
-{/*                                 <h2 className="rapport_h2">CLIENT DIVERS M² FACTURE</h2>
- */}        <Button
-                type="default"
-                onClick={handFilter}
-                style={{margin:'10px 0'}}
-            >
+            <Button type="default" onClick={handleFilterToggle} style={{ margin: '10px 0' }}>
                 {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
             </Button>
-
-{/*                 { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
- */}            <div className="rapport_wrapper_facture">
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
+            <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}
                     columns={columns}
                     bordered
-                    scroll={scroll}
                     loading={loading}
                     size="small"
                     pagination={pagination}
                     onChange={(pagination) => setPagination(pagination)}
                     rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    scroll={{ x: 400 }}
                 />
             </div>
         </div>
-    </>
-  )
-}
+    );
+};
 
-export default RapportFactureVille
+export default RapportFactureVille;
