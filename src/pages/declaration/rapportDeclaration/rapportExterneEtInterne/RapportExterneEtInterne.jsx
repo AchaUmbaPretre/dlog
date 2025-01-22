@@ -21,7 +21,7 @@ const RapportExterneEtInterne = () => {
       const groupedData = data.reduce((acc, item) => {
         const month = moment(item.periode).format('MMM-YY');
         if (!acc[month]) acc[month] = {};
-        acc[month][item.nom_type] = {
+        acc[month][item.nom_status_batiment] = {
           Entreposage: item.total_entreposage || 0,
           Manutention: item.total_manutation || 0,
           Total: item.total_facture || 0,
@@ -58,7 +58,7 @@ const RapportExterneEtInterne = () => {
           fixed: 'left',
           render: (text) => <Tag color="blue">{text}</Tag>,
         },
-        ...Array.from(new Set(data.map((item) => item.nom_type))).map((type) => ({
+        ...Array.from(new Set(data.map((item) => item.nom_status_batiment))).map((type) => ({
           title: type,
           children: [
             {
