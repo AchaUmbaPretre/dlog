@@ -86,9 +86,7 @@ const RapportVueEnsemble = () => {
                       key: `${capital}_Entreposage`,
                       render: (text) => (
                         <Space>
-                          <Tag color={text == null ? 'red' : 'blue'}>
                             {text == null ? "Aucun" : `${text.toLocaleString()} $`}
-                          </Tag>
                         </Space>
                       ),
                       align: 'right',
@@ -100,9 +98,7 @@ const RapportVueEnsemble = () => {
                       key: `${capital}_Manutention`,
                       render: (text) => (
                         <Space>
-                          <Tag color={text == null ? 'red' : 'purple'}>
                             {text === 0 ? "0" : text == null ? "Aucun" : `${text.toLocaleString()} $`}
-                          </Tag>
                         </Space>
                       ),
                       align: 'right',
@@ -114,9 +110,7 @@ const RapportVueEnsemble = () => {
                       key: `${capital}_Total`,
                       render: (text) => (
                         <Space>
-                          <Tag color={text == null ? 'red' : '#87d068'}>
                             {text == null ? "Aucun" : `${text.toLocaleString()} $`}
-                          </Tag>
                         </Space>
                       ),
                       align: 'right',
