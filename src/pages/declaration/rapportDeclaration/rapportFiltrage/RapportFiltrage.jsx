@@ -12,7 +12,7 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
-    const [selectedType, setSelectedType] = useState([]);
+    const [selectedType, setSelectedType] = useState('');
     const [selectedClients, setSelectedClients] = useState([]);
     const [minMontant, setMinMontant] = useState(null);
     const [maxMontant, setMaxMontant] = useState(null);
@@ -28,6 +28,7 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
         onFilter({
             ville: selectedVille,
             client: selectedClients,
+            status_batiment: selectedType,
             montant: { min: minMontant, max: maxMontant },
             period: selectedOption,
 
