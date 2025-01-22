@@ -18,7 +18,7 @@ const RapportFacture = () => {
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
     const [ uniqueMonths, setUniqueMonths] = useState([]);
-    
+
       const fetchData = async () => {
         try {
           const { data } = await getRapportFacture(filteredDatas);
@@ -89,12 +89,12 @@ const RapportFacture = () => {
                 sortDirections: ['descend', 'ascend'],
                 render: (text) => (
                   <Space>
-                    <Tag color={text == null ? 'red' : 'blue'}>
-                      {text == null ? "Aucun" : `${text?.toLocaleString()}`}
-                    </Tag>
+                    <div style={{color: text ? 'black' : 'red'}}>
+                        {text ? `${text.toLocaleString()}` : 0}
+                    </div>
                   </Space>
                 ),
-                align: 'right' // Les données restent alignées à droite
+                align: 'right' 
               };
             }),
             {
@@ -104,9 +104,9 @@ const RapportFacture = () => {
               sorter: (a, b) => a.Total - b.Total,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Space>
-                  <Tag color="#87d068">{`${text?.toLocaleString()}`}</Tag>
-                </Space>
+                <div style={{color: text ? 'black' : 'red'}}>
+                  {text ? `${text.toLocaleString()}` : 0}
+                </div>
               ),
               align: 'right', // Les données restent alignées à droite
               // Centrer le titre uniquement

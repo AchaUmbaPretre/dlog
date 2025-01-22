@@ -244,6 +244,16 @@ const Batiment = () => {
       ),
     },
     { 
+      title: 'Status', 
+      dataIndex: 'nom_type', 
+      key: 'nom_type',
+      render: text => (
+        <Space>
+          <Tag icon={<BankOutlined />} color='green'>{text ?? 'Aucun'}</Tag>
+        </Space>
+      ),
+    },
+    { 
       title: 'Ville', 
       dataIndex: 'name', 
       key: 'name',

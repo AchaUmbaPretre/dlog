@@ -90,8 +90,8 @@ const RapportExterneEtInterne = () => {
               dataIndex: `${type}_Total`,
               key: `${type}_Total`,
               render: (value) => (
-                <div>
-                  {value ? `${value.toLocaleString()} $` : 'Aucun'}
+                <div style={{color: value ? 'black' : 'red'}}>
+                  {value ? `${value.toLocaleString()} $` : 0}
                 </div>
               ),
               align: 'right',

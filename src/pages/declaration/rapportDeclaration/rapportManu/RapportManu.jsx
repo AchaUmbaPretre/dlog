@@ -29,8 +29,6 @@ const RapportManu = () => {
 
           setUniqueMonths(uniqueMonths)
 
-  
-          // Générer dynamiquement les colonnes avec le nom abrégé du mois
           const generatedColumns = [
             {
                 title: '#',
@@ -69,9 +67,9 @@ const RapportManu = () => {
                   sortDirections: ['descend', 'ascend'],
                 render: text => (
                     <Space>
-                      <Tag color={text == null ? 'red' : 'blue'}>
-                        {text == null ? "Aucun" : `${text} $`}
-                      </Tag>
+                        <div style={{color: text ? 'black' : 'red'}}>
+                            {text ? `${text.toLocaleString()} $` : 0}
+                        </div>
                     </Space>
                   ),
                   align: 'right',
@@ -90,9 +88,9 @@ const RapportManu = () => {
                     return sum + (record[monthName] || 0);
                   }, 0);
                   return <Space>
-                  <Tag color={'#87d068'}>
-                    {`${total.toFixed(2)} $`}
-                  </Tag>
+                  <div style={{color: total ? 'black' : 'red'}}>
+                            {total ? `${total.toLocaleString()} $` : 0}
+                        </div>
                 </Space> ;
                 },
                 align: 'right',

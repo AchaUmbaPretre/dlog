@@ -96,9 +96,9 @@ const RapportEntreposage = () => {
                   sortDirections: ["descend", "ascend"],
                   render: (text) => (
                     <Space>
-                      <Tag color={text == null ? "red" : "blue"}>
-                        {text == null ? "Aucun" : `${text.toLocaleString()} $`}
-                      </Tag>
+                      <div style={{color: text ? 'black' : 'red'}}>
+                            {text ? `${text.toLocaleString()} $` : 0}
+                        </div>
                     </Space>
                   ),
                   align: "right",
@@ -118,7 +118,9 @@ const RapportEntreposage = () => {
                   }, 0);
                   return (
                     <Space>
-                      <Tag color={"#87d068"}>{`${total?.toLocaleString()} $`}</Tag>
+                      <div style={{color: total ? 'black' : 'red'}}>
+                            {total ? `${total.toLocaleString()} $` : 0}
+                        </div>
                     </Space>
                   );
                 },
@@ -137,9 +139,11 @@ const RapportEntreposage = () => {
                         return sum + (record[`${monthName}_TTC`] || 0);
                     }, 0);
                     return (
-                        <Tag color="blue">
-                            {totalTTC ? `${totalTTC.toLocaleString()} $` : "0 $"}
-                        </Tag>
+                        <div>
+                            <div style={{color: totalTTC ? 'black' : 'red'}}>
+                            {totalTTC ? `${totalTTC.toLocaleString()} $` : 0}
+                        </div>
+                        </div>
                     );
                 },
                 align: "right",
