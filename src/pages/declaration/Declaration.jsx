@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs } from 'antd';
 import { MenuOutlined,EditOutlined,PieChartOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { deletePutDeclaration, getDeclaration } from '../../services/templateService';
@@ -10,6 +10,7 @@ import DeclarationOneAll from './declarationOneAll/DeclarationOneAll';
 import { useSelector } from 'react-redux';
 import TabPane from 'antd/es/tabs/TabPane';
 import RapportDeclaration from './rapportDeclaration/RapportDeclaration';
+import getColumnSearchProps from '../../utils/columnSearchUtils';
 
 const { Search } = Input;
 
@@ -38,6 +39,9 @@ const Declaration = () => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
+  const searchInput = useRef(null);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
   const [idDeclaration, setidDeclaration] = useState('');
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
@@ -327,6 +331,13 @@ const Declaration = () => {
           title: 'Ville',
           dataIndex: 'capital',
           key: 'capital',
+          ...getColumnSearchProps(
+            'capital',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+          ),
           render: (text) => (
             <Tag icon={<EnvironmentOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
           ),
@@ -354,6 +365,8 @@ const Declaration = () => {
           title: 'Manutention',
           dataIndex: 'manutation',
           key: 'manutation',
+          sorter: (a, b) => a.manutation - b.manutation,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<ToolOutlined />} color="cyan">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
@@ -364,6 +377,8 @@ const Declaration = () => {
           title: 'Tarif Manu',
           dataIndex: 'tarif_manutation',
           key: 'tarif_manutation',
+          sorter: (a, b) => a.tarif_manutation - b.tarif_manutation,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
@@ -374,6 +389,8 @@ const Declaration = () => {
           title: 'Debours Manu',
           dataIndex: 'debours_manutation',
           key: 'debours_manutation',
+          sorter: (a, b) => a.debours_manutation - b.debours_manutation,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
@@ -384,6 +401,8 @@ const Declaration = () => {
           title: 'Total Manu',
           dataIndex: 'total_manutation',
           key: 'total_manutation',
+          sorter: (a, b) => a.total_manutation - b.total_manutation,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
@@ -394,6 +413,8 @@ const Declaration = () => {
           title: 'TTC Manu',
           dataIndex: 'ttc_manutation',
           key: 'ttc_manutation',
+          sorter: (a, b) => a.ttc_manutation - b.ttc_manutation,
+          sortDirections: ['descend', 'ascend'],
           render: (text) => (
             <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? 'Aucun'}</Tag>
           ),
@@ -402,7 +423,6 @@ const Declaration = () => {
         },
       ]
     },
-
     {
       title: 'Action',
       key: 'action',
@@ -635,7 +655,7 @@ const Declaration = () => {
         >
           <RapportDeclaration/>
         </TabPane>
-        
+
       </Tabs>
     </>
   );
