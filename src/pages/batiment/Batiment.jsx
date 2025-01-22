@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Tabs } from 'antd';
-import { ExportOutlined, MoreOutlined,HomeOutlined,DatabaseOutlined,LineChartOutlined,TeamOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, MoreOutlined,HomeOutlined,CloseCircleOutlined,CheckCircleOutlined,LineChartOutlined,TeamOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment, putDeleteBatiment } from '../../services/typeService';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
@@ -243,16 +243,21 @@ const Batiment = () => {
         </Space>
       ),
     },
-    { 
-      title: 'Status', 
-      dataIndex: 'nom_type', 
-      key: 'nom_type',
+    {
+      title: 'Status bat',
+      dataIndex: 'nom_status_batiment',
+      key: 'nom_status_batiment',
       render: text => (
         <Space>
-          <Tag icon={<BankOutlined />} color='green'>{text ?? 'Aucun'}</Tag>
+          <Tag
+            icon={text === 'Couvert' ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+            color={text === 'Couvert' ? 'green' : text === 'Non couvert' ? 'red' : 'default'}
+          >
+            {text ?? 'Aucun'}
+          </Tag>
         </Space>
       ),
-    },
+    },    
     { 
       title: 'Ville', 
       dataIndex: 'name', 
