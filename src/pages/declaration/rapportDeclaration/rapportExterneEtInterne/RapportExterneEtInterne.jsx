@@ -136,6 +136,7 @@ const RapportExterneEtInterne = () => {
           onChange: (current, pageSize) => setPagination({ current, pageSize }),
         }}
         scroll={scroll}
+        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
       />
     </div>
   );

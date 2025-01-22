@@ -172,6 +172,7 @@ const RapportVueEnsemble = () => {
                     size="small"
                     pagination={pagination}
                     onChange={(pagination) => setPagination(pagination)}
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                 />
             </div>
         </div>

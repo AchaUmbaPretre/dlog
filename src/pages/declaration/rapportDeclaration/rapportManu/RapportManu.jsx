@@ -44,9 +44,7 @@ const RapportManu = () => {
               fixed: "left",
               render: text => (
                 <Space>
-                  <Tag color={'green'}>
-                    {text}
-                  </Tag>
+                  {text}
                 </Space>
               ),
               align: 'left',
@@ -144,6 +142,7 @@ const RapportManu = () => {
                     scroll={scroll}
                     loading={loading}
                     size="small"
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                 />
             </div>
             <div className="rapport_chart" style={{marginTop:'40px'}}>
