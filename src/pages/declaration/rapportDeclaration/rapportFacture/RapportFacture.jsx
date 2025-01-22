@@ -1,11 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './rapportFacture.scss'
-import { Button, notification, Space, Table, Tag } from 'antd';
+import { Button, notification, Space, Table, Tabs, Tag } from 'antd';
 import { getRapportFacture } from '../../../../services/templateService';
 import moment from 'moment';
+import {
+    AreaChartOutlined,
+    AppstoreOutlined,
+    DatabaseOutlined,
+    EyeOutlined,
+    SwapOutlined
+} from '@ant-design/icons';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportFactureChart from './rapportFactureChart/RapportFactureChart';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
+import TabPane from 'antd/es/tabs/TabPane';
 
 const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
@@ -22,6 +30,11 @@ const RapportFacture = () => {
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
     const [ uniqueMonths, setUniqueMonths] = useState([]);
+    const [activeKey, setActiveKey] = useState(['1', '2']);
+
+    const handleTabChange = (key) => {
+        setActiveKey(key);
+      };
 
       const fetchData = async () => {
         try {
@@ -163,31 +176,62 @@ const RapportFacture = () => {
 
   return (
     <>
-        <div className="rapport_facture">
-            <h2 className="rapport_h2">CLIENT DIVERS M² FACTURE</h2>
-                <Button
-                type="default"
-                onClick={handFilter}
-                style={{margin:'10px 0'}}
-              >
-                {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-              </Button>
+        <Tabs
+            activeKey={activeKey[0]}
+            onChange={handleTabChange}
+            type="card"
+            tabPosition="top"
+            renderTabBar={(props, DefaultTabBar) => (
+                <DefaultTabBar {...props} />
+            )}
+        >
+            <TabPane
+                tab={
+                    <span>
+                        <AreaChartOutlined style={{ color: '#13c2c2' }} /> CLIENT DIVERS M² FACTURE
+                    </span>
+                }
+                    key="1"
+            >
+                <div className="rapport_facture">
+{/*                                 <h2 className="rapport_h2">CLIENT DIVERS M² FACTURE</h2>
+ */}                                    <Button
+                                    type="default"
+                                    onClick={handFilter}
+                                    style={{margin:'10px 0'}}
+                                >
+                                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                                </Button>
 
-            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
-            <div className="rapport_wrapper_facture">
-                <Table
-                    dataSource={dataSource}
-                    columns={columns}
-                    bordered
-                    scroll={scroll}
-                    loading={loading}
-                    size="small"
-                    pagination={pagination}
-                    onChange={(pagination) => setPagination(pagination)}
-                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                />
-            </div>
-        </div>
+                            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
+                            <div className="rapport_wrapper_facture">
+                                <Table
+                                    dataSource={dataSource}
+                                    columns={columns}
+                                    bordered
+                                    scroll={scroll}
+                                    loading={loading}
+                                    size="small"
+                                    pagination={pagination}
+                                    onChange={(pagination) => setPagination(pagination)}
+                                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                />
+                            </div>
+                </div>
+            </TabPane>
+
+            <TabPane
+                tab={
+                    <span>
+                        <AreaChartOutlined style={{ color: 'ORANGE' }} /> DETAIL PAR VILLE
+                    </span>
+                }
+                    key="2"
+            >
+
+            </TabPane>
+            
+        </Tabs>
         <div className="rapport_chart">
             <RapportFactureChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
         </div>
