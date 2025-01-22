@@ -1,7 +1,7 @@
 import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { getBatimentOne, postBatiment, putBatiment } from '../../../services/typeService';
-import { getClient_type, getProvince } from '../../../services/clientService';
+import { getBatimentOne, getStatus_batiment, postBatiment, putBatiment } from '../../../services/typeService';
+import { getProvince } from '../../../services/clientService';
 
 const { Option } = Select;
 
@@ -23,7 +23,7 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
         const fetchDataGet = async () => {
             try {
                 const response = await getProvince();
-                const responseType = await getClient_type();
+                const responseType = await getStatus_batiment();
 
                 setData(response.data);
                 setTypes(responseType.data);
@@ -172,15 +172,15 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
 
                         <Col span={12}>
                         <Form.Item
-                                label="Status batiment"
+                                label="Entrepot"
                                 name="statut_batiment"
                                 rules={[{ required: true, message: 'Veuillez entrer le status batiment !' }]}
                             >
                                 <Select
                                     showSearch
                                     options={types?.map((item) => ({
-                                        value: item.id_type_client,
-                                        label: item.nom_type,
+                                        value: item.id_status_batiment,
+                                        label: item.nom_status_batiment,
                                     }))}
                                     placeholder="Sélectionnez le status batiment..."
                                     optionFilterProp="label"

@@ -115,3 +115,8 @@ export const getTypeBin = async () => {
 export const getStatutBin = async () => {
   return axios.get(`${DOMAIN}/api/types/statut_bin`);
 };
+
+//Status batiment
+export const getStatus_batiment = async () => {
+  return axios.get(`${DOMAIN}/api/types/status_batiment`);
+};
