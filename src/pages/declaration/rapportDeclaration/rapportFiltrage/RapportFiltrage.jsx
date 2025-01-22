@@ -17,9 +17,12 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const [minMontant, setMinMontant] = useState(null);
     const [maxMontant, setMaxMontant] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [options, setOptions] = useState([]);
+    const [selectedOption, setSelectedOption] = useState(null);
+
 
     const years = Array.from({ length: 10 }, (_, i) => moment().year() - i);
-    const months = Array.from({ length: 12 }, (_, index) => index + 1);
+    const months = Array.from({ length: 12 }, (_, i) => moment().month(i).format('MMMM'));
 
     const handleFilter = () => {
         onFilter({
@@ -30,6 +33,8 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                 months: selectedMonths,
                 year: selectedYear,
             },
+            period: selectedOption,
+
         });
     };
 
@@ -44,6 +49,7 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
 
                 setClient(clientData.data);
                 setProvince(provinceData.data);
+                setOptions(years.map((year) => ({ label: year, value: year })));
             } catch (error) {
                 console.error(error);
             } finally {
@@ -54,13 +60,24 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
         fetchData();
     }, []);
 
-    const handleMonthChange = (months) => {
-        setSelectedMonths(months);
+    const handleOptionChange = (value) => {
+        setSelectedOption(value);
+
+        // Si une année est sélectionnée, basculer vers les mois
+        if (years.includes(value)) {
+            const monthsOptions = months.map((month, index) => ({
+                label: `${month} ${value}`,
+                value: `${value}-${index + 1}`, // Associe l'année et le mois (ex: 2025-1)
+            }));
+            setOptions(monthsOptions);
+        }
     };
 
-    const handleYearChange = (year) => {
-        setSelectedYear(year);
+    const handleBackToYears = () => {
+        setOptions(years.map((year) => ({ label: year, value: year })));
+        setSelectedOption(null);
     };
+
 
     const handleMinMontantChange = (e) => {
         setMinMontant(e.target.value);
@@ -69,6 +86,8 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const handleMaxMontantChange = (e) => {
         setMaxMontant(e.target.value);
     };
+
+
 
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
@@ -136,37 +155,19 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
 
             <div className="filter_row">
                 <label>Période :</label>
-                <div style={{ display: 'flex', gap: '1rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <Select
-                        mode="multiple"
-                        placeholder="Sélectionnez les mois"
-                        value={selectedMonths}
-                        onChange={handleMonthChange}
-                        style={{ width: '60%' }}
-                        showSearch
-                        optionFilterProp="children"
-                    >
-                        {months.map((month) => (
-                            <Option key={month} value={month}>
-                                {moment().month(month - 1).format('MMMM')}
-                            </Option>
-                        ))}
-                    </Select>
-
-                    <Select
-                        placeholder="Sélectionnez l'année"
-                        value={selectedYear}
-                        onChange={handleYearChange}
-                        style={{ width: '40%' }}
-                        showSearch
-                        optionFilterProp="children"
-                    >
-                        {years.map((year) => (
-                            <Option key={year} value={year}>
-                                {year}
-                            </Option>
-                        ))}
-                    </Select>
+                        style={{ width: '100%' }}
+                        placeholder="Sélectionnez une année ou un mois"
+                        options={options}
+                        value={selectedOption}
+                        onChange={handleOptionChange}
+                    />
+                    {years.includes(selectedOption) && (
+                        <Button type="link" onClick={handleBackToYears}>
+                            Retour à la sélection des années
+                        </Button>
+                    )}
                 </div>
             </div>
 
