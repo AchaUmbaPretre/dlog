@@ -66,7 +66,7 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
         if (years.includes(value)) {
             const monthsOptions = months.map((month, index) => ({
                 label: `${month} ${value}`,
-                value: `${value}-${index + 1}`, // Associe l'année et le mois (ex: 2025-1)
+                value: `${value}-${index + 1}`,
             }));
             setOptions(monthsOptions);
         }
@@ -85,7 +85,6 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const handleMaxMontantChange = (e) => {
         setMaxMontant(e.target.value);
     };
-
 
 
     return (
