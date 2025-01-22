@@ -120,9 +120,9 @@ const RapportExterneEtInterne = () => {
   return (
     <div>
       <div className="rapport_header">
-        <Button onClick={() => setFilterVisible(!filterVisible)}>
+{/*         <Button onClick={() => setFilterVisible(!filterVisible)}>
           {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-        </Button>
+        </Button> */}
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} />}
       </div>
       <Table
