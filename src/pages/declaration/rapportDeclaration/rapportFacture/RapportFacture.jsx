@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './rapportFacture.scss'
 import { Button, notification, Space, Table, Tag } from 'antd';
 import { getRapportFacture } from '../../../../services/templateService';
 import moment from 'moment';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportFactureChart from './rapportFactureChart/RapportFactureChart';
+import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
     const scroll = { x: 400 };
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 15,
@@ -69,9 +73,18 @@ const RapportFacture = () => {
               dataIndex: "Client",
               key: "Client",
               fixed: "left",
+              ...getColumnSearchProps(
+                'Client',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+              ),
               render: (text) => (
                 <Space>
-                  <Tag color="green">{text}</Tag>
+                  <div>
+                    {text}
+                  </div>
                 </Space>
               ),
               align: 'left', // Les données restent alignées à droite
