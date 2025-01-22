@@ -15,25 +15,11 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
     const [selectedVille, setSelectedVille] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
     const [selectedBatiment, setSelectedBatiment] = useState([]);
-    const [selectedMonths, setSelectedMonths] = useState([]);
-    const [selectedYear, setSelectedYear] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [options, setOptions] = useState([]);
 
     const years = Array.from({ length: 10 }, (_, i) => moment().year() - i);
-    const months = Array.from({ length: 12 }, (_, index) => index + 1);
-
-    const yearss = [2020, 2021, 2022, 2023];
-
-    const handleFilter = () => {
-        onFilter({
-            ville: selectedVille,
-            client: selectedClients,
-            batiment: selectedBatiment,
-            dateRange: {
-                months: selectedMonths,
-                year: selectedYear,
-            },
-        });
-    };
+    const months = Array.from({ length: 12 }, (_, i) => moment().month(i).format('MMMM'));
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,6 +33,7 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                 setBatiment(batimentData.data);
                 setClient(clientData.data);
                 setProvince(provinceData.data);
+                setOptions(years.map((year) => ({ label: year, value: year }))); // Initialiser avec les années
             } catch (error) {
                 console.error(error);
             }
@@ -55,23 +42,33 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
         fetchData();
     }, []);
 
-    const handleMonthChange = (months) => {
-        setSelectedMonths(months);
+    const handleOptionChange = (value) => {
+        setSelectedOption(value);
+
+        // Si une année est sélectionnée, basculer vers les mois
+        if (years.includes(value)) {
+            const monthsOptions = months.map((month, index) => ({
+                label: `${month} ${value}`,
+                value: `${value}-${index + 1}`, // Associe l'année et le mois (ex: 2025-1)
+            }));
+            setOptions(monthsOptions);
+        }
     };
 
-    // Gérer les changements de l'année sélectionnée
-    const handleYearChange = (year) => {
-        setSelectedYear(year);
+    const handleBackToYears = () => {
+        // Retourner à la sélection des années
+        setOptions(years.map((year) => ({ label: year, value: year })));
+        setSelectedOption(null);
     };
 
-      // Fonction pour obtenir les mois sous forme de groupe par année
-  const renderMonthsByYear = (year) => {
-    return months.map((month) => (
-      <Option key={`${year}-${month}`} value={`${year}-${month}`}>
-        {moment().month(month - 1).format('MMMM')} {/* Affiche le mois en texte */}
-      </Option>
-    ));
-  };
+    const handleFilter = () => {
+        onFilter({
+            ville: selectedVille,
+            client: selectedClients,
+            batiment: selectedBatiment,
+            period: selectedOption,
+        });
+    };
 
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
@@ -90,8 +87,8 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     onChange={setSelectedVille}
                 />
             </div>
-            
-            { !visible && (
+
+            {!visible && (
                 <div className="filter_row">
                     <label>Clients :</label>
                     <Select
@@ -126,42 +123,30 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
             </div>
 
             <div className="filter_row">
-                    <label>Période :</label>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                        <Select
-                            mode="multiple"
-                            placeholder="Sélectionnez les mois"
-                            value={selectedMonths}
-                            onChange={handleMonthChange}
-                            style={{ width: '60%' }}
-                            showSearch
-                            optionFilterProp="children"
-                        >
-                            {months.map((month) => (
-                                <Option key={month} value={month}>
-                                    {moment().month(month - 1).format('MMMM')} {/* Affiche le mois en texte */}
-                                </Option>
-                            ))}
-                        </Select>
-
-                        {/* Sélection de l'année */}
-                        <Select
-                            placeholder="Sélectionnez l'année"
-                            value={selectedYear}
-                            onChange={handleYearChange}
-                            style={{ width: '40%' }}
-                            showSearch
-                            optionFilterProp="children"
-                        >
-                            {years.map((year) => (
-                                <Option key={year} value={year}>
-                                    {year}
-                                </Option>
-                            ))}
-                        </Select>
-                    </div>
+                <label>Période :</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <Select
+                        style={{ width: '100%' }}
+                        placeholder="Sélectionnez une année ou un mois"
+                        options={options}
+                        value={selectedOption}
+                        onChange={handleOptionChange}
+                    />
+                    {years.includes(selectedOption) && (
+                        <Button type="link" onClick={handleBackToYears}>
+                            Retour à la sélection des années
+                        </Button>
+                    )}
                 </div>
-            <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
+            </div>
+
+            <Button
+                style={{ padding: '10px', marginTop: '20px' }}
+                type="primary"
+                icon={<SearchOutlined />}
+                onClick={handleFilter}
+            >
+                Filtrer
             </Button>
         </div>
     );
