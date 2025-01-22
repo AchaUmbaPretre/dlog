@@ -1,7 +1,7 @@
 import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { getBatimentOne, postBatiment, putBatiment } from '../../../services/typeService';
-import { getProvince } from '../../../services/clientService';
+import { getClient_type, getProvince } from '../../../services/clientService';
 
 const { Option } = Select;
 
@@ -11,6 +11,8 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [formValues, setFormValues] = useState({});
     const [data, setData] = useState([]);
+    const [types, setTypes] = useState([]);
+
 
     const showConfirm = (values) => {
         setFormValues(values); 
@@ -21,7 +23,10 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
         const fetchDataGet = async () => {
             try {
                 const response = await getProvince();
+                const responseType = await getClient_type();
+
                 setData(response.data);
+                setTypes(responseType.data);
 
                 if (idBatiment) {
                     const { data: batiments } = await getBatimentOne(idBatiment);
@@ -86,7 +91,7 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
             <div className="client_wrapper">
                 <Form form={form} layout="vertical" onFinish={onFinish}>
                     <Row gutter={16}>
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item
                                 label="Nom du bâtiment"
                                 name="nom_batiment"
@@ -96,13 +101,13 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item label="Site" name="site">
                                 <Input />
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item
                                 label="Ville"
                                 name="ville"
@@ -120,37 +125,37 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item label="Longueur" name="longueur">
                                 <Input />
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item label="Largeur" name="largeur">
                                 <Input />
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item label="Hauteur" name="hauteur">
                                 <Input />
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item label="Surface du sol" name="surface_sol">
                                 <Input />
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item label="Surface des murs" name="surface_murs">
                                 <Input />
                             </Form.Item>
                         </Col>
 
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item label="Mètres linéaires" name="metres_lineaires">
                                 <Input />
                             </Form.Item>
@@ -162,6 +167,24 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
                                     <Option value="bureaux">Bureaux</Option>
                                     <Option value="entrepot">Entrepôt</Option>
                                 </Select>
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={12}>
+                        <Form.Item
+                                label="Status batiment"
+                                name="statut_batiment"
+                                rules={[{ required: true, message: 'Veuillez entrer le status batiment !' }]}
+                            >
+                                <Select
+                                    showSearch
+                                    options={types?.map((item) => ({
+                                        value: item.id_type_client,
+                                        label: item.nom_type,
+                                    }))}
+                                    placeholder="Sélectionnez le status batiment..."
+                                    optionFilterProp="label"
+                                />
                             </Form.Item>
                         </Col>
                     </Row>
