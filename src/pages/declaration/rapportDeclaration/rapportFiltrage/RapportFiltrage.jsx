@@ -4,6 +4,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import moment from 'moment';
 import { getClient, getProvince } from '../../../../services/clientService';
+import { getStatus_batiment } from '../../../../services/typeService';
 
 const { Option } = Select;
 
@@ -11,15 +12,14 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
+    const [selectedType, setSelectedType] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
-    const [selectedMonths, setSelectedMonths] = useState([]);
-    const [selectedYear, setSelectedYear] = useState(null);
     const [minMontant, setMinMontant] = useState(null);
     const [maxMontant, setMaxMontant] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [options, setOptions] = useState([]);
+    const [type, setType] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
-
 
     const years = Array.from({ length: 10 }, (_, i) => moment().year() - i);
     const months = Array.from({ length: 12 }, (_, i) => moment().month(i).format('MMMM'));
@@ -29,10 +29,6 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
             ville: selectedVille,
             client: selectedClients,
             montant: { min: minMontant, max: maxMontant },
-            dateRange: {
-                months: selectedMonths,
-                year: selectedYear,
-            },
             period: selectedOption,
 
         });
@@ -42,13 +38,15 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [clientData, provinceData] = await Promise.all([
+                const [clientData, provinceData, statutData] = await Promise.all([
                     getClient(),
-                    getProvince()
+                    getProvince(),
+                    getStatus_batiment()
                 ]);
 
                 setClient(clientData.data);
                 setProvince(provinceData.data);
+                setType(statutData.data);
                 setOptions(years.map((year) => ({ label: year, value: year })));
             } catch (error) {
                 console.error(error);
@@ -130,6 +128,27 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                             placeholder="Sélectionnez un client..."
                             optionFilterProp="label"
                             onChange={setSelectedClients}
+                        />
+                    )}
+                </div>
+            )}
+
+            {!filtraVille && (
+                <div className="filter_row">
+                    <label>Type de batiment :</label>
+                    {isLoading ? (
+                        <Skeleton.Input active={true} />
+                    ) : (
+                        <Select
+                            showSearch
+                            style={{ width: '100%' }}
+                            options={type.map((item) => ({
+                                value: item.id_status_batiment,
+                                label: item.nom_status_batiment,
+                            }))}
+                            placeholder="Sélectionnez..."
+                            optionFilterProp="label"
+                            onChange={setSelectedType}
                         />
                     )}
                 </div>
