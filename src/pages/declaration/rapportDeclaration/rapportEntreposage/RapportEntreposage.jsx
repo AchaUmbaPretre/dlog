@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { MenuOutlined,DownOutlined } from '@ant-design/icons';
 import { notification,Button, Space,Menu, Table, Tag, Dropdown } from 'antd';
 import moment from 'moment';
 import { getRapportEntreposage } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportEntreposageChart from './rapportEntreposageChart/RapportEntreposageChart';
+import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const RapportEntreposage = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
@@ -72,9 +76,16 @@ const RapportEntreposage = () => {
                 dataIndex: "Client",
                 key: "Client",
                 fixed: "left",
+                ...getColumnSearchProps(
+                    'Client',
+                    searchText,
+                    setSearchText,
+                    setSearchedColumn,
+                    searchInput
+                  ),
                 render: (text) => (
                   <Space>
-                    <Tag color={"green"}>{text}</Tag>
+                    {text}
                   </Space>
                 ),
                 align: "left",
