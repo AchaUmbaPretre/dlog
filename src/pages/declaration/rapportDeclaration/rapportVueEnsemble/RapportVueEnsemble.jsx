@@ -86,7 +86,7 @@ const RapportVueEnsemble = () => {
                       key: `${capital}_Entreposage`,
                       render: (text) => (
                         <Space>
-                            {text == null ? "Aucun" : `${text.toLocaleString()} $`}
+                             {text ? Math.round(parseFloat(text)).toLocaleString() : 0}
                         </Space>
                       ),
                       align: 'right',
@@ -98,7 +98,7 @@ const RapportVueEnsemble = () => {
                       key: `${capital}_Manutention`,
                       render: (text) => (
                         <Space>
-                            {text === 0 ? "0" : text == null ? "Aucun" : `${text.toLocaleString()} $`}
+                            {text === 0 ? "0" : text == null ? "Aucun" : `${Math.round(parseFloat(text)).toLocaleString()} $`}
                         </Space>
                       ),
                       align: 'right',
@@ -110,7 +110,7 @@ const RapportVueEnsemble = () => {
                       key: `${capital}_Total`,
                       render: (text) => (
                         <Space>
-                            {text == null ? "Aucun" : `${text.toLocaleString()} $`}
+                            {text == null ? "Aucun" : `${Math.round(parseFloat(text)).toLocaleString()} $`}
                         </Space>
                       ),
                       align: 'right',

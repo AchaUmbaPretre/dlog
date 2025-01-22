@@ -129,8 +129,8 @@ const RapportEntreposage = () => {
                   }, 0);
                   return (
                     <Space>
-                      <div style={{color: total ? 'black' : 'red'}}>
-                            {total ? `${total.toLocaleString()} $` : 0}
+                        <div style={{ color: total ? 'black' : 'red' }}>
+                            {total ? `${Math.round(parseFloat(total)).toLocaleString()} $` : '0'}
                         </div>
                     </Space>
                   );
@@ -152,8 +152,8 @@ const RapportEntreposage = () => {
                     return (
                         <div>
                             <div style={{color: totalTTC ? 'black' : 'red'}}>
-                            {totalTTC ? `${totalTTC.toLocaleString()} $` : 0}
-                        </div>
+                                {totalTTC ? `${Math.round(parseFloat(totalTTC)).toLocaleString()} $` : '0'}
+                            </div>
                         </div>
                     );
                 },

@@ -78,7 +78,7 @@ const RapportFactureVille = () => {
                         sortDirections: ['descend', 'ascend'],
                         render: (text) => (
                             <div style={{ color: text ? 'black' : 'red' }}>
-                                {text ? text.toLocaleString() : 0}
+                                {text ? Math.round(parseFloat(text)).toLocaleString() : 0}
                             </div>
                         ),
                         align: 'right',
@@ -92,7 +92,7 @@ const RapportFactureVille = () => {
                     sortDirections: ['descend', 'ascend'],
                     render: (text) => (
                         <div style={{ color: text ? 'black' : 'red' }}>
-                            {text ? text.toLocaleString() : 0}
+                            {text ? Math.round(parseFloat(text)).toLocaleString() : 0}
                         </div>
                     ),
                     align: 'right',
