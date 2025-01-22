@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Button, Skeleton } from 'antd';
+import { Select, Button, Skeleton, Space, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import moment from 'moment';
@@ -107,6 +107,18 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                     }
                 </div>
         }
+                <div className="filter_row">
+                    <label>Montant :</label>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <Space.Compact>
+                            <Input defaultValue="0" />
+                        </Space.Compact>
+
+                        <Space.Compact>
+                            <Input defaultValue="0" />
+                        </Space.Compact>
+                    </div>
+                </div>
             
                 <div className="filter_row">
                     <label>Période :</label>
@@ -143,6 +155,8 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
                         </Select>
                     </div>
                 </div>
+
+
             <Button style={{padding:'10px', marginTop:'20px'}} type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
             </Button>
         </div>
