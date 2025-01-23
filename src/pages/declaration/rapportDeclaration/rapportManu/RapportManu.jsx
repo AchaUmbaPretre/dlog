@@ -169,7 +169,7 @@ const RapportManu = () => {
                     <TabPane
                         tab={
                         <span>
-                            <AreaChartOutlined  style={{ color: 'blue' }} /> Bar
+                            <AreaChartOutlined  style={{ color: 'blue' }} /> Line
                         </span>
                     }
                         key="1"

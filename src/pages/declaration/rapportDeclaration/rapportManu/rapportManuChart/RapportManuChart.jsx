@@ -44,7 +44,7 @@ const RapportManuChart = ({ groupedData, uniqueMonths }) => {
       {/* Titre du graphique */}
       <h2 
         style={{ 
-          fontSize: '1.25rem', 
+          fontSize: '1rem', 
           fontWeight: '300', 
           marginBottom: '15px', 
           borderBottom: '2px solid #e8e8e8', 
