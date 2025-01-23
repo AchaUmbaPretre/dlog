@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { notification, Space, Table, Tag } from 'antd';
+import { notification, Space, Table, Tabs, Tag } from 'antd';
+import {
+    AreaChartOutlined,
+    PieChartOutlined,
+    SwapOutlined
+} from '@ant-design/icons';
 import moment from 'moment';
 import { getRapportManutentation } from '../../../../services/templateService';
 import RapportManuChart from './rapportManuChart/RapportManuChart';
+import TabPane from 'antd/es/tabs/TabPane';
 
 
 const RapportManu = () => {
@@ -11,7 +17,7 @@ const RapportManu = () => {
     const [dataSource, setDataSource] = useState([]);
     const scroll = { x: 400 };
     const [ uniqueMonths, setUniqueMonths] = useState([]);
-
+    const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
     const fetchData = async () => {
         try {
@@ -125,6 +131,10 @@ const RapportManu = () => {
           setLoading(false);
         }
       };
+
+      const handleTabChanges = (key) => {
+        setActiveKeys(key);
+      };
   
     useEffect(() => {
       fetchData();
@@ -147,7 +157,36 @@ const RapportManu = () => {
                 />
             </div>
             <div className="rapport_chart" style={{marginTop:'40px'}}>
-                <RapportManuChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                <Tabs
+                    activeKey={activeKeys[0]}
+                    onChange={handleTabChanges}
+                    type="card"
+                    tabPosition="top"
+                    renderTabBar={(props, DefaultTabBar) => (
+                        <DefaultTabBar {...props} />
+                    )}
+                >
+                    <TabPane
+                        tab={
+                        <span>
+                            <AreaChartOutlined  style={{ color: 'blue' }} /> Bar
+                        </span>
+                    }
+                        key="1"
+                    >
+                        <RapportManuChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                    </TabPane>
+
+{/*                     <TabPane
+                        tab={
+                        <span>
+                            <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
+                        </span>
+                    }
+                        key="2"
+                    >
+                    </TabPane> */}
+                </Tabs>
             </div>
         </div>
     </>

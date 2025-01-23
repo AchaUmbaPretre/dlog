@@ -51,7 +51,7 @@ const RapportManuChart = ({ groupedData, uniqueMonths }) => {
           paddingBottom: '10px' 
         }}
       >
-        Rapport manutention
+        RAPPORT MANUTENTION
       </h2>
 
       <div style={{ height: 400 }}>
