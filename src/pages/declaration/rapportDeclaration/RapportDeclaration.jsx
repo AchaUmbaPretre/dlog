@@ -94,7 +94,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <SwapOutlined style={{ color: 'red' }} /> Interieure & Exterieure
+                                <SwapOutlined style={{ color: 'red' }} /> Intérieur & Extérieur
                             </span>
                         }
                         key="6"

@@ -5,9 +5,7 @@ import { getRapportFacture } from '../../../../services/templateService';
 import moment from 'moment';
 import {
     AreaChartOutlined,
-    AppstoreOutlined,
-    DatabaseOutlined,
-    EyeOutlined,
+    PieChartOutlined,
     SwapOutlined
 } from '@ant-design/icons';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -15,6 +13,7 @@ import RapportFactureChart from './rapportFactureChart/RapportFactureChart';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import TabPane from 'antd/es/tabs/TabPane';
 import RapportFactureVille from './rapportFactureVille/RapportFactureVille';
+import RapportFacturePie from './rapportFacturePie/RapportFacturePie';
 
 const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
@@ -32,9 +31,15 @@ const RapportFacture = () => {
     const [filterVisible, setFilterVisible] = useState(false);
     const [ uniqueMonths, setUniqueMonths] = useState([]);
     const [activeKey, setActiveKey] = useState(['1', '2']);
+    const [activeKeys, setActiveKeys] = useState(['1', '2']);
+
 
     const handleTabChange = (key) => {
         setActiveKey(key);
+      };
+
+      const handleTabChanges = (key) => {
+        setActiveKeys(key);
       };
 
       const fetchData = async () => {
@@ -231,10 +236,50 @@ const RapportFacture = () => {
             >
                  <RapportFactureVille/>
             </TabPane>
+
+            <TabPane
+                tab={
+                        <span>
+                            <SwapOutlined style={{ color: 'red' }} /> Intérieur & Extérieur
+                        </span>
+                    }
+                    key="3"
+            >
+            </TabPane>
             
         </Tabs>
         <div className="rapport_chart">
-            <RapportFactureChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+            <Tabs
+                activeKey={activeKeys[0]}
+                onChange={handleTabChanges}
+                type="card"
+                tabPosition="top"
+                renderTabBar={(props, DefaultTabBar) => (
+                    <DefaultTabBar {...props} />
+                )}
+            >
+                <TabPane
+                    tab={
+                    <span>
+                        <AreaChartOutlined  style={{ color: 'blue' }} /> Line
+                    </span>
+                }
+                    key="1"
+                >
+                    <RapportFactureChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                </TabPane>
+
+                <TabPane
+                    tab={
+                    <span>
+                        <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
+                    </span>
+                }
+                    key="2"
+                >
+                    <RapportFacturePie groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                </TabPane>
+            </Tabs>
         </div>
     </>
   )
