@@ -521,10 +521,10 @@ const Declaration = () => {
                           <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
                             <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong>{statistique.nbre_client}</strong></span>
                             <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total de M2 Facture : <strong>{statistique.total_m2_facture?.toLocaleString()}</strong></span>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total entreposage : <strong>{statistique.total_entreposage?.toLocaleString()} $</strong></span>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Entreposage : <strong>{statistique.total_ttc_entreposage?.toLocaleString()} $</strong></span>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total Manutention : <strong>{statistique.total_manutation?.toLocaleString() || 0} $</strong></span>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Manutention : <strong>{statistique.total_ttc_manutation?.toLocaleString() || 0} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total entreposage : <strong>{Math.round(parseFloat(statistique.total_entreposage)).toLocaleString() || 0} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Entreposage : <strong>{Math.round(parseFloat(statistique.total_ttc_entreposage)).toLocaleString() || 0} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total Manutention : <strong>{Math.round(parseFloat(statistique.total_manutation)).toLocaleString() || 0} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Manutention : <strong>{Math.round(parseFloat(statistique.total_ttc_manutation)).toLocaleString() || 0} $</strong></span>
                           </div>
                       )}
                     </div>

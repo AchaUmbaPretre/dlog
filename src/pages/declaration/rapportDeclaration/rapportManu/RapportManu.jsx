@@ -95,7 +95,6 @@ const RapportManu = () => {
                   return <Space>
                   <div style={{color: total ? 'black' : 'red'}}>
                         {total ? `${Math.round(parseFloat(total)).toLocaleString()} $` : '0'}
-
                         </div>
                 </Space> ;
                 },
