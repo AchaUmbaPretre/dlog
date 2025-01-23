@@ -154,7 +154,7 @@ const RapportVueEnsemble = () => {
   return (
     <>
       <div className="rapport_facture">
-        <h2 className="rapport_h2">DIVERS VILLE</h2>
+        <h2 className="rapport_h2">RAPPORT VILLE</h2>
         <Button
           type="default"
           onClick={() => setFilterVisible(!filterVisible)}
