@@ -34,7 +34,6 @@ const RapportFacture = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
     const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
-
     const handleTabChange = (key) => {
         setActiveKey(key);
       };
@@ -183,6 +182,15 @@ const RapportFacture = () => {
 
   return (
     <>
+        <div style={{boxShadow:'0px 0px 15px -10px rgba(0,0,0,0.75)', width:'max-content', margin:'10px 0 15px 0'}}>
+            <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px', padding:'10px 15px', borderRadius:'5px'}}>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong></strong></span>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de ville : <strong></strong></span>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture : <strong></strong></span>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Extérieur : <strong></strong></span>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Intérieur : <strong></strong></span>
+            </div>
+        </div>
         <Tabs
             activeKey={activeKey[0]}
             onChange={handleTabChange}

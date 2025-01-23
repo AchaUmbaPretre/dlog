@@ -3,7 +3,6 @@ import { ResponsiveBar } from '@nivo/bar';
 import moment from 'moment';
 
 const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
-
   const prepareChartData = (groupedData, uniqueMonths) => {
     const formattedMonths = uniqueMonths.map((month) => {
       const [numMonth, year] = month.split("-");
@@ -11,15 +10,10 @@ const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
     });
 
     const chartData = groupedData.map((client) => {
-      const clientData = {
-        client: client.Client,
-        Total: client.Total,
-      };
-
+      const clientData = { client: client.Client };
       formattedMonths.forEach((month) => {
         clientData[month] = client[month] || 0;
       });
-
       return clientData;
     });
 
@@ -37,7 +31,15 @@ const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
   return (
     <div style={{ width: '100%', textAlign: 'center' }}>
       {/* Titre du graphique */}
-      <h2 style={{ fontSize: '1rem', fontWeight: '300', marginBottom: '15px', borderBottom:'2px solid #e8e8e8', paddingBottom:'10px' }}>
+      <h2
+        style={{
+          fontSize: '1rem',
+          fontWeight: '300',
+          marginBottom: '15px',
+          borderBottom: '2px solid #e8e8e8',
+          paddingBottom: '10px',
+        }}
+      >
         RAPPORT M² FACTURE
       </h2>
 
@@ -52,23 +54,30 @@ const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
           margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
           padding={0.3}
           colors={{ scheme: 'nivo' }}
-          enableLabel={true}
-          axisTop={{ tickSize: 5 }}
-          axisRight={{ tickSize: 5 }}
+          axisTop={null}
+          axisRight={null}
           axisBottom={{
+            orient: 'bottom',
             tickSize: 5,
             tickPadding: 5,
             tickRotation: -45,
+            legend: 'Mois',
+            legendPosition: 'middle',
+            legendOffset: 36,
           }}
           axisLeft={{
+            orient: 'left',
             tickSize: 5,
             tickPadding: 5,
+            tickRotation: 0,
             legend: 'Montant',
             legendPosition: 'middle',
-            legendOffset: -40
+            legendOffset: -40,
           }}
-          tooltip={(data) => (
-            <strong>{`${data.id}: ${data.value}`}</strong>
+          tooltip={({ id, value }) => (
+            <strong>
+              {id}: {value}
+            </strong>
           )}
           theme={{
             axis: {
@@ -95,6 +104,30 @@ const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
               },
             },
           }}
+          groupMode="grouped" // Peut être changé à "stacked" pour des barres empilées
+          legends={[
+            {
+              dataFrom: 'keys',
+              anchor: 'right',
+              direction: 'column',
+              justify: false,
+              translateX: 120,
+              translateY: 0,
+              itemsSpacing: 2,
+              itemWidth: 100,
+              itemHeight: 20,
+              itemDirection: 'left-to-right',
+              symbolSize: 20,
+              effects: [
+                {
+                  on: 'hover',
+                  style: {
+                    itemOpacity: 0.85,
+                  },
+                },
+              ],
+            },
+          ]}
         />
       </div>
     </div>
