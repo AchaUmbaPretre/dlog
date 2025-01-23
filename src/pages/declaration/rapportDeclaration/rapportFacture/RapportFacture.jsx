@@ -201,7 +201,10 @@ const RapportFacture = () => {
 
   return (
     <>
-        <div style={{boxShadow:'0px 0px 15px -10px rgba(0,0,0,0.75)', width:'max-content', margin:'10px 0 15px 0'}}>
+        <div style={{boxShadow:'0px 0px 15px -10px rgba(0,0,0,0.75)', width:'max-content', margin:'10px 0 15px 0', padding:'10px'}}>
+                    <span style={{ padding:'10px 15px', }}>
+                        Resumé :
+                    </span>
             <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px', padding:'10px 15px', borderRadius:'5px'}}>
                 <Popover content={clientListContent} title="Liste des clients" trigger="hover">
                     <span style={{ fontSize: ".8rem", fontWeight: "200", cursor: "pointer" }}>
