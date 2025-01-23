@@ -109,7 +109,7 @@ const RapportFacture = () => {
                   </div>
                 </Space>
               ),
-              align: 'left', // Les données restent alignées à droite
+              align: 'left', 
               title: <div style={{ textAlign: 'left' }}>Client</div>,
             },
             ...uniqueMonths.map((month) => {
