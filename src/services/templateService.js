@@ -113,6 +113,10 @@ export const getRapportFactureVille = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_facture_ville`, filter);
 };
 
+export const getRapportFactureExterneEtInterne = async (filter) => {
+  return axios.post(`${DOMAIN}/api/template/rapport_facture_externeEtInternet`, filter);
+};
+
 //Rapport ville
 export const getRapportVille = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_ville`,filter);

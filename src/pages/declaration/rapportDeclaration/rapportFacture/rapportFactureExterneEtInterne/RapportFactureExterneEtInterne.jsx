@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, notification, Table, Tag } from 'antd';
 import moment from 'moment';
-import { getRapportFactureVille } from '../../../../../services/templateService';
+import { getRapportFactureExterneEtInterne } from '../../../../../services/templateService';
 import RapportFiltrage from '../../rapportFiltrage/RapportFiltrage';
 
 const RapportFactureExterneEtInterne = () => {
@@ -14,13 +14,13 @@ const RapportFactureExterneEtInterne = () => {
     });
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
-    const [uniqueMonths, setUniqueMonths] = useState([]);
 
     const fetchData = async () => {
         setLoading(true);
         try {
-            const { data } = await getRapportFactureVille(filteredDatas);
-
+            const { data } = await getRapportFactureExterneEtInterne(filteredDatas);
+    
+            // Obtenir la liste unique des mois/années
             const uniqueMonths = Array.from(
                 new Set(data.map((item) => `${item.Mois}-${item.Année}`))
             ).sort((a, b) => {
@@ -28,25 +28,29 @@ const RapportFactureExterneEtInterne = () => {
                 const [monthB, yearB] = b.split('-').map(Number);
                 return yearA - yearB || monthA - monthB;
             });
-
-            // Grouper les données par "capital"
+    
+            // Grouper les données par "nom_status_batiment"
             const groupedData = data.reduce((acc, curr) => {
-                const client = acc.find((item) => item.Client === curr.capital);
+                const buildingStatus = acc.find((item) => item.nom_status_batiment === curr.nom_status_batiment);
                 const monthName = moment(`${curr.Année}-${curr.Mois}-01`).format('MMM-YYYY');
-
-                if (client) {
-                    client[monthName] = curr.Montant || 0;
-                    client.Total = (client.Total || 0) + (curr.Montant || 0);
+    
+                if (buildingStatus) {
+                    buildingStatus[monthName] = curr.Montant || 0;
+                    buildingStatus.Total += curr.Montant || 0; // Ajouter au total
                 } else {
-                    acc.push({
-                        Client: curr.capital,
-                        [monthName]: curr.Montant || 0,
-                        Total: curr.Montant || 0,
+                    const newEntry = {
+                        nom_status_batiment: curr.nom_status_batiment,
+                        Total: curr.Montant || 0, // Initialiser le total
+                    };
+                    uniqueMonths.forEach((month) => {
+                        newEntry[moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY')] = 0;
                     });
+                    newEntry[monthName] = curr.Montant || 0;
+                    acc.push(newEntry);
                 }
                 return acc;
             }, []);
-
+    
             // Générer les colonnes dynamiques
             const generatedColumns = [
                 {
@@ -62,9 +66,9 @@ const RapportFactureExterneEtInterne = () => {
                     align: 'right',
                 },
                 {
-                    title: 'Client',
-                    dataIndex: 'Client',
-                    key: 'Client',
+                    title: 'Status bâtiment',
+                    dataIndex: 'nom_status_batiment',
+                    key: 'nom_status_batiment',
                     fixed: 'left',
                     align: 'left',
                 },
@@ -98,10 +102,9 @@ const RapportFactureExterneEtInterne = () => {
                     align: 'right',
                 },
             ];
-
+    
             setColumns(generatedColumns);
             setDataSource(groupedData);
-            setUniqueMonths(uniqueMonths);
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Une erreur est survenue.';
             notification.error({
@@ -112,6 +115,7 @@ const RapportFactureExterneEtInterne = () => {
             setLoading(false);
         }
     };
+    
 
     useEffect(() => {
         fetchData();
@@ -122,15 +126,15 @@ const RapportFactureExterneEtInterne = () => {
     };
 
     const handleFilterChange = (newFilters) => {
-        setFilteredDatas(newFilters); 
-      };
+        setFilteredDatas(newFilters);
+    };
 
     return (
         <div className="rapport_facture">
             <Button type="default" onClick={handleFilterToggle} style={{ margin: '10px 0' }}>
                 {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
             </Button>
-            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
+            {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} />}
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}
