@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { MenuOutlined,DownOutlined } from '@ant-design/icons';
-import { notification,Button, Space,Menu, Table, Tag, Dropdown } from 'antd';
+import { MenuOutlined, DownOutlined, PieChartOutlined, AreaChartOutlined } from '@ant-design/icons';
+import { notification,Button, Space,Menu, Table, Tag, Dropdown, Tabs } from 'antd';
 import moment from 'moment';
 import { getRapportEntreposage } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportEntreposageChart from './rapportEntreposageChart/RapportEntreposageChart';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
+import TabPane from 'antd/es/tabs/TabPane';
+import RapportEntreposagePie from './rapportEntreposagePie/RapportEntreposagePie';
 
 const RapportEntreposage = () => {
     const [loading, setLoading] = useState(true);
@@ -29,6 +31,7 @@ const RapportEntreposage = () => {
     const scroll = { x: 400 };
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [ uniqueMonths, setUniqueMonths] = useState([]);
+    const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
 
     const toggleColumnVisibility = (columnName, e) => {
@@ -37,6 +40,10 @@ const RapportEntreposage = () => {
           ...prev,
           [columnName]: !prev[columnName],
         }));
+      };
+    
+    const handleTabChanges = (key) => {
+        setActiveKeys(key);
       };
 
       const handleFilterChange = (newFilters) => {
@@ -259,7 +266,37 @@ const RapportEntreposage = () => {
 
             </div>
             <div className="rapport_chart">
-                <RapportEntreposageChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                <Tabs
+                    activeKey={activeKeys[0]}
+                    onChange={handleTabChanges}
+                    type="card"
+                    tabPosition="top"
+                    renderTabBar={(props, DefaultTabBar) => (
+                        <DefaultTabBar {...props} />
+                    )}
+                >
+                    <TabPane
+                        tab={
+                        <span>
+                            <AreaChartOutlined  style={{ color: 'blue' }} /> Line
+                        </span>
+                    }
+                        key="1"
+                    >
+                        <RapportEntreposageChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                    </TabPane>
+
+                    <TabPane
+                        tab={
+                        <span>
+                            <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
+                        </span>
+                    }
+                        key="2"
+                    >
+                        <RapportEntreposagePie groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                    </TabPane> 
+                </Tabs>
             </div>
         </div>
     </>

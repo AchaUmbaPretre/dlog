@@ -9,6 +9,7 @@ import moment from 'moment';
 import { getRapportManutentation } from '../../../../services/templateService';
 import RapportManuChart from './rapportManuChart/RapportManuChart';
 import TabPane from 'antd/es/tabs/TabPane';
+import RapportManuPie from './rapportManuPie/RapportManuPie';
 
 
 const RapportManu = () => {
@@ -177,7 +178,7 @@ const RapportManu = () => {
                         <RapportManuChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
                     </TabPane>
 
-{/*                     <TabPane
+                    <TabPane
                         tab={
                         <span>
                             <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
@@ -185,7 +186,8 @@ const RapportManu = () => {
                     }
                         key="2"
                     >
-                    </TabPane> */}
+                        <RapportManuPie groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                    </TabPane>
                 </Tabs>
             </div>
         </div>

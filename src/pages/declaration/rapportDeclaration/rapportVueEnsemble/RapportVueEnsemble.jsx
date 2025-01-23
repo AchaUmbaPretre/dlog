@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Dropdown, Menu, notification, Space, Table, Tag } from 'antd';
+import { Button, Checkbox, Dropdown, Menu, notification, Space, Table, Tabs, Tag } from 'antd';
 import moment from 'moment';
+import { AreaChartOutlined, PieChartOutlined } from '@ant-design/icons';
 import { getRapportVille } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportVueEnsembleChart from './rapportVueEnsembleChart/RapportVueEnsembleChart';
+import TabPane from 'antd/es/tabs/TabPane';
+import RapportVueEnsemblePie from './rapportVueEnsemblePie/RapportVueEnsemblePie';
 
 const RapportVueEnsemble = () => {
   const [loading, setLoading] = useState(true);
@@ -20,6 +23,7 @@ const RapportVueEnsemble = () => {
 
   const scroll = { x: 400 };
   const [uniqueMonths, setUniqueMonths] = useState([]);
+  const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
   const fetchData = async () => {
     try {
@@ -139,6 +143,10 @@ const RapportVueEnsemble = () => {
     setFilteredDatas(newFilters);
   };
 
+  const handleTabChanges = (key) => {
+    setActiveKeys(key);
+  };
+
   const handleCityVisibilityChange = checkedValues => {
     setVisibleCities(checkedValues);
   };
@@ -197,7 +205,37 @@ const RapportVueEnsemble = () => {
         </div>
       </div>
       <div className="rapport_chart">
-        <RapportVueEnsembleChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+      <Tabs
+                    activeKey={activeKeys[0]}
+                    onChange={handleTabChanges}
+                    type="card"
+                    tabPosition="top"
+                    renderTabBar={(props, DefaultTabBar) => (
+                        <DefaultTabBar {...props} />
+                    )}
+                >
+                    <TabPane
+                        tab={
+                        <span>
+                            <AreaChartOutlined  style={{ color: 'blue' }} /> Line
+                        </span>
+                    }
+                        key="1"
+                    >
+                        <RapportVueEnsembleChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                    </TabPane>
+
+                 <TabPane
+                        tab={
+                        <span>
+                            <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
+                        </span>
+                    }
+                        key="2"
+                    >
+                        <RapportVueEnsemblePie groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                    </TabPane>
+                </Tabs>
       </div>
     </>
   );
