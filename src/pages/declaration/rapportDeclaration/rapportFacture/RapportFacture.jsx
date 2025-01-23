@@ -213,28 +213,28 @@ const RapportFacture = () => {
             >
                 <div className="rapport_facture">
 {/*                                 <h2 className="rapport_h2">CLIENT DIVERS M² FACTURE</h2>
- */}                                    <Button
-                                    type="default"
-                                    onClick={handFilter}
-                                    style={{margin:'10px 0'}}
-                                >
-                                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-                                </Button>
+ */}                <Button
+                        type="default"
+                        onClick={handFilter}
+                        style={{margin:'10px 0'}}
+                    >
+                        {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                    </Button>
 
-                            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
-                            <div className="rapport_wrapper_facture">
-                                <Table
-                                    dataSource={dataSource}
-                                    columns={columns}
-                                    bordered
-                                    scroll={scroll}
-                                    loading={loading}
-                                    size="small"
-                                    pagination={pagination}
-                                    onChange={(pagination) => setPagination(pagination)}
-                                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                                />
-                            </div>
+                    { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
+                    <div className="rapport_wrapper_facture">
+                        <Table
+                            dataSource={dataSource}
+                            columns={columns}
+                            bordered
+                            scroll={scroll}
+                            loading={loading}
+                            size="small"
+                            pagination={pagination}
+                            onChange={(pagination) => setPagination(pagination)}
+                            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                        />
+                    </div>
                 </div>
             </TabPane>
 
