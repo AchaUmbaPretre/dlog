@@ -158,7 +158,7 @@ const RapportVueEnsemble = () => {
         <Button
           type="default"
           onClick={() => setFilterVisible(!filterVisible)}
-          style={{ margin: '10px 0' }}
+          style={{ margin: '10px 10px 10px 0' }}
         >
           {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
         </Button>

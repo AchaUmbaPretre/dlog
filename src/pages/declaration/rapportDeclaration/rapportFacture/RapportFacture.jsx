@@ -14,6 +14,7 @@ import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import TabPane from 'antd/es/tabs/TabPane';
 import RapportFactureVille from './rapportFactureVille/RapportFactureVille';
 import RapportFacturePie from './rapportFacturePie/RapportFacturePie';
+import RapportFactureExterneEtInterne from './rapportFactureExterneEtInterne/RapportFactureExterneEtInterne';
 
 const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
@@ -245,6 +246,7 @@ const RapportFacture = () => {
                     }
                     key="3"
             >
+                <RapportFactureExterneEtInterne groupedData={dataSource} uniqueMonths={uniqueMonths} />
             </TabPane>
             
         </Tabs>
