@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './rapportFacture.scss'
-import { Button, notification, Space, Table, Tabs, Tag } from 'antd';
-import { getRapportFacture } from '../../../../services/templateService';
+import { Button, notification, Popover, Space, Table, Tabs, Tag } from 'antd';
+import { getRapportFacture, getRapportFactureClient } from '../../../../services/templateService';
 import moment from 'moment';
 import {
     AreaChartOutlined,
@@ -34,6 +34,8 @@ const RapportFacture = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
     const [activeKeys, setActiveKeys] = useState(['1', '2']);
     const [ detail, setDetail] = useState('');
+    const [ clientdetail, setClientDetail] = useState([]);
+
 
     const handleTabChange = (key) => {
         setActiveKey(key);
@@ -47,7 +49,10 @@ const RapportFacture = () => {
         try {
           const { data } = await getRapportFacture(filteredDatas);
 
-          setDetail(data.resume)
+          const res = await getRapportFactureClient()
+
+          setDetail(data.resume);
+          setClientDetail(res.data)
       
           const uniqueMonths = Array.from(
             new Set(data.data.map((item) => `${item.Mois}-${item.Année}`))
@@ -178,16 +183,32 @@ const RapportFacture = () => {
         setFilteredDatas(newFilters); 
       };
 
-      const handFilter = () => {
+    const handFilter = () => {
         fetchData()
         setFilterVisible(!filterVisible)
       }
+    
+      const clientListContent = (
+        <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+          <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+            {clientdetail.map((client, index) => (
+              <li key={index} style={{ padding: "5px 0", borderBottom: "1px solid #f0f0f0", fontSize:'12px' }}>
+                {index + 1}. {client.nom}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
 
   return (
     <>
         <div style={{boxShadow:'0px 0px 15px -10px rgba(0,0,0,0.75)', width:'max-content', margin:'10px 0 15px 0'}}>
             <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px', padding:'10px 15px', borderRadius:'5px'}}>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong>{detail.Nbre_de_clients}</strong></span>
+                <Popover content={clientListContent} title="Liste des clients" trigger="hover">
+                    <span style={{ fontSize: ".8rem", fontWeight: "200", cursor: "pointer" }}>
+                        Nbre de client : <strong>{detail.Nbre_de_clients}</strong>
+                    </span>
+                </Popover>
                 <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de ville : <strong>{detail.Nbre_de_villes}</strong></span>
                 <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture : <strong>{detail.Total_M2_facture}</strong></span>
                 <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Extérieur : <strong>{detail.Total_M2_facture_Extérieur}</strong></span>
