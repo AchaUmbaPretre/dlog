@@ -4,6 +4,7 @@ import moment from 'moment';
 import { getRapportExterneEtInterne } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
+
 const RapportExterneEtInterne = () => {
   const [loading, setLoading] = useState(true);
   const [columns, setColumns] = useState([]);
