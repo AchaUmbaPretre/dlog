@@ -66,7 +66,7 @@ const RapportFactureExterneEtInterne = () => {
                     align: 'right',
                 },
                 {
-                    title: 'Status bâtiment',
+                    title: 'Type',
                     dataIndex: 'nom_status_batiment',
                     key: 'nom_status_batiment',
                     fixed: 'left',

@@ -61,7 +61,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <AppstoreOutlined style={{ color: '#1890ff' }} /> Total Manutention
+                                <AppstoreOutlined style={{ color: '#1890ff' }} />Manutention
                             </span>
                         }
                         key="3"
@@ -72,7 +72,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <DatabaseOutlined style={{ color: '#fa8c16' }} /> Total Entreposage
+                                <DatabaseOutlined style={{ color: '#fa8c16' }} /> Entreposage
                             </span>
                         }
                         key="4"
@@ -83,7 +83,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <EyeOutlined style={{ color: 'blue' }} /> Total par ville
+                                <EyeOutlined style={{ color: 'blue' }} /> Par ville
                             </span>
                         }
                         key="5"
