@@ -214,9 +214,9 @@ const RapportFacture = () => {
                             </span>
                         </Popover>
                         <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de ville : <strong>{detail.Nbre_de_villes}</strong></span>
-                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture : <strong>{detail.Total_M2_facture}</strong></span>
-                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Extérieur : <strong>{detail.Total_M2_facture_Extérieur}</strong></span>
-                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Intérieur : <strong>{detail.Total_M2_facture_Intérieur}</strong></span>
+                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture : <strong>{Math.round(parseFloat(detail.Total_M2_facture)).toLocaleString()}</strong></span>
+                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Extérieur : <strong>{detail.Total_M2_facture_Extérieur.toLocaleString()}</strong></span>
+                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Intérieur : <strong>{detail.Total_M2_facture_Intérieur.toLocaleString()}</strong></span>
                     </div>
                 </div>
             )
