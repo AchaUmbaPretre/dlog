@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './rapportFacture.scss'
-import { Button, notification, Popover, Space, Table, Tabs, Tag } from 'antd';
+import { Button, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
 import { getRapportFacture, getRapportFactureClient } from '../../../../services/templateService';
 import moment from 'moment';
 import {
@@ -201,20 +201,26 @@ const RapportFacture = () => {
 
   return (
     <>
-        <div style={{boxShadow:'0px 0px 15px -10px rgba(0,0,0,0.75)', width:'max-content', margin:'10px 0 15px 0', padding:'10px'}}>
-            <span style={{ padding:'10px 15px', fontWeight:'bold' }}>Resumé :</span>
-            <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px', padding:'10px 15px', borderRadius:'5px'}}>
-                <Popover content={clientListContent} title="Liste des clients" trigger="hover">
-                    <span style={{ fontSize: ".8rem", fontWeight: "200", cursor: "pointer" }}>
-                        Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
-                    </span>
-                </Popover>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de ville : <strong>{detail.Nbre_de_villes}</strong></span>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture : <strong>{detail.Total_M2_facture}</strong></span>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Extérieur : <strong>{detail.Total_M2_facture_Extérieur}</strong></span>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Intérieur : <strong>{detail.Total_M2_facture_Intérieur}</strong></span>
-            </div>
-        </div>
+        {
+            loading ? (
+                <Skeleton active paragraph={{ rows: 1 }} />
+            ) : (
+                <div style={{boxShadow:'0px 0px 15px -10px rgba(0,0,0,0.75)', width:'max-content', margin:'10px 0 15px 0', padding:'10px'}}>
+                    <span style={{ padding:'10px 15px', fontWeight:'bold' }}>Resumé :</span>
+                    <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px', padding:'10px 15px', borderRadius:'5px'}}>
+                        <Popover content={clientListContent} title="Liste des clients" trigger="hover">
+                            <span style={{ fontSize: ".8rem", fontWeight: "200", cursor: "pointer" }}>
+                                Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
+                            </span>
+                        </Popover>
+                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de ville : <strong>{detail.Nbre_de_villes}</strong></span>
+                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture : <strong>{detail.Total_M2_facture}</strong></span>
+                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Extérieur : <strong>{detail.Total_M2_facture_Extérieur}</strong></span>
+                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Intérieur : <strong>{detail.Total_M2_facture_Intérieur}</strong></span>
+                    </div>
+                </div>
+            )
+        }
         <Tabs
             activeKey={activeKey[0]}
             onChange={handleTabChange}
