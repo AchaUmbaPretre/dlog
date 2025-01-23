@@ -33,6 +33,7 @@ const RapportFacture = () => {
     const [ uniqueMonths, setUniqueMonths] = useState([]);
     const [activeKey, setActiveKey] = useState(['1', '2']);
     const [activeKeys, setActiveKeys] = useState(['1', '2']);
+    const [ detail, setDetail] = useState('');
 
     const handleTabChange = (key) => {
         setActiveKey(key);
@@ -45,16 +46,18 @@ const RapportFacture = () => {
       const fetchData = async () => {
         try {
           const { data } = await getRapportFacture(filteredDatas);
+
+          setDetail(data.resume)
       
           const uniqueMonths = Array.from(
-            new Set(data.map((item) => `${item.Mois}-${item.Année}`))
+            new Set(data.data.map((item) => `${item.Mois}-${item.Année}`))
           ).sort((a, b) => {
             const [monthA, yearA] = a.split("-");
             const [monthB, yearB] = b.split("-");
             return yearA - yearB || monthA - monthB;
           });
       
-          const groupedData = data.reduce((acc, curr) => {
+          const groupedData = data.data.reduce((acc, curr) => {
             const client = acc.find((item) => item.Client === curr.Client);
             const [numMonth, year] = [curr.Mois, curr.Année];
             const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
@@ -184,11 +187,11 @@ const RapportFacture = () => {
     <>
         <div style={{boxShadow:'0px 0px 15px -10px rgba(0,0,0,0.75)', width:'max-content', margin:'10px 0 15px 0'}}>
             <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px', padding:'10px 15px', borderRadius:'5px'}}>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong></strong></span>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de ville : <strong></strong></span>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture : <strong></strong></span>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Extérieur : <strong></strong></span>
-                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Intérieur : <strong></strong></span>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong>{detail.Nbre_de_clients}</strong></span>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de ville : <strong>{detail.Nbre_de_villes}</strong></span>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture : <strong>{detail.Total_M2_facture}</strong></span>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Extérieur : <strong>{detail.Total_M2_facture_Extérieur}</strong></span>
+                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Intérieur : <strong>{detail.Total_M2_facture_Intérieur}</strong></span>
             </div>
         </div>
         <Tabs
