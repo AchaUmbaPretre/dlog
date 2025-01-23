@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, notification, Space, Table, Tag } from 'antd';
+import { notification, Table, Tag } from 'antd';
 import moment from 'moment';
 import { getRapportExterneEtInterne } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
