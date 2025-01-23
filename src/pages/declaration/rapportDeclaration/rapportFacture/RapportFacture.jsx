@@ -51,8 +51,8 @@ const RapportFacture = () => {
 
           const res = await getRapportFactureClient()
 
-          setDetail(data.resume);
-          setClientDetail(res.data)
+          setDetail(data?.resume);
+          setClientDetail(res?.data)
       
           const uniqueMonths = Array.from(
             new Set(data.data.map((item) => `${item.Mois}-${item.Année}`))
@@ -148,8 +148,7 @@ const RapportFacture = () => {
                     {text ? Math.round(parseFloat(text)).toLocaleString() : 0}
                 </div>
               ),
-              align: 'right', // Les données restent alignées à droite
-              // Centrer le titre uniquement
+              align: 'right',
               title: <div style={{ textAlign: 'center' }}>Total</div>,
             },
           ];
@@ -206,7 +205,7 @@ const RapportFacture = () => {
             <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px', padding:'10px 15px', borderRadius:'5px'}}>
                 <Popover content={clientListContent} title="Liste des clients" trigger="hover">
                     <span style={{ fontSize: ".8rem", fontWeight: "200", cursor: "pointer" }}>
-                        Nbre de client : <strong>{detail.Nbre_de_clients}</strong>
+                        Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
                     </span>
                 </Popover>
                 <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de ville : <strong>{detail.Nbre_de_villes}</strong></span>
