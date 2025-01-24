@@ -47,6 +47,19 @@
                 color: #292929ee;
             }
         }
+        .client-arrow{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 0;
+          .row-arrow{
+            .icon-arrow{
+              font-size: 1.2rem;
+              color: rgb(0, 119, 255);
+              cursor: pointer;
+            }
+          }
+        }
         .client-actions{
             display: flex;
             align-items: center;

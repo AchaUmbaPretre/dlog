@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, Dropdown, Menu, notification, Tag } from 'antd';
-import { MenuOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined } from '@ant-design/icons';
+import { MenuOutlined, CalendarOutlined, LeftCircleFilled, RightCircleFilled, DownOutlined,EnvironmentOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import DeclarationDetail from '../declarationDetail/DeclarationDetail';
 import DeclarationFiltre from '../declarationFiltre/DeclarationFiltre';
@@ -595,6 +595,14 @@ const DeclarationOneAll = ({idClients}) => {
             <h2 className="client-h2">Déclarations {titre}</h2>
           </div>
           {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} visible={true}/>}
+          <div className="client-arrow">
+            <div className="row-arrow">
+              <LeftCircleFilled className='icon-arrow'/>
+            </div>
+            <div className="row-arrow">
+              <RightCircleFilled className='icon-arrow' />
+            </div>
+          </div>
           <div className="client-actions">
             <div className="client-row-left">
               <Search 
