@@ -54,10 +54,9 @@ const RapportVueEnsemble = () => {
         return row;
       });
 
-      // Extraire toutes les villes uniques
       const extractedCities = [...new Set(data.map(item => item.capital))];
       setAllCities(extractedCities);
-      setVisibleCities(extractedCities); // Par défaut, afficher toutes les villes
+      setVisibleCities(extractedCities);
 
       const dynamicColumns = [
         {
@@ -93,7 +92,15 @@ const RapportVueEnsemble = () => {
               dataIndex: `${capital}_Entreposage`,
               key: `${capital}_Entreposage`,
               render: text => (
-                <Space>{text ? Math.round(parseFloat(text)).toLocaleString() : 0}</Space>
+                <Space>{text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+                </Space>
               ),
               align: 'right',
             },
@@ -103,7 +110,14 @@ const RapportVueEnsemble = () => {
               key: `${capital}_Manutention`,
               render: text => (
                 <Space>
-                  {text === 0 ? '0' : text == null ? 'Aucun' : `${Math.round(parseFloat(text)).toLocaleString()} $`}
+                  {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
                 </Space>
               ),
               align: 'right',
@@ -114,7 +128,14 @@ const RapportVueEnsemble = () => {
               key: `${capital}_Total`,
               render: text => (
                 <Space>
-                  {text == null ? 'Aucun' : `${Math.round(parseFloat(text)).toLocaleString()} $`}
+                    {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
                 </Space>
               ),
               align: 'right',
