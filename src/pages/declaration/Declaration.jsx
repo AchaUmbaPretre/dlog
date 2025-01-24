@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs, Popover } from 'antd';
 import { MenuOutlined,EditOutlined,PieChartOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { deletePutDeclaration, getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
@@ -81,11 +81,20 @@ const Declaration = () => {
     },
   };
 
+  console.log(clientdetail)
   const fetchData = async () => {
     try {
       const { data } = await getDeclaration(filteredDatas, searchValue);
+
+      const uniqueClients = [
+        ...new Set(data.declarations.map((declaration) => declaration.nom)),
+      ];
+    
+      const uniqueDetail = uniqueClients.map((nom_client) => ({ nom_client }));
   
       setData(data.declarations);
+      setClientDetail(uniqueDetail)
+
       setStatistique(data.totals);
       setLoading(false);
     } catch (error) {
@@ -472,6 +481,18 @@ const Declaration = () => {
     setActiveKey(key);
   };
 
+  const clientListContent = (
+    <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+      <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+        {clientdetail.map((client, index) => (
+          <li key={index} style={{ padding: "5px 0", borderBottom: "1px solid #f0f0f0", fontSize:'12px' }}>
+            {index + 1}. {client.nom_client}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
   const filteredData = data.filter(item =>
     item.desc_template?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.nom?.toLowerCase().includes(searchValue.toLowerCase()));
@@ -520,7 +541,9 @@ const Declaration = () => {
                         <Skeleton active paragraph={{ rows: 1 }} />
                       ) : (
                           <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de client : <strong>{statistique.nbre_client}</strong></span>
+                            <Popover content={clientListContent} title="Liste des clients" trigger="hover">
+                              <span style={{fontSize:'.8rem',  fontWeight:'200', color: '#1890ff',cursor: 'pointer' }}>Nbre de client : <strong>{statistique.nbre_client}</strong></span>
+                            </Popover>
                             <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total de M2 Facture : <strong>{statistique.total_m2_facture?.toLocaleString()}</strong></span>
                             <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total entreposage : <strong>{Math.round(parseFloat(statistique.total_entreposage)).toLocaleString() || 0} $</strong></span>
                             <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total TTC Entreposage : <strong>{Math.round(parseFloat(statistique.total_ttc_entreposage)).toLocaleString() || 0} $</strong></span>
