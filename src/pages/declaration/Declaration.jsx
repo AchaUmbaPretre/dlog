@@ -334,7 +334,7 @@ const Declaration = () => {
           sorter: (a, b) => a.ttc_entreposage - b.ttc_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">
+            <Tag color="volcano">
               {text
                     ? `${parseFloat(text)
                         .toLocaleString("en-US", {
