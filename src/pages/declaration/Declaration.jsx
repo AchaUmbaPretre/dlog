@@ -53,6 +53,7 @@ const Declaration = () => {
     pageSize: 25,
   });
   const [activeKey, setActiveKey] = useState(['1', '2']);
+  const [ clientdetail, setClientDetail] = useState([]);
 
   const columnStyles = {
     title: {
