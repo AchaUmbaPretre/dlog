@@ -73,7 +73,14 @@ const RapportManu = () => {
                 render: text => (
                     <Space>
                         <div style={{color: text ? 'black' : 'red'}}>
-                            {text ? `${text.toLocaleString()} $` : 0}
+                        {text
+                            ? `${parseFloat(text)
+                                .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                                })
+                                .replace(/,/g, " ")} $` // Remplace les virgules par des espaces
+                            : "0.00"}
                         </div>
                     </Space>
                   ),
@@ -94,7 +101,14 @@ const RapportManu = () => {
                   }, 0);
                   return <Space>
                   <div style={{color: total ? 'black' : 'red'}}>
-                        {total ? `${Math.round(parseFloat(total)).toLocaleString()} $` : '0'}
+                    {total
+                        ? `${parseFloat(total)
+                                .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                                })
+                                .replace(/,/g, " ")} $`
+                        : "0.00"}
                         </div>
                 </Space> ;
                 },
