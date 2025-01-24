@@ -27,7 +27,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const [idDeclarations, setIdDeclarations] = useState(idDeclarationss);
     const [periode, setPeriode] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
-    const [activeKey, setActiveKey] = useState(['1', '2']);
     const [modalType, setModalType] = useState(null);
 
     const closeAllModals = () => {
@@ -83,8 +82,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                         periode : moment(declaration[0].periode, 'YYYY-MM-DD')
                     })
                 }
-
-                
             }
 
             if(idDeclarations) {
