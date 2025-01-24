@@ -301,7 +301,16 @@ const Declaration = () => {
           sorter: (a, b) => a.debours_entreposage - b.debours_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? '0'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">
+              {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+            </Tag>
           ),
           align: 'right', 
           ...(columnsVisibility['Debours Entr'] ? {} : { className: 'hidden-column' }),
@@ -447,7 +456,16 @@ const Declaration = () => {
           sorter: (a, b) => a.debours_manutation - b.debours_manutation,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? '0'}</Tag>
+            <Tag icon={<DollarOutlined />} color="green">
+              {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+            </Tag>
           ),
           align: 'right', 
           ...(columnsVisibility['Debours Manu'] ? {} : { className: 'hidden-column' }),
