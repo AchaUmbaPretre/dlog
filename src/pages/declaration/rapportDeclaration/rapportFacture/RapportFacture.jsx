@@ -205,19 +205,63 @@ const RapportFacture = () => {
             loading ? (
                 <Skeleton active paragraph={{ rows: 1 }} />
             ) : (
-                <div style={{boxShadow:'0px 0px 15px -10px rgba(0,0,0,0.75)', width:'max-content', margin:'10px 0 15px 0', padding:'10px'}}>
-                    <span style={{ padding:'10px 15px', fontWeight:'bold' }}>Resumé :</span>
-                    <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px', padding:'10px 15px', borderRadius:'5px'}}>
-                        <Popover content={clientListContent} title="Liste des clients" trigger="hover">
-                            <span style={{ fontSize: ".8rem", fontWeight: "200", cursor: "pointer" }}>
-                                Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
-                            </span>
-                        </Popover>
-                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre de ville : <strong>{detail.Nbre_de_villes}</strong></span>
-                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture : <strong>{Math.round(parseFloat(detail.Total_M2_facture)).toLocaleString()}</strong></span>
-                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Extérieur : <strong>{detail.Total_M2_facture_Extérieur.toLocaleString()}</strong></span>
-                        <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Total M2 facture Intérieur : <strong>{detail.Total_M2_facture_Intérieur.toLocaleString()}</strong></span>
-                    </div>
+                <div
+                style={{
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                    borderRadius: '8px',
+                    backgroundColor: '#fff',
+                    width: 'fit-content',
+                    margin: '20px 0',
+                    padding: '15px',
+                }}
+                >
+                    <span
+                        style={{
+                        display: 'block',
+                        padding: '10px 15px',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        borderBottom: '1px solid #f0f0f0',
+                        }}
+                    >
+                        Résumé :
+                    </span>
+                <div
+                    style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '15px',
+                    padding: '15px',
+                    }}
+                >
+                    <Popover content={clientListContent} title="Liste des clients" trigger="hover">
+                    <span
+                        style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '400',
+                        cursor: 'pointer',
+                        color: '#1890ff',
+                        }}
+                    >
+                        Nbre de clients : <strong>{detail?.Nbre_de_clients}</strong>
+                    </span>
+                    </Popover>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Nbre de villes : <strong>{detail.Nbre_de_villes}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total M² facturé :{' '}
+                    <strong>{Math.round(parseFloat(detail.Total_M2_facture)).toLocaleString()}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total M² Extérieur :{' '}
+                    <strong>{detail.Total_M2_facture_Extérieur.toLocaleString()}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total M² Intérieur :{' '}
+                    <strong>{detail.Total_M2_facture_Intérieur.toLocaleString()}</strong>
+                    </span>
+                </div>
                 </div>
             )
         }
