@@ -280,7 +280,16 @@ const Declaration = () => {
           sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? '0'}</Tag>
+            <Tag color="green">
+              {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+            </Tag>
           ),
           align: 'right', 
           ...(columnsVisibility['Tarif Entr'] ? {} : { className: 'hidden-column' }),
@@ -304,7 +313,16 @@ const Declaration = () => {
           sorter: (a, b) => a.total_entreposage - b.total_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? '0'}</Tag>
+            <Tag color="gold">
+              {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+            </Tag>
           ),
           align: 'right', 
           ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
@@ -316,7 +334,16 @@ const Declaration = () => {
           sorter: (a, b) => a.ttc_entreposage - b.ttc_entreposage,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? '0'}</Tag>
+            <Tag icon={<DollarOutlined />} color="volcano">
+              {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+            </Tag>
           ),
           align: 'right', 
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
@@ -378,7 +405,16 @@ const Declaration = () => {
           sorter: (a, b) => a.manutation - b.manutation,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag color="cyan">{text?.toLocaleString() ?? '0'}</Tag>
+            <Tag color="cyan">
+              {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+            </Tag>
           ),
           align: 'right', 
           ...(columnsVisibility['Manutention'] ? {} : { className: 'hidden-column' }),
@@ -390,7 +426,16 @@ const Declaration = () => {
           sorter: (a, b) => a.tarif_manutation - b.tarif_manutation,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="green">{text?.toLocaleString() ?? '0'}</Tag>
+            <Tag color="green">
+              {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+            </Tag>
           ),
           align: 'right', 
           ...(columnsVisibility['Tarif Manu'] ? {} : { className: 'hidden-column' }),
@@ -414,7 +459,16 @@ const Declaration = () => {
           sorter: (a, b) => a.total_manutation - b.total_manutation,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{text?.toLocaleString() ?? '0'}</Tag>
+            <Tag color="gold">
+              {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+            </Tag>
           ),
           align: 'right',
           ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
@@ -426,7 +480,16 @@ const Declaration = () => {
           sorter: (a, b) => a.ttc_manutation - b.ttc_manutation,
           sortDirections: ['descend', 'ascend'],
           render: (text) => (
-            <Tag icon={<DollarOutlined />} color="volcano">{text?.toLocaleString() ?? '0'}</Tag>
+            <Tag color="volcano">
+              {text
+                    ? `${parseFloat(text)
+                        .toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                        })
+                        .replace(/,/g, " ")} $`
+                    : "0.00"}
+            </Tag>
           ),
           align: 'right', 
           ...(columnsVisibility['TTC Manu'] ? {} : { className: 'hidden-column' }),
