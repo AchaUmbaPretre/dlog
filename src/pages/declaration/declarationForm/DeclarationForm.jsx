@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton, Divider } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
@@ -43,9 +43,13 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         openModal('Add');
       }
 
-    const handleTabChange = (key) => {
-      setActiveKey(key);
-    };
+      const goToNextTache = () => {
+        setIdDeclarations((prevId) => prevId + 1);
+      };
+    
+      const goToPreviousTache = () => {
+        setIdDeclarations((prevId) => (prevId > 1 ? prevId - 1 : prevId));
+      };
 
     useEffect(() => {
         setIdDeclarations(idDeclarationss);
@@ -79,6 +83,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                         periode : moment(declaration[0].periode, 'YYYY-MM-DD')
                     })
                 }
+
+                
             }
 
             if(idDeclarations) {
@@ -91,6 +97,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                         periode : moment(declaration[0].periode, 'YYYY-MM-DD')
                     })
                 }
+
+                setIdClient(declaration[0].id_client)
             }
             
 
@@ -175,6 +183,18 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
     return (
         <div className="declarationForm">
+            <div className="client-arrow">
+                <Tooltip title="Précédent">
+                <Button className="row-arrow" onClick={goToPreviousTache} disabled={idDeclarations === 1}>
+                    <LeftCircleFilled className='icon-arrow'/>
+                </Button>
+                </Tooltip>
+                <Tooltip title="Suivant">
+                <Button className="row-arrow" onClick={goToNextTache}>
+                    <RightCircleFilled className='icon-arrow' />
+                </Button>
+                </Tooltip>
+            </div>
             <div className="declaration-wrapper">
                 <div className="declaration-left">
 
