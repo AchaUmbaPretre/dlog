@@ -115,7 +115,14 @@ const RapportEntreposage = () => {
                   render: (text) => (
                     <Space>
                       <div style={{color: text ? 'black' : 'red'}}>
-                            {text ? `${text.toLocaleString()} $` : 0}
+                      {text
+                            ? `${parseFloat(text)
+                                .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                                })
+                                .replace(/,/g, " ")} $` // Remplace les virgules par des espaces
+                            : "0.00"}
                         </div>
                     </Space>
                   ),
@@ -137,7 +144,14 @@ const RapportEntreposage = () => {
                   return (
                     <Space>
                         <div style={{ color: total ? 'black' : 'red' }}>
-                            {total ? `${Math.round(parseFloat(total)).toLocaleString()} $` : '0'}
+                            {total
+                            ? `${parseFloat(total)
+                                .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                                })
+                                .replace(/,/g, " ")} $` // Remplace les virgules par des espaces
+                            : "0.00"}
                         </div>
                     </Space>
                   );
@@ -159,7 +173,14 @@ const RapportEntreposage = () => {
                     return (
                         <div>
                             <div style={{color: totalTTC ? 'black' : 'red'}}>
-                                {totalTTC ? `${Math.round(parseFloat(totalTTC)).toLocaleString()} $` : '0'}
+                            {totalTTC
+                            ? `${parseFloat(totalTTC)
+                                .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                                })
+                                .replace(/,/g, " ")} $` // Remplace les virgules par des espaces
+                            : "0.00"}
                             </div>
                         </div>
                     );
