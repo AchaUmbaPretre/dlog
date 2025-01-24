@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, Dropdown, Menu, notification, Tag } from 'antd';
+import { Table, Button, Modal, Input, Dropdown, Menu, notification, Tag, Tooltip } from 'antd';
 import { MenuOutlined, CalendarOutlined, LeftCircleFilled, RightCircleFilled, DownOutlined,EnvironmentOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import DeclarationDetail from '../declarationDetail/DeclarationDetail';
@@ -42,10 +42,12 @@ const DeclarationOneAll = ({idClients}) => {
   const [searchValue, setSearchValue] = useState('');
   const [titre, setTitre] = useState('');
   const [villeData, setVilleData] = useState([]);
+  const [idClientss, setIdClientss] = useState(idClients); 
+
 
     const fetchData = async () => {
       try {
-        const { data } = await getDeclarationClientOneAll(idClients,filteredDatas);
+        const { data } = await getDeclarationClientOneAll(idClientss,filteredDatas);
         setTitre(data[0]?.nom)
 
         const groupedData = data.reduce((acc, curr) => {
@@ -105,7 +107,7 @@ const DeclarationOneAll = ({idClients}) => {
 
     const fetchDataVille = async () => {
       try {
-        const { data } = await getDeclarationClientOneAll(idClients, filteredDatas);
+        const { data } = await getDeclarationClientOneAll(idClientss, filteredDatas);
         
         // Vérification des données reçues
         if (!data || data.length === 0) {
@@ -179,27 +181,27 @@ const DeclarationOneAll = ({idClients}) => {
 
     useEffect(() => {
       fetchData();
-    }, [filteredDatas, idClients]);
+    }, [filteredDatas, idClientss]);
 
     useEffect(() => {
       fetchDataVille();
-    }, [idClients]);
+    }, [filteredDatas, idClientss]);
 
-  const handleDetails = (idDeclaration) => {
+/*   const handleDetails = (idDeclaration) => {
     openModal('Detail', idDeclaration);
   }
 
   const handleAddTemplate = (idDeclaration) => {
     openModal('Add', idDeclaration);
-  };
+  }; */
 
   const handleAddDecl = (idDeclaration, idClient) => {
     openModal('AddDecl', idDeclaration,idClient );
   };
 
-  const handleUpdateTemplate = (idDeclaration) => {
+/*   const handleUpdateTemplate = (idDeclaration) => {
     openModal('Update', idDeclaration);
-  };
+  }; */
 
   const closeAllModals = () => {
     setModalType(null);
@@ -210,6 +212,14 @@ const DeclarationOneAll = ({idClients}) => {
     setModalType(type);
     setidDeclaration(idDeclaration);
     setidClient(idClient)
+  };
+
+  const goToNextTache = () => {
+    setIdClientss((prevId) => prevId + 1);
+  };
+
+  const goToPreviousTache = () => {
+    setIdClientss((prevId) => (prevId > 1 ? prevId - 1 : prevId));
   };
 
   const menus = (
@@ -596,12 +606,16 @@ const DeclarationOneAll = ({idClients}) => {
           </div>
           {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} visible={true}/>}
           <div className="client-arrow">
-            <div className="row-arrow">
-              <LeftCircleFilled className='icon-arrow'/>
-            </div>
-            <div className="row-arrow">
-              <RightCircleFilled className='icon-arrow' />
-            </div>
+            <Tooltip title="Précédent">
+              <Button className="row-arrow" onClick={goToPreviousTache} disabled={idClientss === 1}>
+                <LeftCircleFilled className='icon-arrow'/>
+              </Button>
+            </Tooltip>
+            <Tooltip title="Suivant">
+              <Button className="row-arrow" onClick={goToNextTache}>
+                <RightCircleFilled className='icon-arrow' />
+              </Button>
+            </Tooltip>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
