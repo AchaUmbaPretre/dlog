@@ -254,11 +254,11 @@ const RapportFacture = () => {
                     <strong>{Math.round(parseFloat(detail.Total_M2_facture)).toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Total M² Extérieur :{' '}
+                    Total Extérieur :{' '}
                     <strong>{detail.Total_M2_facture_Extérieur.toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Total M² Intérieur :{' '}
+                    Total Intérieur :{' '}
                     <strong>{detail.Total_M2_facture_Intérieur.toLocaleString()}</strong>
                     </span>
                 </div>
