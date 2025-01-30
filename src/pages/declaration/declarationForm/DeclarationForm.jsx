@@ -33,8 +33,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         setModalType(null);
       };
 
-      console.log(idDeclarations)
-      
       const openModal = (type, idDeclaration = '') => {
         closeAllModals();
         setModalType(type);
@@ -203,13 +201,23 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                     layout="vertical"
                     onFinish={onFinish}
                     onValuesChange={(changedValues, allValues) => {
-                            const { m2_facture, tarif_entreposage, entreposage, total_entreposage, ttc_entreposage } = allValues;
+                            const { m2_facture, tarif_entreposage, entreposage, total_entreposage, ttc_entreposage, manutation,tarif_manutation,total_manutation,ttc_manutation  } = allValues;
 
                             const m2Facture = parseFloat(m2_facture) || 0;
                             const tarifEntreposage = parseFloat(tarif_entreposage) || 0;
                             const entreposageVal = parseFloat(entreposage) || 0;
 
+                            //Manutention
+                            const tarifManutention = parseFloat(tarif_manutation) || 0;
+                            const manutentionVal = parseFloat(manutation) || 0;
+
+
                             if (changedValues.total_entreposage !== undefined || changedValues.ttc_entreposage !== undefined) {
+                            return; 
+                            }
+
+                            
+                            if (changedValues.total_manutation !== undefined || changedValues.ttc_manutation !== undefined) {
                             return; 
                             }
 
@@ -225,6 +233,21 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                             const ttcEntreposage = totalEntreposage * 1.16;
                             form.setFieldsValue({
                                 ttc_entreposage: ttcEntreposage.toFixed(2),
+                            });
+                            }
+
+                            if(!total_manutation) {
+                                const totalManutention = (m2Facture * tarifManutention) + manutentionVal
+                                form.setFieldsValue({
+                                    total_manutation: totalManutention.toFixed(2)
+                                })
+                            }
+
+                            if (!ttc_manutation) {
+                            const totalManutention = (m2Facture * tarifManutention) + manutentionVal;
+                            const ttcEntreposage = totalManutention * 1.16;
+                            form.setFieldsValue({
+                                ttc_manutation: ttcEntreposage.toFixed(2),
                             });
                             }
                         }}
@@ -309,41 +332,41 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
                                 </Form.Item>
                                     <div style={{display:'flex', gap:'10px', alignItems:'center', width:'100%'}}>
-        <Form.Item
-            name="total_entreposage"
-            label="Total"
-            rules={[{ required: false, message: "Veuillez entrer le total" }]}
-            style={{flex:'6'}}
-        >
-            <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
-                onChange={(value) => {
-                        form.setFieldsValue({
-                        total_entreposage: value,
-                        });
-                }} 
-            />
-        </Form.Item>
-        <Button
-            type="default"
-            style={{ marginLeft: '10px', flex:'1' }}
-            onClick={() => {
-                const m2Facture = parseFloat(form.getFieldValue('m2_facture')) || 0;
-                const tarifEntreposage = parseFloat(form.getFieldValue('tarif_entreposage')) || 0;
-                const entreposageVal = parseFloat(form.getFieldValue('entreposage')) || 0;
-                
-                const totalEntreposage = (m2Facture * tarifEntreposage) + entreposageVal;
-                form.setFieldsValue({
-                total_entreposage: totalEntreposage.toFixed(2),
-                });
+                                        <Form.Item
+                                            name="total_entreposage"
+                                            label="Total"
+                                            rules={[{ required: false, message: "Veuillez entrer le total" }]}
+                                            style={{flex:'6'}}
+                                        >
+                                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
+                                                onChange={(value) => {
+                                                        form.setFieldsValue({
+                                                        total_entreposage: value,
+                                                        });
+                                                }} 
+                                            />
+                                        </Form.Item>
+                                        <Button
+                                            type="default"
+                                            style={{ marginLeft: '10px', flex:'1' }}
+                                            onClick={() => {
+                                                const m2Facture = parseFloat(form.getFieldValue('m2_facture')) || 0;
+                                                const tarifEntreposage = parseFloat(form.getFieldValue('tarif_entreposage')) || 0;
+                                                const entreposageVal = parseFloat(form.getFieldValue('entreposage')) || 0;
+                                                
+                                                const totalEntreposage = (m2Facture * tarifEntreposage) + entreposageVal;
+                                                form.setFieldsValue({
+                                                total_entreposage: totalEntreposage.toFixed(2),
+                                                });
 
-                const ttcEntreposage = totalEntreposage * 1.16;
-                form.setFieldsValue({
-                ttc_entreposage: ttcEntreposage.toFixed(2),
-                });
-            }}
-        >
-            +
-        </Button>
+                                                const ttcEntreposage = totalEntreposage * 1.16;
+                                                form.setFieldsValue({
+                                                ttc_entreposage: ttcEntreposage.toFixed(2),
+                                                });
+                                            }}
+                                        >
+                                            +
+                                        </Button>
                                     </div>
 
                                 <Form.Item
@@ -462,14 +485,36 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                 >
                                     <InputNumber min={0} style={{ width: '100%' }} placeholder="Débours" />
                                 </Form.Item>
+                                <div style={{display:'flex', gap:'10px', alignItems:'center', width:'100%'}}>
+                                    <Form.Item
+                                        name="total_manutation"
+                                        label="Total"
+                                        rules={[{ required: false, message: "Veuillez entrer le total" }]}
+                                    >
+                                        <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
+                                    </Form.Item>
+                                    <Button
+                                            type="default"
+                                            style={{ marginLeft: '10px', flex:'1' }}
+                                            onClick={() => {
+                                                const m2Facture = parseFloat(form.getFieldValue('m2_facture')) || 0;
+                                                const tarifManutention = parseFloat(form.getFieldValue('tarif_manutation')) || 0;
+                                                const manutentionVal = parseFloat(form.getFieldValue('manutation')) || 0;
+                                                
+                                                const totalManutention = (m2Facture * tarifManutention) + manutentionVal;
+                                                form.setFieldsValue({
+                                                total_manutation: totalManutention.toFixed(2),
+                                                });
 
-                                <Form.Item
-                                    name="total_manutation"
-                                    label="Total"
-                                    rules={[{ required: false, message: "Veuillez entrer le total" }]}
-                                >
-                                    <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
-                                </Form.Item>
+                                                const ttcManutention = totalManutention * 1.16;
+                                                form.setFieldsValue({
+                                                ttc_manutation: ttcManutention.toFixed(2),
+                                                });
+                                            }}
+                                        >
+                                            +
+                                    </Button>
+                                </div>
 
                                 <Form.Item
                                     name="ttc_manutation"
