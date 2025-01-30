@@ -52,7 +52,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
           return prevId;
         });
       };
-    
+     
       const goToPreviousTache = () => {
         setIdDeclarations((prevId) => {
           const currentIndex = idValides.indexOf(prevId);
