@@ -166,10 +166,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         try {
             if(idDeclaration) {
                 await putDeclaration(idDeclaration, values);
-                notification.success({
-                    message: 'Succès',
-                    description: 'Les informations ont été modifiées avec succès.',
-                });
+                message.success({ content: 'Modification effectuée avec succès.', key: loadingKey });
 
                 window.location.reload()
             }
