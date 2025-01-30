@@ -6,6 +6,7 @@ import DeclarationDetail from '../declarationDetail/DeclarationDetail';
 import DeclarationFiltre from '../declarationFiltre/DeclarationFiltre';
 import DeclarationForm from '../declarationForm/DeclarationForm';
 import { getDeclarationClientOneAll } from '../../../services/templateService';
+import { getClientId } from '../../../services/clientService';
 
 const { Search } = Input;
 
@@ -43,12 +44,16 @@ const DeclarationOneAll = ({idClients}) => {
   const [titre, setTitre] = useState('');
   const [villeData, setVilleData] = useState([]);
   const [idClientss, setIdClientss] = useState(idClients); 
-
-
+  const [idValides, setIdValides] = useState([]);
+  
     const fetchData = async () => {
       try {
         const { data } = await getDeclarationClientOneAll(idClientss,filteredDatas);
         setTitre(data[0]?.nom)
+
+        const res = await getClientId();
+        const idList = res.data.map(item => item.id_client).sort((a, b) => a - b);
+        setIdValides(idList)
 
         const groupedData = data.reduce((acc, curr) => {
           const existingClient = acc.find(item => item.id_client === curr.id_client);
@@ -187,21 +192,10 @@ const DeclarationOneAll = ({idClients}) => {
       fetchDataVille();
     }, [filteredDatas, idClientss]);
 
-/*   const handleDetails = (idDeclaration) => {
-    openModal('Detail', idDeclaration);
-  }
-
-  const handleAddTemplate = (idDeclaration) => {
-    openModal('Add', idDeclaration);
-  }; */
-
   const handleAddDecl = (idDeclaration, idClient) => {
     openModal('AddDecl', idDeclaration,idClient );
   };
 
-/*   const handleUpdateTemplate = (idDeclaration) => {
-    openModal('Update', idDeclaration);
-  }; */
 
   const closeAllModals = () => {
     setModalType(null);
@@ -215,12 +209,25 @@ const DeclarationOneAll = ({idClients}) => {
   };
 
   const goToNextTache = () => {
-    setIdClientss((prevId) => prevId + 1);
+    setIdClientss((prevId) => {
+      const currentIndex = idValides.indexOf(prevId);
+      if (currentIndex !== -1 && currentIndex < idValides.length - 1) {
+        return idValides[currentIndex + 1];
+      }
+      return prevId;
+    });
   };
 
   const goToPreviousTache = () => {
-    setIdClientss((prevId) => (prevId > 1 ? prevId - 1 : prevId));
+    setIdClientss((prevId) => {
+      const currentIndex = idValides.indexOf(prevId);
+      if (currentIndex > 0) {
+        return idValides[currentIndex - 1];
+      }
+      return prevId;
+    });
   };
+
 
   const menus = (
     <Menu>
@@ -690,6 +697,7 @@ const DeclarationOneAll = ({idClients}) => {
       ]
     }
   ];
+
   
   const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
@@ -712,12 +720,12 @@ const DeclarationOneAll = ({idClients}) => {
           {filterVisible && <DeclarationFiltre onFilter={handleFilterChange} visible={true}/>}
           <div className="client-arrow">
             <Tooltip title="Précédent">
-              <Button className="row-arrow" onClick={goToPreviousTache} disabled={idClientss === 1}>
+              <Button className="row-arrow" onClick={goToPreviousTache} disabled={idValides.indexOf(idClientss) === 0}>
                 <LeftCircleFilled className='icon-arrow'/>
               </Button>
             </Tooltip>
             <Tooltip title="Suivant">
-              <Button className="row-arrow" onClick={goToNextTache}>
+              <Button className="row-arrow" onClick={goToNextTache} disabled={idValides.indexOf(idClientss) === idValides.length - 1}>
                 <RightCircleFilled className='icon-arrow' />
               </Button>
             </Tooltip>
