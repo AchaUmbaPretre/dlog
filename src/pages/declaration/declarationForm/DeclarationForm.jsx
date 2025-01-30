@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PlusCircleOutlined, LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton, Divider } from 'antd';
 import './declarationForm.scss';
-import { getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
+import { getDeclarationId, getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
@@ -26,6 +26,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const [idClient, setIdClient] = useState(idClients);
     const [idDeclarations, setIdDeclarations] = useState(idDeclarationss);
     const [periode, setPeriode] = useState(null);
+    const [idValides, setIdValides] = useState([]);
     const [refreshKey, setRefreshKey] = useState(0);
     const [modalType, setModalType] = useState(null);
 
@@ -42,12 +43,27 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         openModal('Add');
       }
 
+      console.log(idDeclarations)
+
       const goToNextTache = () => {
-        setIdDeclarations((prevId) => prevId + 1);
+        setIdDeclarations((prevId) => {
+          const currentIndex = idValides.indexOf(prevId);
+          if (currentIndex !== -1 && currentIndex < idValides.length - 1) {
+            return idValides[currentIndex + 1]; // Passer à l'ID suivant existant
+          }
+          return prevId;
+        });
       };
     
       const goToPreviousTache = () => {
-        setIdDeclarations((prevId) => (prevId > 1 ? prevId - 1 : prevId));
+        console.log('bbbbbb')
+        setIdDeclarations((prevId) => {
+          const currentIndex = idValides.indexOf(prevId);
+          if (currentIndex > 0) {
+            return idValides[currentIndex - 1]; // Aller à l'ID précédent existant
+          }
+          return prevId;
+        });
       };
 
     useEffect(() => {
@@ -61,18 +77,21 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const fetchDataAll = async () => {
         setIsLoading(true)
         try {
-            const [ templateData, objetData, provinceData, clientData, batimentData] = await Promise.all([
+            const [ templateData, objetData, provinceData, clientData, batimentData, declaIdData] = await Promise.all([
                 getTemplate(),
                 getObjetFacture(),
                 getProvince(),
                 getClient(),
-                getBatiment()
+                getBatiment(),
+                getDeclarationId()
             ])
+            const idList = declaIdData.data.map(item => item.id_declaration_super).sort((a, b) => a - b);
             setTemplates(templateData.data);
             setObjet(objetData.data);
             setProvince(provinceData.data);
             setClient(clientData.data);
-            setBatiment(batimentData.data)
+            setBatiment(batimentData.data);
+            setIdValides(idList)
 
             if(idDeclaration) {
                 const { data : declaration } = await getDeclarationOne(idDeclaration)
@@ -180,12 +199,12 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         <div className="declarationForm">
             <div className="client-arrow">
                 <Tooltip title="Précédent">
-                <Button className="row-arrow" onClick={goToPreviousTache} disabled={idDeclarations === 1}>
+                <Button className="row-arrow" onClick={goToPreviousTache} disabled={idValides.indexOf(idDeclarations) === 0}>
                     <LeftCircleFilled className='icon-arrow'/>
                 </Button>
                 </Tooltip>
                 <Tooltip title="Suivant">
-                <Button className="row-arrow" onClick={goToNextTache}>
+                <Button className="row-arrow" onClick={goToNextTache} disabled={idValides.indexOf(idDeclarations) === idValides.length - 1}>
                     <RightCircleFilled className='icon-arrow' />
                 </Button>
                 </Tooltip>

@@ -50,9 +50,13 @@ export const getObjetFacture = async () => {
   };
 
 //Déclaration superficie
+export const getDeclarationId = async () => {
+  return axios.get(`${DOMAIN}/api/template/declaration_ID`);
+}
+
 export const getDeclarationCount = async () => {
-    return axios.get(`${DOMAIN}/api/template/declaration_count`);
-  };
+  return axios.get(`${DOMAIN}/api/template/declaration_count`);
+};
 
 export const getDeclaration = async (data, searchValue) => {
     return axios.post(`${DOMAIN}/api/template/declaration_superficies?search=${searchValue}`, data);
