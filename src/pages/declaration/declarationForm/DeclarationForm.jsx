@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlusCircleOutlined, LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
-import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton, Divider } from 'antd';
+import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton, Divider, message } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationId, getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
@@ -156,8 +156,12 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
 
     const onFinish = async (values) => {
-        setIsLoading(true);
         await form.validateFields();
+
+        const loadingKey = 'loadingDeclaration';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+    
+        setIsLoading(true);
 
         try {
             if(idDeclaration) {
@@ -173,6 +177,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                 await postDeclaration(values);
                 setRefreshKey((prev) => prev + 1);
                 setPeriode(null);
+                message.success({ content: 'Déclaration enregistrée avec succès.', key: loadingKey });
                 notification.success({
                     message: 'Succès',
                     description: 'Les informations ont été enregistrées avec succès.',
@@ -183,6 +188,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
             navigate('/liste_declaration')
         } catch (error) {
             console.error("Erreur lors de l'ajout de la déclaration:", error);
+            message.error({ content: 'Une erreur est survenue.', key: loadingKey });
             notification.error({
                 message: 'Erreur',
                 description: `${error.response.data.error}`,
