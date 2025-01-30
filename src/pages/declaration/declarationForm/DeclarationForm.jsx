@@ -196,14 +196,14 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         <div className="declarationForm">
             <div className="client-arrow">
                 <Tooltip title="Précédent">
-                <Button className="row-arrow" onClick={goToPreviousTache} disabled={idValides.indexOf(idDeclarations) === 0}>
-                    <LeftCircleFilled className='icon-arrow'/>
-                </Button>
+                    <Button className="row-arrow" onClick={goToPreviousTache} disabled={idValides.indexOf(idDeclarations) === 0}>
+                        <LeftCircleFilled className='icon-arrow'/>
+                    </Button>
                 </Tooltip>
                 <Tooltip title="Suivant">
-                <Button className="row-arrow" onClick={goToNextTache} disabled={idValides.indexOf(idDeclarations) === idValides.length - 1}>
-                    <RightCircleFilled className='icon-arrow' />
-                </Button>
+                    <Button className="row-arrow" onClick={goToNextTache} disabled={idValides.indexOf(idDeclarations) === idValides.length - 1}>
+                        <RightCircleFilled className='icon-arrow' />
+                    </Button>
                 </Tooltip>
             </div>
             <div className="declaration-wrapper">
