@@ -153,8 +153,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         }
     }, [province,idTemplate]);
     
-
-
     const onFinish = async (values) => {
         await form.validateFields();
 
