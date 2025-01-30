@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Menu, Tag, Dropdown, Button, Select, Skeleton } from 'antd';
+import { Table, Menu, Tag, Dropdown, Button, Select, Skeleton, Space } from 'antd';
 import { CalendarOutlined,MenuOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getDeclarationOneClient, getTemplateOne } from '../../../services/templateService';
@@ -46,7 +46,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
   
     data.forEach((item) => {
       const date = moment(item.periode);
-      const key = date.format('MMMM YYYY'); // Ex: "January 2024"
+      const key = date.format('MMMM YYYY');
   
       if (!groupedData[key]) {
         groupedData[key] = [];
@@ -127,7 +127,9 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
         key: 'desc_template',
         render: (text, record) => {
           const isTrue = record.id_template === idTemplate;
-          return <Tag icon={<FileTextOutlined />} color= {isTrue ? 'red' : "geekblue"}>{text ?? 'Aucun'}</Tag>
+          return <Space onClick={() => handleRowClick(record.id_declaration_super)}>
+                    <Tag icon={<FileTextOutlined />} color= {isTrue ? 'red' : "geekblue"}>{text ?? 'Aucun'}</Tag>
+                  </Space>
         },
         ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
       },
@@ -402,11 +404,6 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
                                 bordered
                                 size="middle"
                                 scroll={scroll}
-                                onRow={(record) => ({
-                                        onClick: () => {
-                                            handleRowClick(record.id_declaration_super);
-                                        },
-                                    })}
                             />
                         </div>
                         ))}

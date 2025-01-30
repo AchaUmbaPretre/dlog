@@ -118,8 +118,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
             const { data } = await getTemplateOne(idTemplate);
             const { id_ville, id_client } = data[0];
     
-            form.resetFields();
-
             form.setFieldsValue({
                 id_ville,
                 id_client,
