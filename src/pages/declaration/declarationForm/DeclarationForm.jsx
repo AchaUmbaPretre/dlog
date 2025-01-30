@@ -43,24 +43,21 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         openModal('Add');
       }
 
-      console.log(idDeclarations)
-
       const goToNextTache = () => {
         setIdDeclarations((prevId) => {
           const currentIndex = idValides.indexOf(prevId);
           if (currentIndex !== -1 && currentIndex < idValides.length - 1) {
-            return idValides[currentIndex + 1]; // Passer à l'ID suivant existant
+            return idValides[currentIndex + 1];
           }
           return prevId;
         });
       };
     
       const goToPreviousTache = () => {
-        console.log('bbbbbb')
         setIdDeclarations((prevId) => {
           const currentIndex = idValides.indexOf(prevId);
           if (currentIndex > 0) {
-            return idValides[currentIndex - 1]; // Aller à l'ID précédent existant
+            return idValides[currentIndex - 1];
           }
           return prevId;
         });
