@@ -6,7 +6,7 @@ import { getDeclaration5derniers } from '../../../services/templateService';
 
 const { Search } = Input;
 
-const Declaration5derners = () => {
+const Declaration5derners = ({idDeclarations}) => {
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
@@ -68,6 +68,10 @@ const Declaration5derners = () => {
     fetchData();
   }, [filteredDatas]);
 
+  const handleAddDecl = (idDeclaration) => {
+    idDeclarations(idDeclaration)
+  };
+
   const handleDetails = (idDeclaration) => {
     openModal('Detail', idDeclaration);
   }
@@ -126,8 +130,10 @@ const Declaration5derners = () => {
           title: 'Template',
           dataIndex: 'desc_template',
           key: 'desc_template',
-          render: (text) => (
-            <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
+          render: (text, record) => (
+            <Space onClick={() => handleAddDecl(record.id_declaration_super)}>
+              <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
+            </Space>
           ),
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
         },

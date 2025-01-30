@@ -412,7 +412,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
                         ))}
                     </>
                     :
-                    <Declaration5derners/>
+                    <Declaration5derners idDeclarations={idDeclarations}/>
                 }
                 </div>
             </div>

@@ -32,6 +32,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const closeAllModals = () => {
         setModalType(null);
       };
+
+      console.log(idDeclarations)
       
       const openModal = (type, idDeclaration = '') => {
         closeAllModals();
@@ -195,7 +197,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
             <div className="declaration-wrapper">
                 <div className="declaration-left">
 
-                <Form
+                    <Form
                     form={form}
                     name="declaration_form"
                     layout="vertical"
@@ -515,7 +517,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                             </div>
                         </Tooltip>
                     </div>
-                    <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations} key={refreshKey} />
+                    <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations} key={refreshKey}/>
                 </div>
             </div>
             <Modal
