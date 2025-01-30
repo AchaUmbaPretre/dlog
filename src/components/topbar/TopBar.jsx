@@ -14,7 +14,7 @@ import Notification from './notification/Notification';
 import { deletePutNotification, getNotification } from '../../services/tacheService';
 
 const TopBar = () => {
-  const user = useSelector((state) => state.user.currentUser);
+  const user = useSelector((state) => state.user?.currentUser);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const navigate = useNavigate();
   const { isOpen, toggleMenu } = useMenu();
