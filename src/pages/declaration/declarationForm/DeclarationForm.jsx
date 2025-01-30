@@ -178,10 +178,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                 setRefreshKey((prev) => prev + 1);
                 setPeriode(null);
                 message.success({ content: 'Déclaration enregistrée avec succès.', key: loadingKey });
-                notification.success({
-                    message: 'Succès',
-                    description: 'Les informations ont été enregistrées avec succès.',
-                });
             }
             form.resetFields();
             fetchData();
