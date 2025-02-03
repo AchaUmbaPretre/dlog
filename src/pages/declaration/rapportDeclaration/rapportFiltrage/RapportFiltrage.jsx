@@ -31,7 +31,6 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
             status_batiment: selectedType,
             montant: { min: minMontant, max: maxMontant },
             period: selectedOption,
-
         });
     };
 
