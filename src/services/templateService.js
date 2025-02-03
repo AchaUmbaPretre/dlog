@@ -144,3 +144,13 @@ export const getRapportManutentation = async (filter) => {
 export const getRapportEntreposage = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_entreposage`, filter);
 };
+
+
+//Mois & ANNEE
+export const getMois = async () => {
+  return axios.get(`${DOMAIN}/api/template/mois`);
+};
+
+export const getAnnee = async () => {
+  return axios.get(`${DOMAIN}/api/template/annee`);
+};
