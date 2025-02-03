@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Button, Skeleton, Input, Checkbox, Collapse } from 'antd';
+import { Select, Button, Skeleton, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import moment from 'moment';
 import { getClient, getProvince } from '../../../../services/clientService';
 import { getStatus_batiment } from '../../../../services/typeService';
-import { getMois, getAnnee } from '../../../../services/templateService';
 
 const { Option } = Select;
-const { Panel } = Collapse;
 
 const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const [province, setProvince] = useState([]);
@@ -19,56 +17,37 @@ const RapportFiltrage = ({ onFilter, filtraVille }) => {
     const [minMontant, setMinMontant] = useState(null);
     const [maxMontant, setMaxMontant] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [mois, setMois] = useState([]);
-    const [annee, setAnnee] = useState([]);
-    const [selectedMois, setSelectedMois] = useState([]);
-    const [selectedAnnees, setSelectedAnnees] = useState([]);
+    const [options, setOptions] = useState([]);
     const [type, setType] = useState([]);
+    const [selectedOption, setSelectedOption] = useState(null);
 
-const handleFilter = () => {
-    // Format selected months and years
-    const period = {
-        mois: [],
-        annees: selectedAnnees,
+    const years = Array.from({ length: 10 }, (_, i) => moment().year() - i);
+    const months = Array.from({ length: 12 }, (_, i) => moment().month(i).format('MMMM'));
+
+    const handleFilter = () => {
+        onFilter({
+            ville: selectedVille,
+            client: selectedClients,
+            status_batiment: selectedType,
+            montant: { min: minMontant, max: maxMontant },
+            period: selectedOption,
+        });
     };
-
-    // Flatten the selected months for each year
-    selectedAnnees.forEach(year => {
-        if (selectedMois[year]) {
-            selectedMois[year].forEach(mois => {
-                period.mois.push(mois.split('-')[0]); // Extracting month from "mois-annee"
-            });
-        }
-    });
-
-    // Prepare the filter data
-    onFilter({
-        ville: selectedVille,
-        client: selectedClients,
-        status_batiment: selectedType,
-        montant: { min: minMontant, max: maxMontant },
-        period,  // Pass formatted period object
-    });
-};
-
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [clientData, provinceData, statutData, moisData, yearData] = await Promise.all([ 
+                const [clientData, provinceData, statutData] = await Promise.all([
                     getClient(),
                     getProvince(),
-                    getStatus_batiment(),
-                    getMois(),
-                    getAnnee()
+                    getStatus_batiment()
                 ]);
 
                 setClient(clientData.data);
                 setProvince(provinceData.data);
                 setType(statutData.data);
-                setMois(moisData.data); // Utiliser les données de mois
-                setAnnee(yearData.data); // Utiliser les données d'année
+                setOptions(years.map((year) => ({ label: year, value: year })));
             } catch (error) {
                 console.error(error);
             } finally {
@@ -79,36 +58,33 @@ const handleFilter = () => {
         fetchData();
     }, []);
 
-    const handleMoisChange = (checkedValues, annee) => {
-        setSelectedMois((prev) => ({
-            ...prev,
-            [annee]: checkedValues,
-        }));
+    const handleOptionChange = (value) => {
+        setSelectedOption(value);
+
+        // Si une année est sélectionnée, basculer vers les mois
+        if (years.includes(value)) {
+            const monthsOptions = months.map((month, index) => ({
+                label: `${month} ${value}`,
+                value: `${value}-${index + 1}`,
+            }));
+            setOptions(monthsOptions);
+        }
     };
 
-    const handleAnneeChange = (checkedValues) => {
-        setSelectedAnnees(checkedValues);
+    const handleBackToYears = () => {
+        setOptions(years.map((year) => ({ label: year, value: year })));
+        setSelectedOption(null);
     };
 
-    const renderMoisParAnnee = () => {
-        return annee.map((year) => {
-            if (selectedAnnees.includes(year.annee)) {
-                return (
-                    <Panel header={year.annee} key={year.annee}>
-                        <Checkbox.Group
-                            options={mois.map((item) => ({
-                                label: moment().month(item.mois - 1).format('MMMM'),
-                                value: `${item.mois}-${year.annee}`,
-                            }))}
-                            value={selectedMois[year.annee] || []}
-                            onChange={(checkedValues) => handleMoisChange(checkedValues, year.annee)}
-                        />
-                    </Panel>
-                );
-            }
-            return null;
-        });
+
+    const handleMinMontantChange = (e) => {
+        setMinMontant(e.target.value);
     };
+
+    const handleMaxMontantChange = (e) => {
+        setMaxMontant(e.target.value);
+    };
+
 
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
@@ -184,37 +160,34 @@ const handleFilter = () => {
                         placeholder="Min"
                         type="number"
                         value={minMontant}
-                        onChange={(e) => setMinMontant(e.target.value)}
+                        onChange={handleMinMontantChange}
                     />
                     <Input
                         placeholder="Max"
                         type="number"
                         value={maxMontant}
-                        onChange={(e) => setMaxMontant(e.target.value)}
+                        onChange={handleMaxMontantChange}
                     />
                 </div>
             </div>
 
             <div className="filter_row">
-                <label>Année :</label>
-                <Checkbox.Group
-                    options={annee.map((item) => ({
-                        label: item.annee,
-                        value: item.annee,
-                    }))}
-                    value={selectedAnnees}
-                    onChange={handleAnneeChange}
-                />
-            </div>
-
-            {selectedAnnees.length > 0 && (
-                <div className="filter_row">
-                    <label>Mois :</label>
-                    <Collapse defaultActiveKey={selectedAnnees}>
-                        {renderMoisParAnnee()}
-                    </Collapse>
+                <label>Période :</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <Select
+                        style={{ width: '100%' }}
+                        placeholder="Sélectionnez une année ou un mois"
+                        options={options}
+                        value={selectedOption}
+                        onChange={handleOptionChange}
+                    />
+                    {years.includes(selectedOption) && (
+                        <Button type="link" onClick={handleBackToYears}>
+                            Retour à la sélection des années
+                        </Button>
+                    )}
                 </div>
-            )}
+            </div>
 
             <Button
                 style={{ padding: '10px', marginTop: '20px' }}
@@ -222,7 +195,6 @@ const handleFilter = () => {
                 icon={<SearchOutlined />}
                 onClick={handleFilter}
             >
-                Filtrer
             </Button>
         </div>
     );

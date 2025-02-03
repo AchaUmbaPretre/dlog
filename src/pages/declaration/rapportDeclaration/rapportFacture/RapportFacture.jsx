@@ -55,7 +55,7 @@ const RapportFacture = () => {
           setClientDetail(res?.data)
       
           const uniqueMonths = Array.from(
-            new Set(data.data.map((item) => `${item.Mois}-${item.Année}`))
+            new Set(data?.data.map((item) => `${item.Mois}-${item.Année}`))
           ).sort((a, b) => {
             const [monthA, yearA] = a.split("-");
             const [monthB, yearB] = b.split("-");
@@ -130,7 +130,7 @@ const RapportFacture = () => {
                 render: (text) => (
                   <Space>
                     <div style={{color: text ? 'black' : 'red'}}>
-                        {text ? Math.round(parseFloat(text)).toLocaleString() : 0}
+                        {text ? Math.round(parseFloat(text))?.toLocaleString() : 0}
                     </div>
                   </Space>
                 ),
@@ -145,7 +145,7 @@ const RapportFacture = () => {
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
                 <div style={{color: text ? 'black' : 'red'}}>
-                    {text ? Math.round(parseFloat(text)).toLocaleString() : 0}
+                    {text ? Math.round(parseFloat(text))?.toLocaleString() : 0}
                 </div>
               ),
               align: 'right',
@@ -251,15 +251,15 @@ const RapportFacture = () => {
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total M² facturé :{' '}
-                    <strong>{Math.round(parseFloat(detail.Total_M2_facture)).toLocaleString()}</strong>
+                    <strong>{Math.round(parseFloat(detail.Total_M2_facture))?.toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total Extérieur :{' '}
-                    <strong>{detail.Total_M2_facture_Extérieur.toLocaleString()}</strong>
+                    <strong>{detail.Total_M2_facture_Extérieur?.toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total Intérieur :{' '}
-                    <strong>{detail.Total_M2_facture_Intérieur.toLocaleString()}</strong>
+                    <strong>{detail.Total_M2_facture_Intérieur?.toLocaleString()}</strong>
                     </span>
                 </div>
                 </div>
