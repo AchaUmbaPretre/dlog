@@ -247,7 +247,7 @@ const RapportVueEnsemble = () => {
                     <strong>{detail.Total_Intérieur?.toLocaleString()} $</strong>
                     </span>
                 </div>
-                </div>
+              </div>
             )
         }
       <div className="rapport_facture">
