@@ -107,7 +107,7 @@ useEffect(()=> {
                 setClient(clientData.data);
                 setProvince(provinceData.data);
                 setType(statutData.data);
-                setAnnee(yearData.data); // Utiliser les données d'année
+                setAnnee(yearData.data);
             } catch (error) {
                 console.error(error);
             } finally {
