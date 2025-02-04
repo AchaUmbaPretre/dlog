@@ -4,8 +4,9 @@ import {
     AreaChartOutlined,
     AppstoreOutlined,
     DatabaseOutlined,
-    EyeOutlined,
-    SwapOutlined
+    EnvironmentOutlined,
+    SwapOutlined,
+    GlobalOutlined
 } from '@ant-design/icons';
 import './rapportDeclaration.scss'
 import RapportFacture from './rapportFacture/RapportFacture';
@@ -13,6 +14,7 @@ import RapportManu from './rapportManu/RapportManu';
 import RapportEntreposage from './rapportEntreposage/RapportEntreposage';
 import RapportVueEnsemble from './rapportVueEnsemble/RapportVueEnsemble';
 import RapportExterneEtInterne from './rapportExterneEtInterne/RapportExterneEtInterne';
+import RapportPays from './rapportPays/RapportPays';
 
 const { TabPane } = Tabs;
 
@@ -83,7 +85,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <EyeOutlined style={{ color: 'blue' }} /> Par ville
+                                <EnvironmentOutlined style={{ color: 'red' }} /> Par ville
                             </span>
                         }
                         key="5"
@@ -94,10 +96,21 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <SwapOutlined style={{ color: 'red' }} /> Intérieur & Extérieur
+                                <GlobalOutlined style={{ color: 'green' }} /> Par pays
                             </span>
                         }
                         key="6"
+                    >
+                        <RapportPays/>
+                    </TabPane>
+
+                    <TabPane
+                        tab={
+                            <span>
+                                <SwapOutlined style={{ color: 'red' }} /> Intérieur & Extérieur
+                            </span>
+                        }
+                        key="7"
                     >
                         <RapportExterneEtInterne/>
                     </TabPane>
