@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Dropdown, Menu, notification, Space, Table, Tabs, Tag } from 'antd';
+import { Button, Checkbox, Dropdown, Menu, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
 import moment from 'moment';
 import { AreaChartOutlined, PieChartOutlined } from '@ant-design/icons';
 import { getRapportVille } from '../../../../services/templateService';
@@ -20,7 +20,7 @@ const RapportVueEnsemble = () => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [visibleCities, setVisibleCities] = useState([]); // Gère les villes visibles
   const [allCities, setAllCities] = useState([]); // Liste de toutes les villes disponibles
-
+  const [detail, setDetail] = useState([]);
   const scroll = { x: 400 };
   const [uniqueMonths, setUniqueMonths] = useState([]);
   const [activeKeys, setActiveKeys] = useState(['1', '2']);
@@ -182,6 +182,74 @@ const RapportVueEnsemble = () => {
 
   return (
     <>
+        {
+            loading ? (
+                <Skeleton active paragraph={{ rows: 1 }} />
+            ) : (
+                <div
+                  style={{
+                      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                      borderRadius: '8px',
+                      backgroundColor: '#fff',
+                      width: 'fit-content',
+                      margin: '20px 0',
+                      padding: '15px',
+                  }}
+                >
+                    <span
+                        style={{
+                        display: 'block',
+                        padding: '10px 15px',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        borderBottom: '1px solid #f0f0f0',
+                        }}
+                    >
+                        Résumé :
+                    </span>
+                <div
+                    style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '15px',
+                    padding: '15px',
+                    }}
+                >
+                    <Popover title="Liste des clients" trigger="hover">
+                      <span
+                        style={{
+                          fontSize: '0.9rem',
+                          fontWeight: '400',
+                          cursor: 'pointer',
+                          color: '#1890ff',
+                          }}
+                      >
+                        Nbre de clients : <strong>{detail?.Nbre_de_clients}</strong>
+                      </span>
+                    </Popover>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Nbre de villes : <strong>{detail.Nbre_de_villes}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total :{' '}
+                    <strong>{Math.round(parseFloat(detail.Total))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total TTC :{' '}
+                    <strong>{Math.round(parseFloat(detail.Total_ttc))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total Extérieur :{' '}
+                    <strong>{detail.Total_Extérieur?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total Intérieur :{' '}
+                    <strong>{detail.Total_Intérieur?.toLocaleString()} $</strong>
+                    </span>
+                </div>
+                </div>
+            )
+        }
       <div className="rapport_facture">
         <h2 className="rapport_h2">RAPPORT VILLE</h2>
         <Button
