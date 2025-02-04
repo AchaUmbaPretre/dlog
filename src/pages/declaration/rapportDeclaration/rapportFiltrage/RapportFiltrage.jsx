@@ -69,13 +69,12 @@ useEffect(()=> {
             }
         });
     
-        // Prepare the filter data
         onFilter({
             ville: selectedVille,
             client: selectedClients,
             status_batiment: selectedType,
             montant: { min: minMontant, max: maxMontant },
-            period,  // Pass formatted period object
+            period,
         });
     
     };
@@ -113,7 +112,7 @@ useEffect(()=> {
             } finally {
                 setIsLoading(false);
             }
-    };
+    }
 
     useEffect(() => {
         fetchData();
