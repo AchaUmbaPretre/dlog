@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Dropdown, Menu, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
 import moment from 'moment';
-import { AreaChartOutlined, PieChartOutlined } from '@ant-design/icons';
 import { getRapportPays, getRapportVille } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
@@ -19,7 +18,6 @@ const RapportPays = () => {
   const [allCities, setAllCities] = useState([]); // Liste de toutes les villes disponibles
   const [detail, setDetail] = useState([]);
   const scroll = { x: 400 };
-  const [uniqueMonths, setUniqueMonths] = useState([]);
   const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
   const fetchData = async () => {
