@@ -51,17 +51,6 @@ const RapportDeclaration = () => {
                         <RapportFacture/>
                     </TabPane>
 
-{/*                     <TabPane
-                        tab={
-                            <span>
-                                <ContainerOutlined /> Total Entrepo et Manut
-                            </span>
-                        }
-                        key="2"
-                    >
-                        <RapportEntrepoEtManu/>
-                    </TabPane>
- */}
                      <TabPane
                         tab={
                             <span>
