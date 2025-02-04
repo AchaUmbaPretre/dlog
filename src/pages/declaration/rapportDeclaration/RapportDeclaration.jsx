@@ -6,7 +6,8 @@ import {
     DatabaseOutlined,
     EnvironmentOutlined,
     SwapOutlined,
-    GlobalOutlined
+    GlobalOutlined,
+    RiseOutlined
 } from '@ant-design/icons';
 import './rapportDeclaration.scss'
 import RapportFacture from './rapportFacture/RapportFacture';
@@ -60,6 +61,17 @@ const RapportDeclaration = () => {
                         <RapportEntrepoEtManu/>
                     </TabPane>
  */}
+                     <TabPane
+                        tab={
+                            <span>
+                                <RiseOutlined style={{ color: 'blue' }} /> Superficie
+                            </span>
+                        }
+                        key="2"
+                    >
+{/*                         <RapportEntrepoEtManu/> */}
+                    </TabPane>
+
                     <TabPane
                         tab={
                             <span>
