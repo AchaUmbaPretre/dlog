@@ -20,20 +20,21 @@ const Declaration = () => {
     '#': true,
     'Template': true,
     'Desc man': false,
-    'Periode': false,
+    'Periode': true,
     'M² occupe': false,
     "M² facture": true,
     "Tarif Entr": true,
-    'Debours Entr': true,
+    'Debours Entr': false,
     'Total Entr': true,
-    "TTC Entr": true,
+    "TTC Entr": false,
     "Ville": true,
     "Client": true,
     "Bâtiment": false,
     "Manutention": true,
     "Tarif Manu": true,
     "Total Manu": true,
-    "TTC Manu": true
+    "TTC Manu": false,
+    "Debours Manu": false
   });
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredDatas, setFilteredDatas] = useState(null);
@@ -406,7 +407,7 @@ const Declaration = () => {
           ...(columnsVisibility['Objet fact'] ? {} : { className: 'hidden-column' }),
         },
         {
-          title: 'Manutention',
+          title: 'Manu.',
           dataIndex: 'manutation',
           key: 'manutation',
           sorter: (a, b) => a.manutation - b.manutation,

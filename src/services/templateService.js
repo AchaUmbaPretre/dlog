@@ -147,8 +147,8 @@ export const getRapportEntreposage = async (filter) => {
 
 
 //Mois & ANNEE
-export const getMois = async () => {
-  return axios.get(`${DOMAIN}/api/template/mois`);
+export const getMois = async (annee) => {
+  return axios.get(`${DOMAIN}/api/template/mois?annee=${annee}`);
 };
 
 export const getAnnee = async () => {

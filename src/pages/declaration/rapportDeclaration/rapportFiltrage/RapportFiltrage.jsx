@@ -49,25 +49,34 @@ const handleFilter = () => {
         montant: { min: minMontant, max: maxMontant },
         period,  // Pass formatted period object
     });
+
 };
 
+const fetchMoisParAnnee = async (annee) => {
+    try {
+        const response = await getMois(annee); // Modifier `getMois` pour accepter l'année comme paramètre
+        setMois((prev) => ({
+            ...prev,
+            [annee]: response.data,
+        }));
+    } catch (error) {
+        console.error("Erreur lors du chargement des mois :", error);
+    }
+};
 
-    useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [clientData, provinceData, statutData, moisData, yearData] = await Promise.all([ 
+                const [clientData, provinceData, statutData, yearData] = await Promise.all([ 
                     getClient(),
                     getProvince(),
                     getStatus_batiment(),
-                    getMois(),
                     getAnnee()
                 ]);
 
                 setClient(clientData.data);
                 setProvince(provinceData.data);
                 setType(statutData.data);
-                setMois(moisData.data); // Utiliser les données de mois
                 setAnnee(yearData.data); // Utiliser les données d'année
             } catch (error) {
                 console.error(error);
@@ -76,6 +85,7 @@ const handleFilter = () => {
             }
         };
 
+    useEffect(() => {
         fetchData();
     }, []);
 
@@ -88,28 +98,29 @@ const handleFilter = () => {
 
     const handleAnneeChange = (checkedValues) => {
         setSelectedAnnees(checkedValues);
-    };
-
-    const renderMoisParAnnee = () => {
-        return annee.map((year) => {
-            if (selectedAnnees.includes(year.annee)) {
-                return (
-                    <Panel header={year.annee} key={year.annee}>
-                        <Checkbox.Group
-                            options={mois.map((item) => ({
-                                label: moment().month(item.mois - 1).format('MMMM'),
-                                value: `${item.mois}-${year.annee}`,
-                            }))}
-                            value={selectedMois[year.annee] || []}
-                            onChange={(checkedValues) => handleMoisChange(checkedValues, year.annee)}
-                        />
-                    </Panel>
-                );
+        checkedValues.forEach((annee) => {
+            if (!mois[annee]) {
+                fetchMoisParAnnee(annee);
             }
-            return null;
         });
     };
+    
 
+    const renderMoisParAnnee = () => {
+        return selectedAnnees.map((year) => (
+            <Panel header={year} key={year}>
+                <Checkbox.Group
+                    options={(mois[year] || []).map((item) => ({
+                        label: moment().month(item.mois - 1).format('MMMM'),
+                        value: `${item.mois}-${year}`,
+                    }))}
+                    value={selectedMois[year] || []}
+                    onChange={(checkedValues) => handleMoisChange(checkedValues, year)}
+                />
+            </Panel>
+        ));
+    };
+    
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
             {filtraVille && (

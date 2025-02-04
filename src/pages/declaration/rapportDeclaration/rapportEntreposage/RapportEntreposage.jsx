@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { MenuOutlined, DownOutlined, PieChartOutlined, AreaChartOutlined } from '@ant-design/icons';
-import { notification,Button, Space,Menu, Table, Tag, Dropdown, Tabs } from 'antd';
+import { notification,Button, Space,Menu, Table, Tag, Dropdown, Tabs, Popover, Skeleton } from 'antd';
 import moment from 'moment';
 import { getRapportEntreposage } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -32,7 +32,7 @@ const RapportEntreposage = () => {
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [ uniqueMonths, setUniqueMonths] = useState([]);
     const [activeKeys, setActiveKeys] = useState(['1', '2']);
-
+    const [detail, setDetail] = useState([]);
 
     const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
@@ -53,10 +53,12 @@ const RapportEntreposage = () => {
       
     const fetchData = async () => {
         try {
-          const { data } = await getRapportEntreposage(filteredDatas);
+          const {data} = await getRapportEntreposage(filteredDatas);
+
+          setDetail(data?.resume)
       
           const uniqueMonths = Array.from(
-            new Set(data.map((item) => `${item.Mois}-${item.Année}`))
+            new Set(data.data.map((item) => `${item.Mois}-${item.Année}`))
           ).sort((a, b) => {
             const [monthA, yearA] = a.split("-");
             const [monthB, yearB] = b.split("-");
@@ -193,7 +195,7 @@ const RapportEntreposage = () => {
             return columns;
           };
           
-          const groupedData = data.reduce((acc, curr) => {
+          const groupedData = data.data.reduce((acc, curr) => {
             const client = acc.find((item) => item.Client === curr.Client);
             const [numMonth, year] = [curr.Mois, curr.Année];
             const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
@@ -253,6 +255,74 @@ const RapportEntreposage = () => {
 
   return (
     <>
+              {
+            loading ? (
+                <Skeleton active paragraph={{ rows: 1 }} />
+            ) : (
+                <div
+                style={{
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                    borderRadius: '8px',
+                    backgroundColor: '#fff',
+                    width: 'fit-content',
+                    margin: '20px 0',
+                    padding: '15px',
+                }}
+                >
+                    <span
+                        style={{
+                        display: 'block',
+                        padding: '10px 15px',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        borderBottom: '1px solid #f0f0f0',
+                        }}
+                    >
+                        Résumé :
+                    </span>
+                <div
+                    style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '15px',
+                    padding: '15px',
+                    }}
+                >
+                    <Popover title="Liste des clients" trigger="hover">
+                    <span
+                        style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '400',
+                        cursor: 'pointer',
+                        color: '#1890ff',
+                        }}
+                    >
+                        Nbre de clients : <strong>{detail?.Nbre_de_clients}</strong>
+                    </span>
+                    </Popover>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Nbre de villes : <strong>{detail.Nbre_de_villes}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total :{' '}
+                    <strong>{Math.round(parseFloat(detail.Total))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total TTC :{' '}
+                    <strong>{Math.round(parseFloat(detail.Total_ttc))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total Extérieur :{' '}
+                    <strong>{detail.Total_Extérieur?.toLocaleString()}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total Intérieur :{' '}
+                    <strong>{detail.Total_Intérieur?.toLocaleString()}</strong>
+                    </span>
+                </div>
+                </div>
+            )
+        }
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS ENTREPOSAGE</h2>
             <div style={{display:'flex', gap:'10px', alignItems:'center'}}>
