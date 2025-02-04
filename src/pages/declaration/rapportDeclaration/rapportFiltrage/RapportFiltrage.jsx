@@ -52,19 +52,49 @@ const handleFilter = () => {
 
 };
 
-const fetchMoisParAnnee = async (annee) => {
-    try {
-        const response = await getMois(annee); // Modifier `getMois` pour accepter l'année comme paramètre
-        setMois((prev) => ({
-            ...prev,
-            [annee]: response.data,
-        }));
-    } catch (error) {
-        console.error("Erreur lors du chargement des mois :", error);
-    }
-};
+useEffect(()=> {
+    const handleFilter = () => {
+        // Format selected months and years
+        const period = {
+            mois: [],
+            annees: selectedAnnees,
+        };
+    
+        // Flatten the selected months for each year
+        selectedAnnees.forEach(year => {
+            if (selectedMois[year]) {
+                selectedMois[year].forEach(mois => {
+                    period.mois.push(mois.split('-')[0]); // Extracting month from "mois-annee"
+                });
+            }
+        });
+    
+        // Prepare the filter data
+        onFilter({
+            ville: selectedVille,
+            client: selectedClients,
+            status_batiment: selectedType,
+            montant: { min: minMontant, max: maxMontant },
+            period,  // Pass formatted period object
+        });
+    
+    };
+    handleFilter();
+}, [province, client, selectedVille, selectedType, selectedClients, minMontant, maxMontant, mois, annee, selectedMois, selectedAnnees, type ])
 
-        const fetchData = async () => {
+    const fetchMoisParAnnee = async (annee) => {
+        try {
+            const response = await getMois(annee); // Modifier `getMois` pour accepter l'année comme paramètre
+            setMois((prev) => ({
+                ...prev,
+                [annee]: response.data,
+            }));
+        } catch (error) {
+            console.error("Erreur lors du chargement des mois :", error);
+        }
+    };
+
+    const fetchData = async () => {
             setIsLoading(true);
             try {
                 const [clientData, provinceData, statutData, yearData] = await Promise.all([ 
@@ -83,7 +113,7 @@ const fetchMoisParAnnee = async (annee) => {
             } finally {
                 setIsLoading(false);
             }
-        };
+    };
 
     useEffect(() => {
         fetchData();
@@ -227,14 +257,6 @@ const fetchMoisParAnnee = async (annee) => {
                 </div>
             )}
 
-            <Button
-                style={{ padding: '10px', marginTop: '20px' }}
-                type="primary"
-                icon={<SearchOutlined />}
-                onClick={handleFilter}
-            >
-                Filtrer
-            </Button>
         </div>
     );
 };

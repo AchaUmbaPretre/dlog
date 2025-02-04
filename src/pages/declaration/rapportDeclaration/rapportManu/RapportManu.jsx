@@ -25,9 +25,10 @@ const RapportManu = () => {
         try {
           const { data } = await getRapportManutentation();
          
+          setDetail(data.resume)
           const uniqueMonths = Array.from(
             new Set(
-              data.map((item) => `${item.Mois}-${item.Année}`)
+              data.data.map((item) => `${item.Mois}-${item.Année}`)
             )
           ).sort((a, b) => {
             const [monthA, yearA] = a.split("-");
@@ -119,7 +120,7 @@ const RapportManu = () => {
               },
           ];
   
-          const groupedData = data.reduce((acc, curr) => {
+          const groupedData = data.data.reduce((acc, curr) => {
             const client = acc.find((item) => item.Client === curr.Client);
             const [numMonth, year] = [curr.Mois, curr.Année];
             const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");

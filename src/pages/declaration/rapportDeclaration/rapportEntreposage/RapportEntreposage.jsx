@@ -218,8 +218,8 @@ const RapportEntreposage = () => {
           setLoading(false);
         } catch (error) {
           notification.error({
-            message: "Erreur de chargement",
-            description: "Une erreur est survenue lors du chargement des données.",
+            message: "Erreur",
+            description: `${error.response.data.message}`,
           });
           setLoading(false);
         }
@@ -326,13 +326,13 @@ const RapportEntreposage = () => {
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS ENTREPOSAGE</h2>
             <div style={{display:'flex', gap:'10px', alignItems:'center'}}>
-                <Button
-                    type="default"
-                    onClick={handFilter}
-                    style={{margin:'10px 0'}}
-                >
-                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-                </Button>
+              <Button
+                  type={filterVisible ? 'primary' : 'default'}
+                  onClick={handFilter}
+                  style={{ margin: '10px 0' }}
+              >
+                  {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+              </Button>
 
                 <Dropdown overlay={menus} trigger={['click']}>
                     <Button icon={<MenuOutlined />} className="ant-dropdown-link">
