@@ -241,8 +241,8 @@ const RapportVueEnsemble = () => {
                     <strong>{Math.round(parseFloat(detail.total_manutation))?.toLocaleString()} $</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Total m2 Facturés :{' '}
-                    <strong>{Math.round(parseFloat(detail.total_facture))?.toLocaleString()}</strong>
+                    Total Entre. & Manu. :{' '}
+                    <strong>{Math.round(parseFloat(detail.total))?.toLocaleString()} $</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total Extérieur :{' '}
