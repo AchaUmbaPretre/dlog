@@ -137,7 +137,7 @@ export const getRapportExterneEtInterne = async (filter) => {
 
 //Rapport Manutentation
 export const getRapportManutentation = async (filter) => {
-  return axios.get(`${DOMAIN}/api/template/rapport_manutentation`, filter);
+  return axios.post(`${DOMAIN}/api/template/rapport_manutentation`, filter);
 };
 
 //Rapport Entreposage

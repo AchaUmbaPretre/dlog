@@ -185,7 +185,7 @@ const RapportVueEnsemble = () => {
       <div className="rapport_facture">
         <h2 className="rapport_h2">RAPPORT VILLE</h2>
         <Button
-          type="default"
+          type={filterVisible ? 'primary' : 'default'}
           onClick={() => setFilterVisible(!filterVisible)}
           style={{ margin: '10px 10px 10px 0' }}
         >

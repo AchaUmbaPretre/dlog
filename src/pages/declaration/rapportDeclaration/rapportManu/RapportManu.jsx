@@ -1,29 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import { notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, notification, Popover, Dropdown, Skeleton, Space, Table, Tabs, Tag, Menu } from 'antd';
 import {
     AreaChartOutlined,
     PieChartOutlined,
-    SwapOutlined
+    MenuOutlined,
+    DownOutlined
 } from '@ant-design/icons';
 import moment from 'moment';
 import { getRapportManutentation } from '../../../../services/templateService';
 import RapportManuChart from './rapportManuChart/RapportManuChart';
 import TabPane from 'antd/es/tabs/TabPane';
 import RapportManuPie from './rapportManuPie/RapportManuPie';
-
+import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
+import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const RapportManu = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
+    const [searchText, setSearchText] = useState('');
+    const [pagination, setPagination] = useState({
+                current: 1,
+                pageSize: 20,
+              });
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const [filterVisible, setFilterVisible] = useState(false);
     const [dataSource, setDataSource] = useState([]);
+    const [columnsVisibility, setColumnsVisibility] = useState({
+            'id': true,
+            'Total': true,
+            "TotalTTC": false,
+            "Client" : true,
+            "Mois" : true
+    });
     const scroll = { x: 400 };
+    const [filteredDatas, setFilteredDatas] = useState(null);
     const [ uniqueMonths, setUniqueMonths] = useState([]);
     const [activeKeys, setActiveKeys] = useState(['1', '2']);
     const [detail, setDetail] = useState([]);
+    const searchInput = useRef(null);
   
     const fetchData = async () => {
         try {
-          const { data } = await getRapportManutentation();
+          const { data } = await getRapportManutentation(filteredDatas);
          
           setDetail(data.resume)
           const uniqueMonths = Array.from(
@@ -38,44 +56,57 @@ const RapportManu = () => {
 
           setUniqueMonths(uniqueMonths)
 
-          const generatedColumns = [
-            {
-                title: '#',
-                dataIndex: 'id',
-                key: 'id',
-                render: (text, record, index) => index + 1,
+          const generatedColumns = () => {
+            const columns = [
+              {
+                title: "#",
+                dataIndex: "id",
+                key: "id",
+                render: (text, record, index) => {
+                  const pageSize = pagination.pageSize || 10;
+                  const pageIndex = pagination.current || 1;
+                  return (pageIndex - 1) * pageSize + index + 1;
+                },
                 width: "4%",
-            },
-            {
-              title: "Client",
-              dataIndex: "Client",
-              key: "Client",
-              fixed: "left",
-              render: text => (
-                <Space>
-                  {text}
-                </Space>
-              ),
-              align: 'left',
-            },
-            ...uniqueMonths.map((month) => {
-              const [numMonth, year] = month.split("-");
-              const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-  
-              return {
-                title: <Tag color={'#2db7f5'}>{monthName}</Tag>,
-                dataIndex: monthName,
-                key: monthName,
-                sorter: (a, b) => {
+              },
+              {
+                title: "Client",
+                dataIndex: "Client",
+                key: "Client",
+                fixed: "left",
+                ...getColumnSearchProps(
+                    'Client',
+                    searchText,
+                    setSearchText,
+                    setSearchedColumn,
+                    searchInput
+                  ),
+                render: (text) => (
+                  <Space>
+                    {text}
+                  </Space>
+                ),
+                align: "left",
+                title: <div style={{ textAlign: 'left' }}>Client</div>
+              },
+              ...uniqueMonths.map((month) => {
+                const [numMonth, year] = month.split("-");
+                const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+          
+                return {
+                  title: <div style={{ textAlign: 'center' }}><Tag color={"#2db7f5"}>{monthName}</Tag></div>,
+                  dataIndex: monthName,
+                  key: 'Mois',
+                  sorter: (a, b) => {
                     const valueA = a[monthName] || 0;
                     const valueB = b[monthName] || 0;
                     return valueA - valueB;
                   },
-                  sortDirections: ['descend', 'ascend'],
-                render: text => (
+                  sortDirections: ["descend", "ascend"],
+                  render: (text) => (
                     <Space>
-                        <div style={{color: text ? 'black' : 'red'}}>
-                        {text
+                      <div style={{color: text ? 'black' : 'red'}}>
+                      {text
                             ? `${parseFloat(text)
                                 .toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
@@ -86,13 +117,13 @@ const RapportManu = () => {
                         </div>
                     </Space>
                   ),
-                  align: 'right',
-                  title: <div style={{ textAlign: 'center' }}> <Tag color={'#2db7f5'}>{monthName}</Tag></div>
+                  align: "right",
+                  ...(columnsVisibility['Mois'] ? {} : { className: 'hidden-column' })
 
-              };
-            }),
-            {
-                title: "Total", 
+                };
+              }),
+              {
+                title: "Total",
                 dataIndex: "Total",
                 key: "Total",
                 render: (_, record) => {
@@ -101,24 +132,57 @@ const RapportManu = () => {
                     const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
                     return sum + (record[monthName] || 0);
                   }, 0);
-                  return <Space>
-                  <div style={{color: total ? 'black' : 'red'}}>
-                    {total
-                        ? `${parseFloat(total)
+                  return (
+                    <Space>
+                        <div style={{ color: total ? 'black' : 'red' }}>
+                            {total
+                            ? `${parseFloat(total)
                                 .toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2,
                                 })
-                                .replace(/,/g, " ")} $`
-                        : "0.00"}
+                                .replace(/,/g, " ")} $` // Remplace les virgules par des espaces
+                            : "0.00"}
                         </div>
-                </Space> ;
+                    </Space>
+                  );
                 },
-                align: 'right',
-                title: <div style={{ textAlign: 'center' }}>Total</div>
-
+                align: "right",
+                title: <div style={{ textAlign: 'center' }}>Total</div>,
+                ...(columnsVisibility['Total'] ? {} : { className: 'hidden-column' })
               },
-          ];
+              {
+                title: "Total TTC",
+                dataIndex: "TotalTTC",
+                key: "TotalTTC",
+                render: (_, record) => {
+                    const totalTTC = uniqueMonths.reduce((sum, month) => {
+                        const [numMonth, year] = month.split("-");
+                        const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+                        return sum + (record[`${monthName}_TTC`] || 0);
+                    }, 0);
+                    return (
+                        <div>
+                            <div style={{color: totalTTC ? 'black' : 'red'}}>
+                            {totalTTC
+                            ? `${parseFloat(totalTTC)
+                                .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                                })
+                                .replace(/,/g, " ")} $` // Remplace les virgules par des espaces
+                            : "0.00"}
+                            </div>
+                        </div>
+                    );
+                },
+                align: "right",
+                ...(columnsVisibility["TotalTTC"] ? {} : { className: "hidden-column" }),
+            }
+            ];
+          
+            return columns;
+          };
   
           const groupedData = data.data.reduce((acc, curr) => {
             const client = acc.find((item) => item.Client === curr.Client);
@@ -136,7 +200,7 @@ const RapportManu = () => {
             return acc;
           }, []);
   
-          setColumns(generatedColumns);
+          setColumns(generatedColumns());
           setDataSource(groupedData);
           setLoading(false);
         } catch (error) {
@@ -148,13 +212,48 @@ const RapportManu = () => {
         }
       };
 
+      const toggleColumnVisibility = (columnName, e) => {
+        e.stopPropagation();
+        setColumnsVisibility((prev) => ({
+          ...prev,
+          [columnName]: !prev[columnName],
+        }));
+      };
+
       const handleTabChanges = (key) => {
         setActiveKeys(key);
+      };
+
+      const handleFilterChange = (newFilters) => {
+        setFilteredDatas(newFilters); 
       };
   
     useEffect(() => {
       fetchData();
-    }, []);
+    }, [columnsVisibility,filteredDatas]);
+
+    const handFilter = () => {
+      fetchData()
+      setFilterVisible(!filterVisible)
+    }
+
+    const menus = (
+      <Menu>
+        {Object.keys(columnsVisibility).map((columnName) => (
+          <Menu.Item key={columnName}>
+            <span onClick={(e) => toggleColumnVisibility(columnName, e)}>
+              <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+              <span style={{ marginLeft: 8 }}>{columnName}</span>
+            </span>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+
+    const getVisibleColumns = () => {
+      return columns.filter((col) => columnsVisibility[col.key]);
+    };
+    
 
   return (
     <>
@@ -228,12 +327,29 @@ const RapportManu = () => {
         }
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS MANUTENTION</h2>
+            <div style={{display:'flex', gap:'10px', alignItems:'center'}}>
+              <Button
+                  type={filterVisible ? 'primary' : 'default'}
+                  onClick={handFilter}
+                  style={{ margin: '10px 0' }}
+              >
+                  {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+              </Button>
+
+              <Dropdown overlay={menus} trigger={['click']}>
+                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                  Colonnes <DownOutlined />
+                </Button>
+              </Dropdown>
+            </div>
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}
-                    columns={columns}
+                    columns={getVisibleColumns()}
                     bordered
-                    pagination={false}
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
                     scroll={scroll}
                     loading={loading}
                     size="small"

@@ -46,10 +46,6 @@ const RapportEntreposage = () => {
         setActiveKeys(key);
       };
 
-      const handleFilterChange = (newFilters) => {
-        setFilteredDatas(newFilters); 
-      };
-
       
     const fetchData = async () => {
         try {
@@ -225,6 +221,9 @@ const RapportEntreposage = () => {
         }
       };
       
+    const handleFilterChange = (newFilters) => {
+      setFilteredDatas(newFilters); 
+    };
   
     useEffect(() => {
       fetchData();

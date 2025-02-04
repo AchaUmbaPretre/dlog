@@ -284,13 +284,13 @@ const RapportFacture = () => {
             >
                 <div className="rapport_facture">
 {/*                                 <h2 className="rapport_h2">CLIENT DIVERS M² FACTURE</h2>
- */}                <Button
-                        type="default"
-                        onClick={handFilter}
-                        style={{margin:'10px 0'}}
-                    >
-                        {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-                    </Button>
+    */}            <Button
+                      type={filterVisible ? 'primary' : 'default'}
+                      onClick={handFilter}
+                      style={{ margin: '10px 0' }}
+                  >
+                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                  </Button>
 
                     { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
                     <div className="rapport_wrapper_facture">
