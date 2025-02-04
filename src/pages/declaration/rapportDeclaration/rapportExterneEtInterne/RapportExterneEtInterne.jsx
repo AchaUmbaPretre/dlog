@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { notification, Table, Tag } from 'antd';
+import { Button, notification, Table, Tag } from 'antd';
 import moment from 'moment';
 import { getRapportExterneEtInterne } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -121,9 +121,13 @@ const RapportExterneEtInterne = () => {
   return (
     <div>
       <div className="rapport_header">
-{/*         <Button onClick={() => setFilterVisible(!filterVisible)}>
+        <Button
+          onClick={() => setFilterVisible(!filterVisible)}
+          type={filterVisible ? 'primary' : 'default'}
+          style={{ margin: '10px 0' }}
+        >
           {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-        </Button> */}
+        </Button>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} />}
       </div>
       <Table
