@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { notification, Space, Table, Tabs, Tag } from 'antd';
+import { notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
 import {
     AreaChartOutlined,
     PieChartOutlined,
@@ -19,7 +19,8 @@ const RapportManu = () => {
     const scroll = { x: 400 };
     const [ uniqueMonths, setUniqueMonths] = useState([]);
     const [activeKeys, setActiveKeys] = useState(['1', '2']);
-
+    const [detail, setDetail] = useState([]);
+  
     const fetchData = async () => {
         try {
           const { data } = await getRapportManutentation();
@@ -156,6 +157,74 @@ const RapportManu = () => {
 
   return (
     <>
+                {
+            loading ? (
+                <Skeleton active paragraph={{ rows: 1 }} />
+            ) : (
+                <div
+                style={{
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                    borderRadius: '8px',
+                    backgroundColor: '#fff',
+                    width: 'fit-content',
+                    margin: '20px 0',
+                    padding: '15px',
+                }}
+                >
+                    <span
+                        style={{
+                        display: 'block',
+                        padding: '10px 15px',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        borderBottom: '1px solid #f0f0f0',
+                        }}
+                    >
+                        Résumé :
+                    </span>
+                <div
+                    style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '15px',
+                    padding: '15px',
+                    }}
+                >
+                    <Popover title="Liste des clients" trigger="hover">
+                    <span
+                        style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '400',
+                        cursor: 'pointer',
+                        color: '#1890ff',
+                        }}
+                    >
+                        Nbre de clients : <strong>{detail?.Nbre_de_clients}</strong>
+                    </span>
+                    </Popover>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Nbre de villes : <strong>{detail.Nbre_de_villes}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total :{' '}
+                    <strong>{Math.round(parseFloat(detail.Total))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total TTC :{' '}
+                    <strong>{Math.round(parseFloat(detail.Total_ttc))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total Extérieur :{' '}
+                    <strong>{detail.Total_Extérieur?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total Intérieur :{' '}
+                    <strong>{detail.Total_Intérieur?.toLocaleString()} $</strong>
+                    </span>
+                </div>
+                </div>
+            )
+        }
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS MANUTENTION</h2>
             <div className="rapport_wrapper_facture">
