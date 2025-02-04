@@ -16,6 +16,7 @@ import RapportEntreposage from './rapportEntreposage/RapportEntreposage';
 import RapportVueEnsemble from './rapportVueEnsemble/RapportVueEnsemble';
 import RapportExterneEtInterne from './rapportExterneEtInterne/RapportExterneEtInterne';
 import RapportPays from './rapportPays/RapportPays';
+import RapportSuperficie from './rapportSuperficie/RapportSuperficie';
 
 const { TabPane } = Tabs;
 
@@ -69,7 +70,7 @@ const RapportDeclaration = () => {
                         }
                         key="2"
                     >
-{/*                         <RapportEntrepoEtManu/> */}
+                        <RapportSuperficie/>
                     </TabPane>
 
                     <TabPane
