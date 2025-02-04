@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Dropdown, Menu, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
 import moment from 'moment';
 import { AreaChartOutlined, PieChartOutlined } from '@ant-design/icons';
-import { getRapportVille } from '../../../../services/templateService';
+import { getRapportPays, getRapportVille } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
 const RapportPays = () => {
@@ -24,39 +24,42 @@ const RapportPays = () => {
 
   const fetchData = async () => {
     try {
-      const { data } = await getRapportVille(filteredDatas);
-
-      setDetail(data.resume)
-
-      // Regrouper les données par mois
+      const { data } = await getRapportPays(filteredDatas);
+  
+      setDetail(data.resume);
+  
+      // Regrouper les données par mois et pays
       const groupedData = data.data.reduce((acc, item) => {
         const mois = moment(item.periode).format('MMM-YY');
-
+  
         if (!acc[mois]) acc[mois] = {};
-
-        acc[mois][item.capital] = {
+  
+        acc[mois][item.nom_pays] = {
           Entreposage: item.total_entreposage || 0,
           Manutention: item.total_manutation || 0,
-          Total: item.total_facture || 0,
+          Total: item.total || 0,
         };
-
+  
         return acc;
       }, {});
-
-      const formattedData = Object.entries(groupedData).map(([mois, provinces]) => {
+  
+      // Transformer les données pour le tableau
+      const formattedData = Object.entries(groupedData).map(([mois, paysData]) => {
         const row = { Mois: mois };
-        for (const [province, valeurs] of Object.entries(provinces)) {
-          row[`${province}_Entreposage`] = valeurs.Entreposage;
-          row[`${province}_Manutention`] = valeurs.Manutention;
-          row[`${province}_Total`] = valeurs.Total;
+        for (const [pays, valeurs] of Object.entries(paysData)) {
+          row[`${pays}_Entreposage`] = valeurs.Entreposage;
+          row[`${pays}_Manutention`] = valeurs.Manutention;
+          row[`${pays}_Total`] = valeurs.Total;
         }
         return row;
       });
-
-      const extractedCities = [...new Set(data.data.map(item => item.capital))];
-      setAllCities(extractedCities);
-      setVisibleCities(extractedCities);
-
+  
+      // Extraire les noms de pays uniques
+      const extractedCountries = [...new Set(data.data.map(item => item.nom_pays))];
+      setAllCities(extractedCountries);
+      setVisibleCities(extractedCountries);
+  
+      // Définition des colonnes dynamiques avec `nom_pays`
       const dynamicColumns = [
         {
           title: '#',
@@ -82,20 +85,21 @@ const RapportPays = () => {
           ),
           align: 'left',
         },
-        ...extractedCities.map(capital => ({
-          title: capital,
-          key: capital,
+        ...extractedCountries.map(nom_pays => ({
+          title: nom_pays, // Utilisation du nom du pays
+          key: nom_pays,
           children: [
             {
               title: 'Entrep',
-              dataIndex: `${capital}_Entreposage`,
-              key: `${capital}_Entreposage`,
+              dataIndex: `${nom_pays}_Entreposage`,
+              key: `${nom_pays}_Entreposage`,
               render: text => (
-                <Space>{text
+                <Space>
+                  {text
                     ? `${parseFloat(text)
                         .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
                         })
                         .replace(/,/g, " ")} $`
                     : "0.00"}
@@ -105,15 +109,15 @@ const RapportPays = () => {
             },
             {
               title: 'Manut',
-              dataIndex: `${capital}_Manutention`,
-              key: `${capital}_Manutention`,
+              dataIndex: `${nom_pays}_Manutention`,
+              key: `${nom_pays}_Manutention`,
               render: text => (
                 <Space>
                   {text
                     ? `${parseFloat(text)
                         .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
                         })
                         .replace(/,/g, " ")} $`
                     : "0.00"}
@@ -123,15 +127,15 @@ const RapportPays = () => {
             },
             {
               title: 'Total',
-              dataIndex: `${capital}_Total`,
-              key: `${capital}_Total`,
+              dataIndex: `${nom_pays}_Total`,
+              key: `${nom_pays}_Total`,
               render: text => (
                 <Space>
-                    {text
+                  {text
                     ? `${parseFloat(text)
                         .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
                         })
                         .replace(/,/g, " ")} $`
                     : "0.00"}
@@ -142,7 +146,7 @@ const RapportPays = () => {
           ],
         })),
       ];
-
+  
       setColumns(dynamicColumns);
       setDataSource(formattedData);
       setLoading(false);
@@ -154,7 +158,7 @@ const RapportPays = () => {
       setLoading(false);
     }
   };
-
+  
   useEffect(() => {
     fetchData();
   }, [filteredDatas]);
@@ -181,7 +185,7 @@ const RapportPays = () => {
 
   return (
     <>
-        {
+         {
             loading ? (
                 <Skeleton active paragraph={{ rows: 1 }} />
             ) : (
@@ -209,25 +213,20 @@ const RapportPays = () => {
                 <div
                     style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
                     gap: '15px',
                     padding: '15px',
                     }}
                 >
-                    <Popover title="Liste des clients" trigger="hover">
-                      <span
+                    <span
                         style={{
                           fontSize: '0.9rem',
                           fontWeight: '400',
                           cursor: 'pointer',
                           color: '#1890ff',
-                          }}
-                      >
-                        Nbre de clients : <strong>{detail?.Nbre_de_clients}</strong>
-                      </span>
-                    </Popover>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Nbre de villes : <strong>{detail.Nbre_de_villes}</strong>
+                        }}
+                    >
+                        Nbre de pays : <strong>{detail?.nbre_pays}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total Entreposage :{' '}
@@ -235,26 +234,18 @@ const RapportPays = () => {
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total Manutention :{' '}
-                    <strong>{Math.round(parseFloat(detail.total_manutation))?.toLocaleString()} $</strong>
+                    <strong>{Math.round(parseFloat(detail?.total_manutation))?.toLocaleString()} $</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total Entre. & Manu. :{' '}
-                    <strong>{Math.round(parseFloat(detail.total))?.toLocaleString()} $</strong>
-                    </span>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Total Extérieur :{' '}
-                    <strong>{detail.Total_Extérieur?.toLocaleString()} $</strong>
-                    </span>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Total Intérieur :{' '}
-                    <strong>{detail.Total_Intérieur?.toLocaleString()} $</strong>
+                    <strong>{Math.round(parseFloat(detail?.total))?.toLocaleString()} $</strong>
                     </span>
                 </div>
               </div>
             )
         }
       <div className="rapport_facture">
-        <h2 className="rapport_h2">RAPPORT VILLE</h2>
+        <h2 className="rapport_h2">RAPPORT PAYS</h2>
         <Button
           type={filterVisible ? 'primary' : 'default'}
           onClick={() => setFilterVisible(!filterVisible)}
@@ -279,7 +270,7 @@ const RapportPays = () => {
           }
           trigger={['click']}
         >
-          <Button>Afficher/Masquer les villes</Button>
+          <Button>Afficher/Masquer les pays</Button>
         </Dropdown>
 
         <div className="rapport_wrapper_facture">
