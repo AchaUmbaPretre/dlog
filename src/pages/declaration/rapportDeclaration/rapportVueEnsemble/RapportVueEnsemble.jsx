@@ -29,8 +29,10 @@ const RapportVueEnsemble = () => {
     try {
       const { data } = await getRapportVille(filteredDatas);
 
+      setDetail(data.resume)
+
       // Regrouper les données par mois
-      const groupedData = data.reduce((acc, item) => {
+      const groupedData = data.data.reduce((acc, item) => {
         const mois = moment(item.periode).format('MMM-YY');
 
         if (!acc[mois]) acc[mois] = {};
@@ -54,7 +56,7 @@ const RapportVueEnsemble = () => {
         return row;
       });
 
-      const extractedCities = [...new Set(data.map(item => item.capital))];
+      const extractedCities = [...new Set(data.data.map(item => item.capital))];
       setAllCities(extractedCities);
       setVisibleCities(extractedCities);
 
@@ -205,7 +207,7 @@ const RapportVueEnsemble = () => {
                         borderBottom: '1px solid #f0f0f0',
                         }}
                     >
-                        Résumé :
+                      Résumé :
                     </span>
                 <div
                     style={{
@@ -231,12 +233,16 @@ const RapportVueEnsemble = () => {
                     Nbre de villes : <strong>{detail.Nbre_de_villes}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Total :{' '}
-                    <strong>{Math.round(parseFloat(detail.Total))?.toLocaleString()} $</strong>
+                    Total Entreposage :{' '}
+                    <strong>{Math.round(parseFloat(detail?.total_entreposage))?.toLocaleString()} $</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Total TTC :{' '}
-                    <strong>{Math.round(parseFloat(detail.Total_ttc))?.toLocaleString()} $</strong>
+                    Total Manutention :{' '}
+                    <strong>{Math.round(parseFloat(detail.total_manutation))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Total m2 Facturés :{' '}
+                    <strong>{Math.round(parseFloat(detail.total_facture))?.toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total Extérieur :{' '}
