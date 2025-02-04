@@ -313,11 +313,11 @@ const RapportEntreposage = () => {
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total Extérieur :{' '}
-                    <strong>{detail.Total_Extérieur?.toLocaleString()}</strong>
+                    <strong>{detail.Total_Extérieur?.toLocaleString()} $</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total Intérieur :{' '}
-                    <strong>{detail.Total_Intérieur?.toLocaleString()}</strong>
+                    <strong>{detail.Total_Intérieur?.toLocaleString()} $</strong>
                     </span>
                 </div>
                 </div>
