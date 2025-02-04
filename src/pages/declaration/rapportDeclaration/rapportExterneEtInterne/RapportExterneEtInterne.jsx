@@ -57,7 +57,7 @@ const RapportExterneEtInterne = () => {
           dataIndex: 'Mois',
           key: 'Mois',
           fixed: 'left',
-          render: (text) => <Tag color="blue">{text}</Tag>,
+          render: (text) => <Tag color={'#2db7f5'}>{text}</Tag>,
         },
         ...Array.from(new Set(data.map((item) => item.nom_status_batiment))).map((type) => ({
           title: type,
