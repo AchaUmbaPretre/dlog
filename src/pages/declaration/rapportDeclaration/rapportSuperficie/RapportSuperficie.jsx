@@ -23,38 +23,41 @@ const RapportSuperficie = () => {
   const fetchData = async () => {
     try {
       const { data } = await getRapportSuperficie(filteredDatas);
-
-      setDetail(data.resume)
-
-      // Regrouper les données par mois
+  
+      // Regrouper les données par mois et par bâtiment
       const groupedData = data.reduce((acc, item) => {
         const mois = moment(item.periode).format('MMM-YY');
-
+  
         if (!acc[mois]) acc[mois] = {};
-
-        acc[mois][item.capital] = {
-          Entreposage: item.total_entreposage || 0,
-          Manutention: item.total_manutation || 0,
-          Total: item.total_facture || 0,
-        };
-
+  
+        if (!acc[mois][item.nom_batiment]) {
+          acc[mois][item.nom_batiment] = {
+            total_facture: 0,
+            total_occupe: 0,
+          };
+        }
+  
+        acc[mois][item.nom_batiment].total_facture += item.total_facture || 0;
+        acc[mois][item.nom_batiment].total_occupe += item.total_occupe || 0;
+  
         return acc;
       }, {});
-
-      const formattedData = Object.entries(groupedData).map(([mois, provinces]) => {
+  
+      // Transformer les données en un format compatible avec Ant Design Table
+      const formattedData = Object.entries(groupedData).map(([mois, batiments]) => {
         const row = { Mois: mois };
-        for (const [province, valeurs] of Object.entries(provinces)) {
-          row[`${province}_Entreposage`] = valeurs.Entreposage;
-          row[`${province}_Manutention`] = valeurs.Manutention;
-          row[`${province}_Total`] = valeurs.Total;
+        for (const [batiment, valeurs] of Object.entries(batiments)) {
+          row[`${batiment}_Facture`] = valeurs.total_facture;
+          row[`${batiment}_Occupe`] = valeurs.total_occupe;
         }
         return row;
       });
-
-      const extractedCities = [...new Set(data.data.map(item => item.capital))];
-      setAllCities(extractedCities);
-      setVisibleCities(extractedCities);
-
+      
+  
+      // Extraire tous les bâtiments pour les colonnes dynamiques
+      const extractedBatiments = [...new Set(data.map(item => item.nom_batiment))];
+  
+      // Définition des colonnes dynamiques
       const dynamicColumns = [
         {
           title: '#',
@@ -80,38 +83,21 @@ const RapportSuperficie = () => {
           ),
           align: 'left',
         },
-        ...extractedCities.map(capital => ({
-          title: capital,
-          key: capital,
+        ...extractedBatiments.map(batiment => ({
+          title: `${batiment}`,
+          key: batiment,
           children: [
             {
-              title: 'Entrep',
-              dataIndex: `${capital}_Entreposage`,
-              key: `${capital}_Entreposage`,
-              render: text => (
-                <Space>{text
-                    ? `${parseFloat(text)
-                        .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                        })
-                        .replace(/,/g, " ")} $`
-                    : "0.00"}
-                </Space>
-              ),
-              align: 'right',
-            },
-            {
-              title: 'Manut',
-              dataIndex: `${capital}_Manutention`,
-              key: `${capital}_Manutention`,
+              title: 'Facture',
+              dataIndex: `${batiment}_Facture`,
+              key: `${batiment}_Facture`,
               render: text => (
                 <Space>
                   {text
                     ? `${parseFloat(text)
                         .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
                         })
                         .replace(/,/g, " ")} $`
                     : "0.00"}
@@ -120,27 +106,16 @@ const RapportSuperficie = () => {
               align: 'right',
             },
             {
-              title: 'Total',
-              dataIndex: `${capital}_Total`,
-              key: `${capital}_Total`,
-              render: text => (
-                <Space>
-                    {text
-                    ? `${parseFloat(text)
-                        .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                        })
-                        .replace(/,/g, " ")} $`
-                    : "0.00"}
-                </Space>
-              ),
+              title: 'Occupé',
+              dataIndex: `${batiment}_Occupe`,
+              key: `${batiment}_Occupe`,
+              render: text => <Space>{text ? text : "0"}</Space>,
               align: 'right',
             },
           ],
         })),
       ];
-
+  
       setColumns(dynamicColumns);
       setDataSource(formattedData);
       setLoading(false);
@@ -152,6 +127,7 @@ const RapportSuperficie = () => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchData();
