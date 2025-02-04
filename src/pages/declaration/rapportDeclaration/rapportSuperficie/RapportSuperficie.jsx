@@ -15,8 +15,6 @@ const RapportSuperficie = () => {
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [visibleCities, setVisibleCities] = useState([]);
-  const [allCities, setAllCities] = useState([]);
-  const [detail, setDetail] = useState([]);
   const scroll = { x: 400 };
   const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
@@ -63,7 +61,7 @@ const RapportSuperficie = () => {
           title: '#',
           dataIndex: 'id',
           key: 'id',
-          width: '3%',
+          width: '2%',
           render: (text, record, index) => {
             const pageSize = pagination.pageSize || 10;
             const pageIndex = pagination.current || 1;
@@ -99,7 +97,7 @@ const RapportSuperficie = () => {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                         })
-                        .replace(/,/g, " ")} $`
+                        .replace(/,/g, " ")}`
                     : "0.00"}
                 </Space>
               ),
@@ -115,6 +113,10 @@ const RapportSuperficie = () => {
           ],
         })),
       ];
+
+      console.log("Nouvelles données source :", formattedData);
+    console.log("Colonnes mises à jour :", dynamicColumns);
+
   
       setColumns(dynamicColumns);
       setDataSource(formattedData);
@@ -166,29 +168,12 @@ const RapportSuperficie = () => {
         </Button>
         {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} />}
 
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="cities">
-                <Checkbox.Group
-                  options={allCities.map(city => ({ label: city, value: city }))}
-                  value={visibleCities}
-                  onChange={handleCityVisibilityChange}
-                />
-              </Menu.Item>
-            </Menu>
-          }
-          trigger={['click']}
-        >
-          <Button>Afficher/Masquer les villes</Button>
-        </Dropdown>
-
         <div className="rapport_wrapper_facture">
           <Table
             dataSource={dataSource}
-            columns={filteredColumns}
+            columns={columns}
             bordered
-            scroll={scroll}
+            scroll={{ x: 'max-content' }}
             loading={loading}
             size="small"
             pagination={pagination}

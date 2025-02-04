@@ -8,8 +8,7 @@ export default {
 /*   REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com'
 
  */
-REACT_APP_SERVER_DOMAIN : 'http://localhost:8080'
-
+REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com'
 };
 
 export const userRequest = axios.create({
