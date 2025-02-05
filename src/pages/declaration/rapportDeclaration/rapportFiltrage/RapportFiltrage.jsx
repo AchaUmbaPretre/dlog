@@ -35,7 +35,7 @@ useEffect(()=> {
         selectedAnnees.forEach(year => {
             if (selectedMois[year]) {
                 selectedMois[year].forEach(mois => {
-                    period.mois.push(mois.split('-')[0]); 
+                period.mois.push(mois.split('-')[0]); 
                 });
             }
         });
