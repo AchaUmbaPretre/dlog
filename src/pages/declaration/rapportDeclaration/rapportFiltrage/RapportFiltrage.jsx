@@ -119,6 +119,14 @@ useEffect(()=> {
             </Panel>
         ));
     };
+
+    const options = [
+        { value: null, label: 'All' },
+        ...type.map((item) => ({
+            value: item.id_status_batiment,
+            label: item.nom_status_batiment,
+        })),
+    ];
     
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
@@ -175,10 +183,7 @@ useEffect(()=> {
                         <Select
                             showSearch
                             style={{ width: '100%' }}
-                            options={type.map((item) => ({
-                                value: item.id_status_batiment,
-                                label: item.nom_status_batiment,
-                            }))}
+                            options={options}
                             placeholder="Sélectionnez..."
                             optionFilterProp="label"
                             onChange={setSelectedType}
