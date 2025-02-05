@@ -10,7 +10,7 @@ import { getMois, getAnnee } from '../../../../services/templateService';
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const RapportFiltrage = ({ onFilter, filtraVille, filtraClient }) => {
+const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
@@ -195,7 +195,7 @@ useEffect(()=> {
                 </div>
             )}
 
-            {!filtraVille && (
+            {filtraStatus && (
                 <div className="filter_row">
                     <label>Type de batiment :</label>
                     {isLoading ? (

@@ -342,7 +342,7 @@ const RapportManu = () => {
                 </Button>
               </Dropdown>
             </div>
-            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true}/>}
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}
