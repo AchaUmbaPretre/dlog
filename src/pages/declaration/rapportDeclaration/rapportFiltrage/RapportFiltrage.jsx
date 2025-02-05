@@ -152,7 +152,7 @@ useEffect(()=> {
     
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
-            {filtraVille && (
+            {!filtraVille && (
                 <div className="filter_row">
                     <label>Ville :</label>
                     {isLoading ? (

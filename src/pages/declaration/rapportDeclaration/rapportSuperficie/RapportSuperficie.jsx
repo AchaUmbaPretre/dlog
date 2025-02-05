@@ -79,6 +79,7 @@ const RapportSuperficie = () => {
           dataIndex: 'Mois',
           key: 'Mois',
           fixed: 'left',
+          width: '2%',
           render: text => (
             <Space>
               <Tag color={'#2db7f5'}>{text}</Tag>
