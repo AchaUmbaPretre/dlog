@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, notification, Table, Tag } from 'antd';
+import { Button, notification, Table, Tag, Tooltip } from 'antd';
 import moment from 'moment';
+import {
+  FileExcelOutlined
+} from '@ant-design/icons';
+import * as XLSX from 'xlsx';
 import { getRapportExterneEtInterne } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
@@ -118,16 +122,84 @@ const RapportExterneEtInterne = () => {
     fetchData();
   }, [filteredDatas]);
 
+  const exportToExcelHTML = async () => {
+    try {
+      const { data } = await getRapportExterneEtInterne(filteredDatas);
+  
+      // Group data by month and type
+      const groupedData = data.reduce((acc, item) => {
+        const month = moment(item.periode).format('MMM-YY');
+        if (!acc[month]) acc[month] = {};
+        acc[month][item.nom_status_batiment] = {
+          Entreposage: item.total_entreposage || 0,
+          Manutention: item.total_manutation || 0,
+          Total: item.total_facture || 0,
+        };
+        return acc;
+      }, {});
+  
+      // Format grouped data into table rows
+      const formattedData = Object.entries(groupedData).map(([month, types]) => {
+        const row = { Mois: month };
+        Object.entries(types).forEach(([type, values]) => {
+          row[`${type}_Entreposage`] = values.Entreposage;
+          row[`${type}_Manutention`] = values.Manutention;
+          row[`${type}_Total`] = values.Total;
+        });
+        return row;
+      });
+  
+      // Define columns for Excel export
+      const columns = [
+        { title: "Mois", key: "Mois" },
+        ...Array.from(new Set(data.map(item => item.nom_status_batiment)))
+          .map(type => ([
+            { title: `${type} - Entrep`, key: `${type}_Entreposage` },
+            { title: `${type} - Manut`, key: `${type}_Manutention` },
+            { title: `${type} - Total`, key: `${type}_Total` }
+          ])).flat(),
+      ];
+  
+      // Generate the Excel sheet from formatted data
+      const ws = XLSX.utils.json_to_sheet(formattedData, {
+        header: columns.map(col => col.key),
+      });
+  
+      // Create a new Excel workbook
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Rapport Externe et Interne");
+  
+      // Trigger file download
+      XLSX.writeFile(wb, "Rapport_Externe_Interne.xlsx");
+  
+    } catch (error) {
+      notification.error({
+        message: 'Erreur d\'exportation',
+        description: 'Une erreur est survenue lors de l\'exportation des données.',
+      });
+    }
+  };
+  
+  
+
   return (
     <div>
-      <div className="rapport_header">
-        <Button
-          onClick={() => setFilterVisible(!filterVisible)}
-          type={filterVisible ? 'primary' : 'default'}
-          style={{ margin: '10px 0' }}
-        >
-          {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-        </Button>
+      <div className="rapport_facture">
+        <div className="rapport_row_excel">
+          <Button
+            onClick={() => setFilterVisible(!filterVisible)}
+            type={filterVisible ? 'primary' : 'default'}
+            style={{ margin: '10px 0' }}
+          >
+            {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+          </Button>
+
+          <Tooltip title={'Importer en excel'}>
+                <Button className="export-excel" onClick={exportToExcelHTML} >
+                  <FileExcelOutlined className="excel-icon" />
+                </Button>
+              </Tooltip>
+        </div>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraStatus={true} />}
       </div>
       <Table

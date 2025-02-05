@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Dropdown, Menu, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
+import { Button, Checkbox, Dropdown, Menu, Tooltip, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
 import moment from 'moment';
-import { AreaChartOutlined, PieChartOutlined } from '@ant-design/icons';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { AreaChartOutlined, PieChartOutlined, FileExcelOutlined } from '@ant-design/icons';
 import { getRapportVille } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportVueEnsembleChart from './rapportVueEnsembleChart/RapportVueEnsembleChart';
@@ -182,6 +184,64 @@ const RapportVueEnsemble = () => {
     return true;
   });
 
+  const exportToExcelHTML = () => {
+    // Créer les colonnes dynamiques pour l'export
+    const columns = [
+      {
+        title: "#",
+        key: "id",
+      },
+      {
+        title: "Mois",
+        key: "Mois",
+      },
+      ...allCities.map((capital) => [
+        {
+          title: `${capital} - Entrep`,
+          key: `${capital}_Entreposage`,
+        },
+        {
+          title: `${capital} - Manut`,
+          key: `${capital}_Manutention`,
+        },
+        {
+          title: `${capital} - Total`,
+          key: `${capital}_Total`,
+        },
+      ]).flat(),
+    ];
+  
+    // Générer les lignes de données pour l'export
+    const excelData = dataSource.map((row, index) => {
+      let dataRow = {
+        id: index + 1,
+        Mois: row.Mois,
+      };
+  
+      // Remplir les valeurs pour chaque ville
+      allCities.forEach((capital) => {
+        dataRow[`${capital}_Entreposage`] = row[`${capital}_Entreposage`] || 0;
+        dataRow[`${capital}_Manutention`] = row[`${capital}_Manutention`] || 0;
+        dataRow[`${capital}_Total`] = row[`${capital}_Total`] || 0;
+      });
+  
+      return dataRow;
+    });
+  
+    // Convertir en feuille Excel avec la bibliothèque XLSX
+    const ws = XLSX.utils.json_to_sheet(excelData, {
+      header: columns.map(col => col.key),
+    });
+  
+    // Créer un nouveau classeur
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Rapport Ville");
+  
+    // Télécharger le fichier Excel
+    XLSX.writeFile(wb, "Rapport_Ville.xlsx");
+  };
+  
+
   return (
     <>
         {
@@ -258,17 +318,15 @@ const RapportVueEnsemble = () => {
         }
       <div className="rapport_facture">
         <h2 className="rapport_h2">RAPPORT VILLE</h2>
-        <Button
-          type={filterVisible ? 'primary' : 'default'}
-          onClick={() => setFilterVisible(!filterVisible)}
-          style={{ margin: '10px 10px 10px 0' }}
-        >
-          {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-        </Button>
-        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={false} filtraStatus={false} />}
-
-        {/* Menu pour afficher/masquer les villes */}
-        <Dropdown
+        <div className="rapport_row_excel">
+          <Button
+            type={filterVisible ? 'primary' : 'default'}
+            onClick={() => setFilterVisible(!filterVisible)}
+            style={{ margin: '10px 10px 10px 0' }}
+          >
+            {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+          </Button>
+          <Dropdown
           overlay={
             <Menu>
               <Menu.Item key="cities">
@@ -283,8 +341,16 @@ const RapportVueEnsemble = () => {
           trigger={['click']}
         >
           <Button>Afficher/Masquer les villes</Button>
-        </Dropdown>
+          </Dropdown>
 
+          <Tooltip title={'Importer en excel'}>
+            <Button className="export-excel" onClick={exportToExcelHTML} >
+              <FileExcelOutlined className="excel-icon" />
+            </Button>
+          </Tooltip>
+        </div>
+
+        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={false} filtraStatus={false} />}
         <div className="rapport_wrapper_facture">
           <Table
             dataSource={dataSource}
