@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './rapportFacture.scss'
-import { Button, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
+import { Button, notification, Popover, Skeleton, Space, Table, Tabs, Tag, Tooltip } from 'antd';
 import { getRapportFacture, getRapportFactureClient } from '../../../../services/templateService';
 import moment from 'moment';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import {
     AreaChartOutlined,
     PieChartOutlined,
@@ -199,7 +201,66 @@ const RapportFacture = () => {
           </ul>
         </div>
       );
-
+      
+      const exportToExcelHTML = () => {
+        let tableHTML = `
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Client</th>
+                        ${uniqueMonths.map(month => {
+                            const [numMonth, year] = month.split("-");
+                            const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+                            return `<th>${monthName}</th>`;
+                        }).join('')}
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+    
+        // Parcourez chaque ligne de données
+        dataSource.forEach((row, index) => {
+            console.log('Row:', row); // Vérifiez la structure de chaque ligne de données
+    
+            let rowHTML = `<tr><td>${index + 1}</td><td>${row.Client}</td>`;
+    
+            // Remplir les valeurs des mois dans la ligne
+            uniqueMonths.forEach(month => {
+                console.log('Month:', month); // Vérifiez la valeur de chaque mois dans uniqueMonths
+    
+                // Formatez correctement la clé du mois
+                const [numMonth, year] = month.split("-");
+                const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+    
+                // Récupérer la clé correspondante au mois dans la ligne
+                const value = row[monthName] || 0; // Utilisez la clé formatée
+                rowHTML += `<td>${value ? Math.round(value).toLocaleString() : 0}</td>`;
+            });
+    
+            // Ajouter la colonne "Total"
+            rowHTML += `<td>${row.Total ? Math.round(row.Total).toLocaleString() : 0}</td></tr>`;
+            tableHTML += rowHTML;
+        });
+    
+        tableHTML += `
+                </tbody>
+            </table>
+        `;
+    
+        // Créer un blob pour l'exportation en Excel
+        const blob = new Blob([tableHTML], { type: "application/vnd.ms-excel" });
+        const url = URL.createObjectURL(blob);
+    
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "export.xls";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+    
   return (
     <>
         {
@@ -292,9 +353,12 @@ const RapportFacture = () => {
                     >
                       {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                     </Button>
-                    <div className="export-excel">
-                      <FileExcelOutlined className="excel-icon" />
-                    </div>
+                    <Tooltip title={'Importer en excel'}>
+                      <Button className="export-excel" onClick={exportToExcelHTML} >
+                        <FileExcelOutlined className="excel-icon" />
+                      </Button>
+                    </Tooltip>
+
                   </div>
 
                     { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraClient={true}/>        }

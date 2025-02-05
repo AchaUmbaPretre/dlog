@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Dropdown, Menu, notification, Popover, Skeleton, Space, Table, Tabs, Tag, Tooltip } from 'antd';
 import moment from 'moment';
+import {
+    AreaChartOutlined,
+    PieChartOutlined,
+    SwapOutlined,
+    FileExcelOutlined
+} from '@ant-design/icons';
 import { getRapportSuperficie } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
@@ -175,25 +181,143 @@ const RapportSuperficie = () => {
     setVisibleCities(checkedValues);
   };
 
-  const filteredColumns = columns.filter(col => {
-    // Filtrer uniquement les colonnes des villes sélectionnées
-    if (col.key && col.key !== 'id' && col.key !== 'Mois') {
-      return visibleCities.includes(col.title);
+  const exportToExcelHTML = async () => {
+    try {
+      const { data } = await getRapportSuperficie(filteredDatas);
+  
+      // Regrouper les données par mois et par bâtiment
+      const groupedData = data.reduce((acc, item) => {
+        const mois = moment(item.periode).format('MMM-YY');
+        
+        if (!acc[mois]) acc[mois] = {};
+        
+        if (!acc[mois][item.nom_batiment]) {
+          acc[mois][item.nom_batiment] = {
+            total_facture: 0,
+            total_occupe: 0,
+            superficie: 0,
+          };
+        }
+  
+        acc[mois][item.nom_batiment].total_facture += item.total_facture || 0;
+        acc[mois][item.nom_batiment].total_occupe += item.total_occupe || 0;
+        acc[mois][item.nom_batiment].superficie += item.superficie || 0;
+  
+        return acc;
+      }, {});
+  
+      // Formater les données pour l'exportation Excel
+      const formattedData = Object.entries(groupedData).map(([mois, batiments]) => {
+        const row = { Mois: mois };
+        for (const [batiment, valeurs] of Object.entries(batiments)) {
+          row[`${batiment}_Facture`] = valeurs.total_facture;
+          row[`${batiment}_Occupe`] = valeurs.total_occupe;
+          row[`${batiment}_Superficie`] = valeurs.superficie;
+        }
+        return row;
+      });
+  
+      // Extraire les noms des bâtiments pour générer dynamiquement les colonnes
+      const extractedBatiments = [...new Set(data.map(item => item.nom_batiment))];
+  
+      // Créer l'HTML du tableau pour l'export Excel
+      let tableHTML = `
+        <table border="1" style="border-collapse: collapse; font-size: 12px; text-align: right;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Mois</th>
+              ${extractedBatiments.map(batiment => `
+                <th colspan="3">${batiment}</th>
+              `).join('')}
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              ${extractedBatiments.map(batiment => `
+                <th>Facturé</th>
+                <th>Occupé</th>
+                <th>M² Diff</th>
+              `).join('')}
+            </tr>
+          </thead>
+          <tbody>
+      `;
+  
+      // Ajouter les lignes de données
+      formattedData.forEach((row, index) => {
+        tableHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${row.Mois}</td>
+            ${extractedBatiments.map(batiment => {
+              const facture = row[`${batiment}_Facture`] || 0;
+              const occupe = row[`${batiment}_Occupe`] || 0;
+              const superficie = row[`${batiment}_Superficie`] || 0;
+              const diff = superficie !== 0 ? (facture - occupe) : 0;
+  
+              return `
+                <td>${Math.round(facture).toLocaleString()}</td>
+                <td>${Math.round(occupe).toLocaleString()}</td>
+                <td>${superficie !== 0 ? (diff !== 0 ? `<span style="color: red">${Math.round(diff).toLocaleString()}</span>` : `<span style="color: green">${Math.round(diff).toLocaleString()}</span>`) : ''}</td>
+              `;
+            }).join('')}
+          </tr>
+        `;
+      });
+  
+      tableHTML += `
+        </tbody>
+      </table>
+      `;
+  
+      // Créer un Blob pour le téléchargement Excel
+      const blob = new Blob([tableHTML], { type: "application/vnd.ms-excel" });
+      const url = URL.createObjectURL(blob);
+  
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "rapport_superficie_export.xls";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
     }
-    return true;
-  });
-
+  };
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   return (
     <>
       <div className="rapport_facture">
         <h2 className="rapport_h2">RAPPORT SUPERFICIE</h2>
-        <Button
-          type={filterVisible ? 'primary' : 'default'}
-          onClick={() => setFilterVisible(!filterVisible)}
-          style={{ margin: '10px 10px 10px 0' }}
-        >
-          {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-        </Button>
+        <div className='rapport_row_excel'>
+            <Button
+            type={filterVisible ? 'primary' : 'default'}
+            onClick={() => setFilterVisible(!filterVisible)}
+            style={{ margin: '10px 10px 10px 0' }}
+            >
+            {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+            </Button>
+            <Tooltip title={'Importer en excel'}>
+                <Button className="export-excel" onClick={exportToExcelHTML} >
+                    <FileExcelOutlined className="excel-icon" />
+                </Button>
+            </Tooltip>
+        </div>
         {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraStatus={true} />}
 
         <div className="rapport_wrapper_facture">
