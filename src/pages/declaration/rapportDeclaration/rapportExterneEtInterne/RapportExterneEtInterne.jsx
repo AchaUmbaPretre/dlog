@@ -128,7 +128,7 @@ const RapportExterneEtInterne = () => {
         >
           {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
         </Button>
-        {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} />}
+        {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraStatus={true} />}
       </div>
       <Table
         dataSource={dataSource}
