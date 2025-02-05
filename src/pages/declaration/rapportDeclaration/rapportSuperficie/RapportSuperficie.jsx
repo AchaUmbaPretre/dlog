@@ -95,20 +95,14 @@ const RapportSuperficie = () => {
               key: `${batiment}_M2`,
               children: [
                 {
-                  title: 'Facture',
+                  title: 'Facturé',
                   dataIndex: `${batiment}_Facture`,
                   key: `${batiment}_Facture`,
                   width: '5%',
                   render: text => (
                     <Space>
                       {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })
-                            .replace(/,/g, " ")}` 
-                        : "0.00"}
+                        ? Math.round(parseFloat(text))?.toLocaleString() : 0}
                     </Space>
                   ),
                   align: 'right',
@@ -118,7 +112,12 @@ const RapportSuperficie = () => {
                   dataIndex: `${batiment}_Occupe`,
                   key: `${batiment}_Occupe`,
                   width: '5%',
-                  render: text => <Space>{text ? text : "0"}</Space>,
+                  render: text => (
+                    <Space>
+                      {text ?
+                        Math.round(parseFloat(text))?.toLocaleString() : 0}
+                    </Space>
+                  ),
                   align: 'right',
                 },
                 {
@@ -130,10 +129,13 @@ const RapportSuperficie = () => {
                       <Space>
                         {text !== 0 ? (
                           <Tooltip title="Vérifier la différence">
-                            <Tag color="red">{text}</Tag>
+                            <Tag color="red">{text ? 
+                                Math.round(parseFloat(text))?.toLocaleString() : 0}
+                        </Tag>
                           </Tooltip>
                         ) : (
-                          <Tag color="green">{text}</Tag>
+                          <Tag color="green">{text ? 
+                            Math.round(parseFloat(text))?.toLocaleString() : 0}</Tag>
                         )}
                       </Space>
                     ),
