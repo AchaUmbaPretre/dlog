@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Button, Skeleton, Input, Checkbox, Collapse } from 'antd';
+import { Select, Skeleton, Input, Checkbox, Collapse } from 'antd';
 import 'antd/dist/reset.css';
 import moment from 'moment';
 import { getClient, getProvince } from '../../../../services/clientService';
@@ -47,7 +47,6 @@ useEffect(()=> {
             montant: { min: minMontant, max: maxMontant },
             period,
         });
-    
     };
     handleFilter();
 }, [province, client, selectedVille, selectedType, selectedClients, minMontant, maxMontant, mois, annee, selectedMois, selectedAnnees, type ])
