@@ -134,7 +134,6 @@ useEffect(()=> {
         });
     };
     
-
     const renderMoisParAnnee = () => {
         return selectedAnnees.map((year) => (
             <Panel header={year} key={year}>
