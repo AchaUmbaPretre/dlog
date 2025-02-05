@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, notification, Popover, Dropdown, Skeleton, Space, Table, Tabs, Tag, Menu } from 'antd';
+import { Button, notification, Popover, Tooltip, Dropdown, Skeleton, Space, Table, Tabs, Tag, Menu } from 'antd';
 import {
     AreaChartOutlined,
     PieChartOutlined,
     MenuOutlined,
-    DownOutlined
+    DownOutlined,
+    FileExcelOutlined
 } from '@ant-design/icons';
 import moment from 'moment';
 import { getRapportManutentation } from '../../../../services/templateService';
@@ -253,6 +254,10 @@ const RapportManu = () => {
     const getVisibleColumns = () => {
       return columns.filter((col) => columnsVisibility[col.key]);
     };
+
+    const exportToExcelHTML = () => {
+
+    }
     
 
   return (
@@ -327,8 +332,8 @@ const RapportManu = () => {
         }
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS MANUTENTION</h2>
-            <div style={{display:'flex', gap:'10px', alignItems:'center'}}>
-              <Button
+            <div className="rapport_row_excel">
+            <Button
                   type={filterVisible ? 'primary' : 'default'}
                   onClick={handFilter}
                   style={{ margin: '10px 0' }}
@@ -341,7 +346,14 @@ const RapportManu = () => {
                   Colonnes <DownOutlined />
                 </Button>
               </Dropdown>
+
+              <Tooltip title={'Importer en excel'}>
+                <Button className="export-excel" onClick={exportToExcelHTML} >
+                  <FileExcelOutlined className="excel-icon" />
+                </Button>
+              </Tooltip>
             </div>
+
             { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true}/>}
             <div className="rapport_wrapper_facture">
                 <Table

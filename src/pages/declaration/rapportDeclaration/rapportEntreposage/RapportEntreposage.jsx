@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { MenuOutlined, DownOutlined, PieChartOutlined, AreaChartOutlined } from '@ant-design/icons';
-import { notification,Button, Space,Menu, Table, Tag, Dropdown, Tabs, Popover, Skeleton } from 'antd';
+import { MenuOutlined, DownOutlined, FileExcelOutlined, PieChartOutlined, AreaChartOutlined } from '@ant-design/icons';
+import { notification,Button, Space,Menu, Tooltip, Table, Tag, Dropdown, Tabs, Popover, Skeleton } from 'antd';
 import moment from 'moment';
 import { getRapportEntreposage } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -250,6 +250,10 @@ const RapportEntreposage = () => {
       const getVisibleColumns = () => {
         return columns.filter((col) => columnsVisibility[col.key]);
       };
+
+      const exportToExcelHTML = () => {
+
+      }
       
 
   return (
@@ -324,7 +328,7 @@ const RapportEntreposage = () => {
         }
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS ENTREPOSAGE</h2>
-            <div style={{display:'flex', gap:'10px', alignItems:'center'}}>
+            <div className="rapport_row_excel">
               <Button
                   type={filterVisible ? 'primary' : 'default'}
                   onClick={handFilter}
@@ -338,6 +342,12 @@ const RapportEntreposage = () => {
                         Colonnes <DownOutlined />
                     </Button>
                 </Dropdown>
+
+                <Tooltip title={'Importer en excel'}>
+                  <Button className="export-excel" onClick={exportToExcelHTML} >
+                    <FileExcelOutlined className="excel-icon" />
+                  </Button>
+              </Tooltip>
             </div>
             { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true}/>        }
             <div className="rapport_wrapper_facture">
