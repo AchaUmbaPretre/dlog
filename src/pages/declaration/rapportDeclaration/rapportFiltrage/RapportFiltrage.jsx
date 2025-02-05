@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Select, Button, Skeleton, Input, Checkbox, Collapse } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import moment from 'moment';
 import { getClient, getProvince } from '../../../../services/clientService';
@@ -25,46 +24,18 @@ const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus }) 
     const [selectedAnnees, setSelectedAnnees] = useState([]);
     const [type, setType] = useState([]);
 
-const handleFilter = () => {
-    // Format selected months and years
-    const period = {
-        mois: [],
-        annees: selectedAnnees,
-    };
-
-    // Flatten the selected months for each year
-    selectedAnnees.forEach(year => {
-        if (selectedMois[year]) {
-            selectedMois[year].forEach(mois => {
-                period.mois.push(mois.split('-')[0]); // Extracting month from "mois-annee"
-            });
-        }
-    });
-
-    // Prepare the filter data
-    onFilter({
-        ville: selectedVille,
-        client: selectedClients,
-        status_batiment: selectedType,
-        montant: { min: minMontant, max: maxMontant },
-        period,  // Pass formatted period object
-    });
-
-};
 
 useEffect(()=> {
     const handleFilter = () => {
-        // Format selected months and years
         const period = {
             mois: [],
             annees: selectedAnnees,
         };
     
-        // Flatten the selected months for each year
         selectedAnnees.forEach(year => {
             if (selectedMois[year]) {
                 selectedMois[year].forEach(mois => {
-                    period.mois.push(mois.split('-')[0]); // Extracting month from "mois-annee"
+                    period.mois.push(mois.split('-')[0]);
                 });
             }
         });

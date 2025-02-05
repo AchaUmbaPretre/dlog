@@ -194,7 +194,7 @@ const RapportSuperficie = () => {
         >
           {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
         </Button>
-        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} />}
+        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraStatus={true} />}
 
         <div className="rapport_wrapper_facture">
           <Table
