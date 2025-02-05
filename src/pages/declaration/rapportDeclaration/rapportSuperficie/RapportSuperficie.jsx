@@ -128,11 +128,9 @@ const RapportSuperficie = () => {
                     render: text => (
                       <Space>
                         {text !== 0 ? (
-                          <Tooltip title="Vérifier la différence">
-                            <Tag color="red">{text ? 
-                                Math.round(parseFloat(text))?.toLocaleString() : 0}
+                        <Tag color="red">{text ? 
+                            Math.round(parseFloat(text))?.toLocaleString() : 0}
                         </Tag>
-                          </Tooltip>
                         ) : (
                           <Tag color="green">{text ? 
                             Math.round(parseFloat(text))?.toLocaleString() : 0}</Tag>
