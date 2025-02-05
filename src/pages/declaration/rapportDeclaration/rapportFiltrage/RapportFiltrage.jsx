@@ -10,7 +10,7 @@ import { getMois, getAnnee } from '../../../../services/templateService';
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const RapportFiltrage = ({ onFilter, filtraVille }) => {
+const RapportFiltrage = ({ onFilter, filtraVille, filtraClient }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
@@ -151,7 +151,7 @@ useEffect(()=> {
     
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
-            {!filtraVille && (
+            {filtraVille && (
                 <div className="filter_row">
                     <label>Ville :</label>
                     {isLoading ? (
@@ -173,7 +173,7 @@ useEffect(()=> {
                 </div>
             )}
 
-            {!filtraVille && (
+            {filtraClient && (
                 <div className="filter_row">
                     <label>Clients :</label>
                     {isLoading ? (

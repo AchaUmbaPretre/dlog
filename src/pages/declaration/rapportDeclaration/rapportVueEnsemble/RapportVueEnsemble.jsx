@@ -265,7 +265,7 @@ const RapportVueEnsemble = () => {
         >
           {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
         </Button>
-        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} />}
+        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraClient={false} />}
 
         {/* Menu pour afficher/masquer les villes */}
         <Dropdown

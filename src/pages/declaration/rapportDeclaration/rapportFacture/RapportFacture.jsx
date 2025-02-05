@@ -292,7 +292,7 @@ const RapportFacture = () => {
                     {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                   </Button>
 
-                    { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false}/>        }
+                    { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraClient={true}/>        }
                     <div className="rapport_wrapper_facture">
                         <Table
                             dataSource={dataSource}
