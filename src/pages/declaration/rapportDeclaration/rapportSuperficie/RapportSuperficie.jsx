@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Dropdown, Menu, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
+import { Button, Checkbox, Dropdown, Menu, notification, Popover, Skeleton, Space, Table, Tabs, Tag, Tooltip } from 'antd';
 import moment from 'moment';
 import { getRapportSuperficie } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -25,21 +25,24 @@ const RapportSuperficie = () => {
       // Regrouper les données par mois et par bâtiment
       const groupedData = data.reduce((acc, item) => {
         const mois = moment(item.periode).format('MMM-YY');
-  
+      
         if (!acc[mois]) acc[mois] = {};
-  
+      
         if (!acc[mois][item.nom_batiment]) {
           acc[mois][item.nom_batiment] = {
             total_facture: 0,
             total_occupe: 0,
+            superficie: 0, // 🔹 Ajout de l'initialisation
           };
         }
-  
+      
         acc[mois][item.nom_batiment].total_facture += item.total_facture || 0;
         acc[mois][item.nom_batiment].total_occupe += item.total_occupe || 0;
-  
+        acc[mois][item.nom_batiment].superficie += item.superficie || 0; // 🔹 Ajout du cumul de superficie
+      
         return acc;
       }, {});
+      
   
       // Transformer les données en un format compatible avec Ant Design Table
       const formattedData = Object.entries(groupedData).map(([mois, batiments]) => {
@@ -47,9 +50,11 @@ const RapportSuperficie = () => {
         for (const [batiment, valeurs] of Object.entries(batiments)) {
           row[`${batiment}_Facture`] = valeurs.total_facture;
           row[`${batiment}_Occupe`] = valeurs.total_occupe;
+          row[`${batiment}_Superficie`] = valeurs.superficie; // 🔹 Ajout ici
         }
         return row;
       });
+           
       
   
       // Extraire tous les bâtiments pour les colonnes dynamiques
@@ -82,42 +87,64 @@ const RapportSuperficie = () => {
           align: 'left',
         },
         ...extractedBatiments.map(batiment => ({
-          title: `${batiment}`,
+          title: batiment,
           key: batiment,
           children: [
             {
-              title: 'Facture',
-              dataIndex: `${batiment}_Facture`,
-              key: `${batiment}_Facture`,
-              render: text => (
-                <Space>
-                  {text
-                    ? `${parseFloat(text)
-                        .toLocaleString("en-US", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
-                        .replace(/,/g, " ")}`
-                    : "0.00"}
-                </Space>
-              ),
-              align: 'right',
-            },
-            {
-              title: 'Occupé',
-              dataIndex: `${batiment}_Occupe`,
-              key: `${batiment}_Occupe`,
-              render: text => <Space>{text ? text : "0"}</Space>,
-              align: 'right',
+              title: 'M2',
+              key: `${batiment}_M2`,
+              children: [
+                {
+                  title: 'Facture',
+                  dataIndex: `${batiment}_Facture`,
+                  key: `${batiment}_Facture`,
+                  width: '5%',
+                  render: text => (
+                    <Space>
+                      {text
+                        ? `${parseFloat(text)
+                            .toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })
+                            .replace(/,/g, " ")}` 
+                        : "0.00"}
+                    </Space>
+                  ),
+                  align: 'right',
+                },
+                {
+                  title: 'Occupé',
+                  dataIndex: `${batiment}_Occupe`,
+                  key: `${batiment}_Occupe`,
+                  width: '5%',
+                  render: text => <Space>{text ? text : "0"}</Space>,
+                  align: 'right',
+                },
+                {
+                    title: 'M² Diff',
+                    dataIndex: `${batiment}_Superficie`,
+                    key: `${batiment}_Superficie`,
+                    width: '5%',
+                    render: text => (
+                      <Space>
+                        {text !== 0 ? (
+                          <Tooltip title="Vérifier la différence">
+                            <Tag color="red">{text}</Tag>
+                          </Tooltip>
+                        ) : (
+                          <Tag color="green">{text}</Tag>
+                        )}
+                      </Space>
+                    ),
+                    align: 'right',
+                  }
+              ],
             },
           ],
         })),
       ];
-
-      console.log("Nouvelles données source :", formattedData);
-    console.log("Colonnes mises à jour :", dynamicColumns);
-
-  
+    
       setColumns(dynamicColumns);
       setDataSource(formattedData);
       setLoading(false);
