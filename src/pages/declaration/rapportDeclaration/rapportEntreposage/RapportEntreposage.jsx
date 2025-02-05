@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { MenuOutlined, DownOutlined, FileExcelOutlined, PieChartOutlined, AreaChartOutlined } from '@ant-design/icons';
 import { notification,Button, Space,Menu, Tooltip, Table, Tag, Dropdown, Tabs, Popover, Skeleton } from 'antd';
 import moment from 'moment';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import { getRapportEntreposage } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportEntreposageChart from './rapportEntreposageChart/RapportEntreposageChart';
@@ -252,8 +254,75 @@ const RapportEntreposage = () => {
       };
 
       const exportToExcelHTML = () => {
-
-      }
+        const columns = [
+          {
+            title: "#",
+            key: "id",
+          },
+          {
+            title: "Client",
+            key: "Client",
+          },
+          ...uniqueMonths.map((month) => {
+            const [numMonth, year] = month.split("-");
+            const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+            return {
+              title: monthName,
+              key: monthName,
+            };
+          }),
+          {
+            title: "Total",
+            key: "Total",
+          },
+          {
+            title: "Total TTC",
+            key: "TotalTTC",
+          },
+        ];
+      
+        // Construire les lignes de données
+        const excelData = dataSource.map((row, index) => {
+          let dataRow = {
+            id: index + 1,
+            Client: row.Client,
+          };
+      
+          // Ajouter les valeurs des mois
+          uniqueMonths.forEach((month) => {
+            const [numMonth, year] = month.split("-");
+            const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+            dataRow[monthName] = row[monthName] || 0;
+          });
+      
+          // Ajouter le total par mois
+          const total = uniqueMonths.reduce((sum, month) => {
+            const [numMonth, year] = month.split("-");
+            const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+            return sum + (row[monthName] || 0);
+          }, 0);
+          dataRow["Total"] = total;
+      
+          // Ajouter le total TTC
+          const totalTTC = uniqueMonths.reduce((sum, month) => {
+            const [numMonth, year] = month.split("-");
+            const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+            return sum + (row[`${monthName}_TTC`] || 0);
+          }, 0);
+          dataRow["TotalTTC"] = totalTTC;
+      
+          return dataRow;
+        });
+      
+        const ws = XLSX.utils.json_to_sheet(excelData, { header: columns.map(col => col.key) });
+      
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Rapport Entreposage');
+      
+        // Télécharger le fichier Excel
+        XLSX.writeFile(wb, 'Rapport_Entreposage.xlsx');
+      };
+      
       
 
   return (

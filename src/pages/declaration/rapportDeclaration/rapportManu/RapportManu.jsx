@@ -8,6 +8,8 @@ import {
     FileExcelOutlined
 } from '@ant-design/icons';
 import moment from 'moment';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import { getRapportManutentation } from '../../../../services/templateService';
 import RapportManuChart from './rapportManuChart/RapportManuChart';
 import TabPane from 'antd/es/tabs/TabPane';
@@ -256,9 +258,77 @@ const RapportManu = () => {
     };
 
     const exportToExcelHTML = () => {
-
-    }
+      // Définir les colonnes dynamiques
+      const columns = [
+        {
+          title: "#",
+          key: "id",
+        },
+        {
+          title: "Client",
+          key: "Client",
+        },
+        ...uniqueMonths.map((month) => {
+          const [numMonth, year] = month.split("-");
+          const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+          return {
+            title: monthName,
+            key: monthName,
+          };
+        }),
+        {
+          title: "Total",
+          key: "Total",
+        },
+        {
+          title: "Total TTC",
+          key: "TotalTTC",
+        },
+      ];
     
+      // Construire les lignes de données
+      const excelData = dataSource.map((row, index) => {
+        let dataRow = {
+          id: index + 1,
+          Client: row.Client,
+        };
+    
+        // Ajouter les valeurs des mois
+        uniqueMonths.forEach((month) => {
+          const [numMonth, year] = month.split("-");
+          const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+          dataRow[monthName] = row[monthName] || 0;
+        });
+    
+        // Ajouter le total par mois
+        const total = uniqueMonths.reduce((sum, month) => {
+          const [numMonth, year] = month.split("-");
+          const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+          return sum + (row[monthName] || 0);
+        }, 0);
+        dataRow["Total"] = total;
+    
+        // Ajouter le total TTC
+        const totalTTC = uniqueMonths.reduce((sum, month) => {
+          const [numMonth, year] = month.split("-");
+          const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+          return sum + (row[`${monthName}_TTC`] || 0);
+        }, 0);
+        dataRow["TotalTTC"] = totalTTC;
+    
+        return dataRow;
+      });
+    
+      // Créer la feuille de calcul
+      const ws = XLSX.utils.json_to_sheet(excelData, { header: columns.map(col => col.key) });
+    
+      // Créer un classeur et ajouter la feuille de données
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Rapport Manutentation');
+    
+      // Télécharger le fichier Excel
+      XLSX.writeFile(wb, 'Rapport_Manutentation.xlsx');
+    };
 
   return (
     <>
