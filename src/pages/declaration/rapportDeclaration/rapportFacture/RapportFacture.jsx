@@ -6,7 +6,8 @@ import moment from 'moment';
 import {
     AreaChartOutlined,
     PieChartOutlined,
-    SwapOutlined
+    SwapOutlined,
+    FileExcelOutlined
 } from '@ant-design/icons';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportFactureChart from './rapportFactureChart/RapportFactureChart';
@@ -283,14 +284,18 @@ const RapportFacture = () => {
                     key="1"
             >
                 <div className="rapport_facture">
-{/*                                 <h2 className="rapport_h2">CLIENT DIVERS M² FACTURE</h2>
-    */}            <Button
+                  <div className='rapport_row_excel'>
+                    <Button
                       type={filterVisible ? 'primary' : 'default'}
                       onClick={handFilter}
                       style={{ margin: '10px 0' }}
-                  >
-                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-                  </Button>
+                    >
+                      {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                    </Button>
+                    <div className="export-excel">
+                      <FileExcelOutlined className="excel-icon" />
+                    </div>
+                  </div>
 
                     { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraClient={true}/>        }
                     <div className="rapport_wrapper_facture">

@@ -11,4 +11,29 @@
     .hidden-column {
         display: none;
       }
+    .rapport_row_excel{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .export-excel{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: #e0f3e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            .excel-icon{
+                font-size: 18px;
+                color: #1d6f42;
+            }
+
+            &:hover {
+                background-color: #c3e6c3;
+                transform: scale(1.1);
+              }
+        }
+    }
 }
