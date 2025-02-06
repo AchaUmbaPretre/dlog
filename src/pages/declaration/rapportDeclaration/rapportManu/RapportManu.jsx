@@ -5,7 +5,8 @@ import {
     PieChartOutlined,
     MenuOutlined,
     DownOutlined,
-    FileExcelOutlined
+    FileExcelOutlined,
+    FilePdfOutlined
 } from '@ant-design/icons';
 import moment from 'moment';
 import * as XLSX from 'xlsx';
@@ -330,6 +331,10 @@ const RapportManu = () => {
       XLSX.writeFile(wb, 'Rapport_Manutentation.xlsx');
     };
 
+    const exportToPDF = () => {
+      
+    }
+
   return (
     <>
                 {
@@ -403,7 +408,7 @@ const RapportManu = () => {
         <div className="rapport_facture">
             <h2 className="rapport_h2">CLIENT DIVERS MANUTENTION</h2>
             <div className="rapport_row_excel">
-            <Button
+              <Button
                   type={filterVisible ? 'primary' : 'default'}
                   onClick={handFilter}
                   style={{ margin: '10px 0' }}
@@ -420,6 +425,12 @@ const RapportManu = () => {
               <Tooltip title={'Importer en excel'}>
                 <Button className="export-excel" onClick={exportToExcelHTML} >
                   <FileExcelOutlined className="excel-icon" />
+                </Button>
+              </Tooltip>
+
+              <Tooltip title={'Importer en pdf'}>
+                <Button className="export-pdf" onClick={exportToPDF} >
+                  <FilePdfOutlined className="pdf-icon" />
                 </Button>
               </Tooltip>
             </div>
