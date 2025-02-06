@@ -267,7 +267,6 @@ const RapportFacture = () => {
     
       const pageWidth = doc.internal.pageSize.getWidth();
     
-      // 📌 Ajout du titre (centré) et de la date (à droite)
       const title = "Rapport des Factures";
       const titleWidth = doc.getTextWidth(title);
       const dateWidth = doc.getTextWidth(dateStr);
