@@ -329,27 +329,44 @@ const RapportSuperficie = () => {
       // Mise en page professionnelle - Ajout des données
       let yPosition = 40; // Position verticale de départ pour les données
   
+      // Fonction pour ajouter une nouvelle page si nécessaire
+      const addNewPageIfNeeded = () => {
+        if (yPosition > 250) { // Si la position dépasse la limite de la page (250 est la limite pour le format A4)
+          doc.addPage(); // Ajouter une nouvelle page
+          yPosition = 20; // Réinitialiser la position en haut de la page
+        }
+      };
+  
       Object.entries(groupedData).forEach(([mois, batiments]) => {
         doc.setFontSize(14);
         doc.text(`Mois : ${mois}`, 10, yPosition);
         yPosition += 10;
+        addNewPageIfNeeded();
   
         Object.entries(batiments).forEach(([batiment, valeurs]) => {
           doc.setFontSize(12);
           doc.text(`Bâtiment: ${batiment}`, 10, yPosition);
           yPosition += 5;
+          addNewPageIfNeeded();
+  
           doc.text(`Facturé: ${valeurs.total_facture}`, 10, yPosition);
           yPosition += 5;
+          addNewPageIfNeeded();
+  
           doc.text(`Occupé: ${valeurs.total_occupe}`, 10, yPosition);
           yPosition += 5;
+          addNewPageIfNeeded();
+  
           doc.text(`Superficie: ${valeurs.superficie}`, 10, yPosition);
           yPosition += 10;
+          addNewPageIfNeeded();
         });
   
         // Ajouter une ligne de séparation entre les mois
         doc.setLineWidth(0.5);
         doc.line(10, yPosition, 200, yPosition);
         yPosition += 5;
+        addNewPageIfNeeded();
       });
   
       // Sauvegarder le PDF
