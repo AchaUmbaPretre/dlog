@@ -11,6 +11,8 @@ import {
 import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { getRapportManutentation } from '../../../../services/templateService';
 import RapportManuChart from './rapportManuChart/RapportManuChart';
 import TabPane from 'antd/es/tabs/TabPane';
@@ -331,9 +333,56 @@ const RapportManu = () => {
       XLSX.writeFile(wb, 'Rapport_Manutentation.xlsx');
     };
 
-    const exportToPDF = () => {
-      
-    }
+            const exportToPDF = () => {
+              const doc = new jsPDF();  
+              const dateStr = moment().format("DD MMMM YYYY");
+              const pageWidth = doc.internal.pageSize.getWidth();
+                      
+              const title = "Rapport manutention";
+              const titleWidth = doc.getTextWidth(title);
+              const dateWidth = doc.getTextWidth(dateStr);
+    
+              const titleX = (pageWidth - titleWidth) / 2;
+              const dateX = pageWidth - dateWidth - 14;
+            
+              doc.setFontSize(16);
+              doc.text(title, titleX, 15);
+              doc.setFontSize(12);
+              doc.text(dateStr, dateX, 15);
+    
+                    const tableColumns = columns.map(col => {
+                      if (React.isValidElement(col.title)) {
+                        return col.title.props?.children?.props?.children || col.title.props?.children || "Inconnu"; 
+                      }
+                      return col.title || "Inconnu";
+                    });
+                  
+                    const tableRows = dataSource.map((row, index) => {
+                      return [
+                        index + 1, 
+                        typeof row.Client === "object" ? JSON.stringify(row.Client) : row.Client, // 🔍 Assurer une chaîne de caractères
+                        ...uniqueMonths.map(month => {
+                          const [numMonth, year] = month.split("-");
+                          const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+                          return row[monthName] ?? 0;
+                        }),
+                        row.Total ?? 0
+                      ];
+                    });
+                  
+                    // 📌 Ajout du tableau au PDF
+                    doc.autoTable({
+                      head: [tableColumns.map(col => (typeof col === "object" ? JSON.stringify(col) : col))], // 🔍 Correction supplémentaire
+                      body: tableRows,
+                      startY: 25,
+                      theme: "grid",
+                      styles: { fontSize: 8, cellPadding: 2 },
+                      headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+                    });
+                  
+                    doc.save("rapport_Manutention.pdf");
+    
+            }
 
   return (
     <>
