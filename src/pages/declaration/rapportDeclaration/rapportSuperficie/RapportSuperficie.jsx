@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Button,notification, Space, Table, Tag, Tooltip } from 'antd';
 import moment from 'moment';
 import {
-    FileExcelOutlined
+    FileExcelOutlined,
+    FilePdfOutlined
 } from '@ant-design/icons';
+import jsPDF from "jspdf";
+import autoTable from 'jspdf-autotable';
 import { getRapportSuperficie } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
@@ -284,6 +287,81 @@ const RapportSuperficie = () => {
       });
     }
   };
+
+  const exportToPDF = async () => {
+    try {
+      const { data } = await getRapportSuperficie(filteredDatas);
+  
+      // Regrouper les données par mois et par bâtiment
+      const groupedData = data.reduce((acc, item) => {
+        const mois = moment(item.periode).format('MMM-YY');
+  
+        if (!acc[mois]) acc[mois] = {};
+  
+        if (!acc[mois][item.nom_batiment]) {
+          acc[mois][item.nom_batiment] = {
+            total_facture: 0,
+            total_occupe: 0,
+            superficie: 0,
+          };
+        }
+  
+        acc[mois][item.nom_batiment].total_facture += item.total_facture || 0;
+        acc[mois][item.nom_batiment].total_occupe += item.total_occupe || 0;
+        acc[mois][item.nom_batiment].superficie += item.superficie || 0;
+  
+        return acc;
+      }, {});
+  
+      // Création du PDF
+      const doc = new jsPDF();
+      const title = 'Rapport de Superficie';
+      const date = moment().format('DD MMMM YYYY');
+  
+      // Ajouter un titre
+      doc.setFontSize(18);
+      doc.text(title, 10, 20);
+  
+      // Ajouter la date
+      doc.setFontSize(12);
+      doc.text(`Date: ${date}`, 10, 30);
+  
+      // Mise en page professionnelle - Ajout des données
+      let yPosition = 40; // Position verticale de départ pour les données
+  
+      Object.entries(groupedData).forEach(([mois, batiments]) => {
+        doc.setFontSize(14);
+        doc.text(`Mois : ${mois}`, 10, yPosition);
+        yPosition += 10;
+  
+        Object.entries(batiments).forEach(([batiment, valeurs]) => {
+          doc.setFontSize(12);
+          doc.text(`Bâtiment: ${batiment}`, 10, yPosition);
+          yPosition += 5;
+          doc.text(`Facturé: ${valeurs.total_facture}`, 10, yPosition);
+          yPosition += 5;
+          doc.text(`Occupé: ${valeurs.total_occupe}`, 10, yPosition);
+          yPosition += 5;
+          doc.text(`Superficie: ${valeurs.superficie}`, 10, yPosition);
+          yPosition += 10;
+        });
+  
+        // Ajouter une ligne de séparation entre les mois
+        doc.setLineWidth(0.5);
+        doc.line(10, yPosition, 200, yPosition);
+        yPosition += 5;
+      });
+  
+      // Sauvegarder le PDF
+      doc.save("rapport_superficie_textuel.pdf");
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+    }
+  };
+
   
   return (
     <>
@@ -297,9 +375,16 @@ const RapportSuperficie = () => {
             >
             {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
             </Button>
+
             <Tooltip title={'Importer en excel'}>
                 <Button className="export-excel" onClick={exportToExcelHTML} >
                     <FileExcelOutlined className="excel-icon" />
+                </Button>
+            </Tooltip>
+
+            <Tooltip title={'Importer en pdf'}>
+                <Button className="export-pdf" onClick={exportToPDF} >
+                    <FilePdfOutlined className="pdf-icon" />
                 </Button>
             </Tooltip>
         </div>
