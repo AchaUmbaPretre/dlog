@@ -244,17 +244,56 @@ const RapportVueEnsemble = () => {
   };
 
   const exportToPDF = () => {
-              const doc = new jsPDF();
-            
-              const dateStr = moment().format("DD MMMM YYYY");
-            
-              const pageWidth = doc.internal.pageSize.getWidth();
-            
-              const title = "Rapport des Factures";
-              const titleWidth = doc.getTextWidth(title);
-              const dateWidth = doc.getTextWidth(dateStr);
-  }
+    const doc = new jsPDF("l", "mm", "a4"); // Mode paysage
+    const dateStr = moment().format("DD MMMM YYYY");
+    const pageWidth = doc.internal.pageSize.getWidth();
   
+    // Ajouter le titre
+    const title = "Rapport Ville";
+    doc.setFontSize(16);
+    doc.text(title, pageWidth / 2 - doc.getTextWidth(title) / 2, 15);
+  
+    // Ajouter la date
+    doc.setFontSize(10);
+    doc.text(dateStr, pageWidth - doc.getTextWidth(dateStr) - 10, 15);
+  
+    if (!Array.isArray(columns) || !Array.isArray(dataSource)) {
+      console.error("Colonnes ou données invalides.");
+      return;
+    }
+  
+    // Extraire les titres des colonnes pour le PDF
+    const tableColumns = columns.flatMap(col => {
+      if (col.children) {
+        return col.children.map(child => ({
+          title: `${col.title} - ${child.title}`,
+          dataKey: child.dataIndex,
+        }));
+      }
+      return { title: col.title, dataKey: col.dataIndex };
+    });
+  
+    // Formater les données du tableau
+    const tableData = dataSource.map(row => {
+      return tableColumns.reduce((acc, col) => {
+        acc[col.dataKey] = row[col.dataKey] || "0.00";
+        return acc;
+      }, {});
+    });
+  
+    // Générer le tableau PDF
+    doc.autoTable({
+      startY: 25,
+      head: [tableColumns.map(col => col.title)],
+      body: tableData.map(row => tableColumns.map(col => row[col.dataKey])),
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { fillColor: [41, 128, 185], textColor: [255, 255, 255] },
+      alternateRowStyles: { fillColor: [240, 240, 240] },
+    });
+  
+    // Sauvegarde du PDF
+    doc.save("Rapport_Ville.pdf");
+  };
 
   return (
     <>
