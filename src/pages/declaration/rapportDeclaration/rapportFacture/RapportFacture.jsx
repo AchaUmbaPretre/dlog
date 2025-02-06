@@ -298,7 +298,7 @@ const RapportFacture = () => {
           ...uniqueMonths.map(month => {
             const [numMonth, year] = month.split("-");
             const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-            return row[monthName] ?? 0; // 🔍 Gestion des valeurs vides
+            return row[monthName] ?? 0;
           }),
           row.Total ?? 0
         ];
