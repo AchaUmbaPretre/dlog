@@ -272,8 +272,8 @@ const RapportFacture = () => {
       const titleWidth = doc.getTextWidth(title);
       const dateWidth = doc.getTextWidth(dateStr);
       
-      const titleX = (pageWidth - titleWidth) / 2;  // Centrage du titre
-      const dateX = pageWidth - dateWidth - 14;     // Alignement de la date à droite
+      const titleX = (pageWidth - titleWidth) / 2;
+      const dateX = pageWidth - dateWidth - 14;
     
       doc.setFontSize(16);
       doc.text(title, titleX, 15);
