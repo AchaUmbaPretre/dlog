@@ -18,7 +18,6 @@ const RapportSuperficie = () => {
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [visibleCities, setVisibleCities] = useState([]);
-  const scroll = { x: 400 };
   const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
   const fetchData = async () => {
@@ -35,7 +34,7 @@ const RapportSuperficie = () => {
           acc[mois][item.nom_batiment] = {
             total_facture: 0,
             total_occupe: 0,
-            superficie: 0, // 🔹 Ajout de l'initialisation
+            superficie: 0,
           };
         }
       
@@ -53,13 +52,12 @@ const RapportSuperficie = () => {
         for (const [batiment, valeurs] of Object.entries(batiments)) {
           row[`${batiment}_Facture`] = valeurs.total_facture;
           row[`${batiment}_Occupe`] = valeurs.total_occupe;
-          row[`${batiment}_Superficie`] = valeurs.superficie; // 🔹 Ajout ici
+          row[`${batiment}_Superficie`] = valeurs.superficie;
         }
         return row;
       });
            
       
-  
       // Extraire tous les bâtiments pour les colonnes dynamiques
       const extractedBatiments = [...new Set(data.map(item => item.nom_batiment))];
   
