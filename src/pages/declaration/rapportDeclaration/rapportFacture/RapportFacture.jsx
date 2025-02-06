@@ -414,7 +414,7 @@ const RapportFacture = () => {
 
                     <Tooltip title={'Importer en pdf'}>
                       <Button className="export-pdf" onClick={exportToPDF} >
-                        <FilePdfOutlined className="excel-icon" />
+                        <FilePdfOutlined className="pdf-icon" />
                       </Button>
                     </Tooltip>
 

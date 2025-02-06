@@ -35,5 +35,27 @@
                 transform: scale(1.1);
               }
         }
+        .export-pdf {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: #f8d7da;  // Couleur de fond rouge clair
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          
+            .pdf-icon {
+              font-size: 18px;
+              color: #c82333;  // Rouge vif pour l'icône
+            }
+          
+            &:hover {
+              background-color: #f5c6cb; // Couleur de fond au survol
+              transform: scale(1.1); // Effet d'agrandissement au survol
+            }
+          }
+          
     }
 }
