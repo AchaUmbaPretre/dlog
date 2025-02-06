@@ -3,13 +3,14 @@ import './rapportFacture.scss'
 import { Button, notification, Popover, Skeleton, Space, Table, Tabs, Tag, Tooltip } from 'antd';
 import { getRapportFacture, getRapportFactureClient } from '../../../../services/templateService';
 import moment from 'moment';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import {
     AreaChartOutlined,
     PieChartOutlined,
     SwapOutlined,
-    FileExcelOutlined
+    FileExcelOutlined,
+    FilePdfOutlined 
 } from '@ant-design/icons';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportFactureChart from './rapportFactureChart/RapportFactureChart';
@@ -258,6 +259,65 @@ const RapportFacture = () => {
         a.click();
         document.body.removeChild(a);
     };
+
+    const exportToPDF = () => {
+      const doc = new jsPDF();
+    
+      // 📅 Date actuelle formatée
+      const dateStr = moment().format("DD MMMM YYYY");
+    
+      // 📏 Largeur du document pour centrage
+      const pageWidth = doc.internal.pageSize.getWidth();
+    
+      // 📌 Ajout du titre (centré) et de la date (à droite)
+      const title = "Rapport des Factures";
+      const titleWidth = doc.getTextWidth(title);
+      const dateWidth = doc.getTextWidth(dateStr);
+      
+      const titleX = (pageWidth - titleWidth) / 2;  // Centrage du titre
+      const dateX = pageWidth - dateWidth - 14;     // Alignement de la date à droite
+    
+      doc.setFontSize(16);
+      doc.text(title, titleX, 15);
+      doc.setFontSize(12);
+      doc.text(dateStr, dateX, 15);
+    
+      // 📌 Extraction des colonnes avec correction
+      const tableColumns = columns.map(col => {
+        if (React.isValidElement(col.title)) {
+          return col.title.props?.children?.props?.children || col.title.props?.children || "Inconnu"; 
+        }
+        return col.title || "Inconnu";
+      });
+    
+      // 📌 Extraction des lignes de données
+      const tableRows = dataSource.map((row, index) => {
+        return [
+          index + 1, 
+          typeof row.Client === "object" ? JSON.stringify(row.Client) : row.Client, // 🔍 Assurer une chaîne de caractères
+          ...uniqueMonths.map(month => {
+            const [numMonth, year] = month.split("-");
+            const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
+            return row[monthName] ?? 0; // 🔍 Gestion des valeurs vides
+          }),
+          row.Total ?? 0
+        ];
+      });
+    
+      // 📌 Ajout du tableau au PDF
+      doc.autoTable({
+        head: [tableColumns.map(col => (typeof col === "object" ? JSON.stringify(col) : col))], // 🔍 Correction supplémentaire
+        body: tableRows,
+        startY: 25,
+        theme: "grid",
+        styles: { fontSize: 8, cellPadding: 2 },
+        headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+      });
+    
+      doc.save("rapport_factures.pdf");
+    };
+    
+    
     
   return (
     <>
@@ -354,6 +414,12 @@ const RapportFacture = () => {
                     <Tooltip title={'Importer en excel'}>
                       <Button className="export-excel" onClick={exportToExcelHTML} >
                         <FileExcelOutlined className="excel-icon" />
+                      </Button>
+                    </Tooltip>
+
+                    <Tooltip title={'Importer en pdf'}>
+                      <Button className="export-pdf" onClick={exportToPDF} >
+                        <FilePdfOutlined className="excel-icon" />
                       </Button>
                     </Tooltip>
 
