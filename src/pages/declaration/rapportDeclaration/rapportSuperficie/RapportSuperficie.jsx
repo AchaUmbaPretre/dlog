@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Dropdown, Menu, notification, Popover, Skeleton, Space, Table, Tabs, Tag, Tooltip } from 'antd';
+import { Button,notification, Space, Table, Tag, Tooltip } from 'antd';
 import moment from 'moment';
 import {
-    AreaChartOutlined,
-    PieChartOutlined,
-    SwapOutlined,
     FileExcelOutlined
 } from '@ant-design/icons';
 import { getRapportSuperficie } from '../../../../services/templateService';
