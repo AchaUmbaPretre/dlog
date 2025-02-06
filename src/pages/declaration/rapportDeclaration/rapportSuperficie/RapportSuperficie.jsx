@@ -220,7 +220,6 @@ const RapportSuperficie = () => {
       // Extraire les noms des bâtiments pour générer dynamiquement les colonnes
       const extractedBatiments = [...new Set(data.map(item => item.nom_batiment))];
   
-      // Créer l'HTML du tableau pour l'export Excel
       let tableHTML = `
        <meta charset="UTF-8">
         <table border="1" style="border-collapse: collapse; font-size: 12px; text-align: right;">
@@ -290,16 +289,6 @@ const RapportSuperficie = () => {
       });
     }
   };
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   return (
     <>
