@@ -4,6 +4,8 @@ import { notification,Button, Space,Menu, Tooltip, Table, Tag, Dropdown, Tabs, P
 import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { getRapportEntreposage } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportEntreposageChart from './rapportEntreposageChart/RapportEntreposageChart';
@@ -323,9 +325,15 @@ const RapportEntreposage = () => {
         XLSX.writeFile(wb, 'Rapport_Entreposage.xlsx');
       };
       
-      const exportToPDF = () => {
-        
-      }
+        const exportToPDF = () => {
+          const doc = new jsPDF();  
+          const dateStr = moment().format("DD MMMM YYYY");
+          const pageWidth = doc.internal.pageSize.getWidth();
+                  
+          const title = "Rapport des Factures";
+          const titleWidth = doc.getTextWidth(title);
+          const dateWidth = doc.getTextWidth(dateStr);
+        }
       
 
   return (

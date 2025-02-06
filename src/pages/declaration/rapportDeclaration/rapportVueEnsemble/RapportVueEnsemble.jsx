@@ -3,6 +3,8 @@ import { Button, Checkbox, Dropdown, Menu, Tooltip, notification, Popover, Skele
 import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import { AreaChartOutlined, PieChartOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import { getRapportVille } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -242,7 +244,15 @@ const RapportVueEnsemble = () => {
   };
 
   const exportToPDF = () => {
-        
+              const doc = new jsPDF();
+            
+              const dateStr = moment().format("DD MMMM YYYY");
+            
+              const pageWidth = doc.internal.pageSize.getWidth();
+            
+              const title = "Rapport des Factures";
+              const titleWidth = doc.getTextWidth(title);
+              const dateWidth = doc.getTextWidth(dateStr);
   }
   
 
