@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { MenuOutlined, DownOutlined, FileExcelOutlined, PieChartOutlined, AreaChartOutlined } from '@ant-design/icons';
+import { MenuOutlined, DownOutlined, FilePdfOutlined, FileExcelOutlined, PieChartOutlined, AreaChartOutlined } from '@ant-design/icons';
 import { notification,Button, Space,Menu, Tooltip, Table, Tag, Dropdown, Tabs, Popover, Skeleton } from 'antd';
 import moment from 'moment';
 import * as XLSX from 'xlsx';
@@ -323,6 +323,9 @@ const RapportEntreposage = () => {
         XLSX.writeFile(wb, 'Rapport_Entreposage.xlsx');
       };
       
+      const exportToPDF = () => {
+        
+      }
       
 
   return (
@@ -416,6 +419,12 @@ const RapportEntreposage = () => {
                   <Button className="export-excel" onClick={exportToExcelHTML} >
                     <FileExcelOutlined className="excel-icon" />
                   </Button>
+              </Tooltip>
+
+              <Tooltip title={'Importer en pdf'}>
+                <Button className="export-pdf" onClick={exportToPDF} >
+                  <FilePdfOutlined className="pdf-icon" />
+                </Button>
               </Tooltip>
             </div>
             { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true}/>        }
