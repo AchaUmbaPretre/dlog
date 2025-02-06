@@ -202,12 +202,7 @@ const RapportExterneEtInterne = () => {
               <FileExcelOutlined className="excel-icon" />
             </Button>
           </Tooltip>
-
-          <Tooltip title={'Importer en pdf'}>
-            <Button className="export-pdf" onClick={exportToPDF} >
-              <FilePdfOutlined className="pdf-icon" />
-            </Button>
-          </Tooltip>
+          
         </div>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraStatus={true} />}
       </div>
