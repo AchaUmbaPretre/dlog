@@ -135,12 +135,12 @@ const RapportSuperficie = () => {
                     render: text => (
                       <Space>
                         {text !== 0 ? (
-                        <Tag color="red">{text ? 
+                        <div style={{color: 'red'}}>{text ? 
                             Math.round(parseFloat(text))?.toLocaleString() : 0}
-                        </Tag>
+                        </div>
                         ) : (
-                          <Tag color="green">{text ? 
-                            Math.round(parseFloat(text))?.toLocaleString() : 0}</Tag>
+                          <div style={{color: 'green'}}>{text ? 
+                            Math.round(parseFloat(text))?.toLocaleString() : 0}</div>
                         )}
                       </Space>
                     ),
@@ -222,6 +222,7 @@ const RapportSuperficie = () => {
   
       // Créer l'HTML du tableau pour l'export Excel
       let tableHTML = `
+       <meta charset="UTF-8">
         <table border="1" style="border-collapse: collapse; font-size: 12px; text-align: right;">
           <thead>
             <tr>
@@ -259,7 +260,7 @@ const RapportSuperficie = () => {
               return `
                 <td>${Math.round(facture).toLocaleString()}</td>
                 <td>${Math.round(occupe).toLocaleString()}</td>
-                <td>${superficie !== 0 ? (diff !== 0 ? `<span style="color: red">${Math.round(diff).toLocaleString()}</span>` : `<span style="color: green">${Math.round(diff).toLocaleString()}</span>`) : ''}</td>
+                <td>${Math.round(diff).toLocaleString()}</td>
               `;
             }).join('')}
           </tr>

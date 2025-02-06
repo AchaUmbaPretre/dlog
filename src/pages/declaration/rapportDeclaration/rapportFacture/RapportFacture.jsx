@@ -39,7 +39,6 @@ const RapportFacture = () => {
     const [ detail, setDetail] = useState('');
     const [ clientdetail, setClientDetail] = useState([]);
 
-
     const handleTabChange = (key) => {
         setActiveKey(key);
       };
@@ -222,7 +221,6 @@ const RapportFacture = () => {
     
         // Parcourez chaque ligne de données
         dataSource.forEach((row, index) => {
-            console.log('Row:', row); // Vérifiez la structure de chaque ligne de données
     
             let rowHTML = `<tr><td>${index + 1}</td><td>${row.Client}</td>`;
     
