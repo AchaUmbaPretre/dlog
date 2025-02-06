@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, notification, Table, Tag, Tooltip } from 'antd';
 import moment from 'moment';
 import {
-  FileExcelOutlined
+  FileExcelOutlined,
+  FilePdfOutlined
 } from '@ant-design/icons';
 import * as XLSX from 'xlsx';
 import { getRapportExterneEtInterne } from '../../../../services/templateService';
@@ -179,6 +180,8 @@ const RapportExterneEtInterne = () => {
       });
     }
   };
+
+  const exportToPDF = () => {}
   
   
 
@@ -195,10 +198,16 @@ const RapportExterneEtInterne = () => {
           </Button>
 
           <Tooltip title={'Importer en excel'}>
-                <Button className="export-excel" onClick={exportToExcelHTML} >
-                  <FileExcelOutlined className="excel-icon" />
-                </Button>
-              </Tooltip>
+            <Button className="export-excel" onClick={exportToExcelHTML} >
+              <FileExcelOutlined className="excel-icon" />
+            </Button>
+          </Tooltip>
+
+          <Tooltip title={'Importer en pdf'}>
+            <Button className="export-pdf" onClick={exportToPDF} >
+              <FilePdfOutlined className="pdf-icon" />
+            </Button>
+          </Tooltip>
         </div>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraStatus={true} />}
       </div>
