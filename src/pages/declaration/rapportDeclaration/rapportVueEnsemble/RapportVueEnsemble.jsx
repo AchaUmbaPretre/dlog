@@ -3,7 +3,7 @@ import { Button, Checkbox, Dropdown, Menu, Tooltip, notification, Popover, Skele
 import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import { AreaChartOutlined, PieChartOutlined, FileExcelOutlined } from '@ant-design/icons';
+import { AreaChartOutlined, PieChartOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import { getRapportVille } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportVueEnsembleChart from './rapportVueEnsembleChart/RapportVueEnsembleChart';
@@ -240,6 +240,10 @@ const RapportVueEnsemble = () => {
     // Télécharger le fichier Excel
     XLSX.writeFile(wb, "Rapport_Ville.xlsx");
   };
+
+  const exportToPDF = () => {
+        
+  }
   
 
   return (
@@ -346,6 +350,12 @@ const RapportVueEnsemble = () => {
           <Tooltip title={'Importer en excel'}>
             <Button className="export-excel" onClick={exportToExcelHTML} >
               <FileExcelOutlined className="excel-icon" />
+            </Button>
+          </Tooltip>
+
+          <Tooltip title={'Importer en pdf'}>
+            <Button className="export-pdf" onClick={exportToPDF} >
+              <FilePdfOutlined className="pdf-icon" />
             </Button>
           </Tooltip>
         </div>
