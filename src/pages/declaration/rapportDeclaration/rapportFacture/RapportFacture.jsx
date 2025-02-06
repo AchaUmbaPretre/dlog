@@ -263,10 +263,8 @@ const RapportFacture = () => {
     const exportToPDF = () => {
       const doc = new jsPDF();
     
-      // 📅 Date actuelle formatée
       const dateStr = moment().format("DD MMMM YYYY");
     
-      // 📏 Largeur du document pour centrage
       const pageWidth = doc.internal.pageSize.getWidth();
     
       // 📌 Ajout du titre (centré) et de la date (à droite)
@@ -282,7 +280,6 @@ const RapportFacture = () => {
       doc.setFontSize(12);
       doc.text(dateStr, dateX, 15);
     
-      // 📌 Extraction des colonnes avec correction
       const tableColumns = columns.map(col => {
         if (React.isValidElement(col.title)) {
           return col.title.props?.children?.props?.children || col.title.props?.children || "Inconnu"; 
@@ -290,7 +287,6 @@ const RapportFacture = () => {
         return col.title || "Inconnu";
       });
     
-      // 📌 Extraction des lignes de données
       const tableRows = dataSource.map((row, index) => {
         return [
           index + 1, 
