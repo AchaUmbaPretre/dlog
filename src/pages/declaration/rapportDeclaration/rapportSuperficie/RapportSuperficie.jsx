@@ -303,7 +303,7 @@ const RapportSuperficie = () => {
                 </Button>
             </Tooltip>
         </div>
-        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraStatus={true} />}
+        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraStatus={true} filtreBatiment={true} />}
 
         <div className="rapport_wrapper_facture">
           <Table

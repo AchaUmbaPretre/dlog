@@ -3,18 +3,19 @@ import { Select, Skeleton, Input, Checkbox, Collapse } from 'antd';
 import 'antd/dist/reset.css';
 import moment from 'moment';
 import { getClient, getProvince } from '../../../../services/clientService';
-import { getStatus_batiment } from '../../../../services/typeService';
+import { getBatiment, getStatus_batiment } from '../../../../services/typeService';
 import { getMois, getAnnee } from '../../../../services/templateService';
 
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus }) => {
+const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, filtreBatiment }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
     const [selectedType, setSelectedType] = useState('');
     const [selectedClients, setSelectedClients] = useState([]);
+    const [selectedBatiment, setSelectedBatiment] = useState([]);
     const [minMontant, setMinMontant] = useState(null);
     const [maxMontant, setMaxMontant] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +24,7 @@ const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus }) 
     const [selectedMois, setSelectedMois] = useState([]);
     const [selectedAnnees, setSelectedAnnees] = useState([]);
     const [type, setType] = useState([]);
-
+    const [batiment, setBatiment] = useState([])
 
 useEffect(()=> {
     const handleFilter = () => {
@@ -45,12 +46,13 @@ useEffect(()=> {
             client: selectedClients,
             status_batiment: selectedType,
             montant: { min: minMontant, max: maxMontant },
+            batiment: selectedBatiment,
             period,
         });
     
     };
     handleFilter();
-}, [province, client, selectedVille, selectedType, selectedClients, minMontant, maxMontant, mois, annee, selectedMois, selectedAnnees, type ])
+}, [province, client, selectedVille, selectedType, selectedClients, minMontant, maxMontant, selectedBatiment, mois, annee, selectedMois, selectedAnnees, type ])
 
     const fetchMoisParAnnee = async (annee) => {
         try {
@@ -67,17 +69,20 @@ useEffect(()=> {
     const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [clientData, provinceData, statutData, yearData] = await Promise.all([ 
+                const [clientData, provinceData, statutData, yearData, batimentData] = await Promise.all([ 
                     getClient(),
                     getProvince(),
                     getStatus_batiment(),
-                    getAnnee()
+                    getAnnee(),
+                    getBatiment()
                 ]);
 
                 setClient(clientData.data);
                 setProvince(provinceData.data);
                 setType(statutData.data);
                 setAnnee(yearData.data);
+                setBatiment(batimentData.data)
+
             } catch (error) {
                 console.error(error);
             } finally {
@@ -130,6 +135,23 @@ useEffect(()=> {
     
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
+            {filtreBatiment && (
+                <div className="filter_row">
+                <label>Bâtiment :</label>
+                <Select
+                    mode="multiple"
+                    style={{ width: '100%' }}
+                    showSearch
+                    options={batiment.map((item) => ({
+                            value: item.id_batiment,
+                            label: item.nom_batiment,
+                        }))}
+                    placeholder="Sélectionnez un bâtiment..."
+                    optionFilterProp="label"
+                    onChange={setSelectedBatiment}
+                />
+            </div>
+            )}
             {filtraVille && (
                 <div className="filter_row">
                     <label>Ville :</label>
