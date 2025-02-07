@@ -32,7 +32,6 @@ const RapportVueEnsemble = () => {
 
   const calculatePercentage = (value, entreposage, manutention) => {
     const total = entreposage + manutention; // Total des deux valeurs
-    console.log('value : ', value, 'total : ', total); // Debugging
     return total ? ((value / total) * 100).toFixed(2) : 0;
   };
   
@@ -71,6 +70,19 @@ const RapportVueEnsemble = () => {
       const extractedCities = [...new Set(data.data.map(item => item.capital))];
       setAllCities(extractedCities);
       setVisibleCities(extractedCities);
+
+      const visibleFormattedData = formattedData.map(row => {
+        const filteredRow = { Mois: row.Mois };
+        for (const [key, value] of Object.entries(row)) {
+          const capital = key.split('_')[0]; // Extraire le nom de la capitale
+          if (visibleCities.includes(capital)) {
+            filteredRow[key] = value; // Garder uniquement les colonnes des capitales visibles
+          }
+        }
+        return filteredRow;
+      });
+
+      console.log(visibleFormattedData)
 
       const dynamicColumns = [
         {
@@ -485,7 +497,7 @@ const RapportVueEnsemble = () => {
                     }
                         key="1"
                     >
-                        <RapportVueEnsembleChart groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                        <RapportVueEnsembleChart groupedData={dataSource} showPercentage={showInPercentage} />
                     </TabPane>
 
                  <TabPane
