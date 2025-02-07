@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Skeleton, Input, Checkbox, Collapse } from 'antd';
+import { Select, Skeleton, Input, Checkbox, Collapse, TreeSelect } from 'antd';
 import 'antd/dist/reset.css';
 import moment from 'moment';
 import { getClient, getProvince } from '../../../../services/clientService';
@@ -8,8 +8,9 @@ import { getMois, getAnnee } from '../../../../services/templateService';
 
 const { Option } = Select;
 const { Panel } = Collapse;
+const { TreeNode } = TreeSelect;
 
-const RapportFiltrageFaux = ({ onFilter, filtraVille, filtraClient, filtraStatus, filtreBatiment }) => {
+const RapportFiltrageTree = ({ onFilter, filtraVille, filtraClient, filtraStatus, filtreBatiment }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
@@ -54,6 +55,45 @@ useEffect(()=> {
     handleFilter();
 }, [province, client, selectedVille, selectedType, selectedClients, minMontant, maxMontant, selectedBatiment, mois, annee, selectedMois, selectedAnnees, type ])
 
+const handleAnneeChange = (values) => {
+    if (!Array.isArray(values)) return; // Vérifie que c'est bien un tableau
+
+    const valeursString = values.map(v => String(v)); // Convertir en string pour éviter l'erreur
+
+    // Séparer les années des mois sélectionnés
+    const anneesSelectionnees = valeursString.filter((v) => !v.includes('-'));
+    const moisSelectionnes = valeursString.filter((v) => v.includes('-'));
+
+    setSelectedAnnees(anneesSelectionnees);
+
+    // Charger les mois pour chaque année sélectionnée si ce n'est pas déjà fait
+    anneesSelectionnees.forEach((annee) => {
+        if (!mois[annee]) {
+            fetchMoisParAnnee(annee);
+        }
+    });
+
+    // Mettre à jour la sélection des mois
+    handleMoisChange(moisSelectionnes);
+};
+
+
+const handleMoisChange = (checkedValues) => {
+    const moisParAnnee = {};
+
+    checkedValues.forEach((value) => {
+        const [mois, annee] = value.split('-');
+
+        if (!moisParAnnee[annee]) {
+            moisParAnnee[annee] = [];
+        }
+        moisParAnnee[annee].push(value);
+    });
+
+    setSelectedMois(moisParAnnee);
+};
+
+
     const fetchMoisParAnnee = async (annee) => {
         try {
             const response = await getMois(annee); // Modifier `getMois` pour accepter l'année comme paramètre
@@ -65,6 +105,7 @@ useEffect(()=> {
             console.error("Erreur lors du chargement des mois :", error);
         }
     };
+
 
     const fetchData = async () => {
             setIsLoading(true);
@@ -94,21 +135,6 @@ useEffect(()=> {
         fetchData();
     }, []);
 
-    const handleMoisChange = (checkedValues, annee) => {
-        setSelectedMois((prev) => ({
-            ...prev,
-            [annee]: checkedValues,
-        }));
-    };
-
-    const handleAnneeChange = (checkedValues) => {
-        setSelectedAnnees(checkedValues);
-        checkedValues.forEach((annee) => {
-            if (!mois[annee]) {
-                fetchMoisParAnnee(annee);
-            }
-        });
-    };
     
     const renderMoisParAnnee = () => {
         return selectedAnnees.map((year) => (
@@ -124,6 +150,16 @@ useEffect(()=> {
             </Panel>
         ));
     };
+
+    const treeData = annee.map((item) => ({
+        title: item.annee,
+        value: item.annee,
+        selectable: true,
+        children: (mois[item.annee] || []).map((m) => ({
+            title: moment().month(m.mois - 1).format('MMMM'),
+            value: `${m.mois}-${item.annee}`,
+        })),
+    }));
 
     const options = [
         { value: null, label: 'All' },
@@ -233,28 +269,34 @@ useEffect(()=> {
             </div>
 
             <div className="filter_row">
-                <label>Année :</label>
-                <Checkbox.Group
-                    options={annee.map((item) => ({
-                        label: item.annee,
-                        value: item.annee,
-                    }))}
-                    value={selectedAnnees}
-                    onChange={handleAnneeChange}
+                <label>Période :</label>
+                <TreeSelect
+    multiple
+    allowClear
+    treeCheckable
+    showSearch
+    value={[...selectedAnnees, ...Object.values(selectedMois).flat()]} // Conserver les années et mois sélectionnés
+    onChange={handleAnneeChange}
+    placeholder="Sélectionnez une année..."
+    style={{ width: '100%' }}
+>
+    {annee.map((item) => (
+        <TreeNode key={item.annee} value={item.annee} title={item.annee}>
+            {(mois[item.annee] || []).map((m) => (
+                <TreeNode
+                    key={`${m.mois}-${item.annee}`}
+                    value={`${m.mois}-${item.annee}`}
+                    title={moment().month(m.mois - 1).format('MMMM')}
                 />
-            </div>
+            ))}
+        </TreeNode>
+    ))}
+</TreeSelect>
 
-            {selectedAnnees.length > 0 && (
-                <div className="filter_row">
-                    <label>Mois :</label>
-                    <Collapse defaultActiveKey={selectedAnnees}>
-                        {renderMoisParAnnee()}
-                    </Collapse>
-                </div>
-            )}
+            </div>
 
         </div>
     );
 };
 
-export default RapportFiltrageFaux;
+export default RapportFiltrageTree;
