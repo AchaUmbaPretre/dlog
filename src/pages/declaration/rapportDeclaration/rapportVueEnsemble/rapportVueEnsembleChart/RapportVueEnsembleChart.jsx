@@ -3,7 +3,6 @@ import { ResponsiveBar } from '@nivo/bar';
 import moment from 'moment';
 
 const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
-  // 🔹 Transformer et regrouper les données pour le graphique
   const formatDataForNivo = (data) => {
     if (!Array.isArray(data) || data.length === 0) return [];
 
@@ -35,7 +34,6 @@ const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
 
   let nivoData = formatDataForNivo(groupedData);
 
-  // 🔹 Convertir en pourcentage si `showPercentage` est activé
   if (showPercentage) {
     nivoData = nivoData.map(item => ({
       Mois: item.Mois,
