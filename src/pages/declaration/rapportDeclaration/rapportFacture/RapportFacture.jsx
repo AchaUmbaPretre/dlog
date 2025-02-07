@@ -406,7 +406,7 @@ const RapportFacture = () => {
                     >
                       {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                     </Button>
-                    
+
                     <Tooltip title={'Importer en excel'}>
                       <Button className="export-excel" onClick={exportToExcelHTML} >
                         <FileExcelOutlined className="excel-icon" />
@@ -421,7 +421,7 @@ const RapportFacture = () => {
 
                   </div>
 
-                    { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraClient={true}/>        }
+                    { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true}/>        }
                     <div className="rapport_wrapper_facture">
                         <Table
                             dataSource={dataSource}
