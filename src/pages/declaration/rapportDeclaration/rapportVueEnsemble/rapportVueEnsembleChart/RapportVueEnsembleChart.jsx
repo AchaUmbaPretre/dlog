@@ -3,28 +3,35 @@ import { ResponsiveBar } from '@nivo/bar';
 import moment from 'moment';
 
 const RapportVueEnsembleChart = ({ groupedData }) => {
-  // Transformer et regrouper les données pour le graphique
+  // 🔹 Transformer et regrouper les données pour le graphique
   const formatDataForNivo = (data) => {
+    if (!Array.isArray(data) || data.length === 0) return [];
+
     const grouped = {};
 
     data.forEach(item => {
-      const mois = moment(item.periode).format('YYYY-MM'); // Transformer la date en "AAAA-MM"
+      const mois = moment(item.Mois, "MMM-YY").format('MMM-YYYY'); // 🔹 Format 'MMM-YYYY' pour obtenir 'dec-2024'
 
       if (!grouped[mois]) {
-        grouped[mois] = { Mois: mois, Entrepôt: 0, Manutention: 0 };
+        grouped[mois] = { Mois: mois, Entreposage: 0, Manutention: 0 };
       }
 
-      grouped[mois].Entrepôt += item.total_entreposage;
-      grouped[mois].Manutention += item.total_manutation;
+      // 🔹 Additionner les valeurs pour Entreposage et Manutention pour toutes les villes
+      Object.keys(item).forEach(key => {
+        if (key.includes("Entreposage")) {
+          grouped[mois].Entreposage += item[key] || 0;
+        }
+        if (key.includes("Manutention")) {
+          grouped[mois].Manutention += item[key] || 0;
+        }
+      });
     });
 
     return Object.values(grouped);
   };
 
-  // Vérifier si les données existent
-  const nivoData = Array.isArray(groupedData) && groupedData.length > 0 
-    ? formatDataForNivo(groupedData) 
-    : [];
+  // 🔹 Formater les données pour le graphique
+  const nivoData = formatDataForNivo(groupedData);
 
   return (
     <div style={{ width: '100%', textAlign: 'center' }}>
@@ -34,7 +41,7 @@ const RapportVueEnsembleChart = ({ groupedData }) => {
       <div style={{ height: 400 }}>
         <ResponsiveBar
           data={nivoData}
-          keys={['Entrepôt', 'Manutention']} // Seulement entreposage et manutention
+          keys={['Entreposage', 'Manutention']} // 🔹 Juste Entreposage et Manutention
           indexBy="Mois"
           margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
           padding={0.3}
