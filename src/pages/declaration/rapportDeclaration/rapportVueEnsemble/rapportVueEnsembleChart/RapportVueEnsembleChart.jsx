@@ -36,7 +36,7 @@ const RapportVueEnsembleChart = ({ groupedData }) => {
   return (
     <div style={{ width: '100%', textAlign: 'center' }}>
       <h2 style={{ fontSize: '1rem', fontWeight: '300', marginBottom: '15px', borderBottom: '2px solid #e8e8e8', paddingBottom: '10px' }}>
-        RAPPORT DES VILLES
+        RAPPORT CHART DES VILLES
       </h2>
       <div style={{ height: 400 }}>
         <ResponsiveBar

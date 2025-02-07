@@ -28,6 +28,14 @@ const RapportVueEnsemble = () => {
   const scroll = { x: 400 };
   const [uniqueMonths, setUniqueMonths] = useState([]);
   const [activeKeys, setActiveKeys] = useState(['1', '2']);
+  const [showInPercentage, setShowInPercentage] = useState(false);
+
+  const calculatePercentage = (value, entreposage, manutention) => {
+    const total = entreposage + manutention; // Total des deux valeurs
+    console.log('value : ', value, 'total : ', total); // Debugging
+    return total ? ((value / total) * 100).toFixed(2) : 0;
+  };
+  
 
   const fetchData = async () => {
     try {
@@ -97,53 +105,73 @@ const RapportVueEnsemble = () => {
               title: 'Entrep',
               dataIndex: `${capital}_Entreposage`,
               key: `${capital}_Entreposage`,
-              render: text => (
-                <Space>{text
-                    ? `${parseFloat(text)
-                        .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                        })
-                        .replace(/,/g, " ")} $`
-                    : "0.00"}
-                </Space>
-              ),
+              render: (text, record) => {
+                const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
+                const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
+                return (
+                  <Space>
+                    {showInPercentage
+                      ? `${calculatePercentage(entreposage, entreposage, manutention)} %`
+                      : text
+                      ? `${parseFloat(text)
+                          .toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
+                          .replace(/,/g, ' ')} $`
+                      : '0.00'}
+                  </Space>
+                );
+              },
               align: 'right',
             },
             {
               title: 'Manut',
               dataIndex: `${capital}_Manutention`,
               key: `${capital}_Manutention`,
-              render: text => (
-                <Space>
-                  {text
-                    ? `${parseFloat(text)
-                        .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                        })
-                        .replace(/,/g, " ")} $`
-                    : "0.00"}
-                </Space>
-              ),
+              render: (text, record) => {
+                const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
+                const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
+                return (
+                  <Space>
+                    {showInPercentage
+                      ? `${calculatePercentage(manutention, entreposage, manutention)} %`
+                      : text
+                      ? `${parseFloat(text)
+                          .toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
+                          .replace(/,/g, ' ')} $`
+                      : '0.00'}
+                  </Space>
+                );
+              },
               align: 'right',
             },
             {
               title: 'Total',
               dataIndex: `${capital}_Total`,
               key: `${capital}_Total`,
-              render: text => (
-                <Space>
-                    {text
-                    ? `${parseFloat(text)
-                        .toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                        })
-                        .replace(/,/g, " ")} $`
-                    : "0.00"}
-                </Space>
-              ),
+              render: (text, record) => {
+                const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
+                const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
+                const total = entreposage + manutention;
+                return (
+                  <Space>
+                    {showInPercentage
+                      ? `${calculatePercentage(total, entreposage, manutention)} %`
+                      : text
+                      ? `${parseFloat(text)
+                          .toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
+                          .replace(/,/g, ' ')} $`
+                      : '0.00'}
+                  </Space>
+                );
+              },
               align: 'right',
             },
           ],
@@ -164,11 +192,12 @@ const RapportVueEnsemble = () => {
 
   useEffect(() => {
     fetchData();
-  }, [filteredDatas]);
+  }, [filteredDatas, showInPercentage]);
 
   const handleFilterChange = newFilters => {
     setFilteredDatas(newFilters);
   };
+  
 
   const handleTabChanges = (key) => {
     setActiveKeys(key);
@@ -295,6 +324,12 @@ const RapportVueEnsemble = () => {
     doc.save("Rapport_Ville.pdf");
   };
 
+        // Option de basculement entre dollars et pourcentage
+        const togglePercentageMode = () => {
+          setShowInPercentage(prevState => !prevState);
+        };
+        
+
   return (
     <>
         {
@@ -402,11 +437,16 @@ const RapportVueEnsemble = () => {
             </Button>
           </Tooltip>
 
+          <Button onClick={togglePercentageMode}>
+            {showInPercentage ? 'Afficher en Dollars' : 'Afficher en Pourcentage'}
+          </Button>
+          
           <Tooltip title={'Importer en pdf'}>
             <Button className="export-pdf" onClick={exportToPDF} >
               <FilePdfOutlined className="pdf-icon" />
             </Button>
           </Tooltip>
+
         </div>
 
         {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={false} filtraStatus={false} />}
