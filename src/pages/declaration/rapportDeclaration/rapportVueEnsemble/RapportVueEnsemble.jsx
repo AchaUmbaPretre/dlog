@@ -105,6 +105,7 @@ const RapportVueEnsemble = () => {
               title: 'Entrep',
               dataIndex: `${capital}_Entreposage`,
               key: `${capital}_Entreposage`,
+              width: '10%',
               render: (text, record) => {
                 const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
                 const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
@@ -129,6 +130,7 @@ const RapportVueEnsemble = () => {
               title: 'Manut',
               dataIndex: `${capital}_Manutention`,
               key: `${capital}_Manutention`,
+              width: '9%',
               render: (text, record) => {
                 const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
                 const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
@@ -153,6 +155,7 @@ const RapportVueEnsemble = () => {
               title: 'Total',
               dataIndex: `${capital}_Total`,
               key: `${capital}_Total`,
+              width: '10%',
               render: (text, record) => {
                 const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
                 const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
@@ -431,16 +434,16 @@ const RapportVueEnsemble = () => {
           <Button>Afficher/Masquer les villes</Button>
           </Dropdown>
 
+          <Button onClick={togglePercentageMode}>
+            {showInPercentage ? 'Afficher en Dollars' : 'Afficher en Pourcentage'}
+          </Button>
+
           <Tooltip title={'Importer en excel'}>
             <Button className="export-excel" onClick={exportToExcelHTML} >
               <FileExcelOutlined className="excel-icon" />
             </Button>
           </Tooltip>
 
-          <Button onClick={togglePercentageMode}>
-            {showInPercentage ? 'Afficher en Dollars' : 'Afficher en Pourcentage'}
-          </Button>
-          
           <Tooltip title={'Importer en pdf'}>
             <Button className="export-pdf" onClick={exportToPDF} >
               <FilePdfOutlined className="pdf-icon" />
@@ -455,7 +458,7 @@ const RapportVueEnsemble = () => {
             dataSource={dataSource}
             columns={filteredColumns}
             bordered
-            scroll={scroll}
+            scroll={{ x: 'max-content' }}
             loading={loading}
             size="small"
             pagination={pagination}
