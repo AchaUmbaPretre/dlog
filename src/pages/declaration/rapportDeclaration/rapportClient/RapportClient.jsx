@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getClient } from '../../../../services/clientService';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
 import { ExportOutlined,HomeOutlined,PlusCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import config from '../../../../config';
 
 const RapportClient = () => {
       const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -34,14 +35,6 @@ const RapportClient = () => {
           ),
         },
         {
-          title: 'Téléphone',
-          dataIndex: 'telephone',
-          key: 'telephone',
-          render: (text) => (
-            <Tag icon={<PhoneOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
-          ),
-        },
-        {
           title: 'Adresse',
           dataIndex: 'adresse',
           key: 'adresse',
@@ -60,40 +53,7 @@ const RapportClient = () => {
           render: (text) => (
             <Tag color={ text === 'Interne' ? 'green' : "magenta"}>{text}</Tag>
           ),
-        },
-        {
-          title: 'Action',
-          key: 'action',
-          width: '10%',
-          render: (text, record) => (
-            <Space size="middle">
-               <Tooltip title="Edit">
-                <Popover title="Modifier" trigger="hover">
-                  <Button
-                    icon={<EditOutlined />}
-                    style={{ color: 'green' }}
-                    onClick={() => handlEditClient(record.id_client)}
-                    aria-label="Edit client"
-                  />
-                </Popover>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <Popconfirm
-                  title="Êtes-vous sûr de vouloir supprimer ce client?"
-                  onConfirm={() => handleDelete(record.id_client)}
-                  okText="Oui"
-                  cancelText="Non"
-                >
-                  <Button
-                    icon={<DeleteOutlined />}
-                    style={{ color: 'red' }}
-                    aria-label="Delete client"
-                  />
-                </Popconfirm>
-              </Tooltip>
-            </Space>
-          ),
-        },
+        }
       ]
 
 
@@ -120,14 +80,14 @@ const RapportClient = () => {
         <div className="rapport_facture">
             <div className="rapport_wrapper_facture">
                 <Table
-                            columns={columns}
-                            dataSource={filteredData}
-                            loading={loading}
-                            pagination={{ pageSize: 10 }}
-                            rowKey="id"
-                            bordered
-                            size="middle"
-                            scroll={scroll}
+                    columns={columns}
+                    dataSource={data}
+                    loading={loading}
+                    pagination={{ pageSize: 10 }}
+                    rowKey="id"
+                    bordered
+                    size="middle"
+                    scroll={scroll}
                 />
             </div>
         </div>
