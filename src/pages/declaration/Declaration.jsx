@@ -738,9 +738,9 @@ const Declaration = () => {
               width={1250}
               centered
             >
-              <DeclarationOneAll idClients={idClient} />
-          </Modal>
-          
+{/*               <DeclarationOneAll idClients={idClient} />
+ */}          </Modal>
+
         </TabPane>
 
         <TabPane
@@ -760,7 +760,6 @@ const Declaration = () => {
         >
           <RapportDeclaration/>
         </TabPane>
-
       </Tabs>
     </>
   );
