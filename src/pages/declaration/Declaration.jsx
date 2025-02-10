@@ -746,7 +746,7 @@ const Declaration = () => {
               visible={modalType === 'clientMois'}
               onCancel={closeAllModals}
               footer={null}
-              width={1250}
+              width={1100}
               centered
           >
             <DeclarationSituationClient idClients={idClient} />
