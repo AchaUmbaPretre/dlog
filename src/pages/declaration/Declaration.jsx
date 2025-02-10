@@ -741,6 +741,17 @@ const Declaration = () => {
             <DeclarationSituationClient idClients={idClient} />
           </Modal>
 
+          <Modal
+              title=""
+              visible={modalType === 'clientMois'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={1250}
+              centered
+          >
+            <DeclarationSituationClient idClients={idClient} />
+          </Modal>
+
         </TabPane>
 
         <TabPane
