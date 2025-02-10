@@ -55,7 +55,9 @@ const Declaration = () => {
   });
   const [activeKey, setActiveKey] = useState(['1', '2']);
   const [ clientdetail, setClientDetail] = useState([]);
-  const [mois, setMois] = useState('')
+  const [mois, setMois] = useState('');
+  const [annee, setAnnee] = useState('')
+
 
   const columnStyles = {
     title: {
@@ -124,9 +126,10 @@ const Declaration = () => {
       fetchData();
     }, [filteredDatas, searchValue]);
 
-  const handleMoisAnnee = (idClient, dataMois) => {
+  const handleMoisAnnee = (idClient, dataMois, annee) => {
       openModal('Mois', idClient, dataMois);
       setMois(dataMois)
+      setAnnee(annee)
     };
 
   const handleAddTemplate = (idDeclaration) => {
@@ -159,8 +162,6 @@ const Declaration = () => {
     setidDeclaration(idDeclaration);
     setidClient(idClient)
   };
-
-  console.log(mois)
 
   const handleDelete = async (id) => {
     try {
@@ -247,22 +248,25 @@ const Declaration = () => {
           sortDirections: ['descend', 'ascend'],
           render: (text, record) => {
             const date = text ? new Date(text) : null;
-            const formattedDate = date 
+            const mois = date ? date.getMonth() + 1 : null; // getMonth() renvoie 0-11, donc +1 pour avoir 1-12
+            const annee = date ? date.getFullYear() : null;
+            
+            const formattedDate = date
               ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
               : 'Aucun';
-              
+        
             return (
               <Tag 
                 icon={<CalendarOutlined />} 
                 color="purple" 
-                onClick={() => handleMoisAnnee(record.id_client, formattedDate)} // Passer la période ici
+                onClick={() => handleMoisAnnee(record.id_client, mois, annee)}
               >
                 {formattedDate}
               </Tag>
             );
           },
           ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
-        },        
+        },                
         {
           title: 'M² occupe',
           dataIndex: 'm2_occupe',
@@ -764,7 +768,7 @@ const Declaration = () => {
               width={1100}
               centered
           >
-            <DeclarationSituationClient idClients={idClient}  />
+            <DeclarationSituationClient idClients={idClient} mois={mois} annee={annee}  />
           </Modal>
 
         </TabPane>
