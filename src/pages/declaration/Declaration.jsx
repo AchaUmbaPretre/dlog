@@ -6,7 +6,6 @@ import DeclarationForm from './declarationForm/DeclarationForm';
 import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
 import moment from 'moment';
 import DeclarationDetail from './declarationDetail/DeclarationDetail';
-import DeclarationOneAll from './declarationOneAll/DeclarationOneAll';
 import { useSelector } from 'react-redux';
 import TabPane from 'antd/es/tabs/TabPane';
 import RapportDeclaration from './rapportDeclaration/RapportDeclaration';

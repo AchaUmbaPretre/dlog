@@ -168,6 +168,8 @@ const DeclarationSituationClient = ({idClients}) => {
               title: 'Total Manu',
               dataIndex: 'total_manutation',
               key: 'total_manutation',
+              sorter: (a, b) => a.total_manutation - b.total_manutation,
+              sortDirections: ['descend', 'ascend'],
               render: (text) => (
                 <Tag color="gold">{text
                   ? `${parseFloat(text)
@@ -185,6 +187,8 @@ const DeclarationSituationClient = ({idClients}) => {
               title: 'TTC Manu',
               dataIndex: 'ttc_manutation',
               key: 'ttc_manutation',
+              sorter: (a, b) => a.ttc_manutation - b.ttc_manutation,
+              sortDirections: ['descend', 'ascend'],
               render: (text) => (
                 <Tag icon={<DollarOutlined />} color="volcano">
                   {text
