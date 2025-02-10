@@ -55,6 +55,7 @@ const Declaration = () => {
   });
   const [activeKey, setActiveKey] = useState(['1', '2']);
   const [ clientdetail, setClientDetail] = useState([]);
+  const [mois, setMois] = useState('')
 
   const columnStyles = {
     title: {
@@ -123,6 +124,10 @@ const Declaration = () => {
       fetchData();
     }, [filteredDatas, searchValue]);
 
+  const handleMoisAnnee = (idClient, dataMois) => {
+      openModal('Mois', idClient, dataMois);
+    };
+
   const handleAddTemplate = (idDeclaration) => {
     openModal('Add', idDeclaration);
   };
@@ -147,11 +152,12 @@ const Declaration = () => {
     setModalType(null);
   };
   
-  const openModal = (type, idDeclaration = '', idClient='') => {
+  const openModal = (type, idDeclaration = '', idClient='', dataMois='') => {
     closeAllModals();
     setModalType(type);
     setidDeclaration(idDeclaration);
     setidClient(idClient)
+    setMois(dataMois)
   };
 
   const handleDelete = async (id) => {
@@ -237,13 +243,13 @@ const Declaration = () => {
           key: 'periode',
           sorter: (a, b) => moment(a.periode) - moment(b.periode),
           sortDirections: ['descend', 'ascend'],
-          render: (text) => {
+          render: (text, record) => {
             const date = text ? new Date(text) : null;
             const formattedDate = date 
               ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
               : 'Aucun';
             return (
-              <Tag icon={<CalendarOutlined />} color="purple">{formattedDate}</Tag>
+              <Tag icon={<CalendarOutlined />} color="purple" onClick={()=> handleMoisAnnee(record.id_client)}>{formattedDate}</Tag>
             );
           },
           ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
@@ -749,7 +755,7 @@ const Declaration = () => {
               width={1100}
               centered
           >
-            <DeclarationSituationClient idClients={idClient} />
+            <DeclarationSituationClient idClients={idClient}  />
           </Modal>
 
         </TabPane>
