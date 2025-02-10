@@ -83,7 +83,7 @@ const DeclarationSituationClient = ({idClients, mois, annee}) => {
 
     useEffect(()=> {
         fetchData()
-    }, [idClients, mois])
+    }, [idClients, mois, annee])
 
     const columns = [
         {
@@ -391,7 +391,36 @@ const DeclarationSituationClient = ({idClients, mois, annee}) => {
           ]
         },
       ];
-    
+
+
+      const moisNoms = {
+        1: "Janvier", 2: "Février", 3: "Mars", 4: "Avril",
+        5: "Mai", 6: "Juin", 7: "Juillet", 8: "Août",
+        9: "Septembre", 10: "Octobre", 11: "Novembre", 12: "Décembre"
+      };
+      
+      const MoisAffichage = ({ mois }) => {
+        return mois ? (
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "20px" }}>
+            <h2 
+              style={{
+                fontSize: "20px",
+                fontWeight: "bold",
+                color: "#1E40AF",
+                backgroundColor: "#DBEAFE",
+                padding: "12px 24px",
+                borderRadius: "10px",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                transition: "opacity 0.3s ease-in-out"
+              }}
+            >
+              📅 Mois : {moisNoms[mois] || "Mois invalide"}
+            </h2>
+          </div>
+        ) : null;
+      };
+      
+      
   return (
     <>
         <div className="client">
@@ -402,6 +431,8 @@ const DeclarationSituationClient = ({idClients, mois, annee}) => {
                     </div>
                     <h2 className="client-h2">Déclarations {titre}</h2>
                 </div>
+
+                { mois ? < MoisAffichage mois={mois}/> : ''}
 
                 <Table
                     columns={columns}
