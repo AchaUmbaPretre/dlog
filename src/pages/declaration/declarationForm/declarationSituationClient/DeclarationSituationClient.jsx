@@ -4,7 +4,7 @@ import { ScheduleOutlined,CalendarOutlined, DollarOutlined, HomeOutlined, FileTe
 import { getDeclarationClientOneAll } from '../../../../services/templateService';
 import moment from 'moment';
 
-const DeclarationSituationClient = ({idClients}) => {
+const DeclarationSituationClient = ({idClients, mois}) => {
     const [loading, setLoading] = useState(true);
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
@@ -27,7 +27,6 @@ const DeclarationSituationClient = ({idClients}) => {
         "Total Manu": true,
         "TTC Manu": true
       });
-    const [idClient, setidClient] = useState('');
     const [titre, setTitre] = useState('');
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({

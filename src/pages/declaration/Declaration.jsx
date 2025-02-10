@@ -126,6 +126,7 @@ const Declaration = () => {
 
   const handleMoisAnnee = (idClient, dataMois) => {
       openModal('Mois', idClient, dataMois);
+      setMois(dataMois)
     };
 
   const handleAddTemplate = (idDeclaration) => {
@@ -152,13 +153,14 @@ const Declaration = () => {
     setModalType(null);
   };
   
-  const openModal = (type, idDeclaration = '', idClient='', dataMois='') => {
+  const openModal = (type, idDeclaration = '', idClient='') => {
     closeAllModals();
     setModalType(type);
     setidDeclaration(idDeclaration);
     setidClient(idClient)
-    setMois(dataMois)
   };
+
+  console.log(mois)
 
   const handleDelete = async (id) => {
     try {
@@ -248,12 +250,19 @@ const Declaration = () => {
             const formattedDate = date 
               ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
               : 'Aucun';
+              
             return (
-              <Tag icon={<CalendarOutlined />} color="purple" onClick={()=> handleMoisAnnee(record.id_client)}>{formattedDate}</Tag>
+              <Tag 
+                icon={<CalendarOutlined />} 
+                color="purple" 
+                onClick={() => handleMoisAnnee(record.id_client, formattedDate)} // Passer la période ici
+              >
+                {formattedDate}
+              </Tag>
             );
           },
           ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
-        },
+        },        
         {
           title: 'M² occupe',
           dataIndex: 'm2_occupe',
@@ -744,7 +753,7 @@ const Declaration = () => {
               width={1250}
               centered
           >
-            <DeclarationSituationClient idClients={idClient} />
+            <DeclarationSituationClient idClients={idClient} mois={mois} />
           </Modal>
 
           <Modal
