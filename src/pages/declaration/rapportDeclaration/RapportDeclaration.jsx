@@ -8,7 +8,8 @@ import {
     SwapOutlined,
     GlobalOutlined,
     RiseOutlined,
-    UserOutlined 
+    UserOutlined,
+    FileOutlined
 } from '@ant-design/icons';
 import './rapportDeclaration.scss'
 import RapportFacture from './rapportFacture/RapportFacture';
@@ -132,7 +133,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <UserOutlined style={{ color: '#D2691E' }} /> Client
+                                <FileOutlined style={{ color: 'blue' }} /> Template
                             </span>
                         }
                         key="9"
