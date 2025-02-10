@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Button } from 'antd';
+import { Select, Button, Collapse, Checkbox, } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import moment from 'moment';
+import { getAnnee, getMois } from '../../../services/templateService';
 
 const { Option } = Select;
+const { Panel } = Collapse;
 
 const DeclarationFiltre = ({ onFilter, visible }) => {
     const [province, setProvince] = useState([]);
@@ -15,25 +17,25 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
     const [selectedVille, setSelectedVille] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
     const [selectedBatiment, setSelectedBatiment] = useState([]);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [options, setOptions] = useState([]);
-
-    const years = Array.from({ length: 10 }, (_, i) => moment().year() - i);
-    const months = Array.from({ length: 12 }, (_, i) => moment().month(i).format('MMMM'));
+    const [selectedMois, setSelectedMois] = useState([]);
+    const [selectedAnnees, setSelectedAnnees] = useState([]);
+    const [mois, setMois] = useState([]);
+    const [annee, setAnnee] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [batimentData, clientData, provinceData] = await Promise.all([
+                const [batimentData, clientData, provinceData, yearData] = await Promise.all([
                     getBatiment(),
                     getClient(),
-                    getProvince()
+                    getProvince(),
+                    getAnnee()
                 ]);
 
                 setBatiment(batimentData.data);
                 setClient(clientData.data);
                 setProvince(provinceData.data);
-                setOptions(years.map((year) => ({ label: year, value: year }))); // Initialiser avec les années
+                setAnnee(yearData.data);
             } catch (error) {
                 console.error(error);
             }
@@ -42,33 +44,85 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
         fetchData();
     }, []);
 
-    const handleOptionChange = (value) => {
-        setSelectedOption(value);
+    
+        const fetchMoisParAnnee = async (annee) => {
+            try {
+                const response = await getMois(annee); // Modifier `getMois` pour accepter l'année comme paramètre
+                setMois((prev) => ({
+                    ...prev,
+                    [annee]: response.data,
+                }));
+            } catch (error) {
+                console.error("Erreur lors du chargement des mois :", error);
+            }
+        };
 
-        // Si une année est sélectionnée, basculer vers les mois
-        if (years.includes(value)) {
-            const monthsOptions = months.map((month, index) => ({
-                label: `${month} ${value}`,
-                value: `${value}-${index + 1}`, // Associe l'année et le mois (ex: 2025-1)
-            }));
-            setOptions(monthsOptions);
-        }
+    const handleMoisChange = (checkedValues, annee) => {
+        setSelectedMois((prev) => ({
+            ...prev,
+            [annee]: checkedValues,
+        }));
     };
 
-    const handleBackToYears = () => {
-        // Retourner à la sélection des années
-        setOptions(years.map((year) => ({ label: year, value: year })));
-        setSelectedOption(null);
+    const handleAnneeChange = (checkedValues) => {
+        setSelectedAnnees(checkedValues);
+        checkedValues.forEach((annee) => {
+            if (!mois[annee]) {
+                fetchMoisParAnnee(annee);
+            }
+        });
+    };
+    
+    const renderMoisParAnnee = () => {
+        return selectedAnnees.map((year) => (
+            <Panel header={year} key={year}>
+                <Checkbox.Group
+                    options={(mois[year] || []).map((item) => ({
+                        label: moment().month(item.mois - 1).format('MMMM'),
+                        value: `${item.mois}-${year}`,
+                    }))}
+                    value={selectedMois[year] || []}
+                    onChange={(checkedValues) => handleMoisChange(checkedValues, year)}
+                />
+            </Panel>
+        ));
     };
 
-    const handleFilter = () => {
+/*     const handleFilter = () => {
         onFilter({
             ville: selectedVille,
             client: selectedClients,
             batiment: selectedBatiment,
-            period: selectedOption,
+            period: '',
         });
-    };
+    }; */
+
+    useEffect(()=> {
+        const handleFilter = () => {
+            const period = {
+                mois: [],
+                annees: selectedAnnees,
+            };
+        
+            selectedAnnees.forEach(year => {
+                if (selectedMois[year]) {
+                    selectedMois[year].forEach(mois => {
+                    period.mois.push(mois.split('-')[0]); 
+                    });
+                }
+            });
+        
+            onFilter({
+                ville: selectedVille,
+                client: selectedClients,
+                batiment: selectedBatiment,
+                period,
+            });
+        
+        };
+        handleFilter();
+    }, [province, client, selectedVille, selectedClients, selectedBatiment, mois, annee, selectedMois, selectedAnnees ])
+    
 
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
@@ -123,31 +177,34 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
             </div>
 
             <div className="filter_row">
-                <label>Période :</label>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <Select
-                        style={{ width: '100%' }}
-                        placeholder="Sélectionnez une année ou un mois"
-                        options={options}
-                        value={selectedOption}
-                        onChange={handleOptionChange}
-                    />
-                    {years.includes(selectedOption) && (
-                        <Button type="link" onClick={handleBackToYears}>
-                            Retour à la sélection des années
-                        </Button>
-                    )}
-                </div>
+                <label>Année :</label>
+                <Checkbox.Group
+                    options={annee.map((item) => ({
+                        label: item.annee,
+                        value: item.annee,
+                    }))}
+                    value={selectedAnnees}
+                    onChange={handleAnneeChange}
+                />
             </div>
 
-            <Button
+            {selectedAnnees.length > 0 && (
+                <div className="filter_row">
+                    <label>Mois :</label>
+                    <Collapse defaultActiveKey={selectedAnnees}>
+                        {renderMoisParAnnee()}
+                    </Collapse>
+                </div>
+            )}
+
+{/*             <Button
                 style={{ padding: '10px', marginTop: '20px' }}
                 type="primary"
                 icon={<SearchOutlined />}
                 onClick={handleFilter}
             >
                 Filtrer
-            </Button>
+            </Button> */}
         </div>
     );
 };
