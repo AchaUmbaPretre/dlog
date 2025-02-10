@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import TabPane from 'antd/es/tabs/TabPane';
 import RapportDeclaration from './rapportDeclaration/RapportDeclaration';
 import getColumnSearchProps from '../../utils/columnSearchUtils';
+import DeclarationSituationClient from './declarationForm/declarationSituationClient/DeclarationSituationClient';
 
 const { Search } = Input;
 
@@ -737,9 +738,9 @@ const Declaration = () => {
               footer={null}
               width={1250}
               centered
-            >
-{/*               <DeclarationOneAll idClients={idClient} />
- */}          </Modal>
+          >
+            <DeclarationSituationClient idClients={idClient} />
+          </Modal>
 
         </TabPane>
 
