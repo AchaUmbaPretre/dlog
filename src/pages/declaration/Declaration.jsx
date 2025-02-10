@@ -148,6 +148,8 @@ const Declaration = () => {
 
   const handleDeclarationOneAll = (idDeclaration, idClient) => {
     openModal('OneAll', idDeclaration,idClient );
+    setAnnee('')
+    setMois('')
   };
 
   const handleUpdateTemplate = (idDeclaration) => {

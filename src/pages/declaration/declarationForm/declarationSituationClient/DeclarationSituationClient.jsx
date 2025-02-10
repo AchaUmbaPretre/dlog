@@ -81,9 +81,16 @@ const DeclarationSituationClient = ({idClients, mois, annee}) => {
         }
     }
 
-    useEffect(()=> {
+    useEffect(() => {
+        setLoading(true);
+        setData([]); // Vider les données pour éviter d'afficher des anciennes valeurs
+    
         fetchData()
-    }, [idClients, mois, annee])
+            .then(() => setLoading(false))
+            .catch(() => setLoading(false));
+    
+    }, [idClients, mois, annee]);
+    
 
     const columns = [
         {
