@@ -45,7 +45,7 @@ const RapportVueEnsemblePie = ({ groupedData, showPercentage }) => {
   }
 
   // Formatage des valeurs pour afficher en pourcentage ou en k
-  const formatValue = (value) => {
+  const formatValueForLabel = (value) => {
     if (showPercentage) {
       return `${value}%`;
     }
@@ -56,8 +56,8 @@ const RapportVueEnsemblePie = ({ groupedData, showPercentage }) => {
   };
 
   const pieChartData = pieData.flatMap(item => [
-    { id: `Entreposage ${item.Mois}`, label: `Entreposage ${item.Mois}`, value: item.Entreposage },
-    { id: `Manutention ${item.Mois}`, label: `Manutention ${item.Mois}`, value: item.Manutention }
+    { id: `Entreposage ${item.Mois}`, label: formatValueForLabel(item.Entreposage), value: item.Entreposage },
+    { id: `Manutention ${item.Mois}`, label: formatValueForLabel(item.Manutention), value: item.Manutention }
   ]);
 
   return (
@@ -75,7 +75,7 @@ const RapportVueEnsemblePie = ({ groupedData, showPercentage }) => {
         <ResponsivePie
           data={pieChartData}
           margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-          innerRadius={0.5} 
+          innerRadius={0.5} // Crée un donut chart
           padAngle={0.7}
           cornerRadius={3}
           colors={{ scheme: 'nivo' }}
@@ -111,8 +111,6 @@ const RapportVueEnsemblePie = ({ groupedData, showPercentage }) => {
               ]
             }
           ]}
-
-          label={(d) => formatValue(d.value)}
         />
       </div>
     </div>
