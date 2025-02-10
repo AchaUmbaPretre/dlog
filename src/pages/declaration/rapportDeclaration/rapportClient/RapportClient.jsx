@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { getClient } from '../../../../services/clientService';
-import { Table, notification,Tag, Modal } from 'antd';
+import { Table, notification,Tag, Modal, Tooltip } from 'antd';
 import { HomeOutlined,MailOutlined,UserOutlined } from '@ant-design/icons';
 import config from '../../../../config';
+import DeclarationOneAll from '../../declarationOneAll/DeclarationOneAll';
 
 const RapportClient = () => {
       const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -12,6 +13,20 @@ const RapportClient = () => {
       const [idClient, setidClient] = useState('');
       
       const scroll = { x: 400 };
+
+      const handleDeclarationOneAll = (idClient) => {
+        openModal('OneAll', idClient );
+      };
+
+      const closeAllModals = () => {
+        setModalType(null);
+      };
+
+      const openModal = ( type, idClient='' ) => {
+        closeAllModals();
+        setModalType(type);
+        setidClient(idClient)
+      };
 
       const columns = [
         {
@@ -25,8 +40,10 @@ const RapportClient = () => {
           title: 'Nom',
           dataIndex: 'nom',
           key: 'nom',
-          render: (text) => (
-            <Tag icon={<UserOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
+          render: (text, record) => (
+            <Tooltip title="Voir les détails des déclarations">
+                <Tag icon={<UserOutlined />} color="blue" onClick={() => handleDeclarationOneAll(record.id_client)}>{text ?? 'Aucun'}</Tag>
+            </Tooltip>
           ),
         },
         {
@@ -59,9 +76,6 @@ const RapportClient = () => {
         }
       ]
 
-      const closeAllModals = () => {
-        setModalType(null);
-      };
 
     const fetchData = async () => {
         try {
