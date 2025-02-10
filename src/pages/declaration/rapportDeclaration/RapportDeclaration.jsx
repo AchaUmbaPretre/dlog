@@ -141,6 +141,17 @@ const RapportDeclaration = () => {
                     >
 {/*                         <RapportExterneEtInterne/>
  */}                 </TabPane>
+
+                    <TabPane
+                        tab={
+                            <span>
+                                <FileOutlined style={{ color: 'blue' }} /> Template
+                            </span>
+                        }
+                        key="10"
+                    >
+{/*                         <RapportExterneEtInterne/>
+ */}                 </TabPane>
                 </Tabs>
             </div>
         </div>
