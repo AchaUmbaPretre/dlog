@@ -65,8 +65,7 @@ const DeclarationSituationClient = ({idClients, mois, annee}) => {
         try {
 
             const datas = {
-                idClients,
-                mois
+                period : { mois : mois, annees: annee}
             }
             const { data } = await getDeclarationClientOneAll(idClients, datas);
             setTitre(data[0]?.nom);

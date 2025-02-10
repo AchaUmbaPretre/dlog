@@ -127,9 +127,11 @@ const Declaration = () => {
     }, [filteredDatas, searchValue]);
 
   const handleMoisAnnee = (idClient, dataMois, annee) => {
-      openModal('Mois', idClient, dataMois);
+      openModal('Mois', '', idClient, dataMois);
       setMois(dataMois)
       setAnnee(annee)
+
+      console.log(idClient, dataMois, annee)
     };
 
   const handleAddTemplate = (idDeclaration) => {
@@ -762,7 +764,7 @@ const Declaration = () => {
 
           <Modal
               title=""
-              visible={modalType === 'clientMois'}
+              visible={modalType === 'Mois'}
               onCancel={closeAllModals}
               footer={null}
               width={1100}
