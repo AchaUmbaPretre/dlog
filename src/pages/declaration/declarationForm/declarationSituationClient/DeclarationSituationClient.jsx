@@ -64,7 +64,11 @@ const DeclarationSituationClient = ({idClients, mois}) => {
     const fetchData = async () => {
         try {
 
-            const { data } = await getDeclarationClientOneAll(idClients);
+            const datas = {
+                idClients,
+                mois
+            }
+            const { data } = await getDeclarationClientOneAll(datas);
             setTitre(data[0]?.nom);
             setData(data);
             setLoading(false);
@@ -80,7 +84,7 @@ const DeclarationSituationClient = ({idClients, mois}) => {
 
     useEffect(()=> {
         fetchData()
-    }, [idClients])
+    }, [idClients, mois])
 
     const columns = [
         {
