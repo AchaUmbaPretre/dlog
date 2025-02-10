@@ -496,7 +496,7 @@ const RapportVueEnsemble = () => {
                     }
                         key="2"
                     >
-                        <RapportVueEnsemblePie groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                        <RapportVueEnsemblePie groupedData={dataSource} showPercentage={showInPercentage} uniqueMonths={uniqueMonths} />
                     </TabPane>
                 </Tabs>
       </div>
