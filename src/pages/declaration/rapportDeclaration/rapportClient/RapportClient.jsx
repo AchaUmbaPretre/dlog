@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { getClient } from '../../../../services/clientService';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,PlusCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, notification,Tag, Modal } from 'antd';
+import { HomeOutlined,MailOutlined,UserOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 
 const RapportClient = () => {
       const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
       const [loading, setLoading] = useState(true);
       const [data, setData] = useState([]);
+      const [modalType, setModalType] = useState(null);
+      const [idClient, setidClient] = useState('');
+      
       const scroll = { x: 400 };
 
       const columns = [
@@ -56,6 +59,9 @@ const RapportClient = () => {
         }
       ]
 
+      const closeAllModals = () => {
+        setModalType(null);
+      };
 
     const fetchData = async () => {
         try {
@@ -83,13 +89,23 @@ const RapportClient = () => {
                     columns={columns}
                     dataSource={data}
                     loading={loading}
-                    pagination={{ pageSize: 10 }}
+                    pagination={{ pageSize: 15 }}
                     rowKey="id"
                     bordered
                     size="middle"
                     scroll={scroll}
                 />
             </div>
+            <Modal
+              title=""
+              visible={modalType === 'OneAll'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={1250}
+              centered
+            >
+              <DeclarationOneAll idClients={idClient} />
+          </Modal>
         </div>
     </>
   )

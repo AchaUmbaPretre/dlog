@@ -740,6 +740,7 @@ const Declaration = () => {
             >
               <DeclarationOneAll idClients={idClient} />
           </Modal>
+          
         </TabPane>
 
         <TabPane
