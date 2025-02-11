@@ -21,6 +21,7 @@ import RapportExterneEtInterne from './rapportExterneEtInterne/RapportExterneEtI
 import RapportPays from './rapportPays/RapportPays';
 import RapportSuperficie from './rapportSuperficie/RapportSuperficie';
 import RapportClient from './rapportClient/RapportClient';
+import RapportTemplate from './rapportTemplate/RapportTemplate';
 
 const { TabPane } = Tabs;
 
@@ -140,7 +141,7 @@ const RapportDeclaration = () => {
                         }
                         key="9"
                     >
-                         <RapportExterneEtInterne/>
+                         <RapportTemplate/>
                  </TabPane>
 
                     <TabPane
