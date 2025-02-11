@@ -155,10 +155,22 @@ export const getRapportEntreposage = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_entreposage`, filter);
 };
 
-//Rapport Variation
+//Rapport Template
 export const getRapportTemplate = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_template`, filter);
 };
+
+//Rapport Variation
+export const getRapportVariation = async (filter) => {
+  return axios.post(`${DOMAIN}/api/template/rapport_variation`, filter);
+};
+
+
+//Rapport Variation ville
+export const getRapportVariationVille = async (filter) => {
+  return axios.post(`${DOMAIN}/api/template/rapport_variation_ville`, filter);
+};
+
 
 
 //Mois & ANNEE

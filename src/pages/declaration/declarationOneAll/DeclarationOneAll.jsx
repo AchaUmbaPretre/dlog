@@ -43,9 +43,13 @@ const DeclarationOneAll = ({idClients}) => {
   const [searchValue, setSearchValue] = useState('');
   const [titre, setTitre] = useState('');
   const [villeData, setVilleData] = useState([]);
-  const [idClientss, setIdClientss] = useState(idClients); 
+  const [idClientss, setIdClientss] = useState(''); 
   const [idValides, setIdValides] = useState([]);
   
+  useEffect(()=> {
+    setIdClientss(idClients)
+  }, [idClients])
+
     const fetchData = async () => {
       try {
         const { data } = await getDeclarationClientOneAll(idClientss,filteredDatas);
@@ -120,7 +124,7 @@ const DeclarationOneAll = ({idClients}) => {
             message: 'Aucune donnée disponible',
             description: 'Aucune déclaration n’a été trouvée pour le client sélectionné.',
           });
-          setData([]);
+          setVilleData([]);
           setLoading(false);
           return;
         }

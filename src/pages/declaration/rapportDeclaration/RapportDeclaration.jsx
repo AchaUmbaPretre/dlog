@@ -27,7 +27,7 @@ import RapportVariation from './rapportVariation/RapportVariation';
 const { TabPane } = Tabs;
 
 const RapportDeclaration = () => {
-    const [activeKey, setActiveKey] = useState(['1', '2']);
+    const [activeKey, setActiveKey] = useState('1'); // Une seule valeur
 
     const handleTabChange = (key) => {
         setActiveKey(key);
@@ -38,13 +38,11 @@ const RapportDeclaration = () => {
         <div className="rapport_declaration">
             <div className="rapport_wrapper">
                 <Tabs
-                    activeKey={activeKey[0]}
+                    activeKey={activeKey}
                     onChange={handleTabChange}
                     type="card"
                     tabPosition="top"
-                    renderTabBar={(props, DefaultTabBar) => (
-                        <DefaultTabBar {...props} />
-                    )}
+                    
                 >
                     <TabPane
                         tab={
