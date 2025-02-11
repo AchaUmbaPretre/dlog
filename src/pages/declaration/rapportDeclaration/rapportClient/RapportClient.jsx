@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getClient } from '../../../../services/clientService';
 import { Table, notification,Tag, Modal, Tooltip } from 'antd';
-import { HomeOutlined,MailOutlined,UserOutlined } from '@ant-design/icons';
+import { MailOutlined,UserOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import DeclarationOneAll from '../../declarationOneAll/DeclarationOneAll';
 
@@ -52,18 +52,6 @@ const RapportClient = () => {
           key: 'email',
           render: (text) => (
             <Tag icon={<MailOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
-          ),
-        },
-        {
-          title: 'Adresse',
-          dataIndex: 'adresse',
-          key: 'adresse',
-          render: (text) => (
-            <> 
-              <Tag icon={<HomeOutlined />} color='cyan'>
-                {text ?? 'Aucune'}
-              </Tag>
-            </>
           ),
         },
         {
