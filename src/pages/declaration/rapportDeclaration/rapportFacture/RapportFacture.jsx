@@ -202,7 +202,7 @@ const RapportFacture = () => {
         </div>
       );
       
-      const exportToExcelHTML = () => {
+    const exportToExcelHTML = () => {
         let tableHTML = `
             <table border="1">
                 <thead>

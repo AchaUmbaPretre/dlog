@@ -22,6 +22,7 @@ import RapportPays from './rapportPays/RapportPays';
 import RapportSuperficie from './rapportSuperficie/RapportSuperficie';
 import RapportClient from './rapportClient/RapportClient';
 import RapportTemplate from './rapportTemplate/RapportTemplate';
+import RapportVariation from './rapportVariation/RapportVariation';
 
 const { TabPane } = Tabs;
 
@@ -142,7 +143,7 @@ const RapportDeclaration = () => {
                         key="9"
                     >
                          <RapportTemplate/>
-                 </TabPane>
+                    </TabPane>
 
                     <TabPane
                         tab={
@@ -152,8 +153,8 @@ const RapportDeclaration = () => {
                         }
                         key="10"
                     >
-{/*                         <RapportExterneEtInterne/>
- */}                 </TabPane>
+                        <RapportVariation/>
+                    </TabPane>
                 </Tabs>
             </div>
         </div>

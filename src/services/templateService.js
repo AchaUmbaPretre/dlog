@@ -155,6 +155,11 @@ export const getRapportEntreposage = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_entreposage`, filter);
 };
 
+//Rapport Variation
+export const getRapportTemplate = async (filter) => {
+  return axios.post(`${DOMAIN}/api/template/rapport_template`, filter);
+};
+
 
 //Mois & ANNEE
 export const getMois = async (annee) => {

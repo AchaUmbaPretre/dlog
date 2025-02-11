@@ -325,7 +325,7 @@ const RapportEntreposage = () => {
         XLSX.writeFile(wb, 'Rapport_Entreposage.xlsx');
       };
       
-        const exportToPDF = () => {
+      const exportToPDF = () => {
           const doc = new jsPDF();  
           const dateStr = moment().format("DD MMMM YYYY");
           const pageWidth = doc.internal.pageSize.getWidth();
@@ -376,7 +376,6 @@ const RapportEntreposage = () => {
 
         }
       
-
   return (
     <>
         {
