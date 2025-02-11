@@ -140,8 +140,8 @@ const RapportDeclaration = () => {
                         }
                         key="9"
                     >
-{/*                         <RapportExterneEtInterne/>
- */}                 </TabPane>
+                         <RapportExterneEtInterne/>
+                 </TabPane>
 
                     <TabPane
                         tab={
