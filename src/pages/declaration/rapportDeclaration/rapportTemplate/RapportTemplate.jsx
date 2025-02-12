@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { notification, Table, Tag, Radio } from 'antd';
 import moment from 'moment';
 import { getRapportTemplate } from '../../../../services/templateService';
+import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const availableFields = [
   { key: 'total_facture', label: 'Total Facture' },
@@ -13,7 +14,10 @@ const availableFields = [
 
 const RapportTemplate = () => {
   const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
   const [columns, setColumns] = useState([]);
+  const searchInput = useRef(null);
   const [dataSource, setDataSource] = useState([]);
   const [uniqueMonths, setUniqueMonths] = useState([]);
   const [selectedField, setSelectedField] = useState('total_entreposage'); // Par défaut : total_entreposage
@@ -95,6 +99,13 @@ const RapportTemplate = () => {
             title: "Template",
             dataIndex: "desc_template",
             key: "desc_template",
+            ...getColumnSearchProps(
+                'desc_template',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+              ),
             fixed: "left",
             render: (text, record) => (
               <div>
