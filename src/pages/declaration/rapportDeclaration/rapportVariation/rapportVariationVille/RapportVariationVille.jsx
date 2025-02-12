@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Dropdown, Menu, Tooltip, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
+import { Modal, notification, Space, Table, Tag } from 'antd';
 import moment from 'moment';
 import { getRapportVariationVille } from '../../../../../services/templateService';
 
@@ -12,8 +12,8 @@ const RapportVariationVille = ({annee, mois}) => {
         pageSize: 20,
       });
      const [showInPercentage, setShowInPercentage] = useState(false);
-     const [filteredDatas, setFilteredDatas] = useState(null);
-
+     const [province, setProvince] = useState('');
+     const [modalType, setModalType] = useState(null);
      
 
      const calculatePercentage = (value, entreposage, manutention) => {
@@ -22,6 +22,20 @@ const RapportVariationVille = ({annee, mois}) => {
         return total ? ((value / total) * 100).toFixed(2) : 0;
       };
 
+      const closeAllModals = () => {
+        setModalType(null);
+      };
+      
+      const openModal = (type, zone = '') => {
+        closeAllModals();
+        setModalType(type);
+        setProvince(zone);
+      };
+
+      const handleProvince = (zone) => {
+        openModal('zone', zone)
+        console.log( 'zone : '+ zone)
+      }
 
         const fetchData = async () => {
             const filteredDatas = {
@@ -38,10 +52,10 @@ const RapportVariationVille = ({annee, mois}) => {
                 if (!acc[mois]) acc[mois] = {};
               
                 acc[mois][item.capital] = {
-                  Entreposage: item.total_entreposage_actuel || 0,
-                  Manutention: item.total_manutation_actuel || 0,
-                  Total: item.total_facture_actuel || 0,
-                  Variation: item.variation_pourcentage || 0, // Assurez-vous que la variation est incluse ici
+                  Entreposage: item.total_entreposage || 0,
+                  Manutention: item.total_manutation || 0,
+                  Total: item.total_facture || 0,
+                  Variation: item.variation_pourcentage || 0,
                 };
               
                 return acc;
@@ -90,104 +104,109 @@ const RapportVariationVille = ({annee, mois}) => {
               ...extractedCities.map(capital => ({
                 title: capital,
                 key: capital,
+                render : (text) => (
+                    <div onClick={() => handleProvince(capital)}>
+
+                    </div>
+                ),
                 children: [
-                  {
-                    title: 'Entrep',
-                    dataIndex: `${capital}_Entreposage`,
-                    key: `${capital}_Entreposage`,
-                    width: '10%',
-                    render: (text, record) => {
-                      const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
-                      const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
-                      return (
-                        <Space>
-                          {showInPercentage
-                            ? `${calculatePercentage(entreposage, entreposage, manutention)} %`
-                            : text
-                            ? `${parseFloat(text)
-                                .toLocaleString('en-US', {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                })
-                                .replace(/,/g, ' ')} $`
-                            : '0.00'}
-                        </Space>
-                      );
-                    },
-                    align: 'right',
-                  },
-                  {
-                    title: 'Manut',
-                    dataIndex: `${capital}_Manutention`,
-                    key: `${capital}_Manutention`,
-                    width: '9%',
-                    render: (text, record) => {
-                      const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
-                      const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
-                      return (
-                        <Space>
-                          {showInPercentage
-                            ? `${calculatePercentage(manutention, entreposage, manutention)} %`
-                            : text
-                            ? `${parseFloat(text)
-                                .toLocaleString('en-US', {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                })
-                                .replace(/,/g, ' ')} $`
-                            : '0.00'}
-                        </Space>
-                      );
-                    },
-                    align: 'right',
-                  },
-                  {
-                    title: 'Total',
-                    dataIndex: `${capital}_Total`,
-                    key: `${capital}_Total`,
-                    width: '10%',
-                    render: (text, record) => {
-                      const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
-                      const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
-                      const total = entreposage + manutention;
-                      return (
-                        <Space>
-                          {showInPercentage
-                            ? `${calculatePercentage(total, entreposage, manutention)} %`
-                            : text
-                            ? `${parseFloat(text)
-                                .toLocaleString('en-US', {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                                })
-                                .replace(/,/g, ' ')} $`
-                            : '0.00'}
-                        </Space>
-                      );
-                    },
-                    align: 'right',
-                  },
-                  {
-                    title: 'Variation',
-                    dataIndex: `${capital}_Variation`,
-                    key: `${capital}_Variation`,
-                    width: '10%',
-                    render: (text, record) => {
-                      return (
-                        <Space>
-                          {showInPercentage
-                            ? `${text} %`
-                            : text
-                            ? `${parseFloat(text).toLocaleString('en-US', {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              }).replace(/,/g, ' ')} %`
-                            : '0.00'}
-                        </Space>
-                      );
-                    },
-                    align: 'right',
-                  }                  
+                    {
+                        title: 'Entrep',
+                        dataIndex: `${capital}_Entreposage`,
+                        key: `${capital}_Entreposage`,
+                        width: '10%',
+                        render: (text, record) => {
+                          const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
+                          const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
+                          return (
+                            <Space>
+                              {showInPercentage
+                                ? `${calculatePercentage(entreposage, entreposage, manutention)} %`
+                                : text || text === 0
+                                ? `${parseFloat(text)
+                                    .toLocaleString('en-US', {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })
+                                    .replace(/,/g, ' ')} $`
+                                : '00.00'}
+                            </Space>
+                          );
+                        },
+                        align: 'right',
+                      },
+                      {
+                        title: 'Manut',
+                        dataIndex: `${capital}_Manutention`,
+                        key: `${capital}_Manutention`,
+                        width: '9%',
+                        render: (text, record) => {
+                          const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
+                          const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
+                          return (
+                            <Space>
+                              {showInPercentage
+                                ? `${calculatePercentage(manutention, entreposage, manutention)} %`
+                                : text || text === 0
+                                ? `${parseFloat(text)
+                                    .toLocaleString('en-US', {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })
+                                    .replace(/,/g, ' ')} $`
+                                : '00.00'}
+                            </Space>
+                          );
+                        },
+                        align: 'right',
+                      },
+                      {
+                        title: 'Total',
+                        dataIndex: `${capital}_Total`,
+                        key: `${capital}_Total`,
+                        width: '10%',
+                        render: (text, record) => {
+                          const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
+                          const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
+                          const total = entreposage + manutention;
+                          return (
+                            <Space>
+                              {showInPercentage
+                                ? `${calculatePercentage(total, entreposage, manutention)} %`
+                                : text || text === 0
+                                ? `${parseFloat(text)
+                                    .toLocaleString('en-US', {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })
+                                    .replace(/,/g, ' ')} $`
+                                : '00.00'}
+                            </Space>
+                          );
+                        },
+                        align: 'right',
+                      },
+                      {
+                        title: 'V%',
+                        dataIndex: `${capital}_Variation`,
+                        key: `${capital}_Variation`,
+                        width: '10%',
+                        render: (text, record) => {
+                          return (
+                            <Space>
+                              {showInPercentage
+                                ? `${text || text === 0 ? text : '00.00'} %`
+                                : text || text === 0
+                                ? `${parseFloat(text).toLocaleString('en-US', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                  }).replace(/,/g, ' ')} %`
+                                : '00.00'}
+                            </Space>
+                          );
+                        },
+                        align: 'right',
+                      },        
                 ],
               })),
             ];
@@ -225,6 +244,16 @@ const RapportVariationVille = ({annee, mois}) => {
                     rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                 />
             </div>
+            <Modal
+                title=""
+                visible={modalType === 'zone'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={1070}
+                centered
+            >
+                {province}
+            </Modal>
         </div>
     </>
   )

@@ -59,8 +59,8 @@ const RapportVariation = () => {
       const generateDataSource = () => {
         const types = [
           { type: "Total Entrep & Manu", dataIndex: "total_entreManu" },
-          { type: "TTC Entrep & Manu", dataIndex: "ttc_entreManu" },
-          { type: "Total M2 occupé", dataIndex: "total_occupe" },
+/*           { type: "TTC Entrep & Manu", dataIndex: "ttc_entreManu" },
+ */          { type: "Total M2 occupé", dataIndex: "total_occupe" },
           { type: "Total M2 facturé", dataIndex: "total_facture" }, // Remplacer si nécessaire par une autre donnée
         ];
 
