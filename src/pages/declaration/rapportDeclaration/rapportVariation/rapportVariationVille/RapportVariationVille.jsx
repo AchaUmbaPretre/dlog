@@ -27,7 +27,7 @@ const RapportVariationVille = ({annee, mois}) => {
         setModalType(null);
       };
       
-      const openModal = (type, zone = '') => {
+      const openModal = (type, zone) => {
         closeAllModals();
         setModalType(type);
         setProvince(zone);

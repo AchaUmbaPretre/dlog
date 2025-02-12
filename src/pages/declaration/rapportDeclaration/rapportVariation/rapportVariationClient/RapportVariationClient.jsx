@@ -3,15 +3,17 @@ import { Table, notification, Tag } from "antd";
 import { getRapportVariationClient } from "../../../../../services/templateService";
 import moment from "moment";
 
-const RapportVariationClient = () => {
+const RapportVariationClient = ({zone}) => {
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState([]);
   const [columns, setColumns] = useState([]);
 
   const fetchData = async () => {
+    const filteredDatas = {
+        ville: zone
+    };
     try {
-      const { data } = await getRapportVariationClient();
-      console.log("Données reçues :", data);
+      const { data } = await getRapportVariationClient(filteredDatas);
 
       // Regrouper les données par client
       const groupedData = {};
@@ -57,22 +59,22 @@ const RapportVariationClient = () => {
           key: "client",
         },
         {
-          title: "Tot M² FACT (Annuel)",
+          title: "Tot M² FACT",
           dataIndex: "total_facture",
           key: "total_facture",
         },
         {
-          title: "Tot Entreposage ($ Annuel)",
+          title: "Tot Entreposage",
           dataIndex: "total_entrep",
           key: "total_entrep",
         },
         {
-          title: "TOT MANUT. (Annuel)",
+          title: "TOT MANUT.",
           dataIndex: "total_manu",
           key: "total_manu",
         },
         {
-          title: "Superficie Totale (Annuel)",
+          title: "Superficie Totale",
           dataIndex: "superficie_totale",
           key: "superficie_totale",
         },
@@ -89,16 +91,23 @@ const RapportVariationClient = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [zone]);
 
   return (
-    <Table
+    <div className="rapport_facture">
+        <h2 className="rapport_h2">RAPPORT POUR LA VILLE DE {zone} </h2>
+        <div className="rapport_wrapper_facture">
+        <Table
       loading={loading}
       columns={columns}
       dataSource={dataSource}
+      bordered
+      size="small"
       expandable={{
         expandedRowRender: (record) => (
           <Table
+            bordered
+            size="small"
             columns={[
               { title: "Mois", dataIndex: "mois", key: "mois" },
               { title: "Tot M² FACT", dataIndex: "total_facture", key: "total_facture" },
@@ -114,6 +123,8 @@ const RapportVariationClient = () => {
         ),
       }}
     />
+        </div>
+    </div>
   );
 };
 
