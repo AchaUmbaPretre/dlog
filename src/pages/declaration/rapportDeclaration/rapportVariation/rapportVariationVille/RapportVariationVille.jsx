@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal, notification, Space, Table, Tag } from 'antd';
 import moment from 'moment';
 import { getRapportVariationVille } from '../../../../../services/templateService';
+import RapportVariationClient from '../rapportVariationClient/RapportVariationClient';
 
 const RapportVariationVille = ({annee, mois}) => {
       const [loading, setLoading] = useState(true);
@@ -102,13 +103,8 @@ const RapportVariationVille = ({annee, mois}) => {
                 align: 'left',
               },
               ...extractedCities.map(capital => ({
-                title: capital,
+                title: <span onClick={() => handleProvince(capital)}>{capital}</span>,
                 key: capital,
-                render : (text) => (
-                    <div onClick={() => handleProvince(capital)}>
-
-                    </div>
-                ),
                 children: [
                     {
                         title: 'Entrep',
@@ -119,7 +115,7 @@ const RapportVariationVille = ({annee, mois}) => {
                           const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
                           const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
                           return (
-                            <Space>
+                            <Space >
                               {showInPercentage
                                 ? `${calculatePercentage(entreposage, entreposage, manutention)} %`
                                 : text || text === 0
@@ -252,7 +248,7 @@ const RapportVariationVille = ({annee, mois}) => {
                 width={1070}
                 centered
             >
-                {province}
+                <RapportVariationClient zone={province} />
             </Modal>
         </div>
     </>

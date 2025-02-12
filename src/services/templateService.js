@@ -171,6 +171,11 @@ export const getRapportVariationVille = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_variation_ville`, filter);
 };
 
+//Rapport Variation client
+export const getRapportVariationClient = async (filter) => {
+  return axios.post(`${DOMAIN}/api/template/rapport_variation_client`, filter);
+};
+
 
 
 //Mois & ANNEE
