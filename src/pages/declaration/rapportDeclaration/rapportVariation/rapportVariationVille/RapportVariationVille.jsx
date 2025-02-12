@@ -245,7 +245,7 @@ const RapportVariationVille = ({annee, mois}) => {
                 visible={modalType === 'zone'}
                 onCancel={closeAllModals}
                 footer={null}
-                width={1070}
+                width={1120}
                 centered
             >
                 <RapportVariationClient zone={province} />
