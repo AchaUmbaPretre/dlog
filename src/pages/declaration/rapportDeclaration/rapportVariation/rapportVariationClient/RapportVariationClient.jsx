@@ -9,6 +9,8 @@ const RapportVariationClient = ({zone}) => {
   const [columns, setColumns] = useState([]);
 
   const fetchData = async () => {
+    setLoading(true); // Ajouté pour forcer le chargement
+    setDataSource([]); // 
     const filteredDatas = {
         ville: zone
     };
