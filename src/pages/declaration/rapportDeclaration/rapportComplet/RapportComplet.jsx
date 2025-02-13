@@ -65,6 +65,7 @@ const RapportComplet = () => {
       title: 'M² Occupé',
       dataIndex: 'total_occupe',
       key: 'total_occupe',
+      sorter: (a, b) => parseFloat(a.total_occupe) - parseFloat(b.total_occupe),
       render: (text) => (
         <Space>
         <div style={{color: text ? 'black' : 'red'}}>
@@ -85,6 +86,7 @@ const RapportComplet = () => {
         title: 'M² facture',
         dataIndex: 'total_facture',
         key: 'total_facture',
+        sorter: (a, b) => parseFloat(a.total_facture) - parseFloat(b.total_facture),
         render: (text) => (
             <Space>
                 <div style={{color: text ? 'black' : 'red'}}>
@@ -106,6 +108,7 @@ const RapportComplet = () => {
         title: 'TOT Entreposage',
         dataIndex: 'total_entrep',
         key: 'total_entrep',
+        sorter: (a, b) => parseFloat(a.total_entrep) - parseFloat(b.total_entrep),
         render: (text) => (
             <Space>
                 <div style={{color: text ? 'black' : 'red'}}>
@@ -127,6 +130,7 @@ const RapportComplet = () => {
         title: 'TOT Manutention',
         dataIndex: 'total_manu',
         key: 'total_manu',
+        sorter: (a, b) => parseFloat(a.total_manu) - parseFloat(b.total_manu),
         render: (text) => (
             <Space>
                 <div style={{color: text ? 'black' : 'red'}}>
@@ -148,23 +152,29 @@ const RapportComplet = () => {
         title: 'Superficie',
         dataIndex: 'total_superficie',
         key: 'total_superficie',
+        sorter: (a, b) => parseFloat(a.total_superficie) - parseFloat(b.total_superficie),
         render: (text) => (
-            <Space>
-                <div style={{color: text ? 'black' : 'red'}}>
-                    {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                            })
-                            .replace(/,/g, " ")} $` 
-                    : "0.00"}
-                </div>
-            </Space>
+          <Space>
+            <div style={{
+              color: '#007bff', 
+              backgroundColor: '#e0f7fa', 
+              padding: '5px', 
+              borderRadius: '5px'
+            }}>
+              {text
+                ? `${parseFloat(text)
+                    .toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    })
+                    .replace(/,/g, " ")}` 
+                : "0.00"}
+            </div>
+          </Space>
         ),
-        align: 'right' 
-
-      },
+        align: 'right'
+      }
+      
   ]
 
   return (
