@@ -52,18 +52,29 @@ const RapportDeclaration = () => {
                         }
                         key="1"
                     >
-                        <RapportFacture/>
-                    </TabPane>
-
-                     <TabPane
-                        tab={
+                        <Tabs defaultActiveKey="1">
+                        <TabPane
+                            tab={
                             <span>
-                                <RiseOutlined style={{ color: 'blue' }} /> Superficie
+                                <AreaChartOutlined style={{ color: "#13c2c2" }} /> M² Facturé
                             </span>
-                        }
-                        key="2"
-                    >
-                        <RapportSuperficie/>
+                            }
+                            key="1"
+                        >
+                            <RapportFacture />
+                        </TabPane>
+
+                        <TabPane
+                            tab={
+                            <span>
+                                <RiseOutlined style={{ color: "blue" }} /> Superficie
+                            </span>
+                            }
+                            key="2"
+                        >
+                            <RapportSuperficie />
+                        </TabPane>
+                        </Tabs>
                     </TabPane>
 
                     <TabPane
