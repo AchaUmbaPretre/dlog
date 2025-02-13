@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Table, Tag, Radio } from 'antd';
+import { notification, Table, Tag, Radio, Button } from 'antd';
 import moment from 'moment';
 import { getRapportTemplate } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
@@ -172,7 +172,16 @@ const RapportTemplate = () => {
           ))}
         </Radio.Group>
       </div>
-      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraStatus={true} filtreBatiment={true} />}
+      <div className='rapport_row_excel'>
+        <Button
+          type={filterVisible ? 'primary' : 'default'}
+          onClick={() => setFilterVisible(!filterVisible)}
+          style={{ margin: '10px 10px 10px 0' }}
+        >
+          {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+        </Button>
+      </div>
+      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreClient={true} filtreTemplate={true} />}
       <Table
         dataSource={dataSource}
         columns={columns}

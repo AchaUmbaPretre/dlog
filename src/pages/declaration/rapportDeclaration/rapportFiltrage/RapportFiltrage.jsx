@@ -9,7 +9,7 @@ import { getMois, getAnnee } from '../../../../services/templateService';
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, filtreBatiment }) => {
+const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, filtreBatiment, filtreTemplate }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
