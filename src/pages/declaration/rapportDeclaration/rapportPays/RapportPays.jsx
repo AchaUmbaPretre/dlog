@@ -255,7 +255,6 @@ const RapportPays = () => {
         </Button>
         {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} />}
 
-        {/* Menu pour afficher/masquer les villes */}
         <Dropdown
           overlay={
             <Menu>

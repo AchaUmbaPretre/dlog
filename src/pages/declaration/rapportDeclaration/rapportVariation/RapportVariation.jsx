@@ -30,13 +30,10 @@ const RapportVariation = () => {
     openModal('periode', mois, annee );
   };
 
-  console.log(mois, annee)
-
   const fetchData = async () => {
     try {
       const { data } = await getRapportVariation(filteredDatas);
 
-      // Générer les colonnes uniquement pour les mois
       const generatedColumns = () => [
         {
           title: "#",
