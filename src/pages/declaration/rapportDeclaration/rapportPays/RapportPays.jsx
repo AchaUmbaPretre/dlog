@@ -253,7 +253,7 @@ const RapportPays = () => {
         >
           {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
         </Button>
-        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} />}
+        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} />}
 
         <Dropdown
           overlay={

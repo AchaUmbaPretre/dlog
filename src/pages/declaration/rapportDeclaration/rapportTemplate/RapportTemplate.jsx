@@ -181,7 +181,7 @@ const RapportTemplate = () => {
           {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
         </Button>
       </div>
-      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreClient={true} filtreTemplate={true} filtreMontant={false} />}
+      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreTemplate={true} filtreMontant={false} />}
       <Table
         dataSource={dataSource}
         columns={columns}
