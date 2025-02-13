@@ -6,6 +6,7 @@ import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const availableFields = [
   { key: 'total_facture', label: 'M2 Facture' },
+  { key: 'total_occupe', label: 'M2 Occupé' },
   { key: 'total_entreposage', label: 'Entreposage' },
   { key: 'ttc_entreposage', label: 'TTC Entreposage' },
   { key: 'total_manutation', label: 'Manutation' },
