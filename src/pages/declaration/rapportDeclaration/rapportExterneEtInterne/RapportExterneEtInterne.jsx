@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, notification, Table, Tag, Tooltip } from 'antd';
 import moment from 'moment';
 import {
-  FileExcelOutlined,
-  FilePdfOutlined
-} from '@ant-design/icons';
+  FileExcelOutlined} from '@ant-design/icons';
 import * as XLSX from 'xlsx';
 import { getRapportExterneEtInterne } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -17,6 +15,7 @@ const RapportExterneEtInterne = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredDatas, setFilteredDatas] = useState(null);
+  const [showManutention, setShowManutention] = useState(false);
   const scroll = { x: 400 };
 
   const fetchData = async () => {
@@ -175,11 +174,7 @@ const RapportExterneEtInterne = () => {
         description: 'Une erreur est survenue lors de l\'exportation des données.',
       });
     }
-  };
-
-  const exportToPDF = () => {}
-  
-  
+  };  
 
   return (
     <div>
