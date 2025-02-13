@@ -10,6 +10,19 @@ const RapportComplet = () => {
         setFilteredDatas(newFilters); 
       };
 
+      const fetchData = async () => {
+
+        try {
+            
+        } catch (error) {
+            
+        }
+      }
+
+      useEffect(()=> {
+        fetchData()
+      }, [])
+
   return (
     <>
         <div className="rapport_facture">
