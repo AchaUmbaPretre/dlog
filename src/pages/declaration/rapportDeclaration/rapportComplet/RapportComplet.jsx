@@ -20,7 +20,8 @@ const RapportComplet = () => {
         try {
             const { data } = await getRapportComplet(filteredDatas);
 
-            setData(data);
+            setData(data.data);
+            setDetail(data.resume)
             setLoading(false);
         } catch (error) {
             if (error.response && error.response.status === 404) {
@@ -225,19 +226,27 @@ const RapportComplet = () => {
                                 color: '#1890ff',
                                 }}
                             >
-                                Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
+                                Nbre de client : <strong>{detail?.nbre_client}</strong>
                             </span>
                             <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                             M² facturé :{' '}
-                            <strong>{Math.round(parseFloat(detail.Total_M2_facture))?.toLocaleString() ?? 0}</strong>
+                            <strong>{Math.round(parseFloat(detail.total_facture))?.toLocaleString() ?? 0}</strong>
                             </span>
                             <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                             M² Occupé :{' '}
-                            <strong>{detail.Total_M2_facture_Extérieur?.toLocaleString() ?? 0}</strong>
+                            <strong>{detail.total_occupe?.toLocaleString() ?? 0}</strong>
+                            </span>
+                            <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                            Total Entreposage :{' '}
+                            <strong>{detail.total_entrep?.toLocaleString()} $</strong>
+                            </span>
+                            <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                            Total Manutention :{' '}
+                            <strong>{detail.total_manu?.toLocaleString()} $</strong>
                             </span>
                             <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                             Sup :{' '}
-                            <strong>{detail.Total_M2_facture_Intérieur?.toLocaleString() ?? 0}</strong>
+                            <strong>{detail.total_superficie?.toLocaleString() ?? 0}</strong>
                             </span>
                         </div>
                     </div>
