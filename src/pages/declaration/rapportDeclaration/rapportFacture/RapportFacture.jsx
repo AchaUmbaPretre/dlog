@@ -421,7 +421,7 @@ const RapportFacture = () => {
 
                   </div>
 
-                    { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true}/>        }
+                    { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreMontant={true}/>}
                     <div className="rapport_wrapper_facture">
                         <Table
                             dataSource={dataSource}

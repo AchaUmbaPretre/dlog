@@ -62,7 +62,7 @@ const RapportFactureVille = () => {
                     align: 'right',
                 },
                 {
-                    title: 'Client',
+                    title: 'Ville',
                     dataIndex: 'Client',
                     key: 'Client',
                     fixed: 'left',
@@ -130,7 +130,7 @@ const RapportFactureVille = () => {
             <Button type="default" onClick={handleFilterToggle} style={{ margin: '10px 0' }}>
                 {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
             </Button>
-            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true}/> }
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraStatus={true} filtreMontant={true} /> }
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}

@@ -134,7 +134,7 @@ const RapportFactureExterneEtInterne = () => {
             <Button type="default" onClick={handleFilterToggle} style={{ margin: '10px 0' }}>
                 {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
             </Button>
-            {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} />}
+            {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraStatus={true} filtreMontant={true}  />}
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}
