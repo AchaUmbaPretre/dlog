@@ -452,7 +452,7 @@ const RapportVueEnsemble = () => {
 
         </div>
 
-        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={false} filtraStatus={false} />}
+        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={false} />}
         <div className="rapport_wrapper_facture">
           <Table
             dataSource={dataSource}
