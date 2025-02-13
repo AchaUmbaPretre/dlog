@@ -47,7 +47,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <AreaChartOutlined style={{ color: '#13c2c2' }} /> M² Facturé
+                                <AreaChartOutlined style={{ color: '#13c2c2' }} /> M² Facturé & Sup
                             </span>
                         }
                         key="1"
