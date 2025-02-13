@@ -8,6 +8,7 @@ const RapportComplet = () => {
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
     const [data, setData] = useState([]);
+    const [ detail, setDetail] = useState('');
     const scroll = { x: 400 };
 
     const handleFilterChange = (newFilters) => {
@@ -183,6 +184,65 @@ const RapportComplet = () => {
 
   return (
     <>
+        {
+            loading ? (
+                <Skeleton active paragraph={{ rows: 1 }} />
+            ) : (
+                <div
+                    style={{
+                            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                            borderRadius: '8px',
+                            backgroundColor: '#fff',
+                            width: 'fit-content',
+                            margin: '20px 0',
+                            padding: '15px',
+                        }}
+                    >
+                        <span
+                            style={{
+                                display: 'block',
+                                padding: '10px 15px',
+                                fontWeight: 'bold',
+                                fontSize: '1rem',
+                                borderBottom: '1px solid #f0f0f0',
+                                }}
+                            >
+                                Résumé :
+                            </span>
+                        <div
+                            style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(3, 1fr)',
+                            gap: '15px',
+                            padding: '15px',
+                            }}
+                        >
+                            <span
+                                style={{
+                                fontSize: '0.9rem',
+                                fontWeight: '400',
+                                cursor: 'pointer',
+                                color: '#1890ff',
+                                }}
+                            >
+                                Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
+                            </span>
+                            <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                            M² facturé :{' '}
+                            <strong>{Math.round(parseFloat(detail.Total_M2_facture))?.toLocaleString() ?? 0}</strong>
+                            </span>
+                            <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                            M² Occupé :{' '}
+                            <strong>{detail.Total_M2_facture_Extérieur?.toLocaleString() ?? 0}</strong>
+                            </span>
+                            <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                            Sup :{' '}
+                            <strong>{detail.Total_M2_facture_Intérieur?.toLocaleString() ?? 0}</strong>
+                            </span>
+                        </div>
+                    </div>
+                )
+            }
         <div className="rapport_facture">
             <div className="rapport_row_excel">
                 <Button
