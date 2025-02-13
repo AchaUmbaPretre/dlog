@@ -78,18 +78,22 @@ const RapportExterneEtInterne = () => {
               align: 'right',
               title: <div style={{ textAlign: 'center' }}>Entreposage</div>
             },
-            {
-              title: 'Manutention',
-              dataIndex: `${type}_Manutention`,
-              key: `${type}_Manutention`,
-              render: (value) => (
-                <div style={{color: value ? 'black' : 'red'}}>
-                  {value ? `${value.toLocaleString()} $` : 0}
-                </div>
-              ),
-              align: 'right',
-              title: <div style={{ textAlign: 'center' }}>Manutention</div>
-            },
+            ...(showManutention
+              ? [
+                  {
+                    title: 'Manutention',
+                    dataIndex: `${type}_Manutention`,
+                    key: `${type}_Manutention`,
+                    render: (value) => (
+                      <div style={{ color: value ? 'black' : 'red' }}>
+                        {value ? `${value.toLocaleString()} $` : 0}
+                      </div>
+                    ),
+                    align: 'right',
+                    title: <div style={{ textAlign: 'center' }}>Manutention</div>,
+                  },
+                ]
+              : []),
             {
               title: 'Total',
               dataIndex: `${type}_Total`,
@@ -120,7 +124,7 @@ const RapportExterneEtInterne = () => {
 
   useEffect(() => {
     fetchData();
-  }, [filteredDatas]);
+  }, [filteredDatas, showManutention]);
 
   const exportToExcelHTML = async () => {
     try {
@@ -193,6 +197,11 @@ const RapportExterneEtInterne = () => {
               <FileExcelOutlined className="excel-icon" />
             </Button>
           </Tooltip>
+
+          <Button onClick={() => setShowManutention(!showManutention)} style={{ margin: '10px' }}>
+            {showManutention ? 'Masquer Manutention' : 'Afficher Manutention'}
+          </Button>
+
           
         </div>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraStatus={true} />}
