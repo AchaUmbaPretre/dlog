@@ -139,7 +139,6 @@ const RapportExterneEtInterne = () => {
         return acc;
       }, {});
   
-      // Format grouped data into table rows
       const formattedData = Object.entries(groupedData).map(([month, types]) => {
         const row = { Mois: month };
         Object.entries(types).forEach(([type, values]) => {
@@ -150,7 +149,6 @@ const RapportExterneEtInterne = () => {
         return row;
       });
   
-      // Define columns for Excel export
       const columns = [
         { title: "Mois", key: "Mois" },
         ...Array.from(new Set(data.map(item => item.nom_status_batiment)))
@@ -166,11 +164,9 @@ const RapportExterneEtInterne = () => {
         header: columns.map(col => col.key),
       });
   
-      // Create a new Excel workbook
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Rapport Externe et Interne");
   
-      // Trigger file download
       XLSX.writeFile(wb, "Rapport_Externe_Interne.xlsx");
   
     } catch (error) {
