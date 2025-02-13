@@ -22,7 +22,6 @@ const RapportExterneEtInterne = () => {
     try {
       const { data } = await getRapportExterneEtInterne(filteredDatas);
 
-      // Group data by month and type
       const groupedData = data.reduce((acc, item) => {
         const month = moment(item.periode).format('MMM-YY');
         if (!acc[month]) acc[month] = {};
@@ -34,7 +33,6 @@ const RapportExterneEtInterne = () => {
         return acc;
       }, {});
 
-      // Format grouped data into table rows
       const formattedData = Object.entries(groupedData).map(([month, types]) => {
         const row = { Mois: month };
         Object.entries(types).forEach(([type, values]) => {
@@ -45,7 +43,6 @@ const RapportExterneEtInterne = () => {
         return row;
       });
 
-      // Generate dynamic columns
       const dynamicColumns = [
         {
           title: '#',
