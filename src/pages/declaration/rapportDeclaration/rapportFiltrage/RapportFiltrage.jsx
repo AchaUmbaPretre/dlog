@@ -149,9 +149,9 @@ useEffect(()=> {
                         style={{ width: '100%' }}
                         showSearch
                         options={template?.map((item) => ({
-                                value: item.id_template,
-                                label: item.desc_template,
-                            }))}
+                            value: item.id_template,
+                            label: item.desc_template,
+                        }))}
                         placeholder="Sélectionnez un template..."
                         optionFilterProp="label"
                         onChange={setSelectedTemplate}
