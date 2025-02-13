@@ -80,7 +80,7 @@ const RapportDeclaration = () => {
                     <TabPane
                         tab={
                             <span>
-                                <AppstoreOutlined style={{ color: '#1890ff' }} /> Entrop & Manu
+                                <AppstoreOutlined style={{ color: '#1890ff' }} /> Entrep & Manu
                             </span>
                         }
                         key="3"
