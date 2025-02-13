@@ -24,6 +24,7 @@ import RapportSuperficie from './rapportSuperficie/RapportSuperficie';
 import RapportClient from './rapportClient/RapportClient';
 import RapportTemplate from './rapportTemplate/RapportTemplate';
 import RapportVariation from './rapportVariation/RapportVariation';
+import RapportComplet from './rapportComplet/RapportComplet';
 
 const { TabPane } = Tabs;
 
@@ -82,9 +83,9 @@ const RapportDeclaration = () => {
                                     <FullscreenExitOutlined style={{ color: "red" }} /> Complet
                                 </span>
                                 }
-                                key="2"
+                                key="3"
                             >
-                                <RapportSuperficie />
+                                <RapportComplet />
                             </TabPane>
                         </Tabs>
                     </TabPane>
