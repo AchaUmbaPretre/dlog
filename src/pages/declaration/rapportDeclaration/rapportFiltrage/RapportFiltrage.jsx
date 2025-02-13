@@ -9,7 +9,7 @@ import { getMois, getAnnee, getTemplate } from '../../../../services/templateSer
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, filtreBatiment, filtreTemplate }) => {
+const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, filtreBatiment, filtreTemplate, filtreMontant }) => {
     const [province, setProvince] = useState([]);
     const [client, setClient] = useState([]);
     const [selectedVille, setSelectedVille] = useState([]);
@@ -239,9 +239,10 @@ useEffect(()=> {
                 </div>
             )}
 
-            <div className="filter_row">
-                <label>Montant :</label>
-                <div style={{ display: 'flex', gap: '1rem' }}>
+            {filtreMontant && (
+                <div className="filter_row">
+                    <label>Montant :</label>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
                     <Input
                         placeholder="Min"
                         type="number"
@@ -254,8 +255,10 @@ useEffect(()=> {
                         value={maxMontant}
                         onChange={(e) => setMaxMontant(e.target.value)}
                     />
+                    </div>
                 </div>
-            </div>
+            )
+            }
 
             <div className="filter_row">
                 <label>Année :</label>
