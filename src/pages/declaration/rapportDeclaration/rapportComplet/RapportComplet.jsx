@@ -193,7 +193,7 @@ const RapportComplet = () => {
                     {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                 </Button>
             </div>
-            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraClient={true} filtraStatus={false} filtreMontant={false}/>}
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraClient={true} filtraStatus={true} filtreMontant={false}/>}
             <div className="rapport_wrapper_facture">
                 <Table
                     columns={columns}
