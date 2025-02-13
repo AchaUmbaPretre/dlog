@@ -161,7 +161,6 @@ const RapportSuperficie = () => {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     fetchData();
