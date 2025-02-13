@@ -10,7 +10,8 @@ import {
     RiseOutlined,
     UserOutlined,
     FileOutlined,
-    LineChartOutlined 
+    LineChartOutlined,
+    FullscreenExitOutlined 
 } from '@ant-design/icons';
 import './rapportDeclaration.scss'
 import RapportFacture from './rapportFacture/RapportFacture';
@@ -68,6 +69,17 @@ const RapportDeclaration = () => {
                                 tab={
                                 <span>
                                     <RiseOutlined style={{ color: "blue" }} /> Superficie
+                                </span>
+                                }
+                                key="2"
+                            >
+                                <RapportSuperficie />
+                            </TabPane>
+
+                            <TabPane
+                                tab={
+                                <span>
+                                    <FullscreenExitOutlined style={{ color: "red" }} /> Complet
                                 </span>
                                 }
                                 key="2"
