@@ -30,7 +30,7 @@ const RapportTemplate = () => {
 
   const fetchData = async () => {
     try {
-      const { data } = await getRapportTemplate(); 
+      const { data } = await getRapportTemplate(filteredDatas); 
 
       const uniqueMonths = Array.from(new Set(data.map(item => `${item.Mois}-${item.Année}`)))
         .sort((a, b) => {

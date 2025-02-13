@@ -50,12 +50,13 @@ useEffect(()=> {
             status_batiment: selectedType,
             montant: { min: minMontant, max: maxMontant },
             batiment: selectedBatiment,
+            template: selectedTemplate,
             period,
         });
     
     };
     handleFilter();
-}, [province, client, selectedVille, selectedType, selectedClients, minMontant, maxMontant, selectedBatiment, mois, annee, selectedMois, selectedAnnees, type ])
+}, [province, client, selectedVille, selectedType, selectedClients, selectedTemplate, minMontant, maxMontant, selectedBatiment, mois, annee, selectedMois, selectedAnnees, type ])
 
     const fetchMoisParAnnee = async (annee) => {
         try {

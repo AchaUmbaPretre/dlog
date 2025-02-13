@@ -38,7 +38,6 @@ const Template = () => {
   });
   const [activeKey, setActiveKey] = useState(['1', '2']);
 
-
   const handleTabChange = (key) => {
     setActiveKey(key);
   };
