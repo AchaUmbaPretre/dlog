@@ -85,7 +85,7 @@ const RapportTemplate = () => {
 
   useEffect(() => {
     fetchData();
-  }, [selectedField]);
+  }, [selectedField, filteredDatas]);
 
   useEffect(() => {
     const generateColumns = () => {
@@ -151,7 +151,7 @@ const RapportTemplate = () => {
     };
 
     setColumns(generateColumns());
-  }, [uniqueMonths, selectedField]);
+  }, [uniqueMonths, selectedField, filteredDatas]);
 
   const handleFilterChange = newFilters => {
     setFilteredDatas(newFilters);
