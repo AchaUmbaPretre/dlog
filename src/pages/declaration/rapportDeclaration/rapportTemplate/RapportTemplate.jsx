@@ -5,10 +5,10 @@ import { getRapportTemplate } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const availableFields = [
-  { key: 'total_facture', label: 'Total Facture' },
-  { key: 'total_entreposage', label: 'Total Entreposage' },
+  { key: 'total_facture', label: 'M2 Facture' },
+  { key: 'total_entreposage', label: 'Entreposage' },
   { key: 'ttc_entreposage', label: 'TTC Entreposage' },
-  { key: 'total_manutation', label: 'Total Manutation' },
+  { key: 'total_manutation', label: 'Manutation' },
   { key: 'ttc_manutation', label: 'TTC Manutation' },
 ];
 
