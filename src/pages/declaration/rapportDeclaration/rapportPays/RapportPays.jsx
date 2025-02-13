@@ -151,10 +151,17 @@ const RapportPays = () => {
       setDataSource(formattedData);
       setLoading(false);
     } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données.',
-      });
+      if (error.response && error.response.status === 404) {
+        notification.error({
+          message: 'Erreur',
+          description: `${error.response.data.message}`,
+        });
+        } else {
+            notification.error({
+              message: 'Erreur',
+              description: 'Une erreur est survenue lors de la récupération des données.',
+            });
+          }
       setLoading(false);
     }
   };
