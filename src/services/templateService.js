@@ -118,6 +118,11 @@ export const getRapportSuperficie = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_superficie`, filter);
 };
 
+//Rapport complet
+export const getRapportComplet = async (filter) => {
+  return axios.post(`${DOMAIN}/api/template//rapport_complet`, filter);
+};
+
 export const getRapportFactureClient = async (filter) => {
   return axios.get(`${DOMAIN}/api/template/rapport_facture_client`, filter);
 };
