@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getClient } from '../../../../services/clientService';
 import { Table, notification,Tag, Modal, Tooltip } from 'antd';
 import { MailOutlined,UserOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import DeclarationOneAll from '../../declarationOneAll/DeclarationOneAll';
+import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const RapportClient = () => {
       const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+      const [searchText, setSearchText] = useState('');
+      const [searchedColumn, setSearchedColumn] = useState('')
       const [loading, setLoading] = useState(true);
       const [data, setData] = useState([]);
       const [modalType, setModalType] = useState(null);
       const [idClient, setidClient] = useState('');
+      const searchInput = useRef(null);
+      
       
       const scroll = { x: 400 };
 
@@ -40,6 +45,13 @@ const RapportClient = () => {
           title: 'Nom',
           dataIndex: 'nom',
           key: 'nom',
+          ...getColumnSearchProps(
+            'nom',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+          ),
           render: (text, record) => (
             <Tooltip title="Voir les détails des déclarations">
                 <Tag icon={<UserOutlined />} color="blue" onClick={() => handleDeclarationOneAll(record.id_client)}>{text ?? 'Aucun'}</Tag>
