@@ -66,50 +66,104 @@ const RapportComplet = () => {
       dataIndex: 'total_occupe',
       key: 'total_occupe',
       render: (text) => (
-        <div>
-            {text}
+        <Space>
+        <div style={{color: text ? 'black' : 'red'}}>
+            {text
+                ? `${parseFloat(text)
+                    .toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    })
+                    .replace(/,/g, " ")}` 
+            : "0.00"}
         </div>
+    </Space>
       ),
+      align: 'right' 
     },
     {
         title: 'M² facture',
         dataIndex: 'total_facture',
         key: 'total_facture',
         render: (text) => (
-          <div>
-              {text}
-          </div>
+            <Space>
+                <div style={{color: text ? 'black' : 'red'}}>
+                    {text
+                        ? `${parseFloat(text)
+                            .toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            })
+                            .replace(/,/g, " ")}` 
+                    : "0.00"}
+                </div>
+            </Space>
         ),
+        align: 'right' 
+
       },
       {
         title: 'TOT Entreposage',
         dataIndex: 'total_entrep',
         key: 'total_entrep',
         render: (text) => (
-          <div>
-              {text}
-          </div>
+            <Space>
+                <div style={{color: text ? 'black' : 'red'}}>
+                    {text
+                        ? `${parseFloat(text)
+                            .toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            })
+                            .replace(/,/g, " ")} $` 
+                    : "0.00"}
+                </div>
+            </Space>
         ),
+        align: 'right' 
+
       },
       {
         title: 'TOT Manutention',
         dataIndex: 'total_manu',
         key: 'total_manu',
         render: (text) => (
-          <div>
-              {text}
-          </div>
+            <Space>
+                <div style={{color: text ? 'black' : 'red'}}>
+                    {text
+                        ? `${parseFloat(text)
+                            .toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            })
+                            .replace(/,/g, " ")} $` 
+                    : "0.00"}
+                </div>
+            </Space>
         ),
+        align: 'right' 
+
       },
       {
         title: 'Superficie',
         dataIndex: 'total_superficie',
         key: 'total_superficie',
         render: (text) => (
-          <div>
-              {text}
-          </div>
+            <Space>
+                <div style={{color: text ? 'black' : 'red'}}>
+                    {text
+                        ? `${parseFloat(text)
+                            .toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            })
+                            .replace(/,/g, " ")} $` 
+                    : "0.00"}
+                </div>
+            </Space>
         ),
+        align: 'right' 
+
       },
   ]
 
