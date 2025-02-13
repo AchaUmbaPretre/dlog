@@ -3,6 +3,7 @@ import { notification, Table, Tag, Radio } from 'antd';
 import moment from 'moment';
 import { getRapportTemplate } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
+import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
 const availableFields = [
   { key: 'total_facture', label: 'M² Facture' },
@@ -24,6 +25,8 @@ const RapportTemplate = () => {
   const [uniqueMonths, setUniqueMonths] = useState([]);
   const [selectedField, setSelectedField] = useState('total_entreposage'); // Par défaut : total_entreposage
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
+  const [filteredDatas, setFilteredDatas] = useState(null);
+  const [filterVisible, setFilterVisible] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -150,6 +153,10 @@ const RapportTemplate = () => {
     setColumns(generateColumns());
   }, [uniqueMonths, selectedField]);
 
+  const handleFilterChange = newFilters => {
+    setFilteredDatas(newFilters);
+  };
+
   return (
     <div className="rapport-facture">
       <div style={{ marginBottom: 16 }}>
@@ -165,7 +172,7 @@ const RapportTemplate = () => {
           ))}
         </Radio.Group>
       </div>
-
+      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraStatus={true} filtreBatiment={true} />}
       <Table
         dataSource={dataSource}
         columns={columns}
