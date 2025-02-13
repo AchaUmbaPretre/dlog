@@ -130,7 +130,6 @@ const RapportExterneEtInterne = () => {
     try {
       const { data } = await getRapportExterneEtInterne(filteredDatas);
   
-      // Group data by month and type
       const groupedData = data.reduce((acc, item) => {
         const month = moment(item.periode).format('MMM-YY');
         if (!acc[month]) acc[month] = {};
@@ -162,7 +161,6 @@ const RapportExterneEtInterne = () => {
           ])).flat(),
       ];
   
-      // Generate the Excel sheet from formatted data
       const ws = XLSX.utils.json_to_sheet(formattedData, {
         header: columns.map(col => col.key),
       });
