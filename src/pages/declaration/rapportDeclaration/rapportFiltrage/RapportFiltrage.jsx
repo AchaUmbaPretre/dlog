@@ -4,7 +4,7 @@ import 'antd/dist/reset.css';
 import moment from 'moment';
 import { getClient, getProvince } from '../../../../services/clientService';
 import { getBatiment, getStatus_batiment } from '../../../../services/typeService';
-import { getMois, getAnnee } from '../../../../services/templateService';
+import { getMois, getAnnee, getTemplate } from '../../../../services/templateService';
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -16,6 +16,7 @@ const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, fi
     const [selectedType, setSelectedType] = useState('');
     const [selectedClients, setSelectedClients] = useState([]);
     const [selectedBatiment, setSelectedBatiment] = useState([]);
+    const [selectedTemplate, setSelectedTemplate] = useState([]);
     const [minMontant, setMinMontant] = useState(null);
     const [maxMontant, setMaxMontant] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +25,9 @@ const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, fi
     const [selectedMois, setSelectedMois] = useState([]);
     const [selectedAnnees, setSelectedAnnees] = useState([]);
     const [type, setType] = useState([]);
-    const [batiment, setBatiment] = useState([])
+    const [batiment, setBatiment] = useState([]);
+    const [template, setTemplate] = useState([]);
+    
 
 useEffect(()=> {
     const handleFilter = () => {
@@ -69,14 +72,17 @@ useEffect(()=> {
     const fetchData = async () => {
             setIsLoading(true);
             try {
-                const [clientData, provinceData, statutData, yearData, batimentData] = await Promise.all([ 
+                const [clientData, provinceData, statutData, yearData, batimentData, templateData] = await Promise.all([ 
                     getClient(),
                     getProvince(),
                     getStatus_batiment(),
                     getAnnee(),
-                    getBatiment()
+                    getBatiment(),
+                    getTemplate(),
+
                 ]);
 
+                setTemplate(templateData.data);
                 setClient(clientData.data);
                 setProvince(provinceData.data);
                 setType(statutData.data);
@@ -135,22 +141,40 @@ useEffect(()=> {
     
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
+            {filtreTemplate && (
+                <div className="filter_row">
+                    <label>Template :</label>
+                    <Select
+                        mode="multiple"
+                        style={{ width: '100%' }}
+                        showSearch
+                        options={template?.map((item) => ({
+                                value: item.id_template,
+                                label: item.desc_template,
+                            }))}
+                        placeholder="Sélectionnez un template..."
+                        optionFilterProp="label"
+                        onChange={setSelectedTemplate}
+                    />
+                </div>
+            )}
+
             {filtreBatiment && (
                 <div className="filter_row">
-                <label>Bâtiment :</label>
-                <Select
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    showSearch
-                    options={batiment.map((item) => ({
-                            value: item.id_batiment,
-                            label: item.nom_batiment,
-                        }))}
-                    placeholder="Sélectionnez un bâtiment..."
-                    optionFilterProp="label"
-                    onChange={setSelectedBatiment}
-                />
-            </div>
+                    <label>Bâtiment :</label>
+                    <Select
+                        mode="multiple"
+                        style={{ width: '100%' }}
+                        showSearch
+                        options={batiment.map((item) => ({
+                                value: item.id_batiment,
+                                label: item.nom_batiment,
+                            }))}
+                        placeholder="Sélectionnez un bâtiment..."
+                        optionFilterProp="label"
+                        onChange={setSelectedBatiment}
+                    />
+                </div>
             )}
             {filtraVille && (
                 <div className="filter_row">
