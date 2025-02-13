@@ -40,7 +40,7 @@ const RapportComplet = () => {
 
       useEffect(()=> {
         fetchData()
-      }, [])
+      }, [filteredDatas])
 
       
   const columns = [
@@ -173,17 +173,27 @@ const RapportComplet = () => {
           </Space>
         ),
         align: 'right'
-      }
-      
+      }   
   ]
+
+  const handFilter = () => {
+    fetchData()
+    setFilterVisible(!filterVisible)
+  }
 
   return (
     <>
         <div className="rapport_facture">
             <div className="rapport_row_excel">
-
+                <Button
+                    type={filterVisible ? 'primary' : 'default'}
+                        onClick={handFilter}
+                        style={{ margin: '10px 0' }}
+                >
+                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                </Button>
             </div>
-            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreMontant={true}/>}
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={false} filtraClient={true} filtraStatus={false} filtreMontant={false}/>}
             <div className="rapport_wrapper_facture">
                 <Table
                     columns={columns}
