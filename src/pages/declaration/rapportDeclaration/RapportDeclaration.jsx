@@ -53,72 +53,94 @@ const RapportDeclaration = () => {
                         key="1"
                     >
                         <Tabs defaultActiveKey="1">
-                        <TabPane
-                            tab={
-                            <span>
-                                <AreaChartOutlined style={{ color: "#13c2c2" }} /> M² Facturé
-                            </span>
-                            }
-                            key="1"
-                        >
-                            <RapportFacture />
-                        </TabPane>
+                            <TabPane
+                                tab={
+                                <span>
+                                    <AreaChartOutlined style={{ color: "#13c2c2" }} /> M² Facturé
+                                </span>
+                                }
+                                key="1"
+                            >
+                                <RapportFacture />
+                            </TabPane>
 
-                        <TabPane
-                            tab={
-                            <span>
-                                <RiseOutlined style={{ color: "blue" }} /> Superficie
-                            </span>
-                            }
-                            key="2"
-                        >
-                            <RapportSuperficie />
-                        </TabPane>
+                            <TabPane
+                                tab={
+                                <span>
+                                    <RiseOutlined style={{ color: "blue" }} /> Superficie
+                                </span>
+                                }
+                                key="2"
+                            >
+                                <RapportSuperficie />
+                            </TabPane>
                         </Tabs>
                     </TabPane>
 
                     <TabPane
                         tab={
                             <span>
-                                <AppstoreOutlined style={{ color: '#1890ff' }} /> Manutention
+                                <AppstoreOutlined style={{ color: '#1890ff' }} /> Entrop & Manu
                             </span>
                         }
                         key="3"
                     >
-                        <RapportManu/>
+                        <Tabs defaultActiveKey="1">
+                            <TabPane
+                                tab={
+                                    <span>
+                                        <DatabaseOutlined style={{ color: '#fa8c16' }} /> Entreposage
+                                    </span>
+                                }
+                                key="1"
+                            >
+                                <RapportEntreposage/>
+                            </TabPane>
+                            <TabPane
+                                tab={
+                                    <span>
+                                        <AppstoreOutlined style={{ color: '#1890ff' }} /> Manutention
+                                    </span>
+                                }
+                                key="2"
+                            >
+                                <RapportManu/>
+                            </TabPane>
+                            
+                        </Tabs>
                     </TabPane>
 
                     <TabPane
                         tab={
                             <span>
-                                <DatabaseOutlined style={{ color: '#fa8c16' }} /> Entreposage
-                            </span>
-                        }
-                        key="4"
-                    >
-                        <RapportEntreposage/>
-                    </TabPane>
-
-                    <TabPane
-                        tab={
-                            <span>
-                                <EnvironmentOutlined style={{ color: 'red' }} /> Par ville
+                                <GlobalOutlined style={{ color: 'green' }} /> Pays & ville
                             </span>
                         }
                         key="5"
                     >
-                        <RapportVueEnsemble/>
-                    </TabPane>
+                        <Tabs defaultActiveKey="1">
+                            <TabPane
+                                    tab={
+                                    <span>
+                                        <EnvironmentOutlined style={{ color: 'red' }} /> Par ville
+                                    </span>
+                                    }
+                                    key="1"
+                            >
+                                <RapportVueEnsemble/>
+                            </TabPane>
+                            <TabPane
+                                tab={
+                                    <span>
+                                        <GlobalOutlined style={{ color: 'green' }} /> Par pays
+                                    </span>
+                                }
+                                key="2"
+                            >
+                                <RapportPays/>
+                            </TabPane>
 
-                    <TabPane
-                        tab={
-                            <span>
-                                <GlobalOutlined style={{ color: 'green' }} /> Par pays
-                            </span>
-                        }
-                        key="6"
-                    >
-                        <RapportPays/>
+                        </Tabs>
                     </TabPane>
 
                     <TabPane
