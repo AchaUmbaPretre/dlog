@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Table, notification, Tag } from "antd";
 import { getRapportVariationClient } from "../../../../../services/templateService";
 import moment from "moment";
+import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
 const RapportVariationClient = ({zone}) => {
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
+  
 
   const fetchData = async () => {
     setLoading(true);
@@ -59,6 +64,13 @@ const RapportVariationClient = ({zone}) => {
           title: "Client",
           dataIndex: "client",
           key: "client",
+          ...getColumnSearchProps(
+            'client',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+          ),
         },
         {
           title: "Tot M² FACT",
@@ -67,19 +79,19 @@ const RapportVariationClient = ({zone}) => {
           align: 'right' 
         },
         {
-          title: "Tot Entreposage",
+          title: "Entreposage",
           dataIndex: "total_entrep",
           key: "total_entrep",
           align: 'right' 
         },
         {
-          title: "TOT MANUT.",
+          title: "Manutention.",
           dataIndex: "total_manu",
           key: "total_manu",
           align: 'right' 
         },
         {
-          title: "Superficie Totale",
+          title: "Totale",
           dataIndex: "superficie_totale",
           key: "superficie_totale",
           align: 'right' 
@@ -107,12 +119,12 @@ const RapportVariationClient = ({zone}) => {
         <Tag color="#2db7f5">{text}</Tag>
       )
     },
-    { title: "M² FACT", dataIndex: "total_facture", key: "total_facture",align: "right", },
-    { title: "ENTREPOSAGE", dataIndex: "total_entrep", key: "total_entrep", align: "right", },
-    { title: "MANUTENTION", dataIndex: "total_manu", key: "total_manu", align: "right", },
-    { title: "V FACT (%)", dataIndex: "variation_facture", key: "variation_facture", align: "right", },
-    { title: "V ENTREP (%)", dataIndex: "variation_entrep", key: "variation_entrep", align: "right", },
-    { title: "V MANU (%)", dataIndex: "variation_manu", key: "variation_manu", align: "right", },
+    { title: "M² fact", dataIndex: "total_facture", key: "total_facture",align: "right", },
+    { title: "Entreposage", dataIndex: "total_entrep", key: "total_entrep", align: "right", },
+    { title: "Manutention", dataIndex: "total_manu", key: "total_manu", align: "right", },
+    { title: "V M² fact. (%)", dataIndex: "variation_facture", key: "variation_facture", align: "right", },
+    { title: "V Entrep. (%)", dataIndex: "variation_entrep", key: "variation_entrep", align: "right", },
+    { title: "V Manu. (%)", dataIndex: "variation_manu", key: "variation_manu", align: "right", },
   ]
 
   return (
@@ -120,23 +132,25 @@ const RapportVariationClient = ({zone}) => {
         <h2 className="rapport_h2">RAPPORT POUR LA VILLE DE {zone} </h2>
         <div className="rapport_wrapper_facture">
         <Table
-      loading={loading}
-      columns={columns}
-      dataSource={dataSource}
-      bordered
-      size="small"
-      expandable={{
-        expandedRowRender: (record) => (
-          <Table
-            bordered
-            size="small"
-            columns={colums2}
-            dataSource={record.details}
-            pagination={false}
-          />
-        ),
-      }}
-    />
+          loading={loading}
+          columns={columns}
+          dataSource={dataSource}
+          bordered
+          size="small"
+          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+          expandable={{
+            expandedRowRender: (record) => (
+              <Table
+                bordered
+                size="small"
+                columns={colums2}
+                dataSource={record.details}
+                pagination={false}
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+              />
+            ),
+          }}
+        />
         </div>
     </div>
   );

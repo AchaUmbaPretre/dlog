@@ -58,7 +58,7 @@ const RapportVariation = () => {
           { type: "Total Entrep & Manu", dataIndex: "total_entreManu" },
 /*           { type: "TTC Entrep & Manu", dataIndex: "ttc_entreManu" },
  */          { type: "Total M2 occupé", dataIndex: "total_occupe" },
-          { type: "Total M2 facturé", dataIndex: "total_facture" }, // Remplacer si nécessaire par une autre donnée
+          { type: "Total M2 facturé", dataIndex: "total_facture" },
         ];
 
         return types.map((type, index) => ({
@@ -128,7 +128,7 @@ const RapportVariation = () => {
         visible={modalType === 'periode'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={1120}
         centered
       >
         <RapportVariationVille annee={annee} mois={mois} />
