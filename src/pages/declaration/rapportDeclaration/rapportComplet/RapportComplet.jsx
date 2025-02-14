@@ -2,9 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, notification, Popover, Skeleton, Space, Table, Tabs, Tag, Tooltip } from 'antd';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import { getRapportComplet } from '../../../../services/templateService';
+import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const RapportComplet = () => {
     const [loading, setLoading] = useState(true);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
     const [data, setData] = useState([]);
@@ -57,6 +61,13 @@ const RapportComplet = () => {
       title: 'Client',
       dataIndex: 'nom_client',
       key: 'nom_client',
+      ...getColumnSearchProps(
+        'nom_client',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
       render: (text) => (
         <div>
             {text}
