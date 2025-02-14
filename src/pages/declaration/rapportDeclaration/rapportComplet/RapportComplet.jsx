@@ -237,11 +237,11 @@ const RapportComplet = () => {
                             <strong>{detail.total_occupe?.toLocaleString() ?? 0}</strong>
                             </span>
                             <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                            Total Entreposage :{' '}
+                            Entreposage :{' '}
                             <strong>{detail.total_entrep?.toLocaleString()} $</strong>
                             </span>
                             <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                            Total Manutention :{' '}
+                            Manutention :{' '}
                             <strong>{detail.total_manu?.toLocaleString()} $</strong>
                             </span>
                             <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
