@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, notification, Table, Tag, Tooltip } from 'antd';
+import { Button, notification, Table, Tag, Tooltip, Skeleton } from 'antd';
 import moment from 'moment';
 import {
   FileExcelOutlined} from '@ant-design/icons';
@@ -12,6 +12,7 @@ const RapportExterneEtInterne = () => {
   const [loading, setLoading] = useState(true);
   const [columns, setColumns] = useState([]);
   const [dataSource, setDataSource] = useState([]);
+  const [detail, setDetail] = useState([]);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredDatas, setFilteredDatas] = useState(null);
@@ -22,7 +23,9 @@ const RapportExterneEtInterne = () => {
     try {
       const { data } = await getRapportExterneEtInterne(filteredDatas);
 
-      const groupedData = data.reduce((acc, item) => {
+      setDetail(data.resume)
+
+      const groupedData = data.data.reduce((acc, item) => {
         const month = moment(item.periode).format('MMM-YY');
         if (!acc[month]) acc[month] = {};
         acc[month][item.nom_status_batiment] = {
@@ -74,7 +77,7 @@ const RapportExterneEtInterne = () => {
           fixed: 'left',
           render: (text) => <Tag color={'#2db7f5'}>{text}</Tag>,
         },
-        ...Array.from(new Set(data.map((item) => item.nom_status_batiment))).map((type) => ({
+        ...Array.from(new Set(data?.data.map((item) => item.nom_status_batiment))).map((type) => ({
           title: type,
           children: [
             {
@@ -141,7 +144,7 @@ const RapportExterneEtInterne = () => {
     try {
       const { data } = await getRapportExterneEtInterne(filteredDatas);
   
-      const groupedData = data.reduce((acc, item) => {
+      const groupedData = data.data.reduce((acc, item) => {
         const month = moment(item.periode).format('MMM-YY');
         if (!acc[month]) acc[month] = {};
         acc[month][item.nom_status_batiment] = {
@@ -205,6 +208,80 @@ const RapportExterneEtInterne = () => {
 
   return (
     <div>
+            {
+            loading ? (
+                <Skeleton active paragraph={{ rows: 1 }} />
+            ) : (
+                <div
+                style={{
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                    borderRadius: '8px',
+                    backgroundColor: '#fff',
+                    width: 'fit-content',
+                    margin: '20px 0',
+                    padding: '15px',
+                }}
+                >
+                    <span
+                        style={{
+                        display: 'block',
+                        padding: '10px 15px',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        borderBottom: '1px solid #f0f0f0',
+                        }}
+                    >
+                        Résumé :
+                    </span>
+                <div
+                    style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '15px',
+                    padding: '15px',
+                    }}
+                >
+                    <span
+                        style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '400',
+                        cursor: 'pointer',
+                        color: '#1890ff',
+                        }}
+                    >
+                        Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Nbre de ville : <strong>{detail.Nbre_de_villes}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Entreposage :{' '}
+                    <strong>{Math.round(parseFloat(detail.Total_entrep))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Manutention :{' '}
+                    <strong>{Math.round(parseFloat(detail.Total_manut))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Entrep Extérieur :{' '}
+                    <strong>{detail.Total_Extérieur_entre?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Entrep Intérieur :{' '}
+                    <strong>{detail.Total_Intérieur_entre.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Manu Extérieur :{' '}
+                    <strong>{detail.Total_Extérieur_manu?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Manu Intérieur :{' '}
+                    <strong>{detail.Total_Intérieur_manu ?.toLocaleString()} $</strong>
+                    </span>
+                </div>
+                </div>
+            )
+        }
       <div className="rapport_facture">
         <div className="rapport_row_excel">
           <Button
@@ -227,7 +304,7 @@ const RapportExterneEtInterne = () => {
 
           
         </div>
-        {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraStatus={true} />}
+        {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraVille={true} filtraStatus={true} />}
       </div>
       <Table
         dataSource={dataSource}
