@@ -74,11 +74,9 @@ const RapportVariation = () => {
         }));
       };
 
-      // Générer les colonnes pour chaque mois, avec un format de type "janv.2025"
       const generateMonthColumns = (data) => {
         return data.map((item) => {
           const month = `${item.Mois}-${item.Année}`;
-          // Formater le mois comme "janv.2025"
           const formattedMonth = moment(`${item.Année}-${item.Mois}-01`, "YYYY-MM-DD").format("MMM.YYYY");
           return {
             title: <div style={{ textAlign: 'center' }}><Tag color={"#2db7f5"}>{formattedMonth}</Tag></div>,
