@@ -238,13 +238,7 @@ useEffect(()=> {
                             }))}
                             placeholder="Sélectionnez..."
                             optionFilterProp="label"
-                            onChange={(newValue) => {
-                                    if (newValue.includes('selectAll')) {
-                                        toggleSelectAll(selectAllVilles, setSelectAllVilles, province, setSelectedVille);
-                                    } else {
-                                        setSelectedVille(newValue);
-                                    }
-                                }}
+                            onChange={setSelectedVille}
                         />
                     )}
                 </div>
