@@ -99,6 +99,22 @@ const RapportVariationClient = ({zone}) => {
     fetchData();
   }, [zone]);
 
+  const colums2 = [
+    { title: "Mois", 
+      dataIndex: "mois", 
+      key: "mois",
+      render: (text) => (
+        <Tag color="#2db7f5">{text}</Tag>
+      )
+    },
+    { title: "M² FACT", dataIndex: "total_facture", key: "total_facture",align: "right", },
+    { title: "ENTREPOSAGE", dataIndex: "total_entrep", key: "total_entrep", align: "right", },
+    { title: "MANUTENTION", dataIndex: "total_manu", key: "total_manu", align: "right", },
+    { title: "V FACT (%)", dataIndex: "variation_facture", key: "variation_facture", align: "right", },
+    { title: "V ENTREP (%)", dataIndex: "variation_entrep", key: "variation_entrep", align: "right", },
+    { title: "V MANU (%)", dataIndex: "variation_manu", key: "variation_manu", align: "right", },
+  ]
+
   return (
     <div className="rapport_facture">
         <h2 className="rapport_h2">RAPPORT POUR LA VILLE DE {zone} </h2>
@@ -114,15 +130,7 @@ const RapportVariationClient = ({zone}) => {
           <Table
             bordered
             size="small"
-            columns={[
-              { title: "Mois", dataIndex: "mois", key: "mois" },
-              { title: "M² FACT", dataIndex: "total_facture", key: "total_facture" },
-              { title: "Entreposage ($)", dataIndex: "total_entrep", key: "total_entrep" },
-              { title: "MANUT.", dataIndex: "total_manu", key: "total_manu" },
-              { title: "V FACT (%)", dataIndex: "variation_facture", key: "variation_facture" },
-              { title: "V ENTREP (%)", dataIndex: "variation_entrep", key: "variation_entrep" },
-              { title: "V MANU (%)", dataIndex: "variation_manu", key: "variation_manu" },
-            ]}
+            columns={colums2}
             dataSource={record.details}
             pagination={false}
           />
