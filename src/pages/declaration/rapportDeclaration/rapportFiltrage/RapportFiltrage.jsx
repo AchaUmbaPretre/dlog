@@ -27,7 +27,12 @@ const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, fi
     const [type, setType] = useState([]);
     const [batiment, setBatiment] = useState([]);
     const [template, setTemplate] = useState([]);
-    
+    const [selectAllAnnee, setSelectAllAnnee] = useState(false);
+    const [selectAllMois, setSelectAllMois] = useState({});
+    const [selectAllClients, setSelectAllClients] = useState(false);
+    const [selectAllVilles, setSelectAllVilles] = useState(false);
+    const [selectAllBatiment, setSelectAllBatiment] = useState(false);
+    const [selectAllTemplate, setSelectAllTemplate] = useState(false);
 
 useEffect(()=> {
     const handleFilter = () => {
