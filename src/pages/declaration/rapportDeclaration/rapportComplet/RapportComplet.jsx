@@ -3,6 +3,8 @@ import { Button, notification, Popover, Skeleton, Space, Table, Tabs, Tag, Toolt
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import { getRapportComplet } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
+import {
+    FileExcelOutlined} from '@ant-design/icons';
 
 const RapportComplet = () => {
     const [loading, setLoading] = useState(true);
@@ -18,6 +20,10 @@ const RapportComplet = () => {
     const handleFilterChange = (newFilters) => {
         setFilteredDatas(newFilters); 
       };
+
+      const exportToExcelHTML = () => {
+        
+      }
 
       const fetchData = async () => {
 
@@ -272,6 +278,11 @@ const RapportComplet = () => {
                 >
                     {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                 </Button>
+                <Tooltip title={'Importer en excel'}>
+                    <Button className="export-excel" onClick={exportToExcelHTML} >
+                        <FileExcelOutlined className="excel-icon" />
+                    </Button>
+                </Tooltip>
             </div>
             { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreMontant={false}/>}
             <div className="rapport_wrapper_facture">
