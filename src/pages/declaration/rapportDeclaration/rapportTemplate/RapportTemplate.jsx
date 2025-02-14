@@ -129,23 +129,38 @@ const RapportTemplate = () => {
       const dynamicColumns = uniqueMonths.map(month => {
         const monthName = moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY');
         return {
-          title: (
-            <div style={{ textAlign: "center" }}>
-              <Tag color={"#2db7f5"}>{monthName}</Tag>
-            </div>
-          ),
-          dataIndex: `${monthName}_${selectedField}`,
-          key: `${month}_${selectedField}`,
-          sorter: (a, b) => (a[`${monthName}_${selectedField}`] || 0) - (b[`${monthName}_${selectedField}`] || 0),
-          sortDirections: ["descend", "ascend"],
-          render: (value) => (
-            <span style={{ color: value ? "black" : "red" }}>
-              {value ? `${parseFloat(value).toLocaleString("en-US", { minimumFractionDigits: 2 })} $` : "0.00"}
-            </span>
-          ),
-          align: "right",
+            title: (
+                <div style={{ textAlign: "center" }}>
+                    <Tag color={"#2db7f5"}>{monthName}</Tag>
+                </div>
+            ),
+            dataIndex: `${monthName}_${selectedField}`,
+            key: `${month}_${selectedField}`,
+            sorter: (a, b) => (a[`${monthName}_${selectedField}`] || 0) - (b[`${monthName}_${selectedField}`] || 0),
+            sortDirections: ["descend", "ascend"],
+            render: (value) => {
+                // Si value est défini et est supérieur à zéro, on affiche la valeur formatée avec des décimales
+                if (value) {
+                    return (
+                        <span style={{ color: "black" }}>
+                            {selectedField === 'total_facture' || selectedField === 'total_occupe' 
+                                ? `${parseFloat(value).toLocaleString("en-US", { minimumFractionDigits: 2 })}`
+                                : `${parseFloat(value).toLocaleString("en-US", { minimumFractionDigits: 2 })} $`
+                            }
+                        </span>
+                    );
+                }
+                // Sinon, on retourne 0.00 si la valeur est vide ou nulle, avec une couleur rouge
+                return (
+                    <span style={{ color: "red" }}>
+                        0.00
+                    </span>
+                );
+            },
+            align: "right",
         };
-      });
+    });
+    
 
       return [...baseColumns, ...dynamicColumns];
     };
