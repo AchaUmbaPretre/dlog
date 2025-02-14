@@ -116,9 +116,9 @@ const RapportVariationClient = ({zone}) => {
             size="small"
             columns={[
               { title: "Mois", dataIndex: "mois", key: "mois" },
-              { title: "Tot M² FACT", dataIndex: "total_facture", key: "total_facture" },
-              { title: "Tot Entreposage ($)", dataIndex: "total_entrep", key: "total_entrep" },
-              { title: "TOT MANUT.", dataIndex: "total_manu", key: "total_manu" },
+              { title: "M² FACT", dataIndex: "total_facture", key: "total_facture" },
+              { title: "Entreposage ($)", dataIndex: "total_entrep", key: "total_entrep" },
+              { title: "MANUT.", dataIndex: "total_manu", key: "total_manu" },
               { title: "V FACT (%)", dataIndex: "variation_facture", key: "variation_facture" },
               { title: "V ENTREP (%)", dataIndex: "variation_entrep", key: "variation_entrep" },
               { title: "V MANU (%)", dataIndex: "variation_manu", key: "variation_manu" },
