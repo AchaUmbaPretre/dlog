@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, notification, Table, Tag, Tooltip } from 'antd';
+import { Button, Modal, notification, Table,Skeleton, Popover, Tag, Tooltip } from 'antd';
 import { getRapportVariation } from '../../../../services/templateService';
 import moment from 'moment';
 import RapportVariationVille from './rapportVariationVille/RapportVariationVille';
@@ -16,6 +16,7 @@ const RapportVariation = () => {
   const [mois, setMois] = useState('');
   const [annee, setAnnee] = useState('');
   const [filterVisible, setFilterVisible] = useState(false);
+  const [detail, setDetail] = useState([]);
 
   const closeAllModals = () => {
     setModalType(null);
@@ -36,6 +37,7 @@ const RapportVariation = () => {
     try {
       const { data } = await getRapportVariation(filteredDatas);
 
+      setDetail(data?.resume)
       const generatedColumns = () => [
         {
           title: "#",
@@ -52,7 +54,7 @@ const RapportVariation = () => {
           render: (text) => <div>{text}</div>,
           align: "left",
         },
-        ...generateMonthColumns(data),
+        ...generateMonthColumns({data:data.data}),
       ];
 
       const generateDataSource = () => {
@@ -68,7 +70,7 @@ const RapportVariation = () => {
         return types.map((type, index) => ({
           key: index,
           type: type.type,
-          ...data.reduce((acc, item) => {
+          ...data?.data.reduce((acc, item) => {
             const month = `${item.Mois}-${item.Année}`;
             acc[month] = item[type.dataIndex];
             return acc;
@@ -77,7 +79,7 @@ const RapportVariation = () => {
       };
 
       const generateMonthColumns = (data) => {
-        return data.map((item) => {
+        return data.data.map((item) => {
           const month = `${item.Mois}-${item.Année}`;
           const formattedMonth = moment(`${item.Année}-${item.Mois}-01`, "YYYY-MM-DD").format("MMM.YYYY");
           return {
@@ -100,10 +102,10 @@ const RapportVariation = () => {
       setDataSource(generateDataSource());
       setLoading(false);
     } catch (error) {
-      notification.error({
+      /* notification.error({
         message: 'Erreur',
-        description: `${error.response.data.message}`,
-      });
+        description: `${error?.response.data.message}`,
+      }); */
       setLoading(false);
     }
   };
@@ -117,41 +119,93 @@ const RapportVariation = () => {
   };
 
   return (
-    <div className="rapport-facture">
-      <div className="rapport_row_excel">
-        <Button
-          type={filterVisible ? 'primary' : 'default'}
-          onClick={() => setFilterVisible(!filterVisible)}
-          style={{ margin: '10px 10px 10px 0' }}
+    <>
+            {
+            loading ? (
+                <Skeleton active paragraph={{ rows: 1 }} />
+            ) : (
+                <div
+                style={{
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                    borderRadius: '8px',
+                    backgroundColor: '#fff',
+                    width: 'fit-content',
+                    margin: '20px 0',
+                    padding: '15px',
+                }}
+                >
+                    <span
+                        style={{
+                        display: 'block',
+                        padding: '10px 15px',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        borderBottom: '1px solid #f0f0f0',
+                        }}
+                    >
+                        Résumé :
+                    </span>
+                <div
+                    style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: '15px',
+                    padding: '15px',
+                    }}
+                >
+                    
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Entrep & Manu :{' '}
+                    <strong>{Math.round(parseFloat(detail.total_entreManu))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    M2 Facturé :{' '}
+                    <strong>{detail.total_facture?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    M2 Occupé :{' '}
+                    <strong>{detail.total_occupe?.toLocaleString()} $</strong>
+                    </span>
+                </div>
+                </div>
+            )
+        }
+      <div className="rapport-facture">
+        <div className="rapport_row_excel">
+          <Button
+            type={filterVisible ? 'primary' : 'default'}
+            onClick={() => setFilterVisible(!filterVisible)}
+            style={{ margin: '10px 10px 10px 0' }}
+          >
+            {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+          </Button>
+        </div>
+        <div className="rapport_wrapper_facture">
+        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={false} filtreTemplate={false} filtreMontant={false} />}
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            bordered
+            scroll={scroll}
+            loading={loading}
+            size="small"
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+          />
+        </div>
+        <Modal
+          title=""
+          visible={modalType === 'periode'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1120}
+          centered
         >
-          {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-        </Button>
+          <RapportVariationVille annee={annee} mois={mois} />
+        </Modal>
       </div>
-      <div className="rapport_wrapper_facture">
-      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={false} filtreTemplate={false} filtreMontant={false} />}
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          bordered
-          scroll={scroll}
-          loading={loading}
-          size="small"
-          pagination={pagination}
-          onChange={(pagination) => setPagination(pagination)}
-          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-        />
-      </div>
-      <Modal
-        title=""
-        visible={modalType === 'periode'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1120}
-        centered
-      >
-        <RapportVariationVille annee={annee} mois={mois} />
-      </Modal>
-    </div>
+    </>
   );
 };
 
