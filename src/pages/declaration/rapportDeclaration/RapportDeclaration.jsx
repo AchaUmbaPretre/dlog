@@ -80,7 +80,7 @@ const RapportDeclaration = () => {
                             <TabPane
                                 tab={
                                 <span>
-                                    <FullscreenExitOutlined style={{ color: "red" }} /> Complet
+                                    <FullscreenExitOutlined style={{ color: "red" }} /> Entrep & Manu
                                 </span>
                                 }
                                 key="3"
