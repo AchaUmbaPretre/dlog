@@ -475,7 +475,7 @@ const RapportEntreposage = () => {
                 </Button>
               </Tooltip>
             </div>
-            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true}/>        }
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true}/>}
             <div className="rapport_wrapper_facture">
 
                 <Table

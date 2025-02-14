@@ -304,7 +304,7 @@ const RapportExterneEtInterne = () => {
 
           
         </div>
-        {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraVille={true} filtraStatus={true} />}
+        {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraVille={true} filtraClient={true} filtraStatus={true} />}
       </div>
       <Table
         dataSource={dataSource}
