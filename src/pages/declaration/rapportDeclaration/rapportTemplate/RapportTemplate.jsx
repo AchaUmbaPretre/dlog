@@ -9,10 +9,10 @@ const availableFields = [
   { key: 'total_facture', label: 'M² Facture' },
   { key: 'total_occupe', label: 'M² Occupé' },
   { key: 'total_entreposage', label: 'Entreposage' },
-  { key: 'total_manutation', label: 'Manutation' },
+  { key: 'total_manutention', label: 'Manutation' },
   { key: 'total_entreManu', label: 'Entrep + Manut' },
   { key: 'ttc_entreposage', label: 'TTC Entreposage' },
-  { key: 'ttc_manutation', label: 'TTC Manutation' },
+  { key: 'ttc_manutention', label: 'TTC Manutation' },
 ];
 
 const RapportTemplate = () => {
