@@ -3,6 +3,7 @@ import { Modal, notification, Table, Tag, Tooltip } from 'antd';
 import { getRapportVariation } from '../../../../services/templateService';
 import moment from 'moment';
 import RapportVariationVille from './rapportVariationVille/RapportVariationVille';
+import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
 const RapportVariation = () => {
   const [loading, setLoading] = useState(true);
@@ -13,7 +14,8 @@ const RapportVariation = () => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [mois, setMois] = useState('');
-  const [annee, setAnnee] = useState('')
+  const [annee, setAnnee] = useState('');
+  const [filterVisible, setFilterVisible] = useState(false);
 
   const closeAllModals = () => {
     setModalType(null);
@@ -110,9 +112,14 @@ const RapportVariation = () => {
     fetchData();
   }, [filteredDatas]);
 
+  const handleFilterChange = newFilters => {
+    setFilteredDatas(newFilters);
+  };
+
   return (
     <div className="rapport-facture">
       <div className="rapport_wrapper_facture">
+      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={false} filtreBatiment={false} filtreTemplate={false} filtreMontant={false} />}
         <Table
           dataSource={dataSource}
           columns={columns}
