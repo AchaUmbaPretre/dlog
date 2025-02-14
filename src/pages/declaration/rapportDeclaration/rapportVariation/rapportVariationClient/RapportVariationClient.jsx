@@ -9,8 +9,8 @@ const RapportVariationClient = ({zone}) => {
   const [columns, setColumns] = useState([]);
 
   const fetchData = async () => {
-    setLoading(true); // Ajouté pour forcer le chargement
-    setDataSource([]); // 
+    setLoading(true);
+    setDataSource([]);
     const filteredDatas = {
         ville: zone
     };
@@ -64,21 +64,25 @@ const RapportVariationClient = ({zone}) => {
           title: "Tot M² FACT",
           dataIndex: "total_facture",
           key: "total_facture",
+          align: 'right' 
         },
         {
           title: "Tot Entreposage",
           dataIndex: "total_entrep",
           key: "total_entrep",
+          align: 'right' 
         },
         {
           title: "TOT MANUT.",
           dataIndex: "total_manu",
           key: "total_manu",
+          align: 'right' 
         },
         {
           title: "Superficie Totale",
           dataIndex: "superficie_totale",
           key: "superficie_totale",
+          align: 'right' 
         },
       ]);
     } catch (error) {
