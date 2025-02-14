@@ -139,7 +139,6 @@ const RapportTemplate = () => {
             sorter: (a, b) => (a[`${monthName}_${selectedField}`] || 0) - (b[`${monthName}_${selectedField}`] || 0),
             sortDirections: ["descend", "ascend"],
             render: (value) => {
-                // Si value est défini et est supérieur à zéro, on affiche la valeur formatée avec des décimales
                 if (value) {
                     return (
                         <span style={{ color: "black" }}>
@@ -150,7 +149,6 @@ const RapportTemplate = () => {
                         </span>
                     );
                 }
-                // Sinon, on retourne 0.00 si la valeur est vide ou nulle, avec une couleur rouge
                 return (
                     <span style={{ color: "red" }}>
                         0.00
