@@ -231,14 +231,27 @@ useEffect(()=> {
                         <Select
                             mode="multiple"
                             showSearch
+                            value={selectedVille}
                             style={{ width: '100%' }}
-                            options={province.map((item) => ({
+                            options={[
+                                {
+                                value: 'selectAll',
+                                label: selectAllVilles ? 'Tout désélectionner' : 'Tout sélectionner',
+                                },
+                                ...province.map((item) => ({
                                 value: item.id,
                                 label: item.capital,
-                            }))}
+                            }))
+                            ]}
                             placeholder="Sélectionnez..."
                             optionFilterProp="label"
-                            onChange={setSelectedVille}
+                            onChange={(newValue) => {
+                                    if (newValue.includes('selectAll')) {
+                                        toggleSelectAll(selectAllVilles, setSelectAllVilles, province, setSelectedVille);
+                                    } else {
+                                        setSelectedVille(newValue);
+                                    }
+                                }}
                         />
                     )}
                 </div>
