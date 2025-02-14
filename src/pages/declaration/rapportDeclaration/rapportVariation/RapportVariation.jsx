@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, notification, Table, Tag } from 'antd';
+import { Modal, notification, Table, Tag, Tooltip } from 'antd';
 import { getRapportVariation } from '../../../../services/templateService';
 import moment from 'moment';
 import RapportVariationVille from './rapportVariationVille/RapportVariationVille';
@@ -55,9 +55,11 @@ const RapportVariation = () => {
 
       const generateDataSource = () => {
         const types = [
-          { type: "Total Entrep & Manu", dataIndex: "total_entreManu" },
+          { type: "Total Entrep & Manu", 
+            dataIndex: "total_entreManu",
+          },
 /*           { type: "TTC Entrep & Manu", dataIndex: "ttc_entreManu" },
- */          { type: "Total M2 occupé", dataIndex: "total_occupe" },
+ */       { type: "Total M2 occupé", dataIndex: "total_occupe" },
           { type: "Total M2 facturé", dataIndex: "total_facture" },
         ];
 
@@ -83,9 +85,11 @@ const RapportVariation = () => {
             dataIndex: month,
             key: month,
             render: (text) => (
-                <div onClick={()=> handlePeriode(item.Mois, item.Année)}>
-                {text ? text.toLocaleString("en-US", { minimumFractionDigits: 2 }) : "0.00"}
-                </div>
+                <Tooltip title={`Clique ici pour voir le détail de la variation de ${text}`}>
+                  <div onClick={()=> handlePeriode(item.Mois, item.Année)}>
+                    {text ? text.toLocaleString("en-US", { minimumFractionDigits: 2 }) : "0.00"}
+                  </div>
+                </Tooltip>
             ),
             align: "right",
           };
