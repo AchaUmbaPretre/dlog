@@ -107,7 +107,7 @@ const RapportComplet = () => {
 
       },
       {
-        title: 'TOT Entreposage',
+        title: 'Entreposage',
         dataIndex: 'total_entrep',
         key: 'total_entrep',
         sorter: (a, b) => parseFloat(a.total_entrep) - parseFloat(b.total_entrep),
@@ -129,7 +129,7 @@ const RapportComplet = () => {
 
       },
       {
-        title: 'TOT Manutention',
+        title: 'Manutention',
         dataIndex: 'total_manu',
         key: 'total_manu',
         sorter: (a, b) => parseFloat(a.total_manu) - parseFloat(b.total_manu),
