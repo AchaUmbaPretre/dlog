@@ -65,7 +65,7 @@ useEffect(()=> {
 
     const fetchMoisParAnnee = async (annee) => {
         try {
-            const response = await getMois(annee); // Modifier `getMois` pour accepter l'année comme paramètre
+            const response = await getMois(annee);
             setMois((prev) => ({
                 ...prev,
                 [annee]: response.data,
@@ -144,6 +144,20 @@ useEffect(()=> {
             label: item.nom_status_batiment,
         })),
     ];
+
+    const toggleSelectAll = (selectAll, setSelectAll, data, setSelected) => {
+        const newState = !selectAll;
+        setSelectAll(newState);
+    
+        if (newState) {
+            const allValues = data.map(item => item.value || item.id || item.id_client || item.id_batiment || item.id_template);
+            setSelected(allValues);
+        } else {
+            setSelected([]);
+        }
+    };
+    
+    
     
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
@@ -154,13 +168,26 @@ useEffect(()=> {
                         mode="multiple"
                         style={{ width: '100%' }}
                         showSearch
-                        options={template?.map((item) => ({
+                        value={selectedTemplate}
+                        options={[
+                            {
+                                value: 'selectAll',
+                                label: selectAllTemplate ? 'Tout désélectionner' : 'Tout sélectionner',
+                            },
+                            ...template?.map((item) => ({
                             value: item.id_template,
                             label: item.desc_template,
-                        }))}
+                        }))
+                        ]}
                         placeholder="Sélectionnez un template..."
                         optionFilterProp="label"
-                        onChange={setSelectedTemplate}
+                        onChange={(newValue) => {
+                                    if (newValue.includes('selectAll')) {
+                                        toggleSelectAll(selectAllTemplate, setSelectAllTemplate, template, setSelectedTemplate);
+                                    } else {
+                                        setSelectedTemplate(newValue);
+                                    }
+                                }}
                     />
                 </div>
             )}
@@ -210,21 +237,37 @@ useEffect(()=> {
                     {isLoading ? (
                         <Skeleton.Input active={true} />
                     ) : (
-                        <Select
-                            mode="multiple"
-                            style={{ width: '100%' }}
-                            showSearch
-                            options={client.map((item) => ({
-                                value: item.id_client,
-                                label: item.nom,
-                            }))}
-                            placeholder="Sélectionnez un client..."
-                            optionFilterProp="label"
-                            onChange={setSelectedClients}
-                        />
+                        <>
+                            <Select
+                                mode="multiple"
+                                style={{ width: '100%' }}
+                                showSearch
+                                value={selectedClients}
+                                options={[
+                                    {
+                                        value: 'selectAll',
+                                        label: selectAllClients ? 'Tout désélectionner' : 'Tout sélectionner',
+                                    },
+                                    ...client.map((item) => ({
+                                        value: item.id_client,
+                                        label: item.nom,
+                                    })),
+                                ]}
+                                placeholder="Sélectionnez un client..."
+                                optionFilterProp="label"
+                                onChange={(newValue) => {
+                                    if (newValue.includes('selectAll')) {
+                                        toggleSelectAll(selectAllClients, setSelectAllClients, client, setSelectedClients);
+                                    } else {
+                                        setSelectedClients(newValue);
+                                    }
+                                }}
+                            />
+                        </>
                     )}
                 </div>
             )}
+
 
             {filtraStatus && (
                 <div className="filter_row">
