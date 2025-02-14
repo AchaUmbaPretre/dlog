@@ -18,8 +18,8 @@ const RapportVariationVille = ({annee, mois}) => {
      
 
      const calculatePercentage = (value, entreposage, manutention) => {
-        const total = entreposage + manutention; // Total des deux valeurs
-        console.log('value : ', value, 'total : ', total); // Debugging
+        const total = entreposage + manutention;
+        console.log('value : ', value, 'total : ', total);
         return total ? ((value / total) * 100).toFixed(2) : 0;
       };
 
