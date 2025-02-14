@@ -199,13 +199,26 @@ useEffect(()=> {
                         mode="multiple"
                         style={{ width: '100%' }}
                         showSearch
-                        options={batiment.map((item) => ({
+                        value={selectedBatiment}
+                        options={[
+                            {
+                                value: 'selectAll',
+                                label: selectAllBatiment ? 'Tout désélectionner' : 'Tout sélectionner',
+                            },
+                            ...batiment.map((item) => ({
                                 value: item.id_batiment,
                                 label: item.nom_batiment,
-                            }))}
+                            }))
+                        ]}
                         placeholder="Sélectionnez un bâtiment..."
                         optionFilterProp="label"
-                        onChange={setSelectedBatiment}
+                        onChange={(newValue) => {
+                                    if (newValue.includes('selectAll')) {
+                                        toggleSelectAll(selectAllBatiment, setSelectAllBatiment, batiment, setSelectedBatiment);
+                                    } else {
+                                        setSelectedBatiment(newValue);
+                                    }
+                                }}
                     />
                 </div>
             )}
