@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, notification, Space, Table, Tag } from 'antd';
+import { Modal, notification, Space, Table, Tag, Tooltip } from 'antd';
 import moment from 'moment';
 import { getRapportVariationVille } from '../../../../../services/templateService';
 import RapportVariationClient from '../rapportVariationClient/RapportVariationClient';
@@ -103,7 +103,7 @@ const RapportVariationVille = ({annee, mois}) => {
                 align: 'left',
               },
               ...extractedCities.map(capital => ({
-                title: <span onClick={() => handleProvince(capital)}>{capital}</span>,
+                title: <div style={{cursor:'pointer'}}><Tooltip title={`Cliquez ici pour voir le détail de ${capital}`}><span onClick={() => handleProvince(capital)}>{capital}</span></Tooltip></div>,
                 key: capital,
                 children: [
                     {
