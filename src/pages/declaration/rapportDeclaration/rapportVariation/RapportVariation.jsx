@@ -50,7 +50,7 @@ const RapportVariation = () => {
           render: (text) => <div>{text}</div>,
           align: "left",
         },
-        ...generateMonthColumns(data), // Générer les colonnes pour chaque mois
+        ...generateMonthColumns(data),
       ];
 
       const generateDataSource = () => {
