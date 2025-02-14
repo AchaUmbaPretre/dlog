@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, notification, Table, Tag, Tooltip } from 'antd';
+import { Button, Modal, notification, Table, Tag, Tooltip } from 'antd';
 import { getRapportVariation } from '../../../../services/templateService';
 import moment from 'moment';
 import RapportVariationVille from './rapportVariationVille/RapportVariationVille';
@@ -118,8 +118,17 @@ const RapportVariation = () => {
 
   return (
     <div className="rapport-facture">
+      <div className="rapport_row_excel">
+        <Button
+          type={filterVisible ? 'primary' : 'default'}
+          onClick={() => setFilterVisible(!filterVisible)}
+          style={{ margin: '10px 10px 10px 0' }}
+        >
+          {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+        </Button>
+      </div>
       <div className="rapport_wrapper_facture">
-      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={false} filtreBatiment={false} filtreTemplate={false} filtreMontant={false} />}
+      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={false} filtreTemplate={false} filtreMontant={false} />}
         <Table
           dataSource={dataSource}
           columns={columns}
