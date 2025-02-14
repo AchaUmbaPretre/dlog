@@ -33,7 +33,7 @@ const RapportExterneEtInterne = () => {
         return acc;
       }, {});
 
-      const formattedData = Object.entries(groupedData).map(([month, types]) => {
+/*       const formattedData = Object.entries(groupedData).map(([month, types]) => {
         const row = { Mois: month };
         Object.entries(types).forEach(([type, values]) => {
           row[`${type}_Entreposage`] = values.Entreposage;
@@ -41,7 +41,21 @@ const RapportExterneEtInterne = () => {
           row[`${type}_Total`] = values.Total;
         });
         return row;
+      }); */
+
+      const formattedData = Object.entries(groupedData).map(([month, types]) => {
+        const row = { Mois: month };
+        Object.entries(types).forEach(([type, values]) => {
+          const total = showManutention
+            ? values.Entreposage + values.Manutention
+            : values.Entreposage; 
+          row[`${type}_Entreposage`] = values.Entreposage;
+          row[`${type}_Manutention`] = values.Manutention;
+          row[`${type}_Total`] = total;
+        });
+        return row;
       });
+      
 
       const dynamicColumns = [
         {
@@ -138,7 +152,7 @@ const RapportExterneEtInterne = () => {
         return acc;
       }, {});
   
-      const formattedData = Object.entries(groupedData).map(([month, types]) => {
+      /* const formattedData = Object.entries(groupedData).map(([month, types]) => {
         const row = { Mois: month };
         Object.entries(types).forEach(([type, values]) => {
           row[`${type}_Entreposage`] = values.Entreposage;
@@ -146,7 +160,21 @@ const RapportExterneEtInterne = () => {
           row[`${type}_Total`] = values.Total;
         });
         return row;
+      }); */
+
+      const formattedData = Object.entries(groupedData).map(([month, types]) => {
+        const row = { Mois: month };
+        Object.entries(types).forEach(([type, values]) => {
+          const total = showManutention
+            ? values.Entreposage + values.Manutention // Inclure Manutention si elle est visible
+            : values.Entreposage; // Sinon, uniquement l'Entreposage
+          row[`${type}_Entreposage`] = values.Entreposage;
+          row[`${type}_Manutention`] = values.Manutention;
+          row[`${type}_Total`] = total; // Utiliser le total calculé ici
+        });
+        return row;
       });
+      
   
       const columns = [
         { title: "Mois", key: "Mois" },
