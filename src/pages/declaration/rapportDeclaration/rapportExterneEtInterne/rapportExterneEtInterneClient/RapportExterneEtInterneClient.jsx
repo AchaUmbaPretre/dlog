@@ -146,8 +146,7 @@ const RapportExterneEtInterneClient = () => {
 
 
       const formattedData = Object.entries(groupedData).map(([name, types]) => {
-        const row = { Nom: name };  // Remplacement de Mois par Nom
-  
+        const row = { Nom: name };
         // Calcul des totaux par type et ajout des colonnes
         Object.entries(types).forEach(([type, values]) => {
           const total = showManutention
