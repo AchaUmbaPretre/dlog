@@ -6,7 +6,6 @@ import * as XLSX from 'xlsx';
 import RapportFiltrage from '../../rapportFiltrage/RapportFiltrage';
 import { getRapportExterneEtInterneClient } from '../../../../../services/templateService';
 
-
 const RapportExterneEtInterneClient = () => {
   const [loading, setLoading] = useState(true);
   const [columns, setColumns] = useState([]);
