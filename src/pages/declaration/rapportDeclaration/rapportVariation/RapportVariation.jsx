@@ -59,12 +59,12 @@ const RapportVariation = () => {
 
       const generateDataSource = () => {
         const types = [
-          { type: "Total Entrep & Manu", 
+          { type: "Entrep & Manu", 
             dataIndex: "total_entreManu",
           },
 /*           { type: "TTC Entrep & Manu", dataIndex: "ttc_entreManu" },
- */       { type: "Total M2 occupé", dataIndex: "total_occupe" },
-          { type: "Total M2 facturé", dataIndex: "total_facture" },
+ */       { type: "M² occupé", dataIndex: "total_occupe" },
+          { type: "M² facturé", dataIndex: "total_facture" },
         ];
 
         return types.map((type, index) => ({
