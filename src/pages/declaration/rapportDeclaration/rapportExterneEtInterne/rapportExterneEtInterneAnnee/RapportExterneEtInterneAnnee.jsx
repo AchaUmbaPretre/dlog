@@ -281,7 +281,6 @@ const RapportExterneEtInterneAnnee = () => {
           <Button onClick={() => setShowManutention(!showManutention)} style={{ margin: '10px' }}>
             {showManutention ? 'Masquer Manutention' : 'Afficher Manutention'}
           </Button>
-
           
         </div>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraVille={true} filtraClient={true} filtraStatus={true} />}
