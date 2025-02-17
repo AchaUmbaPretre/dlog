@@ -203,12 +203,19 @@ const RapportTemplate = () => {
                 <div
                     style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gridTemplateColumns: 'repeat(4, 1fr)',
                     gap: '15px',
                     padding: '15px',
                     }}
                 >
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    <span 
+                      style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '400',
+                        cursor: 'pointer',
+                        color: '#1890ff',
+                        }}
+                    >
                     Nbre de client :{' '}
                     <strong>{Math.round(parseFloat(detail.nbre_client))?.toLocaleString()}</strong>
                     </span>
