@@ -150,6 +150,11 @@ export const getRapportExterneEtInterne = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_externEtInterne`,filter);
 };
 
+//Rapport Externe et Interne Annee
+export const getRapportExterneEtInterneAnnee = async (filter) => {
+  return axios.post(`${DOMAIN}/api/template/rapport_externEtInterneAnnee`,filter);
+};
+
 //Rapport Manutentation
 export const getRapportManutentation = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_manutentation`, filter);
