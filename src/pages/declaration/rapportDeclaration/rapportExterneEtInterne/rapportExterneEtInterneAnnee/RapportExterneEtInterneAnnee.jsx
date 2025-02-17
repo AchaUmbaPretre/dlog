@@ -285,6 +285,7 @@ const RapportExterneEtInterneAnnee = () => {
         </div>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraVille={true} filtraClient={true} filtraStatus={true} />}
       </div>
+      
       <Table
         dataSource={dataSource}
         columns={columns}
