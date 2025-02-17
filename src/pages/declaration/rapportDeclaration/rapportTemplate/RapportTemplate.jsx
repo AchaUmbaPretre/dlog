@@ -209,6 +209,10 @@ const RapportTemplate = () => {
                     }}
                 >
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Nbre de client :{' '}
+                    <strong>{Math.round(parseFloat(detail.nbre_client))?.toLocaleString()}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Entreposage :{' '}
                     <strong>{Math.round(parseFloat(detail.total_entreposage))?.toLocaleString()} $</strong>
                     </span>
