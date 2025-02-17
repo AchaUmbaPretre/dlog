@@ -3,8 +3,7 @@ import { Button, notification, Skeleton, Space, Table, Tooltip } from 'antd';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import { getRapportComplet } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
-import {
-    FileExcelOutlined} from '@ant-design/icons';
+import { FileExcelOutlined } from '@ant-design/icons';
 
 const RapportComplet = () => {
     const [loading, setLoading] = useState(true);
