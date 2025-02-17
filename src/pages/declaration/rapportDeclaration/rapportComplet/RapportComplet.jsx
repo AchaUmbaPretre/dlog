@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, notification, Popover, Skeleton, Space, Table, Tabs, Tag, Tooltip } from 'antd';
+import { Button, notification, Skeleton, Space, Table, Tooltip } from 'antd';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import { getRapportComplet } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
@@ -22,7 +22,7 @@ const RapportComplet = () => {
       };
 
       const exportToExcelHTML = () => {
-        
+
       }
 
       const fetchData = async () => {
