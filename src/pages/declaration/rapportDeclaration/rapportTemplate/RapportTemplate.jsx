@@ -208,7 +208,6 @@ const RapportTemplate = () => {
                     padding: '15px',
                     }}
                 >
-                    
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Entreposage :{' '}
                     <strong>{Math.round(parseFloat(detail.total_entreposage))?.toLocaleString()} $</strong>
