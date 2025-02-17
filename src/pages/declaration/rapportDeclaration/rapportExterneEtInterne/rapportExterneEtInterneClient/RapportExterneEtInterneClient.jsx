@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, notification, Table, Tag, Tooltip, Skeleton } from 'antd';
-import moment from 'moment';
 import {
   FileExcelOutlined} from '@ant-design/icons';
 import * as XLSX from 'xlsx';
 import RapportFiltrage from '../../rapportFiltrage/RapportFiltrage';
-import { getRapportExterneEtInterneAnnee, getRapportExterneEtInterneClient } from '../../../../../services/templateService';
+import { getRapportExterneEtInterneClient } from '../../../../../services/templateService';
 
 
 const RapportExterneEtInterneClient = () => {
@@ -25,7 +24,6 @@ const RapportExterneEtInterneClient = () => {
   
       setDetail(data.resume);
   
-      // Regroupement des données par nom et statut du bâtiment
       const groupedData = data.data.reduce((acc, item) => {
         if (!acc[item.nom]) acc[item.nom] = {};
         acc[item.nom][item.nom_status_batiment] = {
@@ -53,7 +51,6 @@ const RapportExterneEtInterneClient = () => {
         return row;
       });
   
-      // Génération dynamique des colonnes du tableau
       const dynamicColumns = [
         {
           title: '#',
@@ -65,13 +62,12 @@ const RapportExterneEtInterneClient = () => {
           align: 'center',
         },
         {
-          title: 'Nom',  // Modifié de Mois à Nom
-          dataIndex: 'Nom',  // Modifié de Mois à Nom
-          key: 'Nom',  // Modifié de Mois à Nom
+          title: 'Nom',
+          dataIndex: 'Nom',
+          key: 'Nom',
           fixed: 'left',
-          render: (text) => <Tag color={'#2db7f5'}>{text}</Tag>,
+          render: (text) => <div>{text}</div>,
         },
-        // Création des colonnes dynamiques basées sur les types de statut de bâtiment
         ...Array.from(new Set(data?.data.map((item) => item.nom_status_batiment))).map((type) => ({
           title: type,
           children: [
