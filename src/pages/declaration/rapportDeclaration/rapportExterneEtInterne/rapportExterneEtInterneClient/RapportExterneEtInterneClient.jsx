@@ -34,8 +34,8 @@ const RapportExterneEtInterneClient = () => {
         return acc;
       }, {});
   
-      const formattedData = Object.entries(groupedData).map(([name, types]) => {
-        const row = { Nom: name };  // Remplacement de Mois par Nom
+      const formattedData = Object.entries(groupedData).map(([name, types], index) => {
+        const row = { id: index + 1, Nom: name };
   
         // Calcul des totaux par type et ajout des colonnes
         Object.entries(types).forEach(([type, values]) => {
@@ -56,11 +56,10 @@ const RapportExterneEtInterneClient = () => {
           title: '#',
           dataIndex: 'id',
           key: 'id',
-          render: (text, record, index) =>
-            (pagination.current - 1) * pagination.pageSize + index + 1,
+          render: (text, record) => record.id, // Utilisation de l'ID global
           width: 50,
           align: 'center',
-        },
+        },             
         {
           title: 'Nom',
           dataIndex: 'Nom',
