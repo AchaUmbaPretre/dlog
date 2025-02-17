@@ -5,6 +5,7 @@ import {
   FileExcelOutlined} from '@ant-design/icons';
 import * as XLSX from 'xlsx';
 import RapportFiltrage from '../../rapportFiltrage/RapportFiltrage';
+import { getRapportExterneEtInterneAnnee } from '../../../../../services/templateService';
 
 
 const RapportExterneEtInterneAnnee = () => {
@@ -18,16 +19,15 @@ const RapportExterneEtInterneAnnee = () => {
   const [showManutention, setShowManutention] = useState(false);
   const scroll = { x: 400 };
 
-/*   const fetchData = async () => {
+   const fetchData = async () => {
     try {
-      const { data } = await getRapportExterneEtInterne(filteredDatas);
+      const { data } = await getRapportExterneEtInterneAnnee(filteredDatas);
 
       setDetail(data.resume)
 
       const groupedData = data.data.reduce((acc, item) => {
-        const month = moment(item.periode).format('MMM-YY');
-        if (!acc[month]) acc[month] = {};
-        acc[month][item.nom_status_batiment] = {
+        if (!acc[item.periode]) acc[item.periode] = {};
+        acc[item.periode][item.nom_status_batiment] = {
           Entreposage: item.total_entreposage || 0,
           Manutention: item.total_manutation || 0,
           Total: item.total_facture || 0,
@@ -131,12 +131,11 @@ const RapportExterneEtInterneAnnee = () => {
 
   const exportToExcelHTML = async () => {
     try {
-      const { data } = await getRapportExterneEtInterne(filteredDatas);
+      const { data } = await getRapportExterneEtInterneAnnee(filteredDatas);
   
       const groupedData = data.data.reduce((acc, item) => {
-        const month = moment(item.periode).format('MMM-YY');
-        if (!acc[month]) acc[month] = {};
-        acc[month][item.nom_status_batiment] = {
+        if (!acc[item.periode]) acc[item.periode] = {};
+        acc[item.periode][item.nom_status_batiment] = {
           Entreposage: item.total_entreposage || 0,
           Manutention: item.total_manutation || 0,
           Total: item.total_facture || 0,
@@ -184,7 +183,7 @@ const RapportExterneEtInterneAnnee = () => {
         description: 'Une erreur est survenue lors de l\'exportation des données.',
       });
     }
-  };  */ 
+  };
 
   return (
     <div>
@@ -273,7 +272,7 @@ const RapportExterneEtInterneAnnee = () => {
           </Button>
 
           <Tooltip title={'Importer en excel'}>
-            <Button className="export-excel" onClick={''} >
+            <Button className="export-excel" onClick={exportToExcelHTML} >
               <FileExcelOutlined className="excel-icon" />
             </Button>
           </Tooltip>
@@ -285,7 +284,7 @@ const RapportExterneEtInterneAnnee = () => {
         </div>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraVille={true} filtraClient={true} filtraStatus={true} />}
       </div>
-      
+
       <Table
         dataSource={dataSource}
         columns={columns}
