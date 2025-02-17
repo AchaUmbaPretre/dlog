@@ -11,7 +11,8 @@ import {
     UserOutlined,
     FileOutlined,
     LineChartOutlined,
-    FullscreenExitOutlined 
+    FullscreenExitOutlined,
+    CalendarOutlined
 } from '@ant-design/icons';
 import './rapportDeclaration.scss'
 import RapportFacture from './rapportFacture/RapportFacture';
@@ -164,7 +165,51 @@ const RapportDeclaration = () => {
                         }
                         key="7"
                     >
-                        <RapportExterneEtInterne/>
+                        <Tabs defaultActiveKey="1">
+                            <TabPane
+                                    tab={
+                                    <span>
+                                        <SwapOutlined  style={{ color: 'red' }} /> Intérieur & Extérieur
+                                    </span>
+                                    }
+                                    key="1"
+                            >
+                                <RapportExterneEtInterne/>
+                            </TabPane>
+
+                            <TabPane
+                                    tab={
+                                    <span>
+                                        <CalendarOutlined  style={{ color: '#2db7f5' }} /> Par Mois
+                                    </span>
+                                    }
+                                    key="2"
+                            >
+
+                            </TabPane>
+
+                            <TabPane
+                                    tab={
+                                    <span>
+                                        <CalendarOutlined  style={{ color: '#108ee9' }} /> Par année
+                                    </span>
+                                    }
+                                    key="3"
+                            >
+
+                            </TabPane>
+
+                            <TabPane
+                                    tab={
+                                    <span>
+                                        <SwapOutlined  style={{ color: 'red' }} /> Par client
+                                    </span>
+                                    }
+                                    key="4"
+                            >
+
+                            </TabPane>
+                        </Tabs>
                     </TabPane>
 
                     <TabPane
