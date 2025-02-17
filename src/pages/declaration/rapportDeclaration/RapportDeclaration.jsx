@@ -181,7 +181,7 @@ const RapportDeclaration = () => {
                             <TabPane
                                     tab={
                                     <span>
-                                        <CalendarOutlined  style={{ color: '#2db7f5' }} /> Par Mois
+                                        <CalendarOutlined  style={{ color: '#2db7f5' }} /> Par mois
                                     </span>
                                     }
                                     key="2"
@@ -203,7 +203,7 @@ const RapportDeclaration = () => {
                             <TabPane
                                     tab={
                                     <span>
-                                        <UsergroupAddOutlined style={{ color: 'red' }} /> Par client
+                                        <UsergroupAddOutlined style={{ color: 'chocolate' }} /> Par client
                                     </span>
                                     }
                                     key="4"
