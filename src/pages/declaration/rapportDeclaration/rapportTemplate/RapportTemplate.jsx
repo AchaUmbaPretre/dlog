@@ -240,11 +240,11 @@ const RapportTemplate = () => {
                     <strong>{Math.round(parseFloat(detail.ttc_manutention))?.toLocaleString()} $</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    M2 Facturé :{' '}
+                    M² Facturé :{' '}
                     <strong>{detail.total_facture?.toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    M2 Occupé :{' '}
+                    M² Occupé :{' '}
                     <strong>{detail.total_occupe?.toLocaleString()}</strong>
                     </span>
                 </div>
