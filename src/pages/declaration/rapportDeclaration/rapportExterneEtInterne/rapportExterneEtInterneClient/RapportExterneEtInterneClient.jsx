@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, notification, Table, Tag, Tooltip, Skeleton } from 'antd';
+import { Button, notification, Table, Tooltip, Skeleton } from 'antd';
 import {
   FileExcelOutlined} from '@ant-design/icons';
 import * as XLSX from 'xlsx';
