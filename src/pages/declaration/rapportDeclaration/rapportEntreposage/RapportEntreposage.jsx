@@ -420,7 +420,7 @@ const RapportEntreposage = () => {
                         color: '#1890ff',
                         }}
                     >
-                        Nbre de clients : <strong>{detail?.Nbre_de_clients}</strong>
+                      Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
                     </span>
                     </Popover>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
