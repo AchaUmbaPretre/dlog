@@ -12,7 +12,8 @@ import {
     FileOutlined,
     LineChartOutlined,
     FullscreenExitOutlined,
-    CalendarOutlined
+    CalendarOutlined,
+    UsergroupAddOutlined
 } from '@ant-design/icons';
 import './rapportDeclaration.scss'
 import RapportFacture from './rapportFacture/RapportFacture';
@@ -202,7 +203,7 @@ const RapportDeclaration = () => {
                             <TabPane
                                     tab={
                                     <span>
-                                        <SwapOutlined  style={{ color: 'red' }} /> Par client
+                                        <UsergroupAddOutlined style={{ color: 'red' }} /> Par client
                                     </span>
                                     }
                                     key="4"
