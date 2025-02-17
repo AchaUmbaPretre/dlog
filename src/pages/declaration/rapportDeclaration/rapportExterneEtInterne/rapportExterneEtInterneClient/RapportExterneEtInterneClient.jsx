@@ -12,7 +12,7 @@ const RapportExterneEtInterneClient = () => {
   const [columns, setColumns] = useState([]);
   const [dataSource, setDataSource] = useState([]);
   const [detail, setDetail] = useState([]);
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [showManutention, setShowManutention] = useState(false);
