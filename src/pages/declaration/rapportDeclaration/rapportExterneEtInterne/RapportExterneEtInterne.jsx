@@ -46,8 +46,8 @@ const RapportExterneEtInterne = () => {
         return row;
       }); */
 
-      const formattedData = Object.entries(groupedData).map(([month, types]) => {
-        const row = { Mois: month };
+      const formattedData = Object.entries(groupedData).map(([month, types], index) => {
+        const row = { id: index + 1, Mois: month };
         Object.entries(types).forEach(([type, values]) => {
           const total = showManutention
             ? values.Entreposage + values.Manutention
@@ -65,11 +65,10 @@ const RapportExterneEtInterne = () => {
           title: '#',
           dataIndex: 'id',
           key: 'id',
-          render: (text, record, index) =>
-            (pagination.current - 1) * pagination.pageSize + index + 1,
+          render: (text, record) => record.id,
           width: 50,
           align: 'center',
-        },
+        },   
         {
           title: 'Mois',
           dataIndex: 'Mois',

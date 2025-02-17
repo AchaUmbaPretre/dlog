@@ -55,7 +55,7 @@ const RapportExterneEtInterneClient = () => {
           title: '#',
           dataIndex: 'id',
           key: 'id',
-          render: (text, record) => record.id, // Utilisation de l'ID global
+          render: (text, record) => record.id,
           width: 50,
           align: 'center',
         },             
