@@ -186,7 +186,7 @@ const RapportDeclaration = () => {
                                     }
                                     key="2"
                             >
-
+                                <RapportExterneEtInterne/>
                             </TabPane>
 
                             <TabPane
