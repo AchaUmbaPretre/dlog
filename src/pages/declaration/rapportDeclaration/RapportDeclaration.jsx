@@ -167,10 +167,11 @@ const RapportDeclaration = () => {
                         key="7"
                     >
                         <Tabs defaultActiveKey="1">
+
                             <TabPane
                                     tab={
                                     <span>
-                                        <SwapOutlined  style={{ color: 'red' }} /> Intérieur & Extérieur
+                                        <CalendarOutlined  style={{ color: '#2db7f5' }} /> Par mois
                                     </span>
                                     }
                                     key="1"
@@ -181,21 +182,10 @@ const RapportDeclaration = () => {
                             <TabPane
                                     tab={
                                     <span>
-                                        <CalendarOutlined  style={{ color: '#2db7f5' }} /> Par mois
-                                    </span>
-                                    }
-                                    key="2"
-                            >
-                                <RapportExterneEtInterne/>
-                            </TabPane>
-
-                            <TabPane
-                                    tab={
-                                    <span>
                                         <CalendarOutlined  style={{ color: '#108ee9' }} /> Par année
                                     </span>
                                     }
-                                    key="3"
+                                    key="2"
                             >
 
                             </TabPane>
@@ -206,7 +196,7 @@ const RapportDeclaration = () => {
                                         <UsergroupAddOutlined style={{ color: 'chocolate' }} /> Par client
                                     </span>
                                     }
-                                    key="4"
+                                    key="3"
                             >
 
                             </TabPane>
