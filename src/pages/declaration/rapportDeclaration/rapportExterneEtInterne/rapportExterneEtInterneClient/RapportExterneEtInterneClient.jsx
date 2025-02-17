@@ -115,12 +115,10 @@ const RapportExterneEtInterneClient = () => {
         })),
       ];
   
-      // Mise à jour des colonnes et des données du tableau
       setColumns(dynamicColumns);
       setDataSource(formattedData);
       setLoading(false);
     } catch (error) {
-      // Gestion des erreurs et affichage de la notification
       notification.error({
         message: 'Erreur de chargement',
         description: 'Une erreur est survenue lors du chargement des données.',
