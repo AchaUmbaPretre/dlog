@@ -313,6 +313,9 @@ const RapportFacture = () => {
     };
     
     
+    const handleTableChange = (pagination, filters, sorter) => {
+      setPagination(pagination);
+    };
     
   return (
     <>
@@ -431,7 +434,7 @@ const RapportFacture = () => {
                             loading={loading}
                             size="small"
                             pagination={pagination}
-                            onChange={(pagination) => setPagination(pagination)}
+                            onChange={handleTableChange} // Gère le changement de page
                             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                         />
                     </div>
