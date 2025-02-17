@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Table, Tag, Radio, Button } from 'antd';
+import { notification, Table, Tag, Radio, Button, Skeleton } from 'antd';
 import moment from 'moment';
 import { getRapportTemplate } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
@@ -27,21 +27,24 @@ const RapportTemplate = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [filterVisible, setFilterVisible] = useState(false);
+  const [detail, setDetail] = useState([]);
 
   const fetchData = async () => {
     try {
       const { data } = await getRapportTemplate(filteredDatas); 
 
-      const uniqueMonths = Array.from(new Set(data.map(item => `${item.Mois}-${item.Année}`)))
+      const uniqueMonths = Array.from(new Set(data.data.map(item => `${item.Mois}-${item.Année}`)))
         .sort((a, b) => {
           const [monthA, yearA] = a.split('-').map(Number);
           const [monthB, yearB] = b.split('-').map(Number);
           return yearA - yearB || monthA - monthB;
         });
 
+        setDetail(data.resume)
+
       setUniqueMonths(uniqueMonths);
 
-      const groupedData = data.reduce((acc, curr) => {
+      const groupedData = data.data.reduce((acc, curr) => {
         let existing = acc.find(item => item.desc_template === curr.desc_template);
         const monthName = moment(`${curr.Année}-${curr.Mois}-01`).format('MMM-YYYY');
 
@@ -171,42 +174,102 @@ const RapportTemplate = () => {
   };
 
   return (
-    <div className="rapport-facture">
-      <div style={{ marginBottom: 16 }}>
-        <span>Afficher : </span>
-        <Radio.Group
-          value={selectedField}
-          onChange={(e) => setSelectedField(e.target.value)}
-        >
-          {availableFields.map(({ key, label }) => (
-            <Radio key={key} value={key}>
-              {label}
-            </Radio>
-          ))}
-        </Radio.Group>
+    <>
+              {
+            loading ? (
+                <Skeleton active paragraph={{ rows: 1 }} />
+            ) : (
+                <div
+                style={{
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                    borderRadius: '8px',
+                    backgroundColor: '#fff',
+                    width: 'fit-content',
+                    margin: '20px 0',
+                    padding: '15px',
+                }}
+                >
+                    <span
+                        style={{
+                        display: 'block',
+                        padding: '10px 15px',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        borderBottom: '1px solid #f0f0f0',
+                        }}
+                    >
+                        Résumé :
+                    </span>
+                <div
+                    style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '15px',
+                    padding: '15px',
+                    }}
+                >
+                    
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Entreposage :{' '}
+                    <strong>{Math.round(parseFloat(detail.total_entreposage))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Manutention :{' '}
+                    <strong>{Math.round(parseFloat(detail.total_manutation))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    Entrep & Manut :{' '}
+                    <strong>{Math.round(parseFloat(detail.total))?.toLocaleString()} $</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    M2 Facturé :{' '}
+                    <strong>{detail.total_facture?.toLocaleString()}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    M2 Occupé :{' '}
+                    <strong>{detail.total_occupe?.toLocaleString()}</strong>
+                    </span>
+                </div>
+                </div>
+            )
+        }
+      <div className="rapport-facture">
+        <div style={{ marginBottom: 16 }}>
+          <span>Afficher : </span>
+          <Radio.Group
+            value={selectedField}
+            onChange={(e) => setSelectedField(e.target.value)}
+          >
+            {availableFields.map(({ key, label }) => (
+              <Radio key={key} value={key}>
+                {label}
+              </Radio>
+            ))}
+          </Radio.Group>
+        </div>
+        <div className='rapport_row_excel'>
+          <Button
+            type={filterVisible ? 'primary' : 'default'}
+            onClick={() => setFilterVisible(!filterVisible)}
+            style={{ margin: '10px 10px 10px 0' }}
+          >
+            {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+          </Button>
+        </div>
+        {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreTemplate={true} filtreMontant={false} />}
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          bordered
+          scroll={{ x: "max-content" }}
+          size="small"
+          pagination={pagination}
+          loading={loading}
+          onChange={pagination => setPagination(pagination)}
+          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+        />
       </div>
-      <div className='rapport_row_excel'>
-        <Button
-          type={filterVisible ? 'primary' : 'default'}
-          onClick={() => setFilterVisible(!filterVisible)}
-          style={{ margin: '10px 10px 10px 0' }}
-        >
-          {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-        </Button>
-      </div>
-      {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreTemplate={true} filtreMontant={false} />}
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        bordered
-        scroll={{ x: "max-content" }}
-        size="small"
-        pagination={pagination}
-        loading={loading}
-        onChange={pagination => setPagination(pagination)}
-        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-      />
-    </div>
+    </>
   );
 };
 
