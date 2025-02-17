@@ -15,7 +15,7 @@ const RapportClient = () => {
       const [modalType, setModalType] = useState(null);
       const [idClient, setidClient] = useState('');
       const searchInput = useRef(null);
-      
+      const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
       
       const scroll = { x: 400 };
 
@@ -103,7 +103,10 @@ const RapportClient = () => {
                     columns={columns}
                     dataSource={data}
                     loading={loading}
-                    pagination={{ pageSize: 15 }}
+                    pagination={{
+                      ...pagination,
+                      onChange: (current, pageSize) => setPagination({ current, pageSize }),
+                    }}
                     rowKey="id"
                     bordered
                     size="middle"
