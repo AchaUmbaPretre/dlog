@@ -4,7 +4,7 @@ import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import { getRapportComplet } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import { FileExcelOutlined } from '@ant-design/icons';
-import * as XLSX from 'xlsx';  // Import XLSX
+import * as XLSX from 'xlsx';
 
 const RapportComplet = () => {
     const [loading, setLoading] = useState(true);
