@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, notification, Table,Skeleton, Popover, Tag, Tooltip } from 'antd';
+import { Button, Modal, Table,Skeleton, Tag, Tooltip } from 'antd';
 import { getRapportVariation } from '../../../../services/templateService';
 import moment from 'moment';
 import RapportVariationVille from './rapportVariationVille/RapportVariationVille';
@@ -102,10 +102,7 @@ const RapportVariation = () => {
       setDataSource(generateDataSource());
       setLoading(false);
     } catch (error) {
-      /* notification.error({
-        message: 'Erreur',
-        description: `${error?.response.data.message}`,
-      }); */
+      console.log(error)
       setLoading(false);
     }
   };
@@ -160,11 +157,11 @@ const RapportVariation = () => {
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     M2 Facturé :{' '}
-                    <strong>{detail.total_facture?.toLocaleString()} $</strong>
+                    <strong>{detail.total_facture?.toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     M2 Occupé :{' '}
-                    <strong>{detail.total_occupe?.toLocaleString()} $</strong>
+                    <strong>{detail.total_occupe?.toLocaleString()}</strong>
                     </span>
                 </div>
                 </div>
