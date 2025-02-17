@@ -145,7 +145,7 @@ const RapportVariation = () => {
                 <div
                     style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
                     gap: '15px',
                     padding: '15px',
                     }}
