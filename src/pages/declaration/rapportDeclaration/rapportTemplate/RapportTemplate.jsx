@@ -4,6 +4,8 @@ import moment from 'moment';
 import {
   FileExcelOutlined
 } from '@ant-design/icons';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import { getRapportTemplate } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -176,7 +178,7 @@ const RapportTemplate = () => {
     setFilteredDatas(newFilters);
   };
 
-  const exportToExcel = () => {
+  const exportToExcelHTML = () => {
     const exportData = dataSource.map(item => {
       let row = { Template: item.desc_template, Nom: item.nom };
       
