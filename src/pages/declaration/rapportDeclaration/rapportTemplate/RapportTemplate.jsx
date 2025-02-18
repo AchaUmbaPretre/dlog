@@ -176,9 +176,28 @@ const RapportTemplate = () => {
     setFilteredDatas(newFilters);
   };
 
-  const exportToExcelHTML = () => {
+  const exportToExcel = () => {
+    const exportData = dataSource.map(item => {
+      let row = { Template: item.desc_template, Nom: item.nom };
+      
+      uniqueMonths.forEach(month => {
+        const monthName = moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY');
+        row[monthName] = item[`${monthName}_${selectedField}`] || 0;
+      });
+  
+      return row;
+    });
+  
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Rapport");
+  
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
     
-  }
+    saveAs(data, `Rapport_${moment().format("YYYY-MM-DD")}.xlsx`);
+  };
+  
 
   return (
     <>
