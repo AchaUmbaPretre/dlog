@@ -175,6 +175,11 @@ export const getRapportTemplate = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_template`, filter);
 };
 
+//Rapport Batiment
+export const getRapportBatiment = async (filter) => {
+  return axios.post(`${DOMAIN}/api/template/rapport_batiment`, filter);
+};
+
 //Rapport Variation
 export const getRapportVariation = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_variation`, filter);
