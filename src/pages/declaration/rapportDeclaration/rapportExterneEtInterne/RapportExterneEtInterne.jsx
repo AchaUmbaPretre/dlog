@@ -18,6 +18,7 @@ const RapportExterneEtInterne = () => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [showManutention, setShowManutention] = useState(false);
   const scroll = { x: 400 };
+  const [showTotal, setShowTotal] = useState(false);
 
   const fetchData = async () => {
     try {
