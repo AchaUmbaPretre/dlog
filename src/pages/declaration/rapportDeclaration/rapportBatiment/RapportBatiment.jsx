@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Table, Tag, Radio, Button, Skeleton } from 'antd';
+import { notification, Table, Tag,Tooltip, Radio, Button, Skeleton } from 'antd';
 import moment from 'moment';
-import { getRapportBatiment, getRapportTemplate } from '../../../../services/templateService';
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import {
+    FileExcelOutlined} from '@ant-design/icons';
+import { getRapportBatiment } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
@@ -175,6 +179,18 @@ const RapportBatiment = () => {
     setFilteredDatas(newFilters);
   };
 
+  const exportToExcelHTML = () => {
+    const ws = XLSX.utils.json_to_sheet(dataSource);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Rapport Bâtiment");
+  
+    // Générer un fichier Excel
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+  
+    saveAs(data, `rapport_batiment_${moment().format("YYYY-MM-DD")}.xlsx`);
+  };
+
   return (
     <>
               {
@@ -275,6 +291,12 @@ const RapportBatiment = () => {
           >
             {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
           </Button>
+
+            <Tooltip title={'Importer en excel'}>
+                <Button className="export-excel" onClick={exportToExcelHTML} >
+                    <FileExcelOutlined className="excel-icon" />
+                </Button>
+            </Tooltip>
         </div>
         {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreTemplate={true} filtreMontant={false} />}
         <Table
