@@ -302,7 +302,7 @@ const RapportExterneEtInterne = () => {
             </Button>
           </Tooltip>
 
-          <Button onClick={() => setShowManutention(!showManutention)} style={{ margin: '10px' }}>
+          <Button onClick={() => setShowManutention(!showManutention)}>
             {showManutention ? 'Masquer Manutention' : 'Afficher Manutention'}
           </Button>
           <Button onClick={() => setShowTotal((prev) => !prev)} style={{ marginBottom: 10 }}>
