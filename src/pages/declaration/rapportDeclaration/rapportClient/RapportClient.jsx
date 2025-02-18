@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getClient, getClientResume } from '../../../../services/clientService';
-import { Table, notification,Tag, Modal, Tooltip, Skeleton } from 'antd';
+import { Table, notification,Tag, Input, Modal, Tooltip, Skeleton } from 'antd';
 import { MailOutlined,UserOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import DeclarationOneAll from '../../declarationOneAll/DeclarationOneAll';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
+
+const { Search } = Input;
+
 
 const RapportClient = () => {
       const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -17,6 +20,8 @@ const RapportClient = () => {
       const searchInput = useRef(null);
       const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
       const [detail, setDetail] = useState([]);
+      const [searchValue, setSearchValue] = useState('');
+      
     
       const scroll = { x: 400 };
 
@@ -83,9 +88,9 @@ const RapportClient = () => {
             getClient(),
             getClientResume()
           ])
-          
+
           setData(clientData.data);
-          setDetail(detailData.data)
+          setDetail(detailData.data[0])
           setLoading(false);
 
         } catch (error) {
@@ -100,6 +105,10 @@ const RapportClient = () => {
     useEffect(() => {
       fetchData();
     }, [DOMAIN]);
+
+    const filteredData = data.filter(item =>
+      item.nom?.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
   return (
     <>
@@ -144,25 +153,31 @@ const RapportClient = () => {
                         color: '#1890ff',
                         }}
                     >
-                      Nbre de client : <strong>{detail?.nbre_batiment}</strong>
+                      Nbre de client : <strong>{detail?.nbre_client}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    M² facturé :{' '}
-                    <strong>{Math.round(parseFloat(detail.total_facture))?.toLocaleString()}</strong>
+                    Interne :{' '}
+                    <strong>{Math.round(parseFloat(detail.Interne))?.toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    M² Occupé :{' '}
-                    <strong>{Math.round(parseFloat(detail.total_occupe))?.toLocaleString()}</strong>
+                    Externe :{' '}
+                    <strong>{Math.round(parseFloat(detail.Externe))?.toLocaleString()}</strong>
                     </span>
                 </div>
                 </div>
             )
         }
         <div className="rapport_facture">
+            <div className="rapport-row-left">
+              <Search placeholder="Recherche..." 
+                enterButton 
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+            </div>
             <div className="rapport_wrapper_facture">
                 <Table
                     columns={columns}
-                    dataSource={data}
+                    dataSource={filteredData}
                     loading={loading}
                     pagination={{
                       ...pagination,
