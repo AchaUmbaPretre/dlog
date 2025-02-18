@@ -5,7 +5,6 @@ import { MailOutlined,UserOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import DeclarationOneAll from '../../declarationOneAll/DeclarationOneAll';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
-
 const { Search } = Input;
 
 
