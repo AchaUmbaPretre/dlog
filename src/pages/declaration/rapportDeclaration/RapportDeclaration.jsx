@@ -30,6 +30,7 @@ import RapportVariation from './rapportVariation/RapportVariation';
 import RapportComplet from './rapportComplet/RapportComplet';
 import RapportExterneEtInterneAnnee from './rapportExterneEtInterne/rapportExterneEtInterneAnnee/RapportExterneEtInterneAnnee';
 import RapportExterneEtInterneClient from './rapportExterneEtInterne/rapportExterneEtInterneClient/RapportExterneEtInterneClient';
+import RapportBatiment from './rapportBatiment/RapportBatiment';
 
 const { TabPane } = Tabs;
 
@@ -239,11 +240,12 @@ const RapportDeclaration = () => {
                             <TabPane
                                 tab={
                                     <span>
-                                        <ApartmentOutlined style={{ color: 'blue' }} /> Batiment
+                                        <ApartmentOutlined style={{ color: 'black' }} /> Batiment
                                     </span>
                                 }
                                 key="2"
                             >
+                                <RapportBatiment/>
                             </TabPane>
                         </Tabs>
 
