@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Table, Tag, Radio, Button, Skeleton } from 'antd';
+import { notification, Table, Tag, Radio, Button, Skeleton, Tooltip } from 'antd';
 import moment from 'moment';
+import {
+  FileExcelOutlined
+} from '@ant-design/icons';
 import { getRapportTemplate } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
@@ -173,6 +176,10 @@ const RapportTemplate = () => {
     setFilteredDatas(newFilters);
   };
 
+  const exportToExcelHTML = () => {
+    
+  }
+
   return (
     <>
               {
@@ -273,6 +280,12 @@ const RapportTemplate = () => {
           >
             {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
           </Button>
+
+          <Tooltip title={'Importer en excel'}>
+            <Button className="export-excel" onClick={exportToExcelHTML} >
+              <FileExcelOutlined className="excel-icon" />
+            </Button>
+          </Tooltip>
         </div>
         {filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreTemplate={true} filtreMontant={false} />}
         <Table
