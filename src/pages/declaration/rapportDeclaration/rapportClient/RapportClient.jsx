@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getClient } from '../../../../services/clientService';
+import { getClient, getClientResume } from '../../../../services/clientService';
 import { Table, notification,Tag, Modal, Tooltip, Skeleton } from 'antd';
 import { MailOutlined,UserOutlined } from '@ant-design/icons';
 import config from '../../../../config';
@@ -79,9 +79,15 @@ const RapportClient = () => {
 
     const fetchData = async () => {
         try {
-          const { data } = await getClient();
-          setData(data);
+          const [ clientData, detailData] = await Promise.all([
+            getClient(),
+            getClientResume()
+          ])
+          
+          setData(clientData.data);
+          setDetail(detailData.data)
           setLoading(false);
+
         } catch (error) {
           notification.error({
             message: 'Erreur de chargement',
@@ -138,7 +144,7 @@ const RapportClient = () => {
                         color: '#1890ff',
                         }}
                     >
-                      Nbre de batiment : <strong>{detail?.nbre_batiment}</strong>
+                      Nbre de client : <strong>{detail?.nbre_batiment}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     M² facturé :{' '}
