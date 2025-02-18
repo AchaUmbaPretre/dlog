@@ -45,18 +45,20 @@ const RapportBatiment = () => {
       setUniqueMonths(uniqueMonths);
 
       const groupedData = data.data.reduce((acc, curr) => {
-        let existing = acc.find(item => item.nom_batiment === curr.nom_batiment);
         const monthName = moment(`${curr.Année}-${curr.Mois}-01`).format('MMM-YYYY');
-
+    
+        let existing = acc.find(item => item.desc_template.trim().toLowerCase() === curr.nom_batiment.trim().toLowerCase());
+    
         if (!existing) {
-          existing = { desc_template: curr.nom_batiment, nom: curr.nom };
-          acc.push(existing);
+            existing = { desc_template: curr.nom_batiment, nom: curr.nom };
+            acc.push(existing);
         }
-
+    
         existing[`${monthName}_${selectedField}`] = curr[selectedField] ?? 0;
-
+    
         return acc;
-      }, []);
+    }, []);
+    
 
       setDataSource(groupedData);
       setLoading(false);
