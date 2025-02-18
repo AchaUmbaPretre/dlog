@@ -129,7 +129,7 @@ const RapportVariationClient = ({zone}) => {
 
   return (
     <div className="rapport_facture">
-        <h2 className="rapport_h2">RAPPORT POUR LA VILLE DE {zone} </h2>
+        <h2 className="rapport_h2">RAPPORT POUR LA VILLE DE {zone.toUpperCase()} </h2>
         <div className="rapport_wrapper_facture">
         <Table
           loading={loading}
