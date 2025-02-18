@@ -15,6 +15,10 @@ export const getClient = async () => {
     return axios.get(`${DOMAIN}/api/client`);
   };
 
+export const getClientResume = async () => {
+    return axios.get(`${DOMAIN}/api/client/client_resume`);
+  };
+
 export const getProvince = async () => {
     return axios.get(`${DOMAIN}/api/client/province`);
   };

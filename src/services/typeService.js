@@ -73,7 +73,6 @@ export const getBatimentCount = async () => {
     return axios.post(`${DOMAIN}/api/types/activite`, data);
   };
 
-
   //TYPE CAT TACHE
 export const getCorpsMetier = async () => {
     return axios.get(`${DOMAIN}/api/types/corps_metier`);

@@ -76,7 +76,6 @@ const RapportClient = () => {
         }
       ]
 
-
     const fetchData = async () => {
         try {
           const { data } = await getClient();
