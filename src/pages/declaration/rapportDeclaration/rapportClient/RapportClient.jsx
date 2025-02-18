@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getClient } from '../../../../services/clientService';
-import { Table, notification,Tag, Modal, Tooltip } from 'antd';
+import { Table, notification,Tag, Modal, Tooltip, Skeleton } from 'antd';
 import { MailOutlined,UserOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import DeclarationOneAll from '../../declarationOneAll/DeclarationOneAll';
@@ -16,7 +16,8 @@ const RapportClient = () => {
       const [idClient, setidClient] = useState('');
       const searchInput = useRef(null);
       const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
-      
+      const [detail, setDetail] = useState([]);
+    
       const scroll = { x: 400 };
 
       const handleDeclarationOneAll = (idClient) => {
@@ -96,6 +97,61 @@ const RapportClient = () => {
 
   return (
     <>
+                {
+            loading ? (
+                <Skeleton active paragraph={{ rows: 1 }} />
+            ) : (
+                <div
+                  style={{
+                      boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                      borderRadius: '8px',
+                      backgroundColor: '#fff',
+                      width: 'fit-content',
+                      margin: '20px 0',
+                      padding: '15px',
+                  }}
+                >
+                    <span
+                        style={{
+                        display: 'block',
+                        padding: '10px 15px',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        borderBottom: '1px solid #f0f0f0',
+                        }}
+                    >
+                        Résumé :
+                    </span>
+                <div
+                    style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(4, 1fr)',
+                    gap: '15px',
+                    padding: '15px',
+                    }}
+                >
+                    <span
+                        style={{
+                        fontSize: '0.9rem',
+                        fontWeight: '400',
+                        cursor: 'pointer',
+                        color: '#1890ff',
+                        }}
+                    >
+                      Nbre de batiment : <strong>{detail?.nbre_batiment}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    M² facturé :{' '}
+                    <strong>{Math.round(parseFloat(detail.total_facture))?.toLocaleString()}</strong>
+                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+                    M² Occupé :{' '}
+                    <strong>{Math.round(parseFloat(detail.total_occupe))?.toLocaleString()}</strong>
+                    </span>
+                </div>
+                </div>
+            )
+        }
         <div className="rapport_facture">
             <div className="rapport_wrapper_facture">
                 <Table
