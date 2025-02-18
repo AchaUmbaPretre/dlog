@@ -108,18 +108,22 @@ const RapportExterneEtInterne = () => {
                   },
                 ]
               : []),
-            {
-              title: 'Total',
-              dataIndex: `${type}_Total`,
-              key: `${type}_Total`,
-              render: (value) => (
-                <div style={{color: value ? 'black' : 'red'}}>
-                  {value ? `${value.toLocaleString()} $` : 0}
-                </div>
-              ),
-              align: 'right',
-              title: <div style={{ textAlign: 'center' }}>Total</div>
-            },
+              ...(showTotal
+                ? [
+                    {
+                      title: 'Total',
+                      dataIndex: `${type}_Total`,
+                      key: `${type}_Total`,
+                      render: (value) => (
+                        <div style={{ color: value ? 'black' : 'red' }}>
+                          {value ? `${value.toLocaleString()} $` : 0}
+                        </div>
+                      ),
+                      align: 'right',
+                      title: <div style={{ textAlign: 'center' }}>Total</div>,
+                    },
+                  ]
+                : [])
           ],
         })),
       ];
@@ -301,8 +305,9 @@ const RapportExterneEtInterne = () => {
           <Button onClick={() => setShowManutention(!showManutention)} style={{ margin: '10px' }}>
             {showManutention ? 'Masquer Manutention' : 'Afficher Manutention'}
           </Button>
-
-          
+          <Button onClick={() => setShowTotal((prev) => !prev)} style={{ marginBottom: 10 }}>
+            {showTotal ? 'Masquer Total' : 'Afficher Total'}
+          </Button>
         </div>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraVille={true} filtraClient={true} filtraStatus={true} />}
       </div>
