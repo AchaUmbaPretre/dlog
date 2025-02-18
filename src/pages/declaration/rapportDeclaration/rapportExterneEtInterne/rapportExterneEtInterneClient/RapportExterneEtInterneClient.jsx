@@ -191,7 +191,7 @@ const RapportExterneEtInterneClient = () => {
 
   return (
     <div>
-            {
+        {
             loading ? (
                 <Skeleton active paragraph={{ rows: 1 }} />
             ) : (
