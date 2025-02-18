@@ -7,7 +7,6 @@ import * as XLSX from 'xlsx';
 import { getRapportExterneEtInterne } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
-
 const RapportExterneEtInterne = () => {
   const [loading, setLoading] = useState(true);
   const [columns, setColumns] = useState([]);
@@ -36,16 +35,6 @@ const RapportExterneEtInterne = () => {
         };
         return acc;
       }, {});
-
-/*       const formattedData = Object.entries(groupedData).map(([month, types]) => {
-        const row = { Mois: month };
-        Object.entries(types).forEach(([type, values]) => {
-          row[`${type}_Entreposage`] = values.Entreposage;
-          row[`${type}_Manutention`] = values.Manutention;
-          row[`${type}_Total`] = values.Total;
-        });
-        return row;
-      }); */
 
       const formattedData = Object.entries(groupedData).map(([month, types], index) => {
         const row = { id: index + 1, Mois: month };
