@@ -296,18 +296,19 @@ const RapportExterneEtInterne = () => {
             {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
           </Button>
 
+          <Button onClick={() => setShowManutention(!showManutention)} style={{ margin: '8px' }}>
+            {showManutention ? 'Masquer Manutention' : 'Afficher Manutention'}
+          </Button>
+
+          <Button onClick={() => setShowTotal((prev) => !prev)}>
+            {showTotal ? 'Masquer Total' : 'Afficher Total'}
+          </Button>
+
           <Tooltip title={'Importer en excel'}>
             <Button className="export-excel" onClick={exportToExcelHTML} >
               <FileExcelOutlined className="excel-icon" />
             </Button>
           </Tooltip>
-
-          <Button onClick={() => setShowManutention(!showManutention)}>
-            {showManutention ? 'Masquer Manutention' : 'Afficher Manutention'}
-          </Button>
-          <Button onClick={() => setShowTotal((prev) => !prev)} style={{ marginBottom: 10 }}>
-            {showTotal ? 'Masquer Total' : 'Afficher Total'}
-          </Button>
         </div>
         {filterVisible && <RapportFiltrage onFilter={(filters) => setFilteredDatas(filters)} filtraVille={true} filtraClient={true} filtraStatus={true} />}
       </div>
