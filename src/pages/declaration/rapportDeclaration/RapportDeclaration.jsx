@@ -13,7 +13,8 @@ import {
     LineChartOutlined,
     FullscreenExitOutlined,
     CalendarOutlined,
-    UsergroupAddOutlined
+    UsergroupAddOutlined,
+    ApartmentOutlined
 } from '@ant-design/icons';
 import './rapportDeclaration.scss'
 import RapportFacture from './rapportFacture/RapportFacture';
@@ -224,7 +225,28 @@ const RapportDeclaration = () => {
                         }
                         key="9"
                     >
-                         <RapportTemplate/>
+                        <Tabs defaultActiveKey="1">
+                            <TabPane
+                                tab={
+                                    <span>
+                                        <FileOutlined style={{ color: 'blue' }} /> Template
+                                    </span>
+                                }
+                                key="1"
+                            >
+                                <RapportTemplate/>
+                            </TabPane>
+                            <TabPane
+                                tab={
+                                    <span>
+                                        <ApartmentOutlined style={{ color: 'blue' }} /> Batiment
+                                    </span>
+                                }
+                                key="2"
+                            >
+                            </TabPane>
+                        </Tabs>
+
                     </TabPane>
 
                     <TabPane
