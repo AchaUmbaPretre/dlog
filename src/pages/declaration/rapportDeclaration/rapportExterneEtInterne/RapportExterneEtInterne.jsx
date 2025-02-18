@@ -142,7 +142,7 @@ const RapportExterneEtInterne = () => {
 
   useEffect(() => {
     fetchData();
-  }, [filteredDatas, showManutention]);
+  }, [filteredDatas, showManutention, showTotal]);
 
   const exportToExcelHTML = async () => {
     try {
