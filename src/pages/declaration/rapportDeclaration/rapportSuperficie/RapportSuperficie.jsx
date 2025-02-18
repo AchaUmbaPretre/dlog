@@ -287,8 +287,9 @@ const RapportSuperficie = () => {
     try {
       const { data } = await getRapportSuperficie(filteredDatas);
   
+      setDetail(data.resume)
       // Regrouper les données par mois et par bâtiment
-      const groupedData = data.reduce((acc, item) => {
+      const groupedData = data.data.reduce((acc, item) => {
         const mois = moment(item.periode).format('MMM-YY');
   
         if (!acc[mois]) acc[mois] = {};
@@ -377,7 +378,7 @@ const RapportSuperficie = () => {
   
   return (
     <>
-            {
+{/*             {
             loading ? (
                 <Skeleton active paragraph={{ rows: 1 }} />
             ) : (
@@ -450,7 +451,7 @@ const RapportSuperficie = () => {
                 </div>
                 </div>
             )
-        }
+        } */}
       <div className="rapport_facture">
         <h2 className="rapport_h2">RAPPORT SUPERFICIE</h2>
         <div className='rapport_row_excel'>
