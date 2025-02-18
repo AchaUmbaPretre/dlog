@@ -13,8 +13,8 @@
       margin-bottom: 20px;
     }
     .hidden-column {
-        display: none;
-      }
+      display: none;
+    }
     .rapport_row_excel{
         display: flex;
         align-items: center;
@@ -45,19 +45,19 @@
             justify-content: center;
             width: 32px;
             height: 32px;
-            background-color: #f8d7da;  // Couleur de fond rouge clair
+            background-color: #f8d7da;  
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
           
             .pdf-icon {
               font-size: 18px;
-              color: #c82333;  // Rouge vif pour l'icône
+              color: #c82333;
             }
           
             &:hover {
-              background-color: #f5c6cb; // Couleur de fond au survol
-              transform: scale(1.1); // Effet d'agrandissement au survol
+              background-color: #f5c6cb;
+              transform: scale(1.1);
             }
           }
           
