@@ -27,8 +27,9 @@ const RapportSuperficie = () => {
     try {
       const { data } = await getRapportSuperficie(filteredDatas);
   
+      setDetail(data.resume)
       // Regrouper les données par mois et par bâtiment
-      const groupedData = data.reduce((acc, item) => {
+      const groupedData = data.data.reduce((acc, item) => {
         const mois = moment(item.periode).format('MMM-YY');
       
         if (!acc[mois]) acc[mois] = {};
@@ -61,7 +62,7 @@ const RapportSuperficie = () => {
            
       
       // Extraire tous les bâtiments pour les colonnes dynamiques
-      const extractedBatiments = [...new Set(data.map(item => item.nom_batiment))];
+      const extractedBatiments = [...new Set(data.data.map(item => item.nom_batiment))];
   
       const dynamicColumns = [
         {
@@ -180,7 +181,7 @@ const RapportSuperficie = () => {
     try {
       const { data } = await getRapportSuperficie(filteredDatas);
   
-      const groupedData = data.reduce((acc, item) => {
+      const groupedData = data.data.reduce((acc, item) => {
         const mois = moment(item.periode).format('MMM-YY');
         
         if (!acc[mois]) acc[mois] = {};
@@ -212,7 +213,7 @@ const RapportSuperficie = () => {
       });
   
       // Extraire les noms des bâtiments pour générer dynamiquement les colonnes
-      const extractedBatiments = [...new Set(data.map(item => item.nom_batiment))];
+      const extractedBatiments = [...new Set(data.data.map(item => item.nom_batiment))];
   
       let tableHTML = `
        <meta charset="UTF-8">
@@ -378,7 +379,7 @@ const RapportSuperficie = () => {
   
   return (
     <>
-{/*             {
+             {
             loading ? (
                 <Skeleton active paragraph={{ rows: 1 }} />
             ) : (
@@ -419,39 +420,20 @@ const RapportSuperficie = () => {
                         color: '#1890ff',
                         }}
                     >
-                        Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
+                      Nbre de batiment : <strong>{detail?.nbre_batiment}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Nbre de ville : <strong>{detail.Nbre_de_villes}</strong>
+                    M² facturé :{' '}
+                    <strong>{Math.round(parseFloat(detail.total_facture))?.toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Entreposage :{' '}
-                    <strong>{Math.round(parseFloat(detail.Total_entrep))?.toLocaleString()} $</strong>
-                    </span>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Manutention :{' '}
-                    <strong>{Math.round(parseFloat(detail.Total_manut))?.toLocaleString()} $</strong>
-                    </span>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Entrep Extérieur :{' '}
-                    <strong>{detail.Total_Extérieur_entre?.toLocaleString()} $</strong>
-                    </span>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Entrep Intérieur :{' '}
-                    <strong>{detail.Total_Intérieur_entre.toLocaleString()} $</strong>
-                    </span>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Manu Extérieur :{' '}
-                    <strong>{detail.Total_Extérieur_manu?.toLocaleString()} $</strong>
-                    </span>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
-                    Manu Intérieur :{' '}
-                    <strong>{detail.Total_Intérieur_manu ?.toLocaleString()} $</strong>
+                    M² Occupé :{' '}
+                    <strong>{Math.round(parseFloat(detail.total_occupe))?.toLocaleString()}</strong>
                     </span>
                 </div>
                 </div>
             )
-        } */}
+        }
       <div className="rapport_facture">
         <h2 className="rapport_h2">RAPPORT SUPERFICIE</h2>
         <div className='rapport_row_excel'>
