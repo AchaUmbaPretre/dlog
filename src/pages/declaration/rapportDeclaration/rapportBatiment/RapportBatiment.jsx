@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { notification, Table, Tag, Radio, Button, Skeleton } from 'antd';
 import moment from 'moment';
-import { getRapportTemplate } from '../../../../services/templateService';
+import { getRapportBatiment, getRapportTemplate } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 
@@ -31,7 +31,7 @@ const RapportBatiment = () => {
 
   const fetchData = async () => {
     try {
-      const { data } = await getRapportTemplate(filteredDatas); 
+      const { data } = await getRapportBatiment(filteredDatas); 
 
       const uniqueMonths = Array.from(new Set(data.data.map(item => `${item.Mois}-${item.Année}`)))
         .sort((a, b) => {
@@ -45,11 +45,11 @@ const RapportBatiment = () => {
       setUniqueMonths(uniqueMonths);
 
       const groupedData = data.data.reduce((acc, curr) => {
-        let existing = acc.find(item => item.desc_template === curr.desc_template);
+        let existing = acc.find(item => item.nom_batiment === curr.nom_batiment);
         const monthName = moment(`${curr.Année}-${curr.Mois}-01`).format('MMM-YYYY');
 
         if (!existing) {
-          existing = { desc_template: curr.desc_template, nom: curr.nom };
+          existing = { desc_template: curr.nom_batiment, nom: curr.nom };
           acc.push(existing);
         }
 
@@ -104,7 +104,7 @@ const RapportBatiment = () => {
           width: "5%",
         },
         {
-            title: "Template",
+            title: "Batiment",
             dataIndex: "desc_template",
             key: "desc_template",
             ...getColumnSearchProps(
