@@ -230,7 +230,7 @@ const RapportDeclaration = () => {
                             <TabPane
                                 tab={
                                     <span>
-                                        <FileOutlined style={{ color: 'blue' }} /> Template
+                                        <FileOutlined style={{ color: 'green' }} /> Template
                                     </span>
                                 }
                                 key="1"
@@ -240,7 +240,7 @@ const RapportDeclaration = () => {
                             <TabPane
                                 tab={
                                     <span>
-                                        <ApartmentOutlined style={{ color: 'black' }} /> Batiment
+                                        <ApartmentOutlined style={{ color: 'blue' }} /> Batiment
                                     </span>
                                 }
                                 key="2"
