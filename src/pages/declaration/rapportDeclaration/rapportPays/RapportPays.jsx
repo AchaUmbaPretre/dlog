@@ -150,7 +150,8 @@ const RapportPays = () => {
       setColumns(dynamicColumns);
       setDataSource(formattedData);
       setLoading(false);
-    } catch (error) {
+    } 
+    catch (error) {
       if (error.response && error.response.status === 404) {
         notification.error({
           message: 'Erreur',

@@ -210,12 +210,19 @@ const RapportManu = () => {
           setDataSource(groupedData);
           setLoading(false);
         } catch (error) {
-          notification.error({
-            message: 'Erreur de chargement',
-            description: 'Une erreur est survenue lors du chargement des données.',
-          });
-          setLoading(false);
-        }
+              if (error.response && error.response.status === 404) {
+                notification.error({
+                  message: 'Erreur',
+                  description: `${error.response.data.message}`,
+                });
+                } else {
+                    notification.error({
+                      message: 'Erreur',
+                      description: 'Une erreur est survenue lors de la récupération des données.',
+                    });
+                }
+              setLoading(false);
+            }
       };
 
       const toggleColumnVisibility = (columnName, e) => {
@@ -431,9 +438,9 @@ const RapportManu = () => {
                         Nbre de clients : <strong>{detail?.Nbre_de_clients}</strong>
                     </span>
                     </Popover>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+{/*                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Nbre de villes : <strong>{detail.Nbre_de_villes}</strong>
-                    </span>
+                    </span> */}
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total :{' '}
                     <strong>{Math.round(parseFloat(detail.Total))?.toLocaleString()} $</strong>

@@ -423,9 +423,9 @@ const RapportEntreposage = () => {
                       Nbre de client : <strong>{detail?.Nbre_de_clients}</strong>
                     </span>
                     </Popover>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
+{/*                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Nbre de villes : <strong>{detail.Nbre_de_villes}</strong>
-                    </span>
+                    </span> */}
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     Total :{' '}
                     <strong>{Math.round(parseFloat(detail.Total))?.toLocaleString()} $</strong>
