@@ -106,6 +106,7 @@ const RapportVueEnsemble = () => {
               dataIndex: `${capital}_Entreposage`,
               key: `${capital}_Entreposage`,
               width: '10%',
+              sorter: (a, b) => (a[`${capital}_Entreposage`] || 0) - (b[`${capital}_Entreposage`] || 0),
               render: (text, record) => {
                 const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
                 const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
@@ -130,6 +131,7 @@ const RapportVueEnsemble = () => {
               title: 'Manut',
               dataIndex: `${capital}_Manutention`,
               key: `${capital}_Manutention`,
+              sorter: (a, b) => (a[`${capital}_Manutention`] || 0) - (b[`${capital}_Manutention`] || 0),
               width: '9%',
               render: (text, record) => {
                 const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
