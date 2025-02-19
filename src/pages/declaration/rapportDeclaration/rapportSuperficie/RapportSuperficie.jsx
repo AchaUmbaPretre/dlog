@@ -103,6 +103,7 @@ const RapportSuperficie = () => {
                   dataIndex: `${batiment}_Facture`,
                   key: `${batiment}_Facture`,
                   width: '5%',
+                  sorter: (a, b) => (a[`${batiment}_Facture`] || 0) - (b[`${batiment}_Facture`] || 0),
                   render: text => (
                     <Space>
                       {text
@@ -115,6 +116,7 @@ const RapportSuperficie = () => {
                   title: 'Occupé',
                   dataIndex: `${batiment}_Occupe`,
                   key: `${batiment}_Occupe`,
+                  sorter: (a, b) => (a[`${batiment}_Occupe`] || 0) - (b[`${batiment}_Occupe`] || 0),
                   width: '5%',
                   render: text => (
                     <Space>
@@ -128,6 +130,7 @@ const RapportSuperficie = () => {
                     title: 'M² Diff',
                     dataIndex: `${batiment}_Superficie`,
                     key: `${batiment}_Superficie`,
+                    sorter: (a, b) => (a[`${batiment}_Superficie`] || 0) - (b[`${batiment}_Superficie`] || 0),
                     width: '5%',
                     render: text => (
                       <Space>
