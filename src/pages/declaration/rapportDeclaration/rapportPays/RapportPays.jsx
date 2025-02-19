@@ -18,7 +18,6 @@ const RapportPays = () => {
   const [allCities, setAllCities] = useState([]);
   const [detail, setDetail] = useState([]);
   const scroll = { x: 400 };
-  const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
   const fetchData = async () => {
     try {
@@ -173,10 +172,6 @@ const RapportPays = () => {
 
   const handleFilterChange = newFilters => {
     setFilteredDatas(newFilters);
-  };
-
-  const handleTabChanges = (key) => {
-    setActiveKeys(key);
   };
 
   const handleCityVisibilityChange = checkedValues => {
