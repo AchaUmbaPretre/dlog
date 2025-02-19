@@ -14,11 +14,10 @@ const RapportPays = () => {
   });
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredDatas, setFilteredDatas] = useState(null);
-  const [visibleCities, setVisibleCities] = useState([]); // Gère les villes visibles
-  const [allCities, setAllCities] = useState([]); // Liste de toutes les villes disponibles
+  const [visibleCities, setVisibleCities] = useState([]);
+  const [allCities, setAllCities] = useState([]);
   const [detail, setDetail] = useState([]);
   const scroll = { x: 400 };
-  const [uniqueMonths, setUniqueMonths] = useState([]);
   const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
   const fetchData = async () => {
