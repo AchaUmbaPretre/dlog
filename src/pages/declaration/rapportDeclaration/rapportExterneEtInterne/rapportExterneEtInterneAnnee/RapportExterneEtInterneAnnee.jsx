@@ -48,7 +48,6 @@ const RapportExterneEtInterneAnnee = () => {
         return row;
       });
       
-
       const dynamicColumns = [
         {
           title: '#',
@@ -73,6 +72,7 @@ const RapportExterneEtInterneAnnee = () => {
               title: 'Entreposage',
               dataIndex: `${type}_Entreposage`,
               key: `${type}_Entreposage`,
+              sorter: (a, b) => (a[`${type}_Entreposage`] || 0) - (b[`${type}_Entreposage`] || 0),
               render: (value) => (
                 <div style={{color: value ? 'black' : 'red'}}>
                   {value ? `${value.toLocaleString()} $` : 0}
@@ -87,6 +87,7 @@ const RapportExterneEtInterneAnnee = () => {
                     title: 'Manutention',
                     dataIndex: `${type}_Manutention`,
                     key: `${type}_Manutention`,
+                    sorter: (a, b) => (a[`${type}_Manutention`] || 0) - (b[`${type}_Manutention`] || 0),
                     render: (value) => (
                       <div style={{ color: value ? 'black' : 'red' }}>
                         {value ? `${value.toLocaleString()} $` : 0}
