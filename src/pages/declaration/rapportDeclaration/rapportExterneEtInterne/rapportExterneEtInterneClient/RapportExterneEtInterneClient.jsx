@@ -103,6 +103,7 @@ const RapportExterneEtInterneClient = () => {
               title: 'Total',
               dataIndex: `${type}_Total`,
               key: `${type}_Total`,
+              sorter: (a, b) => (a[`${type}_Total`] || 0) - (b[`${type}_Total`] || 0),
               render: (value) => (
                 <div style={{ color: value ? 'black' : 'red' }}>
                   {value ? `${value.toLocaleString()} $` : 0}
