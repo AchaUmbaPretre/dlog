@@ -156,6 +156,7 @@ const RapportVueEnsemble = () => {
               dataIndex: `${capital}_Total`,
               key: `${capital}_Total`,
               width: '10%',
+              sorter: (a, b) => (a[`${capital}_Total`] || 0) - (b[`${capital}_Total`] || 0),
               render: (text, record) => {
                 const entreposage = parseFloat(record[`${capital}_Entreposage`]) || 0;
                 const manutention = parseFloat(record[`${capital}_Manutention`]) || 0;
