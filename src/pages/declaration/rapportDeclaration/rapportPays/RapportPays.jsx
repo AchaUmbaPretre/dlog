@@ -86,13 +86,14 @@ const RapportPays = () => {
           align: 'left',
         },
         ...extractedCountries.map(nom_pays => ({
-          title: nom_pays, // Utilisation du nom du pays
+          title: nom_pays,
           key: nom_pays,
           children: [
             {
               title: 'Entrep',
               dataIndex: `${nom_pays}_Entreposage`,
               key: `${nom_pays}_Entreposage`,
+              sorter: (a, b) => (a[`${nom_pays}_Entreposage`] || 0) - (b[`${nom_pays}_Entreposage`] || 0),
               render: text => (
                 <Space>
                   {text
@@ -111,6 +112,7 @@ const RapportPays = () => {
               title: 'Manut',
               dataIndex: `${nom_pays}_Manutention`,
               key: `${nom_pays}_Manutention`,
+              sorter: (a, b) => (a[`${nom_pays}_Manutention`] || 0) - (b[`${nom_pays}_Manutention`] || 0),
               render: text => (
                 <Space>
                   {text
@@ -129,6 +131,7 @@ const RapportPays = () => {
               title: 'Total',
               dataIndex: `${nom_pays}_Total`,
               key: `${nom_pays}_Total`,
+              sorter: (a, b) => (a[`${nom_pays}_Total`] || 0) - (b[`${nom_pays}_Total`] || 0),
               render: text => (
                 <Space>
                   {text
