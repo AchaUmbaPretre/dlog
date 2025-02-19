@@ -424,11 +424,11 @@ const RapportSuperficie = () => {
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     M² facturé :{' '}
-                    <strong>{Math.round(parseFloat(detail.total_facture))?.toLocaleString()}</strong>
+                    <strong>{Math.round(parseFloat(detail?.total_facture))?.toLocaleString()}</strong>
                     </span>
                     <span style={{ fontSize: '0.9rem', fontWeight: '400' }}>
                     M² Occupé :{' '}
-                    <strong>{Math.round(parseFloat(detail.total_occupe))?.toLocaleString()}</strong>
+                    <strong>{Math.round(parseFloat(detail?.total_occupe))?.toLocaleString()}</strong>
                     </span>
                 </div>
                 </div>
