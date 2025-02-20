@@ -59,7 +59,7 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
                         ...prevPermissions[idUser],
                         id_declaration: idDeclaration,
                         id_user: idUser,
-                        [field]: value ? 1 : 0, // Mettez à jour le champ spécifique
+                        [field]: value ? 1 : 0,
                     },
                 };
     
@@ -82,9 +82,8 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
     
     const updatePermissionsToServer = async (permissions) => {
         try {
-            // Envoyez toutes les permissions avec `id_tache` et `id_user` au serveur
             await updatePermissionDeclaration({
-                id_tache: permissions.id_tache,
+                id_declaration: permissions.id_declaration,
                 id_user: permissions.id_user,
                 can_view: permissions.can_view || 0,
                 can_edit: permissions.can_edit || 0,
