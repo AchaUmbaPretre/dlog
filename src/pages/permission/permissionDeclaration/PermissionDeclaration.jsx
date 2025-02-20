@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs, Popover } from 'antd';
-import { MenuOutlined,EditOutlined,PieChartOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { MenuOutlined,EditOutlined,InfoCircleOutlined,PieChartOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import getColumnSearchProps from '../../../utils/columnSearchUtils';
 import { getDeclaration } from '../../../services/templateService';
@@ -40,7 +40,9 @@ const PermissionDeclaration = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [data, setData] = useState([]);
-    const [ clientdetail, setClientDetail] = useState([]);
+    const [clientdetail, setClientDetail] = useState([]);
+    const [idDeclaration ,setIdDeclaration] = useState([]);
+    const [modalType, setModalType] = useState(null);
 
     const columnStyles = {
         title: {
@@ -67,6 +69,20 @@ const PermissionDeclaration = () => {
         },
         },
     };
+
+    const handleViewDetails = (idDeclaration) => {
+        openModal('detail', idDeclaration);
+      };
+
+      const closeAllModals = () => {
+        setModalType(null);
+      };
+    
+      const openModal = (type, idDeclaration = '') => {
+        closeAllModals();
+        setModalType(type);
+        setIdDeclaration(idDeclaration);
+      }; 
 
   const columns = [
     {
@@ -406,39 +422,18 @@ const PermissionDeclaration = () => {
       title: 'Action',
       key: 'action',
       width: '10%',
-/*       render: (text, record) => (
+       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Modifier">
-            <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleUpdateTemplate(record.id_declaration_super)}
+            <Tooltip title="Voir les détails">
+              <Button
+                icon={<InfoCircleOutlined />}
+                onClick={() => handleViewDetails(record.id_declaration_super)}
+                aria-label="Voir les détails de la tâche"
+                style={{ color: 'blue' }}
               />
-          </Tooltip>
-          <Tooltip title="Voir les détails">
-            <Button
-              icon={<EyeOutlined />}
-              onClick={() => handleDetails(record.id_declaration_super)}
-              aria-label="Voir les détails de la tâche"
-              style={{ color: 'blue' }}
-            />
-          </Tooltip>
-            <Tooltip title="Supprimer">
-              <Popconfirm
-                title="Êtes-vous sûr de vouloir supprimer cette déclaration ?"
-                onConfirm={() => handleDelete(record.id_declaration_super)}
-                okText="Oui"
-                cancelText="Non"
-              >
-                <Button
-                  icon={<DeleteOutlined />}
-                  style={{ color: 'red' }}
-                  aria-label="Delete client"
-                />
-              </Popconfirm>
             </Tooltip>
         </Space>
-      ), */
+      ),
     },
   ];
 
