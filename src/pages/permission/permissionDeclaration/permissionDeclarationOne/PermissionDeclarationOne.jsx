@@ -57,8 +57,8 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
                     ...prevPermissions,
                     [idUser]: {
                         ...prevPermissions[idUser],
-                        id_declaration: idDeclaration, // Assurez-vous que `id_tache` est présent
-                        id_user: idUser,  // Assurez-vous que `id_user` est présent
+                        id_declaration: idDeclaration,
+                        id_user: idUser,
                         [field]: value ? 1 : 0, // Mettez à jour le champ spécifique
                     },
                 };
