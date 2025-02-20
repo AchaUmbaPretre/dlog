@@ -28,7 +28,7 @@ const PermissionDeclaration = () => {
       "Ville": true,
       "Client": true,
       "Bâtiment": false,
-      "Manutention": true,
+      "Manutention": false,
       "Tarif Manu": false,
       "Total Manu": true,
       "TTC Manu": false,
