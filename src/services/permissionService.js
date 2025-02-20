@@ -57,7 +57,7 @@ export const updatePermissionVilleDeclaration = async (data) => {
 
 //Permission declaration
 export const getPermissionsDeclaration = async (userId) => {
-  return axios.get(`${DOMAIN}/api/permission/permission_declaration?id_tache=${userId}`);
+  return axios.get(`${DOMAIN}/api/permission/permission_declaration?id_declaration=${userId}`);
 };
 
 export const updatePermissionDeclaration = async (data) => {

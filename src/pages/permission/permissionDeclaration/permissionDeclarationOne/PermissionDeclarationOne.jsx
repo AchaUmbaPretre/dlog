@@ -50,6 +50,7 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
     
     
     const handlePermissionChange = async (idUser, field, value) => {
+        console.log(idUser, field, value)
         try {
             // Mettez à jour l'état local pour inclure `id_tache` et refléter immédiatement les modifications
             setPermissions((prevPermissions) => {
