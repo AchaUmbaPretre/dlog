@@ -118,37 +118,48 @@ const PermissionDeclaVille = () => {
   return (
     <>
         <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <FileTextOutlined className='client-icon' />
+            <div className="client-wrapper">
+            <div className="client-row">
+                <div className="client-row-icon">
+                <FileTextOutlined className='client-icon' />
+                </div>
+                <h2 className="client-h2">Liste des villes</h2>
             </div>
-            <h2 className="client-h2">Liste des villes</h2>
-          </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-                <Search 
-                  placeholder="Recherche..." 
-                  enterButton 
-                  onChange={(e) => setSearchValue(e.target.value)}
+            <div className="client-actions">
+                <div className="client-row-left">
+                    <Search 
+                    placeholder="Recherche..." 
+                    enterButton 
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                </div>
+                <div className="client-rows-right">
+                </div>
+            </div>
+                <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    loading={loading}
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
+                    rowKey="id"
+                    bordered
+                    size="middle"
+                    scroll={scroll}
                 />
             </div>
-            <div className="client-rows-right">
-            </div>
-          </div>
-            <Table
-                columns={columns}
-                dataSource={filteredData}
-                loading={loading}
-                pagination={pagination}
-                onChange={(pagination) => setPagination(pagination)}
-                rowKey="id"
-                bordered
-                size="middle"
-                scroll={scroll}
-            />
         </div>
-        </div>
+
+        <Modal
+            title=""
+            visible={modalType === 'detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1070}
+            centered
+        >
+{/*             <PermissionVilleOne idVille={idVille}/>
+ */}        </Modal>
     </>
   )
 }
