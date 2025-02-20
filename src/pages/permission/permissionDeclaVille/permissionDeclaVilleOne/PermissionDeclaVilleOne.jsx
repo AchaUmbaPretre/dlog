@@ -118,6 +118,7 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
             bordered
             pagination={false}
             className="table_permission"
+            size="small"
           />
         </div>
       </div>

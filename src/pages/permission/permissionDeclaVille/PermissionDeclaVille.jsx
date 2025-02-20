@@ -156,7 +156,7 @@ const PermissionDeclaVille = () => {
             visible={modalType === 'detail'}
             onCancel={closeAllModals}
             footer={null}
-            width={1070}
+            width={900}
             centered
         >
             <PermissionDeclaVilleOne idVille={idVille}/>

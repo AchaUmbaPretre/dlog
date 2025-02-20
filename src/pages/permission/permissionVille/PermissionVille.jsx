@@ -173,7 +173,7 @@ const PermissionDepart = () => {
         visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={1070}
         centered
       >
         <PermissionVilleOne idVille={idVille}/>
