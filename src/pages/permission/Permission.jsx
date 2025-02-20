@@ -117,6 +117,7 @@ const Permission = () => {
             <h2 className="client-h2">Permission</h2>
           </div>
           <Tabs defaultActiveKey="0">
+          
             <Tabs.TabPane tab="Permission d'options" key="0">
             <div className="client-actions">
               <div className="client-row-left">
@@ -142,6 +143,7 @@ const Permission = () => {
             loading={loading}
           />
             </Tabs.TabPane>
+
             <Tabs.TabPane tab="Permission des taches" key="2">
               <ListeTachePermi/>
             </Tabs.TabPane>
