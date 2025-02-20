@@ -3,6 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag
 import { MenuOutlined,EditOutlined,PieChartOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import getColumnSearchProps from '../../../utils/columnSearchUtils';
+import { getDeclaration } from '../../../services/templateService';
 
 const { Search } = Input;
 
@@ -33,11 +34,13 @@ const PermissionDeclaration = () => {
       "Debours Manu": false
     });
     const [loading, setLoading] = useState(true);
+    const [filteredDatas, setFilteredDatas] = useState(null);
     const scroll = { x: 400 };
     const searchInput = useRef(null);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [data, setData] = useState([]);
+    const [ clientdetail, setClientDetail] = useState([]);
 
     const columnStyles = {
         title: {
@@ -438,6 +441,41 @@ const PermissionDeclaration = () => {
       ), */
     },
   ];
+
+    const fetchData = async () => {
+      try {
+        const { data } = await getDeclaration(filteredDatas, searchValue);
+  
+        const uniqueClients = [
+          ...new Set(data.declarations.map((declaration) => declaration.nom)),
+        ];
+      
+        const uniqueDetail = uniqueClients.map((nom_client) => ({ nom_client }));
+    
+        setData(data.declarations);
+        setClientDetail(uniqueDetail)
+  
+        setLoading(false);
+      } catch (error) {
+          if (error.response && error.response.status === 404) {
+              // Gérer l'erreur 404
+              notification.error({
+                  message: 'Erreur',
+                  description: `${error.response.data.message}`,
+              });
+          } else {
+              notification.error({
+                  message: 'Erreur',
+                  description: 'Une erreur est survenue lors de la récupération des données.',
+              });
+          }
+          setLoading(false);
+        }
+    };
+
+        useEffect(() => {
+          fetchData();
+        }, [searchValue]);
 
   const toggleColumnVisibility = (columnName, e) => {
     e.stopPropagation();
