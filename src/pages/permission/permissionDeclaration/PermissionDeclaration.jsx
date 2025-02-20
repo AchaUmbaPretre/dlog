@@ -84,8 +84,6 @@ const PermissionDeclaration = () => {
         setIdDeclaration(idDeclaration);
       }; 
 
-      console.log(idDeclaration)
-
   const columns = [
     {
       title: '#',
