@@ -2,16 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs, Popover } from 'antd';
 import { MenuOutlined,EditOutlined,PieChartOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import getColumnSearchProps from '../../../utils/columnSearchUtils';
 
 const { Search } = Input;
 
 const PermissionDeclaration = () => {
-  const [searchValue, setSearchValue] = useState('');
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 25,
-  });
-const [columnsVisibility, setColumnsVisibility] = useState({
+    const [searchValue, setSearchValue] = useState('');
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 25,
+    });
+    const [columnsVisibility, setColumnsVisibility] = useState({
       '#': true,
       'Template': true,
       'Desc man': false,
@@ -31,37 +32,38 @@ const [columnsVisibility, setColumnsVisibility] = useState({
       "TTC Manu": false,
       "Debours Manu": false
     });
-const [loading, setLoading] = useState(true);
-const scroll = { x: 400 };
-const searchInput = useRef(null);
-const [searchText, setSearchText] = useState('');
-const [searchedColumn, setSearchedColumn] = useState('');
+    const [loading, setLoading] = useState(true);
+    const scroll = { x: 400 };
+    const searchInput = useRef(null);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const [data, setData] = useState([]);
 
-const columnStyles = {
-    title: {
-      maxWidth: '220px',
-      whiteSpace: 'nowrap',
-      overflowX: 'scroll', 
-      overflowY: 'hidden',
-      textOverflow: 'ellipsis',
-      scrollbarWidth: 'none',
-      '-ms-overflow-style': 'none', 
-    },
-    titleClient: {
-      maxWidth: '150px',
-      whiteSpace: 'nowrap',
-      overflowX: 'scroll', 
-      overflowY: 'hidden',
-      textOverflow: 'ellipsis',
-      scrollbarWidth: 'none',
-      '-ms-overflow-style': 'none', 
-    },
-    hideScroll: {
-      '&::-webkit-scrollbar': {
-        display: 'none',
-      },
-    },
-  };
+    const columnStyles = {
+        title: {
+        maxWidth: '220px',
+        whiteSpace: 'nowrap',
+        overflowX: 'scroll', 
+        overflowY: 'hidden',
+        textOverflow: 'ellipsis',
+        scrollbarWidth: 'none',
+        '-ms-overflow-style': 'none', 
+        },
+        titleClient: {
+        maxWidth: '150px',
+        whiteSpace: 'nowrap',
+        overflowX: 'scroll', 
+        overflowY: 'hidden',
+        textOverflow: 'ellipsis',
+        scrollbarWidth: 'none',
+        '-ms-overflow-style': 'none', 
+        },
+        hideScroll: {
+        '&::-webkit-scrollbar': {
+            display: 'none',
+        },
+        },
+    };
 
   const columns = [
     {
@@ -98,7 +100,7 @@ const columnStyles = {
           dataIndex: 'nom',
           key: 'nom',
           render: (text, record) => (
-            <Space style={columnStyles.titleClient} className={columnStyles.hideScroll} onClick={() => handleDeclarationOneAll(record.id_declaration_super, record.id_client)}>
+            <Space style={columnStyles.titleClient} className={columnStyles.hideScroll}>
               <Tag icon={<UserOutlined />} color="orange">
                 {text ?? 'Aucun'}
               </Tag>
@@ -125,7 +127,6 @@ const columnStyles = {
               <Tag 
                 icon={<CalendarOutlined />} 
                 color="purple" 
-                onClick={() => handleMoisAnnee(record.id_client, mois, annee)}
               >
                 {formattedDate}
               </Tag>
@@ -438,6 +439,14 @@ const columnStyles = {
     },
   ];
 
+  const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
+
     const menus = (
       <Menu>
         {Object.keys(columnsVisibility).map(columnName => (
@@ -450,7 +459,11 @@ const columnStyles = {
         ))}
       </Menu>
     ); 
-
+    const filteredData = data.filter(item =>
+        item.desc_template?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.nom?.toLowerCase().includes(searchValue.toLowerCase()));
+  
+        
   return (
     <>
         <div className="client">
@@ -465,21 +478,6 @@ const columnStyles = {
                   </div>
 
                   <div className="client-rows-right">
-
-                    <Button
-                      type="primary"
-                      icon={<PlusCircleOutlined />}
-                      onClick={handleAddTemplate}
-                    >
-                      Ajouter une déclaration
-                    </Button>
-
-                    <Button
-                      type="default"
-                      onClick={handFilter}
-                    >
-                      {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-                    </Button>
 
                     <Dropdown overlay={menus} trigger={['click']}>
                       <Button icon={<MenuOutlined />} className="ant-dropdown-link">
