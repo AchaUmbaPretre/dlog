@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
 import { InfoCircleOutlined,ApartmentOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getProvince } from '../../../services/clientService';
+import PermissionDeclaVilleOne from './permissionDeclaVilleOne/PermissionDeclaVilleOne';
 
 const { Search } = Input;
 
@@ -158,8 +159,8 @@ const PermissionDeclaVille = () => {
             width={1070}
             centered
         >
-{/*             <PermissionVilleOne idVille={idVille}/>
- */}        </Modal>
+            <PermissionDeclaVilleOne idVille={idVille}/>
+        </Modal>
     </>
   )
 }
