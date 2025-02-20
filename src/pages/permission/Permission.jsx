@@ -23,6 +23,7 @@ import PermissionOne from './permissionOne/PermissionOne';
 import ListeTachePermi from './listeTachePermi/ListeTachePermi';
 import PermissionVille from './permissionVille/PermissionVille';
 import PermissionDeclaration from './permissionDeclaration/PermissionDeclaration';
+import PermissionDeclaVille from './permissionDeclaVille/PermissionDeclaVille';
 
 const { Search } = Input;
 
@@ -177,10 +178,20 @@ const Permission = () => {
 
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations
+                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations par ville
               </span>
                 } 
               key="4"
+            >
+              <PermissionDeclaVille/>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab= {
+              <span>
+                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations
+              </span>
+                } 
+              key="5"
             >
               <PermissionDeclaration/>
             </Tabs.TabPane>
