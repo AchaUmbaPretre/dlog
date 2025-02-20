@@ -145,7 +145,7 @@ const PermissionDeclaVille = () => {
                     onChange={(pagination) => setPagination(pagination)}
                     rowKey="id"
                     bordered
-                    size="small"
+                    size="middle"
                     scroll={scroll}
                 />
             </div>
