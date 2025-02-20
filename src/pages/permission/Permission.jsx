@@ -116,9 +116,19 @@ const Permission = () => {
             <UnlockOutlined className='client-icon' />
             <h2 className="client-h2">Permission</h2>
           </div>
-          <Tabs defaultActiveKey="0">
-          
-            <Tabs.TabPane tab="Permission d'options" key="0">
+          <Tabs 
+            defaultActiveKey="0"
+            type="card"
+            tabPosition="top"
+          >
+
+            <Tabs.TabPane tab={
+              <span>
+                <UnlockOutlined style={{ color: '#D2691E' }} /> Permission d'options
+              </span>
+              } 
+              key="0"
+            >
             <div className="client-actions">
               <div className="client-row-left">
                 <Search placeholder="recherche..." enterButton />
@@ -144,11 +154,33 @@ const Permission = () => {
           />
             </Tabs.TabPane>
 
-            <Tabs.TabPane tab="Permission des taches" key="2">
+            <Tabs.TabPane tab= {
+              <span>
+                <UnlockOutlined style={{ color: '#D2691E' }} /> Permission des taches
+              </span>
+              } 
+              key="2"
+            >
               <ListeTachePermi/>
             </Tabs.TabPane>
 
-            <Tabs.TabPane tab="Permissions des villes et départements" key="3">
+            <Tabs.TabPane tab= {
+              <span>
+                <UnlockOutlined style={{ color: '#D2691E' }} /> Permissions des villes et départements
+              </span>
+                }  
+              key="3"
+            >
+              <PermissionVille/>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab= {
+              <span>
+                <UnlockOutlined style={{ color: '#D2691E' }} /> Permissions des déclarations
+              </span>
+                } 
+              key="4"
+            >
               <PermissionVille/>
             </Tabs.TabPane>
 
