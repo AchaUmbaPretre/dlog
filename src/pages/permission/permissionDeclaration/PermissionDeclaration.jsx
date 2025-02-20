@@ -19,7 +19,7 @@ const PermissionDeclaration = () => {
       'Template': true,
       'Desc man': false,
       'Periode': true,
-      'M² occupe': false,
+      'M² occupe': true,
       "M² facture": true,
       "Tarif Entr": true,
       'Debours Entr': false,
