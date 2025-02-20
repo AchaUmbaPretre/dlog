@@ -10,8 +10,7 @@ const PermissionVilleOne = ({ idVille }) => {
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [title, setTitle] = useState('')
-
-
+  
   useEffect(() => {
     const fetchPermission = async () => {
       try {
