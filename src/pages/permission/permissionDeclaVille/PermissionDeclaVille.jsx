@@ -106,13 +106,6 @@ const PermissionDeclaVille = () => {
                     style={{ color: 'blue' }}
                   />
                 </Tooltip>
-                <Tooltip title="Permissions pour les départements de cette ville">
-                  <Button
-                    icon={<ApartmentOutlined />}
-                    onClick={() => handleViewDetailsDepart(record.id)}
-                    aria-label="Voir les détails de la tâche"
-                  />
-                </Tooltip>
               </Space>
             )
         }
@@ -124,7 +117,38 @@ const PermissionDeclaVille = () => {
 
   return (
     <>
-
+        <div className="client">
+        <div className="client-wrapper">
+          <div className="client-row">
+            <div className="client-row-icon">
+              <FileTextOutlined className='client-icon' />
+            </div>
+            <h2 className="client-h2">Liste des villes</h2>
+          </div>
+          <div className="client-actions">
+            <div className="client-row-left">
+                <Search 
+                  placeholder="Recherche..." 
+                  enterButton 
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
+            </div>
+            <div className="client-rows-right">
+            </div>
+          </div>
+            <Table
+                columns={columns}
+                dataSource={filteredData}
+                loading={loading}
+                pagination={pagination}
+                onChange={(pagination) => setPagination(pagination)}
+                rowKey="id"
+                bordered
+                size="middle"
+                scroll={scroll}
+            />
+        </div>
+        </div>
     </>
   )
 }
