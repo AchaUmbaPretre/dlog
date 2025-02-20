@@ -125,7 +125,7 @@ const Permission = () => {
 
             <Tabs.TabPane tab={
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> Permission d'options
+                <UnlockOutlined style={{ color: '#D2691E' }} /> d'options
               </span>
               } 
               key="0"
@@ -157,7 +157,7 @@ const Permission = () => {
 
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> Permission des taches
+                <UnlockOutlined style={{ color: '#D2691E' }} /> des taches
               </span>
               } 
               key="2"
@@ -167,7 +167,7 @@ const Permission = () => {
 
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> Permissions des villes et départements
+                <UnlockOutlined style={{ color: '#D2691E' }} /> des villes et départements
               </span>
                 }  
               key="3"
@@ -177,7 +177,7 @@ const Permission = () => {
 
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> Permissions des déclarations
+                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations
               </span>
                 } 
               key="4"
