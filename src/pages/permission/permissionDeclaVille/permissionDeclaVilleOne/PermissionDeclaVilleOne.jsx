@@ -13,7 +13,7 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
   
   useEffect(() => {
     const fetchPermission = async () => {
-      try {
+      try { 
         const { data: users } = await getUser();
         setData(users);
         
