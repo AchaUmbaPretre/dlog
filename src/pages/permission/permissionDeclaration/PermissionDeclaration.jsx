@@ -500,7 +500,6 @@ const PermissionDeclaration = () => {
     const filteredData = data.filter(item =>
         item.desc_template?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.nom?.toLowerCase().includes(searchValue.toLowerCase()));
-  
         
   return (
     <>
