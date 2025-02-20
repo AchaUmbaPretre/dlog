@@ -98,7 +98,7 @@ const PermissionDeclaVille = () => {
           width: '10%',
           render: (text, record) => (
               <Space size="middle">
-                <Tooltip title="Voir les permissions de cette ville">
+                <Tooltip title= {`Voir les permissions de ${record.name}`}>
                   <Button
                     icon={<InfoCircleOutlined />}
                     onClick={() => handleViewDetails(record.id)}
