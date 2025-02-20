@@ -29,7 +29,6 @@ export const updatePermissionTache = async (data) => {
 }
 
 //Permission ville
-
 export const getPermissionsVille = async (userId) => {
   return axios.get(`${DOMAIN}/api/permission/permission_ville?id_ville=${userId}`);
 };
@@ -45,4 +44,22 @@ export const getPermissionsDepart = async (userId) => {
 
 export const updatePermissionDepart = async (data) => {
   return axios.post(`${DOMAIN}/api/permission/permission_departement`, data)
+}
+
+//Permission ville declaration
+export const getPermissionsVilleDeclaration= async (userId) => {
+  return axios.get(`${DOMAIN}/api/permission/permission_declaration_ville?id_ville=${userId}`);
+};
+
+export const updatePermissionVilleDeclaration = async (data) => {
+  return axios.post(`${DOMAIN}/api/permission/permission_declaration_ville`, data)
+}
+
+//Permission declaration
+export const getPermissionsDeclaration = async (userId) => {
+  return axios.get(`${DOMAIN}/api/permission/permission_declaration?id_tache=${userId}`);
+};
+
+export const updatePermissionDeclaration = async (data) => {
+  return axios.post(`${DOMAIN}/api/permission/permission_declaration`, data)
 }

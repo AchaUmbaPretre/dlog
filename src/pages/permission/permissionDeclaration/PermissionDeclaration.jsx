@@ -4,6 +4,7 @@ import { MenuOutlined,EditOutlined,InfoCircleOutlined,PieChartOutlined,EyeOutlin
 import moment from 'moment';
 import getColumnSearchProps from '../../../utils/columnSearchUtils';
 import { getDeclaration } from '../../../services/templateService';
+import PermissionDeclarationOne from './permissionDeclarationOne/PermissionDeclarationOne';
 
 const { Search } = Input;
 
@@ -533,6 +534,17 @@ const PermissionDeclaration = () => {
                 />
             </div>
         </div>
+
+        <Modal
+            title=""
+            visible={modalType === 'detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1070}
+            centered
+        >
+            <PermissionDeclarationOne idDeclaration={idDeclaration}/>
+        </Modal>
     </>
   )
 }
