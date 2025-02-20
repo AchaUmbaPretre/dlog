@@ -58,8 +58,8 @@ export const getDeclarationCount = async () => {
   return axios.get(`${DOMAIN}/api/template/declaration_count`);
 };
 
-export const getDeclaration = async (data, searchValue) => {
-    return axios.post(`${DOMAIN}/api/template/declaration_superficies?search=${searchValue}`, data);
+export const getDeclaration = async (data, searchValue, role, userId) => {
+    return axios.post(`${DOMAIN}/api/template/declaration_superficies?search=${searchValue}&role=${role}&userId=${userId}`, data);
   };
 
 export const getDeclarationClientOneAll= async (idClient, data) => {

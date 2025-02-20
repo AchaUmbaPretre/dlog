@@ -48,6 +48,7 @@ const Declaration = () => {
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const role = useSelector((state) => state.user?.currentUser.role);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [statistique, setStatistique] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
@@ -57,6 +58,7 @@ const Declaration = () => {
   const [ clientdetail, setClientDetail] = useState([]);
   const [mois, setMois] = useState('');
   const [annee, setAnnee] = useState('')
+  
 
 
   const columnStyles = {
@@ -87,7 +89,7 @@ const Declaration = () => {
 
   const fetchData = async () => {
     try {
-      const { data } = await getDeclaration(filteredDatas, searchValue);
+      const { data } = await getDeclaration(filteredDatas, searchValue, role, userId);
 
       const uniqueClients = [
         ...new Set(data.declarations.map((declaration) => declaration.nom)),
