@@ -22,6 +22,7 @@ import { getUser } from '../../services/userService';
 import PermissionOne from './permissionOne/PermissionOne';
 import ListeTachePermi from './listeTachePermi/ListeTachePermi';
 import PermissionVille from './permissionVille/PermissionVille';
+import PermissionDeclaration from './permissionDeclaration/PermissionDeclaration';
 
 const { Search } = Input;
 
@@ -181,7 +182,7 @@ const Permission = () => {
                 } 
               key="4"
             >
-              <PermissionVille/>
+              <PermissionDeclaration/>
             </Tabs.TabPane>
 
           </Tabs>
