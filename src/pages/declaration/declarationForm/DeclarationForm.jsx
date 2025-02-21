@@ -31,7 +31,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const [refreshKey, setRefreshKey] = useState(0);
     const [modalType, setModalType] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-
+    const role = useSelector((state) => state.user?.currentUser.role);
 
     const closeAllModals = () => {
         setModalType(null);
