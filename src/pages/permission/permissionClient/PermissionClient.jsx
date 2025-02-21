@@ -3,6 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Pop
 import { ExportOutlined,HomeOutlined,InfoCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getClient } from '../../../services/clientService';
+import PermissionClientOne from './permissionClientOne/PermissionClientOne';
 
 const { Search } = Input;
 
@@ -179,8 +180,8 @@ const PermissionClient = () => {
         width={800}
         centered
       >
-{/*         <ClientForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchData} />
- */}      </Modal>
+         <PermissionClientOne idClient={idClient}/>
+      </Modal>
     </>
   );
 };
