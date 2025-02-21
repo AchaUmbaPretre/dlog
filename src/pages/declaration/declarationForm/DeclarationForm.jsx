@@ -581,6 +581,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                     </Form>
 
                 </div>
+                { role === 'Admin' &&
+                
                 <div className="declaration-right">
                     <div className="declaration-modal-templ">
                         <Tooltip title="Créer un template">
@@ -597,7 +599,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                         </Tooltip>
                     </div>
                     <DeclarationOneClient idClient={idClient} idTemplate={idTemplate} periode={periode} idDeclarations={setIdDeclarations} key={refreshKey}/>
-                </div>
+                </div> }
             </div>
             <Modal
                 title=""
