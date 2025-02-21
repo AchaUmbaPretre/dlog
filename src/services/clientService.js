@@ -15,6 +15,10 @@ export const getClient = async () => {
     return axios.get(`${DOMAIN}/api/client`);
   };
 
+export const getClientPermission = async (userId) => {
+    return axios.get(`${DOMAIN}/api/client/client_permission?userId=${userId}`);
+  };
+
 export const getClientResume = async () => {
     return axios.get(`${DOMAIN}/api/client/client_resume`);
   };

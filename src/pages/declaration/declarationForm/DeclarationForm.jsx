@@ -3,7 +3,7 @@ import { PlusCircleOutlined, LeftCircleFilled, RightCircleFilled } from '@ant-de
 import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton, Divider, message } from 'antd';
 import './declarationForm.scss';
 import { getDeclarationId, getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
-import { getClient, getProvince } from '../../../services/clientService';
+import { getClient, getClientPermission, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -77,19 +77,24 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const fetchDataAll = async () => {
         setIsLoading(true)
         try {
-            const [ templateData, objetData, provinceData, clientData, batimentData, declaIdData] = await Promise.all([
+            const [ templateData, objetData, provinceData, clientData, batimentData, declaIdData, clientDataPermi] = await Promise.all([
                 getTemplate(),
                 getObjetFacture(),
                 getProvince(),
                 getClient(),
                 getBatiment(),
-                getDeclarationId()
+                getDeclarationId(),
+                getClientPermission(userId)
             ])
             const idList = declaIdData.data.map(item => item.id_declaration_super).sort((a, b) => a - b);
             setTemplates(templateData.data);
             setObjet(objetData.data);
             setProvince(provinceData.data);
-            setClient(clientData.data);
+            if ( role === 'Admin') {
+                setClient(clientData.data);
+            } else {
+                setClient(clientDataPermi.data)
+            }
             setBatiment(batimentData.data);
             setIdValides(idList)
 
