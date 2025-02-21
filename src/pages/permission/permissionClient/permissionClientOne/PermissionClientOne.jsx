@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
 import { UnlockOutlined } from '@ant-design/icons';
 import { Switch, Table, Tag } from 'antd';
-import { getPermissionsClientDeclaration, getPermissionsVilleDeclaration, updatePermissionClientDeclaration, updatePermissionVille, updatePermissionVilleDeclaration } from '../../../../services/permissionService';
-import { getProvinceOne } from '../../../../services/clientService';
+import { getPermissionsClientDeclaration, updatePermissionClientDeclaration } from '../../../../services/permissionService';
 
 const  PermissionClientOne = ({ idClient }) => {
   const scroll = { x: 400 };
