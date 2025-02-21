@@ -107,18 +107,6 @@ const PermissionClient = () => {
       ),
     },
     {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
-      render: (text) => (
-        <> 
-          <Tag icon={<HomeOutlined />} color='cyan'>
-            {text ?? 'Aucune'}
-          </Tag>
-        </>
-      ),
-    },
-    {
       title: 'Action',
       key: 'action',
       width: '10%',
