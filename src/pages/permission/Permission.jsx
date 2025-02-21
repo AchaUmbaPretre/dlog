@@ -24,6 +24,7 @@ import ListeTachePermi from './listeTachePermi/ListeTachePermi';
 import PermissionVille from './permissionVille/PermissionVille';
 import PermissionDeclaration from './permissionDeclaration/PermissionDeclaration';
 import PermissionDeclaVille from './permissionDeclaVille/PermissionDeclaVille';
+import PermissionClient from './permissionClient/PermissionClient';
 
 const { Search } = Input;
 
@@ -186,7 +187,7 @@ const Permission = () => {
               <PermissionDeclaVille/>
             </Tabs.TabPane>
 
-            <Tabs.TabPane tab= {
+{/*             <Tabs.TabPane tab= {
               <span>
                 <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations
               </span>
@@ -194,6 +195,16 @@ const Permission = () => {
               key="5"
             >
               <PermissionDeclaration/>
+            </Tabs.TabPane> */}
+
+            <Tabs.TabPane tab= {
+              <span>
+                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations Client
+              </span>
+                } 
+              key="5"
+            >
+              <PermissionClient/>
             </Tabs.TabPane>
 
           </Tabs>
