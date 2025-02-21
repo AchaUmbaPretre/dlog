@@ -815,19 +815,20 @@ const Declaration = () => {
                     >
                       Ajouter une déclaration
                     </Button>
-
                     <Button
                       type="default"
                       onClick={handFilter}
                     >
                       {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                     </Button>
-
-                    <Dropdown overlay={menus} trigger={['click']}>
-                      <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                        Colonnes <DownOutlined />
-                      </Button>
-                    </Dropdown>
+                    {
+                      role === 'Admin' &&
+                      <Dropdown overlay={menus} trigger={['click']}>
+                        <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                          Colonnes <DownOutlined />
+                        </Button>
+                      </Dropdown>
+                    }
 
                   </div>
                 </div>
