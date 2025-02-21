@@ -577,6 +577,142 @@ const Declaration = () => {
       ),
     },
   ];
+
+  const columns2 = [
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%",
+
+      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
+    },
+      {
+        title: 'Template',
+        dataIndex: 'desc_template',
+        key: 'desc_template',
+        render: (text, record) => (
+          <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>
+            <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
+          </Space>
+        ),
+        ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
+      },
+      {
+        title: 'Client',
+        dataIndex: 'nom',
+        key: 'nom',
+        render: (text, record) => (
+          <Space style={columnStyles.titleClient} className={columnStyles.hideScroll} onClick={() => handleDeclarationOneAll(record.id_declaration_super, record.id_client)}>
+            <Tag icon={<UserOutlined />} color="orange">
+              {text ?? 'Aucun'}
+            </Tag>
+          </Space>
+        ),
+        ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' }),
+      },
+      {
+        title: 'Periode',
+        dataIndex: 'periode',
+        key: 'periode',
+        sorter: (a, b) => moment(a.periode) - moment(b.periode),
+        sortDirections: ['descend', 'ascend'],
+        render: (text, record) => {
+          const date = text ? new Date(text) : null;
+          const mois = date ? date.getMonth() + 1 : null; // getMonth() renvoie 0-11, donc +1 pour avoir 1-12
+          const annee = date ? date.getFullYear() : null;
+          
+          const formattedDate = date
+            ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
+            : 'Aucun';
+      
+          return (
+            <Tag 
+              icon={<CalendarOutlined />} 
+              color="purple" 
+              onClick={() => handleMoisAnnee(record.id_client, mois, annee)}
+            >
+              {formattedDate}
+            </Tag>
+          );
+        },
+        ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
+      },                
+      {
+        title: 'M² occupe',
+        dataIndex: 'm2_occupe',
+        key: 'm2_occupe',
+        sorter: (a, b) => a.m2_occupe - b.m2_occupe,
+        sortDirections: ['descend', 'ascend'],
+        render: (text) => (
+          <Space>
+            <div style={{color: text ? 'black' : 'red'}}>
+              {text ? Math.round(parseFloat(text))?.toLocaleString() : 0}
+            </div>
+          </Space>
+        ),
+        align: 'right', 
+      },
+      {
+        title: 'M² facture',
+        dataIndex: 'm2_facture',
+        key: 'm2_facture',
+        sorter: (a, b) => a.m2_facture - b.m2_facture,
+        sortDirections: ['descend', 'ascend'],
+        render: (text) => (
+          <Space>
+            <div style={{color: text ? 'black' : 'red'}}>
+              {text ? Math.round(parseFloat(text))?.toLocaleString() : 0}
+            </div>
+          </Space>
+        ),
+        align: 'right', 
+
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      width: '10%',
+      render: (text, record) => (
+        <Space size="middle">
+          <Tooltip title="Modifier">
+            <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                onClick={() => handleUpdateTemplate(record.id_declaration_super)}
+              />
+          </Tooltip>
+          <Tooltip title="Voir les détails">
+            <Button
+              icon={<EyeOutlined />}
+              onClick={() => handleDetails(record.id_declaration_super)}
+              aria-label="Voir les détails de la tâche"
+              style={{ color: 'blue' }}
+            />
+          </Tooltip>
+            <Tooltip title="Supprimer">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer cette déclaration ?"
+                onConfirm={() => handleDelete(record.id_declaration_super)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button
+                  icon={<DeleteOutlined />}
+                  style={{ color: 'red' }}
+                  aria-label="Delete client"
+                />
+              </Popconfirm>
+            </Tooltip>
+        </Space>
+      ),
+    },
+  ];
   
   const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
@@ -697,7 +833,7 @@ const Declaration = () => {
                 </div>
 
                 <Table
-                  columns={columns}
+                  columns={ role === 'Admin' ? columns : columns2}
                   dataSource={filteredData}
                   loading={loading}
                   pagination={pagination}
