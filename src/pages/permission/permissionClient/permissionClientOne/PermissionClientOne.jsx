@@ -9,8 +9,6 @@ const  PermissionClientOne = ({ idClient }) => {
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [title, setTitle] = useState('')
-
-  console.log(idClient)
   
   useEffect(() => {
     const fetchPermission = async () => {
