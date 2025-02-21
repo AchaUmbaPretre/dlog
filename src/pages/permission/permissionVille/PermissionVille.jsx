@@ -86,8 +86,8 @@ const PermissionDepart = () => {
       width: "4%",    },
     {   
       title: 'Ville',
-      dataIndex: 'name', 
-      key: 'name', 
+      dataIndex: 'capital', 
+      key: 'capital', 
       render: (text,record) => (
         <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id_tache)}>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
@@ -121,7 +121,7 @@ const PermissionDepart = () => {
   ];
 
   const filteredData = data.filter(item =>
-    item.name?.toLowerCase().includes(searchValue.toLowerCase())  );
+    item.capital?.toLowerCase().includes(searchValue.toLowerCase())  );
 
   return (
     <>
