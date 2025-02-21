@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import DeclarationOneClient from '../declarationOneClient/DeclarationOneClient';
 import TemplateForm from '../../template/templateForm/TemplateForm';
-import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -30,8 +29,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const [idValides, setIdValides] = useState([]);
     const [refreshKey, setRefreshKey] = useState(0);
     const [modalType, setModalType] = useState(null);
-    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-
 
     const closeAllModals = () => {
         setModalType(null);
