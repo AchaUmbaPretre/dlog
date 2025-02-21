@@ -55,6 +55,15 @@ export const updatePermissionVilleDeclaration = async (data) => {
   return axios.post(`${DOMAIN}/api/permission/permission_declaration_ville`, data)
 }
 
+//Permission client declaration
+export const getPermissionsClientDeclaration= async (userId) => {
+  return axios.get(`${DOMAIN}/api/permission/permission_declaration_client?id_client=${userId}`);
+};
+
+export const updatePermissionClientDeclaration = async (data) => {
+  return axios.post(`${DOMAIN}/api/permission/permission_declaration_client`, data)
+}
+
 //Permission declaration
 export const getPermissionsDeclaration = async (userId) => {
   return axios.get(`${DOMAIN}/api/permission/permission_declaration?id_declaration=${userId}`);
