@@ -915,7 +915,7 @@ const Declaration = () => {
           </Modal>
 
         </TabPane>
-
+        {role === 'Admin' && 
         <TabPane
           tab={
             <span>
@@ -933,6 +933,7 @@ const Declaration = () => {
         >
           <RapportDeclaration/>
         </TabPane>
+        }
       </Tabs>
     </>
   );
