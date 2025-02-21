@@ -397,12 +397,12 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                     role === 'Admin' && 
                                     <div>
                                         <Form.Item
-                                        name="ttc_entreposage"
-                                        label="TTC"
-                                        rules={[{ required: false, message: "Veuillez entrer le TTC" }] }
+                                            name="ttc_entreposage"
+                                            label="TTC"
+                                            rules={[{ required: false, message: "Veuillez entrer le TTC" }] }
                                         >   
                                         <InputNumber min={0} style={{ width: '100%' }} placeholder="TTC" onChange={(value) => {
-                                                    form.setFieldsValue({
+                                                form.setFieldsValue({
                                                     ttc_entreposage: value,
                                                     });
                                             }}  />
