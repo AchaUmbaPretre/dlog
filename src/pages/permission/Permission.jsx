@@ -169,7 +169,7 @@ const Permission = () => {
 
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> des villes et départements
+                <UnlockOutlined style={{ color: '#D2691E' }} />(Tache) des villes et départements
               </span>
                 }  
               key="3"
