@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
 import { UnlockOutlined } from '@ant-design/icons';
 import { Switch, Table, Tag } from 'antd';
-import { getPermissionsVille, updatePermissionVille } from '../../../../services/permissionService';
+import { getPermissionsVille, getPermissionsVilleDeclaration, updatePermissionVille, updatePermissionVilleDeclaration } from '../../../../services/permissionService';
 import { getProvinceOne } from '../../../../services/clientService';
 
 const  PermissionDeclaVilleOne = ({ idVille }) => {
@@ -18,7 +18,7 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
         setData(users);
         
         // Récupérer les permissions pour cette ville
-        const permissionData = await getPermissionsVille(idVille);
+        const permissionData = await getPermissionsVilleDeclaration(idVille);
         
         // Initialiser l'état des permissions (clé = id_utilisateur, valeur = true/false)
         const permissionMap = {};
@@ -56,7 +56,7 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
         id_ville: idVille,
         can_view: checked
       }
-      await updatePermissionVille(dataAll);
+      await updatePermissionVilleDeclaration(dataAll);
 
       // Optionnel: Afficher un message de succès ou gérer d'autres actions si nécessaire
       console.log(`Permission de l'utilisateur ${userId} mise à jour à ${checked}`);
