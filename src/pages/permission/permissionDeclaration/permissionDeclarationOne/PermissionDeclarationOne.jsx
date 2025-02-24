@@ -113,7 +113,9 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             dataIndex: 'desc_template',
             key: 'desc_template',
             render: (text, record) => (
-                <Tag color="blue">{`${text}`}</Tag>
+                <div>
+                    {text}
+                </div>
             ),
         },
         {
@@ -142,7 +144,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             },
           },
         {
-            title: <span style={{ color: '#52c41a' }}>Voir <EyeOutlined /></span>,
+            title: <span style={{ color: '#52c41a' }}>voir <EyeOutlined /></span>,
             dataIndex: 'can_view',
             key: 'can_view',
             render: (text, record) => (
@@ -153,7 +155,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             ),
         },
         {
-            title: <span style={{ color: '#1890ff' }}>Modifier <EditOutlined /></span>,
+            title: <span style={{ color: '#1890ff' }}>modifier <EditOutlined /></span>,
             dataIndex: 'can_edit',
             key: 'can_edit',
             render: (text, record) => (
@@ -164,7 +166,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             ),
         },
         {
-            title: <span style={{ color: '#000' }}>Ajouter <FormOutlined /></span>,
+            title: <span style={{ color: '#000' }}>ajouter <FormOutlined /></span>,
             dataIndex: 'can_comment',
             key: 'can_comment',
             render: (text, record) => (
@@ -211,6 +213,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
                       pagination={false}
                       loading={loading}
                       className='table_permission' 
+                      size="small"
                     />
             </div>
         </div>
