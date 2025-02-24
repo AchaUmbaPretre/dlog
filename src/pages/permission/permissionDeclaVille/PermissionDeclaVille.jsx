@@ -88,7 +88,7 @@ const PermissionDeclaVille = () => {
           dataIndex: 'name', 
           key: 'name', 
           render: (text,record) => (
-            <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id_tache)}>
+            <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id)}>
               <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
             </Space>
           )

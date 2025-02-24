@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Input, notification, Switch, Tag, Table } from 'antd';
 import { EyeOutlined, EditOutlined, CalendarOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
-import { getDeclaration } from '../../../../services/templateService';
+import { getDeclaration, getDeclarationVille } from '../../../../services/templateService';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 
-const PermissionDeclarationOne = ({idDeclaration}) => {
+const PermissionDeclarationOne = ({idVille, idUser}) => {
     const [permissions, setPermissions] = useState({});
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [data, setData] = useState([]);
@@ -18,15 +18,16 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
     const role = useSelector((state) => state.user?.currentUser.role);
     const scroll = { x: 400 };
 
+    console.log(idVille)
+
     useEffect(() => {
         const fetchPermissions = async () => {
             try {
-                const { data } = await getDeclaration(filteredDatas, searchValue, role, userId);
+                const { data } = await getDeclarationVille(idVille);
                 
-                setData(data.declarations);
+                setData(data);
     
-                const permissionsData = await getPermissionsDeclaration(idDeclaration);
-    
+                const permissionsData = await getPermissionsDeclaration(idUser);
                 const formattedPermissions = permissionsData.data.reduce((acc, permission) => {
                     acc[permission.id_user] = {
                         can_view: Boolean(permission.can_view),
@@ -53,10 +54,10 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
         };
     
         fetchPermissions();
-    }, [idDeclaration]);
+    }, [idVille, idUser]);
     
     
-    const handlePermissionChange = async (idUser, field, value) => {
+    const handlePermissionChange = async (idDeclaration, idUser, field, value) => {
         try {
             // Mettez à jour l'état local pour inclure `id_tache` et refléter immédiatement les modifications
             setPermissions((prevPermissions) => {
@@ -150,8 +151,8 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
             key: 'can_view',
             render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_utilisateur]?.can_view || false}
-                    onChange={value => handlePermissionChange(record.id_utilisateur, 'can_view', value)}
+                    checked={permissions[record.id_declaration_super]?.can_view || false}
+                    onChange={value => handlePermissionChange(record.id_declaration_super, record.id_utilisateur, 'can_view', value)}
                 />
             ),
         },
@@ -161,8 +162,8 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
             key: 'can_edit',
             render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_utilisateur]?.can_edit || false}
-                    onChange={value => handlePermissionChange(record.id_utilisateur, 'can_edit', value)}
+                    checked={permissions[record.id_declaration_super]?.can_edit || false}
+                    onChange={value => handlePermissionChange(record.id_declaration_super, 'can_edit', value)}
                 />
             ),
         },
@@ -172,8 +173,8 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
             key: 'can_comment',
             render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_utilisateur]?.can_comment || false}
-                    onChange={value => handlePermissionChange(record.id_utilisateur, 'can_comment', value)}
+                    checked={permissions[record.id_declaration_super]?.can_comment || false}
+                    onChange={value => handlePermissionChange(record.id_declaration_super, 'can_comment', value)}
                 />
             ),
         },

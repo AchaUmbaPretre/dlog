@@ -78,6 +78,9 @@ export const getDeclarationOneClient = async (id, idProvince, periode) => {
     return axios.get(`${DOMAIN}/api/template/declaration_superficie/oneClient?id_client=${id}&idProvince=${idProvince}&periode=${periode}`);
   };
 
+export const getDeclarationVille = async (id) => {
+    return axios.get(`${DOMAIN}/api/template/declaration_superficie/oneVille?id_ville=${id}`);
+  };
 export const postDeclaration = async (data) => {
     return axios.post(`${DOMAIN}/api/template/declaration_superficie`, data);
   };
