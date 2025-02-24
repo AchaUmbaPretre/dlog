@@ -100,9 +100,6 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
         }
     };
     
-    
-    
-
     const columns = [
         {
             title: <span>#</span>,
