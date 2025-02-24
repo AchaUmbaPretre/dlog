@@ -115,7 +115,7 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={1000}
         centered
       >
          <PermissionDeclarationOne idVille={idVille} idUser={idUser}/>
