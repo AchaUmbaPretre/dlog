@@ -41,10 +41,6 @@ const PermissionDeclaVille = () => {
         openModal('detail', id);
       };
     
-      const handleViewDetailsDepart = (id) => {
-        openModal('detailDepartement', id);
-      };
-    
       const closeAllModals = () => {
         setModalType(null);
       };
