@@ -66,7 +66,7 @@ export const updatePermissionClientDeclaration = async (data) => {
 
 //Permission declaration
 export const getPermissionsDeclaration = async (userId) => {
-  return axios.get(`${DOMAIN}/api/permission/permission_declaration?id_declaration=${userId}`);
+  return axios.get(`${DOMAIN}/api/permission/permission_declaration?userId=${userId}`);
 };
 
 export const updatePermissionDeclaration = async (data) => {

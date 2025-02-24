@@ -18,8 +18,6 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     const role = useSelector((state) => state.user?.currentUser.role);
     const scroll = { x: 400 };
 
-    console.log(idVille)
-
     useEffect(() => {
         const fetchPermissions = async () => {
             try {
@@ -29,7 +27,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     
                 const permissionsData = await getPermissionsDeclaration(idUser);
                 const formattedPermissions = permissionsData.data.reduce((acc, permission) => {
-                    acc[permission.id_user] = {
+                    acc[permission.id_declaration] = {
                         can_view: Boolean(permission.can_view),
                         can_edit: Boolean(permission.can_edit),
                         can_comment: Boolean(permission.can_comment),
@@ -58,21 +56,24 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     
     
     const handlePermissionChange = async (idDeclaration, idUser, field, value) => {
+        console.log(idDeclaration, idUser, field, value);
+        
         try {
-            // Mettez à jour l'état local pour inclure `id_tache` et refléter immédiatement les modifications
+            // Mise à jour de l'état local
             setPermissions((prevPermissions) => {
                 const updatedPermissions = {
                     ...prevPermissions,
-                    [idUser]: {
-                        ...prevPermissions[idUser],
+                    [idDeclaration]: {
+                        ...prevPermissions[idDeclaration],
                         id_declaration: idDeclaration,
                         id_user: idUser,
                         [field]: value ? 1 : 0,
                     },
                 };
     
-                // Envoyez toutes les permissions de cet utilisateur au serveur
-                updatePermissionsToServer(updatedPermissions[idUser]);
+                // Envoyer les permissions mises à jour au serveur
+                updatePermissionsToServer(updatedPermissions[idDeclaration]);
+    
                 return updatedPermissions;
             });
     
@@ -89,6 +90,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     };
     
     const updatePermissionsToServer = async (permissions) => {
+        console.log(permissions);
         try {
             await updatePermissionDeclaration({
                 id_declaration: permissions.id_declaration,
@@ -101,6 +103,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             console.error('Erreur lors de l’envoi des permissions au serveur:', error);
         }
     };
+    
     
     
 
@@ -152,7 +155,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_declaration_super]?.can_view || false}
-                    onChange={value => handlePermissionChange(record.id_declaration_super, record.id_utilisateur, 'can_view', value)}
+                    onChange={value => handlePermissionChange(record.id_declaration_super, idUser, 'can_view', value)}
                 />
             ),
         },
@@ -163,7 +166,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_declaration_super]?.can_edit || false}
-                    onChange={value => handlePermissionChange(record.id_declaration_super, 'can_edit', value)}
+                    onChange={value => handlePermissionChange(record.id_declaration_super, idUser, 'can_edit', value)}
                 />
             ),
         },
@@ -174,7 +177,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_declaration_super]?.can_comment || false}
-                    onChange={value => handlePermissionChange(record.id_declaration_super, 'can_comment', value)}
+                    onChange={value => handlePermissionChange(record.id_declaration_super, idUser,  'can_comment', value)}
                 />
             ),
         },

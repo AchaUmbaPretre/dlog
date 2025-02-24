@@ -137,7 +137,7 @@ const TopBar = () => {
         <span className="logo"><div className="logo-d">D</div>LOG</span>
       </div>
       <div className="topbar-right">
-        <Popover
+{/*         <Popover
           content={renderNotifications()}
           title={t('Notifications')}
           trigger="click"
@@ -150,7 +150,10 @@ const TopBar = () => {
               <BellOutlined aria-label="Notifications" />
             </div>
           </Badge>
-        </Popover>
+        </Popover> */}
+        <div className="topbar-icons">
+          <BellOutlined aria-label="Notifications" />
+        </div>
         <hr />
         <div className="topbar-icons">
           <MailOutlined aria-label="Messages" />

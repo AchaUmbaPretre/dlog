@@ -77,7 +77,7 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
             <Tooltip title="Voir les permissions pour ce client">
               <Button
                 icon={<InfoCircleOutlined />}
-                onClick={() => handleAddDeclaration(record.id_client)}
+                onClick={() => handleAddDeclaration(record.id_utilisateur)}
                 aria-label="Voir les détails"
                 style={{ color: 'blue' }}
               />
