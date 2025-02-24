@@ -56,7 +56,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     
     
     const handlePermissionChange = async (idDeclaration, idUser, field, value) => {
-        console.log(idDeclaration, idUser, field, value);
+        console.log(idDeclaration, idUser, field, value, idVille);
         
         try {
             // Mise à jour de l'état local
@@ -67,6 +67,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
                         ...prevPermissions[idDeclaration],
                         id_declaration: idDeclaration,
                         id_user: idUser,
+                        id_ville: idVille,
                         [field]: value ? 1 : 0,
                     },
                 };
@@ -95,6 +96,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             await updatePermissionDeclaration({
                 id_declaration: permissions.id_declaration,
                 id_user: permissions.id_user,
+                id_ville: idVille,
                 can_view: permissions.can_view || 0,
                 can_edit: permissions.can_edit || 0,
                 can_comment: permissions.can_comment || 0,
