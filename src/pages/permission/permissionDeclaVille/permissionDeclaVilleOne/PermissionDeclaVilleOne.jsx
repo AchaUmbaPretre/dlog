@@ -82,7 +82,7 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
       key: 'menu_title',
       render: (text, record) => (
         <div>
-            {`${record.nom} - ${record.prenom}`}
+            {`${record.nom} ${record.prenom}`}
         </div>
       ),
     },
