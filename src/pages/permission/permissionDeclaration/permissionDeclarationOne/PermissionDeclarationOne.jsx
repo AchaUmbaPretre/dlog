@@ -2,20 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Input, notification, Switch, Tag, Table } from 'antd';
 import { EyeOutlined, EditOutlined, CalendarOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
-import { getDeclaration, getDeclarationVille } from '../../../../services/templateService';
-import { useSelector } from 'react-redux';
+import { getDeclarationVille } from '../../../../services/templateService';
 import moment from 'moment';
-
 
 const PermissionDeclarationOne = ({idVille, idUser}) => {
     const [permissions, setPermissions] = useState({});
-    const [filteredDatas, setFilteredDatas] = useState(null);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
     const [title, setTitle] = useState('');
-    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    const role = useSelector((state) => state.user?.currentUser.role);
     const scroll = { x: 400 };
 
     useEffect(() => {
@@ -72,7 +67,6 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
                     },
                 };
     
-                // Envoyer les permissions mises à jour au serveur
                 updatePermissionsToServer(updatedPermissions[idDeclaration]);
     
                 return updatedPermissions;
