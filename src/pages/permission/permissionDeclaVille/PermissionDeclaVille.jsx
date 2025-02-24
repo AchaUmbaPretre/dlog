@@ -109,9 +109,8 @@ const PermissionDeclaVille = () => {
       ];
     
       const filteredData = data.filter(item =>
-        item.name?.toLowerCase().includes(searchValue.toLowerCase())  );
+        item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())  );
     
-
   return (
     <>
         <div className="client">
