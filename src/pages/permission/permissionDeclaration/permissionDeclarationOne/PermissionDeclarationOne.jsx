@@ -164,7 +164,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             ),
         },
         {
-            title: <span style={{ color: '#000' }}>ajouter <FormOutlined /></span>,
+            title: <span style={{ color: '#000' }}>Supprimer</span>,
             dataIndex: 'can_comment',
             key: 'can_comment',
             render: (text, record) => (
