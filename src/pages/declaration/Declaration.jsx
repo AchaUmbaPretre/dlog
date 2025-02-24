@@ -682,6 +682,7 @@ const Declaration = () => {
         <Space size="middle">
           <Tooltip title="Modifier">
             <Button
+                disabled={!record.can_edit}
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
                 onClick={() => handleUpdateTemplate(record.id_declaration_super)}
@@ -690,6 +691,7 @@ const Declaration = () => {
           <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
+              disabled={!record.can_view}
               onClick={() => handleDetails(record.id_declaration_super)}
               aria-label="Voir les détails de la tâche"
               style={{ color: 'blue' }}
@@ -704,6 +706,7 @@ const Declaration = () => {
               >
                 <Button
                   icon={<DeleteOutlined />}
+                  disabled={!record.can_comment}
                   style={{ color: 'red' }}
                   aria-label="Delete client"
                 />
