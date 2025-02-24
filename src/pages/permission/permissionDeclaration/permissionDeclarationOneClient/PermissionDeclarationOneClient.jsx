@@ -49,7 +49,6 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
         fetchPermissions();
     }, [idClient, idUser]);
     
-    
     const handlePermissionChange = async (idDeclaration, idUser, field, value) => {
         
         try {
@@ -175,7 +174,7 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     ];
     
       const filteredData = data.filter(item =>
-        item.nom?.toLowerCase().includes(searchValue.toLowerCase())
+        item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())
       );
 
   return (
