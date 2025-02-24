@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
 import { UnlockOutlined } from '@ant-design/icons';
-import { Switch, Table, Tag } from 'antd';
+import { Switch, Table } from 'antd';
 import { getPermissionsVilleDeclaration, updatePermissionVilleDeclaration } from '../../../../services/permissionService';
 import { getProvinceOne } from '../../../../services/clientService';
 
@@ -81,7 +81,9 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
       dataIndex: 'menu_title',
       key: 'menu_title',
       render: (text, record) => (
-        <Tag color="blue">{`${record.nom} - ${record.prenom}`}</Tag>
+        <div>
+            {`${record.nom} - ${record.prenom}`}
+        </div>
       ),
     },
     {
