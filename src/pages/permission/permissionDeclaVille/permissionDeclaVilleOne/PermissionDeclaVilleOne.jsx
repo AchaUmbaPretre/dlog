@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
 import { UnlockOutlined } from '@ant-design/icons';
 import { Switch, Table, Tag } from 'antd';
-import { getPermissionsVille, getPermissionsVilleDeclaration, updatePermissionVille, updatePermissionVilleDeclaration } from '../../../../services/permissionService';
+import { getPermissionsVilleDeclaration, updatePermissionVilleDeclaration } from '../../../../services/permissionService';
 import { getProvinceOne } from '../../../../services/clientService';
 
 const  PermissionDeclaVilleOne = ({ idVille }) => {
@@ -39,9 +39,6 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
     fetchPermission();
   }, [idVille]);
 
-  console.log(permissions)
-
-  // Gérer le changement de permission
   const handlePermissionChange = async (userId, checked) => {
     try {
       // Mettre à jour l'état local des permissions
