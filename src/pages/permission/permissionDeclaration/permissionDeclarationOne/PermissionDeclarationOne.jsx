@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { Input, notification, Switch, Tag, Table } from 'antd';
-import { EyeOutlined, EditOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, CalendarOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
-import { getUser } from '../../../../services/userService';
+import { getDeclaration } from '../../../../services/templateService';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+
 
 const PermissionDeclarationOne = ({idDeclaration}) => {
     const [permissions, setPermissions] = useState({});
+    const [filteredDatas, setFilteredDatas] = useState(null);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
     const [title, setTitle] = useState('');
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const role = useSelector((state) => state.user?.currentUser.role);
     const scroll = { x: 400 };
 
     useEffect(() => {
         const fetchPermissions = async () => {
             try {
-                const { data: users } = await getUser();
-                setData(users);
+                const { data } = await getDeclaration(filteredDatas, searchValue, role, userId);
+                
+                setData(data.declarations);
     
                 const permissionsData = await getPermissionsDeclaration(idDeclaration);
     
@@ -50,7 +57,6 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
     
     
     const handlePermissionChange = async (idUser, field, value) => {
-        console.log(idUser, field, value)
         try {
             // Mettez à jour l'état local pour inclure `id_tache` et refléter immédiatement les modifications
             setPermissions((prevPermissions) => {
@@ -106,13 +112,38 @@ const PermissionDeclarationOne = ({idDeclaration}) => {
             width: '3%',
         },
         {
-            title: 'Utilisateur',
-            dataIndex: 'menu_title',
-            key: 'menu_title',
+            title: 'Déclaration',
+            dataIndex: 'desc_template',
+            key: 'desc_template',
             render: (text, record) => (
-                <Tag color="blue">{`${record.nom} - ${record.prenom}`}</Tag>
+                <Tag color="blue">{`${text}`}</Tag>
             ),
         },
+        {
+            title: 'Periode',
+            dataIndex: 'periode',
+            key: 'periode',
+            sorter: (a, b) => moment(a.periode) - moment(b.periode),
+            sortDirections: ['descend', 'ascend'],
+            render: (text, record) => {
+              const date = text ? new Date(text) : null;
+              const mois = date ? date.getMonth() + 1 : null; // getMonth() renvoie 0-11, donc +1 pour avoir 1-12
+              const annee = date ? date.getFullYear() : null;
+              
+              const formattedDate = date
+                ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
+                : 'Aucun';
+          
+              return (
+                <Tag 
+                  icon={<CalendarOutlined />} 
+                  color="purple" 
+                >
+                  {formattedDate}
+                </Tag>
+              );
+            },
+          },
         {
             title: <span style={{ color: '#52c41a' }}>Voir <EyeOutlined /></span>,
             dataIndex: 'can_view',

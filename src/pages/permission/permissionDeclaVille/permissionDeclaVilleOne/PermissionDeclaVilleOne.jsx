@@ -1,37 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
-import { UnlockOutlined } from '@ant-design/icons';
-import { Switch, Table } from 'antd';
+import { UnlockOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { Switch, Table, Tooltip, Space, Button, Modal} from 'antd';
 import { getPermissionsVilleDeclaration, updatePermissionVilleDeclaration } from '../../../../services/permissionService';
 import { getProvinceOne } from '../../../../services/clientService';
+import PermissionDeclaration from '../../permissionDeclaration/PermissionDeclaration';
+import PermissionDeclarationOne from '../../permissionDeclaration/permissionDeclarationOne/PermissionDeclarationOne';
 
 const  PermissionDeclaVilleOne = ({ idVille }) => {
-  const scroll = { x: 400 };
-  const [data, setData] = useState([]);
-  const [permissions, setPermissions] = useState({});
-  const [title, setTitle] = useState('')
+    const scroll = { x: 400 };
+    const [data, setData] = useState([]);
+    const [permissions, setPermissions] = useState({});
+    const [title, setTitle] = useState('')
+    const [idUser, setIdUser] = useState('');
+    const [modalType, setModalType] = useState(null);
+    const [searchValue, setSearchValue] = useState('');
   
   useEffect(() => {
     const fetchPermission = async () => {
       try { 
         const { data: users } = await getUser();
         setData(users);
-        
-        // Récupérer les permissions pour cette ville
-        const permissionData = await getPermissionsVilleDeclaration(idVille);
-        
-        // Initialiser l'état des permissions (clé = id_utilisateur, valeur = true/false)
-        const permissionMap = {};
-        permissionData.data.forEach((permission) => {
-          permissionMap[permission.id_user] = permission.can_view;
-        });
 
         if(idVille){
             const {data} = await getProvinceOne(idVille)
             setTitle(data[0].name)
         }
 
-        setPermissions(permissionMap);
       } catch (error) {
         console.log(error);
       }
@@ -39,32 +34,19 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
     fetchPermission();
   }, [idVille]);
 
-  const handlePermissionChange = async (userId, checked) => {
-    try {
-      // Mettre à jour l'état local des permissions
-      setPermissions(prevPermissions => ({
-        ...prevPermissions,
-        [userId]: checked
-      }));
+  const handleAddDeclaration = (id) => {
+    openModal('Add', id);
 
-      // Mettre à jour la permission dans la base de données
-      const dataAll = {
-        id_user: userId,
-        id_ville: idVille,
-        can_view: checked
-      }
-      await updatePermissionVilleDeclaration(dataAll);
+  }
 
-      // Optionnel: Afficher un message de succès ou gérer d'autres actions si nécessaire
-      console.log(`Permission de l'utilisateur ${userId} mise à jour à ${checked}`);
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour de la permission:", error);
-      // Vous pouvez également rétablir la valeur précédente en cas d'erreur
-      setPermissions(prevPermissions => ({
-        ...prevPermissions,
-        [userId]: !checked
-      }));
-    }
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+  
+  const openModal = (type, idUser = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdUser(idUser);
   };
 
   // Colonnes du tableau
@@ -87,16 +69,22 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
       ),
     },
     {
-      title: <span style={{ color: '#52c41a' }}></span>,
-      dataIndex: 'can_view',
-      key: 'can_view',
+      title: 'Action',
+      key: 'action',
+      width: '10%',
       render: (text, record) => (
-        <Switch
-          checked={permissions[record.id_utilisateur] || false} // Vérifier si la permission existe
-          onChange={(checked) => handlePermissionChange(record.id_utilisateur, checked)}
-        />
-      ),
-    },
+        <Space size='middle'>
+            <Tooltip title="Voir les permissions pour ce client">
+              <Button
+                icon={<InfoCircleOutlined />}
+                onClick={() => handleAddDeclaration(record.id_client)}
+                aria-label="Voir les détails"
+                style={{ color: 'blue' }}
+              />
+            </Tooltip>
+        </Space>
+      )
+    }
   ];
 
   return (
@@ -121,6 +109,17 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
           />
         </div>
       </div>
+
+      <Modal
+        title=""
+        visible={modalType === 'Add'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+         <PermissionDeclarationOne idVille={idVille} idUser={idUser}/>
+      </Modal>
     </>
   );
 };
