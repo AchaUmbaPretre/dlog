@@ -92,7 +92,7 @@ const  PermissionClientOne = ({ idClient }) => {
             <div className="client-row-icon">
               <UnlockOutlined className="client-icon" />
             </div>
-            <h2 className="client-h2">Gestion des permissions pour client </h2>
+            <h2 className="client-h2">Gestion des permissions</h2>
           </div>
           <Table
             dataSource={data}

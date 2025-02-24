@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
-import { ExportOutlined,HomeOutlined,InfoCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,InfoCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getClient } from '../../../services/clientService';
 import PermissionClientOne from './permissionClientOne/PermissionClientOne';

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Input, notification, Switch, Tag, Table } from 'antd';
-import { EyeOutlined, EditOutlined, CalendarOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, CalendarOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
-import { getDeclarationOneClient, getDeclarationVille } from '../../../../services/templateService';
+import { getDeclarationOneClient } from '../../../../services/templateService';
 import moment from 'moment';
 
 const PermissionDeclarationOneClient = ({idClient, idUser}) => {
@@ -10,7 +10,6 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
-    const [title, setTitle] = useState('');
     const scroll = { x: 400 };
 
     useEffect(() => {
