@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Input, notification, Switch, Tag, Table } from 'antd';
 import { EyeOutlined, EditOutlined, CalendarOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
-import { getDeclarationVille } from '../../../../services/templateService';
+import { getDeclarationOneClient, getDeclarationVille } from '../../../../services/templateService';
 import moment from 'moment';
 
 const PermissionDeclarationOneClient = ({idClient, idUser}) => {
@@ -16,7 +16,7 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     useEffect(() => {
         const fetchPermissions = async () => {
             try {
-                const { data } = await getDeclarationVille(idClient);
+                const { data } = await getDeclarationOneClient(idClient);
                 
                 setData(data);
     
@@ -51,7 +51,6 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     
     
     const handlePermissionChange = async (idDeclaration, idUser, field, value) => {
-        console.log(idDeclaration, idUser, field, value, idClient);
         
         try {
             // Mise à jour de l'état local
@@ -85,7 +84,6 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     };
     
     const updatePermissionsToServer = async (permissions) => {
-        console.log(permissions);
         try {
             await updatePermissionDeclaration({
                 id_declaration: permissions.id_declaration,
