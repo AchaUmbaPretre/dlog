@@ -83,11 +83,12 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     };
     
     const updatePermissionsToServer = async (permissions) => {
+        console.log(permissions);
         try {
             await updatePermissionDeclaration({
                 id_declaration: permissions.id_declaration,
                 id_user: permissions.id_user,
-                id_client: idClient,
+                id_client: permissions.id_client,
                 can_view: permissions.can_view || 0,
                 can_edit: permissions.can_edit || 0,
                 can_comment: permissions.can_comment || 0,
