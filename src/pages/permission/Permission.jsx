@@ -199,7 +199,7 @@ const Permission = () => {
 
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations Client
+                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations par Client
               </span>
                 } 
               key="5"
