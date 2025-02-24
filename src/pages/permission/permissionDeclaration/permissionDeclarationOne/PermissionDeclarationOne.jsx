@@ -188,7 +188,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
                     <div className="client-row-icon">
                         <UnlockOutlined className='client-icon' />
                     </div>
-                    <h2 className="client-h2">Gestion des permissions de tacheSSSSS : {title}</h2>
+                    <h2 className="client-h2">Gestion des permissions</h2>
                 </div>
                 <div className="client-actions">
                     <div className="client-row-left">
