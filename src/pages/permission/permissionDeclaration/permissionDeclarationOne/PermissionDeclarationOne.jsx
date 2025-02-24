@@ -126,8 +126,6 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             sortDirections: ['descend', 'ascend'],
             render: (text, record) => {
               const date = text ? new Date(text) : null;
-              const mois = date ? date.getMonth() + 1 : null; // getMonth() renvoie 0-11, donc +1 pour avoir 1-12
-              const annee = date ? date.getFullYear() : null;
               
               const formattedDate = date
                 ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
