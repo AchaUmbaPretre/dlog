@@ -29,11 +29,6 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
                     };
                     return acc;
                 }, {});
-
-/*                 if(idDeclaration){
-                    const {data} = await getTacheOneV(idDeclaration)
-                    setTitle(data[0].nom_tache)
-                } */
     
                 setPermissions(formattedPermissions);
                 setLoading(false);
