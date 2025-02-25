@@ -163,22 +163,37 @@ const Permission = () => {
               } 
               key="2"
             >
-              <ListeTachePermi/>
+              <Tabs 
+                defaultActiveKey="0"
+                type="card"
+                tabPosition="top"
+              >
+                <Tabs.TabPane tab= {
+                  <span>
+                    <UnlockOutlined style={{ color: '#D2691E' }} /> Par tache
+                  </span>
+                  } 
+                  key="1"
+                >
+                  <ListeTachePermi/>
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab= {
+                  <span>
+                    <UnlockOutlined style={{ color: '#D2691E' }} /> Par ville et département
+                  </span>
+                    }  
+                  key="2"
+                >
+                  <PermissionVille/>
+                </Tabs.TabPane>
+
+              </Tabs>
             </Tabs.TabPane>
 
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} />(Tache) par ville et département
-              </span>
-                }  
-              key="3"
-            >
-              <PermissionVille/>
-            </Tabs.TabPane>
-
-            <Tabs.TabPane tab= {
-              <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> Permission déclaration
+                <UnlockOutlined style={{ color: '#D2691E' }} /> Permission des déclarations
               </span>
                 } 
               key="4"
