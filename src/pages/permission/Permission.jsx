@@ -124,7 +124,6 @@ const Permission = () => {
             type="card"
             tabPosition="top"
           >
-
             <Tabs.TabPane tab={
               <span>
                 <UnlockOutlined style={{ color: '#D2691E' }} />Permission d'options
