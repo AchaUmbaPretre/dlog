@@ -127,7 +127,7 @@ const Permission = () => {
 
             <Tabs.TabPane tab={
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> d'options
+                <UnlockOutlined style={{ color: '#D2691E' }} />Permission d'options
               </span>
               } 
               key="0"
