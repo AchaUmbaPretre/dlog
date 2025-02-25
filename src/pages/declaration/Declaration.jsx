@@ -277,8 +277,8 @@ const Declaration = () => {
           dataIndex: 'nom_statut_decl',
           key: 'nom_statut_decl',
           render: (text, record) => (
-            <Tag color={record.nom_statut_decl === 'Clôturé' ? 'red' : 'green'}>
-              {record.nom_statut_decl === 'Clôturé' ? 'Clôturé' : 'Ouvert'}
+            <Tag color={record.id_statut_decl === 2 ? 'red' : 'green'}>
+              {record.id_statut_decl === 2 ? 'Clôturé' : 'Ouvert'}
             </Tag>
           ),
         },
