@@ -158,7 +158,7 @@ const Permission = () => {
 
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> des taches
+                <UnlockOutlined style={{ color: '#D2691E' }} />Permission des taches
               </span>
               } 
               key="2"
