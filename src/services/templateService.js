@@ -93,6 +93,12 @@ export const deletePutDeclaration = async (id) => {
     return axios.put(`${DOMAIN}/api/template/declaration_superficie_delete?id=${id}`);
   };
 
+  //Statut declarations
+export const putDeclarationsStatus = async (id, data) => {
+    return axios.put(`${DOMAIN}/api/template/statut_declaration?id_declarations=${id}`, {
+      status_decl : data
+    });
+  };
 
 export const getContrat = async () => {
     return axios.get(`${DOMAIN}/api/template/contrat`);
