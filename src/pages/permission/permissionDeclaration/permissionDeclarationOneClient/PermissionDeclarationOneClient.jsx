@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Input, notification, Switch, Tag, Table } from 'antd';
+import { Input, notification, Switch, Tag, Table, Button } from 'antd';
 import { EyeOutlined, EditOutlined, CalendarOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
 import { getDeclarationOneClient } from '../../../../services/templateService';
@@ -10,6 +10,7 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
+    const [title, setTitle] = useState('');
     const scroll = { x: 400 };
 
     useEffect(() => {
@@ -168,6 +169,30 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
         },
     ];
     
+    const toggleAllPermissions = (checked) => {
+        const updatedPermissions = {};
+        
+        data.forEach((item) => {
+            updatedPermissions[item.id_declaration_super] = {
+                id_declaration: item.id_declaration_super,
+                id_user: idUser,
+                id_client: idClient,
+                can_view: checked ? 1 : 0,
+                can_edit: checked ? 1 : 0,
+                can_comment: checked ? 1 : 0,
+            };
+    
+            updatePermissionsToServer(updatedPermissions[item.id_declaration_super]);
+        });
+    
+        setPermissions(updatedPermissions);
+        notification.success({
+            message: 'Mise à jour des permissions',
+            description: `Toutes les permissions ont été ${checked ? 'activées' : 'désactivées'}.`,
+        });
+    };
+
+    
       const filteredData = data.filter(item =>
         item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())
       );
@@ -193,6 +218,24 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
                             enterButton
                         />    
                     </div>
+
+                    <div>
+                        <Button
+                        type="primary" 
+                        onClick={() => toggleAllPermissions(true)}
+                    >
+                        Tout activer
+                        </Button>
+
+                        <Button 
+                            type="default" 
+                            onClick={() => toggleAllPermissions(false)}
+                            style={{ marginLeft: 8 }}
+                        >
+                            Tout désactiver
+                        </Button>
+                    </div>
+                    
                 </div>
                     <Table
                       dataSource={loading ? [] : filteredData}
