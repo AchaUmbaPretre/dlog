@@ -278,7 +278,7 @@ const Declaration = () => {
           key: 'nom_statut_decl',
           render: (text, record) => (
             <Tag color={record.nom_statut_decl === 'Clôturé' ? 'red' : 'green'}>
-              {record.nom_statut_decl ?? 'Ouvert'}
+              {record.nom_statut_decl === 'Clôturé' ? 'Clôturé' : 'Ouvert'}
             </Tag>
           ),
         },
