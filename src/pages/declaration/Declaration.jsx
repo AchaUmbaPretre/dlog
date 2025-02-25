@@ -217,7 +217,6 @@ const Declaration = () => {
 
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
-    
     // Groupe Entreposage
     {
       title: 'Entreposage',
@@ -272,7 +271,17 @@ const Declaration = () => {
             );
           },
           ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
-        },                
+        },  
+        {
+          title: 'Statut',
+          dataIndex: 'nom_statut_decl',
+          key: 'nom_statut_decl',
+          render: (text, record) => (
+            <Tag color={record.nom_statut_decl === 'Clôturé' ? 'red' : 'green'}>
+              {record.nom_statut_decl ?? 'Ouvert'}
+            </Tag>
+          ),
+        },
         {
           title: 'M² occupe',
           dataIndex: 'm2_occupe',
