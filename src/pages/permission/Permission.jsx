@@ -179,12 +179,38 @@ const Permission = () => {
 
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations par ville
+                <UnlockOutlined style={{ color: '#D2691E' }} /> Permission déclaration
               </span>
                 } 
               key="4"
             >
-              <PermissionDeclaVille/>
+              <Tabs 
+                defaultActiveKey="0"
+                type="card"
+                tabPosition="top"
+              >
+                <Tabs.TabPane tab= {
+                  <span>
+                    <UnlockOutlined style={{ color: '#D2691E' }} /> Par ville
+                  </span>
+                    } 
+                  key="1"
+                >
+                  <PermissionDeclaVille/>
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab= {
+                <span>
+                  <UnlockOutlined style={{ color: '#D2691E' }} /> Par client
+                </span>
+                  } 
+                key="2"
+              >
+                <PermissionClient/>
+              </Tabs.TabPane>
+
+                
+              </Tabs>
             </Tabs.TabPane>
 
 {/*             <Tabs.TabPane tab= {
@@ -196,16 +222,6 @@ const Permission = () => {
             >
               <PermissionDeclaration/>
             </Tabs.TabPane> */}
-
-            <Tabs.TabPane tab= {
-              <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations par Client
-              </span>
-                } 
-              key="5"
-            >
-              <PermissionClient/>
-            </Tabs.TabPane>
 
           </Tabs>
         </div>
