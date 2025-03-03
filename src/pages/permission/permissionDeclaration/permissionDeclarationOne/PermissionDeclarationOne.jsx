@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Input, notification, Switch, Tag, Table } from 'antd';
-import { EyeOutlined, EditOutlined, CalendarOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
+import { Input, notification, Switch, Table } from 'antd';
+import { EyeOutlined, EditOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
 import { getDeclarationVille } from '../../../../services/templateService';
-import moment from 'moment';
 
 const PermissionDeclarationOne = ({idVille, idUser}) => {
     const [permissions, setPermissions] = useState({});
