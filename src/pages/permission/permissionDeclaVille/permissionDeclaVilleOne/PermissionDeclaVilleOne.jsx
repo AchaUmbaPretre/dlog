@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
 import { UnlockOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { Switch, Table, Tooltip, Space, Button, Modal} from 'antd';
-import { getPermissionsVilleDeclaration, updatePermissionVilleDeclaration } from '../../../../services/permissionService';
+import { Table, Tooltip, Space, Button, Modal} from 'antd';
 import { getProvinceOne } from '../../../../services/clientService';
-import PermissionDeclaration from '../../permissionDeclaration/PermissionDeclaration';
 import PermissionDeclarationOne from '../../permissionDeclaration/permissionDeclarationOne/PermissionDeclarationOne';
 
 const  PermissionDeclaVilleOne = ({ idVille }) => {
