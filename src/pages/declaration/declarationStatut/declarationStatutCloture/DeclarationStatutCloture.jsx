@@ -2,7 +2,11 @@ import React from 'react'
 
 const DeclarationStatutCloture = () => {
   return (
-    <div>DeclarationStatutCloture</div>
+    <>
+        <div className="declaration_statut">
+            
+        </div>
+    </>
   )
 }
 
