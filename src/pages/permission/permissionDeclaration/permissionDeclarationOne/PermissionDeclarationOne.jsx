@@ -109,7 +109,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             width: '3%',
         },
         {
-            title: 'Déclaration',
+            title: 'Template',
             dataIndex: 'desc_template',
             key: 'desc_template',
             render: (text, record) => (
@@ -118,29 +118,6 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
                 </div>
             ),
         },
-        {
-            title: 'Periode',
-            dataIndex: 'periode',
-            key: 'periode',
-            sorter: (a, b) => moment(a.periode) - moment(b.periode),
-            sortDirections: ['descend', 'ascend'],
-            render: (text, record) => {
-              const date = text ? new Date(text) : null;
-              
-              const formattedDate = date
-                ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
-                : 'Aucun';
-          
-              return (
-                <Tag 
-                  icon={<CalendarOutlined />} 
-                  color="purple" 
-                >
-                  {formattedDate}
-                </Tag>
-              );
-            },
-          },
         {
             title: <span style={{ color: '#52c41a' }}>voir <EyeOutlined /></span>,
             dataIndex: 'can_view',
@@ -177,7 +154,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     ];
     
       const filteredData = data.filter(item =>
-        item.nom?.toLowerCase().includes(searchValue.toLowerCase())
+        item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())
       );
 
   return (
