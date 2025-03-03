@@ -98,7 +98,7 @@ const DeclarationStatutCloture = () => {
               </div>
             )}
             <div className="declaration_statut_row">
-            <Button type="primary" ghost>
+            <Button type="primary">
                 Cloturé
             </Button>
             </div>
