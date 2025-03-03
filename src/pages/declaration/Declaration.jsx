@@ -133,12 +133,14 @@ const Declaration = () => {
       openModal('Mois', '', idClient, dataMois);
       setMois(dataMois)
       setAnnee(annee)
-
-      console.log(idClient, dataMois, annee)
     };
 
   const handleAddTemplate = (idDeclaration) => {
     openModal('Add', idDeclaration);
+  };
+
+  const handleAllCloture = (idDeclaration) => {
+    openModal('cloture', idDeclaration);
   };
 
   const handleDetails = (idDeclaration) => {
@@ -829,7 +831,7 @@ const Declaration = () => {
                     <Button
                       type="primary"
                       icon={<CheckCircleOutlined />}
-                      onClick={handleAddTemplate}
+                      onClick={handleAllCloture}
                     >
                       Cloturé
                     </Button>
