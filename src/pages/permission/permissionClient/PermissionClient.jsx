@@ -100,14 +100,6 @@ const PermissionClient = () => {
       ),
     },
     {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
-      render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text ?? 'Aucun'}</Tag>
-      ),
-    },
-    {
       title: 'Action',
       key: 'action',
       width: '10%',
