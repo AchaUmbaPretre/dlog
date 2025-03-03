@@ -691,7 +691,7 @@ const Declaration = () => {
         <Space size="middle">
           <Tooltip title="Modifier">
             <Button
-                disabled={!record.can_edit}
+                disabled={!record.can_edit || record.id_statut_decl === 2}
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
                 onClick={() => handleUpdateTemplate(record.id_declaration_super)}
@@ -706,7 +706,7 @@ const Declaration = () => {
               style={{ color: 'blue' }}
             />
           </Tooltip>
-            <Tooltip title="Supprimer">
+          <Tooltip title="Supprimer">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer cette déclaration ?"
                 onConfirm={() => handleDelete(record.id_declaration_super)}
@@ -720,7 +720,7 @@ const Declaration = () => {
                   aria-label="Delete client"
                 />
               </Popconfirm>
-            </Tooltip>
+          </Tooltip>
         </Space>
       ),
     },
