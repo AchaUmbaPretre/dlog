@@ -16,7 +16,6 @@ const PermissionClient = () => {
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
 
-
     const fetchData = async () => {
       try {
         const { data } = await getClient();
@@ -39,7 +38,6 @@ const PermissionClient = () => {
     openModal('Add', idClient);
   };
 
-
   const closeAllModals = () => {
     setModalType(null);
   };
@@ -49,7 +47,6 @@ const PermissionClient = () => {
     setModalType(type);
     setidClient(idClient);
   };
-  
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -62,7 +59,6 @@ const PermissionClient = () => {
   const handlePrint = () => {
     window.print();
   };
-
 
   const menu = (
     <Menu>
