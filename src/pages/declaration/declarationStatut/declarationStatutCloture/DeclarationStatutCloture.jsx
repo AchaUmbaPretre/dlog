@@ -77,7 +77,6 @@ const DeclarationStatutCloture = () => {
             });
         });
 
-
         await putDeclarationsStatusCloture({ declarations: declarationsToUpdate });
 
         notification.success({
