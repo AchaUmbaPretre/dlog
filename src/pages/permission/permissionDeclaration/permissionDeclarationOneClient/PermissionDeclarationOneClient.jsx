@@ -21,7 +21,7 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     
                 const permissionsData = await getPermissionsDeclaration(idUser);
                 const formattedPermissions = permissionsData.data.reduce((acc, permission) => {
-                    acc[permission.id_declaration] = {
+                    acc[permission.id_template] = {
                         can_view: Boolean(permission.can_view),
                         can_edit: Boolean(permission.can_edit),
                         can_comment: Boolean(permission.can_comment),
@@ -100,7 +100,7 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
             width: '3%',
         },
         {
-            title: 'Déclaration',
+            title: 'Template',
             dataIndex: 'desc_template',
             key: 'desc_template',
             render: (text, record) => (
@@ -157,7 +157,7 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
                 can_comment: checked ? 1 : 0,
             };
     
-            updatePermissionsToServer(updatedPermissions[item.id_declaration_super]);
+            updatePermissionsToServer(updatedPermissions[item.id_template]);
         });
     
         setPermissions(updatedPermissions);
