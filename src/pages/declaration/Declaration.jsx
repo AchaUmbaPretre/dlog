@@ -680,8 +680,7 @@ const Declaration = () => {
             </div>
           </Space>
         ),
-        align: 'right', 
-
+        align: 'right',
     },
     {
       title: 'Action',
@@ -700,7 +699,7 @@ const Declaration = () => {
           <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
-              disabled={!record.can_view}
+              disabled={!record.can_view || record.id_statut_decl === 2}
               onClick={() => handleDetails(record.id_declaration_super)}
               aria-label="Voir les détails de la tâche"
               style={{ color: 'blue' }}
@@ -715,10 +714,11 @@ const Declaration = () => {
               >
                 <Button
                   icon={<DeleteOutlined />}
-                  disabled={!record.can_comment}
+                  disabled={!record.can_comment || record.id_statut_decl === 2}
                   style={{ color: 'red' }}
                   aria-label="Delete client"
                 />
+
               </Popconfirm>
           </Tooltip>
         </Space>
