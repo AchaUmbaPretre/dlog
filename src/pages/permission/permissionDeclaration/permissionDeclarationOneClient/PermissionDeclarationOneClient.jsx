@@ -195,20 +195,11 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
                     </div>
 
                     <div>
-                        <Button
-                        type="primary" 
-                        onClick={() => toggleAllPermissions(true)}
-                    >
-                        Tout activer
-                        </Button>
-
-                        <Button 
-                            type="default" 
-                            onClick={() => toggleAllPermissions(false)}
-                            style={{ marginLeft: 8 }}
-                        >
-                            Tout désactiver
-                        </Button>
+                        <Switch 
+                            checkedChildren="Tout activer" 
+                            unCheckedChildren="Tout désactiver" 
+                            onChange={(checked) => toggleAllPermissions(checked)} 
+                        />
                     </div>
                     
                 </div>
