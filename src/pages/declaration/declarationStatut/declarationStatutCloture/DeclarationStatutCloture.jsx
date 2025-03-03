@@ -5,7 +5,6 @@ import { getAnnee, getMois, putDeclarationsStatusCloture } from "../../../../ser
 import { Button, Skeleton, Checkbox, notification, Collapse, Typography } from "antd";
 import { LockOutlined } from '@ant-design/icons';
 
-
 const { Panel } = Collapse;
 const { Title } = Typography;
 
