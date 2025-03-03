@@ -60,8 +60,6 @@ const Declaration = () => {
   const [mois, setMois] = useState('');
   const [annee, setAnnee] = useState('')
   
-
-
   const columnStyles = {
     title: {
       maxWidth: '220px',
@@ -932,6 +930,17 @@ const Declaration = () => {
               centered
           >
             <DeclarationSituationClient idClients={idClient} mois={mois} annee={annee}  />
+          </Modal>
+
+          <Modal
+              title=""
+              visible={modalType === 'cloture'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={700}
+              centered
+          >
+            <div>DIM</div>
           </Modal>
 
         </TabPane>
