@@ -7,7 +7,7 @@ import { Button, Skeleton, Checkbox, notification, Collapse, Typography } from "
 const { Panel } = Collapse;
 const { Title } = Typography;
 
-const DeclarationStatutCloture = () => {
+const DeclarationStatutCloture = ({closeModal, fetchData}) => {
   const [mois, setMois] = useState({});
   const [annee, setAnnee] = useState([]);
   const [selectedMois, setSelectedMois] = useState({});
@@ -78,7 +78,8 @@ const DeclarationStatutCloture = () => {
         });
 
         await putDeclarationsStatusCloture({ declarations: declarationsToUpdate });
-
+        closeModal();
+        fetchData();
         notification.success({
             message: 'Succès',
             description: 'Les déclarations ont été clôturées avec succès.',

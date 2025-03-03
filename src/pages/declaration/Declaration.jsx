@@ -941,7 +941,7 @@ const Declaration = () => {
               centered
               title="Déclaration du Statut de Clôture"
           >
-            <DeclarationStatutCloture/>
+            <DeclarationStatutCloture closeModal={() => setModalType(null)} fetchData={fetchData}/>
           </Modal>
 
         </TabPane>
