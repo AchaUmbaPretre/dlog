@@ -78,8 +78,10 @@ const DeclarationStatutCloture = ({closeModal, fetchData}) => {
         });
 
         await putDeclarationsStatusCloture({ declarations: declarationsToUpdate });
-        fetchData();
-        closeModal();
+        /* fetchData();
+        closeModal(); */
+        window.location.reload()
+
         notification.success({
             message: 'Succès',
             description: 'Les déclarations ont été clôturées avec succès.',
@@ -138,7 +140,7 @@ const DeclarationStatutCloture = ({closeModal, fetchData}) => {
               </div>
             )}
             <div className="declaration_statut_row">
-            <Button type="primary" onClick={onFinish}>
+            <Button type="primary" onClick={onFinish} loading={loading}>
                 Cloturé
             </Button>
             </div>
