@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment';
+import './declarationStatutCloture.scss'
 import { getAnnee, getMois } from '../../../../services/templateService';
 import { Select, Skeleton, Input, Checkbox, Collapse } from 'antd';
 
