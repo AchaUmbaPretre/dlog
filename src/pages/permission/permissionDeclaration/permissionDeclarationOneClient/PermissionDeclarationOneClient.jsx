@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Input, notification, Switch, Tag, Table, Button } from 'antd';
-import { EyeOutlined, EditOutlined, CalendarOutlined, UnlockOutlined } from '@ant-design/icons';
+import { Input, notification, Switch, Table, Button } from 'antd';
+import { EyeOutlined, EditOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
-import { getDeclarationOneClient } from '../../../../services/templateService';
-import moment from 'moment';
+import { getTemplateClientOne } from '../../../../services/templateService';
 
 const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     const [permissions, setPermissions] = useState({});
@@ -16,7 +15,7 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     useEffect(() => {
         const fetchPermissions = async () => {
             try {
-                const { data } = await getDeclarationOneClient(idClient);
+                const { data } = await getTemplateClientOne(idClient);
                 
                 setData(data);
     
@@ -44,23 +43,23 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
         fetchPermissions();
     }, [idClient, idUser]);
     
-    const handlePermissionChange = async (idDeclaration, idUser, field, value) => {
+    const handlePermissionChange = async (idTemplate, idUser, field, value) => {
         
         try {
             // Mise à jour de l'état local
             setPermissions((prevPermissions) => {
                 const updatedPermissions = {
                     ...prevPermissions,
-                    [idDeclaration]: {
-                        ...prevPermissions[idDeclaration],
-                        id_declaration: idDeclaration,
+                    [idTemplate]: {
+                        ...prevPermissions[idTemplate],
+                        id_template: idTemplate,
                         id_user: idUser,
                         id_client: idClient,
                         [field]: value ? 1 : 0,
                     },
                 };
     
-                updatePermissionsToServer(updatedPermissions[idDeclaration]);
+                updatePermissionsToServer(updatedPermissions[idTemplate]);
     
                 return updatedPermissions;
             });
@@ -78,10 +77,9 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     };
     
     const updatePermissionsToServer = async (permissions) => {
-        console.log(permissions);
         try {
             await updatePermissionDeclaration({
-                id_declaration: permissions.id_declaration,
+                id_template: permissions.id_template,
                 id_user: permissions.id_user,
                 id_client: permissions.id_client,
                 can_view: permissions.can_view || 0,
@@ -112,36 +110,13 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
             ),
         },
         {
-            title: 'Periode',
-            dataIndex: 'periode',
-            key: 'periode',
-            sorter: (a, b) => moment(a.periode) - moment(b.periode),
-            sortDirections: ['descend', 'ascend'],
-            render: (text, record) => {
-              const date = text ? new Date(text) : null;
-              
-              const formattedDate = date
-                ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
-                : 'Aucun';
-          
-              return (
-                <Tag 
-                  icon={<CalendarOutlined />} 
-                  color="purple" 
-                >
-                  {formattedDate}
-                </Tag>
-              );
-            },
-          },
-        {
             title: <span style={{ color: '#52c41a' }}>voir <EyeOutlined /></span>,
             dataIndex: 'can_view',
             key: 'can_view',
             render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_declaration_super]?.can_view || false}
-                    onChange={value => handlePermissionChange(record.id_declaration_super, idUser, 'can_view', value)}
+                    checked={permissions[record.id_template]?.can_view || false}
+                    onChange={value => handlePermissionChange(record.id_template, idUser, 'can_view', value)}
                 />
             ),
         },
@@ -151,8 +126,8 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
             key: 'can_edit',
             render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_declaration_super]?.can_edit || false}
-                    onChange={value => handlePermissionChange(record.id_declaration_super, idUser, 'can_edit', value)}
+                    checked={permissions[record.id_template]?.can_edit || false}
+                    onChange={value => handlePermissionChange(record.id_template, idUser, 'can_edit', value)}
                 />
             ),
         },
@@ -162,8 +137,8 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
             key: 'can_comment',
             render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_declaration_super]?.can_comment || false}
-                    onChange={value => handlePermissionChange(record.id_declaration_super, idUser,  'can_comment', value)}
+                    checked={permissions[record.id_template]?.can_comment || false}
+                    onChange={value => handlePermissionChange(record.id_template, idUser,  'can_comment', value)}
                 />
             ),
         },
@@ -173,8 +148,8 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
         const updatedPermissions = {};
         
         data.forEach((item) => {
-            updatedPermissions[item.id_declaration_super] = {
-                id_declaration: item.id_declaration_super,
+            updatedPermissions[item.id_template] = {
+                id_template: item.id_template,
                 id_user: idUser,
                 id_client: idClient,
                 can_view: checked ? 1 : 0,

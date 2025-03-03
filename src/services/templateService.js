@@ -11,6 +11,10 @@ export const getTemplate = async () => {
     return axios.get(`${DOMAIN}/api/template`);
   };
 
+export const getTemplateClientOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/template/templateClientOne?id_client=${id}`);
+  };
+
 export const getTemplate5derniers = async (id, periode, idProvince) => {
     return axios.get(`${DOMAIN}/api/template/5derniers?id_client=${id}&periode=${periode}&idProvince=${idProvince}`);
   };
