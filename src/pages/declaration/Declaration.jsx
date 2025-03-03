@@ -826,12 +826,17 @@ const Declaration = () => {
                     >
                       Ajouter une déclaration
                     </Button>
-                    <Button
-                      block
-                      onClick={handleAllCloture}
-                    >
-                      🔒 Cloturé
-                    </Button>
+
+                    {
+                      role === 'Admin' &&
+                      <Button
+                        block
+                        onClick={handleAllCloture}
+                      >
+                        🔒 Cloturé
+                      </Button>
+                    }
+                    
                     <Button
                       type="default"
                       onClick={handFilter}
