@@ -934,12 +934,12 @@ const Declaration = () => {
           </Modal>
 
           <Modal
-              title=""
               visible={modalType === 'cloture'}
               onCancel={closeAllModals}
               footer={null}
               width={700}
               centered
+              title="Déclaration du Statut de Clôture"
           >
             <DeclarationStatutCloture/>
           </Modal>

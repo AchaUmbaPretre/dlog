@@ -1,7 +1,27 @@
-.declaration_statut{
-    .declaration_statut_home{
+.declaration_statut {
+    padding: 10px;
+  
+    .declaration_statut_home {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+  
+      .declaration_statut_row {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
     }
-}
+  
+    .ant-checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  
+    .ant-collapse {
+      width: 100%;
+    }
+  }
+  
