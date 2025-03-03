@@ -718,7 +718,6 @@ const Declaration = () => {
                   style={{ color: 'red' }}
                   aria-label="Delete client"
                 />
-
               </Popconfirm>
           </Tooltip>
         </Space>
