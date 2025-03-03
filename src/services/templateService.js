@@ -100,6 +100,10 @@ export const putDeclarationsStatus = async (id, data) => {
     });
   };
 
+  export const putDeclarationsStatusCloture = async (data) => {
+    return axios.put(`${DOMAIN}/api/template/statut_declaration_cloture`, data);
+  };
+
 export const getContrat = async () => {
     return axios.get(`${DOMAIN}/api/template/contrat`);
   };

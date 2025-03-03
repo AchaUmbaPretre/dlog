@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import "./declarationStatutCloture.scss";
-import { getAnnee, getMois } from "../../../../services/templateService";
-import { Modal, Select, Button, Skeleton, Checkbox, Collapse, Typography } from "antd";
+import { getAnnee, getMois, putDeclarationsStatus, putDeclarationsStatusCloture } from "../../../../services/templateService";
+import { Modal, Select, Button, Skeleton, Checkbox, notification, Collapse, Typography } from "antd";
 
 const { Panel } = Collapse;
 const { Title } = Typography;
@@ -56,6 +56,46 @@ const DeclarationStatutCloture = () => {
     });
   };
 
+  const onFinish = async () => {
+    if (!Object.keys(selectedMois).length) {
+        notification.warning({
+            message: 'Attention',
+            description: 'Veuillez sélectionner au moins un mois à clôturer.',
+        });
+        return;
+    }
+
+    setLoading(true);
+
+    try {
+        const declarationsToUpdate = [];
+        
+        Object.entries(selectedMois).forEach(([annee, moisList]) => {
+            moisList.forEach((mois) => {
+                const [moisValue] = mois.split('-'); // Extraire uniquement le mois
+                declarationsToUpdate.push({ annee, mois: moisValue });
+            });
+        });
+
+
+        await putDeclarationsStatusCloture({ declarations: declarationsToUpdate });
+
+        notification.success({
+            message: 'Succès',
+            description: 'Les déclarations ont été clôturées avec succès.',
+        });
+
+    } catch (error) {
+        notification.error({
+            message: 'Erreur',
+            description: "Erreur lors de la clôture des déclarations.",
+        });
+    } finally {
+        setLoading(false);
+    }
+};
+
+
   return (
       <>
             {loading ? (
@@ -98,7 +138,7 @@ const DeclarationStatutCloture = () => {
               </div>
             )}
             <div className="declaration_statut_row">
-            <Button type="primary">
+            <Button type="primary" onClick={onFinish}>
                 Cloturé
             </Button>
             </div>
