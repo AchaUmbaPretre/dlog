@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
 import { UnlockOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Switch, Table, Tag, Button, Space, Tooltip, Modal } from 'antd';
-import { getPermissionsClientDeclaration, updatePermissionClientDeclaration } from '../../../../services/permissionService';
 import PermissionDeclarationOneClient from '../../permissionDeclaration/permissionDeclarationOneClient/PermissionDeclarationOneClient';
 
 const  PermissionClientOne = ({ idClient }) => {
   const scroll = { x: 400 };
   const [data, setData] = useState([]);
-  const [permissions, setPermissions] = useState({});
   const [title, setTitle] = useState('')
   const [idUser, setIdUser] = useState('');
   const [modalType, setModalType] = useState(null);
