@@ -11,6 +11,7 @@ import TabPane from 'antd/es/tabs/TabPane';
 import RapportDeclaration from './rapportDeclaration/RapportDeclaration';
 import getColumnSearchProps from '../../utils/columnSearchUtils';
 import DeclarationSituationClient from './declarationForm/declarationSituationClient/DeclarationSituationClient';
+import { StatutDeclaration } from './declarationStatut/DeclarationStatut';
 
 const { Search } = Input;
 
@@ -274,12 +275,10 @@ const Declaration = () => {
         },  
         {
           title: 'Statut',
-          dataIndex: 'nom_statut_decl',
-          key: 'nom_statut_decl',
+          dataIndex: 'id_statut_decl',
+          key: 'id_statut_decl',
           render: (text, record) => (
-            <Tag color={record.id_statut_decl === 2 ? 'red' : 'green'}>
-              {record.id_statut_decl === 2 ? 'Clôturé' : 'Ouvert'}
-            </Tag>
+            <StatutDeclaration initialStatus={text} id={record.id_declaration_super} />
           ),
         },
         {
