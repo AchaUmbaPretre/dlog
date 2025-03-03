@@ -50,24 +50,24 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     }, [idVille, idUser]);
     
     
-    const handlePermissionChange = async (idDeclaration, idUser, field, value) => {
-        console.log(idDeclaration, idUser, field, value, idVille);
+    const handlePermissionChange = async (idTemplate, idUser, field, value) => {
+        console.log(idTemplate, idUser, field, value, idVille);
         
         try {
             // Mise à jour de l'état local
             setPermissions((prevPermissions) => {
                 const updatedPermissions = {
                     ...prevPermissions,
-                    [idDeclaration]: {
-                        ...prevPermissions[idDeclaration],
-                        id_declaration: idDeclaration,
+                    [idTemplate]: {
+                        ...prevPermissions[idTemplate],
+                        id_template : idTemplate,
                         id_user: idUser,
                         id_ville: idVille,
                         [field]: value ? 1 : 0,
                     },
                 };
     
-                updatePermissionsToServer(updatedPermissions[idDeclaration]);
+                updatePermissionsToServer(updatedPermissions[idTemplate]);
     
                 return updatedPermissions;
             });
@@ -85,10 +85,9 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     };
     
     const updatePermissionsToServer = async (permissions) => {
-        console.log(permissions);
         try {
             await updatePermissionDeclaration({
-                id_declaration: permissions.id_declaration,
+                id_template: permissions.id_template,
                 id_user: permissions.id_user,
                 id_ville: idVille,
                 can_view: permissions.can_view || 0,
@@ -124,8 +123,8 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             key: 'can_view',
             render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_declaration_super]?.can_view || false}
-                    onChange={value => handlePermissionChange(record.id_declaration_super, idUser, 'can_view', value)}
+                    checked={permissions[record.id_template]?.can_view || false}
+                    onChange={value => handlePermissionChange(record.id_template, idUser, 'can_view', value)}
                 />
             ),
         },
@@ -135,8 +134,8 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             key: 'can_edit',
             render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_declaration_super]?.can_edit || false}
-                    onChange={value => handlePermissionChange(record.id_declaration_super, idUser, 'can_edit', value)}
+                    checked={permissions[record.id_template]?.can_edit || false}
+                    onChange={value => handlePermissionChange(record.id_template, idUser, 'can_edit', value)}
                 />
             ),
         },
@@ -146,8 +145,8 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             key: 'can_comment',
             render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_declaration_super]?.can_comment || false}
-                    onChange={value => handlePermissionChange(record.id_declaration_super, idUser,  'can_comment', value)}
+                    checked={permissions[record.id_template]?.can_comment || false}
+                    onChange={value => handlePermissionChange(record.id_template, idUser,  'can_comment', value)}
                 />
             ),
         },
