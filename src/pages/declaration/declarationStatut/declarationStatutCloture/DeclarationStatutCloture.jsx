@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import "./declarationStatutCloture.scss";
-import { getAnnee, getMois, putDeclarationsStatus, putDeclarationsStatusCloture } from "../../../../services/templateService";
+import { getAnnee, getMois, putDeclarationsStatusCloture } from "../../../../services/templateService";
 import { Button, Skeleton, Checkbox, notification, Collapse, Typography } from "antd";
 
 const { Panel } = Collapse;
@@ -78,8 +78,8 @@ const DeclarationStatutCloture = ({closeModal, fetchData}) => {
         });
 
         await putDeclarationsStatusCloture({ declarations: declarationsToUpdate });
-        closeModal();
         fetchData();
+        closeModal();
         notification.success({
             message: 'Succès',
             description: 'Les déclarations ont été clôturées avec succès.',
@@ -98,7 +98,7 @@ const DeclarationStatutCloture = ({closeModal, fetchData}) => {
 
   return (
       <>
-            {loading ? (
+        {loading ? (
         <Skeleton active />
       ) : (
         <div className="declaration_statut">
