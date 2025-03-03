@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs, Popover } from 'antd';
-import { MenuOutlined,EditOutlined,PieChartOutlined,EyeOutlined, DeleteOutlined, CalendarOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { MenuOutlined, EditOutlined, PieChartOutlined, CheckCircleOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined, DownOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined, ScheduleOutlined, PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { deletePutDeclaration, getDeclaration } from '../../services/templateService';
 import DeclarationForm from './declarationForm/DeclarationForm';
 import DeclarationFiltre from './declarationFiltre/DeclarationFiltre';
@@ -825,6 +825,13 @@ const Declaration = () => {
                       onClick={handleAddTemplate}
                     >
                       Ajouter une déclaration
+                    </Button>
+                    <Button
+                      type="primary"
+                      icon={<CheckCircleOutlined />}
+                      onClick={handleAddTemplate}
+                    >
+                      Cloturé
                     </Button>
                     <Button
                       type="default"
