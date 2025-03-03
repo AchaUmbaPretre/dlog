@@ -3,6 +3,7 @@ import { Input, notification, Switch, Table } from 'antd';
 import { EyeOutlined, EditOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
 import { getTemplateClientOne } from '../../../../services/templateService';
+import { getUserOne } from '../../../../services/userService';
 
 const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     const [permissions, setPermissions] = useState({});
@@ -11,6 +12,15 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
     const [searchValue, setSearchValue] = useState('');
     const [title, setTitle] = useState('');
     const scroll = { x: 400 };
+
+    useEffect(()=> {
+        const fetchData = async() => {
+            const res = await getUserOne(idUser)
+            setTitle(res?.data[0].nom)
+        }
+
+        fetchData();
+    }, [idUser])
 
     useEffect(() => {
         const fetchPermissions = async () => {
@@ -172,6 +182,8 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
         item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())
       );
 
+      console.log(title)
+
   return (
     <>
         <div className="client">
@@ -180,7 +192,7 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
                     <div className="client-row-icon">
                         <UnlockOutlined className='client-icon' />
                     </div>
-                    <h2 className="client-h2">Gestion des permissions</h2>
+                    <h2 className="client-h2">Gestion des permissions de Mr. {title}</h2>
                 </div>
                 <div className="client-actions">
                     <div className="client-row-left">
