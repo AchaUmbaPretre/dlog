@@ -21,7 +21,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     
                 const permissionsData = await getPermissionsDeclaration(idUser);
                 const formattedPermissions = permissionsData.data.reduce((acc, permission) => {
-                    acc[permission.id_declaration] = {
+                    acc[permission.id_template] = {
                         can_view: Boolean(permission.can_view),
                         can_edit: Boolean(permission.can_edit),
                         can_comment: Boolean(permission.can_comment),
