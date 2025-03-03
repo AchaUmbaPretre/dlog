@@ -828,17 +828,16 @@ const Declaration = () => {
                       Ajouter une déclaration
                     </Button>
                     <Button
-                      type="primary"
-                      icon={<CheckCircleOutlined />}
+                      block
                       onClick={handleAllCloture}
                     >
-                      Cloturé
+                      🔒 Cloturé
                     </Button>
                     <Button
                       type="default"
                       onClick={handFilter}
                     >
-                      {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                      {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
                     </Button>
                     {
                       role === 'Admin' &&
@@ -937,7 +936,7 @@ const Declaration = () => {
               visible={modalType === 'cloture'}
               onCancel={closeAllModals}
               footer={null}
-              width={700}
+              width={550}
               centered
               title="Déclaration du Statut de Clôture"
           >

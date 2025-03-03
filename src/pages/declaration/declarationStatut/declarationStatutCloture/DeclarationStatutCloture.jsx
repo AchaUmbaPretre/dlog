@@ -3,6 +3,8 @@ import moment from "moment";
 import "./declarationStatutCloture.scss";
 import { getAnnee, getMois, putDeclarationsStatusCloture } from "../../../../services/templateService";
 import { Button, Skeleton, Checkbox, notification, Collapse, Typography } from "antd";
+import { LockOutlined } from '@ant-design/icons';
+
 
 const { Panel } = Collapse;
 const { Title } = Typography;
@@ -140,7 +142,7 @@ const DeclarationStatutCloture = ({closeModal, fetchData}) => {
               </div>
             )}
             <div className="declaration_statut_row">
-            <Button type="primary" onClick={onFinish} loading={loading}>
+            <Button type="primary" icon={<LockOutlined />} onClick={onFinish} loading={loading}>
                 Cloturé
             </Button>
             </div>
