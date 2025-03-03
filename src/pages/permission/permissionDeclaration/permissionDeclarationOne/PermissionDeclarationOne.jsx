@@ -150,6 +150,33 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
             ),
         },
     ];
+
+    const toggleAllPermissions = async (checked) => {
+        const updatedPermissions = {};
+    
+        data.forEach((item) => {
+            updatedPermissions[item.id_template] = {
+                id_template: item.id_template, 
+                id_user: idUser, 
+                id_ville: idVille,
+                can_view: checked ? 1 : 0,  
+                can_edit: checked ? 1 : 0,  
+                can_comment: checked ? 1 : 0, 
+            };
+        });
+    
+        setPermissions(updatedPermissions);
+    
+        await Promise.all(
+            Object.values(updatedPermissions).map(updatePermissionsToServer)
+        );
+    
+        notification.success({
+            message: 'Mise à jour des permissions',
+            description: `Toutes les permissions ont été ${checked ? 'activées' : 'désactivées'}.`,
+        });
+    };
+    
     
       const filteredData = data.filter(item =>
         item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())
@@ -175,6 +202,13 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
                             className="product-search"
                             enterButton
                         />    
+                    </div>
+                    <div>
+                        <Switch 
+                            checkedChildren="Tout activer" 
+                            unCheckedChildren="Tout désactiver" 
+                            onChange={(checked) => toggleAllPermissions(checked)} 
+                        />
                     </div>
                 </div>
                     <Table

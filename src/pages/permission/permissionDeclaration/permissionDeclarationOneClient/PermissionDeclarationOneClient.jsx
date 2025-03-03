@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Input, notification, Switch, Table, Button } from 'antd';
+import { Input, notification, Switch, Table } from 'antd';
 import { EyeOutlined, EditOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
 import { getTemplateClientOne } from '../../../../services/templateService';
