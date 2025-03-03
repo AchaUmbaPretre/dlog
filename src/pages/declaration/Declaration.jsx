@@ -12,6 +12,7 @@ import RapportDeclaration from './rapportDeclaration/RapportDeclaration';
 import getColumnSearchProps from '../../utils/columnSearchUtils';
 import DeclarationSituationClient from './declarationForm/declarationSituationClient/DeclarationSituationClient';
 import { StatutDeclaration } from './declarationStatut/DeclarationStatut';
+import DeclarationStatutCloture from './declarationStatut/declarationStatutCloture/DeclarationStatutCloture';
 
 const { Search } = Input;
 
@@ -940,7 +941,7 @@ const Declaration = () => {
               width={700}
               centered
           >
-            <div>DIM</div>
+            <DeclarationStatutCloture/>
           </Modal>
 
         </TabPane>
