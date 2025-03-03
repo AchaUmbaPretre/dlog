@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import "./declarationStatutCloture.scss";
 import { getAnnee, getMois, putDeclarationsStatus, putDeclarationsStatusCloture } from "../../../../services/templateService";
-import { Modal, Select, Button, Skeleton, Checkbox, notification, Collapse, Typography } from "antd";
+import { Button, Skeleton, Checkbox, notification, Collapse, Typography } from "antd";
 
 const { Panel } = Collapse;
 const { Title } = Typography;
