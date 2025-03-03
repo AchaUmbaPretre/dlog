@@ -829,20 +829,25 @@ const Declaration = () => {
 
                     {
                       role === 'Admin' &&
-                      <Button
+                      (
+                        <>
+                        <Button
                         block
                         onClick={handleAllCloture}
                       >
                         🔒 Cloturé
                       </Button>
-                    }
+                   
                     
-                    <Button
-                      type="default"
-                      onClick={handFilter}
-                    >
-                      {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
-                    </Button>
+                      <Button
+                        type="default"
+                        onClick={handFilter}
+                      >
+                        {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
+                      </Button>
+                        </>
+                      )
+                  }
                     {
                       role === 'Admin' &&
                       <Dropdown overlay={menus} trigger={['click']}>
