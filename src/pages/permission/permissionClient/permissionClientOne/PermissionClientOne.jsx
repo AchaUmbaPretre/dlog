@@ -11,7 +11,6 @@ const  PermissionClientOne = ({ idClient }) => {
   const [idUser, setIdUser] = useState('');
   const [modalType, setModalType] = useState(null);
    
-  
   useEffect(() => {
     const fetchPermission = async () => {
       try { 
