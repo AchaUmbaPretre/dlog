@@ -38,7 +38,7 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
                         can_delete: Boolean(permission.can_delete),
                     };
                     return acc;
-                }, {});
+                }, {}); 
     
                 setPermissions(formattedPermissions);
                 setLoading(false);
