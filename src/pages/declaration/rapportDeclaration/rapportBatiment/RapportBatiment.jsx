@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Table, Tag,Tooltip, Radio, Button, Skeleton } from 'antd';
+import { notification, Table, Tag, Tooltip, Modal, Radio, Button, Skeleton } from 'antd';
 import moment from 'moment';
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -328,6 +328,16 @@ const RapportBatiment = () => {
           rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
         />
       </div>
+      <Modal
+        title=""
+        visible={modalType === 'Batiment'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1070}
+        centered
+      >
+      aaaaaaaaaaaaaaa
+      </Modal>
     </>
   );
 };
