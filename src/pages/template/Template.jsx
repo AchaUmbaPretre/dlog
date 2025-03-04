@@ -458,6 +458,7 @@ const Template = () => {
       </Modal>
         </TabPane>
 
+      { role === 'Admin' && (
         <TabPane
           tab={
             <span>
@@ -475,6 +476,7 @@ const Template = () => {
         >
           <Contrat />
         </TabPane>
+      )}
       </Tabs>;
     </>
   );
