@@ -443,7 +443,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                 <Form.Item
                                     name="id_client"
                                     label="Client"
-                                    rules={[{ required: true, message: "Veuillez entrer l'ID du client" }]}
+                                    rules={[{ required: true, message: "Veuillez sélectionner un client" }]}
                                 >
                                     { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
