@@ -32,19 +32,19 @@ const RapportBatimentOne = ({idBatiment}) => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [filterVisible, setFilterVisible] = useState(false);
   const [detail, setDetail] = useState([]);
+  const [title, setTitle] = useState([]);
   
   const fetchData = async () => {
     try {
       const { data } = await getTemplateBatimentOne(idBatiment); 
 
+      setTitle(data[0]?.nom_batiment)
       const uniqueMonths = Array.from(new Set(data.map(item => `${item.Mois}-${item.Année}`)))
         .sort((a, b) => {
           const [monthA, yearA] = a.split('-').map(Number);
           const [monthB, yearB] = b.split('-').map(Number);
           return yearA - yearB || monthA - monthB;
         });
-
-        setDetail(data.resume)
 
       setUniqueMonths(uniqueMonths);
 
@@ -199,6 +199,9 @@ const RapportBatimentOne = ({idBatiment}) => {
   return (
     <>
       <div className="rapport-facture">
+            <div style={{display:'flex', alignItems:'center', justifyContent:'center', padding:'10px', marginBottom:'20px', background:'#f2f2f2'}}>
+                <h2 style={{fontSize:'1rem'}}>Détail du batiment {title}</h2>
+            </div>
         <div style={{ marginBottom: 16 }}>
           <span>Afficher : </span>
           <Radio.Group
