@@ -199,9 +199,31 @@ const RapportBatimentOne = ({idBatiment}) => {
   return (
     <>
       <div className="rapport-facture">
-            <div style={{display:'flex', alignItems:'center', justifyContent:'center', padding:'10px', marginBottom:'20px', background:'#f2f2f2'}}>
-                <h2 style={{fontSize:'1rem'}}>Détail du batiment {title}</h2>
-            </div>
+            <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '15px',
+            marginBottom: '30px',
+            background: '#ffffff',
+            borderRadius: '10px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            minHeight: '60px',
+            border: '1px solid #ddd',
+            transition: 'all 0.3s ease-in-out',
+            fontSize: '1.3rem',
+            fontWeight: 'bold',
+            color: '#333'
+        }}>
+            <h2 style={{
+                fontSize: '1.3rem',
+                margin: 0,
+                color: '#004080'
+            }}>
+                🏢 Détail du bâtiment {title}
+            </h2>
+        </div>
+
         <div style={{ marginBottom: 16 }}>
           <span>Afficher : </span>
           <Radio.Group
