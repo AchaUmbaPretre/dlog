@@ -142,10 +142,10 @@ const RapportBatiment = () => {
             render: (text, record) => (
               <div  onClick={()=> handleBatiment(record.id_batiment)}>
                 <span style={columnStyles.title} className={columnStyles.hideScroll}>{text}</span>
-                <br />
+{/*                 <br />
                 <span style={{ fontSize: "12px", fontStyle: "italic", color: "#888" }}>
                   {record.nom}
-                </span>
+                </span> */}
               </div>
             ),
             width: "15%",
