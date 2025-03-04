@@ -427,7 +427,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                 <Form.Item
                                     name="id_ville"
                                     label="Ville"
-                                    rules={[{ required: true, message: "Veuillez entrer l'ID de la ville" }]}
+                                    rules={[{ required: true, message: "Veuillez sélectionner une ville" }]}
                                 >
                                     { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
