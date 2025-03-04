@@ -193,7 +193,6 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
         });
     };
 
-    
       const filteredData = data.filter(item =>
         item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())
       );
