@@ -835,7 +835,7 @@ const Declaration = () => {
                         block
                         onClick={handleAllCloture}
                       >
-                        🔒 Cloturé
+                        🔒 Cloturer
                       </Button>
                    
                     
