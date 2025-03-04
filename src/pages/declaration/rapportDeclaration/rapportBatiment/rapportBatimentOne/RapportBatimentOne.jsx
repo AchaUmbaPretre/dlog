@@ -238,13 +238,6 @@ const RapportBatimentOne = ({idBatiment}) => {
           </Radio.Group>
         </div>
         <div className='rapport_row_excel'>
-          <Button
-            type={filterVisible ? 'primary' : 'default'}
-            onClick={() => setFilterVisible(!filterVisible)}
-            style={{ margin: '10px 10px 10px 0' }}
-          >
-            {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-          </Button>
 
           <Tooltip title={'Importer en excel'}>
             <Button className="export-excel" onClick={exportToExcelHTML} >
