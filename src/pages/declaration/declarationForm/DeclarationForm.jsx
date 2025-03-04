@@ -460,7 +460,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                 <Form.Item
                                     name="id_batiments"
                                     label="Bâtiment"
-                                    rules={[{ required: false, message: "Veuillez entrer l'ID du bâtiment" }]}
+                                    rules={[{ required: false, message: "Veuillez sélectionner un bâtiment" }]}
                                 >
                                     {isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
