@@ -8,6 +8,7 @@ import { StatutColumn } from './templateStatut/TemplateStatut';
 import TemplateDetail from './templateDetail/TemplateDetail';
 import TabPane from 'antd/es/tabs/TabPane';
 import Contrat from '../contrat/Contrat';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -37,6 +38,9 @@ const Template = () => {
     pageSize: 20,
   });
   const [activeKey, setActiveKey] = useState(['1', '2']);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const role = useSelector((state) => state.user?.currentUser.role);
+
 
   const handleTabChange = (key) => {
     setActiveKey(key);
@@ -45,7 +49,7 @@ const Template = () => {
     const fetchData = async () => {
 
       try {
-        const { data } = await getTemplate();
+        const { data } = await getTemplate(role, userId);
         setData(data);
         setLoading(false);
       } catch (error) {

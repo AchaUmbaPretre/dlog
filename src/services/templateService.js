@@ -7,8 +7,8 @@ export const getTemplateCount = async () => {
   return axios.get(`${DOMAIN}/api/template/count`);
 };
 
-export const getTemplate = async () => {
-    return axios.get(`${DOMAIN}/api/template`);
+export const getTemplate = async (role, userId) => {
+    return axios.get(`${DOMAIN}/api/template?role=${role}&userId=${userId}`);
   };
 
 

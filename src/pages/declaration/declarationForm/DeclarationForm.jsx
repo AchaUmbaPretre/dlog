@@ -202,6 +202,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
     return (
         <div className="declarationForm">
+        { role === 'Admin' && (
             <div className="client-arrow">
                 <Tooltip title="Précédent">
                     <Button className="row-arrow" onClick={goToPreviousTache} disabled={idValides.indexOf(idDeclarations) === 0}>
@@ -214,6 +215,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                     </Button>
                 </Tooltip>
             </div>
+        )}
             <div className="declaration-wrapper">
                 <div className="declaration-left">
 
@@ -434,6 +436,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                     { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         showSearch
+                                        allowClear
                                         options={province.map(item => ({ value: item.id, label: item.capital }))}
                                         placeholder="Sélectionnez..."
                                         optionFilterProp="label"
@@ -449,6 +452,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                     { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         showSearch
+                                        allowClear
                                         options={client.map(item => ({ value: item.id_client, label: item.nom }))}
                                         placeholder="Sélectionnez..."
                                         optionFilterProp="label"
@@ -482,19 +486,20 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                         rules={[{ required: false, message: "Veuillez sélectionner un objet" }]}
                                     >
                                         <Select
-                                        showSearch
-                                        placeholder="Sélectionnez un objet"
-                                        options={objet
-                                            .filter(item => item.nom_objet_fact.toLowerCase() !== 'superficie') // Filtrer "superficie"
-                                            .map(item => ({
-                                            value: item.id_objet_fact,
-                                            label: item.nom_objet_fact
-                                            }))
-                                        }
-                                        optionFilterProp="label"
-                                        filterOption={(input, option) => 
-                                            option.label.toLowerCase().includes(input.toLowerCase())
-                                        }
+                                            allowClear
+                                            showSearch
+                                            placeholder="Sélectionnez un objet"
+                                            options={objet
+                                                .filter(item => item.nom_objet_fact.toLowerCase() !== 'superficie') // Filtrer "superficie"
+                                                .map(item => ({
+                                                value: item.id_objet_fact,
+                                                label: item.nom_objet_fact
+                                                }))
+                                            }
+                                            optionFilterProp="label"
+                                            filterOption={(input, option) => 
+                                                option.label.toLowerCase().includes(input.toLowerCase())
+                                            }
                                         />
                                     </Form.Item>
 
