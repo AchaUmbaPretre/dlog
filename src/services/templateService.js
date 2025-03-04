@@ -38,8 +38,8 @@ export const getTemplateOne = async (id) => {
     return axios.get(`${DOMAIN}/api/template/one?id_template=${id}`);
   };
 
-export const postTemplate = async (data) => {
-    return axios.post(`${DOMAIN}/api/template`, data);
+export const postTemplate = async (data, userId) => {
+    return axios.post(`${DOMAIN}/api/template?userId=${userId}`, data);
   };
 
 export const deletePutTemplate = async (id) => {

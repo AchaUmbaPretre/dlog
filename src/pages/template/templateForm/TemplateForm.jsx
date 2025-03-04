@@ -12,6 +12,7 @@ import BatimentForm from '../../batiment/batimentForm/BatimentForm';
 import NiveauForm from '../../batiment/niveau/niveauForm/NiveauForm';
 import DenominationForm from '../../batiment/denomination/denominationForm/DenominationForm';
 import ContratForm from '../../contrat/contratForm/ContratForm';
+import { useSelector } from 'react-redux';
 
 const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [form] = Form.useForm();
@@ -27,6 +28,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const [objet, setObjet] = useState([]);
     const [contrat, setContrat] = useState([]);
     const navigate = useNavigate();
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
 
     const fetchDataAll = async () => {
@@ -111,7 +113,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                 await putTemplate(idTemplate, values)
             }
             else{
-                await postTemplate(values)
+                await postTemplate(values,userId)
             }
             notification.success({
                 message: 'Succès',

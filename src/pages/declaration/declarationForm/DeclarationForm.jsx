@@ -189,7 +189,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });
             notification.error({
                 message: 'Erreur',
-                description: `${error.response.data.error}`,
+                description: `${error.response?.data?.error}`,
             });
         } finally {
             setIsLoading(false);
