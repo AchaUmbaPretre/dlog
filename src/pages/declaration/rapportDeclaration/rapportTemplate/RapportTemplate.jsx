@@ -33,6 +33,23 @@ const RapportTemplate = () => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [filterVisible, setFilterVisible] = useState(false);
   const [detail, setDetail] = useState([]);
+  const [modalType, setModalType] = useState(null);
+  const [idBatiment, setIdBatiment] = useState('');
+  
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+  
+  const openModal = (type, idBatiment = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdBatiment(idBatiment)
+  };
+
+  const handleBatiment = (idBatiment) => {
+    openModal('Batiment', idBatiment);
+  };
 
   const fetchData = async () => {
     try {
@@ -121,7 +138,7 @@ const RapportTemplate = () => {
               ),
             fixed: "left",
             render: (text, record) => (
-              <div>
+              <div onClick={()=> handleBatiment(record.id_batiment)}>
                 <span style={columnStyles.title} className={columnStyles.hideScroll}>{text}</span>
                 <br />
                 <span style={{ fontSize: "12px", fontStyle: "italic", color: "#888" }}>
