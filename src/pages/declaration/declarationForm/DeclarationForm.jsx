@@ -85,7 +85,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                 getBatiment(),
                 getDeclarationId(),
 /*                 getClientPermission(userId)
- */            ])
+ */            ]) 
             const idList = declaIdData.data.map(item => item.id_declaration_super).sort((a, b) => a - b);
             setTemplates(templateData.data);
             setObjet(objetData.data);
