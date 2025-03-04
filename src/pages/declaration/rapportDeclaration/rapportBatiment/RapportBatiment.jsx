@@ -32,7 +32,24 @@ const RapportBatiment = () => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [filterVisible, setFilterVisible] = useState(false);
   const [detail, setDetail] = useState([]);
+  const [modalType, setModalType] = useState(null);
+  const [idBatiment, setIdBatiment] = useState('');
 
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+  
+  const openModal = (type, idBatiment = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdBatiment(idBatiment)
+  };
+
+  const handleBatiment = (idBatiment) => {
+    openModal('Batiment', idBatiment);
+    console.log(idBatiment)
+  };
+  
   const fetchData = async () => {
     try {
       const { data } = await getRapportBatiment(filteredDatas); 
@@ -54,7 +71,7 @@ const RapportBatiment = () => {
         let existing = acc.find(item => item.desc_template.trim().toLowerCase() === curr.nom_batiment.trim().toLowerCase());
     
         if (!existing) {
-            existing = { desc_template: curr.nom_batiment, nom: curr.nom };
+            existing = { desc_template: curr.nom_batiment, nom: curr.nom, id_batiment: curr.id_batiment };
             acc.push(existing);
         }
     
@@ -122,7 +139,7 @@ const RapportBatiment = () => {
               ),
             fixed: "left",
             render: (text, record) => (
-              <div>
+              <div  onClick={()=> handleBatiment(record.id_batiment)}>
                 <span style={columnStyles.title} className={columnStyles.hideScroll}>{text}</span>
                 <br />
                 <span style={{ fontSize: "12px", fontStyle: "italic", color: "#888" }}>
