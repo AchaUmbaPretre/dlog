@@ -8,6 +8,7 @@ import {
 import { getRapportBatiment } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
+import RapportBatimentOne from './rapportBatimentOne/RapportBatimentOne';
 
 const availableFields = [
   { key: 'total_facture', label: 'M² Facture' },
@@ -336,7 +337,7 @@ const RapportBatiment = () => {
         width={1070}
         centered
       >
-      aaaaaaaaaaaaaaa
+        <RapportBatimentOne idBatiment={idBatiment} />
       </Modal>
     </>
   );
