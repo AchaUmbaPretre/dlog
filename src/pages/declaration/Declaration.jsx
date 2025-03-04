@@ -714,7 +714,7 @@ const Declaration = () => {
               >
                 <Button
                   icon={<DeleteOutlined />}
-                  disabled={!record.can_comment || record.id_statut_decl === 2}
+                  disabled={!record.can_delete || record.id_statut_decl === 2}
                   style={{ color: 'red' }}
                   aria-label="Delete client"
                 />
