@@ -77,24 +77,20 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const fetchDataAll = async () => {
         setIsLoading(true)
         try {
-            const [ templateData, objetData, provinceData, clientData, batimentData, declaIdData, clientDataPermi] = await Promise.all([
-                getTemplate(),
+            const [ templateData, objetData, provinceData, clientData, batimentData, declaIdData] = await Promise.all([
+                getTemplate(role, userId),
                 getObjetFacture(),
                 getProvince(),
                 getClient(),
                 getBatiment(),
                 getDeclarationId(),
-                getClientPermission(userId)
-            ])
+/*                 getClientPermission(userId)
+ */            ])
             const idList = declaIdData.data.map(item => item.id_declaration_super).sort((a, b) => a - b);
             setTemplates(templateData.data);
             setObjet(objetData.data);
             setProvince(provinceData.data);
-            if ( role === 'Admin') {
-                setClient(clientData.data);
-            } else {
-                setClient(clientDataPermi.data)
-            }
+            setClient(clientData.data);
             setBatiment(batimentData.data);
             setIdValides(idList)
 
