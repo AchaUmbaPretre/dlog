@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, notification, Switch, Table } from 'antd';
-import { EyeOutlined, EditOutlined, UnlockOutlined } from '@ant-design/icons';
+import { EyeOutlined, DeleteOutlined, FileTextOutlined, PlusCircleOutlined, EditOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
 import { getDeclarationVille } from '../../../../services/templateService';
 import { getUserOne } from '../../../../services/userService';
@@ -110,56 +110,75 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
     
     const columns = [
         {
-            title: <span>#</span>,
+            title: "#",
             dataIndex: 'id',
             key: 'id',
-            render: (text, record, index) => index + 1,
-            width: '3%',
-        },
-        {
-            title: 'Template',
-            dataIndex: 'desc_template',
-            key: 'desc_template',
-            render: (text, record) => (
-                <div>
-                    {text}
-                </div>
+            width: '5%',
+            align: 'center',
+            render: (text, record, index) => (
+                <strong style={{ color: '#333' }}>{index + 1}</strong>
             ),
         },
         {
-            title: <span style={{ color: '#52c41a' }}>voir <EyeOutlined /></span>,
+            title: <span style={{ fontWeight: 'bold', color: '#555' }}>📄 Template</span>,
+            dataIndex: 'desc_template',
+            key: 'desc_template',
+            render: (text) => (
+                <span style={{ fontWeight: '500', color: '#555' }}>
+                    {text}
+                </span>
+            ),
+        },
+        {
+            title: <span style={{ color: '#52c41a' }}>Voir <EyeOutlined /></span>,
             dataIndex: 'can_view',
             key: 'can_view',
+            align: 'center',
             render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_template]?.can_view || false}
-                    onChange={value => handlePermissionChange(record.id_template, idUser, 'can_view', value)}
+                    onChange={(value) => handlePermissionChange(record.id_template, idUser, 'can_view', value)}
                 />
             ),
         },
         {
-            title: <span style={{ color: '#1890ff' }}>modifier <EditOutlined /></span>,
+            title: <span style={{ color: '#1890ff' }}>Modifier <EditOutlined /></span>,
             dataIndex: 'can_edit',
             key: 'can_edit',
+            align: 'center',
             render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_template]?.can_edit || false}
-                    onChange={value => handlePermissionChange(record.id_template, idUser, 'can_edit', value)}
+                    onChange={(value) => handlePermissionChange(record.id_template, idUser, 'can_edit', value)}
                 />
             ),
         },
         {
-            title: <span style={{ color: '#000' }}>Supprimer</span>,
+            title: <span style={{ color: '#000' }}>Créer <PlusCircleOutlined /></span>,
             dataIndex: 'can_comment',
             key: 'can_comment',
+            align: 'center',
             render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_template]?.can_comment || false}
-                    onChange={value => handlePermissionChange(record.id_template, idUser,  'can_comment', value)}
+                    onChange={(value) => handlePermissionChange(record.id_template, idUser, 'can_comment', value)}
+                />
+            ),
+        },
+        {
+            title: <span style={{ color: 'red' }}>Supprimer <DeleteOutlined /></span>,
+            dataIndex: 'can_delete',
+            key: 'can_delete',
+            align: 'center',
+            render: (text, record) => (
+                <Switch
+                    checked={permissions[record.id_template]?.can_delete || false}
+                    onChange={(value) => handlePermissionChange(record.id_template, idUser, 'can_delete', value)}
                 />
             ),
         },
     ];
+    
 
     const toggleAllPermissions = async (checked) => {
         const updatedPermissions = {};
