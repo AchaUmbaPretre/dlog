@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, notification, Switch, Table } from 'antd';
-import { EyeOutlined, EditOutlined, UnlockOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, UnlockOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
 import { getTemplateClientOne } from '../../../../services/templateService';
 import { getUserOne } from '../../../../services/userService';
@@ -142,13 +142,26 @@ const PermissionDeclarationOneClient = ({idClient, idUser}) => {
             ),
         },
         {
-            title: <span style={{ color: '#000' }}>Supprimer</span>,
+            title: <span style={{ color: '#000' }}>Créer <PlusCircleOutlined /></span>,
             dataIndex: 'can_comment',
             key: 'can_comment',
+            align: 'center',
             render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_template]?.can_comment || false}
-                    onChange={value => handlePermissionChange(record.id_template, idUser,  'can_comment', value)}
+                    onChange={(value) => handlePermissionChange(record.id_template, idUser, 'can_comment', value)}
+                />
+            ),
+        },
+        {
+            title: <span style={{ color: 'red' }}>Supprimer <DeleteOutlined /></span>,
+            dataIndex: 'can_delete',
+            key: 'can_delete',
+            align: 'center',
+            render: (text, record) => (
+                <Switch
+                    checked={permissions[record.id_template]?.can_delete || false}
+                    onChange={(value) => handlePermissionChange(record.id_template, idUser, 'can_delete', value)}
                 />
             ),
         },
