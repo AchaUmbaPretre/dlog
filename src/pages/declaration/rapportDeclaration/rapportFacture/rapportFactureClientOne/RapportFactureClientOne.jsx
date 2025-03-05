@@ -321,7 +321,7 @@ const RapportFactureClientOne = ({id_client}) => {
                 margin: 0,
                 color: '#004080'
             }}>
-                🏢 Détail de client {title}
+                👤 Détail du client {title}
             </h2>
         </div>
             <div className='rapport_row_excel'>
