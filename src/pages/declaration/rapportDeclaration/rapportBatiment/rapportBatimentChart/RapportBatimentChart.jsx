@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import moment from 'moment';
-import 'moment/locale/fr'; // Import de la locale française pour moment.js
+import 'moment/locale/fr';
 
 const RapportBatimentChart = ({ groupedData, uniqueMonths, selectedField }) => {
     if (!groupedData || !uniqueMonths) return null;
@@ -10,11 +10,11 @@ const RapportBatimentChart = ({ groupedData, uniqueMonths, selectedField }) => {
     const lineData = groupedData.map(batiment => ({
         id: batiment.desc_template,
         data: uniqueMonths.map(month => {
-            const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY"); // Mois abrégé en français (janv-2025)
+            const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY");
 
             return {
-                x: formattedMonth, // Affiche le mois sous forme de "janv-2025"
-                y: batiment[`${formattedMonth}_${selectedField}`] || 0 // Utilisation du champ sélectionné dynamiquement
+                x: formattedMonth,
+                y: batiment[`${formattedMonth}_${selectedField}`] || 0 
             };
         })
     }));
