@@ -15,7 +15,7 @@ const RapportFactureClientOne = ({id_client}) => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
-    const scroll = { x: 400 };
+    const scroll = { x: 'max-content' };
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -28,23 +28,24 @@ const RapportFactureClientOne = ({id_client}) => {
     const [ uniqueMonths, setUniqueMonths] = useState([]);
     const [ detail, setDetail] = useState('');
     const [ clientdetail, setClientDetail] = useState([]);
-
-
+    const [title, setTitle] = useState([]);
+    
       const fetchData = async () => {
         try {
           const { data } = await getRapportFactureClientOne(id_client, filteredDatas);
 
           setDetail(data);
+          setTitle(data[0]?.Client)
       
           const uniqueMonths = Array.from(
-            new Set(data?.data.map((item) => `${item.Mois}-${item.Année}`))
+            new Set(data?.map((item) => `${item.Mois}-${item.Année}`))
           ).sort((a, b) => {
             const [monthA, yearA] = a.split("-");
             const [monthB, yearB] = b.split("-");
             return yearA - yearB || monthA - monthB;
           });
       
-          const groupedData = data.data.reduce((acc, curr) => {
+          const groupedData = data.reduce((acc, curr) => {
             const client = acc.find((item) => item.Client === curr.Client);
             const [numMonth, year] = [curr.Mois, curr.Année];
             const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
@@ -56,8 +57,8 @@ const RapportFactureClientOne = ({id_client}) => {
               acc.push({
                 Client: curr.Client,
                 [monthName]: curr.Montant || 0,
-                Total: curr.Montant || 0,
-              });
+                Total: curr.Montant || 0
+                });
             }
             return acc;
           }, []);
@@ -89,9 +90,9 @@ const RapportFactureClientOne = ({id_client}) => {
                 setSearchedColumn,
                 searchInput
               ),
-              render: (text) => (
+              render: (text, record) => (
                 <Space>
-                  <div>
+                  <div >
                     {text}
                   </div>
                 </Space>
@@ -144,7 +145,7 @@ const RapportFactureClientOne = ({id_client}) => {
                 // Gérer l'erreur 404
                 notification.error({
                     message: 'Erreur',
-                    description: `${error.response.data.message}`,
+                    description: `${error.response?.data?.message}`,
                 });
             } else {
                 notification.error({
@@ -299,6 +300,30 @@ const RapportFactureClientOne = ({id_client}) => {
   return (
     <>
         <div className="rapport_facture">
+        <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '15px',
+            marginBottom: '30px',
+            background: '#ffffff',
+            borderRadius: '10px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            minHeight: '60px',
+            border: '1px solid #ddd',
+            transition: 'all 0.3s ease-in-out',
+            fontSize: '1.3rem',
+            fontWeight: 'bold',
+            color: '#333'
+        }}>
+            <h2 style={{
+                fontSize: '1.3rem',
+                margin: 0,
+                color: '#004080'
+            }}>
+                🏢 Détail de client {title}
+            </h2>
+        </div>
             <div className='rapport_row_excel'>
                 <Button
                     type={filterVisible ? 'primary' : 'default'}

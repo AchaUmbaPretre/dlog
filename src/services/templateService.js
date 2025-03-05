@@ -135,7 +135,7 @@ export const getRapportFacture = async (filter) => {
 };
 
 export const getRapportFactureClientOne = async (id, filter) => {
-  return axios.post(`${DOMAIN}/api/template/rapport_facture?id_client=${id}`, filter);
+  return axios.post(`${DOMAIN}/api/template/rapport_factureClientOne?id_client=${id}`, filter);
 };
 
 //Rapport superficie

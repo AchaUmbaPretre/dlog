@@ -25,7 +25,7 @@ const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
     const [columns, setColumns] = useState([]);
     const [dataSource, setDataSource] = useState([]);
-    const scroll = { x: 400 };
+    const scroll = { x: 'max-content' };
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -96,6 +96,7 @@ const RapportFacture = () => {
                 Client: curr.Client,
                 [monthName]: curr.Montant || 0,
                 Total: curr.Montant || 0,
+                id_client: curr.id_client,
               });
             }
             return acc;
@@ -128,9 +129,9 @@ const RapportFacture = () => {
                 setSearchedColumn,
                 searchInput
               ),
-              render: (text) => (
+              render: (text, record) => (
                 <Space>
-                  <div>
+                  <div onClick={() => handleDetail(record.id_client)}>
                     {text}
                   </div>
                 </Space>
@@ -520,7 +521,7 @@ const RapportFacture = () => {
           visible={modalType === 'detail'}
           onCancel={closeAllModals}
           footer={null}
-          width={500}
+          width={1000}
           centered
         >
           <RapportFactureClientOne id_client={idClient} />
