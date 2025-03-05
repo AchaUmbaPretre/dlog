@@ -53,7 +53,7 @@ const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
           indexBy="client"
           margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
           padding={0.3}
-          colors={{ scheme: 'nivo' }}
+          colors={['#E63946', '#F4A261', '#2A9D8F', '#264653', '#E9C46A', '#A8DADC', '#457B9D', '#1D3557']} // Palette plus contrastée
           axisTop={null}
           axisRight={null}
           axisBottom={{
