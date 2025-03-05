@@ -39,6 +39,7 @@ const RapportFacture = () => {
     const [activeKeys, setActiveKeys] = useState(['1', '2']);
     const [ detail, setDetail] = useState('');
     const [ clientdetail, setClientDetail] = useState([]);
+    const [ idClient, setIdClient ] = useState('');
 
     const handleTabChange = (key) => {
         setActiveKey(key);
