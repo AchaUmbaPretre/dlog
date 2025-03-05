@@ -12,6 +12,7 @@ const RapportFactureVille = () => {
         current: 1,
         pageSize: 15,
     });
+    const scroll = { x: 'max-content' };
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
     const [uniqueMonths, setUniqueMonths] = useState([]);
@@ -141,7 +142,7 @@ const RapportFactureVille = () => {
                     pagination={pagination}
                     onChange={(pagination) => setPagination(pagination)}
                     rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                    scroll={{ x: 400 }}
+                    scroll={scroll}
                 />
             </div>
         </div>

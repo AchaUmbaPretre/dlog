@@ -331,7 +331,6 @@ const RapportFacture = () => {
       doc.save("rapport_factures.pdf");
     };
     
-    
     const handleTableChange = (pagination, filters, sorter) => {
       setPagination(pagination);
     };

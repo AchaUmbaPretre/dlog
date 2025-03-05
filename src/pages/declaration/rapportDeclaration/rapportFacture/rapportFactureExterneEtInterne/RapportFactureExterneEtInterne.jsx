@@ -14,6 +14,7 @@ const RapportFactureExterneEtInterne = () => {
     });
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
+    const scroll = { x: 'max-content' };
 
     const fetchData = async () => {
         setLoading(true);
@@ -145,7 +146,7 @@ const RapportFactureExterneEtInterne = () => {
                     pagination={pagination}
                     onChange={(pagination) => setPagination(pagination)}
                     rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                    scroll={{ x: 400 }}
+                    scroll={scroll}
                 />
             </div>
         </div>
