@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './rapportFacture.scss'
 import { Button, notification, Space, Table, Tag, Tooltip } from 'antd';
-import { getRapportFactureClient } from '../../../../services/templateService';
 import moment from 'moment';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -9,8 +7,8 @@ import {
     FileExcelOutlined,
     FilePdfOutlined 
 } from '@ant-design/icons';
-import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
-import getColumnSearchProps from '../../../../utils/columnSearchUtils';
+import getColumnSearchProps from '../../../../../utils/columnSearchUtils';
+import RapportFiltrage from '../../rapportFiltrage/RapportFiltrage';
 import { getRapportFactureClientOne } from '../../../../../services/templateService';
 
 const RapportFactureClientOne = ({id_client}) => {
@@ -36,10 +34,7 @@ const RapportFactureClientOne = ({id_client}) => {
         try {
           const { data } = await getRapportFactureClientOne(id_client, filteredDatas);
 
-          const res = await getRapportFactureClient()
-
-          setDetail(data?.resume);
-          setClientDetail(res?.data)
+          setDetail(data);
       
           const uniqueMonths = Array.from(
             new Set(data?.data.map((item) => `${item.Mois}-${item.Année}`))
@@ -305,29 +300,28 @@ const RapportFactureClientOne = ({id_client}) => {
     <>
         <div className="rapport_facture">
             <div className='rapport_row_excel'>
-                    <Button
-                      type={filterVisible ? 'primary' : 'default'}
-                      onClick={handFilter}
-                      style={{ margin: '10px 0' }}
-                    >
-                      {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-                    </Button>
+                <Button
+                    type={filterVisible ? 'primary' : 'default'}
+                    onClick={handFilter}
+                    style={{ margin: '10px 0' }}
+                >
+                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                </Button>
 
-                    <Tooltip title={'Importer en excel'}>
-                      <Button className="export-excel" onClick={exportToExcelHTML} >
+                <Tooltip title={'Importer en excel'}>
+                    <Button className="export-excel" onClick={exportToExcelHTML} >
                         <FileExcelOutlined className="excel-icon" />
-                      </Button>
-                    </Tooltip>
+                    </Button>
+                </Tooltip>
 
-                    <Tooltip title={'Importer en pdf'}>
-                      <Button className="export-pdf" onClick={exportToPDF} >
+                <Tooltip title={'Importer en pdf'}>
+                    <Button className="export-pdf" onClick={exportToPDF} >
                         <FilePdfOutlined className="pdf-icon" />
-                      </Button>
-                    </Tooltip>
+                    </Button>
+                </Tooltip>
+            </div>
 
-                  </div>
-
-                    { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreMontant={true}/>}
+            { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={false} filtraStatus={false} filtreMontant={false}/>}
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={dataSource}

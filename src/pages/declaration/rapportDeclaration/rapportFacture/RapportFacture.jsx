@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './rapportFacture.scss'
-import { Button, notification, Popover, Skeleton, Space, Table, Tabs, Tag, Tooltip } from 'antd';
+import { Button, notification, Popover, Modal, Skeleton, Space, Table, Tabs, Tag, Tooltip } from 'antd';
 import { getRapportFacture, getRapportFactureClient } from '../../../../services/templateService';
 import moment from 'moment';
 import jsPDF from "jspdf";
@@ -19,6 +19,7 @@ import TabPane from 'antd/es/tabs/TabPane';
 import RapportFactureVille from './rapportFactureVille/RapportFactureVille';
 import RapportFacturePie from './rapportFacturePie/RapportFacturePie';
 import RapportFactureExterneEtInterne from './rapportFactureExterneEtInterne/RapportFactureExterneEtInterne';
+import RapportFactureClientOne from './rapportFactureClientOne/RapportFactureClientOne';
 
 const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
@@ -40,6 +41,22 @@ const RapportFacture = () => {
     const [ detail, setDetail] = useState('');
     const [ clientdetail, setClientDetail] = useState([]);
     const [ idClient, setIdClient ] = useState('');
+    const [modalType, setModalType] = useState(null);
+    
+
+    const closeAllModals = () => {
+      setModalType(null);
+    };
+    
+    const openModal = (type, idClient = '') => {
+      closeAllModals();
+      setModalType(type);
+      setIdClient(idClient);
+    };
+
+    const handleDetail = (idClient) => {
+      openModal('detail', idClient);
+    };
 
     const handleTabChange = (key) => {
         setActiveKey(key);
@@ -498,6 +515,16 @@ const RapportFacture = () => {
                 </TabPane>
             </Tabs>
         </div>
+        <Modal
+          title=""
+          visible={modalType === 'detail'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={500}
+          centered
+        >
+          <RapportFactureClientOne id_client={idClient} />
+        </Modal>
     </>
   )
 }
