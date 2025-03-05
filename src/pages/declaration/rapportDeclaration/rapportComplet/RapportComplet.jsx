@@ -22,12 +22,10 @@ const RapportComplet = () => {
       };
 
       const exportToExcelHTML = () => {
-        // Convert the table data to a format suitable for Excel
-        const ws = XLSX.utils.json_to_sheet(data); // Convert JSON to worksheet
-        const wb = XLSX.utils.book_new(); // Create a new workbook
-        XLSX.utils.book_append_sheet(wb, ws, 'Rapport Complet'); // Append the sheet to the workbook
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Rapport Complet');
         
-        // Write the workbook to an Excel file
         XLSX.writeFile(wb, 'Rapport_Complet.xlsx');
     };
 
