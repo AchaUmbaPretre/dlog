@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Table, Tag, Tooltip, Modal, Radio, Button, Skeleton } from 'antd';
+import { notification, Table, Tabs, Tag, Tooltip, Modal, Radio, Button, Skeleton } from 'antd';
 import moment from 'moment';
+import { AreaChartOutlined, PieChartOutlined } from '@ant-design/icons';
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import {
@@ -9,6 +10,9 @@ import { getRapportBatiment } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportBatimentOne from './rapportBatimentOne/RapportBatimentOne';
+import TabPane from 'antd/es/tabs/TabPane';
+import RapportBatimentChart from './rapportBatimentChart/RapportBatimentChart';
+import RapportBatimentChartPie from './rapportBatimentChartPie/RapportBatimentChartPie';
 
 const availableFields = [
   { key: 'total_facture', label: 'M² Facture' },
@@ -35,6 +39,7 @@ const RapportBatiment = () => {
   const [detail, setDetail] = useState([]);
   const [modalType, setModalType] = useState(null);
   const [idBatiment, setIdBatiment] = useState('');
+  const [activeKeys, setActiveKeys] = useState(['1', '2']);
 
   const closeAllModals = () => {
     setModalType(null);
@@ -48,7 +53,10 @@ const RapportBatiment = () => {
 
   const handleBatiment = (idBatiment) => {
     openModal('Batiment', idBatiment);
-    console.log(idBatiment)
+  };
+
+  const handleTabChanges = (key) => {
+    setActiveKeys(key);
   };
   
   const fetchData = async () => {
@@ -328,6 +336,40 @@ const RapportBatiment = () => {
           onChange={pagination => setPagination(pagination)}
           rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
         />
+
+        <div className="rapport_chart">
+        <Tabs
+                    activeKey={activeKeys[0]}
+                    onChange={handleTabChanges}
+                    type="card"
+                    tabPosition="top"
+                    renderTabBar={(props, DefaultTabBar) => (
+                        <DefaultTabBar {...props} />
+                    )}
+                >
+                    <TabPane
+                        tab={
+                        <span>
+                            <AreaChartOutlined  style={{ color: 'blue' }} /> Line
+                        </span>
+                    }
+                        key="1"
+                    >
+                        <RapportBatimentChart groupedData={dataSource} uniqueMonths={uniqueMonths} selectedField={selectedField} />
+                    </TabPane>
+
+                    <TabPane
+                        tab={
+                        <span>
+                            <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
+                        </span>
+                    }
+                        key="2"
+                    >
+                      <RapportBatimentChartPie groupedData={dataSource} uniqueMonths={uniqueMonths} selectedField={selectedField} />
+                    </TabPane> 
+                </Tabs>
+        </div>
       </div>
       <Modal
         title=""
