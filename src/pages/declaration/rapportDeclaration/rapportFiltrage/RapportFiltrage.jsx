@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Select, Skeleton, Input, Checkbox, Collapse } from 'antd';
 import 'antd/dist/reset.css';
 import moment from 'moment';
-import { getClient, getProvince } from '../../../../services/clientService';
+import { getClient, getProvince, getProvinceClient } from '../../../../services/clientService';
 import { getBatiment, getStatus_batiment } from '../../../../services/typeService';
 import { getMois, getAnnee, getTemplate } from '../../../../services/templateService';
 
@@ -78,7 +78,7 @@ useEffect(()=> {
             try {
                 const [clientData, provinceData, statutData, yearData, batimentData, templateData] = await Promise.all([ 
                     getClient(),
-                    getProvince(),
+                    getProvinceClient(),
                     getStatus_batiment(),
                     getAnnee(),
                     getBatiment(),

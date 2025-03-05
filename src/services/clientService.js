@@ -35,6 +35,10 @@ export const getProvinceClientOne = async (id) => {
     return axios.get(`${DOMAIN}/api/client/provinceClientOne?id_client=${id}`);
   };
 
+export const getProvinceClient = async () => {
+    return axios.get(`${DOMAIN}/api/client/provinceClient`);
+  };
+
 export const getClient_type = async () => {
     return axios.get(`${DOMAIN}/api/client/type_client`);
   };
