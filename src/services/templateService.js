@@ -11,7 +11,6 @@ export const getTemplate = async (role, userId) => {
     return axios.get(`${DOMAIN}/api/template?role=${role}&userId=${userId}`);
   };
 
-
 export const getTemplateBatimentOne = async (id) => {
   return axios.get(`${DOMAIN}/api/template/templateBatiment?id_batiment=${id}`);
 };
@@ -133,6 +132,10 @@ export const getTypeContrat = async () => {
 //Rapport facture
 export const getRapportFacture = async (filter) => {
   return axios.post(`${DOMAIN}/api/template/rapport_facture`, filter);
+};
+
+export const getRapportFactureClientOne = async (id, filter) => {
+  return axios.post(`${DOMAIN}/api/template/rapport_facture?id_client=${id}`, filter);
 };
 
 //Rapport superficie
