@@ -40,22 +40,21 @@ export const getProvinceClient = async () => {
   };
 
 export const getClient_type = async () => {
-    return axios.get(`${DOMAIN}/api/client/type_client`);
-  };
-
+  return axios.get(`${DOMAIN}/api/client/type_client`);
+};
 
 export const getClientOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/client/clientOne?id_client=${id}`);
-  };
+  return axios.get(`${DOMAIN}/api/client/clientOne?id_client=${id}`);
+};
 
 export const postClient = async (data) => {
   return axios.post(`${DOMAIN}/api/client`, data);
 };
 
 export const putClient = async (id,data) => {
-    return axios.put(`${DOMAIN}/api/client?id_client=${id}`, data);
-  };
+  return axios.put(`${DOMAIN}/api/client?id_client=${id}`, data);
+};
 
 export const estSupprimeClient = async (id) => {
-    return axios.put(`${DOMAIN}/api/client/est_supprime?id=${id}`);
-  };
+  return axios.put(`${DOMAIN}/api/client/est_supprime?id=${id}`);
+};
