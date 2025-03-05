@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Table, Tag, Radio, Button, Skeleton, Tooltip } from 'antd';
+import { notification, Table, Tag, Radio, Button, Tooltip } from 'antd';
 import moment from 'moment';
 import {
   FileExcelOutlined
@@ -30,8 +30,6 @@ const RapportBatimentOne = ({idBatiment}) => {
   const [selectedField, setSelectedField] = useState('total_entreposage'); // Par défaut : total_entreposage
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
   const [filteredDatas, setFilteredDatas] = useState(null);
-  const [filterVisible, setFilterVisible] = useState(false);
-  const [detail, setDetail] = useState([]);
   const [title, setTitle] = useState([]);
   
   const fetchData = async () => {
