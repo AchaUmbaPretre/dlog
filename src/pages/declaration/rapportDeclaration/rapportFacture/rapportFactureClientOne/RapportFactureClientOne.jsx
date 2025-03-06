@@ -686,24 +686,11 @@ const RapportFactureClientOne = ({id_client}) => {
         </div>
             <div className='rapport_row_excel'>
                 <Button
-                    type={filterVisible ? 'primary' : 'default'}
+                    type="default"
                     onClick={handFilter}
-                    style={{ margin: '10px 0' }}
                 >
-                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                    {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
                 </Button>
-
-                <Tooltip title={'Importer en excel'}>
-                    <Button className="export-excel" onClick={exportToExcelHTML} >
-                        <FileExcelOutlined className="excel-icon" />
-                    </Button>
-                </Tooltip>
-
-                <Tooltip title={'Importer en pdf'}>
-                    <Button className="export-pdf" onClick={exportToPDF} >
-                        <FilePdfOutlined className="pdf-icon" />
-                    </Button>
-                </Tooltip>
             </div>
 
             { filterVisible && <RapportFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={false} filtraStatus={false} filtreMontant={false}/>}
