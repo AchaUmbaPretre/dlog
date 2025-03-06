@@ -166,7 +166,7 @@ const RapportFactureClientOne = ({id_client}) => {
   
     const fetchData = async () => {
         try {
-            const {data} = getDeclarationOneClient(id_client)
+            const { data } = await getDeclarationOneClient(id_client)
             setDataSource(data)
             setLoading(false);
         } catch (error) {
@@ -192,6 +192,7 @@ const RapportFactureClientOne = ({id_client}) => {
         setFilterVisible(!filterVisible)
       }
 
+      console.log(dataSource)
       
     const exportToExcelHTML = () => {
         let tableHTML = `
@@ -362,8 +363,8 @@ const RapportFactureClientOne = ({id_client}) => {
             },
             {
               title: 'Client',
-              dataIndex: 'nom',
-              key: 'nom',
+              dataIndex: 'nom_client',
+              key: 'nom_client',
               render: (text, record) => (
                 <Space style={columnStyles.titleClient} className={columnStyles.hideScroll}>
                   <Tag icon={<UserOutlined />} color="orange">
