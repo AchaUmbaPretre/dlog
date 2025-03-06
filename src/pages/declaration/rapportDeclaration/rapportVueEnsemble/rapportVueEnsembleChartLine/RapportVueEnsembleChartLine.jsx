@@ -4,6 +4,7 @@ import moment from 'moment';
 import 'moment/locale/fr';
 
 const RapportVueEnsembleChartLine = ({ groupedData, showPercentage }) => {
+    
   return (
     <div>RapportVueEnsembleChartLine</div>
   )
