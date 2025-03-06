@@ -240,18 +240,6 @@ const RapportFactureClientOne = ({id_client}) => {
               ),
             },
             {
-              title: 'Client',
-              dataIndex: 'nom_client',
-              key: 'nom_client',
-              render: (text, record) => (
-                <Space style={columnStyles.titleClient} className={columnStyles.hideScroll}>
-                  <Tag icon={<UserOutlined />} color="orange">
-                    {text ?? 'Aucun'}
-                  </Tag>
-                </Space>
-              ),
-            },
-            {
               title: 'Periode',
               dataIndex: 'periode',
               key: 'periode',
