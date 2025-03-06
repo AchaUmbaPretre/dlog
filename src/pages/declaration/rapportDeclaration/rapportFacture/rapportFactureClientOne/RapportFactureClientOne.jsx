@@ -1,16 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, notification, Space, Table, Tag, Tooltip } from 'antd';
-import { MenuOutlined, EditOutlined, PieChartOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined, DownOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined, ScheduleOutlined, PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import {
     FileExcelOutlined,
-    FilePdfOutlined 
+    FilePdfOutlined,
+    CalendarOutlined,
+    EnvironmentOutlined,
+    HomeOutlined, 
+    FileTextOutlined, 
+    DollarOutlined, 
+    BarcodeOutlined,
+    UserOutlined
 } from '@ant-design/icons';
 import getColumnSearchProps from '../../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../../rapportFiltrage/RapportFiltrage';
 import { getDeclarationOneClient } from '../../../../../services/templateService';
+import { StatutDeclaration } from '../../../declarationStatut/DeclarationStatut';
 
 const RapportFactureClientOne = ({id_client}) => {
     const [loading, setLoading] = useState(true);
@@ -175,6 +182,8 @@ const RapportFactureClientOne = ({id_client}) => {
     useEffect(() => {
       fetchData();
     }, [filteredDatas, id_client]);
+
+    console.log(dataSource)
 
     const handleFilterChange = (newFilters) => {
         setFilteredDatas(newFilters); 
@@ -502,7 +511,6 @@ const RapportFactureClientOne = ({id_client}) => {
             },
           ]
         },
-      
         // Groupe Manutention
         {
           title: 'Manutention',
