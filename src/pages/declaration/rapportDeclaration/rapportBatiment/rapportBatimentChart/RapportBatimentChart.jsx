@@ -20,8 +20,8 @@ const RapportBatimentChart = ({ groupedData, uniqueMonths, selectedField }) => {
     }));
 
     return (
-        <div style={{ width: '100%', height: '500px', padding: '20px', background: '#fff', borderRadius: '10px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)' }}>
-            <h2 style={{ textAlign: 'center', marginBottom: '20px', fontSize: '1.3rem', color: '#333' }}>
+        <div style={{ width: '100%', height: '500px', padding: '20px'}}>
+            <h2 style={{ textAlign: 'center', marginBottom: '20px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
                 📈 Rapport des Bâtiments
             </h2>
 
