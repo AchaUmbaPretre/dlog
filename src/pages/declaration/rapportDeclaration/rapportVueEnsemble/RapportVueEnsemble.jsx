@@ -5,12 +5,13 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { AreaChartOutlined, PieChartOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
+import { AreaChartOutlined, PieChartOutlined, LineChartOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import { getRapportVille } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportVueEnsembleChart from './rapportVueEnsembleChart/RapportVueEnsembleChart';
 import TabPane from 'antd/es/tabs/TabPane';
 import RapportVueEnsemblePie from './rapportVueEnsemblePie/RapportVueEnsemblePie';
+import RapportVueEnsembleChartLine from './rapportVueEnsembleChartLine/RapportVueEnsembleChartLine';
 
 const RapportVueEnsemble = () => {
   const [loading, setLoading] = useState(true);
@@ -491,13 +492,24 @@ const RapportVueEnsemble = () => {
                         <RapportVueEnsembleChart groupedData={dataSource} showPercentage={showInPercentage} />
                     </TabPane>
 
+                    <TabPane
+                        tab={
+                        <span>
+                            <LineChartOutlined style={{ color: '#f50' }} /> Line
+                        </span>
+                    }
+                        key="2"
+                    >
+                        <RapportVueEnsembleChartLine groupedData={dataSource} showPercentage={showInPercentage} />
+                    </TabPane>
+
                  <TabPane
                         tab={
                         <span>
                             <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
                         </span>
                     }
-                        key="2"
+                        key="3"
                     >
                         <RapportVueEnsemblePie groupedData={dataSource} showPercentage={showInPercentage} uniqueMonths={uniqueMonths} />
                     </TabPane>
