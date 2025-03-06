@@ -43,6 +43,16 @@ const RapportVueEnsembleChartLine = ({ groupedData, showPercentage }) => {
     }));
   }
 
+  const formatValue = (value) => {
+    if (showPercentage) {
+      return `${value}%`;
+    }
+    if (value >= 1000) {
+      return `${(value / 1000).toFixed(1).replace('.0', '')}k`;
+    }
+    return value;
+  };
+
   const lineData = [
     {
       id: 'Entreposage',
@@ -56,9 +66,9 @@ const RapportVueEnsembleChartLine = ({ groupedData, showPercentage }) => {
 
   return (
     <div style={{ width: '100%', textAlign: 'center' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
-                📈 RAPPORT CHART DES VILLES
-        </h2>
+      <h2 style={{ textAlign: 'center', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
+        📈 RAPPORT CHART DES VILLES
+      </h2>
       <div style={{ height: 400 }}>
         <ResponsiveLine
           data={lineData}
@@ -80,7 +90,8 @@ const RapportVueEnsembleChartLine = ({ groupedData, showPercentage }) => {
             tickPadding: 5,
             legend: showPercentage ? 'Pourcentage (%)' : 'Montant ($)',
             legendPosition: 'middle',
-            legendOffset: -50
+            legendOffset: -50,
+            format: formatValue
           }}
           colors={{ scheme: 'category10' }}
           pointSize={8}
@@ -105,6 +116,13 @@ const RapportVueEnsembleChartLine = ({ groupedData, showPercentage }) => {
               effects: [{ on: 'hover', style: { itemTextColor: '#000', fontWeight: 'bold' } }]
             }
           ]}
+          tooltip={({ point }) => (
+            <div style={{ background: '#fff', padding: '10px', borderRadius: '5px', boxShadow: '0px 2px 10px rgba(0,0,0,0.15)' }}>
+              <strong>{point.serieId}</strong> <br />
+              Mois : {point.data.x} <br />
+              Valeur : <span style={{ color: point.serieColor, fontWeight: 'bold' }}>{formatValue(point.data.y)}</span>
+            </div>
+          )}
         />
       </div>
     </div>

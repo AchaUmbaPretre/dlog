@@ -60,6 +60,7 @@ const RapportManuChart = ({ groupedData, uniqueMonths }) => {
           margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
           xScale={{ type: 'point' }}
           yScale={{ type: 'linear', stacked: false, min: 'auto', max: 'auto' }}
+          curve="monotoneX"
           axisBottom={{
             orient: 'bottom',
             tickSize: 5,
