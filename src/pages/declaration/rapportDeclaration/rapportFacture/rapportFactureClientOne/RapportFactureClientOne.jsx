@@ -9,7 +9,6 @@ import {
     HomeOutlined, 
     FileTextOutlined, 
     DollarOutlined, 
-    BarcodeOutlined,
     UserOutlined
 } from '@ant-design/icons';
 import getColumnSearchProps from '../../../../../utils/columnSearchUtils';
@@ -32,139 +31,11 @@ const RapportFactureClientOne = ({id_client}) => {
     const [filterVisible, setFilterVisible] = useState(false);
     const [ uniqueMonths, setUniqueMonths] = useState([]);
     const [title, setTitle] = useState([]);
-    
-/*       const fetchData = async () => {
-        try {
-          const { data } = await getRapportFactureClientOne(id_client, filteredDatas);
-
-          setDetail(data);
-          setTitle(data[0]?.Client)
-      
-          const uniqueMonths = Array.from(
-            new Set(data?.map((item) => `${item.Mois}-${item.Année}`))
-          ).sort((a, b) => {
-            const [monthA, yearA] = a.split("-");
-            const [monthB, yearB] = b.split("-");
-            return yearA - yearB || monthA - monthB;
-          });
-      
-          const groupedData = data.reduce((acc, curr) => {
-            const client = acc.find((item) => item.Client === curr.Client);
-            const [numMonth, year] = [curr.Mois, curr.Année];
-            const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-      
-            if (client) {
-              client[monthName] = curr.Montant || 0;
-              client.Total = (client.Total || 0) + (curr.Montant || 0);
-            } else {
-              acc.push({
-                Client: curr.Client,
-                [monthName]: curr.Montant || 0,
-                Total: curr.Montant || 0
-                });
-            }
-            return acc;
-          }, []);
-
-          setUniqueMonths(uniqueMonths)
-      
-          const generatedColumns = [
-            {
-              title: '#',
-              dataIndex: 'id',
-              key: 'id',
-              render: (text, record, index) => {
-                const pageSize = pagination.pageSize || 10;
-                const pageIndex = pagination.current || 1;
-                return (pageIndex - 1) * pageSize + index + 1;
-              },
-              width: "4%",
-              align: 'right',
-            },
-            {
-              title: "Client",
-              dataIndex: "Client",
-              key: "Client",
-              fixed: "left",
-              ...getColumnSearchProps(
-                'Client',
-                searchText,
-                setSearchText,
-                setSearchedColumn,
-                searchInput
-              ),
-              render: (text, record) => (
-                <Space>
-                  <div >
-                    {text}
-                  </div>
-                </Space>
-              ),
-              align: 'left', 
-              title: <div style={{ textAlign: 'left' }}>Client</div>,
-            },
-            ...uniqueMonths.map((month) => {
-              const [numMonth, year] = month.split("-");
-              const monthName = moment(`${year}-${numMonth}-01`).format("MMM-YYYY");
-          
-              return {
-                title: <div style={{ textAlign: 'center' }}><Tag color="#2db7f5">{monthName}</Tag></div>,
-                dataIndex: monthName,
-                key: monthName,
-                sorter: (a, b) => (a[monthName] || 0) - (b[monthName] || 0),
-                sortDirections: ['descend', 'ascend'],
-                render: (text) => (
-                  <Space>
-                    <div style={{color: text ? 'black' : 'red'}}>
-                        {text ? Math.round(parseFloat(text))?.toLocaleString() : 0}
-                    </div>
-                  </Space>
-                ),
-                align: 'right' 
-              };
-            }),
-            {
-              title: "Total",
-              dataIndex: "Total",
-              key: "Total",
-              sorter: (a, b) => a.Total - b.Total,
-              sortDirections: ['descend', 'ascend'],
-              render: (text) => (
-                <div style={{color: text ? 'black' : 'red'}}>
-                    {text ? Math.round(parseFloat(text))?.toLocaleString() : 0}
-                </div>
-              ),
-              align: 'right',
-              title: <div style={{ textAlign: 'center' }}>Total</div>,
-            },
-          ];
-          
-      
-          setColumns(generatedColumns);
-          setDataSource(groupedData);
-          setLoading(false);
-        } catch (error) {
-            if (error.response && error.response.status === 404) {
-                // Gérer l'erreur 404
-                notification.error({
-                    message: 'Erreur',
-                    description: `${error.response?.data?.message}`,
-                });
-            } else {
-                notification.error({
-                    message: 'Erreur',
-                    description: 'Une erreur est survenue lors de la récupération des données.',
-                });
-            }
-            setLoading(false);
-        }
-      }; */
   
     const fetchData = async () => {
         try {
             const { data } = await getDeclarationOneClientV(id_client)
 
-                    // Vérification des données reçues
             if (!data || data.length === 0) {
                 notification.warning({
                     message: 'Aucune donnée disponible',
@@ -174,7 +45,7 @@ const RapportFactureClientOne = ({id_client}) => {
                 setLoading(false);
                 return;
             }
-            
+
             setDataSource(data)
             setTitle(data[0]?.nom_client)
             setLoading(false);
@@ -420,7 +291,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.m2_occupe - b.m2_occupe,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? '0'}</Tag>
+                <div style={{color: text ? 'black' : 'red'}}>
+                    {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            })
+                            .replace(/,/g, " ") : "0.00"}
+                </div>
               ),
               align: 'right', 
             },
@@ -431,7 +308,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.m2_facture - b.m2_facture,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag icon={<BarcodeOutlined />} color="cyan">{text?.toLocaleString() ?? '0'}</Tag>
+                <div style={{color: text ? 'black' : 'red'}}>
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            })
+                            .replace(/,/g, " ") : "0.00"}
+                </div>
               ),
               align: 'right', 
             },
@@ -442,16 +325,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.tarif_entreposage - b.tarif_entreposage,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag color="green">
-                  {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
+                <div style={{color: text ? 'black' : 'red'}}>
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ")} $`
-                        : "0.00"}
-                </Tag>
+                            .replace(/,/g, " ") + " $": "0.00"}
+                </div>
               ),
               align: 'right', 
             },
@@ -482,17 +362,14 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.total_entreposage - b.total_entreposage,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag color="gold">
-                  {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
+                <div style={{color: text ? 'black' : 'red'}}>
+                    {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ")} $`
-                        : "0.00"}
-                </Tag>
-              ),
+                            .replace(/,/g, " ") : "0.00"}
+                </div>
+                ),
               align: 'right', 
             },
             {
@@ -567,16 +444,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.manutation - b.manutation,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag color="cyan">
-                  {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
+                <div style={{color: text ? 'black' : 'red'}}>
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ")} $`
-                        : "0.00"}
-                </Tag>
+                            .replace(/,/g, " ") : "0.00"}
+                </div>
               ),
               align: 'right', 
             },
