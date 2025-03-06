@@ -10,7 +10,7 @@ const RapportBatimentChart = ({ groupedData, uniqueMonths, selectedField }) => {
     const lineData = groupedData.map(batiment => ({
         id: batiment.desc_template,
         data: uniqueMonths.map(month => {
-            const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY");
+            const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY").replace('.', '');
 
             return {
                 x: formattedMonth,
@@ -39,7 +39,7 @@ const RapportBatimentChart = ({ groupedData, uniqueMonths, selectedField }) => {
                         tickRotation: -30,
                         tickSize: 5,
                         tickPadding: 5,
-                        format: value => value.substring(0, 3), // Utiliser les 3 premiers caractères pour un format compact
+                        format: value => moment(value, "MMM-YYYY").format("MMM-YY")
                     }}
                     axisLeft={{
                         legend: 'Valeur',
