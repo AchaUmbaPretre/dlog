@@ -174,7 +174,7 @@ const RapportVariation = () => {
             onClick={() => setFilterVisible(!filterVisible)}
             style={{ margin: '10px 10px 10px 0' }}
           >
-            {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+            {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
           </Button>
         </div>
         <div className="rapport_wrapper_facture">
