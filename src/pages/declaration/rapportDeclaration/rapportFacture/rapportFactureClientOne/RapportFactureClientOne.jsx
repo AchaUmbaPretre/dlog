@@ -8,8 +8,6 @@ import {
     EnvironmentOutlined,
     HomeOutlined, 
     FileTextOutlined, 
-    DollarOutlined, 
-    UserOutlined
 } from '@ant-design/icons';
 import getColumnSearchProps from '../../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../../rapportFiltrage/RapportFiltrage';
@@ -34,7 +32,7 @@ const RapportFactureClientOne = ({id_client}) => {
   
     const fetchData = async () => {
         try {
-            const { data } = await getDeclarationOneClientV(id_client)
+            const { data } = await getDeclarationOneClientV(id_client, filteredDatas)
 
             if (!data || data.length === 0) {
                 notification.warning({
