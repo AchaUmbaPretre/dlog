@@ -9,7 +9,7 @@ const RapportVariation = () => {
   const [loading, setLoading] = useState(true);
   const [columns, setColumns] = useState([]);
   const [dataSource, setDataSource] = useState([]);
-  const scroll = { x: 400 };
+  const scroll = { x: 'max-content' };
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [modalType, setModalType] = useState(null);
