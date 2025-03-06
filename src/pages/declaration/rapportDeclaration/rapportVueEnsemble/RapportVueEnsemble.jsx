@@ -483,7 +483,7 @@ const RapportVueEnsemble = () => {
                     <TabPane
                         tab={
                         <span>
-                            <AreaChartOutlined  style={{ color: 'blue' }} /> Line
+                            <AreaChartOutlined  style={{ color: 'blue' }} /> Bar
                         </span>
                     }
                         key="1"
