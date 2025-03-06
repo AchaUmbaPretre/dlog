@@ -342,16 +342,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.debours_entreposage - b.debours_entreposage,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag icon={<DollarOutlined />} color="green">
-                  {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
+                <div style={{color: text ? 'black' : 'red'}}>
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ")} $`
-                        : "0.00"}
-                </Tag>
+                            .replace(/,/g, " ") + " $": "0.00"}
+                </div>
               ),
               align: 'right', 
             },
@@ -363,11 +360,11 @@ const RapportFactureClientOne = ({id_client}) => {
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
                 <div style={{color: text ? 'black' : 'red'}}>
-                    {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ") : "0.00"}
+                            .replace(/,/g, " ") + " $": "0.00"}
                 </div>
                 ),
               align: 'right', 
@@ -379,16 +376,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.ttc_entreposage - b.ttc_entreposage,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag color="volcano">
-                  {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
+                <div style={{color: text ? 'black' : 'red'}}>
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ")} $`
-                        : "0.00"}
-                </Tag>
+                            .replace(/,/g, " ") + " $": "0.00"}
+                </div>
               ),
               align: 'right', 
             },
@@ -449,7 +443,7 @@ const RapportFactureClientOne = ({id_client}) => {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ") : "0.00"}
+                            .replace(/,/g, " ") + " $": "0.00"}
                 </div>
               ),
               align: 'right', 
@@ -461,16 +455,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.tarif_manutation - b.tarif_manutation,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag color="green">
-                  {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
+                <div style={{color: text ? 'black' : 'red'}}>
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ")} $`
-                        : "0.00"}
-                </Tag>
+                            .replace(/,/g, " ") + " $": "0.00"}
+                </div>
               ),
               align: 'right', 
             },
@@ -481,16 +472,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.debours_manutation - b.debours_manutation,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag icon={<DollarOutlined />} color="green">
-                  {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
+                <div style={{color: text ? 'black' : 'red'}}>
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ")} $`
-                        : "0.00"}
-                </Tag>
+                            .replace(/,/g, " ") + " $": "0.00"}
+                </div>
               ),
               align: 'right', 
             },
@@ -501,16 +489,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.total_manutation - b.total_manutation,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag color="gold">
-                  {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
+                <div style={{color: text ? 'black' : 'red'}}>
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ")} $`
-                        : "0.00"}
-                </Tag>
+                            .replace(/,/g, " ") + " $": "0.00"}
+                </div>
               ),
               align: 'right',
             },
@@ -521,16 +506,13 @@ const RapportFactureClientOne = ({id_client}) => {
               sorter: (a, b) => a.ttc_manutation - b.ttc_manutation,
               sortDirections: ['descend', 'ascend'],
               render: (text) => (
-                <Tag color="volcano">
-                  {text
-                        ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
+                <div style={{color: text ? 'black' : 'red'}}>
+                {text ? Math.round(parseFloat(text))?.toLocaleString("en-US", {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                             })
-                            .replace(/,/g, " ")} $`
-                        : "0.00"}
-                </Tag>
+                            .replace(/,/g, " ") + " $": "0.00"}
+                </div>
               ),
               align: 'right', 
             },
