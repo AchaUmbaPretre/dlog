@@ -5,16 +5,16 @@ import moment from 'moment';
 const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
   const formatDataForNivo = (data) => {
     if (!Array.isArray(data) || data.length === 0) return [];
-
+  
     const grouped = {};
-
+  
     data.forEach(item => {
       const mois = moment(item.Mois, "MMM-YY").format('MMM-YYYY'); // 🔹 Format 'MMM-YYYY' pour obtenir 'dec-2024'
-
+  
       if (!grouped[mois]) {
         grouped[mois] = { Mois: mois, Entreposage: 0, Manutention: 0, total: 0 };
       }
-
+  
       // 🔹 Additionner les valeurs pour Entreposage et Manutention pour toutes les villes
       Object.keys(item).forEach(key => {
         if (key.includes("Entreposage")) {
@@ -24,13 +24,19 @@ const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
           grouped[mois].Manutention += item[key] || 0;
         }
       });
-
+  
       // 🔹 Calculer le total pour chaque mois
       grouped[mois].total = grouped[mois].Entreposage + grouped[mois].Manutention;
     });
-
-    return Object.values(grouped);
+  
+    let nivoData = Object.values(grouped);
+  
+    // Trier du plus ancien au plus récent
+    nivoData.sort((a, b) => moment(a.Mois, "MMM-YYYY").toDate() - moment(b.Mois, "MMM-YYYY").toDate());
+  
+    return nivoData;
   };
+  
 
   let nivoData = formatDataForNivo(groupedData);
 
