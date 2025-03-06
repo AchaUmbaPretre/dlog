@@ -56,7 +56,7 @@ const RapportVueEnsembleChartLine = ({ groupedData, showPercentage }) => {
 
   return (
     <div style={{ width: '100%', textAlign: 'center' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '20px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
                 📈 RAPPORT CHART DES VILLES
         </h2>
       <div style={{ height: 400 }}>

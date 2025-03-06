@@ -21,7 +21,7 @@ const RapportBatimentChart = ({ groupedData, uniqueMonths, selectedField }) => {
 
     return (
         <div style={{ width: '100%', height: '500px', padding: '20px'}}>
-            <h2 style={{ textAlign: 'center', marginBottom: '20px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
+            <h2 style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
                 📈 Rapport des Bâtiments
             </h2>
 
