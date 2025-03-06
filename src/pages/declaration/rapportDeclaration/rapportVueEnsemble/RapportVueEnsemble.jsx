@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Dropdown, Menu, Tooltip, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
 import moment from 'moment';
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { AreaChartOutlined, PieChartOutlined, LineChartOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
+import { AreaChartOutlined, PieChartOutlined, BarChartOutlined, FilePdfOutlined, FileExcelOutlined } from '@ant-design/icons';
 import { getRapportVille } from '../../../../services/templateService';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportVueEnsembleChart from './rapportVueEnsembleChart/RapportVueEnsembleChart';
@@ -495,7 +494,7 @@ const RapportVueEnsemble = () => {
                     <TabPane
                         tab={
                         <span>
-                            <LineChartOutlined style={{ color: '#f50' }} /> Line
+                            <BarChartOutlined style={{ color: '#f50' }} /> Line
                         </span>
                     }
                         key="2"
