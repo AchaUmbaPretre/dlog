@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, notification, Space, Table, Tag, Tooltip } from 'antd';
+import { Button, notification, Space, Table, Tag } from 'antd';
 import moment from 'moment';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import {
-    FileExcelOutlined,
-    FilePdfOutlined,
     CalendarOutlined,
     EnvironmentOutlined,
     HomeOutlined, 
@@ -33,8 +31,6 @@ const RapportFactureClientOne = ({id_client}) => {
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [filterVisible, setFilterVisible] = useState(false);
     const [ uniqueMonths, setUniqueMonths] = useState([]);
-    const [ detail, setDetail] = useState('');
-    const [ clientdetail, setClientDetail] = useState([]);
     const [title, setTitle] = useState([]);
     
 /*       const fetchData = async () => {
