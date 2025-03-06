@@ -183,8 +183,6 @@ const RapportFactureClientOne = ({id_client}) => {
       fetchData();
     }, [filteredDatas, id_client]);
 
-    console.log(dataSource)
-
     const handleFilterChange = (newFilters) => {
         setFilteredDatas(newFilters); 
       };
