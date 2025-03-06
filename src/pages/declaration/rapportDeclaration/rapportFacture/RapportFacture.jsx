@@ -21,7 +21,7 @@ import RapportFactureVille from './rapportFactureVille/RapportFactureVille';
 import RapportFacturePie from './rapportFacturePie/RapportFacturePie';
 import RapportFactureExterneEtInterne from './rapportFactureExterneEtInterne/RapportFactureExterneEtInterne';
 import RapportFactureClientOne from './rapportFactureClientOne/RapportFactureClientOne';
-import RapportFactureChartLine from '../rapportVueEnsemble/rapportFactureChartLine/RapportFactureChartLine';
+import RapportFactureChartLine from './rapportFactureChartLine/RapportFactureChartLine';
 
 const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
