@@ -14,7 +14,7 @@ import {
 } from '@ant-design/icons';
 import getColumnSearchProps from '../../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../../rapportFiltrage/RapportFiltrage';
-import { getDeclarationOneClient } from '../../../../../services/templateService';
+import { getDeclarationOneClientV } from '../../../../../services/templateService';
 import { StatutDeclaration } from '../../../declarationStatut/DeclarationStatut';
 
 const RapportFactureClientOne = ({id_client}) => {
@@ -162,8 +162,21 @@ const RapportFactureClientOne = ({id_client}) => {
   
     const fetchData = async () => {
         try {
-            const { data } = await getDeclarationOneClient(id_client)
+            const { data } = await getDeclarationOneClientV(id_client)
+
+                    // Vérification des données reçues
+            if (!data || data.length === 0) {
+                notification.warning({
+                    message: 'Aucune donnée disponible',
+                    description: 'Aucune déclaration n’a été trouvée pour le client sélectionné.',
+                });
+                setDataSource([]);
+                setLoading(false);
+                return;
+            }
+            
             setDataSource(data)
+            setTitle(data[0]?.nom_client)
             setLoading(false);
         } catch (error) {
             notification.error({
@@ -187,8 +200,6 @@ const RapportFactureClientOne = ({id_client}) => {
         fetchData()
         setFilterVisible(!filterVisible)
       }
-
-      console.log(dataSource)
       
     const exportToExcelHTML = () => {
         let tableHTML = `
