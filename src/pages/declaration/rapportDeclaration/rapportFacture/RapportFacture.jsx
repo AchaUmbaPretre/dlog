@@ -10,7 +10,8 @@ import {
     PieChartOutlined,
     SwapOutlined,
     FileExcelOutlined,
-    FilePdfOutlined 
+    FilePdfOutlined,
+    BarChartOutlined
 } from '@ant-design/icons';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import RapportFactureChart from './rapportFactureChart/RapportFactureChart';
@@ -20,6 +21,7 @@ import RapportFactureVille from './rapportFactureVille/RapportFactureVille';
 import RapportFacturePie from './rapportFacturePie/RapportFacturePie';
 import RapportFactureExterneEtInterne from './rapportFactureExterneEtInterne/RapportFactureExterneEtInterne';
 import RapportFactureClientOne from './rapportFactureClientOne/RapportFactureClientOne';
+import RapportFactureChartLine from '../rapportVueEnsemble/rapportFactureChartLine/RapportFactureChartLine';
 
 const RapportFacture = () => {
     const [loading, setLoading] = useState(true);
@@ -505,11 +507,22 @@ const RapportFacture = () => {
 
                 <TabPane
                     tab={
+                      <span>
+                        <BarChartOutlined style={{ color: '#f50' }} /> Line
+                      </span>
+                    }
+                        key="2"
+                >
+                  <RapportFactureChartLine groupedData={dataSource} uniqueMonths={uniqueMonths} />
+                </TabPane>
+
+                <TabPane
+                    tab={
                     <span>
                         <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
                     </span>
                 }
-                    key="2"
+                    key="3"
                 >
                     <RapportFacturePie groupedData={dataSource} uniqueMonths={uniqueMonths} />
                 </TabPane>
