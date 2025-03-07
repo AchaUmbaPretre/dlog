@@ -80,20 +80,20 @@ const PermissionOne = ({ userId }) => {
   const columns = [
     { title: "#", dataIndex: "id", key: "id", render: (_, __, index) => index + 1 },
     { title: "Option", dataIndex: "menu_title", key: "menu_title", render: (text) => <Tag color="blue">{text}</Tag> },
-    { title: <EyeOutlined style={{ color: "#52c41a" }} />, dataIndex: "can_read", key: "can_read", render: (_, record) => (
+    { title: <span style={{ color: '#52c41a' }}>Voir <EyeOutlined /></span>, dataIndex: "can_read", key: "can_read", render: (_, record) => (
       <Switch
         checked={permissions[record.menu_id]?.can_read || false}
         onChange={(value) => handlePermissionChange(record.menu_id, null, "can_read", value ? 1 : 0)}
       />
     )},
-    { title: <EditOutlined style={{ color: "#1890ff" }} />, dataIndex: "can_edit", key: "can_edit", render: (_, record) => (
+    { title: <span style={{ color: '#1890ff' }}>Modifier <EditOutlined /></span>, dataIndex: "can_edit", key: "can_edit", render: (_, record) => (
       <Switch
         checked={permissions[record.menu_id]?.can_edit || false}
         onChange={(value) => handlePermissionChange(record.menu_id, null, "can_edit", value ? 1 : 0)}
       />
     )},
     {
-      title: <span style={{ color: '#000' }}>Créer <PlusCircleOutlined /></span>,
+      title: <span style={{ color: '#000' }}>Ajouter <PlusCircleOutlined /></span>,
       dataIndex: 'can_comment',
       key: 'can_comment',
       align: 'center',
@@ -104,7 +104,7 @@ const PermissionOne = ({ userId }) => {
           />
       ),
     },
-    { title: <DeleteOutlined style={{ color: "#ff4d4f" }} />, dataIndex: "can_delete", key: "can_delete", render: (_, record) => (
+    { title: <span style={{ color: 'red' }}>Supprimer <DeleteOutlined /></span>, dataIndex: "can_delete", key: "can_delete", render: (_, record) => (
       <Switch
         checked={permissions[record.menu_id]?.can_delete || false}
         onChange={(value) => handlePermissionChange(record.menu_id, null, "can_delete", value ? 1 : 0)}
@@ -116,20 +116,20 @@ const PermissionOne = ({ userId }) => {
     <Table
       columns={[
         { title: "Sous-menu", dataIndex: "submenu_title", key: "submenu_title", render: (text) => <Tag color="geekblue">{text}</Tag> },
-        { title: <EyeOutlined style={{ color: "#52c41a" }} />, key: "can_read", render: (_, subRecord) => (
+        { title: <span style={{ color: '#52c41a' }}><EyeOutlined /></span>, key: "can_read", render: (_, subRecord) => (
           <Switch
             checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_read || false}
             onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_read", value ? 1 : 0)}
           />
         )},
-        { title: <EditOutlined style={{ color: "#1890ff" }} />, key: "can_edit", render: (_, subRecord) => (
+        { title: <span style={{ color: '#1890ff' }}><EditOutlined /></span>, key: "can_edit", render: (_, subRecord) => (
           <Switch
             checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_edit || false}
             onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_edit", value ? 1 : 0)}
           />
         )},
         {
-          title: <span style={{ color: '#000' }}>Créer <PlusCircleOutlined /></span>,
+          title: <span style={{ color: '#000' }}><PlusCircleOutlined /></span>,
           dataIndex: 'can_comment',
           key: 'can_comment',
           align: 'center',
@@ -140,7 +140,7 @@ const PermissionOne = ({ userId }) => {
               />
           ),
         },
-        { title: <DeleteOutlined style={{ color: "#ff4d4f" }} />, key: "can_delete", render: (_, subRecord) => (
+        { title: <span style={{ color: 'red' }}><DeleteOutlined /></span>, key: "can_delete", render: (_, subRecord) => (
           <Switch
             checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_delete || false}
             onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_delete", value ? 1 : 0)}
