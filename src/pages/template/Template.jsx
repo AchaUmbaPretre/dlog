@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
-const Template = () => {
+const Template = ({datas}) => {
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
@@ -40,8 +40,31 @@ const Template = () => {
   const [activeKey, setActiveKey] = useState(['1', '2']);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const role = useSelector((state) => state.user?.currentUser.role);
+  const currentUrl = window.location.pathname;
 
 
+function getSubMenuAccessByUrl(currentUrl) {
+    // Chercher le sous-menu par son URL dans les menus
+    for (let menu of datas) {
+        const submenu = menu.subMenus.find(sub => sub.submenu_url === currentUrl);
+
+        if (submenu) {
+            // Retourner les permissions du sous-menu
+            return {
+                can_read: submenu.can_read,
+                can_edit: submenu.can_edit,
+                can_delete: submenu.can_delete
+            };
+        }
+    }
+
+    console.log("Sous-menu non trouvé.");
+    return null;
+}
+
+const access = getSubMenuAccessByUrl(currentUrl);
+
+console.log(access)
   const handleTabChange = (key) => {
     setActiveKey(key);
   };
@@ -139,7 +162,6 @@ const Template = () => {
       },
     },
   };
-
 
   const columns = [
     {
@@ -307,6 +329,7 @@ const Template = () => {
           <Tooltip title="Modifier">
               <Button
                 icon={<EditOutlined />}
+                disabled={access.can_edit === 0}
                 style={{ color: 'green' }}
                 onClick={() => handleEdit(record.id_template)}
                 aria-label="Edit tache"
@@ -315,6 +338,7 @@ const Template = () => {
             <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
+              disabled={access.can_read === 0}
               onClick={() => handleDetail(record.id_template)}
               aria-label="détail"
               style={{ color: 'blue' }}
@@ -331,6 +355,7 @@ const Template = () => {
                   icon={<DeleteOutlined />}
                   style={{ color: 'red' }}
                   aria-label="Delete client"
+                  disabled={access.can_delete === 0}
                 />
               </Popconfirm>
             </Tooltip>
@@ -347,7 +372,7 @@ const Template = () => {
     item.nom_objet_fact?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())
    );
-
+   
   return (
     <>
       <Tabs

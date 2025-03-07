@@ -43,34 +43,36 @@ const PermissionOne = ({ userId }) => {
     fetchOptionsAndPermissions();
   }, [userId]);
 
-  const handlePermissionChange = (menuId, submenuId, permType, value) => {
-    const key = submenuId ? `${menuId}-${submenuId}` : `${menuId}`;
+ const handlePermissionChange = (menuId, submenuId, permType, value) => {
+  // Si submenuId est null, nous utilisons une clé avec uniquement le menuId
+  const key = submenuId ? `${menuId}-${submenuId}` : `${menuId}`;
 
-    const updatedPermissions = {
-      ...permissions,
-      [key]: {
-        ...permissions[key],
-        [permType]: value ? 1 : 0
-      }
-    };
-
-    setPermissions(updatedPermissions);
-
-    const finalPermissions = {
-      ...updatedPermissions[key],
-      can_read: updatedPermissions[key]?.can_read ?? 0,
-      can_edit: updatedPermissions[key]?.can_edit ?? 0,
-      can_delete: updatedPermissions[key]?.can_delete ?? 0,
-    };
-
-    putPermission(userId, menuId, submenuId, finalPermissions)
-      .then(() => {
-        message.success('Autorisations mises à jour avec succès');
-      })
-      .catch(() => {
-        message.error('Échec de la mise à jour des autorisations');
-      });
+  // Mettez à jour les permissions pour l'élément en question
+  const updatedPermissions = {
+    ...permissions,
+    [key]: {
+      ...permissions[key],
+      [permType]: value
+    }
   };
+
+  setPermissions(updatedPermissions);
+
+  // Si submenuId est null, nous envoyons la permission pour le menu principal avec submenuId comme NULL
+  const finalPermissions = {
+    can_read: updatedPermissions[key]?.can_read ?? 0,
+    can_edit: updatedPermissions[key]?.can_edit ?? 0,
+    can_delete: updatedPermissions[key]?.can_delete ?? 0,
+  };
+
+  putPermission(userId, menuId, submenuId || null, finalPermissions) // Passer NULL si pas de sous-menu
+    .then(() => {
+      message.success('Autorisations mises à jour avec succès');
+    })
+    .catch(() => {
+      message.error('Échec de la mise à jour des autorisations');
+    });
+};
 
   const columns = [
     { title: "#", dataIndex: "id", key: "id", render: (_, __, index) => index + 1 },

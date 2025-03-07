@@ -111,15 +111,15 @@ const SideBar = ({data}) => {
           </Item>
           
           {data.map(menuItem => (
-            menuItem.subMenus && menuItem.subMenus[0].submenu_id ? (
+            menuItem.subMenus && menuItem.subMenus[0]?.submenu_id ? (
               <SubMenu
                 key={menuItem.menu_id}
                 icon={renderIcon(menuItem.menu_icon)}
                 title={<span className="sidebarH3">{menuItem.menu_title}</span>}
               >
-                {menuItem.subMenus.map(subMenu => (
-                  <Item key={`submenu-${menuItem.menu_id}-${subMenu.submenu_id}`}>
-                    <Link to={subMenu.submenu_url} className="sidebarLink" onClick={toggleMenu}>
+                {menuItem?.subMenus.map(subMenu => (
+                  <Item key={`submenu-${menuItem.menu_id}-${subMenu?.submenu_id}`}>
+                    <Link to={subMenu?.submenu_url} className="sidebarLink" onClick={toggleMenu}>
                       {subMenu.submenu_title}
                     </Link>
                   </Item>

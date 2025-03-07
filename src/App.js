@@ -243,7 +243,7 @@ function App() {
         },
         {
           path: '/liste_template',
-          element: <Template/>
+          element: <Template datas={data} />
         },
         {
           path: '/template_form',
