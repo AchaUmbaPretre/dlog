@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Switch, message, Tag, Input } from 'antd';
-import { EyeOutlined, EditOutlined, UnlockOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, PlusCircleOutlined, UnlockOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getMenus, getMenusOne, putPermission } from '../../../services/permissionService';
 
 const PermissionOne = ({ userId }) => {
@@ -30,7 +30,8 @@ const PermissionOne = ({ userId }) => {
           perms[key] = {
             can_read: p.can_read,
             can_edit: p.can_edit,
-            can_delete: p.can_delete
+            can_delete: p.can_delete,
+            can_comment: p.can_comment
           };
         });
         setPermissions(perms);
@@ -44,7 +45,7 @@ const PermissionOne = ({ userId }) => {
   }, [userId]);
 
  const handlePermissionChange = (menuId, submenuId, permType, value) => {
-  // Si submenuId est null, nous utilisons une clé avec uniquement le menuId
+
   const key = submenuId ? `${menuId}-${submenuId}` : `${menuId}`;
 
   // Mettez à jour les permissions pour l'élément en question
@@ -63,7 +64,11 @@ const PermissionOne = ({ userId }) => {
     can_read: updatedPermissions[key]?.can_read ?? 0,
     can_edit: updatedPermissions[key]?.can_edit ?? 0,
     can_delete: updatedPermissions[key]?.can_delete ?? 0,
+    can_comment: updatedPermissions[key]?.can_comment ?? 0,
+
   };
+
+  console.log(finalPermissions)
 
   putPermission(userId, menuId, submenuId || null, finalPermissions) // Passer NULL si pas de sous-menu
     .then(() => {
@@ -89,6 +94,18 @@ const PermissionOne = ({ userId }) => {
         onChange={(value) => handlePermissionChange(record.menu_id, null, "can_edit", value ? 1 : 0)}
       />
     )},
+    {
+      title: <span style={{ color: '#000' }}>Créer <PlusCircleOutlined /></span>,
+      dataIndex: 'can_comment',
+      key: 'can_comment',
+      align: 'center',
+      render: (text, record) => (
+          <Switch
+            checked={permissions[record.menu_id]?.can_comment || false}
+            onChange={(value) => handlePermissionChange(record.menu_id, null, 'can_comment', value ? 1 : 0)}
+          />
+      ),
+    },
     { title: <DeleteOutlined style={{ color: "#ff4d4f" }} />, dataIndex: "can_delete", key: "can_delete", render: (_, record) => (
       <Switch
         checked={permissions[record.menu_id]?.can_delete || false}
