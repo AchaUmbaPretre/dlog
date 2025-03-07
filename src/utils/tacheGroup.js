@@ -18,6 +18,7 @@ export const groupTasks = (tasks) => {
   }
 
 export const getSubMenuAccessByUrl = (currentUrl, datas) => {
+    console.log(datas)
     for (let menu of datas) {
         // Vérifier si l'URL correspond à un sous-menu
         const submenu = menu.subMenus.find(sub => sub.submenu_url === currentUrl);

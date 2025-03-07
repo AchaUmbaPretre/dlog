@@ -131,7 +131,7 @@ function App() {
         },
         {
           path: '/controle',
-          element: <ControleDeBase/>
+          element: <ControleDeBase datas={data}/>
         },
         {
           path: '/format',

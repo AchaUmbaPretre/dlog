@@ -43,7 +43,7 @@ const Template = ({datas}) => {
   const role = useSelector((state) => state.user?.currentUser.role);
   const currentUrl = window.location.pathname;
 
-const access = getSubMenuAccessByUrl(currentUrl, datas);
+  const access = getSubMenuAccessByUrl(currentUrl, datas);
 
   const handleTabChange = (key) => {
     setActiveKey(key);
@@ -394,15 +394,14 @@ const access = getSubMenuAccessByUrl(currentUrl, datas);
                   />
                 </div>
                 <div className="client-rows-right">
-                { access?.can_comment === 1 && 
                   <Button
+                    disabled={access?.can_comment === 0 }
                     type="primary"
                     icon={<PlusCircleOutlined />}
                     onClick={handleAddTemplate}
                   >
                     Ajouter un template
                   </Button>
-                }
                   <Button
                     icon={<PrinterOutlined />}
                     onClick={handlePrint}
