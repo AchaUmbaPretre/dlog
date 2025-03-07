@@ -68,8 +68,6 @@ const PermissionOne = ({ userId }) => {
 
   };
 
-  console.log(finalPermissions)
-
   putPermission(userId, menuId, submenuId || null, finalPermissions) // Passer NULL si pas de sous-menu
     .then(() => {
       message.success('Autorisations mises à jour avec succès');
