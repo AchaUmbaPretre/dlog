@@ -115,7 +115,7 @@ function App() {
         },
         {
           path: '/departement',
-          element: <Departement/>
+          element: <Departement datas={data} />
         },
         {
           path: '/tache',

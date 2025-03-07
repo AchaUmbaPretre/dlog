@@ -4,10 +4,11 @@ import { ExportOutlined, PrinterOutlined,UserOutlined, MailOutlined ,ApartmentOu
 import './departement.scss';
 import DepartementForm from './departementForm/DepartementForm';
 import { deletePutDepartement, getDepartement } from '../../services/departementService';
+import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
 
 const { Search } = Input;
 
-const Departement = () => {
+const Departement = ({datas}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -18,6 +19,10 @@ const Departement = () => {
     current: 1,
     pageSize: 20,
   });
+  const currentUrl = window.location.pathname;
+
+  const access = getSubMenuAccessByUrl(currentUrl, datas);
+  
 
   const handleEdit = (record) => {
     message.info(`Modifier departement: ${record.nom}`);
@@ -154,6 +159,7 @@ const Departement = () => {
            <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
+              disabled={access?.can_edit === 0}
               style={{ color: 'green' }}
               onClick={() => handleEdit(record.id_departement)}
               aria-label="Edit department"
@@ -168,6 +174,7 @@ const Departement = () => {
             >
               <Button
                 icon={<DeleteOutlined />}
+                disabled={access?.can_delete === 0}
                 style={{ color: 'red' }}
                 aria-label="Delete department"
               />
@@ -202,13 +209,15 @@ const Departement = () => {
               />
             </div>
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
-              >
-                Département
-              </Button>
+              { access?.can_comment === 1 && 
+                <Button
+                  type="primary"
+                  icon={<PlusCircleOutlined />}
+                  onClick={handleAddClient}
+                >
+                  Département
+                </Button>
+              }
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>

@@ -9,6 +9,7 @@ import TemplateDetail from './templateDetail/TemplateDetail';
 import TabPane from 'antd/es/tabs/TabPane';
 import Contrat from '../contrat/Contrat';
 import { useSelector } from 'react-redux';
+import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
 
 const { Search } = Input;
 
@@ -42,29 +43,8 @@ const Template = ({datas}) => {
   const role = useSelector((state) => state.user?.currentUser.role);
   const currentUrl = window.location.pathname;
 
+const access = getSubMenuAccessByUrl(currentUrl, datas);
 
-function getSubMenuAccessByUrl(currentUrl) {
-    for (let menu of datas) {
-        const submenu = menu.subMenus.find(sub => sub.submenu_url === currentUrl);
-
-        if (submenu) {
-            // Retourner les permissions du sous-menu
-            return {
-                can_read: submenu.can_read,
-                can_edit: submenu.can_edit,
-                can_comment: submenu.can_comment,
-                can_delete: submenu.can_delete
-            };
-        }
-    }
-
-    console.log("Sous-menu non trouvé.");
-    return null;
-}
-
-const access = getSubMenuAccessByUrl(currentUrl);
-
-console.log(access)
   const handleTabChange = (key) => {
     setActiveKey(key);
   };
