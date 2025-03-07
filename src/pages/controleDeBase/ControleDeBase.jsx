@@ -18,7 +18,6 @@ import ListeControler from './listeControler/ListeControler';
 import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 
-
 const { Search } = Input;
 
 const ControleDeBase = () => {
