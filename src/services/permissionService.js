@@ -16,8 +16,8 @@ export const getMenus = async (userId) => {
     return axios.get(`${DOMAIN}/api/permission/one?userId=${userId}`);
   };
 
-export const putPermission = async (userId, optionId,finalPermissions ) => {
-    return axios.put(`${DOMAIN}/api/permission/update/${userId}/permissions/add/${optionId}`, finalPermissions)
+export const putPermission = async (userId, optionId, submenuId, finalPermissions ) => {
+    return axios.put(`${DOMAIN}/api/permission/update/${userId}/permissions/add/${optionId}?submenuId=${submenuId}`, finalPermissions)
 }
 
 export const getPermissionsTache = async (userId) => {

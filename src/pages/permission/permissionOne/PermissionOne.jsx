@@ -42,25 +42,30 @@ const PermissionOne = ({userId}) => {
     fetchOptionsAndPermissions();
   }, [userId]);
 
-  const handlePermissionChange = (optionId, permType, value) => {
+  const handlePermissionChange = (menuId, submenuId, permType, value) => {
+    console.log(value)
+    const key = submenuId ? `${menuId}-${submenuId}` : menuId;
+  
     const updatedPermissions = {
       ...permissions,
-      [optionId]: {
-        ...permissions[optionId],
-        [permType]: value
+      [key]: {
+        ...permissions[key],
+        [permType]: value ? 1 : 0
       }
-    };
-  
-    const finalPermissions = {
-      ...updatedPermissions[optionId],
-      can_read: updatedPermissions[optionId].can_read ?? false,
-      can_edit: updatedPermissions[optionId].can_edit ?? false,
-      can_delete: updatedPermissions[optionId].can_delete ?? false,
     };
   
     setPermissions(updatedPermissions);
   
-        putPermission(userId, optionId, finalPermissions )
+    const finalPermissions = {
+      ...updatedPermissions[key],
+      can_read: updatedPermissions[key]?.can_read ?? 0,
+      can_edit: updatedPermissions[key]?.can_edit ?? 0,
+      can_delete: updatedPermissions[key]?.can_delete ?? 0,
+    };
+
+    console.log(finalPermissions)
+  
+    putPermission(userId, menuId, submenuId, finalPermissions)
       .then(() => {
         message.success('Autorisations mises à jour avec succès');
       })
@@ -69,61 +74,69 @@ const PermissionOne = ({userId}) => {
       });
   };
   
+  
 
   const columns = [
-    { 
-      title: <span>#</span>, 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
-    },
-    {
-      title: 'Option',
-      dataIndex: 'menu_title',
-      key: 'menu_title',
-      render: (text) => (
-        <Tag color='blue'>{text}</Tag>
-      ),
-    },
-    {
-      title: <span style={{ color: '#52c41a' }}><EyeOutlined /></span>,
-      dataIndex: 'can_read',
-      key: 'can_read',
-      render: (text, record) => (
-        <Switch
-          checked={permissions[record.menu_id]?.can_read || false}
-          onChange={value => handlePermissionChange(record.menu_id, 'can_read', value)}
-        />
-      )
-    },
-    {
-      title: <span style={{ color: '#1890ff' }}><EditOutlined /></span>,
-      dataIndex: 'can_edit',
-      key: 'can_edit',
-      render: (text, record) => (
-        <Switch
-          checked={permissions[record.menu_id]?.can_edit || false}
-          onChange={value => handlePermissionChange(record.menu_id, 'can_edit', value)}
-        />
-      )
-    },
-    {
-      title: <span style={{ color: '#ff4d4f' }}><DeleteOutlined /></span>,
-      dataIndex: 'can_delete',
-      key: 'can_delete',
-      render: (text, record) => (
-        <Switch
-          checked={permissions[record.menu_id]?.can_delete || false}
-          onChange={value => handlePermissionChange(record.menu_id, 'can_delete', value)}
-        />
-      )
-    }
+    { title: "#", dataIndex: "id", key: "id", render: (_, __, index) => index + 1 },
+    { title: "Option", dataIndex: "menu_title", key: "menu_title", render: (text) => <Tag color="blue">{text}</Tag> },
+    { title: <EyeOutlined style={{ color: "#52c41a" }} />, dataIndex: "can_read", key: "can_read", render: (_, record) => (
+      <Switch
+        checked={permissions[record.menu_id]?.can_read || false}
+        onChange={(value) => handlePermissionChange(record.menu_id, null, "can_read", value ? 1 : 0)}
+      />
+    )},
+    { title: <EditOutlined style={{ color: "#1890ff" }} />, dataIndex: "can_edit", key: "can_edit", render: (_, record) => (
+      <Switch
+        checked={permissions[record.menu_id]?.can_edit || false}
+        onChange={(value) => handlePermissionChange(record.menu_id, null, "can_edit", value ? 1 : 0)}
+      />
+    )},
+    { title: <DeleteOutlined style={{ color: "#ff4d4f" }} />, dataIndex: "can_delete", key: "can_delete", render: (_, record) => (
+      <Switch
+        checked={permissions[record.menu_id]?.can_delete || false}
+        onChange={(value) => handlePermissionChange(record.menu_id, null, "can_delete", value ? 1 : 0)}
+      />
+    )}
   ];
+  
+  const expandedRowRender = (menu) => (
+    <Table
+      columns={[
+        { title: "Sous-menu", dataIndex: "submenu_title", key: "submenu_title", render: (text) => <Tag color="geekblue">{text}</Tag> },
+        { title: <EyeOutlined style={{ color: "#52c41a" }} />, key: "can_read", render: (_, subRecord) => (
+          <Switch
+            checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_read || false}
+            onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_read", value ? 1 : 0)}
+          />
+        )},
+        { title: <EditOutlined style={{ color: "#1890ff" }} />, key: "can_edit", render: (_, subRecord) => (
+          <Switch
+            checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_edit || false}
+            onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_edit", value  ? 1 : 0)}
+          />
+        )},
+        { title: <DeleteOutlined style={{ color: "#ff4d4f" }} />, key: "can_delete", render: (_, subRecord) => (
+          <Switch
+            checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_delete || false}
+            onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_delete", value  ? 1 : 0)}
+          />
+        )}
+      ]}
+      dataSource={menu.subMenus.filter(sub => sub.submenu_id)}
+      rowKey="submenu_id"
+      pagination={false}
+    />
+  );
+  
   
   const filteredData = options.filter(item =>
     item.menu_title?.toLowerCase().includes(searchValue.toLowerCase())
   );
+  
+  // Vérifier si un menu a de vrais sous-menus
+  const hasSubMenus = (record) => {
+    return record.subMenus?.some(sub => sub.submenu_id !== null);
+  };
 
 
   return (
@@ -147,16 +160,21 @@ const PermissionOne = ({userId}) => {
                         />    
                     </div>
                 </div>
-                    <Table
-                      dataSource={loading ? [] : filteredData}
-                      columns={columns}
-                      scroll={scroll}
-                      rowKey="id"
-                      bordered
-                      pagination={false}
-                      loading={loading}
-                      className='table_permission' 
-                    />
+                <Table
+                  dataSource={loading ? [] : filteredData}
+                  columns={columns}
+                  rowKey="menu_id"
+                  expandable={{
+                    expandedRowRender,
+                    rowExpandable: record => hasSubMenus(record), // Seuls les menus avec sous-menus sont expansibles
+                  }}
+                  scroll={scroll}
+                  bordered
+                  pagination={false}
+                  loading={loading}
+                  className='table_permission'
+                />
+
             </div>
         </div>
     </>
