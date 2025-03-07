@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Switch, message, Tag, Input } from 'antd';
-import { EyeOutlined, EditOutlined,UnlockOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, UnlockOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getMenus, getMenusOne, putPermission } from '../../../services/permissionService';
 
-const PermissionOne = ({userId}) => {
+const PermissionOne = ({ userId }) => {
   const [options, setOptions] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [searchValue, setSearchValue] = useState('');
@@ -26,7 +26,8 @@ const PermissionOne = ({userId}) => {
 
         const perms = {};
         permissionsRes.data.forEach(p => {
-          perms[p.menus_id] = {
+          const key = p.submenu_id ? `${p.menus_id}-${p.submenu_id}` : `${p.menus_id}`;
+          perms[key] = {
             can_read: p.can_read,
             can_edit: p.can_edit,
             can_delete: p.can_delete
@@ -43,9 +44,8 @@ const PermissionOne = ({userId}) => {
   }, [userId]);
 
   const handlePermissionChange = (menuId, submenuId, permType, value) => {
-    console.log(value)
-    const key = submenuId ? `${menuId}-${submenuId}` : menuId;
-  
+    const key = submenuId ? `${menuId}-${submenuId}` : `${menuId}`;
+
     const updatedPermissions = {
       ...permissions,
       [key]: {
@@ -53,9 +53,9 @@ const PermissionOne = ({userId}) => {
         [permType]: value ? 1 : 0
       }
     };
-  
+
     setPermissions(updatedPermissions);
-  
+
     const finalPermissions = {
       ...updatedPermissions[key],
       can_read: updatedPermissions[key]?.can_read ?? 0,
@@ -63,8 +63,6 @@ const PermissionOne = ({userId}) => {
       can_delete: updatedPermissions[key]?.can_delete ?? 0,
     };
 
-    console.log(finalPermissions)
-  
     putPermission(userId, menuId, submenuId, finalPermissions)
       .then(() => {
         message.success('Autorisations mises à jour avec succès');
@@ -73,8 +71,6 @@ const PermissionOne = ({userId}) => {
         message.error('Échec de la mise à jour des autorisations');
       });
   };
-  
-  
 
   const columns = [
     { title: "#", dataIndex: "id", key: "id", render: (_, __, index) => index + 1 },
@@ -98,7 +94,7 @@ const PermissionOne = ({userId}) => {
       />
     )}
   ];
-  
+
   const expandedRowRender = (menu) => (
     <Table
       columns={[
@@ -112,13 +108,13 @@ const PermissionOne = ({userId}) => {
         { title: <EditOutlined style={{ color: "#1890ff" }} />, key: "can_edit", render: (_, subRecord) => (
           <Switch
             checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_edit || false}
-            onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_edit", value  ? 1 : 0)}
+            onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_edit", value ? 1 : 0)}
           />
         )},
         { title: <DeleteOutlined style={{ color: "#ff4d4f" }} />, key: "can_delete", render: (_, subRecord) => (
           <Switch
             checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_delete || false}
-            onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_delete", value  ? 1 : 0)}
+            onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_delete", value ? 1 : 0)}
           />
         )}
       ]}
@@ -127,57 +123,51 @@ const PermissionOne = ({userId}) => {
       pagination={false}
     />
   );
-  
-  
+
   const filteredData = options.filter(item =>
     item.menu_title?.toLowerCase().includes(searchValue.toLowerCase())
   );
-  
-  // Vérifier si un menu a de vrais sous-menus
+
   const hasSubMenus = (record) => {
     return record.subMenus?.some(sub => sub.submenu_id !== null);
   };
 
-
   return (
-    <>
-        <div className="client">
-            <div className="client-wrapper">
-                <div className="client-row">
-                    <div className="client-row-icon">
-                        <UnlockOutlined className='client-icon' />
-                    </div>
-                    <h2 className="client-h2">Gestion des permissions</h2>
-                </div>
-                <div className="client-actions">
-                    <div className="client-row-left">
-                        <Input
-                            type="search"
-                            value={searchValue}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            placeholder="Recherche..."
-                            className="product-search"
-                        />    
-                    </div>
-                </div>
-                <Table
-                  dataSource={loading ? [] : filteredData}
-                  columns={columns}
-                  rowKey="menu_id"
-                  expandable={{
-                    expandedRowRender,
-                    rowExpandable: record => hasSubMenus(record), // Seuls les menus avec sous-menus sont expansibles
-                  }}
-                  scroll={scroll}
-                  bordered
-                  pagination={false}
-                  loading={loading}
-                  className='table_permission'
-                />
-
-            </div>
+    <div className="client">
+      <div className="client-wrapper">
+        <div className="client-row">
+          <div className="client-row-icon">
+            <UnlockOutlined className='client-icon' />
+          </div>
+          <h2 className="client-h2">Gestion des permissions</h2>
         </div>
-    </>
+        <div className="client-actions">
+          <div className="client-row-left">
+            <Input
+              type="search"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              placeholder="Recherche..."
+              className="product-search"
+            />
+          </div>
+        </div>
+        <Table
+          dataSource={loading ? [] : filteredData}
+          columns={columns}
+          rowKey="menu_id"
+          expandable={{
+            expandedRowRender,
+            rowExpandable: record => hasSubMenus(record),
+          }}
+          scroll={scroll}
+          bordered
+          pagination={false}
+          loading={loading}
+          className='table_permission'
+        />
+      </div>
+    </div>
   );
 };
 
