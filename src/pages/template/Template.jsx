@@ -329,7 +329,7 @@ console.log(access)
           <Tooltip title="Modifier">
               <Button
                 icon={<EditOutlined />}
-                disabled={access.can_edit === 0}
+                disabled={access?.can_edit === 0}
                 style={{ color: 'green' }}
                 onClick={() => handleEdit(record.id_template)}
                 aria-label="Edit tache"
@@ -338,7 +338,7 @@ console.log(access)
             <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
-              disabled={access.can_read === 0}
+              disabled={access?.can_read === 0}
               onClick={() => handleDetail(record.id_template)}
               aria-label="détail"
               style={{ color: 'blue' }}
@@ -355,7 +355,7 @@ console.log(access)
                   icon={<DeleteOutlined />}
                   style={{ color: 'red' }}
                   aria-label="Delete client"
-                  disabled={access.can_delete === 0}
+                  disabled={access?.can_delete === 0}
                 />
               </Popconfirm>
             </Tooltip>
@@ -414,7 +414,7 @@ console.log(access)
                   />
                 </div>
                 <div className="client-rows-right">
-                { access.can_comment === 1 && 
+                { access?.can_comment === 1 && 
                   <Button
                     type="primary"
                     icon={<PlusCircleOutlined />}
