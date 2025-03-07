@@ -44,7 +44,6 @@ const Template = ({datas}) => {
 
 
 function getSubMenuAccessByUrl(currentUrl) {
-    // Chercher le sous-menu par son URL dans les menus
     for (let menu of datas) {
         const submenu = menu.subMenus.find(sub => sub.submenu_url === currentUrl);
 
@@ -53,6 +52,7 @@ function getSubMenuAccessByUrl(currentUrl) {
             return {
                 can_read: submenu.can_read,
                 can_edit: submenu.can_edit,
+                can_comment: submenu.can_comment,
                 can_delete: submenu.can_delete
             };
         }
@@ -414,6 +414,7 @@ console.log(access)
                   />
                 </div>
                 <div className="client-rows-right">
+                { access.can_comment === 1 && 
                   <Button
                     type="primary"
                     icon={<PlusCircleOutlined />}
@@ -421,6 +422,7 @@ console.log(access)
                   >
                     Ajouter un template
                   </Button>
+                }
                   <Button
                     icon={<PrinterOutlined />}
                     onClick={handlePrint}

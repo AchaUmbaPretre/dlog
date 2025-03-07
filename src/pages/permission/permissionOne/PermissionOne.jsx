@@ -128,6 +128,18 @@ const PermissionOne = ({ userId }) => {
             onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_edit", value ? 1 : 0)}
           />
         )},
+        {
+          title: <span style={{ color: '#000' }}>Créer <PlusCircleOutlined /></span>,
+          dataIndex: 'can_comment',
+          key: 'can_comment',
+          align: 'center',
+          render: (_, subRecord) => (
+              <Switch
+              checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_comment || false}
+              onChange={(value) => handlePermissionChange(menu.menu_id, subRecord.submenu_id, "can_comment", value ? 1 : 0)}
+              />
+          ),
+        },
         { title: <DeleteOutlined style={{ color: "#ff4d4f" }} />, key: "can_delete", render: (_, subRecord) => (
           <Switch
             checked={permissions[`${menu.menu_id}-${subRecord.submenu_id}`]?.can_delete || false}
