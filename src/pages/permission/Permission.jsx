@@ -135,14 +135,6 @@ const Permission = () => {
               <div className="client-row-left">
                 <Search placeholder="recherche..." enterButton />
               </div>
-              <div className="client-rows-right">
-                <Button
-                  icon={<PrinterOutlined />}
-                  onClick={handlePrint}
-                >
-                  Print
-                </Button>
-              </div>
             </div>
           <Table
             columns={columns}
