@@ -42,10 +42,6 @@ const PermissionDepart = () => {
     openModal('detail', id);
   };
 
-  const handleViewDetailsDepart = (id) => {
-    openModal('detailDepartement', id);
-  };
-
   const closeAllModals = () => {
     setModalType(null);
   };
@@ -177,17 +173,6 @@ const PermissionDepart = () => {
         centered
       >
         <PermissionVilleOne idVille={idVille}/>
-      </Modal>
-
-      <Modal
-        title=""
-        visible={modalType === 'detailDepartement'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1070}
-        centered
-      >
-        <PermissionDepartAll idVille={idVille}/>
       </Modal>
     </>
   );

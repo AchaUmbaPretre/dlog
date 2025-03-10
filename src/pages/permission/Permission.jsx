@@ -23,6 +23,7 @@ import ListeTachePermi from './listeTachePermi/ListeTachePermi';
 import PermissionVille from './permissionVille/PermissionVille';
 import PermissionDeclaVille from './permissionDeclaVille/PermissionDeclaVille';
 import PermissionClient from './permissionClient/PermissionClient';
+import PermissionDepartAll from './permissionDepart/permissionDepartAll/PermissionDepartAll';
 
 const { Search } = Input;
 
@@ -180,7 +181,7 @@ const Permission = () => {
                     }  
                   key="3"
                 >
-                  <PermissionVille/>
+                  <PermissionDepartAll/>
                 </Tabs.TabPane>
 
               </Tabs>
