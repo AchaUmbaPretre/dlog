@@ -165,10 +165,20 @@ const Permission = () => {
 
                 <Tabs.TabPane tab= {
                   <span>
-                    <UnlockOutlined style={{ color: '#D2691E' }} /> Par ville et département
+                    <UnlockOutlined style={{ color: '#D2691E' }} /> Par ville
                   </span>
                     }  
                   key="2"
+                >
+                  <PermissionVille/>
+                </Tabs.TabPane>
+
+                <Tabs.TabPane tab= {
+                  <span>
+                    <UnlockOutlined style={{ color: '#D2691E' }} /> Par Département
+                  </span>
+                    }  
+                  key="3"
                 >
                   <PermissionVille/>
                 </Tabs.TabPane>
