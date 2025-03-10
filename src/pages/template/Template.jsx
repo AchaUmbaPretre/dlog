@@ -66,7 +66,7 @@ const Template = ({datas}) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  },);
 
   const handleAddTemplate = (idTemplate) => {
     openModal('Add', idTemplate);

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
@@ -37,24 +37,26 @@ const SideBar = ({data}) => {
     setIsReduced(!isReduced);
   };
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = useCallback((event) => {
     if (
       isOpen &&
       sidebarRef.current &&
-      !sidebarRef.current.contains(event.target) &&
       hamburgerRef.current &&
+      !sidebarRef.current.contains(event.target) &&
       !hamburgerRef.current.contains(event.target)
     ) {
       toggleMenu();
     }
-  };
-
+  }, [isOpen, toggleMenu]); // Dépendances
+  
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+  
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [handleClickOutside]);
+  
 
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find(key => !openKeys.includes(key));

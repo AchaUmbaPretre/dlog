@@ -18,7 +18,6 @@ import ListeControler from './listeControler/ListeControler';
 import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
-import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -30,7 +29,6 @@ const ControleDeBase = ({datas}) => {
   const [modalState, setModalState] = useState(null);
   const scroll = { x: 400 };
   const currentUrl = window.location.pathname;
-  const role = useSelector((state) => state.user?.currentUser.role);
 
 
   const access = getSubMenuAccessByUrl(currentUrl, datas);
@@ -86,8 +84,8 @@ const ControleDeBase = ({datas}) => {
   const handleAddClient = () => openModal('controle');
 
   const handleExportExcel = () => {
-    const filteredData = filteredData.map(({ id_control, ...rest }) => rest);
-      const ws = XLSX.utils.json_to_sheet(filteredData);
+    const dataToExport = filteredData.map(({ id_control, ...rest }) => rest);
+      const ws = XLSX.utils.json_to_sheet(dataToExport);
   
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");

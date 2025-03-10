@@ -238,7 +238,7 @@ const Departement = ({datas}) => {
             size="middle"
             scroll={scroll}
             loading={loading}
-            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
         </div>

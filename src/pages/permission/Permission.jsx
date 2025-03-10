@@ -14,7 +14,6 @@ import {
   SolutionOutlined,
   UserOutlined,
   EyeOutlined,
-  PrinterOutlined,
   UnlockOutlined,
 } from '@ant-design/icons';
 import config from '../../config';
@@ -22,7 +21,6 @@ import { getUser } from '../../services/userService';
 import PermissionOne from './permissionOne/PermissionOne';
 import ListeTachePermi from './listeTachePermi/ListeTachePermi';
 import PermissionVille from './permissionVille/PermissionVille';
-import PermissionDeclaration from './permissionDeclaration/PermissionDeclaration';
 import PermissionDeclaVille from './permissionDeclaVille/PermissionDeclaVille';
 import PermissionClient from './permissionClient/PermissionClient';
 
@@ -34,7 +32,6 @@ const Permission = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [idUser, setIdUser] = useState('');
-
   const scroll = { x: 400 };
 
   useEffect(() => {
@@ -54,10 +51,6 @@ const Permission = () => {
 
     fetchData();
   }, [DOMAIN]);
-
-  const handlePrint = () => {
-    window.print();
-  };
 
   const columns = [
     {
@@ -218,16 +211,6 @@ const Permission = () => {
                 
               </Tabs>
             </Tabs.TabPane>
-
-{/*             <Tabs.TabPane tab= {
-              <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> des déclarations
-              </span>
-                } 
-              key="5"
-            >
-              <PermissionDeclaration/>
-            </Tabs.TabPane> */}
 
           </Tabs>
         </div>

@@ -7,7 +7,6 @@ const PermissionOne = ({ userId }) => {
   const [options, setOptions] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [searchValue, setSearchValue] = useState('');
-  const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
   const scroll = { x: 400 };
 
@@ -21,7 +20,6 @@ const PermissionOne = ({ userId }) => {
         ]);
 
         setOptions(optionsRes.data);
-        setName(permissionsRes.data[0]?.username || '');
         setLoading(false);
 
         const perms = {};
