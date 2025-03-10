@@ -104,13 +104,6 @@ const PermissionDepart = () => {
                 style={{ color: 'blue' }}
               />
             </Tooltip>
-            <Tooltip title="Permissions pour les départements de cette ville">
-              <Button
-                icon={<ApartmentOutlined />}
-                onClick={() => handleViewDetailsDepart(record.id)}
-                aria-label="Voir les détails de la tâche"
-              />
-            </Tooltip>
           </Space>
         )
     }
