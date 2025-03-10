@@ -7,7 +7,7 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Switch, Table, Tag, Space, message } from "antd";
+import { Switch, Table, Tag, Space, message, Spin } from "antd";
 import {
   getPermissionsVille,
   updatePermissionTache,
@@ -19,12 +19,15 @@ const PermissionVilleOne = ({ idVille, userId }) => {
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(false); // Ajout du loading state
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        if (!idVille) return;
+      if (!idVille || !userId) return;
+      
+      setLoading(true); // Début du chargement
 
+      try {
         const { data: taches } = await getTacheVille(idVille);
         setData(taches);
 
@@ -32,7 +35,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
         const permissionMap = {};
         permissionData.forEach((permission) => {
           permissionMap[permission.id_tache] = {
-            can_read: permission.can_read,
+            can_view: permission.can_view,
             can_edit: permission.can_edit,
             can_comment: permission.can_comment,
             can_delete: permission.can_delete,
@@ -41,51 +44,50 @@ const PermissionVilleOne = ({ idVille, userId }) => {
         setPermissions(permissionMap);
 
         const { data: provinceData } = await getProvinceOne(idVille);
-        if (provinceData.length > 0) {
+        if (provinceData?.length) {
           setTitle(provinceData[0].name);
         }
       } catch (error) {
-        console.error("Erreur lors de la récupération des données:", error);
+        if (error.response && error.response.status === 404) {
+          setData([]);
+          message.warning("Aucune tâche trouvée pour cette ville.");
+        } else {
+          message.error("Échec du chargement des données.");
+        }
+      } finally {
+        setLoading(false); // Fin du chargement
       }
     };
 
     fetchData();
-  }, [idVille]);
+  }, [idVille, userId]);
 
   const handlePermissionChange = async (idTache, field, checked) => {
     try {
-      // Mettre à jour l'état local des permissions
-      setPermissions((prevPermissions) => ({
-        ...prevPermissions,
-        [idTache]: {
-          ...prevPermissions[idTache],
-          [field]: checked,
-        },
+      setPermissions((prev) => ({
+        ...prev,
+        [idTache]: { ...prev[idTache], [field]: checked },
       }));
 
-      const dataAll = {
+      const updatedPermissions = {
         id_user: userId,
         id_tache: idTache,
         id_ville: idVille,
-        can_view: permissions[idTache]?.can_read ?? 0,
-        can_edit: permissions[idTache]?.can_edit ?? 0,
-        can_delete: permissions[idTache]?.can_delete ?? 0,
-        can_comment: permissions[idTache]?.can_comment ?? 0,
+        can_view: field === "can_view" ? checked : permissions[idTache]?.can_view ?? 0,
+        can_edit: field === "can_edit" ? checked : permissions[idTache]?.can_edit ?? 0,
+        can_comment: field === "can_comment" ? checked : permissions[idTache]?.can_comment ?? 0,
+        can_delete: field === "can_delete" ? checked : permissions[idTache]?.can_delete ?? 0,
       };
 
-      await updatePermissionTache(dataAll);
+      await updatePermissionTache(updatedPermissions);
       message.success("Autorisations mises à jour avec succès");
     } catch (error) {
       console.error("Erreur lors de la mise à jour de la permission:", error);
       message.error("Échec de la mise à jour des autorisations");
 
-      // Revenir à la valeur précédente en cas d'erreur
-      setPermissions((prevPermissions) => ({
-        ...prevPermissions,
-        [idTache]: {
-          ...prevPermissions[idTache],
-          [field]: !checked,
-        },
+      setPermissions((prev) => ({
+        ...prev,
+        [idTache]: { ...prev[idTache], [field]: !checked },
       }));
     }
   };
@@ -116,12 +118,13 @@ const PermissionVilleOne = ({ idVille, userId }) => {
           Voir <EyeOutlined />
         </span>
       ),
-      dataIndex: "can_read",
-      key: "can_read",
+      dataIndex: "can_view",
+      key: "can_view",
       render: (_, record) => (
         <Switch
-          checked={permissions[record.id_tache]?.can_read || false}
-          onChange={(value) => handlePermissionChange(record.id_tache, "can_read", value)}
+          checked={permissions[record.id_tache]?.can_view || false}
+          onChange={(value) => handlePermissionChange(record.id_tache, "can_view", value)}
+          disabled={loading} // Désactivation pendant le chargement
         />
       ),
     },
@@ -137,6 +140,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
         <Switch
           checked={permissions[record.id_tache]?.can_edit || false}
           onChange={(value) => handlePermissionChange(record.id_tache, "can_edit", value)}
+          disabled={loading}
         />
       ),
     },
@@ -148,11 +152,11 @@ const PermissionVilleOne = ({ idVille, userId }) => {
       ),
       dataIndex: "can_comment",
       key: "can_comment",
-      align: "center",
       render: (_, record) => (
         <Switch
           checked={permissions[record.id_tache]?.can_comment || false}
           onChange={(value) => handlePermissionChange(record.id_tache, "can_comment", value)}
+          disabled={loading}
         />
       ),
     },
@@ -168,6 +172,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
         <Switch
           checked={permissions[record.id_tache]?.can_delete || false}
           onChange={(value) => handlePermissionChange(record.id_tache, "can_delete", value)}
+          disabled={loading}
         />
       ),
     },
@@ -182,15 +187,21 @@ const PermissionVilleOne = ({ idVille, userId }) => {
           </div>
           <h2 className="client-h2">Gestion des permissions pour la ville de {title}</h2>
         </div>
-        <Table
-          dataSource={data}
-          columns={columns}
-          scroll={{ x: 400 }}
-          rowKey="id_tache"
-          bordered
-          pagination={false}
-          className="table_permission"
-        />
+        
+        {loading ? (
+          <Spin size="large" style={{ display: "block", margin: "20px auto" }} />
+        ) : (
+          <Table
+            dataSource={data}
+            columns={columns}
+            scroll={{ x: 400 }}
+            rowKey="id_tache"
+            bordered
+            pagination={false}
+            loading={loading} // Activation du loading sur la table
+            className="table_permission"
+          />
+        )}
       </div>
     </div>
   );

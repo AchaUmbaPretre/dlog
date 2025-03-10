@@ -12,6 +12,7 @@ const  PermissionVilleTache = ({ idVille }) => {
     const [title, setTitle] = useState('')
     const [idUser, setIdUser] = useState('');
     const [modalType, setModalType] = useState(null);
+
   
   useEffect(() => {
     const fetchPermission = async () => {
