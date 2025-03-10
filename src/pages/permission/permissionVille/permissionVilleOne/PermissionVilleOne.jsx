@@ -92,6 +92,23 @@ const PermissionVilleOne = ({ idVille, userId }) => {
     }
   };
 
+  const columnStyles = {
+    title: {
+      maxWidth: '220px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
+
   const columns = [
     {
       title: "#",
@@ -105,7 +122,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
       dataIndex: "nom_tache",
       key: "nom_tache",
       render: (text) => (
-        <Space>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
           <Tag icon={<FileTextOutlined />} color="cyan">
             {text}
           </Tag>
