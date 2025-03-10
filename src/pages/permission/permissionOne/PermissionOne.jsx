@@ -63,7 +63,6 @@ const PermissionOne = ({ userId }) => {
     can_edit: updatedPermissions[key]?.can_edit ?? 0,
     can_delete: updatedPermissions[key]?.can_delete ?? 0,
     can_comment: updatedPermissions[key]?.can_comment ?? 0,
-
   };
 
   putPermission(userId, menuId, submenuId || null, finalPermissions) // Passer NULL si pas de sous-menu

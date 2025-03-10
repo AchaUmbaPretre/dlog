@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
 import { InfoCircleOutlined,FileTextOutlined } from '@ant-design/icons';
 import { getProvince } from '../../../services/clientService';
-import PermissionVilleOne from './permissionVilleOne/PermissionVilleOne';
 import PermissionVilleTache from './permissionVilleTache/PermissionVilleTache';
 
 const { Search } = Input;
@@ -85,7 +84,7 @@ const PermissionVille = () => {
       dataIndex: 'capital', 
       key: 'capital', 
       render: (text,record) => (
-        <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id_tache)}>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
           <Tag icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       )
@@ -146,16 +145,6 @@ const PermissionVille = () => {
             />
         </div>
       </div>
-      <Modal
-        title=""
-        visible={modalType === 'detail'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1070}
-        centered
-      >
-        <PermissionVilleOne idVille={idVille}/>
-      </Modal>
 
       <Modal
         title=""
