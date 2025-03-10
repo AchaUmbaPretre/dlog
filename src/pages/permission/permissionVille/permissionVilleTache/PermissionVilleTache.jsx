@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
 import { ClockCircleOutlined,InfoCircleOutlined,ApartmentOutlined, UserOutlined, TeamOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, FileTextOutlined } from '@ant-design/icons';
-import { getTacheAll } from '../../../services/tacheService';
-import PermissionTache from '../permissionTache/PermissionTache';
+import { getTacheVille } from '../../../../services/tacheService';
+import PermissionVilleOne from '../permissionVilleOne/PermissionVilleOne';
 
 const { Search } = Input;
 
-const PermissionVilleTache = () => {
+const PermissionVilleTache = (idVille) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -18,9 +18,10 @@ const PermissionVilleTache = () => {
     pageSize: 20,
   });
 
+console.log(idVille)
     const fetchData = async () => {
       try {
-        const { data } = await getTacheAll();
+        const { data } = await getTacheVille(idVille);
         setData(data.taches);
         setLoading(false);
       } 
@@ -35,7 +36,7 @@ const PermissionVilleTache = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [idVille]);
 
   const statusIcons = {
     'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
@@ -217,7 +218,7 @@ const PermissionVilleTache = () => {
         width={1070}
         centered
       >
-        <PermissionTache idTache={idTache}/>
+        <PermissionVilleOne idVille={idVille}/>
       </Modal>
     </>
   );

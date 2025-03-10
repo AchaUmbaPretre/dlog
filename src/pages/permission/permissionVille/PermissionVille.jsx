@@ -3,6 +3,7 @@ import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from '
 import { InfoCircleOutlined,FileTextOutlined } from '@ant-design/icons';
 import { getProvince } from '../../../services/clientService';
 import PermissionVilleOne from './permissionVilleOne/PermissionVilleOne';
+import PermissionVilleTache from './permissionVilleTache/PermissionVilleTache';
 
 const { Search } = Input;
 
@@ -164,7 +165,7 @@ const PermissionVille = () => {
         width={1070}
         centered
       >
-        <PermissionVilleOne idVille={idVille}/>
+        <PermissionVilleTache idVille={idVille}/>
       </Modal>
     </>
   );

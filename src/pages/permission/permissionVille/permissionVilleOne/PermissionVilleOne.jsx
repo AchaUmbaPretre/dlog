@@ -5,7 +5,7 @@ import { Switch, Table, Tag } from 'antd';
 import { getPermissionsVille, updatePermissionVille } from '../../../../services/permissionService';
 import { getProvinceOne } from '../../../../services/clientService';
 
-const PermissionVilleOne = ({ idVille }) => {
+const PermissionVilleOne = ({ idVille, userId }) => {
   const scroll = { x: 400 };
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
@@ -39,7 +39,6 @@ const PermissionVilleOne = ({ idVille }) => {
     fetchPermission();
   }, [idVille]);
 
-  console.log(permissions)
 
   // Gérer le changement de permission
   const handlePermissionChange = async (userId, checked) => {
