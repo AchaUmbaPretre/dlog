@@ -8,11 +8,9 @@ import PermissionDeclarationOne from '../../permissionDeclaration/permissionDecl
 const  PermissionDeclaVilleOne = ({ idVille }) => {
     const scroll = { x: 400 };
     const [data, setData] = useState([]);
-    const [permissions, setPermissions] = useState({});
     const [title, setTitle] = useState('')
     const [idUser, setIdUser] = useState('');
     const [modalType, setModalType] = useState(null);
-    const [searchValue, setSearchValue] = useState('');
   
   useEffect(() => {
     const fetchPermission = async () => {
