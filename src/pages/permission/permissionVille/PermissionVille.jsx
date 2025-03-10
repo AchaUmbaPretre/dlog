@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Space, Tooltip, Tag, Modal } from 'antd';
-import { InfoCircleOutlined,ApartmentOutlined, FileTextOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined,FileTextOutlined } from '@ant-design/icons';
 import { getProvince } from '../../../services/clientService';
 import PermissionVilleOne from './permissionVilleOne/PermissionVilleOne';
-import PermissionDepartAll from '../permissionDepart/permissionDepartAll/PermissionDepartAll';
 
 const { Search } = Input;
 
-const PermissionDepart = () => {
+const PermissionVille = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -171,4 +170,4 @@ const PermissionDepart = () => {
   );
 };
 
-export default PermissionDepart;
+export default PermissionVille;
