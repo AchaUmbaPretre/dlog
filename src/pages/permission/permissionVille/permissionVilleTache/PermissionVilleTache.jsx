@@ -12,11 +12,14 @@ const  PermissionVilleTache = ({ idVille }) => {
     const [title, setTitle] = useState('')
     const [idUser, setIdUser] = useState('');
     const [modalType, setModalType] = useState(null);
-
+    const [loading, setLoading] = useState(true); 
+  
   
   useEffect(() => {
     const fetchPermission = async () => {
       try { 
+        setLoading(true);
+
         const { data: users } = await getUser();
         setData(users);
 
@@ -27,7 +30,9 @@ const  PermissionVilleTache = ({ idVille }) => {
 
       } catch (error) {
         console.log(error);
-      }
+      } finally {
+        setLoading(false); // Fin du chargement
+    }
     };
     fetchPermission();
   }, [idVille]);
@@ -103,6 +108,7 @@ const  PermissionVilleTache = ({ idVille }) => {
             pagination={false}
             className="table_permission"
             size="small"
+            loading={loading}
           />
         </div>
       </div>

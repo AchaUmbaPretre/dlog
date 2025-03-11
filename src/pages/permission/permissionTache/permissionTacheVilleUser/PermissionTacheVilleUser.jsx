@@ -16,7 +16,7 @@ const PermissionTacheVilleUser = ({ idVille }) => {
     useEffect(() => {
         const fetchPermission = async () => {
             try {
-                setLoading(true); // Début du chargement
+                setLoading(true); 
                 const { data: users } = await getUser();
                 setData(users);
 
