@@ -57,8 +57,8 @@ const  PermissionVilleTache = ({ idVille }) => {
     },
     {
       title: 'Utilisateur',
-      dataIndex: 'menu_title',
-      key: 'menu_title',
+      dataIndex: 'nom',
+      key: 'nom',
       render: (text, record) => (
         <div>
             {`${record.nom} ${record.prenom}`}
@@ -71,7 +71,7 @@ const  PermissionVilleTache = ({ idVille }) => {
       width: '10%',
       render: (text, record) => (
         <Space size='middle'>
-            <Tooltip title="Voir les permissions pour ce client">
+            <Tooltip title={`Voir les permissions de ${record.nom}`}>
               <Button
                 icon={<InfoCircleOutlined />}
                 onClick={() => handleAddTache(record.id_utilisateur)}
