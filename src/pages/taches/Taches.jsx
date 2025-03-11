@@ -594,28 +594,33 @@ const handleEdit = (idTache) => {
             { role === 'Admin' || role === 'Manager' || permissions[record.id_tache]?.can_comment ? (
               <Popover
               content={
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <Link onClick={() => handleTracking(record.id_tache)}>
+                <Menu>
+                  <Menu.Item onClick={() => handleTracking(record.id_tache)}>
                     <FileTextOutlined /> Tracking
-                  </Link>
-                  <Link onClick={() => handleListeTracking(record.id_tache)}>
+                  </Menu.Item>
+                  <Menu.Item  onClick={() => handleListeTracking(record.id_tache)}>
                     <FileTextOutlined /> Liste de tracking
-                  </Link>
-                  <Link onClick={() => handleSousTache(record.id_tache)}>
+                  </Menu.Item >
+                  <Menu.Item onClick={() => handleSousTache(record.id_tache)}>
                     <FileTextOutlined /> Créer sous-tâche
-                  </Link>
-                  <Link onClick={() => handleDetailDoc(record.id_tache)}>
+                  </Menu.Item>
+                  <Menu.Divider />
+
+                  <Menu.Item onClick={() => handleDetailDoc(record.id_tache)}>
                     <FileTextOutlined /> Liste des docs
-                  </Link>
-                  <Link onClick={() => handleAjouterDoc(record.id_tache)}>
+                  </Menu.Item>
+                  <Menu.Item onClick={() => handleAjouterDoc(record.id_tache)}>
                     <FileTextOutlined /> Ajouter un doc
-                  </Link>
-                  { role === 'Manager' &&
-                  <Link onClick={() => handleAuto(record.id_tache)}>
+                  </Menu.Item>
+                  <Menu.Divider />
+
+                  { (role === 'Admin' || role === 'Manager') &&
+                  <Menu.Item onClick={() => handleAuto(record.id_tache)}>
                     <UnlockOutlined/> Permission
-                  </Link>
+                  </Menu.Item>
                   }
-                </div>
+
+                </Menu>
               }
               title=""
               trigger="click"
@@ -993,7 +998,7 @@ const handleEdit = (idTache) => {
                     type="default"
                     onClick={handFilter}
                   >
-                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                    {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
                   </Button>
                   <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                     <Button icon={<ExportOutlined />}>Exporter</Button>
@@ -1082,7 +1087,7 @@ const handleEdit = (idTache) => {
         visible={modalType === 'suivi'}
         onCancel={closeAllModals}
         footer={null}
-        width={700}
+        width={1000}
         centered
       >
         <SuiviTache idTache={idTache} closeModal={() => setModalType(null)} fetchData={fetchData} />
@@ -1093,7 +1098,7 @@ const handleEdit = (idTache) => {
         visible={modalType === 'listeTracking'}
         onCancel={closeAllModals}
         footer={null}
-        width={950}
+        width={1025}
         centered
       >
         <ListeTracking idTache={idTache} />
@@ -1104,7 +1109,7 @@ const handleEdit = (idTache) => {
         visible={modalType === 'SousTache'}
         onCancel={closeAllModals}
         footer={null}
-        width={850}
+        width={900}
         centered
       >
         <SousTacheForm idTache={idTache} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
@@ -1115,7 +1120,7 @@ const handleEdit = (idTache) => {
         visible={modalType === 'Alldetail'}
         onCancel={closeAllModals}
         footer={null}
-        width={850}
+        width={900}
         centered
       >
         <AllDetail idTache={selectedTacheIds} closeModal={()=>closeAllModals(null)} fetchData={fetchData} />
