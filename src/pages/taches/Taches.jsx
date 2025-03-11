@@ -118,7 +118,6 @@ const Taches = () => {
             const found = acc.find(item => item.id_tache === curr.id_tache);
 
             if (found) {
-                // Ajoute le nom du tag seulement s'il n'est pas déjà présent
                 if (!found.nom_tag.includes(curr.nom_tag)) {
                     found.nom_tag.push(curr.nom_tag);
                 }
