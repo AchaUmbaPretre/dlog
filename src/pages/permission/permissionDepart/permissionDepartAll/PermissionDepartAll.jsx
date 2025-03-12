@@ -4,6 +4,7 @@ import { InfoCircleOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getDepartement } from '../../../../services/departementService';
 import PermissionDepart from '../PermissionDepart';
 import { getProvinceOne } from '../../../../services/clientService';
+import PermissionDepartUser from '../permissionDepartUser/PermissionDepartUser';
 
 const { Search } = Input;
 
@@ -162,7 +163,7 @@ const PermissionDepartAll = ({idVille}) => {
         width={1070}
         centered
       >
-        <PermissionDepart idDepartement={idDeparte} idVille={idVille}/>
+        <PermissionDepartUser idDepartement={idDeparte} idVille={idVille}/>
       </Modal>
 
     </>
