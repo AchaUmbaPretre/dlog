@@ -591,47 +591,48 @@ const handleEdit = (idTache) => {
             </Tooltip>
 
             { role === 'Admin' || role === 'Manager' || permissions[record.id_tache]?.can_comment ? (
-              <Popover
-              content={
-                <Menu>
-                  <Menu.Item onClick={() => handleTracking(record.id_tache)}>
-                    <FileTextOutlined /> Tracking
-                  </Menu.Item>
-                  <Menu.Item  onClick={() => handleListeTracking(record.id_tache)}>
-                    <FileTextOutlined /> Liste de tracking
-                  </Menu.Item >
-                  <Menu.Item onClick={() => handleSousTache(record.id_tache)}>
-                    <FileTextOutlined /> Créer sous-tâche
-                  </Menu.Item>
-                  <Menu.Divider />
+              <Dropdown
+                  overlay={
+                    (
+                      <Menu>
+                        <Menu.Item onClick={() => handleTracking(record.id_tache)}>
+                          <FileTextOutlined style={{ color: '#1890ff' }} /> Tracking
+                        </Menu.Item>
+                        <Menu.Item onClick={() => handleListeTracking(record.id_tache)}>
+                          <FileTextOutlined style={{ color: '#52c41a' }} /> Liste de tracking
+                        </Menu.Item>
+                        <Menu.Item onClick={() => handleSousTache(record.id_tache)}>
+                          <FileTextOutlined style={{ color: '#faad14' }} /> Créer sous-tâche
+                        </Menu.Item>
+                        <Menu.Divider />
 
-                  <Menu.Item onClick={() => handleDetailDoc(record.id_tache)}>
-                    <FileTextOutlined /> Liste des docs
-                  </Menu.Item>
-                  <Menu.Item onClick={() => handleAjouterDoc(record.id_tache)}>
-                    <FileTextOutlined /> Ajouter un doc
-                  </Menu.Item>
-                  <Menu.Divider />
+                        <Menu.Item onClick={() => handleDetailDoc(record.id_tache)}>
+                          <FileTextOutlined style={{ color: '#722ed1' }} /> Liste des docs
+                        </Menu.Item>
+                        <Menu.Item onClick={() => handleAjouterDoc(record.id_tache)}>
+                          <FileTextOutlined style={{ color: '#eb2f96' }} /> Ajouter un doc
+                        </Menu.Item>
+                        <Menu.Divider />
 
-                  { (role === 'Admin' || role === 'Manager') &&
-                  <Menu.Item onClick={() => handleAuto(record.id_tache)}>
-                    <UnlockOutlined/> Permission
-                  </Menu.Item>
+                        { (role === 'Admin' || role === 'Manager') &&
+                          <Menu.Item onClick={() => handleAuto(record.id_tache)}>
+                            <UnlockOutlined style={{ color: '#ff4d4f' }} /> Permission
+                          </Menu.Item>
+                        }
+                      </Menu>
+                    )
                   }
-
-                </Menu>
-              }
-              title=""
-              trigger="click"
-            >
-              <Tooltip title="Menu">
-                <Button
-                  icon={<MoreOutlined />}
-                  style={{ color: 'black' }}
-                  aria-label="Menu options"
-                />
-              </Tooltip>
-              </Popover>
+                  title=""
+                  trigger="click"
+                >
+                  <Tooltip title="Menu">
+                    <Button
+                      icon={<MoreOutlined />}
+                      style={{ color: 'black' }}
+                      aria-label="Menu options"
+                    />
+                  </Tooltip>
+                </Dropdown>
               ) : 
               (
                 <Tooltip title="Vous n'avez pas l'autorisation">
