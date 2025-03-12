@@ -86,7 +86,7 @@ const PermissionDepartUser = ({ idDepartement }) => {
                         <div className="client-row-icon">
                             <UnlockOutlined className="client-icon" />
                         </div>
-                        <h2 className="client-h2">Gestion des permissions pour la ville de {title}</h2>
+                        <h2 className="client-h2">Gestion des permissions</h2>
                     </div>
 
                     {loading ? (
