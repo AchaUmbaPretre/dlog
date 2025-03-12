@@ -8,30 +8,27 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import { Switch, Table, Tag, Space, message, Spin } from "antd";
-import {
-  getPermissionsVille,
-  updatePermissionTache,
-} from "../../../../services/permissionService";
-import { getProvinceOne } from "../../../../services/clientService";
-import { getTacheVille } from "../../../../services/tacheService";
+import { getTacheVille } from "../../../services/tacheService";
+import { getPermissionsVille, updatePermissionTache } from "../../../services/permissionService";
+import { getProvinceOne } from "../../../services/clientService";
 
-const PermissionVilleOne = ({ idVille, userId }) => {
+const PermissionVilleOne = ({ idDepartement, userId }) => {
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(false); // Ajout du loading state
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!idVille || !userId) return;
+      if (!idDepartement || !userId) return;
       
-      setLoading(true); // Début du chargement
+      setLoading(true);
 
       try {
-        const { data: taches } = await getTacheVille(idVille);
+        const { data: taches } = await getTacheVille(idDepartement);
         setData(taches);
 
-        const { data: permissionData } = await getPermissionsVille(idVille);
+        const { data: permissionData } = await getPermissionsVille(idDepartement);
         const permissionMap = {};
         permissionData.forEach((permission) => {
           permissionMap[permission.id_tache] = {
@@ -43,14 +40,14 @@ const PermissionVilleOne = ({ idVille, userId }) => {
         });
         setPermissions(permissionMap);
 
-        const { data: provinceData } = await getProvinceOne(idVille);
+        const { data: provinceData } = await getProvinceOne(idDepartement);
         if (provinceData?.length) {
           setTitle(provinceData[0].name);
         }
       } catch (error) {
         if (error.response && error.response.status === 404) {
           setData([]);
-          message.warning("Aucune tâche trouvée pour cette ville.");
+          message.warning("Aucune tâche trouvée pour ce departement");
         } else {
           message.error("Échec du chargement des données.");
         }
@@ -60,7 +57,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
     };
 
     fetchData();
-  }, [idVille, userId]);
+  }, [idDepartement, userId]);
 
   const handlePermissionChange = async (idTache, field, checked) => {
     try {
@@ -72,7 +69,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
       const updatedPermissions = {
         id_user: userId,
         id_tache: idTache,
-        id_ville: idVille,
+        id_departement: idDepartement,
         can_view: field === "can_view" ? checked : permissions[idTache]?.can_view ?? 0,
         can_edit: field === "can_edit" ? checked : permissions[idTache]?.can_edit ?? 0,
         can_comment: field === "can_comment" ? checked : permissions[idTache]?.can_comment ?? 0,
@@ -215,7 +212,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
             rowKey="id_tache"
             bordered
             pagination={false}
-            loading={loading} // Activation du loading sur la table
+            loading={loading} 
             className="table_permission"
           />
         )}
