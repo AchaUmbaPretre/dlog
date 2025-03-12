@@ -47,7 +47,6 @@ export const getTacheVille = async (id) => {
   };
 
 export const getTacheDepartement = async (id) => {
-  console.log(id)
     return axios.get(`${DOMAIN}/api/tache/tache_departement?id_departement=${id}`);
   };
 
