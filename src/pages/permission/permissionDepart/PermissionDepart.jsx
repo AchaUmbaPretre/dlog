@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { Switch, Table, Tag, Space, message, Spin } from "antd";
 import { getTacheDepartement } from "../../../services/tacheService";
-import { getPermissionsVille, updatePermissionTache } from "../../../services/permissionService";
+import { getPermissionsDepartement, getPermissionsVille, updatePermissionTache } from "../../../services/permissionService";
 import { getProvinceOne } from "../../../services/clientService";
 
 const PermissionVilleOne = ({ idDepartement, userId }) => {
@@ -18,7 +18,6 @@ const PermissionVilleOne = ({ idDepartement, userId }) => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
 
-  console.log(idDepartement, userId)
   useEffect(() => {
     const fetchData = async () => {
       if (!idDepartement || !userId) return;
@@ -29,7 +28,7 @@ const PermissionVilleOne = ({ idDepartement, userId }) => {
         const { data: taches } = await getTacheDepartement(idDepartement);
         setData(taches);
 
-        const { data: permissionData } = await getPermissionsVille(idDepartement);
+        const { data: permissionData } = await getPermissionsDepartement(idDepartement);
         const permissionMap = {};
         permissionData.forEach((permission) => {
           permissionMap[permission.id_tache] = {
