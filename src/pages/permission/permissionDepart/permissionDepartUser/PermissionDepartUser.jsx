@@ -117,7 +117,7 @@ const PermissionDepartUser = ({ idDepartement }) => {
                 width={1000}
                 centered
             >
-                <PermissionDepart idDepartement={idDepartement} idUser={idUser} />
+                <PermissionDepart idDepartement={idDepartement} userId={idUser} />
             </Modal>
         </>
     );

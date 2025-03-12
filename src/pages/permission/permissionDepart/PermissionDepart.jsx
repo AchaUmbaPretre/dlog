@@ -8,7 +8,7 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import { Switch, Table, Tag, Space, message, Spin } from "antd";
-import { getTacheVille } from "../../../services/tacheService";
+import { getTacheDepartement } from "../../../services/tacheService";
 import { getPermissionsVille, updatePermissionTache } from "../../../services/permissionService";
 import { getProvinceOne } from "../../../services/clientService";
 
@@ -18,6 +18,7 @@ const PermissionVilleOne = ({ idDepartement, userId }) => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
 
+  console.log(idDepartement, userId)
   useEffect(() => {
     const fetchData = async () => {
       if (!idDepartement || !userId) return;
@@ -25,7 +26,7 @@ const PermissionVilleOne = ({ idDepartement, userId }) => {
       setLoading(true);
 
       try {
-        const { data: taches } = await getTacheVille(idDepartement);
+        const { data: taches } = await getTacheDepartement(idDepartement);
         setData(taches);
 
         const { data: permissionData } = await getPermissionsVille(idDepartement);
@@ -199,7 +200,7 @@ const PermissionVilleOne = ({ idDepartement, userId }) => {
           <div className="client-row-icon">
             <UnlockOutlined className="client-icon" />
           </div>
-          <h2 className="client-h2">Gestion des permissions pour la ville de {title}</h2>
+          <h2 className="client-h2">Gestion des permissions</h2>
         </div>
         
         {loading ? (

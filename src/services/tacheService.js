@@ -46,6 +46,11 @@ export const getTacheVille = async (id) => {
     return axios.get(`${DOMAIN}/api/tache/tache_ville?id_ville=${id}`);
   };
 
+export const getTacheDepartement = async (id) => {
+  console.log(id)
+    return axios.get(`${DOMAIN}/api/tache/tache_departement?id_departement=${id}`);
+  };
+
 export const getTacheOne = async (id) => {
     return axios.get(`${DOMAIN}/api/tache/one?id_tache=${id}`);
   };
