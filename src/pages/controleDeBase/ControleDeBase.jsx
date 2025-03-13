@@ -18,6 +18,7 @@ import ListeControler from './listeControler/ListeControler';
 import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -29,6 +30,8 @@ const ControleDeBase = ({datas}) => {
   const [modalState, setModalState] = useState(null);
   const scroll = { x: 400 };
   const currentUrl = window.location.pathname;
+  const role = useSelector((state) => state.user?.currentUser.role);
+
 
 
   const access = getSubMenuAccessByUrl(currentUrl, datas);
@@ -210,11 +213,11 @@ const groupByControle = (data) => {
     },
     {
       title: 'Owner',
-      dataIndex: 'responsables', // Notez le changement de dataIndex
+      dataIndex: 'responsables',
       key: 'responsables',
       render: text => {
         if (!text) {
-          return null; // ou retourner un autre élément pour indiquer que rien n'est disponible
+          return null; 
         }
     
         return (
@@ -321,13 +324,15 @@ const groupByControle = (data) => {
                 </div>
                 <div className="client-row-right" style={{display:'flex', gap:'10px'}}>
 
-                  <Button
+                <Button
                     type="primary"
                     icon={<PlusCircleOutlined />}
                     onClick={handleAddClient}
+                    disabled={role !== 'Admin' && access?.can_comment === 0}
                   >
-                    contrôle de base
+                    Contrôle de base
                   </Button>
+
                   <Dropdown overlay={exportMenu} trigger={['click']} className='client-export'>
                     <Button icon={<ExportOutlined />} >Exporter</Button>
                   </Dropdown>
