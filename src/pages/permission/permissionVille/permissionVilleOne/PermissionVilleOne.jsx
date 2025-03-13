@@ -25,7 +25,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (!idVille || !userId) return;
-      
+
       setLoading(true);
 
       try {
@@ -196,41 +196,58 @@ const PermissionVilleOne = ({ idVille, userId }) => {
     },
   ];
 
+
   const updatePermissionsToServer = async (permissions) => {
     try {
       await updatePermissionTache({
         id_user: permissions.id_user,
-        id_tache: permissions.idTache,
-        id_ville: permissions.idVille,
+        id_tache: permissions.id_tache,
+        id_ville: permissions.id_ville,
         can_view: permissions.can_view || 0,
         can_edit: permissions.can_edit || 0,
         can_comment: permissions.can_comment || 0,
         can_delete: permissions.can_delete || 0,
-      })
-      
+      });
     } catch (error) {
-      console.error('Erreur lors de l’envoi des permissions au serveur:', error);
+      console.error("Erreur lors de l’envoi des permissions au serveur:", error);
+      message.error("Échec de la mise à jour des permissions.");
     }
-  }
+  };
+  
 
-  const toggleAllPermissions = (checked) => {
-    const updatedPermissions = {};
+  const toggleAllPermissions = async (checked) => {
+    try {
+      const updatedPermissions = {};
 
-    data.forEach((item) => {
-      updatePermissionTache[item.id_tache] = {
-        id_tache: item.id_tache,
-        id_user: userId,
-        id_ville: idVille,
-        can_view: checked ? 1 : 0,
-        can_edit: checked ? 1 : 0,
-        can_comment: checked ? 1 : 0,
-        can_delete: checked ? 1 : 0
-      }
+      // Pour chaque tâche, mettre à jour les permissions
+      data.forEach((item) => {
+        updatedPermissions[item.id_tache] = {
+          id_tache: item.id_tache,
+          id_user: userId,
+          id_ville: idVille,
+          can_view: checked ? 1 : 0,
+          can_edit: checked ? 1 : 0,
+          can_comment: checked ? 1 : 0,
+          can_delete: checked ? 1 : 0,
+        };
+      });
 
-      updatePermissionsToServer(updatedPermissions[item.id_tache]);
-    })
-    
-  }
+      // Envoyer toutes les permissions mises à jour au serveur
+      await Promise.all(
+        Object.values(updatedPermissions).map((permissions) => 
+          updatePermissionsToServer(permissions)
+        )
+      );
+
+      // Mettre à jour l'état local des permissions
+      setPermissions(updatedPermissions);
+
+      message.success("Toutes les permissions ont été mises à jour.");
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour de toutes les permissions:", error);
+      message.error("Échec de la mise à jour des permissions.");
+    }
+  };
 
   const filteredData = data.filter(item =>
     item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase())
@@ -258,11 +275,11 @@ const PermissionVilleOne = ({ idVille, userId }) => {
           </div>
           <div>
             <Switch 
-              heckedChildren="Tout activer" 
+              checkedChildren="Tout activer" 
               unCheckedChildren="Tout désactiver" 
               onChange={(checked) => toggleAllPermissions(checked)} 
             />
-            </div>
+          </div>
         </div>
         
         {loading ? (
@@ -275,7 +292,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
             rowKey="id_tache"
             bordered
             pagination={false}
-            loading={loading} // Activation du loading sur la table
+            loading={loading}
             className="table_permission"
           />
         )}

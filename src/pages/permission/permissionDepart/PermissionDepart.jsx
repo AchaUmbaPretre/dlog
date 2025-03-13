@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { Switch, Table, Tag, Space, message, Spin } from "antd";
 import { getTacheDepartement } from "../../../services/tacheService";
-import { getPermissionsDepartement, getPermissionsVille, updatePermissionTache } from "../../../services/permissionService";
+import { getPermissionsDepartement, updatePermissionTache } from "../../../services/permissionService";
 import { getProvinceOne } from "../../../services/clientService";
 
 const PermissionDepartementOne = ({ idDepartement, userId }) => {
