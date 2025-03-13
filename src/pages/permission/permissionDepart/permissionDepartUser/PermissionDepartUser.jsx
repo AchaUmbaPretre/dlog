@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
-import { UnlockOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { Table, Tooltip, Space, Button, Modal, Spin } from 'antd';
+import { UnlockOutlined, InfoCircleOutlined, ApartmentOutlined } from '@ant-design/icons';
+import { Table, Tooltip, Space, Button, Modal, Spin, Tag  } from 'antd';
 import { getProvinceOne } from '../../../../services/clientService';
 import PermissionVilleOne from '../../permissionVille/permissionVilleOne/PermissionVilleOne';
 import PermissionDepart from '../PermissionDepart';
@@ -59,6 +59,15 @@ const PermissionDepartUser = ({ idDepartement }) => {
                 <div>{`${record.nom} ${record.prenom}`}</div>
             ),
         },
+        { title: 'Departement', 
+            dataIndex: 'nom_departement', 
+            key: 'nom_departement',
+            render: text => (
+              <Space>
+                <Tag icon={<ApartmentOutlined />} color='cyan'>{text ?? 'N/A'}</Tag>
+              </Space>
+            ),
+          },
         {
             title: 'Action',
             key: 'action',

@@ -3,21 +3,34 @@ import { ResponsiveLine } from '@nivo/line';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-const RapportBatimentChart = ({ groupedData, uniqueMonths, selectedField }) => {
-    if (!groupedData || !uniqueMonths) return null;
+const RapportBatimentChart = ({ groupedData, uniqueMonths, selectedField, isLoading }) => {
+    if (isLoading) {
+        return <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 'bold', color: '#555' }}>Chargement des données...</div>;
+    }
 
-    // Transformation des données pour Nivo LineChart
-    const lineData = groupedData.map(batiment => ({
-        id: batiment.desc_template,
-        data: uniqueMonths.map(month => {
-            const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY").replace('.', '');
+    if (!groupedData || groupedData.length === 0 || !uniqueMonths || uniqueMonths.length === 0) {
+        return <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 'bold', color: 'red' }}>Aucune donnée disponible</div>;
+    }
 
-            return {
-                x: formattedMonth,
-                y: batiment[`${formattedMonth}_${selectedField}`] || 0 
-            };
-        })
-    }));
+    console.log("groupedData:", groupedData);
+console.log("uniqueMonths:", uniqueMonths);
+console.log("selectedField:", selectedField);
+
+
+const lineData = groupedData.map(batiment => ({
+    id: batiment.desc_template,
+    data: uniqueMonths.map(month => {
+        const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY");  // Correction ici
+        const key = `${formattedMonth}_${selectedField}`;
+        console.log(`Recherche de la clé: ${key}`);
+        console.log(batiment[key]);  // Affiche la valeur correspondante à la clé
+        return {
+            x: formattedMonth,
+            y: batiment[key] || 0  // Si la valeur est `undefined` ou `null`, renvoyer 0
+        };
+    })
+}));
+
 
     return (
         <div style={{ width: '100%', height: '500px', padding: '20px'}}>
