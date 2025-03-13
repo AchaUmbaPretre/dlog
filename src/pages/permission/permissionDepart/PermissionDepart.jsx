@@ -12,7 +12,7 @@ import { getTacheDepartement } from "../../../services/tacheService";
 import { getPermissionsDepartement, getPermissionsVille, updatePermissionTache } from "../../../services/permissionService";
 import { getProvinceOne } from "../../../services/clientService";
 
-const PermissionVilleOne = ({ idDepartement, userId }) => {
+const PermissionDepartementOne = ({ idDepartement, userId }) => {
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [title, setTitle] = useState("");
@@ -221,4 +221,4 @@ const PermissionVilleOne = ({ idDepartement, userId }) => {
   );
 };
 
-export default PermissionVilleOne;
+export default PermissionDepartementOne;
