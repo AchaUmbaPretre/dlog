@@ -44,6 +44,7 @@ const Login = () => {
               prefix={<UserOutlined className="site_form_item_icon" />}
               placeholder="Email Address"
               size="large"
+              autoComplete="off"
             />
           </Form.Item>
           <Form.Item
@@ -54,6 +55,7 @@ const Login = () => {
               prefix={<LockOutlined className="site_form_item_icon" />}
               placeholder="Mot de passe"
               size="large"
+              autoComplete="new-password"
             />
           </Form.Item>
           <Form.Item className="login_footer">
