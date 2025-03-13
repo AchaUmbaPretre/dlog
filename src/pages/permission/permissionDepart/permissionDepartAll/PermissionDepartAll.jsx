@@ -128,7 +128,7 @@ const PermissionDepartAll = ({idVille}) => {
             <div className="client-row-icon">
               <FileTextOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste des departements de {title}</h2>
+            <h2 className="client-h2">Liste des departements</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">

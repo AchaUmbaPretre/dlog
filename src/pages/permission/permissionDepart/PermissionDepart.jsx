@@ -52,7 +52,7 @@ const PermissionVilleOne = ({ idDepartement, userId }) => {
           message.error("Échec du chargement des données.");
         }
       } finally {
-        setLoading(false); // Fin du chargement
+        setLoading(false);
       }
     };
 
