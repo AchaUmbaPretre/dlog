@@ -167,7 +167,7 @@ function App() {
         },
         {
           path: '/batiment',
-          element: <Batiment/>
+          element: <Batiment datas={data}/>
         },
         {
           path: '/liste_bins',

@@ -33,7 +33,6 @@ const ControleDeBase = ({datas}) => {
   const role = useSelector((state) => state.user?.currentUser.role);
 
 
-
   const access = getSubMenuAccessByUrl(currentUrl, datas);
   
     const fetchData = async () => {
@@ -237,7 +236,7 @@ const groupByControle = (data) => {
            <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
-              disabled={access?.can_edit === 0}
+              disabled={role !== 'Admin' && access?.can_edit === 0}
               style={{ color: 'green' }}
               onClick={() => handleViewDetails(record.id_controle)}
               aria-label=""
@@ -268,7 +267,7 @@ const groupByControle = (data) => {
                 icon={<PlusCircleOutlined />}
                 style={{ color: 'blue' }}
                 aria-label="Contrôler"
-                disabled={access?.can_comment === 0}
+                disabled={ role !== 'Admin' && access?.can_comment === 0}
               />
             </Tooltip>
           </Popover>
@@ -283,7 +282,7 @@ const groupByControle = (data) => {
                 icon={<DeleteOutlined />}
                 style={{ color: 'red' }}
                 aria-label="Supprimer le client"
-                disabled={access?.can_delete === 0}
+                disabled={role !== 'Admin' && access?.can_delete === 0}
               />
             </Popconfirm>
           </Tooltip>

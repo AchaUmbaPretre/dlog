@@ -29,10 +29,11 @@ import ListBureaux from '../Listbureaux/ListBureaux';
 import Niveau from './niveau/Niveau';
 import Adresse from '../adresse/Adresse';
 import Instructions from '../instructions/Instructions';
+import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
 
 const { Search } = Input;
 
-const Batiment = () => {
+const Batiment = ({datas}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -46,7 +47,12 @@ const Batiment = () => {
     pageSize: 20,
   });
   const [activeKey, setActiveKey] = useState(['1', '2']);
+  const currentUrl = window.location.pathname;
 
+  const access = getSubMenuAccessByUrl(currentUrl, datas);
+
+  console.log(access.can_comment  )
+  
   const handleDelete = async (id) => {
     try {
         await putDeleteBatiment(id);
@@ -271,15 +277,15 @@ const Batiment = () => {
       key: 'action',
       width: '10%',
       render: (text, record) => (
-        role === 'Admin' && 
-        (
-          <Space size="middle">
+
+        <Space size="middle">
           <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               onClick={() => handleEdit(record.id_batiment)}
               aria-label="Edit department"
+              disabled={role !== 'Admin' && access?.can_edit === 0}
             />
           </Tooltip>
           <Tooltip title="Voir les croquis">
@@ -288,6 +294,7 @@ const Batiment = () => {
               style={{ color: 'blue' }}
               onClick={() => handleDetailCroquis(record.id_batiment)}
               aria-label="Voir les croquis"
+              disabled={role !== 'Admin' && access?.can_read === 0}
             />
           </Tooltip>
           <Tooltip title="Upload de croquis">
@@ -296,6 +303,7 @@ const Batiment = () => {
               style={{ color: 'blue' }}
               onClick={() => handleAddCroquis(record.id_batiment)}
               aria-label="Upload de croquis"
+              disabled={role !== 'Admin' && access?.can_comment === 0}
             />
           </Tooltip>
           <Dropdown
@@ -381,6 +389,7 @@ const Batiment = () => {
               icon={<MoreOutlined />}
               style={{ color: 'black', padding: '0' }}
               aria-label="Menu actions"
+              disabled={role !== 'Admin' && access?.can_comment === 0}
             />
           </Dropdown>
           <Tooltip title="Tableau de bord">
@@ -389,6 +398,7 @@ const Batiment = () => {
               icon={<DashboardOutlined />}
               style={{ color: '#2db7f5' }}
               aria-label="Tableau de bord"
+              disabled={role !== 'Admin' && access?.can_comment === 0}
             />
           </Tooltip>
           <Tooltip title="Supprimer">
@@ -402,11 +412,12 @@ const Batiment = () => {
                 icon={<DeleteOutlined />}
                 style={{ color: 'red' }}
                 aria-label="Supprimer le département"
+                disabled={role !== 'Admin' && access?.can_delete === 0}
+
               />
             </Popconfirm>
           </Tooltip>
         </Space>
-        )
       ),
     }
   ];
@@ -456,6 +467,7 @@ const Batiment = () => {
                   type="primary"
                   icon={<PlusCircleOutlined />}
                   onClick={handleAddClient}
+                  disabled={role !== 'Admin' && access?.can_comment === 0}
                 >
                   Batiment
                 </Button>
