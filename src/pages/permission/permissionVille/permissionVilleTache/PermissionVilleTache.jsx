@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
-import { UnlockOutlined, InfoCircleOutlined, SafetyOutlined  } from '@ant-design/icons';
+import { UnlockOutlined, InfoCircleOutlined, EnvironmentOutlined, SafetyOutlined  } from '@ant-design/icons';
 import { Table, Tooltip, Space, Button, Modal, Tag} from 'antd';
 import { getProvinceOne } from '../../../../services/clientService';
-import PermissionDeclarationOne from '../../permissionDeclaration/permissionDeclarationOne/PermissionDeclarationOne';
 import PermissionVilleOne from '../permissionVilleOne/PermissionVilleOne';
 
 const  PermissionVilleTache = ({ idVille }) => {
@@ -13,7 +12,6 @@ const  PermissionVilleTache = ({ idVille }) => {
     const [idUser, setIdUser] = useState('');
     const [modalType, setModalType] = useState(null);
     const [loading, setLoading] = useState(true); 
-  
   
   useEffect(() => {
     const fetchPermission = async () => {
@@ -76,6 +74,15 @@ const  PermissionVilleTache = ({ idVille }) => {
       render: text => (
         <Space>
           <Tag icon={<SafetyOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      ),
+    },
+    { title: 'Ville', 
+      dataIndex: 'name', 
+      key: 'name',
+      render: text => (
+        <Space>
+          <Tag icon={<EnvironmentOutlined />} color='red'>{text ?? 'N/A'}</Tag>
         </Space>
       ),
     },

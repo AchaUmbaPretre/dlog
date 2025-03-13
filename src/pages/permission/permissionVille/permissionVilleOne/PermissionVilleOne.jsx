@@ -130,15 +130,6 @@ const PermissionVilleOne = ({ idVille, userId }) => {
         </Space>
       ),
     },
-    { title: 'Ville', 
-      dataIndex: 'name', 
-      key: 'name',
-      render: text => (
-        <Space>
-          <Tag icon={<EnvironmentOutlined />} color='red'>{text ?? 'N/A'}</Tag>
-        </Space>
-      ),
-    },
     {
       title: (
         <span style={{ color: "#52c41a" }}>
