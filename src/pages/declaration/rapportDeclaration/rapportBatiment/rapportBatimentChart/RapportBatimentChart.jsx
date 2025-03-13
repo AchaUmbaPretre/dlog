@@ -22,11 +22,10 @@ const lineData = groupedData.map(batiment => ({
     data: uniqueMonths.map(month => {
         const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY");  // Correction ici
         const key = `${formattedMonth}_${selectedField}`;
-        console.log(`Recherche de la clé: ${key}`);
-        console.log(batiment[key]);  // Affiche la valeur correspondante à la clé
+
         return {
             x: formattedMonth,
-            y: batiment[key] || 0  // Si la valeur est `undefined` ou `null`, renvoyer 0
+            y: batiment[key] || 0
         };
     })
 }));
