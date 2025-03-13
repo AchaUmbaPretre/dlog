@@ -23,7 +23,7 @@ const  PermissionVilleTache = ({ idVille }) => {
 
         if(idVille){
             const {data} = await getProvinceOne(idVille)
-            setTitle(data[0].name)
+            setTitle(data[0].capital)
         }
 
       } catch (error) {
