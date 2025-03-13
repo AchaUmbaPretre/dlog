@@ -6,9 +6,8 @@ import {
   PlusCircleOutlined,
   DeleteOutlined,
   EyeOutlined,
-  EnvironmentOutlined
 } from "@ant-design/icons";
-import { Switch, Table, Tag, Space, message, Spin } from "antd";
+import { Switch, Table, Input, Tag, Space, message, Spin } from "antd";
 import {
   getPermissionsVille,
   updatePermissionTache,
@@ -20,19 +19,20 @@ const PermissionVilleOne = ({ idVille, userId }) => {
   const [data, setData] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(false); // Ajout du loading state
+  const [loading, setLoading] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       if (!idVille || !userId) return;
       
-      setLoading(true); // Début du chargement
+      setLoading(true);
 
       try {
         const { data: taches } = await getTacheVille(idVille);
         setData(taches);
 
-        const { data: permissionData } = await getPermissionsVille(idVille);
+        const { data: permissionData } = await getPermissionsVille(userId);
         const permissionMap = {};
         permissionData.forEach((permission) => {
           permissionMap[permission.id_tache] = {
@@ -56,7 +56,7 @@ const PermissionVilleOne = ({ idVille, userId }) => {
           message.error("Échec du chargement des données.");
         }
       } finally {
-        setLoading(false); // Fin du chargement
+        setLoading(false);
       }
     };
 
@@ -196,6 +196,46 @@ const PermissionVilleOne = ({ idVille, userId }) => {
     },
   ];
 
+  const updatePermissionsToServer = async (permissions) => {
+    try {
+      await updatePermissionTache({
+        id_user: permissions.id_user,
+        id_tache: permissions.idTache,
+        id_ville: permissions.idVille,
+        can_view: permissions.can_view || 0,
+        can_edit: permissions.can_edit || 0,
+        can_comment: permissions.can_comment || 0,
+        can_delete: permissions.can_delete || 0,
+      })
+      
+    } catch (error) {
+      console.error('Erreur lors de l’envoi des permissions au serveur:', error);
+    }
+  }
+
+  const toggleAllPermissions = (checked) => {
+    const updatedPermissions = {};
+
+    data.forEach((item) => {
+      updatePermissionTache[item.id_tache] = {
+        id_tache: item.id_tache,
+        id_user: userId,
+        id_ville: idVille,
+        can_view: checked ? 1 : 0,
+        can_edit: checked ? 1 : 0,
+        can_comment: checked ? 1 : 0,
+        can_delete: checked ? 1 : 0
+      }
+
+      updatePermissionsToServer(updatedPermissions[item.id_tache]);
+    })
+    
+  }
+
+  const filteredData = data.filter(item =>
+    item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <div className="client">
       <div className="client-wrapper">
@@ -205,12 +245,31 @@ const PermissionVilleOne = ({ idVille, userId }) => {
           </div>
           <h2 className="client-h2">Gestion des permissions pour la ville de {title}</h2>
         </div>
+        <div className="client-actions">
+          <div className="client-row-left">
+            <Input.Search
+              type="search"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              placeholder="Recherche..."
+              className="product-search"
+              enterButton
+            />    
+          </div>
+          <div>
+            <Switch 
+              heckedChildren="Tout activer" 
+              unCheckedChildren="Tout désactiver" 
+              onChange={(checked) => toggleAllPermissions(checked)} 
+            />
+            </div>
+        </div>
         
         {loading ? (
           <Spin size="large" style={{ display: "block", margin: "20px auto" }} />
         ) : (
           <Table
-            dataSource={data}
+            dataSource={filteredData}
             columns={columns}
             scroll={{ x: 400 }}
             rowKey="id_tache"

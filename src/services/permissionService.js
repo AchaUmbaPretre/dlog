@@ -30,11 +30,11 @@ export const updatePermissionTache = async (data) => {
 
 //Permission ville
 export const getPermissionsVille = async (userId) => {
-  return axios.get(`${DOMAIN}/api/permission/permission_ville?id_ville=${userId}`);
+  return axios.get(`${DOMAIN}/api/permission/permission_ville?id_user=${userId}`);
 };
 
 export const getPermissionsDepartement = async (userId) => {
-  return axios.get(`${DOMAIN}/api/permission/permission_departement?id_departement=${userId}`);
+  return axios.get(`${DOMAIN}/api/permission/permission_departement?id_user=${userId}`);
 };
 
 export const updatePermissionVille = async (data) => {

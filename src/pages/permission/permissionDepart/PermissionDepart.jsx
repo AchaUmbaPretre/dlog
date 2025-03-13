@@ -28,7 +28,7 @@ const PermissionDepartementOne = ({ idDepartement, userId }) => {
         const { data: taches } = await getTacheDepartement(idDepartement);
         setData(taches);
 
-        const { data: permissionData } = await getPermissionsDepartement(idDepartement);
+        const { data: permissionData } = await getPermissionsDepartement(userId);
         const permissionMap = {};
         permissionData.forEach((permission) => {
           permissionMap[permission.id_tache] = {
