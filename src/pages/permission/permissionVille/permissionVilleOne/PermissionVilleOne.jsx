@@ -6,6 +6,7 @@ import {
   PlusCircleOutlined,
   DeleteOutlined,
   EyeOutlined,
+  EnvironmentOutlined
 } from "@ant-design/icons";
 import { Switch, Table, Tag, Space, message, Spin } from "antd";
 import {
@@ -126,6 +127,15 @@ const PermissionVilleOne = ({ idVille, userId }) => {
           <Tag icon={<FileTextOutlined />} color="cyan">
             {text}
           </Tag>
+        </Space>
+      ),
+    },
+    { title: 'Ville', 
+      dataIndex: 'name', 
+      key: 'name',
+      render: text => (
+        <Space>
+          <Tag icon={<EnvironmentOutlined />} color='red'>{text ?? 'N/A'}</Tag>
         </Space>
       ),
     },
