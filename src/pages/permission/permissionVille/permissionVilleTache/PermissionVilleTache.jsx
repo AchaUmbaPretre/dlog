@@ -82,7 +82,7 @@ const  PermissionVilleTache = ({ idVille }) => {
       key: 'name',
       render: text => (
         <Space>
-          <Tag icon={<EnvironmentOutlined />} color='red'>{text ?? 'N/A'}</Tag>
+          <Tag icon={<EnvironmentOutlined />} color='orange'>{text ?? 'N/A'}</Tag>
         </Space>
       ),
     },
