@@ -111,7 +111,8 @@ const  PermissionVilleTache = ({ idVille }) => {
           <Table
             dataSource={data}
             columns={columns}
-            scroll={scroll}
+            scroll={scroll
+            }
             rowKey="id"
             bordered
             pagination={false}

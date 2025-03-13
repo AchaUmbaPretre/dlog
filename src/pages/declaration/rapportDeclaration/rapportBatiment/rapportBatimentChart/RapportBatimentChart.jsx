@@ -12,10 +12,6 @@ const RapportBatimentChart = ({ groupedData, uniqueMonths, selectedField, isLoad
         return <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 'bold', color: 'red' }}>Aucune donnée disponible</div>;
     }
 
-    console.log("groupedData:", groupedData);
-console.log("uniqueMonths:", uniqueMonths);
-console.log("selectedField:", selectedField);
-
 
 const lineData = groupedData.map(batiment => ({
     id: batiment.desc_template,
@@ -29,7 +25,6 @@ const lineData = groupedData.map(batiment => ({
         };
     })
 }));
-
 
     return (
         <div style={{ width: '100%', height: '500px', padding: '20px'}}>
