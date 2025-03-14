@@ -32,6 +32,9 @@ const RapportVariationPie = ({ filteredDatas }) => {
 
   return (
     <div style={{ width: '100%', height: '500px', padding: '20px'}}>
+        <h2 style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
+            📈 Rapport des variations (PIE)
+        </h2>
         <div style={{ height: 400 }}>
             {loading ? (
                 <p>Chargement...</p>
