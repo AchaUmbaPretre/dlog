@@ -24,9 +24,9 @@ const Template = ({datas}) => {
     "Niveau": true,
     "Dénomination": true,
     'Whse fact': true,
-    'Objet fact': true,
-    "Date active": true,
-    "Date inactive": true,
+    'Objet fact': false,
+    "Date active": false,
+    "Date inactive": false,
     "Statut": true
   });
   const [searchValue, setSearchValue] = useState('');
@@ -315,7 +315,7 @@ const Template = ({datas}) => {
                 aria-label="Edit tache"
               />
             </Tooltip>
-            <Tooltip title="Voir les détails">
+{/*             <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}
               disabled={access?.can_read === 0}
@@ -323,9 +323,19 @@ const Template = ({datas}) => {
               aria-label="détail"
               style={{ color: 'blue' }}
             />
-            </Tooltip>
+            </Tooltip> */}
 
-            <Dropdown>
+            <Dropdown
+              overlay= {
+                (
+                  <Menu>
+                    <Menu.Item  onClick={() => handleDetail(record.id_template)}>
+                      <EyeOutlined style={{ color: 'blue' }} /> Voir les détails
+                    </Menu.Item>
+                  </Menu>
+                )
+              }
+            >
               <Tooltip title="Menu">
                 <Button
                   icon={<MoreOutlined />}
