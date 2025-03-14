@@ -46,7 +46,7 @@ const Template = ({datas}) => {
   const currentUrl = window.location.pathname;
 
   const access = getSubMenuAccessByUrl(currentUrl, datas);
-
+console.log(access)
   const handleTabChange = (key) => {
     setActiveKey(key);
   };
