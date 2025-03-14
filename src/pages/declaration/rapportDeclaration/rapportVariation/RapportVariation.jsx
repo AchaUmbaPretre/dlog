@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Table,Skeleton, Tag, Tooltip } from 'antd';
+import { Button, Modal, Table,Skeleton,Tabs, Tag, Tooltip } from 'antd';
 import { getRapportVariation } from '../../../../services/templateService';
 import moment from 'moment';
+import { AreaChartOutlined, PieChartOutlined } from '@ant-design/icons';
 import RapportVariationVille from './rapportVariationVille/RapportVariationVille';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
+import TabPane from 'antd/es/tabs/TabPane';
+import RapportVariationLine from './rapportVariationLine/RapportVariationLine';
+import RapportVariationPie from './rapportVariationPie/RapportVariationPie';
+
 
 const RapportVariation = () => {
   const [loading, setLoading] = useState(true);
@@ -17,6 +22,12 @@ const RapportVariation = () => {
   const [annee, setAnnee] = useState('');
   const [filterVisible, setFilterVisible] = useState(false);
   const [detail, setDetail] = useState([]);
+  const [activeKeys, setActiveKeys] = useState(['1', '2']);
+  
+
+  const handleTabChanges = (key) => {
+    setActiveKeys(key);
+  };
 
   const closeAllModals = () => {
     setModalType(null);
@@ -190,6 +201,39 @@ const RapportVariation = () => {
             onChange={(pagination) => setPagination(pagination)}
             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
+        </div>
+        <div className="rapport_chart">
+          <Tabs
+                    activeKey={activeKeys[0]}
+                    onChange={handleTabChanges}
+                    type="card"
+                    tabPosition="top"
+                    renderTabBar={(props, DefaultTabBar) => (
+                        <DefaultTabBar {...props} />
+                    )}
+                >
+                    <TabPane
+                        tab={
+                        <span>
+                            <AreaChartOutlined  style={{ color: 'blue' }} /> Line
+                        </span>
+                    }
+                        key="1"
+                    >
+                         <RapportVariationLine groupedData={dataSource}/>
+                   </TabPane>
+
+                    <TabPane
+                        tab={
+                        <span>
+                            <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
+                        </span>
+                    }
+                        key="2"
+                    >
+                       <RapportVariationPie groupedData={dataSource} />
+                    </TabPane> 
+          </Tabs>
         </div>
         <Modal
           title=""
