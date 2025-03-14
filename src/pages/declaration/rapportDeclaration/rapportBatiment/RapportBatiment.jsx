@@ -368,7 +368,7 @@ const RapportBatiment = () => {
                     >
                       <RapportBatimentChartPie groupedData={dataSource} uniqueMonths={uniqueMonths} selectedField={selectedField} />
                     </TabPane> 
-                </Tabs>
+          </Tabs>
         </div>
       </div>
       <Modal
