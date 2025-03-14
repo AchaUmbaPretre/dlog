@@ -491,6 +491,18 @@ const Template = ({datas}) => {
       >
         <TemplateDetail idTemplate={idTemplate} />
       </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Permission'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <TemplateDetail idTemplate={idTemplate} />
+      </Modal>
+      
         </TabPane>
 
       { role === 'Admin' && (
