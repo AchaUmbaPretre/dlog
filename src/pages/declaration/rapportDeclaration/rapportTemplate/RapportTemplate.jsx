@@ -1,14 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Table, Tag, Radio, Button, Skeleton, Tooltip } from 'antd';
+import { notification, Table, Tag, Tabs, Radio, Button, Skeleton, Tooltip } from 'antd';
 import moment from 'moment';
 import {
-  FileExcelOutlined
+  FileExcelOutlined,
+  PieChartOutlined,
+  AreaChartOutlined
 } from '@ant-design/icons';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { getRapportTemplate } from '../../../../services/templateService';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
+import TabPane from 'antd/es/tabs/TabPane';
+import RapportTemplateLine from './rapportTemplateLine/RapportTemplateLine';
+import RapportTemplatePie from './rapportTemplatePie/RapportTemplatePie';
 
 const availableFields = [
   { key: 'total_facture', label: 'M² Facture' },
@@ -33,8 +38,9 @@ const RapportTemplate = () => {
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [filterVisible, setFilterVisible] = useState(false);
   const [detail, setDetail] = useState([]);
+  const [activeKeys, setActiveKeys] = useState(['1', '2']);
   
-
+  
   const fetchData = async () => {
     try {
       const { data } = await getRapportTemplate(filteredDatas); 
@@ -73,6 +79,10 @@ const RapportTemplate = () => {
       });
       setLoading(false);
     }
+  };
+
+  const handleTabChanges = (key) => {
+    setActiveKeys(key);
   };
 
   const columnStyles = {
@@ -321,6 +331,39 @@ const RapportTemplate = () => {
           onChange={pagination => setPagination(pagination)}
           rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
         />
+                <div className="rapport_chart">
+        <Tabs
+                    activeKey={activeKeys[0]}
+                    onChange={handleTabChanges}
+                    type="card"
+                    tabPosition="top"
+                    renderTabBar={(props, DefaultTabBar) => (
+                        <DefaultTabBar {...props} />
+                    )}
+                >
+                    <TabPane
+                        tab={
+                        <span>
+                            <AreaChartOutlined  style={{ color: 'blue' }} /> Line
+                        </span>
+                    }
+                        key="1"
+                    >
+                         <RapportTemplateLine groupedData={dataSource} uniqueMonths={uniqueMonths} selectedField={selectedField} />
+                    </TabPane>
+
+                    <TabPane
+                        tab={
+                        <span>
+                            <PieChartOutlined style={{ color: 'ORANGE' }} /> Pie
+                        </span>
+                    }
+                        key="2"
+                    >
+                       <RapportTemplatePie groupedData={dataSource} uniqueMonths={uniqueMonths} selectedField={selectedField} />
+                    </TabPane> 
+                </Tabs>
+        </div>
       </div>
     </>
   );
