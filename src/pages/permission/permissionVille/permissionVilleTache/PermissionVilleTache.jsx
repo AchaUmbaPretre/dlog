@@ -29,7 +29,7 @@ const  PermissionVilleTache = ({ idVille }) => {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false); // Fin du chargement
+        setLoading(false);
     }
     };
     fetchPermission();
