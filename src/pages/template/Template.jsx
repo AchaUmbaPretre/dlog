@@ -46,7 +46,6 @@ const Template = ({datas}) => {
   const currentUrl = window.location.pathname;
 
   const access = getSubMenuAccessByUrl(currentUrl, datas);
-console.log(access)
   const handleTabChange = (key) => {
     setActiveKey(key);
   };
@@ -315,7 +314,7 @@ console.log(access)
           <Tooltip title="Modifier">
               <Button
                 icon={<EditOutlined />}
-                disabled={access?.can_edit === 0}
+                disabled={role !== 'Admin' && record?.can_edit === 0}
                 style={{ color: 'green' }}
                 onClick={() => handleEdit(record.id_template)}
                 aria-label="Edit tache"
@@ -351,6 +350,7 @@ console.log(access)
                   icon={<MoreOutlined />}
                   style={{ color: 'black' }}
                   aria-label="Menu options"
+                  disabled={ role !== 'Admin' && record?.can_comment === 0}
                 />
               </Tooltip>
             </Dropdown>
@@ -366,7 +366,7 @@ console.log(access)
                   icon={<DeleteOutlined />}
                   style={{ color: 'red' }}
                   aria-label="Delete client"
-                  disabled={access?.can_delete === 0}
+                  disabled={ role !== 'Admin' && record?.can_delete === 0}
                 />
               </Popconfirm>
             </Tooltip>
@@ -426,7 +426,7 @@ console.log(access)
                 </div>
                 <div className="client-rows-right">
                   <Button
-                    disabled={access?.can_comment === 0 }
+                    disabled={ role !== 'Admin' && access?.can_comment === 0 }
                     type="primary"
                     icon={<PlusCircleOutlined />}
                     onClick={handleAddTemplate}

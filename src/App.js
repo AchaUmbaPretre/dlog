@@ -58,6 +58,7 @@ import RapportDeclaration from './pages/declaration/rapportDeclaration/RapportDe
 function App() {
   const [loading, setLoading] = useState(true);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const role = useSelector((state) => state.user?.currentUser.role);
   const [data, setData] = useState([]);
 
 
