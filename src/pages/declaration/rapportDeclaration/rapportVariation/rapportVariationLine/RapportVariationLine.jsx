@@ -40,15 +40,15 @@ const RapportVariationLine = ({ filteredDatas }) => {
   };
 
   return (
-    <div style={{ height: 400 }}>
-      {loading ? (
-        <p>Chargement...</p>
-      ) : (
-        <div>
-            <h2 style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
-                📈 Rapport des variations
-            </h2>
-            <ResponsiveLine
+    <div style={{ width: '100%', height: '500px', padding: '20px'}}>
+        <h2 style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
+            📈 Rapport des variations
+        </h2>
+        <div style={{ height: 400 }}>
+            {loading ? (
+                <p>⏳ Chargement des données...</p>
+            ) : (
+                <ResponsiveLine
                 data={chartData}
                 margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
                 xScale={{ type: 'point' }}
@@ -70,10 +70,10 @@ const RapportVariationLine = ({ filteredDatas }) => {
                     itemHeight: 20,
                     symbolSize: 12,
                     symbolShape: 'circle',
-            }]}
-        />
+                }]}
+                />
+            )}
         </div>
-      )}
     </div>
   );
 };

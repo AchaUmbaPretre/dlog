@@ -31,22 +31,12 @@ const RapportVariationPie = ({ filteredDatas }) => {
   };
 
   return (
-    <div style={{ height: 400 }}>
-      {loading ? (
-        <p>Chargement...</p>
-      ) : (
-        
-        <div>
-            <h2 style={{
-                textAlign: 'center', 
-                marginBottom: '30px', 
-                fontSize: '1.3rem', 
-                color: '#333', 
-                fontWeight: '600'
-            }}>
-                📊 Rapport des variations (PIE)
-            </h2>
-            <ResponsivePie
+    <div style={{ width: '100%', height: '500px', padding: '20px'}}>
+        <div style={{ height: 400 }}>
+            {loading ? (
+                <p>Chargement...</p>
+            ) : (
+                <ResponsivePie
                 data={chartData}
                 margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
                 innerRadius={0.5}
@@ -70,9 +60,9 @@ const RapportVariationPie = ({ filteredDatas }) => {
                     symbolSize: 18,
                     symbolShape: 'circle',
                 }]}
-            />
+                />
+            )}
         </div>
-      )}
     </div>
   );
 };
