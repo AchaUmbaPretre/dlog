@@ -503,7 +503,7 @@ const Template = ({datas}) => {
         <TemplateDetail idTemplate={idTemplate} />
       </Modal>
       
-        </TabPane>
+      </TabPane>
 
       { role === 'Admin' && (
         <TabPane
