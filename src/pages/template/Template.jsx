@@ -23,7 +23,7 @@ const Template = ({datas}) => {
     'Batiment': true,
     "Niveau": true,
     "Dénomination": true,
-    'Whse fact': true,
+    'Whse fact': false,
     'Objet fact': false,
     "Date active": false,
     "Date inactive": false,
