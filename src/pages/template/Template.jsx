@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Tabs } from 'antd';
-import { EditOutlined,FileSyncOutlined,SnippetsOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined,FileSyncOutlined, MoreOutlined, SnippetsOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
@@ -323,7 +323,18 @@ const Template = ({datas}) => {
               aria-label="détail"
               style={{ color: 'blue' }}
             />
-          </Tooltip>
+            </Tooltip>
+
+            <Dropdown>
+              <Tooltip title="Menu">
+                <Button
+                  icon={<MoreOutlined />}
+                  style={{ color: 'black' }}
+                  aria-label="Menu options"
+                />
+              </Tooltip>
+            </Dropdown>
+
             <Tooltip title="Delete">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce client?"
