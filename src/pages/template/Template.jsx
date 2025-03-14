@@ -337,7 +337,7 @@ const Template = ({datas}) => {
                       <EyeOutlined style={{ color: 'blue' }} /> Voir les détails
                     </Menu.Item>
                     <Menu.Divider />
-                    <Menu.Item  onClick={() => handleDetail(record.id_template)}>
+                    <Menu.Item  onClick={() => handleAddPermission(record.id_template)}>
                       <UnlockOutlined style={{ color: '#ff4d4f' }} /> Permission
                     </Menu.Item>
                   </Menu>
