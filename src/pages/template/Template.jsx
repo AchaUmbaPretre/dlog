@@ -426,7 +426,7 @@ const Template = ({datas}) => {
                 </div>
                 <div className="client-rows-right">
                   <Button
-                    disabled={ role !== 'Admin' && access?.can_comment === 0 }
+                    disabled={ access?.can_comment === 0 }
                     type="primary"
                     icon={<PlusCircleOutlined />}
                     onClick={handleAddTemplate}
