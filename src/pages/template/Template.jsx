@@ -24,8 +24,9 @@ const Template = ({datas}) => {
     'Batiment': true,
     "Niveau": true,
     "Dénomination": true,
-    'Whse fact': false,
+    'Contrat': false,
     'Objet fact': false,
+    'Whse fact' : false,
     "Date active": false,
     "Date inactive": false,
     "Statut": true
@@ -250,7 +251,7 @@ const Template = ({datas}) => {
       render: (text) => (
         <Tag icon={<FileSyncOutlined />} color="yellow">{text ?? 'Aucune'}</Tag>
       ),
-      ...(columnsVisibility['Whse fact'] ? {} : { className: 'hidden-column' })
+      ...(columnsVisibility['Contrat'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Whse fact',
