@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Tabs } from 'antd';
-import { EditOutlined,FileSyncOutlined, MoreOutlined, SnippetsOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, FileSyncOutlined, MoreOutlined, UnlockOutlined, SnippetsOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
 import { deletePutTemplate, getTemplate } from '../../services/templateService';
 import moment from 'moment';
@@ -70,6 +70,10 @@ const Template = ({datas}) => {
 
   const handleAddTemplate = (idTemplate) => {
     openModal('Add', idTemplate);
+  };
+
+  const handleAddPermission = (idTemplate) => {
+    openModal('Permission', idTemplate);
   };
 
   const handleEdit = (idTemplate) => {
@@ -331,6 +335,10 @@ const Template = ({datas}) => {
                   <Menu>
                     <Menu.Item  onClick={() => handleDetail(record.id_template)}>
                       <EyeOutlined style={{ color: 'blue' }} /> Voir les détails
+                    </Menu.Item>
+                    <Menu.Divider />
+                    <Menu.Item  onClick={() => handleDetail(record.id_template)}>
+                      <UnlockOutlined style={{ color: '#ff4d4f' }} /> Permission
                     </Menu.Item>
                   </Menu>
                 )
