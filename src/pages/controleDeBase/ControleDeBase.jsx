@@ -35,7 +35,24 @@ const ControleDeBase = ({datas}) => {
 
   const access = getSubMenuAccessByUrl(currentUrl, datas);
   
-    const fetchData = async () => {
+  const columnStyles = {
+    title: {
+      maxWidth: '220px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
+  
+  const fetchData = async () => {
       try {
         const response = await getControle();
         setData(response.data);
@@ -195,7 +212,7 @@ const groupByControle = (data) => {
       dataIndex: 'controle_de_base',
       key: 'controle_de_base',
       render: text => (
-        <Space>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
           <Tag icon={<CheckCircleOutlined />} color='orange'>{text}</Tag>
         </Space>
       ),
