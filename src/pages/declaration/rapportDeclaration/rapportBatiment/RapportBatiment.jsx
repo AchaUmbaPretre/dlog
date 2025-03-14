@@ -338,7 +338,7 @@ const RapportBatiment = () => {
         />
 
         <div className="rapport_chart">
-        <Tabs
+          <Tabs
                     activeKey={activeKeys[0]}
                     onChange={handleTabChanges}
                     type="card"
