@@ -44,30 +44,35 @@ const RapportVariationLine = ({ filteredDatas }) => {
       {loading ? (
         <p>Chargement...</p>
       ) : (
-        <ResponsiveLine
-          data={chartData}
-          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-          xScale={{ type: 'point' }}
-          yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false }}
-          axisLeft={{ legend: 'Valeur', legendOffset: -40, legendPosition: 'middle' }}
-          axisBottom={{ legend: 'Période', legendOffset: 40, legendPosition: 'middle' }}
-          colors={{ scheme: 'category10' }}
-          pointSize={10}
-          pointBorderWidth={2}
-          pointBorderColor={{ from: 'serieColor' }}
-          enableSlices='x'
-          useMesh={true}
-          legends={[{
-            anchor: 'bottom-right',
-            direction: 'column',
-            justify: false,
-            translateX: 100,
-            itemWidth: 80,
-            itemHeight: 20,
-            symbolSize: 12,
-            symbolShape: 'circle',
-          }]}
+        <div>
+            <h2 style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
+                📈 Rapport des variations
+            </h2>
+            <ResponsiveLine
+                data={chartData}
+                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+                xScale={{ type: 'point' }}
+                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false }}
+                axisLeft={{ legend: 'Valeur', legendOffset: -40, legendPosition: 'middle' }}
+                axisBottom={{ legend: 'Période', legendOffset: 40, legendPosition: 'middle' }}
+                colors={{ scheme: 'category10' }}
+                pointSize={10}
+                pointBorderWidth={2}
+                pointBorderColor={{ from: 'serieColor' }}
+                enableSlices='x'
+                useMesh={true}
+                legends={[{
+                    anchor: 'bottom-right',
+                    direction: 'column',
+                    justify: false,
+                    translateX: 100,
+                    itemWidth: 80,
+                    itemHeight: 20,
+                    symbolSize: 12,
+                    symbolShape: 'circle',
+            }]}
         />
+        </div>
       )}
     </div>
   );
