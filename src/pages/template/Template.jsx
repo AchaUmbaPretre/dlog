@@ -10,6 +10,7 @@ import TabPane from 'antd/es/tabs/TabPane';
 import Contrat from '../contrat/Contrat';
 import { useSelector } from 'react-redux';
 import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
+import PermissionTemplate from './permissionTemplate/PermissionTemplate';
 
 const { Search } = Input;
 
@@ -500,7 +501,7 @@ const Template = ({datas}) => {
         width={1000}
         centered
       >
-        <TemplateDetail idTemplate={idTemplate} />
+        <PermissionTemplate idTemplate={idTemplate} />
       </Modal>
       
       </TabPane>

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getUser } from '../../../../services/userService';
 import { UnlockOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Table, Tooltip, Space, Button, Modal} from 'antd';
-import { getProvinceOne } from '../../../../services/clientService';
-import PermissionDeclarationOne from '../../permissionDeclaration/permissionDeclarationOne/PermissionDeclarationOne';
+import PermissionTemplateOne from './permissionTemplateOne/PermissionTemplateOne';
+import { getUser } from '../../../services/userService';
 
 const  PermissionTemplate = ({ idTemplate }) => {
     const scroll = { x: 400 };
@@ -18,17 +17,12 @@ const  PermissionTemplate = ({ idTemplate }) => {
         const { data: users } = await getUser();
         setData(users);
 
-        if(idVille){
-            const {data} = await getProvinceOne(idVille)
-            setTitle(data[0].name)
-        }
-
       } catch (error) {
         console.log(error);
       }
     };
     fetchPermission();
-  }, [idVille]);
+  }, [idTemplate]);
 
   const handleAddDeclaration = (id) => {
     openModal('Add', id);
@@ -114,7 +108,7 @@ const  PermissionTemplate = ({ idTemplate }) => {
         width={1000}
         centered
       >
-         <PermissionDeclarationOne idVille={idVille} idUser={idUser}/>
+         <PermissionTemplateOne idTemplate={idTemplate} idUser={idUser}/>
       </Modal>
     </>
   );
