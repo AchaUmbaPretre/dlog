@@ -10,10 +10,12 @@ import moment from 'moment';
 import DeclarationOneClient from '../declarationOneClient/DeclarationOneClient';
 import TemplateForm from '../../template/templateForm/TemplateForm';
 import { useSelector } from 'react-redux';
+import config from '../../../config';
 
 
 const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss, idClients}) => {
     const [form] = Form.useForm();
+    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [templates, setTemplates] = useState([]);
     const [idTemplate, setIdTemplate] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +30,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const [idValides, setIdValides] = useState([]);
     const [refreshKey, setRefreshKey] = useState(0);
     const [modalType, setModalType] = useState(null);
+    const [isEdit, setIsEdit] = useState('');
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const role = useSelector((state) => state.user?.currentUser.role);
 
@@ -196,7 +199,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
     const fetchDataVeroui = async() => {
         try {
-            await lockDeclaration(userId,idDeclaration)
+            await lockDeclaration(userId, idDeclaration)
             
         } catch (error) {
             notification.error({
@@ -206,6 +209,8 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         }
     }
 
+    console.log(isEdit)
+/* 
     const fetchDataDeveroui = async() => {
         try {
             await DelockDeclaration(userId,idDeclaration)
@@ -216,7 +221,40 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                 description: `${error.response.data.message}`,
             });
         }
-    }
+    } */
+
+        useEffect(() => {
+            if (!userId || !idDeclaration) return;
+        
+            // Déverrouillage automatique après un certain temps (ex: 30 min = 1800000 ms)
+            const unlockTimeout = setTimeout(() => {
+                fetch(`${DOMAIN}/api/template/delock_declaration`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ userId, idDeclaration }),
+                }).catch((error) => console.error("Erreur lors du déverrouillage automatique :", error));
+            }, 18000); // 30 minutes
+        
+            const handleBeforeUnload = () => {
+                const url = `${DOMAIN}/api/template/delock_declaration`;
+                const data = JSON.stringify({ userId, idDeclaration });
+        
+                const blob = new Blob([data], { type: "application/json" });
+        
+                navigator.sendBeacon(url, blob);
+            };
+        
+            window.addEventListener("beforeunload", handleBeforeUnload);
+        
+            return () => {
+                clearTimeout(unlockTimeout); // Annule le timeout si l'utilisateur quitte avant
+                window.removeEventListener("beforeunload", handleBeforeUnload);
+            };
+        }, [userId, idDeclaration]);
+        
+        
 
     useEffect(()=> {
         fetchDataVeroui()

@@ -283,6 +283,17 @@ const Declaration = () => {
           ),
         },
         {
+          title: "Statut",
+          dataIndex: "verrouille_par",
+          key: "verrouille_par",
+          render: (verrouillePar, record) =>
+              verrouillePar ? (
+                  <Tag color="red">Verrouillé par {record.person_veroui}</Tag>
+              ) : (
+                  <Tag color="green">Disponible</Tag>
+              ),
+      },
+        {
           title: 'M² occupe',
           dataIndex: 'm2_occupe',
           key: 'm2_occupe',
