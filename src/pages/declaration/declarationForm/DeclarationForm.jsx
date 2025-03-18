@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PlusCircleOutlined, LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton, Divider, message } from 'antd';
 import './declarationForm.scss';
-import { getDeclarationId, getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, lockDeclaration, postDeclaration, putDeclaration } from '../../../services/templateService';
+import { DelockDeclaration, getDeclarationId, getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, lockDeclaration, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
@@ -197,6 +197,18 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const fetchDataVeroui = async() => {
         try {
             await lockDeclaration(userId,idDeclaration)
+            
+        } catch (error) {
+            notification.error({
+                message: 'Erreur',
+                description: `${error.response.data.message}`,
+            });
+        }
+    }
+
+    const fetchDataDeveroui = async() => {
+        try {
+            await DelockDeclaration(userId,idDeclaration)
             
         } catch (error) {
             notification.error({
