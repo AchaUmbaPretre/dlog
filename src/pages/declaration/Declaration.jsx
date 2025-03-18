@@ -109,7 +109,7 @@ useEffect(() => {
 
       // Nettoyage : Arrêter l'intervalle si le composant est démonté
       return () => clearInterval(interval);
-  }, 100000); // 5 minutes en millisecondes
+  }, 300000); // 5 minutes en millisecondes
 
   // Nettoyage : Arrêter le timeout si le composant est démonté avant les 5 minutes
   return () => clearTimeout(initialTimeout);
@@ -154,7 +154,15 @@ useEffect(() => {
 
     useEffect(() => {
       fetchData();
-    }, [filteredDatas, searchValue]);
+  
+      const intervalId = setInterval(() => {
+        fetchData();
+      }, 5000); // 5000 ms = 5 secondes
+  
+      return () => clearInterval(intervalId);
+    }, [filteredDatas, searchValue]); 
+
+    
 
   const handleMoisAnnee = (idClient, dataMois, annee) => {
       openModal('Mois', '', idClient, dataMois);
@@ -277,7 +285,7 @@ useEffect(() => {
             </Tooltip>
           ),
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
-        },        
+        },       
         {
           title: 'Client',
           dataIndex: 'nom',
@@ -598,14 +606,16 @@ useEffect(() => {
       render: (text, record) => (
         <Space size="middle">
           <Tooltip title={record.verrouille_par ? `Verrouillé par ${record.person_veroui}` : 'Modifier'}>
-          <Button
-            style={{ color: 'green' }}
-            icon={<EditOutlined />}
-            disabled={!!record.verrouille_par}
-            onClick={() => handleUpdateTemplate(record.id_declaration_super)}
-          >
-          </Button>
-
+            <Button
+              style={{ color: 'green' }}
+              icon={<EditOutlined />}
+              disabled={record.verrouille_par && record.verrouille_par !== userId} // Désactive si ce n'est pas l'utilisateur actuel
+              onClick={() => {
+                if (!record.verrouille_par || record.verrouille_par === userId) {
+                  handleUpdateTemplate(record.id_declaration_super);
+                }
+              }}
+            />
           </Tooltip>
           <Tooltip title="Voir les détails">
             <Button
@@ -674,8 +684,8 @@ useEffect(() => {
         </Tooltip>
       ),
       ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
-    },  
-      {
+    },   
+    {
         title: 'Client',
         dataIndex: 'nom',
         key: 'nom',
@@ -752,12 +762,20 @@ useEffect(() => {
       render: (text, record) => (
         <Space size="middle">
           <Tooltip title={record.verrouille_par ? `Verrouillé par ${record.person_veroui}` : 'Modifier'}>
-              <Button
-                  style={{ color: 'green' }}
-                  icon={<EditOutlined />}
-                  disabled={!!record.verrouille_par || !record.can_edit || record.id_statut_decl === 2}
-                  onClick={() => handleUpdateTemplate(record.id_declaration_super)}
-              />
+            <Button
+              style={{ color: 'green' }}
+              icon={<EditOutlined />}
+              disabled={
+                (record.verrouille_par && record.verrouille_par !== userId) || // Désactivé si verrouillé par un autre utilisateur
+                !record.can_edit || 
+                record.id_statut_decl === 2
+              }
+              onClick={() => {
+                if ((!record.verrouille_par || record.verrouille_par === userId) && record.can_edit && record.id_statut_decl !== 2) {
+                  handleUpdateTemplate(record.id_declaration_super);
+                }
+              }}
+            />
           </Tooltip>
 
           <Tooltip title="Voir les détails">
@@ -778,7 +796,7 @@ useEffect(() => {
               >
                 <Button
                   icon={<DeleteOutlined />}
-                  disabled={record.can_delete === 1 || record.id_statut_decl === 2}
+                  disabled={record.can_delete === 0 || record.id_statut_decl === 2}
                   style={{ color: 'red' }}
                   aria-label="Delete client"
                 />
