@@ -170,7 +170,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
             if(idDeclaration) {
                 await putDeclaration(idDeclaration, values);
                 message.success({ content: 'Modification effectuée avec succès.', key: loadingKey });
-
+                unlockDeclaration(idDeclaration);
                 window.location.reload()
             }
             else{
@@ -197,67 +197,113 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         }
     };
 
-    const fetchDataVeroui = async() => {
+    const fetchDataVeroui = async () => {
         try {
-            await lockDeclaration(userId, idDeclaration)
-            
+            await lockDeclaration(userId, idDeclaration);
         } catch (error) {
             notification.error({
                 message: 'Erreur',
-                description: `${error.response.data.message}`,
+                description: error.response?.data?.message || 'Une erreur est survenue',
             });
         }
-    }
-
-    console.log(isEdit)
-/* 
-    const fetchDataDeveroui = async() => {
+    };
+    
+    // Fonction pour déverrouiller la déclaration
+    const unlockDeclaration = async (idDeclaration) => {
         try {
-            await DelockDeclaration(userId,idDeclaration)
-            
-        } catch (error) {
-            notification.error({
-                message: 'Erreur',
-                description: `${error.response.data.message}`,
+            await fetch(`${DOMAIN}/api/template/delock_declaration`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ userId, idDeclaration }),
             });
+        } catch (error) {
+            console.error("Erreur lors du déverrouillage :", error);
         }
-    } */
+    };
 
-        useEffect(() => {
-            if (!userId || !idDeclaration) return;
+    const checkAndUnlockStaleRecords = async () => {
+        try {
+            // 🔹 La durée maximale de verrouillage est de 10 minutes (600 secondes)
+            const maxLockDuration = 600; // 10 minutes en secondes
+            const currentTime = Math.floor(Date.now() / 1000); // Heure actuelle en secondes
+    
+            // 🔹 Récupérer les enregistrements verrouillés depuis plus longtemps que la durée maximale
+            const response = await fetch(`${DOMAIN}/api/template/check_and_unlock`);
+            const lockedRecords = await response.json();
+    
+            // 🔹 Vérifier et déverrouiller les enregistrements
+            lockedRecords.forEach((record) => {
+                const lockTimestamp = Math.floor(new Date(record.verrouille_le).getTime() / 1000); // Convertir en secondes
+                const lockDuration = currentTime - lockTimestamp;
+    
+                if (lockDuration >= maxLockDuration) {
+                    // 🔹 Déverrouiller l'enregistrement si sa durée dépasse le temps maximal (10 minutes)
+                    unlockDeclaration(record.id_declaration_super);
+                }
+            });
+        } catch (error) {
+            console.error("Erreur lors de la vérification des enregistrements verrouillés :", error);
+        }
+    };
+    
+    // 🔹 Appeler la fonction toutes les 5 minutes (300000 ms)
+    setInterval(checkAndUnlockStaleRecords, 300000); // Vérification toutes les 5 minutes
+    
+    
+    const handleBeforeUnload = (event) => {
+        unlockDeclaration(idDeclaration);
         
-            // Déverrouillage automatique après un certain temps (ex: 30 min = 1800000 ms)
-            const unlockTimeout = setTimeout(() => {
-                fetch(`${DOMAIN}/api/template/delock_declaration`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ userId, idDeclaration }),
-                }).catch((error) => console.error("Erreur lors du déverrouillage automatique :", error));
-            }, 18000); // 30 minutes
+        // Optionnel : affiche un message de confirmation avant de quitter
+        event.preventDefault();
+        event.returnValue = "Êtes-vous sûr de vouloir quitter ?";
+    };
+    
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    
+    useEffect(() => {
+        if (!userId || !idDeclaration) return;
+    
+        // Fonction de déverrouillage à utiliser avec visibilitychange et beforeunload
+        const handleUnlock = () => {
+            const url = `${DOMAIN}/api/template/delock_declaration`;
+            const data = JSON.stringify({ userId, idDeclaration });
+            const blob = new Blob([data], { type: "application/json" });
+            navigator.sendBeacon(url, blob);
+        };
+    
+        // 🔹 Déverrouiller lorsqu'on change d'onglet ou ferme la page
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "hidden") {
+                handleUnlock();
+            }
+        };
+    
+        // 🔹 Déverrouiller aussi lors de la fermeture du navigateur
+        window.addEventListener("beforeunload", handleUnlock);
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+    
+        return () => {
+            window.removeEventListener("beforeunload", handleUnlock);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+        };
+    }, [userId, idDeclaration]);
+    
+    
+    // 🔹 Déverrouiller lors de la fermeture du modal
+    const handleCloseModal = () => {
+        if(idDeclaration){
+            unlockDeclaration(idDeclaration);
+        }
+        closeModal();
+    };
+    
         
-            const handleBeforeUnload = () => {
-                const url = `${DOMAIN}/api/template/delock_declaration`;
-                const data = JSON.stringify({ userId, idDeclaration });
-        
-                const blob = new Blob([data], { type: "application/json" });
-        
-                navigator.sendBeacon(url, blob);
-            };
-        
-            window.addEventListener("beforeunload", handleBeforeUnload);
-        
-            return () => {
-                clearTimeout(unlockTimeout); // Annule le timeout si l'utilisateur quitte avant
-                window.removeEventListener("beforeunload", handleBeforeUnload);
-            };
-        }, [userId, idDeclaration]);
-        
-        
-
     useEffect(()=> {
-        fetchDataVeroui()
+        if(idDeclaration){
+            fetchDataVeroui()
+        }
     }, [idDeclaration])
     
     return (
@@ -646,6 +692,14 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                         disabled={isLoading}
                         >
                         {idDeclaration ? 'Modifier' : 'Soumettre'}
+                        </Button>
+                        <Button
+                            onClick={handleCloseModal}
+                            style={{ margin: '10px 10px', background:'red', color:'#fff'}}
+                            loading={isLoading}
+                            disabled={isLoading}
+                        >
+                            Annuler
                         </Button>
                     </Form.Item>
                     </Form>

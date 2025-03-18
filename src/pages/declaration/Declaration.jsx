@@ -13,10 +13,12 @@ import getColumnSearchProps from '../../utils/columnSearchUtils';
 import DeclarationSituationClient from './declarationForm/declarationSituationClient/DeclarationSituationClient';
 import { StatutDeclaration } from './declarationStatut/DeclarationStatut';
 import DeclarationStatutCloture from './declarationStatut/declarationStatutCloture/DeclarationStatutCloture';
+import config from '../../config';
 
 const { Search } = Input;
 
 const Declaration = () => {
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [loading, setLoading] = useState(true);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
@@ -57,7 +59,7 @@ const Declaration = () => {
     pageSize: 25,
   });
   const [activeKey, setActiveKey] = useState(['1', '2']);
-  const [ clientdetail, setClientDetail] = useState([]);
+  const [clientdetail, setClientDetail] = useState([]);
   const [mois, setMois] = useState('');
   const [annee, setAnnee] = useState('')
   
@@ -86,6 +88,32 @@ const Declaration = () => {
       },
     },
   };
+
+  const checkAndUnlockStaleRecords = async () => {
+    try {
+        const response = await fetch(`${DOMAIN}/api/template/check_and_unlock`);
+        const data = await response.json();
+        console.log(`✅ Déverrouillage automatique : ${data.unlockedRecords.length} enregistrements libérés.`);
+    } catch (error) {
+        console.error("❌ Erreur lors de la vérification des enregistrements verrouillés :", error);
+    }
+};
+
+useEffect(() => {
+  // 🔹 Attendre 5 minutes avant le premier appel
+  const initialTimeout = setTimeout(() => {
+      checkAndUnlockStaleRecords();
+
+      // 🔹 Ensuite, répéter toutes les 5 minutes
+      const interval = setInterval(checkAndUnlockStaleRecords, 300000);
+
+      // Nettoyage : Arrêter l'intervalle si le composant est démonté
+      return () => clearInterval(interval);
+  }, 100000); // 5 minutes en millisecondes
+
+  // Nettoyage : Arrêter le timeout si le composant est démonté avant les 5 minutes
+  return () => clearTimeout(initialTimeout);
+}, []);
 
   const fetchData = async () => {
     try {
@@ -228,12 +256,28 @@ const Declaration = () => {
           dataIndex: 'desc_template',
           key: 'desc_template',
           render: (text, record) => (
-            <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>
-              <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
-            </Space>
+            <Tooltip title={record.verrouille_par ? `Verrouillé par ${record.person_veroui}` : ""}>
+              <Space 
+                style={{ 
+                  ...columnStyles.title, 
+                  cursor: record.verrouille_par ? 'not-allowed' : 'pointer', 
+                  opacity: record.verrouille_par ? 0.5 : 1 
+                }} 
+                className={columnStyles.hideScroll} 
+                onClick={() => {
+                  if (!record.verrouille_par) {
+                    handleAddDecl(record.id_declaration_super, record.id_client);
+                  }
+                }}
+              >
+                <Tag icon={<FileTextOutlined />} color="geekblue">
+                  {text ?? 'Aucun'}
+                </Tag>
+              </Space>
+            </Tooltip>
           ),
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
-        },
+        },        
         {
           title: 'Client',
           dataIndex: 'nom',
@@ -282,17 +326,6 @@ const Declaration = () => {
             <StatutDeclaration initialStatus={text} id={record.id_declaration_super} />
           ),
         },
-        {
-          title: "Statut",
-          dataIndex: "verrouille_par",
-          key: "verrouille_par",
-          render: (verrouillePar, record) =>
-              verrouillePar ? (
-                  <Tag color="red">Verrouillé par {record.person_veroui}</Tag>
-              ) : (
-                  <Tag color="green">Disponible</Tag>
-              ),
-      },
         {
           title: 'M² occupe',
           dataIndex: 'm2_occupe',
@@ -564,12 +597,15 @@ const Declaration = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Modifier">
-            <Button
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleUpdateTemplate(record.id_declaration_super)}
-              />
+          <Tooltip title={record.verrouille_par ? `Verrouillé par ${record.person_veroui}` : 'Modifier'}>
+          <Button
+            style={{ color: 'green' }}
+            icon={<EditOutlined />}
+            disabled={!!record.verrouille_par}
+            onClick={() => handleUpdateTemplate(record.id_declaration_super)}
+          >
+          </Button>
+
           </Tooltip>
           <Tooltip title="Voir les détails">
             <Button
@@ -612,17 +648,33 @@ const Declaration = () => {
 
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
-      {
-        title: 'Template',
-        dataIndex: 'desc_template',
-        key: 'desc_template',
-        render: (text, record) => (
-          <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleAddDecl(record.id_declaration_super, record.id_client)}>
-            <Tag icon={<FileTextOutlined />} color="geekblue">{text ?? 'Aucun'}</Tag>
+    {
+      title: 'Template',
+      dataIndex: 'desc_template',
+      key: 'desc_template',
+      render: (text, record) => (
+        <Tooltip title={record.verrouille_par ? `Verrouillé par ${record.person_veroui}` : ""}>
+          <Space 
+            style={{ 
+              ...columnStyles.title, 
+              cursor: record.verrouille_par ? 'not-allowed' : 'pointer', 
+              opacity: record.verrouille_par ? 0.5 : 1 
+            }} 
+            className={columnStyles.hideScroll} 
+            onClick={() => {
+              if (!record.verrouille_par) {
+                handleAddDecl(record.id_declaration_super, record.id_client);
+              }
+            }}
+          >
+            <Tag icon={<FileTextOutlined />} color="geekblue">
+              {text ?? 'Aucun'}
+            </Tag>
           </Space>
-        ),
-        ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
-      },
+        </Tooltip>
+      ),
+      ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
+    },  
       {
         title: 'Client',
         dataIndex: 'nom',
@@ -699,14 +751,15 @@ const Declaration = () => {
       width: '10%',
       render: (text, record) => (
         <Space size="middle">
-          <Tooltip title="Modifier">
-            <Button
-                disabled={!record.can_edit || record.id_statut_decl === 2}
-                icon={<EditOutlined />}
-                style={{ color: 'green' }}
-                onClick={() => handleUpdateTemplate(record.id_declaration_super)}
+          <Tooltip title={record.verrouille_par ? `Verrouillé par ${record.person_veroui}` : 'Modifier'}>
+              <Button
+                  style={{ color: 'green' }}
+                  icon={<EditOutlined />}
+                  disabled={!!record.verrouille_par || !record.can_edit || record.id_statut_decl === 2}
+                  onClick={() => handleUpdateTemplate(record.id_declaration_super)}
               />
           </Tooltip>
+
           <Tooltip title="Voir les détails">
             <Button
               icon={<EyeOutlined />}

@@ -106,6 +106,10 @@ export const lockDeclaration = async (userId, id ) => {
     return axios.post(`${DOMAIN}/api/template/lock_declaration?userId=${userId}&id=${id}`);
   };
 
+export const check_and_unlock = async () => {
+    return axios.post(`${DOMAIN}/api/template/check_and_unlock`);
+  };
+
 export const DelockDeclaration = async (userId, id) => {
     return axios.post(`${DOMAIN}/api/template/delock_declaration?userId=${userId}&id=${id}`);
   };
