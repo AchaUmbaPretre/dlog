@@ -97,8 +97,17 @@ export const postDeclaration = async (data) => {
     return axios.post(`${DOMAIN}/api/template/declaration_superficie`, data);
   };
 
-export const putDeclaration = async (id,data) => {
-    return axios.put(`${DOMAIN}/api/template/declaration_superficie?id_declaration=${id}`, data);
+export const putDeclaration = async (id,data, version) => {
+    return axios.put(`${DOMAIN}/api/template/declaration_superficie?id_declaration=${id}&version=${version}`, data);
+  };
+
+
+export const lockDeclaration = async (userId, id ) => {
+    return axios.post(`${DOMAIN}/api/template/lock_declaration?userId=${userId}&id=${id}`);
+  };
+
+export const DelockDeclaration = async (userId, id) => {
+    return axios.post(`${DOMAIN}/api/template/delock_declaration?userId=${userId}&id=${id}`);
   };
 
 export const deletePutDeclaration = async (id) => {

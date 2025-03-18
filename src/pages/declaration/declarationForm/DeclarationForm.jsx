@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { PlusCircleOutlined, LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton, Divider, message } from 'antd';
 import './declarationForm.scss';
-import { getDeclarationId, getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, postDeclaration, putDeclaration } from '../../../services/templateService';
-import { getClient, getClientPermission, getProvince } from '../../../services/clientService';
+import { getDeclarationId, getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, lockDeclaration, postDeclaration, putDeclaration } from '../../../services/templateService';
+import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -11,8 +11,6 @@ import DeclarationOneClient from '../declarationOneClient/DeclarationOneClient';
 import TemplateForm from '../../template/templateForm/TemplateForm';
 import { useSelector } from 'react-redux';
 
-const { Option } = Select;
-const { TabPane } = Tabs;
 
 const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss, idClients}) => {
     const [form] = Form.useForm();
@@ -131,7 +129,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
     useEffect(() => {
         fetchDataAll()
-    }, [idClient, idDeclarations]);
+    }, [idClient, idDeclarations, idDeclaration]);
 
     const handleTemplateChange = async () => {
         try {
@@ -196,6 +194,22 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
         }
     };
 
+    const fetchDataVeroui = async() => {
+        try {
+            await lockDeclaration(userId,idDeclaration)
+            
+        } catch (error) {
+            notification.error({
+                message: 'Erreur',
+                description: `${error.response.data.message}`,
+            });
+        }
+    }
+
+    useEffect(()=> {
+        fetchDataVeroui()
+    }, [idDeclaration])
+    
     return (
         <div className="declarationForm">
         { role === 'Admin' && (
