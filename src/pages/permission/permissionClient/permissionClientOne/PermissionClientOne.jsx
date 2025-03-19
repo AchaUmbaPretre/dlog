@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
-import { UnlockOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { UnlockOutlined, InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { Table, Tag, Button, Space, Tooltip, Modal } from 'antd';
 import PermissionDeclarationOneClient from '../../permissionDeclaration/permissionDeclarationOneClient/PermissionDeclarationOneClient';
 
@@ -58,7 +58,13 @@ const  PermissionClientOne = ({ idClient }) => {
       dataIndex: 'menu_title',
       key: 'menu_title',
       render: (text, record) => (
-        <Tag color="blue">{`${record.nom} - ${record.prenom}`}</Tag>
+          <Space>
+            <Tag icon={<UserOutlined />} color="blue">
+              {record.nom && record.prenom
+                ? `${record.nom} - ${record.prenom}`
+                : record.nom || record.prenom || 'Aucun'}
+            </Tag>
+          </Space>
       ),
     },
     {

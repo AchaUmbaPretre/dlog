@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
-import { UnlockOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { Table, Tooltip, Space, Button, Modal} from 'antd';
+import { UnlockOutlined, InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { Table, Tooltip, Space, Button, Modal, Tag} from 'antd';
 import { getProvinceOne } from '../../../../services/clientService';
 import PermissionDeclarationOne from '../../permissionDeclaration/permissionDeclarationOne/PermissionDeclarationOne';
 
@@ -59,9 +59,13 @@ const  PermissionDeclaVilleOne = ({ idVille }) => {
       dataIndex: 'menu_title',
       key: 'menu_title',
       render: (text, record) => (
-        <div>
-            {`${record.nom} ${record.prenom}`}
-        </div>
+          <Space>
+            <Tag icon={<UserOutlined />} color="blue">
+              {record.nom && record.prenom
+                ? `${record.nom} - ${record.prenom}`
+                : record.nom || record.prenom || 'Aucun'}
+            </Tag>
+          </Space>
       ),
     },
     {
