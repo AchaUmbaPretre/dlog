@@ -168,7 +168,10 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
         try {
             if(idDeclaration) {
-                await putDeclaration(idDeclaration, values);
+                await putDeclaration(idDeclaration, {
+                    ...values,
+                    user_cr : userId
+                });
                 message.success({ content: 'Modification effectuée avec succès.', key: loadingKey });
                 unlockDeclaration(idDeclaration);
                 window.location.reload()

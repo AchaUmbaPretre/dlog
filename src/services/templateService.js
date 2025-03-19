@@ -114,8 +114,8 @@ export const DelockDeclaration = async (userId, id) => {
     return axios.post(`${DOMAIN}/api/template/delock_declaration?userId=${userId}&id=${id}`);
   };
 
-export const deletePutDeclaration = async (id) => {
-    return axios.put(`${DOMAIN}/api/template/declaration_superficie_delete?id=${id}`);
+export const deletePutDeclaration = async (id, userId) => {
+    return axios.put(`${DOMAIN}/api/template/declaration_superficie_delete?id=${id}`, {user_id:userId});
   };
 
   //Statut declarations

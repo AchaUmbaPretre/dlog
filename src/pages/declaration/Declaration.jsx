@@ -152,7 +152,7 @@ useEffect(() => {
       setFilterVisible(!filterVisible)
     }
 
-    useEffect(() => {
+  useEffect(() => {
       fetchData();
   
       const intervalId = setInterval(() => {
@@ -161,9 +161,7 @@ useEffect(() => {
   
       return () => clearInterval(intervalId);
     }, [filteredDatas, searchValue]); 
-
     
-
   const handleMoisAnnee = (idClient, dataMois, annee) => {
       openModal('Mois', '', idClient, dataMois);
       setMois(dataMois)
@@ -209,7 +207,7 @@ useEffect(() => {
 
   const handleDelete = async (id) => {
     try {
-      await deletePutDeclaration(id)
+      await deletePutDeclaration(id, userId)
       setData(data.filter((item) => item.id_declaration_super !== id));
       message.success('Déclaration deleted successfully');
     } catch (error) {
