@@ -88,19 +88,32 @@ const AuditLogDeclaration = () => {
             </Tag>
           </Space>
         ),    
-      },           
+    },           
     {
-      title: "Date d'actions",
-      dataIndex: 'timestamp',
-      key: 'timestamp',
-      sorter: (a, b) => moment(a.timestamp) - moment(b.timestamp),
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => (
-        <Tag icon={<CalendarOutlined />} color="blue">
-          {moment(text).format('DD-MM-yyyy HH:mm')}
-        </Tag>
-      ),
-    },
+              title: 'Periode',
+              dataIndex: 'timestamp',
+              key: 'timestamp',
+              sorter: (a, b) => moment(a.timestamp) - moment(b.timestamp),
+              sortDirections: ['descend', 'ascend'],
+              render: (text, record) => {
+                const date = text ? new Date(text) : null;
+                const mois = date ? date.getMonth() + 1 : null; // getMonth() renvoie 0-11, donc +1 pour avoir 1-12
+                const annee = date ? date.getFullYear() : null;
+                
+                const formattedDate = date
+                  ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
+                  : 'Aucun';
+            
+                return (
+                  <Tag 
+                    icon={<CalendarOutlined />} 
+                    color="purple" 
+                  >
+                    {formattedDate}
+                  </Tag>
+                );
+              },
+    },  
     {
       title: 'Actions', 
       dataIndex: 'action', 
@@ -131,7 +144,7 @@ const AuditLogDeclaration = () => {
           </Space>
         );
       },
-    },
+    }
   ];
   
 
