@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, notification, Space,Tag } from 'antd';
-import { ClockCircleOutlined, PlusCircleOutlined, AuditOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ApartmentOutlined, UserOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
+import {   PlusCircleOutlined, AuditOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getAuditLog } from '../../../services/tacheService';
 import moment from 'moment';
 
@@ -10,8 +10,6 @@ const AuditLogTache = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [modalType, setModalType] = useState(null);
-  const [idTache, setIdTache] = useState('')
   const scroll = { x: 400 };
   const [pagination, setPagination] = useState({
     current: 1,
