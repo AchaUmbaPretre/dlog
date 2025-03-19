@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Input, notification, Space,Tag } from 'antd';
+import { Table, Input, notification, Tabs, Space,Tag } from 'antd';
 import {   PlusCircleOutlined, AuditOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
 import { getAuditLog } from '../../../services/tacheService';
 import moment from 'moment';
+import TabPane from 'antd/es/tabs/TabPane';
+import AuditLogDeclaration from '../../declaration/auditLogDeclaration/AuditLogDeclaration';
+
 
 const { Search } = Input;
 
@@ -15,8 +18,10 @@ const AuditLogTache = () => {
     current: 1,
     pageSize: 20,
   });
+  const [activeKey, setActiveKey] = useState(['1', '2']);
+  
 
-    const fetchData = async () => {
+  const fetchData = async () => {
       try {
          const { data } = await getAuditLog();
         setData(data);
@@ -29,6 +34,10 @@ const AuditLogTache = () => {
         });
         setLoading(false);
       }
+    };
+  
+  const handleTabChange = (key) => {
+      setActiveKey(key);
     };
 
   useEffect(() => {
@@ -85,16 +94,20 @@ const AuditLogTache = () => {
         </Space>
       ),
     },
-    {   
-      title: 'Nom & Prenom', 
+    {
+      title: 'Nom & Prénom', 
       dataIndex: 'nom', 
       key: 'nom',
-      render: (text, record) => (
+        render: (text, record) => (
         <Space>
-          <Tag icon={<UserOutlined />} color='green'>{ `${record.nom} - ${record.prenom}` ?? 'Aucun'}</Tag>
+          <Tag icon={<UserOutlined />} color="green">
+            {record.nom && record.prenom
+              ? `${record.nom} - ${record.prenom}`
+              : record.nom || record.prenom || 'Aucun'}
+          </Tag>
         </Space>
       ),    
-    },
+    },  
     {
       title: "Date d'actions",
       dataIndex: 'timestamp',
@@ -147,38 +160,79 @@ const AuditLogTache = () => {
 
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <AuditOutlined className='client-icon' />
-            </div>
-            <h2 className="client-h2">Liste des audit logs tache</h2>
-          </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-                <Search 
-                  placeholder="Recherche..." 
-                  enterButton 
-                  onChange={(e) => setSearchValue(e.target.value)}
+      <Tabs
+        activeKey={activeKey[0]}
+        onChange={handleTabChange}
+        type="card"
+        tabPosition="top"
+        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+      >
+        <TabPane
+          tab={
+            <span>
+              <FileTextOutlined
+                style={{
+                  color: '#1890ff',
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+              Log des taches
+            </span>
+          }
+          key="1"
+        >
+          <div className="client">
+            <div className="client-wrapper">
+              <div className="client-row">
+                <div className="client-row-icon">
+                  <AuditOutlined className='client-icon' />
+                </div>
+                <h2 className="client-h2">Liste des audit logs tache</h2>
+              </div>
+              <div className="client-actions">
+                <div className="client-row-left">
+                    <Search 
+                      placeholder="Recherche..." 
+                      enterButton 
+                      onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                </div>
+                <div className="client-rows-right">
+                </div>
+              </div>
+                <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    loading={loading}
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
+                    rowKey="id"
+                    bordered
+                    size="middle"
+                    scroll={scroll}
                 />
             </div>
-            <div className="client-rows-right">
-            </div>
           </div>
-            <Table
-                columns={columns}
-                dataSource={filteredData}
-                loading={loading}
-                pagination={pagination}
-                onChange={(pagination) => setPagination(pagination)}
-                rowKey="id"
-                bordered
-                size="middle"
-                scroll={scroll}
-            />
-        </div>
-      </div>
+        </TabPane>
+        <TabPane
+          tab={
+            <span>
+              <FileTextOutlined
+                style={{
+                  color: 'green',
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+              Log des déclarations
+            </span>
+          }
+          key="2"
+        >
+          <AuditLogDeclaration />
+        </TabPane>
+      </Tabs>
     </>
   );
 };

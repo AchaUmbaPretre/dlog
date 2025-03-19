@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, notification, Space,Tag } from 'antd';
 import {   PlusCircleOutlined, AuditOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
-import { getAuditLog } from '../../../services/tacheService';
 import moment from 'moment';
 import { getAudit_logs_declaration } from '../../../services/templateService';
 
@@ -76,16 +75,20 @@ const AuditLogDeclaration = () => {
         </Space>
       ),
     },
-    {   
-      title: 'Nom & Prenom', 
-      dataIndex: 'nom', 
-      key: 'nom',
-      render: (text, record) => (
-        <Space>
-          <Tag icon={<UserOutlined />} color='green'>{ `${record.nom} - ${record.prenom}` ?? 'Aucun'}</Tag>
-        </Space>
-      ),    
-    },
+    {
+        title: 'Nom & Prénom', 
+        dataIndex: 'nom', 
+        key: 'nom',
+        render: (text, record) => (
+          <Space>
+            <Tag icon={<UserOutlined />} color="green">
+              {record.nom && record.prenom
+                ? `${record.nom} - ${record.prenom}`
+                : record.nom || record.prenom || 'Aucun'}
+            </Tag>
+          </Space>
+        ),    
+      },           
     {
       title: "Date d'actions",
       dataIndex: 'timestamp',
