@@ -248,3 +248,8 @@ export const getMois = async (annee) => {
 export const getAnnee = async () => {
   return axios.get(`${DOMAIN}/api/template/annee`);
 };
+
+//Audit déclaration
+export const getAudit_logs_declaration = async () => {
+  return axios.get(`${DOMAIN}/api/template/audit_logs_declaration`);
+};
