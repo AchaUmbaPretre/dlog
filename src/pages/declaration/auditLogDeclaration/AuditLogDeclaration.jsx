@@ -147,7 +147,7 @@ const AuditLogDeclaration = () => {
             <div className="client-row-icon">
               <AuditOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste des audit logs tache</h2>
+            <h2 className="client-h2">Liste des audit logs déclaration</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
