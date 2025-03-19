@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Input, notification, Switch, Tag, Table } from 'antd';
-import { EyeOutlined, EditOutlined, FormOutlined, UnlockOutlined } from '@ant-design/icons';
+import { Input, notification, Switch, Tag, Table, Space } from 'antd';
+import { EyeOutlined, EditOutlined, FormOutlined, UserOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getPermissionsTache, updatePermissionTache } from '../../../services/permissionService';
 import { getTacheOneV } from '../../../services/tacheService';
@@ -111,7 +111,13 @@ const PermissionTache = ({idTache}) => {
             dataIndex: 'menu_title',
             key: 'menu_title',
             render: (text, record) => (
-                <Tag color="blue">{`${record.nom} - ${record.prenom}`}</Tag>
+                <Space>
+                    <Tag icon={<UserOutlined />} color="green">
+                    {record.nom && record.prenom
+                        ? `${record.nom} - ${record.prenom}`
+                        : record.nom || record.prenom || 'Aucun'}
+                    </Tag>
+                </Space>
             ),
         },
         {

@@ -60,9 +60,15 @@ const PermissionTacheVilleUser = ({ idVille }) => {
             dataIndex: 'menu_title',
             key: 'menu_title',
             render: (text, record) => (
-                <div>{`${record.nom} ${record.prenom}`}</div>
+                <Space>
+                  <Tag icon={<UserOutlined />} color="blue">
+                    {record.nom && record.prenom
+                      ? `${record.nom} - ${record.prenom}`
+                      : record.nom || record.prenom || 'Aucun'}
+                  </Tag>
+                </Space>
             ),
-        },
+          },
         {
             title: 'Action',
             key: 'action',

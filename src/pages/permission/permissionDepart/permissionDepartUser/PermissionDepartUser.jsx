@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
-import { UnlockOutlined, InfoCircleOutlined, ApartmentOutlined } from '@ant-design/icons';
+import { UnlockOutlined, InfoCircleOutlined, UserOutlined, ApartmentOutlined } from '@ant-design/icons';
 import { Table, Tooltip, Space, Button, Modal, Spin, Tag  } from 'antd';
-import { getProvinceOne } from '../../../../services/clientService';
-import PermissionVilleOne from '../../permissionVille/permissionVilleOne/PermissionVilleOne';
 import PermissionDepart from '../PermissionDepart';
 
 const PermissionDepartUser = ({ idDepartement }) => {
     const scroll = { x: 400 };
     const [data, setData] = useState([]);
-    const [title, setTitle] = useState('');
     const [idUser, setIdUser] = useState('');
     const [modalType, setModalType] = useState(null);
-    const [loading, setLoading] = useState(true); // Ajout de loading
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchPermission = async () => {
@@ -56,7 +53,13 @@ const PermissionDepartUser = ({ idDepartement }) => {
             dataIndex: 'menu_title',
             key: 'menu_title',
             render: (text, record) => (
-                <div>{`${record.nom} ${record.prenom}`}</div>
+                <Space>
+                    <Tag icon={<UserOutlined />} color="green">
+                    {record.nom && record.prenom
+                        ? `${record.nom} - ${record.prenom}`
+                        : record.nom || record.prenom || 'Aucun'}
+                    </Tag>
+                </Space>
             ),
         },
         { title: 'Departement', 

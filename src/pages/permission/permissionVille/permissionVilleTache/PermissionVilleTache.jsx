@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getUser } from '../../../../services/userService';
-import { UnlockOutlined, InfoCircleOutlined, EnvironmentOutlined, SafetyOutlined  } from '@ant-design/icons';
+import { UnlockOutlined, InfoCircleOutlined, UserOutlined, EnvironmentOutlined, SafetyOutlined  } from '@ant-design/icons';
 import { Table, Tooltip, Space, Button, Modal, Tag} from 'antd';
 import { getProvinceOne } from '../../../../services/clientService';
 import PermissionVilleOne from '../permissionVilleOne/PermissionVilleOne';
@@ -63,9 +63,13 @@ const  PermissionVilleTache = ({ idVille }) => {
       dataIndex: 'nom',
       key: 'nom',
       render: (text, record) => (
-        <div>
-            {`${record.nom} ${record.prenom}`}
-        </div>
+        <Space>
+          <Tag icon={<UserOutlined />} color="green">
+            {record.nom && record.prenom
+              ? `${record.nom} - ${record.prenom}`
+              : record.nom || record.prenom || 'Aucun'}
+          </Tag>
+        </Space>
       ),
     },
     { title: 'Role', 
