@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Button,Input, Typography, Modal, message, notification, Space, Tag, Tooltip, Popconfirm } from 'antd';
+import { Table, Button,Input, Typography, Modal, message, notification, Space, Tag, Tooltip } from 'antd';
 import { 
-     ApartmentOutlined, ExclamationCircleOutlined, EnvironmentOutlined, RotateLeftOutlined,
+    ApartmentOutlined, ExclamationCircleOutlined, EnvironmentOutlined, RotateLeftOutlined,
     CalendarOutlined, TeamOutlined,DeleteOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
   } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
@@ -161,16 +161,6 @@ const CorbeilleTache = () => {
     
         },
         { 
-          title: 'Fréquence', 
-          dataIndex: 'frequence', 
-          key: 'frequence',
-          render: text => (
-            <Space>
-              <Tag icon={<CalendarOutlined />} color='blue'>{text}</Tag>
-            </Space>
-          )    
-        },
-        { 
           title: 'Ville', 
           dataIndex: 'ville', 
           key: 'ville',
@@ -223,6 +213,16 @@ const CorbeilleTache = () => {
         }
       ];
 
+      
+  const filteredData = data.filter(item =>
+    item.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.owner?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.ville?.toLowerCase().includes(searchValue.toLowerCase())
+
+  );
+
+
   return (
     <>
         <div className="client">
@@ -248,7 +248,7 @@ const CorbeilleTache = () => {
                     <Table
                         id="printableTable"
                         columns={columns}
-                        dataSource={data}
+                        dataSource={filteredData}
                         rowKey="id_tache"
                         size="small"
                         bordered

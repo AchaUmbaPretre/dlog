@@ -13,6 +13,7 @@ import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
   BankOutlined,
+  HddOutlined,
   DropboxOutlined,
   TagsOutlined,
   ScheduleOutlined,
@@ -116,7 +117,8 @@ const SideBar = ({data}) => {
     LockOutlined: <LockOutlined style={{ color: '#ffc069' }} />,
     UserOutlined: <UserOutlined style={{ color: '#000' }} />,
     SolutionOutlined: <SolutionOutlined style={{ color: '#13c2c2' }} />,
-    TeamOutlined: <TeamOutlined style={{ color: '#000' }} />
+    TeamOutlined: <TeamOutlined style={{ color: '#000' }} />,
+    HddOutlined: <HddOutlined style={{ color: '#000' }} />
   };
   
   const renderIcon = (iconName) => {
