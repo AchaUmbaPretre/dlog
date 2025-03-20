@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Table, Button, Input, Typography, Modal, notification, message, Tag, Space, Tooltip, Popconfirm } from 'antd';
 import {  RotateLeftOutlined, ExclamationCircleOutlined, DeleteOutlined, CalendarOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined, UserOutlined } from '@ant-design/icons';
-import { getDeclaration_corbeille, putDeclaration_corbeille } from '../../../services/templateService';
+import { deleteDeclaration, getDeclaration_corbeille, putDeclaration_corbeille } from '../../../services/templateService';
 import { deleteTache } from '../../../services/tacheService';
 const { Search } = Input;
 const { confirm } = Modal;
@@ -51,7 +51,7 @@ const CorbeilleDeclaration = () => {
             icon: null,
             onOk: async () => {
                 try {
-                    await deleteTache(id);
+                    await deleteDeclaration(id);
                     setData((prevData) => prevData.filter((item) => item.id_declaration_super !== id));
                     message.success("Déclaration supprimée avec succès.");
                 } catch (error) {
