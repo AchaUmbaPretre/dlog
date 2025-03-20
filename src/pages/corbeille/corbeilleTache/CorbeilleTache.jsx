@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Button,Input, message, notification, Space, Tag, Tooltip, Popconfirm } from 'antd';
+import { Table, Button,Input, Typography, Modal, message, notification, Space, Tag, Tooltip, Popconfirm } from 'antd';
 import { 
-     ApartmentOutlined,EnvironmentOutlined, RotateLeftOutlined,
+     ApartmentOutlined, ExclamationCircleOutlined, EnvironmentOutlined, RotateLeftOutlined,
     CalendarOutlined, TeamOutlined,DeleteOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
   } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { deletePutTache, getTacheCorbeille, putTacheCorbeille } from '../../../services/tacheService';
+import { deleteTache, getTacheCorbeille, putTacheCorbeille } from '../../../services/tacheService';
 const { Search } = Input;
+const { confirm } = Modal;
+const { Text } = Typography;
 
 
 const CorbeilleTache = () => {
@@ -53,18 +55,39 @@ const CorbeilleTache = () => {
     };
     
 
-      const handleDelete = async (id) => {
-        try {
-           await deletePutTache(id, userId);
-          setData(data.filter((item) => item.id_tache !== id));
-          message.success('Tache a ete supprimée avec succès');
-        } catch (error) {
-          notification.error({
-            message: 'Erreur de suppression',
-            description: 'Une erreur est survenue lors de la suppression du budget.',
-          });
-        }
-      };
+    const showDeleteConfirm = (id) => {
+        confirm({
+            title: (
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <ExclamationCircleOutlined style={{ fontSize: 22, color: "#ff4d4f" }} />
+                    <Text strong style={{ fontSize: 16 }}>Suppression Définitive</Text>
+                </div>
+            ),
+            content: (
+                <Text type="danger" style={{ fontSize: 14 }}>
+                    Cette action est irréversible. Êtes-vous sûr de vouloir supprimer cette tache ?
+                </Text>
+            ),
+            okText: "Oui, supprimer",
+            cancelText: "Annuler",
+            okType: "danger",
+            centered: true,
+            maskClosable: true,
+            icon: null,
+            onOk: async () => {
+                try {
+                    await deleteTache(id);
+                    setData((prevData) => prevData.filter((item) => item.id_declaration_super !== id));
+                    message.success("Déclaration supprimée avec succès.");
+                } catch (error) {
+                    notification.error({
+                        message: "Erreur de suppression",
+                        description: "Une erreur est survenue lors de la suppression de la déclaration.",
+                    });
+                }
+            },
+        });
+    };
 
     const columnStyles = {
         title: {
@@ -186,18 +209,13 @@ const CorbeilleTache = () => {
 
                 {role === 'Admin' ? (
                 <Tooltip title="Supprimer">
-                  <Popconfirm
-                    title="Êtes-vous sûr de vouloir supprimer cette tâche ?"
-                    onConfirm={() => handleDelete(record.id_tache)}
-                    okText="Oui"
-                    cancelText="Non"
-                  >
                     <Button
                       icon={<DeleteOutlined />}
                       style={{ color: 'red' }}
                       aria-label="Supprimer"
+                      onClick={() => showDeleteConfirm(record.id_tache)}
+
                     />
-                  </Popconfirm>
                 </Tooltip>
               ) : null}
               </Space>
