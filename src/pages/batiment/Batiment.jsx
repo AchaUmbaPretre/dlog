@@ -51,7 +51,6 @@ const Batiment = ({datas}) => {
 
   const access = getSubMenuAccessByUrl(currentUrl, datas);
 
-  console.log(access.can_comment  )
   
   const handleDelete = async (id) => {
     try {
