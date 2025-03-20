@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Table, Button,Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton, Alert } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Table, Button,Input, message, notification, Space, Tag, Tooltip, Popconfirm } from 'antd';
 import { 
-     ApartmentOutlined,EnvironmentOutlined, EditOutlined,
+     ApartmentOutlined,EnvironmentOutlined, RotateLeftOutlined,
     CalendarOutlined, TeamOutlined,DeleteOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
   } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { deletePutTache } from '../../../services/tacheService';
+import { deletePutTache, getTacheCorbeille } from '../../../services/tacheService';
 const { Search } = Input;
 
 
@@ -22,9 +22,28 @@ const CorbeilleTache = () => {
     const [searchValue, setSearchValue] = useState('');
     const scroll = { x: 400 };
 
-    const handleEdit = () => {
+    const handleEdit = (id) => {
+    message.info(`La tache a été restauré avec succes`);
 
     }
+
+        const fetchData = async () => {
+          try {
+            const { data } = await getTacheCorbeille();
+            setData(data);
+            setLoading(false);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+            setLoading(false);
+          }
+        };
+    
+      useEffect(() => {
+        fetchData();
+      }, []);
 
       const handleDelete = async (id) => {
         try {
@@ -148,9 +167,9 @@ const CorbeilleTache = () => {
           render: (text, record) => (
       
               <Space size="middle">
-                <Tooltip title="Modifier">
+                <Tooltip title="Restorer">
                   <Button
-                    icon={<EditOutlined />}
+                    icon={<RotateLeftOutlined />}
                     style={{ color: 'green' }}
                     onClick={() => handleEdit(record.id_tache)}
                     aria-label="Edit tache"
