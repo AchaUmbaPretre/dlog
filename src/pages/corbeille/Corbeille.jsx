@@ -3,6 +3,8 @@ import {Tabs } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
 import TabPane from 'antd/es/tabs/TabPane';
+import CorbeilleTache from './corbeilleTache/CorbeilleTache';
+import CorbeilleDeclaration from './corbeilleDeclaration/CorbeilleDeclaration';
 
 
 const Corbeille = () => {
@@ -28,7 +30,7 @@ const Corbeille = () => {
             }
             key="1"
           >
-
+            <CorbeilleTache/>
           </TabPane>
 
           <TabPane
@@ -39,7 +41,7 @@ const Corbeille = () => {
             }
             key="2"
           >
-
+            <CorbeilleDeclaration/>
           </TabPane>
         </Tabs>
     </>
