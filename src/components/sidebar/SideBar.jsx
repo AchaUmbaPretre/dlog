@@ -15,7 +15,10 @@ import {
   BankOutlined,
   DropboxOutlined,
   TagsOutlined,
-  ScheduleOutlined 
+  ScheduleOutlined,
+  DeleteOutlined,
+  ToolOutlined,
+  PushpinOutlined
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -89,6 +92,8 @@ const SideBar = ({data}) => {
     SettingOutlined: <SettingOutlined style={{ color: '#000' }} />,
     ScheduleOutlined: <ScheduleOutlined style={{ color: 'cyan' }} />,
     LogoutOutlined: <LogoutOutlined style={{ color: '#f5222d' }} />,
+    DeleteOutlined: <DeleteOutlined style={{ color: '#f5222d' }} />,
+    ToolOutlined: <ToolOutlined style={{ color: 'cyan' }} />
   };
   
   const renderIcon = (iconName) => {
@@ -120,12 +125,13 @@ const SideBar = ({data}) => {
                 title={<span className="sidebarH3">{menuItem.menu_title}</span>}
               >
                 {menuItem?.subMenus.map(subMenu => (
-                  <Item key={`submenu-${menuItem.menu_id}-${subMenu?.submenu_id}`}>
-                    <Link to={subMenu?.submenu_url} className="sidebarLink" onClick={toggleMenu}>
-                      {subMenu.submenu_title}
-                    </Link>
-                  </Item>
-                ))}
+                <Item key={`submenu-${menuItem.menu_id}-${subMenu?.submenu_id}`} icon={renderIcon(subMenu.submenu_icon)}>
+                  <Link to={subMenu?.submenu_url} className="sidebarLink" onClick={toggleMenu}>
+                    {subMenu.submenu_title}
+                  </Link>
+                </Item>
+              ))}
+
               </SubMenu>
             ) : (
               <Item key={menuItem.menu_id} icon={renderIcon(menuItem.menu_icon)}>
