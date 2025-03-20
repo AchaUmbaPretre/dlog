@@ -1029,7 +1029,7 @@ const handleEdit = (idTache) => {
                   onChange={(pagination) => setPagination(pagination)}
                   loading={loading}
                   scroll={scroll}
-                />;
+                />
               </div>
             </Tabs.TabPane>
             <Tabs.TabPane tab='Vue calendrier' key="1">
