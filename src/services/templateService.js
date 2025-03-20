@@ -261,3 +261,7 @@ export const getDeclaration_corbeille = async (id) => {
 export const putDeclaration_corbeille = async (id) => {
   return axios.put(`${DOMAIN}/api/template/declaration_corbeille?id_declaration=${id}`);
 };
+
+export const deleteDeclaration = async (id) => {
+  return axios.delete(`${DOMAIN}/api/template/declaration_superficie/${id}`);
+};
