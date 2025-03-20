@@ -312,7 +312,12 @@ const CorbeilleDeclaration = () => {
     useEffect(() => {
         fetchData();
     }, []); 
-    
+  
+    const filteredData = data.filter(item =>
+        item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.capital?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())    
+      );
     
   return (
     <>
@@ -337,17 +342,17 @@ const CorbeilleDeclaration = () => {
                 </div>
 
                 <Table
-                        columns={columns}
-                        dataSource={data}
-                        loading={loading}
-                        pagination={pagination}
-                        onChange={(pagination) => setPagination(pagination)}
-                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                        rowKey="id"
-                        bordered
-                        size="small"
-                        scroll={scroll}
-                    />
+                    columns={columns}
+                    dataSource={filteredData}
+                    loading={loading}
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    rowKey="id"
+                    bordered
+                    size="small"
+                    scroll={scroll}
+                />
             </div>
         </div>
     </>
