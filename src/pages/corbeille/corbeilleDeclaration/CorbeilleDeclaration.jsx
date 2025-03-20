@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs, Popover } from 'antd';
-import { MenuOutlined, EditOutlined, PieChartOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined, DownOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined, ScheduleOutlined, PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
-import { getDeclaration_corbeille } from '../../../services/templateService';
+import { Table, Button, Input, notification, message, Tag, Space, Tooltip, Popconfirm } from 'antd';
+import {  RotateLeftOutlined, DeleteOutlined, CalendarOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined, UserOutlined } from '@ant-design/icons';
+import { getDeclaration_corbeille, putDeclaration_corbeille } from '../../../services/templateService';
 const { Search } = Input;
-
 
 const CorbeilleDeclaration = () => {
     const [loading, setLoading] = useState(true);
@@ -16,9 +15,16 @@ const CorbeilleDeclaration = () => {
       });
     const scroll = { x: 400 };
 
-    const handleUpdateTemplate = () => {
-
-    }
+    const handleEdit = async (id) => {
+        try {
+            await putDeclaration_corbeille(id);
+            message.success(`La déclaration a été restaurée avec succès`);
+            fetchData();
+        } catch (error) {
+            message.error("Une erreur est survenue lors de la restauration de la déclaration");
+            console.error(error);
+        }
+    };
 
     const handleDelete = () => {
 
@@ -227,9 +233,9 @@ const CorbeilleDeclaration = () => {
               <Tooltip title={'Restaurer'}>
                 <Button
                   style={{ color: 'green' }}
-                  icon={<EditOutlined />}
+                  icon={<RotateLeftOutlined />}
                   onClick={() => {
-                      handleUpdateTemplate(record.id_declaration_super);        
+                    handleEdit(record.id_declaration_super);        
                   }}
                 />
               </Tooltip>
