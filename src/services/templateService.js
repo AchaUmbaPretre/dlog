@@ -253,3 +253,11 @@ export const getAnnee = async () => {
 export const getAudit_logs_declaration = async () => {
   return axios.get(`${DOMAIN}/api/template/audit_logs_declaration`);
 };
+
+export const getDeclaration_corbeille = async (id) => {
+  return axios.get(`${DOMAIN}/api/template/declaration_corbeille`);
+};
+
+export const putDeclaration_corbeille = async (id) => {
+  return axios.put(`${DOMAIN}/api/template/declaration_corbeille?id_declaration=${id}`);
+};

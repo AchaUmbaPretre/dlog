@@ -6,7 +6,7 @@ import {
   } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { deletePutTache, getTacheCorbeille } from '../../../services/tacheService';
+import { deletePutTache, getTacheCorbeille, putTacheCorbeille } from '../../../services/tacheService';
 const { Search } = Input;
 
 
@@ -22,10 +22,6 @@ const CorbeilleTache = () => {
     const [searchValue, setSearchValue] = useState('');
     const scroll = { x: 400 };
 
-    const handleEdit = (id) => {
-    message.info(`La tache a été restauré avec succes`);
-
-    }
 
         const fetchData = async () => {
           try {
@@ -44,6 +40,18 @@ const CorbeilleTache = () => {
       useEffect(() => {
         fetchData();
       }, []);
+
+      const handleEdit = async (id) => {
+        try {
+            await putTacheCorbeille(id);
+            message.success(`La tâche a été restaurée avec succès`);
+            fetchData();
+        } catch (error) {
+            message.error("Une erreur est survenue lors de la restauration de la tâche");
+            console.error(error);
+        }
+    };
+    
 
       const handleDelete = async (id) => {
         try {
@@ -167,7 +175,7 @@ const CorbeilleTache = () => {
           render: (text, record) => (
       
               <Space size="middle">
-                <Tooltip title="Restorer">
+                <Tooltip title="Restaurer">
                   <Button
                     icon={<RotateLeftOutlined />}
                     style={{ color: 'green' }}
