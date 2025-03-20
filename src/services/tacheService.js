@@ -30,8 +30,13 @@ export const getTache = async (data, id, role) => {
   return axios.post(`${DOMAIN}/api/tache/tache?id_user=${id}&role=${role}`, data);
 };
 
+//Corbeille
 export const getTacheCorbeille = async () => {
   return axios.get(`${DOMAIN}/api/tache/corbeille_tache`);
+};
+
+export const putTacheCorbeille = async (id) => {
+  return axios.put(`${DOMAIN}/api/tache/corbeille_tache?id_tache=${id}`);
 };
 
 export const getTacheAll = async () => {
