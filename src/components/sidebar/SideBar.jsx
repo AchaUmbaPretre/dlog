@@ -18,7 +18,18 @@ import {
   ScheduleOutlined,
   DeleteOutlined,
   ToolOutlined,
-  PushpinOutlined
+  PushpinOutlined,
+  DollarOutlined,
+  CheckSquareOutlined,
+  EnvironmentOutlined,
+  FormOutlined,
+  IdcardOutlined,
+  ShoppingOutlined,
+  UnorderedListOutlined,
+  LockOutlined,
+  UserOutlined,
+  SolutionOutlined,
+  TeamOutlined
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -93,7 +104,19 @@ const SideBar = ({data}) => {
     ScheduleOutlined: <ScheduleOutlined style={{ color: 'cyan' }} />,
     LogoutOutlined: <LogoutOutlined style={{ color: '#f5222d' }} />,
     DeleteOutlined: <DeleteOutlined style={{ color: '#f5222d' }} />,
-    ToolOutlined: <ToolOutlined style={{ color: 'cyan' }} />
+    ToolOutlined: <ToolOutlined style={{ color: 'cyan' }} />,
+    PushpinOutlined: <PushpinOutlined style={{ color: '#f5222d' }} />,
+    DollarOutlined: <DollarOutlined style={{ color: '#722ed1' }} />,
+    CheckSquareOutlined : <CheckSquareOutlined style={{ color: '#13c2c2' }} />,
+    EnvironmentOutlined: <EnvironmentOutlined style={{ color: '#f5222d' }} />,
+    FormOutlined: <FormOutlined style={{ color: '#722ed1' }} />,
+    IdcardOutlined: <IdcardOutlined style={{ color: '#2f54eb' }} />,
+    ShoppingOutlined: <ShoppingOutlined style={{ color: '#13c2c2' }} />,
+    UnorderedListOutlined: <UnorderedListOutlined style={{ color: '#1890ff' }} />,
+    LockOutlined: <LockOutlined style={{ color: '#ffc069' }} />,
+    UserOutlined: <UserOutlined style={{ color: '#000' }} />,
+    SolutionOutlined: <SolutionOutlined style={{ color: '#13c2c2' }} />,
+    TeamOutlined: <TeamOutlined style={{ color: '#000' }} />
   };
   
   const renderIcon = (iconName) => {
