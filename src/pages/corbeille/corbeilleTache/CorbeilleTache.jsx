@@ -219,7 +219,6 @@ const CorbeilleTache = () => {
     item.nom_tache?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.owner?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.ville?.toLowerCase().includes(searchValue.toLowerCase())
-
   );
 
 
