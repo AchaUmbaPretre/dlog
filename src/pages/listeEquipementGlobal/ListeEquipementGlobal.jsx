@@ -31,10 +31,7 @@ const ListeEquipementGlobal = () => {
         setNameBatiment(data[0].nom_batiment)
         setLoading(false);
       } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
+        console.log(error)
         setLoading(false);
       }
     };
