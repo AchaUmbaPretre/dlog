@@ -111,7 +111,6 @@ useEffect(() => {
       return () => clearInterval(interval);
   }, 300000);
 
-  // Nettoyage : Arrêter le timeout si le composant est démonté avant les 5 minutes
   return () => clearTimeout(initialTimeout);
 }, []);
 
