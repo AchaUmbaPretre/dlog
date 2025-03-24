@@ -666,34 +666,36 @@ useEffect(() => {
       title: 'Template',
       dataIndex: 'desc_template',
       key: 'desc_template',
-      render: (text, record) => (
-        <Tooltip title={record.verrouille_par ? `Verrouillé par ${record.person_veroui}` : ""}>
-          <Space 
-            style={{ 
-              ...columnStyles.title, 
-              cursor: record.verrouille_par ? 'not-allowed' : 'pointer', 
-              opacity: record.verrouille_par ? 0.5 : 1,
-              pointerEvents: record.verrouille_par ? 'none' : 'auto' // Désactive l'interaction
-            }} 
-            className={columnStyles.hideScroll} 
-            onClick={() => {
-              if (!record.verrouille_par) {
-                handleAddDecl(record.id_declaration_super, record.id_client);
-              }
-            }}
-          >
-            {record.verrouille_par ? (
-              <div style={{ display: 'flex', alignItems:'center', justifyContent:'center'}}>
-                <BeatLoader size={16} color="#1890ff" />
-              </div>
-            ) : (
-              <Tag icon={<FileTextOutlined />} color="geekblue">
-                {text ?? 'Aucun'}
-              </Tag>
-            )}
-          </Space>
-        </Tooltip>
-      ),
+      render: (text, record) => {
+        const isLockedByAnotherUser = record.verrouille_par && record.verrouille_par !== userId;
+    
+        return (
+          <Tooltip title={isLockedByAnotherUser ? `Verrouillé par ${record.person_veroui}` : ""}>
+            <Space 
+              style={{ 
+                ...columnStyles.title, 
+                cursor: isLockedByAnotherUser ? 'not-allowed' : 'pointer', 
+                opacity: isLockedByAnotherUser ? 0.5 : 1,
+                pointerEvents: isLockedByAnotherUser ? 'none' : 'auto' // Désactive uniquement si c'est verrouillé par un autre utilisateur
+              }} 
+              className={columnStyles.hideScroll} 
+              onClick={() => {
+                if (!isLockedByAnotherUser) {
+                  handleAddDecl(record.id_declaration_super, record.id_client);
+                }
+              }}
+            >
+              {isLockedByAnotherUser ? (
+                <BeatLoader size={10} color="#1890ff" />
+              ) : (
+                <Tag icon={<FileTextOutlined />} color="geekblue">
+                  {text ?? 'Aucun'}
+                </Tag>
+              )}
+            </Space>
+          </Tooltip>
+        );
+      },
       ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
     },   
     {
