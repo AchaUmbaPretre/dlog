@@ -398,7 +398,7 @@ const Template = ({datas}) => {
             <span>
               <SnippetsOutlined
                 style={{
-                  color: '#52c41a', // Vert pour les templates
+                  color: '#52c41a',
                   fontSize: '18px',
                   marginRight: '8px',
                 }}
