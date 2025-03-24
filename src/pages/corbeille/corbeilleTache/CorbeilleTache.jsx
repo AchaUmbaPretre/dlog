@@ -11,7 +11,6 @@ const { Search } = Input;
 const { confirm } = Modal;
 const { Text } = Typography;
 
-
 const CorbeilleTache = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -220,7 +219,6 @@ const CorbeilleTache = () => {
     item.owner?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.ville?.toLowerCase().includes(searchValue.toLowerCase())
   );
-
 
   return (
     <>
