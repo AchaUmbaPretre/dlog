@@ -252,7 +252,6 @@ useEffect(() => {
 
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
-    // Groupe Entreposage
     {
       title: 'Entreposage',
       children: [
@@ -449,9 +448,7 @@ useEffect(() => {
           ...(columnsVisibility['TTC Entr'] ? {} : { className: 'hidden-column' }),
         },
       ]
-    },
-  
-    // Groupe Manutention
+    },  
     {
       title: 'Manutention',
       children: [
