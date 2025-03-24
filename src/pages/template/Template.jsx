@@ -50,7 +50,7 @@ const Template = ({datas}) => {
     setActiveKey(key);
   };
 
-    const fetchData = async () => {
+  const fetchData = async () => {
 
       try {
         const { data } = await getTemplate(role, userId);
