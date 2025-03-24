@@ -52,7 +52,7 @@ const Declaration = () => {
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
-  const role = useSelector((state) => state.user?.currentUser.role);
+  const role = useSelector((state) => state.user?.currentUser?.role);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [statistique, setStatistique] = useState([]);
   const [pagination, setPagination] = useState({

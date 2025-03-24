@@ -70,7 +70,7 @@ const Taches = () => {
   const [statistique, setStatistique] = useState([]);
   const [total, setTotal] = useState([]);
   const searchInput = useRef(null);
-  const role = useSelector((state) => state.user?.currentUser.role);
+  const role = useSelector((state) => state.user?.currentUser?.role);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [permissions, setPermissions] = useState({});
   const handleDoubleClick = (record) => {

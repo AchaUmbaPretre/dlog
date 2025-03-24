@@ -59,7 +59,7 @@ import Corbeille from './pages/corbeille/Corbeille';
 function App() {
   const [loading, setLoading] = useState(true);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-  const role = useSelector((state) => state.user?.currentUser.role);
+  const role = useSelector((state) => state.user?.currentUser?.role);
   const [data, setData] = useState([]);
 
 
