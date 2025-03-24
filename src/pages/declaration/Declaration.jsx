@@ -14,6 +14,7 @@ import DeclarationSituationClient from './declarationForm/declarationSituationCl
 import { StatutDeclaration } from './declarationStatut/DeclarationStatut';
 import DeclarationStatutCloture from './declarationStatut/declarationStatutCloture/DeclarationStatutCloture';
 import config from '../../config';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const { Search } = Input;
 
@@ -267,7 +268,8 @@ useEffect(() => {
                 style={{ 
                   ...columnStyles.title, 
                   cursor: record.verrouille_par ? 'not-allowed' : 'pointer', 
-                  opacity: record.verrouille_par ? 0.5 : 1 
+                  opacity: record.verrouille_par ? 0.5 : 1,
+                  pointerEvents: record.verrouille_par ? 'none' : 'auto' // Désactive l'interaction
                 }} 
                 className={columnStyles.hideScroll} 
                 onClick={() => {
@@ -276,14 +278,20 @@ useEffect(() => {
                   }
                 }}
               >
-                <Tag icon={<FileTextOutlined />} color="geekblue">
-                  {text ?? 'Aucun'}
-                </Tag>
+                {record.verrouille_par ? (
+                  <div style={{ display: 'flex', alignItems:'center', justifyContent:'center', width:'100%'}}>
+                    <BeatLoader size={16} color="#1890ff" />
+                  </div>
+                ) : (
+                  <Tag icon={<FileTextOutlined />} color="geekblue">
+                    {text ?? 'Aucun'}
+                  </Tag>
+                )}
               </Space>
             </Tooltip>
           ),
           ...(columnsVisibility['Template'] ? {} : { className: 'hidden-column' }),
-        },       
+        },      
         {
           title: 'Client',
           dataIndex: 'nom',
@@ -666,7 +674,8 @@ useEffect(() => {
             style={{ 
               ...columnStyles.title, 
               cursor: record.verrouille_par ? 'not-allowed' : 'pointer', 
-              opacity: record.verrouille_par ? 0.5 : 1 
+              opacity: record.verrouille_par ? 0.5 : 1,
+              pointerEvents: record.verrouille_par ? 'none' : 'auto' // Désactive l'interaction
             }} 
             className={columnStyles.hideScroll} 
             onClick={() => {
@@ -675,9 +684,15 @@ useEffect(() => {
               }
             }}
           >
-            <Tag icon={<FileTextOutlined />} color="geekblue">
-              {text ?? 'Aucun'}
-            </Tag>
+            {record.verrouille_par ? (
+              <div style={{ display: 'flex', alignItems:'center', justifyContent:'center'}}>
+                <BeatLoader size={16} color="#1890ff" />
+              </div>
+            ) : (
+              <Tag icon={<FileTextOutlined />} color="geekblue">
+                {text ?? 'Aucun'}
+              </Tag>
+            )}
           </Space>
         </Tooltip>
       ),
