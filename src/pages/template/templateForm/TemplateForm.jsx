@@ -52,8 +52,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
                 const [niveauData, denominationData] = await Promise.all([
                     getNiveauOne(idBatiment),
                     getDenominationOne(idBatiment),
-/*                     getWHSEFACTOne(idBatiment)
- */                ]);
+                ]);
                 setNiveau(niveauData.data);
                 setDenomination(denominationData.data);
             }
