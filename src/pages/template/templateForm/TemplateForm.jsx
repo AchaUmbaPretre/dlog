@@ -85,7 +85,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
         form.resetFields()
       }, [form]);
 
-      const handleTemplateChange = async () => {
+    const handleTemplateChange = async () => {
         try {
             const { data} = await getTemplateOne(idTemplate);
         
