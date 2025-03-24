@@ -30,7 +30,6 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const navigate = useNavigate();
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
-
     const fetchDataAll = async () => {
         setIsLoading(true);
         try {
@@ -69,7 +68,6 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     const handlDenom = () => openModal('AddDenom');
     const handlContrat = () => openModal('AddContrat');
 
-
     const closeAllModals = () => {
         setModalType(null);
       };
@@ -81,7 +79,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     useEffect(() => {
         fetchDataAll();
           // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idBatiment, ]);
+    }, [idBatiment ]);
 
     useEffect(() => {
         form.resetFields()
