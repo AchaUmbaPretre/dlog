@@ -9,13 +9,10 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [formValues, setFormValues] = useState({});
     const [data, setData] = useState([]);
     const [types, setTypes] = useState([]);
-
-
+    
     const showConfirm = (values) => {
-        setFormValues(values); 
         setIsModalVisible(true);
     };
 

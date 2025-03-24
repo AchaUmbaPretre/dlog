@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Input, message, notification, Tag, Button, Dropdown, Modal } from 'antd';
+import { Table, Input, message, notification, Tag, Button, Modal } from 'antd';
 import { BankOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
 import AdresseForm from './adresseForm/AdresseForm';
