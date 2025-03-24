@@ -105,12 +105,11 @@ useEffect(() => {
   const initialTimeout = setTimeout(() => {
       checkAndUnlockStaleRecords();
 
-      // 🔹 Ensuite, répéter toutes les 5 minutes
       const interval = setInterval(checkAndUnlockStaleRecords, 300000);
 
       // Nettoyage : Arrêter l'intervalle si le composant est démonté
       return () => clearInterval(interval);
-  }, 300000); // 5 minutes en millisecondes
+  }, 300000);
 
   // Nettoyage : Arrêter le timeout si le composant est démonté avant les 5 minutes
   return () => clearTimeout(initialTimeout);
