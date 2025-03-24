@@ -20,9 +20,7 @@ const Departement = ({datas}) => {
     pageSize: 20,
   });
   const currentUrl = window.location.pathname;
-
   const access = getSubMenuAccessByUrl(currentUrl, datas);
-  
 
   const handleEdit = (record) => {
     message.info(`Modifier departement: ${record.nom}`);
@@ -75,7 +73,6 @@ const Departement = ({datas}) => {
   };
 
   const handleExportPDF = () => {
-    // Logic to export data to PDF
     message.success('Exporting to PDF...');
   };
 
