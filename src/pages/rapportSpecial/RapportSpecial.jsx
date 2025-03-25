@@ -64,7 +64,7 @@ const RapportSpecial = () => {
               visible={modalType === 'Add'}
               onCancel={closeAllModals}
               footer={null}
-              width={1100}
+              width={1000}
               centered
           >
             <RapportSpecialForm  />
