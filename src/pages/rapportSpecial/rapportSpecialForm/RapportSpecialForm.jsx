@@ -33,6 +33,9 @@ const RapportSpecialForm = () => {
                             <InputNumber min={0} style={{ width: '100%' }} placeholder="Entreposage" />
                         </Form.Item>
                     </Col>
+
+                    <Divider  style={{ fontSize:'16px', fontWeight:'600', color:'#1890ff', marginBottom :'16px', border:'1px solid #1890ff', borderRadius:'5px', padding:'4px'}} className='title_row' orientation="Center" plain>TRANSPORT NRJ</Divider>
+
                 </Row>
             </Form>
         </div>
