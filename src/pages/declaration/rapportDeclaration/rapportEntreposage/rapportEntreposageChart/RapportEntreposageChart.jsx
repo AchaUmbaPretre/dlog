@@ -1,99 +1,170 @@
-import React, { useEffect, useRef } from "react";
-import * as echarts from "echarts";
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
+import React, { useRef, useState } from 'react';
+import moment from 'moment';
+import { ResponsiveLine } from '@nivo/line';
+import { Button } from 'antd';
+import { FileExcelOutlined, FileWordOutlined, CameraOutlined } from '@ant-design/icons';
+import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas';
+import ExcelJS from 'exceljs';
+import { Document, Packer, Paragraph, TextRun, ImageRun } from 'docx';
 
-/**
- * Composant RapportEntreposageChart
- * Affiche un graphique interactif avec exportation native (Image, Excel, Word).
- * 
- * @param {Array} groupedData - Données groupées par client.
- * @param {Array} uniqueMonths - Mois uniques pour l'axe X.
- * @returns {JSX.Element} - Le composant du graphique.
- */
 const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
   const chartRef = useRef(null);
-  const chartInstance = useRef(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!chartRef.current) return;
-
-    chartInstance.current = echarts.init(chartRef.current);
-
-    // Génération des données pour ECharts
-    const seriesData = groupedData.map(client => ({
-      name: client.Client,
-      type: "line",
-      smooth: true,
-      data: uniqueMonths.map(month => client[month] || 0),
-    }));
-
-    const option = {
-      title: { text: "Rapport Entreposage", left: "center" },
-      tooltip: { trigger: "axis" },
-      legend: { data: groupedData.map(client => client.Client), bottom: 0 },
-      xAxis: { type: "category", data: uniqueMonths },
-      yAxis: { type: "value" },
-      series: seriesData,
-    };
-
-    chartInstance.current.setOption(option);
-
-    return () => chartInstance.current.dispose();
-  }, [groupedData, uniqueMonths]);
-
-  /** 📷 Exporter le graphique en image (PNG) */
-  const exportAsImage = () => {
-    const chart = chartInstance.current;
-    if (!chart) return;
-
-    const imageURL = chart.getDataURL({ type: "png", pixelRatio: 2, backgroundColor: "#fff" });
-    const link = document.createElement("a");
-    link.href = imageURL;
-    link.download = "rapport_entreposage.png";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const captureChartAsImage = (callback) => {
+    if (chartRef.current) {
+      html2canvas(chartRef.current).then(canvas => {
+        canvas.toBlob(blob => {
+          if (callback) callback(blob, canvas);
+        });
+      });
+    }
   };
 
-  /** 📊 Exporter les données en Excel */
-  const exportAsExcel = () => {
-    const data = groupedData.map(client => ({
-      Client: client.Client,
-      ...uniqueMonths.reduce((acc, month) => {
-        acc[month] = client[month] || 0;
-        return acc;
-      }, {}),
-    }));
+  const exportToWord = () => {
+    setLoading(true);
+    captureChartAsImage((blob) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(blob);
+      reader.onloadend = () => {
+        const imageBuffer = reader.result;
+        const doc = new Document({
+          sections: [
+            {
+              children: [
+                new Paragraph({ children: [new TextRun({ text: "Rapport d'Entreposage", bold: true, size: 28 })] }),
+                new Paragraph({
+                  children: [
+                    new ImageRun({
+                      data: imageBuffer,
+                      transformation: { width: 600, height: 300 },
+                    }),
+                  ],
+                }),
+              ],
+            },
+          ],
+        });
 
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Rapport Entreposage");
-    XLSX.writeFile(workbook, "rapport_entreposage.xlsx");
+        Packer.toBlob(doc).then(blob => {
+          saveAs(blob, "RapportEntreposage.docx");
+          setLoading(false);
+        });
+      };
+    });
   };
 
-  /** 📝 Exporter en Word */
-  const exportAsWord = () => {
-    const textContent = `Rapport Entreposage\n\n` + groupedData.map(client => 
-      `Client: ${client.Client}\n` +
-      uniqueMonths.map(month => `${month}: ${client[month] || 0}`).join("\n")
-    ).join("\n\n");
+  const exportToExcel = () => {
+    setLoading(true);
+    captureChartAsImage((blob, canvas) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(blob);
+      reader.onloadend = async () => {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Rapport Entreposage");
+        worksheet.getCell("A1").value = "Rapport Entreposage";
+        worksheet.getCell("A1").font = { bold: true, size: 14 };
+        worksheet.getRow(1).height = 20;
+        worksheet.getColumn(1).width = 40;
 
-    const blob = new Blob([textContent], { type: "application/msword" });
-    saveAs(blob, "rapport_entreposage.doc");
+        const imageId = workbook.addImage({ buffer: reader.result, extension: 'png' });
+        worksheet.addImage(imageId, { tl: { col: 0, row: 2 }, ext: { width: canvas.width / 2, height: canvas.height / 2 } });
+
+        const buffer = await workbook.xlsx.writeBuffer();
+        saveAs(new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "RapportEntreposage.xlsx");
+        setLoading(false);
+      };
+    });
   };
 
   return (
-    <div style={{ width: "100%", textAlign: "center" }}>
-      {/* Boutons d'exportation */}
-      <div style={{ marginBottom: "15px" }}>
-        <button onClick={exportAsImage} style={{ marginRight: "10px" }}>📷 Exporter en Image</button>
-        <button onClick={exportAsExcel} style={{ marginRight: "10px" }}>📊 Exporter en Excel</button>
-        <button onClick={exportAsWord}>📝 Exporter en Word</button>
+    <div style={{ width: '100%', textAlign: 'center' }}>
+      <h2 style={{ fontSize: '1.25rem', fontWeight: '300', marginBottom: '15px', borderBottom: '2px solid #e8e8e8', paddingBottom: '10px' }}>
+        Rapport Entreposage
+      </h2>
+
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        gap: '12px', 
+        marginBottom: '20px', 
+        padding: '15px', 
+        borderRadius: '10px',
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' 
+      }}>
+        <Button 
+          type="primary" 
+          icon={<FileExcelOutlined />} 
+          onClick={exportToExcel} 
+          loading={loading} 
+          style={{ 
+            fontSize: '16px', 
+            padding: '12px 24px', 
+            backgroundColor: '#28a745', // Vert Excel
+            borderColor: '#28a745',
+            color: '#fff'
+          }}
+        >
+          Exporter Excel
+        </Button>
+
+        <Button 
+          type="primary" 
+          icon={<FileWordOutlined />} 
+          onClick={exportToWord} 
+          loading={loading} 
+          style={{ 
+            fontSize: '16px', 
+            padding: '12px 24px', 
+            backgroundColor: '#007bff', // Bleu Word
+            borderColor: '#007bff',
+            color: '#fff'
+          }}
+        >
+          Exporter Word
+        </Button>
+
+        <Button 
+          type="primary" 
+          icon={<CameraOutlined />} 
+          onClick={() => captureChartAsImage(blob => saveAs(blob, "RapportEntreposage.png"))} 
+          style={{ 
+            fontSize: '16px', 
+            padding: '12px 24px', 
+            backgroundColor: '#ff9800', // Orange Image
+            borderColor: '#ff9800',
+            color: '#fff'
+          }}
+        >
+          Exporter Image
+        </Button>
       </div>
 
-      {/* Graphique */}
-      <div ref={chartRef} style={{ width: "100%", height: "400px" }}></div>
+
+      <div ref={chartRef} style={{ height: 400, background: "white", padding: 10 }}>
+        <ResponsiveLine
+          data={groupedData.map(client => ({
+            id: client.Client,
+            data: uniqueMonths.map(month => ({
+              x: moment(month, "M-YYYY").format("MMM YYYY"),
+              y: client[moment(month, "M-YYYY").format("MMM-YYYY")] || 0
+            }))
+          }))}
+          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          xScale={{ type: 'point' }}
+          yScale={{ type: 'linear', stacked: false, min: 'auto', max: 'auto' }}
+          curve="monotoneX"
+          axisBottom={{ orient: 'bottom', legend: 'Mois', legendOffset: 36 }}
+          axisLeft={{ orient: 'left', legend: 'Montant', legendOffset: -40 }}
+          pointSize={10}
+          pointColor={{ from: 'serieColor' }}
+          pointBorderWidth={2}
+          pointBorderColor={{ from: 'serieColor' }}
+          enableSlices="x"
+          useMesh={true}
+        />
+      </div>
     </div>
   );
 };
