@@ -35,7 +35,55 @@ const RapportSpecialForm = () => {
                     </Col>
 
                     <Divider  style={{ fontSize:'16px', fontWeight:'600', color:'#1890ff', marginBottom :'16px', border:'1px solid #1890ff', borderRadius:'5px', padding:'4px'}} className='title_row' orientation="Center" plain>TRANSPORT NRJ</Divider>
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                            name="teu"
+                            label="TEU"
+                            rules={[{ required: false, message: "Veuillez entrer le teu" }]}
+                        >
+                            <InputNumber min={0} style={{ width: '100%' }} placeholder="teu" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                        </Form.Item>
+                    </Col>
 
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                            name="lourd"
+                            label="20' LOURDS"
+                            rules={[{ required: false, message: "Veuillez entrer le 20' LOURDS" }]}
+                        >
+                            <InputNumber min={0} style={{ width: '100%' }} placeholder="20' LOURDS" />
+                        </Form.Item>
+                    </Col>
+
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                            name="tonnage"
+                            label="Tonnage"
+                            rules={[{ required: false, message: "Veuillez entrer la Tonnage" }]}
+                        >
+                            <InputNumber min={0} style={{ width: '100%' }} placeholder="tonnage" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                        </Form.Item>
+                    </Col>
+
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                            name="entreposage"
+                            label="Entreposage"
+                            rules={[{ required: false, message: "Veuillez entrer l'Entreposage" }]}
+                        >
+                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Entreposage" />
+                        </Form.Item>
+                    </Col>
+
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                            name="entreposage"
+                            label="Entreposage"
+                            rules={[{ required: false, message: "Veuillez entrer l'Entreposage" }]}
+                        >
+                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Entreposage" />
+                        </Form.Item>
+                    </Col>
                 </Row>
             </Form>
         </div>
