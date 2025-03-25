@@ -30,7 +30,8 @@ import {
   LockOutlined,
   UserOutlined,
   SolutionOutlined,
-  TeamOutlined
+  TeamOutlined,
+  AuditOutlined 
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -118,7 +119,8 @@ const SideBar = ({data}) => {
     UserOutlined: <UserOutlined style={{ color: '#000' }} />,
     SolutionOutlined: <SolutionOutlined style={{ color: '#13c2c2' }} />,
     TeamOutlined: <TeamOutlined style={{ color: '#000' }} />,
-    HddOutlined: <HddOutlined style={{ color: '#000' }} />
+    HddOutlined: <HddOutlined style={{ color: '#000' }} />,
+    AuditOutlined : <AuditOutlined style={{ color: '#2f54eb' }} />,
   };
   
   const renderIcon = (iconName) => {

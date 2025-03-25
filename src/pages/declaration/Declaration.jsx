@@ -912,7 +912,6 @@ useEffect(() => {
                   </div>
 
                   <div className="client-rows-right">
-
                     <Button
                       type="primary"
                       icon={<PlusCircleOutlined />}

@@ -55,6 +55,7 @@ import AuditLogsTache from './pages/taches/auditLogsTache/AuditLogsTache';
 import Contrat from './pages/contrat/Contrat';
 import RapportDeclaration from './pages/declaration/rapportDeclaration/RapportDeclaration';
 import Corbeille from './pages/corbeille/Corbeille';
+import RapportSpecial from './pages/rapportSpecial/RapportSpecial';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -287,6 +288,10 @@ function App() {
           path: '/corbeille',
           element: <Corbeille/>
         },
+        {
+          path: '/rapport_special',
+          element: <RapportSpecial/>
+        }
       ]
     },
     { path: '/login', element: <Login /> },
