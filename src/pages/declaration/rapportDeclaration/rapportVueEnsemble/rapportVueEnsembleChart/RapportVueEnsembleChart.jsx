@@ -1,8 +1,85 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { FileExcelOutlined, FileWordOutlined, CameraOutlined } from '@ant-design/icons'
 import { ResponsiveBar } from '@nivo/bar';
 import moment from 'moment';
+import { saveAs } from 'file-saver';
+import { Button } from 'antd';
+import html2canvas from 'html2canvas';
+import ExcelJS from 'exceljs';
+import { Document, Packer, Paragraph, TextRun, ImageRun } from 'docx';
 
 const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
+  const chartRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+    
+  const captureChartAsImage = (callback) => {
+    if (chartRef.current) {
+      html2canvas(chartRef.current).then(canvas => {
+        canvas.toBlob(blob => callback && callback(blob, canvas));
+      });
+    }
+  };
+
+  const exportToWord = async () => {
+    setLoading(true);
+    captureChartAsImage((blob) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(blob);
+      reader.onloadend = async () => {
+        try {
+          const imageBuffer = reader.result;
+          const doc = new Document({
+            sections: [{
+              children: [
+                new Paragraph({ 
+                  children: [new TextRun({ text: "Rapport ville", bold: true, size: 28 })] 
+                }),
+                new Paragraph({
+                  children: [new ImageRun({ data: imageBuffer, transformation: { width: 600, height: 300 } })],
+                }),
+              ],
+            }],
+          });
+
+          const wordBlob = await Packer.toBlob(doc);
+          saveAs(wordBlob, "RapportVille.docx");
+        } catch (error) {
+          console.error("Erreur export Word:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+    });
+  };
+
+  const exportToExcel = async () => {
+    setLoading(true);
+    captureChartAsImage((blob, canvas) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(blob);
+      reader.onloadend = async () => {
+        try {
+          const workbook = new ExcelJS.Workbook();
+          const worksheet = workbook.addWorksheet("Rapport ville");
+          worksheet.getCell("A1").value = "Rapport Ville";
+          worksheet.getCell("A1").font = { bold: true, size: 14 };
+          worksheet.getRow(1).height = 20;
+          worksheet.getColumn(1).width = 40;
+
+          const imageId = workbook.addImage({ buffer: reader.result, extension: 'png' });
+          worksheet.addImage(imageId, { tl: { col: 0, row: 2 }, ext: { width: canvas.width / 2, height: canvas.height / 2 } });
+
+          const buffer = await workbook.xlsx.writeBuffer();
+          saveAs(new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "RapportVille.xlsx");
+        } catch (error) {
+          console.error("Erreur export Excel:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+    });
+  };
+
   const formatDataForNivo = (data) => {
     if (!Array.isArray(data) || data.length === 0) return [];
   
@@ -36,7 +113,6 @@ const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
   
     return nivoData;
   };
-  
 
   let nivoData = formatDataForNivo(groupedData);
 
@@ -63,6 +139,13 @@ const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
       <h2 style={{ fontSize: '1rem', fontWeight: '300', marginBottom: '15px', borderBottom: '2px solid #e8e8e8', paddingBottom: '10px' }}>
         RAPPORT CHART DES VILLES
       </h2>
+
+      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '12px', marginBottom: '20px', padding: '15px', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
+        <Button type="primary" icon={<FileExcelOutlined />} onClick={exportToExcel} loading={loading} style={{ fontSize: '16px', padding: '12px 24px', backgroundColor: '#28a745', borderColor: '#28a745', color: '#fff' }} />
+        <Button type="primary" icon={<FileWordOutlined />} onClick={exportToWord} loading={loading} style={{ fontSize: '16px', padding: '12px 24px', backgroundColor: '#007bff', borderColor: '#007bff', color: '#fff' }} />
+        <Button type="primary" icon={<CameraOutlined />} onClick={() => captureChartAsImage(blob => saveAs(blob, "RapportFacture.png"))} style={{ fontSize: '16px', padding: '12px 24px', backgroundColor: '#ff9800', borderColor: '#ff9800', color: '#fff' }} />
+      </div>
+
       <div style={{ height: 400 }}>
         <ResponsiveBar
           data={nivoData}
