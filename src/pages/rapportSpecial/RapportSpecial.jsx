@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Modal, Button, Input } from 'antd';
+import { Modal, Button, Input } from 'antd';
 import { AuditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
 
@@ -17,7 +17,7 @@ const RapportSpecial = () => {
         setModalType(null);
       };
       
-      const openModal = (type, idDeclaration = '') => {
+    const openModal = (type, idDeclaration = '') => {
         closeAllModals();
         setModalType(type);
       };
