@@ -83,6 +83,7 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
       <h2 style={{ fontSize: '1.25rem', fontWeight: '300', marginBottom: '15px', borderBottom: '2px solid #e8e8e8', paddingBottom: '10px' }}>
         Rapport Entreposage
       </h2>
+      
       <div style={{ 
         display: 'flex', 
         justifyContent: 'flex-start', 
