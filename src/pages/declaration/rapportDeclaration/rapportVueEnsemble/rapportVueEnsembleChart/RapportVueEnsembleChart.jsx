@@ -12,7 +12,6 @@ const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
   const chartRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
-  /** Capture le graphique sous forme d'image */
   const captureChartAsImage = async (callback) => {
     if (!chartRef.current) return;
 

@@ -113,7 +113,7 @@ const RapportTemplateLine = ({ groupedData, uniqueMonths, selectedField }) => {
     };
 
   return (
-    <div style={{ height: 600 }}>
+    <div style={{ height: 500 }}>
       <h2 style={{ textAlign: 'center', marginBottom: '10px', fontSize: '1.3rem', color: '#333', fontWeight: '600' }}>
         📈 Rapport des templates
       </h2>
@@ -127,7 +127,7 @@ const RapportTemplateLine = ({ groupedData, uniqueMonths, selectedField }) => {
         </Button>
       </div>
 
-      <div style={{ height: '500px' }} ref={chartRef}>
+      <div style={{ height: '400px' }} ref={chartRef}>
         <ResponsiveLine
           data={chartData}
           margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
