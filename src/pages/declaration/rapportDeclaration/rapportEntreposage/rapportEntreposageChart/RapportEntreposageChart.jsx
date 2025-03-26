@@ -86,7 +86,7 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
 
       <div style={{ 
         display: 'flex', 
-        justifyContent: 'center', 
+        justifyContent: 'flex-start', 
         gap: '12px', 
         marginBottom: '20px', 
         padding: '15px', 
@@ -106,7 +106,6 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
             color: '#fff'
           }}
         >
-          Exporter Excel
         </Button>
 
         <Button 
@@ -122,7 +121,6 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
             color: '#fff'
           }}
         >
-          Exporter Word
         </Button>
 
         <Button 
@@ -137,7 +135,6 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
             color: '#fff'
           }}
         >
-          Exporter Image
         </Button>
       </div>
 
