@@ -42,84 +42,94 @@ const RapportSpecial = () => {
             width: "4%"      
           },
           {
-            title: 'Superficie',
-            dataIndex: 'superficie',
-            key: 'superficie',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
+            title: 'ENTREPOSAGE GLOBAL',
+            children : [
+                {
+                    title: 'Superficie',
+                    dataIndex: 'superficie',
+                    key: 'superficie',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                },
+                {
+                    title: 'Entreposage',
+                    dataIndex: 'entreposage',
+                    key: 'entreposage',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                }
+            ]
           },
           {
-            title: 'Entreposage',
-            dataIndex: 'entreposage',
-            key: 'entreposage',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: 'TRANSP NRJ',
-            dataIndex: 'transp_nrj',
-            key: 'transp_nrj',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: 'TEU',
-            dataIndex: 'teu',
-            key: 'teu',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "20' LOURDS",
-            dataIndex: 'lourds',
-            key: 'lourds',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Tonnage",
-            dataIndex: 'tonnage',
-            key: 'tonnage',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Peage Camion",
-            dataIndex: 'peage_camion',
-            key: 'peage_camion',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "TEU retour",
-            dataIndex: 'teu_retour',
-            key: 'teu_retour',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
+            title: 'TRANSPORT NRJ',
+            children : [
+                {
+                    title: 'TRANSP NRJ',
+                    dataIndex: 'transp_nrj',
+                    key: 'transp_nrj',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: 'TEU',
+                    dataIndex: 'teu',
+                    key: 'teu',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "20' LOURDS",
+                    dataIndex: 'lourds',
+                    key: 'lourds',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Tonnage",
+                    dataIndex: 'tonnage',
+                    key: 'tonnage',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Peage Camion",
+                    dataIndex: 'peage_camion',
+                    key: 'peage_camion',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "TEU retour",
+                    dataIndex: 'teu_retour',
+                    key: 'teu_retour',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+            ]
           },
           {
             title: "MANUT",
