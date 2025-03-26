@@ -41,10 +41,12 @@ const RapportTemplateLine = ({ groupedData, uniqueMonths, selectedField }) => {
             legendPosition: 'middle',
           }}
           axisBottom={{
-            tickRotation: -45,
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
             legend: 'Mois',
-            legendOffset: 36,
             legendPosition: 'middle',
+            legendOffset: 36,
           }}
           colors={{ scheme: 'category10' }}
           lineWidth={3}
