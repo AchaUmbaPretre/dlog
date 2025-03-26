@@ -138,7 +138,6 @@ const RapportEntreposageChart = ({ groupedData, uniqueMonths }) => {
         </Button>
       </div>
 
-
       <div ref={chartRef} style={{ height: 400, background: "white", padding: 10 }}>
         <ResponsiveLine
           data={groupedData.map(client => ({

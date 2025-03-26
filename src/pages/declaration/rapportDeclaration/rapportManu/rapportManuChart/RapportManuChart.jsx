@@ -58,7 +58,7 @@ const RapportManuChart = ({ groupedData, uniqueMonths }) => {
 
   const nivoData = generateNivoData();
 
-    const exportToWord = () => {
+  const exportToWord = () => {
       setLoading(true);
       captureChartAsImage((blob) => {
         const reader = new FileReader();
@@ -84,7 +84,7 @@ const RapportManuChart = ({ groupedData, uniqueMonths }) => {
           });
   
           Packer.toBlob(doc).then(blob => {
-            saveAs(blob, "RapportEntreposage.docx");
+            saveAs(blob, "RapportManutention.docx");
             setLoading(false);
           });
         };
@@ -98,8 +98,8 @@ const RapportManuChart = ({ groupedData, uniqueMonths }) => {
         reader.readAsArrayBuffer(blob);
         reader.onloadend = async () => {
           const workbook = new ExcelJS.Workbook();
-          const worksheet = workbook.addWorksheet("Rapport Entreposage");
-          worksheet.getCell("A1").value = "Rapport Entreposage";
+          const worksheet = workbook.addWorksheet("Rapport Manutention");
+          worksheet.getCell("A1").value = "Rapport Manutention";
           worksheet.getCell("A1").font = { bold: true, size: 14 };
           worksheet.getRow(1).height = 20;
           worksheet.getColumn(1).width = 40;
@@ -108,7 +108,7 @@ const RapportManuChart = ({ groupedData, uniqueMonths }) => {
           worksheet.addImage(imageId, { tl: { col: 0, row: 2 }, ext: { width: canvas.width / 2, height: canvas.height / 2 } });
   
           const buffer = await workbook.xlsx.writeBuffer();
-          saveAs(new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "RapportEntreposage.xlsx");
+          saveAs(new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), "RapportManutention.xlsx");
           setLoading(false);
         };
       });
