@@ -183,7 +183,7 @@ const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
             legend: showPercentage ? 'Pourcentage (%)' : 'Montant ($)',
             legendPosition: 'middle',
             legendOffset: -40,
-            format: formatValue // 🔹 Applique le format personnalisé
+            format: formatValue
           }}
           legends={[
             {
