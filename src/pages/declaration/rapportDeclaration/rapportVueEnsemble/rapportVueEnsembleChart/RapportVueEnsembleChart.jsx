@@ -143,7 +143,7 @@ const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
       <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '12px', marginBottom: '20px', padding: '15px', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
         <Button type="primary" icon={<FileExcelOutlined />} onClick={exportToExcel} loading={loading} style={{ fontSize: '16px', padding: '12px 24px', backgroundColor: '#28a745', borderColor: '#28a745', color: '#fff' }} />
         <Button type="primary" icon={<FileWordOutlined />} onClick={exportToWord} loading={loading} style={{ fontSize: '16px', padding: '12px 24px', backgroundColor: '#007bff', borderColor: '#007bff', color: '#fff' }} />
-        <Button type="primary" icon={<CameraOutlined />} onClick={() => captureChartAsImage(blob => saveAs(blob, "RapportFacture.png"))} style={{ fontSize: '16px', padding: '12px 24px', backgroundColor: '#ff9800', borderColor: '#ff9800', color: '#fff' }} />
+        <Button type="primary" icon={<CameraOutlined />} onClick={() => captureChartAsImage(blob => saveAs(blob, "RapportVille.png"))} style={{ fontSize: '16px', padding: '12px 24px', backgroundColor: '#ff9800', borderColor: '#ff9800', color: '#fff' }} />
       </div>
 
       <div style={{ height: 400 }}>
