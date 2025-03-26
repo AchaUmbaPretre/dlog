@@ -95,7 +95,6 @@ const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
       });
     };
 
-
   useEffect(() => {
     if (groupedData.length > 0 && uniqueMonths.length > 0) {
       setChartData(prepareChartData(groupedData, uniqueMonths));
