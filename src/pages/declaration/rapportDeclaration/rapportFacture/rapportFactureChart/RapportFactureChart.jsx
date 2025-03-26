@@ -8,7 +8,6 @@ import html2canvas from 'html2canvas';
 import ExcelJS from 'exceljs';
 import { Document, Packer, Paragraph, TextRun, ImageRun } from 'docx';
 
-
 const RapportFactureChart = ({ groupedData, uniqueMonths }) => {
   const prepareChartData = (groupedData, uniqueMonths) => {
     const formattedMonths = uniqueMonths.map((month) => {
