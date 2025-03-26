@@ -162,7 +162,7 @@ const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
       <div ref={chartRef} style={{ height: 400 }}>
       <ResponsiveBar
           data={nivoData}
-          keys={['Entreposage', 'Manutention']} // 🔹 Juste Entreposage et Manutention
+          keys={['Entreposage', 'Manutention']}
           indexBy="Mois"
           margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
           padding={0.3}
