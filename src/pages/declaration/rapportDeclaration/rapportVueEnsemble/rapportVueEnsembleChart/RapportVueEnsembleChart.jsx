@@ -150,15 +150,12 @@ const RapportVueEnsembleChart = ({ groupedData, showPercentage }) => {
         RAPPORT CHART DES VILLES
       </h2>
 
-      <div style={{ display: "flex", justifyContent: "flex-start", gap: "12px", marginBottom: "20px" }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '12px', padding: '15px', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
         <Button icon={<FileExcelOutlined />} onClick={exportToExcel} loading={loading} type="primary" style={{ backgroundColor: "#28a745", borderColor: "#28a745" }}>
-          Excel
         </Button>
         <Button icon={<FileWordOutlined />} onClick={exportToWord} loading={loading} type="primary" style={{ backgroundColor: "#007bff", borderColor: "#007bff" }}>
-          Word
         </Button>
         <Button icon={<CameraOutlined />} onClick={() => captureChartAsImage((blob) => saveAs(blob, "RapportVille.png"))} type="primary" style={{ backgroundColor: "#ff9800", borderColor: "#ff9800" }}>
-          Image
         </Button>
       </div>
 
