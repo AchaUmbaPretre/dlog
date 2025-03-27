@@ -136,7 +136,7 @@ const RapportSpecial = () => {
             children: [
                 {
 
-                    title: "MANUT",
+                    title: "Manut",
                     dataIndex: 'manut',
                     key: 'manut',
                     render: (text, record) => (
@@ -146,7 +146,7 @@ const RapportSpecial = () => {
                     )
                   },
                   {
-                    title: "MANUT1",
+                    title: "Manut1",
                     dataIndex: 'manut1',
                     key: 'manut1',
                     render: (text, record) => (
@@ -186,7 +186,7 @@ const RapportSpecial = () => {
                     )
                   },
                   {
-                    title: "MANUT2",
+                    title: "Manut2",
                     dataIndex: 'manut2',
                     key: 'manut2',
                     render: (text, record) => (
@@ -236,7 +236,7 @@ const RapportSpecial = () => {
                     )
                   },
                   {
-                    title: "MANUT3",
+                    title: "Manut3",
                     dataIndex: 'manut3',
                     key: 'manut3',
                     render: (text, record) => (
@@ -271,7 +271,7 @@ const RapportSpecial = () => {
             title: 'LIVRAISON',
             children : [
                 {
-                    title: "LIV LOCALE",
+                    title: "Liv locale",
                     dataIndex: 'liv_locale',
                     key: '',
                     render: (text, record) => (
