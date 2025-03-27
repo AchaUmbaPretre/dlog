@@ -1,17 +1,46 @@
-import React, { useState } from 'react';
-import { Form, Col, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Col, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
 import { postRapport } from '../../../services/rapportService';
+import { getClient } from '../../../services/clientService';
+import { useSelector } from 'react-redux';
 
 const RapportSpecialForm = () => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [periode, setPeriode] = useState(null);
+    const [client, setClient] = useState([]);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     
+    
+    const fetchData = async () => {
+        try {
+            const [clientData] = await Promise.all([
+                getClient()
+            ]);
+
+            setClient(clientData.data);
+            
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+        useEffect(() => {
+            fetchData();
+              // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, []);
+
     const onFinish = async (values) => {
         setIsLoading(true);
         try {
-            await postRapport(values);
-    
+            await postRapport({
+                ...values,
+                user_cr: userId
+            });
+
+            form.resetFields();
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
@@ -36,21 +65,20 @@ const RapportSpecialForm = () => {
                 <div style={{display:'flex', justifyContent:'space-between', width:'100%',gap:'10px'}}>
                     <Card bordered={false} style={{ marginBottom: '20px', borderRadius: '8px', width:'100%' }}>
                         <Divider orientation="center" style={styles.title}>
-                            PERIODE
+                            CLIENT
                         </Divider>
                         <Row gutter={16}>
                             <Col xs={24} md={24}>
                             <Form.Item
-                                        name="periode"
-                                        label="Période"
-                                        rules={[{ required: true, message: "Veuillez entrer la période" }]}
+                                        name="id_client"
+                                        label="Client"
+                                        rules={[{ required: true, message: "Veuillez selectionner un client" }]}
                                     >
-                                        <DatePicker
-                                        picker="month"
-                                        placeholder="Sélectionnez le mois"
-                                        format="YYYY-MM-DD"
-                                        style={{ width: '100%' }}
-                                        onChange={(date, dateString) => setPeriode(dateString)}
+                                        <Select
+                                            showSearch
+                                            options={client.map(item => ({ value: item.id_client, label: item.nom }))}
+                                            placeholder="Sélectionnez un client..."
+                                            optionFilterProp="label"
                                         />
                                     </Form.Item>
                             </Col>
@@ -178,13 +206,13 @@ const RapportSpecialForm = () => {
  */}                    </Divider>
                     <Row gutter={16}>
                         <Col xs={24} md={12}>
-                            <Form.Item name="intrants" label="Bout. /Intrants (T)">
+                            <Form.Item name="bouteilles_intrants" label="Bout. /Intrants (T)">
                                 <InputNumber min={0} style={styles.input} placeholder="Bout. /Intrants (T)" />
                             </Form.Item>
                         </Col>
 
                         <Col xs={24} md={12}>
-                            <Form.Item name="charge_decharge" label="CAMION charg/décharge">
+                            <Form.Item name="camions_charge_decharge" label="Camion charge/décharge">
                                 <InputNumber min={0} style={styles.input} placeholder="CAMION charg/décharge" />
                             </Form.Item>
                         </Col>
