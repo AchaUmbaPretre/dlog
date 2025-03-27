@@ -70,7 +70,7 @@ const RapportSpecial = () => {
             title: 'TRANSPORT NRJ',
             children : [
                 {
-                    title: 'TRANSP NRJ',
+                    title: 'Trans NRJ',
                     dataIndex: 'transp_nrj',
                     key: 'transp_nrj',
                     render: (text, record) => (
