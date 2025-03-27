@@ -85,7 +85,7 @@ const RapportSpecial = () => {
                   {
                     title: 'TEU',
                     dataIndex: 'teu',
-                    width: 100,
+                    width: 90,
                     key: 'teu',
                     render: (text, record) => (
                       <div>
