@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Modal, Button, Input, Table } from 'antd';
 import { AuditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
+import { getRapport } from '../../services/rapportService';
 
 const { Search } = Input;
 
@@ -15,6 +16,25 @@ const RapportSpecial = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const scroll = { x: 'max-content' };
+    
+      const fetchData = async () => {
+    
+          try {
+            const { data } = await getRapport();
+            setData(data);
+            setLoading(false);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+            setLoading(false);
+          }
+        };
+    
+      useEffect(() => {
+        fetchData();
+      },);
 
     const handleAddRapport = (id) => {
         openModal('Add', id);
