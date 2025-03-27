@@ -47,6 +47,7 @@ const RapportSpecial = () => {
                 {
                     title: 'Superficie',
                     dataIndex: 'superficie',
+                    width: 100,
                     key: 'superficie',
                     render: (text, record) => (
                       <div>
@@ -57,6 +58,7 @@ const RapportSpecial = () => {
                 {
                     title: 'Entreposage',
                     dataIndex: 'entreposage',
+                    width: 100,
                     key: 'entreposage',
                     render: (text, record) => (
                       <div>
@@ -72,6 +74,7 @@ const RapportSpecial = () => {
                 {
                     title: 'Trans NRJ',
                     dataIndex: 'transp_nrj',
+                    width: 100,
                     key: 'transp_nrj',
                     render: (text, record) => (
                       <div>
@@ -82,6 +85,7 @@ const RapportSpecial = () => {
                   {
                     title: 'TEU',
                     dataIndex: 'teu',
+                    width: 100,
                     key: 'teu',
                     render: (text, record) => (
                       <div>
@@ -92,6 +96,7 @@ const RapportSpecial = () => {
                   {
                     title: "20' LOURDS",
                     dataIndex: 'lourds',
+                    width: 100,
                     key: 'lourds',
                     render: (text, record) => (
                       <div>
@@ -102,6 +107,7 @@ const RapportSpecial = () => {
                   {
                     title: "Tonnage",
                     dataIndex: 'tonnage',
+                    width: 100,
                     key: 'tonnage',
                     render: (text, record) => (
                       <div>
@@ -110,8 +116,9 @@ const RapportSpecial = () => {
                     )
                   },
                   {
-                    title: "Peage Camion",
+                    title: "Peage",
                     dataIndex: 'peage_camion',
+                    width: 100,
                     key: 'peage_camion',
                     render: (text, record) => (
                       <div>
@@ -122,6 +129,7 @@ const RapportSpecial = () => {
                   {
                     title: "TEU retour",
                     dataIndex: 'teu_retour',
+                    width: 100,
                     key: 'teu_retour',
                     render: (text, record) => (
                       <div>
@@ -138,6 +146,7 @@ const RapportSpecial = () => {
 
                     title: "Manut",
                     dataIndex: 'manut',
+                    width: 100,
                     key: 'manut',
                     render: (text, record) => (
                       <div>
@@ -148,6 +157,7 @@ const RapportSpecial = () => {
                   {
                     title: "Manut1",
                     dataIndex: 'manut1',
+                    width: 100,
                     key: 'manut1',
                     render: (text, record) => (
                       <div>
@@ -158,6 +168,7 @@ const RapportSpecial = () => {
                   {
                     title: "Camions Manut",
                     dataIndex: 'camions_manut',
+                    width: 100,
                     key: 'camions_manut',
                     render: (text, record) => (
                       <div>
@@ -168,6 +179,7 @@ const RapportSpecial = () => {
                   {
                     title: "Sacs manut IN",
                     dataIndex: 'sacs_manut_IN',
+                    width: 100,
                     key: 'sacs_manut_IN',
                     render: (text, record) => (
                       <div>
@@ -178,6 +190,7 @@ const RapportSpecial = () => {
                   {
                     title: "Sacs manut OUT",
                     dataIndex: 'sacs_manut_OUT',
+                    width: 100,
                     key: 'sacs_manut_OUT',
                     render: (text, record) => (
                       <div>
@@ -188,6 +201,7 @@ const RapportSpecial = () => {
                   {
                     title: "Manut2",
                     dataIndex: 'manut2',
+                    width: 100,
                     key: 'manut2',
                     render: (text, record) => (
                       <div>
@@ -198,6 +212,7 @@ const RapportSpecial = () => {
                   {
                     title: "Bout. /Intrants (T)",
                     dataIndex: 'intrants_t',
+                    width: 100,
                     key: 'intrants_t',
                     render: (text, record) => (
                       <div>
@@ -206,8 +221,9 @@ const RapportSpecial = () => {
                     )
                   },
                   {
-                    title: "CAMION charge/décharge",
+                    title: "Camion charge/décharge",
                     dataIndex: 'charge_decharge',
+                    width: 100,
                     key: 'charge_decharge',
                     render: (text, record) => (
                       <div>
@@ -216,8 +232,9 @@ const RapportSpecial = () => {
                     )
                   },
                   {
-                    title: "Sacs ( Tonne)",
+                    title: "Sacs",
                     dataIndex: 'sacs_tonne',
+                    width: 100,
                     key: 'sacs_tonne',
                     render: (text, record) => (
                       <div>
@@ -228,6 +245,7 @@ const RapportSpecial = () => {
                   {
                     title: "Palettes (mise en bac)",
                     dataIndex: 'palette_mise',
+                    width: 130,
                     key: 'palette_mise',
                     render: (text, record) => (
                       <div>
@@ -238,6 +256,7 @@ const RapportSpecial = () => {
                   {
                     title: "Manut3",
                     dataIndex: 'manut3',
+                    width: 100,
                     key: 'manut3',
                     render: (text, record) => (
                       <div>
@@ -248,6 +267,7 @@ const RapportSpecial = () => {
                   {
                     title: "Bout. (T)",
                     dataIndex: 'bout',
+                    width: 100,
                     key: 'bout',
                     render: (text, record) => (
                       <div>
@@ -258,6 +278,7 @@ const RapportSpecial = () => {
                   {
                     title: "Palettes",
                     dataIndex: 'palettes',
+                    width: 100,
                     key: 'palettes',
                     render: (text, record) => (
                       <div>
@@ -283,6 +304,7 @@ const RapportSpecial = () => {
                 {
                     title: "Camions livrés",
                     dataIndex: 'camions_livres',
+                    width: 100,
                     key: '',
                     render: (text, record) => (
                       <div>
@@ -293,6 +315,7 @@ const RapportSpecial = () => {
                   {
                     title: "Camions livrés",
                     dataIndex: 'camions_livres',
+                    width: 100,
                     key: '',
                     render: (text, record) => (
                       <div>
