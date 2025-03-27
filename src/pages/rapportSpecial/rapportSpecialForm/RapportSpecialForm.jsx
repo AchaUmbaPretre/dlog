@@ -1,26 +1,34 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Col, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
+import { postRapport } from '../../../services/rapportService';
 
 const RapportSpecialForm = () => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [periode, setPeriode] = useState(null);
     
-    const onFinish = useCallback((values) => {
+    const onFinish = async (values) => {
         setIsLoading(true);
         try {
-            
-            
+            await postRapport(values);
+    
+            notification.success({
+                message: 'Succès',
+                description: 'Les informations ont été enregistrées avec succès.',
+            });
         } catch (error) {
+            console.error("Erreur lors de l'envoi du rapport:", error);
+    
             notification.error({
                 message: 'Erreur',
-                description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+                description: error?.response?.data?.message || 
+                             'Une erreur s\'est produite lors de l\'enregistrement.',
             });
         } finally {
             setIsLoading(false);
         }
-        
-    }, []);
+    };
+    
     
     return (
         <div className="rapportSpecialForm" style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
