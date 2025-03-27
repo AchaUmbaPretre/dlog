@@ -132,165 +132,176 @@ const RapportSpecial = () => {
             ]
           },
           {
-            title: "MANUT",
-            dataIndex: 'manut',
-            key: 'manut',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
+            title: 'MANUTENTION',
+            children: [
+                {
+
+                    title: "MANUT",
+                    dataIndex: 'manut',
+                    key: 'manut',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "MANUT1",
+                    dataIndex: 'manut1',
+                    key: 'manut1',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>  
+                    )
+                  },
+                  {
+                    title: "Camions Manut",
+                    dataIndex: 'camions_manut',
+                    key: 'camions_manut',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Sacs manut IN",
+                    dataIndex: 'sacs_manut_IN',
+                    key: 'sacs_manut_IN',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Sacs manut OUT",
+                    dataIndex: 'sacs_manut_OUT',
+                    key: 'sacs_manut_OUT',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "MANUT2",
+                    dataIndex: 'manut2',
+                    key: 'manut2',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Bout. /Intrants (T)",
+                    dataIndex: 'intrants_t',
+                    key: 'intrants_t',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "CAMION charge/décharge",
+                    dataIndex: 'charge_decharge',
+                    key: 'charge_decharge',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Sacs ( Tonne)",
+                    dataIndex: 'sacs_tonne',
+                    key: 'sacs_tonne',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Palettes (mise en bac)",
+                    dataIndex: 'palette_mise',
+                    key: 'palette_mise',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "MANUT3",
+                    dataIndex: 'manut3',
+                    key: 'manut3',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Bout. (T)",
+                    dataIndex: 'bout',
+                    key: 'bout',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Palettes",
+                    dataIndex: 'palettes',
+                    key: 'palettes',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+            ]
           },
           {
-            title: "MANUT1",
-            dataIndex: 'manut1',
-            key: 'manut1',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Camions Manut",
-            dataIndex: 'camions_manut',
-            key: 'camions_manut',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Sacs manut IN",
-            dataIndex: 'sacs_manut_IN',
-            key: 'sacs_manut_IN',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Sacs manut OUT",
-            dataIndex: 'sacs_manut_OUT',
-            key: 'sacs_manut_OUT',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "MANUT2",
-            dataIndex: 'manut2',
-            key: 'manut2',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Bout. /Intrants (T)",
-            dataIndex: 'intrants_t',
-            key: 'intrants_t',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "CAMION charge/décharge",
-            dataIndex: 'charge_decharge',
-            key: 'charge_decharge',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Sacs ( Tonne)",
-            dataIndex: 'sacs_tonne',
-            key: 'sacs_tonne',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Palettes (mise en bac)",
-            dataIndex: 'palette_mise',
-            key: 'palette_mise',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "MANUT3",
-            dataIndex: 'manut3',
-            key: 'manut3',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Bout. (T)",
-            dataIndex: 'bout',
-            key: 'bout',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Palettes",
-            dataIndex: 'palettes',
-            key: 'palettes',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "LIV LOCALE",
-            dataIndex: 'liv_locale',
-            key: '',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Camions livrés",
-            dataIndex: 'camions_livres',
-            key: '',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: "Camions livrés",
-            dataIndex: 'camions_livres',
-            key: '',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
+            title: 'LIVRAISON',
+            children : [
+                {
+                    title: "LIV LOCALE",
+                    dataIndex: 'liv_locale',
+                    key: '',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                },
+                {
+                    title: "Camions livrés",
+                    dataIndex: 'camions_livres',
+                    key: '',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+                  {
+                    title: "Camions livrés",
+                    dataIndex: 'camions_livres',
+                    key: '',
+                    render: (text, record) => (
+                      <div>
+                        {text}
+                      </div>
+                    )
+                  },
+            ]
+          }
       ]
     
   return (
