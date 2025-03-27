@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Input, Table, notification } from 'antd';
-import { AuditOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Modal, Button, Tag, Input, Table, notification } from 'antd';
+import { AuditOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
 import { getRapport } from '../../services/rapportService';
-
+import moment from 'moment';
+import 'moment/locale/fr'
 const { Search } = Input;
 
 const RapportSpecial = () => {
@@ -59,7 +60,32 @@ const RapportSpecial = () => {
               const pageIndex = pagination.current || 1;
               return (pageIndex - 1) * pageSize + index + 1;
             },
-            width: "4%"      
+            width: "2%"      
+          },
+          {
+            title: 'Periode',
+            dataIndex: 'periode',
+            width: 90,
+            key: 'periode',
+            render: (text) => (
+              <Tag 
+                icon={<CalendarOutlined />} 
+                color="purple" 
+              >
+                {moment(text).format('MMM YYYY')}
+              </Tag>
+            )
+          },
+          {
+            title: 'Client',
+            dataIndex: 'nom',
+            width: 90,
+            key: 'nom',
+            render: (text, record) => (
+              <div>
+                {text}
+              </div>
+            )
           },
           {
             title: 'ENTREPOSAGE GLOBAL',
