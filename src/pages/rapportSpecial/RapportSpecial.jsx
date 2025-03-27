@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Modal, Button, Input, Table } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Modal, Button, Input, Table, notification } from 'antd';
 import { AuditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
 import { getRapport } from '../../services/rapportService';
@@ -34,7 +34,7 @@ const RapportSpecial = () => {
     
       useEffect(() => {
         fetchData();
-      },);
+      },[]);
 
     const handleAddRapport = (id) => {
         openModal('Add', id);
@@ -115,9 +115,9 @@ const RapportSpecial = () => {
                   },
                   {
                     title: "20' LOURDS",
-                    dataIndex: 'lourds',
+                    dataIndex: 'lourd',
                     width: 100,
-                    key: 'lourds',
+                    key: 'lourd',
                     render: (text, record) => (
                       <div>
                         {text}
@@ -231,9 +231,9 @@ const RapportSpecial = () => {
                   },
                   {
                     title: "Bout. /Intrants (T)",
-                    dataIndex: 'intrants_t',
+                    dataIndex: 'bouteilles_intrants',
                     width: 100,
-                    key: 'intrants_t',
+                    key: 'bouteilles_intrants',
                     render: (text, record) => (
                       <div>
                         {text}
@@ -242,9 +242,9 @@ const RapportSpecial = () => {
                   },
                   {
                     title: "Camion charge/décharge",
-                    dataIndex: 'charge_decharge',
+                    dataIndex: 'camions_charge_decharge',
                     width: 100,
-                    key: 'charge_decharge',
+                    key: 'camions_charge_decharge',
                     render: (text, record) => (
                       <div>
                         {text}
