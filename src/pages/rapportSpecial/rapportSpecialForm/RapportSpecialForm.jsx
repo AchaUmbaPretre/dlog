@@ -33,29 +33,52 @@ const RapportSpecialForm = () => {
     return (
         <div className="rapportSpecialForm" style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
             <Form form={form} name="declaration_form" layout="vertical" onFinish={onFinish} >
-                
-                <Card bordered={false} style={{ marginBottom: '20px', borderRadius: '8px' }}>
-                    <Divider orientation="center" style={styles.title}>
-                        PERIODE
-                    </Divider>
-                    <Row gutter={16}>
-                        <Col xs={24} md={24}>
-                        <Form.Item
-                                    name="periode"
-                                    label="Période"
-                                    rules={[{ required: true, message: "Veuillez entrer la période" }]}
-                                >
-                                    <DatePicker
-                                    picker="month"
-                                    placeholder="Sélectionnez le mois"
-                                    format="YYYY-MM-DD"
-                                    style={{ width: '100%' }}
-                                    onChange={(date, dateString) => setPeriode(dateString)}
-                                    />
-                                </Form.Item>
-                        </Col>
-                    </Row>
-                </Card>
+                <div style={{display:'flex', justifyContent:'space-between', width:'100%',gap:'10px'}}>
+                    <Card bordered={false} style={{ marginBottom: '20px', borderRadius: '8px', width:'100%' }}>
+                        <Divider orientation="center" style={styles.title}>
+                            PERIODE
+                        </Divider>
+                        <Row gutter={16}>
+                            <Col xs={24} md={24}>
+                            <Form.Item
+                                        name="periode"
+                                        label="Période"
+                                        rules={[{ required: true, message: "Veuillez entrer la période" }]}
+                                    >
+                                        <DatePicker
+                                        picker="month"
+                                        placeholder="Sélectionnez le mois"
+                                        format="YYYY-MM-DD"
+                                        style={{ width: '100%' }}
+                                        onChange={(date, dateString) => setPeriode(dateString)}
+                                        />
+                                    </Form.Item>
+                            </Col>
+                        </Row>
+                    </Card>
+                    <Card bordered={false} style={{ marginBottom: '20px', borderRadius: '8px', width:'100%' }}>
+                        <Divider orientation="center" style={styles.title}>
+                            PERIODE
+                        </Divider>
+                        <Row gutter={16}>
+                            <Col xs={24} md={24}>
+                            <Form.Item
+                                        name="periode"
+                                        label="Période"
+                                        rules={[{ required: true, message: "Veuillez entrer la période" }]}
+                                    >
+                                        <DatePicker
+                                        picker="month"
+                                        placeholder="Sélectionnez le mois"
+                                        format="YYYY-MM-DD"
+                                        style={{ width: '100%' }}
+                                        onChange={(date, dateString) => setPeriode(dateString)}
+                                        />
+                                    </Form.Item>
+                            </Col>
+                        </Row>
+                    </Card>
+                </div>
 
                 {/* ENTREPOSAGE GLOBAL */}
                 <Card bordered={false} style={{ marginBottom: '20px', borderRadius: '8px' }}>
