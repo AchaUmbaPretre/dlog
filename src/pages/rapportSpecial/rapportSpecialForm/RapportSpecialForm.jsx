@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
-import { Form, Col, InputNumber, Button, DatePicker, Row, Divider, Card } from 'antd';
+import React, { useCallback, useState } from 'react';
+import { Form, Col, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
 
 const RapportSpecialForm = () => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [periode, setPeriode] = useState(null);
     
-    const onFinish = (values) => {
-        console.log("Données soumises:", values);
-    };
+    const onFinish = useCallback((values) => {
+        setIsLoading(true);
+        try {
+            
+            
+        } catch (error) {
+            notification.error({
+                message: 'Erreur',
+                description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+            });
+        } finally {
+            setIsLoading(false);
+        }
+        
+    }, []);
     
     return (
         <div className="rapportSpecialForm" style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
@@ -110,7 +122,7 @@ const RapportSpecialForm = () => {
 
                     {/* Sous-titre LIVRAISON DIRECTE */}
                     <Divider orientation="left" style={styles.subTitle}>
-                        CONTRAT NRJ (2000m²)  /  tarif 200$/camion
+                        {/* CONTRAT NRJ (2000m²)  /  tarif 200$/camion */}
                     </Divider>
                     <Row gutter={16}>
                         <Col xs={24} md={8}>
@@ -131,8 +143,8 @@ const RapportSpecialForm = () => {
                     </Row>
 
                     <Divider orientation="left" style={styles.subTitle}>
-                        CONTRAT BRACONGO2 (4500m²) / tarif 10$/T, 10$/pallettes
-                    </Divider>
+{/*                         CONTRAT BRACONGO2 (4500m²) / tarif 10$/T, 10$/pallettes
+ */}                    </Divider>
                     <Row gutter={16}>
                         <Col xs={24} md={12}>
                             <Form.Item name="intrants" label="Bout. /Intrants (T)">
@@ -160,8 +172,8 @@ const RapportSpecialForm = () => {
                     </Row>
 
                     <Divider orientation="left" style={styles.subTitle}>
-                        AVENANT BRACONGO3 (2800m²) / 10$/T
-                    </Divider>
+{/*                         AVENANT BRACONGO3 (2800m²) / 10$/T
+ */}                    </Divider>
                     <Row gutter={16}>
                         <Col xs={24} md={12}>
                             <Form.Item name="bout" label="Bout. (T)">
