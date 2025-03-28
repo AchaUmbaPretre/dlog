@@ -11,7 +11,6 @@ const RapportSpecialForm = () => {
     const [client, setClient] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     
-    
     const fetchData = async () => {
         try {
             const [clientData] = await Promise.all([
