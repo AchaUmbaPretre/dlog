@@ -265,7 +265,7 @@ const RapportSpecialForm = () => {
                                 </Col>
                             </Row>
                         </div>
-                        <div style={{width:'100%'}}>
+{/*                         <div style={{width:'100%'}}>
                             <Divider orientation="left" style={styles.subTitle}>
                                 BRACONGO2
                             </Divider>
@@ -276,7 +276,7 @@ const RapportSpecialForm = () => {
                                     </Form.Item>
                                 </Col>
                             </Row>
-                        </div>
+                        </div> */}
                     </div>
                 </Card>
                 <Form.Item>
