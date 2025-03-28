@@ -323,9 +323,9 @@ const RapportSpecial = () => {
                   },
                   {
                     title: "Palettes",
-                    dataIndex: 'palettes',
+                    dataIndex: 'palettes_avenant',
                     width: 100,
-                    key: 'palettes',
+                    key: 'palettes_avenant',
                     render: (text, record) => (
                       <div>
                         {text}
@@ -340,7 +340,7 @@ const RapportSpecial = () => {
                 {
                     title: "Liv locale",
                     dataIndex: 'liv_locale',
-                    key: '',
+                    key: 'liv_locale',
                     render: (text, record) => (
                       <div>
                         {text}
@@ -348,27 +348,16 @@ const RapportSpecial = () => {
                     )
                 },
                 {
-                    title: "Camions livrés",
-                    dataIndex: 'camions_livres',
-                    width: 100,
-                    key: '',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Camions livrés",
-                    dataIndex: 'camions_livres',
-                    width: 100,
-                    key: '',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
+                  title: "Camions livrés",
+                  dataIndex: 'camions_livres',
+                  width: 100,
+                  key: '',
+                  render: (text, record) => (
+                    <div>
+                      {text}
+                    </div>
+                  )
+                }
             ]
           }
       ]
