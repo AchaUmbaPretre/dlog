@@ -290,9 +290,9 @@ const RapportSpecial = () => {
                   },
                   {
                     title: "Palettes (mise en bac)",
-                    dataIndex: 'palette_mise',
+                    dataIndex: 'palettes_mise_en_bac',
                     width: 130,
-                    key: 'palette_mise',
+                    key: 'palettes_mise_en_bac',
                     render: (text, record) => (
                       <div>
                         {text}
