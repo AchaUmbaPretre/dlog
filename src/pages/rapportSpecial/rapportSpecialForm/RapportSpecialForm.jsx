@@ -4,14 +4,14 @@ import { postRapport } from '../../../services/rapportService';
 import { getClient } from '../../../services/clientService';
 import { useSelector } from 'react-redux';
 
-const RapportSpecialForm = () => {
+const RapportSpecialForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [periode, setPeriode] = useState(null);
     const [client, setClient] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     
-    const fetchData = async () => {
+    const fetchDatas = async () => {
         try {
             const [clientData] = await Promise.all([
                 getClient()
@@ -27,7 +27,7 @@ const RapportSpecialForm = () => {
     }
 
         useEffect(() => {
-            fetchData();
+            fetchDatas();
               // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
@@ -39,6 +39,8 @@ const RapportSpecialForm = () => {
                 user_cr: userId
             });
 
+            closeModal();
+            fetchData();
             form.resetFields();
             notification.success({
                 message: 'Succès',
@@ -223,7 +225,7 @@ const RapportSpecialForm = () => {
                         </Col>
 
                         <Col xs={24} md={12}>
-                            <Form.Item name="palette" label="Palettes (mise en bac)">
+                            <Form.Item name="palettes_mise_en_bac" label="Palettes (mise en bac)">
                                 <InputNumber min={0} style={styles.input} placeholder="Palettes (mise en bac)" />
                             </Form.Item>
                         </Col>

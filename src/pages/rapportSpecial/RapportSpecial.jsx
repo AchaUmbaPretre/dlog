@@ -418,7 +418,7 @@ const RapportSpecial = () => {
               width={950}
               centered
           >
-            <RapportSpecialForm  />
+            <RapportSpecialForm closeModal={() => setModalType(false)} fetchData={fetchData}  />
           </Modal>
         </div>
     </>
