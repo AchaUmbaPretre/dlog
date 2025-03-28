@@ -4,6 +4,7 @@ import { ExportOutlined,DollarOutlined,TagOutlined,FileTextOutlined,CalendarOutl
 import moment from 'moment';
 /* import { getContrat } from '../../services/templateService';
  */import RapportContratForm from './rapportContratForm/RapportContratForm';
+import { getContratRapport } from '../../../services/rapportService';
 
 const { Search } = Input;
 
@@ -15,9 +16,9 @@ const RapportContrat = () => {
 
     const fetchData = async () => {
       try {
-/*         const { data } = await getContrat();
+        const { data } = await getContratRapport();
   
-        setData(data); */
+        setData(data);
         setLoading(false);
       } catch (error) {
         notification.error({
