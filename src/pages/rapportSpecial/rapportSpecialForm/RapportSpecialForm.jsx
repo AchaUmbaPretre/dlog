@@ -240,7 +240,7 @@ const RapportSpecialForm = () => {
                         </Col>
 
                         <Col xs={24} md={12}>
-                            <Form.Item name="avenant_palettes" label="Palettes">
+                            <Form.Item name="palettes_avenant" label="Palettes">
                                 <InputNumber min={0} style={styles.input} placeholder="Palettes" />
                             </Form.Item>
                         </Col>
