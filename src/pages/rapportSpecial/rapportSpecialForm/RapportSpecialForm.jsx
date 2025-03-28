@@ -259,7 +259,7 @@ const RapportSpecialForm = () => {
                             </Divider>
                             <Row gutter={16}>
                                 <Col xs={24} md={24}>
-                                    <Form.Item name="camions_livre" label="Camions livrés">
+                                    <Form.Item name="camions_livres" label="Camions livrés">
                                         <InputNumber min={0} style={styles.input} placeholder="camions livrés" />
                                     </Form.Item>
                                 </Col>
