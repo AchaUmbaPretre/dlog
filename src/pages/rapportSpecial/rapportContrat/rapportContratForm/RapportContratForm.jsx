@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Input, DatePicker, Select, Button, notification, Row, Col, Skeleton } from 'antd';
-import moment from 'moment';
+import React, {  useState } from 'react';
+import { Form, Input, Button, notification, Row, Col, Skeleton } from 'antd';
 import { postContratRapport } from '../../../../services/rapportService';
 
-const { Option } = Select;
 
 const RapportContratForm = ({closeModal,fetchData }) => {
     const [form] = Form.useForm();
@@ -14,8 +12,6 @@ const RapportContratForm = ({closeModal,fetchData }) => {
         tarif_palette: ''
     });
     const [loadingData, setLoadingData] = useState(true);
-    const [client, setClient] = useState([]);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -115,7 +111,6 @@ const RapportContratForm = ({closeModal,fetchData }) => {
                 label="Tarif palette"
                 name="tarif_palette"
                 rules={[{ required: false, message: 'Veuillez saisir un tarif!' }]}
-
               >
                 <Input
                   value={formData.tarif_palette}
