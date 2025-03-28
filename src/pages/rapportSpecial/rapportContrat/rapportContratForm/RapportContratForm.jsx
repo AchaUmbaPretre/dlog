@@ -11,8 +11,6 @@ const RapportContratForm = ({closeModal,fetchData }) => {
         tarif_tonne: '',
         tarif_palette: ''
     });
-    const [loadingData, setLoadingData] = useState(true);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -69,16 +67,28 @@ const RapportContratForm = ({closeModal,fetchData }) => {
                 name="nom_contrat"
                 rules={[{ required: true, message: 'Veuillez entrer une description!' }]}
               >
-                {loadingData ? <Skeleton.Input active={true} /> : 
                 <Input
                   type="text"
                   value={formData.nom_contrat}
                   onChange={handleChange}
                   style={{ width: '100%' }}
-                /> }
+                />
               </Form.Item>
             </Col>
 
+            <Col span={12}>
+              <Form.Item
+                label="Superfice"
+                name="superfice"
+              >
+                <Input
+                  value={formData.tarif_camion}
+                  onChange={handleChange}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
             <Col span={12}>
               <Form.Item
                 label="Tarif camion"
@@ -90,9 +100,6 @@ const RapportContratForm = ({closeModal,fetchData }) => {
                 />
               </Form.Item>
             </Col>
-          </Row>
-
-          <Row gutter={16}>
             <Col span={12}>
               <Form.Item
                 label="Tarif tonne"
@@ -105,8 +112,10 @@ const RapportContratForm = ({closeModal,fetchData }) => {
                 />
               </Form.Item>
             </Col>
+          </Row>
 
-            <Col span={12}>
+          <Row gutter={16}>
+            <Col span={24}>
               <Form.Item
                 label="Tarif palette"
                 name="tarif_palette"

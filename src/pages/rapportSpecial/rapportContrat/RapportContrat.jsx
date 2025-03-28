@@ -92,65 +92,49 @@ const RapportContrat = () => {
         width: "3%",
     },
     {
-        title: 'Conditions(Titre)',
-        dataIndex: 'conditions',
-        key: 'conditions',
+        title: 'Titre',
+        dataIndex: 'nom_contrat',
+        key: 'nom_contrat',
         render: (text) => (
             <Tag icon={<TagOutlined />} color="blue">{text}</Tag>
         ),
     },
     {
-        title: 'Client',
-        dataIndex: 'nom',
-        key: 'nom',
+        title: 'Superfice',
+        dataIndex: 'superfice',
+        key: 'superfice',
         render: (text) => (
-            <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
+            <Tag color="blue">{text}</Tag>
         ),
     },
     {
-        title: 'Date début',
-        dataIndex: 'date_debut',
-        key: 'date_debut',
+        title: 'Tarif camion',
+        dataIndex: 'tarif_camion',
+        key: 'tarif_camion',
         render: (text) => (
-            <Tag icon={<CalendarOutlined />} color="green">
-                {moment(text).format('DD-MM-yyyy')}
+            <Tag color={text > 1 ? 'blue' :' red'}>
+                {text}
             </Tag>
         ),
     },
     {
-        title: 'Date fin',
-        dataIndex: 'date_fin',
-        key: 'date_fin',
+        title: 'Tarif camion',
+        dataIndex: 'tarif_palette',
+        key: 'tarif_palette',
         render: (text) => (
-            <Tag icon={<CalendarOutlined />} color="red">
-                {moment(text).format('DD-MM-yyyy')}
+            <Tag color={text > 1 ? 'blue' :' red'}>
+                {text}
             </Tag>
         ),
     },
     {
-        title: 'Date signature',
-        dataIndex: 'date_signature',
-        key: 'date_signature',
+        title: 'Tarif tonne',
+        dataIndex: 'tarif_tonne',
+        key: 'tarif_tonne',
         render: (text) => (
-            <Tag icon={<CalendarOutlined />} color="orange">
-                {moment(text).format('DD-MM-yyyy')}
+            <Tag color={text > 1 ? 'blue' :' red'}>
+                {text}
             </Tag>
-        ),
-    },
-    {
-        title: 'Montant',
-        dataIndex: 'montant',
-        key: 'montant',
-        render: (text) => (
-            <Tag icon={<DollarOutlined />} color="gold">{`$${text}`}</Tag>
-        ),
-    },
-    {
-        title: 'Type contrat',
-        dataIndex: 'nom_type_contrat',
-        key: 'nom_type_contrat',
-        render: (text) => (
-            <Tag icon={<FileTextOutlined />} color="cyan">{text}</Tag>
         ),
     }
 ];
