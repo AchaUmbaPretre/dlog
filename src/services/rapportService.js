@@ -14,3 +14,11 @@ export const getRapportOne = async (id) => {
 export const postRapport = async (data) => {
     return axios.post(`${DOMAIN}/api/rapport`, data)
 }
+
+export const getContratRapport = async () => {
+    return axios.get(`${DOMAIN}/api/rapport`);
+  };
+
+export const postContratRapport = async (data) => {
+    return axios.post(`${DOMAIN}/api/rapport`, data)
+}
