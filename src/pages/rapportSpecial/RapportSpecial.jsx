@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Tag, Input, Table, notification } from 'antd';
-import { AuditOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Modal, Button, Tag, Tabs, Input, Table, notification } from 'antd';
+import { AuditOutlined, PlusCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
 import { getRapport } from '../../services/rapportService';
+import TabPane from 'antd/es/tabs/TabPane';
 import moment from 'moment';
 import 'moment/locale/fr'
 const { Search } = Input;
@@ -17,6 +18,8 @@ const RapportSpecial = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const scroll = { x: 'max-content' };
+    const [activeKey, setActiveKey] = useState(['1', '2']);
+    
     
       const fetchData = async () => {
     
@@ -46,11 +49,15 @@ const RapportSpecial = () => {
       };
       
     const openModal = (type, idDeclaration = '') => {
-        closeAllModals();
-        setModalType(type);
-      };
+      closeAllModals();
+      setModalType(type);
+    };
 
-      const columns = [
+    const handleTabChange = (key) => {
+      setActiveKey(key);
+    };
+
+    const columns = [
         {
             title: '#',
             dataIndex: 'id',
@@ -364,63 +371,104 @@ const RapportSpecial = () => {
     
   return (
     <>
-        <div className="client">
-            <div className="client-wrapper">
-                <div className="client-rows">
-                    <div className="client-row">
-                        <div className="client-row-icon">
-                            <AuditOutlined className='client-icon' />
-                        </div>
-                        <div className="client-h2">
-                            Rapport spécial
-                        </div>
-                    </div>
-                    <div className="client-row-lefts">
+            <Tabs
+              activeKey={activeKey[0]}
+              onChange={handleTabChange}
+              type="card"
+              tabPosition="top"
+              renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+            >
+              <TabPane
+                tab={
+                  <span>
+                    <FileTextOutlined
+                      style={{
+                        color: '#faad14',
+                        fontSize: '18px',
+                        marginRight: '8px',
+                      }}
+                    />
+                    Rapport
+                  </span>
+                }
+                key="1"
+              >
+                <div className="client">
+                  <div className="client-wrapper">
+                      <div className="client-rows">
+                          <div className="client-row">
+                              <div className="client-row-icon">
+                                  <AuditOutlined className='client-icon' />
+                              </div>
+                              <div className="client-h2">
+                                  Rapport spécial
+                              </div>
+                          </div>
+                          <div className="client-row-lefts">
 
-                    </div>
+                          </div>
+                      </div>
+                      <div className="client-actions">
+                          <div className="client-row-left">
+                              <Search 
+                              placeholder="Recherche..." 
+                              enterButton
+                              onChange={(e) => setSearchValue(e.target.value)}
+                              />
+                          </div>
+
+                          <div className="client-rows-right">
+                              <Button
+                              type="primary"
+                              icon={<PlusCircleOutlined />}
+                              onClick={handleAddRapport}
+                              >
+                                  Ajouter un rapport
+                              </Button>
+                          </div>
+                      </div>
+
+                      <Table
+                        columns={ columns }
+                        dataSource={data}
+                        loading={loading}
+                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                        rowKey="id"
+                        bordered
+                        size="small"
+                        scroll={scroll}
+                      />
+                  </div>
+                  <Modal
+                    title=""
+                    visible={modalType === 'Add'}
+                    onCancel={closeAllModals}
+                    footer={null}
+                    width={950}
+                    centered
+                >
+                  <RapportSpecialForm closeModal={() => setModalType(false)} fetchData={fetchData}  />
+                  </Modal>
                 </div>
-                <div className="client-actions">
-                    <div className="client-row-left">
-                        <Search 
-                        placeholder="Recherche..." 
-                        enterButton
-                        onChange={(e) => setSearchValue(e.target.value)}
-                        />
-                    </div>
+              </TabPane>
 
-                    <div className="client-rows-right">
-                        <Button
-                        type="primary"
-                        icon={<PlusCircleOutlined />}
-                        onClick={handleAddRapport}
-                        >
-                            Ajouter un rapport
-                        </Button>
-                    </div>
-                </div>
-
-                <Table
-                  columns={ columns }
-                  dataSource={data}
-                  loading={loading}
-                  rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                  rowKey="id"
-                  bordered
-                  size="small"
-                  scroll={scroll}
-                />
-            </div>
-            <Modal
-              title=""
-              visible={modalType === 'Add'}
-              onCancel={closeAllModals}
-              footer={null}
-              width={950}
-              centered
-          >
-            <RapportSpecialForm closeModal={() => setModalType(false)} fetchData={fetchData}  />
-          </Modal>
-        </div>
+              <TabPane
+                tab={
+                  <span>
+                    <AuditOutlined
+                      style={{
+                        color: '#f50',
+                        fontSize: '18px',
+                        marginRight: '8px',
+                      }}
+                    />
+                    Contrat
+                  </span>
+                }
+                key="2"
+              >
+              </TabPane>
+            </Tabs>
     </>
   )
 }
