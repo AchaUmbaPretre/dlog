@@ -6,6 +6,7 @@ import { getRapport } from '../../services/rapportService';
 import TabPane from 'antd/es/tabs/TabPane';
 import moment from 'moment';
 import 'moment/locale/fr'
+import RapportContrat from './rapportContrat/RapportContrat';
 const { Search } = Input;
 
 const RapportSpecial = () => {
@@ -467,6 +468,7 @@ const RapportSpecial = () => {
                 }
                 key="2"
               >
+                <RapportContrat/>
               </TabPane>
             </Tabs>
     </>
