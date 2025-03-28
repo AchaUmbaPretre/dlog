@@ -76,6 +76,7 @@ const RapportContratForm = ({closeModal,fetchData }) => {
                 {loadingData ? <Skeleton.Input active={true} /> : 
                 <Input
                   type="text"
+                  value={formData.nom_contrat}
                   onChange={handleChange}
                   style={{ width: '100%' }}
                 /> }
@@ -84,18 +85,13 @@ const RapportContratForm = ({closeModal,fetchData }) => {
 
             <Col span={12}>
               <Form.Item
-                label="Statut"
-                name="statut"
+                label="Tarif camion"
+                name="tarif_camion"
               >
-                <Select
-                  value={formData.statut}
-                  onChange={(value) => setFormData({ ...formData, statut: value })}
-                  style={{ width: '100%' }}
-                >
-                  <Option value="actif">Actif</Option>
-                  <Option value="inactif">Inactif</Option>
-                  <Option value="terminé">Terminé</Option>
-                </Select>
+                <Input
+                  value={formData.tarif_camion}
+                  onChange={handleChange}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -103,28 +99,27 @@ const RapportContratForm = ({closeModal,fetchData }) => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="Date de signature"
-                name="date_signature"
-                rules={[{ required: true, message: 'Veuillez sélectionner la date de signature!' }]}
+                label="Tarif tonne"
+                name="tarif_tonne"
+                rules={[{ required: false, message: 'Veuillez entrer un tarif !' }]}
               >
-                <DatePicker
-                  value={formData.date_signature ? moment(formData.date_signature) : null}
-                  onChange={(date, dateString) => setFormData({ ...formData, date_signature: dateString })}
-                  style={{ width: '100%' }}
+                <Input
+                  value={formData.tarif_tonne}
+                  onChange={handleChange}
                 />
               </Form.Item>
             </Col>
 
             <Col span={12}>
               <Form.Item
-                label="Conditions(Titre)"
-                name="conditions"
-                rules={[{ required: true, message: 'Veuillez saisir le titre!' }]}
+                label="Tarif palette"
+                name="tarif_palette"
+                rules={[{ required: false, message: 'Veuillez saisir un tarif!' }]}
 
               >
                 <Input
-                  value={formData.conditions}
-                  onChange={(e) => setFormData({ ...formData, conditions: e.target.value })}
+                  value={formData.tarif_palette}
+                  onChange={(e) => setFormData({ ...formData, tarif_palette: e.target.value })}
                 />
               </Form.Item>
             </Col>
