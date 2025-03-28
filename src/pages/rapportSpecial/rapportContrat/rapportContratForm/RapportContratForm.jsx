@@ -1,57 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, notification, Row, Col, Skeleton } from 'antd';
 import moment from 'moment';
-import { getClient } from '../../../services/clientService';
-import { getTypeContrat, postContrat } from '../../../services/templateService';
+import { postContratRapport } from '../../../../services/rapportService';
 
 const { Option } = Select;
 
 const RapportContratForm = ({closeModal,fetchData }) => {
     const [form] = Form.useForm();
     const [formData, setFormData] = useState({
-        id_client: '',
-        date_debut: '',
-        date_fin: '',
-        montant: '',
-        type_contrat: '',
-        statut: 'actif',
-        date_signature: '',
-        conditions: ''
+        nom_contrat: '',
+        tarif_camion: '',
+        tarif_tonne: '',
+        tarif_palette: ''
     });
     const [loadingData, setLoadingData] = useState(true);
     const [client, setClient] = useState([]);
-    const [typeContrat, setTypeContrat] = useState([]);
 
-
-
-    const fetchDataAll = async () => {
-        setLoadingData(true);
-      
-        try {
-          const [clientData, typeData] = await Promise.all([
-            getClient(),
-            getTypeContrat()
-          ]);
-      
-          setClient(clientData.data);
-          setTypeContrat(typeData.data);
-      
-        } catch (error) {
-          console.error('Erreur lors de la récupération des données :', error);
-          notification.error({
-            message: 'Erreur de récupération',
-            description: 'Une erreur est survenue lors de la récupération des données.',
-          });
-      
-        } finally {
-          setLoadingData(false);
-        }
-      };
-      
-
-  useEffect(() => {
-    fetchDataAll();
-}, [form]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,21 +28,17 @@ const RapportContratForm = ({closeModal,fetchData }) => {
   // Fonction pour envoyer le formulaire
   const handleSubmit = async (values) => {
     try {
-        await postContrat(values);
+        await postContratRapport(values);
     
         fetchData();
         closeModal();
 
         setFormData({
-            id_client: '',
-            date_debut: '',
-            date_fin: '',
-            montant: '',
-            type_contrat: '',
-            statut: 'actif',
-            date_signature: '',
-            conditions: ''
-          });
+            nom_contrat: '',
+            tarif_camion: '',
+            tarif_tonne: '',
+            tarif_palette: ''
+          }); 
           
       notification.success({
         message: 'Contrat créé',
@@ -109,85 +69,16 @@ const RapportContratForm = ({closeModal,fetchData }) => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="Client"
-                name="id_client"
-                rules={[{ required: true, message: 'Veuillez entrer l\'ID client!' }]}
+                label="Description"
+                name="nom_contrat"
+                rules={[{ required: true, message: 'Veuillez entrer une description!' }]}
               >
-                {loadingData ? <Skeleton.Input active={true} /> : <Select
-                                    showSearch
-                                    options={client.map((item) => ({
-                                        value: item.id_client,
-                                        label: item.nom,
-                                    }))}
-                                    placeholder="Sélectionnez un client..."
-                                    optionFilterProp="label"
-                                />}
-              </Form.Item>
-            </Col>
-
-            <Col span={12}>
-              <Form.Item
-                label="Date de début"
-                name="date_debut"
-                rules={[{ required: true, message: 'Veuillez sélectionner une date de début!' }]}
-              >
-                <DatePicker
-                  value={formData.date_debut ? moment(formData.date_debut) : null}
-                  onChange={(date, dateString) => setFormData({ ...formData, date_debut: dateString })}
-                  style={{ width: '100%' }}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="Date de fin"
-                name="date_fin"
-                rules={[{ required: true, message: 'Veuillez sélectionner une date de fin!' }]}
-              >
-                <DatePicker
-                  value={formData.date_fin ? moment(formData.date_fin) : null}
-                  onChange={(date, dateString) => setFormData({ ...formData, date_fin: dateString })}
-                  style={{ width: '100%' }}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col span={12}>
-              <Form.Item
-                label="Montant"
-                name="montant"
-                rules={[{ required: false, message: 'Veuillez entrer le montant!' }]}
-              >
+                {loadingData ? <Skeleton.Input active={true} /> : 
                 <Input
-                  type="number"
-                  value={formData.montant}
+                  type="text"
                   onChange={handleChange}
-                  prefix="$"
                   style={{ width: '100%' }}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="Type de contrat"
-                name="type_contrat"
-                rules={[{ required: true, message: 'Veuillez sélectionner le type de contrat!' }]}
-              >
-                {loadingData ? <Skeleton.Input active={true} /> : <Select
-                                    showSearch
-                                    options={typeContrat.map((item) => ({
-                                        value: item.id_type_contrat,
-                                        label: item.nom_type_contrat,
-                                    }))}
-                                    placeholder="Sélectionnez un contrat..."
-                                    optionFilterProp="label"
-                                />}
+                /> }
               </Form.Item>
             </Col>
 
