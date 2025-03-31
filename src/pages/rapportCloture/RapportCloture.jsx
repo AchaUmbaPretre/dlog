@@ -170,6 +170,7 @@ const RapportCloture = () => {
                         <h2 className="client-h2">RAPPORT CLOTURE</h2>
                     </div>
                 </div>
+                
                 <div className="client-actions">
                     <div className="client-row-left">
                         <Search 
