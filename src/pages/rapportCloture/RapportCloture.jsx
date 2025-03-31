@@ -262,7 +262,7 @@ const RapportCloture = () => {
           visible={modalType === 'Template'}
           onCancel={closeAllModals}
           footer={null}
-          width={1000}
+          width={1025}
           centered
         >
             <RapportClotureTemplForm/>
