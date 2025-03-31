@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PlusCircleOutlined, LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import { Form, Input, InputNumber, Button, Select, DatePicker, notification, Tabs, Modal, Tooltip, Skeleton, Divider, message } from 'antd';
 import './declarationForm.scss';
-import { DelockDeclaration, getDeclarationId, getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, lockDeclaration, postDeclaration, putDeclaration } from '../../../services/templateService';
+import { getDeclarationId, getDeclarationOne, getObjetFacture, getTemplate, getTemplateOne, lockDeclaration, postDeclaration, putDeclaration } from '../../../services/templateService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import { useNavigate } from 'react-router-dom';

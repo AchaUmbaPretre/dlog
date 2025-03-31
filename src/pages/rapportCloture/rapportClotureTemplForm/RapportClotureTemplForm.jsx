@@ -1,17 +1,47 @@
-import React, { useState } from 'react';
-import { Tag, Table, Input, Select, Button, Popconfirm } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Tag, Table, Input, Select, Button, Popconfirm, notification } from 'antd';
 import { CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
+import { getTemplate } from '../../../services/templateService';
 
 const RapportClotureTemplForm = () => {
     const [data, setData] = useState([]);
+    const [templates, setTemplates] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [idTemplate, setIdTemplate] = useState(null);
     const [editingKey, setEditingKey] = useState(null);
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
     });
     const scroll = { x: 'max-content' };
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const role = useSelector((state) => state.user?.currentUser.role);
+    
+
+    const fetchData = async() => {
+        setLoading(true)    
+        try {
+            const [ templateData ] = await Promise.all([
+                getTemplate(role, userId),
+            ])
+
+            setTemplates(templateData.data);
+
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+        useEffect(() => {
+            fetchData()
+        }, []);
 
     const isEditing = (record) => record.key === editingKey;
 
@@ -128,7 +158,13 @@ const RapportClotureTemplForm = () => {
         <div className="rapportClotureTemplForm">
             <div className="rapportCloture_wrapper">
                 <div className="rapportCloture_top">
-
+                    <Select
+                                        showSearch
+                                        options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
+                                        placeholder="Sélectionnez..."
+                                        onChange={setIdTemplate}
+                                        optionFilterProp="label"
+                    />
                 </div>
                 <div className="rapportCloture_bottom">
                     <Table
