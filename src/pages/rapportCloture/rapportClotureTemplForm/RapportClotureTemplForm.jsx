@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tag, Table, Input, Button, Popconfirm } from 'antd';
+import { Tag, Table, Input, Select, Button, Popconfirm } from 'antd';
 import { CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
@@ -128,7 +128,7 @@ const RapportClotureTemplForm = () => {
         <div className="rapportClotureTemplForm">
             <div className="rapportCloture_wrapper">
                 <div className="rapportCloture_top">
-                    
+
                 </div>
                 <div className="rapportCloture_bottom">
                     <Table
