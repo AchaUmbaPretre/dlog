@@ -5,7 +5,7 @@ import { MenuOutlined, EditOutlined, LockOutlined, PieChartOutlined, EyeOutlined
 
 
 const RapportCloture = () => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({
         current: 1,
@@ -14,13 +14,21 @@ const RapportCloture = () => {
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
         'Periode': true,
-        'M² occupe': false,
+        'M² occupe': true,
         "M² facture": true,
         'Total Entr': true,
         "Total Manu": true,
 
       });  
     const scroll = { x: 400 };
+
+    const toggleColumnVisibility = (columnName, e) => {
+        e.stopPropagation();
+        setColumnsVisibility(prev => ({
+          ...prev,
+          [columnName]: !prev[columnName]
+        }));
+      };
 
     const columns = [
         {
@@ -60,6 +68,51 @@ const RapportCloture = () => {
                 },
                 ...(columnsVisibility['Periode'] ? {} : { className: 'hidden-column' }),
         },
+        {
+            title: 'M² occupe',
+            dataIndex: 'm2_occupe',
+            key: 'm2_occupe',
+                sorter: (a, b) => a.m2_occupe - b.m2_occupe,
+                sortDirections: ['descend', 'ascend'],
+                render: (text) => (
+                    <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? '0'}</Tag>
+                ),
+                align: 'right', 
+            ...(columnsVisibility['M² occupe'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+            title: 'M² facture',
+            dataIndex: 'm2_facture',
+            key: 'm2_facture',
+            sorter: (a, b) => a.m2_facture - b.m2_facture,
+                sortDirections: ['descend', 'ascend'],
+                render: (text) => (
+                    <Tag icon={<BarcodeOutlined />} color="cyan">{text?.toLocaleString() ?? '0'}</Tag>
+                ),
+                align: 'right', 
+                ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
+            },
+            {
+                title: 'Total Entr',
+                dataIndex: 'total_entreposage',
+                key: 'total_entreposage',
+                sorter: (a, b) => a.total_entreposage - b.total_entreposage,
+                sortDirections: ['descend', 'ascend'],
+                render: (text) => (
+                    <Tag color="gold">
+                          {text
+                            ? `${parseFloat(text)
+                                .toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                    })
+                                    .replace(/,/g, " ")} $`
+                                : "0.00"}
+                        </Tag>
+                    ),
+                align: 'right', 
+                ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
+            },
     ]
 
   return (
