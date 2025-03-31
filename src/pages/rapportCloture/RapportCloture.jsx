@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Input, Table, Tag, Dropdown, Menu } from 'antd';
 import moment from 'moment';
-import {  MoreOutlined, CalendarOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
+import {  MoreOutlined, CalendarOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
 const { Search } = Input;
 
 const RapportCloture = () => {
@@ -184,10 +184,15 @@ const RapportCloture = () => {
                         <Menu>
                             {/* Actions Document */}
                             <Menu.Item >
-                            <FileTextOutlined /> Liste des docs
+                            <FileTextOutlined /> Manuellement
                             </Menu.Item>
+                            <Menu.Divider />
                             <Menu.Item >
-                            <FileTextOutlined /> Créer un doc
+                            <FileTextOutlined style={{color:'blue'}}/> Déclaration
+                            </Menu.Item>
+                            <Menu.Divider />
+                            <Menu.Item >
+                            <EnvironmentOutlined style={{color:'red'}} /> Ville
                             </Menu.Item>
                             <Menu.Divider />
                         </Menu>
