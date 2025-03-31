@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
-import { Tag, Modal, Dropdown, Menu } from 'antd';
+import { Tag, Modal, Table, Dropdown, Menu } from 'antd';
 import {  CalendarOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 
 const RapportClotureTemplForm = () => {
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [pagination, setPagination] = useState({
             current: 1,
             pageSize: 20,
           });
+    const scroll = { x: 'max-content' };
+
 
     const columns = [
         {
@@ -140,7 +143,17 @@ const RapportClotureTemplForm = () => {
 
                 </div>
                 <div className="rapportCloture_bottom">
-                    
+                    <Table
+                        dataSource={data}
+                        columns={columns}
+                        bordered
+                        scroll={scroll}
+                        loading={loading}
+                        size="small"
+                        pagination={pagination}
+                        onChange={pagination => setPagination(pagination)}
+                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    />
                 </div>
             </div>
         </div>
