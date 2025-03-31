@@ -77,6 +77,16 @@ const RapportClotureManueForm = () => {
                             </Form.Item>         
                         </Col>
 
+                        <Col span={8}>       
+                            <Form.Item
+                                name="total"
+                                label="Total"
+                                rules={[{ required: false, message: "Veuillez entrer le total" }]}
+                            >
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
+                            </Form.Item>         
+                        </Col>
+
                     </Row>
                 </Form>
             </div>
