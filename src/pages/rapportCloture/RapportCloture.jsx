@@ -179,8 +179,7 @@ const RapportCloture = () => {
                         />
                     </div>
                 </div>
-            </div>
-            <div className="rapport_wrapper_facture">
+
                 <Table
                     dataSource={data}
                     columns={columns}
