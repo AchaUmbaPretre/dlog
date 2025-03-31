@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Input, notification, DatePicker, Modal, Select, Row, Col } from 'antd';
+import { Button, Form, Input, notification, InputNumber, DatePicker, Modal, Select, Row, Col } from 'antd';
 
 const RapportClotureManueForm = () => {
     const [form] = Form.useForm();
@@ -39,12 +39,22 @@ const RapportClotureManueForm = () => {
 
                         <Col span={8}>
                             <Form.Item
-                                label="Periode"
-                                name="periode"
-                                rules={[{ required: true, message: 'Veuillez entrer le nom du bâtiment!' }]}
+                                name="m2_occupe"
+                                label="M² Occupé"
+                                rules={[{ required: false, message: "Veuillez entrer la superficie occupée" }]}
                             >
-                                <Input />
-                            </Form.Item>        
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Occupé" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                            </Form.Item>       
+                        </Col>
+
+                        <Col span={8}>
+                            <Form.Item
+                                name="m2_facture"
+                                label="M² Facturé"
+                                rules={[{ required: false, message: "Veuillez entrer la superficie facturée" }]}
+                            >
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Facturé" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                            </Form.Item>    
                         </Col>
                     </Row>
                 </Form>
