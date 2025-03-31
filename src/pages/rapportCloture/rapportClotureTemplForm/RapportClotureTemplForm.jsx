@@ -1,18 +1,46 @@
-import React, { useState } from 'react'
-import { Tag, Table } from 'antd';
-import {  CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Tag, Table, Input, Button, Popconfirm } from 'antd';
+import { CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
 import moment from 'moment';
-
 
 const RapportClotureTemplForm = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [editingKey, setEditingKey] = useState(null);
     const [pagination, setPagination] = useState({
-            current: 1,
-            pageSize: 20,
-          });
+        current: 1,
+        pageSize: 20,
+    });
     const scroll = { x: 'max-content' };
 
+    const isEditing = (record) => record.key === editingKey;
+
+    const edit = (record) => {
+        setEditingKey(record.key);
+    };
+
+    const save = (key, newData) => {
+        setData((prevData) => prevData.map((item) => (item.key === key ? { ...item, ...newData } : item)));
+        setEditingKey(null);
+    };
+
+    const cancel = () => {
+        setEditingKey(null);
+    };
+
+    const editableCell = (text, record, dataIndex) => {
+        return isEditing(record) ? (
+            <Input
+                defaultValue={text}
+                onChange={(e) => record[dataIndex] = e.target.value}
+                onPressEnter={() => save(record.key, record)}
+            />
+        ) : (
+            <Tag icon={<BarcodeOutlined />} color="cyan" onClick={() => edit(record)} style={{ cursor: 'pointer' }}>
+                {text ?? '0'}
+            </Tag>
+        );
+    };
 
     const columns = [
         {
@@ -32,116 +60,73 @@ const RapportClotureTemplForm = () => {
             key: 'periode',
             sorter: (a, b) => moment(a.periode) - moment(b.periode),
             sortDirections: ['descend', 'ascend'],
-                render: (text, record) => {
+            render: (text) => {
                 const date = text ? new Date(text) : null;
-                const mois = date ? date.getMonth() + 1 : null; // getMonth() renvoie 0-11, donc +1 pour avoir 1-12
-                const annee = date ? date.getFullYear() : null;
-                    
-                const formattedDate = date
-                      ? date.toLocaleString('default', { month: 'long', year: 'numeric' })
-                      : 'Aucun';
-                
-                    return (
-                      <Tag 
-                        icon={<CalendarOutlined />} 
-                        color="purple" 
-                      >
-                        {formattedDate}
-                      </Tag>
-                    );
-                },
+                const formattedDate = date ? date.toLocaleString('default', { month: 'long', year: 'numeric' }) : 'Aucun';
+                return <Tag icon={<CalendarOutlined />} color="purple">{formattedDate}</Tag>;
+            },
         },
         {
             title: 'M² occupe',
             dataIndex: 'm2_occupe',
             key: 'm2_occupe',
-                sorter: (a, b) => a.m2_occupe - b.m2_occupe,
-                sortDirections: ['descend', 'ascend'],
-                render: (text) => (
-                    <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? '0'}</Tag>
-                ),
-                align: 'right', 
+            sorter: (a, b) => a.m2_occupe - b.m2_occupe,
+            render: (text, record) => editableCell(text, record, 'm2_occupe'),
+            align: 'right',
         },
         {
             title: 'M² facture',
             dataIndex: 'm2_facture',
             key: 'm2_facture',
             sorter: (a, b) => a.m2_facture - b.m2_facture,
-                sortDirections: ['descend', 'ascend'],
-                render: (text) => (
-                    <Tag icon={<BarcodeOutlined />} color="cyan">{text?.toLocaleString() ?? '0'}</Tag>
-                ),
-                align: 'right', 
-            },
-            {
-                title: 'Total Entr',
-                dataIndex: 'total_entreposage',
-                key: 'total_entreposage',
-                sorter: (a, b) => a.total_entreposage - b.total_entreposage,
-                sortDirections: ['descend', 'ascend'],
-                render: (text) => (
-                    <Tag color="gold">
-                          {text
-                            ? `${parseFloat(text)
-                                .toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                    })
-                                    .replace(/,/g, " ")} $`
-                                : "0.00"}
-                        </Tag>
-                    ),
-                align: 'right', 
-            },
-            {
-                title: 'Total Manu',
-                dataIndex: 'total_manutation',
-                key: 'total_manutation',
-                sorter: (a, b) => a.total_manutation - b.total_manutation,
-                sortDirections: ['descend', 'ascend'],
-                render: (text) => (
-                    <Tag color="gold">
-                        {text
-                            ? `${parseFloat(text)
-                                .toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                                })
-                                .replace(/,/g, " ")} $`
-                                : "0.00"}
-                        </Tag>
-                      ),
-                      align: 'right',
-            },
-            {
-                title: 'Total',
-                dataIndex: 'total',
-                key: 'total',
-                sorter: (a, b) => a.total - b.total,
-                sortDirections: ['descend', 'ascend'],
-                render: (text) => (
-                    <Tag color="cyan">
-                        {text
-                            ? `${parseFloat(text)
-                            .toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })
-                            .replace(/,/g, " ")} $`
-                            : "0.00"}
-                    </Tag>
-                    ),
-                align: 'right'            
-            },
-    ]
+            render: (text, record) => editableCell(text, record, 'm2_facture'),
+            align: 'right',
+        },
+        {
+            title: 'Total Entr',
+            dataIndex: 'total_entreposage',
+            key: 'total_entreposage',
+            sorter: (a, b) => a.total_entreposage - b.total_entreposage,
+            render: (text, record) => editableCell(text, record, 'total_entreposage'),
+            align: 'right',
+        },
+        {
+            title: 'Total Manu',
+            dataIndex: 'total_manutation',
+            key: 'total_manutation',
+            sorter: (a, b) => a.total_manutation - b.total_manutation,
+            render: (text, record) => editableCell(text, record, 'total_manutation'),
+            align: 'right',
+        },
+        {
+            title: 'Total',
+            dataIndex: 'total',
+            key: 'total',
+            sorter: (a, b) => a.total - b.total,
+            render: (text, record) => editableCell(text, record, 'total'),
+            align: 'right'
+        },
+        {
+            title: 'Action',
+            dataIndex: 'action',
+            render: (_, record) => (
+                isEditing(record) ? (
+                    <>
+                        <Button type="link" onClick={() => save(record.key, record)}>Sauvegarder</Button>
+                        <Popconfirm title="Annuler ?" onConfirm={cancel}>
+                            <Button type="link">Annuler</Button>
+                        </Popconfirm>
+                    </>
+                ) : (
+                    <Button type="link" onClick={() => edit(record)}>Modifier</Button>
+                )
+            ),
+        },
+    ];
 
-  return (
-    <>
+    return (
         <div className="rapportClotureTemplForm">
             <div className="rapportCloture_wrapper">
-                <div className="rapportCloture_top">
-
-                </div>
                 <div className="rapportCloture_bottom">
                     <Table
                         dataSource={data}
@@ -157,8 +142,7 @@ const RapportClotureTemplForm = () => {
                 </div>
             </div>
         </div>
-    </>
-  )
-}
+    );
+};
 
-export default RapportClotureTemplForm
+export default RapportClotureTemplForm;
