@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Tag, Table, Input, Select, Button, Popconfirm, notification } from 'antd';
 import { CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import './rapportClotureTemplForm.scss'
 import { useSelector } from 'react-redux';
 import { getTemplate } from '../../../services/templateService';
 
@@ -156,6 +157,7 @@ const RapportClotureTemplForm = () => {
 
     return (
         <div className="rapportClotureTemplForm">
+            <h1 className='rapport_h1'>Form rapport cloturé</h1>
             <div className="rapportCloture_wrapper">
                 <div className="rapportCloture_top">
                     <Select
