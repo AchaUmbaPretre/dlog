@@ -10,10 +10,13 @@
         flex-direction: column;
         gap: 20px;
         .rapportCloture_rows{
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
             .rapportCloture_top{
                 display: flex;
-                justify-content: space-between;
-                gap: 20px;
+                align-items: center;
+                gap: 5px;
 
                 label{
                     display: flex;
