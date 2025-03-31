@@ -193,9 +193,6 @@ const RapportClotureTemplForm = () => {
                         <Button>
                             Soumettre
                         </Button>
-                        {/* <div className="rapportCloture-sous_rows">
-                            
-                        </div> */}
                     </div>
                 </div>
 
