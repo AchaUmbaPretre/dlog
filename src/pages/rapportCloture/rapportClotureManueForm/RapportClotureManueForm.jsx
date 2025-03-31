@@ -1,98 +1,103 @@
-import React, { useState } from 'react'
-import { Button, Form, Input, notification, InputNumber, DatePicker, Modal, Select, Row, Col } from 'antd';
+import React, { useState } from 'react';
+import { Button, Form, InputNumber, DatePicker, Row, Col } from 'antd';
 
 const RapportClotureManueForm = () => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
-    const [periode, setPeriode] = useState(null);
-    
 
-    const onFinish = () => {
+    // Met à jour le total automatiquement
+    const onValuesChange = (_, allValues) => {
+        const { total_manutation = 0, total_entreposage = 0 } = allValues;
+        form.setFieldsValue({
+            total: total_manutation + total_entreposage
+        });
+    };
 
-    }
+    const onFinish = (values) => {
+        console.log('Form submitted:', values);
+    };
 
-  return (
-    <>
+    // Fonction pour réinitialiser le formulaire
+    const handleReset = () => {
+        form.resetFields();
+    };
+
+    return (
         <div className="client_form">
             <div className="controle_title_rows">
                 <h2 className="controle_h2">Manuellement</h2>
             </div>
             <div className="client_wrapper">
-                <Form form={form} layout="vertical" onFinish={onFinish}>
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={onFinish}
+                    onValuesChange={onValuesChange}
+                >
                     <Row gutter={16}>
-
-                        <Col span={8}>
+                        <Col span={12}>
                             <Form.Item
                                 label="Periode"
                                 name="periode"
-                                rules={[{ required: true, message: 'Veuillez entrer le nom du bâtiment!' }]}
+                                rules={[{ required: true, message: 'Veuillez entrer la période!' }]}
                             >
-                                <DatePicker
-                                    picker="month"
-                                    placeholder="Sélectionnez le mois"
-                                    format="YYYY-MM-DD"
-                                    style={{ width: '100%' }}
-                                    onChange={(date, dateString) => setPeriode(dateString)}
-                                />
+                                <DatePicker picker="month" style={{ width: '100%' }} />
                             </Form.Item>        
                         </Col>
 
-                        <Col span={8}>
-                            <Form.Item
-                                name="m2_occupe"
-                                label="M² Occupé"
-                                rules={[{ required: false, message: "Veuillez entrer la superficie occupée" }]}
-                            >
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Occupé" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                        <Col span={12}>
+                            <Form.Item name="m2_occupe" label="M² Occupé">
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Occupé" />
                             </Form.Item>       
                         </Col>
 
-                        <Col span={8}>
-                            <Form.Item
-                                name="m2_facture"
-                                label="M² Facturé"
-                                rules={[{ required: false, message: "Veuillez entrer la superficie facturée" }]}
-                            >
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Facturé" parser={(value) => value.replace(/\$\s?|(,*)/g, '')} />
+                        <Col span={12}>
+                            <Form.Item name="m2_facture" label="M² Facturé">
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Facturé" />
                             </Form.Item>    
                         </Col>
 
-                        <Col span={8}>       
-                            <Form.Item
-                                name="total_manutation"
-                                label="Total Manutention"
-                                rules={[{ required: false, message: "Veuillez entrer le total" }]}
-                            >
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
+                        <Col span={12}>       
+                            <Form.Item name="total_manutation" label="Total Manutention">
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total Manutention" />
                             </Form.Item>         
                         </Col>
 
-                        <Col span={8}>       
-                            <Form.Item
-                                name="total_entreposage"
-                                label="Total entreposage"
-                                rules={[{ required: false, message: "Veuillez entrer le total" }]}
-                            >
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
+                        <Col span={12}>       
+                            <Form.Item name="total_entreposage" label="Total Entreposage">
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total Entreposage" />
                             </Form.Item>         
                         </Col>
 
-                        <Col span={8}>       
-                            <Form.Item
-                                name="total"
-                                label="Total"
-                                rules={[{ required: false, message: "Veuillez entrer le total" }]}
-                            >
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" />
+                        <Col span={12}>       
+                            <Form.Item name="total" label="Total">
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" disabled />
                             </Form.Item>         
                         </Col>
 
+                        {/* Boutons Créer et Annuler */}
+                        <Col span={24} style={{ textAlign: 'right' }}>
+                            <Button
+                                type="default"
+                                onClick={handleReset}
+                                style={{ marginRight: 10 }}
+                            >
+                                Annuler
+                            </Button>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                loading={isLoading}
+                                disabled={isLoading}
+                            >
+                                Créer
+                            </Button>
+                        </Col>
                     </Row>
                 </Form>
             </div>
         </div>
-    </>
-  )
-}
+    );
+};
 
-export default RapportClotureManueForm
+export default RapportClotureManueForm;
