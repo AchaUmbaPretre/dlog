@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { Button, Checkbox, Dropdown, Input, Menu, Tooltip, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
+import { Button, Input, Table, Tag } from 'antd';
 import moment from 'moment';
-import { MenuOutlined, EditOutlined, LockOutlined, PieChartOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined, DownOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined, ScheduleOutlined, PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
+import {  MoreOutlined, CalendarOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
 const { Search } = Input;
-
 
 const RapportCloture = () => {
     const [loading, setLoading] = useState(false);
@@ -182,9 +181,8 @@ const RapportCloture = () => {
                     <div className="client-rows-right">
                         <Button
                             type="primary"
-                            icon={<PlusCircleOutlined />}
+                            icon={<MoreOutlined/>}
                         >
-                            Ajouter un rapport cloturé
                         </Button>
                     </div>
                 </div>
