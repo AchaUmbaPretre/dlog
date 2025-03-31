@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tag, Table, Input, Select, Button, Popconfirm, notification } from 'antd';
+import { Tag, Table, Input, Select, Button, DatePicker, Popconfirm, notification } from 'antd';
 import { CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import './rapportClotureTemplForm.scss'
@@ -17,6 +17,7 @@ const RapportClotureTemplForm = () => {
         pageSize: 20,
     });
     const scroll = { x: 'max-content' };
+    const [periode, setPeriode] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const role = useSelector((state) => state.user?.currentUser.role);
     
@@ -157,7 +158,9 @@ const RapportClotureTemplForm = () => {
 
     return (
         <div className="rapportClotureTemplForm">
-            <h1 className='rapport_h1'>Form rapport cloturé</h1>
+            <div className="rapport_rows">
+                <h1 className='rapport_h1'>Form rapport cloturé</h1>
+            </div>
             <div className="rapportCloture_wrapper">
                 <div className="rapportCloture_rows">
                     <div className="rapportCloture_top">
@@ -168,10 +171,25 @@ const RapportClotureTemplForm = () => {
                             placeholder="Sélectionnez..."
                             onChange={setIdTemplate}
                             optionFilterProp="label"
+                            style={{width:'100%'}}                       
                         />
                     </div>
                     <div className="rapportCloture_left">
-                        aaaaaaaaa
+                        <div className="rapportCloture-sous_rows">
+                            <DatePicker
+                                picker="month"
+                                placeholder="Sélectionnez le mois"
+                                format="YYYY-MM"
+                                style={{ width: '100%' }}
+                                onChange={(date, dateString) => setPeriode(dateString)}
+                            />
+                        </div>
+                        <Button>
+                            Soumettre
+                        </Button>
+                        {/* <div className="rapportCloture-sous_rows">
+                            
+                        </div> */}
                     </div>
                 </div>
 
