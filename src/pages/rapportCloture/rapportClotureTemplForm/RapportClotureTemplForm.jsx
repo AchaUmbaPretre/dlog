@@ -17,12 +17,11 @@ const RapportClotureTemplForm = () => {
         current: 1,
         pageSize: 20,
     });
-    const scroll = { x: 'max-content' };
+    const scroll = { x: 400 };
     const [periode, setPeriode] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const role = useSelector((state) => state.user?.currentUser.role);
     
-
     const fetchData = async() => {
         setLoading(true)    
         try {
@@ -32,11 +31,13 @@ const RapportClotureTemplForm = () => {
 
             setTemplates(templateData.data);
 
-            if(idTemplate) {
-                const { data : decl} = await getDeclarationTemplate(idTemplate)  
-                setData(decl)              
-            }
+            if (idTemplate) {
+                const { data: decl } = await getDeclarationTemplate(idTemplate);
+                setData(decl.map((row, index) => ({ ...row, key: index })));
 
+            } else {
+                setData([]); 
+            }
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -58,9 +59,15 @@ const RapportClotureTemplForm = () => {
         };
     
         const save = (key, newData) => {
-            setData((prevData) => prevData.map((item) => (item.key === key ? { ...item, ...newData } : item)));
+            setData((prevData) => 
+                prevData.map((item) => 
+                    item.key === key ? { ...item, ...newData } : item
+                )
+            );
             setEditingKey(null);
-        };
+        };        
+        
+        
     
         const cancel = () => {
             setEditingKey(null);
@@ -72,8 +79,9 @@ const RapportClotureTemplForm = () => {
                     <DatePicker
                         defaultValue={text ? moment(text) : null}
                         format="YYYY-MM-DD"
-                        onChange={(date, dateString) => record[dataIndex] = dateString}
+                        onChange={(date, dateString) => save(record.key, { ...record, [dataIndex]: dateString })}
                     />
+
                 ) : (
                     <Input
                         defaultValue={text}
