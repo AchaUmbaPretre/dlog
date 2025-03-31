@@ -159,11 +159,11 @@ const RapportClotureTemplForm = () => {
             <div className="rapportCloture_wrapper">
                 <div className="rapportCloture_top">
                     <Select
-                                        showSearch
-                                        options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
-                                        placeholder="Sélectionnez..."
-                                        onChange={setIdTemplate}
-                                        optionFilterProp="label"
+                        showSearch
+                        options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
+                        placeholder="Sélectionnez..."
+                        onChange={setIdTemplate}
+                        optionFilterProp="label"
                     />
                 </div>
                 <div className="rapportCloture_bottom">
