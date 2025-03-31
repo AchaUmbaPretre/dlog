@@ -159,15 +159,22 @@ const RapportClotureTemplForm = () => {
         <div className="rapportClotureTemplForm">
             <h1 className='rapport_h1'>Form rapport cloturé</h1>
             <div className="rapportCloture_wrapper">
-                <div className="rapportCloture_top">
-                    <Select
-                        showSearch
-                        options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
-                        placeholder="Sélectionnez..."
-                        onChange={setIdTemplate}
-                        optionFilterProp="label"
-                    />
+                <div className="rapportCloture_rows">
+                    <div className="rapportCloture_top">
+                        <label htmlFor=""> Template <div style={{color:'red'}}>*</div></label>
+                        <Select
+                            showSearch
+                            options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
+                            placeholder="Sélectionnez..."
+                            onChange={setIdTemplate}
+                            optionFilterProp="label"
+                        />
+                    </div>
+                    <div className="rapportCloture_left">
+                        
+                    </div>
                 </div>
+
                 <div className="rapportCloture_bottom">
                     <Table
                         dataSource={data}
