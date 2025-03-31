@@ -127,6 +127,9 @@ const RapportClotureTemplForm = () => {
     return (
         <div className="rapportClotureTemplForm">
             <div className="rapportCloture_wrapper">
+                <div className="rapportCloture_top">
+                    
+                </div>
                 <div className="rapportCloture_bottom">
                     <Table
                         dataSource={data}
