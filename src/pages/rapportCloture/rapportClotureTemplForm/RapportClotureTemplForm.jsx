@@ -5,6 +5,7 @@ import moment from 'moment';
 import './rapportClotureTemplForm.scss'
 import { useSelector } from 'react-redux';
 import { getTemplate } from '../../../services/templateService';
+import { getDeclarationTemplate } from '../../../services/rapportService';
 
 const RapportClotureTemplForm = () => {
     const [data, setData] = useState([]);
@@ -30,6 +31,11 @@ const RapportClotureTemplForm = () => {
             ])
 
             setTemplates(templateData.data);
+
+            if(idTemplate) {
+                const { data : decl} = await getDeclarationTemplate(idTemplate)  
+                setData(decl)              
+            }
 
         } catch (error) {
             notification.error({
