@@ -170,7 +170,7 @@ const RapportCloture = () => {
                         <h2 className="client-h2">RAPPORT CLOTURE</h2>
                     </div>
                 </div>
-                
+
                 <div className="client-actions">
                     <div className="client-row-left">
                         <Search 
@@ -178,6 +178,14 @@ const RapportCloture = () => {
                             enterButton
                             onChange={(e) => setSearchValue(e.target.value)}
                         />
+                    </div>
+                    <div className="client-rows-right">
+                        <Button
+                            type="primary"
+                            icon={<PlusCircleOutlined />}
+                        >
+                            Ajouter un rapport cloturé
+                        </Button>
                     </div>
                 </div>
 
