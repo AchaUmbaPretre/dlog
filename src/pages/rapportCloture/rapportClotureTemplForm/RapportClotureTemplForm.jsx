@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Tag, Modal, Table, Dropdown, Menu } from 'antd';
-import {  CalendarOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
+import { Tag, Table } from 'antd';
+import {  CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 
