@@ -15,6 +15,7 @@ import { StatutDeclaration } from './declarationStatut/DeclarationStatut';
 import DeclarationStatutCloture from './declarationStatut/declarationStatutCloture/DeclarationStatutCloture';
 import config from '../../config';
 import BeatLoader from 'react-spinners/BeatLoader';
+import RapportCloture from '../rapportCloture/RapportCloture';
 
 const { Search } = Input;
 
@@ -1081,6 +1082,7 @@ useEffect(() => {
           }
           key="3"
         >
+          <RapportCloture/>
         </TabPane>
         }
       </Tabs>
