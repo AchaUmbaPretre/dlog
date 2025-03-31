@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Button, Checkbox, Dropdown, Menu, Tooltip, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
+import { Button, Checkbox, Dropdown, Input, Menu, Tooltip, notification, Popover, Skeleton, Space, Table, Tabs, Tag } from 'antd';
 import moment from 'moment';
 import { MenuOutlined, EditOutlined, LockOutlined, PieChartOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined, DownOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined, ScheduleOutlined, PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
+const { Search } = Input;
 
 
 const RapportCloture = () => {
@@ -20,7 +21,8 @@ const RapportCloture = () => {
         "Total Manu": true,
 
       });  
-    const scroll = { x: 400 };
+    const [searchValue, setSearchValue] = useState('');  
+    const scroll = { x: 'max-content' };
 
     const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
@@ -158,14 +160,32 @@ const RapportCloture = () => {
 
   return (
     <>
-        <div className="rapport_facture">
-            <h2 className="rapport_h2">RAPPORT CLOTURE</h2>
+        <div className="client">
+            <div className="client-wrapper">
+                <div className="client-rows">
+                    <div className="client-row">
+                        <div className="client-row-icon">
+                            <ScheduleOutlined className='client-icon' />
+                        </div>
+                        <h2 className="client-h2">RAPPORT CLOTURE</h2>
+                    </div>
+                </div>
+                <div className="client-actions">
+                    <div className="client-row-left">
+                        <Search 
+                            placeholder="Recherche..." 
+                            enterButton
+                            onChange={(e) => setSearchValue(e.target.value)}
+                        />
+                    </div>
+                </div>
+            </div>
             <div className="rapport_wrapper_facture">
                 <Table
                     dataSource={data}
                     columns={columns}
                     bordered
-                    scroll={{ x: 'max-content' }}
+                    scroll={scroll}
                     loading={loading}
                     size="small"
                     pagination={pagination}
