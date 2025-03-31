@@ -1081,8 +1081,8 @@ useEffect(() => {
           }
           key="3"
         >
-          <RapportDeclaration/>
-        </TabPane>
+{/*           <RapportDeclaration/>
+ */}        </TabPane>
         }
       </Tabs>
     </>
