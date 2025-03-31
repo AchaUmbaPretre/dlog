@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Input, Table, Tag, Dropdown, Menu } from 'antd';
+import { Button, Input, Table, Tag, Modal, Dropdown, Menu } from 'antd';
 import moment from 'moment';
 import {  MoreOutlined, CalendarOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
+import RapportClotureManueForm from './rapportClotureManueForm/RapportClotureManueForm';
+import RapportClotureVilleForm from './rapportClotureVilleForm/RapportClotureVilleForm';
+import RapportClotureTemplForm from './rapportClotureTemplForm/RapportClotureTemplForm';
 const { Search } = Input;
 
 const RapportCloture = () => {
@@ -35,6 +38,23 @@ const RapportCloture = () => {
           [columnName]: !prev[columnName]
         }));
       };
+
+    const openModal = (type, id = '') => {
+        closeAllModals();
+        setModalType(type);
+      };
+
+    const handleManuellement = (id) => {
+        openModal('Manuellement', id)
+      }
+
+    const handleTemplate = (id) => {
+        openModal('Template', id)
+      }
+
+    const handleVille = (id) => {
+        openModal('Ville', id)
+      }
 
     const columns = [
         {
@@ -188,15 +208,15 @@ const RapportCloture = () => {
                         overlay={(
                         <Menu>
                             {/* Actions Document */}
-                            <Menu.Item >
+                            <Menu.Item onClick={handleManuellement} >
                             <FileTextOutlined /> Manuellement
                             </Menu.Item>
                             <Menu.Divider />
-                            <Menu.Item >
+                            <Menu.Item onClick={handleTemplate}>
                             <FileTextOutlined style={{color:'blue'}}/> Déclaration
                             </Menu.Item>
                             <Menu.Divider />
-                            <Menu.Item >
+                            <Menu.Item onClick={handleVille}>
                             <EnvironmentOutlined style={{color:'red'}} /> Ville
                             </Menu.Item>
                             <Menu.Divider />
@@ -226,7 +246,49 @@ const RapportCloture = () => {
                 />
             </div>
         </div>
+        <Modal
+          title=""
+          visible={modalType === 'Manuellement'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={700}
+          centered
+        >
+            <RapportClotureManueForm/>
+        </Modal>
 
+        <Modal
+          title=""
+          visible={modalType === 'Template'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={700}
+          centered
+        >
+            <RapportClotureTemplForm/>
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'Manuellement'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={700}
+          centered
+        >
+            <RapportClotureManueForm/>
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'Ville'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={700}
+          centered
+        >
+            <RapportClotureVilleForm/>
+        </Modal>
     </>
   )
 }
