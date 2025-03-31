@@ -1071,7 +1071,7 @@ useEffect(() => {
             <span>
               <LockOutlined 
                 style={{
-                  color: '#faad14',
+                  color: 'red',
                   fontSize: '18px',
                   marginRight: '8px',
                 }}
