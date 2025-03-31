@@ -1065,6 +1065,25 @@ useEffect(() => {
           <RapportDeclaration/>
         </TabPane>
         }
+        {role === 'Admin' && 
+        <TabPane
+          tab={
+            <span>
+              <PieChartOutlined
+                style={{
+                  color: '#faad14',
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+              Cloturé
+            </span>
+          }
+          key="3"
+        >
+          <RapportDeclaration/>
+        </TabPane>
+        }
       </Tabs>
     </>
   );
