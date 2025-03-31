@@ -152,8 +152,7 @@ const RapportCloture = () => {
                             : "0.00"}
                     </Tag>
                     ),
-                align: 'right', 
-                ...(columnsVisibility['Manutention'] ? {} : { className: 'hidden-column' }),
+                align: 'right'            
             },
     ]
 
