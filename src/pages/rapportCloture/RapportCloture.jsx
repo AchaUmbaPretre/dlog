@@ -113,6 +113,48 @@ const RapportCloture = () => {
                 align: 'right', 
                 ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
             },
+            {
+                title: 'Total Manu',
+                dataIndex: 'total_manutation',
+                key: 'total_manutation',
+                sorter: (a, b) => a.total_manutation - b.total_manutation,
+                sortDirections: ['descend', 'ascend'],
+                render: (text) => (
+                    <Tag color="gold">
+                        {text
+                            ? `${parseFloat(text)
+                                .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                                })
+                                .replace(/,/g, " ")} $`
+                                : "0.00"}
+                        </Tag>
+                      ),
+                      align: 'right',
+                      ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
+            },
+            {
+                title: 'Total',
+                dataIndex: 'total',
+                key: 'total',
+                sorter: (a, b) => a.total - b.total,
+                sortDirections: ['descend', 'ascend'],
+                render: (text) => (
+                    <Tag color="cyan">
+                        {text
+                            ? `${parseFloat(text)
+                            .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })
+                            .replace(/,/g, " ")} $`
+                            : "0.00"}
+                    </Tag>
+                    ),
+                align: 'right', 
+                ...(columnsVisibility['Manutention'] ? {} : { className: 'hidden-column' }),
+            },
     ]
 
   return (
