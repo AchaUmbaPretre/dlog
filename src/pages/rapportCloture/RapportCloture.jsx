@@ -20,8 +20,13 @@ const RapportCloture = () => {
         "Total Manu": true,
 
       });  
-    const [searchValue, setSearchValue] = useState('');  
+    const [searchValue, setSearchValue] = useState(''); 
+    const [modalType, setModalType] = useState(null); 
     const scroll = { x: 'max-content' };
+
+    const closeAllModals = () => {
+        setModalType(null);
+      };
 
     const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
@@ -221,6 +226,7 @@ const RapportCloture = () => {
                 />
             </div>
         </div>
+
     </>
   )
 }
