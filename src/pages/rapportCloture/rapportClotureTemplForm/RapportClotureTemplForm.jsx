@@ -5,7 +5,7 @@ import moment from 'moment';
 import './rapportClotureTemplForm.scss'
 import { useSelector } from 'react-redux';
 import { getTemplate } from '../../../services/templateService';
-import { getDeclarationTemplate } from '../../../services/rapportService';
+import { getDeclarationTemplate, postCloture } from '../../../services/rapportService';
 
 const RapportClotureTemplForm = () => {
     const [data, setData] = useState([]);
@@ -180,6 +180,28 @@ const RapportClotureTemplForm = () => {
             },
         ];
 
+        const onFinish = async () => {
+            try {
+                setLoading(true);
+                await postCloture(data);
+                
+                notification.success({
+                    message: 'Succès',
+                    description: 'La clôture a été ajoutée avec succès.',
+                });
+            } catch (error) {
+                console.error(error);
+                
+                notification.error({
+                    message: 'Erreur',
+                    description: "Une erreur s'est produite lors de l'ajout de la clôture.",
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+
     return (
         <div className="rapportClotureTemplForm">
             <div className="rapport_rows">
@@ -208,7 +230,7 @@ const RapportClotureTemplForm = () => {
                                 onChange={(date, dateString) => setPeriode(dateString)}
                             />
                         </div>
-                        <Button>
+                        <Button onClick={onFinish}>
                             Soumettre
                         </Button>
                     </div>

@@ -26,3 +26,7 @@ export const postContratRapport = async (data) => {
 export const getDeclarationTemplate = async (id) => {
     return axios.get(`${DOMAIN}/api/rapport/declarationTemplate?id_template=${id}`);
   };
+
+export const postCloture = async (data) => {
+    return axios.post(`${DOMAIN}/api/rapport/cloture`, data)
+}
