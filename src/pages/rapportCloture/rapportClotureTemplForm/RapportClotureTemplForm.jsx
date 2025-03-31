@@ -171,7 +171,7 @@ const RapportClotureTemplForm = () => {
                         />
                     </div>
                     <div className="rapportCloture_left">
-                        
+                        aaaaaaaaa
                     </div>
                 </div>
 
