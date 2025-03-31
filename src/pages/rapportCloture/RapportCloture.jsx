@@ -251,7 +251,7 @@ const RapportCloture = () => {
           visible={modalType === 'Manuellement'}
           onCancel={closeAllModals}
           footer={null}
-          width={700}
+          width={900}
           centered
         >
             <RapportClotureManueForm/>
@@ -262,7 +262,7 @@ const RapportCloture = () => {
           visible={modalType === 'Template'}
           onCancel={closeAllModals}
           footer={null}
-          width={700}
+          width={900}
           centered
         >
             <RapportClotureTemplForm/>
@@ -273,7 +273,7 @@ const RapportCloture = () => {
           visible={modalType === 'Manuellement'}
           onCancel={closeAllModals}
           footer={null}
-          width={700}
+          width={900}
           centered
         >
             <RapportClotureManueForm/>
