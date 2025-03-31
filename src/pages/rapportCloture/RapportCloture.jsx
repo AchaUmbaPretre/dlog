@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { Button, Input, Table, Tag, Modal, Dropdown, Menu } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Button, Input, Table, Tag, Modal, notification, Dropdown, Menu } from 'antd';
 import moment from 'moment';
 import {  MoreOutlined, CalendarOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
 import RapportClotureManueForm from './rapportClotureManueForm/RapportClotureManueForm';
 import RapportClotureVilleForm from './rapportClotureVilleForm/RapportClotureVilleForm';
 import RapportClotureTemplForm from './rapportClotureTemplForm/RapportClotureTemplForm';
+import { getCloture } from '../../services/rapportService';
 const { Search } = Input;
 
 const RapportCloture = () => {
@@ -26,6 +27,24 @@ const RapportCloture = () => {
     const [searchValue, setSearchValue] = useState(''); 
     const [modalType, setModalType] = useState(null); 
     const scroll = { x: 'max-content' };
+
+        const fetchData = async () => {
+          try {
+            const { data } = await getCloture();
+            setData(data);
+            setLoading(false);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+            setLoading(false);
+          }
+        };
+    
+      useEffect(() => {
+        fetchData();
+      }, []);
 
     const closeAllModals = () => {
         setModalType(null);
@@ -120,9 +139,9 @@ const RapportCloture = () => {
             },
             {
                 title: 'Total Entr',
-                dataIndex: 'total_entreposage',
-                key: 'total_entreposage',
-                sorter: (a, b) => a.total_entreposage - b.total_entreposage,
+                dataIndex: 'entreposage',
+                key: 'entreposage',
+                sorter: (a, b) => a.entreposage - b.entreposage,
                 sortDirections: ['descend', 'ascend'],
                 render: (text) => (
                     <Tag color="gold">
@@ -141,9 +160,9 @@ const RapportCloture = () => {
             },
             {
                 title: 'Total Manu',
-                dataIndex: 'total_manutation',
+                dataIndex: 'manutation',
                 key: 'total_manutation',
-                sorter: (a, b) => a.total_manutation - b.total_manutation,
+                sorter: (a, b) => a.manutation - b.manutation,
                 sortDirections: ['descend', 'ascend'],
                 render: (text) => (
                     <Tag color="gold">
