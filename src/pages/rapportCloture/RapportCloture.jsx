@@ -270,17 +270,6 @@ const RapportCloture = () => {
 
         <Modal
           title=""
-          visible={modalType === 'Manuellement'}
-          onCancel={closeAllModals}
-          footer={null}
-          width={900}
-          centered
-        >
-            <RapportClotureManueForm/>
-        </Modal>
-
-        <Modal
-          title=""
           visible={modalType === 'Ville'}
           onCancel={closeAllModals}
           footer={null}
