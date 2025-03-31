@@ -17,7 +17,6 @@ const RapportClotureManueForm = () => {
         console.log('Form submitted:', values);
     };
 
-    // Fonction pour réinitialiser le formulaire
     const handleReset = () => {
         form.resetFields();
     };
@@ -75,7 +74,6 @@ const RapportClotureManueForm = () => {
                             </Form.Item>         
                         </Col>
 
-                        {/* Boutons Créer et Annuler */}
                         <Col span={24} style={{ textAlign: 'right' }}>
                             <Button
                                 type="default"
