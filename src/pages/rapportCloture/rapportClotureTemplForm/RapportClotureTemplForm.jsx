@@ -49,7 +49,7 @@ const RapportClotureTemplForm = () => {
 
         useEffect(() => {
             fetchData()
-        }, []);
+        }, [idTemplate]);
 
     const isEditing = (record) => record.key === editingKey;
 
