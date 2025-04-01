@@ -213,13 +213,19 @@ const RapportCloture = () => {
                 width: "9%",
                 render: (text, record) => (
                     <Space>
-                        <Tooltip title="Modifier">
-                            <Button
-                                icon={<EditOutlined />}
-                                style={{ color: 'green' }}
-                                onClick={() => handleEdit(record.id_cloture)}
-                                aria-label="Edit department"
-                            />
+                        <Tooltip title="Supprimer">
+                            <Popconfirm
+                                title="Êtes-vous sûr de vouloir supprimer ?"
+                                onConfirm={() => handleDelete(record.id_cloture)}
+                                okText="Oui"
+                                cancelText="Non"
+                            >
+                                <Button
+                                icon={<DeleteOutlined />}
+                                style={{ color: 'red' }}
+                                aria-label="Delete budget"
+                                />
+                            </Popconfirm>
                         </Tooltip>
                     </Space>
                 )
