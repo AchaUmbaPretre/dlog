@@ -221,15 +221,6 @@ const RapportClotureTemplForm = () => {
                         />
                     </div>
                     <div className="rapportCloture_left">
-                        {/* <div className="rapportCloture-sous_rows">
-                            <DatePicker
-                                picker="month"
-                                placeholder="Sélectionnez le mois"
-                                format="YYYY-MM"
-                                style={{ width: '100%' }}
-                                onChange={(date, dateString) => setPeriode(dateString)}
-                            />
-                        </div> */}
                         <Button onClick={onFinish}>
                             Soumettre
                         </Button>
