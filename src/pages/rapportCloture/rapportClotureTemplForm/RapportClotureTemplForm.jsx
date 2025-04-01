@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Tag, Table, Input, Select, Button, DatePicker, Popconfirm, notification } from 'antd';
 import { CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import './rapportClotureTemplForm.scss'
+import './rapportClotureTemplForm.scss';
 import { useSelector } from 'react-redux';
 import { getTemplate } from '../../../services/templateService';
 import { getDeclarationTemplate, postCloture } from '../../../services/rapportService';
