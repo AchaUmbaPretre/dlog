@@ -210,7 +210,8 @@ const RapportCloture = () => {
             {
                 title: 'Action',
                 key: 'action',
-                render: (text, record) => {
+                width: "9%",
+                render: (text, record) => (
                     <Space>
                         <Tooltip title="Modifier">
                             <Button
@@ -235,7 +236,7 @@ const RapportCloture = () => {
                             </Popconfirm>
                         </Tooltip>
                     </Space>
-                }
+                )
             }
     ]
 
