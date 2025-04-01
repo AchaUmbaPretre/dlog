@@ -23,8 +23,8 @@ export const postContratRapport = async (data) => {
     return axios.post(`${DOMAIN}/api/rapport/contrat_rapport`, data)
 }
 
-export const getDeclarationTemplate = async (id) => {
-    return axios.get(`${DOMAIN}/api/rapport/declarationTemplate?id_template=${id}`);
+export const getDeclarationTemplate = async (id, idProvince) => {
+    return axios.get(`${DOMAIN}/api/rapport/declarationTemplate?id_template=${id}&id_province=${idProvince}`);
   };
 
 export const getCloture = async () => {

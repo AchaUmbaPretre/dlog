@@ -13,6 +13,7 @@ const RapportClotureTemplForm = ({fetchData, closeModal}) => {
     const [templates, setTemplates] = useState([]);
     const [loading, setLoading] = useState(true);
     const [idTemplate, setIdTemplate] = useState(null);
+    const [idProvince, setIdProvice] = useState('');
     const [editingKey, setEditingKey] = useState(null);
     const [pagination, setPagination] = useState({
         current: 1,
@@ -35,8 +36,8 @@ const RapportClotureTemplForm = ({fetchData, closeModal}) => {
             setTemplates(templateData.data);
             setProvince(provinceData.data)
 
-            if (idTemplate) {
-                const { data: decl } = await getDeclarationTemplate(idTemplate);
+            if (idTemplate || idProvince) {
+                const { data: decl } = await getDeclarationTemplate(idTemplate, idProvince);
                 setData(decl.map((row, index) => ({ ...row, key: index })));
 
             } else {
@@ -54,7 +55,7 @@ const RapportClotureTemplForm = ({fetchData, closeModal}) => {
 
         useEffect(() => {
             fetchDatas()
-        }, [idTemplate]);
+        }, [idTemplate, idProvince]);
 
         const isEditing = (record) => record.key === editingKey;
 
@@ -284,6 +285,7 @@ const RapportClotureTemplForm = ({fetchData, closeModal}) => {
                                 options={province.map(item => ({ value: item.id, label: item.capital }))}
                                 placeholder="Sélectionnez..."
                                 optionFilterProp="label"
+                                onChange={setIdProvice}
                             />
                         </div>
                     </div>
