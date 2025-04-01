@@ -96,9 +96,6 @@ const RapportParametreListe = () => {
             <h2 className="client-h2">Parametre</h2>
           </div>
           <div className="client-actions">
-            <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
-            </div>
             <div className="client-rows-right">
             </div>
           </div>

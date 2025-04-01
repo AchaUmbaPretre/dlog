@@ -23,7 +23,7 @@ const ElementContrat = ({idContrat}) => {
                   getCatRapport()
               ]);
   
-              setCat(contratData.data);
+              setCat(contratData?.data);
           } catch (error) {
               handleError('Une erreur est survenue lors du chargement des données.');
           }
@@ -74,9 +74,10 @@ const ElementContrat = ({idContrat}) => {
                         rules={[{ required: true, message: 'Veuillez selectionner une categorie' }]}
                         >
                             <Select
+                                allowClear
                                 showSearch
-                                options={cat.map((item) => ({
-                                value: item.id_cat_rapport ,
+                                options={cat?.map((item) => ({
+                                value: item.id_cat_rapport                                ,
                                 label: item.nom_cat}))}
                                 placeholder="Sélectionnez une categorie..."
                                 optionFilterProp="label"

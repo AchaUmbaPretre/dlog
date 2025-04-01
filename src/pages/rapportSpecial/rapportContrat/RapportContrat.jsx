@@ -190,7 +190,7 @@ const handleElementContratListe = (id) => {
                         </Menu.Item>
                         <Menu.Divider />
                         <Menu.Item onClick={() => handleElementContratListe(record.id_contrats_rapport)}>
-                            <FileTextOutlined style={{color:'blue'}}/> Liste d'elements contrats
+                            <FileTextOutlined style={{color:'blue'}}/> Liste des éléments du contrat
                         </Menu.Item>
                         <Menu.Divider />
                     </Menu>
