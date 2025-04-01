@@ -54,6 +54,7 @@ const RapportContratForm = ({closeModal,fetchData }) => {
       </div>
       <div className="controle_wrapper">
         <Form
+          form={form}
           name="contratForm"
           onFinish={handleSubmit}
           initialValues={formData}
