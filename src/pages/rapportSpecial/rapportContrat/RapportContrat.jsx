@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input,Space, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,TagOutlined, MoreOutlined, FormOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { ExportOutlined,TagOutlined, FileTextOutlined, MoreOutlined, FormOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import RapportContratForm from './rapportContratForm/RapportContratForm';
 import { getContratRapport } from '../../../services/rapportService';
 import RapportParametre from '../rapportParametre/RapportParametre';
@@ -182,7 +182,7 @@ const handleElementContratListe = (id) => {
                         </Menu.Item>
                         <Menu.Divider />
                         <Menu.Item onClick={() => handleParametreListe(record.id_contrats_rapport)}>
-                            <FormOutlined style={{color:'blue'}}/> Liste des parametres
+                            <FileTextOutlined style={{color:'blue'}}/> Liste des parametres
                         </Menu.Item>
                         <Menu.Divider />
                         <Menu.Item onClick={() => handleElementContrat(record.id_contrats_rapport)}>
@@ -190,11 +190,11 @@ const handleElementContratListe = (id) => {
                         </Menu.Item>
                         <Menu.Divider />
                         <Menu.Item onClick={() => handleElementContratListe(record.id_contrats_rapport)}>
-                            <FormOutlined style={{color:'green'}}/> Liste d'elements contrats
+                            <FileTextOutlined style={{color:'blue'}}/> Liste d'elements contrats
                         </Menu.Item>
                         <Menu.Divider />
                     </Menu>
-                                        )}
+                        )}
                     trigger={['click']}
                 >
                     <Button
