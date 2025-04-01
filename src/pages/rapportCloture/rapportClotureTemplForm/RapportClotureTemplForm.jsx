@@ -11,7 +11,7 @@ import { getProvince } from '../../../services/clientService';
 const RapportClotureTemplForm = ({fetchData, closeModal}) => {
     const [data, setData] = useState([]);
     const [templates, setTemplates] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [idTemplate, setIdTemplate] = useState(null);
     const [editingKey, setEditingKey] = useState(null);
     const [pagination, setPagination] = useState({
@@ -287,7 +287,10 @@ const RapportClotureTemplForm = ({fetchData, closeModal}) => {
                         </div>
                     </div>
                     <div className="rapportCloture_left">
-                        <Button onClick={onFinish}>
+                        <Button 
+                            onClick={onFinish}
+                            type='primary'
+                        >
                             Soumettre
                         </Button>
                     </div>
