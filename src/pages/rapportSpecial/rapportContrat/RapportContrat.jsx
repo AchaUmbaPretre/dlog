@@ -3,6 +3,9 @@ import { Table, Button, Modal, Input,Space, message, Dropdown, Menu, notificatio
 import { ExportOutlined,TagOutlined, MoreOutlined, FormOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import RapportContratForm from './rapportContratForm/RapportContratForm';
 import { getContratRapport } from '../../../services/rapportService';
+import RapportParametre from '../rapportParametre/RapportParametre';
+import RapportParametreListe from '../rapportParametre/rapportParametreListe/RapportParametreListe';
+import ElementContrat from '../elementContrat/ElementContrat';
 
 const { Search } = Input;
 
@@ -259,8 +262,8 @@ const handleElementContrat = (id) => {
             width={1025}
             centered
         >
-{/*             <RapportClotureTemplForm fetchData={fetchData} closeModal={()=>setModalType(null)}/>
- */}     </Modal>
+            <RapportParametre fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+         </Modal>
 
         <Modal
             title=""
@@ -270,19 +273,19 @@ const handleElementContrat = (id) => {
             width={1025}
             centered
         >
-{/*             <RapportClotureTemplForm fetchData={fetchData} closeModal={()=>setModalType(null)}/>
- */}     </Modal>
+            <RapportParametreListe fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+        </Modal>
 
         <Modal
             title=""
-            visible={modalType === 'parametreContrat'}
+            visible={modalType === 'elementContrat'}
             onCancel={closeAllModals}
             footer={null}
             width={1025}
             centered
         >
-{/*             <RapportClotureTemplForm fetchData={fetchData} closeModal={()=>setModalType(null)}/>
- */}     </Modal>
+            <ElementContrat fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+        </Modal>
     </>
   );
 };
