@@ -58,14 +58,29 @@ const RapportClotureTemplForm = () => {
             setEditingKey(record.key);
         };
     
-        const save = (key, newData) => {
+/*         const save = (key, newData) => {
             setData((prevData) => 
                 prevData.map((item) => 
                     item.key === key ? { ...item, ...newData } : item
                 )
             );
             setEditingKey(null);
-        };        
+        };  */      
+        
+        
+        const save = (key, newData) => {
+            setData((prevData) => 
+                prevData.map((item) => item.key === key ? { ...item, ...newData } : item)
+            );
+        
+            setModifiedRows((prev) => ({
+                ...prev,
+                [key]: { ...data.find((item) => item.key === key), ...newData },
+            }));
+        
+            setEditingKey(null);
+        };
+        
         
         const cancel = () => {
             setEditingKey(null);
@@ -179,14 +194,26 @@ const RapportClotureTemplForm = () => {
         ];
 
         const onFinish = async () => {
+            const modifiedData = Object.values(modifiedRows);
+        
+            if (modifiedData.length === 0) {
+                notification.info({
+                    message: 'Aucune modification',
+                    description: 'Aucune ligne n’a été modifiée.',
+                });
+                return;
+            }
+        
             try {
                 setLoading(true);
-                await postCloture(data);
-                
+                await postCloture(modifiedData);
+        
                 notification.success({
                     message: 'Succès',
                     description: 'La clôture a été ajoutée avec succès.',
                 });
+        
+                setModifiedRows({});
             } catch (error) {
                 console.error(error);
                 notification.error({
@@ -197,6 +224,7 @@ const RapportClotureTemplForm = () => {
                 setLoading(false);
             }
         };
+        
         
 
     return (
