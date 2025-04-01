@@ -15,6 +15,7 @@ const RapportContrat = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
   const [modalType, setModalType] = useState(null); 
+  const [idContrat, setIdContrat] = useState('')
   
   const closeAllModals = () => {
     setModalType(null);
@@ -23,6 +24,7 @@ const RapportContrat = () => {
   const openModal = (type, id = '') => {
     closeAllModals();
     setModalType(type);
+    setIdContrat(id)
   };
 
 const handleParametre = (id) => {
@@ -34,7 +36,7 @@ const handleParametreListe = (id) => {
   }
 
 const handleElementContrat = (id) => {
-    openModal('parametreContrat', id)
+    openModal('elementContrat', id)
   }
 
     const fetchData = async () => {
