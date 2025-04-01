@@ -73,7 +73,14 @@ const ElementContrat = ({idContrat}) => {
                         label="Categorie"
                         rules={[{ required: true, message: 'Veuillez selectionner une categorie' }]}
                         >
-                        <Input placeholder="ex: Log" />
+                            <Select
+                                showSearch
+                                options={cat.map((item) => ({
+                                value: item.id_cat_rapport ,
+                                label: item.nom_cat}))}
+                                placeholder="Sélectionnez une categorie..."
+                                optionFilterProp="label"
+                            />
                         </Form.Item>
                     </Col>
             
