@@ -6,6 +6,7 @@ import './rapportClotureTemplForm.scss';
 import { useSelector } from 'react-redux';
 import { getTemplate } from '../../../services/templateService';
 import { getDeclarationTemplate, postCloture } from '../../../services/rapportService';
+import { getProvince } from '../../../services/clientService';
 
 const RapportClotureTemplForm = ({fetchData, closeModal}) => {
     const [data, setData] = useState([]);
@@ -21,15 +22,18 @@ const RapportClotureTemplForm = ({fetchData, closeModal}) => {
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const role = useSelector((state) => state.user?.currentUser.role);
     const [modifiedRows, setModifiedRows] = useState({});
-
+    const [province, setProvince] = useState([]);
+    
     const fetchDatas = async() => {
         setLoading(true)    
         try {
-            const [ templateData ] = await Promise.all([
+            const [ templateData, provinceData ] = await Promise.all([
                 getTemplate(role, userId),
+                getProvince()
             ])
 
             setTemplates(templateData.data);
+            setProvince(provinceData.data)
 
             if (idTemplate) {
                 const { data: decl } = await getDeclarationTemplate(idTemplate);
@@ -259,16 +263,28 @@ const RapportClotureTemplForm = ({fetchData, closeModal}) => {
             </div>
             <div className="rapportCloture_wrapper">
                 <div className="rapportCloture_rows">
-                    <div className="rapportCloture_top">
-                        <label htmlFor=""> Template <div style={{color:'red'}}>*</div></label>
-                        <Select
-                            showSearch
-                            options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
-                            placeholder="Sélectionnez..."
-                            onChange={setIdTemplate}
-                            optionFilterProp="label"
-                            style={{width:'100%'}}                       
-                        />
+                    <div className="rapportCloture_tops">
+                        <div className="rapportCloture_top">
+                            <label htmlFor=""> Template <div style={{color:'red'}}>*</div></label>
+                            <Select
+                                showSearch
+                                options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
+                                placeholder="Sélectionnez..."
+                                onChange={setIdTemplate}
+                                optionFilterProp="label"
+                                style={{width:'100%'}}                       
+                            />
+                        </div>
+                        <div className="rapportCloture_top">
+                            <label htmlFor=""> ville <div style={{color:'red'}}>*</div></label>
+                            <Select
+                                showSearch
+                                allowClear
+                                options={province.map(item => ({ value: item.id, label: item.capital }))}
+                                placeholder="Sélectionnez..."
+                                optionFilterProp="label"
+                            />
+                        </div>
                     </div>
                     <div className="rapportCloture_left">
                         <Button onClick={onFinish}>
