@@ -18,10 +18,10 @@ const RapportClotureTemplForm = () => {
         pageSize: 20,
     });
     const scroll = { x: 400 };
-    const [periode, setPeriode] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const role = useSelector((state) => state.user?.currentUser.role);
-    
+    const [modifiedRows, setModifiedRows] = useState({});
+
     const fetchData = async() => {
         setLoading(true)    
         try {
@@ -67,8 +67,6 @@ const RapportClotureTemplForm = () => {
             setEditingKey(null);
         };        
         
-        
-    
         const cancel = () => {
             setEditingKey(null);
         };
