@@ -50,6 +50,7 @@ const RapportClotureManueForm = ({fetchData, closeModal}) => {
 
     const handleReset = () => {
         form.resetFields();
+        closeModal()
     };
 
     return (
