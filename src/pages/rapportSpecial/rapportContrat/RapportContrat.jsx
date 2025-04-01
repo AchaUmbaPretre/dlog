@@ -146,11 +146,15 @@ const RapportContrat = () => {
                     <Menu>
                         {/* Actions Document */}
                         <Menu.Item >
-                            <FormOutlined /> 
+                            <FormOutlined /> Parametre
                         </Menu.Item>
                         <Menu.Divider />
                         <Menu.Item>
-                            <FormOutlined style={{color:'blue'}}/> Déclaration
+                            <FormOutlined style={{color:'blue'}}/> Liste des parametres
+                        </Menu.Item>
+                        <Menu.Divider />
+                        <Menu.Item>
+                            <FormOutlined style={{color:'green'}}/> Element contrat
                         </Menu.Item>
                         <Menu.Divider />
                     </Menu>
