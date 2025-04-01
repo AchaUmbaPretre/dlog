@@ -71,37 +71,37 @@ const RapportClotureManueForm = ({fetchData, closeModal}) => {
                                 name="periode"
                                 rules={[{ required: true, message: 'Veuillez entrer la période!' }]}
                             >
-                                <DatePicker picker="month" style={{ width: '100%' }} />
+                                <DatePicker picker="month" style={{ width: '100%' }} size="large" />
                             </Form.Item>        
                         </Col>
 
                         <Col span={12}>
                             <Form.Item name="m2_occupe" label="M² Occupé">
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Occupé" />
+                                <InputNumber min={0} size="large" style={{ width: '100%' }} placeholder="M² Occupé" />
                             </Form.Item>       
                         </Col>
 
                         <Col span={12}>
                             <Form.Item name="m2_facture" label="M² Facturé">
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="M² Facturé" />
+                                <InputNumber min={0} size="large" style={{ width: '100%' }} placeholder="M² Facturé" />
                             </Form.Item>    
                         </Col>
 
                         <Col span={12}>       
                             <Form.Item name="total_manutation" label="Total Manutention">
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total Manutention" />
+                                <InputNumber min={0} size="large" style={{ width: '100%' }} placeholder="Total Manutention" />
                             </Form.Item>         
                         </Col>
 
                         <Col span={12}>       
                             <Form.Item name="total_entreposage" label="Total Entreposage">
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total Entreposage" />
+                                <InputNumber min={0} size="large" style={{ width: '100%' }} placeholder="Total Entreposage" />
                             </Form.Item>         
                         </Col>
 
                         <Col span={12}>       
                             <Form.Item name="total" label="Total">
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder="Total" disabled />
+                                <InputNumber min={0} size="large" style={{ width: '100%' }} placeholder="Total" disabled />
                             </Form.Item>         
                         </Col>
 
@@ -110,6 +110,7 @@ const RapportClotureManueForm = ({fetchData, closeModal}) => {
                                 type="default"
                                 onClick={handleReset}
                                 style={{ marginRight: 10 }}
+                                size="large"
                             >
                                 Annuler
                             </Button>
@@ -118,8 +119,9 @@ const RapportClotureManueForm = ({fetchData, closeModal}) => {
                                 htmlType="submit"
                                 loading={isLoading}
                                 disabled={isLoading}
+                                size="large"
                             >
-                                Créer
+                                Soumettre
                             </Button>
                         </Col>
                     </Row>
