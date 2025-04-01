@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Input, Table, Tag, Modal, notification, Dropdown, Menu } from 'antd';
+import { Button, Input, Table, Tag, Modal, notification, Tooltip, Space, Popconfirm, Dropdown, Menu } from 'antd';
 import moment from 'moment';
-import {  MoreOutlined, CalendarOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
+import {  MoreOutlined, CalendarOutlined, EditOutlined, DeleteOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
 import RapportClotureManueForm from './rapportClotureManueForm/RapportClotureManueForm';
 import RapportClotureVilleForm from './rapportClotureVilleForm/RapportClotureVilleForm';
 import RapportClotureTemplForm from './rapportClotureTemplForm/RapportClotureTemplForm';
@@ -74,6 +74,14 @@ const RapportCloture = () => {
     const handleVille = (id) => {
         openModal('Ville', id)
       }
+
+    const handleDelete = () => {
+
+    }
+
+    const handleEdit = () => {
+
+    }
 
     const columns = [
         {
@@ -199,6 +207,36 @@ const RapportCloture = () => {
                     ),
                 align: 'right'            
             },
+            {
+                title: 'Action',
+                key: 'action',
+                render: (text, record) => {
+                    <Space>
+                        <Tooltip title="Modifier">
+                            <Button
+                                icon={<EditOutlined />}
+                                style={{ color: 'green' }}
+                                onClick={() => handleEdit(record.id_cloture)}
+                                aria-label="Edit department"
+                            />
+                        </Tooltip>
+                        <Tooltip title="Supprimer">
+                            <Popconfirm
+                                title="Êtes-vous sûr de vouloir supprimer ?"
+                                onConfirm={() => handleDelete(record.id_cloture)}
+                                okText="Oui"
+                                cancelText="Non"
+                            >
+                                <Button
+                                icon={<DeleteOutlined />}
+                                style={{ color: 'red' }}
+                                aria-label="Delete budget"
+                                />
+                            </Popconfirm>
+                        </Tooltip>
+                    </Space>
+                }
+            }
     ]
 
   return (

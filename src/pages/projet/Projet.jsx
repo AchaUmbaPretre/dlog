@@ -228,7 +228,7 @@ const Projet = () => {
       width: '10%',
       render: (text, record) => (
         role === 'Admin' && (
-          <Space >
+          <Space>
             <Tooltip title="Voir détails">
               <Button
                 icon={<EyeOutlined />}
