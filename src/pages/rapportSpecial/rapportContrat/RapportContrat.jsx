@@ -6,6 +6,7 @@ import { getContratRapport } from '../../../services/rapportService';
 import RapportParametre from '../rapportParametre/RapportParametre';
 import RapportParametreListe from '../rapportParametre/rapportParametreListe/RapportParametreListe';
 import ElementContrat from '../elementContrat/ElementContrat';
+import ElementContratList from '../elementContrat/elementContratList/ElementContratList';
 
 const { Search } = Input;
 
@@ -37,6 +38,10 @@ const handleParametreListe = (id) => {
 
 const handleElementContrat = (id) => {
     openModal('elementContrat', id)
+  }
+
+const handleElementContratListe = (id) => {
+    openModal('elementContratListe', id)
   }
   
     const fetchData = async () => {
@@ -184,6 +189,10 @@ const handleElementContrat = (id) => {
                             <FormOutlined style={{color:'green'}}/> Element contrat
                         </Menu.Item>
                         <Menu.Divider />
+                        <Menu.Item onClick={() => handleElementContratListe(record.id_contrats_rapport)}>
+                            <FormOutlined style={{color:'green'}}/> Liste d'elements contrats
+                        </Menu.Item>
+                        <Menu.Divider />
                     </Menu>
                                         )}
                     trigger={['click']}
@@ -287,6 +296,17 @@ const handleElementContrat = (id) => {
             centered
         >
             <ElementContrat fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'elementContratListe'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={700}
+            centered
+        >
+            <ElementContratList fetchData={fetchData} closeModal={()=>setModalType(null)}/>
         </Modal>
     </>
   );
