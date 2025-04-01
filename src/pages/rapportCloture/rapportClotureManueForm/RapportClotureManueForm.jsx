@@ -46,7 +46,6 @@ const RapportClotureManueForm = ({fetchData, closeModal}) => {
             setIsLoading(false);
         }
     };
-    
 
     const handleReset = () => {
         form.resetFields();
