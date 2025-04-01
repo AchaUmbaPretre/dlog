@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Form, InputNumber, DatePicker, Row, Col } from 'antd';
+import { Button, Form, InputNumber, DatePicker, Row, Col, message, notification } from 'antd';
+import { postClotureSimple } from '../../../services/rapportService';
 
-const RapportClotureManueForm = () => {
+const RapportClotureManueForm = ({fetchData, closeModal}) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -13,9 +14,39 @@ const RapportClotureManueForm = () => {
         });
     };
 
-    const onFinish = (values) => {
-        console.log('Form submitted:', values);
+    const onFinish = async (values) => {
+        const loadingKey = 'loadingDeclaration';
+
+        try {
+            await form.validateFields();
+    
+            message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+    
+            setIsLoading(true);
+    
+            await postClotureSimple(values);
+    
+            message.destroy(loadingKey);
+            message.success({ content: "L'opération a été effectuée avec succès.", key: loadingKey });
+    
+            form.resetFields();
+            fetchData();
+            closeModal();
+        } catch (error) {
+            console.error("Erreur lors de l'ajout du rapport clôturé :", error);
+    
+            message.destroy(loadingKey);
+            message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+    
+            notification.error({
+                message: 'Erreur',
+                description: error.response?.data?.error || 'Une erreur inconnue est survenue.',
+            });
+        } finally {
+            setIsLoading(false);
+        }
     };
+    
 
     const handleReset = () => {
         form.resetFields();
