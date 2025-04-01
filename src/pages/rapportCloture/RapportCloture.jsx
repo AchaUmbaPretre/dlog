@@ -140,7 +140,7 @@ const RapportCloture = () => {
             sorter: (a, b) => a.m2_facture - b.m2_facture,
                 sortDirections: ['descend', 'ascend'],
                 render: (text) => (
-                    <Tag icon={<BarcodeOutlined />} color="cyan">{text?.toLocaleString() ?? '0'}</Tag>
+                    <div>{text?.toLocaleString() ?? '0'}</div>
                 ),
                 align: 'right', 
                 ...(columnsVisibility['M² facture'] ? {} : { className: 'hidden-column' }),
@@ -152,7 +152,7 @@ const RapportCloture = () => {
                 sorter: (a, b) => a.entreposage - b.entreposage,
                 sortDirections: ['descend', 'ascend'],
                 render: (text) => (
-                    <Tag color="gold">
+                    <div>
                           {text
                             ? `${parseFloat(text)
                                 .toLocaleString("en-US", {
@@ -161,7 +161,7 @@ const RapportCloture = () => {
                                     })
                                     .replace(/,/g, " ")} $`
                                 : "0.00"}
-                        </Tag>
+                        </div>
                     ),
                 align: 'right', 
                 ...(columnsVisibility['Total Entr'] ? {} : { className: 'hidden-column' }),
@@ -173,7 +173,7 @@ const RapportCloture = () => {
                 sorter: (a, b) => a.manutation - b.manutation,
                 sortDirections: ['descend', 'ascend'],
                 render: (text) => (
-                    <Tag color="gold">
+                    <div>
                         {text
                             ? `${parseFloat(text)
                                 .toLocaleString("en-US", {
@@ -182,7 +182,7 @@ const RapportCloture = () => {
                                 })
                                 .replace(/,/g, " ")} $`
                                 : "0.00"}
-                        </Tag>
+                        </div>
                       ),
                       align: 'right',
                       ...(columnsVisibility['Total Manu'] ? {} : { className: 'hidden-column' }),
@@ -194,7 +194,7 @@ const RapportCloture = () => {
                 sorter: (a, b) => a.total - b.total,
                 sortDirections: ['descend', 'ascend'],
                 render: (text) => (
-                    <Tag color="cyan">
+                    <div>
                         {text
                             ? `${parseFloat(text)
                             .toLocaleString("en-US", {
@@ -203,7 +203,7 @@ const RapportCloture = () => {
                             })
                             .replace(/,/g, " ")} $`
                             : "0.00"}
-                    </Tag>
+                    </div>
                     ),
                 align: 'right'            
             },
