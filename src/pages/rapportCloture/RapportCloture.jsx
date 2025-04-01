@@ -221,20 +221,6 @@ const RapportCloture = () => {
                                 aria-label="Edit department"
                             />
                         </Tooltip>
-                        <Tooltip title="Supprimer">
-                            <Popconfirm
-                                title="Êtes-vous sûr de vouloir supprimer ?"
-                                onConfirm={() => handleDelete(record.id_cloture)}
-                                okText="Oui"
-                                cancelText="Non"
-                            >
-                                <Button
-                                icon={<DeleteOutlined />}
-                                style={{ color: 'red' }}
-                                aria-label="Delete budget"
-                                />
-                            </Popconfirm>
-                        </Tooltip>
                     </Space>
                 )
             }
