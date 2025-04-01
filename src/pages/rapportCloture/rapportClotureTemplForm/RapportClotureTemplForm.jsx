@@ -102,6 +102,7 @@ const RapportClotureTemplForm = () => {
                     delete updated[row.key];
                     return updated;
                 });
+                
             } catch (error) {
                 console.error(error);
                 notification.error({
