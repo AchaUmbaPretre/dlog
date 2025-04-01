@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { getTemplate } from '../../../services/templateService';
 import { getDeclarationTemplate, postCloture } from '../../../services/rapportService';
 
-const RapportClotureTemplForm = () => {
+const RapportClotureTemplForm = ({fetchData, closeModal}) => {
     const [data, setData] = useState([]);
     const [templates, setTemplates] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ const RapportClotureTemplForm = () => {
     const role = useSelector((state) => state.user?.currentUser.role);
     const [modifiedRows, setModifiedRows] = useState({});
 
-    const fetchData = async() => {
+    const fetchDatas = async() => {
         setLoading(true)    
         try {
             const [ templateData ] = await Promise.all([
@@ -49,7 +49,7 @@ const RapportClotureTemplForm = () => {
     }
 
         useEffect(() => {
-            fetchData()
+            fetchDatas()
         }, [idTemplate]);
 
         const isEditing = (record) => record.key === editingKey;
@@ -57,16 +57,6 @@ const RapportClotureTemplForm = () => {
         const edit = (record) => {
             setEditingKey(record.key);
         };
-    
-/*         const save = (key, newData) => {
-            setData((prevData) => 
-                prevData.map((item) => 
-                    item.key === key ? { ...item, ...newData } : item
-                )
-            );
-            setEditingKey(null);
-        };  */      
-        
         
         const save = async (key, newData) => {
             const updatedRow = { ...data.find((item) => item.key === key), ...newData };
@@ -84,6 +74,7 @@ const RapportClotureTemplForm = () => {
         
             // Envoyer immédiatement la ligne modifiée
             await saveSingleRow(updatedRow);
+            closeModal()
         };
         
         const saveSingleRow = async (row) => {
@@ -102,7 +93,10 @@ const RapportClotureTemplForm = () => {
                     delete updated[row.key];
                     return updated;
                 });
-                
+
+                fetchData()
+                closeModal()
+
             } catch (error) {
                 console.error(error);
                 notification.error({

@@ -323,7 +323,7 @@ const RapportCloture = () => {
           width={1025}
           centered
         >
-            <RapportClotureTemplForm/>
+            <RapportClotureTemplForm fetchData={fetchData} closeModal={()=>setModalType(null)}/>
         </Modal>
 
         <Modal

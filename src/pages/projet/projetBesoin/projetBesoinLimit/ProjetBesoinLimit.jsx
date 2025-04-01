@@ -15,8 +15,6 @@ const ProjetBesoinLimit = ({idProjet,fetchData,closeModal}) => {
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
 
-
-  
   const handleError = (message) => {
     notification.error({
         message: 'Erreur de chargement',
