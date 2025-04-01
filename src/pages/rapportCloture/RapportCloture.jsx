@@ -274,10 +274,6 @@ const RapportCloture = () => {
                             <FileTextOutlined style={{color:'blue'}}/> Déclaration
                             </Menu.Item>
                             <Menu.Divider />
-                            <Menu.Item onClick={handleVille}>
-                            <EnvironmentOutlined style={{color:'red'}} /> Ville
-                            </Menu.Item>
-                            <Menu.Divider />
                         </Menu>
                         )}
                         trigger={['click']}
