@@ -29,6 +29,15 @@ export const postParametre = async (data) => {
     return axios.post(`${DOMAIN}/api/rapport/contrat_rapport`, data)
 }
 
+//Element contrat
+export const getElementContrat = async () => {
+    return axios.get(`${DOMAIN}/api/rapport/element_contrat`);
+  };
+
+export const postElementContrat  = async (data) => {
+    return axios.post(`${DOMAIN}/api/rapport/element_contrat`, data)
+}
+
 export const getContratRapport = async () => {
     return axios.get(`${DOMAIN}/api/rapport/contrat_rapport`);
   };
