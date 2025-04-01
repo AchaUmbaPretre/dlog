@@ -210,7 +210,7 @@ const RapportCloture = () => {
             {
                 title: 'Action',
                 key: 'action',
-                width: "9%",
+                width: "4%",
                 render: (text, record) => (
                     <Space>
                         <Tooltip title="Supprimer">
