@@ -172,15 +172,15 @@ const handleElementContrat = (id) => {
                     overlay={(
                     <Menu>
                         {/* Actions Document */}
-                        <Menu.Item >
+                        <Menu.Item onClick={handleParametre}>
                             <FormOutlined /> Parametre
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item>
+                        <Menu.Item onClick={handleParametreListe}>
                             <FormOutlined style={{color:'blue'}}/> Liste des parametres
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item>
+                        <Menu.Item onClick={handleElementContrat}>
                             <FormOutlined style={{color:'green'}}/> Element contrat
                         </Menu.Item>
                         <Menu.Divider />
