@@ -146,7 +146,7 @@ const RapportContrat = () => {
                     <Menu>
                         {/* Actions Document */}
                         <Menu.Item >
-                            <FormOutlined /> Manuellement
+                            <FormOutlined /> 
                         </Menu.Item>
                         <Menu.Divider />
                         <Menu.Item>
@@ -157,12 +157,12 @@ const RapportContrat = () => {
                                         )}
                     trigger={['click']}
                 >
-                                        <Button
-                                        icon={<MoreOutlined />}
-                                        style={{ color: 'black', padding: '0' }}
-                                        aria-label="Menu actions"
-                                        />
-                                    </Dropdown>
+                    <Button
+                        icon={<MoreOutlined />}
+                        style={{ color: 'black', padding: '0' }}
+                        aria-label="Menu actions"
+                    />
+                </Dropdown>
             </Space>
         )
     }
