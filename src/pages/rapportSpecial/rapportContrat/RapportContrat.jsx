@@ -11,6 +11,28 @@ const RapportContrat = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
+  const [modalType, setModalType] = useState(null); 
+  
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type, id = '') => {
+    closeAllModals();
+    setModalType(type);
+  };
+
+const handleParametre = (id) => {
+    openModal('parametre', id)
+  }
+
+const handleParametreListe = (id) => {
+    openModal('parametreListe', id)
+  }
+
+const handleElementContrat = (id) => {
+    openModal('parametreContrat', id)
+  }
 
     const fetchData = async () => {
       try {
@@ -228,6 +250,39 @@ const RapportContrat = () => {
       >
         <RapportContratForm closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'parametre'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1025}
+            centered
+        >
+{/*             <RapportClotureTemplForm fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+ */}     </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'parametreListe'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1025}
+            centered
+        >
+{/*             <RapportClotureTemplForm fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+ */}     </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'parametreContrat'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1025}
+            centered
+        >
+{/*             <RapportClotureTemplForm fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+ */}     </Modal>
     </>
   );
 };
