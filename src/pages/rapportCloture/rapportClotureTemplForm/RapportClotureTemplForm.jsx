@@ -68,20 +68,51 @@ const RapportClotureTemplForm = () => {
         };  */      
         
         
-        const save = (key, newData) => {
-            setData((prevData) => 
-                prevData.map((item) => item.key === key ? { ...item, ...newData } : item)
+        const save = async (key, newData) => {
+            const updatedRow = { ...data.find((item) => item.key === key), ...newData };
+        
+            setData((prevData) =>
+                prevData.map((item) => (item.key === key ? updatedRow : item))
             );
         
             setModifiedRows((prev) => ({
                 ...prev,
-                [key]: { ...data.find((item) => item.key === key), ...newData },
+                [key]: updatedRow,
             }));
         
             setEditingKey(null);
+        
+            // Envoyer immédiatement la ligne modifiée
+            await saveSingleRow(updatedRow);
         };
         
+        const saveSingleRow = async (row) => {
+            try {
+                setLoading(true);
+                await postCloture([row]);
         
+                notification.success({
+                    message: 'Succès',
+                    description: 'Les modifications ont été enregistrées avec succès.',
+                });
+        
+                // Supprimer cette ligne des modifications en attente
+                setModifiedRows((prev) => {
+                    const updated = { ...prev };
+                    delete updated[row.key];
+                    return updated;
+                });
+            } catch (error) {
+                console.error(error);
+                notification.error({
+                    message: 'Erreur',
+                    description: "Une erreur s'est produite lors de l'enregistrement.",
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+                
         const cancel = () => {
             setEditingKey(null);
         };
@@ -210,7 +241,7 @@ const RapportClotureTemplForm = () => {
         
                 notification.success({
                     message: 'Succès',
-                    description: 'La clôture a été ajoutée avec succès.',
+                    description: 'Toutes les modifications ont été enregistrées avec succès.',
                 });
         
                 setModifiedRows({});
@@ -218,7 +249,7 @@ const RapportClotureTemplForm = () => {
                 console.error(error);
                 notification.error({
                     message: 'Erreur',
-                    description: "Une erreur s'est produite lors de l'ajout de la clôture.",
+                    description: "Une erreur s'est produite lors de l'enregistrement.",
                 });
             } finally {
                 setLoading(false);
@@ -226,7 +257,6 @@ const RapportClotureTemplForm = () => {
         };
         
         
-
     return (
         <div className="rapportClotureTemplForm">
             <div className="rapport_rows">
