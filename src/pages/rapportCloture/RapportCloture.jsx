@@ -128,7 +128,7 @@ const RapportCloture = () => {
                 sorter: (a, b) => a.m2_occupe - b.m2_occupe,
                 sortDirections: ['descend', 'ascend'],
                 render: (text) => (
-                    <Tag icon={<BarcodeOutlined />} color="cyan">{text ?? '0'}</Tag>
+                    <div>{text ?? '0'}</div>
                 ),
                 align: 'right', 
             ...(columnsVisibility['M² occupe'] ? {} : { className: 'hidden-column' }),
