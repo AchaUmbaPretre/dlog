@@ -283,7 +283,7 @@ const handleElementContrat = (id) => {
             visible={modalType === 'elementContrat'}
             onCancel={closeAllModals}
             footer={null}
-            width={1025}
+            width={700}
             centered
         >
             <ElementContrat fetchData={fetchData} closeModal={()=>setModalType(null)}/>
