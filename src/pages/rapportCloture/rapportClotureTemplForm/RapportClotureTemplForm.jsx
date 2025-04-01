@@ -191,7 +191,6 @@ const RapportClotureTemplForm = () => {
                 });
             } catch (error) {
                 console.error(error);
-                
                 notification.error({
                     message: 'Erreur',
                     description: "Une erreur s'est produite lors de l'ajout de la clôture.",
