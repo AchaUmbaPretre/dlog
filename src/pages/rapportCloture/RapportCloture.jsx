@@ -308,7 +308,7 @@ const RapportCloture = () => {
           width={900}
           centered
         >
-            <RapportClotureManueForm/>
+            <RapportClotureManueForm fetchData={fetchData} closeModal={()=>setModalType(null)}/>
         </Modal>
 
         <Modal

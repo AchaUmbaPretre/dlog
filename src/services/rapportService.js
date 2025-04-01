@@ -36,5 +36,5 @@ export const postCloture = async (data) => {
 }
 
 export const postClotureSimple = async (data) => {
-    return axios.post(`${DOMAIN}/api/rapport/cloture`, data)
+    return axios.post(`${DOMAIN}/api/rapport/cloture_simple`, data)
 }
