@@ -38,7 +38,7 @@ const handleParametreListe = (id) => {
 const handleElementContrat = (id) => {
     openModal('elementContrat', id)
   }
-
+  
     const fetchData = async () => {
       try {
         const { data } = await getContratRapport();
@@ -172,15 +172,15 @@ const handleElementContrat = (id) => {
                     overlay={(
                     <Menu>
                         {/* Actions Document */}
-                        <Menu.Item onClick={handleParametre}>
+                        <Menu.Item onClick={() => handleParametre(record.id_contrats_rapport)}>
                             <FormOutlined /> Parametre
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item onClick={handleParametreListe}>
+                        <Menu.Item onClick={() => handleParametreListe(record.id_contrats_rapport)}>
                             <FormOutlined style={{color:'blue'}}/> Liste des parametres
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item onClick={handleElementContrat}>
+                        <Menu.Item onClick={() => handleElementContrat(record.id_contrats_rapport)}>
                             <FormOutlined style={{color:'green'}}/> Element contrat
                         </Menu.Item>
                         <Menu.Divider />
@@ -261,10 +261,10 @@ const handleElementContrat = (id) => {
             visible={modalType === 'parametre'}
             onCancel={closeAllModals}
             footer={null}
-            width={1025}
+            width={900}
             centered
         >
-            <RapportParametre fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+            <RapportParametre fetchData={fetchData} closeModal={()=>setModalType(null)} idContrat={idContrat} />
          </Modal>
 
         <Modal

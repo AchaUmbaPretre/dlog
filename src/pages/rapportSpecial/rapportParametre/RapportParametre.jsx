@@ -1,108 +1,97 @@
-import React from 'react'
+import React from 'react';
+import { Form, Input, Button, notification, Row, Col } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import { postParametre } from '../../../services/rapportService';
 
-const RapportParametre = () => {
+const RapportParametre = ({ fetchData, closeModal, idContrat }) => {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    try {
+      const parametres = values.parametres.map(param => ({
+        id_contrat: idContrat,
+        nom_parametre: param.nom_parametre
+      }));
+
+      await postParametre(parametres);
+
+      notification.success({
+        message: 'Succès',
+        description: 'Les paramètres ont été enregistrés avec succès.',
+      });
+
+      form.resetFields();
+      fetchData();
+      closeModal();
+    } catch (error) {
+      notification.error({
+        message: 'Erreur',
+        description: "Erreur lors de l'enregistrement des paramètres.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-            <div className="controle_form">
-      <div className="controle_title_rows">
-        <h2 className='controle_h2'>Ajouter nouveau fournisseur</h2>                
-      </div>
-      <div className="controle_wrapper">
-        <Form
+      <div className="controle_form">
+        <div className="controle_title_rows">
+          <h2 className='controle_h2'>FORMULAIRE PARAMÈTRES</h2>
+        </div>
+        <div className="controle_wrapper">
+          <Form
             form={form}
             layout="vertical"
             onFinish={handleSubmit}
-            initialValues={{
-            date_ajout: new Date(),
-            }}
-        >
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              name="nom_fournisseur"
-              label="Nom du Fournisseur"
-              rules={[{ required: true, message: 'Veuillez entrer le nom du fournisseur' }]}
-            >
-              <Input placeholder="Nom du fournisseur" />
-            </Form.Item>
-          </Col>
+            initialValues={{ parametres: [{}] }}
+          >
+            <Form.List name="parametres">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Row gutter={16} key={key} style={{display:'flex', alignItems:'center'}}>
+                      <Col span={22}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "nom_parametre"]}
+                          label="Nom du Paramètre"
+                          rules={[{ required: true, message: 'Veuillez entrer le nom du paramètre' }]}
+                        >
+                          <Input placeholder="Ex: Tonnage" />
+                        </Form.Item>
+                      </Col>
+                      <Col span={2}>
+                        {fields.length > 1 && (
+                          <Button type="link" danger onClick={() => remove(name)}>
+                            <MinusCircleOutlined />
+                          </Button>
+                        )}
+                      </Col>
+                    </Row>
+                  ))}
+                  <Form.Item>
+                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                      Ajouter un paramètre
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
 
-          <Col span={12}>
-            <Form.Item
-              name="telephone"
-              label="Téléphone"
-            >
-              <Input placeholder="Téléphone" />
+            <Form.Item>
+              <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                Soumettre
+              </Button>
             </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              name="email"
-              label="Email"
-              rules={[{ type: 'email', message: 'Veuillez entrer un email valide' }]}
-            >
-              <Input placeholder="Email" />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              name="pays"
-              label="Pays"
-            >
-              <Input placeholder="Pays" />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              name="ville"
-              label="Ville"
-            >
-              <Select
-                  showSearch
-                  options={province.map((item) => ({
-                  value: item.id,
-                  label: item.name}))}
-                  placeholder="Sélectionnez une province..."
-                  optionFilterProp="label"
-              />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              name="nom_activite"
-              label="Activité"
-            >
-            <Select
-                  mode="multiple"
-                  showSearch
-                  options={activite.map((item) => ({
-                  value: item.id_activite,
-                  label: item.nom_activite}))}
-                  placeholder="Sélectionnez une activité..."
-                  optionFilterProp="label"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-            Soumettre
-          </Button>
-        </Form.Item>
-        </Form>
+          </Form>
+        </div>
       </div>
-    </div>
     </>
-  )
-}
+  );
+};
 
-export default RapportParametre
+export default RapportParametre;
