@@ -414,11 +414,11 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
                                     rules={[{ required: true, message: "Veuillez entrer la période" }]}
                                 >
                                     <DatePicker
-                                    picker="month"
-                                    placeholder="Sélectionnez le mois"
-                                    format="YYYY-MM-DD"
-                                    style={{ width: '100%' }}
-                                    onChange={(date, dateString) => setPeriode(dateString)}
+                                        picker="month"
+                                        placeholder="Sélectionnez le mois"
+                                        format="YYYY-MM-DD"
+                                        style={{ width: '100%' }}
+                                        onChange={(date, dateString) => setPeriode(dateString)}
                                     />
                                 </Form.Item>
 

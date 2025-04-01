@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tag, message } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import { putDeclarationsStatus, putTemplateStatus } from '../../../services/templateService';
+import { putDeclarationsStatus } from '../../../services/templateService';
 
 
 export const StatutDeclaration = ({ initialStatus, id }) => {

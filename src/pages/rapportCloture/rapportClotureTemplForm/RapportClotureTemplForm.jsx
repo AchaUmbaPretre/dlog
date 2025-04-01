@@ -268,6 +268,7 @@ const RapportClotureTemplForm = ({fetchData, closeModal}) => {
                             <label htmlFor=""> Template <div style={{color:'red'}}>*</div></label>
                             <Select
                                 showSearch
+                                allowClear
                                 options={templates.map(item => ({ value: item.id_template, label: item.desc_template }))}
                                 placeholder="Sélectionnez..."
                                 onChange={setIdTemplate}
