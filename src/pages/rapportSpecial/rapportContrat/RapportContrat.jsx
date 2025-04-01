@@ -272,7 +272,7 @@ const handleElementContrat = (id) => {
             visible={modalType === 'parametreListe'}
             onCancel={closeAllModals}
             footer={null}
-            width={1025}
+            width={700}
             centered
         >
             <RapportParametreListe fetchData={fetchData} closeModal={()=>setModalType(null)}/>
