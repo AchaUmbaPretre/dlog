@@ -15,6 +15,11 @@ export const postRapport = async (data) => {
     return axios.post(`${DOMAIN}/api/rapport`, data)
 }
 
+//Categorie
+export const getCatRapport = async () => {
+    return axios.get(`${DOMAIN}/api/rapport/cat_rapport`);
+  };
+
 export const getContratRapport = async () => {
     return axios.get(`${DOMAIN}/api/rapport/contrat_rapport`);
   };
