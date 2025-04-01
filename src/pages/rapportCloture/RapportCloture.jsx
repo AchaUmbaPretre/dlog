@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Input, Table, Tag, Modal, notification, Tooltip, Space, Popconfirm, Dropdown, Menu } from 'antd';
 import moment from 'moment';
-import {  MoreOutlined, CalendarOutlined, EditOutlined, DeleteOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
+import {  MoreOutlined, CalendarOutlined, DeleteOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
 import RapportClotureManueForm from './rapportClotureManueForm/RapportClotureManueForm';
 import RapportClotureVilleForm from './rapportClotureVilleForm/RapportClotureVilleForm';
 import RapportClotureTemplForm from './rapportClotureTemplForm/RapportClotureTemplForm';

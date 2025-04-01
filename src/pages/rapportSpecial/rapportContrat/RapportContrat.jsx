@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,DollarOutlined,TagOutlined,FileTextOutlined,CalendarOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
-import moment from 'moment';
-/* import { getContrat } from '../../services/templateService';
- */import RapportContratForm from './rapportContratForm/RapportContratForm';
+import { Table, Button, Modal, Input,Space, message, Dropdown, Menu, notification, Tag } from 'antd';
+import { ExportOutlined,TagOutlined, MoreOutlined, FormOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import RapportContratForm from './rapportContratForm/RapportContratForm';
 import { getContratRapport } from '../../../services/rapportService';
 
 const { Search } = Input;
@@ -136,6 +134,37 @@ const RapportContrat = () => {
                 {text}
             </Tag>
         ),
+    },
+    {
+        title: "Actions",
+        dataIndex: 'actions',
+        key: 'action',
+        render: (text, record) => (
+            <Space>
+                <Dropdown
+                    overlay={(
+                    <Menu>
+                        {/* Actions Document */}
+                        <Menu.Item >
+                            <FormOutlined /> Manuellement
+                        </Menu.Item>
+                        <Menu.Divider />
+                        <Menu.Item>
+                            <FormOutlined style={{color:'blue'}}/> Déclaration
+                        </Menu.Item>
+                        <Menu.Divider />
+                    </Menu>
+                                        )}
+                    trigger={['click']}
+                >
+                                        <Button
+                                        icon={<MoreOutlined />}
+                                        style={{ color: 'black', padding: '0' }}
+                                        aria-label="Menu actions"
+                                        />
+                                    </Dropdown>
+            </Space>
+        )
     }
 ];
 
