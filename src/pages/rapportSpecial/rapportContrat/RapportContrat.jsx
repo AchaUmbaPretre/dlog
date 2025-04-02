@@ -122,6 +122,14 @@ const handleElementContratListe = (id) => {
         width: "3%",
     },
     {
+        title: 'Client',
+        dataIndex: 'nom',
+        key: 'nom',
+        render: (text) => (
+            <Tag color="green">{text}</Tag>
+        ),
+    },
+    {
         title: 'Titre',
         dataIndex: 'nom_contrat',
         key: 'nom_contrat',
