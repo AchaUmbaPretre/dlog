@@ -29,8 +29,8 @@ export const getParametreOne = async () => {
     return axios.get(`${DOMAIN}/api/rapport/contrat_parametre/one`);
   };
 
-export const getParametreContratCat = async () => {
-    return axios.get(`${DOMAIN}/api/rapport/contrat_parametreContratCat`);
+export const getParametreContratCat = async (id) => {
+    return axios.get(`${DOMAIN}/api/rapport/contrat_parametreContratCat?id_element_contrat=${id}`);
   };
 
 export const postParametre = async (data) => {

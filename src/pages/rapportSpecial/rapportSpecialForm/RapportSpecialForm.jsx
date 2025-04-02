@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Col, Table, Input, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
 import { getCatRapport, getContratRapport, getElementContrat, postRapport } from '../../../services/rapportService';
-import { getClient } from '../../../services/clientService';
 import { useSelector } from 'react-redux';
 import './rapportSpecialForm.scss'
 
