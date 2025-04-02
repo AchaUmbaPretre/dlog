@@ -295,7 +295,7 @@ const handleElementContratListe = (id) => {
             width={700}
             centered
         >
-            <ElementContrat fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+            <ElementContrat fetchData={fetchData} closeModal={()=>setModalType(null)} idContrat={idContrat}/>
         </Modal>
 
         <Modal

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { Table, message, Menu, notification, Tag } from 'antd';
+import { ExportOutlined } from '@ant-design/icons';
 import { getParametre } from '../../../../services/rapportService';
-
-const { Search } = Input;
 
 const RapportParametreListe = () => {
   const [loading, setLoading] = useState(true);
@@ -55,17 +53,6 @@ const RapportParametreListe = () => {
       });
     }
   };
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
 
   const columns = [
     {

@@ -1,13 +1,13 @@
 import React , { useEffect, useState }  from 'react'
 import { Form, Input, Button, notification, Row, Col, Select } from 'antd';
-import { getCatRapport, postElementContrat } from '../../../services/rapportService';
+import { getCatRapport, getEtiquette, postElementContrat } from '../../../services/rapportService';
 
 
 const ElementContrat = ({idContrat}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [idCat, setIdCat] = useState('')
   const [cat, setCat] = useState([]);
+  const [etiq, setEtiq] = useState([]);
 
     const handleError = (message) => {
       notification.error({
@@ -19,11 +19,13 @@ const ElementContrat = ({idContrat}) => {
     useEffect(() => {
       const fetchData = async () => {
           try {
-              const [contratData] = await Promise.all([
-                  getCatRapport()
+              const [contratData, etiqData] = await Promise.all([
+                  getCatRapport(),
+                  getEtiquette()
               ]);
   
               setCat(contratData?.data);
+              setEtiq(etiqData.data)
           } catch (error) {
               handleError('Une erreur est survenue lors du chargement des données.');
           }
@@ -74,6 +76,7 @@ const ElementContrat = ({idContrat}) => {
                         rules={[{ required: true, message: 'Veuillez selectionner une categorie' }]}
                         >
                             <Select
+                                size="large"
                                 allowClear
                                 showSearch
                                 options={cat?.map((item) => ({
@@ -91,13 +94,40 @@ const ElementContrat = ({idContrat}) => {
                             label="Element contrat"
                             rules={[{ required: true, message: 'Veuillez entrer le nom d un element' }]}
                         >
-                        <Input placeholder=" ex: Transport NRJ" />
+                        <Input 
+                            placeholder=" ex: Transport NRJ" 
+                            size="large"
+                        />
+                        </Form.Item>
+                    </Col>
+
+                    <Col span={24}>
+                        <Form.Item
+                            name="id_etiquette"
+                            label="Etiquette"
+                        >
+                            <Select
+                                size="large"
+                                allowClear
+                                showSearch
+                                options={etiq?.map((item) => ({
+                                value: item.id_etiquette                                ,
+                                label: item.nom_etiquette}))}
+                                placeholder="Sélectionnez une etiquette..."
+                                optionFilterProp="label"
+                            />
                         </Form.Item>
                     </Col>
                     </Row>
         
                     <Form.Item>
-                    <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                    <Button 
+                        size="large"
+                        type="primary" 
+                        htmlType="submit" 
+                        loading={loading} 
+                        disabled={loading}
+                    >
                         Soumettre
                     </Button>
                     </Form.Item>
