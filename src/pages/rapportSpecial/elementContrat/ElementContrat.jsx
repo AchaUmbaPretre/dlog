@@ -7,7 +7,7 @@ const ElementContrat = ({idContrat}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [idCat, setIdCat] = useState('')
-  const [cat, setCat] = useState('');
+  const [cat, setCat] = useState([]);
 
     const handleError = (message) => {
       notification.error({
