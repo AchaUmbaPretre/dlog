@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Col, Table, Input, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
-import { getCatRapport, getContratRapport, getElementContrat, postRapport } from '../../../services/rapportService';
+import { getCatRapport, getContratRapport, getElementContrat, getParametreContratCat, postRapport } from '../../../services/rapportService';
 import { useSelector } from 'react-redux';
 import './rapportSpecialForm.scss'
 
@@ -13,6 +13,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [contrat, setContrat] = useState([]);
     const [data, setData] = useState([]);
+    const [params, setParams] = useState([]);
     const [idContrat, setIdContrat] = useState('');
     const [cat, setCat] = useState([]);
     const [idCat, setIdCat] = useState('');
@@ -32,6 +33,11 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
             setContrat(contratData.data)
             setElement(elementData.data)
             setCat(catData.data)
+
+            if(idElement){
+                const {data: ele} = await getParametreContratCat(idElement)
+                setData(ele)
+            }
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -43,7 +49,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
         useEffect(() => {
             fetchDatas();
               // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, []);
+        }, [idElement]);
 
         const handleChange = (value, key) => {
             setData(prevData =>
@@ -67,8 +73,8 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
             },
             {
               title: "Paramètre",
-              dataIndex: "parametre",
-              key: "parametre",
+              dataIndex: "nom_parametre",
+              key: "nom_parametre",
             },
             {
               title: "Valeur",
@@ -77,7 +83,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
               render: (text, record) => (
                 <Input
                   value={record.valeur}
-                  onChange={(e) => handleChange(e.target.value, record.key)}
+                  onChange={(e) => handleChange(e.target.value, record.id_parametre)}
                 />
               ),
             },
@@ -152,27 +158,6 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
             </div>
         </div>
     );
-};
-
-const styles = {
-    title: {
-        fontSize: '15px',
-        fontWeight: 'bold',
-        color: '#1890ff',
-    },
-    subTitle: {
-        fontSize: '12px',
-        fontWeight: 'bold',
-        color: '#333',
-        textTransform: 'uppercase',
-        letterSpacing: '0.3px',
-        paddingBottom: '4px',
-        marginBottom: '12px',
-    },
-    input: {
-        width: '100%',
-        borderRadius: '5px',
-    },
 };
 
 export default RapportSpecialForm;
