@@ -132,7 +132,7 @@ const RapportParametre = ({ fetchData, closeModal, idContrat }) => {
                   ))}
                   <Form.Item>
                     <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                      Ajouter un paramètre
+                        Enregistrer
                     </Button>
                   </Form.Item>
                 </>
