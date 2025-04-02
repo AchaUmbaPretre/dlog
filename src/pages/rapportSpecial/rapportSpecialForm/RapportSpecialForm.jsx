@@ -62,11 +62,12 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
     
     
     return (
-        <div className="rapportSpecialForm" style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
+        <div className="rapportSpecialForm" >
             <div className="rapportSpecial_wrapper">
+                <h1 className="h1_rapport">FORM DE RAPPORT</h1>
                 <div className="rapportSpecial_rows">
                     <div className="rapportSpecial_row">
-                        
+
                     </div>
                 </div>
             </div>
