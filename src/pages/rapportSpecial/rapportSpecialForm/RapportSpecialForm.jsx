@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Col, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
+import { Form, Col, Table, Input, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
 import { getCatRapport, getContratRapport, getElementContrat, postRapport } from '../../../services/rapportService';
 import { getClient } from '../../../services/clientService';
 import { useSelector } from 'react-redux';
@@ -7,8 +7,13 @@ import './rapportSpecialForm.scss'
 
 const RapportSpecialForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
+    const [pagination, setPagination] = useState({
+            current: 1,
+            pageSize: 25,
+          });
     const [isLoading, setIsLoading] = useState(false);
     const [contrat, setContrat] = useState([]);
+    const [data, setData] = useState([]);
     const [idContrat, setIdContrat] = useState('');
     const [cat, setCat] = useState([]);
     const [idCat, setIdCat] = useState('');
@@ -41,6 +46,44 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
               // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
+        const handleChange = (value, key) => {
+            setData(prevData =>
+              prevData.map(item =>
+                item.key === key ? { ...item, valeur: value } : item
+              )
+            );
+          };
+
+        const columns = [
+            {
+                title: '#',
+                dataIndex: 'id',
+                key: 'id',
+                render: (text, record, index) => {
+                  const pageSize = pagination.pageSize || 10;
+                  const pageIndex = pagination.current || 1;
+                  return (pageIndex - 1) * pageSize + index + 1;
+                },
+                width: "2%"      
+            },
+            {
+              title: "Paramètre",
+              dataIndex: "parametre",
+              key: "parametre",
+            },
+            {
+              title: "Valeur",
+              dataIndex: "valeur",
+              key: "valeur",
+              render: (text, record) => (
+                <Input
+                  value={record.valeur}
+                  onChange={(e) => handleChange(e.target.value, record.key)}
+                />
+              ),
+            },
+          ];
+
     
     return (
         <div className="rapportSpecialForm" >
@@ -68,7 +111,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
 
                         <div>
                             <Form.Item
-                                name="id_cat_rapport "
+                                name="id_cat_rapport"
                                 label="Categorie"
                                 rules={[{ required: true, message: "Veuillez sélectionner une categorie" }]}
                             >
@@ -101,6 +144,10 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 }
                             </Form.Item>
                         </div>
+                    </div>
+
+                    <div className="apportSpecial_row2">
+                        <Table dataSource={data} columns={columns} pagination={false} bordered />
                     </div>
                 </div>
             </div>

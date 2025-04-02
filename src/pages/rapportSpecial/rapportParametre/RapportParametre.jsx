@@ -1,19 +1,41 @@
-import React from 'react';
-import { Form, Input, Button, notification, Row, Col } from 'antd';
+import React, { useEffect } from 'react';
+import { Form, Input, Button, Select, notification, Row, Col } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { postParametre } from '../../../services/rapportService';
+import { getElementContrat, getEtiquette, postParametre } from '../../../services/rapportService';
 
 const RapportParametre = ({ fetchData, closeModal, idContrat }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [etiq, setEtiq] = useState([]);
+  const [element, setElement] = useState([])
+
+      useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [etiqData, elementData] = await Promise.all([
+                    getEtiquette(),
+                    getElementContrat()
+                ]);
+    
+                setEtiq(etiqData.data)
+                setElement(elementData.data)
+            } catch (error) {
+                console.log(error)
+            }
+        };
+    
+        fetchData();
+    }, []);
 
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
       const parametres = values.parametres.map(param => ({
         id_contrat: idContrat,
-        nom_parametre: param.nom_parametre
+        nom_parametre: param.nom_parametre,
+        id_element_contrat: param.id_element_contrat,
+        id_etiquette: param.id_etiquette
       }));
 
       await postParametre(parametres);
@@ -54,14 +76,49 @@ const RapportParametre = ({ fetchData, closeModal, idContrat }) => {
                 <>
                   {fields.map(({ key, name, ...restField }) => (
                     <Row gutter={16} key={key} style={{display:'flex', alignItems:'center'}}>
-                      <Col span={22}>
+                      <Col span={12}>
                         <Form.Item
                           {...restField}
                           name={[name, "nom_parametre"]}
                           label="Nom du Paramètre"
                           rules={[{ required: true, message: 'Veuillez entrer le nom du paramètre' }]}
                         >
-                          <Input placeholder="Ex: Tonnage" />
+                          <Input size="large" placeholder="Ex: Tonnage" />
+                        </Form.Item>
+                      </Col>
+                      <Col span={12}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "id_etiquette"]}
+                          label="Etiquette"
+                        >
+                            <Select
+                                size="large"
+                                allowClear
+                                showSearch
+                                options={etiq?.map((item) => ({
+                                value: item.id_etiquette                                ,
+                                label: item.nom_etiquette}))}
+                                placeholder="Sélectionnez une etiquette..."
+                                optionFilterProp="label"
+                            />
+                        </Form.Item>
+                      </Col>
+
+                      <Col span={24}>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "id_element_contrat"]}
+                          label="Element contrat"
+                        >
+                            <Select
+                                size="large"
+                                allowClear
+                                showSearch
+                                options={element.map(item => ({ value: item.id_element_contrat ,label: item.nom_element }))}
+                                placeholder="Sélectionnez une etiquette..."
+                                optionFilterProp="label"
+                            />
                         </Form.Item>
                       </Col>
                       <Col span={2}>
@@ -83,7 +140,7 @@ const RapportParametre = ({ fetchData, closeModal, idContrat }) => {
             </Form.List>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+              <Button type="primary" size="large" htmlType="submit" loading={loading} disabled={loading}>
                 Soumettre
               </Button>
             </Form.Item>
