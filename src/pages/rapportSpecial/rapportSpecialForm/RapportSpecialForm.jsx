@@ -24,9 +24,8 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
 
     const fetchDatas = async () => {
         try {
-            const [ contratData, elementData, catData] = await Promise.all([
+            const [ contratData, catData] = await Promise.all([
                 getContratRapport(),
-                getElementContrat(),
                 getCatRapport()
             ]);
 
@@ -38,10 +37,11 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                 setData(ele)
             }
 
-            if(idContrat || idCat) {
-                const {data: element} = await getElementContratCat(idContrat, idElement)
-                setElement(element)
+            if(idContrat && idCat) {
+                const {data: elements} = await getElementContratCat(idContrat, idCat)
+                setElement(elements)
             }
+
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -53,7 +53,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
         useEffect(() => {
             fetchDatas();
               // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [idElement,idContrat, idCat]);
+        }, [idElement,idContrat, idCat, contrat, cat, element]);
 
         const handleChange = (value, id_parametre) => {
             setData(prevData =>
