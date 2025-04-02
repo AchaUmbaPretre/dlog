@@ -8,7 +8,8 @@ import './rapportSpecialForm.scss'
 const RapportSpecialForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
-    const [periode, setPeriode] = useState(null);
+    const [contrat, setContrat] = useState([]);
+    const [idContrat, setIdContrat] = useState('');
     const [client, setClient] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     
