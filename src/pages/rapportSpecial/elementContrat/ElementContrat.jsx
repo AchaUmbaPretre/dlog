@@ -43,13 +43,13 @@ const ElementContrat = ({idContrat}) => {
         });
         notification.success({
           message: 'Succès',
-          description: 'Le fournisseur a été enregistré avec succès.',
+          description: 'L element contrat a été enregistré avec succès.',
         });
         form.resetFields();
       } catch (error) {
         notification.error({
           message: 'Erreur',
-          description: 'Erreur lors de l\'enregistrement du fournisseur.',
+          description: 'Erreur lors de l\'enregistrement d un element contrat.',
         });
       } finally {
         setLoading(false);
