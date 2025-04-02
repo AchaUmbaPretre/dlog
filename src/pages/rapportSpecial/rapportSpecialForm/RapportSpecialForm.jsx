@@ -63,7 +63,13 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
     
     return (
         <div className="rapportSpecialForm" style={{ padding: '20px', backgroundColor: '#f5f5f5' }}>
-            ?
+            <div className="rapportSpecial_wrapper">
+                <div className="rapportSpecial_rows">
+                    <div className="rapportSpecial_row">
+                        
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
