@@ -152,7 +152,13 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                     </div>
 
                     <div className="apportSpecial_row2">
-                        <Table dataSource={data} columns={columns} pagination={false} bordered />
+                        <Table 
+                            dataSource={data}
+                            columns={columns} 
+                            pagination={false} 
+                            bordered 
+                            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                        />
                     </div>
                 </div>
             </div>
