@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Col, Table, message, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
-import { getCatRapport, getContratRapport, getElementContrat, getElementContratCat, getParametreContratCat, postRapport } from '../../../services/rapportService';
+import { getCatRapport, getContratRapport, getElementContratCat, getParametreContratCat, postRapport } from '../../../services/rapportService';
 import { useSelector } from 'react-redux';
 import './rapportSpecialForm.scss'
 
@@ -53,7 +53,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
         useEffect(() => {
             fetchDatas();
               // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [idElement,idContrat, idCat, contrat, cat, element]);
+        }, [idElement,idContrat, idCat]);
 
         const handleChange = (value, id_parametre) => {
             setData(prevData =>
