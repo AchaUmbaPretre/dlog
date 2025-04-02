@@ -42,6 +42,9 @@ export const getElementContrat = async () => {
     return axios.get(`${DOMAIN}/api/rapport/element_contrat`);
   };
 
+export const getElementContratCat = async (idContrat, idCat) => {
+    return axios.get(`${DOMAIN}/api/rapport/element_contratCat?id_contrat=${idContrat}&id_cat_rapport=${idCat}`);
+  };
 export const postElementContrat  = async (data) => {
     return axios.post(`${DOMAIN}/api/rapport/element_contrat`, data)
 }
