@@ -69,7 +69,7 @@ const ElementContrat = ({idContrat}) => {
                     onFinish={handleSubmit}
                 >
                     <Row gutter={16}>
-                    <Col span={12}>
+                    <Col span={24}>
                         <Form.Item
                         name="id_cat"
                         label="Categorie"
@@ -88,7 +88,7 @@ const ElementContrat = ({idContrat}) => {
                         </Form.Item>
                     </Col>
             
-                    <Col span={12}>
+                    <Col span={24}>
                         <Form.Item
                             name="nom_element"
                             label="Element contrat"
@@ -98,24 +98,6 @@ const ElementContrat = ({idContrat}) => {
                             placeholder=" ex: Transport NRJ" 
                             size="large"
                         />
-                        </Form.Item>
-                    </Col>
-
-                    <Col span={24}>
-                        <Form.Item
-                            name="id_etiquette"
-                            label="Etiquette"
-                        >
-                            <Select
-                                size="large"
-                                allowClear
-                                showSearch
-                                options={etiq?.map((item) => ({
-                                value: item.id_etiquette                                ,
-                                label: item.nom_etiquette}))}
-                                placeholder="Sélectionnez une etiquette..."
-                                optionFilterProp="label"
-                            />
                         </Form.Item>
                     </Col>
                     </Row>

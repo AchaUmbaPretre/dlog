@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Col, Table, Input, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
+import { Form, Col, Table, message, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
 import { getCatRapport, getContratRapport, getElementContrat, getParametreContratCat, postRapport } from '../../../services/rapportService';
 import { useSelector } from 'react-redux';
 import './rapportSpecialForm.scss'
@@ -62,7 +62,34 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
               ...prev,
               [id_parametre]: value,
             }));
-          };
+        };
+
+        const onFinish = async () => {
+            await form.validateFields();
+            const loadingKey = 'loadingDeclaration';
+            message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+
+            try {
+                const formattedData = Object.entries(modifiedData).map(([id, valeur]) => ({
+                    id_parametre: Number(id),
+                    id_contrat : idContrat,
+                    periode: periode,
+                    valeur
+                  }));
+                await postRapport(formattedData)
+                message.success({ content: 'Le rapport special a été enregistré avec succès.', key: loadingKey });
+                form.resetFields();
+            } catch (error) {
+                console.error("Erreur lors de l'ajout de la déclaration:", error);
+                message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+                notification.error({
+                    message: 'Erreur',
+                    description: `${error.response?.data?.error}`,
+                });
+            } finally {
+                setIsLoading(false);
+            }
+        }
 
         const columns = [
             {
@@ -82,19 +109,20 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
               key: "nom_parametre",
             },
             {
-              title: "Valeur",
-              dataIndex: "valeur",
-              key: "valeur",
-              render: (text, record) => (
-                <Input
-                  value={record.valeur}
-                  onChange={(e) => handleChange(e.target.value, record.id_parametre)}
-                />
-              ),
+                title: "Valeur",
+                dataIndex: "valeur",
+                key: "valeur",
+                render: (text, record) => (
+                  <InputNumber
+                    value={record.valeur}
+                    onChange={(value) => handleChange(value, record.id_parametre)}
+                    min={0}
+                    style={{ width: "100%" }}
+                  />
+                ),
             },
           ];
 
-    
     return (
         <div className="rapportSpecialForm" >
             <div className="rapportSpecial_wrapper">
@@ -155,7 +183,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                         <div>
                             <Form.Item
                                 name="id_element_contrat"
-                                label="Element"
+                                label="Element contrat"
                                 rules={[{ required: true, message: "Veuillez sélectionner un element" }]}
                             >
                                 { isLoading ? <Skeleton.Input active={true} /> : 
@@ -180,6 +208,18 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                             bordered 
                             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                         />
+                        <div>
+                            <Button
+                                type='primary'
+                                size='large'
+                                style={{ margin: '20px 0 10 0' }}
+                                loading={isLoading}
+                                disabled={isLoading}
+                                onClick={onFinish}
+                            >
+                                Envoyer
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
