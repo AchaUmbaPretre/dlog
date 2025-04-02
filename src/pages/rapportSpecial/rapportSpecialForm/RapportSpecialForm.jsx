@@ -13,7 +13,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [contrat, setContrat] = useState([]);
     const [data, setData] = useState([]);
-    const [params, setParams] = useState([]);
+    const [periode, setPeriode] = useState(null);
     const [idContrat, setIdContrat] = useState('');
     const [cat, setCat] = useState([]);
     const [idCat, setIdCat] = useState('');
@@ -96,6 +96,19 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                 <h1 className="h1_rapport">FORM DE RAPPORT</h1>
                 <div className="rapportSpecial_rows">
                     <div className="rapportSpecial_row">
+                        <Form.Item
+                            name="periode"
+                            label="Période"
+                            rules={[{ required: true, message: "Veuillez entrer la période" }]}
+                        >
+                            <DatePicker
+                                picker="month"
+                                placeholder="Sélectionnez le mois"
+                                format="YYYY-MM"
+                                style={{ width: '100%' }}
+                                onChange={(date, dateString) => setPeriode(dateString)}
+                            />
+                        </Form.Item>
                         <div>
                             <Form.Item
                                 name="id_contrat"
@@ -105,6 +118,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         showSearch
+                                        allowClear
                                         options={contrat.map(item => ({ value: item.id_contrats_rapport , label: item.nom_contrat }))}
                                         placeholder="Sélectionnez..."
                                         onChange={setIdContrat}
@@ -123,6 +137,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         showSearch
+                                        allowClear
                                         options={cat.map(item => ({ value: item.id_cat_rapport  , label: item.nom_cat }))}
                                         placeholder="Sélectionnez..."
                                         onChange={setIdCat}
@@ -141,6 +156,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         showSearch
+                                        allowClear
                                         options={element.map(item => ({ value: item.id_element_contrat ,label: item.nom_element }))}
                                         placeholder="Sélectionnez..."
                                         onChange={setIdElement}
