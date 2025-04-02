@@ -41,34 +41,6 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
               // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
-    const onFinish = async (values) => {
-        setIsLoading(true);
-        try {
-            await postRapport({
-                ...values,
-                user_cr: userId
-            });
-
-            closeModal();
-            fetchData();
-            form.resetFields();
-            notification.success({
-                message: 'Succès',
-                description: 'Les informations ont été enregistrées avec succès.',
-            });
-        } catch (error) {
-            console.error("Erreur lors de l'envoi du rapport:", error);
-    
-            notification.error({
-                message: 'Erreur',
-                description: error?.response?.data?.message || 
-                             'Une erreur s\'est produite lors de l\'enregistrement.',
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    
     
     return (
         <div className="rapportSpecialForm" >
