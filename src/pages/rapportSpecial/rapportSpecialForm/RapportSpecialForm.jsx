@@ -17,11 +17,11 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
     const [idContrat, setIdContrat] = useState('');
     const [cat, setCat] = useState([]);
     const [idCat, setIdCat] = useState('');
-    const [client, setClient] = useState([]);
     const [element, setElement] = useState([])
     const [idElement, setIdElement] = useState('')
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    
+    const [modifiedData, setModifiedData] = useState({}); // Stocker les valeurs modifiées
+
     const fetchDatas = async () => {
         try {
             const [ contratData, elementData, catData] = await Promise.all([
@@ -51,12 +51,17 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
               // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [idElement]);
 
-        const handleChange = (value, key) => {
+        const handleChange = (value, id_parametre) => {
             setData(prevData =>
               prevData.map(item =>
-                item.key === key ? { ...item, valeur: value } : item
+                item.id_parametre === id_parametre ? { ...item, valeur: value } : item
               )
             );
+        
+            setModifiedData(prev => ({
+              ...prev,
+              [id_parametre]: value,
+            }));
           };
 
         const columns = [
