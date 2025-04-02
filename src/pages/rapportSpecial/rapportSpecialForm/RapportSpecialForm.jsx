@@ -24,31 +24,39 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
 
     const fetchDatas = async () => {
         try {
-            const [ contratData, catData] = await Promise.all([
+            const [contratData, catData] = await Promise.all([
                 getContratRapport(),
                 getCatRapport()
             ]);
-
-            setContrat(contratData.data)
-            setCat(catData.data)
-
-            if(idElement){
-                const {data: ele} = await getParametreContratCat(idElement)
-                setData(ele)
+    
+            setContrat(contratData.data);
+            setCat(catData.data);
+    
+            if (idElement) {
+                const { data: ele } = await getParametreContratCat(idElement);
+                setData(ele);
+            } else {
+                setData([]);
+                setElement([]);
+                setIdElement('')
             }
+    
+            if (idContrat && idCat) {
+                const { data: elements } = await getElementContratCat(idContrat, idCat);
+                setElement(elements);
+            } else {
+                setElement([]);
+                setData([]);
+                setIdElement('')
 
-            if(idContrat && idCat) {
-                const {data: elements} = await getElementContratCat(idContrat, idCat)
-                setElement(elements)
             }
-
-            
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
             setIsLoading(false);
         }
-    }
+    };
+    
 
         useEffect(() => {
             fetchDatas();
@@ -154,6 +162,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                             >
                                 { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
+                                        style={{width:'100%'}}
                                         showSearch
                                         allowClear
                                         options={contrat.map(item => ({ value: item.id_contrats_rapport , label: item.nom_contrat }))}
@@ -164,8 +173,8 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 }
                             </Form.Item>
                         </div>
-
-                        <div>
+                        { idContrat &&
+                            <div>
                             <Form.Item
                                 name="id_cat_rapport"
                                 label="Categorie"
@@ -173,6 +182,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                             >
                                 { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
+                                        style={{width:'100%'}}
                                         showSearch
                                         allowClear
                                         options={cat.map(item => ({ value: item.id_cat_rapport  , label: item.nom_cat }))}
@@ -183,28 +193,31 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 }
                             </Form.Item>
                         </div>
-
-                        <div>
-                            <Form.Item
-                                name="id_element_contrat"
-                                label="Element contrat"
-                                rules={[{ required: true, message: "Veuillez sélectionner un element" }]}
-                            >
-                                { isLoading ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        showSearch
-                                        allowClear
-                                        options={element.map(item => ({ value: item.id_element_contrat ,label: item.nom_element }))}
-                                        placeholder="Sélectionnez..."
-                                        onChange={setIdElement}
-                                        optionFilterProp="label"
-                                    />
-                                }
-                            </Form.Item>
-                        </div>
+                        }
+                        { idCat &&
+                            <div>
+                                <Form.Item
+                                    name="id_element_contrat"
+                                    label="Element contrat"
+                                    rules={[{ required: true, message: "Veuillez sélectionner un element" }]}
+                                >
+                                    { isLoading ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                            showSearch
+                                            allowClear
+                                            style={{width:'100%'}}
+                                            options={element.map(item => ({ value: item.id_element_contrat ,label: item.nom_element }))}
+                                            placeholder="Sélectionnez..."
+                                            onChange={setIdElement}
+                                            optionFilterProp="label"
+                                        />
+                                    }
+                                </Form.Item>
+                            </div>
+                        }
                     </div>
 
-                    <div className="apportSpecial_row2">
+                    <div className="rapportSpecial_row2">
                         <Table 
                             dataSource={data}
                             columns={columns} 
