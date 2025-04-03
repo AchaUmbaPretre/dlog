@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Col, Table, message, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
+import { Form, Table, message, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
 import { getCatRapport, getContratRapport, getElementContratCat, getParametreContratCat, postRapport } from '../../../services/rapportService';
 import { useSelector } from 'react-redux';
 import './rapportSpecialForm.scss'
@@ -162,7 +162,6 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                             >
                                 { isLoading ? <Skeleton.Input active={true} /> : 
                                     <Select
-                                        style={{width:'100%'}}
                                         showSearch
                                         allowClear
                                         options={contrat.map(item => ({ value: item.id_contrats_rapport , label: item.nom_contrat }))}
@@ -173,7 +172,6 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 }
                             </Form.Item>
                         </div>
-                        { idContrat &&
                             <div>
                             <Form.Item
                                 name="id_cat_rapport"
@@ -193,7 +191,6 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 }
                             </Form.Item>
                         </div>
-                        }
                         { idCat &&
                             <div>
                                 <Form.Item
