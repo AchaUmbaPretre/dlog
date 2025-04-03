@@ -3,7 +3,7 @@ import { Form, Input, Button, notification, Row, Col, Select } from 'antd';
 import { getCatRapport, getEtiquette, postElementContrat } from '../../../services/rapportService';
 
 
-const ElementContrat = ({idContrat}) => {
+const ElementContrat = ({fetchData, closeModal, idContrat}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [cat, setCat] = useState([]);
@@ -46,6 +46,8 @@ const ElementContrat = ({idContrat}) => {
           description: 'L element contrat a été enregistré avec succès.',
         });
         form.resetFields();
+        fetchData();
+        closeModal()
       } catch (error) {
         notification.error({
           message: 'Erreur',
