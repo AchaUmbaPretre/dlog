@@ -91,6 +91,11 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                 await postRapport(formattedData)
                 message.success({ content: 'Le rapport special a été enregistré avec succès.', key: loadingKey });
                 form.resetFields();
+                setData([]);
+                setElement([]);
+                setCat([]);
+                setIdElement('');
+                setIdCat('');
             } catch (error) {
                 console.error("Erreur lors de l'ajout de la déclaration:", error);
                 message.error({ content: 'Une erreur est survenue.', key: loadingKey });
