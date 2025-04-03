@@ -270,7 +270,7 @@ const handleElementContratListe = (id) => {
         width={800}
         centered
       >
-        <RapportContratForm closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+        <RapportContratForm closeModal={() => setIsModalVisible(false)} fetchData={fetchData} idContrat={idContrat}/>
       </Modal>
 
         <Modal
