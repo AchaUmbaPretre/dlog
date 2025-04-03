@@ -292,7 +292,7 @@ const handleElementContratListe = (id) => {
             width={700}
             centered
         >
-            <RapportParametreListe fetchData={fetchData} closeModal={()=>setModalType(null)}/>
+            <RapportParametreListe idContrat={idContrat} />
         </Modal>
 
         <Modal
