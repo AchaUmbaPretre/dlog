@@ -24,7 +24,7 @@ const RapportParametreListe = ({idContrat}) => {
     };
   
     fetchData();
-  }, []);
+  }, [idContrat]);
 
   const columns = [
     {
