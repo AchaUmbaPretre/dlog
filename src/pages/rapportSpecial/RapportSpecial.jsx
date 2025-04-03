@@ -58,318 +58,77 @@ const RapportSpecial = () => {
       setActiveKey(key);
     };
 
-    const columns = [
-        {
-            title: '#',
-            dataIndex: 'id',
-            key: 'id',
-            render: (text, record, index) => {
-              const pageSize = pagination.pageSize || 10;
-              const pageIndex = pagination.current || 1;
-              return (pageIndex - 1) * pageSize + index + 1;
-            },
-            width: "2%"      
-          },
-          {
-            title: 'Periode',
-            dataIndex: 'periode',
-            width: 90,
-            key: 'periode',
-            render: (text) => (
-              <Tag 
-                icon={<CalendarOutlined />} 
-                color="purple" 
-              >
-                {moment(text).format('MMM YYYY')}
-              </Tag>
-            )
-          },
-          {
-            title: 'Client',
-            dataIndex: 'nom',
-            width: 90,
-            key: 'nom',
-            render: (text, record) => (
-              <div>
-                {text}
-              </div>
-            )
-          },
-          {
-            title: 'ENTREPOSAGE GLOBAL',
-            children : [
-                {
-                    title: 'Superficie',
-                    dataIndex: 'superficie',
-                    width: 100,
-                    key: 'superficie',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                },
-                {
-                    title: 'Entreposage',
-                    dataIndex: 'entreposage',
-                    width: 100,
-                    key: 'entreposage',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                }
-            ]
-          },
-          {
-            title: 'TRANSPORT NRJ',
-            children : [
-                {
-                    title: 'Trans NRJ',
-                    dataIndex: 'transp_nrj',
-                    width: 100,
-                    key: 'transp_nrj',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: 'TEU',
-                    dataIndex: 'teu',
-                    width: 90,
-                    key: 'teu',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "20' LOURDS",
-                    dataIndex: 'lourd',
-                    width: 100,
-                    key: 'lourd',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Tonnage",
-                    dataIndex: 'tonnage',
-                    width: 100,
-                    key: 'tonnage',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Peage",
-                    dataIndex: 'peage_camion',
-                    width: 100,
-                    key: 'peage_camion',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "TEU retour",
-                    dataIndex: 'teu_retour',
-                    width: 100,
-                    key: 'teu_retour',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-            ]
-          },
-          {
-            title: 'MANUTENTION',
-            children: [
-                {
-
-                    title: "Manut",
-                    dataIndex: 'manut',
-                    width: 100,
-                    key: 'manut',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Manut1",
-                    dataIndex: 'manut1',
-                    width: 100,
-                    key: 'manut1',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>  
-                    )
-                  },
-                  {
-                    title: "Camions Manut",
-                    dataIndex: 'camions_manut',
-                    width: 100,
-                    key: 'camions_manut',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Sacs manut IN",
-                    dataIndex: 'sacs_manut_IN',
-                    width: 100,
-                    key: 'sacs_manut_IN',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Sacs manut OUT",
-                    dataIndex: 'sacs_manut_OUT',
-                    width: 100,
-                    key: 'sacs_manut_OUT',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Manut2",
-                    dataIndex: 'manut2',
-                    width: 100,
-                    key: 'manut2',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Bout. /Intrants (T)",
-                    dataIndex: 'bouteilles_intrants',
-                    width: 100,
-                    key: 'bouteilles_intrants',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Camion charge/décharge",
-                    dataIndex: 'camions_charge_decharge',
-                    width: 100,
-                    key: 'camions_charge_decharge',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Sacs",
-                    dataIndex: 'sacs_tonne',
-                    width: 100,
-                    key: 'sacs_tonne',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Palettes (mise en bac)",
-                    dataIndex: 'palettes_mise_en_bac',
-                    width: 130,
-                    key: 'palettes_mise_en_bac',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Manut3",
-                    dataIndex: 'manut3',
-                    width: 100,
-                    key: 'manut3',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Bout. (T)",
-                    dataIndex: 'bout',
-                    width: 100,
-                    key: 'bout',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-                  {
-                    title: "Palettes",
-                    dataIndex: 'palettes_avenant',
-                    width: 100,
-                    key: 'palettes_avenant',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                  },
-            ]
-          },
-          {
-            title: 'LIVRAISON',
-            children : [
-                {
-                    title: "Liv locale",
-                    dataIndex: 'liv_locale',
-                    key: 'liv_locale',
-                    render: (text, record) => (
-                      <div>
-                        {text}
-                      </div>
-                    )
-                },
-                {
-                  title: "Camions livrés",
-                  dataIndex: 'camions_livres',
-                  width: 100,
-                  key: '',
-                  render: (text, record) => (
-                    <div>
-                      {text}
-                    </div>
-                  )
-                }
-            ]
-          }
-      ]
+    const groupedData = data.reduce((result, item) => {
+      // Si la catégorie n'existe pas encore, on l'initialise
+      if (!result[item.nom_cat]) {
+        result[item.nom_cat] = {};
+      }
+      
+      // Si le contrat n'existe pas encore dans la catégorie, on l'initialise
+      if (!result[item.nom_cat][item.nom_contrat]) {
+        result[item.nom_cat][item.nom_contrat] = [];
+      }
+      
+      // Ajout du paramètre à son contrat spécifique dans la catégorie
+      result[item.nom_cat][item.nom_contrat].push({
+        nom_parametre: item.nom_parametre,
+        valeur_parametre: item.valeur_parametre,
+        periode: item.periode,
+      });
     
+      return result;
+    }, {});
+
+    const columns = [
+      {
+        title: '#',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index) => {
+          const pageSize = pagination.pageSize || 10;
+          const pageIndex = pagination.current || 1;
+          return (pageIndex - 1) * pageSize + index + 1;
+        },
+        width: "2%"      
+      },
+      {
+        title: 'Periode',
+        dataIndex: 'periode',
+        width: 90,
+        key: 'periode',
+        render: (text) => (
+          <Tag icon={<CalendarOutlined />} color="purple">
+            {moment(text).format('MMM YYYY')}
+          </Tag>
+        )
+      },
+      {
+        title: 'Client',
+        dataIndex: 'nom',
+        width: 90,
+        key: 'nom',
+        render: (text, record) => (
+          <div>{text}</div>
+        )
+      },
+      ...Object.keys(groupedData).map((nom_cat) => ({
+        title: nom_cat,
+        children: Object.keys(groupedData[nom_cat]).map((nom_contrat) => ({
+          title: nom_contrat,
+          children: groupedData[nom_cat][nom_contrat].map((param) => ({
+            title: param.nom_parametre,
+            dataIndex: param.nom_parametre,
+            key: param.nom_parametre,
+            render: () => (
+              <div>{param.valeur_parametre}</div>
+            )
+          }))
+        }))
+      }))
+    ];
+    
+    
+      
   return (
     <>
             <Tabs
