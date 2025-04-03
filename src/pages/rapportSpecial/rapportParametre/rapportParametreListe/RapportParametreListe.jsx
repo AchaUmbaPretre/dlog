@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Table, message, Menu, notification, Tag } from 'antd';
-import { ExportOutlined } from '@ant-design/icons';
-import { getParametre } from '../../../../services/rapportService';
+import { Table, message, notification } from 'antd';
+import { getParametreOne } from '../../../../services/rapportService';
 
-const RapportParametreListe = () => {
+const RapportParametreListe = ({idContrat}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
@@ -11,7 +10,7 @@ const RapportParametreListe = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getParametre();
+        const { data } = await getParametreOne(idContrat);
   
         setData(data);
         setLoading(false);
