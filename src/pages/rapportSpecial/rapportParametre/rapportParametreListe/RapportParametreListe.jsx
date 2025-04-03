@@ -65,8 +65,9 @@ const RapportParametreListe = ({idContrat}) => {
             pagination={{ pageSize: 10 }}
             rowKey="id"
             bordered
-            size="middle"
+            size="small"
             scroll={scroll}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
         </div>
       </div>
