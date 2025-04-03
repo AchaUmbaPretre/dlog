@@ -63,22 +63,29 @@ const RapportSpecial = () => {
       if (!result[item.nom_cat]) {
         result[item.nom_cat] = {};
       }
-      
+    
       // Si le contrat n'existe pas encore dans la catégorie, on l'initialise
       if (!result[item.nom_cat][item.nom_contrat]) {
         result[item.nom_cat][item.nom_contrat] = [];
       }
-      
-      // Ajout du paramètre à son contrat spécifique dans la catégorie
-      result[item.nom_cat][item.nom_contrat].push({
-        nom_parametre: item.nom_parametre,
-        valeur_parametre: item.valeur_parametre,
-        periode: item.periode,
-      });
+    
+      // Vérification si le paramètre existe déjà dans le contrat, pour éviter les doublons
+      const existingParam = result[item.nom_cat][item.nom_contrat].some(
+        (param) => param.nom_parametre === item.nom_parametre
+      );
+    
+      if (!existingParam) {
+        // Ajout du paramètre s'il n'existe pas déjà
+        result[item.nom_cat][item.nom_contrat].push({
+          nom_parametre: item.nom_parametre,
+          valeur_parametre: item.valeur_parametre,
+          periode: item.periode,
+        });
+      }
     
       return result;
     }, {});
-
+    
     const columns = [
       {
         title: '#',
@@ -89,7 +96,7 @@ const RapportSpecial = () => {
           const pageIndex = pagination.current || 1;
           return (pageIndex - 1) * pageSize + index + 1;
         },
-        width: "2%"      
+        width: "2%"
       },
       {
         title: 'Periode',
@@ -126,6 +133,7 @@ const RapportSpecial = () => {
         }))
       }))
     ];
+    
     
     
       
@@ -193,10 +201,12 @@ const RapportSpecial = () => {
                         dataSource={data}
                         loading={loading}
                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                        rowKey="id"
+                        rowKey="periode"
                         bordered
                         size="small"
                         scroll={scroll}
+                        onChange={(pagination) => setPagination(pagination)}
+
                       />
                   </div>
                   <Modal
