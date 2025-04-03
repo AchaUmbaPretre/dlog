@@ -25,33 +25,6 @@ const RapportParametreListe = ({idContrat}) => {
   
     fetchData();
   }, []);
-  
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
-      setData(data.filter((item) => item.id !== id));
-      message.success('Client deleted successfully');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
-  };
 
   const columns = [
     {
