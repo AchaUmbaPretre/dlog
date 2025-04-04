@@ -7,7 +7,7 @@ import 'moment/locale/fr'
 import { getRapport } from '../../../../services/rapportService';
 import RapportSpecialForm from '../RapportSpecialForm';
 
-const RapportSpecialDetail = () => {
+const RapportSpecialDetail = ({idClient}) => {
     const [modalType, setModalType] = useState(null);
     const [pagination, setPagination] = useState({
         current: 1,
@@ -18,10 +18,11 @@ const RapportSpecialDetail = () => {
     const scroll = { x: 'max-content' };
     const [activeKey, setActiveKey] = useState(['1', '2']);
     
+    console.log(idClient)
       const fetchData = async () => {
     
           try {
-            const { data } = await getRapport();
+            const { data } = await getRapport(idClient);
             setData(data);
             setLoading(false);
           } catch (error) {
@@ -35,11 +36,7 @@ const RapportSpecialDetail = () => {
     
       useEffect(() => {
         fetchData();
-      },[]);
-
-    const handleAddRapport = (id) => {
-        openModal('Add', id);
-    }
+      },[idClient]);
 
     const closeAllModals = () => {
         setModalType(null);

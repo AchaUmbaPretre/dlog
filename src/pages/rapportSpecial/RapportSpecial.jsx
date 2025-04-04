@@ -221,7 +221,7 @@ const columns = [
               width={1180}
               centered
             >
-              <RapportSpecialDetail idCient={idClient} />
+              <RapportSpecialDetail idClient={idClient} />
             </Modal>
     </>
   )
