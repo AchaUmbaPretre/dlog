@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Tag, Tabs, Input, Table, notification } from 'antd';
-import { AuditOutlined, PlusCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Modal, Tag, Tabs, Input, Table, notification } from 'antd';
+import { AuditOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import TabPane from 'antd/es/tabs/TabPane';
 import moment from 'moment';
 import 'moment/locale/fr'
 import { getRapport } from '../../../../services/rapportService';
 import RapportSpecialForm from '../RapportSpecialForm';
-const { Search } = Input;
 
 const RapportSpecialDetail = () => {
     const [modalType, setModalType] = useState(null);
