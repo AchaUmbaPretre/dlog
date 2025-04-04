@@ -16,7 +16,11 @@ const RapportContrat = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
   const [modalType, setModalType] = useState(null); 
-  const [idContrat, setIdContrat] = useState('')
+  const [idContrat, setIdContrat] = useState('');
+  const [pagination, setPagination] = useState({
+          current: 1,
+          pageSize: 25,
+        });
   
   const closeAllModals = () => {
     setModalType(null);
@@ -253,10 +257,10 @@ const handleElementContratListe = (id) => {
             columns={columns}
             dataSource={data}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
             bordered
-            size="middle"
+            size="small"
             scroll={scroll}
           />
         </div>

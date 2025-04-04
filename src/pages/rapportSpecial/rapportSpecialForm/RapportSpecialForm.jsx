@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Table, message, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
-import { getCatRapport, getContratRapport, getContratRapportClientOne, getElementContratCat, getParametreContratCat, postRapport } from '../../../services/rapportService';
+import { Form, Table, message, Skeleton, Select, InputNumber, Button, DatePicker, notification } from 'antd';
+import { getCatRapport, getContratRapportClientOne, getElementContratCat, getParametreContratCat, postRapport } from '../../../services/rapportService';
 import { useSelector } from 'react-redux';
 import './rapportSpecialForm.scss'
 import { getClient } from '../../../services/clientService';
@@ -65,7 +65,6 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
         }
     };
     
-
         useEffect(() => {
             fetchDatas();
               // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,11 +94,13 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                     id_contrat : idContrat,
                     periode: periode,
                     id_cat: idCat,
+                    id_client: idClient,
                     valeur
                   }));
                 await postRapport(formattedData)
                 message.success({ content: 'Le rapport special a été enregistré avec succès.', key: loadingKey });
                 form.resetFields();
+                fetchData();
                 setData([]);
                 setElement([]);
                 setCat([]);

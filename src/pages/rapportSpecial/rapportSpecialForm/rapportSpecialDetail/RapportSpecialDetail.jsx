@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Button, Tag, Tabs, Input, Table, notification } from 'antd';
 import { AuditOutlined, PlusCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
-import { getContratRapportClient, getRapport } from '../../services/rapportService';
+import { getRapport } from '../../services/rapportService';
 import TabPane from 'antd/es/tabs/TabPane';
 import moment from 'moment';
 import 'moment/locale/fr'
@@ -25,7 +25,7 @@ const RapportSpecial = () => {
       const fetchData = async () => {
     
           try {
-            const { data } = await getContratRapportClient();
+            const { data } = await getRapport();
             setData(data);
             setLoading(false);
           } catch (error) {
@@ -58,6 +58,46 @@ const RapportSpecial = () => {
       setActiveKey(key);
     };
 
+// Étape 1: Grouper les données par période et client
+const regroupedData = {};
+
+data.forEach(item => {
+  const normalizedPeriode = moment(item.periode).startOf('day').format('YYYY-MM-DD');
+  const key = `${normalizedPeriode}_${item.id_client}`;
+
+  if (!regroupedData[key]) {
+    regroupedData[key] = {
+      periode: normalizedPeriode,
+      params: {}
+    };
+  }
+
+  // Stocke les valeurs par catégorie > contrat > paramètre
+  if (!regroupedData[key].params[item.nom_cat]) {
+    regroupedData[key].params[item.nom_cat] = {};
+  }
+
+  if (!regroupedData[key].params[item.nom_cat][item.nom_contrat]) {
+    regroupedData[key].params[item.nom_cat][item.nom_contrat] = {};
+  }
+
+  regroupedData[key].params[item.nom_cat][item.nom_contrat][item.nom_parametre] = item.valeur_parametre;
+});
+
+// Étape 2: Générer la liste des colonnes dynamiquement
+const groupedData = {};
+data.forEach(item => {
+  if (!groupedData[item.nom_cat]) {
+    groupedData[item.nom_cat] = {};
+  }
+
+  if (!groupedData[item.nom_cat][item.nom_contrat]) {
+    groupedData[item.nom_cat][item.nom_contrat] = new Set();
+  }
+  groupedData[item.nom_cat][item.nom_contrat].add(item.nom_parametre);
+});
+
+// Étape 3: Générer la structure des colonnes
 const columns = [
   {
     title: '#',
@@ -67,27 +107,51 @@ const columns = [
     width: 50
   },
   {
-    title: 'Client',
-    dataIndex: 'nom',
-    key: 'nom',
+    title: 'Période',
+    dataIndex: 'periode',
+    key: 'periode',
     render: (text) => (
-      <div>
-        {text}
-      </div>
-    )
+      <Tag icon={<CalendarOutlined />} color="purple">
+        {moment(text).format('MMM YYYY')}
+      </Tag>
+    ),
+    width: 120
   },
-  {
-    title: 'Nombre contrat',
-    dataIndex: 'nbre',
-    key: 'nbre',
-    render: (text) => (
-      <div>
-        {text}
-      </div>
-    )
-  }
+  // Colonnes dynamiques
+  ...Object.keys(groupedData).map(nom_cat => ({
+    title: nom_cat,
+    children: Object.keys(groupedData[nom_cat]).map(nom_contrat => ({
+      title: nom_contrat,
+      children: Array.from(groupedData[nom_cat][nom_contrat]).map(nom_parametre => ({
+        title: nom_parametre,
+        dataIndex: `${nom_cat}.${nom_contrat}.${nom_parametre}`,
+        key: `${nom_cat}.${nom_contrat}.${nom_parametre}`,
+        render: (value) => <div>{value ?? '-'}</div>,
+      }))
+    }))
+  }))
 ];
 
+// Étape 4: Construire le tableau de données à partir du regroupement
+const dataSource = Object.values(regroupedData).map((item, index) => {
+  const row = {
+    key: index,
+    periode: item.periode,
+    id_client: item.id_client,
+  };
+
+  Object.keys(item.params).forEach(nom_cat => {
+    Object.keys(item.params[nom_cat]).forEach(nom_contrat => {
+      Object.keys(item.params[nom_cat][nom_contrat]).forEach(nom_parametre => {
+        const value = item.params[nom_cat][nom_contrat][nom_parametre];
+        row[`${nom_cat}.${nom_contrat}.${nom_parametre}`] = value;
+      });
+    });
+  });
+
+  return row;
+});
+    
   return (
     <>
             <Tabs
@@ -149,7 +213,7 @@ const columns = [
 
                       <Table
                         columns={ columns }
-                        dataSource={data}
+                        dataSource={dataSource}
                         loading={loading}
                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                         rowKey={(record) => `${record.periode}-${record.id_client}`}

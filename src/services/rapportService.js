@@ -63,6 +63,10 @@ export const getContratRapport = async () => {
     return axios.get(`${DOMAIN}/api/rapport/contrat_rapport`);
   };
 
+export const getContratRapportClient = async () => {
+    return axios.get(`${DOMAIN}/api/rapport/contrat_rapportClient`);
+  };
+
 export const getContratRapportClientOne = async (id_client) => {
     return axios.get(`${DOMAIN}/api/rapport/contrat_rapportClientOne?id_client=${id_client}`);
   };
