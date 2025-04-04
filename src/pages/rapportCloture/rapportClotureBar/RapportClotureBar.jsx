@@ -4,7 +4,6 @@ import moment from 'moment';
 moment.locale('fr');
 
 const RapportClotureBar = ({ data }) => {
-  // Transformer les données pour le graphe
 
   const sortedData = [...data].sort((a, b) => new Date(a.periode) - new Date(b.periode));
 
@@ -15,10 +14,13 @@ const RapportClotureBar = ({ data }) => {
     total: item.total || 0,
   }));
   
+  const formatValue = (value) => {
+      return `${(value / 1000).toFixed(1).replace('.0', '')}k`;
+  };
 
   return (
     <div style={{ height: 400, background:'#fff' }}>
-            <ResponsiveBar
+        <ResponsiveBar
         data={transformedData}
         keys={['entreposage', 'manutation', 'total']}
         indexBy="periode"
@@ -44,6 +46,8 @@ const RapportClotureBar = ({ data }) => {
           legend: 'Montant',
           legendPosition: 'middle',
           legendOffset: -50,
+          format: formatValue
+
         }}
         labelSkipWidth={12}
         labelSkipHeight={12}
