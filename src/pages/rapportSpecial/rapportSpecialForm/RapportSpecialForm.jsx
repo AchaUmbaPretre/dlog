@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Table, message, Skeleton, Select, InputNumber, Button, DatePicker, Row, Divider, Card, notification } from 'antd';
-import { getCatRapport, getContratRapport, getElementContratCat, getParametreContratCat, postRapport } from '../../../services/rapportService';
+import { getCatRapport, getContratRapport, getContratRapportClientOne, getElementContratCat, getParametreContratCat, postRapport } from '../../../services/rapportService';
 import { useSelector } from 'react-redux';
 import './rapportSpecialForm.scss'
 import { getClient } from '../../../services/clientService';
@@ -27,19 +27,18 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
 
     const fetchDatas = async () => {
         try {
-            const [contratData, catData, clientData] = await Promise.all([
-                getContratRapport(),
+            const [catData, clientData] = await Promise.all([
                 getCatRapport(),
                 getClient()
             ]);
     
-            setContrat(contratData.data);
             setCat(catData.data);
             setClient(clientData.data)
     
-/*             if(idClient) {
-                const { data : cl } = await
-            } */
+            if(idClient) {
+                const { data : cl } = await getContratRapportClientOne(idClient)
+                setContrat(cl)
+            }
 
             if (idElement) {
                 const { data: ele } = await getParametreContratCat(idElement);
