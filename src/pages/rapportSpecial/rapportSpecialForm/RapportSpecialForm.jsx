@@ -3,6 +3,7 @@ import { Form, Table, message, Skeleton, Select, InputNumber, Button, DatePicker
 import { getCatRapport, getContratRapport, getElementContratCat, getParametreContratCat, postRapport } from '../../../services/rapportService';
 import { useSelector } from 'react-redux';
 import './rapportSpecialForm.scss'
+import { getClient } from '../../../services/clientService';
 
 const RapportSpecialForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -17,20 +18,24 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
     const [idContrat, setIdContrat] = useState('');
     const [cat, setCat] = useState([]);
     const [idCat, setIdCat] = useState('');
-    const [element, setElement] = useState([])
-    const [idElement, setIdElement] = useState('')
+    const [idClient, setIdClient] = useState('');
+    const [element, setElement] = useState([]);
+    const [idElement, setIdElement] = useState('');
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [modifiedData, setModifiedData] = useState({}); // Stocker les valeurs modifiées
+    const [client, setClient] = useState([]);
 
     const fetchDatas = async () => {
         try {
-            const [contratData, catData] = await Promise.all([
+            const [contratData, catData, clientData] = await Promise.all([
                 getContratRapport(),
-                getCatRapport()
+                getCatRapport(),
+                getClient()
             ]);
     
             setContrat(contratData.data);
             setCat(catData.data);
+            setClient(clientData.data)
     
             if (idElement) {
                 const { data: ele } = await getParametreContratCat(idElement);
@@ -147,6 +152,22 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                 <h1 className="h1_rapport">FORM DE RAPPORT</h1>
                 <div className="rapportSpecial_rows">
                     <div className="rapportSpecial_row">
+                        <Form.Item
+                            label="Client"
+                            name="id_client"
+                            rules={[{ required: true, message: 'Veuillez entrer l\'ID client!' }]}
+                        >
+                            {isLoading ? <Skeleton.Input active={true} /> : <Select
+                                                showSearch
+                                                options={client.map((item) => ({
+                                                        value: item.id_client,
+                                                        label: item.nom,
+                                                    }))}
+                                                placeholder="Sélectionnez un client..."
+                                                onChange={setIdClient}
+                                                optionFilterProp="label"
+                            />}
+                        </Form.Item>
                         <Form.Item
                             name="periode"
                             label="Période"
