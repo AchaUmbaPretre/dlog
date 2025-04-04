@@ -59,6 +59,9 @@ const RapportSpecial = () => {
     };
 
     const groupedData = data.reduce((result, item) => {
+      // Normalisation de la période (on ignore l'heure)
+      const normalizedPeriode = moment(item.periode).startOf('day').toISOString();
+      
       // Si la catégorie n'existe pas encore, on l'initialise
       if (!result[item.nom_cat]) {
         result[item.nom_cat] = {};
@@ -69,22 +72,25 @@ const RapportSpecial = () => {
         result[item.nom_cat][item.nom_contrat] = [];
       }
     
-      // Vérification si le paramètre existe déjà dans le contrat, pour éviter les doublons
+      // Vérification si le paramètre existe déjà pour la période donnée et le client
       const existingParam = result[item.nom_cat][item.nom_contrat].some(
-        (param) => param.nom_parametre === item.nom_parametre
+        (param) => param.id_client === item.id_client && param.periode === normalizedPeriode && param.nom_parametre === item.nom_parametre
       );
     
       if (!existingParam) {
-        // Ajout du paramètre s'il n'existe pas déjà
+        // Ajout du paramètre s'il n'existe pas déjà pour cette période et client
         result[item.nom_cat][item.nom_contrat].push({
           nom_parametre: item.nom_parametre,
           valeur_parametre: item.valeur_parametre,
-          periode: item.periode,
+          periode: normalizedPeriode,
+          id_client: item.id_client,
         });
       }
     
       return result;
     }, {});
+     
+
     
     const columns = [
       {
