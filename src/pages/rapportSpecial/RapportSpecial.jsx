@@ -221,7 +221,6 @@ const dataSource = Object.values(regroupedData).map((item, index) => {
                         size="small"
                         scroll={scroll}
                         onChange={(pagination) => setPagination(pagination)}
-
                       />
                   </div>
                   <Modal
