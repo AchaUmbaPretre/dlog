@@ -3,8 +3,8 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
-export const getRapport = async () => {
-    return axios.get(`${DOMAIN}/api/rapport`);
+export const getRapport = async (id_client) => {
+    return axios.get(`${DOMAIN}/api/rapport?id_client=${id_client}`);
   };
 
 export const getRapportOne = async (id) => {
