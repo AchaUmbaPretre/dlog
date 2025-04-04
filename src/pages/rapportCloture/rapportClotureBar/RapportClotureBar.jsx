@@ -15,14 +15,16 @@ const RapportClotureBar = ({ data }) => {
   }));
   
   const formatValue = (value) => {
-      return `${(value / 1000).toFixed(1).replace('.0', '')}k`;
+    const formatted = (value / 1000).toFixed(1).replace('.0', '') + 'k';
+    return String(formatted); // 🔒 S'assure que c'est une chaîne
   };
+  
 
   return (
     <div style={{ height: 400, background:'#fff' }}>
         <ResponsiveBar
             data={transformedData}
-            keys={['entreposage', 'manutation', 'total']}
+            keys={['entreposage', 'manutation']}
             indexBy="periode"
             margin={{ top: 50, right: 130, bottom: 60, left: 60 }}
             padding={0.3}
@@ -32,31 +34,46 @@ const RapportClotureBar = ({ data }) => {
             axisTop={null}
             axisRight={null}
             axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: -45,
-            legend: 'Période',
-            legendPosition: 'middle',
-            legendOffset: 40,
+                tickSize: 5,
+                tickPadding: 5,
+                tickRotation: -45,
+                legend: 'Période',
+                legendPosition: 'middle',
+                legendOffset: 40,
+                format: value => moment(value, "MMM-YY").format("MMM-YY")
             }}
             axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'Montant',
-            legendPosition: 'middle',
-            legendOffset: -50,
-            format: formatValue
-
+                tickSize: 5,
+                tickPadding: 5,
+                tickRotation: 0,
+                legend: 'Montant',
+                legendPosition: 'middle',
+                legendOffset: -50,
+                format: formatValue
             }}
             labelSkipWidth={12}
             labelSkipHeight={12}
             labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+            label={({ value }) => formatValue(value)}
+            tooltip={({ id, value, color, indexValue }) => (
+                <div style={{
+                padding: 10,
+                background: '#fff',
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+                color: '#333'
+                }}>
+                <strong style={{ color }}>{id}</strong><br />
+                Période : {indexValue}<br />
+                Valeur : <strong>{formatValue(value)}</strong>
+                </div>
+            )}
             animate={true}
             motionStiffness={90}
             motionDamping={15}
             legends={[
-            {
+                {
                 dataFrom: 'keys',
                 anchor: 'bottom-right',
                 direction: 'column',
@@ -70,16 +87,17 @@ const RapportClotureBar = ({ data }) => {
                 itemOpacity: 0.85,
                 symbolSize: 20,
                 effects: [
-                {
+                    {
                     on: 'hover',
                     style: {
-                    itemOpacity: 1,
+                        itemOpacity: 1
                     },
-                },
+                    },
                 ],
-            },
+                },
             ]}
-      />
+        />
+
     </div>
   );
 };

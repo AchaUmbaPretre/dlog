@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
+import moment from 'moment';
 
 const RapportSpecialBar = ({ datas }) => {
   // Conversion des données
@@ -30,6 +31,10 @@ const RapportSpecialBar = ({ datas }) => {
     };
   }, [datas]);
 
+  const formatValue = (value) => {
+    return `${(value / 1000).toFixed(1).replace('.0', '')}k`;
+};
+
   return (
     <div style={{ height: 500 }}>
       <ResponsiveBar
@@ -46,15 +51,34 @@ const RapportSpecialBar = ({ datas }) => {
           legend: 'Période',
           legendPosition: 'middle',
           legendOffset: 60,
+          format: value => moment(value, "MMM-YYYY").format("MMM-YY")
+          
         }}
         axisLeft={{
           legend: 'Valeur',
           legendPosition: 'middle',
           legendOffset: -40,
+          format: formatValue
+
         }}
-        labelSkipWidth={12}
-        labelSkipHeight={12}
+        labelSkipWidth={0}
+        labelSkipHeight={0}
         labelTextColor={{ from: 'color', modifiers: [['darker', 2]] }}
+        label={({ value }) => formatValue(value)} 
+        tooltip={({ id, value, color, indexValue }) => (
+          <div style={{
+            padding: 10,
+            background: '#fff',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+            color: '#333'
+          }}>
+            <strong>{id}</strong><br />
+            Période : {indexValue}<br />
+            Valeur : <strong>{formatValue(value)}</strong>
+          </div>
+        )}
         legends={[
           {
             dataFrom: 'keys',
