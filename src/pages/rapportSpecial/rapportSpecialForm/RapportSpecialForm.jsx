@@ -37,6 +37,10 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
             setCat(catData.data);
             setClient(clientData.data)
     
+/*             if(idClient) {
+                const { data : cl } = await
+            } */
+
             if (idElement) {
                 const { data: ele } = await getParametreContratCat(idElement);
                 setData(ele);
@@ -66,7 +70,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
         useEffect(() => {
             fetchDatas();
               // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [idElement,idContrat, idCat]);
+        }, [idElement,idContrat, idCat, idClient]);
 
         const handleChange = (value, id_parametre) => {
             setData(prevData =>
