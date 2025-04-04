@@ -17,13 +17,14 @@ const RapportSpecialDetail = ({idClient}) => {
     const [loading, setLoading] = useState(false);
     const scroll = { x: 'max-content' };
     const [activeKey, setActiveKey] = useState(['1', '2']);
-    
-    console.log(idClient)
+    const [name, setName] = useState('');
+
       const fetchData = async () => {
     
           try {
             const { data } = await getRapport(idClient);
             setData(data);
+            setName(data[0]?.nom)
             setLoading(false);
           } catch (error) {
             notification.error({
@@ -174,10 +175,10 @@ const dataSource = Object.values(regroupedData).map((item, index) => {
                       <div className="client-rows">
                           <div className="client-row">
                               <div className="client-row-icon">
-                                  <AuditOutlined className='client-icon' />
+                                <AuditOutlined className='client-icon' />
                               </div>
                               <div className="client-h2">
-                                  Rapport spécial
+                                Rapport spécial de {name}
                               </div>
                           </div>
                           <div className="client-row-lefts">

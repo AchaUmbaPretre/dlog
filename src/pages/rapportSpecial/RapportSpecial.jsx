@@ -94,7 +94,7 @@ const columns = [
   {
     title:'Action',
     key: 'action',
-    width: '10%',
+    width: '6%',
     render: (text, record) => (
       <Space>
         <Tooltip title="Voir les détails">
