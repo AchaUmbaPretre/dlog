@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Space, Tooltip, Modal, Button, Tabs, Input, Table, notification } from 'antd';
 import { AuditOutlined, EyeOutlined, PlusCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
-import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
 import { getContratRapportClient } from '../../services/rapportService';
 import TabPane from 'antd/es/tabs/TabPane';
 import 'moment/locale/fr'
 import RapportContrat from './rapportContrat/RapportContrat';
-import RapportSpecialDetail from './rapportSpecialForm/rapportSpecialDetail/RapportSpecialDetail';
+import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
+import RapportSpecialDetail from './rapportSpecialDetail/RapportSpecialDetail'
 const { Search } = Input;
 
 const RapportSpecial = () => {

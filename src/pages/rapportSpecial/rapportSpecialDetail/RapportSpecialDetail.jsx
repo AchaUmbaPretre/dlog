@@ -4,8 +4,9 @@ import { AuditOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/i
 import TabPane from 'antd/es/tabs/TabPane';
 import moment from 'moment';
 import 'moment/locale/fr'
-import { getRapport } from '../../../../services/rapportService';
-import RapportSpecialForm from '../RapportSpecialForm';
+import { getRapport } from '../../../services/rapportService';
+import RapportSpecialForm from '../rapportSpecialForm/RapportSpecialForm';
+import RapportSpecialLine from './rapportSpecialLine/RapportSpecialLine';
 
 const RapportSpecialDetail = ({idClient}) => {
     const [modalType, setModalType] = useState(null);
@@ -208,6 +209,7 @@ const dataSource = Object.values(regroupedData).map((item, index) => {
                 }
                 key="1"
               >
+                <RapportSpecialLine/>
               </TabPane>
             </Tabs>
     </>
