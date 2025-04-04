@@ -58,91 +58,107 @@ const RapportSpecial = () => {
       setActiveKey(key);
     };
 
-    const groupedData = data.reduce((result, item) => {
-      // Normalisation de la période (on ignore l'heure)
-      const normalizedPeriode = moment(item.periode).startOf('day').toISOString();
-      
-      // Si la catégorie n'existe pas encore, on l'initialise
-      if (!result[item.nom_cat]) {
-        result[item.nom_cat] = {};
-      }
-    
-      // Si le contrat n'existe pas encore dans la catégorie, on l'initialise
-      if (!result[item.nom_cat][item.nom_contrat]) {
-        result[item.nom_cat][item.nom_contrat] = [];
-      }
-    
-      // Vérification si le paramètre existe déjà pour la période donnée et le client
-      const existingParam = result[item.nom_cat][item.nom_contrat].some(
-        (param) => param.id_client === item.id_client && param.periode === normalizedPeriode && param.nom_parametre === item.nom_parametre
-      );
-    
-      if (!existingParam) {
-        // Ajout du paramètre s'il n'existe pas déjà pour cette période et client
-        result[item.nom_cat][item.nom_contrat].push({
-          nom_parametre: item.nom_parametre,
-          valeur_parametre: item.valeur_parametre,
-          periode: normalizedPeriode,
-          id_client: item.id_client,
-        });
-      }
-    
-      return result;
-    }, {});
-     
+// Étape 1: Grouper les données par période et client
+const regroupedData = {};
 
-    
-    const columns = [
-      {
-        title: '#',
-        dataIndex: 'id',
-        key: 'id',
-        render: (text, record, index) => {
-          const pageSize = pagination.pageSize || 10;
-          const pageIndex = pagination.current || 1;
-          return (pageIndex - 1) * pageSize + index + 1;
-        },
-        width: "2%"
-      },
-      {
-        title: 'Periode',
-        dataIndex: 'periode',
-        width: 90,
-        key: 'periode',
-        render: (text) => (
-          <Tag icon={<CalendarOutlined />} color="purple">
-            {moment(text).format('MMM YYYY')}
-          </Tag>
-        )
-      },
-      {
-        title: 'Client',
-        dataIndex: 'nom',
-        width: 90,
-        key: 'nom',
-        render: (text, record) => (
-          <div>{text}</div>
-        )
-      },
-      ...Object.keys(groupedData).map((nom_cat) => ({
-        title: nom_cat,
-        children: Object.keys(groupedData[nom_cat]).map((nom_contrat) => ({
-          title: nom_contrat,
-          children: groupedData[nom_cat][nom_contrat].map((param) => ({
-            title: param.nom_parametre,
-            dataIndex: param.nom_parametre,
-            key: param.nom_parametre,
-            render: () => (
-              <div>{param.valeur_parametre}</div>
-            )
-          }))
-        }))
+data.forEach(item => {
+  const normalizedPeriode = moment(item.periode).startOf('day').format('YYYY-MM-DD');
+  const key = `${normalizedPeriode}_${item.id_client}`;
+
+  if (!regroupedData[key]) {
+    regroupedData[key] = {
+      periode: normalizedPeriode,
+      id_client: item.id_client,
+      params: {}
+    };
+  }
+
+  // Stocke les valeurs par catégorie > contrat > paramètre
+  if (!regroupedData[key].params[item.nom_cat]) {
+    regroupedData[key].params[item.nom_cat] = {};
+  }
+
+  if (!regroupedData[key].params[item.nom_cat][item.nom_contrat]) {
+    regroupedData[key].params[item.nom_cat][item.nom_contrat] = {};
+  }
+
+  regroupedData[key].params[item.nom_cat][item.nom_contrat][item.nom_parametre] = item.valeur_parametre;
+});
+
+// Étape 2: Générer la liste des colonnes dynamiquement
+const groupedData = {};
+data.forEach(item => {
+  if (!groupedData[item.nom_cat]) {
+    groupedData[item.nom_cat] = {};
+  }
+  
+  if (!groupedData[item.nom_cat][item.nom_contrat]) {
+    groupedData[item.nom_cat][item.nom_contrat] = new Set();
+  }
+  groupedData[item.nom_cat][item.nom_contrat].add(item.nom_parametre);
+});
+
+// Étape 3: Générer la structure des colonnes
+const columns = [
+  {
+    title: '#',
+    dataIndex: 'id',
+    key: 'id',
+    render: (text, record, index) => index + 1,
+    width: 50
+  },
+  {
+    title: 'Période',
+    dataIndex: 'periode',
+    key: 'periode',
+    render: (text) => (
+      <Tag icon={<CalendarOutlined />} color="purple">
+        {moment(text).format('MMM YYYY')}
+      </Tag>
+    ),
+    width: 120
+  },
+  {
+    title: 'Client',
+    dataIndex: 'id_client',
+    key: 'client',
+    width: 100
+  },
+  // Colonnes dynamiques
+  ...Object.keys(groupedData).map(nom_cat => ({
+    title: nom_cat,
+    children: Object.keys(groupedData[nom_cat]).map(nom_contrat => ({
+      title: nom_contrat,
+      children: Array.from(groupedData[nom_cat][nom_contrat]).map(nom_parametre => ({
+        title: nom_parametre,
+        dataIndex: `${nom_cat}.${nom_contrat}.${nom_parametre}`,
+        key: `${nom_cat}.${nom_contrat}.${nom_parametre}`,
+        render: (value) => <div>{value ?? '-'}</div>,
       }))
-    ];
+    }))
+  }))
+];
+
+// Étape 4: Construire le tableau de données à partir du regroupement
+const dataSource = Object.values(regroupedData).map((item, index) => {
+  const row = {
+    key: index,
+    periode: item.periode,
+    id_client: item.id_client,
+  };
+
+  Object.keys(item.params).forEach(nom_cat => {
+    Object.keys(item.params[nom_cat]).forEach(nom_contrat => {
+      Object.keys(item.params[nom_cat][nom_contrat]).forEach(nom_parametre => {
+        const value = item.params[nom_cat][nom_contrat][nom_parametre];
+        row[`${nom_cat}.${nom_contrat}.${nom_parametre}`] = value;
+      });
+    });
+  });
+
+  return row;
+});
     
-    
-    
-      
   return (
     <>
             <Tabs
@@ -204,10 +220,10 @@ const RapportSpecial = () => {
 
                       <Table
                         columns={ columns }
-                        dataSource={data}
+                        dataSource={dataSource}
                         loading={loading}
                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                        rowKey="periode"
+                        rowKey={(record) => `${record.periode}-${record.id_client}`}
                         bordered
                         size="small"
                         scroll={scroll}
