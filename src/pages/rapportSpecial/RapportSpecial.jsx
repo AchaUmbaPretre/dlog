@@ -68,7 +68,6 @@ data.forEach(item => {
   if (!regroupedData[key]) {
     regroupedData[key] = {
       periode: normalizedPeriode,
-      id_client: item.id_client,
       params: {}
     };
   }
@@ -91,7 +90,7 @@ data.forEach(item => {
   if (!groupedData[item.nom_cat]) {
     groupedData[item.nom_cat] = {};
   }
-  
+
   if (!groupedData[item.nom_cat][item.nom_contrat]) {
     groupedData[item.nom_cat][item.nom_contrat] = new Set();
   }
@@ -117,12 +116,6 @@ const columns = [
       </Tag>
     ),
     width: 120
-  },
-  {
-    title: 'Client',
-    dataIndex: 'id_client',
-    key: 'client',
-    width: 100
   },
   // Colonnes dynamiques
   ...Object.keys(groupedData).map(nom_cat => ({

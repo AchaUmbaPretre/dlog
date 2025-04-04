@@ -162,10 +162,11 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                         >
                             {isLoading ? <Skeleton.Input active={true} /> : <Select
                                                 showSearch
+                                                allowClear
                                                 options={client.map((item) => ({
-                                                        value: item.id_client,
-                                                        label: item.nom,
-                                                    }))}
+                                                    value: item.id_client,
+                                                    label: item.nom,
+                                                }))}
                                                 placeholder="Sélectionnez un client..."
                                                 onChange={setIdClient}
                                                 optionFilterProp="label"
@@ -184,43 +185,49 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 onChange={(date, dateString) => setPeriode(dateString)}
                             />
                         </Form.Item>
-                        <div>
-                            <Form.Item
-                                name="id_contrat"
-                                label="Contrat"
-                                rules={[{ required: true, message: "Veuillez sélectionner un contrat" }]}
-                            >
-                                { isLoading ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        showSearch
-                                        allowClear
-                                        options={contrat.map(item => ({ value: item.id_contrats_rapport , label: item.nom_contrat }))}
-                                        placeholder="Sélectionnez..."
-                                        onChange={setIdContrat}
-                                        optionFilterProp="label"
-                                    />
-                                }
-                            </Form.Item>
-                        </div>
+                        { idClient &&
                             <div>
-                            <Form.Item
-                                name="id_cat_rapport"
-                                label="Categorie"
-                                rules={[{ required: true, message: "Veuillez sélectionner une categorie" }]}
-                            >
-                                { isLoading ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        style={{width:'100%'}}
-                                        showSearch
-                                        allowClear
-                                        options={cat.map(item => ({ value: item.id_cat_rapport  , label: item.nom_cat }))}
-                                        placeholder="Sélectionnez..."
-                                        onChange={setIdCat}
-                                        optionFilterProp="label"
-                                    />
-                                }
-                            </Form.Item>
-                        </div>
+                                <Form.Item
+                                    name="id_contrat"
+                                    label="Contrat"
+                                    rules={[{ required: true, message: "Veuillez sélectionner un contrat" }]}
+                                >
+                                    { isLoading ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                            showSearch
+                                            allowClear
+                                            options={contrat.map(item => ({ value: item.id_contrats_rapport , label: item.nom_contrat }))}
+                                            placeholder="Sélectionnez..."
+                                            onChange={setIdContrat}
+                                            optionFilterProp="label"
+                                        />
+                                    }
+                                </Form.Item>
+                            </div>
+                        }
+
+                        { idContrat &&
+                            <div>
+                                <Form.Item
+                                    name="id_cat_rapport"
+                                    label="Categorie"
+                                    rules={[{ required: true, message: "Veuillez sélectionner une categorie" }]}
+                                >
+                                    { isLoading ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                            style={{width:'100%'}}
+                                            showSearch
+                                            allowClear
+                                            options={cat.map(item => ({ value: item.id_cat_rapport  , label: item.nom_cat }))}
+                                            placeholder="Sélectionnez..."
+                                            onChange={setIdCat}
+                                            optionFilterProp="label"
+                                        />
+                                    }
+                                </Form.Item>
+                            </div>
+                        }
+
                         { idCat &&
                             <div>
                                 <Form.Item
