@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Tag, Tabs, Input, Table, notification } from 'antd';
+import { Modal, Button, Tabs, Input, Table, notification } from 'antd';
 import { AuditOutlined, PlusCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
-import { getContratRapportClient, getRapport } from '../../services/rapportService';
+import { getContratRapportClient } from '../../services/rapportService';
 import TabPane from 'antd/es/tabs/TabPane';
-import moment from 'moment';
 import 'moment/locale/fr'
 import RapportContrat from './rapportContrat/RapportContrat';
 const { Search } = Input;
