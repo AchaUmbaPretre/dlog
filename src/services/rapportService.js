@@ -58,8 +58,13 @@ export const postEtiquette  = async (data) => {
     return axios.post(`${DOMAIN}/api/rapport/etiquette`, data)
 }
 
+//Contrat
 export const getContratRapport = async () => {
     return axios.get(`${DOMAIN}/api/rapport/contrat_rapport`);
+  };
+
+export const getContratRapportClientOne = async () => {
+    return axios.get(`${DOMAIN}/api/rapport/contrat_rapportClientOne`);
   };
 
 export const postContratRapport = async (data) => {
