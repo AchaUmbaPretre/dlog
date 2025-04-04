@@ -148,45 +148,20 @@ const dataSource = Object.values(regroupedData).map((item, index) => {
     
   return (
     <>
-        <Tabs
-            activeKey={activeKey[0]}
-            onChange={handleTabChange}
-            type="card"
-            tabPosition="top"
-            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
-        >
-            <TabPane
-                tab={
-                  <span>
-                    <FileTextOutlined
-                      style={{
-                        color: '#faad14',
-                        fontSize: '18px',
-                        marginRight: '8px',
-                      }}
-                    />
-                    Rapport
-                  </span>
-                }
-                key="1"
-              >
-                <div className="client">
-                  <div className="client-wrapper">
-                      <div className="client-rows">
-                          <div className="client-row">
-                              <div className="client-row-icon">
-                                <AuditOutlined className='client-icon' />
-                              </div>
-                              <div className="client-h2">
-                                Rapport spécial de {name}
-                              </div>
-                          </div>
-                          <div className="client-row-lefts">
-
-                          </div>
-                      </div>
-                      <div className="client-actions">
-                      </div>
+        <div className="client" style={{marginBottom:'20px'}}>
+            <div className="client-wrapper">
+                <div className="client-rows">
+                    <div className="client-row">
+                        <div className="client-row-icon">
+                            <AuditOutlined className='client-icon' />
+                        </div>
+                        <div className="client-h2">
+                            Rapport spécial de {name}
+                        </div>
+                        </div>
+                    </div>
+                    <div className="client-actions">
+                    </div>
 
                       <Table
                         columns={ columns }
@@ -210,7 +185,29 @@ const dataSource = Object.values(regroupedData).map((item, index) => {
                     >
                     <RapportSpecialForm closeModal={() => setModalType(false)} fetchData={fetchData}  />
                     </Modal>
-                </div>
+        </div>
+        <Tabs
+            activeKey={activeKey[0]}
+            onChange={handleTabChange}
+            type="card"
+            tabPosition="top"
+            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+        >
+            <TabPane
+                tab={
+                  <span>
+                    <FileTextOutlined
+                      style={{
+                        color: '#faad14',
+                        fontSize: '18px',
+                        marginRight: '8px',
+                      }}
+                    />
+                    Bar
+                  </span>
+                }
+                key="1"
+              >
               </TabPane>
             </Tabs>
     </>
