@@ -48,6 +48,7 @@ const RapportParametre = ({ fetchData, closeModal, idContrat }) => {
       form.resetFields();
       fetchData();
       closeModal();
+      window.location.reload()
     } catch (error) {
       notification.error({
         message: 'Erreur',

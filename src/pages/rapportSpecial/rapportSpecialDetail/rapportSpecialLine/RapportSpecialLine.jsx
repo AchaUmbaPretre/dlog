@@ -38,7 +38,7 @@ const RapportSpecialBar = ({ datas }) => {
         indexBy="periode"
         margin={{ top: 50, right: 200, bottom: 80, left: 60 }}
         padding={0.3}
-        groupMode="grouped" // "stacked" si tu veux empilé
+        groupMode="grouped"
         colors={{ scheme: 'nivo' }}
         borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
         axisBottom={{

@@ -47,7 +47,8 @@ const ElementContrat = ({fetchData, closeModal, idContrat}) => {
         });
         form.resetFields();
         fetchData();
-        closeModal()
+        closeModal();
+        window.location.reload()
       } catch (error) {
         notification.error({
           message: 'Erreur',
