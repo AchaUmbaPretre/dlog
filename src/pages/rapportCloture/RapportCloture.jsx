@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Input, Table, Tag, Modal, notification, Tooltip, Space, Popconfirm, Dropdown, Menu } from 'antd';
+import { Button, Input, Table, Tabs, Tag, Modal, notification, Tooltip, Space, Popconfirm, Dropdown, Menu } from 'antd';
 import moment from 'moment';
-import {  MoreOutlined, CalendarOutlined, DeleteOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
+import { AreaChartOutlined, MoreOutlined, CalendarOutlined, DeleteOutlined, EnvironmentOutlined, FileTextOutlined, BarcodeOutlined, ScheduleOutlined } from '@ant-design/icons';
 import RapportClotureManueForm from './rapportClotureManueForm/RapportClotureManueForm';
 import RapportClotureVilleForm from './rapportClotureVilleForm/RapportClotureVilleForm';
 import RapportClotureTemplForm from './rapportClotureTemplForm/RapportClotureTemplForm';
+import TabPane from 'antd/es/tabs/TabPane';
 import { getCloture } from '../../services/rapportService';
+import RapportClotureBar from './rapportClotureBar/RapportClotureBar';
 const { Search } = Input;
 
 const RapportCloture = () => {
@@ -324,6 +326,26 @@ const RapportCloture = () => {
         >
             <RapportClotureVilleForm/>
         </Modal>
+
+        <Tabs defaultActiveKey="0">
+            <TabPane
+                tab={
+                    <span>
+                        <AreaChartOutlined
+                            style={{
+                                color: '#faad14',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
+                        />
+                        Bar
+                    </span>
+                }
+             key="0"
+            >
+                <RapportClotureBar data={data} />
+            </TabPane>
+        </Tabs>
     </>
   )
 }
