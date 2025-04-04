@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Button, Tag, Tabs, Input, Table, notification } from 'antd';
 import { AuditOutlined, PlusCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
-import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
-import { getRapport } from '../../services/rapportService';
 import TabPane from 'antd/es/tabs/TabPane';
 import moment from 'moment';
 import 'moment/locale/fr'
-import RapportContrat from './rapportContrat/RapportContrat';
+import { getRapport } from '../../../../services/rapportService';
+import RapportSpecialForm from '../RapportSpecialForm';
 const { Search } = Input;
 
-const RapportSpecial = () => {
-    const [searchValue, setSearchValue] = useState('');
+const RapportSpecialDetail = () => {
     const [modalType, setModalType] = useState(null);
     const [pagination, setPagination] = useState({
         current: 1,
@@ -20,7 +18,6 @@ const RapportSpecial = () => {
     const [loading, setLoading] = useState(false);
     const scroll = { x: 'max-content' };
     const [activeKey, setActiveKey] = useState(['1', '2']);
-    
     
       const fetchData = async () => {
     
@@ -154,14 +151,14 @@ const dataSource = Object.values(regroupedData).map((item, index) => {
     
   return (
     <>
-            <Tabs
-              activeKey={activeKey[0]}
-              onChange={handleTabChange}
-              type="card"
-              tabPosition="top"
-              renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
-            >
-              <TabPane
+        <Tabs
+            activeKey={activeKey[0]}
+            onChange={handleTabChange}
+            type="card"
+            tabPosition="top"
+            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+        >
+            <TabPane
                 tab={
                   <span>
                     <FileTextOutlined
@@ -192,23 +189,6 @@ const dataSource = Object.values(regroupedData).map((item, index) => {
                           </div>
                       </div>
                       <div className="client-actions">
-                          <div className="client-row-left">
-                              <Search 
-                              placeholder="Recherche..." 
-                              enterButton
-                              onChange={(e) => setSearchValue(e.target.value)}
-                              />
-                          </div>
-
-                          <div className="client-rows-right">
-                              <Button
-                              type="primary"
-                              icon={<PlusCircleOutlined />}
-                              onClick={handleAddRapport}
-                              >
-                                  Ajouter un rapport
-                              </Button>
-                          </div>
                       </div>
 
                       <Table
@@ -223,39 +203,21 @@ const dataSource = Object.values(regroupedData).map((item, index) => {
                         onChange={(pagination) => setPagination(pagination)}
                       />
                   </div>
-                  <Modal
-                    title=""
-                    visible={modalType === 'Add'}
-                    onCancel={closeAllModals}
-                    footer={null}
-                    width={950}
-                    centered
-                >
-                  <RapportSpecialForm closeModal={() => setModalType(false)} fetchData={fetchData}  />
-                  </Modal>
+                    <Modal
+                        title=""
+                        visible={modalType === 'Add'}
+                        onCancel={closeAllModals}
+                        footer={null}
+                        width={950}
+                        centered
+                    >
+                    <RapportSpecialForm closeModal={() => setModalType(false)} fetchData={fetchData}  />
+                    </Modal>
                 </div>
-              </TabPane>
-
-              <TabPane
-                tab={
-                  <span>
-                    <AuditOutlined
-                      style={{
-                        color: '#f50',
-                        fontSize: '18px',
-                        marginRight: '8px',
-                      }}
-                    />
-                    Contrat
-                  </span>
-                }
-                key="2"
-              >
-                <RapportContrat/>
               </TabPane>
             </Tabs>
     </>
   )
 }
 
-export default RapportSpecial
+export default RapportSpecialDetail;

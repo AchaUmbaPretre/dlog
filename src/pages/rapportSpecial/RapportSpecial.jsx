@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Button, Tabs, Input, Table, notification } from 'antd';
-import { AuditOutlined, PlusCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Space, Tooltip, Modal, Button, Tabs, Input, Table, notification } from 'antd';
+import { AuditOutlined, EyeOutlined, PlusCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import RapportSpecialForm from './rapportSpecialForm/RapportSpecialForm';
 import { getContratRapportClient } from '../../services/rapportService';
 import TabPane from 'antd/es/tabs/TabPane';
 import 'moment/locale/fr'
 import RapportContrat from './rapportContrat/RapportContrat';
+import RapportSpecialDetail from './rapportSpecialForm/rapportSpecialDetail/RapportSpecialDetail';
 const { Search } = Input;
 
 const RapportSpecial = () => {
@@ -19,7 +20,7 @@ const RapportSpecial = () => {
     const [loading, setLoading] = useState(false);
     const scroll = { x: 'max-content' };
     const [activeKey, setActiveKey] = useState(['1', '2']);
-    
+    const [idClient, setIdClient] = useState('')
     
       const fetchData = async () => {
     
@@ -41,16 +42,21 @@ const RapportSpecial = () => {
       },[]);
 
     const handleAddRapport = (id) => {
-        openModal('Add', id);
+      openModal('Add', id);
+    }
+
+    const handleViewDetails = (id) => {
+      openModal('Detail', id);
     }
 
     const closeAllModals = () => {
         setModalType(null);
       };
       
-    const openModal = (type, idDeclaration = '') => {
+    const openModal = (type, idClient = '') => {
       closeAllModals();
       setModalType(type);
+      setIdClient(idClient)
     };
 
     const handleTabChange = (key) => {
@@ -83,6 +89,23 @@ const columns = [
       <div>
         {text}
       </div>
+    )
+  },
+  {
+    title:'Action',
+    key: 'action',
+    width: '10%',
+    render: (text, record) => (
+      <Space>
+        <Tooltip title="Voir les détails">
+          <Button
+            icon={<EyeOutlined />}
+            onClick={() => handleViewDetails(record.id_client)}
+            aria-label="Voir les détails de la tâche"
+            style={{ color: 'blue' }}
+          />
+        </Tooltip>
+      </Space>
     )
   }
 ];
@@ -189,6 +212,17 @@ const columns = [
                 <RapportContrat/>
               </TabPane>
             </Tabs>
+
+            <Modal
+              title=""
+              visible={modalType === 'Detail'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={1180}
+              centered
+            >
+              <RapportSpecialDetail idCient={idClient} />
+            </Modal>
     </>
   )
 }
