@@ -259,6 +259,8 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                             bordered 
                             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                         />
+                        {
+                            idElement &&
                         <div>
                             <Button
                                 type='primary'
@@ -271,6 +273,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                                 Envoyer
                             </Button>
                         </div>
+                        }
                     </div>
                 </div>
             </div>
