@@ -94,7 +94,6 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                     id_contrat : idContrat,
                     periode: periode,
                     id_cat: idCat,
-                    id_client: idClient,
                     valeur
                   }));
                 await postRapport(formattedData)

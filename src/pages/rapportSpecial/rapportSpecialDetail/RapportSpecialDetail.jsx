@@ -209,7 +209,7 @@ const dataSource = Object.values(regroupedData).map((item, index) => {
                 }
                 key="1"
               >
-                <RapportSpecialLine/>
+                <RapportSpecialLine datas={dataSource} />
               </TabPane>
             </Tabs>
     </>
