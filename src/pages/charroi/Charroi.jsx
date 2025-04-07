@@ -87,22 +87,60 @@ const Charroi = () => {
       width: "3%" 
     },
     { 
-      title: 'Equipement', 
-      dataIndex: 'nom_article', 
-      key: 'nom_article',
+        title: 'Image', 
+        dataIndex: 'image', 
+        key: 'nom_article',
+        render: text => (
+            <div>
+                {text}
+            </div>
+        ),
+    },
+    { 
+        title: 'Matricule', 
+        dataIndex: 'matricule', 
+        key: 'matricule',
+        render: text => (
+          <div>
+            {text}
+          </div>
+        ),
+    },
+    { 
+      title: 'Marque', 
+      dataIndex: 'nom_marque', 
+      key: 'nom_marque',
       render: text => (
-        <Space>
-          <Tag icon={<ToolOutlined />} color='cyan'>{text}</Tag>
-        </Space>
+        <div>
+            {text}
+        </div>
+      ),
+    },
+    { 
+        title: 'Modèle', 
+        dataIndex: 'nom_modele', 
+        key: 'nom_modele',
+        render: text => (
+          <div>
+              {text}
+          </div>
+        ),
+    },
+    {
+      title: 'Année de fab',
+      dataIndex: 'annee_fabrication',
+      key: 'annee_fabrication',
+      render: (text) => (
+        <div>{text}</div>
       ),
     },
     {
-      title: 'Quantité',
-      dataIndex: 'quantite',
-      key: 'quantite',
-      render: (text) => (
-        <Tag color="green">{text ?? 'Aucun'}</Tag>
-      ),
+        title: 'Année de circulation',
+        dataIndex: 'annee_circulation',
+        key: 'annee_circulation',
+        render: (text) => (
+          <div>{text}</div>
+        ),
     },
     {
       title: 'Action',
