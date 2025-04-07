@@ -143,6 +143,14 @@ const Charroi = () => {
         ),
     },
     {
+        title: 'Categorie',
+        dataIndex: 'categorie',
+        key: 'categorie',
+        render: (text) => (
+          <div>{text}</div>
+        ),
+    },
+    {
       title: 'Action',
       key: 'action',
       width: '10%',
@@ -234,7 +242,7 @@ const Charroi = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={600}
+        width={900}
         centered
       >
         <CharroiForm closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
