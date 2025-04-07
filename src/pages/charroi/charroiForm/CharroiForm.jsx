@@ -704,8 +704,8 @@ const CharroiForm = () => {
                                     <Select
                                         showSearch
                                         options={pneus.map((item) => ({
-                                                value: item.id_type_pneus                                          ,
-                                                label: item.nom_type_pneus,
+                                            value: item.id_type_pneus                                          ,
+                                            label: item.nom_type_pneus,
                                         }))}
                                         placeholder="Sélectionnez un pneus..."
                                         optionFilterProp="label"
