@@ -195,14 +195,13 @@ const Chauffeur = () => {
                 />
                 </div>
                 <div className="client-rows-right">
-                <Button
-                    type="primary"
-                    icon={<PlusCircleOutlined />}
-                    onClick={handleAddClient}
-                >
-                    stock
-                </Button>
-
+                    <Button
+                        type="primary"
+                        icon={<PlusCircleOutlined />}
+                        onClick={handleAddClient}
+                    >
+                        Ajouter un chauffeur
+                    </Button>
                 </div>
             </div>
             <Table
