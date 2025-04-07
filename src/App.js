@@ -291,6 +291,10 @@ function App() {
         {
           path: '/rapport_special',
           element: <RapportSpecial/>
+        },
+        {
+          path: '/liste_vehicule',
+          element: <RapportSpecial/>
         }
       ]
     },
