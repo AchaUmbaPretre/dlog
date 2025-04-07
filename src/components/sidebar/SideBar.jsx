@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
+  TruckOutlined,
   ApartmentOutlined,
   FileDoneOutlined,
   SettingOutlined,
@@ -121,6 +122,8 @@ const SideBar = ({data}) => {
     TeamOutlined: <TeamOutlined style={{ color: '#000' }} />,
     HddOutlined: <HddOutlined style={{ color: '#000' }} />,
     AuditOutlined : <AuditOutlined style={{ color: '#2f54eb' }} />,
+    TruckOutlined: <TruckOutlined style={{ color: '#2f54eb' }} />,
+
   };
   
   const renderIcon = (iconName) => {
