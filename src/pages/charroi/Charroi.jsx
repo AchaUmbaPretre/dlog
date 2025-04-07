@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal } from 'antd';
-import { ExportOutlined, TruckOutlined,ToolOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { Table, Button, Image, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
+import { ExportOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
+import { getVehicule } from '../../services/charroiService';
+import moment from 'moment';
+import config from '../../config';
 
 const { Search } = Input;
 
@@ -10,8 +13,9 @@ const Charroi = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const scroll = { x: 400 };
-
+  const scroll = { x: 'max-content' };
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  
   const handleEdit = (id) => {
   };
 
@@ -29,9 +33,9 @@ const Charroi = () => {
   };
 
     const fetchData = async () => {
-     /*  try {
-        const { data } = await getStock();
-        setData(data);
+      try {
+        const { data } = await getVehicule();
+        setData(data.data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -39,7 +43,7 @@ const Charroi = () => {
           description: 'Une erreur est survenue lors du chargement des données.',
         });
         setLoading(false);
-      } */
+      }
     };
 
   useEffect(() => {
@@ -83,108 +87,101 @@ const Charroi = () => {
       title: '#', 
       dataIndex: 'id', 
       key: 'id', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
+      render: (text, record, index) => (
+        <Tooltip title={`Ligne ${index + 1}`}>
+          <Tag color="blue">{index + 1}</Tag>
+        </Tooltip>
+      ),
+      width: "4%" 
     },
-    { 
-        title: 'Image', 
-        dataIndex: 'image', 
-        key: 'nom_article',
-        render: text => (
-            <div>
-                {text}
-            </div>
-        ),
-    },
-    { 
-        title: 'Matricule', 
-        dataIndex: 'matricule', 
-        key: 'matricule',
-        render: text => (
-          <div>
-            {text}
-          </div>
-        ),
-    },
-    { 
-      title: 'Marque', 
-      dataIndex: 'nom_marque', 
-      key: 'nom_marque',
-      render: text => (
-        <div>
-            {text}
+    {
+      title: 'Image',
+      dataIndex: 'img',
+      key: 'img',
+      render: (text, record) => (
+        <div className="userList">
+          <Image
+            className="userImg"
+            src={`${DOMAIN}/${record.img}`}
+            width={40}
+            height={40}
+            style={{ borderRadius: '50%' }}
+            alt="Profil utilisateur"
+          />
         </div>
       ),
     },
-    { 
-        title: 'Modèle', 
-        dataIndex: 'nom_modele', 
-        key: 'nom_modele',
-        render: text => (
-          <div>
-              {text}
-          </div>
-        ),
+    {
+      title: 'Immatricule',
+      dataIndex: 'immatriculation',
+    },
+    {
+      title: 'Marque',
+      dataIndex: 'nom_marque',
+      sorter: {
+        compare: (a, b) => a.chinese - b.chinese,
+        multiple: 3,
+      },
+    },
+    {
+      title: 'Modèle',
+      dataIndex: 'modele',
+      render : (text) => (
+        <div>
+          { text ? text : 'Aucune'}
+        </div>
+      )
+
     },
     {
       title: 'Année de fab',
       dataIndex: 'annee_fabrication',
-      key: 'annee_fabrication',
-      render: (text) => (
-        <div>{text}</div>
-      ),
+      render: text => (
+        <Tooltip title="Annee fabrication">
+          <div>
+            <CalendarOutlined style={{ color: '#fa8c16', marginRight:'5px' }} />
+              {text}
+          </div>
+        </Tooltip>
+      )
     },
     {
-        title: 'Année de circulation',
-        dataIndex: 'annee_circulation',
-        key: 'annee_circulation',
-        render: (text) => (
-          <div>{text}</div>
-        ),
+      title: 'Année circulation',
+      dataIndex: 'annee_circulation',
+      render: text => (
+        <Tooltip title="annee circulation'">
+          <div>
+            <CalendarOutlined style={{ color: '#fa8c16', marginRight:'5px' }} />
+              {text}
+          </div>
+        </Tooltip>
+      )
     },
     {
-        title: 'Categorie',
-        dataIndex: 'categorie',
-        key: 'categorie',
-        render: (text) => (
-          <div>{text}</div>
-        ),
+      title: 'Categorie',
+      dataIndex: 'nom_cat'
     },
     {
-      title: 'Action',
-      key: 'action',
-      width: '10%',
+      title: 'Nbre place',
+      dataIndex: 'nbre_place'
+    },
+    {
+      title: 'Nbre porte',
+      dataIndex: 'nbre_portes'
+    },
+    {
+      title: 'Actions',
+      dataIndex: 'actions',
+      key: 'actions',
       render: (text, record) => (
-        <Space size="middle">
-           <Tooltip title="Modifier">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              onClick={() => handleEdit(record.id_stock)}
-              aria-label="Edit department"
-            />
-          </Tooltip>
-          <Tooltip title="Supprimer">
-            <Popconfirm
-              title="Etes-vous sûr de vouloir supprimer ?"
-              onConfirm={() => handleDelete(record.id_stock)}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button
-                icon={<DeleteOutlined />}
-                style={{ color: 'red' }}
-                aria-label="Delete department"
-              />
-            </Popconfirm>
-          </Tooltip>
+        <Space size="middle" style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
         </Space>
       ),
-    },
+    }
   ];
 
   const filteredData = data.filter(item =>
-    item.nom_article?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -230,7 +227,7 @@ const Charroi = () => {
             pagination={{ pageSize: 10 }}
             rowKey="key"
             bordered
-            size="middle"
+            size="small" 
             scroll={scroll}
             loading={loading}
           />
@@ -245,7 +242,7 @@ const Charroi = () => {
         width={900}
         centered
       >
-        <CharroiForm closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+        <CharroiForm idVehicule={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
       </Modal>
     </>
   );

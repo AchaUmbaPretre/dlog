@@ -19,7 +19,7 @@ const StockForm = ({ closeModal, fetchData, idStock }) => {
 
         if (idStock) {
           const { data } = await getStockOne(idStock);
-          form.setFieldsValue(data[0]); // Correction ici
+          form.setFieldsValue(data[0]);
         }
       } catch (error) {
         console.log(error);

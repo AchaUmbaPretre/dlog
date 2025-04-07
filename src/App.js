@@ -57,6 +57,7 @@ import RapportDeclaration from './pages/declaration/rapportDeclaration/RapportDe
 import Corbeille from './pages/corbeille/Corbeille';
 import RapportSpecial from './pages/rapportSpecial/RapportSpecial';
 import Charroi from './pages/charroi/Charroi';
+import Chauffeur from './pages/chauffeur/Chauffeur';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -296,6 +297,10 @@ function App() {
         {
           path: '/liste_vehicule',
           element: <Charroi/>
+        },
+        {
+          path: '/liste_chauffeur',
+          element: <Chauffeur/>
         }
       ]
     },

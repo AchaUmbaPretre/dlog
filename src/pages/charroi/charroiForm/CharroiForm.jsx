@@ -4,16 +4,17 @@ import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
 import getCroppedImg from '../../../utils/getCroppedImg';
-import { getCatVehicule, getCouleur, getDisposition, getMarque, getModele, getTypeCarburant, getTypePneus } from '../../../services/charroiService';
+import { getCatVehicule, getCouleur, getDisposition, getLubrifiant, getMarque, getModele, getTypeCarburant, getTypePneus, postVehicule, putVehicule } from '../../../services/charroiService';
 const { Option } = Select;
 
-const CharroiForm = () => {
+const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [loadingData, setLoadingData] = useState(false);
     const [disposition, setDisposition] = useState([]);
     const [typeCarburant, setTypeCarburant] = useState([]);
     const [couleur, setCouleur] = useState([]);
+    const [lubrifiant, setLubrifiant] = useState([]);
     const [marque, setMarque] = useState([]);
     const [iDmarque, setIdMarque] = useState('');
     const [catVehicule, setCatVehicule] = useState([]);
@@ -26,15 +27,16 @@ const CharroiForm = () => {
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [modele, setModele] = useState([]);
 
-    const fetchData = async () => {
+    const fetchDatas = async () => {
         try {
-            const [marqueData, catData, dispoData, couleurData, carburantData, pneusData] = await Promise.all([
+            const [marqueData, catData, dispoData, couleurData, carburantData, pneusData, lubrifiantData] = await Promise.all([
                 getMarque(),
                 getCatVehicule(),
                 getDisposition(),
                 getCouleur(),
                 getTypeCarburant(),
-                getTypePneus()
+                getTypePneus(),
+                getLubrifiant()
             ])
 
             setMarque(marqueData.data)
@@ -43,6 +45,7 @@ const CharroiForm = () => {
             setCouleur(couleurData.data)
             setTypeCarburant(carburantData.data)
             setPneus(pneusData.data)
+            setLubrifiant(lubrifiantData.data)
 
             if(iDmarque) {
                 const { data : m} = await getModele(iDmarque)
@@ -55,11 +58,51 @@ const CharroiForm = () => {
     }
 
     useEffect(()=> {
-        fetchData()
+        fetchDatas()
     }, [iDmarque])
 
-    const onFinish = () => {
+    const onFinish = async (values) => {
 
+        setLoading(true)
+        try {
+            message.loading({ content: 'En cours...', key: 'submit' });
+
+            if(values.date_service) {
+                values.date_service =  values.date_service ? moment(values.date_service).format('YYYY-MM-DD') : null;
+
+            }
+            if (fileList.length > 0) {
+                values.img = fileList[0].originFileObj;
+            }
+            if (values.annee_circulation) {
+                values.annee_circulation = values.annee_circulation.format("YYYY");
+            }
+            if (values.annee_fabrication) {
+                values.annee_fabrication = values.annee_fabrication.format("YYYY");
+            }
+
+            if (idVehicule) {
+                await putVehicule({
+                    ...values,
+                    id_vehicule : idVehicule
+                })
+            } else {
+                await postVehicule(values)
+                console.log(values)
+            }
+
+            message.success({ content: 'Véhicule ajouté avec succès!', key: 'submit' });
+
+            form.resetFields();
+            closeModal();
+            fetchData();
+
+        } catch (error) {
+            message.error({ content: 'Une erreur est survenue.', key: 'submit' });
+            console.error('Erreur lors de l\'ajout du chauffeur:', error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     const handleUploadChange = ({ fileList }) => {
@@ -112,7 +155,7 @@ const CharroiForm = () => {
                     onFinish={onFinish}
                     initialValues={{ quantite: 0, seuil_alerte: 1 }}
                 >
-                                        <Row gutter={12}>
+                    <Row gutter={12}>
                         <Divider className='title_row'>Identification</Divider>
                         <Col xs={24} md={8}>
                             <Form.Item
@@ -159,6 +202,7 @@ const CharroiForm = () => {
                                 loadingData ? <Skeleton.Input active={true} /> : 
                                 <Select
                                     showSearch
+                                    allowClear
                                     options={marque.map((item) => ({
                                         value: item.id_marque                                           ,
                                         label: item.nom_marque,
@@ -186,6 +230,7 @@ const CharroiForm = () => {
                                     loadingData ? <Skeleton.Input active={true} /> :
                                     <Select
                                         showSearch
+                                        allowClear
                                         options={modele.map((item) => ({
                                                 value: item.id_modele                                           ,
                                                 label: item.modele,
@@ -283,8 +328,9 @@ const CharroiForm = () => {
                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                 <Select
                                     showSearch
+                                    allowClear
                                     options={catVehicule.map((item) => ({
-                                            value: item.id                                           ,
+                                            value: item.id_cat_vehicule                                           ,
                                             label: item.nom_cat,
                                     }))}
                                     placeholder="Sélectionnez une categorie..."
@@ -371,6 +417,7 @@ const CharroiForm = () => {
                                     loadingData ? <Skeleton.Input active={true} /> :
                                     <Select
                                         showSearch
+                                        allowClear
                                         options={couleur.map((item) => ({
                                                 value: item.id_couleur                                          ,
                                                 label: item.nom_couleur,
@@ -532,6 +579,7 @@ const CharroiForm = () => {
                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         showSearch
+                                        allowClear
                                         options={disposition.map((item) => ({
                                                 value: item.id_disposition_cylindre                                          ,
                                                 label: item.nom_disposition,
@@ -557,6 +605,7 @@ const CharroiForm = () => {
                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                 <Select
                                     showSearch
+                                    allowClear
                                     options={typeCarburant.map((item) => ({
                                             value: item.id_type_carburant                                          ,
                                             label: item.nom_type_carburant,
@@ -703,6 +752,7 @@ const CharroiForm = () => {
                                     loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         showSearch
+                                        allowClear
                                         options={pneus.map((item) => ({
                                             value: item.id_type_pneus                                          ,
                                             label: item.nom_type_pneus,
@@ -742,10 +792,16 @@ const CharroiForm = () => {
                             >
                                 {
                                     loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select placeholder="Choisir un lubrifiant moteur">
-                                        <Option value="1">Lubrifiant 1</Option>
-                                        <Option value="2">Lubrifiant 2</Option>
-                                    </Select>
+                                    <Select
+                                        showSearch
+                                        allowClear
+                                        options={lubrifiant.map((item) => ({
+                                            value: item.id_lubrifiant                                          ,
+                                            label: item.nom_lubrifiant,
+                                        }))}
+                                        placeholder="Sélectionnez un lubrifiant..."
+                                        optionFilterProp="label"
+                                    />
                                 }
                             </Form.Item>
                         </Col>
