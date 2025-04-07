@@ -701,10 +701,15 @@ const CharroiForm = () => {
                             >   
                                 {
                                     loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select placeholder="Choisir un pneu">
-                                        <Option value="1">Pneu 1</Option>
-                                        <Option value="2">Pneu 2</Option>
-                                    </Select>
+                                    <Select
+                                        showSearch
+                                        options={pneus.map((item) => ({
+                                                value: item.id_type_pneus                                          ,
+                                                label: item.nom_type_pneus,
+                                        }))}
+                                        placeholder="Sélectionnez un pneus..."
+                                        optionFilterProp="label"
+                                    />
                                 }
                             </Form.Item>
                         </Col>
