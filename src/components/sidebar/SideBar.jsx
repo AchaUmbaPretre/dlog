@@ -3,6 +3,7 @@ import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
   TruckOutlined,
+  CarOutlined,
   ApartmentOutlined,
   FileDoneOutlined,
   SettingOutlined,
@@ -123,6 +124,8 @@ const SideBar = ({data}) => {
     HddOutlined: <HddOutlined style={{ color: '#000' }} />,
     AuditOutlined : <AuditOutlined style={{ color: '#2f54eb' }} />,
     TruckOutlined: <TruckOutlined style={{ color: '#2f54eb' }} />,
+    CarOutlined: <CarOutlined style={{ color: '#13c2c2' }} />,
+
 
   };
   
