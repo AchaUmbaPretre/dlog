@@ -24,7 +24,6 @@ const CharroiForm = () => {
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [modele, setModele] = useState([]);
 
-
     const onFinish = () => {
 
     }
