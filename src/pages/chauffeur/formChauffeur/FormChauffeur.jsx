@@ -70,6 +70,7 @@ const onFinish = async (values) => {
         form.resetFields();
         closeModal();
         fetchData();
+        setFileList([])
     } catch (error) {
         message.error({ content: 'Une erreur est survenue.', key: 'submit' });
         console.error('Erreur lors de l\'ajout du chauffeur:', error);
@@ -330,7 +331,7 @@ const onFinish = async (values) => {
                                     <Select
                                         showSearch
                                         options={typeContrat.map((item) => ({
-                                            value: item.id_type_contrat                                           ,
+                                            value: item.id_contrat                                           ,
                                             label: item.nom_type_contrat,
                                         }))}
                                         placeholder="Sélectionnez un type de contrat..."

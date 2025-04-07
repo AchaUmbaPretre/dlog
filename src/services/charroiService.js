@@ -79,5 +79,9 @@ export const getChauffeur = async () => {
 }
 
 export const postChauffeur = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/chauffeur`, data);
+    return axios.post(`${DOMAIN}/api/charroi/chauffeur`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+    } );
 }
