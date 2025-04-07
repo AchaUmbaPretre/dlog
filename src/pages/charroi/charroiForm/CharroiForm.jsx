@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
 import getCroppedImg from '../../../utils/getCroppedImg';
-import { getCatVehicule, getDisposition, getMarque } from '../../../services/charroiService';
+import { getCatVehicule, getDisposition, getMarque, getModele } from '../../../services/charroiService';
 const { Option } = Select;
 
 const CharroiForm = () => {
@@ -36,6 +36,11 @@ const CharroiForm = () => {
             setMarque(marqueData.data)
             setCatVehicule(catData.data)
             setDisposition(dispoData.data)
+
+            if(iDmarque) {
+                const { data : m} = await getModele(iDmarque)
+                setModele(m)
+            }
             
         } catch (error) {
             console.log(error);
@@ -44,8 +49,8 @@ const CharroiForm = () => {
 
     useEffect(()=> {
         fetchData()
-    }, [])
-    
+    }, [iDmarque])
+
     const onFinish = () => {
 
     }
