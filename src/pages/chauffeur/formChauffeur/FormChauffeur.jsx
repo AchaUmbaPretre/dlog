@@ -38,10 +38,10 @@ const FormChauffeur = ({fetchData, closeModal}) => {
                     getTypeFonction(),
                 ]);
     
-                setCatPermis(catPermisData);
-                setTypeContrat(typeContratData);
-                setEtatCivil(etatCivilData);
-                setFonction(typeFonctionData);
+                setCatPermis(catPermisData.data);
+                setTypeContrat(typeContratData.data);
+                setEtatCivil(etatCivilData.data);
+                setFonction(typeFonctionData.data);
                 
             } catch (error) {
                 setError('Une erreur est survenue lors du chargement des données.');
@@ -118,11 +118,11 @@ const onFinish = async (values) => {
 
     return (
         <>
-            <div className="vehiculeForm">
-                <div className="vehicule_row_title">
-                    <h2 className="title_h2">ENREGISTRER UN CHAUFFEUR</h2>
+            <div className="controle_form">
+                <div className="controle_title_rows">
+                    <h2 className="controle_h2">ENREGISTRER UN CHAUFFEUR</h2>
                 </div>
-                <div className="vehiculeForm_wrapper">
+                <div className="controle_wrapper">
                     <Form
                         form={form}
                         name="chauffeurForm"
@@ -130,7 +130,6 @@ const onFinish = async (values) => {
                         autoComplete="off"
                         className="custom-form"
                         onFinish={onFinish}
-                        variant={'filled'}
                     >
                         <Row gutter={16}>
                         <Divider className='title_row' orientation="left" plain>INFORMATION GENERALE</Divider>
@@ -234,7 +233,7 @@ const onFinish = async (values) => {
                                 >
                                     <Select
                                         showSearch
-                                        options={etatCivil.map((item) => ({
+                                        options={etatCivil?.map((item) => ({
                                             value: item.id_etat_civil                                           ,
                                             label: item.nom_etat_civil,
                                         }))}

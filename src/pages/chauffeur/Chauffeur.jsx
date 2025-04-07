@@ -222,7 +222,7 @@ const Chauffeur = () => {
             visible={isModalVisible}
             onCancel={handleCancel}
             footer={null}
-            width={600}
+            width={900}
             centered
         >
             <FormChauffeur closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
