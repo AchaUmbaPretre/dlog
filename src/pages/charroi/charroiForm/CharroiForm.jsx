@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
 import getCroppedImg from '../../../utils/getCroppedImg';
+import { getCatVehicule, getDisposition, getMarque } from '../../../services/charroiService';
 const { Option } = Select;
 
 const CharroiForm = () => {
@@ -24,6 +25,27 @@ const CharroiForm = () => {
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [modele, setModele] = useState([]);
 
+    const fetchData = async () => {
+        try {
+            const [marqueData, catData, dispoData] = await Promise.all([
+                getMarque(),
+                getCatVehicule(),
+                getDisposition()
+            ])
+
+            setMarque(marqueData.data)
+            setCatVehicule(catData.data)
+            setDisposition(dispoData.data)
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(()=> {
+        fetchData()
+    }, [])
+    
     const onFinish = () => {
 
     }
