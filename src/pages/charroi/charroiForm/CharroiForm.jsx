@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
 import getCroppedImg from '../../../utils/getCroppedImg';
-import { getCatVehicule, getCouleur, getDisposition, getMarque, getModele, getTypeCarburant } from '../../../services/charroiService';
+import { getCatVehicule, getCouleur, getDisposition, getMarque, getModele, getTypeCarburant, getTypePneus } from '../../../services/charroiService';
 const { Option } = Select;
 
 const CharroiForm = () => {
@@ -17,6 +17,7 @@ const CharroiForm = () => {
     const [marque, setMarque] = useState([]);
     const [iDmarque, setIdMarque] = useState('');
     const [catVehicule, setCatVehicule] = useState([]);
+    const [pneus, setPneus] = useState([]);
     const [fileList, setFileList] = useState([]);
     const [previewImage, setPreviewImage] = useState('');
     const [cropping, setCropping] = useState(false);
@@ -27,12 +28,13 @@ const CharroiForm = () => {
 
     const fetchData = async () => {
         try {
-            const [marqueData, catData, dispoData, couleurData, carburantData] = await Promise.all([
+            const [marqueData, catData, dispoData, couleurData, carburantData, pneusData] = await Promise.all([
                 getMarque(),
                 getCatVehicule(),
                 getDisposition(),
                 getCouleur(),
-                getTypeCarburant()
+                getTypeCarburant(),
+                getTypePneus()
             ])
 
             setMarque(marqueData.data)
@@ -40,6 +42,7 @@ const CharroiForm = () => {
             setDisposition(dispoData.data)
             setCouleur(couleurData.data)
             setTypeCarburant(carburantData.data)
+            setPneus(pneusData.data)
 
             if(iDmarque) {
                 const { data : m} = await getModele(iDmarque)
