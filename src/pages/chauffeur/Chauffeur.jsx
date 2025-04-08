@@ -193,10 +193,10 @@ const Chauffeur = () => {
             </div>
             <div className="client-actions">
                 <div className="client-row-left">
-                <Search placeholder="Recherche..." 
-                    enterButton 
-                    onChange={(e) => setSearchValue(e.target.value)}
-                />
+                    <Search placeholder="Recherche..." 
+                        enterButton 
+                        onChange={(e) => setSearchValue(e.target.value)}
+                    />
                 </div>
                 <div className="client-rows-right">
                     <Button
