@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, Input, Skeleton, Row, Col, Modal, Select } from 'antd';
+import { Form, Input, Skeleton, Row, Col, Button, Select } from 'antd';
 
 const { Option } = Select;
 
@@ -59,6 +59,10 @@ const AffectationsForm = () => {
                                 {loading ? <Skeleton.Input active /> : <Input.TextArea placeholder="Saisir l'adresse...." style={{height:"80px", resize:'none'}} />}
                             </Form.Item>
                         </Col>
+
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>Enregistrer</Button>
+                        </Form.Item>
                     </Row>
                 </Form>
             </div>

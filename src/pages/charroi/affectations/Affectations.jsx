@@ -177,7 +177,7 @@ const Affectations = () => {
         </div>
 
         <Modal
-            title="Liste d'affectations"
+            title=""
             visible={modalType === 'Add'}
             onCancel={closeAllModals}
             footer={null}
