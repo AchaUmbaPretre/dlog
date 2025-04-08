@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, Input, Skeleton, Row, Col, Button, Select } from 'antd';
 import { useSelector } from 'react-redux';
+import { getChauffeur } from '../../../../services/charroiService';
 
 const { Option } = Select;
 
@@ -9,7 +10,27 @@ const AffectationsForm = () => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    
+    const [chauffeur, setChauffeur] = useState([]);
+
+    const fetchData = async () => {
+        setLoading(true)
+
+        try {
+            const [chauffeurData] = await Promise.all([
+                getChauffeur()
+            ])
+            setChauffeur(chauffeurData.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
 
     const onFinish = async (values) => {
         try {
@@ -38,7 +59,17 @@ const AffectationsForm = () => {
                                 name="id_chauffeur"
                                 rules={[{ required: true, message: 'Le nom est requis' }]}
                             >
-                                {loading ? <Skeleton.Input active /> : <Input placeholder="Selectionnez un chauffeur..." />}
+                                {loading ? <Skeleton.Input active /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={chauffeur.map((item) => ({
+                                        value: item.id_chauffeur,
+                                        label: `${item.prenom} - ${item.nom}`,
+                                        }))}
+                                    placeholder="Sélectionnez un chauffeur..."
+                                    optionFilterProp="label"
+                                />}
                             </Form.Item>
                         </Col>
 

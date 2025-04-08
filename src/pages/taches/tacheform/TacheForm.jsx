@@ -385,7 +385,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 
+                                <Select
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
