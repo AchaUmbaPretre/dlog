@@ -311,6 +311,10 @@ function App() {
         {
           path: '/liste_site',
           element: <Sites/>
+        },
+        {
+          path: '/liste_site',
+          element: <Sites/>
         }
       ]
     },
