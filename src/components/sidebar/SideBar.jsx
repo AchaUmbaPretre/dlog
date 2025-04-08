@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
+  SwapOutlined,
   TruckOutlined,
   CarOutlined,
   ApartmentOutlined,
@@ -125,8 +126,7 @@ const SideBar = ({data}) => {
     AuditOutlined : <AuditOutlined style={{ color: '#2f54eb' }} />,
     TruckOutlined: <TruckOutlined style={{ color: '#2f54eb' }} />,
     CarOutlined: <CarOutlined style={{ color: '#13c2c2' }} />,
-
-
+    SwapOutlined: <SwapOutlined style={{ color: '#ffc069' }} />,
   };
   
   const renderIcon = (iconName) => {
