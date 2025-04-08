@@ -258,10 +258,11 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
                             pagination={false} 
                             bordered 
                             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                            onChange={(e) => setPagination(e)}
                         />
                         {
                             idElement &&
-                        <div>
+                        <div> 
                             <Button
                                 type='primary'
                                 size='large'
