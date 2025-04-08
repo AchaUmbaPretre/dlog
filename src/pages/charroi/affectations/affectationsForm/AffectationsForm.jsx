@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Input, Skeleton, Row, Col, Button, Select } from 'antd';
 import { useSelector } from 'react-redux';
-import { getChauffeur } from '../../../../services/charroiService';
+import { getChauffeur, getSite } from '../../../../services/charroiService';
 
 const { Option } = Select;
 
@@ -11,15 +11,19 @@ const AffectationsForm = () => {
     const [loading, setLoading] = useState(false);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [chauffeur, setChauffeur] = useState([]);
+    const [site, setSite] = useState([]);
 
     const fetchData = async () => {
         setLoading(true)
 
         try {
-            const [chauffeurData] = await Promise.all([
-                getChauffeur()
+            const [chauffeurData, siteData] = await Promise.all([
+                getChauffeur(),
+                getSite()
             ])
             setChauffeur(chauffeurData.data.data)
+            setSite(siteData.data.data)
+
         } catch (error) {
             console.log(error)
         } finally {
@@ -79,7 +83,17 @@ const AffectationsForm = () => {
                                 name="id_site"
                                 rules={[{ required: true, message: 'Le site est requis' }]}
                             >
-                                {loading ? <Skeleton.Input active /> : <Input placeholder="Entrez le site..." />}
+                                {loading ? <Skeleton.Input active /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={site.map((item) => ({
+                                        value: item.id_site,
+                                        label: `${item.nom_site}`,
+                                        }))}
+                                    placeholder="Sélectionnez un site..."
+                                    optionFilterProp="label"
+                                />}
                             </Form.Item>
                         </Col>
 
