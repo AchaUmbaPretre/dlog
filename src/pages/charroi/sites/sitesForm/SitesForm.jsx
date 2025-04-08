@@ -126,7 +126,7 @@ const SitesForm = () => {
                                     label="Zone"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Veuillez fournir une zone...',
                                         },
                                     ]}
