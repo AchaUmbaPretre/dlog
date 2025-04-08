@@ -10,7 +10,7 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
     const [pagination, setPagination] = useState({
             current: 1,
             pageSize: 25,
-          });
+        });
     const [isLoading, setIsLoading] = useState(false);
     const [contrat, setContrat] = useState([]);
     const [data, setData] = useState([]);
@@ -65,46 +65,46 @@ const RapportSpecialForm = ({closeModal, fetchData}) => {
         }
     };
     
-        useEffect(() => {
-            fetchDatas();
-              // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [idElement,idContrat, idCat, idClient]);
+    useEffect(() => {
+        fetchDatas();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [idElement,idContrat, idCat, idClient]);
 
-        const handleChange = (value, id_parametre) => {
-            setData(prevData =>
-              prevData.map(item =>
+    const handleChange = (value, id_parametre) => {
+        setData(prevData =>
+            prevData.map(item =>
                 item.id_parametre === id_parametre ? { ...item, valeur: value } : item
-              )
-            );
+            )
+        );
         
-            setModifiedData(prev => ({
-              ...prev,
+        setModifiedData(prev => ({
+            ...prev,
               [id_parametre]: value,
             }));
         };
 
-        const onFinish = async () => {
-            await form.validateFields();
-            const loadingKey = 'loadingDeclaration';
-            message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+    const onFinish = async () => {
+        await form.validateFields();
+        const loadingKey = 'loadingDeclaration';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
 
-            try {
-                const formattedData = Object.entries(modifiedData).map(([id, valeur]) => ({
-                    id_parametre: Number(id),
-                    id_contrat : idContrat,
-                    periode: periode,
-                    id_cat: idCat,
-                    valeur
-                  }));
-                await postRapport(formattedData)
-                message.success({ content: 'Le rapport special a été enregistré avec succès.', key: loadingKey });
-                form.resetFields();
-                fetchData();
-                setData([]);
-                setElement([]);
-                setCat([]);
-                setIdElement('');
-                setIdCat('');
+        try {
+            const formattedData = Object.entries(modifiedData).map(([id, valeur]) => ({
+                id_parametre: Number(id),
+                id_contrat : idContrat,
+                periode: periode,
+                id_cat: idCat,
+                valeur
+            }));
+            await postRapport(formattedData)
+            message.success({ content: 'Le rapport special a été enregistré avec succès.', key: loadingKey });
+            form.resetFields();
+            fetchData();
+            setData([]);
+            setElement([]);
+            setCat([]);
+            setIdElement('');
+            setIdCat('');
             } catch (error) {
                 console.error("Erreur lors de l'ajout de la déclaration:", error);
                 message.error({ content: 'Une erreur est survenue.', key: loadingKey });
