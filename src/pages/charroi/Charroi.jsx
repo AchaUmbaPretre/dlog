@@ -192,7 +192,7 @@ const Charroi = () => {
             <div className="client-row-icon">
               <TruckOutlined className='client-icon'/>
             </div>
-            <h2 className="client-h2">Charroi</h2>
+            <h2 className="client-h2">Liste des vehicules</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
