@@ -6,7 +6,7 @@ import { getChauffeur, getSite, postAffectation } from '../../../../services/cha
 const { Option } = Select;
 
 
-const AffectationsForm = ({closeModal}) => {
+const AffectationsForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -54,6 +54,8 @@ const AffectationsForm = ({closeModal}) => {
                 });
         
                 form.resetFields();
+                closeModal();
+                fetchData();
         
             } catch (error) {
                 console.error("Erreur lors de l'ajout de l'affectation :", error);
