@@ -45,7 +45,7 @@ const Chauffeur = () => {
             return (pageIndex - 1) * pageSize + index + 1;
           },
           width: "3%" 
-      },
+        },
 /*       {
         title: 'Image',
         dataIndex: 'img',
