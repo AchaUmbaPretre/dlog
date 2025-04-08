@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Form, Input, Skeleton, Row, Col, Button, Select } from 'antd';
+import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 
@@ -7,6 +8,7 @@ const { Option } = Select;
 const AffectationsForm = () => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     
 
     const onFinish = async (values) => {
