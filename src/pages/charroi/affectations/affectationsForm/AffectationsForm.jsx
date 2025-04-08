@@ -44,7 +44,7 @@ const AffectationsForm = ({closeModal, fetchData}) => {
                 message.loading({ content: 'En cours...', key: loadingKey });
         
                 await postAffectation({
-                    values,
+                    ...values,
                     user_cr: userId
                 });
         
