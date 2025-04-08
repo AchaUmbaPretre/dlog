@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, HomeOutlined, PhoneOutlined, DeleteOutlined, EnvironmentOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { ExportOutlined, BarcodeOutlined, HomeOutlined, PhoneOutlined, DeleteOutlined, EnvironmentOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import SitesForm from './sitesForm/SitesForm';
 import { getSite } from '../../../services/charroiService';
 
@@ -92,6 +92,17 @@ const Sites = () => {
         width: "3%" 
     },
     {
+        title: 'Code site',
+        dataIndex: 'CodeSite',
+        key: 'CodeSite',
+        render: (text) => (
+          <div>
+            <BarcodeOutlined style={{ color: '#1890ff', marginRight: 4 }} />
+            {text}
+          </div>
+        ),
+      },
+    {
       title: 'Nom site',
       dataIndex: 'nom_site',
       key: 'nom_site',
@@ -114,23 +125,12 @@ const Sites = () => {
       ),
     },
     {
-      title: 'Province',
-      dataIndex: 'province',
-      key: 'province',
+      title: 'Ville',
+      dataIndex: 'name',
+      key: 'name',
       render: (text) => (
         <div>
           <EnvironmentOutlined style={{ color: 'red', marginRight: 4 }} />
-          {text}
-        </div>
-      ),
-    },
-    {
-      title: 'Ville',
-      dataIndex: 'ville',
-      key: 'ville',
-      render: (text) => (
-        <div>
-          <EnvironmentOutlined style={{ color: '#52c41a', marginRight: 4 }} />
           {text}
         </div>
       ),
