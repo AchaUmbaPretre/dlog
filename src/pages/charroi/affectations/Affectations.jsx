@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input, Button, notification, Table, Space, Tooltip, Popconfirm, Modal } from 'antd';
 import { SwapOutlined, CalendarOutlined, PlusCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import moment from 'moment';
@@ -33,6 +33,10 @@ const Affectations = () => {
         }
     }
 
+    useEffect(()=> {
+        fetchData()
+    }, [])
+
     const closeAllModals = () => {
         setModalType(null);
       };
@@ -57,7 +61,7 @@ const Affectations = () => {
           dataIndex: 'nom_chauffeur',
           render: (text, record) => (
             <div>
-              <span style={{ color: '#1890ff' }}>{`${record.prenom_chauffeur}`}</span> - <span style={{ fontWeight: 'bold' }}>{record.nom_chauffeur}</span>
+              <span style={{ color: '#1890ff' }}>{`${record.prenom}`}</span> - <span style={{ fontWeight: 'bold' }}>{record.nom}</span>
             </div>
           ),
         },
@@ -96,55 +100,9 @@ const Affectations = () => {
           dataIndex: 'affectation',
           render: (text, record) => (
             <div>
-              <span style={{ color: '#722ed1' }}>{record.prenom}</span> - <span style={{ fontWeight: 'bold' }}>{record.nom}</span>
+              <span style={{ color: '#722ed1' }}>{record.user}</span>
             </div>
           ),
-        },
-        {
-          title: 'Actions',
-          dataIndex: 'actions',
-          key: 'actions',
-          width: '10%',
-          render: (text, record) => (
-            <Space size="middle">
-                          <Tooltip title="Modifier" placement="top">
-                  <Button
-                    icon={<EditOutlined />}
-                    style={{
-                      color: '#fff',
-                      backgroundColor: '#52c41a',
-                      borderColor: '#52c41a',
-                      transition: 'all 0.3s ease',
-                    }}
-                    aria-label="Modifier"
-                    onMouseEnter={(e) => e.target.style.backgroundColor = '#45b22d'}
-                    onMouseLeave={(e) => e.target.style.backgroundColor = '#52c41a'}
-                  />
-                </Tooltip>
-        
-                <Tooltip title="Supprimer" placement="top">
-                  <Popconfirm
-                    title="Êtes-vous sûr de vouloir supprimer ce client ?"
-                    okText="Oui"
-                    cancelText="Non"
-                    onConfirm={() => {}}
-                  >
-                    <Button
-                      icon={<DeleteOutlined />}
-                      style={{
-                        color: '#fff',
-                        backgroundColor: '#ff4d4f',
-                        borderColor: '#ff4d4f',
-                        transition: 'all 0.3s ease',
-                      }}
-                      aria-label="Supprimer"
-                      onMouseEnter={(e) => e.target.style.backgroundColor = '#e10000'}
-                      onMouseLeave={(e) => e.target.style.backgroundColor = '#ff4d4f'}
-                    />
-                  </Popconfirm>
-                </Tooltip>
-            </Space>
-          )
         }
       ];
 

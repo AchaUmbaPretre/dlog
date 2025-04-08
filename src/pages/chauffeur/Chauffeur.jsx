@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { EnvironmentOutlined, DropboxOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { EnvironmentOutlined, UserOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import { Table, Button, Input, Space, Tooltip, Tag, Modal, notification } from 'antd';
 import FormChauffeur from './formChauffeur/FormChauffeur'
 import { getChauffeur } from '../../services/charroiService';
@@ -187,7 +187,7 @@ const Chauffeur = () => {
             <div className="client-wrapper">
             <div className="client-row">
                 <div className="client-row-icon">
-                <DropboxOutlined className='client-icon'/>
+                    <UserOutlined className='client-icon'/>
                 </div>
                 <h2 className="client-h2">Chauffeur</h2>
             </div>

@@ -129,7 +129,7 @@ const AffectationsForm = ({closeModal, fetchData}) => {
                         <Col span={24}>
                             <Form.Item
                                 label="Description"
-                                name="description"
+                                name="commentaire"
                                 rules={[{ required: false, message: 'Le site est requis' }]}
                             >
                                 {loading ? <Skeleton.Input active /> : <Input.TextArea placeholder="Saisir la description..." style={{height:"80px", resize:'none'}} />}
