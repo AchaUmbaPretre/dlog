@@ -19,7 +19,7 @@ const AffectationsForm = () => {
             const [chauffeurData] = await Promise.all([
                 getChauffeur()
             ])
-            setChauffeur(chauffeurData.data)
+            setChauffeur(chauffeurData.data.data)
         } catch (error) {
             console.log(error)
         } finally {
