@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, notification, Table, Tooltip, Modal } from 'antd';
-import { RetweetOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Input, Button, notification, Table, Tag, Modal } from 'antd';
+import { RetweetOutlined, ShopOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 const { Search } = Input;
@@ -44,63 +44,119 @@ const ControleTechnique = () => {
         setModalType(type);
       };
 
-    const columns = [
+      const columns = [
         { 
-          title: '#', 
-          dataIndex: 'id', 
-          key: 'id', 
-          render: (text, record, index) => (
-            <span style={{ fontWeight: 'bold' }}>{index + 1}</span>
-          ),
-          width: "5%", 
-        },
+            title: '#', 
+            dataIndex: 'id', 
+            key: 'id', 
+            render: (text, record, index) => index + 1, 
+            width: "3%" 
+          },
         {
-          title: 'Chauffeur',
-          dataIndex: 'nom_chauffeur',
-          render: (text, record) => (
-            <div>
-              <span style={{ color: '#1890ff' }}>{`${record.prenom}`}</span> - <span style={{ fontWeight: 'bold' }}>{record.nom}</span>
-            </div>
-          ),
-        },
-        {
-          title: 'Nom site',
-          dataIndex: 'nom_site',
+          title: 'Immatricule',
+          dataIndex: 'immatriculation',
           render: (text) => (
-            <div>
-              <span style={{ color: '#52c41a', fontStyle: 'italic' }}>{text}</span>
-            </div>
+            <span>
+              {text}
+            </span>
           ),
         },
         {
-          title: 'Description',
-          dataIndex: 'commentaire',
+          title: 'Marque',
+          dataIndex: 'nom_marque',
           render: (text) => (
-            <div>
-              <span style={{ fontStyle: 'italic' }}>{text}</span>
-            </div>
+            <span>
+              {text}
+            </span>
           ),
         },
         {
-          title: "Date d'affectation",
-          dataIndex: 'created_at',
+          title: 'Date controle',
+          dataIndex: 'date_controle',
           render: (text) => (
-            <Tooltip title="Date d'affectation">
-              <div>
-                <CalendarOutlined style={{ color: '#fa8c16', marginRight: 8 }} /> 
-                <span>{moment(text).format('DD-MM-yyyy')}</span>
-              </div>
-            </Tooltip>
+            <span>
+              <CalendarOutlined style={{ marginRight: 5, color: '#13c2c2' }} />
+              {moment(text).format('DD-MM-yyyy')}
+            </span>
           ),
         },
         {
-          title: 'Créé par',
-          dataIndex: 'affectation',
-          render: (text, record) => (
-            <div>
-              <span style={{ color: '#722ed1' }}>{record.user}</span>
-            </div>
+          title: 'Date validité',
+          dataIndex: 'date_validite',
+          render: (text) => (
+            <span>
+              <CalendarOutlined style={{ marginRight: 5, color: '#13c2c2' }} />
+              {moment(text).format('DD-MM-yyyy')}
+            </span>
           ),
+        },
+        {
+          title: 'Statut',
+          dataIndex: 'statut',
+          key: 'statut',
+          render: (statut) => {
+              let icon;
+              let color;
+              let label;
+  
+              switch (statut) {
+                  case 'En cours':
+                      icon = <CheckCircleOutlined />;
+                      color = 'green';
+                      label = 'En cours';
+                      break;
+                  case 'Expire dans 3 mois':
+                      icon = <WarningOutlined />;
+                      color = 'orange';
+                      label = 'Expire dans 3 mois';
+                      break;
+                  case 'Expiré':
+                      icon = <CloseCircleOutlined />;
+                      color = 'red';
+                      label = 'Expiré';
+                      break;
+                  default:
+                      icon = null;
+                      color = 'default';
+                      label = statut;
+              }
+  
+              return (
+                  <Tag color={color} icon={icon} style={{ fontSize: '14px' }}>
+                      {label}
+                  </Tag>
+              );
+          },
+        },
+        {
+            title: 'Type Réparation',
+            dataIndex: 'type_rep',
+            render: (text) => (
+              <span>
+                <ToolOutlined style={{ marginRight: 5, color: '#000' }} />
+                {text}
+              </span>
+            ),
+        },
+        {
+            title: 'Chauffeur',
+            dataIndex: 'nom_chauffeur',
+            render: (text) => (
+              <span>
+                <UserOutlined style={{ marginRight: 4, color: '#d46b08' }} />
+                {text}
+              </span>
+            ),
+        },
+        {
+            title: 'Fournisseur',
+            dataIndex: 'nom_fournisseur',
+            render: (text) => (
+              <span>
+                <ShopOutlined style={{ marginRight: 5, color: '#52c41a' }} />
+                {text}
+              </span>
+            ),
         }
       ];
 
