@@ -67,7 +67,7 @@ const SitesForm = () => {
                     <Row gutter={12}>
                         <Col xs={24} md={12}>
                                 <Form.Item
-                                    name="code_site"
+                                    name="CodeSite"
                                     label="Code site"
                                     rules={[
                                         {
@@ -97,7 +97,7 @@ const SitesForm = () => {
 
                         <Col xs={24} md={12}>
                             <Form.Item
-                                name="id_ville"
+                                name="IdVille"
                                 label="Ville"
                                 rules={[
                                     {
@@ -156,7 +156,7 @@ const SitesForm = () => {
 
                             <Col xs={24} md={12}>
                                 <Form.Item
-                                    name="adresse"
+                                    name="adress"
                                     label="Adresse"
                                     rules={[
                                         {

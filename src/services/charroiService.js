@@ -91,6 +91,6 @@ export const getSite = async () => {
     return axios.get(`${DOMAIN}/api/charroi/site`);
 }
 
-export const postSite = async () => {
-    return axios.post(`${DOMAIN}/api/charroi/site`);
+export const postSite = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/site`, data);
 }
