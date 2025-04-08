@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Input, Skeleton, Row, Col, Modal, Select } from 'antd';
 
 const { Option } = Select;
@@ -6,6 +6,16 @@ const { Option } = Select;
 
 const AffectationsForm = () => {
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
+    
+
+    const onFinish = async (values) => {
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
     
   return (
     <>
@@ -26,7 +36,7 @@ const AffectationsForm = () => {
                                 name="id_chauffeur"
                                 rules={[{ required: true, message: 'Le nom est requis' }]}
                             >
-                                {loading ? <Skeleton.Input active /> : <Input placeholder="Entrez le titre du projet" />}
+                                {loading ? <Skeleton.Input active /> : <Input placeholder="Selectionnez un chauffeur..." />}
                             </Form.Item>
                         </Col>
 

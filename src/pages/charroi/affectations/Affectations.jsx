@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, Button, Table, Space, Tooltip, Popconfirm } from 'antd';
+import { Input, Button, Table, Space, Tooltip, Popconfirm, Modal } from 'antd';
 import { SwapOutlined, CalendarOutlined, PlusCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import AffectationsForm from './affectationsForm/AffectationsForm';
@@ -15,6 +15,16 @@ const Affectations = () => {
         current: 1,
         pageSize: 15,
     });
+    const [modalType, setModalType] = useState(null);
+    
+    const closeAllModals = () => {
+        setModalType(null);
+      };
+      
+    const openModal = (type) => {
+        closeAllModals();
+        setModalType(type);
+      };
 
     const columns = [
         { 
@@ -122,9 +132,8 @@ const Affectations = () => {
         }
       ];
 
-    const handleAddAffectation = () => {
+    const handleAddAffectation = () => openModal('Add')
 
-    }
 
   return (
     <>
@@ -168,8 +177,8 @@ const Affectations = () => {
         </div>
 
         <Modal
-            title="Liste des documents"
-            visible={modalType === 'ListeDoc'}
+            title="Liste d'affectations"
+            visible={modalType === 'Add'}
             onCancel={closeAllModals}
             footer={null}
             width={900}
