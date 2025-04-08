@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Input, Button, Table, Space, Tooltip, Popconfirm, Modal } from 'antd';
+import { Input, Button, notification, Table, Space, Tooltip, Popconfirm, Modal } from 'antd';
 import { SwapOutlined, CalendarOutlined, PlusCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import AffectationsForm from './affectationsForm/AffectationsForm';
+import { getAffectation } from '../../../services/charroiService';
 
 const { Search } = Input;
 
@@ -17,6 +18,21 @@ const Affectations = () => {
     });
     const [modalType, setModalType] = useState(null);
     
+    const fetchData = async() => {
+        try {
+            const { data } = await getAffectation();
+            setData(data.data);
+            setLoading(false);
+
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+              });
+              setLoading(false);
+        }
+    }
+
     const closeAllModals = () => {
         setModalType(null);
       };
@@ -134,7 +150,6 @@ const Affectations = () => {
 
     const handleAddAffectation = () => openModal('Add')
 
-
   return (
     <>
         <div className="client">
@@ -184,7 +199,7 @@ const Affectations = () => {
             width={900}
             centered
         >
-            <AffectationsForm />
+            <AffectationsForm closeModal={() => setModalType(null)} fetchData={fetchData} />
       </Modal>
     </>
   )

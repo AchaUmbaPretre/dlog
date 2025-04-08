@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Skeleton, Row, Col, Button, Select } from 'antd';
+import { Form, Input, Skeleton, message, notification, Row, Col, Button, Select } from 'antd';
 import { useSelector } from 'react-redux';
 import { getChauffeur, getSite, postAffectation } from '../../../../services/charroiService';
 
 const { Option } = Select;
 
 
-const AffectationsForm = () => {
+const AffectationsForm = ({closeModal}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -43,7 +43,10 @@ const AffectationsForm = () => {
             try {
                 message.loading({ content: 'En cours...', key: loadingKey });
         
-                await postAffectation(values);
+                await postAffectation({
+                    values,
+                    user_cr: userId
+                });
         
                 message.success({
                     content: "L'affectation été enregistrée avec succès.",
