@@ -11,6 +11,10 @@ const Chauffeur = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [data, setData] = useState([]);
     const scroll = { x: 400 };
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 20,
+    });
 
     const fetchData = async () => {
         try {
@@ -207,12 +211,13 @@ const Chauffeur = () => {
             <Table
                 columns={columns}
                 dataSource={data}
-                pagination={{ pageSize: 10 }}
+                onChange={(pagination) => setPagination(pagination)}
                 rowKey="key"
                 bordered
                 size="middle"
                 scroll={scroll}
                 loading={loading}
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             />
             </div>
         </div>
