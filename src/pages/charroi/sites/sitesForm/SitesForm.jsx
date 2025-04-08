@@ -140,7 +140,7 @@ const SitesForm = () => {
 
                         <Col xs={24} md={12}>
                             <Form.Item
-                                name="telephone"
+                                name="tel"
                                 label="Telephone"
                                 rules={[
                                     {
