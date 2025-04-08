@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { UsergroupAddOutlined, EnvironmentOutlined, DropboxOutlined,ToolOutlined, PrinterOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
-import { Table, Button, Input, Dropdown, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
+import { EnvironmentOutlined, DropboxOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { Table, Button, Input, Space, Tooltip, Tag, Modal, notification } from 'antd';
 import FormChauffeur from './formChauffeur/FormChauffeur'
 import { getChauffeur } from '../../services/charroiService';
 const { Search } = Input;
@@ -39,11 +39,11 @@ const Chauffeur = () => {
           title: '#', 
           dataIndex: 'id', 
           key: 'id', 
-          render: (text, record, index) => (
-            <Tooltip title={`Ligne ${index + 1}`}>
-              <Tag color="blue">{index + 1}</Tag>
-            </Tooltip>
-          ), 
+          render: (text, record, index) => {
+            const pageSize = pagination.pageSize || 10;
+            const pageIndex = pagination.current || 1;
+            return (pageIndex - 1) * pageSize + index + 1;
+          },
           width: "3%" 
       },
 /*       {
