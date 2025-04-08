@@ -145,49 +145,11 @@ const Sites = () => {
           {text}
         </div>
       ),
-    },
-    {
-      title: 'Actions',
-      dataIndex: 'actions',
-      key: 'actions',
-      width: '10%',
-      render: (text, record) => (
-        <Space size="middle">
-          <Tooltip title="Modifier">
-            <Button
-              icon={<EditOutlined />}
-              style={{
-                color: '#fff',
-                backgroundColor: '#52c41a',
-                borderColor: '#52c41a',
-              }}
-              aria-label="Modifier"
-            />
-          </Tooltip>
-          <Tooltip title="Supprimer">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer ce client ?"
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button
-                icon={<DeleteOutlined />}
-                style={{
-                  color: '#fff',
-                  backgroundColor: '#ff4d4f',
-                  borderColor: '#ff4d4f',
-                }}
-                aria-label="Supprimer"
-              />
-            </Popconfirm>
-          </Tooltip>
-        </Space>
-      ),
-    },
+    }
   ];
 
   const filteredData = data.filter(item =>
-    item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_site?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
