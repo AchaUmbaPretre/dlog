@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Input, Button, notification, Table, Tag, Modal } from 'antd';
 import { RetweetOutlined, ShopOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import ControleTechniqueForm from './controleTechniqueForm/ControleTechniqueForm';
 
 const { Search } = Input;
 
@@ -211,8 +212,8 @@ const ControleTechnique = () => {
             width={900}
             centered
         >
-{/*             <AffectationsForm closeModal={() => setModalType(null)} fetchData={fetchData} />
- */}      </Modal>
+             <ControleTechniqueForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }
