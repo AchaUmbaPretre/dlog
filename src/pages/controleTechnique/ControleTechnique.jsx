@@ -186,7 +186,7 @@ const ControleTechnique = () => {
                             icon={<PlusCircleOutlined />}
                             onClick={handleAddAffectation}
                         >
-                            Ajouter une affectation
+                            Faire un controle technique
                         </Button>
                     </div>
                 </div>
