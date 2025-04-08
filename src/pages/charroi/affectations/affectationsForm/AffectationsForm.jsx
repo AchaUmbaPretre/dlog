@@ -13,7 +13,7 @@ const AffectationsForm = ({closeModal, fetchData}) => {
     const [chauffeur, setChauffeur] = useState([]);
     const [site, setSite] = useState([]);
 
-    const fetchData = async () => {
+    const fetchDatas = async () => {
         setLoading(true)
 
         try {
@@ -32,7 +32,7 @@ const AffectationsForm = ({closeModal, fetchData}) => {
     }
 
     useEffect(() => {
-        fetchData()
+        fetchDatas()
     }, [])
 
 
