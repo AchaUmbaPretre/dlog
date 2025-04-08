@@ -52,11 +52,11 @@ const AffectationsForm = () => {
 
                         <Col span={24}>
                             <Form.Item
-                                label="Site"
-                                name="id_site"
-                                rules={[{ required: true, message: 'Le site est requis' }]}
+                                label="Description"
+                                name="description"
+                                rules={[{ required: false, message: 'Le site est requis' }]}
                             >
-                                {loading ? <Skeleton.Input active /> : <Input.TextArea placeholder="Saisir l'adresse...." style={{height:"80px", resize:'none'}} />}
+                                {loading ? <Skeleton.Input active /> : <Input.TextArea placeholder="Saisir la description..." style={{height:"80px", resize:'none'}} />}
                             </Form.Item>
                         </Col>
 
