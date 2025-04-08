@@ -60,6 +60,7 @@ import Charroi from './pages/charroi/Charroi';
 import Chauffeur from './pages/chauffeur/Chauffeur';
 import Affectations from './pages/charroi/affectations/Affectations';
 import Sites from './pages/charroi/sites/Sites';
+import ControleTechnique from './pages/controleTechnique/ControleTechnique';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -313,8 +314,8 @@ function App() {
           element: <Sites/>
         },
         {
-          path: '/liste_site',
-          element: <Sites/>
+          path: '/controle_technique',
+          element: <ControleTechnique/>
         }
       ]
     },
