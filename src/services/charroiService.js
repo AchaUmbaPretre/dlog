@@ -85,3 +85,12 @@ export const postChauffeur = async (data) => {
         },
     } );
 }
+
+//Sites
+export const getSite = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/site`);
+}
+
+export const postSite = async () => {
+    return axios.post(`${DOMAIN}/api/charroi/site`);
+}

@@ -59,6 +59,7 @@ import RapportSpecial from './pages/rapportSpecial/RapportSpecial';
 import Charroi from './pages/charroi/Charroi';
 import Chauffeur from './pages/chauffeur/Chauffeur';
 import Affectations from './pages/charroi/affectations/Affectations';
+import Sites from './pages/charroi/sites/Sites';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -306,6 +307,10 @@ function App() {
         {
           path: '/liste_affectation',
           element: <Affectations/>
+        },
+        {
+          path: '/liste_site',
+          element: <Sites/>
         }
       ]
     },

@@ -313,7 +313,9 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Select
+                                {loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
                                     showSearch
                                     options={provinces?.map((item) => ({
                                         value: item.id,
