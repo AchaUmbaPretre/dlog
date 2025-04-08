@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { MinusCircleOutlined, SendOutlined, PlusCircleOutlined } from '@ant-design/icons';
+
+const { Option } = Select;
 
 const ControleTechniqueForm = () => {
     const [form] = Form.useForm();
@@ -10,6 +12,10 @@ const ControleTechniqueForm = () => {
     const [chauffeur, setChauffeur] = useState([]);
     const [loading, setLoading] = useState(false);
     const [reparation, setReparation] = useState([]);
+
+    const onFinish = async() => {
+        
+    }
 
   return (
     <>
