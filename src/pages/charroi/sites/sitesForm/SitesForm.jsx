@@ -122,19 +122,19 @@ const SitesForm = () => {
 
                         <Col xs={24} md={12}>
                             <Form.Item
-                                    name="zone"
-                                    label="Zone"
-                                    rules={[
-                                        {
-                                            required: false,
-                                            message: 'Veuillez fournir une zone...',
-                                        },
-                                    ]}
-                                >
-                                    <Select allowClear size='large' placeholder="Choisir une zone">
-                                        <Option value="1">Zone 1</Option>
-                                        <Option value="2">Zone 2</Option>
-                                    </Select>
+                                name="zone"
+                                label="Zone"
+                                rules={[
+                                    {
+                                        required: false,
+                                        message: 'Veuillez fournir une zone...',
+                                    },
+                                ]}
+                            >
+                                <Select allowClear size='large' placeholder="Choisir une zone">
+                                    <Option value="1">Zone 1</Option>
+                                    <Option value="2">Zone 2</Option>
+                                </Select>
                             </Form.Item>
                         </Col>
 
