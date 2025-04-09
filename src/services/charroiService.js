@@ -105,6 +105,10 @@ export const postAffectation = async (data) => {
 }
 
 //Controle technique
+export const getControleTechnique = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/controle_technique`);
+}
+
 export const postControleTechnique = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/controle_technique`, data);
 }

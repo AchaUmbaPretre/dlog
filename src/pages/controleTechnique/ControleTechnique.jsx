@@ -3,6 +3,7 @@ import { Input, Button, notification, Table, Tag, Modal } from 'antd';
 import { RetweetOutlined, ShopOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import ControleTechniqueForm from './controleTechniqueForm/ControleTechniqueForm';
+import { getControleTechnique } from '../../services/charroiService';
 
 const { Search } = Input;
 
@@ -19,9 +20,9 @@ const ControleTechnique = () => {
     
     const fetchData = async() => {
         try {
-/*             const { data } = await getAffectation();
+             const { data } = await getControleTechnique();
             setData(data.data);
-            setLoading(false); */
+            setLoading(false);
 
         } catch (error) {
             notification.error({
