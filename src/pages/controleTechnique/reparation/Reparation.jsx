@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from 'antd';
 import { ToolOutlined } from '@ant-design/icons';
 
@@ -11,6 +11,25 @@ const Reparation = () => {
     const [data, setData] = useState([]);
     const scroll = { x: 400 };
     
+/*     const fetchData = async() => {
+        try {
+             const { data } = await getControleTechnique();
+            setData(data.data);
+            setLoading(false);
+
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+              });
+              setLoading(false);
+        }
+    } */
+/* 
+    useEffect(()=> {
+        fetchData()
+    }, []) */
+
   return (
     <>
         <div className="client">
