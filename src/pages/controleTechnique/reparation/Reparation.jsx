@@ -46,8 +46,8 @@ const Reparation = () => {
             width: "3%" 
           },
         {
-          title: 'Groupe',
-          dataIndex: 'groupe',
+          title: 'Matricule',
+          dataIndex: 'immatricule',
         },
         {
           title: 'Date debut',
