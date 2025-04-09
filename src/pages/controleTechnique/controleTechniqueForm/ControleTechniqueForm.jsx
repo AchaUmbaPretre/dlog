@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { MinusCircleOutlined, SendOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getTypeReparation, getVehicule } from '../../../services/charroiService';
+import { getFournisseur } from '../../../services/fournisseurService';
 
 const { Option } = Select;
 
@@ -16,12 +17,14 @@ const ControleTechniqueForm = () => {
 
     const fetchData = async() => {
         try {
-            const [vehiculeData, reparationData] = await Promise.all([
+            const [vehiculeData, reparationData, fournisseurData] = await Promise.all([
                 getVehicule(),
-                getTypeReparation()
+                getTypeReparation(),
+                getFournisseur(),
             ])
             setVehicule(vehiculeData.data.data)
             setReparation(reparationData.data)
+            setFournisseur(fournisseurData.data)
         } catch (error) {
             
         }
