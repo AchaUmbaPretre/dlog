@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
+import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { MinusCircleOutlined, SendOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { getTypeReparation, getVehicule } from '../../../services/charroiService';
+import { getChauffeur, getTypeReparation, getVehicule, postControleTechnique } from '../../../services/charroiService';
 import { getFournisseur } from '../../../services/fournisseurService';
+import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 
-const ControleTechniqueForm = () => {
+const ControleTechniqueForm = ({fetchData}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [vehicule, setVehicule] = useState([]);
@@ -14,17 +15,20 @@ const ControleTechniqueForm = () => {
     const [chauffeur, setChauffeur] = useState([]);
     const [loading, setLoading] = useState(false);
     const [reparation, setReparation] = useState([]);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
-    const fetchData = async() => {
+    const fetchDatas = async() => {
         try {
-            const [vehiculeData, reparationData, fournisseurData] = await Promise.all([
+            const [vehiculeData, reparationData, fournisseurData, chauffeurData] = await Promise.all([
                 getVehicule(),
                 getTypeReparation(),
                 getFournisseur(),
+                getChauffeur()
             ])
             setVehicule(vehiculeData.data.data)
-            setReparation(reparationData.data)
+            setReparation(reparationData.data.data)
             setFournisseur(fournisseurData.data)
+            setChauffeur(chauffeurData.data.data)
         } catch (error) {
             console.error('Error fetching data:', error);
 
@@ -34,12 +38,35 @@ const ControleTechniqueForm = () => {
     }
 
     useEffect(()=> {
-        fetchData()
+        fetchDatas()
     }, [])
 
-    const onFinish = async() => {
+    const onFinish = async (values) => {
+        await form.validateFields();
 
-    }
+        const loadingKey = 'loadingControle';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+    
+        setLoading(true);
+        try {
+                await postControleTechnique({
+                    ...values,
+                    user_cr : userId
+                });
+            message.success({ content: 'Le controle technique a enregistré avec succès.', key: loadingKey });
+            form.resetFields();
+            fetchData();
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de controle technique:", error);
+            message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+            notification.error({
+                message: 'Erreur',
+                description: `${error.response?.data?.error}`,
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
   return (
     <>
@@ -398,7 +425,7 @@ const ControleTechniqueForm = () => {
                         )}
                         </Form.List>
                         <div style={{ marginTop: '20px' }}>
-                            <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
+                            <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>
                                 Soumettre
                             </Button>
                         </div>
