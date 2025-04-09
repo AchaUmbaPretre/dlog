@@ -200,47 +200,46 @@ const ControleTechnique = () => {
                 }
                 key="1"
             >
-
-            </TabPane>
-            <div className="client">
-                <div className="client-wrapper">
-                    <div className="client-row">
-                        <div className="client-row-icon">
-                            <RetweetOutlined className='client-icon'/>
+                <div className="client">
+                    <div className="client-wrapper">
+                        <div className="client-row">
+                            <div className="client-row-icon">
+                                <RetweetOutlined className='client-icon'/>
+                            </div>
+                            <h2 className="client-h2">Controle technique</h2>
                         </div>
-                        <h2 className="client-h2">Controle technique</h2>
+                        <div className="client-actions">
+                            <div className="client-row-left">
+                                <Search 
+                                    placeholder="Recherche..." 
+                                    onChange={(e) => setSearchValue(e.target.value)}
+                                    enterButton
+                                />
+                            </div>
+                            <div className="client-rows-right">
+                                <Button
+                                    type="primary"
+                                    icon={<PlusCircleOutlined />}
+                                    onClick={handleAddAffectation}
+                                >
+                                    Faire un controle technique
+                                </Button>
+                            </div>
+                        </div>
+                        <Table
+                            columns={columns}
+                            dataSource={filteredData}
+                            rowKey="id_controle_technique"
+                            loading={loading}
+                            scroll={scroll}
+                            size="small"
+                            onChange={(pagination)=> setPagination(pagination)}
+                            bordered
+                            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                        />
                     </div>
-                    <div className="client-actions">
-                        <div className="client-row-left">
-                            <Search 
-                                placeholder="Recherche..." 
-                                onChange={(e) => setSearchValue(e.target.value)}
-                                enterButton
-                            />
-                        </div>
-                        <div className="client-rows-right">
-                            <Button
-                                type="primary"
-                                icon={<PlusCircleOutlined />}
-                                onClick={handleAddAffectation}
-                            >
-                                Faire un controle technique
-                            </Button>
-                        </div>
-                    </div>
-                    <Table
-                        columns={columns}
-                        dataSource={filteredData}
-                        rowKey="id_controle_technique"
-                        loading={loading}
-                        scroll={scroll}
-                        size="small"
-                        onChange={(pagination)=> setPagination(pagination)}
-                        bordered
-                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                    />
                 </div>
-            </div>
+            </TabPane>
             <TabPane
                 tab={
                     <span>
