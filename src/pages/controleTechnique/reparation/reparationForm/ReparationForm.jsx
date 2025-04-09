@@ -107,7 +107,7 @@ const ReparationForm = () => {
                                                 </Form.Item>
                                             </Col>
                 
-                                            <Col xs={24} md={8}>
+                                            <Col xs={24} md={12}>
                                                 <Form.Item
                                                     name="date_fin"
                                                     label="Date sortie"
@@ -126,7 +126,7 @@ const ReparationForm = () => {
                                                 </Form.Item>
                                             </Col>
                 
-                                            <Col xs={24} md={8}>
+                                            <Col xs={24} md={12}>
                                                 <Form.Item
                                                     name="id_fournisseur"
                                                     label="Fournisseur"
@@ -166,7 +166,7 @@ const ReparationForm = () => {
                                                         }
                                                     ]}
                                                 >
-                                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none'}}/>}
+                                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>}
                                                 </Form.Item>
                                             </Col>
                                     </Row>
