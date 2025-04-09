@@ -44,110 +44,40 @@ const Reparation = () => {
             width: "3%" 
           },
         {
-          title: 'Immatricule',
-          dataIndex: 'immatriculation',
-          render: (text) => (
-            <span>
-              {text}
-            </span>
-          ),
+          title: 'Groupe',
+          dataIndex: 'groupe',
         },
         {
-          title: 'Marque',
-          dataIndex: 'nom_marque',
-          render: (text) => (
-            <span>
-              {text}
-            </span>
-          ),
+          title: 'Date debut',
+          dataIndex: 'date_debut'
         },
         {
-          title: 'Date controle',
-          dataIndex: 'date_controle',
-          render: (text) => (
-            <span>
-              <CalendarOutlined style={{ marginRight: 5, color: '#13c2c2' }} />
-              {moment(text).format('DD-MM-yyyy')}
-            </span>
-          ),
+          title: 'Date fin',
+          dataIndex: 'date_fin'
         },
         {
-          title: 'Date validité',
-          dataIndex: 'date_validite',
-          render: (text) => (
-            <span>
-              <CalendarOutlined style={{ marginRight: 5, color: '#13c2c2' }} />
-              {moment(text).format('DD-MM-yyyy')}
-            </span>
-          ),
+            title: 'Nbre Jour',
+            dataIndex: 'nbre_jour'
         },
         {
-          title: 'Statut',
-          dataIndex: 'statut',
-          key: 'statut',
-          render: (statut) => {
-              let icon;
-              let color;
-              let label;
-  
-              switch (statut) {
-                  case 'En cours':
-                      icon = <CheckCircleOutlined />;
-                      color = 'green';
-                      label = 'En cours';
-                      break;
-                  case 'Expire dans 3 mois':
-                      icon = <WarningOutlined />;
-                      color = 'orange';
-                      label = 'Expire dans 3 mois';
-                      break;
-                  case 'Expiré':
-                      icon = <CloseCircleOutlined />;
-                      color = 'red';
-                      label = 'Expiré';
-                      break;
-                  default:
-                      icon = null;
-                      color = 'default';
-                      label = statut;
-              }
-  
-              return (
-                  <Tag color={color} icon={icon} style={{ fontSize: '14px' }}>
-                      {label}
-                  </Tag>
-              );
-          },
-        },
-        {
-            title: 'Type Réparation',
-            dataIndex: 'type_rep',
-            render: (text) => (
-              <span>
-                <ToolOutlined style={{ marginRight: 5, color: '#000' }} />
-                {text}
-              </span>
-            ),
-        },
-        {
-            title: 'Chauffeur',
-            dataIndex: 'nom_chauffeur',
-            render: (text) => (
-              <span>
-                <UserOutlined style={{ marginRight: 4, color: '#d46b08' }} />
-                {text}
-              </span>
-            ),
+            title: 'Description',
+            dataIndex: 'description'
         },
         {
             title: 'Fournisseur',
-            dataIndex: 'nom_fournisseur',
-            render: (text) => (
-              <span>
-                <ShopOutlined style={{ marginRight: 5, color: '#52c41a' }} />
-                {text}
-              </span>
-            ),
+            dataIndex: 'fournisseur'
+        },
+        {
+            title: 'Etat',
+            dataIndex: 'etat'
+        },
+        {
+            title: 'Suivie',
+            dataIndex: 'suivie'
+        },
+        {
+            title: 'Actions',
+            dataIndex: 'actions'
         }
       ];
 
