@@ -340,7 +340,7 @@ const ControleTechniqueForm = ({closeModal,fetchData}) => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none'}}/>}
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>}
                                 </Form.Item>
                             </Col>
                     </Row>
