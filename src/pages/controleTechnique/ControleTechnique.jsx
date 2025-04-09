@@ -194,10 +194,11 @@ const ControleTechnique = () => {
                 <Table
                     columns={columns}
                     dataSource={data}
-                    rowKey="id_projet"
+                    rowKey="id_controle_technique"
                     loading={loading}
                     scroll={scroll}
                     size="small"
+                    onChange={(pagination)=> setPagination(pagination)}
                     bordered
                     rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                 />

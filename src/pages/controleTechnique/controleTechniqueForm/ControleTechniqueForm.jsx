@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 
-const ControleTechniqueForm = ({fetchData}) => {
+const ControleTechniqueForm = ({closeModal,fetchData}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [vehicule, setVehicule] = useState([]);
@@ -56,6 +56,7 @@ const ControleTechniqueForm = ({fetchData}) => {
             message.success({ content: 'Le controle technique a enregistré avec succès.', key: loadingKey });
             form.resetFields();
             fetchData();
+            closeModal()
         } catch (error) {
             console.error("Erreur lors de l'ajout de controle technique:", error);
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });
