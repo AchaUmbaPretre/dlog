@@ -37,6 +37,7 @@ const ControleTechniqueForm = ({closeModal,fetchData}) => {
         }
     }
 
+    
     useEffect(()=> {
         fetchDatas()
     }, [])

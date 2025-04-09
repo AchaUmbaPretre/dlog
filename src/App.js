@@ -316,6 +316,10 @@ function App() {
         {
           path: '/controle_technique',
           element: <ControleTechnique/>
+        },
+        {
+          path: '/liste_reparation',
+          element: <ControleTechnique/>
         }
       ]
     },

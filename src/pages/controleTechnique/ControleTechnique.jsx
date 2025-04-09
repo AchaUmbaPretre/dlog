@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, notification, Table, Tag, Modal } from 'antd';
-import { RetweetOutlined, ShopOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Input, Button, notification, Table, Tag, Tabs, Modal } from 'antd';
+import { RetweetOutlined, ShopOutlined, ScanOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import ControleTechniqueForm from './controleTechniqueForm/ControleTechniqueForm';
 import { getControleTechnique } from '../../services/charroiService';
+import TabPane from 'antd/es/tabs/TabPane';
+import Reparation from './reparation/Reparation';
 
 const { Search } = Input;
 
@@ -17,6 +19,7 @@ const ControleTechnique = () => {
         pageSize: 15,
     });
     const [modalType, setModalType] = useState(null);
+    const [activeKey, setActiveKey] = useState(['1', '2']);
     
     const fetchData = async() => {
         try {
@@ -36,6 +39,10 @@ const ControleTechnique = () => {
     useEffect(()=> {
         fetchData()
     }, [])
+
+    const handleTabChange = (key) => {
+        setActiveKey(key);
+      };
 
     const closeAllModals = () => {
         setModalType(null);
@@ -171,45 +178,87 @@ const ControleTechnique = () => {
 
   return (
     <>
-        <div className="client">
-            <div className="client-wrapper">
-                <div className="client-row">
-                    <div className="client-row-icon">
-                        <RetweetOutlined className='client-icon'/>
-                    </div>
-                    <h2 className="client-h2">Controle technique</h2>
-                </div>
-                <div className="client-actions">
-                    <div className="client-row-left">
-                        <Search 
-                            placeholder="Recherche..." 
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            enterButton
+        <Tabs
+            activeKey={activeKey[0]}
+            onChange={handleTabChange}
+            type="card"
+            tabPosition="top"
+            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+        >
+            <TabPane
+                tab={
+                    <span>
+                        <ScanOutlined
+                            style={{
+                               color: '#1890ff',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
                         />
+                        Controle technique
+                    </span>
+                }
+                key="1"
+            >
+
+            </TabPane>
+            <div className="client">
+                <div className="client-wrapper">
+                    <div className="client-row">
+                        <div className="client-row-icon">
+                            <RetweetOutlined className='client-icon'/>
+                        </div>
+                        <h2 className="client-h2">Controle technique</h2>
                     </div>
-                    <div className="client-rows-right">
-                        <Button
-                            type="primary"
-                            icon={<PlusCircleOutlined />}
-                            onClick={handleAddAffectation}
-                        >
-                            Faire un controle technique
-                        </Button>
+                    <div className="client-actions">
+                        <div className="client-row-left">
+                            <Search 
+                                placeholder="Recherche..." 
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                enterButton
+                            />
+                        </div>
+                        <div className="client-rows-right">
+                            <Button
+                                type="primary"
+                                icon={<PlusCircleOutlined />}
+                                onClick={handleAddAffectation}
+                            >
+                                Faire un controle technique
+                            </Button>
+                        </div>
                     </div>
+                    <Table
+                        columns={columns}
+                        dataSource={filteredData}
+                        rowKey="id_controle_technique"
+                        loading={loading}
+                        scroll={scroll}
+                        size="small"
+                        onChange={(pagination)=> setPagination(pagination)}
+                        bordered
+                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    />
                 </div>
-                <Table
-                    columns={columns}
-                    dataSource={filteredData}
-                    rowKey="id_controle_technique"
-                    loading={loading}
-                    scroll={scroll}
-                    size="small"
-                    onChange={(pagination)=> setPagination(pagination)}
-                    bordered
-                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                />
             </div>
-        </div>
+            <TabPane
+                tab={
+                    <span>
+                        <ToolOutlined
+                            style={{
+                                color: '#faad14',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Réparations
+                    </span>
+                }
+                key="2"
+            >
+                <Reparation/>
+            </TabPane>
+        </Tabs>
 
         <Modal
             title=""
