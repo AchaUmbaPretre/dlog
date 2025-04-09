@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Input } from 'antd';
-import { ToolOutlined } from '@ant-design/icons';
+import { ToolOutlined, PlusCircleOutlined, CalendarOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
+import { Input, Button, notification, Table, Tag, Tabs, Modal } from 'antd';
+import moment from 'moment';
 
 const { Search } = Input;
 
@@ -8,6 +9,10 @@ const { Search } = Input;
 const Reparation = () => {
     const [searchValue, setSearchValue] = useState('');
     const [loading, setLoading] = useState(true);
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 15,
+    });
     const [data, setData] = useState([]);
     const scroll = { x: 400 };
     
@@ -30,6 +35,122 @@ const Reparation = () => {
         fetchData()
     }, []) */
 
+    const columns = [
+        { 
+            title: '#', 
+            dataIndex: 'id', 
+            key: 'id', 
+            render: (text, record, index) => index + 1, 
+            width: "3%" 
+          },
+        {
+          title: 'Immatricule',
+          dataIndex: 'immatriculation',
+          render: (text) => (
+            <span>
+              {text}
+            </span>
+          ),
+        },
+        {
+          title: 'Marque',
+          dataIndex: 'nom_marque',
+          render: (text) => (
+            <span>
+              {text}
+            </span>
+          ),
+        },
+        {
+          title: 'Date controle',
+          dataIndex: 'date_controle',
+          render: (text) => (
+            <span>
+              <CalendarOutlined style={{ marginRight: 5, color: '#13c2c2' }} />
+              {moment(text).format('DD-MM-yyyy')}
+            </span>
+          ),
+        },
+        {
+          title: 'Date validité',
+          dataIndex: 'date_validite',
+          render: (text) => (
+            <span>
+              <CalendarOutlined style={{ marginRight: 5, color: '#13c2c2' }} />
+              {moment(text).format('DD-MM-yyyy')}
+            </span>
+          ),
+        },
+        {
+          title: 'Statut',
+          dataIndex: 'statut',
+          key: 'statut',
+          render: (statut) => {
+              let icon;
+              let color;
+              let label;
+  
+              switch (statut) {
+                  case 'En cours':
+                      icon = <CheckCircleOutlined />;
+                      color = 'green';
+                      label = 'En cours';
+                      break;
+                  case 'Expire dans 3 mois':
+                      icon = <WarningOutlined />;
+                      color = 'orange';
+                      label = 'Expire dans 3 mois';
+                      break;
+                  case 'Expiré':
+                      icon = <CloseCircleOutlined />;
+                      color = 'red';
+                      label = 'Expiré';
+                      break;
+                  default:
+                      icon = null;
+                      color = 'default';
+                      label = statut;
+              }
+  
+              return (
+                  <Tag color={color} icon={icon} style={{ fontSize: '14px' }}>
+                      {label}
+                  </Tag>
+              );
+          },
+        },
+        {
+            title: 'Type Réparation',
+            dataIndex: 'type_rep',
+            render: (text) => (
+              <span>
+                <ToolOutlined style={{ marginRight: 5, color: '#000' }} />
+                {text}
+              </span>
+            ),
+        },
+        {
+            title: 'Chauffeur',
+            dataIndex: 'nom_chauffeur',
+            render: (text) => (
+              <span>
+                <UserOutlined style={{ marginRight: 4, color: '#d46b08' }} />
+                {text}
+              </span>
+            ),
+        },
+        {
+            title: 'Fournisseur',
+            dataIndex: 'nom_fournisseur',
+            render: (text) => (
+              <span>
+                <ShopOutlined style={{ marginRight: 5, color: '#52c41a' }} />
+                {text}
+              </span>
+            ),
+        }
+      ];
+
   return (
     <>
         <div className="client">
@@ -49,7 +170,26 @@ const Reparation = () => {
                             enterButton
                         />
                     </div>
+                    <div className="client-rows-right">
+                        <Button
+                            type="primary"
+                            icon={<PlusCircleOutlined />}
+                        >
+                            Ajouter une réparation
+                        </Button>
+                    </div>
                 </div>
+                <Table
+                    columns={columns}
+                    dataSource={data}
+                    rowKey="id_controle_technique"
+                    loading={loading}
+                    scroll={scroll}
+                    size="small"
+                    onChange={(pagination)=> setPagination(pagination)}
+                    bordered
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                />
             </div>
         </div>
     </>
