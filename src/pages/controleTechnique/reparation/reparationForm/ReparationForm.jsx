@@ -43,7 +43,7 @@ const ReparationForm = () => {
                                         <Option value="1">Groupe 1</Option>
                                         <Option value="2">Groupe 2</Option>
                                     </Select>
-                                    )}
+                                )}
                             </Form.Item>
                         </Col>
 

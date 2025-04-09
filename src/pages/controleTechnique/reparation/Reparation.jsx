@@ -14,6 +14,7 @@ const Reparation = () => {
         pageSize: 15,
     });
     const [data, setData] = useState([]);
+    const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
     
 /*     const fetchData = async() => {
@@ -81,6 +82,18 @@ const Reparation = () => {
         }
       ];
 
+    const handleAddReparation = () => openModal('Add')
+    
+    
+    const closeAllModals = () => {
+        setModalType(null);
+      };
+      
+    const openModal = (type) => {
+        closeAllModals();
+        setModalType(type);
+      };
+
   return (
     <>
         <div className="client">
@@ -104,6 +117,7 @@ const Reparation = () => {
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined />}
+                            onClick={handleAddReparation}
                         >
                             Ajouter une réparation
                         </Button>
