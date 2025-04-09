@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { MinusCircleOutlined, SendOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { getTypeReparation, getVehicule } from '../../../services/charroiService';
 
 const { Option } = Select;
 
@@ -12,6 +13,23 @@ const ControleTechniqueForm = () => {
     const [chauffeur, setChauffeur] = useState([]);
     const [loading, setLoading] = useState(false);
     const [reparation, setReparation] = useState([]);
+
+    const fetchData = async() => {
+        try {
+            const [vehiculeData, reparationData] = await Promise.all([
+                getVehicule(),
+                getTypeReparation()
+            ])
+            setVehicule(vehiculeData.data.data)
+            setReparation(reparationData.data)
+        } catch (error) {
+            
+        }
+    }
+
+    useEffect(()=> {
+        fetchData()
+    }, [])
 
     const onFinish = async() => {
 
