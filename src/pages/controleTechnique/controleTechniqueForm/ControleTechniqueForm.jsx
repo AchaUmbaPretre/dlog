@@ -14,7 +14,7 @@ const ControleTechniqueForm = () => {
     const [reparation, setReparation] = useState([]);
 
     const onFinish = async() => {
-        
+
     }
 
   return (
@@ -35,7 +35,7 @@ const ControleTechniqueForm = () => {
                     <Row gutter={12}>
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="immatriculation"
+                                name="id_vehicule"
                                 label="Immatriculation"
                                 rules={[
                                     {
@@ -48,6 +48,8 @@ const ControleTechniqueForm = () => {
                                         <Skeleton.Input active={true} />
                                     ) : (
                                         <Select
+                                            size='large'
+                                            allowClear
                                             showSearch
                                             options={vehicule.map((item) => ({
                                                 value: item.id_vehicule                                           ,
@@ -74,7 +76,7 @@ const ControleTechniqueForm = () => {
                                     {loadingData ? (
                                         <Skeleton.Input active={true} />
                                     ) : (
-                                        <DatePicker style={{ width: '100%' }} />
+                                        <DatePicker size='large' style={{ width: '100%' }} />
                                     )}
                                 </Form.Item>
                             </Col>
@@ -93,7 +95,7 @@ const ControleTechniqueForm = () => {
                                     {loadingData ? (
                                         <Skeleton.Input active={true} />
                                     ) : (
-                                        <DatePicker style={{ width: '100%' }} />
+                                        <DatePicker size='large' style={{ width: '100%' }} />
                                     )}
                                 </Form.Item>
                             </Col>
@@ -113,6 +115,7 @@ const ControleTechniqueForm = () => {
                                         <Skeleton.Input active={true} />
                                     ) : (
                                         <InputNumber
+                                            size='large'
                                             min={0}
                                             placeholder="Saisir le kilometrage"
                                             style={{ width: '100%' }}
@@ -132,7 +135,7 @@ const ControleTechniqueForm = () => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Saisir la ref..." style={{width:'100%'}}/>}
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir la ref..." style={{width:'100%'}}/>}
                                 </Form.Item>
                             </Col>
 
@@ -148,7 +151,7 @@ const ControleTechniqueForm = () => {
                                     ]}
                                 >
                                     {loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select placeholder="Choisir un agent">
+                                    <Select size='large' placeholder="Choisir un agent">
                                         <Option value="1">Agent 1</Option>
                                         <Option value="2">Agent 2</Option>
                                     </Select> }
@@ -166,7 +169,7 @@ const ControleTechniqueForm = () => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Saisir le resultat.." style={{width:'100%'}}/>}
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir le resultat.." style={{width:'100%'}}/>}
                                 </Form.Item>
                             </Col>
 
@@ -181,7 +184,7 @@ const ControleTechniqueForm = () => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir le kilometrage" style={{width:'100%'}}/>}
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber size='large' min={0} placeholder="Saisir le kilometrage" style={{width:'100%'}}/>}
                                 </Form.Item>
                             </Col>
 
@@ -196,7 +199,7 @@ const ControleTechniqueForm = () => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir le cout TCC" style={{width:'100%'}}/>}
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber size='large' min={0} placeholder="Saisir le cout TCC" style={{width:'100%'}}/>}
                                 </Form.Item>
                             </Col>
 
@@ -211,7 +214,7 @@ const ControleTechniqueForm = () => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir la taxe..." style={{width:'100%'}}/>}
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber size='large' min={0} placeholder="Saisir la taxe..." style={{width:'100%'}}/>}
                                 </Form.Item>
                             </Col>
 
@@ -230,6 +233,8 @@ const ControleTechniqueForm = () => {
                                         <Skeleton.Input active={true} />
                                     ) : (
                                         <Select
+                                            allowClear
+                                            size='large'
                                             showSearch
                                             options={fournisseur.map((item) => ({
                                                 value: item.id_fournisseur                                           ,
@@ -257,6 +262,8 @@ const ControleTechniqueForm = () => {
                                         <Skeleton.Input active={true} />
                                     ) : (
                                         <Select
+                                            size='large'
+                                            allowClear
                                             showSearch
                                             options={chauffeur.map((item) => ({
                                                 value: item.id_chauffeur                                            ,
