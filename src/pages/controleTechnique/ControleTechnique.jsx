@@ -164,7 +164,9 @@ const ControleTechnique = () => {
 
     const handleAddAffectation = () => openModal('Add')
     const filteredData = data.filter(item => 
-        item.immatriculation?.toLowerCase().includes(searchValue.toLocaleLowerCase())
+        item.immatriculation?.toLowerCase().includes(searchValue.toLocaleLowerCase()) || 
+        item.nom_marque?.toLowerCase().includes(searchValue.toLocaleLowerCase()) || 
+        item.type_rep?.toLowerCase().includes(searchValue.toLocaleLowerCase())
     )
 
   return (
