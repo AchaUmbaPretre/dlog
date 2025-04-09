@@ -163,6 +163,9 @@ const ControleTechnique = () => {
       ];
 
     const handleAddAffectation = () => openModal('Add')
+    const filteredData = data.filter(item => 
+        item.immatriculation?.toLowerCase().includes(searchValue.toLocaleLowerCase())
+    )
 
   return (
     <>
@@ -194,7 +197,7 @@ const ControleTechnique = () => {
                 </div>
                 <Table
                     columns={columns}
-                    dataSource={data}
+                    dataSource={filteredData}
                     rowKey="id_controle_technique"
                     loading={loading}
                     scroll={scroll}
