@@ -62,7 +62,7 @@ const ReparationForm = () => {
                                 {loadingData ? (
                                 <Skeleton.Input active={true} />
                                 ) : (
-                                    <Select placeholder="Choisir un groupe">
+                                    <Select size='Large' placeholder="Choisir un groupe">
                                         <Option value="1">Groupe 1</Option>
                                         <Option value="2">Groupe 2</Option>
                                     </Select>
@@ -84,7 +84,7 @@ const ReparationForm = () => {
                                     {loadingData ? (
                                         <Skeleton.Input active={true} />
                                     ) : (
-                                        <DatePicker style={{ width: '100%' }} />
+                                        <DatePicker size='Large' style={{ width: '100%' }} />
                                     )}
                                 </Form.Item>
                             </Col>
@@ -104,6 +104,7 @@ const ReparationForm = () => {
                                         <Skeleton.Input active={true} />
                                     ) : (
                                         <InputNumber
+                                            size='Large'
                                             min={0}
                                             placeholder="Saisir le relevé actuel"
                                             style={{ width: '100%' }}
@@ -127,6 +128,7 @@ const ReparationForm = () => {
                                         <Skeleton.Input active={true} />
                                     ) : (
                                         <InputNumber
+                                            size='Large'
                                             min={0}
                                             placeholder="Saisir le relevé prochain"
                                             style={{ width: '100%' }}
@@ -146,7 +148,7 @@ const ReparationForm = () => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir le cout..." style={{width:'100%'}}/>}
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber size='Large' min={0} placeholder="Saisir le cout..." style={{width:'100%'}}/>}
                                 </Form.Item>
                             </Col>
 
@@ -163,6 +165,7 @@ const ReparationForm = () => {
                                 >
                                     {loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
+                                        size='Large'
                                         showSearch
                                         options={fournisseur.map((item) => ({
                                             value: item.id_fournisseur                                           ,
