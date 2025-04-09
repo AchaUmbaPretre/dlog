@@ -26,7 +26,10 @@ const ControleTechniqueForm = () => {
             setReparation(reparationData.data)
             setFournisseur(fournisseurData.data)
         } catch (error) {
-            
+            console.error('Error fetching data:', error);
+
+        } finally {
+            setLoadingData(false);
         }
     }
 
@@ -259,7 +262,7 @@ const ControleTechniqueForm = () => {
                                             showSearch
                                             options={fournisseur.map((item) => ({
                                                 value: item.id_fournisseur                                           ,
-                                                label: `${item.nom}`,
+                                                label: `${item.nom_fournisseur}`,
                                             }))}
                                             placeholder="Sélectionnez un fournisseur..."
                                             optionFilterProp="label"
