@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
+import { getTypeReparation, getVehicule } from '../../../../services/charroiService';
 
 const { Option } = Select;
 
@@ -9,13 +10,20 @@ const ReparationForm = () => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
-    
+    const [vehicule, setVehicule] = useState([]);
+    const [reparation, setReparation] = useState([]);
+
     const fetchDatas = async () => {
         try {
-            const [fournisseurData] = await Promise.all([
-                getFournisseur()
+            const [vehiculeData, fournisseurData, reparationData] = await Promise.all([
+                getVehicule(),
+                getFournisseur(),
+                getTypeReparation()
             ])
+
             setFournisseur(fournisseurData.data)
+            setVehicule(vehiculeData.data.data)
+            setReparation(reparationData.data.data)
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -62,10 +70,17 @@ const ReparationForm = () => {
                                 {loadingData ? (
                                 <Skeleton.Input active={true} />
                                 ) : (
-                                    <Select size='large' placeholder="Choisir un groupe">
-                                        <Option value="1">Groupe 1</Option>
-                                        <Option value="2">Groupe 2</Option>
-                                    </Select>
+                                    <Select
+                                        size='large'
+                                        allowClear
+                                        showSearch
+                                        options={vehicule.map((item) => ({
+                                            value: item.id_vehicule                                           ,
+                                            label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
+                                        }))}
+                                        placeholder="Sélectionnez un vehicule..."
+                                        optionFilterProp="label"
+                                    />
                                 )}
                             </Form.Item>
                         </Col>
@@ -155,11 +170,12 @@ const ReparationForm = () => {
                                 >
                                     {loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
+                                        allowClear
                                         size='large'
                                         showSearch
                                         options={fournisseur.map((item) => ({
                                             value: item.id_fournisseur                                           ,
-                                            label: `${item.nom}`,
+                                            label: `${item.nom_fournisseur}`,
                                         }))}
                                         placeholder="Sélectionnez un fournisseur..."
                                         optionFilterProp="label"
@@ -194,16 +210,21 @@ const ReparationForm = () => {
                                     <Col xs={24} md={7}>
                                         <Form.Item
                                         {...restField}
-                                        name={[name, 'type_reparation']}
+                                        name={[name, 'id_type_reparation']}
                                         label="Type de réparation"
                                         rules={[
                                             { required: true, message: 'Veuillez fournir une réparation...' },
                                         ]}
                                         >
-                                        <Select placeholder="Choisir une réparation">
-                                            <Option value="1">Réparation 1</Option>
-                                            <Option value="2">Réparation 2</Option>
-                                        </Select>
+                                        <Select
+                                            showSearch
+                                            options={reparation.map((item) => ({
+                                                value: item.id_type_reparation,
+                                                label: `${item.type_rep}`,
+                                            }))}
+                                            placeholder="Sélectionnez un type de réparation..."
+                                            optionFilterProp="label"
+                                        />
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} md={7}>
