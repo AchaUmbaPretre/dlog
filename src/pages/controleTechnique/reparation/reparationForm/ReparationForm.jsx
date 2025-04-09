@@ -217,6 +217,7 @@ const ReparationForm = () => {
                                         ]}
                                         >
                                         <Select
+                                            allowClear
                                             showSearch
                                             options={reparation.map((item) => ({
                                                 value: item.id_type_reparation,
