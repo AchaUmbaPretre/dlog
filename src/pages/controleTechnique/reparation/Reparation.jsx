@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ToolOutlined, PlusCircleOutlined, CalendarOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
 import { Input, Button, notification, Table, Tag, Tabs, Modal } from 'antd';
 import moment from 'moment';
+import ReparationForm from './reparationForm/ReparationForm';
 
 const { Search } = Input;
 
@@ -17,11 +18,11 @@ const Reparation = () => {
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
     
-/*     const fetchData = async() => {
+   const fetchData = async() => {
         try {
-             const { data } = await getControleTechnique();
+/*              const { data } = await getControleTechnique();
             setData(data.data);
-            setLoading(false);
+            setLoading(false); */
 
         } catch (error) {
             notification.error({
@@ -30,11 +31,11 @@ const Reparation = () => {
               });
               setLoading(false);
         }
-    } */
-/* 
+    }
+
     useEffect(()=> {
         fetchData()
-    }, []) */
+    }, [])
 
     const columns = [
         { 
@@ -136,6 +137,16 @@ const Reparation = () => {
                 />
             </div>
         </div>
+        <Modal
+            title=""
+            visible={modalType === 'Add'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+            <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }

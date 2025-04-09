@@ -1,9 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
+import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
+import { getFournisseur } from '../../../../services/fournisseurService';
 
+const { Option } = Select;
 
 const ReparationForm = () => {
     const [form] = Form.useForm();
+    const [loadingData, setLoadingData] = useState(false);
+    const [fournisseur, setFournisseur] = useState([]);
+    
+    const fetchDatas = async () => {
+        try {
+            const [fournisseurData] = await Promise.all([
+                getFournisseur()
+            ])
+            setFournisseur(fournisseurData.data)
+            
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoadingData(false);
+        }
+    }
+
+        useEffect(()=> {
+            fetchDatas()
+        }, [])
 
     const onFinish = async (values) => {
 
