@@ -59,6 +59,7 @@ const ReparationForm = ({closeModal, fetchData}) => {
             form.resetFields();
             fetchData();
             closeModal()
+            
         } catch (error) {
             console.error("Erreur lors de l'ajout de controle technique:", error);
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });
