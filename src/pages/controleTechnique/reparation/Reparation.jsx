@@ -38,8 +38,24 @@ const Reparation = () => {
         fetchData()
     }, [])
 
+    const handleClick = ({ key }) => {
+        switch (key) {
+          case 'voirDetail':
+            console.log('Voir détail de', record);
+            break;
+          case 'ajouterInspection':
+            console.log('Ajouter inspection pour', record);
+            break;
+          case 'ajouterSuivi':
+            console.log('Ajouter suivi pour', record);
+            break;
+          default:
+            break;
+        }
+      };
+
     const menu = (
-        <Menu >
+        <Menu onClick={handleClick}>
           <Menu.SubMenu
             key="inspection"
             title="Inspection"
