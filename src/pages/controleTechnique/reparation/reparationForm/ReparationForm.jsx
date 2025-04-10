@@ -37,7 +37,10 @@ const ReparationForm = () => {
         }, [])
 
     const onFinish = async (values) => {
-
+        await form.validateFields();
+        const loadingKey = 'loadingReparation';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+        
     }
 
   return (
