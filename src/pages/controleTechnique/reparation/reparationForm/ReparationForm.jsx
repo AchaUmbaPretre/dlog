@@ -239,6 +239,7 @@ const ReparationForm = ({closeModal, fetchData}) => {
                                             message: 'Veuillez sélectionner un etat...',
                                         }
                                     ]}
+                                    initialValue={1}
                                 >
                                     {loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
