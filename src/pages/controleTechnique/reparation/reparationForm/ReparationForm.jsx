@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
-import { getTypeReparation, getVehicule } from '../../../../services/charroiService';
+import { getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
+import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 
-const ReparationForm = () => {
+const ReparationForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
     const [vehicule, setVehicule] = useState([]);
     const [reparation, setReparation] = useState([]);
-
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const [loading, setLoading] = useState(false);
+    
     const fetchDatas = async () => {
         try {
             const [vehiculeData, fournisseurData, reparationData] = await Promise.all([
@@ -41,6 +44,26 @@ const ReparationForm = () => {
         const loadingKey = 'loadingReparation';
         message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
         
+        setLoading(true)
+        try {
+            await postReparation({
+                ...values,
+                user_cr : userId
+            })
+            message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
+            form.resetFields();
+            fetchData();
+            closeModal()
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de controle technique:", error);
+            message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+            notification.error({
+                message: 'Erreur',
+                description: `${error.response?.data?.error}`,
+            });
+        } finally {
+            setLoading(false);
+        }
     }
 
   return (
