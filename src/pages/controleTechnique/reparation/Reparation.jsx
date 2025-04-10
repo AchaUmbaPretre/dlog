@@ -48,7 +48,11 @@ const Reparation = () => {
           },
         {
           title: 'Matricule',
-          dataIndex: 'immatricule',
+          dataIndex: 'immatriculation',
+        },
+        {
+            title: 'Marque',
+            dataIndex: 'nom_marque',
         },
         {
           title: 'Date debut',
@@ -64,7 +68,7 @@ const Reparation = () => {
         },
         {
             title: 'Nbre Jour',
-            dataIndex: 'nbre_jour'
+            dataIndex: 'nb_jours_au_garage'
         },
         {
             title: 'Description',
@@ -72,11 +76,11 @@ const Reparation = () => {
         },
         {
             title: 'Fournisseur',
-            dataIndex: 'fournisseur'
+            dataIndex: 'nom_fournisseur'
         },
         {
             title: 'Etat',
-            dataIndex: 'etat'
+            dataIndex: 'nom_type_statut'
         },
         {
             title: 'Actions',
