@@ -5,6 +5,9 @@ import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
 import InspectionReparationForm from './inspectionReparation/inspectionReparationForm/InspectionReparationForm';
+import InspectionReparationDetail from './inspectionReparation/inspectionReparationDetail/InspectionReparationDetail';
+import SuiviReparationForm from './suiviReparation/suiviReparationForm/SuiviReparationForm';
+import SuiviReparation from './suiviReparation/SuiviReparation';
 
 const { Search } = Input;
 
@@ -236,13 +239,13 @@ const Reparation = () => {
 
         <Modal
             title=""
-            visible={modalType === 'AddInspection'}
+            visible={modalType === 'DetailInspection'}
             onCancel={closeAllModals}
             footer={null}
             width={900}
             centered
         >
-            <InspectionReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <InspectionReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
 
         <Modal
@@ -254,6 +257,28 @@ const Reparation = () => {
             centered
         >
             <InspectionReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'DetailSuivi'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+            <SuiviReparation closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'AddSuivi'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+            <SuiviReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
     </>
   )
