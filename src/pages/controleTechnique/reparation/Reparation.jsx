@@ -43,9 +43,9 @@ const Reparation = () => {
           <Menu.SubMenu
             key="inspection"
             title="Inspection"
-            icon={<FileTextOutlined style={{ color: '#1890ff' }} />}
+            icon={<FileTextOutlined style={{ color: 'green' }} />}
           >
-            <Menu.Item key="voirDetail" icon={<EyeOutlined style={{ color: 'green' }} />}>
+            <Menu.Item key="voirDetail" icon={<EyeOutlined style={{ color: '#1890ff' }} />}>
               Voir Détail
             </Menu.Item>
             <Menu.Item key="ajouterInspection" icon={<PlusOutlined style={{ color: 'orange' }} />}>
@@ -55,8 +55,8 @@ const Reparation = () => {
 
             <Menu.Divider />
 
-          <Menu.SubMenu key="suivi" title="Suivi" icon={<FileTextOutlined style={{ color: '#1890ff' }}/>}>
-            <Menu.Item key="voirDetail" icon={<EyeOutlined style={{ color: 'green' }} />}>
+          <Menu.SubMenu key="suivi" title="Suivi" icon={<FileTextOutlined style={{ color: 'green' }}/>}>
+            <Menu.Item key="voirDetail" icon={<EyeOutlined style={{ color: '#1890ff' }} />}>
               Voir Détail
             </Menu.Item>
             <Menu.Item key="ajouterSuivi" icon={<PlusOutlined style={{ color: 'orange' }} />}>
