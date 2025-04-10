@@ -154,10 +154,6 @@ const Reparation = () => {
             )
         },
         {
-            title: 'Description',
-            dataIndex: 'commentaire'
-        },
-        {
             title: 'Fournisseur',
             dataIndex: 'nom_fournisseur'
         },
