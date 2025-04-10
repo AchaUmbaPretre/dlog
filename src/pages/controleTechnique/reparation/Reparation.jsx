@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ToolOutlined, FileTextOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { ToolOutlined, PlusOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Input, Button, Dropdown, Menu, notification, Space, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
@@ -37,6 +37,34 @@ const Reparation = () => {
     useEffect(()=> {
         fetchData()
     }, [])
+
+    const menu = (
+        <Menu >
+          <Menu.SubMenu
+            key="inspection"
+            title="Inspection"
+            icon={<FileTextOutlined style={{ color: '#1890ff' }} />}
+          >
+            <Menu.Item key="voirDetail" icon={<EyeOutlined style={{ color: 'green' }} />}>
+              Voir Détail
+            </Menu.Item>
+            <Menu.Item key="ajouterInspection" icon={<PlusOutlined style={{ color: 'orange' }} />}>
+              Ajouter Inspection
+            </Menu.Item>
+          </Menu.SubMenu>
+
+            <Menu.Divider />
+
+          <Menu.SubMenu key="suivi" title="Suivi" icon={<FileTextOutlined style={{ color: '#1890ff' }}/>}>
+            <Menu.Item key="voirDetail" icon={<EyeOutlined style={{ color: 'green' }} />}>
+              Voir Détail
+            </Menu.Item>
+            <Menu.Item key="ajouterSuivi" icon={<PlusOutlined style={{ color: 'orange' }} />}>
+              Ajouter Suivi
+            </Menu.Item>
+          </Menu.SubMenu>
+        </Menu>
+      );
 
     const columns = [
         { 
@@ -101,27 +129,9 @@ const Reparation = () => {
             title: 'Actions',
             dataIndex: 'actions',
             render : (text, record) => (
-                <Space>
-                    <Dropdown
-                        overlay={(
-                            <Menu>
-                                <Menu.Item>
-                                    <FileTextOutlined /> Liste des docs
-                                </Menu.Item>
-                                <Menu.Item >
-                                    <FileTextOutlined /> Créer un doc
-                                </Menu.Item>
-                            </Menu>
-                        )}
-                    >
-
-                    </Dropdown>
-                    <Button
-                        icon={<MoreOutlined />}
-                        aria-label="Voir les détails de la tâche"
-                        style={{ color: 'blue' }}
-                    />
-                </Space>
+                <Dropdown overlay={menu} trigger={['click']}>
+                    <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
+                </Dropdown>
             )
         }
       ];
