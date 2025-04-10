@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { ToolOutlined, PlusCircleOutlined, CalendarOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
-import { Input, Button, notification, Table, Tag, Tabs, Modal } from 'antd';
+import { ToolOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Input, Button, notification, Space, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
@@ -17,7 +17,8 @@ const Reparation = () => {
     });
     const [data, setData] = useState([]);
     const [modalType, setModalType] = useState(null);
-    const scroll = { x: 400 };
+    const scroll = { x: 'max-content' };
+
     
    const fetchData = async() => {
         try {
@@ -56,15 +57,30 @@ const Reparation = () => {
         },
         {
           title: 'Date debut',
-          dataIndex: 'date_reparation'
+          dataIndex: 'date_reparation',
+          render: (text) => (
+            <Tag icon={<CalendarOutlined />} color="blue">
+                {moment(text).format('DD-MM-YYYY')}
+            </Tag>
+          )
         },
         {
             title: 'Date prevue',
-            dataIndex: 'date_prevu'
+            dataIndex: 'date_prevu',
+            render: (text) => (
+                <Tag icon={<CalendarOutlined />} color="blue">
+                    {moment(text).format('DD-MM-YYYY')}
+                </Tag>
+              )
         },
         {
           title: 'Date fin',
-          dataIndex: 'date_sortie'
+          dataIndex: 'date_sortie',
+          render: (text) => (
+            <Tag icon={<CalendarOutlined />} color="blue">
+                {moment(text).format('DD-MM-YYYY')}
+            </Tag>
+          )
         },
         {
             title: 'Nbre Jour',
@@ -84,7 +100,12 @@ const Reparation = () => {
         },
         {
             title: 'Actions',
-            dataIndex: 'actions'
+            dataIndex: 'actions',
+            render : (text, record) => (
+                <Space>
+
+                </Space>
+            )
         }
       ];
 
