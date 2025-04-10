@@ -207,7 +207,7 @@ const addIcon = (icon) => {
                             name="id_batiment"
                             rules={[{ required: false, message: 'Veuillez entrer l’ID du bâtiment' }]}
                         >
-                        { loadingData ? <Skeleton.Input active={true} /> :
+                            { loadingData ? <Skeleton.Input active={true} /> :
                             <Select
                                 showSearch
                                 options={batiment.map((item) => ({
