@@ -209,6 +209,21 @@ const ReparationForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
 
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="ref_controle"
+                                    label="Ref. Controle Tech"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez fournir une référence...',
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir la ref..." style={{width:'100%'}}/>}
+                                </Form.Item>
+                            </Col>
+
                             <Col xs={24} md={24}>
                                 <Form.Item
                                     name="commentaire"
