@@ -84,7 +84,7 @@ const ReparationForm = ({closeModal, fetchData}) => {
                     <Row gutter={12}>
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="immatricule"
+                                name="id_vehicule"
                                 label="Matricule"
                                 rules={[
                                     {
