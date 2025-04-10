@@ -353,7 +353,7 @@ const addIcon = (icon) => {
                             ))}
                         </div>
                         </div>
-                            )}
+                    )}
 
                     <Col xs={24} md={12}>
                         <Form.Item>

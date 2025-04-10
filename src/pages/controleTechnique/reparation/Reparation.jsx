@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { ToolOutlined, PlusOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
-import { Input, Button, Dropdown, Menu, notification, Space, Table, Tag, Modal } from 'antd';
+import { ToolOutlined, PlusOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, FileTextOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Input, Button, Dropdown, Menu, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
@@ -118,6 +118,15 @@ const Reparation = () => {
             dataIndex: 'nom_marque',
         },
         {
+            title: 'Type réparation',
+            dataIndex: 'type_rep',
+            render: (text) => (
+                <Tag color="green">
+                    {text}
+                </Tag>
+            )
+        },
+        {
           title: 'Date debut',
           dataIndex: 'date_reparation',
           render: (text) => (
@@ -125,15 +134,6 @@ const Reparation = () => {
                 {moment(text).format('DD-MM-YYYY')}
             </Tag>
           )
-        },
-        {
-            title: 'Date prevue',
-            dataIndex: 'date_prevu',
-            render: (text) => (
-                <Tag icon={<CalendarOutlined />} color="blue">
-                    {moment(text).format('DD-MM-YYYY')}
-                </Tag>
-              )
         },
         {
           title: 'Date fin',
@@ -146,7 +146,12 @@ const Reparation = () => {
         },
         {
             title: 'Nbre Jour',
-            dataIndex: 'nb_jours_au_garage'
+            dataIndex: 'nb_jours_au_garage',
+            render: (text) => (
+                <Tag color='orange'>
+                    {text}
+                </Tag>
+            )
         },
         {
             title: 'Description',
@@ -158,8 +163,39 @@ const Reparation = () => {
         },
         {
             title: 'Etat',
-            dataIndex: 'nom_type_statut'
-        },
+            dataIndex: 'nom_type_statut',
+            render: (status) => {
+              let color = 'default';
+              let icon = null;
+          
+              switch (status) {
+                case 'En attente':
+                  color = 'orange';
+                  icon = <ClockCircleOutlined />;
+                  break;
+                case 'En cours':
+                  color = 'blue';
+                  icon = <SyncOutlined spin />;
+                  break;
+                case 'Terminé':
+                  color = 'green';
+                  icon = <CheckCircleOutlined />;
+                  break;
+                case 'Annulé':
+                  color = 'red';
+                  icon = <CloseCircleOutlined />;
+                  break;
+                default:
+                  color = 'default';
+              }
+          
+              return (
+                <Tag icon={icon} color={color} style={{ fontWeight: 500 }}>
+                  {status}
+                </Tag>
+              );
+            }
+          },          
         {
             title: 'Actions',
             dataIndex: 'actions',
