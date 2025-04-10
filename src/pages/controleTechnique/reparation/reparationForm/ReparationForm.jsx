@@ -4,6 +4,8 @@ import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutli
 import { getFournisseur } from '../../../../services/fournisseurService';
 import { getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
+import { getSuivi } from '../../../../services/suiviService';
+import { getTypes } from '../../../../services/typeService';
 
 const { Option } = Select;
 
@@ -12,21 +14,24 @@ const ReparationForm = ({closeModal, fetchData}) => {
     const [loadingData, setLoadingData] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
     const [vehicule, setVehicule] = useState([]);
+    const [etat, setEtat] = useState([]);
     const [reparation, setReparation] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [loading, setLoading] = useState(false);
     
     const fetchDatas = async () => {
         try {
-            const [vehiculeData, fournisseurData, reparationData] = await Promise.all([
+            const [vehiculeData, fournisseurData, reparationData, typesData] = await Promise.all([
                 getVehicule(),
                 getFournisseur(),
-                getTypeReparation()
+                getTypeReparation(),
+                getTypes(),
             ])
 
             setFournisseur(fournisseurData.data)
             setVehicule(vehiculeData.data.data)
             setReparation(reparationData.data.data)
+            setEtat(typesData.data)
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -209,7 +214,7 @@ const ReparationForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={12}>
                                 <Form.Item
                                     name="code_rep"
                                     label="Code de réparation"
@@ -221,6 +226,32 @@ const ReparationForm = ({closeModal, fetchData}) => {
                                     ]}
                                 >
                                     {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir le code de réparation..." style={{width:'100%'}}/>}
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    name="id_etat"
+                                    label="Etat"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez sélectionner un etat...',
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        size='large'
+                                        showSearch
+                                        options={etat.map((item) => ({
+                                            value: item.id_type_statut_suivi                                           ,
+                                            label: `${item.nom_type_statut}`,
+                                        }))}
+                                        placeholder="Sélectionnez un fournisseur..."
+                                        optionFilterProp="label"
+                                    />}
                                 </Form.Item>
                             </Col>
 
