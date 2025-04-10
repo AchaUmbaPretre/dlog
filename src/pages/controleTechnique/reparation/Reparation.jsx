@@ -21,6 +21,7 @@ const Reparation = () => {
     const [data, setData] = useState([]);
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
+    const [idReparation, setIdReparation] = useState('')
 
     
    const fetchData = async() => {
@@ -179,9 +180,10 @@ const Reparation = () => {
         setModalType(null);
       };
       
-    const openModal = (type) => {
+    const openModal = (type, id='') => {
         closeAllModals();
         setModalType(type);
+        setIdReparation(id)
       };
 
   return (
