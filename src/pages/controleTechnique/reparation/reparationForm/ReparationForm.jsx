@@ -211,11 +211,11 @@ const ReparationForm = ({closeModal, fetchData}) => {
 
                             <Col xs={24} md={8}>
                                 <Form.Item
-                                    name="ref_controle"
-                                    label="Ref. Controle Tech"
+                                    name="code_rep"
+                                    label="Code de réparation"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Veuillez fournir une référence...',
                                         }
                                     ]}
