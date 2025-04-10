@@ -27,8 +27,33 @@ const SuiviReparationForm = () => {
                     onFinish={onFinish}
                 >
                     <Row gutter={12}>
-                        <Col xs={24} md={8}>
-
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                name='id_tache'
+                                label="Tache"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez sélectionner un groupe...',
+                                    },
+                                ]}
+                            >
+                                {loadingData ? (
+                                    <Skeleton.Input active={true} />
+                                    ) : (
+                                        <Select
+                                            size='large'
+                                            allowClear
+                                            showSearch
+                                            options={tache.map((item) => ({
+                                                value: item.id_vehicule                                           ,
+                                                label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
+                                            }))}
+                                            placeholder="Sélectionnez un vehicule..."
+                                            optionFilterProp="label"
+                                        />
+                                )}
+                            </Form.Item>
                         </Col>
                     </Row>
                 </Form>
