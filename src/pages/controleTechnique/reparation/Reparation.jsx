@@ -14,7 +14,7 @@ const Reparation = () => {
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 15,
-    });
+    }); 
     const [data, setData] = useState([]);
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
