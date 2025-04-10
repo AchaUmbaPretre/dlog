@@ -4,6 +4,7 @@ import { Input, Button, Dropdown, Menu, notification, Space, Table, Tag, Modal }
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
+import InspectionReparationForm from './inspectionReparation/inspectionReparationForm/InspectionReparationForm';
 
 const { Search } = Input;
 
@@ -38,49 +39,63 @@ const Reparation = () => {
         fetchData()
     }, [])
 
-    const handleClick = ({ key }) => {
-        switch (key) {
-          case 'voirDetail':
-            console.log('Voir détail de', record);
-            break;
-          case 'ajouterInspection':
-            console.log('Ajouter inspection pour', record);
-            break;
-          case 'ajouterSuivi':
-            console.log('Ajouter suivi pour', record);
-            break;
-          default:
-            break;
-        }
+    const getActionMenu = (record, openModal) => {
+        const handleClick = ({ key }) => {
+          switch (key) {
+            case 'voirDetail':
+                openModal('DetailInspection', record.id_reparation)
+              break;
+            case 'ajouterInspection':
+              openModal('AddInspection', record.id_reparation);
+              break;
+            case 'DetailSuivi':
+                openModal('DetailSuivi', record.id_reparation)
+                break;
+            case 'ajouterSuivi':
+                openModal('AddSuivi', record.id_reparation)
+              break;
+            default:
+              break;
+          }
+        };
+      
+        return (
+          <Menu onClick={handleClick}>
+            <Menu.SubMenu
+              key="inspection"
+              title={
+                <>
+                  <FileTextOutlined style={{ color: '#1890ff' }} /> Inspection
+                </>
+              }
+            >
+              <Menu.Item key="voirDetail">
+                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+              </Menu.Item>
+              <Menu.Item key="ajouterInspection">
+                <PlusOutlined style={{ color: 'orange' }} /> Ajouter Inspection
+              </Menu.Item>
+            </Menu.SubMenu>
+      
+            <Menu.SubMenu
+              key="suivi"
+              title={
+                <>
+                  <FileTextOutlined style={{ color: '#722ed1' }} /> Suivi
+                </>
+              }
+            >
+              <Menu.Item key="DetailSuivi">
+                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+              </Menu.Item>
+              <Menu.Item key="ajouterSuivi">
+                <PlusOutlined style={{ color: 'red' }} /> Ajouter Suivi
+              </Menu.Item>
+            </Menu.SubMenu>
+          </Menu>
+        );
       };
-
-    const menu = (
-        <Menu onClick={handleClick}>
-          <Menu.SubMenu
-            key="inspection"
-            title="Inspection"
-            icon={<FileTextOutlined style={{ color: 'green' }} />}
-          >
-            <Menu.Item key="voirDetail" icon={<EyeOutlined style={{ color: '#1890ff' }} />}>
-              Voir Détail
-            </Menu.Item>
-            <Menu.Item key="ajouterInspection" icon={<PlusOutlined style={{ color: 'orange' }} />}>
-              Ajouter Inspection
-            </Menu.Item>
-          </Menu.SubMenu>
-
-            <Menu.Divider />
-
-          <Menu.SubMenu key="suivi" title="Suivi" icon={<FileTextOutlined style={{ color: 'green' }}/>}>
-            <Menu.Item key="voirDetail" icon={<EyeOutlined style={{ color: '#1890ff' }} />}>
-              Voir Détail
-            </Menu.Item>
-            <Menu.Item key="ajouterSuivi" icon={<PlusOutlined style={{ color: 'orange' }} />}>
-              Ajouter Suivi
-            </Menu.Item>
-          </Menu.SubMenu>
-        </Menu>
-      );
+      
 
     const columns = [
         { 
@@ -144,13 +159,15 @@ const Reparation = () => {
         {
             title: 'Actions',
             dataIndex: 'actions',
-            render : (text, record) => (
-                <Dropdown overlay={menu} trigger={['click']}>
-                    <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
-                </Dropdown>
+            render: (text, record) => (
+              <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+                <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
+              </Dropdown>
             )
-        }
+          }
+          
       ];
+
 
     const handleAddReparation = () => openModal('Add')
     
@@ -215,6 +232,28 @@ const Reparation = () => {
             centered
         >
             <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'AddInspection'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+            <InspectionReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'AddInspection'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+            <InspectionReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
     </>
   )
