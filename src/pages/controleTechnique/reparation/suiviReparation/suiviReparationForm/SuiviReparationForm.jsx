@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Form, Input, Select, Upload, Button, notification, Row, Col, Skeleton } from 'antd';
+import { Form, Input, InputNumber, Select, Upload, Button, Divider, Row, Col, Skeleton } from 'antd';
+import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+
 
 const SuiviReparationForm = () => {
     const [form] = Form.useForm();
@@ -7,6 +9,12 @@ const SuiviReparationForm = () => {
     const [loadingData, setLoadingData] = useState(false);
     
     
+    useEffect(() => {
+        form.setFieldsValue({
+            reparations: [{}],
+        });
+    }, []);
+
     const onFinish = async (values) => {
 
     }
@@ -27,35 +35,107 @@ const SuiviReparationForm = () => {
                     onFinish={onFinish}
                 >
                     <Row gutter={12}>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name='id_tache'
-                                label="Tache"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez sélectionner un groupe...',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? (
-                                    <Skeleton.Input active={true} />
-                                    ) : (
+                    </Row>
+                    <Form.List name="reparations">
+                        {(fields, { add, remove }) => (
+                            <>
+                            {fields.map(({ key, name, ...restField }) => (
+                                <Row key={key} gutter={12} align="middle">
+
+                                    <Col xs={24} md={7}>
+                                        <Form.Item
+                                        {...restField}
+                                        name={[name, 'id_tache']}
+                                        label="Tache"
+                                        rules={[
+                                            { required: true, message: 'Veuillez sélectionner une tache...' },
+                                        ]}
+                                        >
                                         <Select
-                                            size='large'
                                             allowClear
                                             showSearch
                                             options={tache.map((item) => ({
-                                                value: item.id_vehicule                                           ,
-                                                label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
+                                                value: item.id_type_reparation,
+                                                label: `${item.type_rep}`,
                                             }))}
-                                            placeholder="Sélectionnez un vehicule..."
+                                            placeholder="Sélectionnez un type de réparation..."
                                             optionFilterProp="label"
                                         />
-                                )}
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={7}>
+                                        <Form.Item
+                                        {...restField}
+                                        name={[name, 'id_piece']}
+                                        label="Piece"
+                                        rules={[
+                                            { required: true, message: 'Veuillez fournir une réparation...' },
+                                        ]}
+                                        >
+                                        <Select
+                                            allowClear
+                                            showSearch
+                                            options={tache.map((item) => ({
+                                                value: item.id_type_reparation,
+                                                label: `${item.type_rep}`,
+                                            }))}
+                                            placeholder="Sélectionnez un type de réparation..."
+                                            optionFilterProp="label"
+                                        />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={7}>
+                                        <Form.Item
+                                        {...restField}
+                                        name={[name, 'montant']}
+                                        label="Montant"
+                                        rules={[
+                                            { required: false, message: 'Veuillez fournir le montant...' },
+                                        ]}
+                                        >
+                                            <InputNumber size='large' min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={2}>
+                                        <Button
+                                        type="text"
+                                        danger
+                                        icon={<MinusCircleOutlined />}
+                                        onClick={() => remove(name)}
+                                        >
+                                        </Button>
+                                    </Col>
+
+                                </Row>
+                            ))}
+                            <Form.Item>
+                                <Button
+                                type="dashed"
+                                onClick={() => add()}
+                                icon={<PlusCircleOutlined />}
+                                style={{ width: '100%' }}
+                                >
+                                Ajouter un suivi
+                                </Button>
                             </Form.Item>
-                        </Col>
-                    </Row>
+                            </>
+                        )}
+                    </Form.List>
+
+                    <Col xs={24} md={24}>
+                        <Form.Item
+                            name="commentaire"
+                            label="Commentaire"
+                            rules={[
+                                {
+                                    required: false,
+                                    message: 'Veuillez fournir un commentaire...',
+                                }
+                            ]}
+                        >
+                            {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
+                        </Form.Item>
+                    </Col>
                 </Form>
             </div>
         </div>
