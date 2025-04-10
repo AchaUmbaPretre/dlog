@@ -220,7 +220,7 @@ const ReparationForm = ({closeModal, fetchData}) => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir la ref..." style={{width:'100%'}}/>}
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir le code de réparation..." style={{width:'100%'}}/>}
                                 </Form.Item>
                             </Col>
 
