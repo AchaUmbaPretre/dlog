@@ -3,6 +3,7 @@ import { ToolOutlined, PlusCircleOutlined, CalendarOutlined, CheckCircleOutlined
 import { Input, Button, notification, Table, Tag, Tabs, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
+import { getReparation } from '../../../services/charroiService';
 
 const { Search } = Input;
 
@@ -20,9 +21,9 @@ const Reparation = () => {
     
    const fetchData = async() => {
         try {
-/*              const { data } = await getControleTechnique();
+            const { data } = await getReparation();
             setData(data.data);
-            setLoading(false); */
+            setLoading(false);
 
         } catch (error) {
             notification.error({
