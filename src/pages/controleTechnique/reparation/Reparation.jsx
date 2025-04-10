@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { ToolOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
-import { Input, Button, notification, Space, Table, Tag, Modal } from 'antd';
+import { ToolOutlined, FileTextOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Input, Button, Dropdown, Menu, notification, Space, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
 
 const { Search } = Input;
-
 
 const Reparation = () => {
     const [searchValue, setSearchValue] = useState('');
@@ -103,7 +102,25 @@ const Reparation = () => {
             dataIndex: 'actions',
             render : (text, record) => (
                 <Space>
+                    <Dropdown
+                        overlay={(
+                            <Menu>
+                                <Menu.Item>
+                                    <FileTextOutlined /> Liste des docs
+                                </Menu.Item>
+                                <Menu.Item >
+                                    <FileTextOutlined /> Créer un doc
+                                </Menu.Item>
+                            </Menu>
+                        )}
+                    >
 
+                    </Dropdown>
+                    <Button
+                        icon={<MoreOutlined />}
+                        aria-label="Voir les détails de la tâche"
+                        style={{ color: 'blue' }}
+                    />
                 </Space>
             )
         }
