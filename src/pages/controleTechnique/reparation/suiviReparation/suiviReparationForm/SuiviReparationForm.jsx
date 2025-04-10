@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Form, Input, InputNumber, Select, Upload, Button, Divider, Row, Col, Skeleton } from 'antd';
-import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Card, InputNumber, Select, Button, Row, Col, Skeleton } from 'antd';
+import { PlusCircleOutlined, MinusCircleOutlined, SendOutlined } from '@ant-design/icons';
 
 
 const SuiviReparationForm = () => {
@@ -34,8 +34,9 @@ const SuiviReparationForm = () => {
                     className="custom-form"
                     onFinish={onFinish}
                 >
-                    <Row gutter={12}>
-                    </Row>
+                    <Card>
+
+                    </Card>
                     <Form.List name="reparations">
                         {(fields, { add, remove }) => (
                             <>
@@ -136,6 +137,11 @@ const SuiviReparationForm = () => {
                             {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
                         </Form.Item>
                     </Col>
+                    <div style={{ marginTop: '20px' }}>
+                        <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
+                            Soumettre
+                        </Button>
+                    </div>
                 </Form>
             </div>
         </div>
