@@ -52,11 +52,15 @@ const Reparation = () => {
         },
         {
           title: 'Date debut',
-          dataIndex: 'date_debut'
+          dataIndex: 'date_reparation'
+        },
+        {
+            title: 'Date prevue',
+            dataIndex: 'date_prevu'
         },
         {
           title: 'Date fin',
-          dataIndex: 'date_fin'
+          dataIndex: 'date_sortie'
         },
         {
             title: 'Nbre Jour',
@@ -64,7 +68,7 @@ const Reparation = () => {
         },
         {
             title: 'Description',
-            dataIndex: 'description'
+            dataIndex: 'commentaire'
         },
         {
             title: 'Fournisseur',
@@ -73,10 +77,6 @@ const Reparation = () => {
         {
             title: 'Etat',
             dataIndex: 'etat'
-        },
-        {
-            title: 'Suivie',
-            dataIndex: 'suivie'
         },
         {
             title: 'Actions',
