@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, notification, Table, Tag, Tabs, Modal } from 'antd';
-import { RetweetOutlined, ShopOutlined, ScanOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { RetweetOutlined, FileSearchOutlined, ShopOutlined, ScanOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import ControleTechniqueForm from './controleTechniqueForm/ControleTechniqueForm';
 import { getControleTechnique } from '../../services/charroiService';
@@ -188,6 +188,23 @@ const ControleTechnique = () => {
             <TabPane
                 tab={
                     <span>
+                        <FileSearchOutlined
+                            style={{
+                                color: 'green',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Inspection
+                    </span>
+                }
+                key="1"
+            >
+                <Reparation/>
+            </TabPane>
+            <TabPane
+                tab={
+                    <span>
                         <ScanOutlined
                             style={{
                                color: '#1890ff',
@@ -198,7 +215,7 @@ const ControleTechnique = () => {
                         Controle technique
                     </span>
                 }
-                key="1"
+                key="2"
             >
                 <div className="client">
                     <div className="client-wrapper">
@@ -253,7 +270,7 @@ const ControleTechnique = () => {
                             Réparations
                     </span>
                 }
-                key="2"
+                key="3"
             >
                 <Reparation/>
             </TabPane>
