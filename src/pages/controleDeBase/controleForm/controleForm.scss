@@ -1,18 +1,23 @@
 .controle_form {
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
   
-    .controle_title_row{
+    .controle_title_rows {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #f2f2f2;
-      padding: 10px;
+      background-color: rgba(0, 123, 255, 0.137); // Bleu avec opacité faible
+      padding: 10px 20px;
       margin-bottom: 20px;
-      .controle_h2{
+      border-radius: 6px;
+    
+      .controle_h2 {
         font-weight: 300;
+        color: #0056b3; // Un bleu foncé pour contraster
+        margin: 0;
       }
     }
+    
     .controle_title_rows{
       background: #f2f2f2;
       padding: 10px;

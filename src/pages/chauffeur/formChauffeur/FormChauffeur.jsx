@@ -79,7 +79,8 @@ const onFinish = async (values) => {
 
     
       const handleUploadChange = ({ fileList }) => {
-        setFileList(fileList);
+        setFileList(fileList.slice(-1));
+        
         if (fileList.length > 0) {
           setPreviewImage(URL.createObjectURL(fileList[0].originFileObj));
           setCropping(true);

@@ -59,7 +59,7 @@ const ReparationForm = ({closeModal, fetchData}) => {
             form.resetFields();
             fetchData();
             closeModal()
-            
+
         } catch (error) {
             console.error("Erreur lors de l'ajout de controle technique:", error);
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });
@@ -75,9 +75,6 @@ const ReparationForm = ({closeModal, fetchData}) => {
   return (
     <>
         <div className="controle_form">
-            <div className="controle_title_rows">
-                <h2 className="controle_h2">ENREGISTRER UNE REPARATION</h2>
-            </div>
             <div className="controle_wrapper">
                 <Form
                     form={form}
