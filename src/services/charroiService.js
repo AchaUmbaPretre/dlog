@@ -130,6 +130,11 @@ export const getTypeReparation = async () => {
     return axios.get(`${DOMAIN}/api/charroi/type_reparation`);
 }
 
+//Statut véhicule
+export const getStatutVehicule = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/statut_vehicule`);
+}
+
 //Réparation
 export const getReparation = async () => {
     return axios.get(`${DOMAIN}/api/charroi/reparation`);
