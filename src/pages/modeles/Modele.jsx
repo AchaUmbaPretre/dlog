@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, notification, Space, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
 import { CarOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { getMarque } from '../../services/charroiService';
+import { getMarque, getModeleAll } from '../../services/charroiService';
 import ModeleForm from './modeleForm/ModeleForm';
 
 const { Search } = Input;
@@ -21,7 +21,7 @@ const Modele = () => {
     
        const fetchData = async() => {
             try {
-                const { data } = await getMarque();
+                const { data } = await getModeleAll();
                 setData(data);
                 setLoading(false);
     
@@ -46,10 +46,14 @@ const Modele = () => {
             render: (text, record, index) => index + 1, 
             width: "3%" 
           },
-        {
-            title: 'Marque',
-            dataIndex: 'nom_marque',
-        }      
+          {
+            title: 'Modèle',
+            dataIndex: 'modele',
+            } ,
+            {
+                title: 'Marque',
+                dataIndex: 'nom_marque',
+            } ,     
 /*         {
             title: 'Actions',
             dataIndex: 'actions',
@@ -80,7 +84,7 @@ const Modele = () => {
                     <div className="client-row-icon">
                         <CarOutlined className='client-icon'/>
                     </div>
-                    <h2 className="client-h2">Liste des marques</h2>
+                    <h2 className="client-h2">Liste des modèles</h2>
                 </div>
 
                 <div className="client-actions">
@@ -97,7 +101,7 @@ const Modele = () => {
                             icon={<PlusCircleOutlined />}
                             onClick={handleAddMarque}
                         >
-                            Ajouter une marque
+                            Ajouter un modèle
                         </Button>
                     </div>
                 </div>
