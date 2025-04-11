@@ -59,6 +59,11 @@ const InspectionGen = () => {
         {
             title: 'Matricule',
             dataIndex: 'immatriculation',
+            render: (text, record) => (
+                <Tag color="green">
+                    {text}
+                </Tag>
+            )
         },
         {
             title: 'Marque',
