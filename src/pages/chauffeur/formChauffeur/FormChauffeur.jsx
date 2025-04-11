@@ -28,7 +28,7 @@ const FormChauffeur = ({fetchData, closeModal}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setLoading(true);
+                setLoadingData(true);
     
                 const [catPermisData, typeContratData, etatCivilData, typeFonctionData] = await Promise.all([
                     getPermis(),
@@ -46,7 +46,7 @@ const FormChauffeur = ({fetchData, closeModal}) => {
                 setError('Une erreur est survenue lors du chargement des données.');
                 console.error(error);
             } finally {
-                setLoading(false);
+                setLoadingData(false);
             }
         };
     
@@ -55,6 +55,8 @@ const FormChauffeur = ({fetchData, closeModal}) => {
 
     
     const onFinish = async (values) => {
+        
+        setLoading(true)
         try {
             if (fileList.length > 0) {
                 values.profil = fileList[0].originFileObj;
@@ -73,6 +75,8 @@ const FormChauffeur = ({fetchData, closeModal}) => {
         } catch (error) {
             message.error({ content: 'Une erreur est survenue.', key: 'submit' });
             console.error('Erreur lors de l\'ajout du chauffeur:', error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -403,7 +407,7 @@ const FormChauffeur = ({fetchData, closeModal}) => {
                         </Row>
                         <Divider />
                         <Row justify="center">
-                            <Button type="primary" htmlType="submit" loading={loadingData}>
+                            <Button type="primary" htmlType="submit" loading={loading}>
                                 Enregistrer
                             </Button>
                         </Row>
