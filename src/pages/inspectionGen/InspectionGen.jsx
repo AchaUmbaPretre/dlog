@@ -74,7 +74,7 @@ const InspectionGen = () => {
             )
         },
         {
-            title: 'Date validation',
+            title: 'Date',
             dataIndex: 'date_validation',
             render: (text) => (
               <Tag icon={<CalendarOutlined />} color="blue">
