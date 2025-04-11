@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
+import { getMarque } from '../../../services/charroiService';
 
 const ModeleForm = () => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
-    const [modele, setModele] = useState([]);
+    const [marque, setMarque] = useState([]);
     
+    useEffect(()=> {
+        const fetchData = async() => {
+            const { data } = await getMarque();
+            setMarque(data)
+        }
+        fetchData()
+    }, [])
+
     const onFinish = () => {
 
     }
@@ -29,6 +38,21 @@ const ModeleForm = () => {
                     <Row gutter={12}>
                         <Col xs={24} md={12}>
                             <Form.Item
+                                name="nom_modele"
+                                label="Modèle"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Veuillez fournir un modèle...',
+                                    }
+                                ]}
+                            >
+                                {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir le modèle..." style={{width:'100%'}}/>}
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={12}>
+                            <Form.Item
                                 name="id_marque"
                                 label="Marque"
                                 rules={[
@@ -38,37 +62,22 @@ const ModeleForm = () => {
                                     }
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir la marque..." style={{width:'100%'}}/>}
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="id_modele"
-                                label="Modèle"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir un modèle...',
-                                    }
-                                ]}
-                            >
                                 {loadingData ? <Skeleton.Input active={true} /> : 
                                 <Select
                                     allowClear
                                     size='large'
                                     showSearch
-                                    options={modele.map((item) => ({
-                                        value: item.id_modele                                           ,
-                                        label: `${item.nom_modele}`,
+                                    options={marque.map((item) => ({
+                                        value: item.id_marque                                           ,
+                                        label: `${item.nom_marque}`,
                                     }))}
-                                    placeholder="Sélectionnez un modele..."
+                                    placeholder="Sélectionnez une marque..."
                                     optionFilterProp="label"
                                 />}
                             </Form.Item>
                         </Col>
 
-                        <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
+                        <Button type="primary" size='large' htmlType="submit" icon={<SendOutlined />}>
                             Soumettre
                         </Button>
                     </Row>

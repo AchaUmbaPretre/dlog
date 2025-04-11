@@ -168,7 +168,7 @@ const Marque = () => {
             visible={modalType === 'Add'}
             onCancel={closeAllModals}
             footer={null}
-            width={900}
+            width={700}
             centered
         >
             <MarqueForm closeModal={() => setModalType(null)} fetchData={fetchData} />

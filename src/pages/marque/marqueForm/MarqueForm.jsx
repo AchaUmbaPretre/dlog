@@ -27,9 +27,9 @@ const MarqueForm = () => {
                     onFinish={onFinish}
                 >
                     <Row gutter={12}>
-                        <Col xs={24} md={12}>
+                        <Col xs={24} md={24}>
                             <Form.Item
-                                name="id_marque"
+                                name="nom_marque"
                                 label="Marque"
                                 rules={[
                                     {
@@ -39,32 +39,6 @@ const MarqueForm = () => {
                                 ]}
                             >
                                 {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir la marque..." style={{width:'100%'}}/>}
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="id_modele"
-                                label="Modèle"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir un modèle...',
-                                    }
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    size='large'
-                                    showSearch
-                                    options={modele.map((item) => ({
-                                        value: item.id_modele                                           ,
-                                        label: `${item.nom_modele}`,
-                                    }))}
-                                    placeholder="Sélectionnez un modele..."
-                                    optionFilterProp="label"
-                                />}
                             </Form.Item>
                         </Col>
 
