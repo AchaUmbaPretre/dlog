@@ -41,16 +41,15 @@ const InspectionGenForm = () => {
                                     }))}
                                     optionFilterProp="label"
                                     placeholder="Sélectionnez un vehicule..."
-                                    size='large'
                                 /> }
                             </Form.Item>
                         </Col>
 
                         <Col xs={24} md={12}>
                             <Form.Item
-                                label="Catégorie d'Instruction"
-                                name="id_cat_instruction"
-                                rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
+                                label="Chauffeur"
+                                name="id_chauffeur"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un chauffeur' }]}
                             >
                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                 <Select
@@ -62,7 +61,6 @@ const InspectionGenForm = () => {
                                         }))}
                                     optionFilterProp="label"
                                     placeholder="Sélectionnez une categorie..."
-                                    size='large'
                                 /> }
                             </Form.Item>
                         </Col>
