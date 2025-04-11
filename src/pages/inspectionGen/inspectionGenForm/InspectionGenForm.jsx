@@ -224,7 +224,7 @@ const InspectionGenForm = () => {
                                                 {fields.map(({ key, name, ...restField }) => (
                                                     <Row key={key} gutter={12} align="middle">
                     
-                                                        <Col xs={24} md={7}>
+                                                        <Col xs={24} md={12}>
                                                             <Form.Item
                                                             {...restField}
                                                             name={[name, 'id_type_reparation']}
@@ -245,7 +245,7 @@ const InspectionGenForm = () => {
                                                             />
                                                             </Form.Item>
                                                         </Col>
-                                                        <Col xs={24} md={7}>
+                                                        <Col xs={24} md={12}>
                                                             <Form.Item
                                                             {...restField}
                                                             name={[name, 'montant']}
@@ -255,21 +255,6 @@ const InspectionGenForm = () => {
                                                             ]}
                                                             >
                                                                 <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
-                                                            </Form.Item>
-                                                        </Col>
-                                                        <Col xs={24} md={8}>
-                                                            <Form.Item
-                                                            {...restField}
-                                                            name={[name, 'description']}
-                                                            label="Description"
-                                                            rules={[
-                                                                { required: true, message: 'Veuillez fournir une description...' },
-                                                            ]}
-                                                            >
-                                                                <Input.TextArea
-                                                                    placeholder="Saisir la description"
-                                                                    style={{ width: '100%', resize: 'none' }}
-                                                                />
                                                             </Form.Item>
                                                         </Col>
                                                         <Col xs={24} md={2}>
