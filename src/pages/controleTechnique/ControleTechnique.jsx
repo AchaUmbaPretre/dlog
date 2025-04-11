@@ -6,6 +6,7 @@ import ControleTechniqueForm from './controleTechniqueForm/ControleTechniqueForm
 import { getControleTechnique } from '../../services/charroiService';
 import TabPane from 'antd/es/tabs/TabPane';
 import Reparation from './reparation/Reparation';
+import InspectionGen from '../inspectionGen/InspectionGen';
 
 const { Search } = Input;
 
@@ -200,7 +201,7 @@ const ControleTechnique = () => {
                 }
                 key="1"
             >
-                <Reparation/>
+                <InspectionGen/>
             </TabPane>
             <TabPane
                 tab={
