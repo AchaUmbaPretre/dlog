@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Tag, Table, Modal, notification } from 'antd';
-import { FileSearchOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { Input, Button, Menu, Tag, Table, Dropdown, Modal, notification } from 'antd';
+import { FileSearchOutlined, PlusOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
@@ -48,6 +48,48 @@ const InspectionGen = () => {
         setModalType(type);
     };
 
+    const getActionMenu = (record, openModal) => {
+        const handleClick = ({ key }) => {
+          switch (key) {
+            case 'voirDetail':
+                openModal('DetailInspection', record.id_reparation)
+              break;
+            case 'ajouterInspection':
+              openModal('AddInspection', record.id_reparation);
+              break;
+            case 'DetailSuivi':
+                openModal('DetailSuivi', record.id_reparation)
+                break;
+            case 'ajouterSuivi':
+                openModal('AddSuivi', record.id_reparation)
+              break;
+            default:
+              break;
+          }
+        };
+      
+        return (
+          <Menu onClick={handleClick}>
+            <Menu.SubMenu
+              key="inspection"
+              title={
+                <>
+                  <FileTextOutlined style={{ color: '#1890ff' }} /> Inspection
+                </>
+              }
+            >
+              <Menu.Item key="voirDetail">
+                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+              </Menu.Item>
+              <Menu.Item key="ajouterInspection">
+                <PlusOutlined style={{ color: 'orange' }} /> Réparer
+              </Menu.Item>
+            </Menu.SubMenu>
+    
+          </Menu>
+        );
+      };
+
     const columns = [
         { 
             title: '#', 
@@ -75,8 +117,8 @@ const InspectionGen = () => {
             )
         },
         {
-            title: 'Date rep',
-            dataIndex: 'date_reparation',
+            title: 'Date',
+            dataIndex: 'date_inspection',
             render: (text) => (
               <Tag icon={<CalendarOutlined />} color="blue">
                   {moment(text).format('DD-MM-YYYY')}
@@ -84,14 +126,27 @@ const InspectionGen = () => {
             )
         },
         {
-            title: 'Date',
-            dataIndex: 'created_at',
-            render: (text) => (
-              <Tag icon={<CalendarOutlined />} color="blue">
-                  {moment(text).format('DD-MM-YYYY')}
-              </Tag>
-            )
-        },
+            title: 'Date rep',
+            dataIndex: 'date_reparation',
+            render: (text) => {
+              if (!text) {
+                return (
+                  <Tag icon={<CalendarOutlined />} color="red">
+                    Aucune date
+                  </Tag>
+                );
+              }
+          
+              const date = moment(text);
+              const isValid = date.isValid();
+          
+              return (
+                <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                  {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
+                </Tag>
+              );
+            }
+          },          
         {
             title: 'Préoccupations',
             dataIndex: 'commentaire',
@@ -107,16 +162,38 @@ const InspectionGen = () => {
         {
             title: 'Date validation',
             dataIndex: 'date_validation',
-            render: (text) => (
-              <Tag icon={<CalendarOutlined />} color="blue">
-                  {moment(text).format('DD-MM-YYYY')}
-              </Tag>
-            )
+            render: (text) => {
+                if (!text) {
+                  return (
+                    <Tag icon={<CalendarOutlined />} color="red">
+                      Aucune date
+                    </Tag>
+                  );
+                }
+            
+                const date = moment(text);
+                const isValid = date.isValid();
+            
+                return (
+                  <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                    {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
+                  </Tag>
+                );
+              }
         },
         {
             title: "Statut",
             dataIndex: 'statut',
         },
+        {
+            title: 'Actions',
+            dataIndex: 'actions',
+            render: (text, record) => (
+              <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+                <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
+              </Dropdown>
+            )
+          }
     ]
     
 
