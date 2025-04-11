@@ -127,8 +127,8 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
 
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="date_reparation"
-                                label="Date reparation"
+                                name="date_inspection"
+                                label="Date_inspection"
                                 rules={[
                                     {
                                         required: true,
