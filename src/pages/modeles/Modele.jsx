@@ -65,7 +65,7 @@ const Modele = () => {
           } */
       ];
 
-      const handleAddMarque = () => openModal('Add')
+      const handleAddModele = () => openModal('Add')
 
       const closeAllModals = () => {
         setModalType(null);
@@ -99,7 +99,7 @@ const Modele = () => {
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined />}
-                            onClick={handleAddMarque}
+                            onClick={handleAddModele}
                         >
                             Ajouter un modèle
                         </Button>
