@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, Tag, Table, Modal, notification } from 'antd';
-import { FileSearchOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
@@ -60,7 +60,7 @@ const InspectionGen = () => {
             title: 'Matricule',
             dataIndex: 'immatriculation',
             render: (text, record) => (
-                <Tag color="green">
+                <Tag icon={<CarOutlined />} color="green">
                     {text}
                 </Tag>
             )
@@ -68,6 +68,11 @@ const InspectionGen = () => {
         {
             title: 'Marque',
             dataIndex: 'nom_marque',
+            render: (text, record) => (
+                <Tag icon={<CarOutlined />} color="orange">
+                    {text}
+                </Tag>
+            )
         },
         {
             title: 'Date rep',
@@ -80,7 +85,7 @@ const InspectionGen = () => {
         },
         {
             title: 'Date',
-            dataIndex: 'date_validation',
+            dataIndex: 'created_at',
             render: (text) => (
               <Tag icon={<CalendarOutlined />} color="blue">
                   {moment(text).format('DD-MM-YYYY')}
