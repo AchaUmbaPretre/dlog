@@ -40,12 +40,12 @@ const MarqueForm = () => {
 
                         <Col xs={24} md={12}>
                             <Form.Item
-                                name="id_marque"
-                                label="Marque"
+                                name="id_modele"
+                                label="Modèle"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Veuillez fournir une marque...',
+                                        message: 'Veuillez fournir un modèle...',
                                     }
                                 ]}
                             >
