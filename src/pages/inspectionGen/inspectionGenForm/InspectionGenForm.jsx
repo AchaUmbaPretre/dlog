@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Row, Divider, Col, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
+import { Form, Row, Divider, Col, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
-import { getChauffeur, getStatutVehicule, getTypeReparation, getVehicule } from '../../../services/charroiService';
+import { getChauffeur, getStatutVehicule, getTypeReparation, getVehicule, postInspectionGen } from '../../../services/charroiService';
 import { getFournisseur } from '../../../services/fournisseurService';
+import { useSelector } from 'react-redux';
 
-const InspectionGenForm = () => {
+const InspectionGenForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ chauffeur, setChauffeur ] = useState([])
@@ -13,6 +14,8 @@ const InspectionGenForm = () => {
     const [ fournisseur, setFournisseur ] = useState([]);
     const [ reparation, setReparation ] = useState([]);
     const [ statut, setStatut ] = useState([]);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+
 
     const fetchDatas = async () => {
 
@@ -41,8 +44,32 @@ const InspectionGenForm = () => {
         fetchDatas()
     }, [])
 
-    const handleSubmit = async (values) => {
-
+    const onFinish = async (values) => {
+        await form.validateFields();
+        const loadingKey = 'loadingReparation';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+        
+        setLoading(true)
+        try {
+            await postInspectionGen({
+                ...values,
+                user_cr : userId
+            })
+            message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
+            form.resetFields();
+            fetchData();
+            closeModal()
+            
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de controle technique:", error);
+            message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+            notification.error({
+                message: 'Erreur',
+                description: `${error.response?.data?.error}`,
+            });
+        } finally {
+            setLoading(false);
+        }
     }
 
   return (
@@ -55,7 +82,7 @@ const InspectionGenForm = () => {
                 <Form
                     form={form}
                     layout="vertical"
-                    onFinish={handleSubmit}
+                    onFinish={onFinish}
                 >
                     <Row gutter={12}>
                         <Col xs={24} md={8}>
@@ -142,7 +169,7 @@ const InspectionGenForm = () => {
                                 label="Fournisseur"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez selectionner un fournisseur...',
                                     },
                                 ]}
@@ -163,7 +190,7 @@ const InspectionGenForm = () => {
 
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="id_statut_vehicule "
+                                name="id_statut_vehicule"
                                 label="Statut véhicule"
                                 rules={[
                                     {
@@ -176,11 +203,11 @@ const InspectionGenForm = () => {
                                 <Select
                                     allowClear
                                     showSearch
-                                    options={fournisseur.map((item) => ({
-                                        value: item.id_fournisseur                                           ,
-                                        label: `${item.nom_fournisseur}`,
+                                    options={statut.map((item) => ({
+                                        value: item.id_statut_vehicule                                           ,
+                                        label: `${item.nom_statut_vehicule}`,
                                     }))}
-                                    placeholder="Sélectionnez un fournisseur..."
+                                    placeholder="Sélectionnez un statut..."
                                     optionFilterProp="label"
                                 /> }
                             </Form.Item>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Table, Modal, notification } from 'antd';
-import { FileSearchOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { Input, Button, Tag, Table, Modal, notification } from 'antd';
+import { FileSearchOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
+import { getInspectionGen } from '../../services/charroiService';
+import moment from 'moment';
 
 const { Search } = Input;
 
@@ -18,8 +20,8 @@ const InspectionGen = () => {
 
         const fetchData = async() => {
             try {
-                 /* const { data } = await getControleTechnique();
-                setData(data.data); */
+                const { data } = await getInspectionGen();
+                setData(data);
                 setLoading(false);
     
             } catch (error) {
@@ -46,7 +48,32 @@ const InspectionGen = () => {
         setModalType(type);
     };
 
-    const columns = []
+    const columns = [
+        { 
+            title: '#', 
+            dataIndex: 'id', 
+            key: 'id', 
+            render: (text, record, index) => index + 1, 
+            width: "3%" 
+        },
+        {
+            title: 'Matricule',
+            dataIndex: 'immatriculation',
+        },
+        {
+            title: 'Marque',
+            dataIndex: 'nom_marque',
+        },
+        {
+            title: 'Date debut',
+            dataIndex: 'date_reparation',
+            render: (text) => (
+              <Tag icon={<CalendarOutlined />} color="blue">
+                  {moment(text).format('DD-MM-YYYY')}
+              </Tag>
+            )
+        },
+    ]
     
 
   return (

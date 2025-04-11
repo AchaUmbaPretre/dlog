@@ -143,3 +143,12 @@ export const getReparation = async () => {
 export const postReparation = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/reparation`, data);
 }
+
+//Inspection gen
+export const getInspectionGen = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/inspection_gen`);
+}
+
+export const postInspectionGen= async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/inspection_gen`, data);
+}
