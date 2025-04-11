@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
+import { SendOutlined } from '@ant-design/icons';
 
 const MarqueForm = () => {
     const [form] = Form.useForm();
@@ -9,7 +10,7 @@ const MarqueForm = () => {
     const onFinish = () => {
 
     }
-    
+
   return (
     <>
         <div className="controle_form">

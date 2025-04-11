@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, notification, Space, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
 import { CarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getMarque } from '../../services/charroiService';
-import MarqueForm from './marqueForm/MarqueForm';
+import ModeleForm from './modeleForm/ModeleForm';
 
 const { Search } = Input;
 
 
-const Marque = () => {
+const Modele = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
@@ -123,10 +123,10 @@ const Marque = () => {
             width={900}
             centered
         >
-            <MarqueForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <ModeleForm closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
     </>
   )
 }
 
-export default Marque
+export default Modele
