@@ -61,7 +61,7 @@ const InspectionGenForm = () => {
                                         }))}
                                     optionFilterProp="label"
                                     placeholder="Sélectionnez une categorie..."
-                                /> }
+                                />}
                             </Form.Item>
                         </Col>
                     </Row>
