@@ -61,6 +61,7 @@ import Chauffeur from './pages/chauffeur/Chauffeur';
 import Affectations from './pages/charroi/affectations/Affectations';
 import Sites from './pages/charroi/sites/Sites';
 import ControleTechnique from './pages/controleTechnique/ControleTechnique';
+import Marque from './pages/marque/Marque';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -320,6 +321,10 @@ function App() {
         {
           path: '/liste_reparation',
           element: <ControleTechnique/>
+        },
+        {
+          path: '/marque',
+          element: <Marque/>
         }
       ]
     },
