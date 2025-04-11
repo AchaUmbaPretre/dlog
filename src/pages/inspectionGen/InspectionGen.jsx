@@ -1,23 +1,25 @@
-import React, { useState } from 'react'
-import { Input, Button, Table } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Input, Button, Table, Modal, notification } from 'antd';
 import { FileSearchOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 
 const { Search } = Input;
 
 const InspectionGen = () => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 15,
     });
+    const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
 
-/*         const fetchData = async() => {
+        const fetchData = async() => {
             try {
-                 const { data } = await getControleTechnique();
-                setData(data.data);
+                 /* const { data } = await getControleTechnique();
+                setData(data.data); */
                 setLoading(false);
     
             } catch (error) {
@@ -31,11 +33,18 @@ const InspectionGen = () => {
     
         useEffect(()=> {
             fetchData()
-        }, []) */
+        }, [])
 
-    const handleAddInspection = () => {
+    const handleAddInspection = () => openModal('Add');
 
-    }
+    const closeAllModals = () => {
+        setModalType(null);
+    };
+
+    const openModal = (type) => {
+        closeAllModals();
+        setModalType(type);
+    };
 
     const columns = []
     
@@ -81,6 +90,16 @@ const InspectionGen = () => {
                 />
             </div>
         </div>
+        <Modal
+            title=""
+            visible={modalType === 'Add'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+            <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }
