@@ -81,11 +81,11 @@ const MarqueForm = ({closeModal, fetchData}) => {
                                     }
                                 ]}
                             >
-                                <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir la marque..." style={{width:'100%'}}/>
+                                <Input size='large' placeholder="Saisir la marque..." style={{width:'100%'}}/>
                             </Form.Item>
                         </Col>
 
-                        <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
+                        <Button type="primary" loading={loading} size='large' htmlType="submit" icon={<SendOutlined />}>
                             Soumettre
                         </Button>
                     </Row>
