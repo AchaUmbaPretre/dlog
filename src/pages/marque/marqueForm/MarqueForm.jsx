@@ -6,7 +6,10 @@ const MarqueForm = () => {
     const [loadingData, setLoadingData] = useState(false);
     const [modele, setModele] = useState([]);
     
+    const onFinish = () => {
 
+    }
+    
   return (
     <>
         <div className="controle_form">
@@ -50,19 +53,23 @@ const MarqueForm = () => {
                                 ]}
                             >
                                 {loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        allowClear
-                                        size='large'
-                                        showSearch
-                                        options={etat.map((item) => ({
-                                            value: item.id_type_statut_suivi                                           ,
-                                            label: `${item.nom_type_statut}`,
-                                        }))}
-                                        placeholder="Sélectionnez un fournisseur..."
-                                        optionFilterProp="label"
-                                    />}
+                                <Select
+                                    allowClear
+                                    size='large'
+                                    showSearch
+                                    options={modele.map((item) => ({
+                                        value: item.id_modele                                           ,
+                                        label: `${item.nom_modele}`,
+                                    }))}
+                                    placeholder="Sélectionnez un modele..."
+                                    optionFilterProp="label"
+                                />}
                             </Form.Item>
                         </Col>
+
+                        <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
+                            Soumettre
+                        </Button>
                     </Row>
                 </Form>
             </div>
