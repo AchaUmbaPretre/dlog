@@ -18,7 +18,6 @@ const FormChauffeur = ({fetchData, closeModal}) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-    const [croppedImage, setCroppedImage] = useState(null);
     const [catPermis, setCatPermis] = useState([]);
     const [typeContrat, setTypeContrat] = useState([]);
     const [etatCivil, setEtatCivil] = useState([]);
@@ -55,32 +54,32 @@ const FormChauffeur = ({fetchData, closeModal}) => {
     }, []);
 
     
-const onFinish = async (values) => {
-    try {
-        if (fileList.length > 0) {
-            values.profil = fileList[0].originFileObj;
+    const onFinish = async (values) => {
+        try {
+            if (fileList.length > 0) {
+                values.profil = fileList[0].originFileObj;
+            }
+
+            message.loading({ content: 'En cours...', key: 'submit' });
+
+            await postChauffeur(values);
+
+            message.success({ content: 'Chauffeur ajouté avec succès!', key: 'submit' });
+
+            form.resetFields();
+            closeModal();
+            fetchData();
+            setFileList([])
+        } catch (error) {
+            message.error({ content: 'Une erreur est survenue.', key: 'submit' });
+            console.error('Erreur lors de l\'ajout du chauffeur:', error);
         }
-
-        message.loading({ content: 'En cours...', key: 'submit' });
-
-        await postChauffeur(values);
-
-        message.success({ content: 'Chauffeur ajouté avec succès!', key: 'submit' });
-
-        form.resetFields();
-        closeModal();
-        fetchData();
-        setFileList([])
-    } catch (error) {
-        message.error({ content: 'Une erreur est survenue.', key: 'submit' });
-        console.error('Erreur lors de l\'ajout du chauffeur:', error);
-    }
-};
+    };
 
     
       const handleUploadChange = ({ fileList }) => {
         setFileList(fileList.slice(-1));
-        
+
         if (fileList.length > 0) {
           setPreviewImage(URL.createObjectURL(fileList[0].originFileObj));
           setCropping(true);
