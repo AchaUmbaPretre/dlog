@@ -65,7 +65,7 @@ const InspectionGen = () => {
             dataIndex: 'nom_marque',
         },
         {
-            title: 'Date debut',
+            title: 'Date rep',
             dataIndex: 'date_reparation',
             render: (text) => (
               <Tag icon={<CalendarOutlined />} color="blue">
@@ -73,6 +73,32 @@ const InspectionGen = () => {
               </Tag>
             )
         },
+        {
+            title: 'Date validation',
+            dataIndex: 'date_validation',
+            render: (text) => (
+              <Tag icon={<CalendarOutlined />} color="blue">
+                  {moment(text).format('DD-MM-YYYY')}
+              </Tag>
+            )
+        },
+        {
+            title: 'Préoccupations',
+            dataIndex: 'commentaire',
+        },
+        {
+            title: "Avis d'expert",
+            dataIndex: 'avis',
+        },
+        {
+            title: 'Date validation',
+            dataIndex: 'date_validation',
+            render: (text) => (
+              <Tag icon={<CalendarOutlined />} color="blue">
+                  {moment(text).format('DD-MM-YYYY')}
+              </Tag>
+            )
+        }
     ]
     
 
