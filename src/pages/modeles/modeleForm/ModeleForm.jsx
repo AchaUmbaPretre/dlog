@@ -1,24 +1,75 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
-import { getMarque } from '../../../services/charroiService';
+import { getMarque, postModele } from '../../../services/charroiService';
 
-const ModeleForm = () => {
+const ModeleForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [marque, setMarque] = useState([]);
+    const [loading, setLoading] = useState(false);
+    
     
     useEffect(()=> {
         const fetchData = async() => {
-            const { data } = await getMarque();
-            setMarque(data)
+            try {
+                const { data } = await getMarque();
+                setMarque(data)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoadingData(false);
+            }
         }
         fetchData()
     }, [])
 
-    const onFinish = () => {
-
-    }
+    const onFinish = async (values) => {
+        const loadingKey = 'loadingModèle';
+    
+        try {
+            await form.validateFields();
+            message.loading({
+                content: 'Traitement en cours, veuillez patienter...',
+                key: loadingKey,
+                duration: 0,
+            });
+    
+            setLoading(true);
+    
+            await postModele(values);
+    
+            message.success({
+                content: 'Le modèle a été enregistré avec succès.',
+                key: loadingKey,
+            });
+    
+            form.resetFields();
+            fetchData();
+            closeModal();
+    
+        } catch (error) {
+            console.error("Erreur lors de l'enregistrement du modèle :", error);
+    
+            const errorMsg = error?.response?.data?.error || "Une erreur inconnue est survenue. Veuillez réessayer.";
+    
+            message.error({
+                content: 'Une erreur est survenue.',
+                key: loadingKey,
+            });
+    
+            notification.error({
+                message: 'Erreur lors de l’enregistrement',
+                description: errorMsg,
+                placement: 'topRight',
+                duration: 6,
+            });
+    
+        } finally {
+            setLoading(false);
+        }
+    };
+    
 
   return (
     <>
@@ -38,7 +89,7 @@ const ModeleForm = () => {
                     <Row gutter={12}>
                         <Col xs={24} md={12}>
                             <Form.Item
-                                name="nom_modele"
+                                name="modele"
                                 label="Modèle"
                                 rules={[
                                     {

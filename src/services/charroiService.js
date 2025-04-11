@@ -11,6 +11,10 @@ export const getMarque = async () => {
     return axios.get(`${DOMAIN}/api/charroi/marque`);
 };
 
+export const postMarque = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/marque`, data);
+}
+
 export const getModeleAll = async () => {
     return axios.get(`${DOMAIN}/api/charroi/modeleAll`);
 };
@@ -18,6 +22,10 @@ export const getModeleAll = async () => {
 export const getModele = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/modele?id_marque=${id}`);
 };
+
+export const postModele = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/modele`, data);
+}
 
 export const getDisposition = async () => {
     return axios.get(`${DOMAIN}/api/charroi/disposition`);

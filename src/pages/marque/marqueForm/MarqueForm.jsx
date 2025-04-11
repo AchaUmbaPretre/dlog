@@ -1,15 +1,58 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
+import { postMarque } from '../../../services/charroiService';
 
-const MarqueForm = () => {
+const MarqueForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
-    const [loadingData, setLoadingData] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [modele, setModele] = useState([]);
     
-    const onFinish = () => {
-
-    }
+        const onFinish = async (values) => {
+            const loadingKey = 'loadingMarque';
+        
+            try {
+                await form.validateFields();
+                message.loading({
+                    content: 'Traitement en cours, veuillez patienter...',
+                    key: loadingKey,
+                    duration: 0,
+                });
+        
+                setLoading(true);
+        
+                await postMarque(values);
+        
+                message.success({
+                    content: 'Le modèle a été enregistré avec succès.',
+                    key: loadingKey,
+                });
+        
+                form.resetFields();
+                fetchData();
+                closeModal();
+        
+            } catch (error) {
+                console.error("Erreur lors de l'enregistrement de marque :", error);
+        
+                const errorMsg = error?.response?.data?.error || "Une erreur inconnue est survenue. Veuillez réessayer.";
+        
+                message.error({
+                    content: 'Une erreur est survenue.',
+                    key: loadingKey,
+                });
+        
+                notification.error({
+                    message: 'Erreur lors de l’enregistrement',
+                    description: errorMsg,
+                    placement: 'topRight',
+                    duration: 6,
+                });
+        
+            } finally {
+                setLoading(false);
+            }
+        };
 
   return (
     <>
@@ -38,7 +81,7 @@ const MarqueForm = () => {
                                     }
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir la marque..." style={{width:'100%'}}/>}
+                                <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir la marque..." style={{width:'100%'}}/>
                             </Form.Item>
                         </Col>
 
