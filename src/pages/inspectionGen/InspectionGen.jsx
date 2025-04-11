@@ -91,6 +91,10 @@ const InspectionGen = () => {
             dataIndex: 'avis',
         },
         {
+            title: "Cout",
+            dataIndex: '',
+        },
+        {
             title: 'Date validation',
             dataIndex: 'date_validation',
             render: (text) => (
@@ -98,7 +102,11 @@ const InspectionGen = () => {
                   {moment(text).format('DD-MM-YYYY')}
               </Tag>
             )
-        }
+        },
+        {
+            title: "Statut",
+            dataIndex: 'statut',
+        },
     ]
     
 
