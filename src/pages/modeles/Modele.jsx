@@ -76,6 +76,11 @@ const Modele = () => {
         setModalType(type)
     };
 
+    const filteredData = data.filter(item =>
+        item.modele?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
+      );
+
   return (
     <>
         <div className="client">
@@ -107,7 +112,7 @@ const Modele = () => {
                 </div>
                 <Table
                     columns={columns}
-                    dataSource={data}
+                    dataSource={filteredData}
                     rowKey="id_marque"
                     loading={loading}
                     scroll={scroll}
