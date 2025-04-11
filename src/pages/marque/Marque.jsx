@@ -36,12 +36,11 @@ const Marque = () => {
               </Dropdown>
             )
           } */
-          
       ];
 
   return (
     <>
-        
+
     </>
   )
 }
