@@ -294,27 +294,26 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                             {fields.map(({ key, name, ...restField }) => (
                             <Card style={{marginBottom:'10px'}}>
                                 <Row key={key} gutter={12} align="middle">
-                        
                                     <Col xs={24} md={8}>
-                                                                <Form.Item
-                                                                {...restField}
-                                                                name={[name, 'id_type_reparation']}
-                                                                label="Type de réparation"
-                                                                rules={[
-                                                                    { required: true, message: 'Veuillez fournir une réparation...' },
-                                                                ]}
-                                                                >
-                                                                <Select
-                                                                    allowClear
-                                                                    showSearch
-                                                                    options={reparation.map((item) => ({
-                                                                        value: item.id_type_reparation,
-                                                                        label: `${item.type_rep}`,
-                                                                    }))}
-                                                                    placeholder="Sélectionnez un type de réparation..."
-                                                                    optionFilterProp="label"
-                                                                />
-                                                                </Form.Item>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'id_type_reparation']}
+                                            label="Type de réparation"
+                                            rules={[
+                                                { required: true, message: 'Veuillez fournir une réparation...' },
+                                            ]}
+                                        >
+                                            <Select
+                                                allowClear
+                                                showSearch
+                                                options={reparation.map((item) => ({
+                                                    value: item.id_type_reparation,
+                                                    label: `${item.type_rep}`,
+                                                }))}
+                                                placeholder="Sélectionnez un type de réparation..."
+                                                optionFilterProp="label"
+                                            />
+                                        </Form.Item>
                                     </Col>
 
                                     <Col xs={24} md={8}>
@@ -341,7 +340,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                         <Form.Item
                                             label="Etat"
                                             name="id_carateristique_rep"
-                                            rules={[{ required: true, message: 'Veuillez sélectionner un etat' }]}
+                                            rules={[{ required: false, message: 'Veuillez sélectionner un etat' }]}
                                         >
                                             { loadingData ? <Skeleton.Input active={true} /> : 
                                             <Select
