@@ -292,7 +292,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                     >
                                     </Button>
                                 </Col>
-                                
+
                             </Row>
                             ))}
                             <Form.Item>
@@ -309,7 +309,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                         )}
                     </Form.List>
                     <div style={{ marginTop: '20px' }}>
-                        <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
+                        <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} >
                             Soumettre
                         </Button>
                     </div>
