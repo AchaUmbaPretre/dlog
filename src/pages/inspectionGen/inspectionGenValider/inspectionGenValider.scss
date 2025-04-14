@@ -1,0 +1,30 @@
+.inspectionGenValider{
+    .inspectionGenValider-wrapper{
+        .vehicule-info-card {
+            margin-bottom: 16px;
+          
+            .vehicule-details {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 20px;
+          
+              .info-block {
+                flex: 1;
+                min-width: 200px;
+          
+                .label {
+                  font-weight: 600;
+                  color: #595959;
+                  margin-right: 8px;
+                }
+          
+                .value {
+                  font-size: 15px;
+                  color: #262626;
+                }
+              }
+            }
+          }
+          
+    }
+}
