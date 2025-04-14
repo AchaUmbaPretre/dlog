@@ -177,7 +177,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                             <Form.Item
                                 label="Chauffeur"
                                 name="id_chauffeur"
-                                rules={[{ required: true, message: 'Veuillez sélectionner un chauffeur' }]}
+                                rules={[{ required: false, message: 'Veuillez sélectionner un chauffeur' }]}
                             >
                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                 <Select
@@ -212,7 +212,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                             </Form.Item>
                         </Col>
 
-                        <Col xs={24} md={8}>
+                        <Col xs={24} md={12}>
                             <Form.Item
                                 name="date_prevu"
                                 label="Date prevue"
@@ -231,7 +231,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                             </Form.Item>
                         </Col>
 
-                        <Col xs={24} md={8}>
+                        <Col xs={24} md={12}>
                             <Form.Item
                                 name="id_statut_vehicule"
                                 label="Statut véhicule"
