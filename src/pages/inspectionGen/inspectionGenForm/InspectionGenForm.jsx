@@ -217,8 +217,8 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                         </Col>
                         <Col xs={24} md={24}>
                             <Form.Item
-                                label="Catégorie d'Instruction"
-                                name="id_cat_instruction"
+                                label="Catégorie d'Inspection"
+                                name="id_cat_inspection"
                                 rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
                             >
                                 { loadingData ? <Skeleton.Input active={true} /> : 
@@ -269,7 +269,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                     <Form.List name="reparations">
                         {(fields, { add, remove }) => (
                         <>
-                            <Divider className='title_row'>Réparations</Divider>
+                            <Divider className='title_row'>Catégorie</Divider>
                             {fields.map(({ key, name, ...restField }) => (
                             <Row key={key} gutter={12} align="middle">
                     
