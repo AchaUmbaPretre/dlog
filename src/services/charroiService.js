@@ -155,6 +155,7 @@ export const getInspectionGen = async () => {
 }
 
 export const postInspectionGen= async (data) => {
+    console.log(data)
     return axios.post(`${DOMAIN}/api/charroi/inspection_gen`, data , {
         headers: {
           'Content-Type': 'multipart/form-data',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Menu, Tag, Table, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, PlusOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { Input, Button, Menu, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { FileSearchOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
@@ -22,6 +22,16 @@ const InspectionGen = () => {
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
     const [inspectionId, setInspectionId] = useState('')
+
+      const statusIcons = {
+        'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
+        'En cours': { icon: <HourglassOutlined />, color: 'blue' },
+        'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
+        'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
+        'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
+        'Budget': { icon: <DollarOutlined />, color: 'gold' },
+        'Executé': { icon: <RocketOutlined />, color: 'cyan' },
+      };
 
     const fetchData = async() => {
         try {
@@ -178,7 +188,7 @@ const InspectionGen = () => {
         },
         {
             title: "Cout",
-            dataIndex: '',
+            dataIndex: 'montant',
         },
         {
             title: 'Date validation',
@@ -202,10 +212,20 @@ const InspectionGen = () => {
                 );
               }
         },
-        {
-            title: "Statut",
-            dataIndex: 'statut',
-        },
+            { 
+              title: 'Statut', 
+              dataIndex: 'nom_type_statut', 
+              key: 'nom_type_statut',
+              render: text => {
+                const { icon, color } = statusIcons[text] || {};
+                return (
+                  <Space>
+                    <Tag icon={icon} color={color}>{text}</Tag>
+                  </Space>
+                );
+              },
+        
+            },
         {
             title: 'Actions',
             dataIndex: 'actions',

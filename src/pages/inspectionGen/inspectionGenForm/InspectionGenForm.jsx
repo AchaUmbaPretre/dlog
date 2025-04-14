@@ -73,8 +73,6 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
         formData.append('date_inspection', values.date_inspection);
         formData.append('date_prevu', values.date_prevu);
         formData.append('id_statut_vehicule', values.id_statut_vehicule);
-        formData.append('commentaire', values.commentaire || '');
-        formData.append('avis', values.avis || '');
         formData.append('user_cr', userId);
 
         // Réparations + fichiers
