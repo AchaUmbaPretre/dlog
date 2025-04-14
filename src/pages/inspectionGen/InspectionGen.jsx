@@ -6,6 +6,8 @@ import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
 import InspectionGenDetail from './inspectionGenDetail/InspectionGenDetail';
 import InspectionGenValider from './inspectionGenValider/InspectionGenValider';
+import InspectionGenTracking from './inspectionGenTracking/InspectionGenTracking';
+import InspectionGenFormTracking from './inspectionGenTracking/inspectionGenFormTracking/InspectionGenFormTracking';
 
 const { Search } = Input;
 
@@ -296,7 +298,18 @@ const InspectionGen = () => {
             width={1023}
             centered
         >
-            <InspectionGenDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <InspectionGenTracking closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'AddSuivi'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1023}
+            centered
+        >
+            <InspectionGenFormTracking closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
     </>
   )
