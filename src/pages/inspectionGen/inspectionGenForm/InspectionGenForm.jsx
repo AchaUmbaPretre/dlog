@@ -242,7 +242,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                             </Form.Item>
                         </Col>
                     </Row>
-                                            {/* Réparations dynamiques */}
+                    {/* Réparations dynamiques */}
                     <Form.List name="reparations">
                         {(fields, { add, remove }) => (
                         <>
@@ -303,8 +303,8 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                 </Button>
                             </Form.Item>
                         </>
-                            )}
-                        </Form.List>
+                        )}
+                    </Form.List>
                     <div style={{ marginTop: '20px' }}>
                         <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
                             Soumettre
