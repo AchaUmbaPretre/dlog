@@ -286,7 +286,7 @@ const InspectionGen = () => {
             visible={modalType === 'AddValider'}
             onCancel={closeAllModals}
             footer={null}
-            width={900}
+            width={1000}
             centered
         >
             <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchData} inspectionId={inspectionId} />

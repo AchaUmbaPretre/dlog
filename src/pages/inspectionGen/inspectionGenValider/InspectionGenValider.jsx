@@ -10,6 +10,8 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
     const [loading, setLoading] = useState(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [selectedInspectionIds, setSelectedInspectionIds] = useState([]);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [manoeuvreData, setManoeuvreData] = useState({});
 
     const fetchDatas = async() => {
         try {
@@ -29,10 +31,12 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
         fetchDatas()
     }, [inspectionId])
 
-    const onSelectChange = (newSelectedRowKeys) => {
+    const onSelectChange = (newSelectedRowKeys, selectedRows) => {
         setSelectedRowKeys(newSelectedRowKeys);
         setSelectedInspectionIds(newSelectedRowKeys);
+        setSelectedRows(selectedRows);
       };
+      
 
     const rowSelection = {
         selectedRowKeys,
@@ -64,6 +68,50 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                 dataIndex: 'montant',
             }
         ]
+
+        const selectedColumns = [
+            {
+              title: '#',
+              render: (text, record, index) => index + 1,
+              width: "5%"
+            },
+            {
+              title: 'Type de réparation',
+              dataIndex: 'type_rep',
+            },
+            {
+              title: "Catégorie d'inspection",
+              dataIndex: 'nom_cat_inspection',
+            },
+            {
+              title: "État",
+              dataIndex: 'nom_carateristique_rep',
+            },
+            {
+              title: "Cout",
+              dataIndex: 'montant',
+            },
+            {
+              title: "Manœuvre",
+              dataIndex: 'manoeuvre',
+              render: (_, record) => (
+                <input
+                  type="number"
+                  value={manoeuvreData[record.id_sub_inspection_gen] || ''}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setManoeuvreData(prev => ({
+                      ...prev,
+                      [record.id_sub_inspection_gen]: value
+                    }));
+                  }}
+                  style={{ width: '100%' }}
+                  placeholder="Saisir le prix de la manœuvre"
+                />
+              )
+            }
+          ];
+          
 
 
   return (
@@ -105,17 +153,19 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                     />
                 </Card>
 
-                <Card title="Réparation">
+                <Card title="Réparation sélectionnée">
                     <Table
-                        columns={columns}
+                        columns={selectedColumns}
+                        dataSource={selectedRows}
                         rowKey="id_sub_inspection_gen"
-                        loading={loading}
-                        scroll={scroll}
                         size="small"
                         bordered
+                        pagination={false}
+                        scroll={scroll}
                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                     />
                 </Card>
+
             </div>
         </div>
     </>
