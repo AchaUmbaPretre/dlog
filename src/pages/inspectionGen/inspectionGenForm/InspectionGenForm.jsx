@@ -318,17 +318,6 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
 
                                 <Col xs={24} md={8}>
                                     <Form.Item
-                                        {...restField}
-                                        name={[name, 'montant']}
-                                        label="Montant"
-                                        rules={[{ required: false, message: 'Veuillez fournir le montant...' },]}
-                                    >
-                                        <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
-                                    </Form.Item>
-                                </Col>
-
-                                <Col xs={24} md={8}>
-                                    <Form.Item
                                         label="Catégorie d'Inspection"
                                         name="id_cat_inspection"
                                         rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
@@ -364,6 +353,17 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                             placeholder="Sélectionnez un etat..."
                                             optionFilterProp="label"
                                         /> }
+                                    </Form.Item>
+                                </Col>
+
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        {...restField}
+                                        name={[name, 'montant']}
+                                        label="Montant"
+                                        rules={[{ required: false, message: 'Veuillez fournir le montant...' },]}
+                                    >
+                                        <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
                                     </Form.Item>
                                 </Col>
 
