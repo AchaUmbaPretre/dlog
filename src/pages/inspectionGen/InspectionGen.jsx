@@ -4,6 +4,7 @@ import { FileSearchOutlined, PlusOutlined, EyeOutlined, FileTextOutlined, MoreOu
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
+import InspectionGenDetail from './inspectionGenDetail/InspectionGenDetail';
 
 const { Search } = Input;
 
@@ -272,7 +273,7 @@ const InspectionGen = () => {
             width={1023}
             centered
         >
-            <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <InspectionGenDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
     </>
   )
