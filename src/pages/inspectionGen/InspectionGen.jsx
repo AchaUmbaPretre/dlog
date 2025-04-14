@@ -21,6 +21,7 @@ const InspectionGen = () => {
     });
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
+    const [inspectionId, setInspectionId] = useState('')
 
     const fetchData = async() => {
         try {
@@ -46,9 +47,10 @@ const InspectionGen = () => {
         setModalType(null);
     };
 
-    const openModal = (type) => {
+    const openModal = (type, inspectionId = '') => {
         closeAllModals();
         setModalType(type);
+        setInspectionId(inspectionId)
     };
 
     const getActionMenu = (record, openModal) => {
