@@ -152,140 +152,142 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                     layout="vertical"
                     onFinish={onFinish}
                 >
-                    <Row gutter={12}>
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                label="Véhicule"
-                                name="id_vehicule"
-                                rules={[{ required: false, message: 'Veuillez sélectionner un véhicule' }]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={vehicule.map((item) => ({
-                                        value: item.id_vehicule,
-                                        label: item.immatriculation,
-                                    }))}
-                                    optionFilterProp="label"
-                                    placeholder="Sélectionnez un vehicule..."
-                                /> }
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                label="Chauffeur"
-                                name="id_chauffeur"
-                                rules={[{ required: false, message: 'Veuillez sélectionner un chauffeur' }]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={chauffeur.map((item) => ({
-                                            value: item.id_chauffeur,
-                                            label: item.nom,
+                    <Card>
+                        <Row gutter={12}>
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Véhicule"
+                                    name="id_vehicule"
+                                    rules={[{ required: false, message: 'Veuillez sélectionner un véhicule' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={vehicule.map((item) => ({
+                                            value: item.id_vehicule,
+                                            label: item.immatriculation,
                                         }))}
-                                    optionFilterProp="label"
-                                    placeholder="Sélectionnez une categorie..."
-                                />}
-                            </Form.Item>
-                        </Col>
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez un vehicule..."
+                                    /> }
+                                </Form.Item>
+                            </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="date_inspection"
-                                label="Date"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir une date...',
-                                    },
-                                ]}
-                            >
-                                    {loadingData ? (
-                                        <Skeleton.Input active={true} />
-                                    ) : (
-                                        <DatePicker style={{ width: '100%' }} />
-                                    )}
-                            </Form.Item>
-                        </Col>
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Chauffeur"
+                                    name="id_chauffeur"
+                                    rules={[{ required: false, message: 'Veuillez sélectionner un chauffeur' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={chauffeur.map((item) => ({
+                                                value: item.id_chauffeur,
+                                                label: item.nom,
+                                            }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez une categorie..."
+                                    />}
+                                </Form.Item>
+                            </Col>
 
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="date_prevu"
-                                label="Date prevue"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir une date...',
-                                    },
-                                ]}
-                        >
-                            {loadingData ? (
-                                <Skeleton.Input active={true} />
-                            ) : (
-                                <DatePicker style={{ width: '100%' }} />
-                            )}
-                            </Form.Item>
-                        </Col>
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="date_inspection"
+                                    label="Date"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez fournir une date...',
+                                        },
+                                    ]}
+                                >
+                                        {loadingData ? (
+                                            <Skeleton.Input active={true} />
+                                        ) : (
+                                            <DatePicker style={{ width: '100%' }} />
+                                        )}
+                                </Form.Item>
+                            </Col>
 
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    name="date_prevu"
+                                    label="Date prevue"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez fournir une date...',
+                                        },
+                                    ]}
+                            >
+                                {loadingData ? (
+                                    <Skeleton.Input active={true} />
+                                ) : (
+                                    <DatePicker style={{ width: '100%' }} />
+                                )}
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    name="id_statut_vehicule"
+                                    label="Statut véhicule"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez selectionner un statut...',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={statut.map((item) => ({
+                                            value: item.id_statut_vehicule                                           ,
+                                            label: `${item.nom_statut_vehicule}`,
+                                        }))}
+                                        placeholder="Sélectionnez un statut..."
+                                        optionFilterProp="label"
+                                    /> }
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row gutter={12}>
                         <Col xs={24} md={12}>
-                            <Form.Item
-                                name="id_statut_vehicule"
-                                label="Statut véhicule"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez selectionner un statut...',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={statut.map((item) => ({
-                                        value: item.id_statut_vehicule                                           ,
-                                        label: `${item.nom_statut_vehicule}`,
-                                    }))}
-                                    placeholder="Sélectionnez un statut..."
-                                    optionFilterProp="label"
-                                /> }
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row gutter={12}>
-                    <Col xs={24} md={12}>
-                            <Form.Item
-                                name="commentaire"
-                                label="Préoccupations"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un commentaire...',
-                                    }
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="avis"
-                                label="Avis d'expert"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un commentaire...',
-                                    }
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                                <Form.Item
+                                    name="commentaire"
+                                    label="Préoccupations"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez fournir un commentaire...',
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    name="avis"
+                                    label="Avis d'expert"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez fournir un commentaire...',
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </Card>
                     {/* Réparations dynamiques */}
                     <Form.List name="reparations">
                         {(fields, { add, remove }) => (
@@ -319,7 +321,8 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                     <Col xs={24} md={8}>
                                         <Form.Item
                                             label="Catégorie d'Inspection"
-                                            name="id_cat_inspection"
+                                            {...restField}
+                                            name={[name, 'id_cat_inspection']}
                                             rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
                                         >
                                             { loadingData ? <Skeleton.Input active={true} /> : 
@@ -339,7 +342,8 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                     <Col xs={24} md={8}>
                                         <Form.Item
                                             label="Etat"
-                                            name="id_carateristique_rep"
+                                            {...restField}
+                                            name={[name, 'id_carateristique_rep']}
                                             rules={[{ required: false, message: 'Veuillez sélectionner un etat' }]}
                                         >
                                             { loadingData ? <Skeleton.Input active={true} /> : 
