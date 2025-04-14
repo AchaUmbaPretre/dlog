@@ -263,6 +263,17 @@ const InspectionGen = () => {
         >
             <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'DetailInspection'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1023}
+            centered
+        >
+            <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }
