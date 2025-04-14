@@ -290,20 +290,19 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                     >
                                     </Button>
                                 </Col>
-                    
-                                </Row>
-                        ))}
-                                <Form.Item>
-                                    <Button
-                                        type="dashed"
-                                        onClick={() => add()}
-                                        icon={<PlusCircleOutlined />}
-                                        style={{ width: '100%' }}
-                                    >
-                                        Ajouter une réparation
-                                    </Button>
-                                </Form.Item>
-                            </>
+                            </Row>
+                            ))}
+                            <Form.Item>
+                                <Button
+                                    type="dashed"
+                                    onClick={() => add()}
+                                    icon={<PlusCircleOutlined />}
+                                    style={{ width: '100%' }}
+                                >
+                                    Ajouter une réparation
+                                </Button>
+                            </Form.Item>
+                        </>
                             )}
                         </Form.List>
                     <div style={{ marginTop: '20px' }}>
