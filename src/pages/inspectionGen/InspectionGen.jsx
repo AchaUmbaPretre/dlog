@@ -81,7 +81,23 @@ const InspectionGen = () => {
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
               </Menu.Item>
               <Menu.Item key="ajouterInspection">
-                <PlusOutlined style={{ color: 'orange' }} /> Réparer
+                <PlusOutlined style={{ color: 'orange' }} /> Valider
+              </Menu.Item>
+            </Menu.SubMenu>
+            
+            <Menu.SubMenu
+              key="tracking"
+              title={
+                <>
+                  <FileSearchOutlined style={{ color: 'green' }} /> Tracking
+                </>
+              }
+            >
+              <Menu.Item key="voirDetailTracking">
+                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+              </Menu.Item>
+              <Menu.Item key="ajouterTracking">
+                <PlusOutlined style={{ color: 'orange' }} /> Ajouter
               </Menu.Item>
             </Menu.SubMenu>
     

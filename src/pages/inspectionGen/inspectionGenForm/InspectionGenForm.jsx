@@ -72,7 +72,6 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
         formData.append('id_chauffeur', values.id_chauffeur);
         formData.append('date_inspection', values.date_inspection);
         formData.append('date_prevu', values.date_prevu);
-        formData.append('id_fournisseur', values.id_fournisseur);
         formData.append('id_statut_vehicule', values.id_statut_vehicule);
         formData.append('commentaire', values.commentaire || '');
         formData.append('avis', values.avis || '');
@@ -81,6 +80,8 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
         // Réparations + fichiers
         values.reparations.forEach((rep, index) => {
             formData.append(`reparations[${index}][id_type_reparation]`, rep.id_type_reparation);
+            formData.append(`reparations[${index}][id_cat_inspection]`, rep.id_cat_inspection);
+            formData.append(`reparations[${index}][id_carateristique_rep]`, rep.id_carateristique_rep);
             formData.append(`reparations[${index}][montant]`, rep.montant || 0);
 
             // Image : depuis l'Upload
