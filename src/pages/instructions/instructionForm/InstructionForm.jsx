@@ -232,9 +232,9 @@ const addIcon = (icon) => {
 
                     <Col xs={24} md={12}>
                         <Form.Item
-                        label="Catégorie d'Instruction"
-                        name="id_cat_instruction"
-                        rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
+                            label="Catégorie d'Instruction"
+                            name="id_cat_instruction"
+                            rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
                         >
                             { loadingData ? <Skeleton.Input active={true} /> : 
                             <Select

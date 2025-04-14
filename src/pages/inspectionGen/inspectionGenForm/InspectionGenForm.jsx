@@ -4,12 +4,14 @@ import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutli
 import { getChauffeur, getStatutVehicule, getTypeReparation, getVehicule, postInspectionGen } from '../../../services/charroiService';
 import { getFournisseur } from '../../../services/fournisseurService';
 import { useSelector } from 'react-redux';
+import { getCat_inspection } from '../../../services/batimentService';
 
 const InspectionGenForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
-    const [ chauffeur, setChauffeur ] = useState([])
-    const [ vehicule, setVehicule ] = useState([])
+    const [ chauffeur, setChauffeur ] = useState([]);
+    const [ vehicule, setVehicule ] = useState([]);
+    const [cat, setCat] = useState([]);
     const [ loadingData, setLoadingData ] = useState(false);
     const [ fournisseur, setFournisseur ] = useState([]);
     const [ reparation, setReparation ] = useState([]);
@@ -19,18 +21,20 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
     const fetchDatas = async () => {
 
         try {
-            const [ vehiculeData, fournisseurData, reparationData, statutData, chauffeurData] = await Promise.all([
+            const [ vehiculeData, fournisseurData, reparationData, statutData, chauffeurData, catData] = await Promise.all([
                 getVehicule(),
                 getFournisseur(),
                 getTypeReparation(),
                 getStatutVehicule(),
-                getChauffeur()
+                getChauffeur(),
+                getCat_inspection()
             ])
             setVehicule(vehiculeData.data.data)
             setFournisseur(fournisseurData.data)
             setReparation(reparationData.data.data)
             setStatut(statutData.data)
             setChauffeur(chauffeurData.data.data)
+            setCat(catData.data)
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -194,7 +198,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Veuillez selectionner un fournisseur...',
+                                        message: 'Veuillez selectionner un statut...',
                                     },
                                 ]}
                             >
@@ -207,6 +211,25 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                         label: `${item.nom_statut_vehicule}`,
                                     }))}
                                     placeholder="Sélectionnez un statut..."
+                                    optionFilterProp="label"
+                                /> }
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={24}>
+                            <Form.Item
+                                label="Catégorie d'Instruction"
+                                name="id_cat_instruction"
+                                rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
+                            >
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={cat.map((item) => ({
+                                        value: item.id_cat_inspection,
+                                        label: item.nom_cat_inspection,
+                                    }))}
+                                    placeholder="Sélectionnez une categorie..."
                                     optionFilterProp="label"
                                 /> }
                             </Form.Item>
