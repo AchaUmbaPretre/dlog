@@ -81,3 +81,10 @@ export const getPriorityLabel = (priority) => {
         return 'Non définie';
     }
   };
+
+  export const icons = [
+    { id: 'danger', label: 'Danger', icon: '⚠️' },
+    { id: 'arrow', label: 'Flèche', icon: '➡️' },
+    { id: 'hammer', label: 'Marteau', icon: '🔨' },
+    { id: 'water', label: 'Goutte d’eau', icon: '💧' },
+  ];

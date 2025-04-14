@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { Form, Row, Divider, Col, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
-import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
+import React, { useEffect, useRef, useState } from 'react'
+import { Form, Row, Divider, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
+import { SendOutlined, UploadOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
 import { getChauffeur, getStatutVehicule, getTypeReparation, getVehicule, postInspectionGen } from '../../../services/charroiService';
 import { getFournisseur } from '../../../services/fournisseurService';
 import { useSelector } from 'react-redux';
 import { getCat_inspection } from '../../../services/batimentService';
+import html2canvas from 'html2canvas';
+import { Rnd } from 'react-rnd';
+import { icons } from '../../../utils/prioriteIcons';
 
 const InspectionGenForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -17,6 +20,11 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
     const [ reparation, setReparation ] = useState([]);
     const [ statut, setStatut ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const canvasRef = useRef(null);
+    const [uploadedImage, setUploadedImage] = useState(null);
+    const [uploadedImages, setUploadedImages] = useState({});
+    const [iconPositionsMap, setIconPositionsMap] = useState({});
+    const [iconPositions, setIconPositions] = useState([]);
 
     const fetchDatas = async () => {
 
@@ -74,6 +82,38 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
             setLoading(false);
         }
     }
+
+    const addIcon = (icon) => {
+        setIconPositions([...iconPositions, { icon, x: 50, y: 50, width: 50, height: 50 }]);
+      };
+
+      const handleImageUpload = (info, fieldName) => {
+        const file = info.fileList[0]?.originFileObj;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setUploadedImages(prev => ({ ...prev, [fieldName]: e.target.result }));
+                setIconPositionsMap(prev => ({ ...prev, [fieldName]: [] })); // reset icons
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const addIconToField = (icon, fieldName) => {
+        setIconPositionsMap(prev => ({
+            ...prev,
+            [fieldName]: [...(prev[fieldName] || []), { icon, x: 0, y: 0, width: 50, height: 50 }]
+        }));
+    };
+    
+    const updateIconPosition = (fieldName, index, updatedPos) => {
+        setIconPositionsMap(prev => {
+            const updated = [...(prev[fieldName] || [])];
+            updated[index] = { ...updated[index], ...updatedPos };
+            return { ...prev, [fieldName]: updated };
+        });
+    };
+    
 
   return (
     <>
@@ -273,7 +313,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                             {fields.map(({ key, name, ...restField }) => (
                             <Row key={key} gutter={12} align="middle">
                     
-                                <Col xs={24} md={11}>
+                                <Col xs={24} md={8}>
                                                             <Form.Item
                                                             {...restField}
                                                             name={[name, 'id_type_reparation']}
@@ -295,7 +335,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                                             </Form.Item>
                                 </Col>
 
-                                <Col xs={24} md={11}>
+                                <Col xs={24} md={8}>
                                     <Form.Item
                                         {...restField}
                                         name={[name, 'montant']}
@@ -305,6 +345,70 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                         <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
                                     </Form.Item>
                                 </Col>
+
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        label="Image"
+                                        name={[name, 'img']}
+                                        valuePropName="fileList"
+                                        getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+                                        rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
+                                    >
+                                        <Upload
+                                            name="img"
+                                            listType="picture"
+                                            beforeUpload={() => false}
+                                            onChange={(info) => handleImageUpload(info, name)}
+                                        >
+                                            <Button icon={<UploadOutlined />} className="custom-button">
+                                                Télécharger une image
+                                            </Button>
+                                        </Upload>
+                                    </Form.Item>
+
+                                </Col>
+                                {uploadedImages[name] && (
+                                    <div className="image-editor">
+                                        <div className="icon-toolbar">
+                                            {icons.map((icon) => (
+                                                <Button key={icon.id} onClick={() => addIconToField(icon.icon, name)}>
+                                                    {icon.icon} {icon.label}
+                                                </Button>
+                                            ))}
+                                        </div>
+                                        <div className="image-container">
+                                            <img src={uploadedImages[name]} alt="Uploaded" className="uploaded-image" />
+                                            {(iconPositionsMap[name] || []).map((pos, index) => (
+                                                <Rnd
+                                                    key={index}
+                                                    bounds="parent"
+                                                    size={{ width: pos.width, height: pos.height }}
+                                                    position={{ x: pos.x, y: pos.y }}
+                                                    onDragStop={(e, d) => updateIconPosition(name, index, { x: d.x, y: d.y })}
+                                                    onResizeStop={(e, direction, ref, delta, position) =>
+                                                        updateIconPosition(name, index, {
+                                                            width: ref.offsetWidth,
+                                                            height: ref.offsetHeight,
+                                                            ...position,
+                                                        })
+                                                    }
+                                                >
+                                                    <div style={{
+                                                        fontSize: '30px',
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        cursor: 'move',
+                                                    }}>
+                                                        {pos.icon}
+                                                    </div>
+                                                </Rnd>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
 
                                 <Col xs={24} md={2}>
                                     <Button
