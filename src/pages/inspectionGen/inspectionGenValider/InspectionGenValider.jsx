@@ -1,8 +1,13 @@
 import React from 'react'
+import '/inspectionGenValider.scss'
 
-const InspectionGenValider = () => {
+const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
   return (
-    <div>InspectionGenValider</div>
+    <>
+        <div className="inspectionGenValider">
+            
+        </div>
+    </>
   )
 }
 

@@ -278,7 +278,7 @@ const InspectionGen = () => {
             width={1023}
             centered
         >
-            <InspectionGenDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <InspectionGenDetail inspectionId={inspectionId} />
         </Modal>
 
         <Modal

@@ -6,7 +6,6 @@ import { getFormat } from '../../../services/formatService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
 import { getControleOne, postControle, putControle } from '../../../services/controleService';
-import { useNavigate } from 'react-router-dom';
 import './controleForm.scss';
 
 const { Panel } = Collapse;
