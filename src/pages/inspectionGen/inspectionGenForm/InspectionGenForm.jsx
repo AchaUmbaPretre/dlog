@@ -271,6 +271,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                                             />
                                                             </Form.Item>
                                 </Col>
+                                
                                 <Col xs={24} md={11}>
                                     <Form.Item
                                         {...restField}
@@ -281,6 +282,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                         <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
                                     </Form.Item>
                                 </Col>
+
                                 <Col xs={24} md={2}>
                                     <Button
                                         type="text"
