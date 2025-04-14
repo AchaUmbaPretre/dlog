@@ -255,25 +255,6 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                 /> }
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24}>
-                            <Form.Item
-                                label="Catégorie d'Inspection"
-                                name="id_cat_inspection"
-                                rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={cat.map((item) => ({
-                                        value: item.id_cat_inspection,
-                                        label: item.nom_cat_inspection,
-                                    }))}
-                                    placeholder="Sélectionnez une categorie..."
-                                    optionFilterProp="label"
-                                /> }
-                            </Form.Item>
-                        </Col>
                     </Row>
                     <Row gutter={12}>
                     <Col xs={24} md={12}>
@@ -335,7 +316,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                                             </Form.Item>
                                 </Col>
 
-                                <Col xs={24} md={7}>
+                                <Col xs={24} md={8}>
                                     <Form.Item
                                         {...restField}
                                         name={[name, 'montant']}
@@ -343,6 +324,26 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                         rules={[{ required: false, message: 'Veuillez fournir le montant...' },]}
                                     >
                                         <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
+                                    </Form.Item>
+                                </Col>
+
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        label="Catégorie d'Inspection"
+                                        name="id_cat_inspection"
+                                        rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
+                                    >
+                                        { loadingData ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                            allowClear
+                                            showSearch
+                                            options={cat.map((item) => ({
+                                                value: item.id_cat_inspection,
+                                                label: item.nom_cat_inspection,
+                                            }))}
+                                            placeholder="Sélectionnez une categorie..."
+                                            optionFilterProp="label"
+                                        /> }
                                     </Form.Item>
                                 </Col>
 
