@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Card } from 'antd';
+import { Table, Card, Button } from 'antd';
 import './inspectionGenValider.scss'
 import { getSubInspection } from '../../../services/charroiService';
 import { notification } from 'antd';
@@ -43,7 +43,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
         onChange: onSelectChange,
       };
 
-        const columns = [
+    const columns = [
             { 
                 title: '#', 
                 dataIndex: 'id', 
@@ -69,7 +69,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
             }
         ]
 
-        const selectedColumns = [
+    const selectedColumns = [
             {
               title: '#',
               render: (text, record, index) => index + 1,
@@ -110,9 +110,39 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                 />
               )
             }
-          ];
+        ];
           
-
+        const handleSubmitValidation = async () => {
+            try {
+              const payload = selectedRows.map((row) => ({
+                id_sub_inspection_gen: row.id_sub_inspection_gen,
+                montant: row.montant,
+                manoeuvre: manoeuvreData[row.id_sub_inspection_gen] || 0,
+              }));
+          
+              // Envoi vers ton service (ajoute cette méthode dans ton service API)
+/*               await validateReparations(payload);
+ */          
+              notification.success({
+                message: 'Succès',
+                description: 'Les réparations ont été validées avec succès.',
+              });
+          
+              // Optionnel : reset
+              setSelectedRowKeys([]);
+              setSelectedRows([]);
+              setManoeuvreData({});
+              fetchDatas();
+          
+            } catch (error) {
+              console.error('Erreur de validation:', error);
+              notification.error({
+                message: 'Erreur',
+                description: 'Une erreur est survenue lors de la validation.',
+              });
+            }
+          };
+          
 
   return (
     <>
@@ -153,7 +183,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                     />
                 </Card>
 
-                <Card title="Réparation sélectionnée">
+                <Card title="Réparation sélectionnée" style={{marginTop:'10px'}}>
                     <Table
                         columns={selectedColumns}
                         dataSource={selectedRows}
@@ -164,6 +194,15 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                         scroll={scroll}
                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                     />
+                    <Button
+                        style={{marginTop:'10px'}}
+                        type="primary"
+                        onClick={handleSubmitValidation}
+                        disabled={selectedRows.length === 0}
+                    >
+                        Valider les réparations
+                    </Button>
+
                 </Card>
 
             </div>
