@@ -16,7 +16,6 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
     const [ statut, setStatut ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
-
     const fetchDatas = async () => {
 
         try {
@@ -245,13 +244,13 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                     </Row>
                                             {/* Réparations dynamiques */}
                     <Form.List name="reparations">
-                                            {(fields, { add, remove }) => (
-                                                <>
-                                                <Divider className='title_row'>Réparations</Divider>
-                                                {fields.map(({ key, name, ...restField }) => (
-                                                    <Row key={key} gutter={12} align="middle">
+                        {(fields, { add, remove }) => (
+                        <>
+                            <Divider className='title_row'>Réparations</Divider>
+                            {fields.map(({ key, name, ...restField }) => (
+                            <Row key={key} gutter={12} align="middle">
                     
-                                                        <Col xs={24} md={12}>
+                                <Col xs={24} md={11}>
                                                             <Form.Item
                                                             {...restField}
                                                             name={[name, 'id_type_reparation']}
@@ -271,43 +270,41 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                                                 optionFilterProp="label"
                                                             />
                                                             </Form.Item>
-                                                        </Col>
-                                                        <Col xs={24} md={12}>
-                                                            <Form.Item
-                                                            {...restField}
-                                                            name={[name, 'montant']}
-                                                            label="Montant"
-                                                            rules={[
-                                                                { required: false, message: 'Veuillez fournir le montant...' },
-                                                            ]}
-                                                            >
-                                                                <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
-                                                            </Form.Item>
-                                                        </Col>
-                                                        <Col xs={24} md={2}>
-                                                            <Button
-                                                            type="text"
-                                                            danger
-                                                            icon={<MinusCircleOutlined />}
-                                                            onClick={() => remove(name)}
-                                                            >
-                                                            </Button>
-                                                        </Col>
+                                </Col>
+                                <Col xs={24} md={11}>
+                                    <Form.Item
+                                        {...restField}
+                                        name={[name, 'montant']}
+                                        label="Montant"
+                                        rules={[{ required: false, message: 'Veuillez fournir le montant...' },]}
+                                    >
+                                        <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} md={2}>
+                                    <Button
+                                        type="text"
+                                        danger
+                                        icon={<MinusCircleOutlined />}
+                                        onClick={() => remove(name)}
+                                    >
+                                    </Button>
+                                </Col>
                     
-                                                    </Row>
-                                                ))}
-                                                <Form.Item>
-                                                    <Button
-                                                    type="dashed"
-                                                    onClick={() => add()}
-                                                    icon={<PlusCircleOutlined />}
-                                                    style={{ width: '100%' }}
-                                                    >
-                                                    Ajouter une réparation
-                                                    </Button>
-                                                </Form.Item>
-                                                </>
-                                            )}
+                                </Row>
+                        ))}
+                                <Form.Item>
+                                    <Button
+                                        type="dashed"
+                                        onClick={() => add()}
+                                        icon={<PlusCircleOutlined />}
+                                        style={{ width: '100%' }}
+                                    >
+                                        Ajouter une réparation
+                                    </Button>
+                                </Form.Item>
+                            </>
+                            )}
                         </Form.List>
                     <div style={{ marginTop: '20px' }}>
                         <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
