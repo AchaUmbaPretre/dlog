@@ -347,6 +347,26 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                     </Form.Item>
                                 </Col>
 
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        label="Etat"
+                                        name="id_cat_inspection"
+                                        rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
+                                    >
+                                        { loadingData ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                            allowClear
+                                            showSearch
+                                            options={catRep.map((item) => ({
+                                                value: item.id_carateristique_rep,
+                                                label: item.nom_carateristique_rep,
+                                            }))}
+                                            placeholder="Sélectionnez un etat..."
+                                            optionFilterProp="label"
+                                        /> }
+                                    </Form.Item>
+                                </Col>
+
                                 <Col xs={24} md={7}>
                                     <Form.Item
                                         label="Image"
