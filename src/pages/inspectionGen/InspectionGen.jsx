@@ -55,16 +55,16 @@ const InspectionGen = () => {
         const handleClick = ({ key }) => {
           switch (key) {
             case 'voirDetail':
-                openModal('DetailInspection', record.id_reparation)
+                openModal('DetailInspection', record.id_inspection_gen)
               break;
             case 'validerInspection':
-              openModal('AddValider', record.id_reparation);
+              openModal('AddValider', record.id_inspection_gen);
               break;
             case 'DetailSuivi':
-                openModal('DetailSuivi', record.id_reparation)
+                openModal('DetailSuivi', record.id_inspection_gen)
                 break;
             case 'ajouterSuivi':
-                openModal('AddSuivi', record.id_reparation)
+                openModal('AddSuivi', record.id_inspection_gen)
               break;
             default:
               break;
@@ -284,7 +284,7 @@ const InspectionGen = () => {
             visible={modalType === 'AddValider'}
             onCancel={closeAllModals}
             footer={null}
-            width={1023}
+            width={800}
             centered
         >
             <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchData} />
