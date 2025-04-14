@@ -271,7 +271,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                                             />
                                                             </Form.Item>
                                 </Col>
-                                
+
                                 <Col xs={24} md={11}>
                                     <Form.Item
                                         {...restField}
@@ -292,6 +292,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                     >
                                     </Button>
                                 </Col>
+                                
                             </Row>
                             ))}
                             <Form.Item>
