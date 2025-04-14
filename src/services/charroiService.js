@@ -144,11 +144,20 @@ export const postReparation = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/reparation`, data);
 }
 
+//Carateristique rep
+export const getCarateristiqueRep = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/carateristique_rep`);
+}
+
 //Inspection gen
 export const getInspectionGen = async () => {
     return axios.get(`${DOMAIN}/api/charroi/inspection_gen`);
 }
 
 export const postInspectionGen= async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/inspection_gen`, data);
+    return axios.post(`${DOMAIN}/api/charroi/inspection_gen`, data , {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 }

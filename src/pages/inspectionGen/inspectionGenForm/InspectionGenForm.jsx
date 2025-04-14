@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Form, Row, Divider, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
 import { SendOutlined, UploadOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
-import { getChauffeur, getStatutVehicule, getTypeReparation, getVehicule, postInspectionGen } from '../../../services/charroiService';
+import { getCarateristiqueRep, getChauffeur, getStatutVehicule, getTypeReparation, getVehicule, postInspectionGen } from '../../../services/charroiService';
 import { getFournisseur } from '../../../services/fournisseurService';
 import { useSelector } from 'react-redux';
 import { getCat_inspection } from '../../../services/batimentService';
-import html2canvas from 'html2canvas';
 import { Rnd } from 'react-rnd';
 import { icons } from '../../../utils/prioriteIcons';
 
@@ -15,6 +14,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
     const [ chauffeur, setChauffeur ] = useState([]);
     const [ vehicule, setVehicule ] = useState([]);
     const [cat, setCat] = useState([]);
+    const [catRep, setCatRep] = useState([]);
     const [ loadingData, setLoadingData ] = useState(false);
     const [ fournisseur, setFournisseur ] = useState([]);
     const [ reparation, setReparation ] = useState([]);
@@ -29,13 +29,14 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
     const fetchDatas = async () => {
 
         try {
-            const [ vehiculeData, fournisseurData, reparationData, statutData, chauffeurData, catData] = await Promise.all([
+            const [ vehiculeData, fournisseurData, reparationData, statutData, chauffeurData, catData, catRep] = await Promise.all([
                 getVehicule(),
                 getFournisseur(),
                 getTypeReparation(),
                 getStatutVehicule(),
                 getChauffeur(),
-                getCat_inspection()
+                getCat_inspection(),
+                getCarateristiqueRep()
             ])
             setVehicule(vehiculeData.data.data)
             setFournisseur(fournisseurData.data)
@@ -43,6 +44,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
             setStatut(statutData.data)
             setChauffeur(chauffeurData.data.data)
             setCat(catData.data)
+            setCatRep(catRep.data)
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -62,10 +64,33 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
         
         setLoading(true)
         try {
-            await postInspectionGen({
-                ...values,
-                user_cr : userId
-            })
+
+            const formData = new FormData();
+
+        // Champs principaux
+        formData.append('id_vehicule', values.id_vehicule);
+        formData.append('id_chauffeur', values.id_chauffeur);
+        formData.append('date_inspection', values.date_inspection);
+        formData.append('date_prevu', values.date_prevu);
+        formData.append('id_fournisseur', values.id_fournisseur);
+        formData.append('id_statut_vehicule', values.id_statut_vehicule);
+        formData.append('commentaire', values.commentaire || '');
+        formData.append('avis', values.avis || '');
+        formData.append('user_cr', userId);
+
+        // Réparations + fichiers
+        values.reparations.forEach((rep, index) => {
+            formData.append(`reparations[${index}][id_type_reparation]`, rep.id_type_reparation);
+            formData.append(`reparations[${index}][montant]`, rep.montant || 0);
+
+            // Image : depuis l'Upload
+            const file = rep.img?.[0]?.originFileObj;
+            if (file) {
+                formData.append(`img_${index}`, file); // le nom doit matcher le backend
+            }
+        });
+
+            await postInspectionGen(formData)
             message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
             form.resetFields();
             fetchData();
@@ -208,31 +233,6 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
 
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="id_fournisseur"
-                                label="Fournisseur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez selectionner un fournisseur...',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={fournisseur.map((item) => ({
-                                        value: item.id_fournisseur                                           ,
-                                        label: `${item.nom_fournisseur}`,
-                                    }))}
-                                    placeholder="Sélectionnez un fournisseur..."
-                                    optionFilterProp="label"
-                                /> }
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
                                 name="id_statut_vehicule"
                                 label="Statut véhicule"
                                 rules={[
@@ -335,7 +335,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                                             </Form.Item>
                                 </Col>
 
-                                <Col xs={24} md={8}>
+                                <Col xs={24} md={7}>
                                     <Form.Item
                                         {...restField}
                                         name={[name, 'montant']}
@@ -346,13 +346,13 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                     </Form.Item>
                                 </Col>
 
-                                <Col xs={24} md={8}>
+                                <Col xs={24} md={7}>
                                     <Form.Item
                                         label="Image"
                                         name={[name, 'img']}
                                         valuePropName="fileList"
                                         getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-                                        rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
+                                        rules={[{ required: false, message: 'Veuillez télécharger une image' }]}
                                     >
                                         <Upload
                                             name="img"
@@ -415,7 +415,22 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                         type="text"
                                         danger
                                         icon={<MinusCircleOutlined />}
-                                        onClick={() => remove(name)}
+                                        onClick={() => {
+                                            remove(name);
+
+                                            setUploadedImages(prev => {
+                                                const newState = { ...prev };
+                                                delete newState[name];
+                                                return newState;
+                                            });
+
+                                            setIconPositionsMap(prev => {
+                                                const newState = { ...prev };
+                                                delete newState[name];
+                                                return newState;
+                                            });
+                                        }}
+
                                     >
                                     </Button>
                                 </Col>

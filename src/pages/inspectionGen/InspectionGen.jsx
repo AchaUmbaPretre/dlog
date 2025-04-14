@@ -242,7 +242,7 @@ const InspectionGen = () => {
             visible={modalType === 'Add'}
             onCancel={closeAllModals}
             footer={null}
-            width={900}
+            width={1023}
             centered
         >
             <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} />
