@@ -5,6 +5,7 @@ import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
 import InspectionGenDetail from './inspectionGenDetail/InspectionGenDetail';
+import InspectionGenValider from './inspectionGenValider/InspectionGenValider';
 
 const { Search } = Input;
 
@@ -54,8 +55,8 @@ const InspectionGen = () => {
             case 'voirDetail':
                 openModal('DetailInspection', record.id_reparation)
               break;
-            case 'ajouterInspection':
-              openModal('AddInspection', record.id_reparation);
+            case 'validerInspection':
+              openModal('AddValider', record.id_reparation);
               break;
             case 'DetailSuivi':
                 openModal('DetailSuivi', record.id_reparation)
@@ -268,6 +269,28 @@ const InspectionGen = () => {
         <Modal
             title=""
             visible={modalType === 'DetailInspection'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1023}
+            centered
+        >
+            <InspectionGenDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'AddValider'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1023}
+            centered
+        >
+            <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'DetailSuivi'}
             onCancel={closeAllModals}
             footer={null}
             width={1023}
