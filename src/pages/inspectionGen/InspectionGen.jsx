@@ -18,24 +18,23 @@ const InspectionGen = () => {
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
 
-        const fetchData = async() => {
-            try {
-                const { data } = await getInspectionGen();
-                setData(data);
-                setLoading(false);
-    
-            } catch (error) {
-                notification.error({
-                    message: 'Erreur de chargement',
-                    description: 'Une erreur est survenue lors du chargement des données.',
-                  });
-                  setLoading(false);
-            }
+    const fetchData = async() => {
+        try {
+            const { data } = await getInspectionGen();
+            setData(data);
+            setLoading(false);
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+            });
+            setLoading(false);
         }
+    }
     
-        useEffect(()=> {
-            fetchData()
-        }, [])
+    useEffect(()=> {
+        fetchData()
+    }, [])
 
     const handleAddInspection = () => openModal('Add');
 
