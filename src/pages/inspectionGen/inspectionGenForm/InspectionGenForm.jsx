@@ -83,6 +83,8 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
             formData.append(`reparations[${index}][id_cat_inspection]`, rep.id_cat_inspection);
             formData.append(`reparations[${index}][id_carateristique_rep]`, rep.id_carateristique_rep);
             formData.append(`reparations[${index}][montant]`, rep.montant || 0);
+            formData.append(`reparations[${index}][commentaire]`, rep.commentaire);
+            formData.append(`reparations[${index}][avis]`, rep.avis);
 
             // Image : depuis l'Upload
             const file = rep.img?.[0]?.originFileObj;
@@ -258,36 +260,6 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
                         </Row>
-                        <Row gutter={12}>
-                        <Col xs={24} md={12}>
-                                <Form.Item
-                                    name="commentaire"
-                                    label="Préoccupations"
-                                    rules={[
-                                        {
-                                            required: false,
-                                            message: 'Veuillez fournir un commentaire...',
-                                        }
-                                    ]}
-                                >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
-                                </Form.Item>
-                            </Col>
-                            <Col xs={24} md={12}>
-                                <Form.Item
-                                    name="avis"
-                                    label="Avis d'expert"
-                                    rules={[
-                                        {
-                                            required: false,
-                                            message: 'Veuillez fournir un commentaire...',
-                                        }
-                                    ]}
-                                >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
-                                </Form.Item>
-                            </Col>
-                        </Row>
                     </Card>
                     {/* Réparations dynamiques */}
                     <Form.List name="reparations">
@@ -369,6 +341,31 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                             rules={[{ required: false, message: 'Veuillez fournir le montant...' },]}
                                         >
                                             <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
+                                        </Form.Item>
+                                    </Col>
+
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'commentaire']}
+                                            label="Préoccupations"
+                                            rules={[
+                                                {
+                                                    required: false,
+                                                    message: 'Veuillez fournir un commentaire...',
+                                                }
+                                            ]}
+                                        >
+                                            {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'50px'}}/>}
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'avis']}
+                                            label="Avis d'expert"
+                                        >
+                                            {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir l'avis d'expert..." style={{width:'100%', resize:'none', height:'50px'}}/>}
                                         </Form.Item>
                                     </Col>
 
