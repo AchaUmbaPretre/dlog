@@ -350,8 +350,8 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                 <Col xs={24} md={8}>
                                     <Form.Item
                                         label="Etat"
-                                        name="id_cat_inspection"
-                                        rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
+                                        name="id_carateristique_rep"
+                                        rules={[{ required: true, message: 'Veuillez sélectionner un etat' }]}
                                     >
                                         { loadingData ? <Skeleton.Input active={true} /> : 
                                         <Select
