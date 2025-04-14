@@ -84,7 +84,7 @@ const InspectionGen = () => {
               <Menu.Item key="voirDetail">
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
               </Menu.Item>
-              <Menu.Item key="ajouterInspection">
+              <Menu.Item key="validerInspection">
                 <PlusOutlined style={{ color: 'orange' }} /> Valider
               </Menu.Item>
             </Menu.SubMenu>
@@ -97,10 +97,10 @@ const InspectionGen = () => {
                 </>
               }
             >
-              <Menu.Item key="voirDetailTracking">
+              <Menu.Item key="DetailSuivi">
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
               </Menu.Item>
-              <Menu.Item key="ajouterTracking">
+              <Menu.Item key="ajouterSuivi">
                 <PlusOutlined style={{ color: 'orange' }} /> Ajouter
               </Menu.Item>
             </Menu.SubMenu>
