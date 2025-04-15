@@ -4,8 +4,8 @@ import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutli
 import { getFournisseur } from '../../../../services/fournisseurService';
 import { getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
-import { getSuivi } from '../../../../services/suiviService';
 import { getTypes } from '../../../../services/typeService';
+import moment from 'moment';
 
 const { Option } = Select;
 
@@ -127,6 +127,7 @@ const ReparationForm = ({closeModal, fetchData}) => {
                                         message: 'Veuillez fournir une date...',
                                     },
                                 ]}
+                                initialValue={moment()}
                             >
                                     {loadingData ? (
                                         <Skeleton.Input active={true} />
@@ -142,7 +143,7 @@ const ReparationForm = ({closeModal, fetchData}) => {
                                 label="Date prevue"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir une date...',
                                     },
                                 ]}
