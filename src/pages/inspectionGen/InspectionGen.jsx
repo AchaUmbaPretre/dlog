@@ -8,6 +8,7 @@ import InspectionGenDetail from './inspectionGenDetail/InspectionGenDetail';
 import InspectionGenValider from './inspectionGenValider/InspectionGenValider';
 import InspectionGenTracking from './inspectionGenTracking/InspectionGenTracking';
 import InspectionGenFormTracking from './inspectionGenTracking/inspectionGenFormTracking/InspectionGenFormTracking';
+import ReparationForm from '../controleTechnique/reparation/reparationForm/ReparationFaux';
 
 const { Search } = Input;
 
@@ -393,10 +394,10 @@ const InspectionGen = () => {
             visible={modalType === 'Reparer'}
             onCancel={closeAllModals}
             footer={null}
-            width={800}
+            width={1000}
             centered
         >
-            <InspectionGenFormTracking closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
        </Modal>
     </>
   )
