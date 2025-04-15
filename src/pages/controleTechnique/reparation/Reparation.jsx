@@ -99,7 +99,7 @@ const Reparation = () => {
               const pageIndex = pagination.current || 1;
               return (pageIndex - 1) * pageSize + index + 1;
             },
-            width: "4%",      
+            width: "4%",
         },
         {
             title: 'Matricule',
