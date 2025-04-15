@@ -21,9 +21,11 @@ const InspectionGen = () => {
     });
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
-    const [inspectionId, setInspectionId] = useState('')
+    const [inspectionId, setInspectionId] = useState('');
+    const [subInspectionId, setSubInspectionId] = useState('')
 
-      const statusIcons = {
+
+    const statusIcons = {
         'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
         'En cours': { icon: <HourglassOutlined />, color: 'blue' },
         'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
@@ -129,7 +131,7 @@ const InspectionGen = () => {
         );
       };
 
-      const columnStyles = {
+    const columnStyles = {
         title: {
           maxWidth: '220px',
           whiteSpace: 'nowrap',
@@ -144,7 +146,7 @@ const InspectionGen = () => {
             display: 'none',
           },
         },
-      };
+    };
       
     const columns = [
         {
@@ -394,8 +396,8 @@ const InspectionGen = () => {
             width={800}
             centered
         >
-{/*             <InspectionGenFormTracking closeModal={() => setModalType(null)} fetchData={fetchData} />
- */}        </Modal>
+            <InspectionGenFormTracking closeModal={() => setModalType(null)} fetchData={fetchData} />
+       </Modal>
     </>
   )
 }
