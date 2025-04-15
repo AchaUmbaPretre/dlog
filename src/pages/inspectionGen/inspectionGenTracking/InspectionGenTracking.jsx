@@ -121,7 +121,7 @@ const InspectionGenTracking = ({ idTache }) => {
           </div>
           <div className="client-rows-right">
             <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleTracking}>
-              Tracking
+              Ajouter un tracking
             </Button>
           </div>
         </div>
