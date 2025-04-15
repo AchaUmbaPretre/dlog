@@ -182,7 +182,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                     />
                 </Card>
-
+                {  selectedRows.length > 0 && 
                 <Card title="Réparation sélectionnée" style={{marginTop:'10px'}}>
                     <Table
                         columns={selectedColumns}
@@ -204,7 +204,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                     </Button>
 
                 </Card>
-
+                }
             </div>
         </div>
     </>
