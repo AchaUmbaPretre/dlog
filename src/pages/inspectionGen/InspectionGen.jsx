@@ -212,20 +212,19 @@ const InspectionGen = () => {
                 );
               }
         },
-            { 
-              title: 'Statut', 
-              dataIndex: 'nom_type_statut', 
-              key: 'nom_type_statut',
-              render: text => {
+        { 
+            title: 'Statut', 
+            dataIndex: 'nom_type_statut', 
+            key: 'nom_type_statut',
+            render: text => {
                 const { icon, color } = statusIcons[text] || {};
                 return (
                   <Space>
                     <Tag icon={icon} color={color}>{text}</Tag>
                   </Space>
                 );
-              },
-        
             },
+        },
         {
             title: 'Actions',
             dataIndex: 'actions',
