@@ -236,6 +236,12 @@ const InspectionGen = () => {
           }
     ]
     
+    const filteredData = data.filter(item =>
+        item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
   return (
     <>
@@ -267,7 +273,7 @@ const InspectionGen = () => {
                 </div>
                 <Table
                     columns={columns}
-                    dataSource={data}
+                    dataSource={filteredData}
                     rowKey="id_inspection"
                     loading={loading}
                     scroll={scroll}
