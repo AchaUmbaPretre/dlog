@@ -133,6 +133,8 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
               setSelectedRows([]);
               setManoeuvreData({});
               fetchDatas();
+              fetchData();
+              closeModal();
           
             } catch (error) {
               console.error('Erreur de validation:', error);
