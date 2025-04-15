@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
-import { getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
+import { getInspectionValide, getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import { getTypes } from '../../../../services/typeService';
 import moment from 'moment';
 
 const { Option } = Select;
 
-const ReparationForm = ({closeModal, fetchData}) => {
+const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
@@ -32,6 +32,20 @@ const ReparationForm = ({closeModal, fetchData}) => {
             setVehicule(vehiculeData.data.data)
             setReparation(reparationData.data.data)
             setEtat(typesData.data)
+
+            if(subInspectionId){
+                const { data : d } = await getInspectionValide(subInspectionId)
+                form.setFieldsValue({
+                    id_vehicule: d[0]?.id_vehicule,
+                    cout: d[0]?.manoeuvre,
+                    montant : d[0]?.cout,
+                    reparations: d.map((item) => ({
+                        id_type_reparation: item.id_type_reparation,
+                        montant: item.cout,
+                        description: item.description || ''
+                    }))
+                })
+            }
             
         } catch (error) {
             console.error('Error fetching data:', error);

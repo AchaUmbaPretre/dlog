@@ -25,7 +25,6 @@ const InspectionGen = () => {
     const [inspectionId, setInspectionId] = useState('');
     const [subInspectionId, setSubInspectionId] = useState('')
 
-
     const statusIcons = {
         'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
         'En cours': { icon: <HourglassOutlined />, color: 'blue' },
@@ -82,7 +81,7 @@ const InspectionGen = () => {
                 openModal('AddSuivi', record.id_inspection_gen)
               break;
             case 'reparer':
-                openModal('Reparer', record.id_inspection_gen)
+                openModal('Reparer', record.id_sub_inspection_gen)
               break;
             default:
               break;
@@ -397,7 +396,7 @@ const InspectionGen = () => {
             width={1000}
             centered
         >
-            <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
        </Modal>
     </>
   )
