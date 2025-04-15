@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Card, Button } from 'antd';
 import './inspectionGenValider.scss'
-import { getSubInspection } from '../../../services/charroiService';
+import { getSubInspection, postInspectionValide } from '../../../services/charroiService';
 import { notification } from 'antd';
 
 const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
@@ -124,7 +124,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
               }));
           
                 // Envoi vers ton service (ajoute cette méthode dans ton service API)
-              await validateReparations(payload);         
+              await postInspectionValide(payload);         
               notification.success({
                 message: 'Succès',
                 description: 'Les réparations ont été validées avec succès.',
