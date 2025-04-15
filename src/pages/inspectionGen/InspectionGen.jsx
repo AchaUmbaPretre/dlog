@@ -385,6 +385,17 @@ const InspectionGen = () => {
         >
             <InspectionGenFormTracking closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Reparer'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={800}
+            centered
+        >
+{/*             <InspectionGenFormTracking closeModal={() => setModalType(null)} fetchData={fetchData} />
+ */}        </Modal>
     </>
   )
 }
