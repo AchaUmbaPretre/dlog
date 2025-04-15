@@ -8,7 +8,7 @@ import InspectionGenDetail from './inspectionGenDetail/InspectionGenDetail';
 import InspectionGenValider from './inspectionGenValider/InspectionGenValider';
 import InspectionGenTracking from './inspectionGenTracking/InspectionGenTracking';
 import InspectionGenFormTracking from './inspectionGenTracking/inspectionGenFormTracking/InspectionGenFormTracking';
-import ReparationForm from '../controleTechnique/reparation/reparationForm/ReparationFaux';
+import ReparationForm from '../controleTechnique/reparation/reparationForm/ReparationForm';
 
 const { Search } = Input;
 
