@@ -337,7 +337,7 @@ const InspectionGen = () => {
             visible={modalType === 'AddSuivi'}
             onCancel={closeAllModals}
             footer={null}
-            width={1023}
+            width={800}
             centered
         >
             <InspectionGenFormTracking closeModal={() => setModalType(null)} fetchData={fetchData} />

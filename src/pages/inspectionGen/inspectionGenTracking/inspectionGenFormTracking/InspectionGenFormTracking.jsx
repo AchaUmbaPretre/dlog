@@ -68,10 +68,10 @@ const InspectionGenFormTracking = ({idInspection, closeModal, fetchData}) => {
 
     return (
         <div className="controle_form">
-            <div className="controle_title_row">
+{/*             <div className="controle_title_row">
                 <h2 className="controle_h2" style={{fontSize:'15px'}} >Tracking de tache : {name?.nom_tache}</h2>
                 <h2 className="controle_h2" style={{fontSize:'15px'}} >Client : {name?.nom_client}</h2>
-            </div>
+            </div> */}
             <div className="controle_wrapper">
                 <Form
                     form={form}
