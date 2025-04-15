@@ -90,13 +90,17 @@ const Reparation = () => {
       
 
     const columns = [
-        { 
-            title: '#', 
-            dataIndex: 'id', 
-            key: 'id', 
-            render: (text, record, index) => index + 1, 
-            width: "3%" 
-          },
+        {
+            title: '#',
+            dataIndex: 'id',
+            key: 'id',
+            render: (text, record, index) => {
+              const pageSize = pagination.pageSize || 10;
+              const pageIndex = pagination.current || 1;
+              return (pageIndex - 1) * pageSize + index + 1;
+            },
+            width: "4%",      
+        },
         {
             title: 'Matricule',
             dataIndex: 'immatriculation',

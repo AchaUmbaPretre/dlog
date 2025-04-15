@@ -23,7 +23,6 @@ const InspectionGen = () => {
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
     const [inspectionId, setInspectionId] = useState('');
-    const [subInspectionId, setSubInspectionId] = useState('')
 
     const statusIcons = {
         'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
