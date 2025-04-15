@@ -123,9 +123,8 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                 manoeuvre: manoeuvreData[row.id_sub_inspection_gen] || 0,
               }));
           
-              // Envoi vers ton service (ajoute cette méthode dans ton service API)
-/*               await validateReparations(payload);
- */          
+                // Envoi vers ton service (ajoute cette méthode dans ton service API)
+              await validateReparations(payload);         
               notification.success({
                 message: 'Succès',
                 description: 'Les réparations ont été validées avec succès.',
