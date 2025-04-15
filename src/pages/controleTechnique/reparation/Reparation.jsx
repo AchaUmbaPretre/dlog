@@ -63,22 +63,11 @@ const Reparation = () => {
       
         return (
           <Menu onClick={handleClick}>
-            <Menu.SubMenu
-              key="inspection"
-              title={
-                <>
-                  <FileTextOutlined style={{ color: '#1890ff' }} /> Inspection
-                </>
-              }
-            >
-              <Menu.Item key="voirDetail">
+            <Menu.Item key="voirDetail">
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
-              </Menu.Item>
-              <Menu.Item key="ajouterInspection">
-                <PlusOutlined style={{ color: 'orange' }} /> Ajouter Inspection
-              </Menu.Item>
-            </Menu.SubMenu>
-      
+            </Menu.Item>
+            <Menu.Divider />
+            
             <Menu.SubMenu
               key="suivi"
               title={
