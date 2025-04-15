@@ -49,7 +49,8 @@ const InspectionGenDetail = ({ inspectionId }) => {
                             <>
                                 <Title level={4}>Détails de l’inspection</Title>
                                 <Text strong>Marque :</Text> <Text>{headerInfo.marque}</Text><br />
-                                <Text strong>Immatriculation :</Text> <Text>{headerInfo.immatriculation}</Text>
+                                <Text strong>Immatriculation :</Text> <Text>{headerInfo.immatriculation}</Text><br />
+                                <Text strong>Date inspection:</Text> <Text>{moment(headerInfo.date_inspection).format('DD/MM/YYYY')}</Text>
                                 <Divider />
                             </>
                         )}
@@ -74,7 +75,6 @@ const InspectionGenDetail = ({ inspectionId }) => {
                                             <Text strong>Catégorie:</Text> <Text>{item.nom_cat_inspection}</Text><br />
                                             <Text strong>Caractéristique:</Text> <Text>{item.nom_carateristique_rep}</Text><br />
                                             <Text strong>Montant:</Text> <Text>{item.montant} $</Text><br />
-                                            <Text strong>Date inspection:</Text> <Text>{moment(item.date_inspection).format('DD/MM/YYYY')}</Text><br />
                                             <Text strong>Statut:</Text> <Tag color="orange">{item.nom_type_statut}</Tag><br />
                                             <Paragraph>
                                                 <Text strong>Commentaire:</Text><br />
