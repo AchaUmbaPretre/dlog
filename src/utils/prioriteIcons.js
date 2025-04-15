@@ -88,3 +88,15 @@ export const getPriorityLabel = (priority) => {
     { id: 'hammer', label: 'Marteau', icon: '🔨' },
     { id: 'water', label: 'Goutte d’eau', icon: '💧' },
   ];
+
+  export const colorMapping = {
+    'En attente': '#FFA500',
+    'En cours': '#1E90FF', 
+    'Point bloquant': '#FF4500', 
+    'En attente de validation': '#32CD32',
+    'Validé': '#228B22',
+    'Budget': '#FFD700',
+    'Exécuté': '#A9A9A9',
+    1: '#32CD32',
+    0: '#FF6347'
+};

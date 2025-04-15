@@ -112,6 +112,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
             }
         ];
           
+        console.log(selectedRows)
         const handleSubmitValidation = async () => {
             try {
               const payload = selectedRows.map((row) => ({

@@ -4,18 +4,8 @@ import { getUser } from '../../../services/userService';
 import { getTypes } from '../../../services/typeService';
 import { postSuiviTache } from '../../../services/suiviService';
 import { getTacheOne } from '../../../services/tacheService';
+import { colorMapping } from '../../../utils/prioriteIcons';
 
-const colorMapping = {
-    'En attente': '#FFA500',
-    'En cours': '#1E90FF', 
-    'Point bloquant': '#FF4500', 
-    'En attente de validation': '#32CD32',
-    'Validé': '#228B22',
-    'Budget': '#FFD700',
-    'Exécuté': '#A9A9A9',
-    1: '#32CD32',
-    0: '#FF6347'
-};
 
 const SuiviTache = ({idTache, closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -51,7 +41,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
         };
 
         fetchData();
-    }, []);
+    }, [idTache]);
 
     const onFinish = async (values) => {
         setIsLoading(true);
