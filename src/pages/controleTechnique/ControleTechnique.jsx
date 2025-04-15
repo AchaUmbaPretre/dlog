@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, notification, Table, Tag, Tabs, Modal } from 'antd';
-import { RetweetOutlined, FileSearchOutlined, ShopOutlined, ScanOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { RetweetOutlined, CarOutlined, FileSearchOutlined, ShopOutlined, ScanOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import ControleTechniqueForm from './controleTechniqueForm/ControleTechniqueForm';
 import { getControleTechnique } from '../../services/charroiService';
@@ -61,24 +61,24 @@ const ControleTechnique = () => {
             key: 'id', 
             render: (text, record, index) => index + 1, 
             width: "3%" 
-          },
-        {
-          title: 'Immatricule',
-          dataIndex: 'immatriculation',
-          render: (text) => (
-            <span>
-              {text}
-            </span>
-          ),
         },
         {
-          title: 'Marque',
-          dataIndex: 'nom_marque',
-          render: (text) => (
-            <span>
-              {text}
-            </span>
-          ),
+            title: 'Matricule',
+            dataIndex: 'immatriculation',
+            render: (text, record) => (
+                <Tag icon={<CarOutlined />} color="green">
+                    {text}
+                </Tag>
+            )
+        },
+        {
+            title: 'Marque',
+            dataIndex: 'nom_marque',
+            render: (text, record) => (
+                <Tag icon={<CarOutlined />} color="orange">
+                    {text}
+                </Tag>
+            )
         },
         {
           title: 'Date controle',

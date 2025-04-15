@@ -6,6 +6,7 @@ import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
 import SuiviReparationForm from './suiviReparation/suiviReparationForm/SuiviReparationForm';
 import SuiviReparation from './suiviReparation/SuiviReparation';
+import ReparationDetail from './reparationDetail/ReparationDetail';
 
 const { Search } = Input;
 
@@ -45,7 +46,7 @@ const Reparation = () => {
         const handleClick = ({ key }) => {
           switch (key) {
             case 'voirDetail':
-                openModal('DetailInspection', record.id_reparation)
+                openModal('Detail', record.id_sud_reparation)
               break;
             case 'ajouterInspection':
               openModal('AddInspection', record.id_reparation);
@@ -67,7 +68,7 @@ const Reparation = () => {
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
             </Menu.Item>
             <Menu.Divider />
-            
+
             <Menu.SubMenu
               key="suivi"
               title={
@@ -158,7 +159,7 @@ const Reparation = () => {
             dataIndex: 'nb_jours_au_garage',
             render: (text) => (
                 <Tag color='orange'>
-                    {text}
+                    {text ?? 'Aucun'}
                 </Tag>
             )
         },
@@ -300,6 +301,17 @@ const Reparation = () => {
             centered
         >
             <SuiviReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+            <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={idReparation} />
         </Modal>
     </>
   )
