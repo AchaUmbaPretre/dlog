@@ -4,8 +4,6 @@ import { Input, Button, Dropdown, Menu, notification, Table, Tag, Modal } from '
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
-import InspectionReparationForm from './inspectionReparation/inspectionReparationForm/InspectionReparationForm';
-import InspectionReparationDetail from './inspectionReparation/inspectionReparationDetail/InspectionReparationDetail';
 import SuiviReparationForm from './suiviReparation/suiviReparationForm/SuiviReparationForm';
 import SuiviReparation from './suiviReparation/SuiviReparation';
 
@@ -137,8 +135,8 @@ const Reparation = () => {
             )
         },
         {
-          title: 'Date debut',
-          dataIndex: 'date_reparation',
+          title: 'Date Entrée',
+          dataIndex: 'date_entree',
           render: (text) => (
             <Tag icon={<CalendarOutlined />} color="blue">
                 {moment(text).format('DD-MM-YYYY')}
@@ -146,14 +144,26 @@ const Reparation = () => {
           )
         },
         {
-          title: 'Date fin',
-          dataIndex: 'date_sortie',
-          render: (text) => (
-            <Tag icon={<CalendarOutlined />} color="blue">
-                {moment(text).format('DD-MM-YYYY')}
-            </Tag>
-          )
-        },
+            title: 'Date rep',
+            dataIndex: 'date_reparation',
+            render: (text) => {
+                if (!text) {
+                    return (
+                        <Tag icon={<CalendarOutlined />} color="red">
+                            Aucune date
+                        </Tag>
+                    );
+                }
+                const date = moment(text);
+                const isValid = date.isValid();
+                  
+                return (
+                    <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                          {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
+                    </Tag>
+                );
+            }
+        },  
         {
             title: 'Nbre Jour',
             dataIndex: 'nb_jours_au_garage',
@@ -279,28 +289,6 @@ const Reparation = () => {
             centered
         >
             <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
-        </Modal>
-
-        <Modal
-            title=""
-            visible={modalType === 'DetailInspection'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={900}
-            centered
-        >
-            <InspectionReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} />
-        </Modal>
-
-        <Modal
-            title=""
-            visible={modalType === 'AddInspection'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={900}
-            centered
-        >
-            <InspectionReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
 
         <Modal

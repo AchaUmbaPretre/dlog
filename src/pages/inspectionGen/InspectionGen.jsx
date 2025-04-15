@@ -208,7 +208,7 @@ const InspectionGen = () => {
                 </Tag>
               );
             }
-          },          
+        },          
         {
             title: 'Préoccupations',
             dataIndex: 'commentaire',
