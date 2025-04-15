@@ -226,33 +226,6 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={12}>
-                                <Form.Item
-                                    name="id_etat"
-                                    label="Etat"
-                                    rules={[
-                                        {
-                                            required: false,
-                                            message: 'Veuillez sélectionner un etat...',
-                                        }
-                                    ]}
-                                    initialValue={1}
-                                >
-                                    {loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        allowClear
-                                        size='large'
-                                        showSearch
-                                        options={etat.map((item) => ({
-                                            value: item.id_type_statut_suivi                                           ,
-                                            label: `${item.nom_type_statut}`,
-                                        }))}
-                                        placeholder="Sélectionnez un fournisseur..."
-                                        optionFilterProp="label"
-                                    />}
-                                </Form.Item>
-                            </Col>
-
                             <Col xs={24} md={24}>
                                 <Form.Item
                                     name="commentaire"

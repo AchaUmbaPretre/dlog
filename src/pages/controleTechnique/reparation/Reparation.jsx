@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ToolOutlined, PlusOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, FileTextOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { ToolOutlined, CarOutlined, PlusOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, FileTextOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Input, Button, Dropdown, Menu, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
@@ -110,12 +110,22 @@ const Reparation = () => {
             width: "3%" 
           },
         {
-          title: 'Matricule',
-          dataIndex: 'immatriculation',
+            title: 'Matricule',
+            dataIndex: 'immatriculation',
+            render: (text, record) => (
+                <Tag icon={<CarOutlined />} color="green">
+                    {text}
+                </Tag>
+            )
         },
         {
             title: 'Marque',
             dataIndex: 'nom_marque',
+            render: (text, record) => (
+                <Tag icon={<CarOutlined />} color="orange">
+                    {text}
+                </Tag>
+            )
         },
         {
             title: 'Type réparation',
