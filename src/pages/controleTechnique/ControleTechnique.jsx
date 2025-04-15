@@ -14,7 +14,7 @@ const ControleTechnique = () => {
     const [searchValue, setSearchValue] = useState('');
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    const scroll = { x: 400 };
+    const scroll = { x: 'max-content' };
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 15,
