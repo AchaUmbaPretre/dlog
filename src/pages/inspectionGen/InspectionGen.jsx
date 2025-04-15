@@ -132,7 +132,7 @@ const InspectionGen = () => {
               return (pageIndex - 1) * pageSize + index + 1;
             },
             width: "4%",      
-          },
+        },
         {
             title: 'Matricule',
             dataIndex: 'immatriculation',
