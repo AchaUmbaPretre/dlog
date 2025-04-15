@@ -211,7 +211,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     name="code_rep"
                                     label="Code de réparation"
