@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, Menu, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, ToolOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
@@ -78,6 +78,9 @@ const InspectionGen = () => {
             case 'ajouterSuivi':
                 openModal('AddSuivi', record.id_inspection_gen)
               break;
+            case 'reparer':
+                openModal('Reparer', record.id_inspection_gen)
+              break;
             default:
               break;
           }
@@ -100,7 +103,8 @@ const InspectionGen = () => {
                 <PlusOutlined style={{ color: 'orange' }} /> Valider
               </Menu.Item>
             </Menu.SubMenu>
-            
+            <Menu.Divider />
+
             <Menu.SubMenu
               key="tracking"
               title={
@@ -116,11 +120,32 @@ const InspectionGen = () => {
                 <PlusOutlined style={{ color: 'orange' }} /> Ajouter
               </Menu.Item>
             </Menu.SubMenu>
-    
+            <Menu.Divider />
+
+            <Menu.Item key="reparer">
+                <ToolOutlined style={{ color: 'orange' }} /> Réparer
+            </Menu.Item>
           </Menu>
         );
       };
 
+      const columnStyles = {
+        title: {
+          maxWidth: '220px',
+          whiteSpace: 'nowrap',
+          overflowX: 'scroll', 
+          overflowY: 'hidden',
+          textOverflow: 'ellipsis',
+          scrollbarWidth: 'none',
+          '-ms-overflow-style': 'none', 
+        },
+        hideScroll: {
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+      };
+      
     const columns = [
         {
             title: '#',
@@ -186,13 +211,31 @@ const InspectionGen = () => {
             title: 'Préoccupations',
             dataIndex: 'commentaire',
         },
-        {
+/*         {
             title: "Avis d'expert",
             dataIndex: 'avis',
-        },
+        }, */
         {
             title: "Cout",
             dataIndex: 'montant',
+            key: 'montant',
+            sorter: (a, b) => a.montant - b.montant,
+            sortDirections: ['descend', 'ascend'],
+            render: (text) => (
+                <Space style={columnStyles.title} className={columnStyles.hideScroll} >
+                    <Tag color="green">
+                        {text
+                            ? `${parseFloat(text)
+                                .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                                })
+                                .replace(/,/g, " ")} $`
+                            : "0.00"}
+                    </Tag>
+                </Space>
+            ),
+            align: 'right', 
         },
         {
             title: 'Date validation',
