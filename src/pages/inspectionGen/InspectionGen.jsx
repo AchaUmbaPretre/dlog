@@ -9,6 +9,7 @@ import InspectionGenValider from './inspectionGenValider/InspectionGenValider';
 import InspectionGenTracking from './inspectionGenTracking/InspectionGenTracking';
 import InspectionGenFormTracking from './inspectionGenTracking/inspectionGenFormTracking/InspectionGenFormTracking';
 import ReparationForm from '../controleTechnique/reparation/reparationForm/ReparationForm';
+import './inspectionGen.css'
 
 const { Search } = Input;
 
@@ -25,8 +26,8 @@ const InspectionGen = () => {
     const [inspectionId, setInspectionId] = useState('');
 
     const statusIcons = {
-        'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
-        'En cours': { icon: <HourglassOutlined />, color: 'blue' },
+        'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
+        'En cours': { icon: <HourglassOutlined spin />, color: 'blue' },
         'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
         'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
         'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
@@ -162,12 +163,17 @@ const InspectionGen = () => {
         {
             title: 'Matricule',
             dataIndex: 'immatriculation',
-            render: (text, record) => (
-                <Tag icon={<CarOutlined />} color="green">
-                    {text}
-                </Tag>
+            render: (text) => (
+                <div className="vehicule-matricule">
+                    <span className="car-wrapper">
+                        <span className="car-boost" />
+                        <CarOutlined className="car-icon-animated" />
+                        <span className="car-shadow" />
+                    </span>
+                    <Tag color="blue">{text}</Tag>
+                </div>
             )
-        },
+        },                        
         {
             title: 'Marque',
             dataIndex: 'nom_marque',

@@ -6,7 +6,6 @@ import { colorMapping } from '../../../../utils/prioriteIcons';
 import { postSuiviInspections } from '../../../../services/charroiService';
 
 
-
 const InspectionGenFormTracking = ({idSubInspectionGen, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [type, setType] = useState([]);

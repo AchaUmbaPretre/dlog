@@ -22,7 +22,7 @@ const FormChauffeur = ({fetchData, closeModal}) => {
     const [typeContrat, setTypeContrat] = useState([]);
     const [etatCivil, setEtatCivil] = useState([]);
     const [fonction, setFonction] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -55,7 +55,7 @@ const FormChauffeur = ({fetchData, closeModal}) => {
 
     
     const onFinish = async (values) => {
-        
+
         setLoading(true)
         try {
             if (fileList.length > 0) {
