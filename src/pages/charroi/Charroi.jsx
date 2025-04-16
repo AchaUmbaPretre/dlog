@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Image, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, CarOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { ExportOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
 import { getVehicule } from '../../services/charroiService';
 import config from '../../config';
+import vehiculeImg from './../../assets/vehicule.png'
 
 const { Search } = Input;
 
@@ -105,7 +106,7 @@ const Charroi = () => {
         <div className="userList">
           <Image
             className="userImg"
-            src={`${DOMAIN}/${record.img}`}
+            src={ record.img ? `${DOMAIN}/${record.img}` : vehiculeImg}
             width={40}
             height={40}
             style={{ borderRadius: '50%' }}
@@ -185,6 +186,27 @@ const Charroi = () => {
       key: 'actions',
       render: (text, record) => (
         <Space size="middle" style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
+            <Tooltip title="Voir les détails">
+                <Button
+                icon={<EyeOutlined />}
+                aria-label="Voir les détails de la tâche"
+                style={{ color: 'blue' }}
+                />
+            </Tooltip>
+            <Tooltip title="Supprimer">
+                <Popconfirm
+                    title="Êtes-vous sûr de vouloir supprimer cette déclaration ?"
+                    onConfirm={() => handleDelete(record.id_declaration_super)}
+                    okText="Oui"
+                    cancelText="Non"
+                >
+                    <Button
+                        icon={<DeleteOutlined />}
+                        style={{ color: 'red' }}
+                        aria-label="Delete client"
+                    />
+                </Popconfirm>
+            </Tooltip>
         </Space>
       ),
     }
