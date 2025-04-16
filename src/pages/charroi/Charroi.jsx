@@ -196,7 +196,7 @@ const Charroi = () => {
             <Tooltip title="Supprimer">
                 <Popconfirm
                     title="Êtes-vous sûr de vouloir supprimer ce véhicule ?"
-                    onConfirm={() => handleDelete(record.id_declaration_super)}
+                    onConfirm={() => handleDelete(record.id_vehicule)}
                     okText="Oui"
                     cancelText="Non"
                 >
