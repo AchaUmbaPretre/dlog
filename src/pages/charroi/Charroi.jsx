@@ -249,7 +249,7 @@ const Charroi = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={900}
+        width={1000}
         centered
       >
         <CharroiForm idVehicule={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
