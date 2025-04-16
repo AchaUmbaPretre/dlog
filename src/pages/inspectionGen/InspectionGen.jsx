@@ -187,7 +187,7 @@ const InspectionGen = () => {
             )
         },
         {
-            title: 'Date rep',
+            title: 'Date rep.',
             dataIndex: 'date_reparation',
             render: (text) => {
               if (!text) {
@@ -209,8 +209,13 @@ const InspectionGen = () => {
             }
         },          
         {
-            title: 'Préoccupations',
-            dataIndex: 'commentaire',
+            title: 'Type de rep.',
+            dataIndex: 'type_rep',
+            render: (text) => (
+                <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
+                    {text}
+                </Tag>
+            )
         },
 /*         {
             title: "Avis d'expert",
