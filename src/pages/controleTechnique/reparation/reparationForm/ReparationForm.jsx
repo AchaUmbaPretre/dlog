@@ -14,7 +14,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
     const [loadingData, setLoadingData] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
     const [vehicule, setVehicule] = useState([]);
-    const [etat, setEtat] = useState([]);
+    const [idSubInspectionGen, setIdSubInspectionGen] = useState('');
     const [reparation, setReparation] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [loading, setLoading] = useState(false);
@@ -31,7 +31,6 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
             setFournisseur(fournisseurData.data)
             setVehicule(vehiculeData.data.data)
             setReparation(reparationData.data.data)
-            setEtat(typesData.data)
 
             if(subInspectionId){
                 const { data : d } = await getInspectionValide(subInspectionId)
@@ -45,6 +44,8 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                         description: item.description || ''
                     }))
                 })
+
+                setIdSubInspectionGen(d[0]?.id_sub_inspection_gen)
             }
             
         } catch (error) {
@@ -58,6 +59,8 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
             fetchDatas()
         }, [])
 
+        console.log(idSubInspectionGen)
+
     const onFinish = async (values) => {
         await form.validateFields();
         const loadingKey = 'loadingReparation';
@@ -67,7 +70,8 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
         try {
             await postReparation({
                 ...values,
-                user_cr : userId
+                user_cr : userId,
+                id_sub_inspection_gen : idSubInspectionGen
             })
             message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
             form.resetFields();
@@ -324,7 +328,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                         )}
                         </Form.List>
                     <div style={{ marginTop: '20px' }}>
-                        <Button type="primary" htmlType="submit" icon={<SendOutlined />}>
+                        <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>
                             Soumettre
                         </Button>
                     </div>
