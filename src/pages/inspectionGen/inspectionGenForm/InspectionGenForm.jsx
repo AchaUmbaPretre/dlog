@@ -258,7 +258,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                     label="Date prevue"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Veuillez fournir une date...',
                                         },
                                     ]}
@@ -483,7 +483,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                     icon={<PlusCircleOutlined />}
                                     style={{ width: '100%' }}
                                 >
-                                    Ajouter une réparation
+                                    Signaler un problème technique
                                 </Button>
                             </Form.Item>
                         </>

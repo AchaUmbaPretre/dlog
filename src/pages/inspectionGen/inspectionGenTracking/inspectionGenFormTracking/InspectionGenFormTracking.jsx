@@ -6,7 +6,7 @@ import { colorMapping } from '../../../../utils/prioriteIcons';
 
 
 
-const InspectionGenFormTracking = ({idInspection, closeModal, fetchData}) => {
+const InspectionGenFormTracking = ({idSubInspectionGen, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
@@ -40,7 +40,7 @@ const InspectionGenFormTracking = ({idInspection, closeModal, fetchData}) => {
         };
 
         fetchData();
-    }, [idInspection]);
+    }, [idSubInspectionGen]);
 
     const onFinish = async (values) => {
         setIsLoading(true);

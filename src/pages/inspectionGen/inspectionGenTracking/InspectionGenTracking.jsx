@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal, Skeleton } from 'antd';
 import { PlusCircleOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import InspectionGenFormTracking from './inspectionGenFormTracking/InspectionGenFormTracking';
 
 const { Search } = Input;
 
-const InspectionGenTracking = ({ idTache }) => {
+const InspectionGenTracking = ({ idSubInspectionGen }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [nameTache, setNameTache] = useState('');
@@ -42,7 +43,7 @@ const InspectionGenTracking = ({ idTache }) => {
       fetchData();
     }, 5000);
     return () => clearInterval(interval);
-  }, [idTache]);
+  }, [idSubInspectionGen]);
 
   const handleTracking = () => {
     openModal('suivi');
@@ -148,8 +149,8 @@ const InspectionGenTracking = ({ idTache }) => {
         width={700}
         centered
       >
-{/*         <SuiviTache idTache={idTache} closeModal={() => setModalType(null)} fetchData={fetchData} />
- */}      </Modal>
+        <InspectionGenFormTracking idSubInspectionGen={idSubInspectionGen} closeModal={() => setModalType(null)} fetchData={fetchData} />
+     </Modal>
     </div>
   );
 };
