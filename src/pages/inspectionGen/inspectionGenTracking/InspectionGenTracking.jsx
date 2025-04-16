@@ -3,6 +3,7 @@ import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip
 import { PlusCircleOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import InspectionGenFormTracking from './inspectionGenFormTracking/InspectionGenFormTracking';
+import { getSuiviInspections } from '../../../services/charroiService';
 
 const { Search } = Input;
 
@@ -19,14 +20,12 @@ const InspectionGenTracking = ({ idSubInspectionGen }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      /* const { data } = await getSuiviTacheOneV(idTache);
+      const { data } = await getSuiviInspections(idSubInspectionGen);
       if (data.length > 0) {
         setData(data);
-        setNameTache(data[0].nom_tache || '');
       } else {
         setData([]);
-        setNameTache('');
-      } */
+      }
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -114,11 +113,11 @@ const InspectionGenTracking = ({ idSubInspectionGen }) => {
           <div className="client-row-icon">
             <FileTextOutlined className='client-icon' />
           </div>
-          <h2 className="client-h2">{nameTache ? `Liste des tracking : ${nameTache}` : 'Liste des tracking'}</h2>
-        </div>
+{/*           <h2 className="client-h2">{nameTache ? `Liste des tracking : ${nameTache}` : 'Liste des tracking'}</h2>
+ */}        </div>
         <div className="client-actions">
           <div className="client-row-left">
-            <Search placeholder="Search doc..." enterButton />
+            <Search placeholder="Rechercher..." enterButton />
           </div>
           <div className="client-rows-right">
             <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleTracking}>

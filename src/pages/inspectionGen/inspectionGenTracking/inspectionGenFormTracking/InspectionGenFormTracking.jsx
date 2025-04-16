@@ -3,6 +3,7 @@ import { Button, Form, Input, Space, Row, Col, Select, notification, InputNumber
 import { getTypes } from '../../../../services/typeService';
 import { getUser } from '../../../../services/userService';
 import { colorMapping } from '../../../../utils/prioriteIcons';
+import { postSuiviInspections } from '../../../../services/charroiService';
 
 
 
@@ -45,10 +46,10 @@ const InspectionGenFormTracking = ({idSubInspectionGen, closeModal, fetchData}) 
     const onFinish = async (values) => {
         setIsLoading(true);
         try {
-/*             await postSuiviTache({
+             await postSuiviInspections({
                 ...values,
-                id_tache: idTache
-            }); */
+                id_sub_inspection_gen: idSubInspectionGen
+            });
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
