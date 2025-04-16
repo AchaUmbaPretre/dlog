@@ -74,10 +74,10 @@ const InspectionGen = () => {
               openModal('AddValider', record.id_inspection_gen);
               break;
             case 'DetailSuivi':
-                openModal('DetailSuivi', record.id_inspection_gen)
+                openModal('DetailSuivi', record.id_sub_inspection_gen)
                 break;
             case 'ajouterSuivi':
-                openModal('AddSuivi', record.id_inspection_gen)
+                openModal('AddSuivi', record.id_sub_inspection_gen)
               break;
             case 'reparer':
                 openModal('Reparer', record.id_sub_inspection_gen)
@@ -378,7 +378,7 @@ const InspectionGen = () => {
             width={1023}
             centered
         >
-            <InspectionGenTracking closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <InspectionGenTracking idSubInspectionGen={inspectionId} closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
 
         <Modal
@@ -389,7 +389,7 @@ const InspectionGen = () => {
             width={800}
             centered
         >
-            <InspectionGenFormTracking closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <InspectionGenFormTracking idSubInspectionGen={inspectionId} closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
 
         <Modal
