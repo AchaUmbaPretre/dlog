@@ -11,7 +11,6 @@ const InspectionGenFormTracking = ({idSubInspectionGen, closeModal, fetchData}) 
     const [form] = Form.useForm();
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
-    const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleError = (message) => {
