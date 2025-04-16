@@ -301,7 +301,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                     <Form.List name="reparations">
                         {(fields, { add, remove }) => (
                         <>
-                            <Divider className='title_row'>Catégorie</Divider>
+                            <Divider className='title_row'>Problèmes techniques</Divider>
                             {fields.map(({ key, name, ...restField }) => (
                             <Card style={{marginBottom:'10px'}}>
                                 <Row key={key} gutter={12} align="middle">
@@ -350,30 +350,9 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
 
                                     <Col xs={24} md={8}>
                                         <Form.Item
-                                            label="Etat"
-                                            {...restField}
-                                            name={[name, 'id_carateristique_rep']}
-                                            rules={[{ required: false, message: 'Veuillez sélectionner un etat' }]}
-                                        >
-                                            { loadingData ? <Skeleton.Input active={true} /> : 
-                                            <Select
-                                                allowClear
-                                                showSearch
-                                                options={catRep.map((item) => ({
-                                                    value: item.id_carateristique_rep,
-                                                    label: item.nom_carateristique_rep,
-                                                }))}
-                                                placeholder="Sélectionnez un etat..."
-                                                optionFilterProp="label"
-                                            /> }
-                                        </Form.Item>
-                                    </Col>
-
-                                    <Col xs={24} md={8}>
-                                        <Form.Item
                                             {...restField}
                                             name={[name, 'montant']}
-                                            label="Montant"
+                                            label="Budget ($)"
                                             rules={[{ required: false, message: 'Veuillez fournir le montant...' },]}
                                         >
                                             <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
