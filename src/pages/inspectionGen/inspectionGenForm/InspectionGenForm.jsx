@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { getCat_inspection } from '../../../services/batimentService';
 import { Rnd } from 'react-rnd';
 import { icons } from '../../../utils/prioriteIcons';
+import html2canvas from 'html2canvas';
+
 
 const InspectionGenForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -59,55 +61,91 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
 
     const onFinish = async (values) => {
         await form.validateFields();
+    
         const loadingKey = 'loadingReparation';
         message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
-        
-        setLoading(true)
+    
+        setLoading(true);
+    
         try {
-
             const formData = new FormData();
-
-        // Champs principaux
-        formData.append('id_vehicule', values.id_vehicule);
-        formData.append('id_chauffeur', values.id_chauffeur);
-        formData.append('date_inspection', values.date_inspection);
-        formData.append('date_prevu', values.date_prevu);
-        formData.append('id_statut_vehicule', values.id_statut_vehicule);
-        formData.append('user_cr', userId);
-
-        // Réparations + fichiers
-        values.reparations.forEach((rep, index) => {
-            formData.append(`reparations[${index}][id_type_reparation]`, rep.id_type_reparation);
-            formData.append(`reparations[${index}][id_cat_inspection]`, rep.id_cat_inspection);
-            formData.append(`reparations[${index}][id_carateristique_rep]`, rep.id_carateristique_rep);
-            formData.append(`reparations[${index}][montant]`, rep.montant || 0);
-            formData.append(`reparations[${index}][commentaire]`, rep.commentaire);
-            formData.append(`reparations[${index}][avis]`, rep.avis);
-
-            // Image : depuis l'Upload
-            const file = rep.img?.[0]?.originFileObj;
-            if (file) {
-                formData.append(`img_${index}`, file); // le nom doit matcher le backend
+    
+            // Champs principaux
+            formData.append('id_vehicule', values.id_vehicule);
+            formData.append('id_chauffeur', values.id_chauffeur);
+            formData.append('date_inspection', values.date_inspection);
+            formData.append('date_prevu', values.date_prevu);
+            formData.append('id_statut_vehicule', values.id_statut_vehicule);
+            formData.append('user_cr', userId);
+    
+            // Récupération de l'élément image-container
+            const imageContainer = document.querySelector('.image-container');
+            if (!imageContainer) {
+                throw new Error("L'élément .image-container n'a pas été trouvé dans le DOM.");
             }
-        });
-
-            await postInspectionGen(formData)
+    
+            // Traitement des réparations
+            for (let index = 0; index < values.reparations.length; index++) {
+                const rep = values.reparations[index];
+                formData.append(`reparations[${index}][id_type_reparation]`, rep.id_type_reparation);
+                formData.append(`reparations[${index}][id_cat_inspection]`, rep.id_cat_inspection);
+                formData.append(`reparations[${index}][id_carateristique_rep]`, rep.id_carateristique_rep);
+                formData.append(`reparations[${index}][montant]`, rep.montant || 0);
+                formData.append(`reparations[${index}][commentaire]`, rep.commentaire);
+                formData.append(`reparations[${index}][avis]`, rep.avis);
+    
+                const file = rep.img?.[0]?.originFileObj;
+    
+                if (file) {
+                    // Capture et redimensionnement de l'image
+                    const canvas = await html2canvas(imageContainer);
+                    const originalWidth = canvas.width;
+                    const originalHeight = canvas.height;
+    
+                    let targetWidth = 500;
+                    let targetHeight;
+    
+                    if (originalWidth < targetWidth) {
+                        const ratio = targetWidth / originalWidth;
+                        targetHeight = originalHeight * ratio;
+                    } else {
+                        targetWidth = originalWidth;
+                        targetHeight = originalHeight;
+                    }
+    
+                    const resizedCanvas = document.createElement('canvas');
+                    const ctx = resizedCanvas.getContext('2d');
+                    resizedCanvas.width = targetWidth;
+                    resizedCanvas.height = targetHeight;
+    
+                    ctx.drawImage(canvas, 0, 0, originalWidth, originalHeight, 0, 0, targetWidth, targetHeight);
+    
+                    const blob = await new Promise((resolve) => resizedCanvas.toBlob(resolve, 'image/png'));
+                    const finalFile = new File([blob], `image_${index}.png`, { type: 'image/png' });
+                    formData.append(`img_${index}`, finalFile);
+                }
+            }
+    
+            await postInspectionGen(formData);
+    
             message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
             form.resetFields();
             fetchData();
-            closeModal()
-            
+            closeModal();
+    
         } catch (error) {
-            console.error("Erreur lors de l'ajout de controle technique:", error);
+            console.error("Erreur lors de l'ajout de contrôle technique :", error);
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+    
             notification.error({
                 message: 'Erreur',
-                description: `${error.response?.data?.error}`,
+                description: error.response?.data?.error || error.message,
             });
         } finally {
             setLoading(false);
         }
-    }
+    };
+    
 
     const addIcon = (icon) => {
         setIconPositions([...iconPositions, { icon, x: 50, y: 50, width: 50, height: 50 }]);

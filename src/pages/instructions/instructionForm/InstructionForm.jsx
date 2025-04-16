@@ -79,7 +79,7 @@ const handleSubmit = async (values) => {
         formData.append('files', file);
     }); */
 
-    if (uploadedImage) {
+      if (uploadedImage) {
         // Capture de l'image avec html2canvas
         const imageContainer = document.querySelector('.image-container');
         
