@@ -355,7 +355,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                             label="Budget ($)"
                                             rules={[{ required: false, message: 'Veuillez fournir le montant...' },]}
                                         >
-                                            <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
+                                            <InputNumber min={0} placeholder="Saisir le budget..." style={{width:'100%'}}/>
                                         </Form.Item>
                                     </Col>
 
