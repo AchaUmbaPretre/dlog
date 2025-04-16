@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { EnvironmentOutlined, UserOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { EnvironmentOutlined, MobileOutlined, UserOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import { Table, Button, Input, Space, Tooltip, Tag, Modal, notification } from 'antd';
 import FormChauffeur from './formChauffeur/FormChauffeur'
 import { getChauffeur } from '../../services/charroiService';
@@ -26,7 +26,8 @@ const Chauffeur = () => {
             message: 'Erreur de chargement',
             description: 'Une erreur est survenue lors du chargement des données.',
           });
-          setLoading(false);
+        } finally{
+            setLoading(false);
         }
       };
 
@@ -46,34 +47,6 @@ const Chauffeur = () => {
           },
           width: "3%" 
         },
-/*       {
-        title: 'Image',
-        dataIndex: 'img',
-        key: 'img',
-        render: (text, record) => (
-          <div className="userList">
-            <Image
-              className="userImg"
-              src={`${api.defaults.baseURL}/${record.profil}`} // Utilisation directe de l'URL complète
-              fallback={`${api.defaults.baseURL}/default-image.jpg`} // Image de secours en cas d'échec
-              width={40}
-              height={40}
-              style={{ borderRadius: '50%' }}
-              alt="Profil utilisateur"
-            />
-          </div>
-        ),
-      }, */
-      {
-        title: 'Matricule',
-        dataIndex: 'matricule',
-        key: 'matricule',
-        render: (text) => (
-          <Tooltip title={`Matricule`}>
-            <Tag color="blue">{text}</Tag>
-          </Tooltip>
-        )
-      },
       {
         title: 'Nom',
         dataIndex: 'nom',
@@ -90,7 +63,7 @@ const Chauffeur = () => {
         key: 'telephone',
         render: (text) => (
           <Tooltip title={`Telephone`}>
-            <Tag color="blue">{text}</Tag>
+            <Tag icon={<MobileOutlined />} color="blue">{text}</Tag>
           </Tooltip>
         )
       },
@@ -120,7 +93,7 @@ const Chauffeur = () => {
         key: 'nom_site',
         render: (text) => (
           <Tooltip title={`Sexe`}>
-            <Tag color="green">{text}</Tag>
+            <Tag color="green">{text ?? 'Aucune'}</Tag>
           </Tooltip>
         )
       },
@@ -129,48 +102,13 @@ const Chauffeur = () => {
         dataIndex: 'conges',
         key: 'conges',
         render: (text) => (
-          <div>
-            {text?? 'Aucun'}
-          </div>
+          text ? (
+            <Tag color="blue">{text}</Tag>
+          ) : (
+            <Tag color="red">Aucun</Tag>
+          )
         )
-      },
-      {
-        title: 'Actions',
-        dataIndex: 'actions',
-        key: 'actions',
-        width: '10%',
-        render: (text, record) => (
-          <Space size="middle">
-{/*             <Tooltip title="Modifier">
-              <Button
-                icon={<EditOutlined />}
-                style={{
-                  color: '#fff',
-                  backgroundColor: '#52c41a',
-                  borderColor: '#52c41a',
-                }}
-                aria-label="Modifier"
-              />
-            </Tooltip>
-            <Tooltip title="Supprimer">
-              <Popconfirm
-                title="Êtes-vous sûr de vouloir supprimer ce client ?"
-                okText="Oui"
-                cancelText="Non"            >
-                <Button
-                  icon={<DeleteOutlined />}
-                  style={{
-                    color: '#fff',
-                    backgroundColor: '#ff4d4f',
-                    borderColor: '#ff4d4f',
-                  }}
-                  aria-label="Supprimer"
-                />
-              </Popconfirm>
-            </Tooltip> */}
-          </Space>
-        ),
-      },
+      }
     ];
 
     const handleAddClient = () => {
@@ -180,6 +118,11 @@ const Chauffeur = () => {
       const handleCancel = () => {
         setIsModalVisible(false);
       };
+
+      const filteredData = data.filter(item => 
+        item.nom?.toLowerCase().includes(searchValue.toLocaleLowerCase()) || 
+        item.prenom?.toLowerCase().includes(searchValue.toLocaleLowerCase())
+    )
 
   return (
     <>
@@ -210,7 +153,7 @@ const Chauffeur = () => {
             </div>
             <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={filteredData}
                 onChange={(pagination) => setPagination(pagination)}
                 rowKey="key"
                 bordered

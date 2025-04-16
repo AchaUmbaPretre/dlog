@@ -205,7 +205,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                         showSearch
                                         options={vehicule.map((item) => ({
                                             value: item.id_vehicule,
-                                            label: item.immatriculation,
+                                            label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
                                         }))}
                                         optionFilterProp="label"
                                         placeholder="Sélectionnez un vehicule..."

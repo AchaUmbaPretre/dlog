@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Image, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { ExportOutlined, CarOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
 import { getVehicule } from '../../services/charroiService';
 import config from '../../config';
@@ -12,6 +12,10 @@ const Charroi = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+   const [pagination, setPagination] = useState({
+          current: 1,
+          pageSize: 15,
+      });
   const scroll = { x: 'max-content' };
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   
@@ -111,62 +115,69 @@ const Charroi = () => {
       ),
     },
     {
-      title: 'Immatricule',
-      dataIndex: 'immatriculation',
-    },
+        title: 'Matricule',
+        dataIndex: 'immatriculation',
+        render: (text) => (
+            <div className="vehicule-matricule">
+                <span className="car-wrapper">
+                    <span className="car-boost" />
+                        <CarOutlined className="car-icon-animated" />
+                    <span className="car-shadow" />
+                </span>
+                <Tag color="geekblue">{text}</Tag>
+            </div>
+        )
+    }, 
     {
-      title: 'Marque',
-      dataIndex: 'nom_marque',
-      sorter: {
-        compare: (a, b) => a.chinese - b.chinese,
-        multiple: 3,
-      },
+        title: 'Marque',
+        dataIndex: 'nom_marque',
+            render: (text, record) => (
+                <Tag icon={<CarOutlined />} color="cyan">
+                    {text}
+                </Tag>
+            )
     },
     {
       title: 'Modèle',
       dataIndex: 'modele',
       render : (text) => (
-        <div>
-          { text ? text : 'Aucune'}
-        </div>
+        <Tag icon={<CarOutlined />} color="green">
+            {text ?? 'Aucun'}
+        </Tag>
       )
 
     },
     {
-      title: 'Année de fab',
+        title: 'Categorie',
+        dataIndex: 'nom_cat',
+        render : (text) => (
+          <Tag icon={<CarOutlined />} color="geekblue">
+              {text ?? 'Aucun'}
+          </Tag>
+        )
+  
+    },
+    {
+      title: 'Année de fab.',
       dataIndex: 'annee_fabrication',
       render: text => (
         <Tooltip title="Annee fabrication">
-          <div>
-            <CalendarOutlined style={{ color: '#fa8c16', marginRight:'5px' }} />
-              {text}
-          </div>
+            <Tag icon={<CalendarOutlined />} color="magenta">
+                {text}
+            </Tag>
         </Tooltip>
       )
     },
     {
-      title: 'Année circulation',
+      title: 'Année circu.',
       dataIndex: 'annee_circulation',
       render: text => (
         <Tooltip title="annee circulation'">
-          <div>
-            <CalendarOutlined style={{ color: '#fa8c16', marginRight:'5px' }} />
-              {text}
-          </div>
+          <Tag icon={<CalendarOutlined />} color="magenta">
+                {text}
+            </Tag>
         </Tooltip>
       )
-    },
-    {
-      title: 'Categorie',
-      dataIndex: 'nom_cat'
-    },
-    {
-      title: 'Nbre place',
-      dataIndex: 'nbre_place'
-    },
-    {
-      title: 'Nbre porte',
-      dataIndex: 'nbre_portes'
     },
     {
       title: 'Actions',
@@ -223,8 +234,8 @@ const Charroi = () => {
           <Table
             columns={columns}
             dataSource={filteredData}
-            pagination={{ pageSize: 10 }}
-            rowKey="key"
+            onChange={(pagination)=> setPagination(pagination)}
+            rowKey="id_vehicule"
             bordered
             size="small" 
             scroll={scroll}
