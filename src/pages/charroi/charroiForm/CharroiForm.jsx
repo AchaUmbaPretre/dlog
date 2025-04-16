@@ -178,7 +178,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Numéro d'ordre"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir un Numéro d ordre... ',
                                     },
                                 ]}
@@ -249,7 +249,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Variante"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir une variante...',
                                     },
                                 ]}
@@ -348,7 +348,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Longueur"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir une longueur...',
                                     },
                                 ]}
@@ -363,7 +363,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Largeur"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir une largeur...',
                                     },
                                 ]}
@@ -378,7 +378,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Hauteur"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir un hauteur...',
                                     },
                                 ]}
@@ -393,7 +393,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Poids"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir un poids...',
                                     },
                                 ]}
@@ -408,7 +408,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Couleur"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir une couleur...',
                                     },
                                 ]}
@@ -481,7 +481,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Nombre place"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir un nombre place...',
                                     },
                                 ]}
@@ -673,7 +673,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Km initial"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                         message: 'Veuillez fournir un km initial...',
                                     },
                                 ]}

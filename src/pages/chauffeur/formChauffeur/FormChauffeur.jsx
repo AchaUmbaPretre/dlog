@@ -185,7 +185,7 @@ const FormChauffeur = ({fetchData, closeModal}) => {
                                     label="Date de naissance"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Veuillez fournir la date de naissance.',
                                         },
                                     ]}
@@ -251,6 +251,12 @@ const FormChauffeur = ({fetchData, closeModal}) => {
                                 <Form.Item
                                     name="adresse"
                                     label="Adresse"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez fournir une adresse.',
+                                        },
+                                    ]}
                                 >
                                     {loadingData ? <Skeleton.Input active /> : <Input.TextArea placeholder="Saisir l'adresse" style={{height:'105px', resize:'none'}} />}
                                 </Form.Item>
@@ -326,7 +332,7 @@ const FormChauffeur = ({fetchData, closeModal}) => {
                                     label="Type de contrat"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Veuillez fournir un type de contrat.',
                                         },
                                     ]}
@@ -348,7 +354,7 @@ const FormChauffeur = ({fetchData, closeModal}) => {
                                     label="Type de travail"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Veuillez fournir un type de travail.',
                                         },
                                     ]}
@@ -365,7 +371,7 @@ const FormChauffeur = ({fetchData, closeModal}) => {
                                     label="N° Permis de conduire"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Veuillez fournir un numéro de permis.',
                                         },
                                     ]}
@@ -379,12 +385,13 @@ const FormChauffeur = ({fetchData, closeModal}) => {
                                     label="Catégorie Permis"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Veuillez fournir la catégorie du permis.',
                                         },
                                     ]}
                                 >
                                     <Select
+                                        allowClear
                                         showSearch
                                         options={catPermis.map((item) => ({
                                             value: item.id_cat_permis                                           ,
