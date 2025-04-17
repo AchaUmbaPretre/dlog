@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, notification, Tabs, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
 import { CarOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { getMarque } from '../../services/charroiService';
+import { getSuiviInspections } from '../../services/charroiService';
 import TabPane from 'antd/es/tabs/TabPane';
-/* import MarqueForm from './marqueForm/MarqueForm';
- */import Modele from '../modeles/Modele';
+import Modele from '../modeles/Modele';
 
 const { Search } = Input;
 
@@ -27,7 +26,7 @@ const TypeReparation = () => {
     
        const fetchData = async() => {
             try {
-                const { data } = await getMarque();
+                const { data } = await getSuiviInspections();
                 setData(data);
                 setLoading(false);
     
@@ -85,54 +84,32 @@ const TypeReparation = () => {
 
   return (
     <>
-          <Tabs
-            activeKey={activeKey[0]}
-            onChange={handleTabChange}
-            type="card"
-            tabPosition="top"
-            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
-        >
-            <TabPane
-            tab={
-                <span>
-                <CarOutlined
-                    style={{
-                    color: '#1890ff',
-                    fontSize: '18px',
-                    marginRight: '8px',
-                    }}
-                />
-                Liste des marques
-                </span>
-            }
-            key="1"
-            >
-                <div className="client">
-                <div className="client-wrapper">
-                    <div className="client-row">
-                        <div className="client-row-icon">
-                            <CarOutlined className='client-icon'/>
-                        </div>
-                        <h2 className="client-h2">Liste des marques</h2>
-                    </div>
+        <div className="client">
+            <div className="client-wrapper">
+                <div className="client-row">
+                    <div className="client-row-icon">
+                    <CarOutlined className='client-icon'/>
+                </div>
+                <h2 className="client-h2">Liste des type des réparations</h2>
+            </div>
 
-                    <div className="client-actions">
-                        <div className="client-row-left">
-                            <Search 
-                                placeholder="Recherche..." 
-                                onChange={(e) => setSearchValue(e.target.value)}
-                                enterButton
-                            />
-                        </div>
-                        <div className="client-rows-right">
-                            <Button
-                                type="primary"
-                                icon={<PlusCircleOutlined />}
-                                onClick={handleAddMarque}
-                            >
-                                Ajouter une marque
-                            </Button>
-                        </div>
+            <div className="client-actions">
+                <div className="client-row-left">
+                    <Search 
+                        placeholder="Recherche..." 
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        enterButton
+                    />
+                </div>
+                <div className="client-rows-right">
+                    <Button
+                        type="primary"
+                        icon={<PlusCircleOutlined />}
+                        onClick={handleAddMarque}
+                    >
+                        Ajouter une marque
+                    </Button>
+                </div>
                     </div>
                     <Table
                         columns={columns}
@@ -146,27 +123,7 @@ const TypeReparation = () => {
                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                     />
                 </div>
-                </div>
-            </TabPane>
-
-            <TabPane
-                tab={
-                    <span>
-                        <CarOutlined
-                            style={{
-                              color: 'red',
-                              fontSize: '18px',
-                              marginRight: '8px',
-                            }}
-                        />
-                        Liste des modèles
-                    </span>
-                }
-                key="2"
-            >
-                <Modele/>
-            </TabPane>
-        </Tabs>
+            </div>
     </>
   )
 }

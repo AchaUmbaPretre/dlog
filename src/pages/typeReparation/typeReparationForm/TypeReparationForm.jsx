@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
-import { postMarque } from '../../../services/charroiService';
+import { postMarque, postSuiviInspections } from '../../../services/charroiService';
 
 const TypeReparationForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -21,7 +21,7 @@ const TypeReparationForm = ({closeModal, fetchData}) => {
         
                 setLoading(true);
         
-                await postMarque(values);
+                await postSuiviInspections(values);
         
                 message.success({
                     content: 'Le modèle a été enregistré avec succès.',
