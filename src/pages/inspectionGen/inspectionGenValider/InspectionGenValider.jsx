@@ -12,6 +12,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
     const [selectedInspectionIds, setSelectedInspectionIds] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
     const [manoeuvreData, setManoeuvreData] = useState({});
+    const [budgetValide, setBudgetValide] = useState(null)
 
     const fetchDatas = async() => {
         try {
@@ -84,8 +85,27 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
               dataIndex: 'nom_cat_inspection',
             },
             {
-              title: "Cout",
+              title: "Budget",
               dataIndex: 'montant',
+            },
+            {
+              title: "Budget validé",
+              dataIndex: 'budget_valide',
+              render: (_, record) => (
+                <input
+                  type="number"
+                  value={budgetValide[record.id_sub_inspection_gen] || ''}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setBudgetValide(prev => ({
+                      ...prev,
+                      [record.id_sub_inspection_gen]: value
+                    }));
+                  }}
+                  style={{ width: '100%' }}
+                  placeholder="Saisir le budget validé"
+                />
+              )
             },
             {
               title: "Manœuvre",
