@@ -80,9 +80,9 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
     
             // Récupération de l'élément image-container
             const imageContainer = document.querySelector('.image-container');
-            if (!imageContainer) {
+/*             if (!imageContainer) {
                 throw new Error("L'élément .image-container n'a pas été trouvé dans le DOM.");
-            }
+            } */
     
             // Traitement des réparations
             for (let index = 0; index < values.reparations.length; index++) {
@@ -139,14 +139,19 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
     
             notification.error({
                 message: 'Erreur',
-                description: error.response?.data?.error || error.message,
+                description:
+                    error.response?.data?.error?.sqlMessage ||
+                    error.response?.data?.error?.message ||
+                    error.response?.data?.error ||
+                    error.message ||
+                    'Une erreur est survenue.',
             });
+            
         } finally {
             setLoading(false);
         }
     };
     
-
     const addIcon = (icon) => {
         setIconPositions([...iconPositions, { icon, x: 50, y: 50, width: 50, height: 50 }]);
       };

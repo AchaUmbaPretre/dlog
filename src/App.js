@@ -62,6 +62,7 @@ import Affectations from './pages/charroi/affectations/Affectations';
 import Sites from './pages/charroi/sites/Sites';
 import ControleTechnique from './pages/controleTechnique/ControleTechnique';
 import Marque from './pages/marque/Marque';
+import TypeReparation from './pages/typeReparation/TypeReparation';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -325,6 +326,10 @@ function App() {
         {
           path: '/marque',
           element: <Marque/>
+        },
+        {
+          path: '/type_reparation',
+          element: <TypeReparation/>
         }
       ]
     },
