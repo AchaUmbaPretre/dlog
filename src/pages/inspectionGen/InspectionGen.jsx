@@ -29,23 +29,14 @@ const InspectionGen = () => {
     const role = useSelector((state) => state.user?.currentUser?.role);
     const [columnsVisibility, setColumnsVisibility] = useState({
       '#': true,
-      'Template': true,
-      'Desc man': false,
-      'Periode': true,
-      'M² occupe': false,
-      "M² facture": true,
-      "Tarif Entr": true,
-      'Debours Entr': false,
-      'Total Entr': true,
-      "TTC Entr": false,
-      "Ville": true,
-      "Client": true,
-      "Bâtiment": false,
-      "Manutention": true,
-      "Tarif Manu": true,
-      "Total Manu": true,
-      "TTC Manu": false,
-      "Debours Manu": false
+      'Matricule': true,
+      'Marque': false,
+      'Date inspection': true,
+      'type_rep': true,
+      "Avis d expert": false,
+      "Montant": true,
+      'Date validation': false,
+      'Statut': true
     });
     const statusIcons = {
         'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
@@ -219,7 +210,9 @@ const InspectionGen = () => {
                     </span>
                     <Tag color="blue">{text}</Tag>
                 </div>
-            )
+            ),
+            ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
+
         },                        
         {
             title: 'Marque',
@@ -228,7 +221,9 @@ const InspectionGen = () => {
                 <Tag icon={<CarOutlined />} color="orange">
                     {text}
                 </Tag>
-            )
+            ),
+            ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
+
         },
         {
             title: 'Date',
@@ -237,7 +232,9 @@ const InspectionGen = () => {
               <Tag icon={<CalendarOutlined />} color="blue">
                   {moment(text).format('DD-MM-YYYY')}
               </Tag>
-            )
+            ),
+            ...(columnsVisibility['Date inspection'] ? {} : { className: 'hidden-column' }),
+
         },
         {
             title: 'Date rep.',
@@ -259,7 +256,9 @@ const InspectionGen = () => {
                   {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
                 </Tag>
               );
-            }
+            },
+            ...(columnsVisibility['Date réparation'] ? {} : { className: 'hidden-column' }),
+
         },          
         {
             title: 'Type de rep.',
@@ -268,12 +267,14 @@ const InspectionGen = () => {
                 <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
                     {text}
                 </Tag>
-            )
+            ),
+            ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
         },
-/*         {
+        {
             title: "Avis d'expert",
             dataIndex: 'avis',
-        }, */
+            ...(columnsVisibility['Avis d expert'] ? {} : { className: 'hidden-column' }),
+        },
         {
             title: "Cout",
             dataIndex: 'montant',
@@ -295,6 +296,8 @@ const InspectionGen = () => {
                 </Space>
             ),
             align: 'right', 
+            ...(columnsVisibility['Montant'] ? {} : { className: 'hidden-column' }),
+
         },
         {
             title: 'Date validation',
@@ -316,7 +319,8 @@ const InspectionGen = () => {
                     {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
                   </Tag>
                 );
-              }
+              },
+              ...(columnsVisibility['Date validation'] ? {} : { className: 'hidden-column' }),
         },
         { 
             title: 'Statut', 
@@ -330,6 +334,8 @@ const InspectionGen = () => {
                   </Space>
                 );
             },
+            ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' }),
+
         },
         {
             title: 'Actions',
