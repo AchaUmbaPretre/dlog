@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Image, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
 import { ExportOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
-import { getVehicule, putVehicule, putVehiculeSupprime } from '../../services/charroiService';
+import { getVehicule, putVehicule } from '../../services/charroiService';
 import config from '../../config';
 import vehiculeImg from './../../assets/vehicule.png'
 import VehiculeDetail from './vehiculeDetail/VehiculeDetail';
@@ -28,13 +28,13 @@ const Charroi = () => {
 
   const handleDelete = async (id) => {
  try {
-      await putVehiculeSupprime(id);
+      await putVehicule(id);
       setData(data.filter((item) => item.id_vehicule !== id));
       message.success('Suppression du véhicule effectuée avec succès');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression.',
+        description: 'Une erreur est survenue lors de la suppression du client.',
       });
     }
   };

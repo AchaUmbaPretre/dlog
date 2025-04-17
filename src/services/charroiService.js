@@ -167,6 +167,10 @@ export const getInspectionGen = async () => {
     return axios.get(`${DOMAIN}/api/charroi/inspection_gen`);
 }
 
+export const getInspectionResume = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/inspection_gen_resume`);
+}
+
 export const postInspectionGen= async (data) => {
     console.log(data)
     return axios.post(`${DOMAIN}/api/charroi/inspection_gen`, data , {
