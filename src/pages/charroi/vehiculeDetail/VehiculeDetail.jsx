@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Descriptions, Card, Image, Spin, Row, Col, notification, Empty } from 'antd';
 import { getVehiculeOne } from '../../../services/charroiService';
 import { CarOutlined } from '@ant-design/icons';
+import config from '../../../config';
+import vehiculeImg from './../../../assets/vehicule.png'
+
 
 const VehiculeDetail = ({ idVehicule }) => {
     const [loading, setLoading] = useState(true);
     const [vehicule, setVehicule] = useState(null);
+    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
     const fetchData = async () => {
         setLoading(true);
@@ -54,7 +58,7 @@ const VehiculeDetail = ({ idVehicule }) => {
             <Row gutter={[24, 24]}>
                 <Col xs={24} md={10}>
                     <Image
-                        src={`/${vehicule.img}`}
+                        src={ vehicule.img ? `${DOMAIN}/${vehicule.img}` : vehiculeImg}
                         alt="Image véhicule"
                         width="100%"
                         style={{ borderRadius: 8 }}
