@@ -57,10 +57,8 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
 
         useEffect(()=> {
             fetchDatas()
-        }, [])
-
-        console.log(idSubInspectionGen)
-
+        }, [subInspectionId])
+        
     const onFinish = async (values) => {
         await form.validateFields();
         const loadingKey = 'loadingReparation';

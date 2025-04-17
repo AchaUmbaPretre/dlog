@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Input, Button, Menu, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 import { FileSearchOutlined, ToolOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
-import { getInspectionGen } from '../../services/charroiService';
+import { getInspectionGen, getInspectionResume } from '../../services/charroiService';
 import moment from 'moment';
 import InspectionGenDetail from './inspectionGenDetail/InspectionGenDetail';
 import InspectionGenValider from './inspectionGenValider/InspectionGenValider';
@@ -24,7 +24,8 @@ const InspectionGen = () => {
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
     const [inspectionId, setInspectionId] = useState('');
-
+    const [statistique, setStatistique] = useState([]);
+    
     const statusIcons = {
         'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
         'En cours': { icon: <HourglassOutlined spin />, color: 'blue' },
@@ -37,8 +38,12 @@ const InspectionGen = () => {
 
     const fetchData = async() => {
         try {
-            const { data } = await getInspectionGen();
-            setData(data);
+            const [ inspectionData, resumeData] = await Promise.all([
+              getInspectionGen(),
+              getInspectionResume()
+            ])
+            setData(inspectionData.data);
+            setStatistique(resumeData.data)
             setLoading(false);
         } catch (error) {
             notification.error({
