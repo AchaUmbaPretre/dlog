@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Card, Button } from 'antd';
+import { Table, Card, Button,  Skeleton } from 'antd';
 import './inspectionGenValider.scss'
 import { getSubInspection, postInspectionValide } from '../../../services/charroiService';
 import { notification } from 'antd';
@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
     const [data, setData] = useState([]);
     const scroll = { x: 400 };
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [selectedInspectionIds, setSelectedInspectionIds] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -28,6 +28,8 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                 description: 'Une erreur est survenue lors du chargement des données.',
             });
             setLoading(false);
+        } finally{
+          setLoading(false)
         }
     }
 
@@ -105,7 +107,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                       [record.id_sub_inspection_gen]: value
                     }));
                   }}
-                  style={{ width: '100%' }}
+                  style={{ width: '100%', border:'none', border:'1px solid #f2f2f2a8', outline:'none', padding:'5px 9px' }}
                   placeholder="Saisir le budget validé"
                 />
               )
@@ -124,7 +126,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                       [record.id_sub_inspection_gen]: value
                     }));
                   }}
-                  style={{ width: '100%' }}
+                  style={{ width: '100%', border:'none', border:'1px solid #f2f2f2a8', outline:'none', padding:'5px 9px' }}
                   placeholder="Saisir le prix de la manœuvre"
                 />
               )
@@ -179,38 +181,42 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
         <div className="inspectionGenValider">
             <div className="inspectionGenValider-wrapper">
                 <Card title="Détails du véhicule" bordered={false} className="vehicule-info-card">
-                    <div className="vehicule-details">
-                        <div className="info-block">
-                            <span className="label">Immatriculation :</span>
-                            <span className="value">{data[0]?.immatriculation || '-'}</span>
-                        </div>
-                        <div className="info-block">
-                            <span className="label">Marque :</span>
-                            <span className="value">{data[0]?.nom_marque || '-'}</span>
-                        </div>
-                        <div className="info-block">
-                            <span className="label">Date d'inspection :</span>
-                            <span className="value">
-                            {data[0]?.date_inspection
-                            ? new Date(data[0].date_inspection).toLocaleDateString()
-                            : '-'}
-                            </span>
-                        </div>
-                    </div>
+                  <Skeleton loading={loading} active paragraph={false}>
+                      <div className="vehicule-details">
+                          <div className="info-block">
+                              <span className="label">Immatriculation :</span>
+                              <span className="value">{data[0]?.immatriculation || '-'}</span>
+                          </div>
+                          <div className="info-block">
+                              <span className="label">Marque :</span>
+                              <span className="value">{data[0]?.nom_marque || '-'}</span>
+                          </div>
+                          <div className="info-block">
+                              <span className="label">Date d'inspection :</span>
+                              <span className="value">
+                              {data[0]?.date_inspection
+                              ? new Date(data[0].date_inspection).toLocaleDateString()
+                              : '-'}
+                              </span>
+                          </div>
+                      </div>
+                  </Skeleton>
                 </Card>
 
                 <Card>
+                  <Skeleton loading={loading} active>
                     <Table
-                        columns={columns}
-                        rowSelection={rowSelection}
-                        dataSource={data}
-                        rowKey="id_sub_inspection_gen"
-                        loading={loading}
-                        scroll={scroll}
-                        size="small"
-                        bordered
-                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                      columns={columns}
+                          rowSelection={rowSelection}
+                          dataSource={data}
+                          rowKey="id_sub_inspection_gen"
+                          loading={loading}
+                          scroll={scroll}
+                          size="small"
+                          bordered
+                      rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                     />
+                  </Skeleton>
                 </Card>
                 {  selectedRows.length > 0 && 
                 <Card title="Réparation sélectionnée" style={{marginTop:'10px'}}>
