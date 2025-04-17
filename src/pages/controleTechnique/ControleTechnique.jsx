@@ -34,6 +34,8 @@ const ControleTechnique = () => {
                 description: 'Une erreur est survenue lors du chargement des données.',
               });
               setLoading(false);
+        } finally{
+            setLoading(false)
         }
     }
 
