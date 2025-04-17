@@ -30,13 +30,14 @@ const InspectionGen = () => {
     const [columnsVisibility, setColumnsVisibility] = useState({
       '#': true,
       'Matricule': true,
-      'Marque': false,
+      'Marque': true,
       'Date inspection': true,
       'type_rep': true,
       "Avis d expert": false,
       "Montant": true,
-      'Date validation': false,
-      'Statut': true
+      'Date validation':true,
+      'Statut': true,
+      'Type rep': true
     });
     const statusIcons = {
         'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
