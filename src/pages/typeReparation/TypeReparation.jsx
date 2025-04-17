@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, notification, Tabs, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
-import { CarOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, notification, Tabs, Tooltip, Popconfirm, Tag,  Popover } from 'antd';
+import { ToolOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import TypeReparationForm from './typeReparationForm/TypeReparationForm';
 import { getTypeReparation } from '../../services/charroiService'
 
@@ -54,15 +54,6 @@ const TypeReparation = () => {
             title: 'Nom',
             dataIndex: 'type_rep',
         }      
-/*         {
-            title: 'Actions',
-            dataIndex: 'actions',
-            render: (text, record) => (
-              <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
-                <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
-              </Dropdown>
-            )
-          } */
       ];
 
       const handleAddMarque = () => openModal('Add')
@@ -87,7 +78,7 @@ const TypeReparation = () => {
             <div className="client-wrapper">
                 <div className="client-row">
                     <div className="client-row-icon">
-                    <CarOutlined className='client-icon'/>
+                    <ToolOutlined className='client-icon'/>
                 </div>
                 <h2 className="client-h2">Liste des type des réparations</h2>
             </div>
