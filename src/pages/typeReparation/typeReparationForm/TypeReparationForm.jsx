@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
-import { postMarque, postSuiviInspections } from '../../../services/charroiService';
+import { postMarque, postSuiviInspections, postTypeReparation } from '../../../services/charroiService';
 
 const TypeReparationForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -21,10 +21,10 @@ const TypeReparationForm = ({closeModal, fetchData}) => {
         
                 setLoading(true);
         
-                await postSuiviInspections(values);
+                await postTypeReparation(values);
         
                 message.success({
-                    content: 'Le modèle a été enregistré avec succès.',
+                    content: 'Le type a été enregistré avec succès.',
                     key: loadingKey,
                 });
         
@@ -58,7 +58,7 @@ const TypeReparationForm = ({closeModal, fetchData}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">ENREGISTRER UNE MARQUE</h2>
+                <h2 className="controle_h2">ENREGISTRER UN TYPE REPARATION</h2>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -72,16 +72,16 @@ const TypeReparationForm = ({closeModal, fetchData}) => {
                     <Row gutter={12}>
                         <Col xs={24} md={24}>
                             <Form.Item
-                                name="nom_marque"
-                                label="Marque"
+                                name="type_rep"
+                                label="Nom"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Veuillez fournir une marque...',
+                                        message: 'Veuillez fournir un type de reparation...',
                                     }
                                 ]}
                             >
-                                <Input size='large' placeholder="Saisir la marque..." style={{width:'100%'}}/>
+                                <Input size='large' placeholder="Saisir ..." style={{width:'100%'}}/>
                             </Form.Item>
                         </Col>
 

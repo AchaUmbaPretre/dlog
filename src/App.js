@@ -330,7 +330,7 @@ function App() {
         {
           path: '/type_reparation',
           element: <TypeReparation/>
-        }
+        },
       ]
     },
     { path: '/login', element: <Login /> },

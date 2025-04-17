@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, notification, Tabs, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
 import { CarOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { getSuiviInspections } from '../../services/charroiService';
-import TabPane from 'antd/es/tabs/TabPane';
-import Modele from '../modeles/Modele';
+import TypeReparationForm from './typeReparationForm/TypeReparationForm';
+import { getTypeReparation } from '../../services/charroiService'
 
 const { Search } = Input;
 
@@ -26,8 +25,8 @@ const TypeReparation = () => {
     
        const fetchData = async() => {
             try {
-                const { data } = await getSuiviInspections();
-                setData(data);
+                const { data } = await getTypeReparation();
+                setData(data.data);
                 setLoading(false);
     
             } catch (error) {
@@ -52,8 +51,8 @@ const TypeReparation = () => {
             width: "3%" 
           },
         {
-            title: 'Marque',
-            dataIndex: 'nom_marque',
+            title: 'Nom',
+            dataIndex: 'type_rep',
         }      
 /*         {
             title: 'Actions',
@@ -77,8 +76,8 @@ const TypeReparation = () => {
         setModalType(type)
     };
 
-    const filteredData = data.filter(item =>
-        item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
+    const filteredData = data?.filter(item =>
+        item.type_rep?.toLowerCase().includes(searchValue.toLowerCase())
       );
     
 
@@ -133,7 +132,7 @@ const TypeReparation = () => {
                 width={700}
                 centered
             >
-                <MarqueForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+                <TypeReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
             </Modal>
     </>
   )
