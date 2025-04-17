@@ -5,6 +5,7 @@ import CharroiForm from './charroiForm/CharroiForm';
 import { getVehicule } from '../../services/charroiService';
 import config from '../../config';
 import vehiculeImg from './../../assets/vehicule.png'
+import VehiculeDetail from './vehiculeDetail/VehiculeDetail';
 
 const { Search } = Input;
 
@@ -13,12 +14,14 @@ const Charroi = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [modalType, setModalType] = useState(null);
    const [pagination, setPagination] = useState({
           current: 1,
           pageSize: 15,
       });
   const scroll = { x: 'max-content' };
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const [idVehicule, setIdVehicule] = useState('')
   
   const handleEdit = (id) => {
   };
@@ -54,14 +57,20 @@ const Charroi = () => {
     fetchData();
   }, []);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
+  const handleAddClient = (id) => openModal('Add', id)
+  const handleDetail = (id) => openModal('Detail', id)
+
+  const closeAllModals = () => {
+    setModalType(null);
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const openModal = (type, idVehicule = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdVehicule(idVehicule)
   };
 
+  
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
   };
@@ -191,6 +200,7 @@ const Charroi = () => {
                 icon={<EyeOutlined />}
                 aria-label="Voir les détails de la tâche"
                 style={{ color: 'blue' }}
+                onClick={()=> handleDetail(record.id_vehicule)}
                 />
             </Tooltip>
             <Tooltip title="Supprimer">
@@ -269,13 +279,24 @@ const Charroi = () => {
  
       <Modal
         title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'Add'}
+        onCancel={closeAllModals}
         footer={null}
         width={1000}
         centered
       >
-        <CharroiForm idVehicule={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+        <CharroiForm idVehicule={''} closeModal={() => setModalType(null)} fetchData={fetchData}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Detail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <VehiculeDetail idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>
       </Modal>
     </>
   );

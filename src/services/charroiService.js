@@ -56,8 +56,8 @@ export const getVehicule = async () => {
     return axios.get(`${DOMAIN}/api/charroi/vehicule`);
 }
 
-export const getVehiculeOne = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/vehicule/one`);
+export const getVehiculeOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/vehicule/one?id_vehicule=${id}`);
 }
 
 export const postVehicule = async (data) => {
