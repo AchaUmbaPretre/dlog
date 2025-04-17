@@ -62,10 +62,11 @@ const InspectionGenTracking = ({ idSubInspectionGen }) => {
       setData(data.filter((item) => item.id !== id));
       message.success('Client deleted successfully');
     } catch (error) {
-      notification.error({
+      console.log(error)
+      /* notification.error({
         message: 'Erreur de suppression',
         description: 'Une erreur est survenue lors de la suppression du client.',
-      });
+      }); */
     }
   };
 

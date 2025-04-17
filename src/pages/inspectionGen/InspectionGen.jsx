@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 const { Search } = Input;
 
 const InspectionGen = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({
@@ -64,6 +64,8 @@ const InspectionGen = () => {
                 description: 'Une erreur est survenue lors du chargement des données.',
             });
             setLoading(false);
+        } finally{
+          setLoading(false)
         }
     }
     
