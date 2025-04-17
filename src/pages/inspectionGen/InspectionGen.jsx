@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Menu, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, ToolOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { Input, Button, Menu, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { FileSearchOutlined, ToolOutlined, MenuOutlined, DownOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen, getInspectionResume } from '../../services/charroiService';
 import moment from 'moment';
@@ -10,6 +10,7 @@ import InspectionGenTracking from './inspectionGenTracking/InspectionGenTracking
 import InspectionGenFormTracking from './inspectionGenTracking/inspectionGenFormTracking/InspectionGenFormTracking';
 import ReparationForm from '../controleTechnique/reparation/reparationForm/ReparationForm';
 import './inspectionGen.css'
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -25,7 +26,27 @@ const InspectionGen = () => {
     const scroll = { x: 'max-content' };
     const [inspectionId, setInspectionId] = useState('');
     const [statistique, setStatistique] = useState([]);
-    
+    const role = useSelector((state) => state.user?.currentUser?.role);
+    const [columnsVisibility, setColumnsVisibility] = useState({
+      '#': true,
+      'Template': true,
+      'Desc man': false,
+      'Periode': true,
+      'M² occupe': false,
+      "M² facture": true,
+      "Tarif Entr": true,
+      'Debours Entr': false,
+      'Total Entr': true,
+      "TTC Entr": false,
+      "Ville": true,
+      "Client": true,
+      "Bâtiment": false,
+      "Manutention": true,
+      "Tarif Manu": true,
+      "Total Manu": true,
+      "TTC Manu": false,
+      "Debours Manu": false
+    });
     const statusIcons = {
         'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
         'En cours': { icon: <HourglassOutlined spin />, color: 'blue' },
@@ -43,7 +64,7 @@ const InspectionGen = () => {
               getInspectionResume()
             ])
             setData(inspectionData.data);
-            setStatistique(resumeData.data)
+            setStatistique(resumeData.data[0])
             setLoading(false);
         } catch (error) {
             notification.error({
@@ -153,6 +174,27 @@ const InspectionGen = () => {
         },
     };
       
+      const menus = (
+        <Menu>
+          {Object.keys(columnsVisibility).map(columnName => (
+            <Menu.Item key={columnName}>
+              <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+                <span style={{ marginLeft: 8 }}>{columnName}</span>
+              </span>
+            </Menu.Item>
+          ))}
+        </Menu>
+      ); 
+    
+      const toggleColumnVisibility = (columnName, e) => {
+        e.stopPropagation();
+        setColumnsVisibility(prev => ({
+          ...prev,
+          [columnName]: !prev[columnName]
+        }));
+      };
+
     const columns = [
         {
             title: '#',
@@ -311,12 +353,33 @@ const InspectionGen = () => {
     <>
         <div className="client">
             <div className="client-wrapper">
+              <div className="client-rows">
                 <div className="client-row">
                     <div className="client-row-icon">
                         <FileSearchOutlined className='client-icon'/>
                     </div>
                     <h2 className="client-h2">Inspection</h2>
                 </div>
+                {
+                    role === 'Admin' &&
+                    <div className='client-row-lefts'>
+                    <span className='client-title'>
+                    Resumé :
+                    </span>
+                    <div className="client-row-sou">
+                      {loading ? (
+                        <Skeleton active paragraph={{ rows: 1 }} />
+                      ) : (
+                          <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre inspection : <strong>{statistique.nbre_inspection?.toLocaleString()}</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Budget total : <strong>{Math.round(parseFloat(statistique.budget_total)).toLocaleString() || 0} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre véhicule : <strong>{Math.round(parseFloat(statistique.nbre_vehicule)).toLocaleString() || 0}</strong></span>
+                          </div>
+                      )}
+                    </div>
+                  </div>
+                  }
+              </div>
                 <div className="client-actions">
                     <div className="client-row-left">
                         <Search 
@@ -333,6 +396,12 @@ const InspectionGen = () => {
                         >
                             Ajouter une inspection
                         </Button>
+
+                        <Dropdown overlay={menus} trigger={['click']}>
+                          <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                            Colonnes <DownOutlined />
+                          </Button>
+                        </Dropdown>
                     </div>
                 </div>
                 <Table

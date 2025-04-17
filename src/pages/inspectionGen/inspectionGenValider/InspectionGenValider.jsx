@@ -12,7 +12,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
     const [selectedInspectionIds, setSelectedInspectionIds] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
     const [manoeuvreData, setManoeuvreData] = useState({});
-    const [budgetValide, setBudgetValide] = useState(null)
+    const [budgetValide, setBudgetValide] = useState({})
 
     const fetchDatas = async() => {
         try {
@@ -129,38 +129,45 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
         ];
           
         const handleSubmitValidation = async () => {
-            try {
-              const payload = selectedRows.map((row) => ({
-                id_sub_inspection_gen: row.id_sub_inspection_gen,
-                id_type_reparation : row.id_type_reparation,
-                id_cat_inspection: row.id_cat_inspection,
-                montant: row.montant,
-                manoeuvre: manoeuvreData[row.id_sub_inspection_gen] || 0,
-              }));
-          
-                // Envoi vers ton service (ajoute cette méthode dans ton service API)
-              await postInspectionValide(payload);         
-              notification.success({
-                message: 'Succès',
-                description: 'Les réparations ont été validées avec succès.',
-              });
-          
-              // Optionnel : reset
-              setSelectedRowKeys([]);
-              setSelectedRows([]);
-              setManoeuvreData({});
-              fetchDatas();
-              fetchData();
-              closeModal();
-          
-            } catch (error) {
-              console.error('Erreur de validation:', error);
-              notification.error({
-                message: 'Erreur',
-                description: 'Une erreur est survenue lors de la validation.',
-              });
-            }
-          };
+          try {
+            const payload = selectedRows.map((row) => ({
+              id_sub_inspection_gen: row.id_sub_inspection_gen,
+              id_type_reparation: row.id_type_reparation,
+              id_cat_inspection: row.id_cat_inspection,
+              montant: row.montant,
+              budget_valide: budgetValide[row.id_sub_inspection_gen] || 0,
+              manoeuvre: manoeuvreData[row.id_sub_inspection_gen] || 0,
+            }));
+        
+            await postInspectionValide(payload);
+        
+            notification.success({
+              message: 'Succès',
+              description: 'Les réparations ont été validées avec succès.',
+            });
+        
+            // Reset
+            setSelectedRowKeys([]);
+            setSelectedRows([]);
+            setManoeuvreData({});
+            setBudgetValide({});
+            fetchDatas();
+            fetchData();
+            closeModal();
+        
+          } catch (error) {
+            console.error('Erreur de validation:', error);
+            
+            const message =
+              error?.response?.data?.error || 'Une erreur est survenue lors de la validation.';
+        
+            notification.error({
+              message: 'Erreur',
+              description: message,
+            });
+          }
+        };
+        
           
 
   return (
