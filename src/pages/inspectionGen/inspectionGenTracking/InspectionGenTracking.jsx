@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal, Skeleton } from 'antd';
-import { PlusCircleOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Input, Card, Typography, message, notification, Popconfirm, Space, Tooltip, Tag, Modal, Skeleton } from 'antd';
+import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import InspectionGenFormTracking from './inspectionGenFormTracking/InspectionGenFormTracking';
-import { getSuiviInspections } from '../../../services/charroiService';
+import { getSubInspectionOne, getSuiviInspections } from '../../../services/charroiService';
+const { Title, Text } = Typography;
 
 const { Search } = Input;
 
 const InspectionGenTracking = ({ idSubInspectionGen }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [nameTache, setNameTache] = useState('');
   const [modalType, setModalType] = useState(null);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
   });
+  const [vehicule, setVehicule] = useState('');
+  const [marque, setMarque] = useState('')
 
   const fetchData = async () => {
     setLoading(true);
@@ -26,6 +28,13 @@ const InspectionGenTracking = ({ idSubInspectionGen }) => {
       } else {
         setData([]);
       }
+
+      if(idSubInspectionGen){
+        const {data} = await getSubInspectionOne(idSubInspectionGen)
+          setVehicule(data[0]?.immatriculation)
+          setMarque(data[0]?.nom_marque)
+      }
+
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -108,12 +117,13 @@ const InspectionGenTracking = ({ idSubInspectionGen }) => {
   return (
     <div className="client">
       <div className="client-wrapper">
-        <div className="client-row">
-          <div className="client-row-icon">
-            <FileTextOutlined className='client-icon' />
-          </div>
-{/*           <h2 className="client-h2">{nameTache ? `Liste des tracking : ${nameTache}` : 'Liste des tracking'}</h2>
- */}        </div>
+        <Card style={{marginBottom:'15px'}}>
+            <>
+                    <Title level={4}>Détails de l’inspection</Title>
+                    <Text strong>Marque :</Text> <Text>{marque}</Text><br />
+                    <Text strong>Immatriculation :</Text> <Text>{vehicule}</Text><br />
+            </>
+          </Card>
         <div className="client-actions">
           <div className="client-row-left">
             <Search placeholder="Rechercher..." enterButton />
