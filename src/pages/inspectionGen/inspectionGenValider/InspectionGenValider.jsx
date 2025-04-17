@@ -3,6 +3,7 @@ import { Table, Card, Button } from 'antd';
 import './inspectionGenValider.scss'
 import { getSubInspection, postInspectionValide } from '../../../services/charroiService';
 import { notification } from 'antd';
+import { useSelector } from 'react-redux';
 
 const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
     const [data, setData] = useState([]);
@@ -12,7 +13,9 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
     const [selectedInspectionIds, setSelectedInspectionIds] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
     const [manoeuvreData, setManoeuvreData] = useState({});
-    const [budgetValide, setBudgetValide] = useState({})
+    const [budgetValide, setBudgetValide] = useState({});
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    
 
     const fetchDatas = async() => {
         try {
@@ -137,6 +140,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
               montant: row.montant,
               budget_valide: budgetValide[row.id_sub_inspection_gen] || 0,
               manoeuvre: manoeuvreData[row.id_sub_inspection_gen] || 0,
+              user_cr : userId 
             }));
         
             await postInspectionValide(payload);
