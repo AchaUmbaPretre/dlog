@@ -116,7 +116,7 @@ const SuiviReparation = ({ idTache }) => {
         </div>
         <div className="client-actions">
           <div className="client-row-left">
-            <Search placeholder="Search doc..." enterButton />
+            <Search placeholder="Rechercher..." enterButton />
           </div>
           <div className="client-rows-right">
             <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleTracking}>
