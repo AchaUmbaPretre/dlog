@@ -81,7 +81,6 @@ const InspectionGenTracking = ({ idSubInspectionGen }) => {
       },
       width: "4%"
     },
-    { title: 'Titre', dataIndex: 'nom_tache', key: 'nom_tache', render: (text) => <Tag color="green">{text}</Tag> },
     { title: 'Statut', dataIndex: 'nom_type_statut', key: 'nom_type_statut', render: (text) => <Tag color="blue">{text}</Tag> },
     { title: 'Commentaire', dataIndex: 'commentaire', key: 'commentaire', render: (text) => <Tag color="blue">{text}</Tag> },
     { title: 'Date', dataIndex: 'date_suivi', key: 'date_suivi', render: (text) => <Tag color='purple'>{moment(text).format('LL')}</Tag> },

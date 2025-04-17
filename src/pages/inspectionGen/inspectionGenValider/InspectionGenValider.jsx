@@ -84,10 +84,6 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
               dataIndex: 'nom_cat_inspection',
             },
             {
-              title: "État",
-              dataIndex: 'nom_carateristique_rep',
-            },
-            {
               title: "Cout",
               dataIndex: 'montant',
             },
@@ -112,14 +108,12 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
             }
         ];
           
-        console.log(selectedRows)
         const handleSubmitValidation = async () => {
             try {
               const payload = selectedRows.map((row) => ({
                 id_sub_inspection_gen: row.id_sub_inspection_gen,
                 id_type_reparation : row.id_type_reparation,
                 id_cat_inspection: row.id_cat_inspection,
-                id_carateristique_rep: row.id_carateristique_rep,
                 montant: row.montant,
                 manoeuvre: manoeuvreData[row.id_sub_inspection_gen] || 0,
               }));
