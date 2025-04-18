@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, Menu, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, UserOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen, getInspectionResume } from '../../services/charroiService';
 import moment from 'moment';
@@ -38,7 +38,8 @@ const InspectionGen = () => {
       'Date validation':true,
       'Statut': true,
       'Type rep': true,
-      'Budget_valide' : true
+      'Budget_valide' : true,
+      'Nom chauffeur' : false
     });
     const statusIcons = {
       'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
@@ -219,7 +220,18 @@ const InspectionGen = () => {
             ),
             ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
 
-        },                        
+        }, 
+        {
+          title: 'Chauffeur',
+          dataIndex: 'nom',
+          render: (text, record) => (
+              <Tag icon={<UserOutlined />} color="orange">
+                  {text}
+              </Tag>
+          ),
+          ...(columnsVisibility['Nom chauffeur'] ? {} : { className: 'hidden-column' }),
+
+        },                       
         {
             title: 'Marque',
             dataIndex: 'nom_marque',
