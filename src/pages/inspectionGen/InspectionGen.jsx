@@ -34,20 +34,23 @@ const InspectionGen = () => {
       'Date inspection': true,
       'type_rep': true,
       "Avis d expert": false,
-      "Montant": true,
+      "Montant": false,
       'Date validation':true,
       'Statut': true,
-      'Type rep': true
+      'Type rep': true,
+      'Budget_valide' : false
     });
     const statusIcons = {
-        'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
-        'En cours': { icon: <HourglassOutlined spin />, color: 'blue' },
-        'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
-        'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
-        'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
-        'Budget': { icon: <DollarOutlined />, color: 'gold' },
-        'Executé': { icon: <RocketOutlined />, color: 'cyan' },
-      };
+      'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
+      'En cours': { icon: <HourglassOutlined spin />, color: 'blue' },
+      'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
+      'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
+      'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
+      'Budget': { icon: <DollarOutlined />, color: 'gold' },
+      'Budget validé': { icon: <CheckCircleOutlined />, color: 'lime' }, // Nouveau statut
+      'Executé': { icon: <RocketOutlined />, color: 'cyan' },
+    };
+    
 
     const fetchData = async() => {
         try {
@@ -279,7 +282,7 @@ const InspectionGen = () => {
             ...(columnsVisibility['Avis d expert'] ? {} : { className: 'hidden-column' }),
         },
         {
-            title: "Cout",
+            title: "Budget",
             dataIndex: 'montant',
             key: 'montant',
             sorter: (a, b) => a.montant - b.montant,
@@ -302,6 +305,31 @@ const InspectionGen = () => {
             ...(columnsVisibility['Montant'] ? {} : { className: 'hidden-column' }),
 
         },
+        {
+          title: "#Validé",
+          dataIndex: 'budget_valide',
+          key: 'budget_valide',
+          sorter: (a, b) => a.budget_valide - b.budget_valide,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+            <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+              {text && parseFloat(text) !== 0 ? (
+                <Tag color="blue">
+                  {`${parseFloat(text)
+                    .toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })
+                    .replace(/,/g, " ")} $`}
+                </Tag>
+              ) : (
+                <Tag color="red">Non validé</Tag>
+              )}
+            </Space>
+          ),
+          align: 'right',
+          ...(columnsVisibility['Budget_valide'] ? {} : { className: 'hidden-column' }),
+        },        
         {
             title: 'Date validation',
             dataIndex: 'date_validation',
