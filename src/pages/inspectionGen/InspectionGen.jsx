@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, Menu, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, ToolOutlined, MenuOutlined, DownOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen, getInspectionResume } from '../../services/charroiService';
 import moment from 'moment';
@@ -38,7 +38,7 @@ const InspectionGen = () => {
       'Date validation':true,
       'Statut': true,
       'Type rep': true,
-      'Budget_valide' : false
+      'Budget_valide' : true
     });
     const statusIcons = {
       'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
@@ -306,7 +306,7 @@ const InspectionGen = () => {
 
         },
         {
-          title: "#Validé",
+          title: "Budget validé",
           dataIndex: 'budget_valide',
           key: 'budget_valide',
           sorter: (a, b) => a.budget_valide - b.budget_valide,
@@ -323,7 +323,7 @@ const InspectionGen = () => {
                     .replace(/,/g, " ")} $`}
                 </Tag>
               ) : (
-                <Tag color="red">Non validé</Tag>
+                <Tag icon={<CloseCircleOutlined />} color="red">Non validé</Tag>
               )}
             </Space>
           ),
