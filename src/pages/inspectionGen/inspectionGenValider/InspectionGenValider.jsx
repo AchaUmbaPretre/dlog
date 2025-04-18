@@ -113,7 +113,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
               )
             },
             {
-              title: "Manœuvre",
+              title: "Main-d'œuvre",
               dataIndex: 'manoeuvre',
               render: (_, record) => (
                 <input
@@ -127,7 +127,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                     }));
                   }}
                   style={{ width: '100%', border:'none', border:'1px solid #f2f2f2a8', outline:'none', padding:'5px 9px' }}
-                  placeholder="Saisir le prix de la manœuvre"
+                  placeholder="Saisir le prix de la main-d'œuvre"
                 />
               )
             }
