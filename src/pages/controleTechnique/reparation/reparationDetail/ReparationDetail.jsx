@@ -13,7 +13,7 @@ const ReparationDetail = ({ idReparation }) => {
         setLoading(true);
         try {
             const response = await getReparationOne(idReparation);
-            setData(response.data.data?.[0]); // On récupère directement le 1er objet de "data"
+            setData(response.data.data?.[0]);
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
