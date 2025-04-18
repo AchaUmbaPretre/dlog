@@ -40,7 +40,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                     montant : d[0]?.cout,
                     reparations: d.map((item) => ({
                         id_type_reparation: item.id_type_reparation,
-                        montant: item.cout,
+                        montant: item.budget_valide,
                         description: item.description || ''
                     }))
                 })
