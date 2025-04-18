@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Descriptions, Divider, Table, notification, Typography, Tag } from 'antd';
+import { Card, Button,Tooltip, Divider, Table, notification, Typography, Tag } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
 import { getReparationOne } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
@@ -95,11 +96,44 @@ const ReparationDetail = ({ idReparation }) => {
                 },
                 width: "4%"
             },  
+            {   title: 'Déscription', 
+                dataIndex: 'description', 
+                key: 'description', 
+                render: (text) => <Tag color="blue">{text}</Tag> 
+            },
+            {   title: 'Categorie', 
+                dataIndex: 'type_rep', 
+                key: 'type_rep', 
+                render: (text) => <Tag color="blue">{text}</Tag> 
+            },
+            {   title: 'Statut', 
+                dataIndex: 'nom_type_statut', 
+                key: 'nom_type_statut', 
+                render: (text) => <Tag color="blue">{text}</Tag> 
+            },
             {
-                
+                title: 'Tracking',
+                dataIndex: 'tracking', 
+                key:'tracking',
+                width: '9px',
+                render: (text, record) => (
+                    <>
+                        <Tooltip title="Faire un suivi">
+                            <Button
+                                icon={<EyeOutlined />}
+                                onClick={() => handleDetails(record.id_declaration_super)}
+                                aria-label="Voir les détails de la tâche"
+                                style={{ color: 'blue' }}
+                            />
+                        </Tooltip>
+                    </>
+                )
             }
         ]
 
+        const handleDetails = () => {
+
+        }
 
     return (
         <>

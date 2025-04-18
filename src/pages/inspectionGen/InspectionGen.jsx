@@ -11,6 +11,7 @@ import InspectionGenFormTracking from './inspectionGenTracking/inspectionGenForm
 import ReparationForm from '../controleTechnique/reparation/reparationForm/ReparationForm';
 import './inspectionGen.css'
 import { useSelector } from 'react-redux';
+import { statusIcons } from '../../utils/prioriteIcons';
 
 const { Search } = Input;
 
@@ -41,18 +42,6 @@ const InspectionGen = () => {
       'Budget_valide' : true,
       'Nom chauffeur' : false
     });
-
-    const statusIcons = {
-      'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
-      'En cours': { icon: <HourglassOutlined spin />, color: 'blue' },
-      'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
-      'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
-      'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
-      'Budget': { icon: <DollarOutlined />, color: 'gold' },
-      'Budget validé': { icon: <CheckCircleOutlined />, color: 'lime' }, // Nouveau statut
-      'Executé': { icon: <RocketOutlined />, color: 'cyan' },
-    };
-    
 
     const fetchData = async() => {
         try {

@@ -1,4 +1,6 @@
 import { Tag } from 'antd';
+import {  ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+
 
 export const getPriorityIcon = (priority) => {
     switch (priority) {
@@ -99,4 +101,15 @@ export const getPriorityLabel = (priority) => {
     'Exécuté': '#A9A9A9',
     1: '#32CD32',
     0: '#FF6347'
+};
+
+export const statusIcons = {
+  'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
+  'En cours': { icon: <HourglassOutlined spin />, color: 'blue' },
+  'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
+  'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
+  'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
+  'Budget': { icon: <DollarOutlined />, color: 'gold' },
+  'Budget validé': { icon: <CheckCircleOutlined />, color: 'lime' }, // Nouveau statut
+  'Executé': { icon: <RocketOutlined />, color: 'cyan' },
 };
