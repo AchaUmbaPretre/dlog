@@ -495,7 +495,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                         )}
                     </Form.List>
                     <div style={{ marginTop: '20px' }}>
-                        <Button size='large' type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} >
+                        <Button size='large' type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
                             Soumettre
                         </Button>
                     </div>

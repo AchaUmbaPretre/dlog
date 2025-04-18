@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Descriptions, Spin, Table, notification, Typography, Tag } from 'antd';
+import { Card, Descriptions, Divider, Table, notification, Typography, Tag } from 'antd';
 import { getReparationOne } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
@@ -49,7 +49,7 @@ const ReparationDetail = ({ idReparation }) => {
                 },
                 width: "4%"
             },    
-            {   title: 'Matricule', 
+/*             {   title: 'Matricule', 
                 dataIndex: 'immatriculation', 
                 key: 'immatriculation', 
                 render: (text) => <Tag color="blue">{text}</Tag> 
@@ -58,7 +58,7 @@ const ReparationDetail = ({ idReparation }) => {
                 dataIndex: 'nom_marque', 
                 key: 'nom_marque', 
                 render: (text) => <Tag color="blue">{text}</Tag> 
-            },
+            }, */
             {   title: 'Date début', 
                 dataIndex: 'date_entree', 
                 key: 'date_entree', 
@@ -81,17 +81,34 @@ const ReparationDetail = ({ idReparation }) => {
                 key: 'cout', 
                 render: (text) => <Tag color="blue">{text} $</Tag> 
             }
-          
     ]
+
+    const columnsTwo = [
+            {
+                title: '#',
+                dataIndex: 'id',
+                key: 'id',
+                render: (text, record, index) => {
+                const pageSize = pagination.pageSize || 10;
+                const pageIndex = pagination.current || 1;
+                return (pageIndex - 1) * pageSize + index + 1;
+                },
+                width: "4%"
+            },  
+            {
+                
+            }
+        ]
 
 
     return (
         <>
             <div className="reparation_detail">
                 <div className="reparation_detail_title">
-                    <h1 className="reparation_detail_h1">DETAIL VEHICULE {detail[0]?.nom_marque} {detail?.[0]?.immatriculation}</h1>
+                    <h1 className="reparation_detail_h1">SUIVI INTERVENTION : {detail[0]?.nom_marque.toUpperCase()} {detail?.[0]?.immatriculation}</h1>
                 </div>
                 <div className="reparation_detail_wrapper">
+                    <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
                     <Card className='reparation_detail_card'>
                         <div className="reparation_detail_top">
                             <Table
@@ -106,8 +123,20 @@ const ReparationDetail = ({ idReparation }) => {
                             />
                         </div>
                     </Card>
+                    <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DETAIL DES REPARATIONS</Divider>
                     <Card>
-
+                        <div className="reparation_detail_top">
+                        <Table
+                                columns={columnsTwo}
+                                dataSource={data}
+                                onChange={(pagination) => setPagination(pagination)}
+                                pagination={pagination}
+                                rowKey="id"
+                                bordered
+                                size="small"
+                                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                            />
+                        </div>
                     </Card>
                 </div>
             </div>
