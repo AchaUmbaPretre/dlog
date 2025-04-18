@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, notification, Tabs, Tooltip, Popconfirm, Tag,  Popover } from 'antd';
+import { Table, Button, Modal, Input, notification } from 'antd';
 import { ToolOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import TypeReparationForm from './typeReparationForm/TypeReparationForm';
 import { getTypeReparation } from '../../services/charroiService'
