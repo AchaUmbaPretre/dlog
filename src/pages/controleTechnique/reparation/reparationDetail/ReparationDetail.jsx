@@ -89,7 +89,7 @@ const ReparationDetail = ({ idReparation }) => {
         <>
             <div className="reparation_detail">
                 <div className="reparation_detail_title">
-                    <h1 className="reparation_detail_h1">Détail du véhicule {detail[0]?.nom_marque} {detail?.[0]?.immatriculation}</h1>
+                    <h1 className="reparation_detail_h1">DETAIL VEHICULE {detail[0]?.nom_marque} {detail?.[0]?.immatriculation}</h1>
                 </div>
                 <div className="reparation_detail_wrapper">
                     <Card className='reparation_detail_card'>
