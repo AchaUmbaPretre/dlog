@@ -198,16 +198,15 @@ const ReparationDetail = ({ idReparation }) => {
                 </div>
             </div>
             <Modal
-                    title=""
-                    visible={modalType === 'Add'}
-                    onCancel={closeAllModals}
-                    footer={null}
-                    width={900}
-                    centered
+                title=""
+                visible={modalType === 'Add'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
             >
                 <SuiviReparationForm idReparations={idReparations} closeModal={() => setModalType(null)} fetchData={fetchData} />
             </Modal>
-
         </>
     );
 };
