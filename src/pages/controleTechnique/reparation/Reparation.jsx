@@ -296,7 +296,7 @@ const Reparation = () => {
             visible={modalType === 'DetailSuivi'}
             onCancel={closeAllModals}
             footer={null}
-            width={900}
+            width={950}
             centered
         >
             <SuiviReparation closeModal={() => setModalType(null)} fetchData={fetchData} />

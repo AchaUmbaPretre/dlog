@@ -1,0 +1,26 @@
+.reparation_detail{
+    .reparation_detail_title{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: rgba(0, 123, 255, 0.137); // Bleu avec opacité faible
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+
+        .reparation_detail_h1 {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0056b3; // Un bleu foncé pour contraster
+            margin: 0;
+          }
+    }
+    .reparation_detail_wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .reparation_detail_card{
+
+        }
+    }
+}

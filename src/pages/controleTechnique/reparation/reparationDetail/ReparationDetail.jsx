@@ -9,7 +9,7 @@ const { Title } = Typography;
 const ReparationDetail = ({ idReparation }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [detail, setDetail] = useState(null);
+    const [detail, setDetail] = useState([]);
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
@@ -20,7 +20,7 @@ const ReparationDetail = ({ idReparation }) => {
         try {
             const response = await getReparationOne(idReparation);
             setData(response.data.data);
-            setDetail(response.data.dataGen)
+            setDetail([response.data.dataGen[0]])
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -88,19 +88,27 @@ const ReparationDetail = ({ idReparation }) => {
     return (
         <>
             <div className="reparation_detail">
+                <div className="reparation_detail_title">
+                    <h1 className="reparation_detail_h1">Détail du véhicule {detail[0]?.nom_marque} {detail?.[0]?.immatriculation}</h1>
+                </div>
                 <div className="reparation_detail_wrapper">
-                    <div className="reparation_detail_top">
-                        <Table
-                            columns={columns}
-                            dataSource={detail}
-                            onChange={(pagination) => setPagination(pagination)}
-                            pagination={pagination}
-                            rowKey="id"
-                            bordered
-                            size="small"
-                            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                        />
-                    </div>
+                    <Card className='reparation_detail_card'>
+                        <div className="reparation_detail_top">
+                            <Table
+                                columns={columns}
+                                dataSource={detail}
+                                onChange={(pagination) => setPagination(pagination)}
+                                pagination={pagination}
+                                rowKey="id"
+                                bordered
+                                size="small"
+                                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                            />
+                        </div>
+                    </Card>
+                    <Card>
+
+                    </Card>
                 </div>
             </div>
         </>
