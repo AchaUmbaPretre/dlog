@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button,Tooltip, Divider, Space, Table, notification, Typography, Tag } from 'antd';
+import { Card, Button,Tooltip, Modal, Divider, Space, Table, notification, Typography, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined } from '@ant-design/icons';
 import { getReparationOne } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
 import { statusIcons } from '../../../../utils/prioriteIcons';
+import SuiviReparationForm from '../suiviReparation/suiviReparationForm/SuiviReparationForm';
 
 const { Title } = Typography;
 
@@ -16,8 +17,22 @@ const ReparationDetail = ({ idReparation }) => {
         current: 1,
         pageSize: 20,
       });
+    const [modalType, setModalType] = useState(null);
+    const [idReparations, setIdReparations] = useState('');
+    
+    const closeAllModals = () => {
+        setModalType(null);
+      };
 
-    const fetchDatas = async () => {
+      const openModal = (type, id='') => {
+        closeAllModals();
+        setModalType(type);
+        setIdReparations(id)
+      };
+
+    const handleDetails = () => openModal('Add')
+
+    const fetchData = async () => {
         setLoading(true);
         try {
             const response = await getReparationOne(idReparation);
@@ -35,7 +50,7 @@ const ReparationDetail = ({ idReparation }) => {
 
     useEffect(() => {
         if (idReparation) {
-            fetchDatas();
+            fetchData();
         }
     }, [idReparation]);
 
@@ -143,10 +158,6 @@ const ReparationDetail = ({ idReparation }) => {
             }
         ]
 
-        const handleDetails = () => {
-
-        }
-
     return (
         <>
             <div className="reparation_detail">
@@ -186,6 +197,17 @@ const ReparationDetail = ({ idReparation }) => {
                     </Card>
                 </div>
             </div>
+            <Modal
+                    title=""
+                    visible={modalType === 'Add'}
+                    onCancel={closeAllModals}
+                    footer={null}
+                    width={900}
+                    centered
+            >
+                <SuiviReparationForm idReparations={idReparations} closeModal={() => setModalType(null)} fetchData={fetchData} />
+            </Modal>
+
         </>
     );
 };

@@ -6,7 +6,7 @@ import { getTypes } from '../../../../../services/typeService';
 
 
 
-const SuiviReparationForm = ({idInspection, closeModal, fetchData}) => {
+const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
@@ -36,7 +36,7 @@ const SuiviReparationForm = ({idInspection, closeModal, fetchData}) => {
         };
 
         fetchData();
-    }, [idInspection]);
+    }, [idReparations]);
 
     const onFinish = async (values) => {
         setIsLoading(true);
