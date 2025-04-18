@@ -46,7 +46,7 @@ const Reparation = () => {
         const handleClick = ({ key }) => {
           switch (key) {
             case 'voirDetail':
-                openModal('Detail', record.id_sud_reparation)
+                openModal('Detail', record.id_reparation)
               break;
             case 'ajouterInspection':
               openModal('AddInspection', record.id_reparation);
@@ -56,7 +56,7 @@ const Reparation = () => {
                 break;
             case 'ajouterSuivi':
                 openModal('AddSuivi', record.id_reparation)
-              break;
+                break;
             default:
               break;
           }
