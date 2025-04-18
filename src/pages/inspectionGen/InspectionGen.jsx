@@ -380,9 +380,10 @@ const InspectionGen = () => {
                         <Skeleton active paragraph={{ rows: 1 }} />
                       ) : (
                           <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre inspection : <strong>{statistique.nbre_inspection?.toLocaleString()}</strong></span>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Budget total : <strong>{Math.round(parseFloat(statistique.budget_total)).toLocaleString() || 0} $</strong></span>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Nbre véhicule : <strong>{Math.round(parseFloat(statistique.nbre_vehicule)).toLocaleString() || 0}</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Inspection : <strong>{statistique.nbre_inspection?.toLocaleString()}</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Budget non validé : <strong>{Math.round(parseFloat(statistique.budget_total)).toLocaleString() || 0} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Budget validé : <strong>{Math.round(parseFloat(statistique.budget_total)).toLocaleString() || 0} $</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Véhicule : <strong>{Math.round(parseFloat(statistique.nbre_vehicule)).toLocaleString() || 0}</strong></span>
                           </div>
                       )}
                     </div>
