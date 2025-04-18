@@ -17,12 +17,7 @@ const TypeReparation = () => {
     }); 
     const scroll = { x: 'max-content' };
     const [modalType, setModalType] = useState(null);
-    const [activeKey, setActiveKey] = useState(['1', '2']);
-    
-    const handleTabChange = (key) => {
-        setActiveKey(key);
-      };
-    
+        
        const fetchData = async() => {
             try {
                 const { data } = await getTypeReparation();
