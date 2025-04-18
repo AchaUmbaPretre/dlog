@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button,Tooltip, Modal, Divider, Space, Table, notification, Typography, Tag } from 'antd';
+import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Typography, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined } from '@ant-design/icons';
 import { getReparationOne } from '../../../../services/charroiService';
 import moment from 'moment';
@@ -168,31 +168,35 @@ const ReparationDetail = ({ idReparation }) => {
                     <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
                     <Card className='reparation_detail_card'>
                         <div className="reparation_detail_top">
-                            <Table
-                                columns={columns}
-                                dataSource={detail}
-                                onChange={(pagination) => setPagination(pagination)}
-                                pagination={pagination}
-                                rowKey="id"
-                                bordered
-                                size="small"
-                                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                            />
+                            <Skeleton loading={loading} active paragraph={false}>
+                                <Table
+                                    columns={columns}
+                                    dataSource={detail}
+                                    onChange={(pagination) => setPagination(pagination)}
+                                    pagination={pagination}
+                                    rowKey="id"
+                                    bordered
+                                    size="small"
+                                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                />
+                            </Skeleton>
                         </div>
                     </Card>
                     <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DETAIL DES REPARATIONS</Divider>
                     <Card>
                         <div className="reparation_detail_top">
-                        <Table
-                                columns={columnsTwo}
-                                dataSource={data}
-                                onChange={(pagination) => setPagination(pagination)}
-                                pagination={pagination}
-                                rowKey="id"
-                                bordered
-                                size="small"
-                                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                            />
+                            <Skeleton loading={loading} active paragraph={false}>
+                                <Table
+                                    columns={columnsTwo}
+                                    dataSource={data}
+                                    onChange={(pagination) => setPagination(pagination)}
+                                    pagination={pagination}
+                                    rowKey="id"
+                                    bordered
+                                    size="small"
+                                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                />
+                            </Skeleton>
                         </div>
                     </Card>
                 </div>

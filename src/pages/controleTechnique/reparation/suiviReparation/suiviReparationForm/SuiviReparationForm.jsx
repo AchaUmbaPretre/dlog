@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Card,Input, Typography, Space, Row, Col, Select, notification, InputNumber, Checkbox } from 'antd';
+import { Button, Form, Card,Input, Skeleton, Typography, Space, Row, Col, Select, notification, InputNumber, Checkbox } from 'antd';
 import { colorMapping } from '../../../../../utils/prioriteIcons';
 import { getUser } from '../../../../../services/userService';
 import { getTypes } from '../../../../../services/typeService';
@@ -12,7 +12,6 @@ const SuiviReparationForm = ({idReparations, idReparation, closeModal, fetchData
     const [form] = Form.useForm();
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
-    const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [vehicule, setVehicule] = useState('');
     const [marque, setMarque] = useState('');
@@ -77,13 +76,15 @@ const SuiviReparationForm = ({idReparations, idReparation, closeModal, fetchData
             <div className="controle_title_rows">
                 <h2 className="controle_h2">TRACKING DE REPARATION</h2>
             </div>
-            <Card>
-                <>
-                    <Title level={4}>DETAILS DU VEHICULE</Title>
-                    <Text strong>Marque :</Text> <Text>{marque}</Text><br />
-                    <Text strong>Immatriculation :</Text> <Text>{vehicule}</Text><br />
-                </>
-            </Card>
+            <Skeleton loading={isLoading} active paragraph={false}>
+                <Card>
+                    <>
+                        <Title level={4}>DETAILS DU VEHICULE</Title>
+                        <Text strong>Marque :</Text> <Text>{marque}</Text><br />
+                        <Text strong>Immatriculation :</Text> <Text>{vehicule}</Text><br />
+                    </>
+                </Card>
+            </Skeleton>
             <div className="controle_wrapper">
                 <Form
                     form={form}
