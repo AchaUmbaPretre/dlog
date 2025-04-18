@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button,Tooltip, Divider, Table, notification, Typography, Tag } from 'antd';
-import { EyeOutlined } from '@ant-design/icons';
+import { Card, Button,Tooltip, Divider, Space, Table, notification, Typography, Tag } from 'antd';
+import { EyeOutlined, ToolOutlined } from '@ant-design/icons';
 import { getReparationOne } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
+import { statusIcons } from '../../../../utils/prioriteIcons';
 
 const { Title } = Typography;
 
@@ -101,15 +102,26 @@ const ReparationDetail = ({ idReparation }) => {
                 key: 'description', 
                 render: (text) => <Tag color="blue">{text}</Tag> 
             },
-            {   title: 'Categorie', 
-                dataIndex: 'type_rep', 
-                key: 'type_rep', 
-                render: (text) => <Tag color="blue">{text}</Tag> 
+            {   title: 'Categorie',
+                dataIndex: 'type_rep',
+                render: (text) => (
+                    <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
+                        {text}
+                    </Tag>
+                ),
             },
-            {   title: 'Statut', 
+            { 
+                title: 'Statut', 
                 dataIndex: 'nom_type_statut', 
-                key: 'nom_type_statut', 
-                render: (text) => <Tag color="blue">{text}</Tag> 
+                key: 'nom_type_statut',
+                render: text => {
+                    const { icon, color } = statusIcons[text] || {};
+                    return (
+                        <Space>
+                            <Tag icon={icon} color={color}>{text}</Tag>
+                        </Space>
+                    );
+                },            
             },
             {
                 title: 'Tracking',
