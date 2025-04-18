@@ -6,7 +6,6 @@ import { getTypeReparation } from '../../services/charroiService'
 
 const { Search } = Input;
 
-
 const TypeReparation = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true);
