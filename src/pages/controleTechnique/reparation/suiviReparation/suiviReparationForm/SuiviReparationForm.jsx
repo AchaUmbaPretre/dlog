@@ -8,7 +8,7 @@ import { getReparationOne } from '../../../../../services/charroiService';
 const { Title, Text, Paragraph } = Typography;
 
 
-const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
+const SuiviReparationForm = ({idReparations, idReparation, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
@@ -16,8 +16,6 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [vehicule, setVehicule] = useState('');
     const [marque, setMarque] = useState('');
-
-    console.log(idReparations)
 
     const handleError = (message) => {
         notification.error({
@@ -38,7 +36,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                 setUsers(userData.data);
 
                 if(idReparations) {
-                    const {data} = await getReparationOne(idReparations)
+                    const {data} = await getReparationOne(idReparation)
                     setVehicule(data?.data[0]?.immatriculation)
                     setMarque(data?.data[0]?.nom_marque)
                 }
@@ -48,7 +46,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
         };
 
         fetchData();
-    }, [idReparations]);
+    }, [idReparation]);
 
     const onFinish = async (values) => {
         setIsLoading(true);
@@ -81,7 +79,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
             </div>
             <Card>
                 <>
-                    <Title level={4}>Détails de l’inspection</Title>
+                    <Title level={4}>DETAILS DU VEHICULE</Title>
                     <Text strong>Marque :</Text> <Text>{marque}</Text><br />
                     <Text strong>Immatriculation :</Text> <Text>{vehicule}</Text><br />
                 </>

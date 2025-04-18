@@ -80,9 +80,9 @@ const Reparation = () => {
               <Menu.Item key="DetailSuivi">
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
               </Menu.Item>
-              <Menu.Item key="ajouterSuivi">
+{/*               <Menu.Item key="ajouterSuivi">
                 <PlusOutlined style={{ color: 'red' }} /> Ajouter Suivi
-              </Menu.Item>
+              </Menu.Item> */}
             </Menu.SubMenu>
           </Menu>
         );

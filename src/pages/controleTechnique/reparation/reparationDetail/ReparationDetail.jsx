@@ -93,7 +93,7 @@ const ReparationDetail = ({ idReparation }) => {
                 key: 'fournisseur', 
                 render: (text) => <Tag color="blue">{text}</Tag> 
             },
-            {   title: 'Cout', 
+            {   title: 'Budget', 
                 dataIndex: 'cout', 
                 key: 'cout', 
                 render: (text) => <Tag color="blue">{text} $</Tag> 
@@ -115,7 +115,7 @@ const ReparationDetail = ({ idReparation }) => {
             {   title: 'Déscription', 
                 dataIndex: 'description', 
                 key: 'description', 
-                render: (text) => <Tag color="blue">{text}</Tag> 
+                render: (text) => <div>{text}</div> 
             },
             {   title: 'Categorie',
                 dataIndex: 'type_rep',
@@ -162,7 +162,7 @@ const ReparationDetail = ({ idReparation }) => {
         <>
             <div className="reparation_detail">
                 <div className="reparation_detail_title">
-                    <h1 className="reparation_detail_h1">SUIVI INTERVENTION : {detail[0]?.nom_marque.toUpperCase()} {detail?.[0]?.immatriculation}</h1>
+                    <h1 className="reparation_detail_h1">SUIVI D'INTERVENTION : {detail[0]?.nom_marque.toUpperCase()} {detail?.[0]?.immatriculation}</h1>
                 </div>
                 <div className="reparation_detail_wrapper">
                     <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
@@ -205,7 +205,7 @@ const ReparationDetail = ({ idReparation }) => {
                 width={900}
                 centered
             >
-                <SuiviReparationForm idReparations={idReparations} closeModal={() => setModalType(null)} fetchData={fetchData} />
+                <SuiviReparationForm idReparations={idReparations} idReparation={idReparation} closeModal={() => setModalType(null)} fetchData={fetchData} />
             </Modal>
         </>
     );
