@@ -66,12 +66,13 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                 dataIndex: 'nom_cat_inspection',
             },
             {
-                title: "Etat",
-                dataIndex: 'nom_carateristique_rep',
-            },
-            {
                 title: "Cout",
                 dataIndex: 'montant',
+                render : (text, record) => (
+                  <div>
+                    {text} $
+                  </div>
+                )
             }
         ]
 
@@ -92,6 +93,11 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
             {
               title: "Budget",
               dataIndex: 'montant',
+              render : (text, record) => (
+                <div>
+                  {text} $
+                </div>
+              )
             },
             {
               title: "Budget validé",
