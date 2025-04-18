@@ -472,14 +472,14 @@ const InspectionGen = () => {
         </Modal>
 
         <Modal
-            title=""
-            visible={modalType === 'AddSuivi'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={800}
-            centered
+          title=""
+          visible={modalType === 'AddSuivi'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={800}
+          centered
         >
-            <InspectionGenFormTracking idSubInspectionGen={inspectionId} closeModal={() => setModalType(null)} fetchData={fetchData} />
+          <InspectionGenFormTracking idSubInspectionGen={inspectionId} closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
 
         <Modal
