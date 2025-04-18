@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Space, Row, Col, Select, notification, InputNumber, Checkbox } from 'antd';
+import { Button, Form, Card,Input, Typography, Space, Row, Col, Select, notification, InputNumber, Checkbox } from 'antd';
 import { colorMapping } from '../../../../../utils/prioriteIcons';
 import { getUser } from '../../../../../services/userService';
 import { getTypes } from '../../../../../services/typeService';
+import { getReparationOne } from '../../../../../services/charroiService';
 
+const { Title, Text, Paragraph } = Typography;
 
 
 const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
@@ -12,6 +14,10 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [users, setUsers] = useState([]);
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [vehicule, setVehicule] = useState('');
+    const [marque, setMarque] = useState('');
+
+    console.log(idReparations)
 
     const handleError = (message) => {
         notification.error({
@@ -30,6 +36,12 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
 
                 setType(typeData.data);
                 setUsers(userData.data);
+
+                if(idReparations) {
+                    const {data} = await getReparationOne(idReparations)
+                    setVehicule(data?.data[0]?.immatriculation)
+                    setMarque(data?.data[0]?.nom_marque)
+                }
             } catch (error) {
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
@@ -67,6 +79,13 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
             <div className="controle_title_rows">
                 <h2 className="controle_h2">TRACKING DE REPARATION</h2>
             </div>
+            <Card>
+                <>
+                    <Title level={4}>Détails de l’inspection</Title>
+                    <Text strong>Marque :</Text> <Text>{marque}</Text><br />
+                    <Text strong>Immatriculation :</Text> <Text>{vehicule}</Text><br />
+                </>
+            </Card>
             <div className="controle_wrapper">
                 <Form
                     form={form}

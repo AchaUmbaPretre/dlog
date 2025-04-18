@@ -11,7 +11,7 @@ const { Title } = Typography;
 
 const ReparationDetail = ({ idReparation }) => {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [detail, setDetail] = useState([]);
     const [pagination, setPagination] = useState({
         current: 1,
@@ -30,7 +30,7 @@ const ReparationDetail = ({ idReparation }) => {
         setIdReparations(id)
       };
 
-    const handleDetails = () => openModal('Add')
+    const handleDetails = (id) => openModal('Add', id)
 
     const fetchData = async () => {
         setLoading(true);
@@ -148,8 +148,8 @@ const ReparationDetail = ({ idReparation }) => {
                         <Tooltip title="Faire un suivi">
                             <Button
                                 icon={<EyeOutlined />}
-                                onClick={() => handleDetails(record.id_declaration_super)}
-                                aria-label="Voir les détails de la tâche"
+                                onClick={() => handleDetails(record.id_sud_reparation)}
+                                aria-label="Voir les détails"
                                 style={{ color: 'blue' }}
                             />
                         </Tooltip>

@@ -270,7 +270,6 @@ const Reparation = () => {
                 <Table
                     columns={columns}
                     dataSource={data}
-                    rowKey="id_controle_technique"
                     loading={loading}
                     scroll={scroll}
                     size="small"
