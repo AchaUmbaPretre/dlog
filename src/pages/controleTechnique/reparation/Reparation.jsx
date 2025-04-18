@@ -159,7 +159,7 @@ const Reparation = () => {
             }
         },  
         {
-            title: 'Nbre Jour',
+            title: '#Jour',
             dataIndex: 'nb_jours_au_garage',
             render: (text) => (
                 <Tag color='orange'>
