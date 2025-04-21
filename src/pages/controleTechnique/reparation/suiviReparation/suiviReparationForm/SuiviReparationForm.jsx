@@ -4,10 +4,11 @@ import { Card, Form, Skeleton, Select, Input, Button, Col, Row, Divider, Table, 
 import moment from 'moment';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getSuiviReparationOne } from '../../../../../services/charroiService';
+import { getCat_inspection } from '../../../../../services/batimentService';
 
 const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [form] = Form.useForm();
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [pagination, setPagination] = useState({
         current: 1,
@@ -29,11 +30,13 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const fetchDatas = async() => {
         try {
             const [ evalueData, tacheData, pieceData] = Promise.all([
-
+                getCat_inspection()
             ])
+                setTache(tacheData.data)
     
             if(idReparations) {
                 const { data : d } = await getSuiviReparationOne(idReparations)
+                setData(d)
             }
         } catch (error) {
             console.error('Error fetching data:', error);
