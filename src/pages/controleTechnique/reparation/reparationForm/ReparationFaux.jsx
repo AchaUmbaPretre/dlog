@@ -6,7 +6,7 @@ import { getChauffeur, getTypeReparation, getVehicule } from '../../../../servic
 
 const { Option } = Select;
 
-const ReparationForm = () => {
+const ReparationFormFaux = () => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
@@ -264,4 +264,4 @@ const ReparationForm = () => {
   )
 }
 
-export default ReparationForm
+export default ReparationFormFaux
