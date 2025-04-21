@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, Input, Button, Col, Row, Divider, Table, Tag, InputNumber } from 'antd';
 import moment from 'moment';
-import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
-
+import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
 const SuiviReparationForm = () => {
     const [form] = Form.useForm();
