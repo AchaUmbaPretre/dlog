@@ -130,7 +130,7 @@ const SuiviReparationForm = () => {
                                         fields.map(({ key, name, ...restField }) => (
                                             <Card style={{margin:'10px 0'}}>
                                                 <Row key={key} gutter={12} align='small'>
-                                                    <Col xs={24} md={7}>
+                                                    <Col xs={24} md={8}>
                                                         <Form.Item
                                                             {...restField}
                                                             name={[name, "id_tache_rep" ]}
