@@ -199,6 +199,23 @@ const ReparationDetail = ({ idReparation }) => {
                             </Skeleton>
                         </div>
                     </Card>
+                    <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DESCRIPTION DU TRAVAIL EFFECTUE</Divider>
+                    <Card>
+                        <div className="reparation_detail_top">
+                            <Skeleton loading={loading} active paragraph={false}>
+                                <Table
+                                    columns={columnsTwo}
+                                    dataSource={data}
+                                    onChange={(pagination) => setPagination(pagination)}
+                                    pagination={pagination}
+                                    rowKey="id"
+                                    bordered
+                                    size="small"
+                                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                />
+                            </Skeleton>
+                        </div>
+                    </Card>
                 </div>
             </div>
             <Modal
