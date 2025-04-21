@@ -35,6 +35,11 @@ const SuiviReparationForm = () => {
             },
             width: "4%"
         },    
+        {   title: 'Categorie', 
+            dataIndex: 'nom_categorie', 
+            key: 'nom_categorie', 
+            render: (text) => <Tag color="blue">{text}</Tag> 
+        },
         {   title: 'Date début', 
             dataIndex: 'date_entree', 
             key: 'date_entree', 
@@ -97,7 +102,7 @@ const SuiviReparationForm = () => {
                     >
                         <Row gutter={24}>
                             <Col xs={24} md={24}>
-                                <Card style={{width:'100%'}}>
+                                <Card style={{marginTop:'10px'}}>
                                     <Form.Item
                                         name="id_evaluation"
                                         label="Evaluation"
