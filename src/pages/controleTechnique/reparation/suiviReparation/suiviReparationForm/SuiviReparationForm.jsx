@@ -114,7 +114,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
             await postSuiviReparation({
                 ...values,
                 id_sud_reparation : idReparations,
-                user_cr : 
+                user_cr : userId
             });
             message.success({ content: 'Suivie réparation enregistrée avec succès.', key: loadingKey });
             form.resetFields();
