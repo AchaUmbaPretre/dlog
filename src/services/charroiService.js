@@ -207,6 +207,11 @@ export const postSuiviInspections= async (data) => {
 }
 
 //Suivi reparation
+
+export const getSuiviReparation= async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/suivi_reparation?id_sud_reparation=${id}`);
+}
+
 export const getSuiviReparationOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/suivi_reparationOne?id_sud_reparation=${id}`);
 }
