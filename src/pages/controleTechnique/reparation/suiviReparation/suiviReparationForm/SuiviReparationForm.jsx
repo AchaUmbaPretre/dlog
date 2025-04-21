@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './suiviReparationForm.scss'
-import { Card, Form, Skeleton, Select, Input, Button, Col, Row, Divider, Table, Tag, InputNumber } from 'antd';
+import { Card, Form, Skeleton, Select, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { getEvaluation, getSuiviReparationOne, getTypeReparation } from '../../../../../services/charroiService';
+import { getEvaluation, getSuiviReparationOne, getTypeReparation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
+import { useSelector } from 'react-redux';
 
 const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -19,8 +20,10 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [piece, setPiece] = useState([]);
     const [marque, setMarque] = useState(null);
     const [matricule, setMatricule] = useState(null);
-    const [loadingData, setLoadingData] = useState([])
-    const [num, setNum] = useState(null)
+    const [loadingData, setLoadingData] = useState([]);
+    const [num, setNum] = useState(null);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    
     
     useEffect(() => {
         const info = form.getFieldValue('info');
@@ -101,9 +104,35 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     ]
 
     const onFinish = async (values) => {
+        const loadingKey = 'loadingReparation';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+    
+        setLoading(true);
+        
+        try {
 
-        console.log(values)
+            await postSuiviReparation({
+                ...values,
+                id_sud_reparation : idReparations,
+                user_cr : 
+            });
+            message.success({ content: 'Suivie réparation enregistrée avec succès.', key: loadingKey });
+            form.resetFields();
+            fetchData();
+            closeModal();
 
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de la réparation:", error);
+            message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+            const errorMsg = error?.response?.data?.error || 'Erreur inconnue. Veuillez réessayer plus tard.';
+            notification.error({
+                message: 'Erreur',
+                description: errorMsg,
+            });
+
+        } finally {
+            setLoading(false);
+        }
     }
     
   return (
