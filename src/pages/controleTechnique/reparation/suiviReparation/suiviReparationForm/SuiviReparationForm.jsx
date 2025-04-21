@@ -70,7 +70,7 @@ const SuiviReparationForm = () => {
             <div className="reparation_detail_title">
                 <h1 className="reparation_detail_h1">SUIVI INTERVENTION BON N° 7: VEHECULE N°ISUZU D-MAX 4675AA/19</h1>
             </div>
-            <div className="suivi_reparation_wrapper">
+            <Card className="suivi_reparation_wrapper">
                 <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
                 <Card>
                     <div className="reparation_detail_top">
@@ -235,7 +235,7 @@ const SuiviReparationForm = () => {
                             </Button>
                         </div>
                     </Form>
-            </div>
+            </Card>
         </div>
     </>
   )
