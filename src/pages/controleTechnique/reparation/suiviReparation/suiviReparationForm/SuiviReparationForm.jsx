@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './suiviReparationForm.scss'
-import { Card, Form, Skeleton, Select, Button, Col, Row, Divider, Table, Tag, InputNumber } from 'antd';
+import { Card, Form, Skeleton, Select, Input, Button, Col, Row, Divider, Table, Tag, InputNumber } from 'antd';
 import moment from 'moment';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
 
@@ -128,7 +128,7 @@ const SuiviReparationForm = () => {
                                 <>
                                     {
                                         fields.map(({ key, name, ...restField }) => (
-                                            <Card>
+                                            <Card style={{margin:'10px 0'}}>
                                                 <Row key={key} gutter={12} align='small'>
                                                     <Col xs={24} md={7}>
                                                         <Form.Item
@@ -212,6 +212,28 @@ const SuiviReparationForm = () => {
                                 </>
                             )}
                         </Form.List>
+
+                        <Card>
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    name='commentaire'
+                                    label="Commentaire"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez fournir un commentaire...',
+                                        }
+                                    ]}
+                                >
+                                        <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'50px'}}/>
+                                </Form.Item>
+                            </Col>
+                        </Card>
+                        <div style={{ marginTop: '20px' }}>
+                            <Button size='large' type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
+                                Soumettre
+                            </Button>
+                        </div>
                     </Form>
 
                 <Card>
