@@ -7,7 +7,6 @@ import { getReparationOne } from '../../../../../services/charroiService';
 
 const { Title, Text, Paragraph } = Typography;
 
-
 const SuiviReparationForm = ({idReparations, idReparation, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [type, setType] = useState([]);
