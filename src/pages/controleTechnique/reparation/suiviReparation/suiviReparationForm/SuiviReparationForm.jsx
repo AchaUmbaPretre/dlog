@@ -102,6 +102,8 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
 
     const onFinish = async (values) => {
 
+        console.log(values)
+
     }
     
   return (
