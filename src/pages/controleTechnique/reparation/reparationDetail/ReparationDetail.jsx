@@ -241,7 +241,7 @@ const ReparationDetail = ({ idReparation }) => {
                         <div className="reparation_detail_top">
                             <Skeleton loading={loading} active paragraph={false}>
                                 <Table
-                                    columns={columnsTwo}
+                                    columns={columnsThree}
                                     dataSource={data}
                                     onChange={(pagination) => setPagination(pagination)}
                                     pagination={pagination}
