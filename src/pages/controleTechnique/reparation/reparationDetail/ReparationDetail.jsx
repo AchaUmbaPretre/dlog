@@ -156,7 +156,44 @@ const ReparationDetail = ({ idReparation }) => {
                     </>
                 )
             }
-        ]
+    ]
+
+    const columnsThree = [
+        {
+            title: '#',
+            dataIndex: 'id',
+            key: 'id',
+            render: (text, record, index) => {
+            const pageSize = pagination.pageSize || 10;
+            const pageIndex = pagination.current || 1;
+            return (pageIndex - 1) * pageSize + index + 1;
+            },
+            width: "4%"
+        },    
+        {   title: 'Taches accomplie', 
+            dataIndex: 'tache_accomplie', 
+            key: 'tache_accomplie', 
+            render: (text) => 
+            <div> {text}</div>
+        },
+        {   title: 'Piéce', 
+            dataIndex: 'piece', 
+            key: 'piece', 
+            render: (text) => 
+            <div>{text}</div> 
+        },
+        {   title: 'Budget', 
+            dataIndex: 'budget', 
+            key: 'budget', 
+            render: (text) => <div>{text}</div> 
+        },
+        {   title: 'Effectué par', 
+            dataIndex: 'cout', 
+            key: 'cout', 
+            render: (text) => <Tag color="blue">{text} $</Tag> 
+        }
+]
+
 
     return (
         <>
