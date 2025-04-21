@@ -47,7 +47,7 @@ const SuiviReparationForm = () => {
             key: 'cout', 
             render: (text) => <Tag color="blue">{text} $</Tag> 
         }
-]
+    ]
     
   return (
     <>
