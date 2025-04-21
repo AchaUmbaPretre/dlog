@@ -17,9 +17,11 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [evalue, setEvalue] = useState([]);
     const [tache, setTache] = useState([]);
     const [piece, setPiece] = useState([]);
+    const [marque, setMarque] = useState(null);
+    const [matricule, setMatricule] = useState(null);
     const [loadingData, setLoadingData] = useState([])
+    const [num, setNum] = useState(null)
     
-
     useEffect(() => {
         const info = form.getFieldValue('info');
         if (!info || info.length === 0) {
@@ -29,7 +31,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
 
     const fetchDatas = async() => {
         try {
-            const [ evalueData, tacheData, pieceData] = Promise.all([
+            const [ tacheData, evalueData, pieceData] = await Promise.all([
                 getCat_inspection()
             ])
                 setTache(tacheData.data)
@@ -37,6 +39,9 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
             if(idReparations) {
                 const { data : d } = await getSuiviReparationOne(idReparations)
                 setData(d)
+                setMarque(d[0]?.nom_marque)
+                setMatricule(d[0]?.immatriculation)
+                setNum(d[0]?.id_sud_reparation)
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -48,6 +53,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     useEffect(() => {
         fetchDatas()
     }, [idReparations])
+
 
     const columns = [
         {
@@ -62,8 +68,8 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
             width: "4%"
         },    
         {   title: 'Categorie', 
-            dataIndex: 'nom_categorie', 
-            key: 'nom_categorie', 
+            dataIndex: 'type_rep', 
+            key: 'type_rep', 
             render: (text) => <Tag color="blue">{text}</Tag> 
         },
         {   title: 'Date début', 
@@ -84,8 +90,8 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
             render: (text) => <Tag color="blue">{text}</Tag> 
         },
         {   title: 'Budget', 
-            dataIndex: 'cout', 
-            key: 'cout', 
+            dataIndex: 'montant', 
+            key: 'montant', 
             render: (text) => <Tag color="blue">{text} $</Tag> 
         }
     ]
@@ -98,7 +104,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     <>
         <div className="suivi_reparation_form">
             <div className="reparation_detail_title">
-                <h1 className="reparation_detail_h1">SUIVI INTERVENTION BON N° 7: VEHECULE N°ISUZU D-MAX 4675AA/19</h1>
+                <h1 className="reparation_detail_h1">SUIVI INTERVENTION BON N° {num}: VEHECULE {marque} {matricule}</h1>
             </div>
             <Card className="suivi_reparation_wrapper">
                 <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
@@ -173,8 +179,8 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                                                 allowClear
                                                                 showSearch
                                                                 options={tache.map((item) => ({
-                                                                    value: item.id_tache_rep,
-                                                                    label: `${item.nom_tache_rep}`,
+                                                                    value: item.id_cat_inspection,
+                                                                    label: `${item.nom_cat_inspection}`,
                                                                 }))}
                                                                 placeholder="Sélectionnez une tache..."
                                                                 optionFilterProp="label"
