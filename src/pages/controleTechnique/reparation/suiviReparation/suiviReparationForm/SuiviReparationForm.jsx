@@ -3,7 +3,7 @@ import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, Input, Button, Col, Row, Divider, Table, Tag, InputNumber } from 'antd';
 import moment from 'moment';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { getSuiviReparationOne } from '../../../../../services/charroiService';
+import { getEvaluation, getSuiviReparationOne, getTypeReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 
 const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
@@ -14,7 +14,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
         current: 1,
         pageSize: 20,
     });
-    const [evalue, setEvalue] = useState([]);
+    const [evaluation, setEvaluation] = useState([]);
     const [tache, setTache] = useState([]);
     const [piece, setPiece] = useState([]);
     const [marque, setMarque] = useState(null);
@@ -32,9 +32,13 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const fetchDatas = async() => {
         try {
             const [ tacheData, evalueData, pieceData] = await Promise.all([
-                getCat_inspection()
+                getCat_inspection(),
+                getEvaluation(),
+                getTypeReparation()
             ])
                 setTache(tacheData.data)
+                setEvaluation(evalueData.data)
+                setPiece(pieceData.data.data)
     
             if(idReparations) {
                 const { data : d } = await getSuiviReparationOne(idReparations)
@@ -148,9 +152,9 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                         <Select
                                              style={{width:'100%'}}
                                             showSearch
-                                            options={evalue.map((item) => ({
-                                                value: item.id_format,
-                                                label: item.nom_format,
+                                            options={evaluation.map((item) => ({
+                                                value: item.id_evaluation,
+                                                label: item.nom_evaluation,
                                             }))}
                                             placeholder="Sélectionnez une option..."
                                             optionFilterProp="label"
@@ -200,15 +204,15 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                                                 allowClear
                                                                 showSearch
                                                                 options={piece.map((item) => ({
-                                                                    value: item.id_piece,
-                                                                    label: `${item.nom_piece}`,
+                                                                    value: item.id_type_reparation,
+                                                                    label: `${item.type_rep}`,
                                                                 }))}
                                                                 placeholder="Sélectionnez une piece..."
                                                                 optionFilterProp="label"
                                                             />
                                                         </Form.Item>
                                                     </Col>
-                                                    <Col xs={24} md={7}>
+                                                    <Col xs={24} md={8}>
                                                         <Form.Item
                                                             {...restField}
                                                             name={[name, "budget" ]}
@@ -218,6 +222,21 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                                             ]}
                                                         >
                                                             <InputNumber min={0} placeholder="Saisir le budget..." style={{width:'100%'}}/>
+                                                        </Form.Item>
+                                                    </Col>
+                                                    <Col xs={24} md={24}>
+                                                        <Form.Item
+                                                            {...restField}
+                                                            name={[name, "commentaire" ]}
+                                                            label="Commentaire"
+                                                            rules={[
+                                                                {
+                                                                    required: false,
+                                                                    message: 'Veuillez fournir un commentaire...',
+                                                                }
+                                                            ]}
+                                                        >
+                                                            <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'70px'}}/>
                                                         </Form.Item>
                                                     </Col>
                                                     <Col xs={24} md={2}>
@@ -249,22 +268,6 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                             )}
                         </Form.List>
 
-                        <Card>
-                            <Col xs={24} md={24}>
-                                <Form.Item
-                                    name='commentaire'
-                                    label="Commentaire"
-                                    rules={[
-                                        {
-                                            required: false,
-                                            message: 'Veuillez fournir un commentaire...',
-                                        }
-                                    ]}
-                                >
-                                    <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'70px'}}/>
-                                </Form.Item>
-                            </Col>
-                        </Card>
                         <div style={{ marginTop: '20px' }}>
                             <Button size='large' type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
                                 Soumettre
