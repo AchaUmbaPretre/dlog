@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Typography, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined } from '@ant-design/icons';
-import { getReparationOne } from '../../../../services/charroiService';
+import { getReparation, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
 import { statusIcons } from '../../../../utils/prioriteIcons';
@@ -19,7 +19,8 @@ const ReparationDetail = ({ idReparation }) => {
       });
     const [modalType, setModalType] = useState(null);
     const [idReparations, setIdReparations] = useState('');
-    
+    const [dataThree, setDataThree] = useState([]);
+
     const closeAllModals = () => {
         setModalType(null);
       };
@@ -36,8 +37,13 @@ const ReparationDetail = ({ idReparation }) => {
         setLoading(true);
         try {
             const response = await getReparationOne(idReparation);
-            setData(response.data.data);
-            setDetail([response.data.dataGen[0]])
+
+            const res = await getSuiviReparation(idReparation);
+
+            setDataThree(res?.data);
+            setData(response?.data?.data);
+            setDetail([response?.data?.dataGen[0]]);
+
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -171,26 +177,29 @@ const ReparationDetail = ({ idReparation }) => {
             width: "4%"
         },    
         {   title: 'Taches accomplie', 
-            dataIndex: 'tache_accomplie', 
-            key: 'tache_accomplie', 
+            dataIndex: 'nom_cat_inspection', 
+            key: 'nom_cat_inspection', 
             render: (text) => 
             <div> {text}</div>
         },
         {   title: 'Piéce', 
-            dataIndex: 'piece', 
-            key: 'piece', 
-            render: (text) => 
-            <div>{text}</div> 
+            dataIndex: 'type_rep', 
+            key: 'type_rep', 
+            render: (text) => (
+                <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
+                    {text}
+                </Tag>
+            ),
         },
         {   title: 'Budget', 
             dataIndex: 'budget', 
             key: 'budget', 
-            render: (text) => <div>{text}</div> 
+            render: (text) => <div>{text} $</div> 
         },
         {   title: 'Effectué par', 
-            dataIndex: 'cout', 
-            key: 'cout', 
-            render: (text) => <Tag color="blue">{text} $</Tag> 
+            dataIndex: 'nom', 
+            key: 'nom', 
+            render: (text) => <Tag color="blue">{text}</Tag> 
         }
 ]
 
@@ -242,7 +251,7 @@ const ReparationDetail = ({ idReparation }) => {
                             <Skeleton loading={loading} active paragraph={false}>
                                 <Table
                                     columns={columnsThree}
-                                    dataSource={data}
+                                    dataSource={dataThree}
                                     onChange={(pagination) => setPagination(pagination)}
                                     pagination={pagination}
                                     rowKey="id"
