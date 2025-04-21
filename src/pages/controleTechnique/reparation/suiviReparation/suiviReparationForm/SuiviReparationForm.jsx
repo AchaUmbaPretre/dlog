@@ -12,7 +12,7 @@ const SuiviReparationForm = ({idReparations, idReparation, closeModal, fetchData
     const [form] = Form.useForm();
     const [type, setType] = useState([]);
     const [users, setUsers] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [vehicule, setVehicule] = useState('');
     const [marque, setMarque] = useState('');
 
@@ -43,7 +43,6 @@ const SuiviReparationForm = ({idReparations, idReparation, closeModal, fetchData
                 handleError('Une erreur est survenue lors du chargement des données.');
             }
         };
-
         fetchData();
     }, [idReparation]);
 
