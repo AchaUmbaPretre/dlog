@@ -235,23 +235,6 @@ const SuiviReparationForm = () => {
                             </Button>
                         </div>
                     </Form>
-
-                <Card>
-                    <div className="reparation_detail_top">
-                        <Skeleton loading={loading} active paragraph={false}>
-                            <Table
-                                columns={columns}
-                                dataSource={data}
-                                onChange={(pagination) => setPagination(pagination)}
-                                pagination={pagination}
-                                rowKey="id"
-                                bordered
-                                size="small"
-                                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                            />
-                        </Skeleton>
-                    </div>
-                </Card>
             </div>
         </div>
     </>
