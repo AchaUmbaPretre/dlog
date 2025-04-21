@@ -225,7 +225,7 @@ const SuiviReparationForm = () => {
                                         }
                                     ]}
                                 >
-                                    <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'50px'}}/>
+                                    <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'70px'}}/>
                                 </Form.Item>
                             </Col>
                         </Card>
