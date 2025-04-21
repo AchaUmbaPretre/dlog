@@ -201,6 +201,12 @@ export const postInspectionValide= async (data) => {
 export const getSuiviInspections = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/suivi_inspections?id_sub_inspection_gen=${id}`);
 }
+
 export const postSuiviInspections= async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/suivi_inspections`, data );
+}
+
+//Suivi reparation
+export const getSuiviReparationOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/suivi_reparationOne?id_sud_reparation=${id}`);
 }

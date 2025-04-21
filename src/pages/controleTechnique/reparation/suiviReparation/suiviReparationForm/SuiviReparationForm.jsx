@@ -3,8 +3,9 @@ import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, Input, Button, Col, Row, Divider, Table, Tag, InputNumber } from 'antd';
 import moment from 'moment';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { getSuiviReparationOne } from '../../../../../services/charroiService';
 
-const SuiviReparationForm = () => {
+const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -15,6 +16,8 @@ const SuiviReparationForm = () => {
     const [evalue, setEvalue] = useState([]);
     const [tache, setTache] = useState([]);
     const [piece, setPiece] = useState([]);
+    const [loadingData, setLoadingData] = useState([])
+    
 
     useEffect(() => {
         const info = form.getFieldValue('info');
@@ -22,6 +25,26 @@ const SuiviReparationForm = () => {
           form.setFieldsValue({ info: [{}] }); 
         }
       }, []);
+
+    const fetchDatas = async() => {
+        try {
+            const [ evalueData, tacheData, pieceData] = Promise.all([
+
+            ])
+    
+            if(idReparations) {
+                const { data : d } = await getSuiviReparationOne(idReparations)
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoadingData(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchDatas()
+    }, [idReparations])
 
     const columns = [
         {
