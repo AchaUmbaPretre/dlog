@@ -210,6 +210,7 @@ const ControleTechnique = () => {
             >
                 <InspectionGen/>
             </TabPane>
+            
             <TabPane
                 tab={
                     <span>
@@ -265,6 +266,7 @@ const ControleTechnique = () => {
                     </div>
                 </div>
             </TabPane>
+
             <TabPane
                 tab={
                     <span>
@@ -282,6 +284,7 @@ const ControleTechnique = () => {
             >
                 <Reparation/>
             </TabPane>
+
             <TabPane
                 tab={
                     <span>
