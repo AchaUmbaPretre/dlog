@@ -224,3 +224,16 @@ export const postSuiviReparation= async (data) => {
 export const getEvaluation = async () => {
     return axios.get(`${DOMAIN}/api/charroi/evaluation`);
 }
+
+//Document reparation
+export const getDocumentReparation = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/document_reparation`);
+}
+
+export const postDocumentReparation = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/document_reparation`, data , {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+    });
+}

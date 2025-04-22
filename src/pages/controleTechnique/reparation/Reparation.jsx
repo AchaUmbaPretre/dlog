@@ -7,6 +7,7 @@ import { getReparation } from '../../../services/charroiService';
 import SuiviReparationForm from './suiviReparation/suiviReparationForm/SuiviReparationForm';
 import SuiviReparation from './suiviReparation/SuiviReparation';
 import ReparationDetail from './reparationDetail/ReparationDetail';
+import DocumentReparation from './documentReparation/DocumentReparation';
 
 const { Search } = Input;
 
@@ -61,8 +62,8 @@ const Reparation = () => {
             case 'voirDetail':
                 openModal('Detail', record.id_reparation)
               break;
-            case 'ajouterInspection':
-              openModal('AddInspection', record.id_reparation);
+            case 'Document':
+              openModal('Document', record.id_reparation);
               break;
             case 'DetailSuivi':
                 openModal('DetailSuivi', record.id_reparation)
@@ -318,7 +319,8 @@ const Reparation = () => {
         }
     ];
 
-    const handleAddReparation = () => openModal('Add')
+    const handleAddReparation = () => openModal('Add');
+
     
     const closeAllModals = () => {
       setModalType(null);
@@ -389,14 +391,14 @@ const Reparation = () => {
         </Modal>
 
         <Modal
-            title=""
-            visible={modalType === 'DetailSuivi'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={950}
-            centered
+          title=""
+          visible={modalType === 'Document'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={950}
+          centered
         >
-            <SuiviReparation closeModal={() => setModalType(null)} fetchData={fetchData} />
+          <DocumentReparation closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
 
         <Modal
