@@ -74,9 +74,9 @@ const InspectionGen = () => {
     };
 
     const openModal = (type, inspectionId = '') => {
-        closeAllModals();
-        setModalType(type);
-        setInspectionId(inspectionId)
+      closeAllModals();
+      setModalType(type);
+      setInspectionId(inspectionId)
     };
 
     const getActionMenu = (record, openModal) => {
@@ -143,7 +143,7 @@ const InspectionGen = () => {
             </Menu.Item>
           </Menu>
         );
-      };
+    };
 
     const columnStyles = {
         title: {
@@ -160,7 +160,7 @@ const InspectionGen = () => {
         },
     };
       
-      const menus = (
+    const menus = (
         <Menu>
           {Object.keys(columnsVisibility).map(columnName => (
             <Menu.Item key={columnName}>
@@ -171,9 +171,9 @@ const InspectionGen = () => {
             </Menu.Item>
           ))}
         </Menu>
-      ); 
+    ); 
     
-      const toggleColumnVisibility = (columnName, e) => {
+    const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
         setColumnsVisibility(prev => ({
           ...prev,
@@ -207,7 +207,6 @@ const InspectionGen = () => {
                 </div>
             ),
             ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
-
         }, 
         {
           title: 'Chauffeur',
@@ -218,7 +217,6 @@ const InspectionGen = () => {
               </Tag>
           ),
           ...(columnsVisibility['Nom chauffeur'] ? {} : { className: 'hidden-column' }),
-
         },                       
         {
             title: 'Marque',

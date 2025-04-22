@@ -102,14 +102,19 @@ const Reparation = () => {
             width: "4%",
         },
         {
-            title: 'Matricule',
-            dataIndex: 'immatriculation',
-            render: (text, record) => (
-                <Tag icon={<CarOutlined />} color="green">
-                    {text}
-                </Tag>
+          title: 'Matricule',
+          dataIndex: 'immatriculation',
+            render: (text) => (
+              <div className="vehicule-matricule">
+                <span className="car-wrapper">
+                  <span className="car-boost" />
+                    <CarOutlined className="car-icon-animated" />
+                  <span className="car-shadow" />
+                </span>
+                <Tag color="blue">{text}</Tag>
+              </div>
             )
-        },
+        }, 
         {
             title: 'Marque',
             dataIndex: 'nom_marque',
@@ -171,10 +176,10 @@ const Reparation = () => {
             title: 'Fournisseur',
             dataIndex: 'nom_fournisseur',
             render: (text) => (
-                <span>
+                <Tag>
                     <ShopOutlined style={{ marginRight: 5, color: '#52c41a' }} />
                     {text}
-                </span>
+                </Tag>
             ),
         },
         {
