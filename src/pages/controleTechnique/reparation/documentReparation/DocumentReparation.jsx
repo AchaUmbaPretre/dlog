@@ -8,7 +8,7 @@ import { getDocumentReparation, postDocumentReparation } from '../../../../servi
 
 const { Option } = Select;
 
-const DocumentReparation = ({closeModal, fetchData, id_sud_reparation}) => {
+const DocumentReparation = ({closeModal, id_sud_reparation}) => {
     const [form] = Form.useForm();
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ const DocumentReparation = ({closeModal, fetchData, id_sud_reparation}) => {
         });
     const scroll = { x: 400 };
 
-    const fetchDatas = async () => {
+    const fetchData = async () => {
         setLoading(true)
 
         try {
@@ -37,7 +37,7 @@ const DocumentReparation = ({closeModal, fetchData, id_sud_reparation}) => {
     }
 
     useEffect(() => {
-        fetchDatas();
+        fetchData();
     }, [id_sud_reparation]);
 
     const columns = [
