@@ -246,3 +246,8 @@ export const getCatPiece = async () => {
 export const getPieceOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/pieceOne?id_cat=${id}`);
 }
+
+//Tracking gen
+export const getTracking = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/tracking_gen`);
+}
