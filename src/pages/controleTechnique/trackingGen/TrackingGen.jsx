@@ -136,6 +136,7 @@ const TrackingGen = () => {
     const filteredData = data.filter(item =>
         item.modele?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.titre?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
         item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
       );
 
