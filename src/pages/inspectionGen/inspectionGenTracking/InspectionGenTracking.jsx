@@ -3,12 +3,12 @@ import { Table, Button, Input, Card, Typography, message, notification, Popconfi
 import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import InspectionGenFormTracking from './inspectionGenFormTracking/InspectionGenFormTracking';
-import { getSubInspectionOne, getSuiviInspections } from '../../../services/charroiService';
+import { getTracking } from '../../../services/charroiService';
 const { Title, Text } = Typography;
 
 const { Search } = Input;
 
-const InspectionGenTracking = ({ idSubInspectionGen }) => {
+const InspectionGenTracking = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
@@ -22,18 +22,8 @@ const InspectionGenTracking = ({ idSubInspectionGen }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { data } = await getSuiviInspections(idSubInspectionGen);
-      if (data.length > 0) {
-        setData(data);
-      } else {
-        setData([]);
-      }
-
-      if(idSubInspectionGen){
-        const {data} = await getSubInspectionOne(idSubInspectionGen)
-          setVehicule(data[0]?.immatriculation)
-          setMarque(data[0]?.nom_marque)
-      }
+      const { data } = await getTracking();
+      setData(data)
 
     } catch (error) {
       notification.error({
