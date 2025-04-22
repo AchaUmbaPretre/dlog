@@ -1,0 +1,14 @@
+.document_reparation{
+    width: 100%;
+    .document_reparation_wrapper{
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        .document_reparation_left{
+            flex: 1;
+        }
+        .document_reparation_right{
+            flex: 1;
+        }
+    }
+}

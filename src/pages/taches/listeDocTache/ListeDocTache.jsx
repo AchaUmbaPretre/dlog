@@ -4,6 +4,7 @@ import { FileTextOutlined,PlusCircleOutlined, DeleteOutlined,EditOutlined, FileP
 import config from '../../../config';
 import { getDetailTacheDoc } from '../../../services/tacheService';
 import TacheDoc from '../tacheDoc/TacheDoc';
+import { getTagProps } from '../../../utils/prioriteIcons';
 
 const { Search } = Input;
 
@@ -92,21 +93,6 @@ const ListeDocTache = ({ idTache }) => {
       </Menu.Item>
     </Menu>
   );
-
-  const getTagProps = (type) => {
-    switch (type) {
-      case 'PDF':
-        return { icon: <FilePdfOutlined />, color: 'red' };
-      case 'Word':
-        return { icon: <FileWordOutlined />, color: 'blue' };
-      case 'Excel':
-        return { icon: <FileExcelOutlined />, color: 'green' };
-      case 'Image':
-        return { icon: <FileImageOutlined />, color: 'orange' };
-      default:
-        return { icon: <FileTextOutlined />, color: 'default' };
-    }
-  };
 
   const columns = [
     {

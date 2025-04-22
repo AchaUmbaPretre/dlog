@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -112,4 +112,19 @@ export const statusIcons = {
   'Budget': { icon: <DollarOutlined />, color: 'gold' },
   'Budget validé': { icon: <CheckCircleOutlined />, color: 'lime' }, // Nouveau statut
   'Executé': { icon: <RocketOutlined />, color: 'cyan' },
+};
+
+export const getTagProps = (type) => {
+  switch (type) {
+    case 'PDF':
+      return { icon: <FilePdfOutlined />, color: 'red' };
+    case 'Word':
+      return { icon: <FileWordOutlined />, color: 'blue' };
+    case 'Excel':
+      return { icon: <FileExcelOutlined />, color: 'green' };
+    case 'Image':
+      return { icon: <FileImageOutlined />, color: 'orange' };
+    default:
+      return { icon: <FileTextOutlined />, color: 'default' };
+  }
 };
