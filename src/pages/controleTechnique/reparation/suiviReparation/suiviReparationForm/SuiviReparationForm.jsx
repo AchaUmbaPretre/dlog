@@ -142,7 +142,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     <>
         <div className="suivi_reparation_form">
             <div className="reparation_detail_title">
-                <h1 className="reparation_detail_h1">SUIVI INTERVENTION BON N° {num}: VEHECULE {marque} {matricule}</h1>
+                <h1 className="reparation_detail_h1">SUIVI INTERVENTION BON N° {num}: VEHECULE {marque?.toUpperCase()} {matricule}</h1>
             </div>
             <Card className="suivi_reparation_wrapper">
                 <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
