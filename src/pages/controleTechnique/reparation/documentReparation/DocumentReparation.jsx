@@ -46,7 +46,7 @@ const DocumentReparation = ({id_sud_reparation}) => {
               width: "3%",
             },
             {
-              title: 'Nom doc',
+              title: 'Titre',
               dataIndex: 'nom_document',
               key: 'nom_document',
               render: (text) => (
