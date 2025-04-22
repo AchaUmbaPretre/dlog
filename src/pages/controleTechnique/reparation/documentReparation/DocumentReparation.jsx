@@ -13,6 +13,8 @@ const DocumentReparation = ({id_sud_reparation}) => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [loading, setLoading] = useState(true);
     const [iSloading, setIsLoading] = useState(false);
+    const [marque, setMarque] = useState(null);
+    const [matricule, setMatricule] = useState(null);
     const [data, setData] = useState([]);
     const scroll = { x: 'max-content' };
 
