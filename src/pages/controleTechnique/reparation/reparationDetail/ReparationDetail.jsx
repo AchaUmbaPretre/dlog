@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Typography, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
-import { getReparation, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
+import { getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
 import { statusIcons } from '../../../../utils/prioriteIcons';
