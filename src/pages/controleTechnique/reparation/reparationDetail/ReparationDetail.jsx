@@ -133,6 +133,18 @@ const ReparationDetail = ({ idReparation }) => {
             },
             { 
                 title: 'Statut', 
+                dataIndex: 'nom_evaluation', 
+                key: 'nom_evaluation',
+                render: text => {
+                    return (
+                        <Space>
+                            <Tag>{text}</Tag>
+                        </Space>
+                    );
+                },            
+            },
+            { 
+                title: 'Statut final', 
                 dataIndex: 'nom_type_statut', 
                 key: 'nom_type_statut',
                 render: text => {
