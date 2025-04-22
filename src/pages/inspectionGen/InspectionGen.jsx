@@ -150,8 +150,6 @@ const InspectionGen = () => {
           maxWidth: '220px',
           whiteSpace: 'nowrap',
           overflowX: 'scroll', 
-          overflowY: 'hidden',
-          textOverflow: 'ellipsis',
           scrollbarWidth: 'none',
           '-ms-overflow-style': 'none', 
         },
