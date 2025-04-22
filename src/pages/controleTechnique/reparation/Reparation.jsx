@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { ToolOutlined, CarOutlined, ShopOutlined, PlusOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, FileTextOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
-import { Input, Button, Dropdown, Menu, notification, Table, Tag, Modal } from 'antd';
+import { ToolOutlined, CarOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, FileTextOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Input, Button, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
@@ -21,7 +21,20 @@ const Reparation = () => {
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
     const [idReparation, setIdReparation] = useState('')
-
+    const [columnsVisibility, setColumnsVisibility] = useState({
+      '#': true,
+      'Matricule': true,
+      'Marque': true,
+      'Type réparation': true,
+      'Date entree': true,
+      "Date réparation": false,
+      "Jour": false,
+      'Fournisseur':true,
+      'Statut': true,
+      'Etat': true,
+      'Budget' : true,
+      'Date sortie' : false
+    });
     
    const fetchData = async() => {
         try {
@@ -87,8 +100,26 @@ const Reparation = () => {
           </Menu>
         );
       };
-      
+    const toggleColumnVisibility = (columnName, e) => {
+      e.stopPropagation();
+      setColumnsVisibility(prev => ({
+        ...prev,
+        [columnName]: !prev[columnName]
+      }));
+    };
 
+    const menus = (
+        <Menu>
+          {Object.keys(columnsVisibility).map(columnName => (
+            <Menu.Item key={columnName}>
+              <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+                <span style={{ marginLeft: 8 }}>{columnName}</span>
+              </span>
+            </Menu.Item>
+          ))}
+        </Menu>
+    ); 
     const columns = [
         {
             title: '#',
@@ -113,7 +144,8 @@ const Reparation = () => {
                 </span>
                 <Tag color="blue">{text}</Tag>
               </div>
-            )
+            ),
+            ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
         }, 
         {
             title: 'Marque',
@@ -122,16 +154,18 @@ const Reparation = () => {
                 <Tag icon={<CarOutlined />} color="orange">
                     {text}
                 </Tag>
-            )
+            ),
+            ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
         },
         {
             title: 'Type réparation',
             dataIndex: 'type_rep',
             render: (text) => (
-                <Tag color="green">
-                    {text}
-                </Tag>
-            )
+              <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
+                {text}
+              </Tag>
+            ),
+          ...(columnsVisibility['Type réparation'] ? {} : { className: 'hidden-column' }),
         },
         {
           title: 'Date Entrée',
@@ -140,7 +174,30 @@ const Reparation = () => {
             <Tag icon={<CalendarOutlined />} color="blue">
                 {moment(text).format('DD-MM-YYYY')}
             </Tag>
-          )
+          ),
+          ...(columnsVisibility['Date entree'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Date Sortie',
+          dataIndex: 'date_sortie',
+          render: (text) => {
+                if (!text) {
+                  return (
+                    <Tag icon={<CalendarOutlined />} color="red">
+                      Aucune date
+                    </Tag>
+                  );
+                }
+                const date = moment(text);
+                const isValid = date.isValid();
+                  
+                return (
+                    <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                          {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
+                    </Tag>
+                );
+            },
+          ...(columnsVisibility['Date sortie'] ? {} : { className: 'hidden-column' }),
         },
         {
             title: 'Date rep',
@@ -161,16 +218,41 @@ const Reparation = () => {
                           {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
                     </Tag>
                 );
-            }
+            },
+            ...(columnsVisibility['Date réparation'] ? {} : { className: 'hidden-column' }),
         },  
         {
             title: '#Jour',
             dataIndex: 'nb_jours_au_garage',
             render: (text) => (
-                <Tag color='orange'>
-                    {text ?? 'Aucun'}
-                </Tag>
-            )
+              <Tag color='orange'>
+                {text ?? 'Aucun'}
+              </Tag>
+            ),
+            ...(columnsVisibility['Jour'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: "Budget",
+          dataIndex: 'cout',
+          key: 'cout',
+          sorter: (a, b) => a.cout - b.cout,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+              <Space>
+                  <Tag color="green">
+                      {text
+                          ? `${parseFloat(text)
+                              .toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                              })
+                              .replace(/,/g, " ")} $`
+                          : "0.00"}
+                  </Tag>
+              </Space>
+          ),
+          align: 'right', 
+          ...(columnsVisibility['Budget'] ? {} : { className: 'hidden-column' }),
         },
         {
             title: 'Fournisseur',
@@ -181,6 +263,7 @@ const Reparation = () => {
                     {text}
                 </Tag>
             ),
+          ...(columnsVisibility['Fournisseur'] ? {} : { className: 'hidden-column' }),
         },
         {
             title: 'Etat',
@@ -209,13 +292,15 @@ const Reparation = () => {
                 default:
                   color = 'default';
               }
-          
+
               return (
                 <Tag icon={icon} color={color} style={{ fontWeight: 500 }}>
                   {status}
                 </Tag>
               );
-            }
+            },
+            ...(columnsVisibility['Etat'] ? {} : { className: 'hidden-column' }),
+
           },          
         {
             title: 'Actions',
@@ -270,6 +355,12 @@ const Reparation = () => {
                         >
                             Ajouter une réparation
                         </Button>
+
+                        <Dropdown overlay={menus} trigger={['click']}>
+                          <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                            Colonnes <DownOutlined />
+                          </Button>
+                        </Dropdown>
                     </div>
                 </div>
                 <Table
