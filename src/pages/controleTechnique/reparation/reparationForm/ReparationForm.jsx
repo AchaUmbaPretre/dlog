@@ -72,8 +72,8 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                 id_sub_inspection_gen : idSubInspectionGen
             })
             message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
-            form.resetFields();
             fetchData();
+            form.resetFields();
             closeModal()
             
         } catch (error) {

@@ -9,7 +9,6 @@ import { Rnd } from 'react-rnd';
 import { icons } from '../../../utils/prioriteIcons';
 import html2canvas from 'html2canvas';
 
-
 const InspectionGenForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
