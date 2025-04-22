@@ -35,7 +35,7 @@ const InspectionGen = () => {
       'Date inspection': true,
       'type_rep': true,
       "Avis d expert": false,
-      "Montant": false,
+      "Montant": true,
       'Date validation':true,
       'Statut': true,
       'Type rep': true,
