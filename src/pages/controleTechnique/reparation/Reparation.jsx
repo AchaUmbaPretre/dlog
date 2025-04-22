@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ToolOutlined, CarOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { ToolOutlined, CarOutlined, FileTextOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Input, Button, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
@@ -78,18 +78,21 @@ const Reparation = () => {
         return (
           <Menu onClick={handleClick}>
             <Menu.Item key="voirDetail">
-                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+              <EyeOutlined style={{ color: 'green' }} /> Voir Détail
             </Menu.Item>
             <Menu.Divider />
+            <Menu.Item key="Document">
+              <FileTextOutlined style={{ color: 'blue' }} /> Document
+            </Menu.Item>
 
-{/*             <Menu.SubMenu
+{/*           <Menu.SubMenu
               key="suivi"
               title={
                 <>
                   <FileTextOutlined style={{ color: '#722ed1' }} /> Suivi
                 </>
               }
-            >
+          >
               <Menu.Item key="DetailSuivi">
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
               </Menu.Item>
@@ -340,11 +343,11 @@ const Reparation = () => {
 
                 <div className="client-actions">
                     <div className="client-row-left">
-                        <Search 
-                            placeholder="Recherche..." 
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            enterButton
-                        />
+                      <Search 
+                        placeholder="Recherche..." 
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        enterButton
+                      />
                     </div>
                     <div className="client-rows-right">
                       <Button
