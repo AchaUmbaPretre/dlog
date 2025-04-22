@@ -21,7 +21,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [iDpiece, setIdPiece] = useState(null);
     const [marque, setMarque] = useState(null);
     const [matricule, setMatricule] = useState(null);
-    const [loadingData, setLoadingData] = useState([]);
+    const [loadingData, setLoadingData] = useState(true);
     const [num, setNum] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     
@@ -156,6 +156,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                 pagination={pagination}
                                 rowKey="id"
                                 bordered
+                                loading={loadingData}
                                 size="small"
                                 rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                             />
