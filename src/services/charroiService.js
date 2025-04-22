@@ -237,3 +237,12 @@ export const postDocumentReparation = async (data) => {
         },
     });
 }
+
+//Piece
+export const getCatPiece = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/cat_piece`);
+}
+
+export const getPieceOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/pieceOne?id_cat=${id}`);
+}
