@@ -318,14 +318,14 @@ const Reparation = () => {
     const handleAddReparation = () => openModal('Add')
     
     const closeAllModals = () => {
-        setModalType(null);
-      };
+      setModalType(null);
+    };
       
     const openModal = (type, id='') => {
-        closeAllModals();
-        setModalType(type);
-        setIdReparation(id)
-      };
+      closeAllModals();
+      setModalType(type);
+      setIdReparation(id)
+    };
 
   return (
     <>
