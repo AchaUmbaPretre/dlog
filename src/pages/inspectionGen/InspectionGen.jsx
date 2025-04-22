@@ -268,8 +268,8 @@ const InspectionGen = () => {
             title: 'Type de rep.',
             dataIndex: 'type_rep',
             render: (text) => (
-                <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
-                    {text}
+                <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
+                  {text}
                 </Tag>
             ),
             ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
