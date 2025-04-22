@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Table, Button, Input, Tag } from 'antd';
-import { CarOutlined, PlusCircleOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { Table, Button, Input, Tag, notification } from 'antd';
+import { PlusCircleOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
+import { getTracking } from '../../../services/charroiService';
 
 const { Search } = Input;
 
@@ -16,10 +17,10 @@ const TrackingGen = () => {
     const scroll = { x: 'max-content' };
     const [modalType, setModalType] = useState(null);
     
-/*     
+   
        const fetchData = async() => {
             try {
-                const { data } = await getModeleAll();
+                const { data } = await getTracking();
                 setData(data);
                 setLoading(false);
     
@@ -34,7 +35,7 @@ const TrackingGen = () => {
     
         useEffect(()=> {
             fetchData()
-        }, []) */
+        }, [])
     
         const columns = [
             {

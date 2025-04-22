@@ -3,12 +3,12 @@ import { Table, Button, Input, Card, Typography, message, notification, Popconfi
 import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import InspectionGenFormTracking from './inspectionGenFormTracking/InspectionGenFormTracking';
-import { getTracking } from '../../../services/charroiService';
+import { getSubInspectionOne, getSuiviInspections } from '../../../services/charroiService';
 const { Title, Text } = Typography;
 
 const { Search } = Input;
 
-const InspectionGenTracking = () => {
+const InspectionGenTracking = ({ idSubInspectionGen }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
@@ -22,8 +22,18 @@ const InspectionGenTracking = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { data } = await getTracking();
-      setData(data)
+      const { data } = await getSuiviInspections(idSubInspectionGen);
+      if (data.length > 0) {
+        setData(data);
+      } else {
+        setData([]);
+      }
+
+      if(idSubInspectionGen){
+        const {data} = await getSubInspectionOne(idSubInspectionGen)
+          setVehicule(data[0]?.immatriculation)
+          setMarque(data[0]?.nom_marque)
+      }
 
     } catch (error) {
       notification.error({
@@ -52,7 +62,6 @@ const InspectionGenTracking = () => {
       setData(data.filter((item) => item.id !== id));
       message.success('Client deleted successfully');
     } catch (error) {
-      console.log(error)
       /* notification.error({
         message: 'Erreur de suppression',
         description: 'Une erreur est survenue lors de la suppression du client.',
@@ -145,7 +154,7 @@ const InspectionGenTracking = () => {
         visible={modalType === 'suivi'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={700}
         centered
       >
         <InspectionGenFormTracking idSubInspectionGen={idSubInspectionGen} closeModal={() => setModalType(null)} fetchData={fetchData} />
