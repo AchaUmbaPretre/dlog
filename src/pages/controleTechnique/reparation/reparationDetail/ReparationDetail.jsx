@@ -213,7 +213,7 @@ const ReparationDetail = ({ idReparation }) => {
             key: 'nom', 
             render: (text) => <Tag icon={<UserOutlined />}  color="blue">{text}</Tag> 
         }
-]
+    ]
 
 
     return (
