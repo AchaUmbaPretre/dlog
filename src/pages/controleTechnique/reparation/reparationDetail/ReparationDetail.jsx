@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Typography, Tag } from 'antd';
-import { EyeOutlined, ToolOutlined } from '@ant-design/icons';
+import { EyeOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
 import { getReparation, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
@@ -16,7 +16,7 @@ const ReparationDetail = ({ idReparation }) => {
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
-      });
+    });
     const [modalType, setModalType] = useState(null);
     const [idReparations, setIdReparations] = useState('');
     const [dataThree, setDataThree] = useState([]);
@@ -211,7 +211,7 @@ const ReparationDetail = ({ idReparation }) => {
         {   title: 'Effectué par', 
             dataIndex: 'nom', 
             key: 'nom', 
-            render: (text) => <Tag color="blue">{text}</Tag> 
+            render: (text) => <Tag icon={<UserOutlined />}  color="blue">{text}</Tag> 
         }
 ]
 
