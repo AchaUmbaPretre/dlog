@@ -347,19 +347,19 @@ const Reparation = () => {
                         />
                     </div>
                     <div className="client-rows-right">
-                        <Button
-                          type="primary"
-                          icon={<PlusCircleOutlined />}
-                          onClick={handleAddReparation}
-                        >
-                          Ajouter une réparation
-                        </Button>
+                      <Button
+                        type="primary"
+                        icon={<PlusCircleOutlined />}
+                        onClick={handleAddReparation}
+                      >
+                        Ajouter une réparation
+                      </Button>
 
-                        <Dropdown overlay={menus} trigger={['click']}>
-                          <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                            Colonnes <DownOutlined />
-                          </Button>
-                        </Dropdown>
+                      <Dropdown overlay={menus} trigger={['click']}>
+                        <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                          Colonnes <DownOutlined />
+                        </Button>
+                      </Dropdown>
                     </div>
                 </div>
                 <Table
