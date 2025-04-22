@@ -210,11 +210,12 @@ const DocumentReparation = ({id_sud_reparation}) => {
                             columns={columns}
                             dataSource={data}
                             loading={loading}
-                            pagination={{ pageSize: 10 }}
+                            pagination={{ pageSize: 15 }}
                             rowKey="id"
                             bordered
-                            size="middle"
+                            size="small"
                             scroll={scroll}
+                            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                         />
                     </Card>
                 </div>
