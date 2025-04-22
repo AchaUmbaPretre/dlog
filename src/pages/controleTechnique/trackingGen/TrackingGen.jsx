@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Input, Tag, notification } from 'antd';
-import { PlusCircleOutlined, CalendarOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, CalendarOutlined, SettingOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
 import { getTracking } from '../../../services/charroiService';
 import moment from 'moment';
 
 const { Search } = Input;
-
 
 const TrackingGen = () => {
     const [data, setData] = useState([])
@@ -76,14 +75,18 @@ const TrackingGen = () => {
             {   title: 'Taches', 
                 dataIndex: 'titre', 
                 key: 'titre', 
-                render: (text) => 
-                <div> {text}</div>
+                render: (text) => (
+                    <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
+                        {text}
+                    </Tag>
+                )
+                
             },
             {   title: 'Piéce', 
                 dataIndex: 'nom', 
                 key: 'nom', 
                 render: (text) => (
-                    <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
+                    <Tag icon={<SettingOutlined/>}  bordered={false}>
                         {text}
                     </Tag>
                 ),
