@@ -200,9 +200,9 @@ const Reparation = () => {
           ...(columnsVisibility['Date sortie'] ? {} : { className: 'hidden-column' }),
         },
         {
-            title: 'Date rep',
-            dataIndex: 'date_reparation',
-            render: (text) => {
+          title: 'Date rep',
+          dataIndex: 'date_reparation',
+          render: (text) => {
                 if (!text) {
                     return (
                         <Tag icon={<CalendarOutlined />} color="red">
@@ -218,8 +218,8 @@ const Reparation = () => {
                           {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
                     </Tag>
                 );
-            },
-            ...(columnsVisibility['Date réparation'] ? {} : { className: 'hidden-column' }),
+          },
+          ...(columnsVisibility['Date réparation'] ? {} : { className: 'hidden-column' }),
         },  
         {
             title: '#Jour',
