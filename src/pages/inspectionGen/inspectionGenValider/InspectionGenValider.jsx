@@ -200,10 +200,11 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                           <div className="info-block">
                               <span className="label">Date d'inspection :</span>
                               <span className="value">
-                              {data[0]?.date_inspection
-                              ? new Date(data[0].date_inspection).toLocaleDateString()
-                              : '-'}
+                                {data[0]?.date_inspection
+                                  ? new Date(data[0].date_inspection).toLocaleDateString('fr-FR')
+                                  : '-'}
                               </span>
+
                           </div>
                       </div>
                   </Skeleton>
