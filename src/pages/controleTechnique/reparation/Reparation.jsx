@@ -63,7 +63,7 @@ const Reparation = () => {
                 openModal('Detail', record.id_reparation)
               break;
             case 'Document':
-              openModal('Document', record.id_reparation);
+              openModal('Document', record.id_sud_reparation);
               break;
             case 'DetailSuivi':
                 openModal('DetailSuivi', record.id_reparation)
@@ -398,7 +398,7 @@ const Reparation = () => {
           width={950}
           centered
         >
-          <DocumentReparation closeModal={() => setModalType(null)} fetchData={fetchData} />
+          <DocumentReparation closeModal={() => setModalType(null)} fetchData={fetchData} id_sud_reparation={idReparation} />
         </Modal>
 
         <Modal

@@ -8,17 +8,14 @@ import { getDocumentReparation, postDocumentReparation } from '../../../../servi
 
 const { Option } = Select;
 
-const DocumentReparation = ({closeModal, id_sud_reparation}) => {
+const DocumentReparation = ({id_sud_reparation}) => {
     const [form] = Form.useForm();
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [loading, setLoading] = useState(true);
     const [iSloading, setIsLoading] = useState(false);
     const [data, setData] = useState([]);
-    const [pagination, setPagination] = useState({
-            current: 1,
-            pageSize: 15,
-        });
-    const scroll = { x: 400 };
+    const scroll = { x: 'max-content' };
+
 
     const fetchData = async () => {
         setLoading(true)
@@ -112,7 +109,7 @@ const DocumentReparation = ({closeModal, id_sud_reparation}) => {
         const formData = new FormData();
         formData.append('nom_document', values.nom_document);
         formData.append('type_document', values.type_document);
-        formData.append('id_sud_reparation)', id_sud_reparation);
+        formData.append('id_sud_reparation', id_sud_reparation);
       
         if (values.chemin_document && values.chemin_document.length > 0) {
           values.chemin_document.forEach((file) => {
@@ -128,7 +125,6 @@ const DocumentReparation = ({closeModal, id_sud_reparation}) => {
             description: 'Les documents ont été enregistrés avec succès.',
           });
           fetchData();
-          closeModal();
           form.resetFields();
         } catch (error) {
           notification.error({
