@@ -306,7 +306,6 @@ const InspectionGen = () => {
             ),
             align: 'right', 
             ...(columnsVisibility['Montant'] ? {} : { className: 'hidden-column' }),
-
         },
         {
           title: "Budget validé",

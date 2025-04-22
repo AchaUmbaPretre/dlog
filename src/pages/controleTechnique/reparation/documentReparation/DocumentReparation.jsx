@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './documentReparation.scss'
 import { Card, Button, Table, Form, notification, Input, Select, Upload, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { FileTextOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import { getTagProps } from '../../../../utils/prioriteIcons';
-import { postDocumentReparation } from '../../../../services/charroiService';
+import { getDocumentReparation, postDocumentReparation } from '../../../../services/charroiService';
 
 const { Option } = Select;
 
@@ -12,6 +12,7 @@ const DocumentReparation = ({closeModal, fetchData, id_sud_reparation}) => {
     const [form] = Form.useForm();
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [loading, setLoading] = useState(true);
+    const [iSloading, setIsLoading] = useState(false);
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({
             current: 1,
@@ -19,6 +20,25 @@ const DocumentReparation = ({closeModal, fetchData, id_sud_reparation}) => {
         });
     const scroll = { x: 400 };
 
+    const fetchDatas = async () => {
+        setLoading(true)
+
+        try {
+            const {data} = await getDocumentReparation(id_sud_reparation);
+            setData(data)
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchDatas();
+    }, [id_sud_reparation]);
 
     const columns = [
             {
@@ -100,7 +120,7 @@ const DocumentReparation = ({closeModal, fetchData, id_sud_reparation}) => {
           });
         }
       
-        setLoading(true);
+        setIsLoading(true);
         try {
             await postDocumentReparation(formData);
             notification.success({
@@ -116,7 +136,7 @@ const DocumentReparation = ({closeModal, fetchData, id_sud_reparation}) => {
             description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
           });
         } finally {
-          setLoading(false);
+          setIsLoading(false);
         }
       };
       
@@ -127,6 +147,9 @@ const DocumentReparation = ({closeModal, fetchData, id_sud_reparation}) => {
   return (
     <>
         <div className="document_reparation">
+            <div className="document_detail_title">
+                <h1 className="document_detail_h1">DOCUMENT</h1>
+            </div>
             <div className="document_reparation_wrapper">
                 
                 <div className="document_reparation_left">
@@ -177,7 +200,7 @@ const DocumentReparation = ({closeModal, fetchData, id_sud_reparation}) => {
                             </Form.Item>
 
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" block loading={loading} disabled={loading}>
+                                <Button type="primary" htmlType="submit" block loading={iSloading} disabled={iSloading}>
                                 Soumettre
                                 </Button>
                             </Form.Item>

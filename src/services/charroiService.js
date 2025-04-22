@@ -226,8 +226,8 @@ export const getEvaluation = async () => {
 }
 
 //Document reparation
-export const getDocumentReparation = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/document_reparation`);
+export const getDocumentReparation = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/document_reparation?id_sud_reparation=${id}`);
 }
 
 export const postDocumentReparation = async (data) => {
