@@ -301,7 +301,7 @@ const Reparation = () => {
             },
             ...(columnsVisibility['Etat'] ? {} : { className: 'hidden-column' }),
 
-          },          
+        },          
         {
             title: 'Actions',
             dataIndex: 'actions',
@@ -310,8 +310,7 @@ const Reparation = () => {
                 <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
               </Dropdown>
             )
-          }
-          
+        }
       ];
 
 
