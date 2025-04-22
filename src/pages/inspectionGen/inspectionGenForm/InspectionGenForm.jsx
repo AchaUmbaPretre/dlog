@@ -76,6 +76,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
             formData.append('date_inspection', values.date_inspection);
             formData.append('date_prevu', values.date_prevu);
             formData.append('id_statut_vehicule', values.id_statut_vehicule);
+            formData.append('kilometrage', values.kilometrage);
             formData.append('user_cr', userId);
     
             // Récupération de l'élément image-container
@@ -257,7 +258,26 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="kilometrage"
+                                    label="Kilometrage"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez fournir une date...',
+                                        },
+                                    ]}
+                                >
+                                        {loadingData ? (
+                                            <Skeleton.Input active={true} />
+                                        ) : (
+                                            <InputNumber style={{width:'100%'}} />
+                                        )}
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     name="date_prevu"
                                     label="Date prevue"
@@ -276,7 +296,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     name="id_statut_vehicule"
                                     label="Statut véhicule"

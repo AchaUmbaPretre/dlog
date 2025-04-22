@@ -40,7 +40,8 @@ const InspectionGen = () => {
       'Statut': true,
       'Type rep': true,
       'Budget_valide' : true,
-      'Nom chauffeur' : false
+      'Nom chauffeur' : false,
+      'Kilometrage' : false
     });
 
     const fetchData = async() => {
@@ -304,7 +305,6 @@ const InspectionGen = () => {
                     </Tag>
                 </Space>
             ),
-            align: 'right', 
             ...(columnsVisibility['Montant'] ? {} : { className: 'hidden-column' }),
         },
         {
@@ -329,9 +329,19 @@ const InspectionGen = () => {
               )}
             </Space>
           ),
-          align: 'right',
           ...(columnsVisibility['Budget_valide'] ? {} : { className: 'hidden-column' }),
-        },        
+        }, 
+        {
+            title: 'Kilometrage',
+            dataIndex: 'kilometrage',
+            render: (text) => (
+              <div>
+                {text}
+              </div>
+            ),
+            ...(columnsVisibility['Kilometrag'] ? {} : { className: 'hidden-column' }),
+
+        },      
         {
             title: 'Date validation',
             dataIndex: 'date_validation',
