@@ -332,7 +332,7 @@ const RapportTemplate = () => {
           rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
         />
                 <div className="rapport_chart">
-        <Tabs
+                <Tabs
                     activeKey={activeKeys[0]}
                     onChange={handleTabChanges}
                     type="card"

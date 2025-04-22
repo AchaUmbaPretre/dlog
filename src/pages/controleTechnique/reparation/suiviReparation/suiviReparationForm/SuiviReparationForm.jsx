@@ -3,7 +3,7 @@ import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { getEvaluation, getSuiviReparationOne, getTypeReparation, postSuiviReparation } from '../../../../../services/charroiService';
+import { getCatPiece, getEvaluation, getPieceOne, getSuiviReparationOne, getTypeReparation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
 
@@ -18,12 +18,12 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [evaluation, setEvaluation] = useState([]);
     const [tache, setTache] = useState([]);
     const [piece, setPiece] = useState([]);
+    const [iDpiece, setIdPiece] = useState(null);
     const [marque, setMarque] = useState(null);
     const [matricule, setMatricule] = useState(null);
     const [loadingData, setLoadingData] = useState([]);
     const [num, setNum] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    
     
     useEffect(() => {
         const info = form.getFieldValue('info');
@@ -34,14 +34,17 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
 
     const fetchDatas = async() => {
         try {
-            const [ tacheData, evalueData, pieceData] = await Promise.all([
-                getCat_inspection(),
+            const [ tacheData, evalueData] = await Promise.all([
+                getCatPiece(),
                 getEvaluation(),
-                getTypeReparation()
             ])
                 setTache(tacheData.data)
                 setEvaluation(evalueData.data)
-                setPiece(pieceData.data.data)
+
+                if(iDpiece) {
+                    const { data : dd } = await getPieceOne(iDpiece)
+                    setPiece(dd)
+                }
     
             if(idReparations) {
                 const { data : d } = await getSuiviReparationOne(idReparations)
@@ -59,7 +62,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
 
     useEffect(() => {
         fetchDatas()
-    }, [idReparations])
+    }, [idReparations, iDpiece])
 
 
     const columns = [
@@ -207,21 +210,24 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                                             name={[name, "id_tache_rep" ]}
                                                             label='Tache'
                                                             rules={[
-                                                                { required: true, message: 'Veuillez fournir une réparation...' },
+                                                                { required: true, message: 'Veuillez fournir une tache...' },
                                                             ]}
                                                         >
                                                             <Select
                                                                 allowClear
                                                                 showSearch
                                                                 options={tache.map((item) => ({
-                                                                    value: item.id_cat_inspection,
-                                                                    label: `${item.nom_cat_inspection}`,
+                                                                    value: item.id,
+                                                                    label: `${item.titre}`,
                                                                 }))}
                                                                 placeholder="Sélectionnez une tache..."
                                                                 optionFilterProp="label"
+                                                                onChange={setIdPiece}
                                                             />
                                                         </Form.Item>
                                                     </Col>
+                                                    {
+                                                        iDpiece && 
                                                     <Col xs={24} md={7}>
                                                         <Form.Item
                                                             {...restField}
@@ -235,14 +241,15 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                                                 allowClear
                                                                 showSearch
                                                                 options={piece.map((item) => ({
-                                                                    value: item.id_type_reparation,
-                                                                    label: `${item.type_rep}`,
+                                                                    value: item.id,
+                                                                    label: `${item.nom}`,
                                                                 }))}
                                                                 placeholder="Sélectionnez une piece..."
                                                                 optionFilterProp="label"
                                                             />
                                                         </Form.Item>
-                                                    </Col>
+                                                    </Col> 
+                                                    }
                                                     <Col xs={24} md={8}>
                                                         <Form.Item
                                                             {...restField}
