@@ -99,7 +99,8 @@ const Reparation = () => {
             </Menu.SubMenu> */}
           </Menu>
         );
-      };
+    };
+
     const toggleColumnVisibility = (columnName, e) => {
       e.stopPropagation();
       setColumnsVisibility(prev => ({
@@ -120,6 +121,7 @@ const Reparation = () => {
           ))}
         </Menu>
     ); 
+
     const columns = [
         {
             title: '#',
@@ -311,11 +313,9 @@ const Reparation = () => {
               </Dropdown>
             )
         }
-      ];
-
+    ];
 
     const handleAddReparation = () => openModal('Add')
-    
     
     const closeAllModals = () => {
         setModalType(null);
