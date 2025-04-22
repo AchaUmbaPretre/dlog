@@ -215,7 +215,6 @@ const ReparationDetail = ({ idReparation }) => {
         }
     ]
 
-
     return (
         <>
             <div className="reparation_detail">
