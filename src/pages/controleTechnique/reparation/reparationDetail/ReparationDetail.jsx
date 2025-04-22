@@ -222,59 +222,61 @@ const ReparationDetail = ({ idReparation }) => {
                 <div className="reparation_detail_title">
                     <h1 className="reparation_detail_h1">SUIVI D'INTERVENTION : {detail[0]?.nom_marque.toUpperCase()} {detail?.[0]?.immatriculation}</h1>
                 </div>
-                <div className="reparation_detail_wrapper">
-                    <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
-                    <Card className='reparation_detail_card'>
-                        <div className="reparation_detail_top">
-                            <Skeleton loading={loading} active paragraph={false}>
-                                <Table
-                                    columns={columns}
-                                    dataSource={detail}
-                                    onChange={(pagination) => setPagination(pagination)}
-                                    pagination={pagination}
-                                    rowKey="id"
-                                    bordered
-                                    size="small"
-                                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                                />
-                            </Skeleton>
-                        </div>
-                    </Card>
-                    <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DETAIL DES REPARATIONS</Divider>
-                    <Card>
-                        <div className="reparation_detail_top">
-                            <Skeleton loading={loading} active paragraph={false}>
-                                <Table
-                                    columns={columnsTwo}
-                                    dataSource={data}
-                                    onChange={(pagination) => setPagination(pagination)}
-                                    pagination={pagination}
-                                    rowKey="id"
-                                    bordered
-                                    size="small"
-                                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                                />
-                            </Skeleton>
-                        </div>
-                    </Card>
-                    <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DESCRIPTION DU TRAVAIL EFFECTUE</Divider>
-                    <Card>
-                        <div className="reparation_detail_top">
-                            <Skeleton loading={loading} active paragraph={false}>
-                                <Table
-                                    columns={columnsThree}
-                                    dataSource={dataThree}
-                                    onChange={(pagination) => setPagination(pagination)}
-                                    pagination={pagination}
-                                    rowKey="id"
-                                    bordered
-                                    size="small"
-                                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                                />
-                            </Skeleton>
-                        </div>
-                    </Card>
-                </div>
+                <Card>
+                    <div className="reparation_detail_wrapper">
+                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
+                        <Card className='reparation_detail_card'>
+                            <div className="reparation_detail_top">
+                                <Skeleton loading={loading} active paragraph={false}>
+                                    <Table
+                                        columns={columns}
+                                        dataSource={detail}
+                                        onChange={(pagination) => setPagination(pagination)}
+                                        pagination={pagination}
+                                        rowKey="id"
+                                        bordered
+                                        size="small"
+                                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                    />
+                                </Skeleton>
+                            </div>
+                        </Card>
+                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DETAIL DES REPARATIONS</Divider>
+                        <Card>
+                            <div className="reparation_detail_top">
+                                <Skeleton loading={loading} active paragraph={false}>
+                                    <Table
+                                        columns={columnsTwo}
+                                        dataSource={data}
+                                        onChange={(pagination) => setPagination(pagination)}
+                                        pagination={pagination}
+                                        rowKey="id"
+                                        bordered
+                                        size="small"
+                                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                    />
+                                </Skeleton>
+                            </div>
+                        </Card>
+                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DESCRIPTION DU TRAVAIL EFFECTUE</Divider>
+                        <Card>
+                            <div className="reparation_detail_top">
+                                <Skeleton loading={loading} active paragraph={false}>
+                                    <Table
+                                        columns={columnsThree}
+                                        dataSource={dataThree}
+                                        onChange={(pagination) => setPagination(pagination)}
+                                        pagination={pagination}
+                                        rowKey="id"
+                                        bordered
+                                        size="small"
+                                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                    />
+                                </Skeleton>
+                            </div>
+                        </Card>
+                    </div>
+                </Card>
             </div>
             <Modal
                 title=""
