@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Input, Tag, notification } from 'antd';
-import { PlusCircleOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, CalendarOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
 import { getTracking } from '../../../services/charroiService';
+import moment from 'moment';
 
 const { Search } = Input;
 
@@ -49,15 +50,38 @@ const TrackingGen = () => {
                 },
                 width: "4%"
             },    
-            {   title: 'Taches accomplie', 
-                dataIndex: 'nom_cat_inspection', 
-                key: 'nom_cat_inspection', 
+            {
+                title: 'Matricule',
+                dataIndex: 'immatriculation',
+                render: (text) => (
+                    <div className="vehicule-matricule">
+                        <span className="car-wrapper">
+                            <span className="car-boost" />
+                            <CarOutlined className="car-icon-animated" />
+                            <span className="car-shadow" />
+                        </span>
+                        <Tag color="blue">{text}</Tag>
+                    </div>
+                ),
+            }, 
+            {
+                title: 'Marque',
+                dataIndex: 'nom_marque',
+                render: (text, record) => (
+                    <Tag icon={<CarOutlined />} color="orange">
+                        {text}
+                    </Tag>
+                ),    
+            },
+            {   title: 'Taches', 
+                dataIndex: 'titre', 
+                key: 'titre', 
                 render: (text) => 
                 <div> {text}</div>
             },
             {   title: 'Piéce', 
-                dataIndex: 'type_rep', 
-                key: 'type_rep', 
+                dataIndex: 'nom', 
+                key: 'nom', 
                 render: (text) => (
                     <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
                         {text}
@@ -69,9 +93,28 @@ const TrackingGen = () => {
                 key: 'budget', 
                 render: (text) => <div>{text} $</div> 
             },
+            {   title: 'Statut', 
+                dataIndex: 'nom_evaluation', 
+                key: 'nom_evaluation', 
+                render: (text) => (
+                    <Tag bordered={false}>
+                        {text}
+                    </Tag>
+                ),
+            },
+            {
+                title: 'Date',
+                dataIndex: 'date_inspection',
+                render: (text) => (
+                    <Tag icon={<CalendarOutlined />} color="blue">
+                        {moment(text).format('DD-MM-YYYY')}
+                    </Tag>
+                ),
+            
+            },
             {   title: 'Effectué par', 
-                dataIndex: 'nom', 
-                key: 'nom', 
+                dataIndex: 'username', 
+                key: 'username', 
                 render: (text) => <Tag icon={<UserOutlined />}  color="blue">{text}</Tag> 
             }
         ]
