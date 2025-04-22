@@ -335,9 +335,9 @@ const InspectionGen = () => {
             title: 'KM',
             dataIndex: 'kilometrage',
             render: (text) => (
-              <div>
+              <Tag color={ text > 0 ? 'green' : 'red' }>
                 {text ?? 0}
-              </div>
+              </Tag>
             ),
             ...(columnsVisibility['Kilometrage'] ? {} : { className: 'hidden-column' }),
 
