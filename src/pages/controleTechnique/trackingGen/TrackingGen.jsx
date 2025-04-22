@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, Tag } from 'antd';
-import { CarOutlined, PlusCircleOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Table, Button, Input, Tag } from 'antd';
+import { CarOutlined, PlusCircleOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 
@@ -97,9 +97,9 @@ const TrackingGen = () => {
             <div className="client-wrapper">
                 <div className="client-row">
                     <div className="client-row-icon">
-                        <CarOutlined className='client-icon'/>
+                        <FileSearchOutlined className='client-icon'/>
                     </div>
-                    <h2 className="client-h2">Liste des modèles</h2>
+                    <h2 className="client-h2">Liste des tracking</h2>
                 </div>
 
                 <div className="client-actions">
