@@ -185,7 +185,8 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                         ]}
                                     >
                                         <Select
-                                             style={{width:'100%'}}
+                                            allowClear
+                                            style={{width:'100%'}}
                                             showSearch
                                             options={evaluation.map((item) => ({
                                                 value: item.id_evaluation,
