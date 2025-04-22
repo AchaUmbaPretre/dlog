@@ -281,6 +281,11 @@ const InspectionGen = () => {
         {
             title: "Avis d'expert",
             dataIndex: 'avis',
+            render: (text) => (
+              <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                {text}
+              </div>
+            ),
             ...(columnsVisibility['Avis d expert'] ? {} : { className: 'hidden-column' }),
         },
         {
