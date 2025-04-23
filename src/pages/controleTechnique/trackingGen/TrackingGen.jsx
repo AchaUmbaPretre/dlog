@@ -18,9 +18,26 @@ const TrackingGen = () => {
     }); 
     const scroll = { x: 'max-content' };
     const [modalType, setModalType] = useState(null);
+    const [columnsVisibility, setColumnsVisibility] = useState([
+
+    ])
     const role = useSelector((state) => state.user?.currentUser?.role);
 
-   
+    const columnStyles = {
+        title: {
+          maxWidth: '220px',
+          whiteSpace: 'nowrap',
+          overflowX: 'scroll', 
+          scrollbarWidth: 'none',
+          '-ms-overflow-style': 'none', 
+        },
+        hideScroll: {
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+    };
+
     const fetchData = async() => {
             try {
                 const { data } = await getTracking();
@@ -75,16 +92,26 @@ const TrackingGen = () => {
                   {text}
                 </Tag>
               ),
+            },        
+            {
+                title: 'Type de rep.',
+                dataIndex: 'type_rep',
+                    render: (text) => (
+                        <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
+                            {text}
+                        </Tag>
+                    ),
+                ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
             },
             {
-              title: 'Origine',
-              dataIndex: 'origine',
-              render: (text) => (
-                <Tag icon={<FileSearchOutlined />} color={text === 'Inspection' ? 'geekblue' : 'green'}>
-                  {text}
-                </Tag>
-              ),
-            },
+                title: 'Origine',
+                dataIndex: 'origine',
+                render: (text) => (
+                  <Tag icon={<FileSearchOutlined />} color={text === 'Inspection' ? 'geekblue' : 'green'}>
+                    {text}
+                  </Tag>
+                ),
+              },
             {
               title: 'Montant inspection',
               dataIndex: 'montant_inspection',
