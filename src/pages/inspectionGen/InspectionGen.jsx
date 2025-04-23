@@ -263,7 +263,6 @@ const InspectionGen = () => {
               );
             },
             ...(columnsVisibility['Date réparation'] ? {} : { className: 'hidden-column' }),
-
         },          
         {
             title: 'Type de rep.',
@@ -276,20 +275,20 @@ const InspectionGen = () => {
             ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
         },
         {
-            title: "Avis d'expert",
-            dataIndex: 'avis',
-            render: (text) => (
-              <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                {text}
-              </div>
-            ),
-            ...(columnsVisibility['Avis d expert'] ? {} : { className: 'hidden-column' }),
+          title: "Avis d'expert",
+          dataIndex: 'avis',
+          render: (text) => (
+            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+              {text}
+            </div>
+          ),
+          ...(columnsVisibility['Avis d expert'] ? {} : { className: 'hidden-column' }),
         },
         {
-            title: "Budget",
-            dataIndex: 'montant',
-            key: 'montant',
-            sorter: (a, b) => a.montant - b.montant,
+          title: "Budget",
+          dataIndex: 'montant',
+          key: 'montant',
+          sorter: (a, b) => a.montant - b.montant,
             sortDirections: ['descend', 'ascend'],
             render: (text) => (
                 <Space style={columnStyles.title} className={columnStyles.hideScroll} >
@@ -340,7 +339,6 @@ const InspectionGen = () => {
               </Tag>
             ),
             ...(columnsVisibility['Kilometrage'] ? {} : { className: 'hidden-column' }),
-
         },      
         {
             title: 'Date validation',
