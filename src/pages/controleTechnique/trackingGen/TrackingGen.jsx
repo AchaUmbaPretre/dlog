@@ -90,22 +90,22 @@ const TrackingGen = () => {
             fetchData()
         }, [])
     
-        const columns = [
-            {
-              title: '#',
-              dataIndex: 'id',
-              key: 'id',
-              render: (text, record, index) => {
+    const columns = [
+        {
+            title: '#',
+            dataIndex: 'id',
+            key: 'id',
+            render: (text, record, index) => {
                 const pageSize = pagination.pageSize || 10;
                 const pageIndex = pagination.current || 1;
                 return (pageIndex - 1) * pageSize + index + 1;
-              },
-              width: "4%"
             },
-            {
-              title: 'Matricule',
-              dataIndex: 'immatriculation',
-              render: (text) => (
+            width: "4%"
+        },
+        {
+            title: 'Matricule',
+            dataIndex: 'immatriculation',
+            render: (text) => (
                 <div className="vehicule-matricule">
                   <span className="car-wrapper">
                     <span className="car-boost" />
@@ -116,8 +116,8 @@ const TrackingGen = () => {
                 </div>
               ),
               ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
-            },
-            {
+        },
+        {
               title: 'Marque',
               dataIndex: 'nom_marque',
               render: (text) => (
@@ -126,32 +126,31 @@ const TrackingGen = () => {
                 </Tag>
               ),
               ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
-            },        
-            {
-                title: 'Type de rep.',
-                dataIndex: 'type_rep',
-                    render: (text) => (
-                        <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
-                            {text}
-                        </Tag>
-                    ),
-                ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
-            },
-            {
-                title: 'Origine',
-                dataIndex: 'origine',
-                render: (text) => (
+        },        
+        {
+            title: 'Type de rep.',
+            dataIndex: 'type_rep',
+            render: (text) => (
+                    <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
+                        {text}
+                    </Tag>
+                ),
+            ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+            title: 'Origine',
+            dataIndex: 'origine',
+            render: (text) => (
                   <Tag icon={<FileSearchOutlined />} color={text === 'Inspection' ? 'geekblue' : 'green'}>
                     {text}
                   </Tag>
-                ),
-                ...(columnsVisibility['Origine'] ? {} : { className: 'hidden-column' }),
-
-              },
-            {
-              title: 'Montant inspection',
-              dataIndex: 'montant_inspection',
-              render: (text) =>
+            ),
+            ...(columnsVisibility['Origine'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+            title: 'Montant inspection',
+            dataIndex: 'montant_inspection',
+            render: (text) =>
                 text ? (
                   <Tag color="cyan">
                     {text} $
@@ -159,21 +158,21 @@ const TrackingGen = () => {
                 ) : (
                   <Tag color="default">-</Tag>
                 ),
-                ...(columnsVisibility['Montant inspection'] ? {} : { className: 'hidden-column' }),
-            },
-            {
-              title: 'Montant réparation',
-              dataIndex: 'montant_reparation',
-              render: (text) =>
-                text ? (
-                  <Tag color="blue">
+            ...(columnsVisibility['Montant inspection'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+            title: 'Montant réparation',
+            dataIndex: 'montant_reparation',
+            render: (text) =>
+            text ? (
+                <Tag color="blue">
                     {text} $
                   </Tag>
                 ) : (
                   <Tag color="default">-</Tag>
                 ),
-                ...(columnsVisibility['Montant réparation'] ? {} : { className: 'hidden-column' }),
-            },
+            ...(columnsVisibility['Montant réparation'] ? {} : { className: 'hidden-column' }),
+        },
             {
               title: 'Description',
               dataIndex: 'description',
@@ -229,7 +228,7 @@ const TrackingGen = () => {
               render: (text) => <span>{text || '-'}</span>,
               ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' }),
             }
-          ];
+    ];
           
 
       const handleAddModele = () => openModal('Add')
