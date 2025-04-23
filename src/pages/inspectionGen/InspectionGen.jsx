@@ -21,7 +21,7 @@ const InspectionGen = () => {
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({
         current: 1,
-        pageSize: 20,
+        pageSize: 15,
     });
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
