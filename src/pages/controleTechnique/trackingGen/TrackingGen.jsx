@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Skeleton, Input, Tag, notification } from 'antd';
-import { DollarOutlined, CalendarOutlined, SettingOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
+import { Table, Button, Skeleton, Dropdown, Input, Menu, Tag, notification } from 'antd';
+import { DollarOutlined, DownOutlined, MenuOutlined, CalendarOutlined, SettingOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
 import { getTracking } from '../../../services/charroiService';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
@@ -20,8 +20,17 @@ const TrackingGen = () => {
     const [modalType, setModalType] = useState(null);
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
-        'immatriculation': true,
-        'nom_marque': true,
+        'Matricule': true,
+        'Marque': true,
+        'Type rep': true,
+        'Origine': true,
+        'Montant inspection': true,
+        'Montant réparation': false,
+        'Description': false,
+        'Date inspection' : true,
+        'Date entree reparation' : true,
+        'Avis' : false,
+        'Commentaire' : false
     })
     const role = useSelector((state) => state.user?.currentUser?.role);
 
@@ -39,6 +48,27 @@ const TrackingGen = () => {
           },
         },
     };
+
+    const menus = (
+        <Menu>
+          {Object.keys(columnsVisibility).map(columnName => (
+            <Menu.Item key={columnName}>
+              <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+                <span style={{ marginLeft: 8 }}>{columnName}</span>
+              </span>
+            </Menu.Item>
+          ))}
+        </Menu>
+    );
+
+    const toggleColumnVisibility = (columnName, e) => {
+        e.stopPropagation();
+        setColumnsVisibility(prev => ({
+          ...prev,
+          [columnName]: !prev[columnName]
+        }));
+      };
 
     const fetchData = async() => {
             try {
@@ -129,6 +159,7 @@ const TrackingGen = () => {
                 ) : (
                   <Tag color="default">-</Tag>
                 ),
+                ...(columnsVisibility['Montant inspection'] ? {} : { className: 'hidden-column' }),
             },
             {
               title: 'Montant réparation',
@@ -141,6 +172,7 @@ const TrackingGen = () => {
                 ) : (
                   <Tag color="default">-</Tag>
                 ),
+                ...(columnsVisibility['Montant réparation'] ? {} : { className: 'hidden-column' }),
             },
             {
               title: 'Description',
@@ -150,6 +182,7 @@ const TrackingGen = () => {
                   {text || 'N/A'}
                 </Tag>
               ),
+              ...(columnsVisibility['Description'] ? {} : { className: 'hidden-column' }),
             },
             {
               title: 'Date inspection',
@@ -162,6 +195,7 @@ const TrackingGen = () => {
                 ) : (
                   <Tag color="default">-</Tag>
                 ),
+                ...(columnsVisibility['Date inspection'] ? {} : { className: 'hidden-column' }),
             },
             {
               title: 'Date entrée réparation',
@@ -174,6 +208,7 @@ const TrackingGen = () => {
                 ) : (
                   <Tag color="default">-</Tag>
                 ),
+                ...(columnsVisibility['Date entree reparation'] ? {} : { className: 'hidden-column' }),
             },
             {
               title: 'Avis',
@@ -186,11 +221,13 @@ const TrackingGen = () => {
                 ) : (
                   <Tag color="default">-</Tag>
                 ),
+                ...(columnsVisibility['Avis'] ? {} : { className: 'hidden-column' }),
             },
             {
               title: 'Commentaire',
               dataIndex: 'commentaire',
-              render: (text) => <span>{text || '-'}</span>
+              render: (text) => <span>{text || '-'}</span>,
+              ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' }),
             }
           ];
           
@@ -262,6 +299,11 @@ const TrackingGen = () => {
                         />
                     </div>
                     <div className="client-rows-right">
+                        <Dropdown overlay={menus} trigger={['click']}>
+                            <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                                Colonnes <DownOutlined />
+                            </Button>
+                        </Dropdown>
                     </div>
                 </div>
                 <Table
