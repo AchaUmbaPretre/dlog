@@ -173,19 +173,21 @@ const TrackingGen = () => {
                 ),
             ...(columnsVisibility['Montant réparation'] ? {} : { className: 'hidden-column' }),
         },
-            {
-              title: 'Description',
-              dataIndex: 'description',
-              render: (text) => (
-                <Tag icon={<SettingOutlined />} color="purple">
-                  {text || 'N/A'}
-                </Tag>
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            render: (text) => (
+                <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                    <Tag icon={<SettingOutlined />} color="purple">
+                    {text || 'N/A'}
+                    </Tag>
+                </div>
               ),
               ...(columnsVisibility['Description'] ? {} : { className: 'hidden-column' }),
-            },
-            {
-              title: 'Date inspection',
-              dataIndex: 'date_inspection',
+        },
+        {
+            title: 'Date inspection',
+            dataIndex: 'date_inspection',
               render: (text) =>
                 text ? (
                   <Tag icon={<CalendarOutlined />} color="blue">
@@ -195,10 +197,10 @@ const TrackingGen = () => {
                   <Tag color="default">-</Tag>
                 ),
                 ...(columnsVisibility['Date inspection'] ? {} : { className: 'hidden-column' }),
-            },
-            {
-              title: 'Date entrée réparation',
-              dataIndex: 'date_entree_reparation',
+        },
+        {
+            title: 'Date entrée réparation',
+            dataIndex: 'date_entree_reparation',
               render: (text) =>
                 text ? (
                   <Tag icon={<CalendarOutlined />} color="green">
@@ -208,31 +210,28 @@ const TrackingGen = () => {
                   <Tag color="default">-</Tag>
                 ),
                 ...(columnsVisibility['Date entree reparation'] ? {} : { className: 'hidden-column' }),
-            },
-            {
-              title: 'Avis',
-              dataIndex: 'avis',
+        },
+        {
+            title: 'Avis',
+            dataIndex: 'avis',
               render: (text) =>
                 text ? (
-                  <Tag color="magenta">
+                <div style={columnStyles.title} className={columnStyles.hideScroll}>
                     {text}
-                  </Tag>
+                </div>
                 ) : (
                   <Tag color="default">-</Tag>
                 ),
                 ...(columnsVisibility['Avis'] ? {} : { className: 'hidden-column' }),
-            },
-            {
-              title: 'Commentaire',
-              dataIndex: 'commentaire',
+        },
+        {
+            title: 'Commentaire',
+            dataIndex: 'commentaire',
               render: (text) => <span>{text || '-'}</span>,
               ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' }),
-            }
+        }
     ];
           
-
-      const handleAddModele = () => openModal('Add')
-
       const closeAllModals = () => {
         setModalType(null);
       };
