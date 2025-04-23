@@ -163,8 +163,8 @@ export const getCarateristiqueRep = async () => {
 }
 
 //Inspection gen
-export const getInspectionGen = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/inspection_gen`);
+export const getInspectionGen = async (searchValue) => {
+    return axios.get(`${DOMAIN}/api/charroi/inspection_gen?searchValue=${searchValue}`);
 }
 
 export const getInspectionResume = async () => {

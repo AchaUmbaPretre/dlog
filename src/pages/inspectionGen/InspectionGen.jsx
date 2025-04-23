@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, Menu, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, UserOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, PlusOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, EyeOutlined, DollarOutlined, RocketOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen, getInspectionResume } from '../../services/charroiService';
 import moment from 'moment';
@@ -47,11 +47,11 @@ const InspectionGen = () => {
     const fetchData = async() => {
         try {
             const [ inspectionData, resumeData] = await Promise.all([
-              getInspectionGen(),
+              getInspectionGen(searchValue),
               getInspectionResume()
             ])
-            setData(inspectionData.data);
-            setStatistique(resumeData.data[0])
+            setData(inspectionData.data.inspections);
+            setStatistique(inspectionData.data.stats)
             setLoading(false);
         } catch (error) {
             notification.error({
@@ -66,7 +66,7 @@ const InspectionGen = () => {
     
     useEffect(()=> {
         fetchData()
-    }, [])
+    }, [searchValue])
 
     const handleAddInspection = () => openModal('Add');
 
@@ -395,6 +395,7 @@ const InspectionGen = () => {
         item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase())
     );
 

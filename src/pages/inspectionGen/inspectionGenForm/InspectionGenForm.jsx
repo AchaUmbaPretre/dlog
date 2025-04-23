@@ -183,7 +183,6 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
         });
     };
     
-
   return (
     <>
         <div className="controle_form">
