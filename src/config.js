@@ -11,7 +11,7 @@ REACT_APP_SERVER_DOMAIN : 'http://localhost:8080'
 }; */
 
 const config = {
-  REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com'
+  REACT_APP_SERVER_DOMAIN : 'http://localhost:8080'
 };
 
 export default config;

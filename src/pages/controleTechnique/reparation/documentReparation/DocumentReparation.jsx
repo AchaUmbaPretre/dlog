@@ -146,7 +146,7 @@ const DocumentReparation = ({id_sud_reparation}) => {
     <>
         <div className="document_reparation">
             <div className="document_detail_title">
-                <h1 className="document_detail_h1">DOCUMENT</h1>
+                <h1 className="document_detail_h1">ENREGISTRER UN DOCUMENT</h1>
             </div>
             <div className="document_reparation_wrapper">
                 

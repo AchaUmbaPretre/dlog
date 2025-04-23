@@ -33,6 +33,7 @@ const InspectionGen = () => {
       'Matricule': true,
       'Marque': true,
       'Date inspection': true,
+      'Date réparation' : false,
       'type_rep': true,
       "Avis d expert": false,
       "Montant": true,
