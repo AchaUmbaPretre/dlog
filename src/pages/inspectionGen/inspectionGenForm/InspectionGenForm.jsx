@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Form, Row, Divider, Card, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
 import { SendOutlined, UploadOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
-import { getCarateristiqueRep, getChauffeur, getStatutVehicule, getSubInspectionOneV, getTypeReparation, getVehicule, postInspectionGen } from '../../../services/charroiService';
+import { getCarateristiqueRep, getChauffeur, getStatutVehicule, getSubInspectionOneV, getTypeReparation, getVehicule, postInspectionGen, putSubInspection } from '../../../services/charroiService';
 import { getFournisseur } from '../../../services/fournisseurService';
 import { useSelector } from 'react-redux';
 import { getCat_inspection } from '../../../services/batimentService';
 import { Rnd } from 'react-rnd';
 import { icons } from '../../../utils/prioriteIcons';
 import html2canvas from 'html2canvas';
+import moment from 'moment';
+
 
 const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
     const [form] = Form.useForm();
@@ -26,6 +28,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
     const [uploadedImages, setUploadedImages] = useState({});
     const [iconPositionsMap, setIconPositionsMap] = useState({});
     const [iconPositions, setIconPositions] = useState([]);
+    const [data, setData] = useState([]);
 
     const fetchDatas = async () => {
 
@@ -50,11 +53,23 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
 
             if(idSubInspectionGen) {
                 const { data: insp } = await getSubInspectionOneV(idSubInspectionGen);
+                setData(insp)
                 form.setFieldsValue({
                     id_vehicule: insp[0]?.id_vehicule,
                     id_chauffeur: insp[0]?.id_chauffeur,
                     date_inspection: insp[0]?.date_inspection,
-                    kilometrage : insp[0]?.kilometrage
+                    kilometrage : insp[0]?.kilometrage,
+                    date_inspection: moment(insp[0]?.date_inspection),
+                    date_prevu: moment(insp[0]?.date_prevu),
+                    id_statut_vehicule: insp[0]?.id_statut_vehicule,
+                    reparations: insp.map((item) => ({
+                        id_type_reparation: item.id_type_reparation,
+                        id_cat_inspection: item.id_cat_inspection,
+                        montant: item.montant,
+                        commentaire: item.commentaire,
+                        avis: item.avis,
+                        img:item.img
+                    }))
                 })
             }
 
@@ -69,6 +84,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
         fetchDatas()
     }, [idSubInspectionGen])
 
+
     const onFinish = async (values) => {
         await form.validateFields();
     
@@ -78,6 +94,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
         setLoading(true);
     
         try {
+
             const formData = new FormData();
     
             // Champs principaux
@@ -137,7 +154,15 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                 }
             }
     
-            await postInspectionGen(formData);
+            if(idSubInspectionGen) {
+                await putSubInspection({
+                    id_sub_inspection_gen : data[0]?.id_sub_inspection_gen,
+                    id_inspection_gen: data[0]?.id_inspection_gen,
+                    formData
+                })
+            } else{
+                await postInspectionGen(formData);
+            }
     
             message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
             form.resetFields();
@@ -239,9 +264,9 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                         allowClear
                                         showSearch
                                         options={chauffeur.map((item) => ({
-                                                value: item.id_chauffeur,
-                                                label: item.nom,
-                                            }))}
+                                            value: item.id_chauffeur,
+                                            label: item.nom,
+                                        }))}
                                         optionFilterProp="label"
                                         placeholder="Sélectionnez une categorie..."
                                     />}

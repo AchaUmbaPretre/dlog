@@ -193,6 +193,35 @@ export const getSubInspectionOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/sub_inspection_genOne?id_sub_inspection_gen=${id}`);
 }
 
+/* export const putSubInspection = async (id) => {
+    console.log(id)
+    return axios.put(`${DOMAIN}/api/charroi/sub_inspection_gen?data=${id}`);
+}
+ */
+
+export const putSubInspection = async ({ id_sub_inspection_gen, id_inspection_gen, formData }) => {
+
+    try {
+      return await axios.put(
+        `${DOMAIN}/api/charroi/sub_inspection_gen`, // pas d'ID dans l'URL
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          params: {
+            id_sub_inspection_gen,
+            id_inspection_gen
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Erreur dans putSubInspection :", error);
+      throw error;
+    }
+  };
+  
+  
 //Inspection validé
 export const getInspectionValide = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/inspection_validation?id_sub_inspection_gen=${id}`);
