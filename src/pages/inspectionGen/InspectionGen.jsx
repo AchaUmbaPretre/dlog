@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Input, Button, Menu, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 import { FileSearchOutlined, UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
-import { getInspectionGen, getInspectionResume } from '../../services/charroiService';
+import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
 import InspectionGenDetail from './inspectionGenDetail/InspectionGenDetail';
 import InspectionGenValider from './inspectionGenValider/InspectionGenValider';
@@ -21,7 +21,7 @@ const InspectionGen = () => {
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({
         current: 1,
-        pageSize: 15,
+        pageSize: 20,
     });
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
@@ -46,10 +46,9 @@ const InspectionGen = () => {
 
     const fetchData = async() => {
         try {
-            const [ inspectionData, resumeData] = await Promise.all([
+            const [ inspectionData] = await Promise.all([
               getInspectionGen(searchValue),
-              getInspectionResume()
-            ])
+                        ])
             setData(inspectionData.data.inspections);
             setStatistique(inspectionData.data.stats)
             setLoading(false);

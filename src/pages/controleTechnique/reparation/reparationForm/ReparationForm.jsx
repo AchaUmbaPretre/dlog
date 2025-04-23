@@ -38,6 +38,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                     id_vehicule: d[0]?.id_vehicule,
                     cout: d[0]?.manoeuvre,
                     montant : d[0]?.cout,
+                    commentaire : d[0]?.avis,
                     reparations: d.map((item) => ({
                         id_type_reparation: item.id_type_reparation,
                         montant: item.budget_valide,
