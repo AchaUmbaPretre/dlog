@@ -112,7 +112,7 @@ const TrackingGen = () => {
                     <CarOutlined className="car-icon-animated" />
                     <span className="car-shadow" />
                   </span>
-                  <Tag color="blue">{text}</Tag>
+                  <Tag color="blue" bordered={false}>{text}</Tag>
                 </div>
               ),
               ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
