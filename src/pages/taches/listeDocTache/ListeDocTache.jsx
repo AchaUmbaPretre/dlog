@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Menu, Modal } from 'antd';
-import { FileTextOutlined,PlusCircleOutlined, DeleteOutlined,EditOutlined, FilePdfOutlined, FileExcelOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
+import { FileTextOutlined,PlusCircleOutlined, DeleteOutlined,EditOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getDetailTacheDoc } from '../../../services/tacheService';
 import TacheDoc from '../tacheDoc/TacheDoc';
@@ -48,22 +48,6 @@ const ListeDocTache = ({ idTache }) => {
     setIsModal(false)
   };
 
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const handleEdit = (record) => {
-    message.info(`Editing client: ${record.nom}`);
-  };
-
   const handleDelete = async (id) => {
     try {
       // Uncomment when delete function is available
@@ -82,17 +66,6 @@ const ListeDocTache = ({ idTache }) => {
     setIdDoc(id)
     setIsModal(true)
   };
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<FileExcelOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<FilePdfOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
 
   const columns = [
     {
