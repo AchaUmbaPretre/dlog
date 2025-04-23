@@ -228,8 +228,25 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                                     {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir le code de réparation..." style={{width:'100%'}}/>}
                                 </Form.Item>
                             </Col>
-
-                            <Col xs={24} md={24}>
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="kilometrage"
+                                    label="Kilometrage"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez fournir une date...',
+                                        },
+                                    ]}
+                                >
+                                        {loadingData ? (
+                                            <Skeleton.Input active={true} />
+                                        ) : (
+                                            <InputNumber size='large' style={{width:'100%'}} />
+                                        )}
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={16}>
                                 <Form.Item
                                     name="commentaire"
                                     label="Commentaire"
