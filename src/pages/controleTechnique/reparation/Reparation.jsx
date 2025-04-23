@@ -34,9 +34,26 @@ const Reparation = () => {
       'Statut': true,
       'Etat': true,
       'Budget' : true,
-      'Date sortie' : false
+      "Main d'oeuvre" : false,
+      'Date sortie' : false,
+      "commentaire": false
     });
     
+  const columnStyles = {
+      title: {
+        maxWidth: '220px',
+        whiteSpace: 'nowrap',
+        overflowX: 'scroll', 
+        scrollbarWidth: 'none',
+        '-ms-overflow-style': 'none', 
+      },
+      hideScroll: {
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+      },
+  };
+
    const fetchData = async() => {
         try {
             const { data } = await getReparation();
@@ -281,7 +298,7 @@ const Reparation = () => {
               </Space>
           ),
           align: 'right', 
-          ...(columnsVisibility['Budget'] ? {} : { className: 'hidden-column' }),
+          ...(columnsVisibility["Main d'oeuvre"] ? {} : { className: 'hidden-column' }),
         },
         {
             title: 'Fournisseur',
@@ -294,6 +311,16 @@ const Reparation = () => {
             ),
           ...(columnsVisibility['Fournisseur'] ? {} : { className: 'hidden-column' }),
         },
+        {
+          title: "Commentaire",
+          dataIndex: 'commentaire',
+          render: (text) => (
+            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+              {text}
+            </div>
+          ),
+          ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' }),
+      },
         {
             title: 'Etat',
             dataIndex: 'nom_type_statut',
