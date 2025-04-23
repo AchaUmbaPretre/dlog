@@ -185,6 +185,10 @@ export const getSubInspection = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/sub_inspection_gen?idInspection=${id}`);
 }
 
+export const getSubInspectionOneV = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/sub_inspection_genOneV?id_sub_inspection_gen=${id}`);
+}
+
 export const getSubInspectionOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/sub_inspection_genOne?id_sub_inspection_gen=${id}`);
 }

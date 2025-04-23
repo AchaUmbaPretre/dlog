@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Form, Row, Divider, Card, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
 import { SendOutlined, UploadOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
-import { getCarateristiqueRep, getChauffeur, getStatutVehicule, getTypeReparation, getVehicule, postInspectionGen } from '../../../services/charroiService';
+import { getCarateristiqueRep, getChauffeur, getStatutVehicule, getSubInspectionOneV, getTypeReparation, getVehicule, postInspectionGen } from '../../../services/charroiService';
 import { getFournisseur } from '../../../services/fournisseurService';
 import { useSelector } from 'react-redux';
 import { getCat_inspection } from '../../../services/batimentService';
@@ -9,7 +9,7 @@ import { Rnd } from 'react-rnd';
 import { icons } from '../../../utils/prioriteIcons';
 import html2canvas from 'html2canvas';
 
-const InspectionGenForm = ({closeModal, fetchData}) => {
+const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ chauffeur, setChauffeur ] = useState([]);
@@ -39,6 +39,7 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
                 getCat_inspection(),
                 getCarateristiqueRep()
             ])
+
             setVehicule(vehiculeData.data.data)
             setFournisseur(fournisseurData.data)
             setReparation(reparationData.data.data)
@@ -46,6 +47,16 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
             setChauffeur(chauffeurData.data.data)
             setCat(catData.data)
             setCatRep(catRep.data)
+
+            if(idSubInspectionGen) {
+                const { data: insp } = await getSubInspectionOneV(idSubInspectionGen);
+                form.setFieldsValue({
+                    id_vehicule: insp[0]?.id_vehicule,
+                    id_chauffeur: insp[0]?.id_chauffeur,
+                    date_inspection: insp[0]?.date_inspection,
+                    kilometrage : insp[0]?.kilometrage
+                })
+            }
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -152,9 +163,9 @@ const InspectionGenForm = ({closeModal, fetchData}) => {
         }
     };
     
-    const addIcon = (icon) => {
+/*     const addIcon = (icon) => {
         setIconPositions([...iconPositions, { icon, x: 50, y: 50, width: 50, height: 50 }]);
-      };
+      }; */
 
       const handleImageUpload = (info, fieldName) => {
         const file = info.fileList[0]?.originFileObj;

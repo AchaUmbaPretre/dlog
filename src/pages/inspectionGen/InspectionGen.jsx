@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Menu, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { Input, Button, Menu, Tooltip, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { FileSearchOutlined, EditOutlined, UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
@@ -69,6 +69,7 @@ const InspectionGen = () => {
     }, [searchValue])
 
     const handleAddInspection = () => openModal('Add');
+    const handleEdit = (id) => openModal('Add', id)
 
     const closeAllModals = () => {
         setModalType(null);
@@ -97,6 +98,8 @@ const InspectionGen = () => {
               break;
             case 'reparer':
                 openModal('Reparer', record.id_sub_inspection_gen)
+            case 'modifier':
+                openModal('Add', record.id_sub_inspection_gen)
               break;
             default:
               break;
@@ -382,9 +385,21 @@ const InspectionGen = () => {
             title: 'Actions',
             dataIndex: 'actions',
             render: (text, record) => (
-              <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
-                <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
-              </Dropdown>
+              <Space>
+                <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+                  <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
+                </Dropdown>
+
+                <Tooltip title="Modifier">
+                  <Button
+                    icon={<EditOutlined />}
+                    style={{ color: 'green' }}
+                    onClick={() => handleEdit(record.id_sub_inspection_gen)}
+                    disabled={role !== 'Admin'}
+                    aria-label="Edit tache"
+                  />
+                </Tooltip>
+              </Space>
             )
           }
     ]
@@ -467,7 +482,7 @@ const InspectionGen = () => {
                 <Table
                     columns={columns}
                     dataSource={filteredData}
-                    rowKey="id_inspection"
+                    rowKey="id_inspection_gen"
                     loading={loading}
                     scroll={scroll}
                     size="small"
@@ -485,7 +500,7 @@ const InspectionGen = () => {
             width={1023}
             centered
         >
-            <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} idSubInspectionGen={inspectionId} />
         </Modal>
 
         <Modal
