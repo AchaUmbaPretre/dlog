@@ -14,7 +14,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
     const [loadingData, setLoadingData] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
     const [vehicule, setVehicule] = useState([]);
-    const [idSubInspectionGen, setIdSubInspectionGen] = useState('');
+    const [idSubInspectionGen, setIdSubInspectionGen] = useState(null);
     const [reparation, setReparation] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [loading, setLoading] = useState(false);
