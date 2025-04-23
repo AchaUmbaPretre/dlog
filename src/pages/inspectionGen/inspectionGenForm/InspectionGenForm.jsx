@@ -67,7 +67,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
 
     useEffect(()=> {
         fetchDatas()
-    }, [])
+    }, [idSubInspectionGen])
 
     const onFinish = async (values) => {
         await form.validateFields();
