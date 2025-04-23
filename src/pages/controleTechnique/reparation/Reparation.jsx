@@ -239,6 +239,29 @@ const Reparation = () => {
         },
         {
           title: "Budget",
+          dataIndex: 'montant',
+          key: 'montant',
+          sorter: (a, b) => a.montant - b.montant,
+          sortDirections: ['descend', 'ascend'],
+          render: (text) => (
+              <Space>
+                  <Tag color="green">
+                      {text
+                          ? `${parseFloat(text)
+                              .toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                              })
+                              .replace(/,/g, " ")} $`
+                          : "0.00"}
+                  </Tag>
+              </Space>
+          ),
+          align: 'right', 
+          ...(columnsVisibility['Budget'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: "Main d'oeuvre",
           dataIndex: 'cout',
           key: 'cout',
           sorter: (a, b) => a.cout - b.cout,
