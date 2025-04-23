@@ -18,9 +18,11 @@ const TrackingGen = () => {
     }); 
     const scroll = { x: 'max-content' };
     const [modalType, setModalType] = useState(null);
-    const [columnsVisibility, setColumnsVisibility] = useState([
-
-    ])
+    const [columnsVisibility, setColumnsVisibility] = useState({
+        '#': true,
+        'immatriculation': true,
+        'nom_marque': true,
+    })
     const role = useSelector((state) => state.user?.currentUser?.role);
 
     const columnStyles = {
@@ -83,6 +85,7 @@ const TrackingGen = () => {
                   <Tag color="blue">{text}</Tag>
                 </div>
               ),
+              ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
             },
             {
               title: 'Marque',
@@ -92,6 +95,7 @@ const TrackingGen = () => {
                   {text}
                 </Tag>
               ),
+              ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
             },        
             {
                 title: 'Type de rep.',
@@ -111,6 +115,8 @@ const TrackingGen = () => {
                     {text}
                   </Tag>
                 ),
+                ...(columnsVisibility['Origine'] ? {} : { className: 'hidden-column' }),
+
               },
             {
               title: 'Montant inspection',
