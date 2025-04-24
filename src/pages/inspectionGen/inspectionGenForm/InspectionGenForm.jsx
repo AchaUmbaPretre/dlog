@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
 import { SendOutlined, UploadOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
 import { getCarateristiqueRep, getChauffeur, getStatutVehicule, getSubInspectionOneV, getTypeReparation, getVehicule, postInspectionGen, putSubInspection } from '../../../services/charroiService';
@@ -19,37 +19,29 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
     const [cat, setCat] = useState([]);
     const [catRep, setCatRep] = useState([]);
     const [ loadingData, setLoadingData ] = useState(false);
-    const [ fournisseur, setFournisseur ] = useState([]);
     const [ reparation, setReparation ] = useState([]);
     const [ statut, setStatut ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    const canvasRef = useRef(null);
-    const [uploadedImage, setUploadedImage] = useState(null);
     const [uploadedImages, setUploadedImages] = useState({});
     const [iconPositionsMap, setIconPositionsMap] = useState({});
-    const [iconPositions, setIconPositions] = useState([]);
     const [data, setData] = useState([]);
 
     const fetchDatas = async () => {
 
         try {
-            const [ vehiculeData, fournisseurData, reparationData, statutData, chauffeurData, catData, catRep] = await Promise.all([
+            const [ vehiculeData, reparationData, statutData, chauffeurData, catData ] = await Promise.all([
                 getVehicule(),
-                getFournisseur(),
                 getTypeReparation(),
                 getStatutVehicule(),
                 getChauffeur(),
                 getCat_inspection(),
-                getCarateristiqueRep()
             ])
 
             setVehicule(vehiculeData.data.data)
-            setFournisseur(fournisseurData.data)
             setReparation(reparationData.data.data)
             setStatut(statutData.data)
             setChauffeur(chauffeurData.data.data)
             setCat(catData.data)
-            setCatRep(catRep.data)
 
             if(idSubInspectionGen) {
                 const { data: insp } = await getSubInspectionOneV(idSubInspectionGen);
@@ -62,7 +54,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                     date_inspection: moment(insp[0]?.date_inspection),
                     date_prevu: moment(insp[0]?.date_prevu),
                     id_statut_vehicule: insp[0]?.id_statut_vehicule,
-                    reparations: insp.map((item) => ({
+                    reparations: insp?.map((item) => ({
                         id_type_reparation: item.id_type_reparation,
                         id_cat_inspection: item.id_cat_inspection,
                         montant: item.montant,
@@ -243,7 +235,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                     <Select
                                         allowClear
                                         showSearch
-                                        options={vehicule.map((item) => ({
+                                        options={vehicule?.map((item) => ({
                                             value: item.id_vehicule,
                                             label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
                                         }))}
@@ -263,7 +255,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                     <Select
                                         allowClear
                                         showSearch
-                                        options={chauffeur.map((item) => ({
+                                        options={chauffeur?.map((item) => ({
                                             value: item.id_chauffeur,
                                             label: item.nom,
                                         }))}
@@ -345,7 +337,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                     <Select
                                         allowClear
                                         showSearch
-                                        options={statut.map((item) => ({
+                                        options={statut?.map((item) => ({
                                             value: item.id_statut_vehicule                                           ,
                                             label: `${item.nom_statut_vehicule}`,
                                         }))}
@@ -376,7 +368,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                             <Select
                                                 allowClear
                                                 showSearch
-                                                options={reparation.map((item) => ({
+                                                options={reparation?.map((item) => ({
                                                     value: item.id_type_reparation,
                                                     label: `${item.type_rep}`,
                                                 }))}
@@ -397,7 +389,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                             <Select
                                                 allowClear
                                                 showSearch
-                                                options={cat.map((item) => ({
+                                                options={cat?.map((item) => ({
                                                     value: item.id_cat_inspection,
                                                     label: item.nom_cat_inspection,
                                                 }))}
