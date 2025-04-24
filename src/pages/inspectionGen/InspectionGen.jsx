@@ -582,7 +582,7 @@ const InspectionGen = () => {
             width={1023}
             centered
         >
-            <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} idSubInspectionGen={inspectionId} />
+          <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} idSubInspectionGen={inspectionId} />
         </Modal>
 
         <Modal
