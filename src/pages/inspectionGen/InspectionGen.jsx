@@ -37,6 +37,7 @@ const InspectionGen = () => {
       'type_rep': true,
       "Avis d expert": false,
       "Montant": true,
+      'Statut vehicule': true,
       'Date validation':true,
       'Statut': true,
       'Type rep': true,
@@ -44,6 +45,7 @@ const InspectionGen = () => {
       'Nom chauffeur' : false,
       'Kilometrage' : false
     });
+    
 
     const fetchData = async() => {
         try {
@@ -367,6 +369,20 @@ const InspectionGen = () => {
               ...(columnsVisibility['Date validation'] ? {} : { className: 'hidden-column' }),
         },
         { 
+          title: '#Véhicule', 
+          dataIndex: 'nom_statut_vehicule', 
+          key: 'nom_statut_vehicule',
+          render: text => {
+              const { icon, color } = statusIcons[text] || {};
+              return (
+                <Space>
+                  <Tag icon={icon} color={color}>{text}</Tag>
+                </Space>
+              );
+          },
+          ...(columnsVisibility['Statut vehicule'] ? {} : { className: 'hidden-column' }),
+        },
+        { 
             title: 'Statut', 
             dataIndex: 'nom_type_statut', 
             key: 'nom_type_statut',
@@ -386,10 +402,6 @@ const InspectionGen = () => {
             dataIndex: 'actions',
             render: (text, record) => (
               <Space>
-                <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
-                  <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
-                </Dropdown>
-
                 <Tooltip title="Modifier">
                   <Button
                     icon={<EditOutlined />}
@@ -399,6 +411,9 @@ const InspectionGen = () => {
                     aria-label="Edit tache"
                   />
                 </Tooltip>
+                <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+                  <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
+                </Dropdown>
               </Space>
             )
           }

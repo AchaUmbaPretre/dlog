@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, FileWordOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -112,6 +112,18 @@ export const statusIcons = {
   'Budget': { icon: <DollarOutlined />, color: 'gold' },
   'Budget validé': { icon: <CheckCircleOutlined />, color: 'lime' }, // Nouveau statut
   'Executé': { icon: <RocketOutlined />, color: 'cyan' },
+  'Opérationnel': {
+    icon: <CarOutlined />,
+    color: 'green',
+  },
+  'En réparation': {
+    icon: <ToolOutlined />,
+    color: 'orange',
+  },
+  'Immobile': {
+    icon: <StopOutlined />,
+    color: 'red',
+  },
 };
 
 export const getTagProps = (type) => {
