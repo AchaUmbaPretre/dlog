@@ -37,14 +37,14 @@ const FilterInspectionGen = ({ onFilter}) => {
     <>
         <div className="filterTache" style={{ margin: '10px 0' }}>
             <div className="filter_row">
-                <label>Ville :</label>
+                <label>Véhicule :</label>
                 <Select
                     mode="multiple"
                     showSearch
                     style={{ width: '100%' }}
-                    options={province.map((item) => ({
-                        value: item.id,
-                        label: item.capital,
+                    options={vehicule.map((item) => ({
+                        value: item.id_vehicule,
+                        label: item.nom_vehicule,
                     }))}
                     placeholder="Sélectionnez..."
                     optionFilterProp="label"
