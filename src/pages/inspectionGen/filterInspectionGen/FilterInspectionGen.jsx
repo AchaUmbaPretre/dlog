@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { getVehicule } from '../../../services/charroiService';
+import { getStatutVehicule, getTypeReparation, getVehicule } from '../../../services/charroiService';
 
 const FilterInspectionGen = ({ onFilter}) => {
     const [selectedStatut, setSelectedStatut] = useState([]);
@@ -11,11 +11,15 @@ const FilterInspectionGen = ({ onFilter}) => {
     const [type, setType] = useState([]);
 
     const fetchDatas = async () => {
-        const [vehiculeData] = await Promise.all([
+        const [vehiculeData, typeData, statutData] = await Promise.all([
             getVehicule(),
+            getTypeReparation(),
+            getStatutVehicule()
         ])
 
-        selectedVehicule
+        setVehicule(vehiculeData.data)
+        setType(typeData.data)
+        setStatut(statutData.data)
     }
 
     useEffect(() => {
