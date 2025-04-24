@@ -34,7 +34,25 @@ const FilterInspectionGen = ({ onFilter}) => {
     }, []);
 
   return (
-    <div>FilterInspectionGen</div>
+    <>
+        <div className="filterTache" style={{ margin: '10px 0' }}>
+            <div className="filter_row">
+                <label>Ville :</label>
+                <Select
+                    mode="multiple"
+                    showSearch
+                    style={{ width: '100%' }}
+                    options={province.map((item) => ({
+                        value: item.id,
+                        label: item.capital,
+                    }))}
+                    placeholder="Sélectionnez..."
+                    optionFilterProp="label"
+                    onChange={setSelectedVille}
+                />
+            </div>
+        </div>
+    </>
   )
 }
 
