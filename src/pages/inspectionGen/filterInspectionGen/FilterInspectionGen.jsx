@@ -36,8 +36,9 @@ const FilterInspectionGen = ({ onFilter}) => {
                 id_type_reparation: selectedType,
             });
         };
+
         handleFilter();
-    }, []);
+    }, [selectedStatut, selectedType, selectedVehicule]);
 
   return (
     <>
