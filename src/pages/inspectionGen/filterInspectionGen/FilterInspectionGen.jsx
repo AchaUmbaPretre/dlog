@@ -86,7 +86,7 @@ const FilterInspectionGen = ({ onFilter}) => {
                     }))}
                     placeholder="Sélectionnez..."
                     optionFilterProp="label"
-                    onChange={setSelectedVehicule}
+                    onChange={setSelectedType}
                 />
             </div>
         </div>
