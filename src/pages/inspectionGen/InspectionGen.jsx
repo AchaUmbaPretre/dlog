@@ -414,6 +414,13 @@ const InspectionGen = () => {
           title: '#Véhicule', 
           dataIndex: 'nom_statut_vehicule', 
           key: 'nom_statut_vehicule',
+          ...getColumnSearchProps(
+            'nom_statut_vehicule',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+          ),
           render: text => {
               const { icon, color } = statusIcons[text] || {};
               return (
