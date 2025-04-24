@@ -12,6 +12,9 @@ import ReparationForm from '../controleTechnique/reparation/reparationForm/Repar
 import './inspectionGen.css'
 import { useSelector } from 'react-redux';
 import { statusIcons } from '../../utils/prioriteIcons';
+import getColumnSearchProps from '../../utils/columnSearchUtils';
+import { useRef } from 'react';
+
 
 const { Search } = Input;
 
@@ -45,6 +48,10 @@ const InspectionGen = () => {
       'Nom chauffeur' : false,
       'Kilometrage' : false
     });
+    const searchInput = useRef(null);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    
     
 
     const fetchData = async() => {
@@ -202,6 +209,13 @@ const InspectionGen = () => {
         {
             title: 'Matricule',
             dataIndex: 'immatriculation',
+             ...getColumnSearchProps(
+                    'immatriculation',
+                    searchText,
+                    setSearchText,
+                    setSearchedColumn,
+                    searchInput
+                ),
             render: (text) => (
                 <div className="vehicule-matricule">
                     <span className="car-wrapper">
@@ -217,6 +231,13 @@ const InspectionGen = () => {
         {
           title: 'Chauffeur',
           dataIndex: 'nom',
+          ...getColumnSearchProps(
+            'nom',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+          ),
           render: (text, record) => (
               <Tag icon={<UserOutlined />} color="orange">
                   {text}
@@ -227,6 +248,13 @@ const InspectionGen = () => {
         {
             title: 'Marque',
             dataIndex: 'nom_marque',
+            ...getColumnSearchProps(
+              'nom_marque',
+              searchText,
+              setSearchText,
+              setSearchedColumn,
+              searchInput
+            ),
             render: (text, record) => (
                 <Tag icon={<CarOutlined />} color="orange">
                     {text}
@@ -272,6 +300,13 @@ const InspectionGen = () => {
         {
             title: 'Type de rep.',
             dataIndex: 'type_rep',
+            ...getColumnSearchProps(
+              'type_rep',
+              searchText,
+              setSearchText,
+              setSearchedColumn,
+              searchInput
+          ),
             render: (text) => (
                 <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
                   {text}
@@ -282,6 +317,13 @@ const InspectionGen = () => {
         {
           title: "Avis d'expert",
           dataIndex: 'avis',
+          ...getColumnSearchProps(
+            'avis',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
           render: (text) => (
             <div style={columnStyles.title} className={columnStyles.hideScroll}>
               {text}
@@ -312,7 +354,7 @@ const InspectionGen = () => {
             ...(columnsVisibility['Montant'] ? {} : { className: 'hidden-column' }),
         },
         {
-          title: "Budget validé",
+          title: "#Validé",
           dataIndex: 'budget_valide',
           key: 'budget_valide',
           sorter: (a, b) => a.budget_valide - b.budget_valide,
@@ -386,6 +428,13 @@ const InspectionGen = () => {
             title: 'Statut', 
             dataIndex: 'nom_type_statut', 
             key: 'nom_type_statut',
+            ...getColumnSearchProps(
+              'nom_type_statut',
+              searchText,
+              setSearchText,
+              setSearchedColumn,
+              searchInput
+            ),
             render: text => {
                 const { icon, color } = statusIcons[text] || {};
                 return (
