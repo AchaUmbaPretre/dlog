@@ -19,17 +19,21 @@ const FilterInspectionGen = ({ onFilter}) => {
             getStatutVehicule()
         ])
 
-        setVehicule(vehiculeData.data)
+        setVehicule(vehiculeData.data.data)
         setType(typeData.data)
         setStatut(statutData.data)
     }
+
+    useEffect(()=> {
+        fetchDatas()
+    }, [])
 
     useEffect(() => {
         const handleFilter = async () => {
             onFilter({
                 id_vehicule: selectedVehicule,
                 id_statut_vehicule: selectedStatut,
-                id_type_reparation: selectedStatut,
+                id_type_reparation: selectedType,
             });
         };
         handleFilter();
@@ -46,23 +50,22 @@ const FilterInspectionGen = ({ onFilter}) => {
                     style={{ width: '100%' }}
                     options={vehicule.map((item) => ({
                         value: item.id_vehicule,
-                        label: item.nom_vehicule,
+                        label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
                     }))}
                     placeholder="Sélectionnez..."
                     optionFilterProp="label"
                     onChange={setSelectedVehicule}
                 />
             </div>
-
             <div className="filter_row">
-                <label>Véhicule :</label>
+                <label>Statut :</label>
                 <Select
                     mode="multiple"
                     showSearch
                     style={{ width: '100%' }}
                     options={vehicule.map((item) => ({
-                        value: item.id_vehicule,
-                        label: item.nom_vehicule,
+                        value: item.id_statut_vehicule,
+                        label: item.nom_statut_vehicule
                     }))}
                     placeholder="Sélectionnez..."
                     optionFilterProp="label"
