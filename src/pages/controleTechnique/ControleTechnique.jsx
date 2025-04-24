@@ -210,7 +210,7 @@ const ControleTechnique = () => {
             >
                 <InspectionGen/>
             </TabPane>
-            
+
             <TabPane
                 tab={
                     <span>
@@ -302,6 +302,7 @@ const ControleTechnique = () => {
             >
                 <TrackingGen/>
             </TabPane>
+            
         </Tabs>
 
         <Modal
