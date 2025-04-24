@@ -20,7 +20,7 @@ const FilterInspectionGen = ({ onFilter}) => {
         ])
 
         setVehicule(vehiculeData.data.data)
-        setType(typeData.data)
+        setType(typeData.data.data)
         setStatut(statutData.data)
     }
 
@@ -63,25 +63,25 @@ const FilterInspectionGen = ({ onFilter}) => {
                     mode="multiple"
                     showSearch
                     style={{ width: '100%' }}
-                    options={vehicule.map((item) => ({
+                    options={statut.map((item) => ({
                         value: item.id_statut_vehicule,
                         label: item.nom_statut_vehicule
                     }))}
                     placeholder="Sélectionnez..."
                     optionFilterProp="label"
-                    onChange={setSelectedVehicule}
+                    onChange={setSelectedStatut}
                 />
             </div>
 
             <div className="filter_row">
-                <label>Statut :</label>
+                <label>Type réparation :</label>
                 <Select
                     mode="multiple"
                     showSearch
                     style={{ width: '100%' }}
-                    options={statut.map((item) => ({
-                        value: item.id_vehicule,
-                        label: item.nom_vehicule,
+                    options={type.map((item) => ({
+                        value: item.id_type_reparation,
+                        label: item.type_rep,
                     }))}
                     placeholder="Sélectionnez..."
                     optionFilterProp="label"
