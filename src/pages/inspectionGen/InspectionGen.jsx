@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { statusIcons } from '../../utils/prioriteIcons';
 import getColumnSearchProps from '../../utils/columnSearchUtils';
 import { useRef } from 'react';
+import FilterInspectionGen from './filterInspectionGen/FilterInspectionGen';
 
 
 const { Search } = Input;
@@ -52,12 +53,14 @@ const InspectionGen = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [filterVisible, setFilterVisible] = useState(false);
+    const [filteredDatas, setFilteredDatas] = useState(null);
     
-    const fetchData = async() => {
+
+    const fetchData = async(filters) => {
         try {
             const [ inspectionData] = await Promise.all([
-              getInspectionGen(searchValue),
-                        ])
+              getInspectionGen(searchValue, filters),
+            ])
             setData(inspectionData.data.inspections);
             setStatistique(inspectionData.data.stats)
             setLoading(false);
@@ -78,8 +81,8 @@ const InspectionGen = () => {
     }
 
     useEffect(()=> {
-        fetchData()
-    }, [searchValue])
+        fetchData(filteredDatas)
+    }, [searchValue, filteredDatas])
 
     const handleAddInspection = () => openModal('Add');
     const handleEdit = (id) => openModal('Edit', id)
@@ -190,13 +193,17 @@ const InspectionGen = () => {
         </Menu>
     ); 
     
+    const handleFilterChange = (newFilters) => {
+      setFilteredDatas(newFilters); 
+  };
+
     const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
         setColumnsVisibility(prev => ({
           ...prev,
           [columnName]: !prev[columnName]
         }));
-      };
+    };
 
     const columns = [
         {
@@ -566,6 +573,7 @@ const InspectionGen = () => {
                         </Dropdown>
                     </div>
                 </div>
+                {filterVisible && <FilterInspectionGen onFilter={handleFilterChange}/>}
                 <Table
                     columns={columns}
                     dataSource={filteredData}

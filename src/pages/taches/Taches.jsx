@@ -1017,7 +1017,7 @@ const handleEdit = (idTache) => {
                   rowSelection={rowSelection}
                   expandable={{
                     expandedRowRender: (record) => (record.sousTaches && record.sousTaches.length > 0 ? expandedRowRender(record) : null),
-                    rowExpandable: (record) => record.sousTaches && record.sousTaches.length > 0, // Condition pour montrer l'icône d'expansion
+                    rowExpandable: (record) => record.sousTaches && record.sousTaches.length > 0,
                     onExpand
                   }}
                   dataSource={displayedData}
@@ -1038,7 +1038,7 @@ const handleEdit = (idTache) => {
           </Tabs>
         </div>
       </div>
-
+      
       <Modal
         title=""
         visible={isModalVisible}
