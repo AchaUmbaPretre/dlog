@@ -78,7 +78,7 @@ const InspectionGen = () => {
     }, [searchValue])
 
     const handleAddInspection = () => openModal('Add');
-    const handleEdit = (id) => openModal('Add', id)
+    const handleEdit = (id) => openModal('Edit', id)
 
     const closeAllModals = () => {
         setModalType(null);
@@ -108,7 +108,7 @@ const InspectionGen = () => {
             case 'reparer':
                 openModal('Reparer', record.id_sub_inspection_gen)
             case 'modifier':
-                openModal('Add', record.id_sub_inspection_gen)
+                openModal('Edit', record.id_sub_inspection_gen)
               break;
             default:
               break;
@@ -566,6 +566,17 @@ const InspectionGen = () => {
         <Modal
             title=""
             visible={modalType === 'Add'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1023}
+            centered
+        >
+            <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} idSubInspectionGen={''} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Edit'}
             onCancel={closeAllModals}
             footer={null}
             width={1023}

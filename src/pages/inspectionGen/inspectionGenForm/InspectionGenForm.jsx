@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
 import { SendOutlined, UploadOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
 import { getCarateristiqueRep, getChauffeur, getStatutVehicule, getSubInspectionOneV, getTypeReparation, getVehicule, postInspectionGen, putSubInspection } from '../../../services/charroiService';
-import { getFournisseur } from '../../../services/fournisseurService';
 import { useSelector } from 'react-redux';
 import { getCat_inspection } from '../../../services/batimentService';
 import { Rnd } from 'react-rnd';
