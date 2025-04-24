@@ -88,15 +88,6 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
         ));
     };
 
-/*     const handleFilter = () => {
-        onFilter({
-            ville: selectedVille,
-            client: selectedClients,
-            batiment: selectedBatiment,
-            period: '',
-        });
-    }; */
-
     useEffect(()=> {
         const handleFilter = () => {
             const period = {
