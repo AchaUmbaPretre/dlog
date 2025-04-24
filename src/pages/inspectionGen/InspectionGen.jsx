@@ -51,9 +51,8 @@ const InspectionGen = () => {
     const searchInput = useRef(null);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [filterVisible, setFilterVisible] = useState(false);
     
-    
-
     const fetchData = async() => {
         try {
             const [ inspectionData] = await Promise.all([
@@ -73,6 +72,11 @@ const InspectionGen = () => {
         }
     }
     
+    const handFilter = () => {
+      fetchData()
+      setFilterVisible(!filterVisible)
+    }
+
     useEffect(()=> {
         fetchData()
     }, [searchValue])
@@ -266,6 +270,9 @@ const InspectionGen = () => {
         {
             title: 'Date',
             dataIndex: 'date_inspection',
+            key: 'date_inspection',
+            sorter: (a,b) => moment(a.date_inspection) - (b.date_inspection),
+            sortDirections: ['descend', 'ascend'],
             render: (text) => (
               <Tag icon={<CalendarOutlined />} color="blue">
                   {moment(text).format('DD-MM-YYYY')}
@@ -277,6 +284,8 @@ const InspectionGen = () => {
         {
             title: 'Date rep.',
             dataIndex: 'date_reparation',
+            sorter: (a, b) => moment(a.date_reparation) - moment(b.date_reparation),
+            sortDirections: ['descend', 'ascend'],
             render: (text) => {
               if (!text) {
                 return (
@@ -541,6 +550,13 @@ const InspectionGen = () => {
                             onClick={handleAddInspection}
                         >
                             Ajouter une inspection
+                        </Button>
+
+                        <Button
+                          type="default"
+                          onClick={handFilter}
+                        >
+                          {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
                         </Button>
 
                         <Dropdown overlay={menus} trigger={['click']}>
