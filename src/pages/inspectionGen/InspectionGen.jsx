@@ -195,7 +195,7 @@ const InspectionGen = () => {
     
     const handleFilterChange = (newFilters) => {
       setFilteredDatas(newFilters); 
-  };
+    };
 
     const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
