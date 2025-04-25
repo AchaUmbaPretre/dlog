@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ToolOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
-import { Input, Button, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
+import { Input, Button, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
@@ -8,6 +8,9 @@ import SuiviReparationForm from './suiviReparation/suiviReparationForm/SuiviRepa
 import ReparationDetail from './reparationDetail/ReparationDetail';
 import DocumentReparation from './documentReparation/DocumentReparation';
 import getColumnSearchProps from '../../../utils/columnSearchUtils';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 const { Search } = Input;
 
@@ -417,8 +420,60 @@ const Reparation = () => {
     };
 
     const handleExportExcel = () => {
-
-    }
+      try {
+        const formattedData = data.map((record, index) => ({
+          "#": index + 1,
+          "Matricule": record.immatriculation || 'N/A',
+          "Marque": record.nom_marque || 'Inconnu',
+          "Type de Rép.": record.type_rep || 'N/A',
+          "Date Entrée": record.date_entree
+            ? moment(record.date_entree).format('DD/MM/YYYY')
+            : '—',
+          "Date Sortie": record.date_sortie
+            ? moment(record.date_sortie).format('DD/MM/YYYY')
+            : '—',
+          "Date reparation": record.date_reparation
+            ? moment(record.date_reparation).format('DD/MM/YYYY')
+            : '—',
+          "Budget": record.montant ? `${record.montant} $` : '0 $',
+          "Main d'oeuvre": record.cout ? `${record.cout} $` : '0 $',
+          "Fournisseur": record.nom_fournisseur || 'Aucun',
+          "Commentaire": record.commentaire
+        }));
+    
+        // 📄 Création de la feuille
+        const ws = XLSX.utils.json_to_sheet(formattedData);
+    
+        // 📏 Définition des largeurs de colonnes
+        const columnWidths = new Array(Object.keys(formattedData[0]).length).fill({ wpx: 120 });
+        ws['!cols'] = columnWidths;
+    
+        // 🎨 Style de l'en-tête
+        const range = XLSX.utils.decode_range(ws['!ref']);
+        for (let col = range.s.c; col <= range.e.c; col++) {
+          const cell = ws[XLSX.utils.encode_cell({ r: 0, c: col })];
+          if (cell) {
+            cell.s = {
+              font: { bold: true, color: { rgb: "FFFFFF" } },
+              fill: { fgColor: { rgb: "2E8B57" } },
+              alignment: { horizontal: "center", vertical: "center" },
+            };
+          }
+        }
+    
+        // 📘 Création du classeur Excel
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Inspection");
+    
+        // 💾 Exportation
+        XLSX.writeFile(wb, "Inspection.xlsx");
+    
+        message.success("Exportation Excel réussie !");
+      } catch (error) {
+        console.error("Erreur lors de l'exportation Excel :", error);
+        message.error("Une erreur est survenue lors de l'exportation.");
+      }
+    };
 
     const handleExportPDF = () => {
 
