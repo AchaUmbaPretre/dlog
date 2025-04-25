@@ -114,6 +114,7 @@ const InspectionGen = () => {
               break;
             case 'reparer':
                 openModal('Reparer', record.id_sub_inspection_gen)
+              break;
             case 'modifier':
                 openModal('Edit', record.id_sub_inspection_gen)
               break;

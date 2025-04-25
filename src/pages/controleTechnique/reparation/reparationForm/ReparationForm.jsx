@@ -46,8 +46,8 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                     }))
                 })
 
-                setIdSubInspectionGen(d[0]?.id_sub_inspection_gen)
-            }
+/*                 setIdSubInspectionGen(d[0]?.id_sub_inspection_gen)
+ */            }
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -70,7 +70,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
             await postReparation({
                 ...values,
                 user_cr : userId,
-                id_sub_inspection_gen : idSubInspectionGen
+                id_sub_inspection_gen : subInspectionId
             })
             message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
             fetchData();
@@ -149,7 +149,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                                     {loadingData ? (
                                         <Skeleton.Input active={true} />
                                     ) : (
-                                        <DatePicker size='large' style={{ width: '100%' }} />
+                                        <DatePicker size='large' format="YYYY-MM-DD" style={{ width: '100%' }} />
                                     )}
                                 </Form.Item>
                         </Col>
@@ -168,7 +168,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                             {loadingData ? (
                                 <Skeleton.Input active={true} />
                             ) : (
-                                <DatePicker size='large' style={{ width: '100%' }} />
+                                <DatePicker size='large' format="YYYY-MM-DD" style={{ width: '100%' }} />
                             )}
                             </Form.Item>
                         </Col>
