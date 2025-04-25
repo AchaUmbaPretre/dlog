@@ -194,7 +194,6 @@ const InspectionGen = () => {
         message.error("Une erreur est survenue pendant l'export.");
       }
     };
-    
 
     const fetchData = async(filters) => {
         try {
@@ -258,6 +257,9 @@ const InspectionGen = () => {
             case 'modifier':
                 openModal('Edit', record.id_sub_inspection_gen)
               break;
+            case 'document':
+                openModal('Document', record.id_sub_inspection_gen)
+              break;
             default:
               break;
           }
@@ -301,6 +303,10 @@ const InspectionGen = () => {
 
             <Menu.Item key="reparer">
                 <ToolOutlined style={{ color: 'orange' }} /> Réparer
+            </Menu.Item>
+
+            <Menu.Item key="document">
+              <FileTextOutlined style={{ color: 'blue' }} /> Document
             </Menu.Item>
           </Menu>
         );
@@ -822,7 +828,18 @@ const InspectionGen = () => {
             centered
         >
             <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
-       </Modal>
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Document'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1000}
+            centered
+        >
+          <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
+        </Modal>
     </>
   )
 }
