@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, notification, Table, Tag, Tabs, Modal } from 'antd';
-import { RetweetOutlined, CarOutlined, FileSearchOutlined, ShopOutlined, ScanOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { RetweetOutlined, CarOutlined, AuditOutlined, FileSearchOutlined, ShopOutlined, ScanOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import ControleTechniqueForm from './controleTechniqueForm/ControleTechniqueForm';
 import { getControleTechnique } from '../../services/charroiService';
@@ -299,6 +299,24 @@ const ControleTechnique = () => {
                     </span>
                 }
                 key="4"
+            >
+                <TrackingGen/>
+            </TabPane>
+
+            <TabPane
+                tab={
+                    <span>
+                        <AuditOutlined 
+                            style={{
+                                color: 'purple',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Audit Logs
+                    </span>
+                }
+                key="5"
             >
                 <TrackingGen/>
             </TabPane>
