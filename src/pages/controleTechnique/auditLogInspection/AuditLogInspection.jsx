@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, Button, Skeleton, Dropdown, Input, Menu, Tag, notification } from 'antd';
 import { DownOutlined, MenuOutlined, CalendarOutlined, SettingOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { getLogInspection } from '../../../services/charroiService';
 
 const { Search } = Input;
 
@@ -14,6 +15,26 @@ const AuditLogInspection = () => {
         pageSize: 15,
     }); 
     const scroll = { x: 'max-content' };
+
+    const fetchData = async() => {
+            try {
+                const { data } = await getLogInspection();
+                setData(data);
+                setLoading(false);
+    
+            } catch (error) {
+                notification.error({
+                    message: 'Erreur de chargement',
+                    description: 'Une erreur est survenue lors du chargement des données.',
+                  });
+                  setLoading(false);
+            }
+        }
+    
+        useEffect(()=> {
+            fetchData()
+        }, [])
+
 
     const columnStyles = {
         title: {
