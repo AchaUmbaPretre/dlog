@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ToolOutlined, CarOutlined, FileTextOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { ToolOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Input, Button, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
 import { getReparation } from '../../../services/charroiService';
 import SuiviReparationForm from './suiviReparation/suiviReparationForm/SuiviReparationForm';
-import SuiviReparation from './suiviReparation/SuiviReparation';
 import ReparationDetail from './reparationDetail/ReparationDetail';
 import DocumentReparation from './documentReparation/DocumentReparation';
 import getColumnSearchProps from '../../../utils/columnSearchUtils';
@@ -58,18 +57,17 @@ const Reparation = () => {
       },
   };
 
-   const fetchData = async() => {
-        try {
-            const { data } = await getReparation();
-            setData(data.data);
-            setLoading(false);
-
-        } catch (error) {
-            notification.error({
-                message: 'Erreur de chargement',
-                description: 'Une erreur est survenue lors du chargement des données.',
-              });
-              setLoading(false);
+  const fetchData = async() => {
+    try {
+      const { data } = await getReparation();
+      setData(data.data);
+      setLoading(false);
+    } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données.',
+        });
+        setLoading(false);
         }
     }
 
@@ -408,7 +406,6 @@ const Reparation = () => {
 
     const handleAddReparation = () => openModal('Add');
 
-    
     const closeAllModals = () => {
       setModalType(null);
     };
@@ -418,6 +415,31 @@ const Reparation = () => {
       setModalType(type);
       setIdReparation(id)
     };
+
+    const handleExportExcel = () => {
+
+    }
+
+    const handleExportPDF = () => {
+
+    }
+
+    const menu = (
+      <Menu>
+        <Menu.Item key="1" onClick={handleExportExcel}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FileExcelOutlined style={{ color: '#1D6F42' }} />
+            Export to Excel
+          </span>
+        </Menu.Item>
+          <Menu.Item key="2" onClick={handleExportPDF}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <FilePdfOutlined style={{ color: '#E53935' }} /> 
+              Export to PDF
+            </span>
+          </Menu.Item>
+        </Menu>
+        );
 
   return (
     <>
@@ -444,8 +466,12 @@ const Reparation = () => {
                         icon={<PlusCircleOutlined />}
                         onClick={handleAddReparation}
                       >
-                        Ajouter une réparation
+                        Ajouter
                       </Button>
+
+                      <Dropdown overlay={menu} trigger={['click']}>
+                        <Button icon={<ExportOutlined />}>Export</Button>
+                      </Dropdown>
 
                       <Dropdown overlay={menus} trigger={['click']}>
                         <Button icon={<MenuOutlined />} className="ant-dropdown-link">

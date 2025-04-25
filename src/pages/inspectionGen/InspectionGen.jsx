@@ -612,8 +612,7 @@ const InspectionGen = () => {
             )
           }
     ]
-
-
+    
     const menu = (
       <Menu>
         <Menu.Item key="1" onClick={handleExportExcel}>
