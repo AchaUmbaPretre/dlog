@@ -18,6 +18,7 @@ import FilterInspectionGen from './filterInspectionGen/FilterInspectionGen';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import InspectionGenDoc from './inspectionGenDoc/InspectionGenDoc';
 
 const { Search } = Input;
 
@@ -838,7 +839,7 @@ const InspectionGen = () => {
             width={1000}
             centered
         >
-          <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
+          <InspectionGenDoc closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
         </Modal>
     </>
   )

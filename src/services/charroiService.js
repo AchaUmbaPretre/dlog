@@ -287,3 +287,8 @@ export const getTracking = async () => {
 export const getLogInspection = async () => {
     return axios.get(`${DOMAIN}/api/charroi/log_inspection`);
 }
+
+//doc inspection
+export const getDocumentInspection = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/document_inspection?id_sub_inspection=${id}`);
+}
