@@ -438,7 +438,7 @@ const Reparation = () => {
           "Budget": record.montant ? `${record.montant} $` : '0 $',
           "Main d'oeuvre": record.cout ? `${record.cout} $` : '0 $',
           "Fournisseur": record.nom_fournisseur || 'Aucun',
-          "Commentaire": record.commentaire
+          "Commentaire": record.commentaire || 'Aucun'
         }));
     
         // 📄 Création de la feuille
