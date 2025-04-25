@@ -118,64 +118,83 @@ const InspectionGen = () => {
     };
     
     const handleExportPDF = () => {
-      const doc = new jsPDF();
-      
-      doc.setFont("Helvetica", "bold");
-      doc.setFontSize(16);
-      doc.text("Liste des inspections", 14, 22);
-      
-      // Définir les colonnes du tableau
-      const tableColumn = ["#", "Matricule", "Marque", "Date", "Type de rep.", "Budget", "Validé", "Statut"];
-      
-      // Préparation des lignes de la table
-      const tableRows = [];
+      try {
+        const doc = new jsPDF();
     
-      data.forEach((record, index) => {
-        // Formatage de la date avec vérification
-        const formattedDate = record.date_inspection
-          ? moment(record.date_inspection).format('DD/MM/YYYY')
-          : '—'; // Si aucune date, afficher un tiret
-        
-        const tableRow = [
-          index + 1,
-          record.immatriculation || 'N/A', 
-          record.nom_marque || 'Inconnu',
-          formattedDate,
-          record.type_rep || 'N/A',
-          record.montant || '0 $',
-          record.budget_valide,
-          record.nom_statut_vehicule || 'Non spécifié',
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Liste des inspections", 14, 22);
+    
+        const tableColumn = [
+          "#",
+          "Matricule",
+          "Marque",
+          "Date Inspection",
+          "Type de réparation",
+          "Budget",
+          "Validé",
+          "Statut véhicule"
         ];
-        tableRows.push(tableRow);
-      });
     
-      doc.autoTable({
-        head: [tableColumn],
-        body: tableRows,
-        startY: 30,
-        headStyles: {
-          fillColor: [22, 160, 133], // Couleur d'arrière-plan des entêtes
-          textColor: 255, // Couleur du texte des entêtes
-          fontStyle: 'bold', // Gras pour les entêtes
-          halign: 'center', // Alignement horizontal des entêtes
-        },
-        bodyStyles: {
-          fontSize: 10, // Taille de la police pour les lignes
-          halign: 'center', // Alignement horizontal des cellules
-        },
-        columnStyles: {
-          0: { halign: 'center' }, // Colonne # (index) centrée
-        },
-        theme: 'grid', // Ajouter un style de grille
-        margin: { top: 10, left: 14, right: 14 }, // Marge pour l'export
-      });
+        const tableRows = [];
     
-      // Sauvegarde du fichier PDF
-      doc.save('inspection.pdf');
+        data.forEach((record, index) => {
+          const formattedDate = record.date_inspection
+            ? moment(record.date_inspection).format('DD/MM/YYYY')
+            : '—';
     
-      // Affichage du message de succès
-      message.success('Exportation en PDF réussie !');
+          const tableRow = [
+            index + 1,
+            record.immatriculation || 'N/A',
+            record.nom_marque || 'Inconnu',
+            formattedDate,
+            record.type_rep || 'N/A',
+            record.montant ? `${record.montant} $` : '0 $',
+            record.budget_valide ? 'Oui' : 'Non',
+            record.nom_statut_vehicule || 'Non spécifié',
+          ];
+          tableRows.push(tableRow);
+        });
+    
+        doc.autoTable({
+          head: [tableColumn],
+          body: tableRows,
+          startY: 30,
+          theme: 'grid',
+          headStyles: {
+            fillColor: [34, 139, 34],
+            textColor: 255,
+            fontStyle: 'bold',
+            halign: 'center',
+          },
+          bodyStyles: {
+            fontSize: 10,
+            halign: 'center',
+          },
+          columnStyles: {
+            0: { halign: 'center', cellWidth: 10 },
+          },
+          margin: { top: 10, left: 14, right: 14 },
+          styles: {
+            cellPadding: 3,
+          },
+          didDrawPage: function (data) {
+            // 🕒 Date d'export
+            doc.setFontSize(10);
+            doc.setTextColor(150);
+            doc.text(`Exporté le : ${moment().format('DD/MM/YYYY à HH:mm')}`, 14, 10);
+          },
+        });
+    
+        doc.save('Liste_Inspections.pdf');
+    
+        message.success("Exportation PDF réussie !");
+      } catch (error) {
+        console.error("Erreur lors de l'export PDF :", error);
+        message.error("Une erreur est survenue pendant l'export.");
+      }
     };
+    
 
     const fetchData = async(filters) => {
         try {
@@ -612,7 +631,7 @@ const InspectionGen = () => {
             )
           }
     ]
-    
+
     const menu = (
       <Menu>
         <Menu.Item key="1" onClick={handleExportExcel}>

@@ -489,8 +489,6 @@ const Reparation = () => {
           "Marque", 
           "Type de rep.", 
           "Date Entrée", 
-          "Date Sortie", 
-          "Date Réparation", 
           "Budget", 
           "Coût", 
           "Fournisseur"
@@ -505,8 +503,6 @@ const Reparation = () => {
             record.nom_marque || 'Inconnu',
             record.type_rep || 'N/A',
             record.date_entree ? moment(record.date_entree).format('DD/MM/YYYY') : '—',
-            record.date_sortie ? moment(record.date_sortie).format('DD/MM/YYYY') : '—',
-            record.date_reparation ? moment(record.date_reparation).format('DD/MM/YYYY') : '—',
             record.montant ? `${record.montant} $` : '0 $',
             record.cout ? `${record.cout} $` : '—',
             record.nom_fournisseur || 'Non spécifié',
