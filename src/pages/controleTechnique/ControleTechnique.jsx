@@ -8,6 +8,7 @@ import TabPane from 'antd/es/tabs/TabPane';
 import Reparation from './reparation/Reparation';
 import InspectionGen from '../inspectionGen/InspectionGen';
 import TrackingGen from './trackingGen/TrackingGen';
+import AuditLogInspection from './auditLogInspection/AuditLogInspection';
 
 const { Search } = Input;
 
@@ -318,7 +319,7 @@ const ControleTechnique = () => {
                 }
                 key="5"
             >
-                <TrackingGen/>
+                <AuditLogInspection/>
             </TabPane>
             
         </Tabs>
