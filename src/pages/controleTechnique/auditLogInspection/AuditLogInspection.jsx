@@ -116,7 +116,7 @@ const AuditLogInspection = () => {
             ),
         },
         {
-            title: 'Date',
+            title: "Date d'action",
             dataIndex: 'created_at',
                 render: (text) =>
                     text ? (
@@ -126,11 +126,6 @@ const AuditLogInspection = () => {
             ) : (
                     <Tag color="default">-</Tag>
                 ),
-        },
-        {
-            title: 'Description',
-            dataIndex: 'description',
-            render: (text) => <span>{text || '-'}</span>,
         }
         ];
 
