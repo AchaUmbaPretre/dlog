@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ToolOutlined, CarOutlined, FileTextOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Input, Button, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
@@ -8,6 +8,7 @@ import SuiviReparationForm from './suiviReparation/suiviReparationForm/SuiviRepa
 import SuiviReparation from './suiviReparation/SuiviReparation';
 import ReparationDetail from './reparationDetail/ReparationDetail';
 import DocumentReparation from './documentReparation/DocumentReparation';
+import getColumnSearchProps from '../../../utils/columnSearchUtils';
 
 const { Search } = Input;
 
@@ -38,7 +39,10 @@ const Reparation = () => {
       'Date sortie' : false,
       "commentaire": false
     });
-    
+    const searchInput = useRef(null);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+
   const columnStyles = {
       title: {
         maxWidth: '220px',
@@ -163,6 +167,13 @@ const Reparation = () => {
         {
           title: 'Matricule',
           dataIndex: 'immatriculation',
+          ...getColumnSearchProps(
+              'immatriculation',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+            ),
             render: (text) => (
               <div className="vehicule-matricule">
                 <span className="car-wrapper">
@@ -178,6 +189,13 @@ const Reparation = () => {
         {
             title: 'Marque',
             dataIndex: 'nom_marque',
+            ...getColumnSearchProps(
+                'nom_marque',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+            ),
             render: (text, record) => (
                 <Tag icon={<CarOutlined />} color="orange">
                     {text}
@@ -188,6 +206,13 @@ const Reparation = () => {
         {
             title: 'Type réparation',
             dataIndex: 'type_rep',
+            ...getColumnSearchProps(
+              'type_rep',
+              searchText,
+              setSearchText,
+              setSearchedColumn,
+              searchInput
+            ),
             render: (text) => (
               <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
                 {text}
@@ -306,13 +331,20 @@ const Reparation = () => {
           ...(columnsVisibility["Main d'oeuvre"] ? {} : { className: 'hidden-column' }),
         },
         {
-            title: 'Fournisseur',
-            dataIndex: 'nom_fournisseur',
-            render: (text) => (
-                <Tag>
-                    <ShopOutlined style={{ marginRight: 5, color: '#52c41a' }} />
-                    {text}
-                </Tag>
+          title: 'Fournisseur',
+          dataIndex: 'nom_fournisseur',
+          ...getColumnSearchProps(
+              'nom_fournisseur',
+              searchText,
+              setSearchText,
+              setSearchedColumn,
+              searchInput
+          ),
+          render: (text) => (
+              <Tag>
+                <ShopOutlined style={{ marginRight: 5, color: '#52c41a' }} />
+                {text}
+              </Tag>
             ),
           ...(columnsVisibility['Fournisseur'] ? {} : { className: 'hidden-column' }),
         },
@@ -325,23 +357,23 @@ const Reparation = () => {
             </div>
           ),
           ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' }),
-      },
+        },
         {
-            title: 'Etat',
-            dataIndex: 'nom_type_statut',
-            render: (status) => {
-              let color = 'default';
-              let icon = null;
+          title: 'Etat',
+          dataIndex: 'nom_type_statut',
+          render: (status) => {
+            let color = 'default';
+            let icon = null;
           
-              switch (status) {
-                case 'En attente':
-                  color = 'orange';
-                  icon = <ClockCircleOutlined />;
-                  break;
-                case 'En cours':
-                  color = 'blue';
-                  icon = <SyncOutlined spin />;
-                  break;
+            switch (status) {
+              case 'En attente':
+                color = 'orange';
+                icon = <ClockCircleOutlined />;
+              break;
+              case 'En cours':
+                color = 'blue';
+                icon = <SyncOutlined spin />;
+                break;
                 case 'Terminé':
                   color = 'green';
                   icon = <CheckCircleOutlined />;
