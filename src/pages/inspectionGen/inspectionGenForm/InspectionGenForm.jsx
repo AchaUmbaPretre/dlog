@@ -214,7 +214,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Form inspection</div>
+                <div className="controle_h2">{ idSubInspectionGen ? 'FORM DE MODIFICATION' : 'FORM INSPECTION'}</div>
             </div>
             <div className="controle_wrapper">
                 <Form

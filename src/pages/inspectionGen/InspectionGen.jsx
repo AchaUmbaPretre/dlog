@@ -15,7 +15,9 @@ import { statusIcons } from '../../utils/prioriteIcons';
 import getColumnSearchProps from '../../utils/columnSearchUtils';
 import { useRef } from 'react';
 import FilterInspectionGen from './filterInspectionGen/FilterInspectionGen';
-
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 const { Search } = Input;
 
@@ -54,15 +56,129 @@ const InspectionGen = () => {
     const [searchedColumn, setSearchedColumn] = useState('');
     const [filterVisible, setFilterVisible] = useState(false);
     const [filteredDatas, setFilteredDatas] = useState(null);
-    
+
     const handleExportExcel = () => {
-      message.success('Exporting to Excel...');
+      try {
+        const formattedData = data.map((record, index) => ({
+          "#": index + 1,
+          "Matricule": record.immatriculation || 'N/A',
+          "Marque": record.nom_marque || 'Inconnu',
+          "Chauffeur": record.nom_chauffeur || '—',
+          "Date Inspection": record.date_inspection
+            ? moment(record.date_inspection).format('DD/MM/YYYY')
+            : '—',
+          "Date Réparation": record.date_reparation
+            ? moment(record.date_reparation).format('DD/MM/YYYY')
+            : '—',
+          "Date Validation": record.date_validation
+            ? moment(record.date_validation).format('DD/MM/YYYY')
+            : '—',
+          "Type de Rép.": record.type_rep || 'N/A',
+          "Avis d'expert": record.avis || '—',
+          "Budget": record.montant ? `${record.montant} $` : '0 $',
+          "Validé": record.budget_valide ? `${record.montant} $` : '0 $',
+          "Kilométrage": record.kilometrage || '—',
+          "Statut": record.nom_statut_vehicule || 'Non spécifié',
+        }));
+    
+        // 📄 Création de la feuille
+        const ws = XLSX.utils.json_to_sheet(formattedData);
+    
+        // 📏 Définition des largeurs de colonnes
+        const columnWidths = new Array(Object.keys(formattedData[0]).length).fill({ wpx: 120 });
+        ws['!cols'] = columnWidths;
+    
+        // 🎨 Style de l'en-tête
+        const range = XLSX.utils.decode_range(ws['!ref']);
+        for (let col = range.s.c; col <= range.e.c; col++) {
+          const cell = ws[XLSX.utils.encode_cell({ r: 0, c: col })];
+          if (cell) {
+            cell.s = {
+              font: { bold: true, color: { rgb: "FFFFFF" } },
+              fill: { fgColor: { rgb: "2E8B57" } },
+              alignment: { horizontal: "center", vertical: "center" },
+            };
+          }
+        }
+    
+        // 📘 Création du classeur Excel
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Inspection");
+    
+        // 💾 Exportation
+        XLSX.writeFile(wb, "Inspection.xlsx");
+    
+        // ✅ Confirmation utilisateur
+        message.success("Exportation Excel réussie !");
+      } catch (error) {
+        console.error("Erreur lors de l'exportation Excel :", error);
+        message.error("Une erreur est survenue lors de l'exportation.");
+      }
     };
-  
+    
+
     const handleExportPDF = () => {
-      // Logic to export data to PDF
-      message.success('Exporting to PDF...');
+      const doc = new jsPDF();
+      
+      // Titre principal avec style
+      doc.setFont("Helvetica", "bold");
+      doc.setFontSize(16);
+      doc.text("Liste des inspections", 14, 22);
+      
+      // Définir les colonnes du tableau
+      const tableColumn = ["#", "Matricule", "Marque", "Date", "Type de rep.", "Budget", "Validé", "Statut"];
+      
+      // Préparation des lignes de la table
+      const tableRows = [];
+    
+      data.forEach((record, index) => {
+        // Formatage de la date avec vérification
+        const formattedDate = record.date_inspection
+          ? moment(record.date_inspection).format('DD/MM/YYYY')
+          : '—'; // Si aucune date, afficher un tiret
+        
+        const tableRow = [
+          index + 1,
+          record.immatriculation || 'N/A', 
+          record.nom_marque || 'Inconnu',
+          formattedDate,
+          record.type_rep || 'N/A',
+          record.montant || '0 $',
+          record.budget_valide,
+          record.nom_statut_vehicule || 'Non spécifié',
+        ];
+        tableRows.push(tableRow);
+      });
+    
+      doc.autoTable({
+        head: [tableColumn],
+        body: tableRows,
+        startY: 30,
+        headStyles: {
+          fillColor: [22, 160, 133], // Couleur d'arrière-plan des entêtes
+          textColor: 255, // Couleur du texte des entêtes
+          fontStyle: 'bold', // Gras pour les entêtes
+          halign: 'center', // Alignement horizontal des entêtes
+        },
+        bodyStyles: {
+          fontSize: 10, // Taille de la police pour les lignes
+          halign: 'center', // Alignement horizontal des cellules
+        },
+        columnStyles: {
+          0: { halign: 'center' }, // Colonne # (index) centrée
+        },
+        theme: 'grid', // Ajouter un style de grille
+        margin: { top: 10, left: 14, right: 14 }, // Marge pour l'export
+      });
+    
+      // Sauvegarde du fichier PDF
+      doc.save('inspection.pdf');
+    
+      // Affichage du message de succès
+      message.success('Exportation en PDF réussie !');
     };
+    
+
 
     const fetchData = async(filters) => {
         try {
