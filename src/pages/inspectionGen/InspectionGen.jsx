@@ -49,7 +49,8 @@ const InspectionGen = () => {
       'Type rep': true,
       'Budget_valide' : true,
       'Nom chauffeur' : false,
-      'Kilometrage' : false
+      'Kilometrage' : false,
+      'Chauffeur': false
     });
     const searchInput = useRef(null);
     const [searchText, setSearchText] = useState('');
@@ -116,11 +117,9 @@ const InspectionGen = () => {
       }
     };
     
-
     const handleExportPDF = () => {
       const doc = new jsPDF();
       
-      // Titre principal avec style
       doc.setFont("Helvetica", "bold");
       doc.setFontSize(16);
       doc.text("Liste des inspections", 14, 22);
@@ -177,8 +176,6 @@ const InspectionGen = () => {
       // Affichage du message de succès
       message.success('Exportation en PDF réussie !');
     };
-    
-
 
     const fetchData = async(filters) => {
         try {
@@ -366,7 +363,7 @@ const InspectionGen = () => {
         }, 
         {
           title: 'Chauffeur',
-          dataIndex: 'nom',
+          dataIndex: 'nom_chauffeur',
           ...getColumnSearchProps(
             'nom',
             searchText,
@@ -379,7 +376,7 @@ const InspectionGen = () => {
                   {text}
               </Tag>
           ),
-          ...(columnsVisibility['Nom chauffeur'] ? {} : { className: 'hidden-column' }),
+          ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
         },                       
         {
             title: 'Marque',
