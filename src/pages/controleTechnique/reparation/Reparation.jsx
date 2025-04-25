@@ -70,7 +70,12 @@ const Reparation = () => {
     }
 
     useEffect(()=> {
-        fetchData()
+        fetchData();
+        const intervalId = setInterval(() => {
+          fetchData();
+        }, 5000); // 5000 ms = 5 secondes
+    
+        return () => clearInterval(intervalId);
     }, [])
 
     const getActionMenu = (record, openModal) => {
