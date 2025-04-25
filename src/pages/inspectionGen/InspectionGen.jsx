@@ -323,7 +323,7 @@ const InspectionGen = () => {
               setSearchText,
               setSearchedColumn,
               searchInput
-          ),
+            ),
             render: (text) => (
                 <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
                   {text}

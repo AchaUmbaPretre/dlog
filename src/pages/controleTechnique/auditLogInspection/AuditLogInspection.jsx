@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Table, Input, Space, Tag, notification } from 'antd';
 import { PlusCircleOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, CalendarOutlined, SettingOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getLogInspection } from '../../../services/charroiService';
+import getColumnSearchProps from '../../../utils/columnSearchUtils';
 
 const { Search } = Input;
 
@@ -15,6 +16,9 @@ const AuditLogInspection = () => {
         pageSize: 15,
     }); 
     const scroll = { x: 'max-content' };
+    const searchInput = useRef(null);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
 
     const fetchData = async() => {
             try {
@@ -72,6 +76,13 @@ const AuditLogInspection = () => {
         {
             title: 'Matricule',
             dataIndex: 'immatriculation',
+            ...getColumnSearchProps(
+                'immatriculation',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
             render: (text) => (
                 <div className="vehicule-matricule">
                     <span className="car-wrapper">
@@ -86,6 +97,13 @@ const AuditLogInspection = () => {
         {
             title: 'Marque',
             dataIndex: 'nom_marque',
+            ...getColumnSearchProps(
+                'nom_marque',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
             render: (text) => (
                 <Tag icon={<CarOutlined />} color="orange">
                     {text}
@@ -95,6 +113,13 @@ const AuditLogInspection = () => {
         {
             title: 'Type de rep.',
             dataIndex: 'type_rep',
+            ...getColumnSearchProps(
+                'type_rep',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
             render: (text) => (
                 <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
                     {text}
@@ -105,6 +130,13 @@ const AuditLogInspection = () => {
             title: 'Actions', 
             dataIndex: 'action', 
             key: 'action',
+            ...getColumnSearchProps(
+                'action',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
             render: text => {
               let color;
               let icon;
@@ -135,6 +167,13 @@ const AuditLogInspection = () => {
         {
             title: 'Description',
             dataIndex: 'description',
+            ...getColumnSearchProps(
+                'description',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
             render: (text) => (
                 <div style={columnStyles.title} className={columnStyles.hideScroll}>
                     <Tag icon={<SettingOutlined />} color="purple">
@@ -146,6 +185,8 @@ const AuditLogInspection = () => {
         {
             title: "Date d'action",
             dataIndex: 'created_at',
+            sorter: (a,b) => moment(a.created_at) - (b.created_at),
+            sortDirections: ['descend', 'ascend'],
                 render: (text) =>
                     text ? (
                     <Tag icon={<CalendarOutlined />} color="blue">
@@ -159,6 +200,13 @@ const AuditLogInspection = () => {
             title: 'Nom & Prénom', 
             dataIndex: 'nom', 
             key: 'nom',
+            ...getColumnSearchProps(
+                'nom',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+              ),
             render: (text, record) => (
                 <Space>
                     <Tag icon={<UserOutlined />} color="green">
