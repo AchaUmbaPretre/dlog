@@ -125,7 +125,7 @@ const AuditLogInspection = () => {
                 </Space>
               );
             },
-          },
+        },
         {
             title: 'Description',
             dataIndex: 'description',
@@ -148,8 +148,22 @@ const AuditLogInspection = () => {
             ) : (
                     <Tag color="default">-</Tag>
                 ),
-        }
-        ];
+        },
+        {
+            title: 'Nom & Prénom', 
+            dataIndex: 'nom', 
+            key: 'nom',
+            render: (text, record) => (
+                <Space>
+                    <Tag icon={<UserOutlined />} color="green">
+                      {record.nom && record.prenom
+                        ? `${record.nom} - ${record.prenom}`
+                        : record.nom || record.prenom || 'Aucun'}
+                    </Tag>
+                </Space>
+            ),    
+        }, 
+    ];
 
 
     const filteredData = data.filter(item =>
