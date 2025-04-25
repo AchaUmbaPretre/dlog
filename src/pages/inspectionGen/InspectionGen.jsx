@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Menu, Tooltip, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, EditOutlined, UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { Input, Button, Menu, Tooltip, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { FileSearchOutlined, EditOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
@@ -55,6 +55,14 @@ const InspectionGen = () => {
     const [filterVisible, setFilterVisible] = useState(false);
     const [filteredDatas, setFilteredDatas] = useState(null);
     
+    const handleExportExcel = () => {
+      message.success('Exporting to Excel...');
+    };
+  
+    const handleExportPDF = () => {
+      // Logic to export data to PDF
+      message.success('Exporting to PDF...');
+    };
 
     const fetchData = async(filters) => {
         try {
@@ -491,6 +499,24 @@ const InspectionGen = () => {
             )
           }
     ]
+
+
+    const menu = (
+      <Menu>
+        <Menu.Item key="1" onClick={handleExportExcel}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FileExcelOutlined style={{ color: '#1D6F42' }} />
+            Export to Excel
+          </span>
+        </Menu.Item>
+        <Menu.Item key="2" onClick={handleExportPDF}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FilePdfOutlined style={{ color: '#E53935' }} /> 
+            Export to PDF
+          </span>
+        </Menu.Item>
+      </Menu>
+    );
     
     const filteredData = data.filter(item =>
         item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) || 
@@ -557,9 +583,11 @@ const InspectionGen = () => {
                             icon={<PlusCircleOutlined />}
                             onClick={handleAddInspection}
                         >
-                            Ajouter une inspection
+                            Ajouter
                         </Button>
-
+                        <Dropdown overlay={menu} trigger={['click']}>
+                          <Button icon={<ExportOutlined />}>Export</Button>
+                        </Dropdown>
                         <Button
                           type="default"
                           onClick={handFilter}

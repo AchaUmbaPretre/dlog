@@ -714,16 +714,17 @@ const Batiment = ({datas}) => {
           <InstructionOne idBatiment={idBatiment} />
         </Modal>
 
-        <Modal
-          title=""
-          visible={modalType === 'addInstruction'}
-          onCancel={closeAllModals}
-          footer={null}
-          width={700}
-          centered
-        >
-          <InstructionFormOne idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
-        </Modal>
+          <Modal
+            title=""
+            visible={modalType === 'addInstruction'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={700}
+            centered
+          >
+            <InstructionFormOne idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
+          </Modal>
+
           </TabPane>
 
           <TabPane
