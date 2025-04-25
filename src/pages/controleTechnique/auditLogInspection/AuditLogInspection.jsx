@@ -145,6 +145,8 @@ const AuditLogInspection = () => {
                 render: (text) => <span>{text || '-'}</span>,
             }
         ];
+
+        
             
 
     const filteredData = data.filter(item =>
