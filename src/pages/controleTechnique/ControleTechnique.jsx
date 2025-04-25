@@ -314,7 +314,7 @@ const ControleTechnique = () => {
                                 marginRight: '8px',
                             }}
                         />
-                            Audit Logs
+                        Audit Logs
                     </span>
                 }
                 key="5"

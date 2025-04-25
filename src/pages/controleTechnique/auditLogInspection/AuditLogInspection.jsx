@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Button, Skeleton, Dropdown, Input, Menu, Tag, notification } from 'antd';
-import { DownOutlined, MenuOutlined, CalendarOutlined, SettingOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
+import { Table, Input, Space, Tag, notification } from 'antd';
+import { PlusCircleOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, CalendarOutlined, SettingOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getLogInspection } from '../../../services/charroiService';
 
@@ -96,14 +96,36 @@ const AuditLogInspection = () => {
             ),
         },
         {
-            title: 'Action',
-            dataIndex: 'action',
-            render: (text) => (
-                <Tag icon={<FileSearchOutlined />} color={text === 'Inspection' ? 'geekblue' : 'green'}>
-                    {text}
-                </Tag>
-                ),
-        },
+            title: 'Actions', 
+            dataIndex: 'action', 
+            key: 'action',
+            render: text => {
+              let color;
+              let icon;
+              switch (text) {
+                case 'Création':
+                  color = 'green';
+                  icon = <PlusCircleOutlined />;
+                  break;
+                case 'Modification':
+                  color = 'orange';
+                  icon = <EditOutlined />;
+                  break;
+                case 'Suppression':
+                  color = 'red';
+                  icon = <DeleteOutlined />;
+                  break;
+                default:
+                  color = 'purple';
+                  icon = <EllipsisOutlined />;
+              }
+              return (
+                <Space>
+                  <Tag color={color} icon={icon}>{text}</Tag>
+                </Space>
+              );
+            },
+          },
         {
             title: 'Description',
             dataIndex: 'description',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Input, notification, Space,Tag } from 'antd';
-import {   PlusCircleOutlined, AuditOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
+import {   PlusCircleOutlined, AuditOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, UserOutlined, CalendarOutlined, FileTextOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getAudit_logs_declaration } from '../../../services/templateService';
 
@@ -147,7 +147,6 @@ const AuditLogDeclaration = () => {
     }
   ];
   
-
   const filteredData = data.filter(item =>
     item.desc_template?.toLowerCase().includes(searchValue.toLowerCase())  );
 
