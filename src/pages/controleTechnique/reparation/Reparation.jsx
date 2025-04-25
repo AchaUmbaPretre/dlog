@@ -476,8 +476,79 @@ const Reparation = () => {
     };
 
     const handleExportPDF = () => {
-
-    }
+      try {
+        const doc = new jsPDF();
+    
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Liste des réparations", 14, 22);
+    
+        const tableColumn = [
+          "#", 
+          "Matricule", 
+          "Marque", 
+          "Type de rep.", 
+          "Date Entrée", 
+          "Date Sortie", 
+          "Date Réparation", 
+          "Budget", 
+          "Coût", 
+          "Fournisseur"
+        ];
+    
+        const tableRows = [];
+    
+        data.forEach((record, index) => {
+          const tableRow = [
+            index + 1,
+            record.immatriculation || 'N/A',
+            record.nom_marque || 'Inconnu',
+            record.type_rep || 'N/A',
+            record.date_entree ? moment(record.date_entree).format('DD/MM/YYYY') : '—',
+            record.date_sortie ? moment(record.date_sortie).format('DD/MM/YYYY') : '—',
+            record.date_reparation ? moment(record.date_reparation).format('DD/MM/YYYY') : '—',
+            record.montant ? `${record.montant} $` : '0 $',
+            record.cout ? `${record.cout} $` : '—',
+            record.nom_fournisseur || 'Non spécifié',
+          ];
+          tableRows.push(tableRow);
+        });
+    
+        doc.autoTable({
+          head: [tableColumn],
+          body: tableRows,
+          startY: 30,
+          theme: 'grid',
+          headStyles: {
+            fillColor: [34, 139, 34],
+            textColor: 255,
+            fontStyle: 'bold',
+            halign: 'center',
+          },
+          bodyStyles: {
+            fontSize: 9,
+            halign: 'center',
+          },
+          margin: { top: 10, left: 14, right: 14 },
+          styles: {
+            cellPadding: 3,
+          },
+          didDrawPage: function (data) {
+            doc.setFontSize(10);
+            doc.setTextColor(150);
+            doc.text(`Exporté le : ${moment().format('DD/MM/YYYY HH:mm')}`, 14, 10);
+          },
+        });
+    
+        doc.save("Reparations.pdf");
+    
+        message.success("Exportation PDF réussie !");
+      } catch (error) {
+        console.error("Erreur lors de l'export PDF :", error);
+        message.error("Une erreur est survenue lors de l'export PDF.");
+      }
+    };
+    
 
     const menu = (
       <Menu>
