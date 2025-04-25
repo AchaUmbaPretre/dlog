@@ -225,7 +225,7 @@ const AuditLogInspection = () => {
         item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) ||
         item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.type_rep?.toLowerCase().includes(searchValue.toLowerCase()) 
-      );
+    );
 
   return (
     <>

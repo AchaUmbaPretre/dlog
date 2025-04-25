@@ -220,9 +220,26 @@ const InspectionGen = () => {
       setFilterVisible(!filterVisible)
     }
 
-    useEffect(()=> {
+/*     useEffect(()=> {
         fetchData(filteredDatas)
-    }, [searchValue, filteredDatas])
+    }, [searchValue, filteredDatas]) */
+
+    useEffect(() => {
+      const handleReconnect = () => {
+          fetchData(filteredDatas); // Recharge les données quand la connexion revient
+      };
+  
+      // Écouter le retour de connexion
+      window.addEventListener('online', handleReconnect);
+  
+      // Appel initial (quand searchValue ou filteredDatas change)
+      fetchData(filteredDatas);
+  
+      return () => {
+          window.removeEventListener('online', handleReconnect);
+      };
+  }, [searchValue, filteredDatas]);
+  
 
     const handleAddInspection = () => openModal('Add');
     const handleEdit = (id) => openModal('Edit', id)

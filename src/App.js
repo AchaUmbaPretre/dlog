@@ -78,7 +78,40 @@ function App() {
     return children;
   };
 
-  const fetchMenu = useCallback(async () => {
+  const fetchMenu = useCallback(async () => { 
+    setLoading(true);
+    try {
+      const { data } = await getMenusAllOne(userId);
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [userId]);
+  
+  useEffect(() => {
+    const handleReconnect = () => {
+      if (userId) {
+        fetchMenu();
+      }
+    };
+  
+    window.addEventListener('online', handleReconnect);
+  
+    if (userId) {
+      fetchMenu();
+    } else {
+      setLoading(false);
+    }
+  
+    return () => {
+      window.removeEventListener('online', handleReconnect);
+    };
+  }, [userId, fetchMenu]);
+  
+
+/*   const fetchMenu = useCallback(async () => {
     setLoading(true);
     try {
       const { data } = await getMenusAllOne(userId);
@@ -96,7 +129,7 @@ function App() {
     } else {
       setLoading(false);
     }
-  }, [userId, fetchMenu]);
+  }, [userId, fetchMenu]); */
 
   const Layout = () => (
     <div className='app-rows'>
