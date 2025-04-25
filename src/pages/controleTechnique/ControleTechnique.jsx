@@ -321,7 +321,6 @@ const ControleTechnique = () => {
             >
                 <AuditLogInspection/>
             </TabPane>
-            
         </Tabs>
 
         <Modal
