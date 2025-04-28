@@ -6,6 +6,7 @@ import moment from 'moment';
 import './reparationDetail.scss'
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import SuiviReparationForm from '../suiviReparation/suiviReparationForm/SuiviReparationForm';
+import ReclamationForm from '../reclamationForm/ReclamationForm';
 
 const { Title } = Typography;
 
@@ -18,7 +19,7 @@ const ReparationDetail = ({ idReparation }) => {
         pageSize: 20,
     });
     const [modalType, setModalType] = useState(null);
-    const [idReparations, setIdReparations] = useState('');
+    const [idReparations, setIdReparations] = useState(null);
     const [dataThree, setDataThree] = useState([]);
     const [dataFour, setDataFour] = useState([]);
 
@@ -33,7 +34,9 @@ const ReparationDetail = ({ idReparation }) => {
         setIdReparations(id)
       };
 
-    const handleDetails = (id) => openModal('Add', id)
+    const handleDetails = (id) => openModal('Add', id);
+
+    const handleReclamation = (id) => openModal('Reclamation', id)
 
     const fetchData = async () => {
         setLoading(true);
@@ -185,6 +188,7 @@ const ReparationDetail = ({ idReparation }) => {
                     <>
                         <Tooltip title="Réclamation">
                             <Button
+                                onClick={() => handleReclamation(record.id_sud_reparation)}
                                 icon={<ExclamationOutlined />}
                                 aria-label="Voir les détails"
                                 style={{ background: 'red', color:'#fff' }}
@@ -374,6 +378,17 @@ const ReparationDetail = ({ idReparation }) => {
                 centered
             >
                 <SuiviReparationForm idReparations={idReparations} idReparation={idReparation} closeModal={() => setModalType(null)} fetchData={fetchData} />
+            </Modal>
+
+            <Modal
+                title=""
+                visible={modalType === 'Reclamation'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                <ReclamationForm idReparations={idReparations} idReparation={idReparation} closeModal={() => setModalType(null)} fetchData={fetchData} />
             </Modal>
         </>
     );
