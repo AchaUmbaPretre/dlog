@@ -228,42 +228,76 @@ const InspectionGen = () => {
         fetchData(filteredDatas)
     }, [searchValue, filteredDatas]) */
 
-    const showDeleteConfirm = (id) => {
-      confirm({
-          title: (
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <ExclamationCircleOutlined style={{ fontSize: 22, color: "#ff4d4f" }} />
-                  <Text strong style={{ fontSize: 16 }}>Suppression Définitive</Text>
-              </div>
-          ),
-          content: (
-              <Text type="danger" style={{ fontSize: 14 }}>
-                  Cette action est irréversible. Êtes-vous sûr de vouloir supprimer cette inspection ?
-              </Text>
-          ),
-          okText: "Oui, supprimer",
-          cancelText: "Annuler",
-          okType: "danger",
-          centered: true,
-          maskClosable: true,
-          icon: null,
-          onOk: async () => {
-              try {
-                  await deleteInspectionGen({
-                    id_inspection_gen : id,
-                    user_id : userId
-                  });
-                  setData((prevData) => prevData.filter((item) => item.id_declaration_super !== id));
-                  message.success("Déclaration supprimée avec succès.");
-              } catch (error) {
-                  notification.error({
-                      message: "Erreur de suppression",
-                      description: "Une erreur est survenue lors de la suppression de la déclaration.",
-                  });
-              }
+    const showDeleteConfirm = (id, userId, setData) => {
+      Modal.confirm({
+        title: (
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <ExclamationCircleOutlined style={{ fontSize: 28, color: "#FF4D4F" }} />
+            <Text strong style={{ fontSize: 18, color: "#333", fontWeight: '600' }}>
+              Suppression Définitive
+            </Text>
+          </div>
+        ),
+        content: (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <Text style={{ fontSize: 16, color: '#666', lineHeight: 1.6 }}>
+              Cette action est irréversible. Êtes-vous sûr de vouloir supprimer cette inspection ?
+            </Text>
+            <Text type="danger" style={{ fontSize: 14, marginTop: 12 }}>
+              Cette suppression ne peut pas être annulée.
+            </Text>
+          </div>
+        ),
+        okText: "Oui, supprimer",
+        cancelText: "Annuler",
+        okType: "danger",
+        centered: true,
+        maskClosable: true,
+        icon: null,
+        okButtonProps: {
+          style: {
+            backgroundColor: "#FF4D4F",
+            borderColor: "#FF4D4F",
+            fontWeight: 600,
+            color: "#fff",
+            borderRadius: 4,
+            transition: 'all 0.3s ease-in-out',
           },
+          onMouseEnter: (e) => {
+            e.target.style.backgroundColor = '#FF2A2A'; // Hover effect
+          },
+          onMouseLeave: (e) => {
+            e.target.style.backgroundColor = '#FF4D4F'; // Reset on hover out
+          },
+        },
+        cancelButtonProps: {
+          style: {
+            fontWeight: 600,
+            color: "#333",
+            borderRadius: 4,
+            borderColor: "#ddd",
+            transition: 'all 0.3s ease-in-out',
+          },
+        },
+        onOk: async () => {
+          try {
+            await deleteInspectionGen({
+              id_sub_inspection_gen : id,
+              user_id: userId,
+            });
+            setData((prevData) => prevData.filter((item) => item.id_sub_inspection_gen  !== id));
+            message.success("L'inspection a été supprimée avec succès.", 3);
+            fetchData()
+          } catch (error) {
+            notification.error({
+              message: "Erreur de suppression",
+              description: "Une erreur est survenue lors de la suppression d'inspection.",
+              duration: 5,
+            });
+          }
+        },
       });
-  };
+    };
 
     useEffect(() => {
       const handleReconnect = () => {
@@ -695,7 +729,7 @@ const InspectionGen = () => {
                       icon={<DeleteOutlined />}
                       style={{ color: 'red' }}
                       aria-label="Supprimer"
-                      onClick={() => showDeleteConfirm(record.id_inspection_gen)}
+                      onClick={() => showDeleteConfirm(record.id_sub_inspection_gen, userId, setData)}
                     />
                 </Tooltip>
               </Space>

@@ -280,6 +280,10 @@ export const getCatPiece = async () => {
     return axios.get(`${DOMAIN}/api/charroi/cat_piece`);
 }
 
+export const getPiece = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/piece`);
+}
+
 export const getPieceOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/pieceOne?id_cat=${id}`);
 }

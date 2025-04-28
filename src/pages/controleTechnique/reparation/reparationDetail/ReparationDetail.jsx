@@ -20,6 +20,8 @@ const ReparationDetail = ({ idReparation }) => {
     const [modalType, setModalType] = useState(null);
     const [idReparations, setIdReparations] = useState('');
     const [dataThree, setDataThree] = useState([]);
+    const [dataFour, setDataFour] = useState([]);
+
 
     const closeAllModals = () => {
         setModalType(null);
@@ -215,6 +217,57 @@ const ReparationDetail = ({ idReparation }) => {
         }
     ]
 
+    const columnsFour = [
+        {
+            title: '#',
+            dataIndex: 'id',
+            key: 'id',
+            render: (text, record, index) => {
+            const pageSize = pagination.pageSize || 10;
+            const pageIndex = pagination.current || 1;
+            return (pageIndex - 1) * pageSize + index + 1;
+            },
+            width: "4%"
+        },    
+        {   title: 'Reclamation:', 
+            dataIndex: 'reclamation', 
+            key: 'nom_cat_inspection', 
+            render: (text) => 
+            <div> {text}</div>
+        },
+        {   title: 'Motif', 
+            dataIndex: 'motif', 
+            key: 'motif', 
+            render: (text) => (
+                <Tag color='volcano' bordered={false}>
+                    {text}
+                </Tag>
+            ),
+        },
+        {   title: 'Description', 
+            dataIndex: 'description', 
+            key: 'description', 
+            render: (text) => <div>{text}</div> 
+        },
+        {   title: 'Date recla.', 
+            dataIndex: '"date_reclamation', 
+            key: '"date_reclamation', 
+            render: (text) => 
+            <Tag color='purple'>{moment(text).format('LL')}</Tag> 
+        },
+        {   title: 'Date fin.', 
+            dataIndex: '"date_fin', 
+            key: '"date_fin', 
+            render: (text) => 
+            <Tag color='purple'>{moment(text).format('LL')}</Tag> 
+        },
+        {   title: 'Statut reclam.', 
+            dataIndex: 'statut_reclam', 
+            key: 'nom', 
+            render: (text) => <Tag color="blue">{text}</Tag> 
+        }
+    ]
+
     return (
         <>
             <div className="reparation_detail">
@@ -264,6 +317,24 @@ const ReparationDetail = ({ idReparation }) => {
                                     <Table
                                         columns={columnsThree}
                                         dataSource={dataThree}
+                                        onChange={(pagination) => setPagination(pagination)}
+                                        pagination={pagination}
+                                        rowKey="id"
+                                        bordered
+                                        size="small"
+                                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                    />
+                                </Skeleton>
+                            </div>
+                        </Card>
+
+                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DÉTAIL DE RÉCLAMATION</Divider>
+                        <Card>
+                            <div className="reparation_detail_top">
+                                <Skeleton loading={loading} active paragraph={false}>
+                                    <Table
+                                        columns={columnsFour}
+                                        dataSource={dataFour}
                                         onChange={(pagination) => setPagination(pagination)}
                                         pagination={pagination}
                                         rowKey="id"

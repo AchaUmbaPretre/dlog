@@ -3,7 +3,7 @@ import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { getCatPiece, getEvaluation, getPieceOne, getSuiviReparationOne, getTypeReparation, postSuiviReparation } from '../../../../../services/charroiService';
+import { getCatPiece, getEvaluation, getPiece, getPieceOne, getSuiviReparationOne, getTypeReparation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
 
@@ -34,17 +34,15 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
 
     const fetchDatas = async() => {
         try {
-            const [ tacheData, evalueData] = await Promise.all([
-                getCatPiece(),
+            const [ tacheData, evalueData, pieceData] = await Promise.all([
+                getCat_inspection(),
                 getEvaluation(),
+                getPiece()
             ])
                 setTache(tacheData.data)
                 setEvaluation(evalueData.data)
+                setPiece(pieceData.data)
 
-                if(iDpiece) {
-                    const { data : dd } = await getPieceOne(iDpiece)
-                    setPiece(dd)
-                }
     
             if(idReparations) {
                 const { data : d } = await getSuiviReparationOne(idReparations)
@@ -219,8 +217,8 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                                                 allowClear
                                                                 showSearch
                                                                 options={tache.map((item) => ({
-                                                                    value: item.id,
-                                                                    label: `${item.titre}`,
+                                                                    value: item.id_cat_inspection,
+                                                                    label: `${item.nom_cat_inspection}`,
                                                                 }))}
                                                                 placeholder="Sélectionnez une tache..."
                                                                 optionFilterProp="label"
@@ -228,8 +226,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                                             />
                                                         </Form.Item>
                                                     </Col>
-                                                    {
-                                                        iDpiece && 
+
                                                     <Col xs={24} md={7}>
                                                         <Form.Item
                                                             {...restField}
@@ -251,7 +248,6 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                                             />
                                                         </Form.Item>
                                                     </Col> 
-                                                    }
                                                     <Col xs={24} md={8}>
                                                         <Form.Item
                                                             {...restField}
