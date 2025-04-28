@@ -3,11 +3,10 @@ import { Form, Input, Button, notification, Row, Col, Select } from 'antd';
 import { useState } from 'react';
 import { getCatPiece, postPiece } from '../../../services/charroiService';
 
-const PieceForm = () => {
+const PieceForm = ({fetchData, modalOff}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [catPiece, setCatPiece] = useState([]);
-
 
   const handleError = (message) => {
     notification.error({
@@ -40,7 +39,8 @@ const PieceForm = () => {
         description: 'La pièce a été enregistrée avec succès.',
       });
       form.resetFields();
-      window.location.reload();
+      fetchData();
+      modalOff(false)
     } catch (error) {
       notification.error({
         message: 'Erreur',

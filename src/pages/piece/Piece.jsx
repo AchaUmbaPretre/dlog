@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { ExportOutlined, ToolOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getPiece } from '../../services/charroiService';
 import PieceForm from './pieceForm/PieceForm';
@@ -14,7 +14,6 @@ const Piece = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await getPiece();
@@ -28,7 +27,8 @@ const Piece = () => {
         setLoading(false);
       }
     };
-  
+
+useEffect(() => {
     fetchData();
   }, [DOMAIN]);
   
@@ -114,7 +114,7 @@ const Piece = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <TeamOutlined className='client-icon' />
+              <ToolOutlined className='client-icon' />
             </div>
             <h2 className="client-h2">Pièce</h2>
           </div>
@@ -162,7 +162,7 @@ const Piece = () => {
         width={750}
         centered
       >
-        <PieceForm modalOff={setIsModalVisible} />
+        <PieceForm fetchData={fetchData} modalOff={setIsModalVisible} />
       </Modal>
     </>
   );
