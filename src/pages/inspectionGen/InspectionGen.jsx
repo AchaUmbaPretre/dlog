@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Menu, Tooltip, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, EditOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { Input, Button, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { FileSearchOutlined, EditOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
-import { getInspectionGen } from '../../services/charroiService';
+import { deleteInspectionGen, getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
 import InspectionGenDetail from './inspectionGenDetail/InspectionGenDetail';
 import InspectionGenValider from './inspectionGenValider/InspectionGenValider';
@@ -20,6 +20,8 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import InspectionGenDoc from './inspectionGenDoc/InspectionGenDoc';
 
+const { confirm } = Modal;
+const { Text } = Typography;
 const { Search } = Input;
 
 const InspectionGen = () => {
@@ -58,6 +60,8 @@ const InspectionGen = () => {
     const [searchedColumn, setSearchedColumn] = useState('');
     const [filterVisible, setFilterVisible] = useState(false);
     const [filteredDatas, setFilteredDatas] = useState(null);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    
 
     const handleExportExcel = () => {
       try {
@@ -224,15 +228,50 @@ const InspectionGen = () => {
         fetchData(filteredDatas)
     }, [searchValue, filteredDatas]) */
 
+    const showDeleteConfirm = (id) => {
+      confirm({
+          title: (
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <ExclamationCircleOutlined style={{ fontSize: 22, color: "#ff4d4f" }} />
+                  <Text strong style={{ fontSize: 16 }}>Suppression Définitive</Text>
+              </div>
+          ),
+          content: (
+              <Text type="danger" style={{ fontSize: 14 }}>
+                  Cette action est irréversible. Êtes-vous sûr de vouloir supprimer cette inspection ?
+              </Text>
+          ),
+          okText: "Oui, supprimer",
+          cancelText: "Annuler",
+          okType: "danger",
+          centered: true,
+          maskClosable: true,
+          icon: null,
+          onOk: async () => {
+              try {
+                  await deleteInspectionGen({
+                    id_inspection_gen : id,
+                    user_id : userId
+                  });
+                  setData((prevData) => prevData.filter((item) => item.id_declaration_super !== id));
+                  message.success("Déclaration supprimée avec succès.");
+              } catch (error) {
+                  notification.error({
+                      message: "Erreur de suppression",
+                      description: "Une erreur est survenue lors de la suppression de la déclaration.",
+                  });
+              }
+          },
+      });
+  };
+
     useEffect(() => {
       const handleReconnect = () => {
-          fetchData(filteredDatas); // Recharge les données quand la connexion revient
+          fetchData(filteredDatas);
       };
   
-      // Écouter le retour de connexion
       window.addEventListener('online', handleReconnect);
   
-      // Appel initial (quand searchValue ou filteredDatas change)
       fetchData(filteredDatas);
   
       return () => {
@@ -651,6 +690,15 @@ const InspectionGen = () => {
                 <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
                   <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
                 </Dropdown>
+                <Tooltip title="Supprimer">
+                    <Button
+                      icon={<DeleteOutlined />}
+                      style={{ color: 'red' }}
+                      aria-label="Supprimer"
+                      onClick={() => showDeleteConfirm(record.id_inspection_gen)}
+
+                    />
+                </Tooltip>
               </Space>
             )
           }

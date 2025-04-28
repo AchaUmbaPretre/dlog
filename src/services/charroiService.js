@@ -220,7 +220,11 @@ export const putSubInspection = async ({ id_sub_inspection_gen, id_inspection_ge
       throw error;
     }
   };
-  
+
+
+export const deleteInspectionGen= async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/delete_inspection`, data );
+}
   
 //Inspection validé
 export const getInspectionValide = async (id) => {

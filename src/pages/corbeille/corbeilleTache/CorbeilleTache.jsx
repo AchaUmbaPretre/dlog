@@ -15,7 +15,6 @@ const CorbeilleTache = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const role = useSelector((state) => state.user?.currentUser.role);
-    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
