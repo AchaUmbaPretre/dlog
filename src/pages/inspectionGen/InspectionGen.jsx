@@ -696,7 +696,6 @@ const InspectionGen = () => {
                       style={{ color: 'red' }}
                       aria-label="Supprimer"
                       onClick={() => showDeleteConfirm(record.id_inspection_gen)}
-
                     />
                 </Tooltip>
               </Space>
