@@ -8,9 +8,11 @@ import { Rnd } from 'react-rnd';
 import { icons } from '../../../utils/prioriteIcons';
 import html2canvas from 'html2canvas';
 import moment from 'moment';
+import config from '../../../config';
 
 
 const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
+    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ chauffeur, setChauffeur ] = useState([]);
@@ -53,15 +55,29 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                     date_inspection: moment(insp[0]?.date_inspection),
                     date_prevu: moment(insp[0]?.date_prevu),
                     id_statut_vehicule: insp[0]?.id_statut_vehicule,
-                    reparations: insp?.map((item) => ({
+                    reparations: insp?.map((item, index) => ({
                         id_type_reparation: item.id_type_reparation,
                         id_cat_inspection: item.id_cat_inspection,
                         montant: item.montant,
                         commentaire: item.commentaire,
                         avis: item.avis,
-                        img:item.img
+                        img: item.img ? [{
+                        uid: `img-${index}`,
+                        name: `image-${index}.png`,
+                        status: 'done',
+                        url: `${DOMAIN}/${item.img}`,
+                        }] : []
+
                     }))
                 })
+                const uploaded = {};
+                insp.forEach((item, index) => {
+                if (item.img) {
+                    uploaded[index] = `${DOMAIN}/${item.img}`;
+                }
+                });
+                setUploadedImages(uploaded);
+
             }
 
         } catch (error) {
@@ -73,7 +89,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
 
     useEffect(()=> {
         fetchDatas()
-    }, [idSubInspectionGen])
+    }, [form, idSubInspectionGen])
 
 
     const onFinish = async (values) => {
@@ -439,7 +455,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                             label="Image"
                                             name={[name, 'img']}
                                             valuePropName="fileList"
-                                            getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+                                            getValueFromEvent={(e) => (Array.isArray(e?.fileList) ? e.fileList : [])}
                                             rules={[{ required: false, message: 'Veuillez télécharger une image' }]}
                                         >
                                             <Upload

@@ -725,6 +725,13 @@ const InspectionGen = () => {
                                   ? Math.round(parseFloat(statistique.nbre_vehicule_immobile)).toLocaleString()
                                   : 0}</strong>
                             </span>
+
+                            <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                              #En réparation : <strong>
+                                {Number.isFinite(parseFloat(statistique.nbre_reparation))
+                                  ? Math.round(parseFloat(statistique.nbre_reparation)).toLocaleString()
+                                  : 0}</strong>
+                            </span>
                           </div>
                       )}
                     </div>
