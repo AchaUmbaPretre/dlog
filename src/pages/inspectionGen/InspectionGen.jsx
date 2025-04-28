@@ -720,7 +720,7 @@ const InspectionGen = () => {
                             </span>
 
                             <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                              Immobile : <strong>
+                              #Immobile : <strong>
                                 {Number.isFinite(parseFloat(statistique.nbre_vehicule_immobile))
                                   ? Math.round(parseFloat(statistique.nbre_vehicule_immobile)).toLocaleString()
                                   : 0}</strong>
