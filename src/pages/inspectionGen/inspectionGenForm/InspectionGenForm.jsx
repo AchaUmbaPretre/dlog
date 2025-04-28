@@ -76,8 +76,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                     uploaded[index] = `${DOMAIN}/${item.img}`;
                 }
                 });
-                setUploadedImages(uploaded);
-
+                setUploadedImages(uploaded); 
             }
 
         } catch (error) {
