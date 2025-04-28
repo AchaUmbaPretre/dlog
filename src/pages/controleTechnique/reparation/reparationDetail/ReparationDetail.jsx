@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Typography, Tag } from 'antd';
-import { EyeOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
+import { EyeOutlined, ToolOutlined, UserOutlined, ExclamationOutlined } from '@ant-design/icons';
 import { getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
@@ -159,7 +159,7 @@ const ReparationDetail = ({ idReparation }) => {
                 },            
             },
             {
-                title: 'Tracking',
+                title: 'Suivi',
                 dataIndex: 'tracking', 
                 key:'tracking',
                 width: '9px',
@@ -171,6 +171,23 @@ const ReparationDetail = ({ idReparation }) => {
                                 onClick={() => handleDetails(record.id_sud_reparation)}
                                 aria-label="Voir les détails"
                                 style={{ color: 'blue' }}
+                            />
+                        </Tooltip>
+                    </>
+                )
+            },
+            {
+                title: 'Récla.',
+                dataIndex: 'reclamation', 
+                key:'reclamation',
+                width: '9px',
+                render: (text, record) => (
+                    <>
+                        <Tooltip title="Réclamation">
+                            <Button
+                                icon={<ExclamationOutlined />}
+                                aria-label="Voir les détails"
+                                style={{ color: 'red' }}
                             />
                         </Tooltip>
                     </>
