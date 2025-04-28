@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Form, Input, Button, notification, Row, Col, Select } from 'antd';
 import { useState } from 'react';
-import { getCatPiece } from '../../../services/charroiService';
+import { getCatPiece, postPiece } from '../../../services/charroiService';
 
 const PieceForm = () => {
   const [form] = Form.useForm();
@@ -34,10 +34,10 @@ const PieceForm = () => {
   const handleSubmit = async (values) => {
     setLoading(true); 
     try {
-/*       await postFournisseur(values);
- */      notification.success({
+       await postPiece(values);
+        notification.success({
         message: 'Succès',
-        description: 'Le fournisseur a été enregistré avec succès.',
+        description: 'La pièce a été enregistrée avec succès.',
       });
       form.resetFields();
       window.location.reload();
@@ -61,9 +61,6 @@ const PieceForm = () => {
             form={form}
             layout="vertical"
             onFinish={handleSubmit}
-            initialValues={{
-            date_ajout: new Date(),
-            }}
         >
         <Row gutter={16}>
           <Col span={12}>
