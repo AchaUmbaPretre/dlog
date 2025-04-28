@@ -95,7 +95,7 @@ const TypeReparation = () => {
                         icon={<PlusCircleOutlined />}
                         onClick={handleAddMarque}
                     >
-                        Ajouter une marque
+                        Ajouter
                     </Button>
                 </div>
                     </div>

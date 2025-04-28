@@ -13,6 +13,8 @@ const Piece = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
+  const [searchValue, setSearchValue] = useState('');
+  
 
     const fetchData = async () => {
       try {
@@ -100,13 +102,18 @@ useEffect(() => {
     },
     {
       title: 'catégorie',
-      dataIndex: 'email',
-      key: 'email',
+      dataIndex: 'titre',
+      key: 'titre',
       render: (text) => (
         <div color="blue">{text}</div>
       ),
     },
   ];
+
+  const filteredData = data?.filter(item =>
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.titre?.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <>
@@ -120,7 +127,11 @@ useEffect(() => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+                <Search 
+                    placeholder="Recherche..." 
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    enterButton
+                />
             </div>
             <div className="client-rows-right">
               <Button
@@ -143,9 +154,9 @@ useEffect(() => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={{ pageSize: 15 }}
             rowKey="id"
             bordered
             size="middle"
