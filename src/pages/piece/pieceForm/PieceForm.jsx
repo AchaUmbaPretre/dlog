@@ -86,12 +86,12 @@ const PieceForm = () => {
               label="Catégorie"
             >
               <Select
-                  showSearch
-                  options={catPiece.map((item) => ({
-                  value: item.id,
-                  label: item.titre}))}
-                  placeholder="Sélectionnez une categorie..."
-                  optionFilterProp="label"
+                showSearch
+                options={catPiece.map((item) => ({
+                    value: item.id,
+                    label: item.titre}))}
+                placeholder="Sélectionnez une categorie..."
+                optionFilterProp="label"
               />
             </Form.Item>
           </Col>
