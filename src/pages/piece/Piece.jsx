@@ -53,9 +53,9 @@ const Piece = () => {
     window.print();
   };
 
-  const handleEdit = (record) => {
+/*   const handleEdit = (record) => {
     message.info(`Modification fournisseur : ${record.nom}`);
-  };
+  }; */
 
   const handleDelete = async (id) => {
     try {
@@ -92,40 +92,20 @@ const Piece = () => {
     },
     {
       title: 'Nom',
-      dataIndex: 'nom_fournisseur',
+      dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
+        <div color="blue">{text}</div>
       ),
     },
     {
-      title: 'Activités',
-      dataIndex: 'nom_activite',
-      key: 'nom_activite',
-      render: (activities) => (
-        activities.map((activite, index) => (
-          <Tag key={index} color="green">
-            {activite}
-          </Tag>
-        ))
-      ),
-    },
-    {
-      title: 'Email',
+      title: 'catégorie',
       dataIndex: 'email',
       key: 'email',
       render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text}</Tag>
+        <div color="blue">{text}</div>
       ),
     },
-    {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
-      render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
-      ),
-    }
   ];
 
   return (
@@ -136,7 +116,7 @@ const Piece = () => {
             <div className="client-row-icon">
               <TeamOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Fournisseur</h2>
+            <h2 className="client-h2">Pièce</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -148,7 +128,7 @@ const Piece = () => {
                 icon={<PlusOutlined />}
                 onClick={handleAddClient}
               >
-                Ajouter un fournisseur
+                Ajouter
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
@@ -179,7 +159,7 @@ const Piece = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={800}
+        width={750}
         centered
       >
         <PieceForm modalOff={setIsModalVisible} />

@@ -3,8 +3,6 @@ import { Form, Input, Button, notification, Row, Col, Select } from 'antd';
 import { useState } from 'react';
 import { getCatPiece } from '../../../services/charroiService';
 
-const { TextArea } = Input;
-
 const PieceForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -36,8 +34,8 @@ const PieceForm = () => {
   const handleSubmit = async (values) => {
     setLoading(true); 
     try {
-      await postFournisseur(values);
-      notification.success({
+/*       await postFournisseur(values);
+ */      notification.success({
         message: 'Succès',
         description: 'Le fournisseur a été enregistré avec succès.',
       });
@@ -56,17 +54,17 @@ const PieceForm = () => {
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className='controle_h2'>Ajouter nouveau fournisseur</h2>                
+        <h2 className='controle_h2'>Ajouter nouvelle pièce</h2>                
       </div>
       <div className="controle_wrapper">
         <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleSubmit}
-        initialValues={{
-          date_ajout: new Date(),
-        }}
-      >
+            form={form}
+            layout="vertical"
+            onFinish={handleSubmit}
+            initialValues={{
+            date_ajout: new Date(),
+            }}
+        >
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item
@@ -77,9 +75,7 @@ const PieceForm = () => {
               <Input placeholder=" Entrez le nom de la pièce.." />
             </Form.Item>
           </Col>
-        </Row>
 
-        <Row gutter={16}>
           <Col span={12}>
             <Form.Item
               name="idcategorie"
