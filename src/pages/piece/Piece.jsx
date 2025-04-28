@@ -130,9 +130,9 @@ useEffect(() => {
               >
                 Ajouter
               </Button>
-              <Dropdown overlay={menu} trigger={['click']}>
+{/*               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
+              </Dropdown> */}
               <Button
                 icon={<PrinterOutlined />}
                 onClick={handlePrint}
