@@ -187,7 +187,7 @@ const ReparationDetail = ({ idReparation }) => {
                             <Button
                                 icon={<ExclamationOutlined />}
                                 aria-label="Voir les détails"
-                                style={{ color: 'red' }}
+                                style={{ background: 'red', color:'#fff' }}
                             />
                         </Tooltip>
                     </>
