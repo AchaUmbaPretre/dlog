@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, EditOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, InfoCircleOutlined, CheckCircleTwoTone, FormOutlined, EditOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { deleteInspectionGen, getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
@@ -343,7 +343,7 @@ const InspectionGen = () => {
                 openModal('AddSuivi', record.id_sub_inspection_gen)
               break;
             case 'reparer':
-                openModal('Reparer', record.id_sub_inspection_gen)
+                handleRepair(record);
               break;
             case 'modifier':
                 openModal('Edit', record.id_sub_inspection_gen)
@@ -736,6 +736,74 @@ const InspectionGen = () => {
             )
           }
     ]
+
+    const handleRepair = (record) => {
+      const alreadyRepaired = !!record.date_reparation;
+    
+      if (alreadyRepaired) {
+        const modal = Modal.confirm({
+          title: (
+            <span style={{ fontWeight: 600, fontSize: 18 }}>
+              <CheckCircleTwoTone twoToneColor="#52c41a" /> Réparation déjà effectuée
+            </span>
+          ),
+          content: (
+            <div style={{ fontSize: 15, lineHeight: 1.5 }}>
+              Une réparation est <strong>déjà enregistrée</strong> pour cette inspection.
+              <br />
+              Vous pouvez <strong>la consulter</strong> ou <strong>en créer une nouvelle</strong>.
+            </div>
+          ),
+          icon: null, // on utilise déjà une icône dans le titre
+          centered: true,
+          footer: (
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop:'15px' }}>
+              <Button
+                icon={<FormOutlined />}
+                style={{ backgroundColor: '#1677ff', color: 'white', borderRadius: 4 }}
+                onClick={() => {
+                  modal.destroy();
+                  openModal('Reparer', record.id_sub_inspection_gen);
+                  notification.info({
+                    message: 'Mode consultation',
+                    description: 'Vous visualisez une réparation déjà enregistrée.',
+                    icon: <InfoCircleOutlined style={{ color: '#1677ff' }} />,
+                    placement: 'bottomRight',
+                  });
+                }}
+              >
+                Voir la réparation
+              </Button>
+    
+              <Button
+                icon={<ToolOutlined />}
+                style={{ backgroundColor: '#52c41a', color: 'white', borderRadius: 4 }}
+                onClick={() => {
+                  modal.destroy();
+                  openModal('Reparer', record.id_sub_inspection_gen);
+                  notification.success({
+                    message: 'Nouvelle réparation',
+                    description: 'Vous pouvez saisir une nouvelle réparation pour cette inspection.',
+                    icon: <ToolOutlined style={{ color: '#52c41a' }} />,
+                    placement: 'bottomRight',
+                  });
+                }}
+              >
+                Nouvelle réparation
+              </Button>
+            </div>
+          ),
+        });
+      } else {
+        openModal('Reparer', record.id_sub_inspection_gen);
+        notification.open({
+          message: 'Nouvelle réparation',
+          description: 'Aucune réparation existante. Création d’une nouvelle fiche...',
+          icon: <ToolOutlined style={{ color: '#faad14' }} />,
+          placement: 'bottomRight',
+        });
+      }
+    };
 
     const menu = (
       <Menu>
