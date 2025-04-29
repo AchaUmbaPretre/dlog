@@ -290,11 +290,11 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                         },
                                     ]}
                                 >
-                                        {loadingData ? (
-                                            <Skeleton.Input active={true} />
-                                        ) : (
-                                            <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
-                                        )}
+                                    {loadingData ? (
+                                        <Skeleton.Input active={true} />
+                                    ) : (
+                                        <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
+                                    )}
                                 </Form.Item>
                             </Col>
 
