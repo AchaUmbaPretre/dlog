@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
-import { getInspectionValide, getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
+import { getInspectionValide, getStatutVehicule, getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import { getTypes } from '../../../../services/typeService';
 import moment from 'moment';
@@ -15,19 +15,23 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
     const [reparation, setReparation] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [loading, setLoading] = useState(false);
+    const [ statut, setStatut ] = useState([]);
+    
     
     const fetchDatas = async () => {
         try {
-            const [vehiculeData, fournisseurData, reparationData, typesData] = await Promise.all([
+            const [vehiculeData, fournisseurData, reparationData,typeData, statutData] = await Promise.all([
                 getVehicule(),
                 getFournisseur(),
                 getTypeReparation(),
                 getTypes(),
+                getStatutVehicule(),
             ])
 
             setFournisseur(fournisseurData.data)
             setVehicule(vehiculeData.data.data)
             setReparation(reparationData.data.data)
+            setStatut(statutData.data)
 
             if(subInspectionId){
                 const { data : d } = await getInspectionValide(subInspectionId)
@@ -36,6 +40,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                     cout: d[0]?.manoeuvre,
                     montant : d[0]?.cout,
                     commentaire : d[0]?.avis,
+                    id_statut_vehicule: d[0]?.id_statut_vehicule,
                     kilometrage: d[0]?.kilometrage,
                     reparations: d.map((item) => ({
                         id_type_reparation: item.id_type_reparation,
@@ -228,6 +233,30 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                             </Col>
                             <Col xs={24} md={8}>
                                 <Form.Item
+                                    name="id_statut_vehicule"
+                                    label="Statut véhicule"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez selectionner un statut...',
+                                        },
+                                        ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={statut?.map((item) => ({
+                                        value: item.id_statut_vehicule                                           ,
+                                        label: `${item.nom_statut_vehicule}`,
+                                            }))}
+                                        placeholder="Sélectionnez un statut..."
+                                        optionFilterProp="label"
+                                    /> }
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={8}>
+                                <Form.Item
                                     name="kilometrage"
                                     label="Kilometrage"
                                     rules={[
@@ -244,7 +273,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                                         )}
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={16}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     name="commentaire"
                                     label="Commentaire"
