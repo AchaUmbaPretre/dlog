@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, InfoCircleOutlined, CheckCircleTwoTone, FormOutlined, EditOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, ExclamationCircleTwoTone, CheckOutlined,  InfoCircleOutlined, CheckCircleTwoTone, FormOutlined, EditOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { deleteInspectionGen, getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
@@ -334,7 +334,7 @@ const InspectionGen = () => {
                 openModal('DetailInspection', record.id_inspection_gen)
               break;
             case 'validerInspection':
-              openModal('AddValider', record.id_inspection_gen);
+                handleValider(record)
               break;
             case 'DetailSuivi':
                 openModal('DetailSuivi', record.id_sub_inspection_gen)
@@ -738,6 +738,41 @@ const InspectionGen = () => {
     ]
 
     const handleRepair = (record) => {
+      // Vérifie si l'inspection est validée
+      const alreadyValidated = !!record.date_validation;
+    
+      // Si l'inspection n'est pas validée
+      if (!alreadyValidated) {
+        Modal.warning({
+          title: (
+            <span style={{ fontWeight: 600, fontSize: 18 }}>
+              <ExclamationCircleTwoTone twoToneColor="#ffcc00" /> Inspection non validée
+            </span>
+          ),
+          content: (
+            <div style={{ fontSize: 15, lineHeight: 1.5 }}>
+              Cette inspection n'a pas encore été validée.
+              <br />
+              Veuillez d'abord valider l'inspection avant de procéder à la réparation.
+            </div>
+          ),
+          centered: true,
+          okText: 'Valider l’inspection',
+          onOk: () => {
+            // Ouvre la modal de validation de l'inspection
+            openModal('AddValider', record.id_inspection_gen);
+            notification.info({
+              message: 'Validation requise',
+              description: 'Vous devez valider cette inspection avant de pouvoir la réparer.',
+              icon: <CheckCircleTwoTone style={{ color: '#52c41a' }} />,
+              placement: 'bottomRight',
+            });
+          },
+        });
+        return; // Empêche l'ouverture de la modal de réparation si l'inspection n'est pas validée
+      }
+    
+      // Si l'inspection est déjà validée, on vérifie si une réparation a déjà été effectuée
       const alreadyRepaired = !!record.date_reparation;
     
       if (alreadyRepaired) {
@@ -803,7 +838,7 @@ const InspectionGen = () => {
           ),
         });
       } else {
-        openModal('ReparerNew', record.id_sub_inspection_gen);
+        openModal('Reparer', record.id_sub_inspection_gen);
         notification.open({
           message: 'Nouvelle réparation',
           description: 'Aucune réparation existante. Création d’une nouvelle fiche...',
@@ -813,6 +848,104 @@ const InspectionGen = () => {
       }
     };
     
+
+    const handleValider = (record) => {
+      const alreadyValidated = !!record.date_validation;
+
+      const modal = Modal.confirm({
+        title: (
+          <span style={{ fontWeight: 600, fontSize: 18 }}>
+            <CheckCircleTwoTone twoToneColor="#1890ff" /> {alreadyValidated ? 'Validation déjà effectuée' : 'Valider l’inspection ?'}
+          </span>
+        ),
+        content: (
+          <div style={{ fontSize: 15, lineHeight: 1.5 }}>
+            {alreadyValidated ? (
+              <div>
+                Cette inspection <strong>a déjà été validée</strong>.
+                <br />
+                Vous pouvez <strong>la consulter</strong>, <strong>en créer une nouvelle</strong> ou <strong>fermer cette boîte</strong>.
+              </div>
+            ) : (
+              <div>
+                Vous êtes sur le point de <strong>valider cette inspection</strong>.
+                <br />
+                Confirmez-vous vouloir poursuivre cette opération ?
+              </div>
+            )}
+          </div>
+        ),
+        icon: null,
+        centered: true,
+        footer: (
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginTop: '15px' }}>
+            {/* Si la validation existe déjà */}
+            {alreadyValidated ? (
+              <>
+                <Button
+                  icon={<FormOutlined />}
+                  style={{ backgroundColor: '#1677ff', color: 'white', borderRadius: 4 }}
+                  onClick={() => {
+                    modal.destroy();
+                    openModal('AddValider', record.id_inspection_gen);
+                    notification.info({
+                      message: 'Consultation de la validation',
+                      description: 'Vous visualisez la validation déjà effectuée.',
+                      placement: 'bottomRight',
+                      icon: <EyeOutlined style={{ color: '#1677ff' }} />,
+                    });
+                  }}
+                >
+                  Voir la validation
+                </Button>
+    
+                <Button
+                  icon={<ToolOutlined />}
+                  style={{ backgroundColor: '#52c41a', color: 'white', borderRadius: 4 }}
+                  onClick={() => {
+                    modal.destroy();
+                    openModal('AddValider', record.id_inspection_gen);
+                    notification.success({
+                      message: 'Nouvelle validation',
+                      description: 'Vous pouvez créer une nouvelle validation pour cette inspection.',
+                      placement: 'bottomRight',
+                      icon: <ToolOutlined style={{ color: '#52c41a' }} />,
+                    });
+                  }}
+                >
+                  Nouvelle validation
+                </Button>
+              </>
+            ) : (
+              <Button
+                icon={<CheckOutlined />}
+                style={{ backgroundColor: '#1890ff', color: 'white', borderRadius: 4 }}
+                onClick={() => {
+                  modal.destroy();
+                  openModal('AddValider', record.id_inspection_gen);
+                  notification.success({
+                    message: 'Validation en cours',
+                    description: 'Vous êtes en train de valider l’inspection.',
+                    placement: 'bottomRight',
+                    icon: <CheckOutlined style={{ color: '#1890ff' }} />,
+                  });
+                }}
+              >
+                Valider maintenant
+              </Button>
+            )}
+    
+            <Button
+              danger
+              onClick={() => modal.destroy()}
+              style={{ borderRadius: 4 }}
+            >
+              Annuler
+            </Button>
+          </div>
+        ),
+      });
+    }
 
     const menu = (
       <Menu>
