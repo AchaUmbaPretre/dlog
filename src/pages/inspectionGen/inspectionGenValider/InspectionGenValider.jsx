@@ -190,15 +190,15 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
                   <Skeleton loading={loading} active paragraph={false}>
                       <div className="vehicule-details">
                           <div className="info-block">
-                              <span className="label">Immatriculation :</span>
+                              <span className="label">IMMATRICULATION :</span>
                               <span className="value">{data[0]?.immatriculation || '-'}</span>
                           </div>
                           <div className="info-block">
-                              <span className="label">Marque :</span>
+                              <span className="label">MARQUE :</span>
                               <span className="value">{data[0]?.nom_marque || '-'}</span>
                           </div>
                           <div className="info-block">
-                              <span className="label">Date d'inspection :</span>
+                              <span className="label">DATE D'INSPECTION :</span>
                               <span className="value">
                                 {data[0]?.date_inspection
                                   ? new Date(data[0].date_inspection).toLocaleDateString('fr-FR')
