@@ -754,7 +754,7 @@ const InspectionGen = () => {
               Vous pouvez <strong>la consulter</strong> ou <strong>en créer une nouvelle</strong>.
             </div>
           ),
-          icon: null, // on utilise déjà une icône dans le titre
+          icon: null,
           centered: true,
           footer: (
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop:'15px' }}>
