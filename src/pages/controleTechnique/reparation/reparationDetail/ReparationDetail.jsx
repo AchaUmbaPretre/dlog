@@ -191,7 +191,7 @@ const ReparationDetail = ({ idReparation }) => {
                                 onClick={() => handleReclamation(record.id_sud_reparation)}
                                 icon={<ExclamationOutlined />}
                                 aria-label="Voir les détails"
-                                style={{ background: 'red', color:'#fff' }}
+                                style={{ color:'red' }}
                             />
                         </Tooltip>
                     </>
