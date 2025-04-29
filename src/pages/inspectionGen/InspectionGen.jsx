@@ -21,7 +21,6 @@ import 'jspdf-autotable';
 import InspectionGenDoc from './inspectionGenDoc/InspectionGenDoc';
 import { handleRepair, handleValider } from '../../utils/modalUtils';
 
-const { confirm } = Modal;
 const { Text } = Typography;
 const { Search } = Input;
 
