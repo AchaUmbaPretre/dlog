@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Skeleton, Dropdown, Input, Menu, Tag, notification } from 'antd';
-import { DollarOutlined, DownOutlined, MenuOutlined, CalendarOutlined, SettingOutlined, CarOutlined, ToolOutlined, FileSearchOutlined, UserOutlined } from '@ant-design/icons';
-import { getTracking } from '../../../services/charroiService';
+import { CheckCircleOutlined, DownOutlined, MenuOutlined, CalendarOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
+import { getHistorique} from '../../../services/charroiService';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 
@@ -17,37 +17,17 @@ const TrackingGen = () => {
         pageSize: 15,
     }); 
     const scroll = { x: 'max-content' };
-    const [modalType, setModalType] = useState(null);
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
         'Matricule': true,
         'Marque': true,
-        'Type rep': true,
-        'Origine': true,
         'Montant inspection': true,
         'Montant réparation': false,
         'Description': false,
-        'Date inspection' : true,
-        'Date entree reparation' : true,
-        'Avis' : false,
         'Commentaire' : false
     })
     const role = useSelector((state) => state.user?.currentUser?.role);
 
-    const columnStyles = {
-        title: {
-          maxWidth: '220px',
-          whiteSpace: 'nowrap',
-          overflowX: 'scroll', 
-          scrollbarWidth: 'none',
-          '-ms-overflow-style': 'none', 
-        },
-        hideScroll: {
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
-        },
-    };
 
     const menus = (
         <Menu>
@@ -72,9 +52,8 @@ const TrackingGen = () => {
 
     const fetchData = async() => {
             try {
-                const { data } = await getTracking();
-                setData(data?.data);
-                setStatistique(data?.totalByOrigine)
+                const { data } = await getHistorique();
+                setData(data);
                 setLoading(false);
     
             } catch (error) {
@@ -91,27 +70,27 @@ const TrackingGen = () => {
 
             const intervalId = setInterval(() => {
                 fetchData();
-              }, 5000); // 5000 ms = 5 secondes
+              }, 5000);
           
               return () => clearInterval(intervalId);
         }, [])
     
-    const columns = [
-        {
-            title: '#',
-            dataIndex: 'id',
-            key: 'id',
-            render: (text, record, index) => {
+        const columns = [
+            {
+              title: '#',
+              dataIndex: 'id',
+              key: 'id',
+              render: (text, record, index) => {
                 const pageSize = pagination.pageSize || 10;
                 const pageIndex = pagination.current || 1;
                 return (pageIndex - 1) * pageSize + index + 1;
+              },
+              width: '4%',
             },
-            width: "4%"
-        },
-        {
-            title: 'Matricule',
-            dataIndex: 'immatriculation',
-            render: (text) => (
+            {
+              title: 'Matricule',
+              dataIndex: 'immatriculation',
+              render: (text) => (
                 <div className="vehicule-matricule">
                   <span className="car-wrapper">
                     <span className="car-boost" />
@@ -121,9 +100,8 @@ const TrackingGen = () => {
                   <Tag color="blue" bordered={false}>{text}</Tag>
                 </div>
               ),
-              ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
-        },
-        {
+            },
+            {
               title: 'Marque',
               dataIndex: 'nom_marque',
               render: (text) => (
@@ -131,124 +109,46 @@ const TrackingGen = () => {
                   {text}
                 </Tag>
               ),
-              ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
-        },        
-        {
-            title: 'Type de rep.',
-            dataIndex: 'type_rep',
-            render: (text) => (
-                    <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
-                        {text}
-                    </Tag>
-                ),
-            ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Origine',
-            dataIndex: 'origine',
-            render: (text) => (
-                  <Tag icon={<FileSearchOutlined />} color={text === 'Inspection' ? 'geekblue' : 'green'}>
-                    {text}
-                  </Tag>
-            ),
-            ...(columnsVisibility['Origine'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Montant inspection',
-            dataIndex: 'montant_inspection',
-            render: (text) =>
-                text ? (
-                  <Tag color="cyan">
-                    {text} $
-                  </Tag>
-                ) : (
-                  <Tag color="default">-</Tag>
-                ),
-            ...(columnsVisibility['Montant inspection'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Montant réparation',
-            dataIndex: 'montant_reparation',
-            render: (text) =>
-            text ? (
-                <Tag color="blue">
-                    {text} $
-                  </Tag>
-                ) : (
-                  <Tag color="default">-</Tag>
-                ),
-            ...(columnsVisibility['Montant réparation'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Description',
-            dataIndex: 'description',
-            render: (text) => (
-                <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                    <Tag icon={<SettingOutlined />} color="purple">
-                    {text || 'N/A'}
-                    </Tag>
-                </div>
+            },
+            {
+              title: 'Statut',
+              dataIndex: 'nom_statut_vehicule',
+              render: (text) => (
+                <Tag color={text === 'Immobile' ? 'red' : 'green'}>
+                  {text}
+                </Tag>
               ),
-              ...(columnsVisibility['Description'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Date inspection',
-            dataIndex: 'date_inspection',
+            },
+            {
+              title: 'Action',
+              dataIndex: 'action',
+              render: (text) => (
+                <Tag icon={<CheckCircleOutlined />} color="success">
+                  {text}
+                </Tag>
+              ),
+            },
+            {
+              title: 'Date action',
+              dataIndex: 'date_action',
               render: (text) =>
                 text ? (
                   <Tag icon={<CalendarOutlined />} color="blue">
-                    {moment(text).format('DD-MM-YYYY')}
+                    {moment(text).format('DD-MM-YYYY HH:mm')}
                   </Tag>
                 ) : (
                   <Tag color="default">-</Tag>
                 ),
-                ...(columnsVisibility['Date inspection'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Date entrée réparation',
-            dataIndex: 'date_entree_reparation',
-              render: (text) =>
-                text ? (
-                  <Tag icon={<CalendarOutlined />} color="green">
-                    {moment(text).format('DD-MM-YYYY')}
-                  </Tag>
-                ) : (
-                  <Tag color="default">-</Tag>
-                ),
-                ...(columnsVisibility['Date entree reparation'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Avis',
-            dataIndex: 'avis',
-              render: (text) =>
-                text ? (
-                <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                    {text}
-                </div>
-                ) : (
-                  <Tag color="default">-</Tag>
-                ),
-                ...(columnsVisibility['Avis'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Commentaire',
-            dataIndex: 'commentaire',
+            },
+            {
+              title: 'Commentaire',
+              dataIndex: 'commentaire',
               render: (text) => <span>{text || '-'}</span>,
-              ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' }),
-        }
-    ];
-          
-      const closeAllModals = () => {
-        setModalType(null);
-      };
-      
-    const openModal = (type, id='') => {
-        closeAllModals();
-        setModalType(type)
-    };
+            },
+          ];
+        
 
     const filteredData = data.filter(item =>
-        item.avis?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) ||
         item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) ||
         item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())

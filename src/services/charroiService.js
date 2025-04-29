@@ -305,3 +305,8 @@ export const getLogInspection = async () => {
 export const getDocumentInspection = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/document_inspection?id_sub_inspection=${id}`);
 }
+
+//Historique
+export const getHistorique = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/historique`);
+}
