@@ -7,8 +7,6 @@ import { useSelector } from 'react-redux';
 import { getTypes } from '../../../../services/typeService';
 import moment from 'moment';
 
-const { Option } = Select;
-
 const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
@@ -38,6 +36,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                     cout: d[0]?.manoeuvre,
                     montant : d[0]?.cout,
                     commentaire : d[0]?.avis,
+                    kilometrage: d[0]?.kilometrage,
                     reparations: d.map((item) => ({
                         id_type_reparation: item.id_type_reparation,
                         montant: item.budget_valide,
