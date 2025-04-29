@@ -166,33 +166,6 @@ const TrackingGen = () => {
                         </div>
                         <h2 className="client-h2">Liste des tracking</h2>
                     </div>
-
-                    {
-                        role === 'Admin' &&
-                    <div className='client-row-lefts'>
-                        <span className='client-title'>
-                        Resumé :
-                        </span>
-                        <div className="client-row-sou">
-                        {loading ? (
-                            <Skeleton active paragraph={{ rows: 1 }} />
-                        ) : (
-                            <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
-                            {
-                                statistique.map((d) => (
-                                <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                                {d.origine} : <strong>
-                                    {Number.isFinite(parseFloat(d.total))
-                                    ? Math.round(parseFloat(d.total)).toLocaleString()
-                                    : 0}</strong>
-                                </span>
-                                ))
-                            }
-                            </div>
-                        )}
-                        </div>
-                    </div>
-                    }
                 </div>
                 <div className="client-actions">
                     <div className="client-row-left">
@@ -203,11 +176,6 @@ const TrackingGen = () => {
                         />
                     </div>
                     <div className="client-rows-right">
-                        <Dropdown overlay={menus} trigger={['click']}>
-                            <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                                Colonnes <DownOutlined />
-                            </Button>
-                        </Dropdown>
                     </div>
                 </div>
                 <Table
