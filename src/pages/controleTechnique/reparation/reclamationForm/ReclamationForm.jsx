@@ -26,19 +26,17 @@ const ReclamationForm = ({closeModal, fetchData, id_sud_reparation}) => {
     
     const fetchDatas = async () => {
         try {
-            const [ fournisseurData, reparationData, statutData, pieceData, evalueData, tacheData ] = await Promise.all([
+            const [ fournisseurData, reparationData, statutData, pieceData, tacheData ] = await Promise.all([
                 getFournisseur(),
                 getTypeReparation(),
                 getStatutVehicule(),
                 getPiece(),
-                getEvaluation(),
                 getCat_inspection()
             ])
 
             setFournisseur(fournisseurData.data)
             setReparation(reparationData.data.data)
             setStatut(statutData.data)
-            setEvaluation(evalueData.data)
             setPiece(pieceData.data)
             setTache(tacheData.data)
 
@@ -213,47 +211,47 @@ const ReclamationForm = ({closeModal, fetchData, id_sud_reparation}) => {
                             {fields.map(({ key, name, ...restField }) => (
                                 <Row key={key} gutter={12} align="middle">
 
-                                                                                        <Col xs={24} md={8}>
-                                                                                            <Form.Item
-                                                                                                {...restField}
-                                                                                                name={[name, "id_tache_rep" ]}
-                                                                                                label='Tache'
-                                                                                                rules={[
-                                                                                                    { required: true, message: 'Veuillez fournir une tache...' },
-                                                                                                ]}
-                                                                                            >
-                                                                                                <Select
-                                                                                                    allowClear
-                                                                                                    showSearch
-                                                                                                    options={tache.map((item) => ({
-                                                                                                        value: item.id_cat_inspection,
-                                                                                                        label: `${item.nom_cat_inspection}`,
-                                                                                                    }))}
-                                                                                                    placeholder="Sélectionnez une tache..."
-                                                                                                    optionFilterProp="label"
-                                                                                                />
-                                                                                            </Form.Item>
-                                                                                        </Col>
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, "id_tache_rep" ]}
+                                            label='Tache'
+                                            rules={[
+                                                { required: true, message: 'Veuillez fournir une tache...' },
+                                            ]}
+                                        >
+                                            <Select
+                                                allowClear
+                                                showSearch
+                                                options={tache.map((item) => ({
+                                                    value: item.id_cat_inspection,
+                                                    label: `${item.nom_cat_inspection}`,
+                                                }))}
+                                                placeholder="Sélectionnez une tache..."
+                                                optionFilterProp="label"
+                                            />
+                                        </Form.Item>
+                                    </Col>
                                     
-                                                                                        <Col xs={24} md={7}>
-                                                                                            <Form.Item
-                                                                                                {...restField}
-                                                                                                name={[name, "id_piece" ]}
-                                                                                                label='Piece'
-                                                                                                rules={[
-                                                                                                    { required: false, message: 'Veuillez fournir une piece...' },
-                                                                                                ]}
-                                                                                            >
-                                                                                                <Select
-                                                                                                    allowClear
-                                                                                                    showSearch
-                                                                                                    options={piece.map((item) => ({
-                                                                                                        value: item.id,
-                                                                                                        label: `${item.nom}`,
-                                                                                                    }))}
-                                                                                                    placeholder="Sélectionnez une piece..."
-                                                                                                    optionFilterProp="label"
-                                                                                                />
+                                    <Col xs={24} md={7}>
+                                        <Form.Item
+                                            {...restField}
+                                                name={[name, "id_piece" ]}
+                                                label='Piece'
+                                                rules={[
+                                                    { required: false, message: 'Veuillez fournir une piece...' },
+                                                ]}
+                                            >
+                                            <Select
+                                                allowClear
+                                                showSearch
+                                                options={piece.map((item) => ({
+                                                    value: item.id,
+                                                    label: `${item.nom}`,
+                                                    }))}
+                                                placeholder="Sélectionnez une piece..."
+                                                optionFilterProp="label"
+                                            />
                                         </Form.Item>
                                      </Col> 
                                     <Col xs={24} md={7}>
