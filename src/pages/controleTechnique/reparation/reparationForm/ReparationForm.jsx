@@ -318,6 +318,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                                         />
                                         </Form.Item>
                                     </Col>
+                                    
                                     <Col xs={24} md={7}>
                                         <Form.Item
                                         {...restField}

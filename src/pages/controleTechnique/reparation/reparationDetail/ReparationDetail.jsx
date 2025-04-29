@@ -286,6 +286,16 @@ const ReparationDetail = ({ idReparation }) => {
             dataIndex: 'statut_reclam', 
             key: 'nom', 
             render: (text) => <Tag color="blue">{text}</Tag> 
+        },
+        {   title: 'Budget', 
+            dataIndex: 'budget', 
+            key: 'budget', 
+            render: (text) => <Tag color="green">{text}</Tag> 
+        },
+        {   title: 'Créer par', 
+            dataIndex: 'utilisateur', 
+            key: 'utilisateur', 
+            render: (text) => <Tag color="blue">{text}</Tag> 
         }
     ]
 

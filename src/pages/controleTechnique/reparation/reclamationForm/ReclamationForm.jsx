@@ -21,8 +21,7 @@ const ReclamationForm = ({closeModal, fetchData, id_sud_reparation}) => {
     const [evaluation, setEvaluation] = useState([]);
     const [piece, setPiece] = useState([]);
     const [tache, setTache] = useState([]);
-    
-    
+
     
     const fetchDatas = async () => {
         try {
@@ -210,50 +209,28 @@ const ReclamationForm = ({closeModal, fetchData, id_sud_reparation}) => {
                             <Divider className='title_row'>Réclamer</Divider>
                             {fields.map(({ key, name, ...restField }) => (
                                 <Row key={key} gutter={12} align="middle">
-
-                                    <Col xs={24} md={8}>
+                                    <Col xs={24} md={7}>
                                         <Form.Item
                                             {...restField}
-                                            name={[name, "id_tache_rep" ]}
-                                            label='Tache'
+                                            name={[name, 'id_type_reparation']}
+                                            label="Type de réparation"
                                             rules={[
-                                                { required: true, message: 'Veuillez fournir une tache...' },
+                                                { required: true, message: 'Veuillez fournir une réparation...' },
                                             ]}
                                         >
                                             <Select
                                                 allowClear
                                                 showSearch
-                                                options={tache.map((item) => ({
-                                                    value: item.id_cat_inspection,
-                                                    label: `${item.nom_cat_inspection}`,
+                                                options={reparation.map((item) => ({
+                                                                                    value: item.id_type_reparation,
+                                                                                    label: `${item.type_rep}`,
                                                 }))}
-                                                placeholder="Sélectionnez une tache..."
+                                                placeholder="Sélectionnez un type de réparation..."
                                                 optionFilterProp="label"
                                             />
                                         </Form.Item>
                                     </Col>
                                     
-                                    <Col xs={24} md={7}>
-                                        <Form.Item
-                                            {...restField}
-                                                name={[name, "id_piece" ]}
-                                                label='Piece'
-                                                rules={[
-                                                    { required: false, message: 'Veuillez fournir une piece...' },
-                                                ]}
-                                            >
-                                            <Select
-                                                allowClear
-                                                showSearch
-                                                options={piece.map((item) => ({
-                                                    value: item.id,
-                                                    label: `${item.nom}`,
-                                                    }))}
-                                                placeholder="Sélectionnez une piece..."
-                                                optionFilterProp="label"
-                                            />
-                                        </Form.Item>
-                                     </Col> 
                                     <Col xs={24} md={7}>
                                         <Form.Item
                                         {...restField}
