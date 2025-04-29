@@ -751,13 +751,13 @@ const InspectionGen = () => {
             <div style={{ fontSize: 15, lineHeight: 1.5 }}>
               Une réparation est <strong>déjà enregistrée</strong> pour cette inspection.
               <br />
-              Vous pouvez <strong>la consulter</strong> ou <strong>en créer une nouvelle</strong>.
+              Vous pouvez <strong>la consulter</strong>, <strong>en créer une nouvelle</strong> ou <strong>fermer</strong> cette boîte.
             </div>
           ),
           icon: null,
           centered: true,
           footer: (
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop:'15px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginTop: '15px' }}>
               <Button
                 icon={<FormOutlined />}
                 style={{ backgroundColor: '#1677ff', color: 'white', borderRadius: 4 }}
@@ -780,7 +780,7 @@ const InspectionGen = () => {
                 style={{ backgroundColor: '#52c41a', color: 'white', borderRadius: 4 }}
                 onClick={() => {
                   modal.destroy();
-                  openModal('Reparer', record.id_sub_inspection_gen);
+                  openModal('ReparerNew', record.id_sub_inspection_gen);
                   notification.success({
                     message: 'Nouvelle réparation',
                     description: 'Vous pouvez saisir une nouvelle réparation pour cette inspection.',
@@ -791,11 +791,19 @@ const InspectionGen = () => {
               >
                 Nouvelle réparation
               </Button>
+    
+              <Button
+                danger
+                onClick={() => modal.destroy()}
+                style={{ borderRadius: 4 }}
+              >
+                Annuler
+              </Button>
             </div>
           ),
         });
       } else {
-        openModal('Reparer', record.id_sub_inspection_gen);
+        openModal('ReparerNew', record.id_sub_inspection_gen);
         notification.open({
           message: 'Nouvelle réparation',
           description: 'Aucune réparation existante. Création d’une nouvelle fiche...',
@@ -804,6 +812,7 @@ const InspectionGen = () => {
         });
       }
     };
+    
 
     const menu = (
       <Menu>
