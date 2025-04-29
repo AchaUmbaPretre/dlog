@@ -3,7 +3,7 @@ import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { getCatPiece, getEvaluation, getPiece, getPieceOne, getSuiviReparationOne, getTypeReparation, postSuiviReparation } from '../../../../../services/charroiService';
+import {  getEvaluation, getPiece, getSuiviReparationOne, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
 
@@ -30,7 +30,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
         if (!info || info.length === 0) {
           form.setFieldsValue({ info: [{}] }); 
         }
-      }, []);
+      }, [form]);
 
     const fetchDatas = async() => {
         try {
@@ -59,7 +59,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     }
 
     useEffect(() => {
-        fetchDatas()
+        fetchDatas();
     }, [idReparations, iDpiece])
 
 

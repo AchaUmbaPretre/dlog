@@ -36,7 +36,6 @@ export const getPriorityColor = (priority) => {
     }
   };
 
-
 export const getPriorityTag = (priority) => {
     const icon = getPriorityIcon(priority);
     

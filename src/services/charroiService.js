@@ -157,6 +157,9 @@ export const postReparation = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/reparation`, data);
 }
 
+export const deleteReparation= async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/delete_reparation`, data );
+}
 //Carateristique rep
 export const getCarateristiqueRep = async () => {
     return axios.get(`${DOMAIN}/api/charroi/carateristique_rep`);

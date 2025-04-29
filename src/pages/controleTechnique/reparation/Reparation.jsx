@@ -3,7 +3,7 @@ import { ToolOutlined, ExclamationCircleOutlined, DeleteOutlined, CarOutlined, E
 import { Input, Button, Typography, Tooltip, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
-import { getReparation } from '../../../services/charroiService';
+import { deleteReparation, getReparation } from '../../../services/charroiService';
 import SuiviReparationForm from './suiviReparation/suiviReparationForm/SuiviReparationForm';
 import ReparationDetail from './reparationDetail/ReparationDetail';
 import DocumentReparation from './documentReparation/DocumentReparation';
@@ -412,7 +412,7 @@ const Reparation = () => {
                       icon={<DeleteOutlined />}
                       style={{ color: 'red' }}
                       aria-label="Supprimer"
-                      onClick={() => showDeleteConfirm(record.id_sub_inspection_gen, userId, setData)}
+                      onClick={() => showDeleteConfirm(record.id_sud_reparation, userId, setData)}
                     />
                 </Tooltip>
               </Space>
@@ -611,17 +611,17 @@ const Reparation = () => {
             },
             onOk: async () => {
               try {
-/*                 await deleteInspectionGen({
-                  id_sub_inspection_gen : id,
+                 await deleteReparation({
+                  id_sud_reparation : id,
                   user_id: userId,
-                }); */
-                setData((prevData) => prevData.filter((item) => item.id_sub_inspection_gen  !== id));
-                message.success("L'inspection a été supprimée avec succès.", 3);
+                });
+                setData((prevData) => prevData.filter((item) => item.id_sud_reparation !== id));
+                message.success("La réparation a été supprimée avec succès.", 3);
                 fetchData()
               } catch (error) {
                 notification.error({
                   message: "Erreur de suppression",
-                  description: "Une erreur est survenue lors de la suppression d'inspection.",
+                  description: "Une erreur est survenue lors de la suppression de la réparation.",
                   duration: 5,
                 });
               }
