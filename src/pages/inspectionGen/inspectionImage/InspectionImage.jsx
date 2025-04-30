@@ -5,6 +5,7 @@ import { icons } from '../../../utils/prioriteIcons';
 import { Rnd } from 'react-rnd';
 import { putInspectionGenImage } from '../../../services/charroiService';
 import { useSelector } from 'react-redux';
+import html2canvas from 'html2canvas';
 
 const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) => {
   const [form] = Form.useForm();
@@ -31,32 +32,64 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
   const onFinish = async () => {
     try {
       await form.validateFields();
-
+  
       if (fileList.length === 0) {
         message.error("Veuillez télécharger une image.");
         return;
       }
-
+  
       setLoading(true);
-
+  
       const formData = new FormData();
-      formData.append('image', fileList[0].originFileObj);
       formData.append('id_sub_inspection_gen', subInspectionId);
       formData.append('user_id', userId);
 
-      await putInspectionGenImage(formData)
-
+      const imageContainer = document.querySelector('.image-container');
+      const file = fileList[0]?.originFileObj;
+  
+      if (file && imageContainer?.current) {
+        // Capture du rendu DOM
+        const canvas = await html2canvas(imageContainer.current);
+        const originalWidth = canvas.width;
+        const originalHeight = canvas.height;
+  
+        // Redimensionnement à 500px de large max (conserve ratio)
+        const targetWidth = 500;
+        const ratio = targetWidth / originalWidth;
+        const targetHeight = originalHeight * ratio;
+  
+        const resizedCanvas = document.createElement('canvas');
+        resizedCanvas.width = targetWidth;
+        resizedCanvas.height = targetHeight;
+  
+        const ctx = resizedCanvas.getContext('2d');
+        ctx.drawImage(canvas, 0, 0, originalWidth, originalHeight, 0, 0, targetWidth, targetHeight);
+  
+        // Convertir en fichier (Blob → File)
+        const blob = await new Promise(resolve => resizedCanvas.toBlob(resolve, 'image/png'));
+        const finalFile = new File([blob], 'image.png', { type: 'image/png' });
+  
+        formData.append('image', finalFile);
+      } else {
+        message.error("Impossible de capturer l’image.");
+        return;
+      }
+  
+      await putInspectionGenImage(formData);
+  
       notification.success({
         message: "Succès",
         description: "Image et icônes enregistrées avec succès."
       });
-
+  
       form.resetFields();
+      setPreviewImage(null);
+      setFileList([]);
       if (fetchData) fetchData();
       if (closeModal) closeModal();
-
+  
     } catch (err) {
-      console.error(err);
+      console.error("Erreur onFinish :", err);
       notification.error({
         message: "Erreur",
         description: "Échec de l'envoi."
@@ -65,7 +98,7 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
       setLoading(false);
     }
   };
-
+  
   const addIconToField = (icon, fieldName) => {
     setIconPositionsMap(prev => ({
       ...prev,
