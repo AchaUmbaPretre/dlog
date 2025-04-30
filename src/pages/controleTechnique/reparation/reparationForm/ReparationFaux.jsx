@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
-import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
+import { Col, DatePicker, Form, Input, Row, Select, Skeleton, Button, Divider} from 'antd';
+import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
 import { getChauffeur, getTypeReparation, getVehicule } from '../../../../services/charroiService';
 
@@ -11,7 +11,6 @@ const ReparationFormFaux = () => {
     const [loadingData, setLoadingData] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
     const [vehicule, setVehicule] = useState([]);
-    const [chauffeur, setChauffeur] = useState([]);
     const [reparation, setReparation] = useState([]);
     const [loading, setLoading] = useState(false);
     
@@ -27,7 +26,6 @@ const ReparationFormFaux = () => {
             setVehicule(vehiculeData.data.data)
             setReparation(reparationData.data.data)
             setFournisseur(fournisseurData.data)
-            setChauffeur(chauffeurData.data.data)
         } catch (error) {
             console.error('Error fetching data:', error);
 

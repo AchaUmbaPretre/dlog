@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
-import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
+import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
 import { getInspectionValide, getStatutVehicule, getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
@@ -48,9 +48,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                         description: item.description || ''
                     }))
                 })
-
-/*                 setIdSubInspectionGen(d[0]?.id_sub_inspection_gen)
- */            }
+            }
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -318,7 +316,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                                         />
                                         </Form.Item>
                                     </Col>
-                                    
+
                                     <Col xs={24} md={7}>
                                         <Form.Item
                                         {...restField}

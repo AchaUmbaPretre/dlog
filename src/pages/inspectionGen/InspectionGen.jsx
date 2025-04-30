@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input, Button, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, EditOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { deleteInspectionGen, getInspectionGen } from '../../services/charroiService';
 import moment from 'moment';
@@ -224,10 +224,6 @@ const InspectionGen = () => {
       setFilterVisible(!filterVisible)
     }
 
-/*     useEffect(()=> {
-        fetchData(filteredDatas)
-    }, [searchValue, filteredDatas]) */
-
     const showDeleteConfirm = (id, userId, setData) => {
       Modal.confirm({
         title: (
@@ -398,6 +394,10 @@ const InspectionGen = () => {
 
             <Menu.Item key="document">
               <FileTextOutlined style={{ color: 'blue' }} /> Document
+            </Menu.Item>
+
+            <Menu.Item key="image">
+              <FileImageOutlined style={{ color: 'magenta' }} /> Image
             </Menu.Item>
           </Menu>
         );
