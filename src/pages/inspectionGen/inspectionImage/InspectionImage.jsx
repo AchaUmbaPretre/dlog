@@ -1,70 +1,185 @@
-import React, { useState } from 'react'
-import { Form, Col, Upload, message, notification, Button } from 'antd';
-import { UploadOutlined, MinusCircleOutlined  } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Form, Card, Col, Upload, message, notification, Button } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { icons } from '../../../utils/prioriteIcons';
+import { Rnd } from 'react-rnd';
+import { putInspectionGenImage } from '../../../services/charroiService';
+import { useSelector } from 'react-redux';
 
-const InspectionImage = ({closeModal, fetchData, subInspectionId, vehicule }) => {
-    const [form] = Form.useForm();
-    const [loading, setLoading] = useState(false);
-    const [uploadedImages, setUploadedImages] = useState({});
-    const [iconPositionsMap, setIconPositionsMap] = useState({});
-    
-    
-    const handleImageUpload = (info, fieldName) => {
-        const file = info.fileList[0]?.originFileObj;
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setUploadedImages(prev => ({ ...prev, [fieldName]: e.target.result }));
-                setIconPositionsMap(prev => ({ ...prev, [fieldName]: [] })); // reset icons
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) => {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [fileList, setFileList] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [iconPositionsMap, setIconPositionsMap] = useState({ image: [] }); // keyed by field name "image"
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
-    const onFinish = async () => {
-        await form.validateFields();
+  const handleImageChange = ({ fileList: newFileList }) => {
+    const limitedFileList = newFileList.slice(-1);
+    setFileList(limitedFileList);
 
+    if (limitedFileList.length > 0) {
+      const file = limitedFileList[0].originFileObj;
+      setPreviewImage(URL.createObjectURL(file));
+      setIconPositionsMap({ image: [] }); 
+    } else {
+      setPreviewImage(null);
+      setIconPositionsMap({ image: [] });
     }
+  };
 
+  const onFinish = async () => {
+    try {
+      await form.validateFields();
 
+      if (fileList.length === 0) {
+        message.error("Veuillez télécharger une image.");
+        return;
+      }
+
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append('image', fileList[0].originFileObj);
+      formData.append('id_sub_inspection_gen', subInspectionId);
+      formData.append('user_id', userId);
+
+      await putInspectionGenImage(formData)
+
+      notification.success({
+        message: "Succès",
+        description: "Image et icônes enregistrées avec succès."
+      });
+
+      form.resetFields();
+      if (fetchData) fetchData();
+      if (closeModal) closeModal();
+
+    } catch (err) {
+      console.error(err);
+      notification.error({
+        message: "Erreur",
+        description: "Échec de l'envoi."
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addIconToField = (icon, fieldName) => {
+    setIconPositionsMap(prev => ({
+      ...prev,
+      [fieldName]: [...(prev[fieldName] || []), { icon, x: 0, y: 0, width: 50, height: 50 }]
+    }));
+  };
+
+  const updateIconPosition = (fieldName, index, updatedPos) => {
+    setIconPositionsMap(prev => {
+      const updated = [...(prev[fieldName] || [])];
+      updated[index] = { ...updated[index], ...updatedPos };
+      return { ...prev, [fieldName]: updated };
+    });
+  };
 
   return (
-    <>
-        <div className="controle_form">
-            <div className="controle_title_rows">
-                <div className="controle_h2"> AJOUTER L'IMAGE DANS L'INSPECTION DU VEHICULE {vehicule}</div>
-            </div>
-            <div className="controle_wrapper">
-                <Form
-                    form={form}
-                    layout="vertical"
-                    onFinish={onFinish}
+    <div className="controle_form">
+      <div className="controle_title_rows">
+        <h2 className="controle_h2">
+          Ajouter une image à l'inspection du véhicule <strong>{vehicule}</strong>
+        </h2>
+      </div>
+      <Card>
+        <div className="controle_wrapper" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <Form form={form} layout="vertical" onFinish={onFinish}>
+            <Col xs={24}>
+              <Form.Item
+                label="Image"
+                name="image"
+                rules={[{ required: true, message: 'Veuillez télécharger une image.' }]}
+              >
+                <Upload
+                  accept="image/*"
+                  listType="picture-card"
+                  beforeUpload={() => false}
+                  multiple={false}
+                  fileList={fileList}
+                  onChange={handleImageChange}
                 >
-                    <Col xs={24} md={24}>
-                        <Form.Item
-                            label="Image"
-                            name='img'
-                            valuePropName="fileList"
-                            getValueFromEvent={(e) => (Array.isArray(e?.fileList) ? e.fileList : [])}
-                            rules={[{ required: false, message: 'Veuillez télécharger une image' }]}
-                        >
-                            <Upload
-                                name="img"
-                                listType="picture"
-                                beforeUpload={() => false}
-                                onChange={(info) => handleImageUpload(info)}
-                            >
-                                <Button icon={<UploadOutlined />} className="custom-button">
-                                    Télécharger une image
-                                </Button>
-                            </Upload>
-                        </Form.Item>
-                    </Col>
-                </Form>
-            </div>
-        </div>
-    </>
-  )
-}
+                  {fileList.length < 1 && (
+                    <div>
+                      <UploadOutlined />
+                      <div style={{ marginTop: 8 }}>Téléverser</div>
+                    </div>
+                  )}
+                </Upload>
+              </Form.Item>
 
-export default InspectionImage
+              {previewImage && (
+                <div className="image-editor">
+                  <div className="icon-toolbar" style={{ marginBottom: 16 }}>
+                    {icons.map((icon) => (
+                      <Button key={icon.id} onClick={() => addIconToField(icon.icon, 'image')} style={{ marginRight: 8 }}>
+                        {icon.icon} {icon.label}
+                      </Button>
+                    ))}
+                  </div>
+
+                  <div className="image-container" style={{ position: 'relative', border: '1px solid #ccc', display: 'inline-block' }}>
+                    <img
+                      src={previewImage}
+                      alt="Uploaded"
+                      className="uploaded-image"
+                      style={{ maxWidth: '100%', display: 'block' }}
+                    />
+
+                    {(iconPositionsMap['image'] || []).map((pos, index) => (
+                      <Rnd
+                        key={index}
+                        bounds="parent"
+                        size={{ width: pos.width, height: pos.height }}
+                        position={{ x: pos.x, y: pos.y }}
+                        onDragStop={(e, d) =>
+                          updateIconPosition('image', index, { x: d.x, y: d.y })
+                        }
+                        onResizeStop={(e, direction, ref, delta, position) =>
+                          updateIconPosition('image', index, {
+                            width: ref.offsetWidth,
+                            height: ref.offsetHeight,
+                            ...position
+                          })
+                        }
+                      >
+                        <div
+                          style={{
+                            fontSize: '30px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%',
+                            height: '100%',
+                            cursor: 'move',
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)'
+                          }}
+                        >
+                          {pos.icon}
+                        </div>
+                      </Rnd>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </Col>
+
+            <Form.Item style={{ marginTop: 24 }}>
+              <Button type="primary" htmlType="submit" loading={loading}>
+                Enregistrer
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+export default InspectionImage;

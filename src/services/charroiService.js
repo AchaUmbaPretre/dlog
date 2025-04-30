@@ -229,6 +229,13 @@ export const deleteInspectionGen= async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/delete_inspection`, data );
 }
   
+export const putInspectionGenImage= async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/put_inspection_gen_image`, data , {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+}
 //Inspection validé
 export const getInspectionValide = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/inspection_validation?id_sub_inspection_gen=${id}`);
