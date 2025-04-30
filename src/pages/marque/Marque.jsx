@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, notification, Tabs, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
+import { Table, Button, Modal, Input, notification, Tabs } from 'antd';
 import { CarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getMarque } from '../../services/charroiService';
 import TabPane from 'antd/es/tabs/TabPane';
@@ -7,7 +7,6 @@ import MarqueForm from './marqueForm/MarqueForm';
 import Modele from '../modeles/Modele';
 
 const { Search } = Input;
-
 
 const Marque = () => {
     const [data, setData] = useState([])
@@ -23,35 +22,39 @@ const Marque = () => {
     
     const handleTabChange = (key) => {
         setActiveKey(key);
-      };
+    };
     
-       const fetchData = async() => {
-            try {
-                const { data } = await getMarque();
-                setData(data);
-                setLoading(false);
+    const fetchData = async() => {
+        try {
+            const { data } = await getMarque();
+            setData(data);
+            setLoading(false);
     
-            } catch (error) {
-                notification.error({
-                    message: 'Erreur de chargement',
-                    description: 'Une erreur est survenue lors du chargement des données.',
-                  });
-                  setLoading(false);
-            }
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+            });
+            setLoading(false);
         }
+    }
     
-        useEffect(()=> {
-            fetchData()
-        }, [])
+    useEffect(()=> {
+        fetchData()
+    }, [])
     
     const columns = [
-        { 
-            title: '#', 
-            dataIndex: 'id', 
-            key: 'id', 
-            render: (text, record, index) => index + 1, 
-            width: "3%" 
-          },
+        {
+            title: '#',
+            dataIndex: 'id',
+            key: 'id',
+            render: (text, record, index) => {
+              const pageSize = pagination.pageSize || 10;
+              const pageIndex = pagination.current || 1;
+              return (pageIndex - 1) * pageSize + index + 1;
+            },
+            width: "4%",      
+        },
         {
             title: 'Marque',
             dataIndex: 'nom_marque',
