@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
+import React, { useState } from 'react'
+import { Col, Form, notification, Input, Row, Button, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { postMarque } from '../../../services/charroiService';
 
 const MarqueForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-    const [modele, setModele] = useState([]);
     
         const onFinish = async (values) => {
             const loadingKey = 'loadingMarque';
