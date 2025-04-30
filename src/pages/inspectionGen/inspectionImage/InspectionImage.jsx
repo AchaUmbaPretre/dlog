@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Form, Col, Upload, message, notification, Button } from 'antd';
 import { UploadOutlined, MinusCircleOutlined  } from '@ant-design/icons';
 
-const InspectionImage = () => {
+const InspectionImage = ({closeModal, fetchData, subInspectionId, vehicule }) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [uploadedImages, setUploadedImages] = useState({});
@@ -32,7 +32,7 @@ const InspectionImage = () => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">FORM IMAGE</div>
+                <div className="controle_h2"> AJOUTER L'IMAGE DANS L'INSPECTION DU VEHICULE {vehicule}</div>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -52,7 +52,7 @@ const InspectionImage = () => {
                                 name="img"
                                 listType="picture"
                                 beforeUpload={() => false}
-                                onChange={(info) => handleImageUpload(info, name)}
+                                onChange={(info) => handleImageUpload(info)}
                             >
                                 <Button icon={<UploadOutlined />} className="custom-button">
                                     Télécharger une image

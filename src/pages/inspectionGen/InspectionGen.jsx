@@ -62,7 +62,7 @@ const InspectionGen = () => {
     const [filterVisible, setFilterVisible] = useState(false);
     const [filteredDatas, setFilteredDatas] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    
+    const [vehicule, setVehicule] = useState(null)
 
     const handleExportExcel = () => {
       try {
@@ -318,10 +318,13 @@ const InspectionGen = () => {
         setModalType(null);
     };
 
-    const openModal = (type, inspectionId = '') => {
+    console.log(vehicule)
+
+    const openModal = (type, inspectionId = '', vehicule) => {
       closeAllModals();
       setModalType(type);
       setInspectionId(inspectionId)
+      setVehicule(vehicule)
     };
 
     const getActionMenu = (record, openModal) => {
@@ -349,7 +352,7 @@ const InspectionGen = () => {
                 openModal('Document', record.id_sub_inspection_gen)
               break;
             case 'image':
-                openModal('Image', record.id_sub_inspection_gen)
+                openModal('Image', record.id_sub_inspection_gen, record.immatriculation)
               break;
             default:
               break;
@@ -967,7 +970,7 @@ const InspectionGen = () => {
             width={800}
             centered
         >
-          <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
+          <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} vehicule={vehicule} />
         </Modal>
     </>
   )
