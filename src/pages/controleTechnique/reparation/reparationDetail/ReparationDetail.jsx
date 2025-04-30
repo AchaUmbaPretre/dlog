@@ -40,9 +40,8 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await getReparationOne(idReparation);
-
-            const res = await getSuiviReparation(idReparation);
+            const response = await getReparationOne(idReparation, inspectionId);
+            const res = await getSuiviReparation(idReparation, inspectionId);
 
             setDataThree(res?.data);
             setData(response?.data?.data);
@@ -59,10 +58,10 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
     };
 
     useEffect(() => {
-        if (idReparation) {
+        if (idReparation || inspectionId) {
             fetchData();
         }
-    }, [idReparation]);
+    }, [idReparation, inspectionId]);
 
     const columns = [
             {

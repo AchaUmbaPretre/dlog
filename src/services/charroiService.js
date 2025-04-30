@@ -149,8 +149,8 @@ export const getReparation = async () => {
     return axios.get(`${DOMAIN}/api/charroi/reparation`);
 }
 
-export const getReparationOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/reparationOne?id_sud_reparation=${id}`);
+export const getReparationOne = async (id, inspectionId) => {
+    return axios.get(`${DOMAIN}/api/charroi/reparationOne?id_sud_reparation=${id}&id_inspection_gen=${inspectionId}`);
 }
 
 export const postReparation = async (data) => {
@@ -255,8 +255,8 @@ export const postSuiviInspections= async (data) => {
 
 //Suivi reparation
 
-export const getSuiviReparation= async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/suivi_reparation?id_reparation=${id}`);
+export const getSuiviReparation= async (id, inspectionId) => {
+    return axios.get(`${DOMAIN}/api/charroi/suivi_reparation?id_reparation=${id}&id_inspection_gen=${inspectionId}`);
 }
 
 export const getSuiviReparationOne = async (id) => {
