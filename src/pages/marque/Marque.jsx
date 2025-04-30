@@ -58,23 +58,14 @@ const Marque = () => {
         {
             title: 'Marque',
             dataIndex: 'nom_marque',
-        }      
-/*         {
-            title: 'Actions',
-            dataIndex: 'actions',
-            render: (text, record) => (
-              <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
-                <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
-              </Dropdown>
-            )
-          } */
+        }
       ];
 
-      const handleAddMarque = () => openModal('Add')
+    const handleAddMarque = () => openModal('Add')
 
-      const closeAllModals = () => {
+    const closeAllModals = () => {
         setModalType(null);
-      };
+    };
       
     const openModal = (type, id='') => {
         closeAllModals();
@@ -88,7 +79,7 @@ const Marque = () => {
 
   return (
     <>
-          <Tabs
+        <Tabs
             activeKey={activeKey[0]}
             onChange={handleTabChange}
             type="card"
@@ -96,59 +87,59 @@ const Marque = () => {
             renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
         >
             <TabPane
-            tab={
-                <span>
-                <CarOutlined
-                    style={{
-                    color: '#1890ff',
-                    fontSize: '18px',
-                    marginRight: '8px',
-                    }}
-                />
-                Liste des marques
-                </span>
-            }
-            key="1"
+                tab={
+                    <span>
+                    <CarOutlined
+                        style={{
+                        color: '#1890ff',
+                        fontSize: '18px',
+                        marginRight: '8px',
+                        }}
+                    />
+                    Liste des marques
+                    </span>
+                }
+                key="1"
             >
                 <div className="client">
-                <div className="client-wrapper">
-                    <div className="client-row">
-                        <div className="client-row-icon">
-                            <CarOutlined className='client-icon'/>
+                    <div className="client-wrapper">
+                        <div className="client-row">
+                            <div className="client-row-icon">
+                                <CarOutlined className='client-icon'/>
+                            </div>
+                            <h2 className="client-h2">Liste des marques</h2>
                         </div>
-                        <h2 className="client-h2">Liste des marques</h2>
-                    </div>
 
-                    <div className="client-actions">
-                        <div className="client-row-left">
-                            <Search 
-                                placeholder="Recherche..." 
-                                onChange={(e) => setSearchValue(e.target.value)}
-                                enterButton
-                            />
+                        <div className="client-actions">
+                            <div className="client-row-left">
+                                <Search 
+                                    placeholder="Recherche..." 
+                                    onChange={(e) => setSearchValue(e.target.value)}
+                                    enterButton
+                                />
+                            </div>
+                            <div className="client-rows-right">
+                                <Button
+                                    type="primary"
+                                    icon={<PlusCircleOutlined />}
+                                    onClick={handleAddMarque}
+                                >
+                                    Ajouter une marque
+                                </Button>
+                            </div>
                         </div>
-                        <div className="client-rows-right">
-                            <Button
-                                type="primary"
-                                icon={<PlusCircleOutlined />}
-                                onClick={handleAddMarque}
-                            >
-                                Ajouter une marque
-                            </Button>
-                        </div>
+                        <Table
+                            columns={columns}
+                            dataSource={filteredData}
+                            rowKey="id_marque"
+                            loading={loading}
+                            scroll={scroll}
+                            size="small"
+                            onChange={(pagination)=> setPagination(pagination)}
+                            bordered
+                            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                        />
                     </div>
-                    <Table
-                        columns={columns}
-                        dataSource={filteredData}
-                        rowKey="id_marque"
-                        loading={loading}
-                        scroll={scroll}
-                        size="small"
-                        onChange={(pagination)=> setPagination(pagination)}
-                        bordered
-                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                    />
-                </div>
                 </div>
             </TabPane>
 
