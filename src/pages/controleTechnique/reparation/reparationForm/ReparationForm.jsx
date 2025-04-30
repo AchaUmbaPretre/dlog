@@ -373,7 +373,6 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                                         >
                                         </Button>
                                     </Col>
-
                                 </Row>
                             ))}
                             <Form.Item>
