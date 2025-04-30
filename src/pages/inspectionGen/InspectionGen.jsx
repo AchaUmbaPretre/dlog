@@ -20,6 +20,7 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import InspectionGenDoc from './inspectionGenDoc/InspectionGenDoc';
 import { handleRepair, handleValider } from '../../utils/modalUtils';
+import InspectionImage from './inspectionImage/InspectionImage';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -346,6 +347,9 @@ const InspectionGen = () => {
               break;
             case 'document':
                 openModal('Document', record.id_sub_inspection_gen)
+              break;
+            case 'image':
+                openModal('Image', record.id_sub_inspection_gen)
               break;
             default:
               break;
@@ -953,6 +957,17 @@ const InspectionGen = () => {
             centered
         >
           <InspectionGenDoc closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Image'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={800}
+            centered
+        >
+          <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
         </Modal>
     </>
   )
