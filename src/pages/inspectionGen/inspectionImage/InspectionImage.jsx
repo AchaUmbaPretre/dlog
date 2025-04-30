@@ -47,9 +47,9 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
       const imageContainer = document.querySelector('.image-container');
       const file = fileList[0]?.originFileObj;
   
-      if (file && imageContainer?.current) {
+      if (file && imageContainer) {
         // Capture du rendu DOM
-        const canvas = await html2canvas(imageContainer.current);
+        const canvas = await html2canvas(imageContainer);
         const originalWidth = canvas.width;
         const originalHeight = canvas.height;
   
