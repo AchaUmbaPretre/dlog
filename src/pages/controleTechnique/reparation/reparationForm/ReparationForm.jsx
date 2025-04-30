@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
+import { Col, DatePicker, Form, Modal, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
 import { getInspectionValide, getStatutVehicule, getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import { getTypes } from '../../../../services/typeService';
 import moment from 'moment';
+import ReparationDetail from '../reparationDetail/ReparationDetail';
 
 const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
     const [form] = Form.useForm();
@@ -16,7 +17,8 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [loading, setLoading] = useState(false);
     const [ statut, setStatut ] = useState([]);
-    
+    const [modalType, setModalType] = useState(null);
+    const [idReparation, setIdReparation] = useState(null)
     
     const fetchDatas = async () => {
         try {
@@ -57,9 +59,21 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
         }
     }
 
-        useEffect(()=> {
-            fetchDatas()
-        }, [subInspectionId])
+    const closeAllModals = () => {
+        setModalType(null);
+    };
+
+    useEffect(()=> {
+        fetchDatas()
+    }, [subInspectionId])
+
+    console.log(idReparation)
+
+    const openModal = (type, idReparation = '') => {
+        closeAllModals();
+        setModalType(type);
+        setIdReparation(idReparation)
+      };
         
     const onFinish = async (values) => {
         await form.validateFields();
@@ -68,7 +82,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
         
         setLoading(true)
         try {
-            await postReparation({
+            const res = await postReparation({
                 ...values,
                 user_cr : userId,
                 id_sub_inspection_gen : subInspectionId
@@ -77,6 +91,12 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
             fetchData();
             form.resetFields();
             closeModal()
+
+            if(subInspectionId) {
+                const id = res?.data.data.id
+                openModal('Detail', id)
+            }
+
             
         } catch (error) {
             console.error("Erreur lors de l'ajout de controle technique:", error);
@@ -377,6 +397,16 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
                 </Form>
             </div>
         </div>
+                <Modal
+                    title=""
+                    visible={modalType === 'Detail'}
+                    onCancel={closeAllModals}
+                    footer={null}
+                     width={900}
+                    centered
+                  >
+                    <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={idReparation} />
+                </Modal>
     </>
   )
 }
