@@ -21,6 +21,7 @@ import 'jspdf-autotable';
 import InspectionGenDoc from './inspectionGenDoc/InspectionGenDoc';
 import { handleRepair, handleValider } from '../../utils/modalUtils';
 import InspectionImage from './inspectionImage/InspectionImage';
+import ReparationDetail from '../controleTechnique/reparation/reparationDetail/ReparationDetail';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -971,6 +972,17 @@ const InspectionGen = () => {
             centered
         >
           <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} vehicule={vehicule} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+          <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={null} inspectionId={inspectionId} />
         </Modal>
     </>
   )

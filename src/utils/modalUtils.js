@@ -58,7 +58,7 @@ export const handleRepair = (openModal, record) => {
               style={{ backgroundColor: '#1677ff', color: 'white', borderRadius: 4 }}
               onClick={() => {
                 modal.destroy();
-                openModal('Reparer', record.id_sub_inspection_gen);
+                openModal('Detail', record.id_inspection_gen);
                 notification.info({
                   message: 'Mode consultation',
                   description: 'Vous visualisez une réparation déjà enregistrée.',

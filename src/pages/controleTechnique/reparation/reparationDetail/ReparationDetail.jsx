@@ -10,7 +10,7 @@ import ReclamationForm from '../reclamationForm/ReclamationForm';
 
 const { Title } = Typography;
 
-const ReparationDetail = ({ idReparation }) => {
+const ReparationDetail = ({ idReparation, inspectionId }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [detail, setDetail] = useState([]);
@@ -22,7 +22,6 @@ const ReparationDetail = ({ idReparation }) => {
     const [idReparations, setIdReparations] = useState(null);
     const [dataThree, setDataThree] = useState([]);
     const [dataFour, setDataFour] = useState([]);
-
 
     const closeAllModals = () => {
         setModalType(null);
