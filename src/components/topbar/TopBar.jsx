@@ -16,11 +16,10 @@ import { deletePutNotification, getNotification } from '../../services/tacheServ
 const TopBar = () => {
   const user = useSelector((state) => state.user?.currentUser);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const role = useSelector((state) => state.user?.currentUser?.role);
   const navigate = useNavigate();
   const { isOpen, toggleMenu } = useMenu();
   const { t, i18n } = useTranslation();
-  const [open, setOpen] = useState(false)
-
   const [notifications, setNotifications] = useState([]);
   const [visible, setVisible] = useState(false);
   const [selectedNotif, setSelectedNotif] = useState(null);
@@ -145,11 +144,16 @@ const TopBar = () => {
           visible={visible}
           onVisibleChange={setVisible}
         >
-          <Badge count={notifications.length} overflowCount={99}>
+          {
+            role === 'Admin' &&
+            <div>
+            <Badge count={notifications.length} overflowCount={99}>
             <div className="topbar-icons">
               <BellOutlined aria-label="Notifications" />
             </div>
-          </Badge>
+          </Badge> 
+            </div>
+            }
         </Popover>
         <div className="topbar-icons">
           <BellOutlined aria-label="Notifications" />
