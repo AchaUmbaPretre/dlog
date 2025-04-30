@@ -968,7 +968,7 @@ const InspectionGen = () => {
             visible={modalType === 'Image'}
             onCancel={closeAllModals}
             footer={null}
-            width={600}
+            width={750}
             centered
         >
           <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} vehicule={vehicule} />
