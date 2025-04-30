@@ -12,7 +12,7 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
-  const [iconPositionsMap, setIconPositionsMap] = useState({ image: [] }); // keyed by field name "image"
+  const [iconPositionsMap, setIconPositionsMap] = useState({ image: [] });
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   const handleImageChange = ({ fileList: newFileList }) => {
