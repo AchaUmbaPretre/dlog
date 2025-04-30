@@ -115,14 +115,6 @@ const Batiment = ({datas}) => {
     openModal('DocumentBatimentForm', idBatiment);
   };
 
-  const handleAddEntrepot = (idBatiment) => {
-    openModal('FormEntrepot', idBatiment);
-  };
-
-  const handleListEntrepot = (idBatiment) => {
-    openModal('ListEntrepot', idBatiment);
-  };
-
   const handleListBureau = (idBatiment) => {
     openModal('ListBureau', idBatiment)
   }
