@@ -138,6 +138,7 @@ const Batiment = ({datas}) => {
   const handleListeEquipement = ( idBatiment) =>{
     openModal('listeEquipement', idBatiment)
   }
+  
   const handleAddEquipement = ( idBatiment) =>{
     openModal('addEquipement', idBatiment)
   }
