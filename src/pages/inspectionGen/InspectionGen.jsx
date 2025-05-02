@@ -323,11 +323,11 @@ const InspectionGen = () => {
       setModalType(type);
       setInspectionId(inspectionId)
       setVehicule(vehicule)
-    };
+  };
 
   const getActionMenu = (record, openModal) => {
     const handleClick = ({ key }) => {
-      
+
       switch (key) {
         case 'voirDetail':
           openModal('DetailInspection', record.id_inspection_gen)
@@ -409,7 +409,7 @@ const InspectionGen = () => {
         );
     };
 
-    const columnStyles = {
+  const columnStyles = {
         title: {
           maxWidth: '220px',
           whiteSpace: 'nowrap',
@@ -424,7 +424,7 @@ const InspectionGen = () => {
         },
     };
       
-    const menus = (
+  const menus = (
         <Menu>
           {Object.keys(columnsVisibility).map(columnName => (
             <Menu.Item key={columnName}>
@@ -437,11 +437,11 @@ const InspectionGen = () => {
         </Menu>
     ); 
     
-    const handleFilterChange = (newFilters) => {
+  const handleFilterChange = (newFilters) => {
       setFilteredDatas(newFilters); 
     };
 
-    const toggleColumnVisibility = (columnName, e) => {
+  const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
         setColumnsVisibility(prev => ({
           ...prev,
