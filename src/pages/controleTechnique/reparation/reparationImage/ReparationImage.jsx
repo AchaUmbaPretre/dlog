@@ -68,7 +68,6 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
       formData.append('commentaire', values.commentaire);
       formData.append('id_type_photo', values.id_type_photo);
 
-
       const imageContainer = document.querySelector('.image-container');
       const file = fileList[0]?.originFileObj;
   
