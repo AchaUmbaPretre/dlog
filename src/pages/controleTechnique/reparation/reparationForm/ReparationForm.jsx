@@ -8,7 +8,7 @@ import { getTypes } from '../../../../services/typeService';
 import moment from 'moment';
 import ReparationDetail from '../reparationDetail/ReparationDetail';
 
-const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
+const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
@@ -67,7 +67,6 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId}) => {
         fetchDatas()
     }, [subInspectionId])
 
-    console.log(idReparation)
 
     const openModal = (type, idReparation = '') => {
         closeAllModals();

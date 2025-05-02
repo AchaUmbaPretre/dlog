@@ -400,7 +400,7 @@ const Reparation = () => {
                   <Button
                     icon={<EditOutlined />}
                     style={{ color: 'green' }}
-                    onClick={() => handleEdit(record.id_sub_inspection_gen)}
+                    onClick={() => handleEdit(record.id_sud_reparation)}
                     disabled={role !== 'Admin'}
                     aria-label="Edit tache"
                   />
@@ -741,6 +741,17 @@ const Reparation = () => {
             centered
         >
             <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={idReparation} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Edit'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1023}
+            centered
+        >
+          <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={null} idReparations={idReparation} />
         </Modal>
 
         <Modal
