@@ -736,14 +736,14 @@ const Reparation = () => {
         </Modal>
 
         <Modal
-            title=""
-            visible={modalType === 'Detail'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={900}
-            centered
+          title=""
+          visible={modalType === 'Detail'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
         >
-            <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={idReparation} />
+          <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={idReparation} />
         </Modal>
 
         <Modal
