@@ -483,7 +483,7 @@ const InspectionGen = () => {
           </div>
           ),
           ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
-        }, 
+        },
         {
           title: 'Chauffeur',
           dataIndex: 'nom_chauffeur',
