@@ -102,6 +102,8 @@ const Reparation = () => {
             case 'ajouterSuivi':
                 openModal('AddSuivi', record.id_reparation)
                 break;
+            case 'edit' :
+              openModal('Edit', record.id_sud_reparation)
             default:
               break;
           }
