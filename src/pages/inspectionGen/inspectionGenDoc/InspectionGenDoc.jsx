@@ -134,10 +134,8 @@ const InspectionGenDoc = ({subInspectionId}) => {
         }
       };
       
-      const handleUpload = (e) => Array.isArray(e) ? e : e?.fileList;
+    const handleUpload = (e) => Array.isArray(e) ? e : e?.fileList;
     
-
-
   return (
     <>
         <div className="document_reparation">
