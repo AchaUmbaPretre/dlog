@@ -449,38 +449,38 @@ const InspectionGen = () => {
         }));
     };
 
-    const columns = [
-        {
-            title: '#',
-            dataIndex: 'id',
-            key: 'id',
-            render: (text, record, index) => {
-              const pageSize = pagination.pageSize || 10;
-              const pageIndex = pagination.current || 1;
-              return (pageIndex - 1) * pageSize + index + 1;
-            },
+  const columns = [
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+        render: (text, record, index) => {
+          const pageSize = pagination.pageSize || 10;
+          const pageIndex = pagination.current || 1;
+            return (pageIndex - 1) * pageSize + index + 1;
+          },
             width: "4%",      
-        },
-        {
-            title: 'Matricule',
-            dataIndex: 'immatriculation',
-             ...getColumnSearchProps(
-                    'immatriculation',
-                    searchText,
-                    setSearchText,
-                    setSearchedColumn,
-                    searchInput,
-                    searchedColumn
-                ),
-            render: (text) => (
-                <div className="vehicule-matricule">
-                    <span className="car-wrapper">
-                        <span className="car-boost" />
-                        <CarOutlined className="car-icon-animated" />
-                        <span className="car-shadow" />
-                    </span>
-                    <Tag color="blue">{text}</Tag>
-                </div>
+      },
+      {
+        title: 'Matricule',
+        dataIndex: 'immatriculation',
+        ...getColumnSearchProps(
+        'immatriculation',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput,
+            searchedColumn
+        ),
+        render: (text) => (
+          <div className="vehicule-matricule">
+            <span className="car-wrapper">
+              <span className="car-boost" />
+                <CarOutlined className="car-icon-animated" />
+                <span className="car-shadow" />
+              </span>
+                <Tag color="blue">{text}</Tag>
+              </div>
             ),
             ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
         }, 
