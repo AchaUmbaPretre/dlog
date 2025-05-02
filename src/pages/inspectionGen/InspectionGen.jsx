@@ -319,8 +319,6 @@ const InspectionGen = () => {
         setModalType(null);
     };
 
-    console.log(vehicule)
-
     const openModal = (type, inspectionId = '', vehicule) => {
       closeAllModals();
       setModalType(type);

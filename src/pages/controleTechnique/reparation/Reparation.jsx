@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ToolOutlined, ExclamationCircleOutlined, DeleteOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { ToolOutlined, ExclamationCircleOutlined, EditOutlined, DeleteOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Input, Button, Typography, Tooltip, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
@@ -24,6 +24,7 @@ const Reparation = () => {
         pageSize: 15,
     }); 
     const [data, setData] = useState([]);
+    const role = useSelector((state) => state.user?.currentUser?.role);
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
     const [idReparation, setIdReparation] = useState('')
@@ -404,6 +405,15 @@ const Reparation = () => {
             dataIndex: 'actions',
             render: (text, record) => (
               <Space>
+                <Tooltip title="Modifier">
+                  <Button
+                    icon={<EditOutlined />}
+                    style={{ color: 'green' }}
+                    onClick={() => handleEdit(record.id_sub_inspection_gen)}
+                    disabled={role !== 'Admin'}
+                    aria-label="Edit tache"
+                  />
+                </Tooltip>
                 <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
                   <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
                 </Dropdown>
@@ -421,6 +431,7 @@ const Reparation = () => {
     ];
 
     const handleAddReparation = () => openModal('Add');
+    const handleEdit = (id) => openModal('Edit', id)
 
     const closeAllModals = () => {
       setModalType(null);
