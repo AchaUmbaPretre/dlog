@@ -119,6 +119,7 @@ const Reparation = () => {
             <Menu.Item key="Document">
               <FileTextOutlined style={{ color: 'blue' }} /> Document
             </Menu.Item>
+            <Menu.Divider />
             <Menu.Item key="image">
               <FileImageOutlined style={{ color: 'magenta' }} /> Image
             </Menu.Item>
