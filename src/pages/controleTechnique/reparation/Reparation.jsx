@@ -357,42 +357,45 @@ const Reparation = () => {
           ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' }),
         },
         {
-          title: 'Etat',
+          title: 'État',
           dataIndex: 'nom_type_statut',
           render: (status) => {
             let color = 'default';
             let icon = null;
-          
+        
             switch (status) {
               case 'En attente':
                 color = 'orange';
                 icon = <ClockCircleOutlined />;
-              break;
+                break;
               case 'En cours':
                 color = 'blue';
                 icon = <SyncOutlined spin />;
                 break;
-                case 'Terminé':
-                  color = 'green';
-                  icon = <CheckCircleOutlined />;
-                  break;
-                case 'Annulé':
-                  color = 'red';
-                  icon = <CloseCircleOutlined />;
-                  break;
-                default:
-                  color = 'default';
-              }
-
-              return (
-                <Tag icon={icon} color={color} style={{ fontWeight: 500 }}>
-                  {status}
-                </Tag>
-              );
-            },
-            ...(columnsVisibility['Etat'] ? {} : { className: 'hidden-column' }),
-
-        },          
+              case 'Terminé':
+                color = 'green';
+                icon = <CheckCircleOutlined />;
+                break;
+              case 'Réparé':
+                color = 'cyan';
+                icon = <ToolOutlined />;
+                break;
+              case 'Annulé':
+                color = 'red';
+                icon = <CloseCircleOutlined />;
+                break;
+              default:
+                color = 'default';
+            }
+        
+            return (
+              <Tag icon={icon} color={color} style={{ fontWeight: 500 }}>
+                {status}
+              </Tag>
+            );
+          },
+          ...(columnsVisibility['Etat'] ? {} : { className: 'hidden-column' }),
+        },                 
         {
             title: 'Actions',
             dataIndex: 'actions',
