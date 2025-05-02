@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Typography, Tag } from 'antd';
+import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined, UserOutlined, ExclamationOutlined } from '@ant-design/icons';
 import { getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
@@ -7,8 +7,6 @@ import './reparationDetail.scss'
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import SuiviReparationForm from '../suiviReparation/suiviReparationForm/SuiviReparationForm';
 import ReclamationForm from '../reclamationForm/ReclamationForm';
-
-const { Title } = Typography;
 
 const ReparationDetail = ({ idReparation, inspectionId }) => {
     const [data, setData] = useState(null);
@@ -27,11 +25,11 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
         setModalType(null);
       };
 
-      const openModal = (type, id='') => {
+    const openModal = (type, id='') => {
         closeAllModals();
         setModalType(type);
         setIdReparations(id)
-      };
+    };
 
     const handleDetails = (id) => openModal('Add', id);
 
