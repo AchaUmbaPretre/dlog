@@ -310,52 +310,52 @@ const InspectionGen = () => {
           window.removeEventListener('online', handleReconnect);
       };
   }, [searchValue, filteredDatas]);
-  
 
-    const handleAddInspection = () => openModal('Add');
-    const handleEdit = (id) => openModal('Edit', id)
+  const handleAddInspection = () => openModal('Add');
+  const handleEdit = (id) => openModal('Edit', id)
 
-    const closeAllModals = () => {
-      setModalType(null);
-    };
+  const closeAllModals = () => {
+    setModalType(null);
+  };
 
-    const openModal = (type, inspectionId = '', vehicule) => {
+  const openModal = (type, inspectionId = '', vehicule) => {
       closeAllModals();
       setModalType(type);
       setInspectionId(inspectionId)
       setVehicule(vehicule)
     };
 
-    const getActionMenu = (record, openModal) => {
-        const handleClick = ({ key }) => {
-          switch (key) {
-            case 'voirDetail':
-                openModal('DetailInspection', record.id_inspection_gen)
-              break;
-            case 'validerInspection':
-                handleValider(openModal, record)
-              break;
-            case 'DetailSuivi':
-                openModal('DetailSuivi', record.id_sub_inspection_gen)
-                break;
-            case 'ajouterSuivi':
-                openModal('AddSuivi', record.id_sub_inspection_gen)
-              break;
-            case 'reparer':
-                handleRepair(openModal, record);
-              break;
-            case 'modifier':
-                openModal('Edit', record.id_sub_inspection_gen)
-              break;
-            case 'document':
-                openModal('Document', record.id_sub_inspection_gen)
-              break;
-            case 'image':
-                openModal('Image', record.id_sub_inspection_gen, record.immatriculation)
-              break;
-            default:
-              break;
-          }
+  const getActionMenu = (record, openModal) => {
+    const handleClick = ({ key }) => {
+      
+      switch (key) {
+        case 'voirDetail':
+          openModal('DetailInspection', record.id_inspection_gen)
+          break;
+        case 'validerInspection':
+          handleValider(openModal, record)
+          break;
+        case 'DetailSuivi':
+          openModal('DetailSuivi', record.id_sub_inspection_gen)
+          break;
+        case 'ajouterSuivi':
+          openModal('AddSuivi', record.id_sub_inspection_gen)
+          break;
+        case 'reparer':
+          handleRepair(openModal, record);
+          break;
+        case 'modifier':
+          openModal('Edit', record.id_sub_inspection_gen)
+          break;
+        case 'document':
+          openModal('Document', record.id_sub_inspection_gen)
+          break;
+        case 'image':
+          openModal('Image', record.id_sub_inspection_gen, record.immatriculation)
+          break;
+        default:
+          break;
+        }
         };
       
         return (
