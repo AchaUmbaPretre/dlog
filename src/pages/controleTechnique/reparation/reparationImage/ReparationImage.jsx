@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Card, Col, Upload, Select, message, notification, Button } from 'antd';
+import { Form, Card, Col, Input, Upload, Select, message, notification, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { Rnd } from 'react-rnd';
 import { useSelector } from 'react-redux';
@@ -149,12 +149,22 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
             onFinish={onFinish}
           >
             <Col xs={24}>
-            <Form.Item
+              <Form.Item
+                label="Commentaire"
+                name="commentaire"
+                rules={[{ required: true, message: 'Saisir le titre...' }]}
+              >
+                <Input placeholder="Saisir le commentaire..." />
+              </Form.Item>
+            </Col>
+            <Col xs={24}>
+              <Form.Item
                     label="Status"
                     name="id_type_photo"
                     rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
                 >
                     <Select
+                        allowClear
                         showSearch
                         options={typePhoto?.map((item) => ({
                                 value: item.id_type_photo,
@@ -163,7 +173,7 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
                         placeholder="Sélectionnez un statut..."
                         optionFilterProp="label"
                     />
-                </Form.Item>
+              </Form.Item>
             </Col>
             <Col xs={24}>
               <Form.Item
