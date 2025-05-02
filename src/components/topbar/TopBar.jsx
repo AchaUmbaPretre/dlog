@@ -30,7 +30,6 @@ const TopBar = () => {
   };
 
   const handleNotificationClick = async (notif) => {
-    console.log(notif)
     try {
       setSelectedNotif(notif);
       await deletePutNotification(notif.id_notifications);
@@ -90,7 +89,6 @@ const TopBar = () => {
     i18n.changeLanguage(value);
   };
 
-  // Afficher les notifications dans le Popover
   const renderNotifications = () => (
     <List
       dataSource={notifications}
@@ -146,18 +144,13 @@ const TopBar = () => {
         >
           {
             role === 'Admin' &&
-            <div>
             <Badge count={notifications.length} overflowCount={99}>
-            <div className="topbar-icons">
-              <BellOutlined aria-label="Notifications" />
-            </div>
-          </Badge> 
-            </div>
+              <div className="topbar-icons">
+                <BellOutlined aria-label="Notifications" />
+              </div>
+            </Badge> 
             }
         </Popover>
-        <div className="topbar-icons">
-          <BellOutlined aria-label="Notifications" />
-        </div>
         <hr />
         <div className="topbar-icons">
           <MailOutlined aria-label="Messages" />
