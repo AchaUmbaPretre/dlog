@@ -316,7 +316,7 @@ const InspectionGen = () => {
     const handleEdit = (id) => openModal('Edit', id)
 
     const closeAllModals = () => {
-        setModalType(null);
+      setModalType(null);
     };
 
     const openModal = (type, inspectionId = '', vehicule) => {
