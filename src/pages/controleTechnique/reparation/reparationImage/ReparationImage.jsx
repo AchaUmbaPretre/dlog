@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import html2canvas from 'html2canvas';
 import { icons } from '../../../../utils/prioriteIcons';
 import { getType_photo } from '../../../../services/batimentService';
+import { postReparationImage } from '../../../../services/charroiService';
 
 const { TextArea } = Input;
 
@@ -51,7 +52,7 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
     }
   };
 
-  const onFinish = async () => {
+  const onFinish = async (values) => {
     try {
       await form.validateFields();
   
@@ -64,7 +65,9 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
   
       const formData = new FormData();
       formData.append('id_reparation', idReparation);
-      formData.append('user_id', userId);
+      formData.append('commentaire', values.commentaire);
+      formData.append('id_type_photo', values.id_type_photo);
+
 
       const imageContainer = document.querySelector('.image-container');
       const file = fileList[0]?.originFileObj;
@@ -97,11 +100,11 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
         return;
       }
   
-/*       await putInspectionGenImage(formData);
- */  
+      await postReparationImage(formData);
+ 
       notification.success({
         message: "Succès",
-        description: "Image et icônes enregistrées avec succès."
+        description: "Image enregistrées avec succès."
       });
   
       form.resetFields();

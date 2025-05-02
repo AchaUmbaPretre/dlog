@@ -166,8 +166,8 @@ export const postReparationImage = async (data) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      });
-}
+    });
+} 
 
 //Carateristique rep
 export const getCarateristiqueRep = async () => {
