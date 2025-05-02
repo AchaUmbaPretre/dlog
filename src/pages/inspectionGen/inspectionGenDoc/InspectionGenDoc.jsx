@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Button, Table, Form, notification, Input, Select, Upload, Popconfirm, Space, Tooltip, Tag } from 'antd';
 import { FileTextOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
-/* import { getDocumentReparation, postDocumentReparation } from '../../../../services/charroiService';
- */import { getTagProps } from '../../../utils/prioriteIcons';
+import { getTagProps } from '../../../utils/prioriteIcons';
 import config from '../../../config';
 import { getDocumentInspection, postDocumentReparation } from '../../../services/charroiService';
 
@@ -13,11 +12,8 @@ const InspectionGenDoc = ({subInspectionId}) => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [loading, setLoading] = useState(true);
     const [iSloading, setIsLoading] = useState(false);
-    const [marque, setMarque] = useState(null);
-    const [matricule, setMatricule] = useState(null);
     const [data, setData] = useState([]);
     const scroll = { x: 'max-content' };
-
 
     const fetchData = async () => {
         setLoading(true)
