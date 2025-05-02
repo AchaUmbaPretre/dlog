@@ -7,6 +7,8 @@ import html2canvas from 'html2canvas';
 import { icons } from '../../../../utils/prioriteIcons';
 import { getType_photo } from '../../../../services/batimentService';
 
+const { TextArea } = Input;
+
 const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -154,7 +156,7 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
                 name="commentaire"
                 rules={[{ required: true, message: 'Saisir le titre...' }]}
               >
-                <Input placeholder="Saisir le commentaire..." />
+                <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
               </Form.Item>
             </Col>
             <Col xs={24}>
