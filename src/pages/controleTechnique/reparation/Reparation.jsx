@@ -741,6 +741,17 @@ const Reparation = () => {
         >
             <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={idReparation} />
         </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Image'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={750}
+            centered
+        >
+{/*           <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} vehicule={vehicule} />
+ */}        </Modal>
     </>
   )
 }
