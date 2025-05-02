@@ -416,12 +416,12 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                 Ajouter une réparation
                                 </Button>
                             </Form.Item>
-                            </>
+                        </>
                         )}
                         </Form.List>
                     <div style={{ marginTop: '20px' }}>
                         <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>
-                            Soumettre
+                            { idReparations ? 'Modifier' : 'Soumettre'}
                         </Button>
                     </div>
                 </Form>
