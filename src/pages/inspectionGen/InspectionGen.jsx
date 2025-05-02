@@ -479,9 +479,9 @@ const InspectionGen = () => {
                 <CarOutlined className="car-icon-animated" />
                 <span className="car-shadow" />
               </span>
-                <Tag color="blue">{text}</Tag>
-              </div>
-            ),
+              <Tag color="blue">{text}</Tag>
+          </div>
+          ),
             ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
         }, 
         {
