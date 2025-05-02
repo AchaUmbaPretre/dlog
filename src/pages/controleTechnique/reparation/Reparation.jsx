@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ToolOutlined, ExclamationCircleOutlined, EditOutlined, DeleteOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { ToolOutlined, ExclamationCircleOutlined, FileImageOutlined, EditOutlined, DeleteOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Input, Button, Typography, Tooltip, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
@@ -116,22 +116,9 @@ const Reparation = () => {
             <Menu.Item key="Document">
               <FileTextOutlined style={{ color: 'blue' }} /> Document
             </Menu.Item>
-
-{/*           <Menu.SubMenu
-              key="suivi"
-              title={
-                <>
-                  <FileTextOutlined style={{ color: '#722ed1' }} /> Suivi
-                </>
-              }
-          >
-              <Menu.Item key="DetailSuivi">
-                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
-              </Menu.Item>
-              <Menu.Item key="ajouterSuivi">
-                <PlusOutlined style={{ color: 'red' }} /> Ajouter Suivi
-              </Menu.Item> 
-            </Menu.SubMenu> */}
+            <Menu.Item key="image">
+              <FileImageOutlined style={{ color: 'magenta' }} /> Image
+            </Menu.Item>
           </Menu>
         );
     };
