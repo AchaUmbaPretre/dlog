@@ -21,5 +21,35 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        .reparation_detail_card{
+            .reparation_detail_top{
+                .reparation_wrapper_img{
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    .reparation_detail_img_rows{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        .reparation_img{
+                            .img{
+                                width: 250px;
+                                height: 150px;
+                                object-fit: cover;
+                            }
+                        }
+                        .reparation_img_row{
+                            display: flex;
+                            flex-direction: column;
+                            gap: 10px;
+                            .reparation_span{
+                                font-size: .7rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

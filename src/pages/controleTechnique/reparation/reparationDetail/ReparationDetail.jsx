@@ -7,9 +7,11 @@ import './reparationDetail.scss'
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import SuiviReparationForm from '../suiviReparation/suiviReparationForm/SuiviReparationForm';
 import ReclamationForm from '../reclamationForm/ReclamationForm';
+import config from '../../../../config';
 
 const ReparationDetail = ({ idReparation, inspectionId }) => {
     const [data, setData] = useState(null);
+    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [loading, setLoading] = useState(true);
     const [detail, setDetail] = useState([]);
     const [pagination, setPagination] = useState({
@@ -342,7 +344,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                             </div>
                         </Card>
                         <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DESCRIPTION DU TRAVAIL EFFECTUE</Divider>
-                        <Card>
+                        <Card className='reparation_detail_card'>
                             <div className="reparation_detail_top">
                                 <Skeleton loading={loading} active paragraph={false}>
                                     <Table
@@ -360,7 +362,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                         </Card>
 
                         <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DÉTAIL DE RÉCLAMATION</Divider>
-                        <Card>
+                        <Card className='reparation_detail_card'>
                             <div className="reparation_detail_top">
                                 <Skeleton loading={loading} active paragraph={false}>
                                     <Table
@@ -376,11 +378,31 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                                 </Skeleton>
                             </div>
                         </Card>
+
+                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>Comparatif visuel : Avant et Après Réparation</Divider>
+                        <Card className='reparation_detail_card'>
+                            <div className="reparation_detail_top">
+                                <div className="reparation_wrapper_img">
+                                { resImg.map((d) => (
+                                    <Card>
+                                        <div className="reparation_detail_img_rows">
+                                            <div className="reparation_img">
+                                                <img src={`${DOMAIN}/${d.image}`} alt="" className="img" />
+                                            </div>
+                                            <div className="reparation_img_row">
+                                                <span className="reparation_span">Type : <strong>{d?.nom_type_photo}</strong></span>
+                                                <span className="reparation_span">Commentaire : <strong>{d?.commentaire}</strong></span>
+                                                <span className="reparation_span">Date : <strong> {moment(d?.created_at).format('LL')}</strong></span>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                ))}
+                                </div>
+                            </div>
+                        </Card>
+
                     </div>
                 </Card>
-                <div className="reparation_image_row">
-
-                </div>
             </div>
 
             <Modal
