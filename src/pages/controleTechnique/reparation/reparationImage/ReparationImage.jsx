@@ -18,7 +18,6 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [typePhoto, setTypePhoto] = useState([])
   
-
     const fetchDatas = async () => {
       try {
         const [typeData] = await Promise.all([
@@ -141,7 +140,7 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
     <div className="controle_form">
       <div className="controle_title_rows">
         <h2 className="controle_h2">
-          Ajouter une image à l'inspection du véhicule <strong>{vehicule}</strong>
+          Ajouter une image à la réparation du véhicule : <strong>{vehicule}</strong>
         </h2>
       </div>
       <Card>

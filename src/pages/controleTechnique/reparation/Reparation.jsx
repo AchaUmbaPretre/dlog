@@ -105,7 +105,7 @@ const Reparation = () => {
                 openModal('AddSuivi', record.id_reparation)
                 break;
             case 'image':
-                openModal('Image', record.id_reparation)
+                openModal('Image', record.id_reparation, record.immatriculation)
                 break;
             default:
               break;
@@ -430,10 +430,11 @@ const Reparation = () => {
       setModalType(null);
     };
       
-    const openModal = (type, id='') => {
+    const openModal = (type, id='', vehicule) => {
       closeAllModals();
       setModalType(type);
-      setIdReparation(id)
+      setIdReparation(id);
+      setVehicule(vehicule);
     };
 
     const handleExportExcel = () => {
