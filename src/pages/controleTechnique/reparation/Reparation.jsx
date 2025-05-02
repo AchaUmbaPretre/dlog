@@ -102,6 +102,9 @@ const Reparation = () => {
             case 'ajouterSuivi':
                 openModal('AddSuivi', record.id_reparation)
                 break;
+            case 'image':
+                openModal('Image', record.id_reparation)
+                break;
             default:
               break;
           }
