@@ -482,7 +482,7 @@ const InspectionGen = () => {
               <Tag color="blue">{text}</Tag>
           </div>
           ),
-            ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
+          ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
         }, 
         {
           title: 'Chauffeur',
