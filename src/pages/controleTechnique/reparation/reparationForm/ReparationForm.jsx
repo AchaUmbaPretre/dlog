@@ -113,7 +113,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">ENREGISTRER UNE REPARATION</h2>
+                <h2 className="controle_h2">{idReparations ? 'MODIFIER UNE REPARATION' : 'ENREGISTRER UNE REPARATION'}</h2>
             </div>
             <div className="controle_wrapper">
                 <Form
