@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Button, Table, Form, notification, Input, Select, Upload, Popconfirm, Space, Tooltip, Tag } from 'antd';
+import { Card, Button, Table, Form, notification, Input, Select, Upload, Tag } from 'antd';
 import { FileTextOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import { getTagProps } from '../../../utils/prioriteIcons';
 import config from '../../../config';
