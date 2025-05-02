@@ -375,6 +375,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                     </div>
                 </Card>
             </div>
+            
             <Modal
                 title=""
                 visible={modalType === 'Add'}
