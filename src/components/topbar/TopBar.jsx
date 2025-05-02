@@ -24,7 +24,6 @@ const TopBar = () => {
   const [visible, setVisible] = useState(false);
   const [selectedNotif, setSelectedNotif] = useState(null);
 
-  // Fermer le modal
   const closeModal = () => {
     setSelectedNotif(null);
   };
