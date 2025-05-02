@@ -160,6 +160,7 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
                 <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
               </Form.Item>
             </Col>
+
             <Col xs={24}>
               <Form.Item
                     label="Status"
@@ -178,6 +179,7 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
                     />
               </Form.Item>
             </Col>
+
             <Col xs={24}>
               <Form.Item
                 label="Image"
@@ -262,6 +264,7 @@ const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
                 Enregistrer
               </Button>
             </Form.Item>
+            
           </Form>
       </Card>
     </div>
