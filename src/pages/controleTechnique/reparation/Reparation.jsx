@@ -28,7 +28,7 @@ const Reparation = () => {
     const role = useSelector((state) => state.user?.currentUser?.role);
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
-    const [idReparation, setIdReparation] = useState('')
+    const [idReparation, setIdReparation] = useState(null)
     const [columnsVisibility, setColumnsVisibility] = useState({
       '#': true,
       'Matricule': true,

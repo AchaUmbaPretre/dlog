@@ -149,6 +149,10 @@ export const getReparation = async () => {
     return axios.get(`${DOMAIN}/api/charroi/reparation`);
 }
 
+export const getReparationOneV = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/reparationOneV?id_sud_reparation=${id}`);
+}
+
 export const getReparationOne = async (id, inspectionId) => {
     return axios.get(`${DOMAIN}/api/charroi/reparationOne?id_sud_reparation=${id}&id_inspection_gen=${inspectionId}`);
 }
@@ -160,6 +164,25 @@ export const postReparation = async (data) => {
 export const deleteReparation= async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/delete_reparation`, data );
 }
+
+
+export const putReparation = async ({ id_sud_reparation, id_reparation, formData }) => {
+    try {
+      return await axios.put(
+        `${DOMAIN}/api/charroi/reparation`,
+        formData,
+        {
+          params: {
+            id_sud_reparation,
+            id_reparation
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Erreur dans putReparation:", error);
+      throw error;
+    }
+  };
 
 //Réparation Image
 export const getReparationImage = async (id_reparation, id_inspection_gen ) => {

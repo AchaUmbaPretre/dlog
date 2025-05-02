@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, Modal, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
-import { getInspectionValide, getStatutVehicule, getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
+import { getInspectionValide, getReparationOne, getReparationOneV, getStatutVehicule, getTypeReparation, getVehicule, postReparation, putReparation } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import { getTypes } from '../../../../services/typeService';
 import moment from 'moment';
@@ -19,6 +19,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
     const [ statut, setStatut ] = useState([]);
     const [modalType, setModalType] = useState(null);
     const [idReparation, setIdReparation] = useState(null)
+    const [data, setData] = useState([]);
     
     const fetchDatas = async () => {
         try {
@@ -51,6 +52,27 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                     }))
                 })
             }
+
+            if(idReparations) {
+                const { data : r } = await getReparationOneV(idReparations)
+                setData(r)
+                form.setFieldsValue({
+                    id_vehicule : r[0]?.id_vehicule,
+                    date_entree: moment(r[0]?.date_entree),
+                    date_prevu: moment(r[0]?.date_prevu),
+                    cout: r[0]?.cout,
+                    id_fournisseur: r[0]?.id_fournisseur,
+                    code_rep: r[0]?.code_rep,
+                    id_statut_vehicule: r[0]?.id_statut_vehicule,
+                    kilometrage:r[0]?.kilometrage,
+                    commentaire: r[0]?.commentaire,
+                    reparations: r?.map((item, index) => ({
+                        id_type_reparation: item.id_type_reparation,
+                        montant: item.montant,
+                        description: item.description
+                    }))
+                })
+            }
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -65,7 +87,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
 
     useEffect(()=> {
         fetchDatas()
-    }, [subInspectionId])
+    }, [subInspectionId, idReparations])
 
 
     const openModal = (type, idReparation = '') => {
@@ -81,6 +103,14 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
         
         setLoading(true)
         try {
+            if(idReparations) {
+                await putReparation({
+                    id_sud_reparation: data[0]?.id_sud_reparation,
+                    id_reparation: data[0]?.id_reparation,
+                    formData: values
+                  });
+                  
+            }
             const res = await postReparation({
                 ...values,
                 user_cr : userId,
@@ -206,13 +236,13 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                 >
                                     {loadingData ? <Skeleton.Input active={true} /> : <InputNumber size='large' min={0} placeholder="Saisir le cout..." style={{width:'100%'}}/>}
                                 </Form.Item>
-                            </Col>
+                        </Col>
 
-                            <Col xs={24} md={8}>
-                                <Form.Item
-                                    name="id_fournisseur"
-                                    label="Fournisseur"
-                                    rules={[
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                name="id_fournisseur"
+                                label="Fournisseur"
+                                rules={[
                                         {
                                             required: true,
                                             message: 'Veuillez selectionner un fournisseur...',
@@ -232,9 +262,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                         optionFilterProp="label"
                                     /> }
                                 </Form.Item>
-                            </Col>
+                        </Col>
 
-                            <Col xs={24} md={8}>
+                        <Col xs={24} md={8}>
                                 <Form.Item
                                     name="code_rep"
                                     label="Code de réparation"
@@ -247,8 +277,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                 >
                                     {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir le code de réparation..." style={{width:'100%'}}/>}
                                 </Form.Item>
-                            </Col>
-                            <Col xs={24} md={8}>
+                        </Col>
+
+                        <Col xs={24} md={8}>
                                 <Form.Item
                                     name="id_statut_vehicule"
                                     label="Statut véhicule"
@@ -271,8 +302,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                         optionFilterProp="label"
                                     /> }
                                 </Form.Item>
-                            </Col>
-                            <Col xs={24} md={8}>
+                        </Col>
+
+                        <Col xs={24} md={8}>
                                 <Form.Item
                                     name="kilometrage"
                                     label="Kilometrage"
@@ -289,9 +321,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                             <InputNumber size='large' style={{width:'100%'}} />
                                         )}
                                 </Form.Item>
-                            </Col>
-                            <Col xs={24} md={8}>
-                                <Form.Item
+                        </Col>
+                        <Col xs={24} md={8}>
+                            <Form.Item
                                     name="commentaire"
                                     label="Commentaire"
                                     rules={[
