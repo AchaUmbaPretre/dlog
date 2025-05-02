@@ -12,6 +12,7 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { useSelector } from 'react-redux';
+import ReparationImage from './reparationImage/ReparationImage';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -48,6 +49,7 @@ const Reparation = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const [vehicule, setVehicule] = useState(null)
     
   const columnStyles = {
       title: {
@@ -762,8 +764,8 @@ const Reparation = () => {
             width={750}
             centered
         >
-{/*           <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} vehicule={vehicule} />
- */}        </Modal>
+          <ReparationImage closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={idReparation} vehicule={vehicule} />
+      </Modal>
     </>
   )
 }

@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
-import { Form, Card, Col, Upload, message, notification, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Card, Col, Upload, Select, message, notification, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { icons } from '../../../utils/prioriteIcons';
 import { Rnd } from 'react-rnd';
-import { putInspectionGenImage } from '../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import html2canvas from 'html2canvas';
+import { icons } from '../../../../utils/prioriteIcons';
+import { getType_photo } from '../../../../services/batimentService';
 
-const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) => {
+const ReparationImage = ({ closeModal, fetchData, idReparation, vehicule }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
-  const [iconPositionsMap, setIconPositionsMap] = useState({ image: [] }); // keyed by field name "image"
+  const [iconPositionsMap, setIconPositionsMap] = useState({ image: [] });
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const [typePhoto, setTypePhoto] = useState([])
+  
+
+    const fetchDatas = async () => {
+      try {
+        const [typeData] = await Promise.all([
+         getType_photo(),
+        ])
+        setTypePhoto(typeData.data)
+        
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Une erreur est survenue lors du chargement des données.',
+        });
+      }
+    }
+
+  useEffect(() => {
+    fetchDatas();
+  }, [])
 
   const handleImageChange = ({ fileList: newFileList }) => {
     const limitedFileList = newFileList.slice(-1);
@@ -41,7 +62,7 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
       setLoading(true);
   
       const formData = new FormData();
-      formData.append('id_sub_inspection_gen', subInspectionId);
+      formData.append('id_reparation', idReparation);
       formData.append('user_id', userId);
 
       const imageContainer = document.querySelector('.image-container');
@@ -75,8 +96,8 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
         return;
       }
   
-      await putInspectionGenImage(formData);
-  
+/*       await putInspectionGenImage(formData);
+ */  
       notification.success({
         message: "Succès",
         description: "Image et icônes enregistrées avec succès."
@@ -122,8 +143,28 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
         </h2>
       </div>
       <Card>
-        <div className="controle_wrapper" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-          <Form form={form} layout="vertical" onFinish={onFinish}>
+          <Form 
+            form={form} 
+            layout="vertical" 
+            onFinish={onFinish}
+          >
+            <Col xs={24}>
+            <Form.Item
+                    label="Status"
+                    name="id_type_photo"
+                    rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
+                >
+                    <Select
+                        showSearch
+                        options={typePhoto?.map((item) => ({
+                                value: item.id_type_photo,
+                                label: item.nom_type_photo,
+                            }))}
+                        placeholder="Sélectionnez un statut..."
+                        optionFilterProp="label"
+                    />
+                </Form.Item>
+            </Col>
             <Col xs={24}>
               <Form.Item
                 label="Image"
@@ -209,10 +250,9 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
               </Button>
             </Form.Item>
           </Form>
-        </div>
       </Card>
     </div>
   );
 };
 
-export default InspectionImage;
+export default ReparationImage;

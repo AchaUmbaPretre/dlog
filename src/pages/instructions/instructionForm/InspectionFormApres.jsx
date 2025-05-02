@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { getType_instruction, getType_photo, postInspection, postInspectionApres } from '../../../services/batimentService';
-import { getBatimentOne } from '../../../services/typeService';
+import { getType_instruction, getType_photo, postInspectionApres } from '../../../services/batimentService';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -11,9 +10,7 @@ const InstructionFormApres = ({closeModal, fetchData, idInspection}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [instructionData, setInstructionData] = useState([]);
-  const [nameBatiment, setNameBatiment] = useState('');
-  const [typePhoto, setTypePhoto] = useState([])
-
+  const [typePhoto, setTypePhoto] = useState([]);
 
   const fetchDataAll = async() => {
     setLoading(true)
@@ -99,9 +96,9 @@ const InstructionFormApres = ({closeModal, fetchData, idInspection}) => {
                 </Form.Item>
 
                 <Form.Item
-                label="Status"
-                name="id_type_photo"
-                rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
+                    label="Status"
+                    name="id_type_photo"
+                    rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
                 >
                     <Select
                         showSearch
