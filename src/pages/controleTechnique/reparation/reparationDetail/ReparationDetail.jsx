@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined, UserOutlined, ExclamationOutlined } from '@ant-design/icons';
-import { getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
+import { getReparationImage, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
 import { statusIcons } from '../../../../utils/prioriteIcons';
@@ -20,6 +20,8 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
     const [idReparations, setIdReparations] = useState(null);
     const [dataThree, setDataThree] = useState([]);
     const [dataFour, setDataFour] = useState([]);
+    const [resImg, setResImg] = useState([]);
+
 
     const closeAllModals = () => {
         setModalType(null);
@@ -40,10 +42,12 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
         try {
             const response = await getReparationOne(idReparation, inspectionId);
             const res = await getSuiviReparation(idReparation, inspectionId);
+            const resImg = await getReparationImage(idReparation, inspectionId);
 
             setDataThree(res?.data);
             setData(response?.data?.data);
             setDetail([response?.data?.dataGen[0]]);
+            setResImg(resImg.data)
 
         } catch (error) {
             notification.error({
@@ -374,8 +378,11 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                         </Card>
                     </div>
                 </Card>
+                <div className="reparation_image_row">
+
+                </div>
             </div>
-            
+
             <Modal
                 title=""
                 visible={modalType === 'Add'}

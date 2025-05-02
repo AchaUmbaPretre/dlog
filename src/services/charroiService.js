@@ -161,6 +161,11 @@ export const deleteReparation= async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/delete_reparation`, data );
 }
 
+//Réparation Image
+export const getReparationImage = async (id_reparation, id_inspection_gen ) => {
+    return axios.get(`${DOMAIN}/api/charroi/reparation_image?id_reparation=${id_reparation}&id_inspection_gen=${id_inspection_gen}`);
+}
+
 export const postReparationImage = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/reparation_image`, data , {
         headers: {
