@@ -8,6 +8,7 @@ import { statusIcons } from '../../../../utils/prioriteIcons';
 import SuiviReparationForm from '../suiviReparation/suiviReparationForm/SuiviReparationForm';
 import ReclamationForm from '../reclamationForm/ReclamationForm';
 import config from '../../../../config';
+import TravailEffectue from '../travailEffectue/TravailEffectue';
 
 const ReparationDetail = ({ idReparation, inspectionId }) => {
     const [data, setData] = useState(null);
@@ -454,6 +455,17 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                     Annuler
                     </Button>
                 </div>
+            </Modal>
+
+            <Modal
+                title=""
+                visible={modalType === 'modify'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
+            >
+                <TravailEffectue idReparations={idReparations} idReparation={idReparation} closeModal={() => setModalType(null)} fetchData={fetchData} />
             </Modal>
         </>
     );

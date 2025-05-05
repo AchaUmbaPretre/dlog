@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
-import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { SendOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getEvaluation, getPiece, getStatutVehicule } from '../../../../services/charroiService';
 import { getCat_inspection } from '../../../../services/batimentService';
 
@@ -9,19 +9,19 @@ const TravailEffectue = () => {
         const [evaluation, setEvaluation] = useState([]);
         const [tache, setTache] = useState([]);
         const [piece, setPiece] = useState([]);
+        const [loadingData, setLoadingData] = useState(true);
+        const [loading, setLoading] = useState(false);
 
         const fetchDatas = async() => {
             try {
-                const [ tacheData, evalueData, pieceData, statutData] = await Promise.all([
+                const [ tacheData, evalueData, pieceData] = await Promise.all([
                     getCat_inspection(),
                     getEvaluation(),
-                    getPiece(),
-                    getStatutVehicule(),
+                    getPiece()
                 ])
                     setTache(tacheData.data)
                     setEvaluation(evalueData.data)
                     setPiece(pieceData.data)
-                    setStatut(statutData.data)
     
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -33,6 +33,10 @@ const TravailEffectue = () => {
         useEffect(() => {
             fetchDatas();
         }, [])
+
+        const onFinish = () => {
+
+        }
 
   return (
     <>
@@ -69,7 +73,6 @@ const TravailEffectue = () => {
                                         }))}
                                         placeholder="Sélectionnez une option..."
                                         optionFilterProp="label"
-                                        onChange={setDataEvol}
                                     />
                                 </Form.Item>
                             </Card>
@@ -77,10 +80,9 @@ const TravailEffectue = () => {
                     </Row>
 
                     <Card style={{margin:'10px 0'}}>
-                        <Row key={key} gutter={12} align='small'>
+                        <Row gutter={12} align='small'>
                             <Col xs={24} md={8}>
                                 <Form.Item
-                                    {...restField}
                                     name="id_tache_rep"
                                     label='Tache'
                                     rules={[
@@ -133,7 +135,7 @@ const TravailEffectue = () => {
                             </Col>
                             <Col xs={24} md={24}>
                                 <Form.Item
-                                    name={[name, "commentaire" ]}
+                                    name="commentaire"
                                     label="Commentaire"
                                     rules={[
                                         {
