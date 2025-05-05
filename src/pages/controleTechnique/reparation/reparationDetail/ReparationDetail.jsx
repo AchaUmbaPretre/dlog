@@ -30,8 +30,8 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
         openModal('tracking', id);
     }
 
-    const handleEdit = () => {
-        setModalType(null)
+    const handleEdit = (id) => {
+        openModal('modify', id);
     }
 
     const closeAllModals = () => {
@@ -182,7 +182,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                     </>
                 )
             },
-            {
+/*             {
                 title: 'Récla.',
                 dataIndex: 'reclamation', 
                 key:'reclamation',
@@ -199,7 +199,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                         </Tooltip>
                     </>
                 )
-            }
+            } */
     ]
 
     const columnsThree = [
