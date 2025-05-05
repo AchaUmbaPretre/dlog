@@ -4,6 +4,7 @@ import { EyeOutlined, EditOutlined, FormOutlined, UserOutlined, UnlockOutlined }
 import { getUser } from '../../../services/userService';
 import { getPermissionsTache, updatePermissionTache } from '../../../services/permissionService';
 import { getTacheOneV } from '../../../services/tacheService';
+import { useSelector } from 'react-redux';
 
 const PermissionTache = ({idTache}) => {
     const [permissions, setPermissions] = useState({});
@@ -12,6 +13,7 @@ const PermissionTache = ({idTache}) => {
     const [searchValue, setSearchValue] = useState('');
     const [title, setTitle] = useState('');
     const scroll = { x: 400 };
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     useEffect(() => {
         const fetchPermissions = async () => {
@@ -60,6 +62,7 @@ const PermissionTache = ({idTache}) => {
                         ...prevPermissions[idUser],
                         id_tache: idTache, // Assurez-vous que `id_tache` est présent
                         id_user: idUser,  // Assurez-vous que `id_user` est présent
+                        user_cr: userId,
                         [field]: value ? 1 : 0, // Mettez à jour le champ spécifique
                     },
                 };
@@ -87,6 +90,7 @@ const PermissionTache = ({idTache}) => {
             await updatePermissionTache({
                 id_tache: permissions.id_tache,
                 id_user: permissions.id_user,
+                user_cr: userId,
                 can_view: permissions.can_view || 0,
                 can_edit: permissions.can_edit || 0,
                 can_comment: permissions.can_comment || 0,

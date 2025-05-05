@@ -141,14 +141,11 @@ const TopBar = () => {
           visible={visible}
           onVisibleChange={setVisible}
         >
-          {
-            role === 'Admin' &&
             <Badge count={notifications.length} overflowCount={99}>
               <div className="topbar-icons">
                 <BellOutlined aria-label="Notifications" />
               </div>
             </Badge> 
-            }
         </Popover>
         <hr />
         <div className="topbar-icons">

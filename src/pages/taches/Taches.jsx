@@ -157,13 +157,8 @@ const Taches = () => {
 };
 
 useEffect(() => {
-  const interval = setInterval(() => {
     fetchData(filteredDatas);
-  }, 3000); // toutes les 3 secondes
-
-  return () => clearInterval(interval); // nettoyage quand le composant se démonte
-}, []);
-
+}, [filteredDatas]);  
 
 const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
