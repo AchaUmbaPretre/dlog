@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './suiviReparationForm.scss'
-import { Card, Form, Skeleton, Select, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
+import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import {  getEvaluation, getPiece, getSuiviReparationOne, postSuiviReparation } from '../../../../../services/charroiService';
+import {  getEvaluation, getPiece, getStatutVehicule, getSuiviReparationOne, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
 
@@ -23,7 +23,9 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [matricule, setMatricule] = useState(null);
     const [loadingData, setLoadingData] = useState(true);
     const [num, setNum] = useState(null);
+    const [dataEvol, setDataEvol] = useState(null)
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const [ statut, setStatut ] = useState([]);
     
     useEffect(() => {
         const info = form.getFieldValue('info');
@@ -37,7 +39,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
             const [ tacheData, evalueData, pieceData] = await Promise.all([
                 getCat_inspection(),
                 getEvaluation(),
-                getPiece()
+                getPiece(),
             ])
                 setTache(tacheData.data)
                 setEvaluation(evalueData.data)
@@ -61,7 +63,6 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     useEffect(() => {
         fetchDatas();
     }, [idReparations, iDpiece])
-
 
     const columns = [
         {
@@ -192,12 +193,16 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                             }))}
                                             placeholder="Sélectionnez une option..."
                                             optionFilterProp="label"
+                                            onChange={setDataEvol}
                                         />
                                     </Form.Item>
                                 </Card>
                             </Col>
                         </Row>
-                        <Form.List name="info">
+                        {
+                            dataEvol === 1 &&
+                            <div>
+                            <Form.List name="info">
                             {(fields, { add, remove}) => (
                                 <>
                                     {
@@ -309,6 +314,191 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                 Soumettre
                             </Button>
                         </div>
+                            </div>
+                        }
+                        {   dataEvol !== 1 &&
+                            <>
+                            <Card style={{margin:'10px 0'}}>
+                                <Form
+                                    form={form}
+                                    name="chauffeurForm"
+                                    layout="vertical"
+                                    autoComplete="off"
+                                    className="custom-form"
+                                    onFinish={onFinish}
+                                >
+                                    <Row gutter={12}>
+                                    <Col xs={24} md={12}>
+                                        <Form.Item
+                                            name="intitule"
+                                            label="Intitulé"
+                                            rules={[
+                                                {
+                                                    required: false,
+                                                    message: 'Veuillez fournir un titre...',
+                                                }
+                                            ]}
+                                        >
+                                            {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Saisir le titre..." />}
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={12}>
+                                        <Form.Item
+                                            name="date_debut"
+                                            label="Date début"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Veuillez fournir une date...',
+                                                },
+                                            ]}
+                                            initialValue={moment()}
+                                        >
+                                                {loadingData ? (
+                                                    <Skeleton.Input active={true} />
+                                                ) : (
+                                                    <DatePicker size='large' format="YYYY-MM-DD" style={{ width: '100%' }} />
+                                                )}
+                                            </Form.Item>
+                                    </Col>
+
+                                    <Col xs={24} md={24}>
+                                            <Form.Item
+                                                name="montant"
+                                                label="Cout"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Veuillez fournir un cout...',
+                                                    }
+                                                ]}
+                                            >
+                                                {loadingData ? <Skeleton.Input active={true} /> : <InputNumber size='large' min={0} placeholder="Saisir le cout..." style={{width:'100%'}}/>}
+                                            </Form.Item>
+                                        </Col>
+
+                                        <Col xs={24} md={12}>
+                                            <Form.Item
+                                                name="description"
+                                                label="Description"
+                                                rules={[
+                                                    {
+                                                        required: false,
+                                                        message: 'Veuillez fournir la description...',
+                                                    }
+                                                ]}
+                                            >
+                                                {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
+                                            </Form.Item>
+                                        </Col>
+
+                                        <Col xs={24} md={12}>
+                                            <Form.Item
+                                                name="raison_fin"
+                                                label="Raison"
+                                                rules={[
+                                                    {
+                                                        required: false,
+                                                        message: 'Veuillez fournir la raison...',
+                                                    }
+                                                ]}
+                                            >
+                                                {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+
+                                    {/* Réparations dynamiques */}
+                                    <Form.List name="sub_reclamation">
+                                    {(fields, { add, remove }) => (
+                                        <>
+                                        <Divider className='title_row'>Réclamer</Divider>
+                                        {fields.map(({ key, name, ...restField }) => (
+                                            <Row key={key} gutter={12} align="middle">
+                                                <Col xs={24} md={7}>
+                                                    <Form.Item
+                                                        {...restField}
+                                                        name={[name, 'id_type_reparation']}
+                                                        label="Type de réparation"
+                                                        rules={[
+                                                            { required: true, message: 'Veuillez fournir une réparation...' },
+                                                        ]}
+                                                    >
+                                                                                                                    <Select
+                                                                    allowClear
+                                                                    showSearch
+                                                                    options={tache.map((item) => ({
+                                                                        value: item.id_cat_inspection,
+                                                                        label: `${item.nom_cat_inspection}`,
+                                                                    }))}
+                                                                    placeholder="Sélectionnez une tache..."
+                                                                    optionFilterProp="label"
+                                                                    onChange={setIdPiece}
+                                                                />
+                                                    </Form.Item>
+                                                </Col>
+                                                
+                                                <Col xs={24} md={7}>
+                                                    <Form.Item
+                                                    {...restField}
+                                                    name={[name, 'montant']}
+                                                    label="Montant"
+                                                    rules={[
+                                                        { required: false, message: 'Veuillez fournir le montant...' },
+                                                    ]}
+                                                    >
+                                                        <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
+                                                    </Form.Item>
+                                                </Col>
+                                                <Col xs={24} md={8}>
+                                                    <Form.Item
+                                                    {...restField}
+                                                    name={[name, 'description']}
+                                                    label="Description"
+                                                    rules={[
+                                                        { required: true, message: 'Veuillez fournir une description...' },
+                                                    ]}
+                                                    >
+                                                        <Input.TextArea
+                                                            placeholder="Saisir la description"
+                                                            style={{ width: '100%', resize: 'none' }}
+                                                        />
+                                                    </Form.Item>
+                                                </Col>
+                                                <Col xs={24} md={2}>
+                                                    <Button
+                                                    type="text"
+                                                    danger
+                                                    icon={<MinusCircleOutlined />}
+                                                    onClick={() => remove(name)}
+                                                    >
+                                                    </Button>
+                                                </Col>
+
+                                            </Row>
+                                        ))}
+                                        <Form.Item>
+                                            <Button
+                                            type="dashed"
+                                            onClick={() => add()}
+                                            icon={<PlusCircleOutlined />}
+                                            style={{ width: '100%' }}
+                                            >
+                                            Ajouter une réclamation
+                                            </Button>
+                                        </Form.Item>
+                                        </>
+                                    )}
+                                    </Form.List>
+                                    <div style={{ marginTop: '20px' }}>
+                                        <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>
+                                            Soumettre
+                                        </Button>
+                                    </div>
+                                </Form>
+                            </Card>
+                        </>
+                        }
                     </Form>
             </Card>
         </div>

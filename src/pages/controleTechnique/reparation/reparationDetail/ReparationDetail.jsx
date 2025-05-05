@@ -25,7 +25,6 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
     const [resImg, setResImg] = useState([]);
     const [selectedRecord, setSelectedRecord] = useState(null);
 
-
     const handleSuivi = (id) => {
         openModal('tracking', id);
     }
