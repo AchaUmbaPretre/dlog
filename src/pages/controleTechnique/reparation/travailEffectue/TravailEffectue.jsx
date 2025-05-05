@@ -4,8 +4,6 @@ import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-desi
 import { getEvaluation, getPiece, getStatutVehicule } from '../../../../services/charroiService';
 import { getCat_inspection } from '../../../../services/batimentService';
 
-
-
 const TravailEffectue = () => {
         const [form] = Form.useForm();
         const [evaluation, setEvaluation] = useState([]);
