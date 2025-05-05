@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import { SendOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { getEvaluation, getPiece, getStatutVehicule } from '../../../../services/charroiService';
+import { getEvaluation, getPiece, getStatutVehicule, getSuiviReparationOne } from '../../../../services/charroiService';
 import { getCat_inspection } from '../../../../services/batimentService';
 
-const TravailEffectue = () => {
+const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
         const [form] = Form.useForm();
         const [evaluation, setEvaluation] = useState([]);
         const [tache, setTache] = useState([]);
         const [piece, setPiece] = useState([]);
         const [loadingData, setLoadingData] = useState(true);
         const [loading, setLoading] = useState(false);
+        const [data, setData] = useState([]);
 
         const fetchDatas = async() => {
             try {
@@ -22,6 +23,18 @@ const TravailEffectue = () => {
                     setTache(tacheData.data)
                     setEvaluation(evalueData.data)
                     setPiece(pieceData.data)
+
+                if(idReparations) {
+                    const  { data : d } = await getSuiviReparationOne(idReparations);
+                    setData(d)
+                    form.setFieldsValue({
+                        id_evaluation : d[0].id_evaluation,
+                        id_tache_rep: d[0].id_tache_rep,
+                        id_piece: d[0].id_piece,
+                        budget: d[0].budget,
+                        commentaire: d[0].commentaire
+                    })
+                }
     
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -122,6 +135,7 @@ const TravailEffectue = () => {
                                     />
                                 </Form.Item>
                             </Col> 
+
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     name="budget"
@@ -133,6 +147,7 @@ const TravailEffectue = () => {
                                     <InputNumber min={0} placeholder="Saisir le budget..." style={{width:'100%'}}/>
                                 </Form.Item>
                             </Col>
+
                             <Col xs={24} md={24}>
                                 <Form.Item
                                     name="commentaire"
