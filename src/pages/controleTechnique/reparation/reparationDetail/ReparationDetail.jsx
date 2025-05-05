@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Tag } from 'antd';
+import { Card, Button, Skeleton, Descriptions, Tooltip, Modal, Divider, Space, Table, notification, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined, UserOutlined, ExclamationOutlined } from '@ant-design/icons';
 import { getReparationImage, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
@@ -23,16 +23,27 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
     const [dataThree, setDataThree] = useState([]);
     const [dataFour, setDataFour] = useState([]);
     const [resImg, setResImg] = useState([]);
+    const [selectedRecord, setSelectedRecord] = useState(null);
 
+
+    const handleSuivi = (id) => {
+        openModal('tracking', id);
+    }
+
+    const handleEdit = () => {
+        setModalType(null)
+    }
 
     const closeAllModals = () => {
         setModalType(null);
-      };
+    };
 
     const openModal = (type, id='') => {
         closeAllModals();
         setModalType(type);
         setIdReparations(id)
+        const record = data.find(item => item.id_sud_reparation === id);
+        setSelectedRecord(record);
     };
 
     const handleDetails = (id) => openModal('Add', id);
@@ -79,16 +90,6 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                 },
                 width: "4%"
             },    
-/*             {   title: 'Matricule', 
-                dataIndex: 'immatriculation', 
-                key: 'immatriculation', 
-                render: (text) => <Tag color="blue">{text}</Tag> 
-            },
-            {   title: 'Marque', 
-                dataIndex: 'nom_marque', 
-                key: 'nom_marque', 
-                render: (text) => <Tag color="blue">{text}</Tag> 
-            }, */
             {   title: 'Date début', 
                 dataIndex: 'date_entree', 
                 key: 'date_entree', 
@@ -168,7 +169,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                 dataIndex: 'tracking', 
                 key:'tracking',
                 width: '9px',
-                render: (text, record) => (
+                render: (_, record) => (
                     <>
                         <Tooltip title="Faire un suivi">
                             <Button
@@ -405,9 +406,9 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                 </Card>
             </div>
 
-            <Modal
+             <Modal
                 title=""
-                visible={modalType === 'Add'}
+                visible={modalType === 'tracking'}
                 onCancel={closeAllModals}
                 footer={null}
                 width={900}
@@ -425,6 +426,35 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                 centered
             >
                 <ReclamationForm idReparations={idReparations} idReparation={idReparation} closeModal={() => setModalType(null)} fetchData={fetchData} />
+            </Modal>
+
+            <Modal
+                open={modalType === 'Add'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={400}
+                centered
+                closable={false}
+                bodyStyle={{
+                    padding: '32px',
+                    borderRadius: '10px',
+                    backgroundColor: '#fff',
+                    textAlign: 'center',
+                }}
+            >
+                <h2 style={{ marginBottom: 24 }}>Que souhaitez-vous faire ?</h2>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <Button type="primary" onClick={() => handleSuivi(selectedRecord.id_sud_reparation)}>
+                        Faire un suivi
+                    </Button>
+                    <Button onClick={() => handleEdit(selectedRecord.id_sud_reparation)}>
+                    Modifier le travail déjà effectué
+                    </Button>
+                    <Button type="text" onClick={closeAllModals} style={{ marginTop: 12, color: '#999' }}>
+                    Annuler
+                    </Button>
+                </div>
             </Modal>
         </>
     );

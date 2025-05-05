@@ -157,7 +157,7 @@ const Taches = () => {
 };
 
 useEffect(() => {
-    fetchData(filteredDatas);
+  fetchData(filteredDatas);
 }, [filteredDatas]);  
 
 const handleFilterChange = (newFilters) => {
