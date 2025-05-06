@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -158,4 +158,37 @@ export const evaluationStatusMap = {
     color: 'volcano',
     icon: <WarningOutlined />,
   },
+};
+
+export const statutIcons = (type) => {
+  let color = 'default';
+  let icon = null;
+
+  switch (type) {
+    case 'En attente':
+      color = 'orange';
+      icon = <ClockCircleOutlined />;
+      break;
+    case 'En cours':
+      color = 'blue';
+      icon = <SyncOutlined spin />;
+      break;
+    case 'Terminé':
+      color = 'green';
+      icon = <CheckCircleOutlined />;
+      break;
+    case 'Réparé':
+      color = 'cyan';
+      icon = <ToolOutlined />;
+      break;
+    case 'Annulé':
+      color = 'red';
+      icon = <CloseCircleOutlined />;
+      break;
+    default:
+      color = 'default';
+      icon = null;
+  }
+
+  return { color, icon };
 };

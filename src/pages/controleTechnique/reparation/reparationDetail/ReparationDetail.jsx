@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Tag } from 'antd';
-import { EyeOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
+import { Card, Button, Skeleton, Tooltip, Menu, Dropdown, Modal, Divider, Space, Table, notification, Tag } from 'antd';
+import { EyeOutlined, ToolOutlined, FileTextOutlined, UserOutlined, MoreOutlined } from '@ant-design/icons';
 import { getReclamation, getReparationImage, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
-import { evaluationStatusMap, statusIcons } from '../../../../utils/prioriteIcons';
+import { evaluationStatusMap, statutIcons } from '../../../../utils/prioriteIcons';
 import SuiviReparationForm from '../suiviReparation/suiviReparationForm/SuiviReparationForm';
 import ReclamationForm from '../reclamationForm/ReclamationForm';
 import config from '../../../../config';
@@ -46,6 +46,34 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
     };
 
     const handleDetails = (id) => openModal('Add', id);
+
+    const getActionMenu = (record, openModal) => {
+        const handleClick = ({ key }) => {
+          switch (key) {
+            case 'voirDetail':
+                openModal('Detail', record.id_sub_reclamation)
+              break;
+            case 'suivi':
+              openModal('SuiviRecl', record.id_sub_reclamation);
+              break;
+            default:
+              break;
+          }
+        };
+      
+        return (
+          <Menu onClick={handleClick}>
+            <Menu.Item key="voirDetail">
+              <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Item key="suivi">
+              <FileTextOutlined style={{ color: 'blue' }} /> Faire suivi
+            </Menu.Item>
+            <Menu.Divider />
+          </Menu>
+        );
+    };
 
     const fetchData = async () => {
         setLoading(true);
@@ -147,7 +175,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                 dataIndex: 'nom_type_statut', 
                 key: 'nom_type_statut',
                 render: text => {
-                    const { icon, color } = statusIcons[text] || {};
+                    const { icon, color } = statutIcons(text);
                     return (
                         <Space>
                             <Tag icon={icon} color={color}>{text}</Tag>
@@ -244,7 +272,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
             },
             width: "4%"
         },    
-        {   title: 'Reclamation : ', 
+        {   title: 'Réclamation:', 
             dataIndex: 'type_rep', 
             key: 'type_rep', 
             render: (text) => 
@@ -299,7 +327,21 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
             dataIndex: 'nom', 
             key: 'nom',
             render: (text) => <Tag icon={<UserOutlined />} color="blue">{text}</Tag> 
-        }
+        },
+        {
+            title: 'Actions',
+            dataIndex: 'actions',
+            render: (text, record) => {
+              return (
+                <Space>
+                  <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+                    <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
+                  </Dropdown>
+                </Space>
+              );
+            }
+          }
+          
     ]
 
     return (

@@ -13,6 +13,7 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { useSelector } from 'react-redux';
 import ReparationImage from './reparationImage/ReparationImage';
+import { statutIcons } from '../../../utils/prioriteIcons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -359,38 +360,11 @@ const Reparation = () => {
         {
           title: 'État',
           dataIndex: 'nom_type_statut',
-          render: (status) => {
-            let color = 'default';
-            let icon = null;
-        
-            switch (status) {
-              case 'En attente':
-                color = 'orange';
-                icon = <ClockCircleOutlined />;
-                break;
-              case 'En cours':
-                color = 'blue';
-                icon = <SyncOutlined spin />;
-                break;
-              case 'Terminé':
-                color = 'green';
-                icon = <CheckCircleOutlined />;
-                break;
-              case 'Réparé':
-                color = 'cyan';
-                icon = <ToolOutlined />;
-                break;
-              case 'Annulé':
-                color = 'red';
-                icon = <CloseCircleOutlined />;
-                break;
-              default:
-                color = 'default';
-            }
-        
+          render: (text) => {
+            const {icon, color } = statutIcons(text)
             return (
               <Tag icon={icon} color={color} style={{ fontWeight: 500 }}>
-                {status}
+                {text}
               </Tag>
             );
           },

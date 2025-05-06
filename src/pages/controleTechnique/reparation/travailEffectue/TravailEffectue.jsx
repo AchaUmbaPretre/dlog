@@ -59,7 +59,7 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
     <>
         <div className="travail_effectue">
             <div className="reparation_detail_title">
-                <h1 className="reparation_detail_h1">MODIFIER TRAVAIL EFFECTUELE DU VEHICULE {data[0]?.immatriculation} / MARQUE {data[0]?.nom_marque.toUpperCase()} </h1>
+                <h1 className="reparation_detail_h1">METTRE A JOUR TRAVAIL EFFECTUE DU VEHICULE {data[0]?.immatriculation} / MARQUE {data[0]?.nom_marque.toUpperCase()} </h1>
             </div>
             <div className="travail_effectue_wrapper">
                 <Form

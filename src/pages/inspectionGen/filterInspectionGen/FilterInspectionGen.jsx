@@ -59,7 +59,7 @@ const FilterInspectionGen = ({ onFilter}) => {
                 />
             </div>
             <div className="filter_row">
-                <label>Statut :</label>
+                <label>Etat du véhicule :</label>
                 <Select
                     mode="multiple"
                     showSearch
