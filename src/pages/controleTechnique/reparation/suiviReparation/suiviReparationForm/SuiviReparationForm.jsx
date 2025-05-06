@@ -3,7 +3,7 @@ import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
 import { SendOutlined, ToolOutlined, TagsOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import {  getEvaluation, getPiece, getStatutVehicule, getSuiviReparationOne, getTypeReparation, postSuiviReparation } from '../../../../../services/charroiService';
+import {  getEvaluation, getPiece, getStatutVehicule, getSuiviReparationOne, getTypeReparation, postReclamation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
 
@@ -123,12 +123,22 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
         
         try {
 
-            await postSuiviReparation({
-                ...values,
-                id_sud_reparation : idReparations,
-                user_cr : userId
-            });
-            message.success({ content: 'Suivie réparation enregistrée avec succès.', key: loadingKey });
+            if(dataEvol === 1) {
+                await postSuiviReparation({
+                    ...values,
+                    id_sud_reparation : idReparations,
+                    user_cr : userId
+                });
+                message.success({ content: 'Suivie réparation enregistrée avec succès.', key: loadingKey });
+            } else {
+                await postReclamation({
+                    ...values,
+                    id_sud_reparation : idReparations,
+                    user_cr : userId
+                });
+                message.success({ content: 'Suivie réparation enregistrée avec succès.', key: loadingKey });
+            }
+
             form.resetFields();
             fetchData();
             closeModal();
@@ -326,18 +336,21 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                         </div>
                             </div>
                         }
-                        {   dataEvol !== 1 &&
-                            <>
-                            <Card style={{margin:'10px 0'}}>
-                                <Form
-                                    form={form}
-                                    name="chauffeurForm"
-                                    layout="vertical"
-                                    autoComplete="off"
-                                    className="custom-form"
-                                    onFinish={onFinish}
-                                >
-                                    <Row gutter={12}>
+                    </Form>
+                        
+                    <Form>
+                    {   dataEvol !== 1 &&
+                    <>
+                        <Card style={{margin:'10px 0'}}>
+                            <Form
+                                form={form}
+                                name="chauffeurForm"
+                                layout="vertical"
+                                autoComplete="off"
+                                className="custom-form"
+                                onFinish={onFinish}
+                            >
+                                <Row gutter={12}>
                                     <Col xs={24} md={12}>
                                         <Form.Item
                                             name="intitule"
@@ -505,8 +518,8 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                         </Button>
                                     </div>
                                 </Form>
-                            </Card>
-                        </>
+                        </Card>
+                    </>
                         }
                     </Form>
             </Card>
