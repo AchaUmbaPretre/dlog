@@ -3,7 +3,7 @@ import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
 import { SendOutlined, ToolOutlined, TagsOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import {  getEvaluation, getPiece, getStatutVehicule, getSuiviReparationOne, postSuiviReparation } from '../../../../../services/charroiService';
+import {  getEvaluation, getPiece, getStatutVehicule, getSuiviReparationOne, getTypeReparation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
 
@@ -25,7 +25,8 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [num, setNum] = useState(null);
     const [dataEvol, setDataEvol] = useState(null)
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    const [ statut, setStatut ] = useState([]);
+    const [reparation, setReparation] = useState([]);
+    
     
     useEffect(() => {
         const info = form.getFieldValue('info');
@@ -36,14 +37,17 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
 
     const fetchDatas = async() => {
         try {
-            const [ tacheData, evalueData, pieceData] = await Promise.all([
+            const [ tacheData, evalueData, pieceData, reparationData] = await Promise.all([
                 getCat_inspection(),
                 getEvaluation(),
                 getPiece(),
+                getTypeReparation()
             ])
                 setTache(tacheData.data)
                 setEvaluation(evalueData.data)
                 setPiece(pieceData.data)
+                setReparation(reparationData.data.data)
+
 
     
             if(idReparations) {
@@ -430,17 +434,16 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                                             { required: true, message: 'Veuillez fournir une réparation...' },
                                                         ]}
                                                     >
-                                                                                                                    <Select
-                                                                    allowClear
-                                                                    showSearch
-                                                                    options={tache.map((item) => ({
-                                                                        value: item.id_cat_inspection,
-                                                                        label: `${item.nom_cat_inspection}`,
-                                                                    }))}
-                                                                    placeholder="Sélectionnez une tache..."
-                                                                    optionFilterProp="label"
-                                                                    onChange={setIdPiece}
-                                                                />
+                                                        <Select
+                                                            allowClear
+                                                            showSearch
+                                                            options={reparation.map((item) => ({
+                                                            value: item.id_type_reparation,
+                                                            label: `${item.type_rep}`,
+                                                                }))}
+                                                            placeholder="Sélectionnez un type de réparation..."
+                                                            optionFilterProp="label"
+                                                        />
                                                     </Form.Item>
                                                 </Col>
                                                 
