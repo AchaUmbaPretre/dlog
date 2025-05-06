@@ -199,22 +199,22 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                     rules={[{ required: true, message: 'Veuillez sélectionner une option.' }]}
                                 >
                                     <Select
-                                    allowClear
-                                    showSearch
-                                    placeholder="Sélectionnez une option..."
-                                    optionFilterProp="label"
-                                    onChange={setDataEvol}
-                                    options={evaluation.map((item) => {
-                                        const status = evaluationStatusMap[item.nom_evaluation] || {};
-                                        return {
-                                        value: item.id_evaluation,
-                                        label: (
-                                            <div style={{ margin: 0, color: status.color }}>
-                                            {item.nom_evaluation}
-                                            </div>
-                                        ),
-                                        };
-                                    })}
+                                        allowClear
+                                        showSearch
+                                        placeholder="Sélectionnez une option..."
+                                        optionFilterProp="label"
+                                        onChange={setDataEvol}
+                                        options={evaluation.map((item) => {
+                                            const status = evaluationStatusMap[item.nom_evaluation] || {};
+                                            return {
+                                            value: item.id_evaluation,
+                                            label: (
+                                                <div style={{ margin: 0, color: status.color }}>
+                                                {item.nom_evaluation}
+                                                </div>
+                                            ),
+                                            };
+                                        })}
                                     />
                                 </Form.Item>
                             </Card>
