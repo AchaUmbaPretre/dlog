@@ -6,6 +6,7 @@ import { SendOutlined, ToolOutlined, TagsOutlined, CalendarOutlined,DollarOutlin
 import {  getEvaluation, getPiece, getStatutVehicule, getSuiviReparationOne, getTypeReparation, postReclamation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
+import { evaluationStatusMap } from '../../../../../utils/prioriteIcons';
 
 const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -112,8 +113,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
           key: 'budget',
           render: (text) => <Tag color="green">{text} $</Tag>
         }
-      ];
-      
+      ];      
 
     const onFinish = async (values) => {
         const loadingKey = 'loadingReparation';
@@ -199,15 +199,22 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                     rules={[{ required: true, message: 'Veuillez sélectionner une option.' }]}
                                 >
                                     <Select
-                                        allowClear
-                                        showSearch
-                                        placeholder="Sélectionnez une option..."
-                                        optionFilterProp="label"
-                                        onChange={setDataEvol}
-                                        options={evaluation.map((item) => ({
-                                            value: item.id_evaluation,
-                                            label: item.nom_evaluation,
-                                        }))}
+                                    allowClear
+                                    showSearch
+                                    placeholder="Sélectionnez une option..."
+                                    optionFilterProp="label"
+                                    onChange={setDataEvol}
+                                    options={evaluation.map((item) => {
+                                        const status = evaluationStatusMap[item.nom_evaluation] || {};
+                                        return {
+                                        value: item.id_evaluation,
+                                        label: (
+                                            <div style={{ margin: 0, color: status.color }}>
+                                            {item.nom_evaluation}
+                                            </div>
+                                        ),
+                                        };
+                                    })}
                                     />
                                 </Form.Item>
                             </Card>
