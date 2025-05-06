@@ -42,13 +42,9 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
         closeAllModals();
         setModalType(type);
         setIdReparations(id)
-        const record = data.find(item => item.id_sud_reparation === id);
-        setSelectedRecord(record);
     };
 
     const handleDetails = (id) => openModal('Add', id);
-
-    const handleReclamation = (id) => openModal('Reclamation', id)
 
     const fetchData = async () => {
         setLoading(true);
@@ -106,11 +102,6 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                 dataIndex: 'nom_fournisseur', 
                 key: 'fournisseur', 
                 render: (text) => <Tag color="blue">{text}</Tag> 
-            },
-            {   title: 'Budget', 
-                dataIndex: 'cout', 
-                key: 'cout', 
-                render: (text) => <Tag color="blue">{text} $</Tag> 
             }
     ]
 
@@ -174,7 +165,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                         <Tooltip title="Faire un suivi">
                             <Button
                                 icon={<EyeOutlined />}
-                                onClick={() => handleDetails(record.id_sud_reparation)}
+                                onClick={() => {handleDetails(record.id_sud_reparation); setSelectedRecord(record)}}
                                 aria-label="Voir les détails"
                                 style={{ color: 'blue' }}
                             />

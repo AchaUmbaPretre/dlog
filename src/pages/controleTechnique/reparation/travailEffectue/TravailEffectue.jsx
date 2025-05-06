@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
-import { SendOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { getEvaluation, getPiece, getStatutVehicule, getSuiviReparationOne } from '../../../../services/charroiService';
+import { Card, Form, Select, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
+import { SendOutlined } from '@ant-design/icons';
+import { getEvaluation, getPiece, getSuiviReparationOne } from '../../../../services/charroiService';
 import { getCat_inspection } from '../../../../services/batimentService';
+import './travailEffectue.scss'
 
 const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
         const [form] = Form.useForm();
@@ -12,6 +13,8 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
         const [loadingData, setLoadingData] = useState(true);
         const [loading, setLoading] = useState(false);
         const [data, setData] = useState([]);
+        const [marque, setMarque] = useState(null);
+        const [vehicule, setVehicule] = useState(null)
 
         const fetchDatas = async() => {
             try {
@@ -34,6 +37,7 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
                         budget: d[0].budget,
                         commentaire: d[0].commentaire
                     })
+
                 }
     
             } catch (error) {
@@ -54,6 +58,9 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
   return (
     <>
         <div className="travail_effectue">
+            <div className="reparation_detail_title">
+                <h1 className="reparation_detail_h1">MODIFIER TRAVAIL EFFECTUELE DU VEHICULE {data[0]?.immatriculation} / MARQUE {data[0]?.nom_marque.toUpperCase()} </h1>
+            </div>
             <div className="travail_effectue_wrapper">
                 <Form
                     form={form}

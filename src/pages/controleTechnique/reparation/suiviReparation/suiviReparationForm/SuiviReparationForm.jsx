@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
-import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { SendOutlined, ToolOutlined, TagsOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import {  getEvaluation, getPiece, getStatutVehicule, getSuiviReparationOne, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
@@ -63,47 +63,53 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     useEffect(() => {
         fetchDatas();
     }, [idReparations, iDpiece])
-
-    const columns = [
+      
+      const columns = [
         {
-            title: '#',
-            dataIndex: 'id',
-            key: 'id',
-            render: (text, record, index) => {
+          title: '#',
+          dataIndex: 'id',
+          key: 'id',
+          render: (text, record, index) => {
             const pageSize = pagination.pageSize || 10;
             const pageIndex = pagination.current || 1;
             return (pageIndex - 1) * pageSize + index + 1;
-            },
-            width: "4%"
-        },    
-        {   title: 'Categorie', 
-            dataIndex: 'type_rep', 
-            key: 'type_rep', 
-            render: (text) => <Tag color="blue">{text}</Tag> 
+          },
+          width: "4%"
         },
-        {   title: 'Date début', 
-            dataIndex: 'date_entree', 
-            key: 'date_entree', 
-            render: (text) => 
-            <Tag color='purple'>{moment(text).format('LL')}</Tag> 
+        {
+          title: <><ToolOutlined /> Type de rep</>,
+          dataIndex: 'nom_type_rep',
+          key: 'nom_type_rep',
+          render: (text) => <Tag color="blue">{text}</Tag>
         },
-        {   title: 'Date fin', 
-            dataIndex: '"date_sortie', 
-            key: '"date_sortie', 
-            render: (text) => 
-            <Tag color='purple'>{moment(text).format('LL')}</Tag> 
+        {
+          title: <><TagsOutlined /> Catégorie</>,
+          dataIndex: 'type_rep',
+          key: 'type_rep',
+          render: (text) => <Tag color="blue">{text}</Tag>
         },
-        {   title: 'Fournisseur', 
-            dataIndex: 'nom_fournisseur', 
-            key: 'fournisseur', 
-            render: (text) => <Tag color="blue">{text}</Tag> 
+        {
+          title: <><CalendarOutlined /> Date début</>,
+          dataIndex: 'date_entree',
+          key: 'date_entree',
+          render: (text) =>
+            <Tag color='purple'>{moment(text).format('LL')}</Tag>
         },
-        {   title: 'Budget', 
-            dataIndex: 'montant', 
-            key: 'montant', 
-            render: (text) => <Tag color="blue">{text} $</Tag> 
+        {
+          title: <><CalendarOutlined /> Date fin</>,
+          dataIndex: '"date_sortie',
+          key: '"date_sortie',
+          render: (text) =>
+            <Tag color='purple'>{moment(text).format('LL')}</Tag>
+        },
+        {
+          title: <><DollarOutlined /> Budget</>,
+          dataIndex: 'budget',
+          key: 'budget',
+          render: (text) => <Tag color="green">{text} $</Tag>
         }
-    ]
+      ];
+      
 
     const onFinish = async (values) => {
         const loadingKey = 'loadingReparation';
