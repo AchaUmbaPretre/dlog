@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Skeleton, Descriptions, Tooltip, Modal, Divider, Space, Table, notification, Tag } from 'antd';
-import { EyeOutlined, ToolOutlined, UserOutlined, ExclamationOutlined } from '@ant-design/icons';
+import { Card, Button, Skeleton, Tooltip, Modal, Divider, Space, Table, notification, Tag } from 'antd';
+import { EyeOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
 import { getReclamation, getReparationImage, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
