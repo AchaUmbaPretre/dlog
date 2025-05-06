@@ -33,7 +33,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
         if (!info || info.length === 0) {
           form.setFieldsValue({ info: [{}] }); 
         }
-      }, [form]);
+    }, [form]);
 
     const fetchDatas = async() => {
         try {
@@ -68,7 +68,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
         fetchDatas();
     }, [idReparations, iDpiece])
       
-      const columns = [
+    const columns = [
         {
           title: '#',
           dataIndex: 'id',
