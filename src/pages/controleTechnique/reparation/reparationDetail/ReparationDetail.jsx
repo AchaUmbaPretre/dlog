@@ -4,7 +4,7 @@ import { EyeOutlined, ToolOutlined, UserOutlined, ExclamationOutlined } from '@a
 import { getReclamation, getReparationImage, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
-import { statusIcons } from '../../../../utils/prioriteIcons';
+import { evaluationStatusMap, statusIcons } from '../../../../utils/prioriteIcons';
 import SuiviReparationForm from '../suiviReparation/suiviReparationForm/SuiviReparationForm';
 import ReclamationForm from '../reclamationForm/ReclamationForm';
 import config from '../../../../config';
@@ -25,6 +25,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
     const [dataFour, setDataFour] = useState([]);
     const [resImg, setResImg] = useState([]);
     const [selectedRecord, setSelectedRecord] = useState(null);
+    const scroll = { x: 'max-content' };
 
     const handleSuivi = (id) => {
         openModal('tracking', id);
@@ -58,7 +59,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
             setData(response?.data?.data);
             setDetail([response?.data?.dataGen[0]]);
             setResImg(resImg.data)
-            setDataFour(reclam?.data.data)
+            setDataFour(reclam?.data)
 
         } catch (error) {
             notification.error({
@@ -136,12 +137,9 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                 title: 'Statut', 
                 dataIndex: 'nom_evaluation', 
                 key: 'nom_evaluation',
-                render: text => {
-                    return (
-                        <Space>
-                            <Tag>{text}</Tag>
-                        </Space>
-                    );
+                render: (text) => {
+                    const { color, icon } = evaluationStatusMap[text] || { color: 'default' };
+                    return <Tag icon={icon} color={color}>{text}</Tag>;
                 },            
             },
             { 
@@ -246,15 +244,15 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
             },
             width: "4%"
         },    
-        {   title: 'Reclamation:', 
-            dataIndex: 'reclamation', 
-            key: 'nom_cat_inspection', 
+        {   title: 'Reclamation : ', 
+            dataIndex: 'type_rep', 
+            key: 'type_rep', 
             render: (text) => 
-            <div> {text}</div>
+            <Tag color='blue'>{text}</Tag>
         },
         {   title: 'Motif', 
-            dataIndex: 'motif', 
-            key: 'motif', 
+            dataIndex: 'raison_fin', 
+            key: 'raison_fin', 
             render: (text) => (
                 <Tag color='volcano' bordered={false}>
                     {text}
@@ -272,26 +270,35 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
             render: (text) => 
             <Tag color='purple'>{moment(text).format('LL')}</Tag> 
         },
-        {   title: 'Date fin.', 
-            dataIndex: '"date_fin', 
-            key: '"date_fin', 
-            render: (text) => 
-            <Tag color='purple'>{moment(text).format('LL')}</Tag> 
-        },
-        {   title: 'Statut reclam.', 
-            dataIndex: 'statut_reclam', 
-            key: 'nom', 
-            render: (text) => <Tag color="blue">{text}</Tag> 
+        {
+            title: 'Date fin.',
+            dataIndex: 'date_fin',
+            key: 'date_fin',
+            render: (text) =>
+                text ? (
+                    <Tag color='purple'>{moment(text).format('LL')}</Tag>
+                ) : (
+                    <Tag color='default'>Aucune date</Tag>
+                ),
+        },        
+        {
+            title: 'Statut',
+            dataIndex: 'nom_evaluation',
+            key: 'nom_evaluation',
+            render: (text) => {
+              const { color, icon } = evaluationStatusMap[text] || { color: 'default' };
+              return <Tag icon={icon} color={color}>{text}</Tag>;
+            },
         },
         {   title: 'Budget', 
-            dataIndex: 'budget', 
-            key: 'budget', 
-            render: (text) => <Tag color="green">{text}</Tag> 
+            dataIndex: 'cout', 
+            key: 'cout', 
+            render: (text) => <Tag color="green">{text} $</Tag> 
         },
         {   title: 'Créer par', 
-            dataIndex: 'utilisateur', 
-            key: 'utilisateur', 
-            render: (text) => <Tag color="blue">{text}</Tag> 
+            dataIndex: 'nom', 
+            key: 'nom',
+            render: (text) => <Tag icon={<UserOutlined />} color="blue">{text}</Tag> 
         }
     ]
 
@@ -315,6 +322,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                                         rowKey="id"
                                         bordered
                                         size="small"
+                                        scroll={scroll}
                                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                                     />
                                 </Skeleton>
@@ -332,6 +340,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                                         rowKey="id"
                                         bordered
                                         size="small"
+                                        scroll={scroll}
                                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                                     />
                                 </Skeleton>
@@ -367,6 +376,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                                         rowKey="id"
                                         bordered
                                         size="small"
+                                        scroll={scroll}
                                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                                     />
                                 </Skeleton>

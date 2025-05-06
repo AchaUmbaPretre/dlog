@@ -23,7 +23,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [matricule, setMatricule] = useState(null);
     const [loadingData, setLoadingData] = useState(true);
     const [num, setNum] = useState(null);
-    const [dataEvol, setDataEvol] = useState(null)
+    const [dataEvol, setDataEvol] = useState(1)
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [reparation, setReparation] = useState([]);
     
@@ -329,7 +329,18 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                     </Form.Item>
                                 </Col>
 
-                                <Col xs={24}>
+                                <Col xs={24} md={12}>
+                                    <Form.Item
+                                        name="date_fin"
+                                        label="Date fin"
+                                        rules={[{ required: false, message: 'Veuillez fournir une date.' }]}
+                                        initialValue={moment()}
+                                    >
+                                        <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
+                                    </Form.Item>
+                                </Col>
+
+                                <Col xs={12}>
                                     <Form.Item
                                         name="montant"
                                         label="Coût"
@@ -341,13 +352,13 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
 
                                 <Col xs={24} md={12}>
                                     <Form.Item name="description" label="Description">
-                                        <Input.TextArea placeholder="Saisir la description..." style={{ width: '100%', resize: 'none', height: '90px' }} />
+                                        <Input.TextArea placeholder="Saisir la description..." style={{ width: '100%', resize: 'none', height: '40px' }} />
                                     </Form.Item>
                                 </Col>
 
                                 <Col xs={24} md={12}>
-                                    <Form.Item name="raison_fin" label="Raison">
-                                        <Input.TextArea placeholder="Saisir la raison..." style={{ width: '100%', resize: 'none', height: '90px' }} />
+                                    <Form.Item name="raison_fin" label="Motif">
+                                        <Input.TextArea placeholder="Saisir le motif..." style={{ width: '100%', resize: 'none', height: '40px' }} />
                                     </Form.Item>
                                 </Col>
                             </Row>

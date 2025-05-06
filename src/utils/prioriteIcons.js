@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -138,4 +138,24 @@ export const getTagProps = (type) => {
     default:
       return { icon: <FileTextOutlined />, color: 'default' };
   }
+};
+
+export const evaluationStatusMap = {
+
+  'OK (R)': {
+    color: 'green',
+    icon: <CheckCircleOutlined />,
+  },
+  'PARTIEL (R)': {
+    color: 'orange',
+    icon: <ExclamationCircleOutlined />,
+  },
+  'NON EFFECTUE (R)': {
+    color: 'red',
+    icon: <CloseCircleOutlined />,
+  },
+  'RECIDIVE (R)': {
+    color: 'volcano',
+    icon: <WarningOutlined />,
+  },
 };
