@@ -364,12 +364,12 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                             ]}
                                             initialValue={moment()}
                                         >
-                                                {loadingData ? (
-                                                    <Skeleton.Input active={true} />
-                                                ) : (
-                                                    <DatePicker size='large' format="YYYY-MM-DD" style={{ width: '100%' }} />
-                                                )}
-                                            </Form.Item>
+                                            {loadingData ? (
+                                                <Skeleton.Input active={true} />
+                                            ) : (
+                                                <DatePicker size='large' format="YYYY-MM-DD" style={{ width: '100%' }} />
+                                            )}
+                                        </Form.Item>
                                     </Col>
 
                                     <Col xs={24} md={24}>

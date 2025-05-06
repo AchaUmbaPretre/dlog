@@ -357,3 +357,16 @@ export const getDocumentInspection = async (id) => {
 export const getHistorique = async () => {
     return axios.get(`${DOMAIN}/api/charroi/historique`);
 }
+
+//Reclamation
+export const getReclamation = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/reclamation`);
+}
+
+export const getReclamationOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/reclamationOne?id_sub_inspection_gen=${id}`);
+}
+
+export const postReclamation = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/reclamation`, data );
+}
