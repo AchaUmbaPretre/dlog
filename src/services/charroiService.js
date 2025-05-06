@@ -301,6 +301,7 @@ export const getSuiviReparationOne = async (id) => {
 }
 
 export const postSuiviReparation= async (data) => {
+    console.log(data)
     return axios.post(`${DOMAIN}/api/charroi/suivi_reparation`, data );
 }
 
