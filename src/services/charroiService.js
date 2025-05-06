@@ -360,8 +360,8 @@ export const getHistorique = async () => {
 }
 
 //Reclamation
-export const getReclamation = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/reclamation`);
+export const getReclamation = async (idReparation, inspectionId) => {
+    return axios.get(`${DOMAIN}/api/charroi/reclamation?id_reparation=${idReparation}&inspectionId=${inspectionId}`);
 }
 
 export const getReclamationOne = async (id) => {

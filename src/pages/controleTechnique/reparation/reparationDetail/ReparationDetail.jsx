@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Skeleton, Descriptions, Tooltip, Modal, Divider, Space, Table, notification, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined, UserOutlined, ExclamationOutlined } from '@ant-design/icons';
-import { getReparationImage, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
+import { getReclamation, getReparationImage, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
 import { statusIcons } from '../../../../utils/prioriteIcons';
@@ -52,11 +52,13 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
             const response = await getReparationOne(idReparation, inspectionId);
             const res = await getSuiviReparation(idReparation, inspectionId);
             const resImg = await getReparationImage(idReparation, inspectionId);
+            const reclam = await getReclamation(idReparation, inspectionId)
 
             setDataThree(res?.data);
             setData(response?.data?.data);
             setDetail([response?.data?.dataGen[0]]);
             setResImg(resImg.data)
+            setDataFour(reclam?.data.data)
 
         } catch (error) {
             notification.error({
