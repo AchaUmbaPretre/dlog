@@ -4,6 +4,7 @@ import { ExportOutlined,SafetyOutlined, LockOutlined, EnvironmentOutlined, Apart
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
+import ForgotUserAdmin from './forgotUserAdmin/ForgotUserAdmin';
 
 const { Search } = Input;
 
@@ -13,9 +14,9 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState('');
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const scroll = { x: 400 };
-
+  const scroll = { x: 'max-content' };
+  const [modalType, setModalType] = useState(null);
+  
     const fetchData = async () => {
       try {
         const { data } = await getUser();
@@ -34,13 +35,23 @@ const Users = () => {
     fetchData();
   }, [DOMAIN]);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
+  const handleAddClient = () => openModal('Add')
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const handleEdit = (id) => openModal('Edit', id)
+
+  const handleForgot = (id) => openModal('Forgot', id)
+
+
+  const closeAllModals = () => {
+    setModalType(null);
   };
+  
+  const openModal = (type, id = '') => {
+    closeAllModals();
+    setModalType(type);
+    setUserId(id);
+  };
+  
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -52,12 +63,6 @@ const Users = () => {
 
   const handlePrint = () => {
     window.print();
-  };
-
-  const handleEdit = (record) => {
-    message.info(`Modification d'utilisateur : ${record.nom}`);
-    setUserId(record.id_utilisateur)
-    setIsModalVisible(true);
   };
 
   const handleDelete = async (id) => {
@@ -151,7 +156,7 @@ const Users = () => {
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
-              onClick={() => handleEdit(record)}
+              onClick={() => handleEdit(record.id_utilisateur)}
               aria-label="Edit client"
             />
           </Tooltip>
@@ -159,7 +164,7 @@ const Users = () => {
             <Button
               icon={<LockOutlined />}
               style={{ color: '#000' }}
-              onClick={() => handleEdit(record)}
+              onClick={() => handleForgot(record.id_utilisateur)}
               aria-label="Edit client"
             />
           </Tooltip>
@@ -241,13 +246,35 @@ const Users = () => {
 
       <Modal
         title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        visible={modalType === 'Add'}
+        onCancel={closeAllModals}
         footer={null}
         width={800}
         centered
       >
-        <FormUsers userId={userId} close={()=> setIsModalVisible(false)} fetchData={fetchData}/>
+        <FormUsers closeModal={() => setModalType(null)} fetchData={fetchData}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Edit'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <FormUsers userId={userId} closeModal={() => setModalType(null)} fetchData={fetchData}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Forgot'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={850}
+        centered
+      >
+        <ForgotUserAdmin userId={userId} closeModal={() => setModalType(null)} fetchData={fetchData}/>
       </Modal>
     </>
   );

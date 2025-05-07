@@ -628,6 +628,12 @@ const Reparation = () => {
         </Menu>
         );
 
+  const filteredData = data.filter(item =>
+    item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+      
   return (
     <>
         <div className="client">
@@ -669,7 +675,7 @@ const Reparation = () => {
                 </div>
                 <Table
                     columns={columns}
-                    dataSource={data}
+                    dataSource={filteredData}
                     loading={loading}
                     scroll={scroll}
                     size="small"

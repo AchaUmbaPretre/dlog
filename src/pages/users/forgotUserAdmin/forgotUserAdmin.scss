@@ -1,0 +1,36 @@
+.forgot_user{
+    width: 100%;
+    .forgot_user_rows{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: rgba(0, 123, 255, 0.137);
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+        .forgot_user_h2{
+            font-size: .9rem;
+            font-weight: 600;
+            color: #0056b3;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+    }
+    .forgot_wrapper{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        .forgot_left{
+            flex: 1;
+            position: relative;
+            .reset_img{
+                width: 100%;
+            }
+        }
+        .forgot_right{
+            flex: 1;
+        }
+    }
+}
