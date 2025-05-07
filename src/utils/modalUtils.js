@@ -75,7 +75,7 @@ export const handleRepair = (openModal, record) => {
               style={{ backgroundColor: '#52c41a', color: 'white', borderRadius: 4 }}
               onClick={() => {
                 modal.destroy();
-                openModal('ReparerNew', record.id_sub_inspection_gen);
+                openModal('Reparer', record.id_sub_inspection_gen);
                 notification.success({
                   message: 'Nouvelle réparation',
                   description: 'Vous pouvez saisir une nouvelle réparation pour cette inspection.',
