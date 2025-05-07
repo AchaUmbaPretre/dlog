@@ -406,6 +406,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                     </Col>
                                 </Row>
                             ))}
+                            { subInspectionId == null &&
                             <Form.Item>
                                 <Button
                                 type="dashed"
@@ -416,6 +417,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                 Ajouter une réparation
                                 </Button>
                             </Form.Item>
+                            }
                         </>
                         )}
                         </Form.List>

@@ -3,7 +3,7 @@ import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
 import { SendOutlined, ToolOutlined, TagsOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import {  getEvaluation, getPiece, getSuiviReparationOne, getTypeReparation, postReclamation, postSuiviReparation } from '../../../../../services/charroiService';
+import {  getEvaluation, getPiece, getReparationOneV, getSuiviReparationOne, getTypeReparation, postReclamation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
 import { evaluationStatusMap } from '../../../../../utils/prioriteIcons';
@@ -28,7 +28,6 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [reparation, setReparation] = useState([]);
     
-    
     useEffect(() => {
         const info = form.getFieldValue('info');
         if (!info || info.length === 0) {
@@ -48,16 +47,15 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                 setEvaluation(evalueData.data)
                 setPiece(pieceData.data)
                 setReparation(reparationData.data.data)
-
-
     
             if(idReparations) {
-                const { data : d } = await getSuiviReparationOne(idReparations)
+                const { data : d } = await getReparationOneV(idReparations)
                 setData(d)
                 setMarque(d[0]?.nom_marque)
                 setMatricule(d[0]?.immatriculation)
                 setNum(d[0]?.id_sud_reparation)
             }
+            
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {

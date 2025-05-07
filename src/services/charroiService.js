@@ -158,7 +158,6 @@ export const getReparationOne = async (id, inspectionId) => {
 }
 
 export const postReparation = async (data) => {
-    console.log(data)
     return axios.post(`${DOMAIN}/api/charroi/reparation`, data);
 }
 
