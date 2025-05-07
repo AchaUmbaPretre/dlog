@@ -6,7 +6,7 @@ import { SendOutlined, ToolOutlined, TagsOutlined, CalendarOutlined,DollarOutlin
 import {  getEvaluation, getPiece, getReparationOneV, getSuiviReparationOne, getTypeReparation, postReclamation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
-import { evaluationStatusMap } from '../../../../../utils/prioriteIcons';
+import { evaluationStatusMap, statutIcons } from '../../../../../utils/prioriteIcons';
 
 const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -55,7 +55,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                 setMatricule(d[0]?.immatriculation)
                 setNum(d[0]?.id_sud_reparation)
             }
-            
+
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -81,12 +81,6 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
         },
         {
           title: <><ToolOutlined /> Type de rep</>,
-          dataIndex: 'nom_type_rep',
-          key: 'nom_type_rep',
-          render: (text) => <Tag color="blue">{text}</Tag>
-        },
-        {
-          title: <><TagsOutlined /> Catégorie</>,
           dataIndex: 'type_rep',
           key: 'type_rep',
           render: (text) => <Tag color="blue">{text}</Tag>
@@ -99,16 +93,32 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
             <Tag color='purple'>{moment(text).format('LL')}</Tag>
         },
         {
-          title: <><CalendarOutlined /> Date fin</>,
-          dataIndex: '"date_sortie',
-          key: '"date_sortie',
-          render: (text) =>
-            <Tag color='purple'>{moment(text).format('LL')}</Tag>
-        },
+            title: <><CalendarOutlined /> Date fin</>,
+            dataIndex: 'date_sortie',
+            key: 'date_sortie',
+            render: (text) => {
+              if (!text || !moment(text).isValid()) {
+                return <Tag color="default">Aucune date</Tag>;
+              }
+              return <Tag color='purple'>{moment(text).format('LL')}</Tag>;
+            }
+        },          
+        {
+            title: 'Statut', 
+            dataIndex: 'nom_evaluation', 
+            key: 'nom_evaluation',
+            render: (text) => {
+              if (!text) {
+                return <Tag color="default">Aucun statut</Tag>;
+              }
+              const { color, icon } = evaluationStatusMap[text] || { color: 'default' };
+              return <Tag icon={icon} color={color}>{text}</Tag>;
+            }
+        },  
         {
           title: <><DollarOutlined /> Budget</>,
-          dataIndex: 'budget',
-          key: 'budget',
+          dataIndex: 'cout',
+          key: 'cout',
           render: (text) => <Tag color="green">{text} $</Tag>
         }
       ];      
