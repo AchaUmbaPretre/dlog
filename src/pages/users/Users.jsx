@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input,Tooltip, Tag, message,Popconfirm, Dropdown, Menu, notification, Space } from 'antd';
-import { ExportOutlined,SafetyOutlined, EnvironmentOutlined, ApartmentOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { ExportOutlined,SafetyOutlined, LockOutlined, EnvironmentOutlined, ApartmentOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
@@ -151,6 +151,14 @@ const Users = () => {
             <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
+              onClick={() => handleEdit(record)}
+              aria-label="Edit client"
+            />
+          </Tooltip>
+          <Tooltip title="Changer le mot de passe">
+            <Button
+              icon={<LockOutlined />}
+              style={{ color: '#000' }}
               onClick={() => handleEdit(record)}
               aria-label="Edit client"
             />
