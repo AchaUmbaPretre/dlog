@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Form, Select, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
+import { Card, Form, Select, Input, Button, Col, Row, Skeleton, Table, Tag, InputNumber, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
-import { getEvaluation, getPiece, getSuiviReparationOne } from '../../../../services/charroiService';
+import { getEvaluation, getPiece, getSuiviReparationOne, putSuiviReparation } from '../../../../services/charroiService';
 import { getCat_inspection } from '../../../../services/batimentService';
 import './travailEffectue.scss'
 
@@ -13,8 +13,8 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
         const [loadingData, setLoadingData] = useState(true);
         const [loading, setLoading] = useState(false);
         const [data, setData] = useState([]);
-        const [marque, setMarque] = useState(null);
-        const [vehicule, setVehicule] = useState(null)
+        const [idSuivi, setIdSuivi] = useState(null);
+        const [idEvaluation, setIdEvaluation] = useState(null)
 
         const fetchDatas = async() => {
             try {
@@ -38,6 +38,7 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
                         commentaire: d[0].commentaire
                     })
 
+                    setIdSuivi(d[0].id_suivi_reparation)
                 }
     
             } catch (error) {
@@ -49,17 +50,64 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
 
         useEffect(() => {
             fetchDatas();
-        }, [])
+        }, [idReparations])
 
-        const onFinish = () => {
+        const onFinish = async (values) => {
+            try {
+                await form.validateFields();
 
-        }
+                const val = {
+                    ...values,
+                    id_evaluation : idEvaluation,
+                    id_sud_reparation: idReparations
+                }
+        
+                const loadingKey = 'loadingReparation';
+                message.loading({
+                    content: 'Traitement en cours, veuillez patienter...',
+                    key: loadingKey,
+                    duration: 0
+                });
+        
+                setLoading(true);
+        
+                await putSuiviReparation(idSuivi, val);
+        
+                message.success({
+                    content: 'La réparation a été enregistrée avec succès.',
+                    key: loadingKey
+                });
+        
+                form.resetFields();
+                fetchData();
+                closeModal();
+        
+            } catch (error) {
+                console.error('Erreur lors de l’enregistrement :', error);
+                message.error({
+                    content: "Une erreur s'est produite lors de l'enregistrement.",
+                    key: 'loadingReparation'
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+        
 
   return (
     <>
         <div className="travail_effectue">
             <div className="reparation_detail_title">
-                <h1 className="reparation_detail_h1">METTRE A JOUR TRAVAIL EFFECTUE DU VEHICULE {data[0]?.immatriculation} / MARQUE {data[0]?.nom_marque.toUpperCase()} </h1>
+            <Skeleton
+                active
+                paragraph={false}
+                title={{ width: '80%' }}
+                loading={!data[0]}
+            >
+                <h1 className="reparation_detail_h1">
+                METTRE A JOUR TRAVAIL EFFECTUE DU VEHICULE {data[0]?.immatriculation} / MARQUE {data[0]?.nom_marque.toUpperCase()}
+                </h1>
+            </Skeleton>
             </div>
             <div className="travail_effectue_wrapper">
                 <Form
@@ -83,6 +131,7 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
                                         },
                                     ]}
                                 >
+                                    { loadingData ? <Skeleton.Input active={true} /> :
                                     <Select
                                         allowClear
                                         style={{width:'100%'}}
@@ -93,7 +142,9 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
                                         }))}
                                         placeholder="Sélectionnez une option..."
                                         optionFilterProp="label"
+                                        onChange={setIdEvaluation}
                                     />
+                                    }
                                 </Form.Item>
                             </Card>
                         </Col>
@@ -109,6 +160,7 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
                                         { required: true, message: 'Veuillez fournir une tache...' },
                                         ]}
                                 >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         allowClear
                                         showSearch
@@ -119,6 +171,7 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
                                         placeholder="Sélectionnez une tache..."
                                         optionFilterProp="label"
                                     />
+                                     }
                                 </Form.Item>
                             </Col>
 
@@ -130,6 +183,7 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
                                         { required: false, message: 'Veuillez fournir une piece...' },
                                     ]}
                                 >
+                                    { loadingData ? <Skeleton.Input active={true} /> :
                                     <Select
                                         allowClear
                                         showSearch
@@ -140,6 +194,7 @@ const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
                                         placeholder="Sélectionnez une piece..."
                                         optionFilterProp="label"
                                     />
+                                     }
                                 </Form.Item>
                             </Col> 
 

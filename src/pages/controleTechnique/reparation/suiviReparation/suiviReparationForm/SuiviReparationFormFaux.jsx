@@ -14,6 +14,7 @@ const SuiviReparationFaux = ({ idTache }) => {
     current: 1,
     pageSize: 20,
   });
+  const scroll = { x: 'max-content' };
 
   const fetchData = async () => {
     setLoading(true);
@@ -134,6 +135,7 @@ const SuiviReparationFaux = ({ idTache }) => {
             pagination={pagination}
             rowKey="id"
             bordered
+            scroll={scroll}
             size="small"
             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
