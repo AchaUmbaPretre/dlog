@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Select, Row, Col, notification } from 'antd';
+import { Form, Input, Menu, Button, message, Row, Col, notification } from 'antd';
 import { getUserOne } from '../../../services/userService';
 import forgot from './../../../assets/reset.png';
 import './forgotUserAdmin.scss'
+import { passwordReset } from '../../../services/authService';
 
-const ForgotUserAdmin = ({userId, close, fetchData}) => {
+const ForgotUserAdmin = ({userId, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState([]);
@@ -26,48 +27,70 @@ const ForgotUserAdmin = ({userId, close, fetchData}) => {
         fetchData();
     }, [userId, form])
 
-  const onFinish = async(values) => {
-    setIsLoading(true);
+    const onFinish = async (values) => {
+        setIsLoading(true);
+        const loadingKey = 'loading';
+      
         try {
-            
-            fetchData();
-            close()
+          await form.validateFields();
+      
+          message.loading({
+            content: 'Traitement en cours, veuillez patienter...',
+            key: loadingKey,
+            duration: 0
+          });
+      
+          await passwordReset(userId, values);
+      
+          message.success({
+            content: "Mot de passe mis à jour avec succès.",
+            key: loadingKey
+          });
+      
+          form.resetFields();
+      
+          fetchData();
+          closeModal();
+      
         } catch (error) {
-            notification.error({
-                message: 'Erreur',
-                description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
-            });
+          console.error('Erreur lors de la mise à jour du mot de passe :', error);
+      
+          notification.error({
+            message: 'Erreur de mise à jour',
+            description: "Une erreur est survenue lors de l'enregistrement du mot de passe.",
+          });
+      
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-  };
-
+      };      
+           
   return (
     <div className='forgot_user'>
-      <div className="forgot_user_rows">
-        <h2 className='forgot_user_h2'>Mise à jour de mot de passe</h2>                
-      </div>
-      <div className="forgot_user_name">
-        <span className="forgot_span">NOM : {data[0]?.nom.toUpperCase()}</span>
-        <span className="forgot_span">EMAIL : {data[0]?.email.toUpperCase()}</span>
-        <span className="forgot_span">ROLE : {data[0]?.role.toUpperCase()}</span>
+        <div className="forgot_user_rows">
+        <h2 className="forgot_user_h2">Mise à jour du mot de passe</h2>
+        </div>
 
-      </div>
       <div className="forgot_wrapper">
         <div className="forgot_left">
             <img src={forgot} alt="Password recovery" className="reset_img" />
         </div>
+
         <div className="forgot_right">
+            <div className="forgot_user_name">
+                <span className="forgot_span">NOM : <strong>{data[0]?.nom.toUpperCase()}</strong></span>
+                <span className="forgot_span">EMAIL : <strong>{data[0]?.email.toUpperCase()}</strong></span>
+            </div>
             <Form
-            form={form}
-            layout="vertical"
-            onFinish={onFinish}
+                form={form}
+                layout="vertical"
+                onFinish={onFinish}
             >
             <Row gutter={16}>
                 <Col span={24}>
                 <Form.Item
                     label="Mot de Passe"
-                    name="mot_de_passe"
+                    name="password"
                     rules={[{ required: false, message: 'Le mot de passe n/est obligatoire' }]}
                 >
                     <Input.Password placeholder="Entrez le mot de passe" />

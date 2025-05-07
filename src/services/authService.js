@@ -26,6 +26,5 @@ export const getPasswordForgot = async (email) => {
   };
 
 export const passwordReset  = async (id,user) => {
-  console.log(id, user)
     return axios.put(`${DOMAIN}/api/auth/password_reset?id=${id}`, user);
   };

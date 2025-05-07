@@ -1,5 +1,6 @@
 .forgot_user{
     width: 100%;
+    padding: 10px 20px;
     .forgot_user_rows{
         display: flex;
         align-items: center;
@@ -31,6 +32,18 @@
         }
         .forgot_right{
             flex: 1;
+            .forgot_user_name{
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                margin-bottom: 10px;
+                .forgot_span{
+                    display: flex;
+                    flex-direction: column;
+                    strong{
+                        font-size: .8rem;
+                    }
+                }
+            }
         }
     }
 }
