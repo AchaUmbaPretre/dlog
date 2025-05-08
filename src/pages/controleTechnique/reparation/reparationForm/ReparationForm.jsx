@@ -89,7 +89,6 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
         fetchDatas()
     }, [subInspectionId, idReparations])
 
-
     const openModal = (type, idReparation = '') => {
         closeAllModals();
         setModalType(type);
@@ -110,21 +109,23 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                     formData: values
                   });
                   
+            } else {
+                const res = await postReparation({
+                    ...values,
+                    user_cr : userId,
+                    id_sub_inspection_gen : subInspectionId
+                })
+
+                if(subInspectionId) {
+                    const id = res?.data.data.id
+                    openModal('Detail', id)
+                }
             }
-            const res = await postReparation({
-                ...values,
-                user_cr : userId,
-                id_sub_inspection_gen : subInspectionId
-            })
+
             message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
             fetchData();
             form.resetFields();
             closeModal()
-
-            if(subInspectionId) {
-                const id = res?.data.data.id
-                openModal('Detail', id)
-            }
 
             
         } catch (error) {
