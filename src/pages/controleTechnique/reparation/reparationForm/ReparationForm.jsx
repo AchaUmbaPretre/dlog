@@ -103,10 +103,14 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
         setLoading(true)
         try {
             if(idReparations) {
+                const Allvalue = {
+                    ...values,
+                    user_cr : userId,
+                }
                 await putReparation({
                     id_sud_reparation: data[0]?.id_sud_reparation,
                     id_reparation: data[0]?.id_reparation,
-                    formData: values
+                    formData: Allvalue,
                   });
                   
             } else {
