@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, Menu, Tag, notification } from 'antd';
+import { Table, Input, Tag, notification } from 'antd';
 import { CheckCircleOutlined, CalendarOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { getHistorique} from '../../../services/charroiService';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -16,23 +15,6 @@ const TrackingGen = () => {
         pageSize: 15,
     }); 
     const scroll = { x: 'max-content' };
-    const [columnsVisibility, setColumnsVisibility] = useState({
-        '#': true,
-        'Matricule': true,
-        'Marque': true,
-        'Montant inspection': true,
-        'Montant réparation': false,
-        'Description': false,
-        'Commentaire' : false
-    })
-
-    const toggleColumnVisibility = (columnName, e) => {
-        e.stopPropagation();
-        setColumnsVisibility(prev => ({
-          ...prev,
-          [columnName]: !prev[columnName]
-        }));
-      };
 
     const fetchData = async() => {
             try {
