@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Table, Input, Tag, notification, Space } from 'antd';
-import { CheckCircleOutlined, ToolOutlined, CalendarOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, ToolOutlined, UserOutlined, CalendarOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { getHistorique} from '../../../services/charroiService';
 import moment from 'moment';
 import getColumnSearchProps from '../../../utils/columnSearchUtils';
@@ -56,11 +56,18 @@ const TrackingGen = () => {
                 const pageIndex = pagination.current || 1;
                 return (pageIndex - 1) * pageSize + index + 1;
               },
-              width: '4%',
+              width: '2%',
             },
             {
               title: 'Matricule',
               dataIndex: 'immatriculation',
+              ...getColumnSearchProps(
+                'immatriculation',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+              ),
               render: (text) => (
                 <div className="vehicule-matricule">
                   <span className="car-wrapper">
@@ -75,6 +82,13 @@ const TrackingGen = () => {
             {
               title: 'Marque',
               dataIndex: 'nom_marque',
+              ...getColumnSearchProps(
+                'nom_marque',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+              ),
               render: (text) => (
                 <Tag icon={<CarOutlined />} color="orange">
                   {text}
@@ -84,6 +98,13 @@ const TrackingGen = () => {
             {
               title: 'Etat',
               dataIndex: 'nom_statut_vehicule',
+              ...getColumnSearchProps(
+                'nom_statut_vehicule',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+              ),
               render: (text) => (
                 <Tag color={text === 'Immobile' ? 'red' : 'green'}>
                   {text}
@@ -147,6 +168,22 @@ const TrackingGen = () => {
                   <Tag color="default">-</Tag>
                 ),
             },
+            {
+              title: 'Effectué par',
+              dataIndex: 'nom',
+              ...getColumnSearchProps(
+                'nom',
+                        searchText,
+                        setSearchText,
+                        setSearchedColumn,
+                        searchInput
+              ),
+              render: (text, record) => (
+                <Tag icon={<UserOutlined />} color="orange">
+                  {text}
+                </Tag>
+              ),
+            }, 
             {
               title: 'Commentaire',
               dataIndex: 'commentaire',

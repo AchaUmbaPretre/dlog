@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
-import { SendOutlined, ToolOutlined, TagsOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import {  getEvaluation, getPiece, getReparationOneV, getSuiviReparationOne, getTypeReparation, postReclamation, postSuiviReparation } from '../../../../../services/charroiService';
+import { SendOutlined, ToolOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import {  getEvaluation, getPiece, getReparationOneV, getTypeReparation, postReclamation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
-import { evaluationStatusMap, statutIcons } from '../../../../../utils/prioriteIcons';
+import { evaluationStatusMap } from '../../../../../utils/prioriteIcons';
 import { useMenu } from '../../../../../context/MenuProvider';
 
 const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
