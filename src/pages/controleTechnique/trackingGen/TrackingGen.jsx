@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Skeleton, Dropdown, Input, Menu, Tag, notification } from 'antd';
-import { CheckCircleOutlined, DownOutlined, MenuOutlined, CalendarOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
+import { Table, Input, Menu, Tag, notification } from 'antd';
+import { CheckCircleOutlined, CalendarOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { getHistorique} from '../../../services/charroiService';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,6 @@ const TrackingGen = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
-    const [statistique, setStatistique] = useState([]);
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 15,
@@ -26,21 +25,6 @@ const TrackingGen = () => {
         'Description': false,
         'Commentaire' : false
     })
-    const role = useSelector((state) => state.user?.currentUser?.role);
-
-
-    const menus = (
-        <Menu>
-          {Object.keys(columnsVisibility).map(columnName => (
-            <Menu.Item key={columnName}>
-              <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
-                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
-                <span style={{ marginLeft: 8 }}>{columnName}</span>
-              </span>
-            </Menu.Item>
-          ))}
-        </Menu>
-    );
 
     const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
@@ -111,7 +95,7 @@ const TrackingGen = () => {
               ),
             },
             {
-              title: 'Statut',
+              title: 'Etat',
               dataIndex: 'nom_statut_vehicule',
               render: (text) => (
                 <Tag color={text === 'Immobile' ? 'red' : 'green'}>
