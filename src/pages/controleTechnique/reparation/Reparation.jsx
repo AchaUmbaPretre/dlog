@@ -13,7 +13,7 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { useSelector } from 'react-redux';
 import ReparationImage from './reparationImage/ReparationImage';
-import { statutIcons } from '../../../utils/prioriteIcons';
+import { statusIcons, statutIcons } from '../../../utils/prioriteIcons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -44,7 +44,8 @@ const Reparation = () => {
       'Budget' : true,
       "Main d'oeuvre" : false,
       'Date sortie' : false,
-      "commentaire": false
+      "commentaire": false,
+      "Statut vehicule" : true
     });
     const searchInput = useRef(null);
     const [searchText, setSearchText] = useState('');
@@ -369,7 +370,28 @@ const Reparation = () => {
             );
           },
           ...(columnsVisibility['Etat'] ? {} : { className: 'hidden-column' }),
-        },                 
+        }, 
+        { 
+          title: '#Véhicule', 
+          dataIndex: 'nom_statut_vehicule', 
+          key: 'nom_statut_vehicule',
+            ...getColumnSearchProps(
+              'nom_statut_vehicule',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+            ),
+              render: text => {
+                const { icon, color } = statusIcons[text] || {};
+                  return (
+                    <Space>
+                      <Tag icon={icon} color={color}>{text}</Tag>
+                    </Space>
+                    );
+                  },
+              ...(columnsVisibility['Statut vehicule'] ? {} : { className: 'hidden-column' }),
+        },                
         {
             title: 'Actions',
             dataIndex: 'actions',
