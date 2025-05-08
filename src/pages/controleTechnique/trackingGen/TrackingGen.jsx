@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Input, Tag, notification } from 'antd';
-import { CheckCircleOutlined, CalendarOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
+import React, { useState, useEffect, useRef } from 'react';
+import { Table, Input, Tag, notification, Space } from 'antd';
+import { CheckCircleOutlined, ToolOutlined, CalendarOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { getHistorique} from '../../../services/charroiService';
 import moment from 'moment';
+import getColumnSearchProps from '../../../utils/columnSearchUtils';
+import { statusIcons } from '../../../utils/prioriteIcons';
 
 const { Search } = Input;
 
@@ -14,6 +16,9 @@ const TrackingGen = () => {
         current: 1,
         pageSize: 15,
     }); 
+    const searchInput = useRef(null);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
     const scroll = { x: 'max-content' };
 
     const fetchData = async() => {
@@ -84,6 +89,42 @@ const TrackingGen = () => {
                   {text}
                 </Tag>
               ),
+            },
+            {
+              title: 'Type de rep.',
+              dataIndex: 'type_rep',
+              ...getColumnSearchProps(
+                'type_rep',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
+              ),
+              render: (text) => (
+                <Tag icon={<ToolOutlined spin />}  color='volcano' bordered={false}>
+                  {text}
+                </Tag>
+              ),
+            },
+            { 
+              title: 'Statut', 
+              dataIndex: 'nom_type_statut', 
+              key: 'nom_type_statut',
+              ...getColumnSearchProps(
+                'nom_type_statut',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
+              render: text => {
+                const { icon, color } = statusIcons[text] || {};
+                  return (
+                  <Space>
+                    <Tag icon={icon} color={color}>{text}</Tag>
+                  </Space>
+                );
+              },
             },
             {
               title: 'Action',
