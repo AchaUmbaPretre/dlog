@@ -3,7 +3,7 @@ import './suiviReparationForm.scss'
 import { Card, Form, Skeleton, Select, DatePicker, notification, Input, Button, Col, Row, Divider, Table, Tag, InputNumber, message } from 'antd';
 import moment from 'moment';
 import { SendOutlined, ToolOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import {  getEvaluation, getPiece, getReparationOneV, getTypeReparation, postReclamation, postSuiviReparation } from '../../../../../services/charroiService';
+import {  getEvaluation, getPiece, getReparationOneV, getStatutVehicule, getTypeReparation, postReclamation, postSuiviReparation } from '../../../../../services/charroiService';
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
 import { evaluationStatusMap } from '../../../../../utils/prioriteIcons';
@@ -28,6 +28,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [dataEvol, setDataEvol] = useState(1)
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [reparation, setReparation] = useState([]);
+    const [ statut, setStatut ] = useState([]);
     const {fetchDataInsp} = useMenu();
     
     useEffect(() => {
@@ -39,16 +40,19 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
 
     const fetchDatas = async() => {
         try {
-            const [ tacheData, evalueData, pieceData, reparationData] = await Promise.all([
+            const [ tacheData, evalueData, pieceData, reparationData, statutData] = await Promise.all([
                 getCat_inspection(),
                 getEvaluation(),
                 getPiece(),
-                getTypeReparation()
+                getTypeReparation(),
+                getStatutVehicule(),
+                
             ])
                 setTache(tacheData.data)
                 setEvaluation(evalueData.data)
                 setPiece(pieceData.data)
                 setReparation(reparationData.data.data)
+                setStatut(statutData.data)
     
             if(idReparations) {
                 const { data : d } = await getReparationOneV(idReparations)
@@ -201,7 +205,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                     className="custom-form"
                 >
                     <Row gutter={24}>
-                        <Col span={24}>
+                        <Col span={12}>
                             <Card style={{ marginTop: 10 }}>
                                 <Form.Item
                                     name="id_evaluation"
@@ -226,6 +230,26 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                                             };
                                         })}
                                     />
+                                </Form.Item>
+                            </Card>
+                        </Col>
+                        <Col span={12}>
+                            <Card style={{ marginTop: 10 }}>
+                                <Form.Item
+                                    name="id_statut_vehicule"
+                                    label="État du véhicule"
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={statut?.map((item) => ({
+                                            value: item.id_statut_vehicule                                           ,
+                                            label: `${item.nom_statut_vehicule}`,
+                                        }))}
+                                        placeholder="Sélectionnez un état du véhicule..."
+                                        optionFilterProp="label"
+                                    /> }
                                 </Form.Item>
                             </Card>
                         </Col>
