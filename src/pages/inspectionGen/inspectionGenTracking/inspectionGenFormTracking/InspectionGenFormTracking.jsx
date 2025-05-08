@@ -4,6 +4,7 @@ import { getTypes } from '../../../../services/typeService';
 import { getUser } from '../../../../services/userService';
 import { colorMapping } from '../../../../utils/prioriteIcons';
 import { getSubInspectionOne, postSuiviInspections } from '../../../../services/charroiService';
+import { useSelector } from 'react-redux';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -14,7 +15,8 @@ const InspectionGenFormTracking = ({idSubInspectionGen, closeModal, fetchData}) 
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [vehicule, setVehicule] = useState('');
-    const [marque, setMarque] = useState('')
+    const [marque, setMarque] = useState('');
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const handleError = (message) => {
         notification.error({
@@ -52,7 +54,8 @@ const InspectionGenFormTracking = ({idSubInspectionGen, closeModal, fetchData}) 
         try {
              await postSuiviInspections({
                 ...values,
-                id_sub_inspection_gen: idSubInspectionGen
+                id_sub_inspection_gen: idSubInspectionGen,
+                user_cr : userId
             });
             notification.success({
                 message: 'Succès',
