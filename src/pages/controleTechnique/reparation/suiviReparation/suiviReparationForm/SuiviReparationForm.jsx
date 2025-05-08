@@ -7,6 +7,7 @@ import {  getEvaluation, getPiece, getReparationOneV, getSuiviReparationOne, get
 import { getCat_inspection } from '../../../../../services/batimentService';
 import { useSelector } from 'react-redux';
 import { evaluationStatusMap, statutIcons } from '../../../../../utils/prioriteIcons';
+import { useMenu } from '../../../../../context/MenuProvider';
 
 const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -27,6 +28,7 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
     const [dataEvol, setDataEvol] = useState(1)
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [reparation, setReparation] = useState([]);
+    const {fetchDataInsp} = useMenu();
     
     useEffect(() => {
         const info = form.getFieldValue('info');
@@ -123,35 +125,34 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
         }
       ];      
 
-    const onFinish = async (values) => {
+      const onFinish = async (values) => {
         const loadingKey = 'loadingReparation';
         message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
     
         setLoading(true);
-        
+    
         try {
-
-            if(dataEvol !== 1) {
+            if (dataEvol !== 1) {
                 await postReclamation({
                     ...values,
-                    id_sud_reparation : idReparations,
-                    user_cr : userId
-                })
-
+                    id_sud_reparation: idReparations,
+                    user_cr: userId,
+                });
                 message.success({ content: 'La réclamation a été enregistrée avec succès.', key: loadingKey });
             } else {
                 await postSuiviReparation({
                     ...values,
-                    id_sud_reparation : idReparations,
-                    user_cr : userId
+                    id_sud_reparation: idReparations,
+                    user_cr: userId,
                 });
-                message.success({ content: 'Suivie réparation enregistrée avec succès.', key: loadingKey });
+                message.success({ content: 'Suivi réparation enregistré avec succès.', key: loadingKey });
             }
-
+    
             form.resetFields();
-            fetchData();
+            fetchData(); 
+            fetchDataInsp();
             closeModal();
-
+    
         } catch (error) {
             console.error("Erreur lors de l'ajout de la réparation:", error);
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });
@@ -160,11 +161,12 @@ const SuiviReparationForm = ({idReparations, closeModal, fetchData}) => {
                 message: 'Erreur',
                 description: errorMsg,
             });
-
+    
         } finally {
             setLoading(false);
         }
     }
+    
     
   return (
     <>

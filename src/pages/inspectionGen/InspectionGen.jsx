@@ -22,14 +22,13 @@ import InspectionGenDoc from './inspectionGenDoc/InspectionGenDoc';
 import { handleRepair, handleValider } from '../../utils/modalUtils';
 import InspectionImage from './inspectionImage/InspectionImage';
 import ReparationDetail from '../controleTechnique/reparation/reparationDetail/ReparationDetail';
+import { useMenu } from '../../context/MenuProvider';
 
 const { Text } = Typography;
 const { Search } = Input;
 
 const InspectionGen = () => {
-    const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState('');
-    const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 15,
@@ -37,7 +36,6 @@ const InspectionGen = () => {
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 'max-content' };
     const [inspectionId, setInspectionId] = useState('');
-    const [statistique, setStatistique] = useState([]);
     const role = useSelector((state) => state.user?.currentUser?.role);
     const [columnsVisibility, setColumnsVisibility] = useState({
       '#': true,
@@ -64,6 +62,7 @@ const InspectionGen = () => {
     const [filteredDatas, setFilteredDatas] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [vehicule, setVehicule] = useState(null)
+    const { loading, data, setData, statistique, fetchDataInsp } = useMenu();
 
     const handleExportExcel = () => {
       try {
@@ -201,28 +200,9 @@ const InspectionGen = () => {
         message.error("Une erreur est survenue pendant l'export.");
       }
     };
-
-    const fetchData = async(filters) => {
-        try {
-            const [ inspectionData] = await Promise.all([
-              getInspectionGen(searchValue, filters),
-            ])
-            setData(inspectionData.data.inspections);
-            setStatistique(inspectionData.data.stats)
-            setLoading(false);
-        } catch (error) {
-            notification.error({
-                message: 'Erreur de chargement',
-                description: 'Une erreur est survenue lors du chargement des données.',
-            });
-            setLoading(false);
-        } finally{
-          setLoading(false)
-        }
-    }
     
     const handFilter = () => {
-      fetchData()
+      fetchDataInsp()
       setFilterVisible(!filterVisible)
     }
 
@@ -285,7 +265,7 @@ const InspectionGen = () => {
             });
             setData((prevData) => prevData.filter((item) => item.id_sub_inspection_gen  !== id));
             message.success("L'inspection a été supprimée avec succès.", 3);
-            fetchData()
+            fetchDataInsp()
           } catch (error) {
             notification.error({
               message: "Erreur de suppression",
@@ -299,12 +279,12 @@ const InspectionGen = () => {
 
     useEffect(() => {
       const handleReconnect = () => {
-          fetchData(filteredDatas);
+        fetchDataInsp(filteredDatas);
       };
   
       window.addEventListener('online', handleReconnect);
   
-      fetchData(filteredDatas);
+      fetchDataInsp(filteredDatas);
   
       return () => {
           window.removeEventListener('online', handleReconnect);
@@ -791,33 +771,33 @@ const InspectionGen = () => {
                         <Skeleton active paragraph={{ rows: 1 }} />
                       ) : (
                           <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Inspection : <strong>{statistique.nbre_inspection?.toLocaleString()}</strong></span>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Véhicule : <strong>{Math.round(parseFloat(statistique.nbre_vehicule)).toLocaleString() || 0}</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Inspection : <strong>{statistique?.nbre_inspection?.toLocaleString()}</strong></span>
+                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Véhicule : <strong>{Math.round(parseFloat(statistique?.nbre_vehicule)).toLocaleString() || 0}</strong></span>
                             <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
                               Budget non validé : <strong>
-                                {Number.isFinite(parseFloat(statistique.budget_total))
-                                  ? Math.round(parseFloat(statistique.budget_total)).toLocaleString()
+                                {Number.isFinite(parseFloat(statistique?.budget_total))
+                                  ? Math.round(parseFloat(statistique?.budget_total)).toLocaleString()
                                   : 0} $</strong>
                             </span>
 
                             <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
                               Budget validé  : <strong>
-                                {Number.isFinite(parseFloat(statistique.budget_valide))
-                                  ? Math.round(parseFloat(statistique.budget_valide)).toLocaleString()
+                                {Number.isFinite(parseFloat(statistique?.budget_valide))
+                                  ? Math.round(parseFloat(statistique?.budget_valide)).toLocaleString()
                                   : 0} $</strong>
                             </span>
 
                             <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
                               #Immobile : <strong>
-                                {Number.isFinite(parseFloat(statistique.nbre_vehicule_immobile))
-                                  ? Math.round(parseFloat(statistique.nbre_vehicule_immobile)).toLocaleString()
+                                {Number.isFinite(parseFloat(statistique?.nbre_vehicule_immobile))
+                                  ? Math.round(parseFloat(statistique?.nbre_vehicule_immobile)).toLocaleString()
                                   : 0}</strong>
                             </span>
 
                             <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
                               #En réparation : <strong>
-                                {Number.isFinite(parseFloat(statistique.nbre_reparation))
-                                  ? Math.round(parseFloat(statistique.nbre_reparation)).toLocaleString()
+                                {Number.isFinite(parseFloat(statistique?.nbre_reparation))
+                                  ? Math.round(parseFloat(statistique?.nbre_reparation)).toLocaleString()
                                   : 0}</strong>
                             </span>
                           </div>
@@ -881,7 +861,7 @@ const InspectionGen = () => {
             width={1023}
             centered
         >
-            <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} idSubInspectionGen={''} />
+            <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchDataInsp} idSubInspectionGen={''} />
         </Modal>
 
         <Modal
@@ -892,7 +872,7 @@ const InspectionGen = () => {
             width={1023}
             centered
         >
-          <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchData} idSubInspectionGen={inspectionId} />
+          <InspectionGenForm closeModal={() => setModalType(null)} fetchData={fetchDataInsp} idSubInspectionGen={inspectionId} />
         </Modal>
 
         <Modal
@@ -914,7 +894,7 @@ const InspectionGen = () => {
             width={1000}
             centered
         >
-            <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchData} inspectionId={inspectionId} />
+            <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchDataInsp} inspectionId={inspectionId} />
         </Modal>
 
         <Modal
@@ -925,7 +905,7 @@ const InspectionGen = () => {
             width={1023}
             centered
         >
-            <InspectionGenTracking idSubInspectionGen={inspectionId} closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <InspectionGenTracking idSubInspectionGen={inspectionId} closeModal={() => setModalType(null)} fetchData={fetchDataInsp} />
         </Modal>
 
         <Modal
@@ -936,7 +916,7 @@ const InspectionGen = () => {
           width={800}
           centered
         >
-          <InspectionGenFormTracking idSubInspectionGen={inspectionId} closeModal={() => setModalType(null)} fetchData={fetchData} />
+          <InspectionGenFormTracking idSubInspectionGen={inspectionId} closeModal={() => setModalType(null)} fetchData={fetchDataInsp} />
         </Modal>
 
         <Modal
@@ -947,7 +927,7 @@ const InspectionGen = () => {
             width={1000}
             centered
         >
-            <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
+            <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionId} />
         </Modal>
 
         <Modal
@@ -958,7 +938,7 @@ const InspectionGen = () => {
             width={1000}
             centered
         >
-          <InspectionGenDoc closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} />
+          <InspectionGenDoc closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionId} />
         </Modal>
 
         <Modal
@@ -969,7 +949,7 @@ const InspectionGen = () => {
           width={750}
           centered
         >
-          <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchData} subInspectionId={inspectionId} vehicule={vehicule} />
+          <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionId} vehicule={vehicule} />
         </Modal>
 
         <Modal
@@ -980,7 +960,7 @@ const InspectionGen = () => {
             width={900}
             centered
         >
-          <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={null} inspectionId={inspectionId} />
+          <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchDataInsp} idReparation={null} inspectionId={inspectionId} />
         </Modal>
     </>
   )
