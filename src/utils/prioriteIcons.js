@@ -123,6 +123,10 @@ export const statusIcons = {
     icon: <StopOutlined />,
     color: 'red',
   },
+  'Réparé': {
+    icon : <ToolOutlined />,
+    color: 'cyan'
+  }
 };
 
 export const getTagProps = (type) => {

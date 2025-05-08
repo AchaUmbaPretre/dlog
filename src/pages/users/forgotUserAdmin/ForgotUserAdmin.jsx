@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Menu, Button, message, Row, Col, notification } from 'antd';
+import { Form, Input, Card, Button, message, Row, Col, notification } from 'antd';
 import { getUserOne } from '../../../services/userService';
 import forgot from './../../../assets/reset.png';
 import './forgotUserAdmin.scss'
@@ -70,42 +70,43 @@ const ForgotUserAdmin = ({userId, closeModal, fetchData}) => {
         <div className="forgot_user_rows">
         <h2 className="forgot_user_h2">Mise à jour du mot de passe</h2>
         </div>
+        <Card>
+            <div className="forgot_wrapper">
+                <div className="forgot_left">
+                    <img src={forgot} alt="Password recovery" className="reset_img" />
+                </div>
 
-      <div className="forgot_wrapper">
-        <div className="forgot_left">
-            <img src={forgot} alt="Password recovery" className="reset_img" />
-        </div>
+                <div className="forgot_right">
+                    <div className="forgot_user_name">
+                        <span className="forgot_span">NOM : <strong>{data[0]?.nom.toUpperCase()}</strong></span>
+                        <span className="forgot_span">EMAIL : <strong>{data[0]?.email.toUpperCase()}</strong></span>
+                    </div>
+                    <Form
+                        form={form}
+                        layout="vertical"
+                        onFinish={onFinish}
+                    >
+                    <Row gutter={16}>
+                        <Col span={24}>
+                        <Form.Item
+                            label="Mot de Passe"
+                            name="password"
+                            rules={[{ required: false, message: 'Le mot de passe n/est obligatoire' }]}
+                        >
+                            <Input.Password placeholder="Entrez le mot de passe" />
+                        </Form.Item>
+                        </Col>
+                    </Row>
 
-        <div className="forgot_right">
-            <div className="forgot_user_name">
-                <span className="forgot_span">NOM : <strong>{data[0]?.nom.toUpperCase()}</strong></span>
-                <span className="forgot_span">EMAIL : <strong>{data[0]?.email.toUpperCase()}</strong></span>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
+                        Modifier
+                        </Button>
+                    </Form.Item>
+                    </Form>
+                </div>
             </div>
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={onFinish}
-            >
-            <Row gutter={16}>
-                <Col span={24}>
-                <Form.Item
-                    label="Mot de Passe"
-                    name="password"
-                    rules={[{ required: false, message: 'Le mot de passe n/est obligatoire' }]}
-                >
-                    <Input.Password placeholder="Entrez le mot de passe" />
-                </Form.Item>
-                </Col>
-            </Row>
-
-            <Form.Item>
-                <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
-                Modifier
-                </Button>
-            </Form.Item>
-            </Form>
-        </div>
-      </div>
+        </Card>
     </div>
   );
 };
