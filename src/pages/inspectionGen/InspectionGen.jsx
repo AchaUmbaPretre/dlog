@@ -832,14 +832,14 @@ const InspectionGen = () => {
                   }
               </div>
                 <div className="client-actions">
-                    <div className="client-row-left">
-                        <Search 
-                            placeholder="Recherche..." 
-                            onChange={(e) => setSearchValue(e.target.value)}
-                            enterButton
-                        />
-                    </div>
-                    <div className="client-rows-right">
+                  <div className="client-row-left">
+                    <Search 
+                      placeholder="Recherche..." 
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      enterButton
+                    />
+                  </div>
+                  <div className="client-rows-right">
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined />}
@@ -862,7 +862,7 @@ const InspectionGen = () => {
                             Colonnes <DownOutlined />
                           </Button>
                         </Dropdown>
-                    </div>
+                  </div>
                 </div>
                 {filterVisible && <FilterInspectionGen onFilter={handleFilterChange}/>}
                 <Table
