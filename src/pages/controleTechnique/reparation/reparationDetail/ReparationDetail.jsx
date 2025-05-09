@@ -371,7 +371,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                 </div>
                 <Card>
                     <div className="reparation_detail_wrapper">
-                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
+                        <Divider orientation="left" orientationMargin="0"  style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>INFORMATIONS GENERALES</Divider>
                         <Card className='reparation_detail_card'>
                             <div className="reparation_detail_top">
                                 <Skeleton loading={loading} active paragraph={false}>
@@ -389,7 +389,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                                 </Skeleton>
                             </div>
                         </Card>
-                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DETAIL DES REPARATIONS</Divider>
+                        <Divider orientation="left" orientationMargin="0" style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DETAIL DES REPARATIONS</Divider>
                         <Card>
                             <div className="reparation_detail_top">
                                 <Skeleton loading={loading} active paragraph={false}>
@@ -407,7 +407,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                                 </Skeleton>
                             </div>
                         </Card>
-                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DESCRIPTION DU TRAVAIL EFFECTUE</Divider>
+                        <Divider orientation="left" orientationMargin="0"  style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DESCRIPTION DU TRAVAIL EFFECTUE</Divider>
                         <Card className='reparation_detail_card'>
                             <div className="reparation_detail_top">
                                 <Skeleton loading={loading} active paragraph={false}>
@@ -424,48 +424,54 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                                 </Skeleton>
                             </div>
                         </Card>
-
-                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DÉTAIL DE RÉCLAMATION</Divider>
-                        <Card className='reparation_detail_card'>
-                            <div className="reparation_detail_top">
-                                <Skeleton loading={loading} active paragraph={false}>
-                                    <Table
-                                        columns={columnsFour}
-                                        dataSource={dataFour}
-                                        onChange={(pagination) => setPagination(pagination)}
-                                        pagination={pagination}
-                                        rowKey="id"
-                                        bordered
-                                        size="small"
-                                        scroll={scroll}
-                                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                                    />
-                                </Skeleton>
-                            </div>
-                        </Card>
-
-                        <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>Comparatif visuel : Avant et Après Réparation</Divider>
-                        <Card className='reparation_detail_card'>
-                            <div className="reparation_detail_top">
-                                <div className="reparation_wrapper_img">
-                                { resImg.map((d) => (
-                                    <Card>
-                                        <div className="reparation_detail_img_rows">
-                                            <div className="reparation_img">
-                                                <img src={`${DOMAIN}/${d.image}`} alt="" className="img" />
-                                            </div>
-                                            <div className="reparation_img_row">
-                                                <span className="reparation_span">Type : <strong>{d?.nom_type_photo}</strong></span>
-                                                <span className="reparation_span">Commentaire : <strong>{d?.commentaire}</strong></span>
-                                                <span className="reparation_span">Date : <strong> {moment(d?.created_at).format('LL')}</strong></span>
-                                            </div>
-                                        </div>
-                                    </Card>
-                                ))}
+                        { dataFour.length > 1 && (
+                            <> 
+                            <Divider orientation="left" orientationMargin="0"  style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DÉTAIL DE RÉCLAMATION</Divider>
+                            <Card className='reparation_detail_card'>
+                                <div className="reparation_detail_top">
+                                    <Skeleton loading={loading} active paragraph={false}>
+                                        <Table
+                                            columns={columnsFour}
+                                            dataSource={dataFour}
+                                            onChange={(pagination) => setPagination(pagination)}
+                                            pagination={pagination}
+                                            rowKey="id"
+                                            bordered
+                                            size="small"
+                                            scroll={scroll}
+                                            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                        />
+                                    </Skeleton>
                                 </div>
-                            </div>
-                        </Card>
+                            </Card>
+                            </>
+                        )}
 
+                        { resImg.length > 1 &&(
+                            <>
+                            <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>Comparatif visuel : Avant et Après Réparation</Divider>
+                            <Card className='reparation_detail_card'>
+                                <div className="reparation_detail_top">
+                                    <div className="reparation_wrapper_img">
+                                    { resImg.map((d) => (
+                                        <Card>
+                                            <div className="reparation_detail_img_rows">
+                                                <div className="reparation_img">
+                                                    <img src={`${DOMAIN}/${d.image}`} alt="" className="img" />
+                                                </div>
+                                                <div className="reparation_img_row">
+                                                    <span className="reparation_span">Type : <strong>{d?.nom_type_photo}</strong></span>
+                                                    <span className="reparation_span">Commentaire : <strong>{d?.commentaire}</strong></span>
+                                                    <span className="reparation_span">Date : <strong> {moment(d?.created_at).format('LL')}</strong></span>
+                                                </div>
+                                            </div>
+                                        </Card>
+                                    ))}
+                                    </div>
+                                </div>
+                            </Card>
+                            </>
+                        )}
                     </div>
                 </Card>
             </div>
