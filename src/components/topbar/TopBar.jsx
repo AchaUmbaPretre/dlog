@@ -112,7 +112,7 @@ const TopBar = () => {
             ) : (
               <BellOutlined style={{ color: '#faad14' }} />
             )}
-            <Typography.Text style={{ fontSize: '16px', fontWeight: 500 }}>{item.message}</Typography.Text>
+            <Typography.Text style={{ fontSize: '14px', fontWeight: 500 }}>{item.message}</Typography.Text>
           </Space>
         </List.Item>
       )}
@@ -194,7 +194,7 @@ const TopBar = () => {
         </div>
       </div>
       <Modal
-        title={t('Détails de la notification')}
+        title={''}
         visible={!!selectedNotif}
         onCancel={closeModal}
         footer={null}
