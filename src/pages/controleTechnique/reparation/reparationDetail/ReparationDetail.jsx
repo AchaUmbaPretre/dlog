@@ -161,15 +161,28 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                     </Tag>
                 ),
             },
-            { 
-                title: 'Statut', 
-                dataIndex: 'nom_evaluation', 
+            {
+                title: 'Statut',
+                dataIndex: 'nom_evaluation',
                 key: 'nom_evaluation',
                 render: (text) => {
-                    const { color, icon } = evaluationStatusMap[text] || { color: 'default' };
-                    return <Tag icon={icon} color={color}>{text}</Tag>;
-                },            
-            },
+                  const isEmpty = !text || text.trim() === '';
+                  
+                  if (isEmpty) {
+                    return (
+                      <Tag color="default">
+                        Aucun statut
+                      </Tag>
+                    );
+                  }
+                  const { color = 'default', icon = null } = evaluationStatusMap[text] || {};
+                  return (
+                    <Tag icon={icon} color={color}>
+                      {text}
+                    </Tag>
+                  );
+                },
+            },              
             { 
                 title: 'Statut final', 
                 dataIndex: 'nom_type_statut', 
