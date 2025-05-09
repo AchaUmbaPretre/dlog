@@ -34,7 +34,7 @@ const Notification = ({ idNotif }) => {
       ) : data ? (
         <Card title="Détails de la notification" bordered style={{ maxWidth: 500 }}>
           <p><strong>Message :</strong> {data.message}</p>
-          <p><strong>Date :</strong> {new Date(data.timestamp).toLocaleString()}</p>
+          <p><strong>Date :</strong> {new Date(data.timestamp).toLocaleString('fr-FR')}</p>
           <p><strong>Utilisateur :</strong> {data.nom} {data.prenom}</p>
         </Card>
       ) : (
