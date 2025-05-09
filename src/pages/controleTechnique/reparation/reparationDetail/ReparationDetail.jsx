@@ -126,8 +126,12 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
             {   title: 'Date fin', 
                 dataIndex: '"date_sortie', 
                 key: '"date_sortie', 
-                render: (text) => 
-                <Tag color='purple'>{moment(text).format('LL')}</Tag> 
+                render: (text) => {
+                    if (!text || !moment(text).isValid()) {
+                        return <Tag color="default">Aucune date</Tag>;
+                    }
+                    return <Tag color='purple'>{moment(text).format('LL')}</Tag>;
+                }
             },
             {   title: 'Fournisseur', 
                 dataIndex: 'nom_fournisseur', 
@@ -170,9 +174,11 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                   
                   if (isEmpty) {
                     return (
-                      <Tag color="default">
-                        Aucun statut
-                      </Tag>
+                        <Tooltip title="Aucun statut n’a été attribué pour cette évaluation.">
+                            <Tag color="default">
+                                Aucun statut
+                            </Tag>
+                        </Tooltip>
                     );
                   }
                   const { color = 'default', icon = null } = evaluationStatusMap[text] || {};
