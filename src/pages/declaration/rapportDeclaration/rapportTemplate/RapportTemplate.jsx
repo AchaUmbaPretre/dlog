@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Table, Tag, Tabs, Radio, Button, Skeleton, Tooltip } from 'antd';
+import { notification, Table, Card, Tag, Tabs, Radio, Button, Skeleton, Tooltip } from 'antd';
 import moment from 'moment';
 import {
   FileExcelOutlined,
@@ -40,7 +40,6 @@ const RapportTemplate = () => {
   const [detail, setDetail] = useState([]);
   const [activeKeys, setActiveKeys] = useState(['1', '2']);
   
-  
   const fetchData = async () => {
     try {
       const { data } = await getRapportTemplate(filteredDatas); 
@@ -54,7 +53,7 @@ const RapportTemplate = () => {
 
         setDetail(data.resume)
 
-      setUniqueMonths(uniqueMonths);
+        setUniqueMonths(uniqueMonths);
 
       const groupedData = data.data.reduce((acc, curr) => {
         let existing = acc.find(item => item.desc_template === curr.desc_template);
@@ -214,7 +213,7 @@ const RapportTemplate = () => {
 
   return (
     <>
-              {
+      {
             loading ? (
                 <Skeleton active paragraph={{ rows: 1 }} />
             ) : (
@@ -291,19 +290,21 @@ const RapportTemplate = () => {
             )
         }
       <div className="rapport-facture">
-        <div style={{ marginBottom: 16 }}>
-          <span>Afficher : </span>
-          <Radio.Group
-            value={selectedField}
-            onChange={(e) => setSelectedField(e.target.value)}
-          >
-            {availableFields.map(({ key, label }) => (
-              <Radio key={key} value={key}>
-                {label}
-              </Radio>
-            ))}
-          </Radio.Group>
-        </div>
+          <Card>
+            <div style={{ marginBottom: 16 }}>
+              <span>Afficher : </span>
+              <Radio.Group
+                value={selectedField}
+                onChange={(e) => setSelectedField(e.target.value)}
+              >
+                {availableFields.map(({ key, label }) => (
+                  <Radio key={key} value={key}>
+                    {label}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </div>
+          </Card>
         <div className='rapport_row_excel'>
           <Button
             type={filterVisible ? 'primary' : 'default'}
