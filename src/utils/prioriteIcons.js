@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined,ReloadOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -195,4 +195,21 @@ export const statutIcons = (type) => {
   }
 
   return { color, icon };
+};
+
+export const getInspectionIcon = (category) => {
+  switch (category) {
+    case 'Réparation':
+      return { icon: <ToolOutlined />, color: 'geekblue' };
+    case 'Remplacement':
+      return { icon: <ReloadOutlined />, color: 'volcano' };
+    case 'Suppression':
+      return { icon: <DeleteOutlined />, color: 'red' };
+    case 'Remplacement occasion':
+      return { icon: <ShoppingOutlined />, color: 'orange' };
+    case 'Réglage':
+      return { icon: <SettingOutlined />, color: 'cyan' };
+    default:
+      return { icon: <ToolOutlined />, color: 'default' };
+  }
 };

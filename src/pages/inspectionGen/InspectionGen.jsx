@@ -11,7 +11,7 @@ import InspectionGenFormTracking from './inspectionGenTracking/inspectionGenForm
 import ReparationForm from '../controleTechnique/reparation/reparationForm/ReparationForm';
 import './inspectionGen.css'
 import { useSelector } from 'react-redux';
-import { statusIcons } from '../../utils/prioriteIcons';
+import { getInspectionIcon, statusIcons } from '../../utils/prioriteIcons';
 import getColumnSearchProps from '../../utils/columnSearchUtils';
 import { useRef } from 'react';
 import FilterInspectionGen from './filterInspectionGen/FilterInspectionGen';
@@ -44,6 +44,7 @@ const InspectionGen = () => {
       'Date inspection': true,
       'Date réparation' : false,
       'type_rep': true,
+      "Cat inspection" : true,
       "Avis d expert": false,
       "Montant": true,
       'Statut vehicule': true,
@@ -554,6 +555,32 @@ const InspectionGen = () => {
                 </Tag>
             ),
             ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+          title: 'Cat inspect.',
+          dataIndex: 'nom_cat_inspection',
+          ...getColumnSearchProps(
+            'nom_cat_inspection',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+          ),
+          render: (text) => {
+            const { icon, color } = getInspectionIcon(text);
+            return (
+              <Tag
+                icon={icon}
+                color={color}
+                style={columnStyles.title}
+                className={columnStyles.hideScroll}
+                bordered={false}
+              >
+                {text}
+              </Tag>
+            );
+          },
+          ...(columnsVisibility['Cat inspection'] ? {} : { className: 'hidden-column' }),
         },
         {
           title: "Avis d'expert",

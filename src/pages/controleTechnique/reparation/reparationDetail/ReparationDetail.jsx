@@ -418,13 +418,14 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                                         pagination={pagination}
                                         rowKey="id"
                                         bordered
+                                        scroll={scroll}
                                         size="small"
                                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                                     />
                                 </Skeleton>
                             </div>
                         </Card>
-                        { dataFour.length > 1 && (
+                        { dataFour?.length >= 1 && (
                             <> 
                             <Divider orientation="left" orientationMargin="0"  style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>DÉTAIL DE RÉCLAMATION</Divider>
                             <Card className='reparation_detail_card'>
@@ -447,7 +448,7 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                             </>
                         )}
 
-                        { resImg.length > 1 &&(
+                        { resImg?.length >= 1 &&(
                             <>
                             <Divider style={{ borderColor: 'rgba(0, 123, 255, 0.137)' }}>Comparatif visuel : Avant et Après Réparation</Divider>
                             <Card className='reparation_detail_card'>
