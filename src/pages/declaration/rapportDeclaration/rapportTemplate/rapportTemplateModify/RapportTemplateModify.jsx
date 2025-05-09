@@ -7,19 +7,34 @@ const RapportTemplateModify = ({closeModal, fetchData, idDeclaration}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
-    useEffect(()=> {
-        const fetchDatas = async() => {
-            const { data : d} = await getDeclarationOne(idDeclaration)
-            if(d && d[0]){
-                form.setFieldsValue({
-                    total_entreposage: d[0].total_entreposage
-                })
+    useEffect(() => {
+        const fetchDatas = async () => {
+            try {
+                const { data } = await getDeclarationOne(idDeclaration);
+    
+                if (Array.isArray(data) && data.length > 0 && data[0]?.total_entreposage != null) {
+                    form.setFieldsValue({
+                        total_entreposage: data[0].total_entreposage,
+                    });
+                } else {
+                    form.setFieldsValue({
+                        total_entreposage: 0,
+                    });
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des données :', error);
+                notification.error({
+                    message: 'Erreur de chargement',
+                    description: 'Impossible de récupérer les données de la déclaration.',
+                    placement: 'topRight',
+                });
             }
-        } 
-
-        fetchDatas();
-
-    }, [idDeclaration])
+        };
+    
+        if (idDeclaration) {
+            fetchDatas();
+        }
+    }, [idDeclaration, form]);
     
     const onFinish = async (values) => {
         const loadingKey = 'updateTotalEntreposage';
@@ -89,7 +104,7 @@ const RapportTemplateModify = ({closeModal, fetchData, idDeclaration}) => {
                                 label="Total"
                                 rules={[{ required: true, message: "Veuillez entrer le total" }]}
                             >
-                                <InputNumber size='large' placeholder="Saisir la marque..." style={{width:'100%'}}/>
+                                <InputNumber size='large' placeholder="ex: 1000" style={{width:'100%'}}/>
                             </Form.Item>
                         </Col>
 
