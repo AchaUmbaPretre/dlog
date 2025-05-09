@@ -44,9 +44,9 @@ const TrackingGen = () => {
               }, 5000);
           
               return () => clearInterval(intervalId);
-        }, [])
+      }, [])
     
-        const columns = [
+      const columns = [
             {
               title: '#',
               dataIndex: 'id',
@@ -184,7 +184,7 @@ const TrackingGen = () => {
                 </Tag>
               ),
             }
-          ];
+        ];
 
     const filteredData = data.filter(item =>
         item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) ||
