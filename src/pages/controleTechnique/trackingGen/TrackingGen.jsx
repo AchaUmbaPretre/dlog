@@ -187,10 +187,10 @@ const TrackingGen = () => {
         ];
 
     const filteredData = data.filter(item =>
-        item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) ||
-        item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) ||
-        item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
-      );
+      item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
   return (
     <>
