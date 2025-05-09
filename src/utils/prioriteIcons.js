@@ -200,16 +200,16 @@ export const statutIcons = (type) => {
 export const getInspectionIcon = (category) => {
   switch (category) {
     case 'Réparation':
-      return { icon: <ToolOutlined />, color: 'geekblue' };
+      return { icon: <ToolOutlined spin />, color: 'geekblue' };
     case 'Remplacement':
-      return { icon: <ReloadOutlined />, color: 'volcano' };
+      return { icon: <ReloadOutlined spin />, color: 'volcano' };
     case 'Suppression':
-      return { icon: <DeleteOutlined />, color: 'red' };
+      return { icon: <DeleteOutlined spin />, color: 'red' };
     case 'Remplacement occasion':
-      return { icon: <ShoppingOutlined />, color: 'orange' };
+      return { icon: <ShoppingOutlined spin />, color: 'orange' };
     case 'Réglage':
-      return { icon: <SettingOutlined />, color: 'cyan' };
+      return { icon: <SettingOutlined spin />, color: 'cyan' };
     default:
-      return { icon: <ToolOutlined />, color: 'default' };
+      return { icon: <ToolOutlined spin />, color: 'default' };
   }
 };
