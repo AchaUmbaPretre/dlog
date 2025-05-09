@@ -241,7 +241,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                 <Form.Item
                                     label="Véhicule"
                                     name="id_vehicule"
-                                    rules={[{ required: false, message: 'Veuillez sélectionner un véhicule' }]}
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un véhicule' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
