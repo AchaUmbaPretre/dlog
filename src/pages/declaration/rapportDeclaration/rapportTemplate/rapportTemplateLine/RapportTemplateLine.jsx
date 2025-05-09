@@ -12,7 +12,8 @@ import { Document, Packer, Paragraph, TextRun, ImageRun } from "docx";
 const RapportTemplateLine = ({ groupedData, uniqueMonths, selectedField }) => {
   const chartRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const chartData = groupedData.map(batiment => ({
+
+/*   const chartData = groupedData.map(batiment => ({
       id: batiment.desc_template,
       data: uniqueMonths.map(month => {
           const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY");  // Correction ici
@@ -23,7 +24,24 @@ const RapportTemplateLine = ({ groupedData, uniqueMonths, selectedField }) => {
               y: batiment[key] || 0
           };
       })
+  })); */
+
+  const chartData = groupedData.map(batiment => ({
+    id: batiment.desc_template,
+    data: uniqueMonths.map(month => {
+      const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY");
+      const key = `${formattedMonth}_${selectedField}`;
+      const cell = batiment[key];
+  
+      return {
+        x: formattedMonth,
+        y: cell?.value ?? 0,
+        id_declaration_super: cell?.id ?? null,
+        template: batiment.desc_template
+      };
+    })
   }));
+  
 
     /** Capture le graphique sous forme d'image */
     const captureChartAsImage = async (callback) => {

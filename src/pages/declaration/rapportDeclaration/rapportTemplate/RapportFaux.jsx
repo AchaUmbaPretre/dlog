@@ -68,12 +68,7 @@ const RapportTemplate = () => {
           acc.push(existing);
         }
 
-/*         existing[`${monthName}_${selectedField}`] = curr[selectedField] ?? 0;
- */
-        existing[`${monthName}_${selectedField}`] = {
-          value: curr[selectedField] ?? 0,
-          id: curr.id_declaration_super,
-        };
+        existing[`${monthName}_${selectedField}`] = curr[selectedField] ?? 0;
 
         return acc;
       }, []);
@@ -101,11 +96,10 @@ const RapportTemplate = () => {
     setModalType(null);
   };
 
-  const openModal = (type, id = '') => {
-    console.log(id)
+  const openModal = (type, idTemplate = '') => {
       closeAllModals();
       setModalType(type);
-      setIdTemplate(id)
+      setIdTemplate(idTemplate)
   };
 
   const columnStyles = {
@@ -168,11 +162,11 @@ const RapportTemplate = () => {
           
       ];
 
-/*       const dynamicColumns = uniqueMonths.map(month => {
+      const dynamicColumns = uniqueMonths.map(month => {
         const monthName = moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY');
         return {
             title: (
-                <div style={{ textAlign: "center" }} onClick={() => handleModify()}>
+                <div style={{ textAlign: "center" }}>
                     <Tag color={"#2db7f5"}>{monthName}</Tag>
                 </div>
             ),
@@ -199,45 +193,9 @@ const RapportTemplate = () => {
             },
             align: "right",
         };
-    }); */
+    });
     
 
-    const dynamicColumns = uniqueMonths.map(month => {
-      const monthName = moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY');
-      const columnKey = `${monthName}_${selectedField}`;
-    
-      return {
-        title: (
-          <div style={{ textAlign: "center" }}>
-            <Tag color={"#2db7f5"}>{monthName}</Tag>
-          </div>
-        ),
-        dataIndex: columnKey,
-        key: columnKey,
-        sorter: (a, b) => {
-          const aValue = a[columnKey]?.value ?? 0;
-          const bValue = b[columnKey]?.value ?? 0;
-          return aValue - bValue;
-        },
-        sortDirections: ["descend", "ascend"],
-        render: (valueObj, record) => {
-          const val = valueObj?.value ?? 0;
-          const id = valueObj?.id;
-    
-          return (
-            <span
-              style={{ color: val > 0 ? "black" : "red", cursor: "pointer" }}
-              onClick={() => handleModify(id, record)}
-            >
-              {selectedField === 'total_facture' || selectedField === 'total_occupe'
-                ? val.toLocaleString("en-US", { minimumFractionDigits: 2 })
-                : `${val.toLocaleString("en-US", { minimumFractionDigits: 2 })} $`}
-            </span>
-          );
-        },
-        align: "right",
-      };
-    });
       return [...baseColumns, ...dynamicColumns];
     };
 

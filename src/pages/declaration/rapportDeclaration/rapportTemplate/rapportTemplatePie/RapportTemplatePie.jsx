@@ -7,15 +7,25 @@ const RapportTemplatePie = ({ groupedData, uniqueMonths, selectedField }) => {
     if (!groupedData || !uniqueMonths) return null;
 
     // Transformation des données pour Nivo PieChart
-    const pieData = groupedData.map(batiment => ({
+    /* const pieData = groupedData.map(batiment => ({
         id: batiment.desc_template,
         label: batiment.desc_template,
         value: uniqueMonths.reduce((acc, month) => {
             const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY");
             return acc + (batiment[`${formattedMonth}_${selectedField}`] || 0); // Somme des valeurs pour chaque mois
         }, 0)
-    }));
-    
+    })); */
+
+    const pieData = groupedData.map(batiment => ({
+        id: batiment.desc_template,
+        label: batiment.desc_template,
+        value: uniqueMonths.reduce((acc, month) => {
+          const formattedMonth = moment(month, "M-YYYY").locale('fr').format("MMM-YYYY");
+          const cell = batiment[`${formattedMonth}_${selectedField}`];
+          return acc + (cell?.value ?? 0);
+        }, 0)
+      }));
+      
 
     return (
         <div style={{
