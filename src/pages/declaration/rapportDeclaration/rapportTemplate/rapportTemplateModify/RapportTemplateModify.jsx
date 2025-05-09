@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Form, notification, InputNumber, Row, Button, message } from 'antd';
+import { Col, Form, notification, InputNumber, Skeleton, Row, Button, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { getDeclarationOne, putDeclarationTotalEntrep } from '../../../../../services/templateService';
 
 const RapportTemplateModify = ({closeModal, fetchData, idDeclaration}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
-
+    const [isFetching, setIsFetching] = useState(true);
+    const [desc, setDesc] = useState(null);
+   
     useEffect(() => {
         const fetchDatas = async () => {
             try {
                 const { data } = await getDeclarationOne(idDeclaration);
-    
+
+                setDesc(data[0].desc_template)
+
                 if (Array.isArray(data) && data.length > 0 && data[0]?.total_entreposage != null) {
                     form.setFieldsValue({
                         total_entreposage: data[0].total_entreposage,
@@ -28,9 +32,11 @@ const RapportTemplateModify = ({closeModal, fetchData, idDeclaration}) => {
                     description: 'Impossible de récupérer les données de la déclaration.',
                     placement: 'topRight',
                 });
+            } finally {
+                setIsFetching(false);
             }
         };
-    
+
         if (idDeclaration) {
             fetchDatas();
         }
@@ -84,9 +90,9 @@ const RapportTemplateModify = ({closeModal, fetchData, idDeclaration}) => {
 
   return (
     <>
-        <div className="controle_form">
+       <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">METTRE A JOUR LE TOTAL ENTREPOSAGE</h2>
+            <h2 className="controle_h2">METTRE À JOUR LE TOTAL D’ENTREPOSAGE {desc?.toUpperCase()}</h2>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -99,16 +105,20 @@ const RapportTemplateModify = ({closeModal, fetchData, idDeclaration}) => {
                 >
                     <Row gutter={12}>
                         <Col xs={24} md={24}>
-                            <Form.Item
-                                name="total_entreposage"
-                                label="Total"
-                                rules={[{ required: true, message: "Veuillez entrer le total" }]}
-                            >
-                                <InputNumber size='large' placeholder="ex: 1000" style={{width:'100%'}}/>
-                            </Form.Item>
+                            {isFetching ? (
+                                <Skeleton active paragraph={false} />
+                            ) : (
+                                <Form.Item
+                                    name="total_entreposage"
+                                    label="Total"
+                                    rules={[{ required: true, message: "Veuillez entrer le total" }]}
+                                >
+                                    <InputNumber size='large' placeholder="ex: 1000" style={{ width: '100%' }} />
+                                </Form.Item>
+                            )}
                         </Col>
 
-                        <Button type="primary" disabled={loading} loading={loading} size='large' htmlType="submit" icon={<SendOutlined />}>
+                        <Button type="primary" disabled={loading || isFetching} loading={loading} size='large' htmlType="submit" icon={<SendOutlined />}>
                             Modifier
                         </Button>
                     </Row>
