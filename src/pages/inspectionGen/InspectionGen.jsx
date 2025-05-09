@@ -619,37 +619,36 @@ const InspectionGen = () => {
           ...(columnsVisibility['Budget_valide'] ? {} : { className: 'hidden-column' }),
         }, 
         {
-            title: 'KM',
-            dataIndex: 'kilometrage',
-            render: (text) => (
-              <Tag color={ text > 0 ? 'green' : 'red' }>
-                {text ?? 0}
-              </Tag>
-            ),
-            ...(columnsVisibility['Kilometrage'] ? {} : { className: 'hidden-column' }),
+          title: 'KM',
+          dataIndex: 'kilometrage',
+          render: (text) => (
+            <Tag color={ text > 0 ? 'green' : 'red' }>
+              {text ?? 0}
+            </Tag>
+          ),
+          ...(columnsVisibility['Kilometrage'] ? {} : { className: 'hidden-column' }),
         },      
         {
-            title: 'Date validation',
-            dataIndex: 'date_validation',
-            render: (text) => {
-                if (!text) {
-                  return (
-                    <Tag icon={<CalendarOutlined />} color="red">
+          title: 'Date validation',
+          dataIndex: 'date_validation',
+          render: (text) => {
+            if (!text) {
+              return (
+                <Tag icon={<CalendarOutlined />} color="red">
                       Aucune date
-                    </Tag>
-                  );
-                }
+                </Tag>
+              );
+            }
+            const date = moment(text);
+            const isValid = date.isValid();
             
-                const date = moment(text);
-                const isValid = date.isValid();
-            
-                return (
-                  <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-                    {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
-                  </Tag>
-                );
-              },
-              ...(columnsVisibility['Date validation'] ? {} : { className: 'hidden-column' }),
+            return (
+                <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                  {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
+                </Tag>
+              );
+            },
+          ...(columnsVisibility['Date validation'] ? {} : { className: 'hidden-column' }),
         },
         { 
           title: '#Véhicule', 
@@ -673,26 +672,25 @@ const InspectionGen = () => {
           ...(columnsVisibility['Statut vehicule'] ? {} : { className: 'hidden-column' }),
         },
         { 
-            title: 'Statut', 
-            dataIndex: 'nom_type_statut', 
-            key: 'nom_type_statut',
-            ...getColumnSearchProps(
-              'nom_type_statut',
-              searchText,
-              setSearchText,
-              setSearchedColumn,
-              searchInput
-            ),
+          title: 'Statut', 
+          dataIndex: 'nom_type_statut', 
+          key: 'nom_type_statut',
+          ...getColumnSearchProps(
+            'nom_type_statut',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+          ),
             render: text => {
-                const { icon, color } = statusIcons[text] || {};
-                return (
-                  <Space>
-                    <Tag icon={icon} color={color}>{text}</Tag>
-                  </Space>
-                );
+              const { icon, color } = statusIcons[text] || {};
+              return (
+                <Space>
+                  <Tag icon={icon} color={color}>{text}</Tag>
+                </Space>
+              );
             },
             ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' }),
-
         },
         {
             title: 'Actions',
