@@ -185,7 +185,6 @@ const TrackingGen = () => {
               ),
             }
           ];
-        
 
     const filteredData = data.filter(item =>
         item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) ||
