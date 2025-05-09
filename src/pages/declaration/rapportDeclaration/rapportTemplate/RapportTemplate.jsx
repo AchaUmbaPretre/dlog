@@ -14,6 +14,7 @@ import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import TabPane from 'antd/es/tabs/TabPane';
 import RapportTemplateLine from './rapportTemplateLine/RapportTemplateLine';
 import RapportTemplatePie from './rapportTemplatePie/RapportTemplatePie';
+import RapportTemplateModify from './rapportTemplateModify/RapportTemplateModify';
 
 const availableFields = [
   { key: 'total_facture', label: 'M² Facture' },
@@ -89,8 +90,6 @@ const RapportTemplate = () => {
     }
   };
 
-  console.log(dataSource)
-
   const handleTabChanges = (key) => {
     setActiveKeys(key);
   };
@@ -102,7 +101,6 @@ const RapportTemplate = () => {
   };
 
   const openModal = (type, id = '') => {
-    console.log(id)
       closeAllModals();
       setModalType(type);
       setIdTemplate(id)
@@ -431,12 +429,11 @@ const RapportTemplate = () => {
             visible={modalType === 'Modify'}
             onCancel={closeAllModals}
             footer={null}
-            width={1000}
+            width={700}
             centered
         >
-          qqqq
-{/*             <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionId} />
- */}        </Modal>
+          <RapportTemplateModify closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idTemplate} />
+        </Modal>
     </>
   );
 };

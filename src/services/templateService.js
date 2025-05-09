@@ -101,6 +101,9 @@ export const putDeclaration = async (id,data, version) => {
     return axios.put(`${DOMAIN}/api/template/declaration_superficie?id_declaration=${id}&version=${version}`, data);
   };
 
+export const putDeclarationTotalEntrep = async (id,data) => {
+    return axios.put(`${DOMAIN}/api/template/putDeclarationTotalEntrep?id_declaration=${id}`, data);
+  };
 
 export const lockDeclaration = async (userId, id ) => {
     return axios.post(`${DOMAIN}/api/template/lock_declaration?userId=${userId}&id=${id}`);
