@@ -39,7 +39,8 @@ const RapportTemplate = () => {
   const [filterVisible, setFilterVisible] = useState(false);
   const [detail, setDetail] = useState([]);
   const [activeKeys, setActiveKeys] = useState(['1', '2']);
-  
+  const scroll = { x: 'max-content' };
+
   const fetchData = async () => {
     try {
       const { data } = await getRapportTemplate(filteredDatas); 
@@ -325,7 +326,7 @@ const RapportTemplate = () => {
           dataSource={dataSource}
           columns={columns}
           bordered
-          scroll={{ x: "max-content" }}
+          scroll={scroll}
           size="small"
           pagination={pagination}
           loading={loading}

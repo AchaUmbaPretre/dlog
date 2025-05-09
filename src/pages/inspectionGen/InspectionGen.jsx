@@ -866,15 +866,15 @@ const InspectionGen = () => {
                 </div>
                 {filterVisible && <FilterInspectionGen onFilter={handleFilterChange}/>}
                 <Table
-                    columns={columns}
-                    dataSource={filteredData}
-                    rowKey="id_inspection_gen"
-                    loading={loading}
-                    scroll={scroll}
-                    size="small"
-                    onChange={(pagination)=> setPagination(pagination)}
-                    bordered
-                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                  columns={columns}
+                  dataSource={filteredData}
+                  rowKey="id_inspection_gen"
+                  loading={loading}
+                  scroll={scroll}
+                  size="small"
+                  onChange={(pagination)=> setPagination(pagination)}
+                  bordered
+                  rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                 />
             </div>
         </div>
