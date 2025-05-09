@@ -183,12 +183,7 @@ const TrackingGen = () => {
                   {text}
                 </Tag>
               ),
-            }, 
-            {
-              title: 'Commentaire',
-              dataIndex: 'commentaire',
-              render: (text) => <span>{text || '-'}</span>,
-            },
+            }
           ];
         
 
