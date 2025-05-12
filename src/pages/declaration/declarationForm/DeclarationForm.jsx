@@ -43,9 +43,9 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
     const handleAdd = () => {
         openModal('Add');
-      }
+    }
 
-      const goToNextTache = () => {
+    const goToNextTache = () => {
         setIdDeclarations((prevId) => {
           const currentIndex = idValides.indexOf(prevId);
           if (currentIndex !== -1 && currentIndex < idValides.length - 1) {
@@ -53,9 +53,9 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
           }
           return prevId;
         });
-      };
+    };
      
-      const goToPreviousTache = () => {
+    const goToPreviousTache = () => {
         setIdDeclarations((prevId) => {
           const currentIndex = idValides.indexOf(prevId);
           if (currentIndex > 0) {
@@ -63,7 +63,7 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
           }
           return prevId;
         });
-      };
+    };
 
     useEffect(() => {
         setIdDeclarations(idDeclarationss);
