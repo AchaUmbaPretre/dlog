@@ -147,26 +147,26 @@ useEffect(() => {
       }
   };
           
-    const handFilter = () => {
-      fetchData()
-      setFilterVisible(!filterVisible)
-    }
+  const handFilter = () => {
+    fetchData()
+    setFilterVisible(!filterVisible)
+  }
 
   useEffect(() => {
-      fetchData();
+    fetchData();
   
-      const intervalId = setInterval(() => {
-        fetchData();
-      }, 5000);
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 5000);
   
       return () => clearInterval(intervalId);
-    }, [filteredDatas, searchValue]); 
+  }, [filteredDatas, searchValue]); 
     
   const handleMoisAnnee = (idClient, dataMois, annee) => {
-      openModal('Mois', '', idClient, dataMois);
-      setMois(dataMois)
-      setAnnee(annee)
-    };
+    openModal('Mois', '', idClient, dataMois);
+    setMois(dataMois)
+    setAnnee(annee)
+  };
 
   const handleAddTemplate = (idDeclaration) => {
     openModal('Add', idDeclaration);
