@@ -140,7 +140,7 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
                 >
                   {fileList.length < 1 && (
                     <div>
-                      <UploadOutlined />
+                      <UploadOutlined style={{margin:'0'}} />
                       <div style={{ marginTop: 8 }}>Téléverser</div>
                     </div>
                   )}
