@@ -12,7 +12,6 @@ import TemplateForm from '../../template/templateForm/TemplateForm';
 import { useSelector } from 'react-redux';
 import config from '../../../config';
 
-
 const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss, idClients}) => {
     const [form] = Form.useForm();
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -30,7 +29,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
     const [idValides, setIdValides] = useState([]);
     const [refreshKey, setRefreshKey] = useState(0);
     const [modalType, setModalType] = useState(null);
-    const [isEdit, setIsEdit] = useState('');
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const role = useSelector((state) => state.user?.currentUser.role);
 
