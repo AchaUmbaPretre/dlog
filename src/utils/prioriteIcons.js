@@ -202,11 +202,11 @@ export const getInspectionIcon = (category) => {
     case 'Réparation':
       return { icon: <ToolOutlined spin />, color: 'geekblue' };
     case 'Remplacement':
-      return { icon: <ReloadOutlined spin />, color: 'volcano' };
+      return { icon: <ReloadOutlined spin/>, color: 'volcano' };
     case 'Suppression':
-      return { icon: <DeleteOutlined spin />, color: 'red' };
+      return { icon: <DeleteOutlined/>, color: 'red' };
     case 'Remplacement occasion':
-      return { icon: <ShoppingOutlined spin />, color: 'orange' };
+      return { icon: <ShoppingOutlined />, color: 'orange' };
     case 'Réglage':
       return { icon: <SettingOutlined spin />, color: 'cyan' };
     default:
