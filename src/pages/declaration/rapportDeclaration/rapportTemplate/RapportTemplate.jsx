@@ -426,15 +426,15 @@ const RapportTemplate = () => {
         </div>
       </div>
       <Modal
-            title=""
-            visible={modalType === 'Modify'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1200}
-            centered
-        >
-          <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idTemplate} />
-        </Modal>
+        title=""
+        visible={modalType === 'Modify'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1200}
+        centered
+      >
+        <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idTemplate} />
+      </Modal>
     </>
   );
 };
