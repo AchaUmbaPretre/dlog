@@ -981,67 +981,67 @@ useEffect(() => {
           </Modal>
 
           <Modal
-              title=""
-              visible={modalType === 'Update'}
-              onCancel={closeAllModals}
-              footer={null}
-              width={1200}
-              centered
-            >
-              <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idDeclaration} />
+            title=""
+            visible={modalType === 'Update'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1200}
+            centered
+          >
+            <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idDeclaration} />
           </Modal>
 
           <Modal
-              title=""
-              visible={modalType === 'Detail'}
-              onCancel={closeAllModals}
-              footer={null}
-              width={900}
-              centered
-            >
-              <DeclarationDetail idDeclaration={idDeclaration} />
+            title=""
+            visible={modalType === 'Detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+          >
+            <DeclarationDetail idDeclaration={idDeclaration} />
           </Modal>
 
           <Modal
-              title=""
-              visible={modalType === 'AddDecl'}
-              onCancel={closeAllModals}
-              footer={null}
-              width={1250}
-              centered
-            >
-              <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} idClients={idClient} />
+            title=""
+            visible={modalType === 'AddDecl'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1250}
+            centered
+          >
+            <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={''} idDeclarationss={idDeclaration} idClients={idClient} />
           </Modal>
 
           <Modal
-              title=""
-              visible={modalType === 'OneAll'}
-              onCancel={closeAllModals}
-              footer={null}
-              width={1250}
-              centered
+            title=""
+            visible={modalType === 'OneAll'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1250}
+            centered
           >
             <DeclarationSituationClient idClients={idClient} mois={mois} />
           </Modal>
 
           <Modal
-              title=""
-              visible={modalType === 'Mois'}
-              onCancel={closeAllModals}
-              footer={null}
-              width={1100}
-              centered
+            title=""
+            visible={modalType === 'Mois'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1100}
+            centered
           >
             <DeclarationSituationClient idClients={idClient} mois={mois} annee={annee}  />
           </Modal>
 
           <Modal
-              visible={modalType === 'cloture'}
-              onCancel={closeAllModals}
-              footer={null}
-              width={550}
-              centered
-              title="Déclaration du Statut de Clôture"
+            visible={modalType === 'cloture'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={550}
+            centered
+            title="Déclaration du Statut de Clôture"
           >
             <DeclarationStatutCloture closeModal={() => setModalType(null)} fetchData={fetchData}/>
           </Modal>

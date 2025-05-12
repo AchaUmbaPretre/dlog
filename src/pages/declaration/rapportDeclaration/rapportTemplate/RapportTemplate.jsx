@@ -15,6 +15,7 @@ import TabPane from 'antd/es/tabs/TabPane';
 import RapportTemplateLine from './rapportTemplateLine/RapportTemplateLine';
 import RapportTemplatePie from './rapportTemplatePie/RapportTemplatePie';
 import RapportTemplateModify from './rapportTemplateModify/RapportTemplateModify';
+import DeclarationForm from '../../declarationForm/DeclarationForm';
 
 const availableFields = [
   { key: 'total_facture', label: 'M² Facture' },
@@ -429,10 +430,10 @@ const RapportTemplate = () => {
             visible={modalType === 'Modify'}
             onCancel={closeAllModals}
             footer={null}
-            width={700}
+            width={1200}
             centered
         >
-          <RapportTemplateModify closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idTemplate} />
+          <DeclarationForm closeModal={() => setModalType(null)} fetchData={fetchData} idDeclaration={idTemplate} />
         </Modal>
     </>
   );
