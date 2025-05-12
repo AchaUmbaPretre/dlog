@@ -212,4 +212,4 @@ export const getInspectionIcon = (category) => {
     default:
       return { icon: <ToolOutlined spin />, color: 'default' };
   }
-};
+}
