@@ -250,7 +250,6 @@ useEffect(() => {
         return (pageIndex - 1) * pageSize + index + 1;
       },
       width: "4%",
-
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
     {
