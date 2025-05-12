@@ -9,6 +9,7 @@ import Reparation from './reparation/Reparation';
 import InspectionGen from '../inspectionGen/InspectionGen';
 import TrackingGen from './trackingGen/TrackingGen';
 import AuditLogInspection from './auditLogInspection/AuditLogInspection';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -23,6 +24,8 @@ const ControleTechnique = () => {
     });
     const [modalType, setModalType] = useState(null);
     const [activeKey, setActiveKey] = useState(['1', '2']);
+    const role = useSelector((state) => state.user?.currentUser?.role);
+    
     
     const fetchData = async() => {
         try {
@@ -285,25 +288,30 @@ const ControleTechnique = () => {
             >
                 <Reparation/>
             </TabPane>
+            { 
+                role === 'Admin' && (
+                    <TabPane
+                        tab={
+                            <span>
+                                <FileSearchOutlined
+                                    style={{
+                                        color: 'chocolate',
+                                        fontSize: '18px',
+                                        marginRight: '8px',
+                                    }}
+                                />
+                                    Tracking
+                            </span>
+                        }
+                        key="4"
+                    >
+                        <TrackingGen/>
+                    </TabPane>
+                )
+            }
 
-            <TabPane
-                tab={
-                    <span>
-                        <FileSearchOutlined
-                            style={{
-                                color: 'chocolate',
-                                fontSize: '18px',
-                                marginRight: '8px',
-                            }}
-                        />
-                            Tracking
-                    </span>
-                }
-                key="4"
-            >
-                <TrackingGen/>
-            </TabPane>
-
+            { 
+                role === 'Admin' && (
             <TabPane
                 tab={
                     <span>
@@ -321,6 +329,8 @@ const ControleTechnique = () => {
             >
                 <AuditLogInspection/>
             </TabPane>
+            )
+            }
         </Tabs>
 
         <Modal
