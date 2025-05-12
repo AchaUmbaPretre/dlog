@@ -391,8 +391,8 @@ const RapportTemplate = () => {
           onChange={pagination => setPagination(pagination)}
           rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
         />
-                <div className="rapport_chart">
-                <Tabs
+          <div className="rapport_chart">
+            <Tabs
                     activeKey={activeKeys[0]}
                     onChange={handleTabChanges}
                     type="card"
@@ -422,8 +422,8 @@ const RapportTemplate = () => {
                     >
                        <RapportTemplatePie groupedData={dataSource} uniqueMonths={uniqueMonths} selectedField={selectedField} />
                     </TabPane> 
-                </Tabs>
-        </div>
+            </Tabs>
+          </div>
       </div>
       <Modal
         title=""
