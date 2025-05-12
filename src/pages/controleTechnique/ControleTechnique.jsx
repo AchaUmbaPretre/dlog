@@ -288,6 +288,7 @@ const ControleTechnique = () => {
             >
                 <Reparation/>
             </TabPane>
+            
             { 
                 role === 'Admin' && (
                     <TabPane

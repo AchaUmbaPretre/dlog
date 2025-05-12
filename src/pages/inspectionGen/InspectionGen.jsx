@@ -574,7 +574,6 @@ const InspectionGen = () => {
                 color={color}
                 style={columnStyles.title}
                 className={columnStyles.hideScroll}
-                bordered={false}
               >
                 {text}
               </Tag>
