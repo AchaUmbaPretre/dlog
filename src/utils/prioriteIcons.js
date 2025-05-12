@@ -83,12 +83,12 @@ export const getPriorityLabel = (priority) => {
     }
   };
 
-  export const icons = [
+export const icons = [
     { id: 'danger', label: 'Danger', icon: '⚠️' },
     { id: 'arrow', label: 'Flèche', icon: '➡️' },
     { id: 'hammer', label: 'Marteau', icon: '🔨' },
     { id: 'water', label: 'Goutte d’eau', icon: '💧' },
-  ];
+];
 
   export const colorMapping = {
     'En attente': '#FFA500',
