@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Card, notification, Tag } from 'antd';
+import { Card, notification, Tag, Image, Divider} from 'antd';
 import { getSubInspection } from '../../../services/charroiService';
 import moment from 'moment';
 import config from '../../../config';
 import './inspectionGenDetail.scss'
+import imgDetail from './../../../assets/Pas_image.png'
 
 const InspectionGenDetail = ({ inspectionId }) => {
     const [data, setData] = useState([]);
@@ -52,8 +53,9 @@ const InspectionGenDetail = ({ inspectionId }) => {
                             { data.map((item)=> (
                             <div className="inspectionGen_bottom">
                                 <div className="inspection_rows_img">
-                                    <img src={`${DOMAIN}/${item.img}`} alt="" className="img" />
+                                    <Image src={item.img ? `${DOMAIN}/${item.img}` : imgDetail} alt="Image" className="img" />
                                 </div>
+                                <Divider />
                                 <div className="inspectionGen_bottom_rows">
                                     <span className="inspectiongen_txt">Type de réparation : <strong>{item.type_rep}</strong></span>
                                     <span className="inspectiongen_txt">Catégorie : <strong>{item.nom_cat_inspection}</strong></span>

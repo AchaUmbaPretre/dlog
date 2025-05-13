@@ -29,6 +29,7 @@
                 flex-wrap: wrap;
                 margin-top: 20px;
                 .inspectionGen_bottom{
+                    width: 350px;
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
@@ -36,9 +37,15 @@
                     padding: 10px;
                     border-radius: 5px;
                     .inspection_rows_img{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 100%;
                         .img{
-                            width: 350px;
+                            width: 200px;
+                            height: 200px;
                             object-fit: cover;
+                            border-radius: 50%;
                         }
                     }
                     .inspectionGen_bottom_rows{
