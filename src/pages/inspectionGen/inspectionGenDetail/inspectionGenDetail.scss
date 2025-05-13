@@ -28,13 +28,14 @@
                 gap: 20px;
                 flex-wrap: wrap;
                 margin-top: 20px;
+                justify-content: center;
                 .inspectionGen_bottom{
-                    width: 350px;
+                    width: 370px;
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
                     border : 1px solid #ececec;
-                    padding: 10px;
+                    padding: 20px;
                     border-radius: 5px;
                     .inspection_rows_img{
                         display: flex;
