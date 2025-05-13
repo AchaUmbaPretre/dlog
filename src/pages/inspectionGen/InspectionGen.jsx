@@ -436,12 +436,12 @@ const InspectionGen = () => {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-        render: (text, record, index) => {
-          const pageSize = pagination.pageSize || 10;
-          const pageIndex = pagination.current || 1;
-            return (pageIndex - 1) * pageSize + index + 1;
-          },
-            width: "4%",      
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+          return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%",      
     },
     {
       title: 'Code',
@@ -567,12 +567,12 @@ const InspectionGen = () => {
         setSearchedColumn,
         searchInput
       ),
-            render: (text) => (
-                <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
-                  {text}
-                </Tag>
-            ),
-            ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
+      render: (text) => (
+        <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
+          {text}
+        </Tag>
+      ),
+      ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: 'Cat inspect.',
