@@ -64,12 +64,11 @@ const InspectionGenDetail = ({ inspectionId }) => {
         });
     };
 
-    const headerData = data?.inspections?.find(item => item.id_inspection_gen === idInspections);
-    const headerInfo = headerData
+    const headerInfo = datas.length > 0
         ? {
-              marque: headerData.nom_marque,
-              immatriculation: headerData.immatriculation,
-              date_inspection: headerData.date_inspection,
+              marque: datas[0].nom_marque,
+              immatriculation: datas[0].immatriculation,
+              date_inspection: datas[0].date_inspection,
           }
         : {};
 
@@ -113,8 +112,8 @@ const InspectionGenDetail = ({ inspectionId }) => {
                                     <span className="inspectiongen_txt">Caractéristique : {item.nom_carateristique_rep}</span>
                                     <span className="inspectiongen_txt">Montant : <strong>{item.montant} $</strong></span>
                                     <span className="inspectiongen_txt">Statut : <Tag color="orange">{item.nom_type_statut}</Tag></span>
-                                    <span className="inspectiongen_txt">Commentaire : <strong>{item.commentaire}</strong></span>
-                                    <span className="inspectiongen_txt">Avis : <strong>{item.avis}</strong></span>
+                                    <span className="inspectiongen_txt txt">Commentaire : <strong>{item.commentaire}</strong></span>
+                                    <span className="inspectiongen_txt txt">Avis : <strong>{item.avis}</strong></span>
                                 </div>
                             </div>
                         ))}

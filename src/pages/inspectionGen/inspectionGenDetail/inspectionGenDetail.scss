@@ -10,18 +10,22 @@
             .inspectionGen-arrow{
                 width: 100%;
                 display: flex;
+                align-items: center;
                 justify-content: space-between;
+                border : 1px solid #ececec;
+                padding: 10px;
+                border-radius: 5px;
                 .row-arrow{
                     font-size: 1.2rem;
-                    color: rgb(0, 119, 255);
+                    color: rgb(0, 96, 206);
                     cursor: pointer;
                 }
                 .inspection_h2{
                     text-align: center;
                     font-weight: bold;
                     letter-spacing: 1px;
-                    font-size: 1.5rem;
-                    color: rgb(2, 2, 107);
+                    font-size: 1.4rem;
+                    color: rgb(0, 96, 206);
                 }
             }
             .inspectionGen_top{
@@ -53,10 +57,9 @@
                         justify-content: center;
                         width: 100%;
                         .img{
-                            width: 200px;
-                            height: 200px;
+                            width: 350px;
+                            height: 150px;
                             object-fit: cover;
-                            border-radius: 50%;
                         }
                     }
                     .inspectionGen_bottom_rows{
@@ -66,10 +69,13 @@
                         .inspectiongen_txt{
                             display: flex;
                             justify-content: space-between;
-                            font-size: 12px;
+                            font-size: 13px;
                             strong{
                                 color: rgb(1, 1, 27);
                             }
+                        }
+                        .txt{
+                            flex-direction: column;
                         }
                     }
                 }
