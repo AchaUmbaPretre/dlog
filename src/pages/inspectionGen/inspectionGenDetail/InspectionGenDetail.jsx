@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Card, notification, Tag, Image, Divider} from 'antd';
+import { Card, notification, Button, Tooltip, Tag, Image, Divider} from 'antd';
 import { getSubInspection } from '../../../services/charroiService';
 import moment from 'moment';
 import config from '../../../config';
 import './inspectionGenDetail.scss'
 import imgDetail from './../../../assets/Pas_image.png'
+import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 
 const InspectionGenDetail = ({ inspectionId }) => {
     const [data, setData] = useState([]);
@@ -26,6 +27,14 @@ const InspectionGenDetail = ({ inspectionId }) => {
         }
     };
 
+    const goToPreviousTache = () => {
+
+    }
+
+    const goToNextTache = () => {
+
+    }
+
     useEffect(() => {
         if (inspectionId) {
             fetchDatas();
@@ -42,6 +51,18 @@ const InspectionGenDetail = ({ inspectionId }) => {
             <div className="inspectionGenDetail">
                 <Card loading={loading} className='rows'>
                     <div className="inspectionGen_wrapper">
+                        <div className="client-arrow">
+                            <Tooltip title="Précédent">
+                                <Button className="row-arrow" onClick={goToPreviousTache} disabled={idValides.indexOf(inspectionId) === 0}>
+                                    <LeftCircleFilled className='icon-arrow'/>
+                                </Button>
+                            </Tooltip>
+                            <Tooltip title="Suivant">
+                                <Button className="row-arrow" onClick={goToNextTache} disabled={idValides.indexOf(inspectionId) === idValides.length - 1}>
+                                    <RightCircleFilled className='icon-arrow' />
+                                </Button>
+                            </Tooltip>
+                        </div>
                         <h2 className="inspection_h2">DETAILS DE L'INSPECTION</h2>
                         <div className="inspectionGen_top">
                             <span className="inspection_span">Marque : <strong>{headerInfo.marque}</strong></span>
