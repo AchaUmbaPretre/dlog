@@ -29,7 +29,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
         }
     };
 
-    const goToPrevious = () => {
+    const goToNext = () => {
         setIdInspections((prevId) =>
              {
             const currentIndex = idValides.indexOf(prevId);
@@ -40,8 +40,14 @@ const InspectionGenDetail = ({ inspectionId }) => {
         })
     }
 
-    const goToNext = () => {
-
+    const goToPrevious = () => {
+        setIdInspections((prevId) => {
+            const currentIndex = idValides.indexOf(prevId);
+            if (currentIndex > 0) {
+                return idValides[currentIndex - 1];
+            }
+            return prevId;
+        })
     }
 
     useEffect(() => {
