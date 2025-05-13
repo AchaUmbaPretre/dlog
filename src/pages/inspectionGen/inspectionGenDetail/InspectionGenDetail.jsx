@@ -64,8 +64,9 @@ const InspectionGenDetail = ({ inspectionId }) => {
                                 </Button>
                             </Tooltip>
                         </div>
+                        
                         <div className="inspectionGen_top">
-                            <span className="inspection_span">MARQUE : <strong>{headerInfo.marque.toUpperCase()}</strong></span>
+                            <span className="inspection_span">MARQUE : <strong>{headerInfo.marque?.toUpperCase()}</strong></span>
                             <span className="inspection_span">IMMATRICULATION : <strong>{headerInfo.immatriculation}</strong></span>
                             <span className="inspection_span">DATE INSPECTION : <strong>{moment(headerInfo.date_inspection).format('DD/MM/YYYY')}</strong></span>
                         </div>
