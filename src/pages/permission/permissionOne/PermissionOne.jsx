@@ -57,7 +57,6 @@ const PermissionOne = ({ userId }) => {
 
   setPermissions(updatedPermissions);
 
-  // Si submenuId est null, nous envoyons la permission pour le menu principal avec submenuId comme NULL
   const finalPermissions = {
     can_read: updatedPermissions[key]?.can_read ?? 0,
     can_edit: updatedPermissions[key]?.can_edit ?? 0,
