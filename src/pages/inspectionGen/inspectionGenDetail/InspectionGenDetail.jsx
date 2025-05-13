@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row, Spin, notification, Image, Typography, Tag, Divider } from 'antd';
+import { Card, notification, Tag } from 'antd';
 import { getSubInspection } from '../../../services/charroiService';
 import moment from 'moment';
 import config from '../../../config';
 import './inspectionGenDetail.scss'
-
-const { Title, Text, Paragraph } = Typography;
 
 const InspectionGenDetail = ({ inspectionId }) => {
     const [data, setData] = useState([]);
