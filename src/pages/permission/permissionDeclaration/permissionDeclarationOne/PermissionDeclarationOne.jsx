@@ -39,11 +39,6 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
                     };
                     return acc;
                 }, {});
-
-/*                 if(idDeclaration){
-                    const {data} = await getTacheOneV(idDeclaration)
-                    setTitle(data[0].nom_tache)
-                } */
     
                 setPermissions(formattedPermissions);
                 setLoading(false);
@@ -82,6 +77,7 @@ const PermissionDeclarationOne = ({idVille, idUser}) => {
                 return updatedPermissions;
             });
     
+            
             notification.success({
                 message: 'Permission mise à jour',
                 description: `La permission "${field}" a été ${value ? 'ajoutée' : 'retirée'} avec succès.`,

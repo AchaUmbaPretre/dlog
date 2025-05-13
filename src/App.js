@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
 import './App.css';
 import TopBar from './components/topbar/TopBar';
@@ -36,7 +36,6 @@ import CorpsMetier from './pages/corpsMetier/CorpsMetier';
 import ListCatTache from './pages/listCatTache/ListCatTache';
 import ListePrix from './pages/prix/ListePrix';
 import Permission from './pages/permission/Permission';
-import { getMenusAllOne } from './services/permissionService';
 import Profile from './pages/profile/Profile';
 import PasswordForgot from './pages/passwordForgot/PasswordForgot';
 import PasswordReset from './pages/passwordReset/PasswordReset';
@@ -69,9 +68,7 @@ import { secure } from './utils/secure';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-  const role = useSelector((state) => state.user?.currentUser?.role);
   const { dataPermission, fetchMenu, isLoading, setIsLoading } = useMenu()
-
 
   const SecureRoute = ({ children }) => {
     if (!userId) {
@@ -99,27 +96,6 @@ function App() {
       window.removeEventListener('online', handleReconnect);
     };
   }, [userId, fetchMenu]);
-  
-
-/*   const fetchMenu = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data } = await getMenusAllOne(userId);
-      setData(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [userId]);
-
-  useEffect(() => {
-    if (userId) {
-      fetchMenu();
-    } else {
-      setLoading(false);
-    }
-  }, [userId, fetchMenu]); */
 
   const Layout = () => (
     <div className='app-rows'>
