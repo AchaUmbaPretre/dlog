@@ -53,12 +53,12 @@ const InspectionGenDetail = ({ inspectionId }) => {
                     <div className="inspectionGen_wrapper">
                         <div className="client-arrow">
                             <Tooltip title="Précédent">
-                                <Button className="row-arrow" onClick={goToPreviousTache} disabled={idValides.indexOf(inspectionId) === 0}>
+                                <Button className="row-arrow" onClick={goToPreviousTache}>
                                     <LeftCircleFilled className='icon-arrow'/>
                                 </Button>
                             </Tooltip>
                             <Tooltip title="Suivant">
-                                <Button className="row-arrow" onClick={goToNextTache} disabled={idValides.indexOf(inspectionId) === idValides.length - 1}>
+                                <Button className="row-arrow" onClick={goToNextTache}>
                                     <RightCircleFilled className='icon-arrow' />
                                 </Button>
                             </Tooltip>
