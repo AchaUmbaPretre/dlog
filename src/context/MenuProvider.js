@@ -1,28 +1,9 @@
-/* import React, { createContext, useState, useContext } from 'react';
 
-const MenuContext = createContext();
-
-// Fournisseur de contexte pour englober l'application
-export const MenuProvider = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  return (
-    <MenuContext.Provider value={{ isOpen, toggleMenu }}>
-      {children}
-    </MenuContext.Provider>
-  );
-};
-
-export const useMenu = () => useContext(MenuContext);
- */
-
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
 import { notification } from 'antd';
 import { getInspectionGen } from '../services/charroiService';
+import { useSelector } from 'react-redux';
+import { getMenusAllOne } from '../services/permissionService';
 
 const MenuContext = createContext();
 
@@ -30,8 +11,12 @@ const MenuContext = createContext();
 export const MenuProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [data, setData] = useState([]);
   const [statistique, setStatistique] = useState(null);
+  const [dataPermission, setDataPermission] = useState([]);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -55,6 +40,24 @@ export const MenuProvider = ({ children }) => {
     }
   }, []);
 
+  const fetchMenu = useCallback(async () => {
+      if (!userId) return;
+      setIsLoading(true);
+      try {
+        const response = await getMenusAllOne(userId);
+        setDataPermission(response.data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des menus :', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, [userId]);
+  
+   useEffect(() => {
+    fetchMenu();
+   }, [fetchMenu]);
+  
+
   return (
     <MenuContext.Provider
       value={{
@@ -64,7 +67,11 @@ export const MenuProvider = ({ children }) => {
         data,
         setData,
         statistique,
-        fetchDataInsp
+        fetchDataInsp,
+        dataPermission,
+        fetchMenu,
+        isLoading,
+        setIsLoading
       }}
     >
       {children}

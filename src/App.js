@@ -23,7 +23,7 @@ import Batiment from './pages/batiment/Batiment';
 import Article from './pages/article/Article';
 import Categorie from './pages/categorie/Categorie';
 import Dossier from './pages/dossier/Dossier';
-import { MenuProvider } from './context/MenuProvider';
+import { useMenu } from './context/MenuProvider';
 import Besoins from './pages/besoins/Besoins';
 import Stock from './pages/stock/Stock';
 import ListBinGlobal from './pages/listeBinGlobal/ListBinGlobal';
@@ -64,12 +64,13 @@ import ControleTechnique from './pages/controleTechnique/ControleTechnique';
 import Marque from './pages/marque/Marque';
 import TypeReparation from './pages/typeReparation/TypeReparation';
 import Piece from './pages/piece/Piece';
+import Page404 from './pages/page404/Page404';
+import { secure } from './utils/secure';
 
 function App() {
-  const [loading, setLoading] = useState(true);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const role = useSelector((state) => state.user?.currentUser?.role);
-  const [data, setData] = useState([]);
+  const { dataPermission, fetchMenu, isLoading, setIsLoading } = useMenu()
 
 
   const SecureRoute = ({ children }) => {
@@ -78,18 +79,6 @@ function App() {
     }
     return children;
   };
-
-  const fetchMenu = useCallback(async () => { 
-    setLoading(true);
-    try {
-      const { data } = await getMenusAllOne(userId);
-      setData(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }, [userId]);
   
   useEffect(() => {
     const handleReconnect = () => {
@@ -103,7 +92,7 @@ function App() {
     if (userId) {
       fetchMenu();
     } else {
-      setLoading(false);
+      setIsLoading(false);
     }
   
     return () => {
@@ -136,7 +125,7 @@ function App() {
     <div className='app-rows'>
       <TopBar />
       <div className="app-container">
-        <SideBar data = {data} />
+        <SideBar data = {dataPermission} />
         <div className="app-outlet">
           <Outlet />
         </div>
@@ -155,51 +144,51 @@ function App() {
         },
         {
           path: '/client',
-          element: <Client/>
+          element: secure('/client', <Client/>)
         },
         {
           path: '/departement',
-          element: <Departement datas={data} />
+          element: secure('/departement', <Departement datas={dataPermission} />)
         },
         {
           path: '/tache',
-          element: <Taches/>
+          element: secure('/tache', <Taches/>)
         },
         {
           path: '/tache_form',
-          element: <TacheForm/>
+          element: secure('/tache_form', <TacheForm/>)
         },
         {
           path: '/liste_tracking',
-          element: <ListeTrackingGlobal/>
+          element: secure('/liste_tracking', <ListeTrackingGlobal/>)
         },
         {
           path: '/controle',
-          element: <ControleDeBase datas={data}/>
+          element: secure('/controle', <ControleDeBase datas={dataPermission}/>)
         },
         {
           path: '/format',
-          element: <Format/>
+          element: secure('/format', <Format/>)
         },
         {
           path: '/frequence',
-          element: <Frequence/>
+          element: secure('/frequence', <Frequence/>) 
         },
         {
           path: '/permission',
-          element: <Permission/>
+          element: secure('/permission', <Permission/>)
         },
         {
           path: '/Projet',
-          element: <Projet/>
+          element: secure('/Projet',<Projet/>)
         },
         {
           path: '/offre',
-          element: <Offres/>
+          element: secure('/offre',<Offres/>)
         },
         {
           path: '/budget',
-          element: <Budget/>
+          element: secure('/budget',<Budget/>)
         },
         {
           path: '/besoins',
@@ -207,27 +196,27 @@ function App() {
         },
         {
           path: '/fournisseur',
-          element: <Fournisseur/>
+          element: secure('/fournisseur', <Fournisseur/>)
         },
         {
           path: '/batiment',
-          element: <Batiment datas={data}/>
+          element: secure('/batiment',<Batiment datas={dataPermission}/>)
         },
         {
           path: '/liste_bins',
-          element: <ListBinGlobal/>
+          element: secure('/liste_bins',<ListBinGlobal/>)
         },
         {
           path: '/adresse',
-          element: <Adresse/>
+          element: secure('/adresse', <Adresse/>)
         },
         {
           path: '/liste_equipement',
-          element: <ListeEquipementGlobal/>
+          element: secure('/liste_equipement', <ListeEquipementGlobal/>)
         },
         {
           path: '/liste_entrepot',
-          element: <EntrepotListeGlobale/>
+          element: secure('/liste_entrepot', <EntrepotListeGlobale/>)
         },
         {
           path: '/liste_bureaux',
@@ -267,11 +256,11 @@ function App() {
         },
         {
           path: '/corpsMetier',
-          element: <CorpsMetier/>
+          element: secure('/corpsMetier', <CorpsMetier/>)
         },
         {
           path: '/niveau',
-          element: <Niveau/>
+          element: secure('/niveau', <Niveau/>)
         },
         {
           path: '/denomination',
@@ -283,75 +272,75 @@ function App() {
         },
         {
           path: '/liste_inspection',
-          element: <Instructions/>
+          element: secure('/liste_inspection', <Instructions/>)
         },
         {
           path: '/liste_template',
-          element: <Template datas={data} />
+          element: secure('/liste_template', <Template datas={dataPermission} />)
         },
         {
           path: '/template_form',
-          element: <TemplateForm/>
+          element: secure('/template_form', <TemplateForm/>)
         },
         {
           path: '/liste_declaration',
-          element: <Declaration/>
+          element: secure('/liste_declaration', <Declaration/>)
         },
         {
           path: '/declaration_form',
-          element: <DeclarationForm/>
+          element: secure('/declaration_form', <DeclarationForm/>)
         },
         {
           path: '/declaration',
-          element: <Declaration/>
+          element: secure('/declaration', <Declaration/>)
         },
         {
           path: '/liste_cat_inspection',
-          element: <CatInspection/>
+          element: secure('/liste_cat_inspection', <CatInspection/>)
         },
         {
           path: '/utilisateur',
-          element: <Users/>
+          element: secure('/utilisateur', <Users/>)
         },
         {
           path: '/profile',
-          element: <Profile/>
+          element: secure('/profile', <Profile/>)
         },
         {
           path: '/contrat',
-          element: <Contrat/>
+          element: secure('/contrat', <Contrat/>)
         },
         {
           path: '/rapport_declaration',
-          element: <RapportDeclaration/>
+          element: secure('/rapport_declaration', <RapportDeclaration/>)
         },
         {
           path: '/corbeille',
-          element: <Corbeille/>
+          element: secure('/corbeille', <Corbeille/>)
         },
         {
           path: '/rapport_special',
-          element: <RapportSpecial/>
+          element: secure('/rapport_special',<RapportSpecial/>)
         },
         {
           path: '/liste_vehicule',
-          element: <Charroi/>
+          element: secure('/liste_vehicule', <Charroi/>)
         },
         {
           path: '/liste_chauffeur',
-          element: <Chauffeur/>
+          element: secure('/liste_chauffeur', <Chauffeur/>)
         },
         {
           path: '/liste_affectation',
-          element: <Affectations/>
+          element: secure('/liste_affectation', <Affectations/>)
         },
         {
           path: '/liste_site',
-          element: <Sites/>
+          element: secure('/liste_site',<Sites/>)
         },
         {
           path: '/controle_technique',
-          element: <ControleTechnique/>
+          element: secure('/controle_technique', <ControleTechnique/>)
         },
 /*         {
           path: '/liste_reparation',
@@ -359,36 +348,40 @@ function App() {
         }, */
         {
           path: '/marque',
-          element: <Marque/>
+          element: secure('/marque', <Marque/>)
         },
         {
           path: '/type_reparation',
-          element: <TypeReparation/>
+          element: secure('/type_reparation', <TypeReparation/>)
         },
         {
           path: '/piece',
-          element: <Piece/>
+          element: secure('/piece', <Piece/>)
         },
       ]
     },
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
     { path: '/password_forgot', element: <PasswordForgot /> },
-    { path: '/reset-password/:id', element: <PasswordReset /> }
+    { path: '/reset-password/:id', element: <PasswordReset /> },
+    {
+      path: '/*',
+      element:<SecureRoute><Page404 /></SecureRoute>
+    },
   ]);
 
   return (
-    <MenuProvider>
-    {loading ? (
+    <>
+    {isLoading ? (
       <div className="spinnerContainer">
-        <PacmanLoader color="rgb(131, 159, 241)" loading={loading} height={15} radius={2} margin={2} />
+        <PacmanLoader color="rgb(131, 159, 241)" loading={isLoading} height={15} radius={2} margin={2} />
       </div>
     ) : (
       <div>
         <RouterProvider router={router} />
       </div>
     )}
-    </MenuProvider>
+    </>
   );
 }
 
