@@ -196,7 +196,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
         setIconPositions([...iconPositions, { icon, x: 50, y: 50, width: 50, height: 50 }]);
       }; */
 
-      const handleImageUpload = (info, fieldName) => {
+    const handleImageUpload = (info, fieldName) => {
         const file = info.fileList[0]?.originFileObj;
         if (file) {
             const reader = new FileReader();

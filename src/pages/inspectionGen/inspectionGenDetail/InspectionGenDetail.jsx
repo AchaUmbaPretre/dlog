@@ -11,6 +11,8 @@ const InspectionGenDetail = ({ inspectionId }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+    const [idInspections, setIdInspections] = useState(inspectionId);
+    const [idValides, setIdValides] = useState([]);
 
     const fetchDatas = async () => {
         setLoading(true);
@@ -27,11 +29,18 @@ const InspectionGenDetail = ({ inspectionId }) => {
         }
     };
 
-    const goToPreviousTache = () => {
-
+    const goToPrevious = () => {
+        setIdInspections((prevId) =>
+             {
+            const currentIndex = idValides.indexOf(prevId);
+            if (currentIndex !== -1 && currentIndex < idValides.length - 1) {
+                return idValides[currentIndex + 1]
+            }
+            return prevId;
+        })
     }
 
-    const goToNextTache = () => {
+    const goToNext = () => {
 
     }
 
@@ -53,13 +62,13 @@ const InspectionGenDetail = ({ inspectionId }) => {
                     <div className="inspectionGen_wrapper">
                         <div className="inspectionGen-arrow">
                             <Tooltip title="Précédent">
-                                <Button className="row-arrow" onClick={goToPreviousTache}>
+                                <Button className="row-arrow" onClick={goToPrevious}>
                                     <LeftCircleFilled className='icon-arrow'/>
                                 </Button>
                             </Tooltip>
                             <h2 className="inspection_h2">DETAILS DE L'INSPECTION</h2>
                             <Tooltip title="Suivant">
-                                <Button className="row-arrow" onClick={goToNextTache}>
+                                <Button className="row-arrow" onClick={goToNext}>
                                     <RightCircleFilled className='icon-arrow' />
                                 </Button>
                             </Tooltip>
