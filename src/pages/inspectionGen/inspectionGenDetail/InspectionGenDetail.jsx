@@ -17,7 +17,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
     const fetchDatas = async () => {
         setLoading(true);
         try {
-            const response = await getSubInspection(inspectionId);
+            const response = await getSubInspection(idInspections);
             setData(response.data);
         } catch (error) {
             notification.error({
@@ -33,7 +33,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
         if (inspectionId) {
             fetchDatas();
         }
-    }, [inspectionId]);
+    }, [inspectionId, idInspections]);
 
     const goToNext = () => {
         setIdInspections((prevId) =>
