@@ -81,7 +81,9 @@ const InspectionGenDetail = ({ inspectionId }) => {
                                 <LeftCircleFilled className="icon-arrow" />
                             </Button>
                         </Tooltip>
-                        <h2 className="inspection_h2">DÉTAILS DE L'INSPECTION</h2>
+                        <h2 className="inspection_h2">
+                            DÉTAILS DE L'INSPECTION N° {`${new Date().getFullYear().toString().slice(2)}${inspectionId?.toString().padStart(4, '0')}`}
+                        </h2>
                         <Tooltip title="Suivant">
                             <Button className="row-arrow" onClick={goToNext}>
                                 <RightCircleFilled className="icon-arrow" />
