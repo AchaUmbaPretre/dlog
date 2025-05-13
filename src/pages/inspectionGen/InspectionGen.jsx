@@ -40,6 +40,7 @@ const InspectionGen = () => {
     const [columnsVisibility, setColumnsVisibility] = useState({
       '#': true,
       'Matricule': true,
+      'Code' : true,
       'Marque': true,
       'Date inspection': true,
       'Date réparation' : false,
@@ -449,6 +450,7 @@ const InspectionGen = () => {
       render: (text, record) => (
         <Tag color="blue">{`${new Date().getFullYear().toString().substring(2)}${record.id_sub_inspection_gen.toString().padStart(4, '0')}`}</Tag>
       ),
+      ...(columnsVisibility['Code'] ? {} : { className: 'hidden-column' }),
     },
     {
         title: 'Matricule',
