@@ -29,6 +29,12 @@ const InspectionGenDetail = ({ inspectionId }) => {
         }
     };
 
+    useEffect(() => {
+        if (inspectionId) {
+            fetchDatas();
+        }
+    }, [inspectionId]);
+
     const goToNext = () => {
         setIdInspections((prevId) =>
              {
@@ -49,12 +55,6 @@ const InspectionGenDetail = ({ inspectionId }) => {
             return prevId;
         })
     }
-
-    useEffect(() => {
-        if (inspectionId) {
-            fetchDatas();
-        }
-    }, [inspectionId]);
 
     const headerInfo = data.length > 0 ? {
         marque: data[0].nom_marque,
