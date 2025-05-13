@@ -1,5 +1,5 @@
 
-import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
+import { createContext, useState, useContext, useCallback } from 'react';
 import { notification } from 'antd';
 import { getInspectionGen } from '../services/charroiService';
 import { useSelector } from 'react-redux';
@@ -52,10 +52,6 @@ export const MenuProvider = ({ children }) => {
         setIsLoading(false);
       }
     }, [userId]);
-  
-   useEffect(() => {
-    fetchMenu();
-   }, [fetchMenu]);
   
 
   return (

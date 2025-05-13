@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Input, Button, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 import { FileSearchOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
-import { deleteInspectionGen} from '../../services/charroiService';
+import { deleteInspectionGen, getInspectionGen} from '../../services/charroiService';
 import moment from 'moment';
 import InspectionGenDetail from './inspectionGenDetail/InspectionGenDetail';
 import InspectionGenValider from './inspectionGenValider/InspectionGenValider';
@@ -64,7 +64,10 @@ const InspectionGen = () => {
     const [filteredDatas, setFilteredDatas] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [vehicule, setVehicule] = useState(null)
-    const { loading, data, setData, statistique, fetchDataInsp } = useMenu();
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [statistique, setStatistique] = useState(null);
+
 
     const handleExportExcel = () => {
       try {
@@ -202,6 +205,24 @@ const InspectionGen = () => {
         message.error("Une erreur est survenue pendant l'export.");
       }
     };
+
+      const fetchDataInsp = useCallback(async (filters, searchValue = '') => {
+        setLoading(true);
+        try {
+          const [inspectionData] = await Promise.all([
+            getInspectionGen(searchValue, filters),
+          ]);
+          setData(inspectionData.data.inspections);
+          setStatistique(inspectionData.data.stats);
+        } catch (error) {
+          notification.error({
+            message: 'Erreur de chargement',
+            description: 'Une erreur est survenue lors du chargement des données.',
+          });
+        } finally {
+          setLoading(false);
+        }
+      }, []);
     
     const handFilter = () => {
       fetchDataInsp()
@@ -280,6 +301,10 @@ const InspectionGen = () => {
     };
 
     useEffect(() => {
+      fetchDataInsp(filteredDatas);
+  }, [searchValue, filteredDatas]);
+
+/*       useEffect(() => {
       const handleReconnect = () => {
         fetchDataInsp(filteredDatas);
       };
@@ -291,7 +316,7 @@ const InspectionGen = () => {
       return () => {
           window.removeEventListener('online', handleReconnect);
       };
-  }, [searchValue, filteredDatas]);
+  }, [searchValue, filteredDatas]); */
 
   const handleAddInspection = () => openModal('Add');
   const handleEdit = (id) => openModal('Edit', id)

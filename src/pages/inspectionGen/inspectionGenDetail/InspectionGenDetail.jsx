@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, notification, Button, Tooltip, Tag, Image, Divider } from 'antd';
 import { getSubInspection } from '../../../services/charroiService';
 import moment from 'moment';
@@ -13,16 +13,12 @@ const InspectionGenDetail = ({ inspectionId }) => {
     const [loading, setLoading] = useState(false);
     const [idInspections, setIdInspections] = useState(inspectionId);
     const [idValides, setIdValides] = useState([]);
-    const { data, fetchDataInsp } = useMenu();
+    const { data } = useMenu();
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
     useEffect(() => {
         setIdInspections(inspectionId)
-    }, [inspectionId]);
-
-    useEffect(() => {
-        fetchDataInsp();
-    }, []);
+    }, [inspectionId]);;
 
     useEffect(() => {
         if (data?.length && idInspections) {
