@@ -18,7 +18,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
 
     useEffect(() => {
         setIdInspections(inspectionId)
-    }, [inspectionId])
+    }, [inspectionId]);
 
     useEffect(() => {
         fetchDataInsp();
