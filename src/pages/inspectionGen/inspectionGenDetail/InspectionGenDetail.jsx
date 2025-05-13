@@ -24,7 +24,6 @@ const InspectionGenDetail = ({ inspectionId }) => {
         fetchDataInsp();
     }, []);
 
-    // Une fois data chargé et idInspections dispo, on récupère les sous-inspections
     useEffect(() => {
         if (data?.length && idInspections) {
             fetchDatas();
