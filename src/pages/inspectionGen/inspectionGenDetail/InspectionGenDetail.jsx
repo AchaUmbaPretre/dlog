@@ -51,23 +51,23 @@ const InspectionGenDetail = ({ inspectionId }) => {
             <div className="inspectionGenDetail">
                 <Card loading={loading} className='rows'>
                     <div className="inspectionGen_wrapper">
-                        <div className="client-arrow">
+                        <div className="inspectionGen-arrow">
                             <Tooltip title="Précédent">
                                 <Button className="row-arrow" onClick={goToPreviousTache}>
                                     <LeftCircleFilled className='icon-arrow'/>
                                 </Button>
                             </Tooltip>
+                            <h2 className="inspection_h2">DETAILS DE L'INSPECTION</h2>
                             <Tooltip title="Suivant">
                                 <Button className="row-arrow" onClick={goToNextTache}>
                                     <RightCircleFilled className='icon-arrow' />
                                 </Button>
                             </Tooltip>
                         </div>
-                        <h2 className="inspection_h2">DETAILS DE L'INSPECTION</h2>
                         <div className="inspectionGen_top">
-                            <span className="inspection_span">Marque : <strong>{headerInfo.marque}</strong></span>
-                            <span className="inspection_span">Immatriculation : <strong>{headerInfo.immatriculation}</strong></span>
-                            <span className="inspection_span">Date inspection : <strong>{moment(headerInfo.date_inspection).format('DD/MM/YYYY')}</strong></span>
+                            <span className="inspection_span">MARQUE : <strong>{headerInfo.marque.toUpperCase()}</strong></span>
+                            <span className="inspection_span">IMMATRICULATION : <strong>{headerInfo.immatriculation}</strong></span>
+                            <span className="inspection_span">DATE INSPECTION : <strong>{moment(headerInfo.date_inspection).format('DD/MM/YYYY')}</strong></span>
                         </div>
 
                         <div className="inspectionGen_bottom_wrapper">

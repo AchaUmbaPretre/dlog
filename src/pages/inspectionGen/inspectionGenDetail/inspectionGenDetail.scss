@@ -7,12 +7,22 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            .inspection_h2{
-                text-align: center;
-                font-weight: bold;
-                letter-spacing: 1px;
-                font-size: 1.5rem;
-                color: rgb(2, 2, 107);
+            .inspectionGen-arrow{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                .row-arrow{
+                    font-size: 1.2rem;
+                    color: rgb(0, 119, 255);
+                    cursor: pointer;
+                }
+                .inspection_h2{
+                    text-align: center;
+                    font-weight: bold;
+                    letter-spacing: 1px;
+                    font-size: 1.5rem;
+                    color: rgb(2, 2, 107);
+                }
             }
             .inspectionGen_top{
                 display: flex;
