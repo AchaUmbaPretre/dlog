@@ -4,7 +4,7 @@ import { getSubInspection } from '../../../services/charroiService';
 import moment from 'moment';
 import config from '../../../config';
 import './inspectionGenDetail.scss';
-import imgDetail from './../../../assets/Pas_image.png';
+import imgDetail from './../../../assets/Pas_image.jpg';
 import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import { useMenu } from '../../../context/MenuProvider';
 
@@ -105,7 +105,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
                                 <div className="inspection_rows_img">
                                     <Image src={item.img ? `${DOMAIN}/${item.img}` : imgDetail} alt="Image" className="img" />
                                 </div>
-                                <Divider />
+                                <Divider style={{margin:'0', margin:'10px'}} />
                                 <div className="inspectionGen_bottom_rows">
                                     <span className="inspectiongen_txt">Type de réparation : <strong>{item.type_rep}</strong></span>
                                     <span className="inspectiongen_txt">Catégorie : <strong>{item.nom_cat_inspection}</strong></span>
