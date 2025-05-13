@@ -449,11 +449,11 @@ const InspectionGen = () => {
       key: 'id_sub_inspection_gen',
       ...getColumnSearchProps(
         'id_sub_inspection_gen',
-            searchText,
-            setSearchText,
-            setSearchedColumn,
-            searchInput,
-            searchedColumn
+          searchText,
+          setSearchText,
+          setSearchedColumn,
+          searchInput,
+          searchedColumn
         ),
       render: (text, record) => (
         <Tag color="blue">{`${new Date().getFullYear().toString().substring(2)}${record.id_sub_inspection_gen.toString().padStart(4, '0')}`}</Tag>
