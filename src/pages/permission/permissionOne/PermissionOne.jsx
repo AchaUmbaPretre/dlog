@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Table, Switch, message, Tag, Input } from 'antd';
 import { EyeOutlined, EditOutlined, PlusCircleOutlined, UnlockOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getMenus, getMenusOne, putPermission } from '../../../services/permissionService';
-import { useMenu } from '../../../context/MenuProvider';
 
 const PermissionOne = ({ userId }) => {
   const [options, setOptions] = useState([]);
@@ -10,10 +9,7 @@ const PermissionOne = ({ userId }) => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const scroll = { x: 'max-content' };
-  const { fetchMenu} = useMenu();
   
-
-
   useEffect(() => {
     const fetchOptionsAndPermissions = async () => {
       setLoading(true);
