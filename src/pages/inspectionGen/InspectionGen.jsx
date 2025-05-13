@@ -441,8 +441,16 @@ const InspectionGen = () => {
             return (pageIndex - 1) * pageSize + index + 1;
           },
             width: "4%",      
-      },
-      {
+    },
+    {
+      title: 'Code',
+      dataIndex: 'id_sub_inspection_gen',
+      key: 'id_sub_inspection_gen',
+      render: (text, record) => (
+        <Tag color="blue">{`${new Date().getFullYear().toString().substring(2)}${record.id_sub_inspection_gen.toString().padStart(4, '0')}`}</Tag>
+      ),
+    },
+    {
         title: 'Matricule',
         dataIndex: 'immatriculation',
         ...getColumnSearchProps(
@@ -464,8 +472,8 @@ const InspectionGen = () => {
           </div>
           ),
           ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
-        },
-        {
+    },
+    {
           title: 'Chauffeur',
           dataIndex: 'nom_chauffeur',
           ...getColumnSearchProps(
@@ -481,8 +489,8 @@ const InspectionGen = () => {
               </Tag>
           ),
           ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
-        },                       
-        {
+    },                       
+    {
             title: 'Marque',
             dataIndex: 'nom_marque',
             ...getColumnSearchProps(
@@ -499,13 +507,13 @@ const InspectionGen = () => {
             ),
             ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
 
-        },
-        {
-            title: 'Date',
-            dataIndex: 'date_inspection',
-            key: 'date_inspection',
-            sorter: (a,b) => moment(a.date_inspection) - (b.date_inspection),
-            sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: 'Date',
+      dataIndex: 'date_inspection',
+      key: 'date_inspection',
+        sorter: (a,b) => moment(a.date_inspection) - (b.date_inspection),
+          sortDirections: ['descend', 'ascend'],
             render: (text) => (
               <Tag icon={<CalendarOutlined />} color="blue">
                   {moment(text).format('DD-MM-YYYY')}
@@ -513,12 +521,12 @@ const InspectionGen = () => {
             ),
             ...(columnsVisibility['Date inspection'] ? {} : { className: 'hidden-column' }),
 
-        },
-        {
-            title: 'Date rep.',
-            dataIndex: 'date_reparation',
-            sorter: (a, b) => moment(a.date_reparation) - moment(b.date_reparation),
-            sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: 'Date rep.',
+      dataIndex: 'date_reparation',
+        sorter: (a, b) => moment(a.date_reparation) - moment(b.date_reparation),
+          sortDirections: ['descend', 'ascend'],
             render: (text) => {
               if (!text) {
                 return (
@@ -538,34 +546,34 @@ const InspectionGen = () => {
               );
             },
             ...(columnsVisibility['Date réparation'] ? {} : { className: 'hidden-column' }),
-        },          
-        {
-            title: 'Type de rep.',
-            dataIndex: 'type_rep',
-            ...getColumnSearchProps(
-              'type_rep',
-              searchText,
-              setSearchText,
-              setSearchedColumn,
-              searchInput
-            ),
+    },          
+    {
+      title: 'Type de rep.',
+      dataIndex: 'type_rep',
+      ...getColumnSearchProps(
+        'type_rep',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
             render: (text) => (
                 <Tag icon={<ToolOutlined spin />} style={columnStyles.title} className={columnStyles.hideScroll} color='volcano' bordered={false}>
                   {text}
                 </Tag>
             ),
             ...(columnsVisibility['Type rep'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-          title: 'Cat inspect.',
-          dataIndex: 'nom_cat_inspection',
-          ...getColumnSearchProps(
-            'nom_cat_inspection',
-            searchText,
-            setSearchText,
-            setSearchedColumn,
-            searchInput
-          ),
+    },
+    {
+      title: 'Cat inspect.',
+      dataIndex: 'nom_cat_inspection',
+      ...getColumnSearchProps(
+      'nom_cat_inspection',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
           render: (text) => {
             const { icon, color } = getInspectionIcon(text);
             return (
