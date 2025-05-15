@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Select, Skeleton, Input, Checkbox, Collapse } from 'antd';
 import 'antd/dist/reset.css';
 import moment from 'moment';
-import { getClient, getProvince, getProvinceClient } from '../../../../services/clientService';
+import { getClient, getProvinceClient } from '../../../../services/clientService';
 import { getBatiment, getStatus_batiment } from '../../../../services/typeService';
 import { getMois, getAnnee, getTemplate } from '../../../../services/templateService';
+import { useSelector } from 'react-redux';
 
-const { Option } = Select;
 const { Panel } = Collapse;
 
 const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, filtreBatiment, filtreTemplate, filtreMontant }) => {
@@ -31,6 +31,8 @@ const RapportFiltrage = ({ onFilter, filtraVille, filtraClient, filtraStatus, fi
     const [selectAllVilles, setSelectAllVilles] = useState(false);
     const [selectAllBatiment, setSelectAllBatiment] = useState(false);
     const [selectAllTemplate, setSelectAllTemplate] = useState(false);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const role = useSelector((state) => state.user?.currentUser.role);
 
 useEffect(()=> {
     const handleFilter = () => {
@@ -82,8 +84,7 @@ useEffect(()=> {
                     getStatus_batiment(),
                     getAnnee(),
                     getBatiment(),
-                    getTemplate(),
-
+                    getTemplate(role, userId)
                 ]);
 
                 setTemplate(templateData.data);
