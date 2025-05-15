@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Form, Input, Button, notification, Row, Col, Select, Card } from 'antd';
+import { Form, Button, notification, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
 import { getCommune, getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
@@ -60,14 +60,6 @@ const LocalisationForm = () => {
             type_loc: typeLocId
         }
         console.log(v)
-/*       await postFournisseur(values);
- */      
-/* notification.success({
-        message: 'Succès',
-        description: 'Le fournisseur a été enregistré avec succès.',
-      });
-      form.resetFields();
-      window.location.reload(); */
     } catch (error) {
       notification.error({
         message: 'Erreur',
@@ -156,7 +148,7 @@ const LocalisationForm = () => {
                     }
 
                     { typeLocId === "ville" && 
-                        <Col span={12}>
+                        <Col span={24}>
                             <Form.Item
                                 name="id_loc"
                                 label="Ville"
@@ -174,7 +166,7 @@ const LocalisationForm = () => {
                     }
 
                     { typeLocId === "commune" && 
-                        <Col span={12}>
+                        <Col span={24}>
                             <Form.Item
                                 name="id_loc"
                                 label="Commune"
