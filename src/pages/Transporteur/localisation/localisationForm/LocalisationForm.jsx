@@ -91,6 +91,7 @@ const LocalisationForm = () => {
                                     rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
                                 >
                                 <Select
+                                    allowClear
                                     showSearch
                                     placeholder="Sélectionnez un type..."
                                     optionFilterProp="label"
@@ -154,6 +155,7 @@ const LocalisationForm = () => {
                                 label="Ville"
                             >
                                 <Select
+                                    allowClear
                                     showSearch
                                     options={ville.map((item) => ({
                                     value: item.id_ville,
@@ -172,6 +174,7 @@ const LocalisationForm = () => {
                                 label="Commune"
                             >
                                 <Select
+                                    allowClear
                                     showSearch
                                     options={commune.map((item) => ({
                                     value: item.id_commune,
@@ -220,6 +223,7 @@ const LocalisationForm = () => {
                             </Form.Item>
                         </Col>
                     }
+                    
                     </Row>
 
                     <Form.Item>
