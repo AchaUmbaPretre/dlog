@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Form, Input, Button, notification, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
-import { getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille } from '../../../../services/transporteurService';
+import { getCommune, getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 
 const LocalisationForm = () => {
@@ -13,6 +13,7 @@ const LocalisationForm = () => {
   const [ville, setVille] = useState([]);
   const [type, setType] = useState([]);
   const [pays, setPays] = useState([]);
+  const [commune, setCommune] = useState([]);
   const [typeLocId, setTypeLocId] = useState(null)
 
   const handleError = (message) => {
@@ -25,13 +26,15 @@ const LocalisationForm = () => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const [siteData, provinceData, villeData, typeLocData, localiteData, paysData] = await Promise.all([
+            const [siteData, provinceData, villeData, typeLocData, localiteData, paysData, communeData] = await Promise.all([
                 getSiteLoc(),
                 getProvince(),
                 getVille(),
                 getTypeLocalisation(),
                 getLocalite(),
-                getPays()
+                getPays(),
+                getCommune()
+
             ]);
             setSite(siteData.data);
             setProvince(provinceData.data);
@@ -39,6 +42,7 @@ const LocalisationForm = () => {
             setType(typeLocData.data);
             setLocalite(localiteData.data);
             setPays(paysData.data);
+            setCommune(communeData.data)
 
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
@@ -51,13 +55,19 @@ const LocalisationForm = () => {
   const handleSubmit = async (values) => {
     setLoading(true); 
     try {
+        const v = {
+            ...values,
+            type_loc: typeLocId
+        }
+        console.log(v)
 /*       await postFournisseur(values);
- */      notification.success({
+ */      
+/* notification.success({
         message: 'Succès',
         description: 'Le fournisseur a été enregistré avec succès.',
       });
       form.resetFields();
-      window.location.reload();
+      window.location.reload(); */
     } catch (error) {
       notification.error({
         message: 'Erreur',
@@ -157,6 +167,24 @@ const LocalisationForm = () => {
                                     value: item.id_ville,
                                     label: item.nom_ville}))}
                                     placeholder="Sélectionnez une ville..."
+                                    optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
+                    }
+
+                    { typeLocId === "commune" && 
+                        <Col span={12}>
+                            <Form.Item
+                                name="id_loc"
+                                label="Commune"
+                            >
+                                <Select
+                                    showSearch
+                                    options={commune.map((item) => ({
+                                    value: item.id_commune,
+                                    label: item.nom_commune}))}
+                                    placeholder="Sélectionnez une commune..."
                                     optionFilterProp="label"
                                 />
                             </Form.Item>
