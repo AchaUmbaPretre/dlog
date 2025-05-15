@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, PlusOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import LocalisationForm from './localisationForm/LocalisationForm';
 import { getLocalisation } from '../../../services/transporteurService';
 
