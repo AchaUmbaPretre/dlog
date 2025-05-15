@@ -84,9 +84,9 @@ const LocalisationForm = () => {
                         <Card style={{width:'100%', marginBottom:'10px'}}>
                             <Col span={24}>
                                 <Form.Item
-                                name="id_parent"
-                                label="Type de localisation"
-                                rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
+                                    name="nom"
+                                    label="Type de localisation"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
                                 >
                                 <Select
                                     showSearch
@@ -107,10 +107,10 @@ const LocalisationForm = () => {
                             </Col>
                         </Card>
 
-                    { typeLocId === "localite" && 
-                        <Col span={12}>
+                    { typeLocId === "localité" && 
+                        <Col span={24}>
                             <Form.Item
-                                name="id_parent"
+                                name="id_loc"
                                 label="Localité"
                             >
                             <Select
@@ -127,9 +127,9 @@ const LocalisationForm = () => {
                     }
 
                     { typeLocId === "province" &&
-                        <Col span={12}>
+                        <Col span={24}>
                             <Form.Item
-                                name="id_parent"
+                                name="id_loc"
                                 label="Province"
                             >
                             <Select
@@ -148,7 +148,7 @@ const LocalisationForm = () => {
                     { typeLocId === "ville" && 
                         <Col span={12}>
                             <Form.Item
-                                name="id_parent"
+                                name="id_loc"
                                 label="Ville"
                             >
                                 <Select
@@ -164,9 +164,9 @@ const LocalisationForm = () => {
                     }
 
                     { typeLocId === "site" &&
-                        <Col span={12}>
+                        <Col span={24}>
                             <Form.Item
-                                name="id_parent"
+                                name="id_loc"
                                 label="Site"
                             >
                             <Select
@@ -185,7 +185,7 @@ const LocalisationForm = () => {
                     { typeLocId === "pays" && 
                         <Col span={24}>
                             <Form.Item
-                                name="id_parent"
+                                name="id_loc"
                                 label="RDC"
                             >
                             <Select
