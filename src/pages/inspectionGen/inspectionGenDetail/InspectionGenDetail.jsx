@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Card, notification, Button, Tooltip, Tag, Image, Divider } from 'antd';
-import { getSubInspection } from '../../../services/charroiService';
+import { getInspectionGen, getSubInspection } from '../../../services/charroiService';
 import moment from 'moment';
 import config from '../../../config';
 import './inspectionGenDetail.scss';
@@ -13,18 +13,34 @@ const InspectionGenDetail = ({ inspectionId }) => {
     const [loading, setLoading] = useState(false);
     const [idInspections, setIdInspections] = useState(inspectionId);
     const [idValides, setIdValides] = useState([]);
-    const { data } = useMenu();
-    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+/*     const { data, fetchDataInsp } = useMenu();
+ */    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+    const [data, setData] = useState([]);
+
+      const fetchDataInsp = useCallback(async (filters = '', searchValue = '') => {
+        setLoading(true);
+        try {
+          const [inspectionData] = await Promise.all([
+            getInspectionGen(searchValue, filters),
+          ]);
+          setData(inspectionData.data.inspections);
+        } catch (error) {
+          notification.error({
+            message: 'Erreur de chargement',
+            description: 'Une erreur est survenue lors du chargement des données.',
+          });
+        } finally {
+          setLoading(false);
+        }
+      }, []);
+
+      useEffect(() => {
+        fetchDataInsp()
+      }, [])
 
     useEffect(() => {
         setIdInspections(inspectionId)
     }, [inspectionId]);;
-
-    useEffect(() => {
-        if (data?.length && idInspections) {
-            fetchDatas();
-        }
-    }, [data, idInspections]);
 
     const fetchDatas = async () => {
         setLoading(true);
@@ -42,6 +58,12 @@ const InspectionGenDetail = ({ inspectionId }) => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (data?.length && idInspections) {
+            fetchDatas();
+        }
+    }, [data, idInspections, inspectionId]);
 
     const goToNext = () => {
         setIdInspections((prevId) => {
