@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import LocalisationForm from './localisationForm/LocalisationForm';
 
 const { Search } = Input;
 
@@ -170,8 +171,8 @@ const Localisation = () => {
         width={800}
         centered
       >
-{/*         <FournisseurForm modalOff={setIsModalVisible} />
- */}      </Modal>
+        <LocalisationForm  />
+      </Modal>
     </>
   );
 };
