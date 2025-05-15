@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined, PlusOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, PlusCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import LocalisationForm from './localisationForm/LocalisationForm';
 import { getLocalisation } from '../../../services/transporteurService';
 
@@ -115,7 +115,7 @@ const Localisation = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <EnvironmentOutlined className='client-icon' />
+              <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
             </div>
             <h2 className="client-h2">Localisation</h2>
           </div>
@@ -126,10 +126,10 @@ const Localisation = () => {
             <div className="client-rows-right">
               <Button
                 type="primary"
-                icon={<PlusOutlined />}
+                icon={<PlusCircleOutlined />}
                 onClick={handleAdd}
               >
-                Ajouter une localisation
+                Ajouter
               </Button>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
@@ -160,7 +160,7 @@ const Localisation = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={950}
         centered
       >
         <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
