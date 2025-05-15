@@ -77,6 +77,27 @@ const LocalisationForm = () => {
                     onFinish={handleSubmit}
                 >
                     <Row gutter={16}>
+                        <Card style={{width:'100%', marginBottom:'10px'}}>
+                            <Col span={24}>
+                                <Form.Item
+                                    name="id_parent"
+                                    label="Type de localisation"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
+                                    
+                                >
+                                    <Select
+                                        mode="multiple"
+                                        showSearch
+                                        options={type.map((item) => ({
+                                        value: item.id_type_localisation,
+                                        label: item.nom_type_loc}))}
+                                        placeholder="Sélectionnez un type..."
+                                        optionFilterProp="label"
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Card>
+
                         <Col span={12}>
                             <Form.Item
                                 name="id_parent"
