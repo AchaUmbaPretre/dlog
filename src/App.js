@@ -65,6 +65,7 @@ import TypeReparation from './pages/typeReparation/TypeReparation';
 import Piece from './pages/piece/Piece';
 import Page404 from './pages/page404/Page404';
 import { secure } from './utils/secure';
+import Localisation from './pages/Transporteur/localisation/Localisation';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -333,6 +334,10 @@ function App() {
         {
           path: '/piece',
           element: secure('/piece', <Piece/>)
+        },
+        {
+          path: '/localisation',
+          element: secure('/localisation', <Localisation/>)
         },
       ]
     },
