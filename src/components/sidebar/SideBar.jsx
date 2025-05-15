@@ -35,7 +35,8 @@ import {
   UserOutlined,
   SolutionOutlined,
   TeamOutlined,
-  AuditOutlined 
+  AuditOutlined,
+  DeliveredProcedureOutlined
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -128,7 +129,8 @@ const SideBar = ({data}) => {
     TruckOutlined: <TruckOutlined style={{ color: '#2f54eb' }} />,
     CarOutlined: <CarOutlined style={{ color: '#13c2c2' }} />,
     SwapOutlined: <SwapOutlined style={{ color: '#ffc069' }} />,
-    RetweetOutlined: <RetweetOutlined style={{ color: 'cyan' }} />
+    RetweetOutlined: <RetweetOutlined style={{ color: 'cyan' }} />,
+    DeliveredProcedureOutlined : <DeliveredProcedureOutlined style={{ color: '#2f54eb' }} />,
   };
   
   const renderIcon = (iconName) => {
