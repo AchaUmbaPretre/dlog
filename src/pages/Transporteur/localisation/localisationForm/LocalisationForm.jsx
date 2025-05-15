@@ -107,6 +107,7 @@ const LocalisationForm = () => {
                             </Col>
                         </Card>
 
+                    { typeLocId === "localite" && 
                         <Col span={12}>
                             <Form.Item
                                 name="id_parent"
@@ -123,7 +124,9 @@ const LocalisationForm = () => {
                             />
                             </Form.Item>
                         </Col>
+                    }
 
+                    { typeLocId === "province" &&
                         <Col span={12}>
                             <Form.Item
                                 name="id_parent"
@@ -140,7 +143,9 @@ const LocalisationForm = () => {
                             />
                             </Form.Item>
                         </Col>
+                    }
 
+                    { typeLocId === "ville" && 
                         <Col span={12}>
                             <Form.Item
                                 name="id_parent"
@@ -156,7 +161,9 @@ const LocalisationForm = () => {
                                 />
                             </Form.Item>
                         </Col>
+                    }
 
+                    { typeLocId === "site" &&
                         <Col span={12}>
                             <Form.Item
                                 name="id_parent"
@@ -173,6 +180,7 @@ const LocalisationForm = () => {
                             />
                             </Form.Item>
                         </Col>
+                    }
 
                     { typeLocId === "pays" && 
                         <Col span={24}>
