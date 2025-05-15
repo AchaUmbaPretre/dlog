@@ -168,7 +168,7 @@ const Localisation = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={900}
         centered
       >
         <LocalisationForm  />

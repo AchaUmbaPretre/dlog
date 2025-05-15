@@ -13,6 +13,7 @@ const LocalisationForm = () => {
   const [ville, setVille] = useState([]);
   const [type, setType] = useState([]);
   const [pays, setPays] = useState([]);
+  const [typeLocId, setTypeLocId] = useState(null)
 
   const handleError = (message) => {
     notification.error({
@@ -83,20 +84,25 @@ const LocalisationForm = () => {
                         <Card style={{width:'100%', marginBottom:'10px'}}>
                             <Col span={24}>
                                 <Form.Item
-                                    name="id_parent"
-                                    label="Type de localisation"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
-                                    
+                                name="id_parent"
+                                label="Type de localisation"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
                                 >
-                                    <Select
-                                        mode="multiple"
-                                        showSearch
-                                        options={type.map((item) => ({
-                                        value: item.id_type_localisation,
-                                        label: item.nom_type_loc}))}
-                                        placeholder="Sélectionnez un type..."
-                                        optionFilterProp="label"
-                                    />
+                                <Select
+                                    showSearch
+                                    placeholder="Sélectionnez un type..."
+                                    optionFilterProp="label"
+                                    options={type.map((item) => ({
+                                    value: item.id_type_localisation,
+                                    label: item.nom_type_loc
+                                    }))}
+                                    onChange={(value) => {
+                                    const selected = type.find(item => item.id_type_localisation === value);
+                                    if (selected) {
+                                        setTypeLocId(selected.nom_type_loc); // ou selected.id_type_localisation selon besoin
+                                    }
+                                    }}
+                                />
                                 </Form.Item>
                             </Col>
                         </Card>
@@ -107,7 +113,7 @@ const LocalisationForm = () => {
                                 label="Localité"
                             >
                             <Select
-                                mode="multiple"
+                                allowClear
                                 showSearch
                                 options={localite.map((item) => ({
                                 value: item.id_localite,
@@ -124,7 +130,7 @@ const LocalisationForm = () => {
                                 label="Province"
                             >
                             <Select
-                                mode="multiple"
+                                allowClear
                                 showSearch
                                 options={province.map((item) => ({
                                 value: item.id,
@@ -157,7 +163,7 @@ const LocalisationForm = () => {
                                 label="Site"
                             >
                             <Select
-                                mode="multiple"
+                                allowClear
                                 showSearch
                                 options={site.map((item) => ({
                                 value: item.id_site_loc,
@@ -167,6 +173,25 @@ const LocalisationForm = () => {
                             />
                             </Form.Item>
                         </Col>
+
+                    { typeLocId === "pays" && 
+                        <Col span={24}>
+                            <Form.Item
+                                name="id_parent"
+                                label="RDC"
+                            >
+                            <Select
+                                allowClear
+                                showSearch
+                                options={pays.map((item) => ({
+                                value: item.id_pays ,
+                                label: item.nom_pays}))}
+                                placeholder="Sélectionnez un pays..."
+                                optionFilterProp="label"
+                            />
+                            </Form.Item>
+                        </Col>
+                    }
                     </Row>
 
                     <Form.Item>
