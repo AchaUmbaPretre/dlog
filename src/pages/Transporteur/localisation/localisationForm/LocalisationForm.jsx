@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Form, Input, Button, notification, Row, Col, Select } from 'antd';
+import { Form, Input, Button, notification, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
 import { getLocalite, getSiteLoc, getTypeLocalisation, getVille } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
@@ -65,101 +65,96 @@ const LocalisationForm = () => {
   };
 
   return (
-    <div className="controle_form">
-      <div className="controle_title_rows">
-        <h2 className='controle_h2'>FORM LOCALISATION</h2>                
-      </div>
-      <div className="controle_wrapper">
-        <Form
-            form={form}
-            layout="vertical"
-            onFinish={handleSubmit}
-        >
-            <Row gutter={16}>
-            <Col span={12}>
-                <Form.Item
-                name="nom_fournisseur"
-                label="Nom du Fournisseur"
-                rules={[{ required: true, message: 'Veuillez entrer le nom du fournisseur' }]}
+    <Card>
+        <div className="controle_form">
+            <div className="controle_title_rows">
+                <h2 className='controle_h2'>FORM LOCALISATION</h2>                
+            </div>
+            <div className="controle_wrapper">
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={handleSubmit}
                 >
-                <Input placeholder="Nom du fournisseur" />
-                </Form.Item>
-            </Col>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Localité"
+                            >
+                            <Select
+                                mode="multiple"
+                                showSearch
+                                options={localite.map((item) => ({
+                                value: item.id_localite,
+                                label: item.nom_localite}))}
+                                placeholder="Sélectionnez une localité..."
+                                optionFilterProp="label"
+                            />
+                            </Form.Item>
+                        </Col>
 
-            <Col span={12}>
-                <Form.Item
-                name="telephone"
-                label="Téléphone"
-                >
-                <Input placeholder="Téléphone" />
-                </Form.Item>
-            </Col>
-            </Row>
+                        <Col span={12}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Province"
+                            >
+                            <Select
+                                mode="multiple"
+                                showSearch
+                                options={province.map((item) => ({
+                                value: item.id,
+                                label: item.name}))}
+                                placeholder="Sélectionnez une province..."
+                                optionFilterProp="label"
+                            />
+                            </Form.Item>
+                        </Col>
 
-            <Row gutter={16}>
-            <Col span={12}>
-                <Form.Item
-                name="email"
-                label="Email"
-                rules={[{ type: 'email', message: 'Veuillez entrer un email valide' }]}
-                >
-                <Input placeholder="Email" />
-                </Form.Item>
-            </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Ville"
+                            >
+                                <Select
+                                    showSearch
+                                    options={ville.map((item) => ({
+                                    value: item.id_ville,
+                                    label: item.nom_ville}))}
+                                    placeholder="Sélectionnez une ville..."
+                                    optionFilterProp="label"
+                                />
+                            </Form.Item>
+                        </Col>
 
-            <Col span={12}>
-                <Form.Item
-                name="pays"
-                label="Pays"
-                >
-                <Input placeholder="Pays" />
-                </Form.Item>
-            </Col>
-            </Row>
+                        <Col span={12}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Site"
+                            >
+                            <Select
+                                mode="multiple"
+                                showSearch
+                                options={site.map((item) => ({
+                                value: item.id_site_loc,
+                                label: item.nom_site_loc}))}
+                                placeholder="Sélectionnez un site..."
+                                optionFilterProp="label"
+                            />
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-            <Row gutter={16}>
-            <Col span={12}>
-                <Form.Item
-                name="ville"
-                label="Ville"
-                >
-                <Select
-                    showSearch
-                    options={province.map((item) => ({
-                    value: item.id,
-                    label: item.name}))}
-                    placeholder="Sélectionnez une province..."
-                    optionFilterProp="label"
-                />
-                </Form.Item>
-            </Col>
+                    <Form.Item>
+                    <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                        Soumettre
+                    </Button>
+                    </Form.Item>
+                </Form>
+            </div>
+        </div>
+    </Card>
 
-            <Col span={12}>
-                <Form.Item
-                name="id_parent"
-                label="Site"
-                >
-                <Select
-                    mode="multiple"
-                    showSearch
-                    options={site.map((item) => ({
-                    value: item.id_site_loc,
-                    label: item.nom_site_loc}))}
-                    placeholder="Sélectionnez un site..."
-                    optionFilterProp="label"
-                />
-                </Form.Item>
-            </Col>
-            </Row>
-
-            <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                Soumettre
-            </Button>
-            </Form.Item>
-        </Form>
-      </div>
-    </div>
   );
 };
 
