@@ -30,3 +30,7 @@ export const getLocalite = async() => {
 export const getSiteLoc = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/site_loc`)
 }
+
+export const getPays = async() => {
+    return axios.get(`${DOMAIN}/api/transporteur/pays`)
+}

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Form, Input, Button, notification, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
-import { getLocalite, getSiteLoc, getTypeLocalisation, getVille } from '../../../../services/transporteurService';
+import { getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 
 const LocalisationForm = () => {
@@ -12,6 +12,7 @@ const LocalisationForm = () => {
   const [localite, setLocalite] = useState([]);
   const [ville, setVille] = useState([]);
   const [type, setType] = useState([]);
+  const [pays, setPays] = useState([]);
 
   const handleError = (message) => {
     notification.error({
@@ -23,18 +24,20 @@ const LocalisationForm = () => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const [siteData, provinceData, villeData, typeLocData, localiteData] = await Promise.all([
+            const [siteData, provinceData, villeData, typeLocData, localiteData, paysData] = await Promise.all([
                 getSiteLoc(),
                 getProvince(),
                 getVille(),
                 getTypeLocalisation(),
-                getLocalite()
+                getLocalite(),
+                getPays()
             ]);
             setSite(siteData.data);
             setProvince(provinceData.data);
             setVille(villeData.data);
             setType(typeLocData.data);
-            setLocalite(localiteData.data)
+            setLocalite(localiteData.data);
+            setPays(paysData.data);
 
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
@@ -175,7 +178,6 @@ const LocalisationForm = () => {
             </div>
         </div>
     </Card>
-
   );
 };
 
