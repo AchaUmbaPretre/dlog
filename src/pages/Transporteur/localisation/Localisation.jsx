@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined,MailOutlined,UserOutlined,PhoneOutlined, PrinterOutlined, PlusOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import LocalisationForm from './localisationForm/LocalisationForm';
+import { getLocalisation } from '../../../services/transporteurService';
 
 const { Search } = Input;
 
@@ -14,10 +15,9 @@ const Localisation = () => {
 
     const fetchData = async () => {
       try {
-/*         const { data } = await getFournisseur_activite();
-  
-  
-        setData(groupedData); */
+        const { data } = await getLocalisation();
+
+        setData(data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -35,7 +35,6 @@ const Localisation = () => {
 
 
   const handleAdd = () => openModal('Add');
-  const handleEdit = (id) => openModal('Edit', id)
 
   const closeAllModals = () => {
     setModalType(null);
@@ -84,13 +83,15 @@ const Localisation = () => {
       dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
-        <Tag color="blue">{text}</Tag>
+        <div>
+            {text}
+        </div>
       ),
     },
     {
       title: 'Type',
-      dataIndex: 'type',
-      key: 'type',
+      dataIndex: 'type_loc',
+      key: 'type_loc',
       render: (text) => (
         <div>
             {text}
