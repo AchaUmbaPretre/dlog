@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Form, Button, notification, message, Row, Col, Select, Card } from 'antd';
+import { Form, Button, notification, InputNumber, message, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
 import { getCommune, getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
@@ -96,33 +96,46 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                     onFinish={handleSubmit}
                 >
                     <Row gutter={16}>
-                        <Card style={{width:'100%', marginBottom:'10px'}}>
-                            <Col span={24}>
-                                <Form.Item
-                                    name="nom"
-                                    label="Type de localisation"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
-                                >
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    placeholder="Sélectionnez un type..."
-                                    optionFilterProp="label"
-                                    options={type.map((item) => ({
-                                    value: item.id_type_localisation,
-                                    label: item.nom_type_loc
-                                    }))}
-                                    onChange={(value) => {
-                                    const selected = type.find(item => item.id_type_localisation === value);
-                                    if (selected) {
-                                        setTypeLocId(selected.nom_type_loc); // ou selected.id_type_localisation selon besoin
-                                    }
-                                    }}
-                                />
-                                </Form.Item>
-                            </Col>
-                        </Card>
+                        <div style={{display:'flex', width:'100%', gap:'20px'}}>
+                            <Card style={{width:'100%', marginBottom:'10px'}}>
+                                <Col span={24}>
+                                    <Form.Item
+                                        name="nom"
+                                        label="Type de localisation"
+                                        rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
+                                    >
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        placeholder="Sélectionnez un type..."
+                                        optionFilterProp="label"
+                                        options={type.map((item) => ({
+                                        value: item.id_type_localisation,
+                                        label: item.nom_type_loc
+                                        }))}
+                                        onChange={(value) => {
+                                        const selected = type.find(item => item.id_type_localisation === value);
+                                        if (selected) {
+                                            setTypeLocId(selected.nom_type_loc); // ou selected.id_type_localisation selon besoin
+                                        }
+                                        }}
+                                    />
+                                    </Form.Item>
+                                </Col>
+                            </Card>
 
+                            <Card style={{width:'100%', marginBottom:'10px'}}>
+                                <Col span={24}>
+                                    <Form.Item
+                                        name="niveau"
+                                        label="Niveau"
+                                        rules={[{ required: true, message: 'Veuillez fournir le num de niveau' }]}
+                                    >
+                                        <InputNumber min={0} placeholder="Ex: 2..." style={{width:'100%'}}/>
+                                    </Form.Item>
+                                </Col>
+                            </Card>
+                        </div>
                     { typeLocId === "localité" && 
                         <Col span={24}>
                             <Form.Item
