@@ -99,14 +99,14 @@ const Localisation = () => {
     
       ),
     },
-    {
+/*     {
       title: 'Parent',
       dataIndex: 'parent',
       key: 'parent',
       render: (text) => (
         <Tag color="blue">{text}</Tag>
       ),
-    }
+    } */
   ];
 
   return (
