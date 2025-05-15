@@ -12,7 +12,6 @@ const Localisation = () => {
   const scroll = { x: 'max-content' };
   const [localisationId, setLocalisationId] = useState(null)
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
 /*         const { data } = await getFournisseur_activite();
@@ -29,8 +28,9 @@ const Localisation = () => {
       }
     };
   
-    fetchData();
-  }, []);
+    useEffect(() => {
+        fetchData();
+    }, []);
   
 
 
@@ -162,7 +162,7 @@ const Localisation = () => {
         width={900}
         centered
       >
-        <LocalisationForm  localisationId={localisationId} />
+        <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
       </Modal>
     </>
   );

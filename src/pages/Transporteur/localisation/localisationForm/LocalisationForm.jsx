@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { Form, Button, notification, Row, Col, Select, Card } from 'antd';
+import { Form, Button, notification, message, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
-import { getCommune, getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille } from '../../../../services/transporteurService';
+import { getCommune, getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 
-const LocalisationForm = () => {
+const LocalisationForm = ({closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [site, setSite] = useState([]);
@@ -55,13 +55,24 @@ const LocalisationForm = () => {
 }, []);
 
   const handleSubmit = async (values) => {
+    await form.validateFields();
+        
+    const loadingKey = 'loadingLocalisation';
+    message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+        
     setLoading(true); 
+
     try {
         const v = {
             ...values,
-            type_loc: typeLocId
+            type_loc: typeLocId,
+            id_parent : idParent
         }
-        console.log(v)
+        await postLocalisation(v)
+        message.success({ content: 'La localisation a été enregistrée avec succès.', key: loadingKey });
+        form.resetFields();
+        fetchData();
+        closeModal();
     } catch (error) {
       notification.error({
         message: 'Erreur',
