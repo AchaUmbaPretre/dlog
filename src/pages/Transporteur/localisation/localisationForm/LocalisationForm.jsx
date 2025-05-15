@@ -15,6 +15,8 @@ const LocalisationForm = () => {
   const [pays, setPays] = useState([]);
   const [commune, setCommune] = useState([]);
   const [typeLocId, setTypeLocId] = useState(null)
+  const [idParent, setIdParent] = useState(null)
+
 
   const handleError = (message) => {
     notification.error({
@@ -113,7 +115,7 @@ const LocalisationForm = () => {
                     { typeLocId === "localité" && 
                         <Col span={24}>
                             <Form.Item
-                                name="id_loc"
+                                name="id_titre"
                                 label="Localité"
                             >
                             <Select
@@ -124,6 +126,12 @@ const LocalisationForm = () => {
                                 label: item.nom_localite}))}
                                 placeholder="Sélectionnez une localité..."
                                 optionFilterProp="label"
+                                onChange={(value) => {
+                                    const selected = localite.find(item => item.id_localite === value);
+                                    if (selected) {
+                                        setIdParent(selected.id_parent); 
+                                    }
+                                    }}
                             />
                             </Form.Item>
                         </Col>
@@ -132,7 +140,7 @@ const LocalisationForm = () => {
                     { typeLocId === "province" &&
                         <Col span={24}>
                             <Form.Item
-                                name="id_loc"
+                                name="id_titre"
                                 label="Province"
                             >
                             <Select
@@ -143,6 +151,12 @@ const LocalisationForm = () => {
                                 label: item.name}))}
                                 placeholder="Sélectionnez une province..."
                                 optionFilterProp="label"
+                                onChange={(value) => {
+                                    const selected = province.find(item => item.id === value);
+                                    if (selected) {
+                                        setIdParent(selected.id_parent); 
+                                    }
+                                    }}
                             />
                             </Form.Item>
                         </Col>
@@ -151,7 +165,7 @@ const LocalisationForm = () => {
                     { typeLocId === "ville" && 
                         <Col span={24}>
                             <Form.Item
-                                name="id_loc"
+                                name="id_titre"
                                 label="Ville"
                             >
                                 <Select
@@ -162,6 +176,12 @@ const LocalisationForm = () => {
                                     label: item.nom_ville}))}
                                     placeholder="Sélectionnez une ville..."
                                     optionFilterProp="label"
+                                    onChange={(value) => {
+                                    const selected = ville.find(item => item.id_ville === value);
+                                    if (selected) {
+                                        setIdParent(selected.id_parent); 
+                                    }
+                                    }}
                                 />
                             </Form.Item>
                         </Col>
@@ -170,7 +190,7 @@ const LocalisationForm = () => {
                     { typeLocId === "commune" && 
                         <Col span={24}>
                             <Form.Item
-                                name="id_loc"
+                                name="id_titre"
                                 label="Commune"
                             >
                                 <Select
@@ -181,6 +201,12 @@ const LocalisationForm = () => {
                                     label: item.nom_commune}))}
                                     placeholder="Sélectionnez une commune..."
                                     optionFilterProp="label"
+                                    onChange={(value) => {
+                                    const selected = commune.find(item => item.id_commune === value);
+                                    if (selected) {
+                                        setIdParent(selected.id_parent); 
+                                    }
+                                    }}
                                 />
                             </Form.Item>
                         </Col>
@@ -189,7 +215,7 @@ const LocalisationForm = () => {
                     { typeLocId === "site" &&
                         <Col span={24}>
                             <Form.Item
-                                name="id_loc"
+                                name="id_titre"
                                 label="Site"
                             >
                             <Select
@@ -200,6 +226,12 @@ const LocalisationForm = () => {
                                 label: item.nom_site_loc}))}
                                 placeholder="Sélectionnez un site..."
                                 optionFilterProp="label"
+                                onChange={(value) => {
+                                    const selected = site.find(item => item.id_site_loc === value);
+                                        if (selected) {
+                                            setIdParent(selected.id_parent); 
+                                        }
+                                    }}
                             />
                             </Form.Item>
                         </Col>
@@ -208,8 +240,8 @@ const LocalisationForm = () => {
                     { typeLocId === "pays" && 
                         <Col span={24}>
                             <Form.Item
-                                name="id_loc"
-                                label="RDC"
+                                name="id_titre"
+                                label="Pays"
                             >
                             <Select
                                 allowClear
@@ -219,11 +251,17 @@ const LocalisationForm = () => {
                                 label: item.nom_pays}))}
                                 placeholder="Sélectionnez un pays..."
                                 optionFilterProp="label"
+                                onChange={(value) => {
+                                    const selected = pays.find(item => item.id_pays === value);
+                                    if (selected) {
+                                        setIdParent(selected.id_parent); 
+                                    }
+                                    }}
                             />
                             </Form.Item>
                         </Col>
                     }
-                    
+
                     </Row>
 
                     <Form.Item>
