@@ -81,38 +81,29 @@ const Localisation = () => {
     },
     {
       title: 'Nom',
-      dataIndex: 'nom_fournisseur',
+      dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
-        <Tag icon={<UserOutlined />} color="blue">{text}</Tag>
+        <Tag color="blue">{text}</Tag>
       ),
     },
     {
-      title: 'Activités',
-      dataIndex: 'nom_activite',
-      key: 'nom_activite',
-      render: (activities) => (
-        activities.map((activite, index) => (
-          <Tag key={index} color="green">
-            {activite}
-          </Tag>
-        ))
-      ),
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
       render: (text) => (
-        <Tag icon={<MailOutlined />} color="blue">{text}</Tag>
+        <div>
+            {text}
+        </div>
+    
       ),
     },
     {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
+      title: 'Parent',
+      dataIndex: 'parent',
+      key: 'parent',
       render: (text) => (
-        <Tag icon={<PhoneOutlined />} color="blue">{text}</Tag>
+        <Tag color="blue">{text}</Tag>
       ),
     }
   ];
