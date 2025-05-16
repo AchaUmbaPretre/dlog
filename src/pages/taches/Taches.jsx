@@ -582,15 +582,14 @@ const handleEdit = (idTache) => {
                 icon={<EyeOutlined />}
                 onClick={() => handleViewDetails(record.id_tache)}
                 disabled={
-                  role !== 'Admin' && 
-                  !(role === 'Manager' && permissions[record.id_tache]?.can_view)
+                 role !== 'Admin' && !permissions[record.id_tache]?.can_view
                 }
                 aria-label="Voir les détails de la tâche"
                 className="view-details-btn"
               />
             </Tooltip>
 
-            { role === 'Admin' || role === 'Manager' || permissions[record.id_tache]?.can_comment ? (
+            { (role === 'Admin' || !permissions[record.id_tache]?.can_comment) ? (
               <Dropdown
                   overlay={
                     (
