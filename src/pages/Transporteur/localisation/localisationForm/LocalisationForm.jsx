@@ -13,9 +13,10 @@ const LocalisationForm = ({closeModal, fetchData}) => {
   const [ville, setVille] = useState([]);
   const [type, setType] = useState([]);
   const [pays, setPays] = useState([]);
-  const [commune, setCommune] = useState([]);
   const [typeLocId, setTypeLocId] = useState(null);
   const [idParent, setIdParent] = useState(null);
+
+  console.log(idParent)
 
   const handleError = (message) => {
     notification.error({
@@ -60,7 +61,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
         const v = {
             ...values,
             type_loc: typeLocId,
-            id_parent : idParent
+            id_nom : idParent
         }
         await postLocalisation(v)
         message.success({ content: 'La localisation a été enregistrée avec succès.', key: loadingKey });
