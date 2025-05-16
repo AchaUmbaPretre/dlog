@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Form, Button, notification, InputNumber, message, Row, Col, Select, Card } from 'antd';
+import { Form, Button, notification, message, Input, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
 import { getCommune, getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
@@ -87,7 +87,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
     <Card>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>FORM LOCALISATION</h2>                
+                <h2 className='controle_h2'>CREER UNE LOCALISATION</h2>                
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -120,18 +120,6 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                                         }
                                         }}
                                     />
-                                    </Form.Item>
-                                </Col>
-                            </Card>
-
-                            <Card style={{width:'100%', marginBottom:'10px'}}>
-                                <Col span={24}>
-                                    <Form.Item
-                                        name="niveau"
-                                        label="Niveau"
-                                        rules={[{ required: true, message: 'Veuillez fournir le num de niveau' }]}
-                                    >
-                                        <InputNumber min={0} placeholder="Ex: 2..." style={{width:'100%'}}/>
                                     </Form.Item>
                                 </Col>
                             </Card>
@@ -285,6 +273,15 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                             </Form.Item>
                         </Col>
                     }
+
+                        <Col span={24}>
+                            <Form.Item
+                                name="commentaire"
+                                label="Commentaire"
+                            >
+                                <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>
+                            </Form.Item>
+                        </Col>
 
                     </Row>
 

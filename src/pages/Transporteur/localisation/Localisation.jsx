@@ -94,19 +94,18 @@ const Localisation = () => {
       key: 'type_loc',
       render: (text) => (
         <div>
-            {text}
+            {text.toUpperCase()}
         </div>
-    
       ),
     },
-/*     {
+    {
       title: 'Parent',
       dataIndex: 'parent',
       key: 'parent',
       render: (text) => (
-        <Tag color="blue">{text}</Tag>
+        <div>{text}</div>
       ),
-    } */
+    }
   ];
 
   return (
@@ -160,7 +159,7 @@ const Localisation = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={950}
+        width={800}
         centered
       >
         <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
