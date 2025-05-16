@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { getCommune, getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 
-const LocalisationForm = ({closeModal, fetchData}) => {
+const LocalisationFormF = ({closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [site, setSite] = useState([]);
@@ -96,16 +96,6 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                     onFinish={handleSubmit}
                 >
                     <Row gutter={16}>
-                        <Col span={24}>
-                            <Form.Item
-                                name="nom"
-                                label="Nom de la localisation"
-                                rules={[{ required: true, message: 'Veuillez fournir le nom de localisation' }]}
-                            >
-                                <Input placeholder="Nom de la localisation..."/>
-                            </Form.Item>
-                        </Col>
-
                         <Col span={24}>
                             <Form.Item
                                 name="nom"
@@ -281,7 +271,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                         </Col>
                     }
 
-                        <Col span={24}>
+{/*                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
                                 label="Localisation parente"
@@ -292,7 +282,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                                     options={pays.map((item) => ({
                                     value: item.id_pays ,
                                     label: item.nom_pays}))}
-                                    placeholder="Sélectionnez une localisation..."
+                                    placeholder="Sélectionnez un pays..."
                                     optionFilterProp="label"
                                     onChange={(value) => {
                                         const selected = pays.find(item => item.id_pays === value);
@@ -302,7 +292,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                                         }}
                                 />
                             </Form.Item>
-                        </Col>
+                        </Col> */}
 
                         <Col span={24}>
                             <Form.Item
@@ -327,4 +317,4 @@ const LocalisationForm = ({closeModal, fetchData}) => {
   );
 };
 
-export default LocalisationForm;
+export default LocalisationFormF;
