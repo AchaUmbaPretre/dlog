@@ -196,7 +196,7 @@ const Localisation = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={800}
         centered
       >
         <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
