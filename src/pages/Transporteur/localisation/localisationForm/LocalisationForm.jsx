@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Form, Button, notification, message, Input, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
+import { PlusCircleOutlined } from '@ant-design/icons'
 import { getCommune, getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 
@@ -14,16 +15,15 @@ const LocalisationForm = ({closeModal, fetchData}) => {
   const [type, setType] = useState([]);
   const [pays, setPays] = useState([]);
   const [commune, setCommune] = useState([]);
-  const [typeLocId, setTypeLocId] = useState(null)
-  const [idParent, setIdParent] = useState(null)
-
+  const [typeLocId, setTypeLocId] = useState(null);
+  const [idParent, setIdParent] = useState(null);
 
   const handleError = (message) => {
     notification.error({
         message: 'Erreur de chargement',
         description: message,
     });
-};
+    };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +36,6 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                 getLocalite(),
                 getPays(),
                 getCommune()
-
             ]);
             setSite(siteData.data);
             setProvince(provinceData.data);
@@ -316,9 +315,9 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                     </Row>
 
                     <Form.Item>
-                    <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                        Soumettre
-                    </Button>
+                        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}  icon={<PlusCircleOutlined />}>
+                            Créer
+                        </Button>
                     </Form.Item>
                 </Form>
             </div>
