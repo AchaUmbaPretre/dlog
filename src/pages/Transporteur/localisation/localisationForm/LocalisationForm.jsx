@@ -159,7 +159,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
-                                label="Localisation parente (Pays)"
+                                label="Localisation parente (pays)"
                             >
                                 <Select
                                     allowClear
@@ -184,7 +184,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
-                                label="Localisation parente (Province)"
+                                label="Localisation parente (province)"
                             >
                                 <Select
                                     allowClear
@@ -209,7 +209,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
-                                label="Localisation parente (Province)"
+                                label="Localisation parente (province)"
                             >
                                 <Select
                                     allowClear
@@ -234,7 +234,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
-                                label="Localisation parente (Localité)"
+                                label="Localisation parente (localité)"
                             >
                                 <Select
                                     allowClear
@@ -268,7 +268,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={loading} disabled={loading}  icon={<PlusCircleOutlined />}>
-                            Créer
+                            Soumettre
                         </Button>
                     </Form.Item>
                 </Form>
