@@ -96,34 +96,31 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                     onFinish={handleSubmit}
                 >
                     <Row gutter={16}>
-                        <div style={{display:'flex', width:'100%', gap:'20px'}}>
-                            <Card style={{width:'100%', marginBottom:'10px'}}>
-                                <Col span={24}>
-                                    <Form.Item
-                                        name="nom"
-                                        label="Type de localisation"
-                                        rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
-                                    >
-                                    <Select
-                                        allowClear
-                                        showSearch
-                                        placeholder="Sélectionnez un type..."
-                                        optionFilterProp="label"
-                                        options={type.map((item) => ({
+                        <Col span={24}>
+                            <Form.Item
+                                name="nom"
+                                label="Type de localisation"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    placeholder="Sélectionnez un type..."
+                                    optionFilterProp="label"
+                                    options={type.map((item) => ({
                                         value: item.id_type_localisation,
                                         label: item.nom_type_loc
                                         }))}
-                                        onChange={(value) => {
+                                    onChange={(value) => {
                                         const selected = type.find(item => item.id_type_localisation === value);
                                         if (selected) {
                                             setTypeLocId(selected.nom_type_loc); // ou selected.id_type_localisation selon besoin
                                         }
-                                        }}
-                                    />
-                                    </Form.Item>
-                                </Col>
-                            </Card>
-                        </div>
+                                    }}
+                                />
+                            </Form.Item>
+                        </Col>
+                    
                     { typeLocId === "localité" && 
                         <Col span={24}>
                             <Form.Item
@@ -255,24 +252,47 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                                 name="id_titre"
                                 label="Pays"
                             >
-                            <Select
-                                allowClear
-                                showSearch
-                                options={pays.map((item) => ({
-                                value: item.id_pays ,
-                                label: item.nom_pays}))}
-                                placeholder="Sélectionnez un pays..."
-                                optionFilterProp="label"
-                                onChange={(value) => {
-                                    const selected = pays.find(item => item.id_pays === value);
-                                    if (selected) {
-                                        setIdParent(selected.id_parent); 
-                                    }
-                                    }}
-                            />
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={pays.map((item) => ({
+                                    value: item.id_pays ,
+                                    label: item.nom_pays}))}
+                                    placeholder="Sélectionnez un pays..."
+                                    optionFilterProp="label"
+                                    onChange={(value) => {
+                                        const selected = pays.find(item => item.id_pays === value);
+                                        if (selected) {
+                                            setIdParent(selected.id_parent); 
+                                        }
+                                        }}
+                                />
                             </Form.Item>
                         </Col>
                     }
+
+{/*                         <Col span={24}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Localisation parente"
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={pays.map((item) => ({
+                                    value: item.id_pays ,
+                                    label: item.nom_pays}))}
+                                    placeholder="Sélectionnez un pays..."
+                                    optionFilterProp="label"
+                                    onChange={(value) => {
+                                        const selected = pays.find(item => item.id_pays === value);
+                                        if (selected) {
+                                            setIdParent(selected.id_parent); 
+                                        }
+                                        }}
+                                />
+                            </Form.Item>
+                        </Col> */}
 
                         <Col span={24}>
                             <Form.Item
