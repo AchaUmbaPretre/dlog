@@ -52,7 +52,7 @@ const handleSubmit = async (values) => {
   const loadingKey = 'loadingLocalisation';
   message.loading({ content: 'Traitement en cours...', key: loadingKey, duration: 0 });
   setLoading(true);
-  
+
   try {
     for (const nom of values.noms) {
       const payload = {
@@ -137,7 +137,6 @@ const handleSubmit = async (values) => {
                             </>
                         )}
                         </Form.List>
-
 
                         <Col span={24}>
                             <Form.Item
