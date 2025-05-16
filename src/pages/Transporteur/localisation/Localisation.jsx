@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined, PlusCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import LocalisationForm from './localisationForm/LocalisationForm';
+import { ExportOutlined, PrinterOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getLocalisation } from '../../../services/transporteurService';
 import LocalisationFormMulti from './localisationForm/LocalisationFormMulti';
+import LocalisationForm from './localisationForm/LocalisationForm';
 
 const { Search } = Input;
 
@@ -34,9 +34,6 @@ const Localisation = () => {
         fetchData();
     }, []);
   
-
-
-  const handleAdd = () => openModal('Add');
 
   const closeAllModals = () => {
     setModalType(null);
@@ -110,6 +107,33 @@ const Localisation = () => {
     }
   ];
 
+  const  getActionMenu = (openModal) => {
+    const handleClick = ({ key }) => {
+        switch (key) {
+            case 'add' : 
+                openModal('Add')
+                break
+            case 'addMulti' :
+                openModal('AddMulti')
+                break
+            default : 
+                break;
+        }
+    };
+
+    return (
+        <Menu onClick={handleClick}>
+            <Menu.Item key="add">
+                <PlusOutlined style={{ color: 'orange' }} /> Ajouter
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Item key="addMulti">
+                <PlusOutlined style={{ color: 'orange' }} /> Ajouter Multi
+            </Menu.Item>
+        </Menu>
+    )
+  }
+
     const filteredData = data.filter(item =>
     item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.type_loc?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -135,13 +159,13 @@ const Localisation = () => {
                 />
             </div>
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAdd}
-              >
-                Ajouter
-              </Button>
+                <Dropdown overlay={getActionMenu(openModal)} trigger={['click']}>
+                    <Button
+                        type="primary"
+                        icon={<MoreOutlined />}
+                    >
+                    </Button>   
+                </Dropdown>
               <Dropdown overlay={menu} trigger={['click']}>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
@@ -162,6 +186,7 @@ const Localisation = () => {
             bordered
             size="small"
             scroll={scroll}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
         </div>
       </div>
@@ -174,9 +199,19 @@ const Localisation = () => {
         width={1000}
         centered
       >
+        <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
+      </Modal>
+
+       <Modal
+        title=""
+        visible={modalType === 'AddMulti'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
         <LocalisationFormMulti closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
-{/*         <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
- */}      </Modal>
+      </Modal>
     </>
   );
 };

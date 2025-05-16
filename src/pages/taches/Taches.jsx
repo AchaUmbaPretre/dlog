@@ -673,8 +673,6 @@ const handleEdit = (idTache) => {
           </Space>
       )
     }
-    
-    
   ];
 
   const onExpand = (expanded, record) => {
