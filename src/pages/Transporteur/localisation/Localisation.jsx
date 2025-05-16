@@ -11,8 +11,9 @@ const Localisation = () => {
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
-  const [localisationId, setLocalisationId] = useState(null)
-
+  const [localisationId, setLocalisationId] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
+  
     const fetchData = async () => {
       try {
         const { data } = await getLocalisation();
@@ -108,6 +109,12 @@ const Localisation = () => {
     }
   ];
 
+    const filteredData = data.filter(item =>
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.type_loc?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.parent?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <>
       <div className="client">
@@ -120,7 +127,11 @@ const Localisation = () => {
           </div>
           <div className="client-actions">
             <div className="client-row-left">
-              <Search placeholder="Recherche..." enterButton />
+                <Search 
+                    placeholder="Recherche..." 
+                    enterButton 
+                    onChange={(e) => setSearchValue(e.target.value)}
+                />
             </div>
             <div className="client-rows-right">
               <Button
@@ -143,7 +154,7 @@ const Localisation = () => {
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 10 }}
             rowKey="id"
