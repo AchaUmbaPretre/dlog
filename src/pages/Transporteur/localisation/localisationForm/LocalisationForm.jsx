@@ -8,7 +8,6 @@ import { getProvince } from '../../../../services/clientService';
 const LocalisationForm = ({closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [site, setSite] = useState([]);
   const [province, setProvince] = useState([]);
   const [localite, setLocalite] = useState([]);
   const [ville, setVille] = useState([]);
@@ -28,22 +27,18 @@ const LocalisationForm = ({closeModal, fetchData}) => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const [siteData, provinceData, villeData, typeLocData, localiteData, paysData, communeData] = await Promise.all([
-                getSiteLoc(),
+            const [ provinceData, villeData, typeLocData, localiteData, paysData ] = await Promise.all([
                 getProvince(),
                 getVille(),
                 getTypeLocalisation(),
                 getLocalite(),
                 getPays(),
-                getCommune()
             ]);
-            setSite(siteData.data);
             setProvince(provinceData.data);
             setVille(villeData.data);
             setType(typeLocData.data);
             setLocalite(localiteData.data);
             setPays(paysData.data);
-            setCommune(communeData.data)
 
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
