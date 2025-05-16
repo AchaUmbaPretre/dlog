@@ -1,14 +1,11 @@
-import { useEffect, useState } from 'react';
-import {
-  Form, Button, notification, message, Input, Row, Col, Select, Card, Space
-} from 'antd';
-import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import {
-  getLocalite, getPays, getTypeLocalisation, getVille, postLocalisation
-} from '../../../../services/transporteurService';
+import { useEffect } from 'react';
+import { Form, Button, notification, message, Input, Row, Col, Select, Card } from 'antd';
+import { useState } from 'react';
+import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons'
+import { getLocalite, getPays, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 
-const LocalisationFormMulti = ({ closeModal, fetchData }) => {
+const LocalisationFormMulti = ({closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [province, setProvince] = useState([]);
@@ -16,197 +13,301 @@ const LocalisationFormMulti = ({ closeModal, fetchData }) => {
   const [ville, setVille] = useState([]);
   const [type, setType] = useState([]);
   const [pays, setPays] = useState([]);
+  const [typeLocId, setTypeLocId] = useState(null);
+  const [idParent, setIdParent] = useState(null);
 
-  const handleError = (msg) => {
-    notification.error({ message: 'Erreur', description: msg });
-  };
-
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const [provinceData, villeData, typeLocData, localiteData, paysData] = await Promise.all([
-          getProvince(), getVille(), getTypeLocalisation(), getLocalite(), getPays()
-        ]);
-        setProvince(provinceData.data);
-        setVille(villeData.data);
-        setType(typeLocData.data);
-        setLocalite(localiteData.data);
-        setPays(paysData.data);
-      } catch (error) {
-        handleError("Erreur lors du chargement des données");
-      }
+  const handleError = (message) => {
+    notification.error({
+        message: 'Erreur de chargement',
+        description: message,
+    });
     };
 
-    fetchInitialData();
-  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const [ provinceData, villeData, typeLocData, localiteData, paysData ] = await Promise.all([
+                getProvince(),
+                getVille(),
+                getTypeLocalisation(),
+                getLocalite(),
+                getPays(),
+            ]);
+            setProvince(provinceData.data);
+            setVille(villeData.data);
+            setType(typeLocData.data);
+            setLocalite(localiteData.data);
+            setPays(paysData.data);
 
-  const handleSubmit = async (values) => {
-    const loadingKey = 'loadingLocalisation';
-    message.loading({ content: 'Traitement en cours...', key: loadingKey, duration: 0 });
-    setLoading(true);
+        } catch (error) {
+            handleError('Une erreur est survenue lors du chargement des données.');
+        }
+    };
 
-    try {
-      for (const localisation of values.localisations) {
-        const typeLocName = type.find(t => t.id_type_localisation === localisation.type_loc)?.nom_type_loc;
+    fetchData();
+}, []);
 
-        await postLocalisation({
-          nom: localisation.nom,
-          type_loc: typeLocName,
-          id_parent: localisation.id_parent || null,
-          commentaire: localisation.commentaire || ''
-        });
-      }
-
-      message.success({ content: 'Toutes les localisations ont été enregistrées.', key: loadingKey });
-      form.resetFields();
-      fetchData();
-      closeModal();
-    } catch (error) {
-      handleError("Erreur lors de l'enregistrement des localisations");
-    } finally {
-      setLoading(false);
+const handleSubmit = async (values) => {
+  await form.validateFields();
+  const loadingKey = 'loadingLocalisation';
+  message.loading({ content: 'Traitement en cours...', key: loadingKey, duration: 0 });
+  setLoading(true);
+  
+  try {
+    for (const nom of values.noms) {
+      const payload = {
+        nom : nom.nom,
+        type_loc: typeLocId,
+        id_parent: values.id_parent,
+        commentaire: values.commentaire || ''
+      };
+      await postLocalisation(payload);
     }
-  };
+
+    message.success({ content: 'Localisations enregistrées.', key: loadingKey });
+    form.resetFields();
+    fetchData();
+    closeModal();
+  } catch (error) {
+    notification.error({
+      message: 'Erreur',
+      description: 'Erreur lors de l\'enregistrement.',
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <Card>
-      <h2>Créer plusieurs localisations</h2>
-        <Form 
-            form={form} 
-            layout="vertical" 
-            initialValues={{
-                localisations: [{}]
-            }} onFinish={handleSubmit}
-        >
-        <Form.List name="localisations">
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map(({ key, name, ...restField }) => {
-                const typeLocValue = form.getFieldValue(['localisations', name, 'type_loc']);
-                const selectedType = type.find(item => item.id_type_localisation === typeLocValue)?.nom_type_loc;
-
-                return (
-                  <Card key={key} type="inner" style={{ marginBottom: 16 }} title={`Localisation ${name + 1}`} extra={
-                    <MinusCircleOutlined onClick={() => remove(name)} />
-                  }>
-                    <Row gutter={16}>
-                      <Col span={8}>
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'nom']}
-                          label="Nom de la localisation"
-                          rules={[{ required: true, message: 'Entrez le nom' }]}
-                        >
-                          <Input placeholder="Nom..." />
-                        </Form.Item>
-                      </Col>
-
-                      <Col span={8}>
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'type_loc']}
-                          label="Type de localisation"
-                          rules={[{ required: true, message: 'Sélectionnez un type' }]}
-                        >
-                          <Select
-                            showSearch
-                            allowClear
-                            placeholder="Type..."
-                            options={type.map(item => ({
-                              value: item.id_type_localisation,
-                              label: item.nom_type_loc
-                            }))}
-                          />
-                        </Form.Item>
-                      </Col>
-
-                      {selectedType === 'province' && (
-                        <Col span={8}>
-                          <Form.Item {...restField} name={[name, 'id_parent']} label="Parent (pays)">
-                            <Select
-                              showSearch
-                              allowClear
-                              placeholder="Sélectionnez un pays..."
-                              options={pays.map(p => ({ value: p.id_pays, label: p.nom_pays }))}
-                            />
-                          </Form.Item>
-                        </Col>
-                      )}
-
-                      {selectedType === 'ville' && (
-                        <Col span={8}>
-                          <Form.Item {...restField} name={[name, 'id_parent']} label="Parent (province)">
-                            <Select
-                              showSearch
-                              allowClear
-                              placeholder="Sélectionnez une province..."
-                              options={province.map(p => ({ value: p.id, label: p.name }))}
-                            />
-                          </Form.Item>
-                        </Col>
-                      )}
-
-                      {selectedType === 'localité' && (
-                        <Col span={8}>
-                          <Form.Item {...restField} name={[name, 'id_parent']} label="Parent (ville)">
-                            <Select
-                              showSearch
-                              allowClear
-                              placeholder="Sélectionnez une ville..."
-                              options={ville.map(v => ({ value: v.id_ville, label: v.nom_ville }))}
-                            />
-                          </Form.Item>
-                        </Col>
-                      )}
-
-                      {selectedType === 'site' && (
-                        <Col span={8}>
-                          <Form.Item {...restField} name={[name, 'id_parent']} label="Parent (localité)">
-                            <Select
-                              showSearch
-                              allowClear
-                              placeholder="Sélectionnez une localité..."
-                              options={localite.map(l => ({ value: l.id_localite, label: l.nom_localite }))}
-                            />
-                          </Form.Item>
-                        </Col>
-                      )}
-
-                      <Col span={8}>
-                        <Form.Item {...restField} name={[name, 'commentaire']} label="Commentaire">
-                          <Input.TextArea placeholder="Commentaire..." autoSize={{ minRows: 1, maxRows: 3 }} />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                  </Card>
-                );
-              })}
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusCircleOutlined />}
+        <div className="controle_form">
+            <div className="controle_title_rows">
+                <h2 className='controle_h2'>CREER UNE LOCALISATION</h2>                
+            </div>
+            <div className="controle_wrapper">
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={handleSubmit}
                 >
-                  Ajouter une localisation
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
+                    <Row gutter={16}>
+                        <Form.List name="noms" initialValue={[{ nom: '' }]} rules={[{ required: true, message: 'Ajoutez au moins un nom' }]}>
+                        {(fields, { add, remove }) => (
+                            <>
+                            {fields.map(({ key, name, ...restField }) => (
+                                <Row key={key} gutter={8} align="middle" style={{ marginBottom: 8, display: 'flex', alignItems:'center', justifyContent:'center'}}>
+                                    <Col span={22}>
+                                        <Form.Item
+                                        {...restField}
+                                        name={[name, 'nom']}
+                                        rules={[{ required: true, message: 'Nom requis' }]}
+                                        >
+                                        <Input placeholder="Nom de la localisation..." />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={1}>
+                                        {fields.length > 1 && (
+                                        <Button
+                                            danger
+                                            type="text"
+                                            onClick={() => remove(name)}
+                                            style={{ width: '100%', marginBottom:'25px' }}
+                                            icon={<MinusCircleOutlined /> }
+                                        >
+                                            
+                                        </Button>
+                                        )}
+                                    </Col>
+                                </Row>
+                            ))}
 
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={loading}
-            disabled={loading}
-            icon={<PlusCircleOutlined />}
-          >
-            Soumettre toutes les localisations
-          </Button>
-        </Form.Item>
-      </Form>
+                            <Row>
+                                <Col span={24}>
+                                    <Button
+                                        onClick={() => add()}
+                                        type="text"
+                                        block
+                                        icon={<PlusCircleOutlined />}
+                                        style={{marginLeft:'5px'}}
+                                    >
+                                    </Button>
+                                </Col>
+                            </Row>
+                            </>
+                        )}
+                        </Form.List>
+
+
+                        <Col span={24}>
+                            <Form.Item
+                                name="type_loc"
+                                label="Type de localisation"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    placeholder="Sélectionnez un type..."
+                                    optionFilterProp="label"
+                                    options={type.map((item) => ({
+                                        value: item.id_type_localisation,
+                                        label: item.nom_type_loc
+                                        }))}
+                                    onChange={(value) => {
+                                        const selected = type.find(item => item.id_type_localisation === value);
+                                        if (selected) {
+                                            setTypeLocId(selected.nom_type_loc); // ou selected.id_type_localisation selon besoin
+                                        }
+                                    }}
+                                />
+                            </Form.Item>
+                        </Col>
+                    
+                    { typeLocId === "localité" && 
+                        <Col span={24}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Localisation parente (ville)"
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={ville.map((item) => ({
+                                    value: item.id_ville,
+                                    label: item.nom_ville}))}
+                                    placeholder="Sélectionnez une ville..."
+                                    optionFilterProp="label"
+                                    onChange={(value) => {
+                                    const selected = ville.find(item => item.id_ville === value);
+                                    if (selected) {
+                                        setIdParent(selected.id_parent); 
+                                    }
+                                    }}
+                                />
+                            </Form.Item>
+                        </Col>
+                    }
+
+                    { typeLocId === "province" &&
+                        <Col span={24}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Localisation parente (pays)"
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={pays.map((item) => ({
+                                    value: item.id_pays ,
+                                    label: item.nom_pays}))}
+                                    placeholder="Sélectionnez un pays..."
+                                    optionFilterProp="label"
+                                    onChange={(value) => {
+                                        const selected = pays.find(item => item.id_pays === value);
+                                        if (selected) {
+                                            setIdParent(selected.id_parent); 
+                                        }
+                                        }}
+                                />
+                            </Form.Item>
+                        </Col>
+                    }
+
+                    { typeLocId === "ville" && 
+                        <Col span={24}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Localisation parente (province)"
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={province.map((item) => ({
+                                    value: item.id,
+                                    label: item.name}))}
+                                    placeholder="Sélectionnez une province..."
+                                    optionFilterProp="label"
+                                    onChange={(value) => {
+                                        const selected = province.find(item => item.id === value);
+                                        if (selected) {
+                                            setIdParent(selected.id_parent); 
+                                        }
+                                        }}
+                                />
+                            </Form.Item>
+                        </Col>
+                    }
+
+                    { typeLocId === "commune" && 
+                        <Col span={24}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Localisation parente (province)"
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={province.map((item) => ({
+                                        value: item.id,
+                                        label: item.name}))}
+                                    placeholder="Sélectionnez une province..."
+                                    optionFilterProp="label"
+                                    onChange={(value) => {
+                                        const selected = province.find(item => item.id === value);
+                                            if (selected) {
+                                                setIdParent(selected.id_parent); 
+                                            }
+                                        }}
+                                />
+                            </Form.Item>
+                        </Col>
+                    }
+
+                    { typeLocId === "site" &&
+                        <Col span={24}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Localisation parente (localité)"
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={localite.map((item) => ({
+                                    value: item.id_localite,
+                                    label: item.nom_localite}))}
+                                    placeholder="Sélectionnez une localité..."
+                                    optionFilterProp="label"
+                                    onChange={(value) => {
+                                        const selected = localite.find(item => item.id_localite === value);
+                                        if (selected) {
+                                            setIdParent(selected.id_parent); 
+                                        }
+                                        }}
+                                />
+                            </Form.Item>
+                        </Col>
+                    }
+
+                        <Col span={24}>
+                            <Form.Item
+                                name="commentaire"
+                                label="Commentaire"
+                            >
+                                <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>
+                            </Form.Item>
+                        </Col>
+
+                    </Row>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}  icon={<PlusCircleOutlined />}>
+                            Soumettre
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </div>
+        </div>
     </Card>
   );
 };

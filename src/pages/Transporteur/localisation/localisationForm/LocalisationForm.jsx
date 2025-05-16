@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Form, Button, notification, message, Input, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getCommune, getLocalite, getPays, getSiteLoc, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
+import { getLocalite, getPays, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 
 const LocalisationForm = ({closeModal, fetchData}) => {
@@ -15,8 +15,6 @@ const LocalisationForm = ({closeModal, fetchData}) => {
   const [pays, setPays] = useState([]);
   const [typeLocId, setTypeLocId] = useState(null);
   const [idParent, setIdParent] = useState(null);
-
-  console.log(idParent)
 
   const handleError = (message) => {
     notification.error({
