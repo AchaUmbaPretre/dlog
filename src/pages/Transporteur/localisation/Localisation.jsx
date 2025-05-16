@@ -3,6 +3,7 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag
 import { ExportOutlined, PrinterOutlined, PlusCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import LocalisationForm from './localisationForm/LocalisationForm';
 import { getLocalisation } from '../../../services/transporteurService';
+import LocalisationFormMulti from './localisationForm/LocalisationFormMulti';
 
 const { Search } = Input;
 
@@ -170,11 +171,12 @@ const Localisation = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={750}
+        width={1000}
         centered
       >
-        <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
-      </Modal>
+        <LocalisationFormMulti closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
+{/*         <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
+ */}      </Modal>
     </>
   );
 };
