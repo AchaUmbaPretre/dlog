@@ -107,7 +107,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
 
                         <Col span={24}>
                             <Form.Item
-                                name="nom"
+                                name="type_loc"
                                 label="Type de localisation"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un type de localisation' }]}
                             >
@@ -133,58 +133,8 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                     { typeLocId === "localité" && 
                         <Col span={24}>
                             <Form.Item
-                                name="id_titre"
-                                label="Localité"
-                            >
-                            <Select
-                                allowClear
-                                showSearch
-                                options={localite.map((item) => ({
-                                value: item.id_localite,
-                                label: item.nom_localite}))}
-                                placeholder="Sélectionnez une localité..."
-                                optionFilterProp="label"
-                                onChange={(value) => {
-                                    const selected = localite.find(item => item.id_localite === value);
-                                    if (selected) {
-                                        setIdParent(selected.id_parent); 
-                                    }
-                                    }}
-                            />
-                            </Form.Item>
-                        </Col>
-                    }
-
-                    { typeLocId === "province" &&
-                        <Col span={24}>
-                            <Form.Item
-                                name="id_titre"
-                                label="Province"
-                            >
-                            <Select
-                                allowClear
-                                showSearch
-                                options={province.map((item) => ({
-                                value: item.id,
-                                label: item.name}))}
-                                placeholder="Sélectionnez une province..."
-                                optionFilterProp="label"
-                                onChange={(value) => {
-                                    const selected = province.find(item => item.id === value);
-                                    if (selected) {
-                                        setIdParent(selected.id_parent); 
-                                    }
-                                    }}
-                            />
-                            </Form.Item>
-                        </Col>
-                    }
-
-                    { typeLocId === "ville" && 
-                        <Col span={24}>
-                            <Form.Item
-                                name="id_titre"
-                                label="Ville"
+                                name="id_parent"
+                                label="Localisation parente (ville)"
                             >
                                 <Select
                                     allowClear
@@ -205,61 +155,11 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                         </Col>
                     }
 
-                    { typeLocId === "commune" && 
+                    { typeLocId === "province" &&
                         <Col span={24}>
                             <Form.Item
-                                name="id_titre"
-                                label="Commune"
-                            >
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={commune.map((item) => ({
-                                    value: item.id_commune,
-                                    label: item.nom_commune}))}
-                                    placeholder="Sélectionnez une commune..."
-                                    optionFilterProp="label"
-                                    onChange={(value) => {
-                                    const selected = commune.find(item => item.id_commune === value);
-                                    if (selected) {
-                                        setIdParent(selected.id_parent); 
-                                    }
-                                    }}
-                                />
-                            </Form.Item>
-                        </Col>
-                    }
-
-                    { typeLocId === "site" &&
-                        <Col span={24}>
-                            <Form.Item
-                                name="id_titre"
-                                label="Site"
-                            >
-                            <Select
-                                allowClear
-                                showSearch
-                                options={site.map((item) => ({
-                                value: item.id_site_loc,
-                                label: item.nom_site_loc}))}
-                                placeholder="Sélectionnez un site..."
-                                optionFilterProp="label"
-                                onChange={(value) => {
-                                    const selected = site.find(item => item.id_site_loc === value);
-                                        if (selected) {
-                                            setIdParent(selected.id_parent); 
-                                        }
-                                    }}
-                            />
-                            </Form.Item>
-                        </Col>
-                    }
-
-                    { typeLocId === "pays" && 
-                        <Col span={24}>
-                            <Form.Item
-                                name="id_titre"
-                                label="Pays"
+                                name="id_parent"
+                                label="Localisation parente (Pays)"
                             >
                                 <Select
                                     allowClear
@@ -280,21 +180,22 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                         </Col>
                     }
 
+                    { typeLocId === "ville" && 
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
-                                label="Localisation parente"
+                                label="Localisation parente (Province)"
                             >
                                 <Select
                                     allowClear
                                     showSearch
-                                    options={pays.map((item) => ({
-                                    value: item.id_pays ,
-                                    label: item.nom_pays}))}
-                                    placeholder="Sélectionnez une localisation..."
+                                    options={province.map((item) => ({
+                                    value: item.id,
+                                    label: item.name}))}
+                                    placeholder="Sélectionnez une province..."
                                     optionFilterProp="label"
                                     onChange={(value) => {
-                                        const selected = pays.find(item => item.id_pays === value);
+                                        const selected = province.find(item => item.id === value);
                                         if (selected) {
                                             setIdParent(selected.id_parent); 
                                         }
@@ -302,6 +203,57 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                                 />
                             </Form.Item>
                         </Col>
+                    }
+
+                    { typeLocId === "commune" && 
+                        <Col span={24}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Localisation parente (Province)"
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={province.map((item) => ({
+                                        value: item.id,
+                                        label: item.name}))}
+                                    placeholder="Sélectionnez une province..."
+                                    optionFilterProp="label"
+                                    onChange={(value) => {
+                                        const selected = province.find(item => item.id === value);
+                                            if (selected) {
+                                                setIdParent(selected.id_parent); 
+                                            }
+                                        }}
+                                />
+                            </Form.Item>
+                        </Col>
+                    }
+
+                    { typeLocId === "site" &&
+                        <Col span={24}>
+                            <Form.Item
+                                name="id_parent"
+                                label="Localisation parente (Localité)"
+                            >
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={localite.map((item) => ({
+                                    value: item.id_localite,
+                                    label: item.nom_localite}))}
+                                    placeholder="Sélectionnez une localité..."
+                                    optionFilterProp="label"
+                                    onChange={(value) => {
+                                        const selected = localite.find(item => item.id_localite === value);
+                                        if (selected) {
+                                            setIdParent(selected.id_parent); 
+                                        }
+                                        }}
+                                />
+                            </Form.Item>
+                        </Col>
+                    }
 
                         <Col span={24}>
                             <Form.Item
