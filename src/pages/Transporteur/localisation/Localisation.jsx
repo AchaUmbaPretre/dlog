@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
+import { ExportOutlined, DeleteOutlined, ApartmentOutlined, NumberOutlined, UserOutlined, TagsOutlined, PrinterOutlined, EditOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getLocalisation } from '../../../services/transporteurService';
 import LocalisationFormMulti from './localisationForm/LocalisationFormMulti';
 import LocalisationForm from './localisationForm/LocalisationForm';
 
 const { Search } = Input;
+const { Text } = Typography;
 
 const Localisation = () => {
   const [loading, setLoading] = useState(true);
@@ -33,26 +34,33 @@ const Localisation = () => {
     useEffect(() => {
         fetchData();
     }, []);
-  
 
-  const closeAllModals = () => {
-    setModalType(null);
-  };
+    const handleDelete = () => {
+
+    }
+  
+    const handleEdit = () => {
+
+    }
+
+    const closeAllModals = () => {
+        setModalType(null);
+    };
 
     const openModal = (type, localisationId = '') => {
-      closeAllModals();
-      setModalType(type);
-      setLocalisationId(localisationId)
-  };
+        closeAllModals();
+        setModalType(type);
+        setLocalisationId(localisationId)
+    };
 
 
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
+    const handleExportExcel = () => {
+        message.success('Exporting to Excel...');
+    };
 
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
+    const handleExportPDF = () => {
+        message.success('Exporting to PDF...');
+    };
 
   const handlePrint = () => {
     window.print();
@@ -69,43 +77,93 @@ const Localisation = () => {
     </Menu>
   );
 
-  const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
+const columns = [
+  {
+    title: (
+      <Space>
+        <EnvironmentOutlined style={{ color: 'red' }} />
+        <Text strong>Nom</Text>
+      </Space>
+    ),
+    dataIndex: 'nom',
+    key: 'nom',
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Nom',
-      dataIndex: 'nom',
-      key: 'nom',
-      render: (text) => (
-        <div>
-            {text}
-        </div>
-      ),
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>
+        <Text>{text}</Text>
+      </Tooltip>
+    ),
+  },
+  {
+    title: (
+      <Space>
+        <TagsOutlined style={{ color: '#fa8c16' }} />
+        <Text strong>Type</Text>
+      </Space>
+    ),
+    dataIndex: 'type_loc',
+    key: 'type_loc',
+    align: 'center',
+    render: (text) => (
+      <Text type="secondary">{text?.toUpperCase()}</Text>
+    ),
+  },
+  {
+    title: (
+      <Space>
+        <ApartmentOutlined style={{ color: '#722ed1' }} />
+        <Text strong>Parent</Text>
+      </Space>
+    ),
+    dataIndex: 'parent',
+    key: 'parent',
+    ellipsis: {
+      showTitle: false,
     },
-    {
-      title: 'Type',
-      dataIndex: 'type_loc',
-      key: 'type_loc',
-      render: (text) => (
-        <div>
-            {text.toUpperCase()}
-        </div>
-      ),
-    },
-    {
-      title: 'Parent',
-      dataIndex: 'parent',
-      key: 'parent',
-      render: (text) => (
-        <div>{text}</div>
-      ),
-    }
-  ];
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text ?? 'Aucun'}>
+        <Text>{text ?? <Text type="secondary">Aucun</Text>}</Text>
+      </Tooltip>
+    ),
+  },
+  {
+    title: <Text strong>Actions</Text>,
+    key: 'action',
+    align: 'center',
+    width: '120px',
+    render: (text, record) => (
+      <Space size="middle">
+        <Tooltip title="Modifier cette localisation">
+          <Button
+            type="text"
+            icon={<EditOutlined />}
+            style={{ color: '#1890ff' }}
+            onClick={() => handleEdit(record.id_localisation)}
+            aria-label="Modifier"
+          />
+        </Tooltip>
+        <Tooltip title="Supprimer définitivement">
+          <Popconfirm
+            title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
+            onConfirm={() => handleDelete(record.id_frequence)}
+            okText="Oui"
+            cancelText="Non"
+            okButtonProps={{ danger: true }}
+          >
+            <Button
+              type="text"
+              icon={<DeleteOutlined />}
+              style={{ color: '#ff4d4f' }}
+              aria-label="Supprimer"
+            />
+          </Popconfirm>
+        </Tooltip>
+      </Space>
+    ),
+  },
+];
 
   const  getActionMenu = (openModal) => {
     const handleClick = ({ key }) => {
@@ -134,7 +192,7 @@ const Localisation = () => {
     )
   }
 
-    const filteredData = data.filter(item =>
+  const filteredData = data.filter(item =>
     item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.type_loc?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.parent?.toLowerCase().includes(searchValue.toLowerCase())
