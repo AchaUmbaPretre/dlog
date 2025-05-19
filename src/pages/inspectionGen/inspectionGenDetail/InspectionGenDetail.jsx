@@ -152,7 +152,18 @@ const InspectionGenDetail = ({ inspectionId }) => {
 
                     <div className="inspectionGen_center">
                         <Dropdown overlay={getActionMenu(inspectionId, openModal)} trigger={['click']}>
-                            <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
+                            <Button 
+                                type="text"
+                                icon={<MoreOutlined />}
+                                style={{
+                                    color: '#595959',              // gris foncé professionnel
+                                    backgroundColor: '#f5f5f5',    // gris clair au hover
+                                    border: '1px solid #d9d9d9',   // bordure fine
+                                    borderRadius: '4px',
+                                    boxShadow: 'none',
+                                }}
+                        
+                            />
                         </Dropdown>
                     </div>
 
