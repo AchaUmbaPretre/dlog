@@ -5,7 +5,7 @@ import moment from 'moment';
 import config from '../../../config';
 import './inspectionGenDetail.scss';
 import imgDetail from './../../../assets/Pas_image.jpg';
-import { LeftCircleFilled, EyeOutlined, RightCircleFilled, PlusOutlined, MoreOutlined, FileSearchOutlined, ToolOutlined, FileTextOutlined, FileImageOutlined } from '@ant-design/icons';
+import { LeftCircleFilled, EyeOutlined, CalendarOutlined, RightCircleFilled, PlusOutlined, MoreOutlined, FileSearchOutlined, ToolOutlined, FileTextOutlined, FileImageOutlined } from '@ant-design/icons';
 import { handleRepair, handleValider } from '../../../utils/modalUtils';
 import InspectionGenValider from '../inspectionGenValider/InspectionGenValider';
 import InspectionGenDoc from '../inspectionGenDoc/InspectionGenDoc';
@@ -267,6 +267,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
                                     <span className="inspectiongen_txt">Caractéristique : {item.nom_carateristique_rep}</span>
                                     <span className="inspectiongen_txt">Montant : <strong>{item.montant} $</strong></span>
                                     <span className="inspectiongen_txt">Statut : <Tag color="orange">{item.nom_type_statut}</Tag></span>
+                                    <span className="inspectiongen_txt">Date de dernière mise à jour : <Tag color="blue" icon={<CalendarOutlined />}>{moment(item.update_at).format('LL')}</Tag></span>
                                     <span className="inspectiongen_txt txt">Commentaire : <strong>{item.commentaire}</strong></span>
                                     <span className="inspectiongen_txt txt">Avis : <strong>{item.avis}</strong></span>
                                 </div>
