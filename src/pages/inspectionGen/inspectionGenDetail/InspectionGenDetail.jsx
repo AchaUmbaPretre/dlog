@@ -5,9 +5,15 @@ import moment from 'moment';
 import config from '../../../config';
 import './inspectionGenDetail.scss';
 import imgDetail from './../../../assets/Pas_image.jpg';
-import { LeftCircleFilled, RightCircleFilled, PlusOutlined, MoreOutlined, FileSearchOutlined, ToolOutlined, FileTextOutlined, FileImageOutlined } from '@ant-design/icons';
-import { handleValider } from '../../../utils/modalUtils';
+import { LeftCircleFilled, EyeOutlined, RightCircleFilled, PlusOutlined, MoreOutlined, FileSearchOutlined, ToolOutlined, FileTextOutlined, FileImageOutlined } from '@ant-design/icons';
+import { handleRepair, handleValider } from '../../../utils/modalUtils';
 import InspectionGenValider from '../inspectionGenValider/InspectionGenValider';
+import InspectionGenDoc from '../inspectionGenDoc/InspectionGenDoc';
+import InspectionImage from '../inspectionImage/InspectionImage';
+import ReparationDetail from '../../controleTechnique/reparation/reparationDetail/ReparationDetail';
+import ReparationForm from '../../controleTechnique/reparation/reparationForm/ReparationForm';
+import InspectionGenFormTracking from '../inspectionGenTracking/inspectionGenFormTracking/InspectionGenFormTracking';
+import InspectionGenTracking from '../inspectionGenTracking/InspectionGenTracking';
 
 const InspectionGenDetail = ({ inspectionId }) => {
     const [datas, setDatas] = useState([]);
@@ -17,14 +23,18 @@ const InspectionGenDetail = ({ inspectionId }) => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [data, setData] = useState([]);
     const [modalType, setModalType] = useState(null);
-    
+    const [inspectionIds, setInspectionIds] = useState(null)
+    const [total, setTotal] = useState(null);
+
     const fetchDataInsp = useCallback(async (filters = '', searchValue = '') => {
         setLoading(true);
         try {
           const [inspectionData] = await Promise.all([
             getInspectionGen(searchValue, filters),
           ]);
-          setData(inspectionData.data.inspections);
+
+        setData(inspectionData?.data?.inspections || []);
+
         } catch (error) {
           notification.error({
             message: 'Erreur de chargement',
@@ -43,10 +53,11 @@ const InspectionGenDetail = ({ inspectionId }) => {
         setModalType(null);
     };
 
-    const openModal = (type, inspectionId = '', vehicule) => {
+  const openModal = (type, inspectionId = '') => {
       closeAllModals();
       setModalType(type);
-    };
+      setInspectionIds(inspectionId)
+  };
 
     useEffect(() => {
         setIdInspections(inspectionId)
@@ -59,6 +70,13 @@ const InspectionGenDetail = ({ inspectionId }) => {
             const idList = data.map(item => item.id_inspection_gen).sort((a, b) => a - b);
             setDatas(response.data || []);
             setIdValides(idList);
+
+            const totalMontant = response.data.reduce((acc, curr) => {
+            return acc + (curr.montant ?? 0);
+        }, 0);
+
+        setTotal(totalMontant);
+
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -75,7 +93,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
         }
     }, [data, idInspections, inspectionId]);
 
-    const getActionMenu = (record, openModal) => {
+/*     const getActionMenu = (record, openModal) => {
         const handleClick = ({ key }) => {
     
           switch (key) {
@@ -95,8 +113,88 @@ const InspectionGenDetail = ({ inspectionId }) => {
                 <Menu.Divider />
               </Menu>
             );
-    };
+    }; */
 
+    const getActionMenu = (record, openModal) => {
+        const handleClick = ({ key }) => {
+
+        switch (key) {
+            case 'voirDetail':
+            openModal('DetailInspection', record.id_inspection_gen)
+            break;
+            case 'validerInspection':
+            handleValider(openModal, record)
+            break;
+            case 'DetailSuivi':
+            openModal('DetailSuivi', record.id_sub_inspection_gen)
+            break;
+            case 'ajouterSuivi':
+            openModal('AddSuivi', record.id_sub_inspection_gen)
+            break;
+            case 'reparer':
+            handleRepair(openModal, record);
+            break;
+            case 'modifier':
+            openModal('Edit', record.id_sub_inspection_gen)
+            break;
+            case 'document':
+            openModal('Document', record.id_sub_inspection_gen)
+            break;
+            case 'image':
+            openModal('Image', record.id_sub_inspection_gen, record.immatriculation)
+            break;
+            default:
+            break;
+            }
+            };
+      
+        return (
+          <Menu onClick={handleClick}>
+            <Menu.SubMenu
+              key="inspection"
+              title={
+                <>
+                  <FileTextOutlined style={{ color: '#1890ff' }} /> Inspection
+                </>
+              }
+            >
+              <Menu.Item key="validerInspection">
+                <PlusOutlined style={{ color: 'orange' }} /> Valider
+              </Menu.Item>
+            </Menu.SubMenu>
+            <Menu.Divider />
+
+            <Menu.SubMenu
+              key="tracking"
+              title={
+                <>
+                  <FileSearchOutlined style={{ color: 'green' }} /> Tracking
+                </>
+              }
+            >
+              <Menu.Item key="DetailSuivi">
+                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+              </Menu.Item>
+              <Menu.Item key="ajouterSuivi">
+                <PlusOutlined style={{ color: 'orange' }} /> Ajouter
+              </Menu.Item>
+            </Menu.SubMenu>
+            <Menu.Divider />
+
+            <Menu.Item key="reparer">
+                <ToolOutlined style={{ color: 'orange' }} /> Réparer
+            </Menu.Item>
+
+            <Menu.Item key="document">
+              <FileTextOutlined style={{ color: 'blue' }} /> Document
+            </Menu.Item>
+
+            <Menu.Item key="image">
+              <FileImageOutlined style={{ color: 'magenta' }} /> Image
+            </Menu.Item>
+          </Menu>
+        );
+    };
     const goToNext = () => {
         setIdInspections((prevId) => {
             const currentIndex = idValides.indexOf(prevId);
@@ -142,6 +240,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
                     </div>
 
                     <div className="inspectionGen_top">
+                        <span className="inspection_span">TOTAL : <strong>{total} $</strong></span>
                         <span className="inspection_span">MARQUE : <strong>{headerInfo.marque?.toUpperCase()}</strong></span>
                         <span className="inspection_span">IMMATRICULATION : <strong>{headerInfo.immatriculation}</strong></span>
                         <span className="inspection_span">
@@ -150,25 +249,15 @@ const InspectionGenDetail = ({ inspectionId }) => {
                         </span>
                     </div>
 
-                    <div className="inspectionGen_center">
-                        <Dropdown overlay={getActionMenu(inspectionId, openModal)} trigger={['click']}>
-                            <Button 
-                                type="text"
-                                icon={<MoreOutlined />}
-                                style={{
-                                    color: '#595959',              // gris foncé professionnel
-                                    backgroundColor: '#f5f5f5',    // gris clair au hover
-                                    border: '1px solid #d9d9d9',   // bordure fine
-                                    borderRadius: '4px',
-                                    boxShadow: 'none',
-                                }}
-                            />
-                        </Dropdown>
-                    </div>
-
                     <div className="inspectionGen_bottom_wrapper">
                         {datas.map((item) => (
                             <div className="inspectionGen_bottom" key={item.id || `${item.nom_cat_inspection}-${item.type_rep}`}>
+                                <div className='inspectionGen_row_icones'>
+                                    <Dropdown overlay={getActionMenu(item, openModal)} trigger={['click']}>
+                                        <Button type='text' icon={<MoreOutlined />} style={{ color: 'blue' }} />
+                                    </Dropdown>
+                                </div>
+                                <Divider style={{margin:'0', margin:'5px'}} />
                                 <div className="inspection_rows_img">
                                     <Image src={item.img ? `${DOMAIN}/${item.img}` : imgDetail} alt="Image" className="img" />
                                 </div>
@@ -197,6 +286,72 @@ const InspectionGenDetail = ({ inspectionId }) => {
             >
                 <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchDataInsp} inspectionId={idInspections} />
             </Modal>
+            
+        <Modal
+            title=""
+            visible={modalType === 'DetailSuivi'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1023}
+            centered
+        >
+            <InspectionGenTracking idSubInspectionGen={inspectionIds} closeModal={() => setModalType(null)} fetchData={fetchDataInsp} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'AddSuivi'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={800}
+          centered
+        >
+          <InspectionGenFormTracking idSubInspectionGen={inspectionIds} closeModal={() => setModalType(null)} fetchData={fetchDataInsp} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Reparer'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1000}
+            centered
+        >
+            <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionIds} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Document'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1000}
+            centered
+        >
+          <InspectionGenDoc closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionIds} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'Image'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={750}
+          centered
+        >
+          <InspectionImage closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionIds} vehicule={''} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+          <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchDataInsp} idReparation={null} inspectionId={inspectionId} />
+        </Modal>
         </div>
     );
 };
