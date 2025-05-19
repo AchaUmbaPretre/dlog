@@ -318,6 +318,7 @@ const InspectionGen = () => {
 
   const handleAddInspection = () => openModal('Add');
   const handleEdit = (id) => openModal('Edit', id)
+  const handleDetail = (id) => openModal('DetailInspection', id)
 
   const closeAllModals = () => {
     setModalType(null);
@@ -494,13 +495,13 @@ const InspectionGen = () => {
             searchInput,
             searchedColumn
         ),
-        render: (text) => (
+        render: (text, record) => (
           <div className="vehicule-matricule">
             <span className="car-wrapper">
               <span className="car-boost" />
-                <CarOutlined className="car-icon-animated" />
-                <span className="car-shadow" />
-              </span>
+                <CarOutlined className="car-icon-animated" onClick={() => handleDetail(record.id_inspection_gen)} />
+              <span className="car-shadow" />
+            </span>
               <Tag color="blue">{text}</Tag>
           </div>
           ),
