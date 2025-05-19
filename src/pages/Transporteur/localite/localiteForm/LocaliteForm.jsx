@@ -116,21 +116,21 @@ const LocaliteForm = ({closeModal, fetchData}) => {
                                 >
                                     {loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
-  allowClear
-  showSearch
-  options={ville.map((item) => ({
-    value: item.id_ville,
-    label: `${item.nom_ville}`,
-  }))}
-  placeholder={
-    <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-      <EnvironmentOutlined style={{ color: '#8c8c8c' }} />
-      Sélectionnez une ville...
-    </span>
-  }
-  optionFilterProp="label"
-/>
-}
+                                        allowClear
+                                        showSearch
+                                        options={ville.map((item) => ({
+                                            value: item.id_ville,
+                                            label: `${item.nom_ville}`,
+                                        }))}
+                                        placeholder={
+                                            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                                                <EnvironmentOutlined style={{ color: '#8c8c8c' }} />
+                                                Sélectionnez une ville...
+                                            </span>
+                                        }
+                                        optionFilterProp="label"
+                                    />
+                                    }
                                 </Form.Item>
                             </Col>
 

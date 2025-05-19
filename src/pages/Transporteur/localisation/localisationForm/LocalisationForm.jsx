@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Form, Button, notification, message, Input, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import { getLocalite, getPays, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 
@@ -95,7 +95,11 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                                 label="Nom de la localisation"
                                 rules={[{ required: true, message: 'Veuillez fournir le nom de localisation' }]}
                             >
-                                <Input placeholder="Nom de la localisation..."/>
+                                <Input
+                                    prefix={<EnvironmentOutlined style={{ color: '#8c8c8c' }} />}
+                                    placeholder="Nom de la localisation..."
+                                    allowClear
+                                />
                             </Form.Item>
                         </Col>
 
@@ -108,6 +112,7 @@ const LocalisationForm = ({closeModal, fetchData}) => {
                                 <Select
                                     allowClear
                                     showSearch
+                                    suffixIcon={<EnvironmentOutlined style={{ color: '#8c8c8c' }} />}
                                     placeholder="Sélectionnez un type..."
                                     optionFilterProp="label"
                                     options={type.map((item) => ({
