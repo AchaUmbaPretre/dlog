@@ -712,7 +712,7 @@ const Reparation = () => {
             visible={modalType === 'Add'}
             onCancel={closeAllModals}
             footer={null}
-            width={900}
+            width={1000}
             centered
         >
             <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
