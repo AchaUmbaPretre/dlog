@@ -238,7 +238,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                             /> }
                                         </Form.Item>
                                 </Col>
-                                
+
                                 <Col xs={24} md={8}>
                                     <Form.Item
                                         name="date_entree"
@@ -337,7 +337,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                 }
                                             ]}
                                         >
-                                            {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'90px'}}/>}
+                                            {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>}
                                         </Form.Item>
                                 </Col>
                             </Row>
