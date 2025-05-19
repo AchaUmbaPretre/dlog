@@ -219,20 +219,28 @@ const columns = [
             <div className="client-rows-right">
                 <Dropdown overlay={getActionMenu(openModal)} trigger={['click']}>
                     <Button
-                        type="primary"
+                        type="text"
                         icon={<MoreOutlined />}
-                    >
-                    </Button>   
+                        style={{
+                        color: '#595959',              // gris foncé professionnel
+                        backgroundColor: '#f5f5f5',    // gris clair au hover
+                        border: '1px solid #d9d9d9',   // bordure fine
+                        borderRadius: '4px',
+                        boxShadow: 'none',
+                        }}
+                    />
                 </Dropdown>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button icon={<ExportOutlined />}>Export</Button>
-              </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
+
+                <Dropdown overlay={menu} trigger={['click']}>
+                    <Button icon={<ExportOutlined />}>Export</Button>
+                </Dropdown>
+                
+                <Button
+                    icon={<PrinterOutlined />}
+                    onClick={handlePrint}
+                >
+                    Print
+                </Button>
             </div>
           </div>
           <Table
