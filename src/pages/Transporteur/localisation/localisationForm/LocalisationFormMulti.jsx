@@ -177,12 +177,6 @@ const handleSubmit = async (values) => {
                                     label: item.nom_ville}))}
                                     placeholder="Sélectionnez une ville..."
                                     optionFilterProp="label"
-                                    onChange={(value) => {
-                                    const selected = ville.find(item => item.id_ville === value);
-                                    if (selected) {
-                                        setIdParent(selected.id_parent); 
-                                    }
-                                    }}
                                 />
                             </Form.Item>
                         </Col>
@@ -202,12 +196,6 @@ const handleSubmit = async (values) => {
                                     label: item.nom_pays}))}
                                     placeholder="Sélectionnez un pays..."
                                     optionFilterProp="label"
-                                    onChange={(value) => {
-                                        const selected = pays.find(item => item.id_pays === value);
-                                        if (selected) {
-                                            setIdParent(selected.id_parent); 
-                                        }
-                                        }}
                                 />
                             </Form.Item>
                         </Col>
@@ -227,12 +215,6 @@ const handleSubmit = async (values) => {
                                     label: item.name}))}
                                     placeholder="Sélectionnez une province..."
                                     optionFilterProp="label"
-                                    onChange={(value) => {
-                                        const selected = province.find(item => item.id === value);
-                                        if (selected) {
-                                            setIdParent(selected.id_parent); 
-                                        }
-                                        }}
                                 />
                             </Form.Item>
                         </Col>
@@ -252,12 +234,6 @@ const handleSubmit = async (values) => {
                                         label: item.name}))}
                                     placeholder="Sélectionnez une province..."
                                     optionFilterProp="label"
-                                    onChange={(value) => {
-                                        const selected = province.find(item => item.id === value);
-                                            if (selected) {
-                                                setIdParent(selected.id_parent); 
-                                            }
-                                        }}
                                 />
                             </Form.Item>
                         </Col>
@@ -277,12 +253,6 @@ const handleSubmit = async (values) => {
                                     label: item.nom_localite}))}
                                     placeholder="Sélectionnez une localité..."
                                     optionFilterProp="label"
-                                    onChange={(value) => {
-                                        const selected = localite.find(item => item.id_localite === value);
-                                        if (selected) {
-                                            setIdParent(selected.id_parent); 
-                                        }
-                                        }}
                                 />
                             </Form.Item>
                         </Col>
