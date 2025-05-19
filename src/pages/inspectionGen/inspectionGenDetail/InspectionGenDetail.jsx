@@ -257,7 +257,6 @@ const InspectionGenDetail = ({ inspectionId }) => {
                                         <Button type='text' icon={<MoreOutlined />} style={{ color: 'blue' }} />
                                     </Dropdown>
                                 </div>
-                                <Divider style={{margin:'0', margin:'5px'}} />
                                 <div className="inspection_rows_img">
                                     <Image src={item.img ? `${DOMAIN}/${item.img}` : imgDetail} alt="Image" className="img" />
                                 </div>
