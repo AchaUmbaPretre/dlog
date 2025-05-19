@@ -191,6 +191,56 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
 
                                 <Col xs={24} md={8}>
                                     <Form.Item
+                                        name="id_fournisseur"
+                                        label="Fournisseur"
+                                        rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Veuillez selectionner un fournisseur...',
+                                                },
+                                            ]}
+                                    >
+                                        {loadingData ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                            allowClear
+                                                showSearch
+                                                options={fournisseur.map((item) => ({
+                                                    value: item.id_fournisseur                                           ,
+                                                    label: `${item.nom_fournisseur}`,
+                                                }))}
+                                                placeholder="Sélectionnez un fournisseur..."
+                                                optionFilterProp="label"
+                                        /> }
+                                    </Form.Item>
+                                </Col>
+
+                                <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="id_statut_vehicule"
+                                            label="Statut véhicule"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Veuillez selectionner un statut...',
+                                                },
+                                                ]}
+                                        >
+                                            {loadingData ? <Skeleton.Input active={true} /> : 
+                                            <Select
+                                                allowClear
+                                                showSearch
+                                                options={statut?.map((item) => ({
+                                                value: item.id_statut_vehicule                                           ,
+                                                label: `${item.nom_statut_vehicule}`,
+                                                    }))}
+                                                placeholder="Sélectionnez un statut..."
+                                                optionFilterProp="label"
+                                            /> }
+                                        </Form.Item>
+                                </Col>
+                                
+                                <Col xs={24} md={8}>
+                                    <Form.Item
                                         name="date_entree"
                                         label="Date entrée"
                                         rules={[
@@ -244,31 +294,6 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                 </Col>
 
                                 <Col xs={24} md={8}>
-                                    <Form.Item
-                                        name="id_fournisseur"
-                                        label="Fournisseur"
-                                        rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Veuillez selectionner un fournisseur...',
-                                                },
-                                            ]}
-                                    >
-                                        {loadingData ? <Skeleton.Input active={true} /> : 
-                                        <Select
-                                            allowClear
-                                                showSearch
-                                                options={fournisseur.map((item) => ({
-                                                    value: item.id_fournisseur                                           ,
-                                                    label: `${item.nom_fournisseur}`,
-                                                }))}
-                                                placeholder="Sélectionnez un fournisseur..."
-                                                optionFilterProp="label"
-                                        /> }
-                                    </Form.Item>
-                                </Col>
-
-                                <Col xs={24} md={8}>
                                         <Form.Item
                                             name="code_rep"
                                             label="Code de réparation"
@@ -279,32 +304,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                 }
                                             ]}
                                         >
-                                            {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir le code de réparation..." style={{width:'100%'}}/>}
-                                        </Form.Item>
-                                </Col>
-
-                                <Col xs={24} md={8}>
-                                        <Form.Item
-                                            name="id_statut_vehicule"
-                                            label="Statut véhicule"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Veuillez selectionner un statut...',
-                                                },
-                                                ]}
-                                        >
-                                            {loadingData ? <Skeleton.Input active={true} /> : 
-                                            <Select
-                                                allowClear
-                                                showSearch
-                                                options={statut?.map((item) => ({
-                                                value: item.id_statut_vehicule                                           ,
-                                                label: `${item.nom_statut_vehicule}`,
-                                                    }))}
-                                                placeholder="Sélectionnez un statut..."
-                                                optionFilterProp="label"
-                                            /> }
+                                            {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Saisir le code de réparation..." style={{width:'100%'}}/>}
                                         </Form.Item>
                                 </Col>
 
@@ -322,7 +322,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                 {loadingData ? (
                                                     <Skeleton.Input active={true} />
                                                 ) : (
-                                                    <InputNumber size='large' style={{width:'100%'}} />
+                                                    <InputNumber style={{width:'100%'}} />
                                                 )}
                                         </Form.Item>
                                 </Col>
