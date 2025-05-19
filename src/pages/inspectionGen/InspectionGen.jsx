@@ -22,7 +22,6 @@ import InspectionGenDoc from './inspectionGenDoc/InspectionGenDoc';
 import { handleRepair, handleValider } from '../../utils/modalUtils';
 import InspectionImage from './inspectionImage/InspectionImage';
 import ReparationDetail from '../controleTechnique/reparation/reparationDetail/ReparationDetail';
-import { useMenu } from '../../context/MenuProvider';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -67,7 +66,6 @@ const InspectionGen = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [statistique, setStatistique] = useState(null);
-
 
     const handleExportExcel = () => {
       try {
@@ -206,7 +204,7 @@ const InspectionGen = () => {
       }
     };
 
-      const fetchDataInsp = useCallback(async (filters, searchValue = '') => {
+    const fetchDataInsp = useCallback(async (filters, searchValue = '') => {
         setLoading(true);
         try {
           const [inspectionData] = await Promise.all([

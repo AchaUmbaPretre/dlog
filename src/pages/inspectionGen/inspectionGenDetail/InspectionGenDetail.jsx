@@ -1,23 +1,24 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Card, notification, Button, Tooltip, Tag, Image, Divider } from 'antd';
+import { Card, Menu, Dropdown, Modal, notification, Button, Tooltip, Tag, Image, Divider } from 'antd';
 import { getInspectionGen, getSubInspection } from '../../../services/charroiService';
 import moment from 'moment';
 import config from '../../../config';
 import './inspectionGenDetail.scss';
 import imgDetail from './../../../assets/Pas_image.jpg';
-import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
-import { useMenu } from '../../../context/MenuProvider';
+import { LeftCircleFilled, RightCircleFilled, PlusOutlined, MoreOutlined, FileSearchOutlined, ToolOutlined, FileTextOutlined, FileImageOutlined } from '@ant-design/icons';
+import { handleValider } from '../../../utils/modalUtils';
+import InspectionGenValider from '../inspectionGenValider/InspectionGenValider';
 
 const InspectionGenDetail = ({ inspectionId }) => {
     const [datas, setDatas] = useState([]);
     const [loading, setLoading] = useState(false);
     const [idInspections, setIdInspections] = useState(inspectionId);
     const [idValides, setIdValides] = useState([]);
-/*     const { data, fetchDataInsp } = useMenu();
- */    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [data, setData] = useState([]);
-
-      const fetchDataInsp = useCallback(async (filters = '', searchValue = '') => {
+    const [modalType, setModalType] = useState(null);
+    
+    const fetchDataInsp = useCallback(async (filters = '', searchValue = '') => {
         setLoading(true);
         try {
           const [inspectionData] = await Promise.all([
@@ -37,6 +38,15 @@ const InspectionGenDetail = ({ inspectionId }) => {
       useEffect(() => {
         fetchDataInsp()
       }, [])
+
+    const closeAllModals = () => {
+        setModalType(null);
+    };
+
+    const openModal = (type, inspectionId = '', vehicule) => {
+      closeAllModals();
+      setModalType(type);
+    };
 
     useEffect(() => {
         setIdInspections(inspectionId)
@@ -64,6 +74,28 @@ const InspectionGenDetail = ({ inspectionId }) => {
             fetchDatas();
         }
     }, [data, idInspections, inspectionId]);
+
+    const getActionMenu = (record, openModal) => {
+        const handleClick = ({ key }) => {
+    
+          switch (key) {
+            case 'validerInspection':
+              handleValider(openModal, idInspections)
+              break;
+            default:
+              break;
+            }
+            };
+          
+            return (
+              <Menu onClick={handleClick}>
+                <Menu.Item key="validerInspection">
+                    <PlusOutlined style={{ color: 'orange' }} /> Valider
+                </Menu.Item>
+                <Menu.Divider />
+              </Menu>
+            );
+    };
 
     const goToNext = () => {
         setIdInspections((prevId) => {
@@ -118,6 +150,12 @@ const InspectionGenDetail = ({ inspectionId }) => {
                         </span>
                     </div>
 
+                    <div className="inspectionGen_center">
+                        <Dropdown overlay={getActionMenu(inspectionId, openModal)} trigger={['click']}>
+                            <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
+                        </Dropdown>
+                    </div>
+
                     <div className="inspectionGen_bottom_wrapper">
                         {datas.map((item) => (
                             <div className="inspectionGen_bottom" key={item.id || `${item.nom_cat_inspection}-${item.type_rep}`}>
@@ -139,6 +177,16 @@ const InspectionGenDetail = ({ inspectionId }) => {
                     </div>
                 </div>
             </Card>
+            <Modal
+                title=""
+                visible={modalType === 'AddValider'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={1000}
+                centered
+            >
+                <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchDataInsp} inspectionId={idInspections} />
+            </Modal>
         </div>
     );
 };
