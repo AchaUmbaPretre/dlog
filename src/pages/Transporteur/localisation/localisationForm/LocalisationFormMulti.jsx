@@ -266,7 +266,6 @@ const handleSubmit = async (values) => {
                                 <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>
                             </Form.Item>
                         </Col>
-
                     </Row>
 
                     <Form.Item>
