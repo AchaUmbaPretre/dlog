@@ -14,7 +14,6 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
   const [type, setType] = useState([]);
   const [pays, setPays] = useState([]);
   const [typeLocId, setTypeLocId] = useState(null);
-  const [idParent, setIdParent] = useState(null);
 
   const handleError = (message) => {
     notification.error({
