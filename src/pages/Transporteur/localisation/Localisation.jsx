@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tabs, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, DeleteOutlined, ApartmentOutlined, NumberOutlined, UserOutlined, TagsOutlined, PrinterOutlined, EditOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, DeleteOutlined, ApartmentOutlined, GlobalOutlined, TagsOutlined, PrinterOutlined, EditOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getLocalisation } from '../../../services/transporteurService';
 import LocalisationFormMulti from './localisationForm/LocalisationFormMulti';
 import LocalisationForm from './localisationForm/LocalisationForm';
@@ -293,9 +293,9 @@ const columns = [
             <TabPane
                 tab={
                     <span>
-                        <EnvironmentOutlined
+                        <GlobalOutlined
                             style={{
-                                color: 'red',
+                                color: 'green',
                                 fontSize: '18px',
                                 marginRight: '8px',
                             }}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, DeleteOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, DeleteOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getLocalite } from '../../../services/transporteurService';
 import LocaliteForm from './localiteForm/LocaliteForm';
 
@@ -210,10 +210,10 @@ const columns = [
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={700}
         centered
       >
-        <LocaliteForm closeModal={() => setModalType(null)}/>
+        <LocaliteForm closeModal={() => setModalType(null)} fetchData={fetchData}/>
       </Modal>
     </>
   );

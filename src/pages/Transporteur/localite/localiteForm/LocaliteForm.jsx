@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Col, Form, notification, Input, Row, Select, Skeleton, Button, message } from 'antd';
-import { SendOutlined } from '@ant-design/icons';
+import { Col, Form, Card, notification, Input, Row, Select, Skeleton, Button, message } from 'antd';
+import { SendOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getVille, postLocalite } from '../../../../services/transporteurService';
 
 const LocaliteForm = ({closeModal, fetchData}) => {
@@ -77,63 +77,70 @@ const LocaliteForm = ({closeModal, fetchData}) => {
             <div className="controle_title_rows">
                 <h2 className="controle_h2">ENREGISTRER UNE LOCALITE</h2>
             </div>
-            <div className="controle_wrapper">
-                <Form
-                    form={form}
-                    name="chauffeurForm"
-                    layout="vertical"
-                    autoComplete="off"
-                    className="custom-form"
-                    onFinish={onFinish}
-                >
-                    <Row gutter={12}>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="nom_localite"
-                                label="Nom"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Veuillez fournir le nom d'une localité...",
-                                    }
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input size='large' placeholder="Saisir le modèle..." style={{width:'100%'}}/>}
-                            </Form.Item>
-                        </Col>
+            <Card>
+                <div className="controle_wrapper">
+                    <Form
+                        form={form}
+                        name="chauffeurForm"
+                        layout="vertical"
+                        autoComplete="off"
+                        className="custom-form"
+                        onFinish={onFinish}
+                    >
+                        <Row gutter={12}>
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    name="nom_localite"
+                                    label="Nom"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: "Veuillez fournir le nom d'une localité...",
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Saisir..." style={{width:'100%'}}/>}
+                                </Form.Item>
+                            </Col>
 
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                name="id_ville"
-                                label="Ville"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir une ville...',
-                                    }
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    size='large'
-                                    showSearch
-                                    options={ville.map((item) => ({
-                                        value: item.id_ville                                      ,
-                                        label: `${item.nom_ville}`,
-                                    }))}
-                                    placeholder="Sélectionnez une ville..."
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                        </Col>
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    name="id_ville"
+                                    label="Ville"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez fournir une ville...',
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+  allowClear
+  showSearch
+  options={ville.map((item) => ({
+    value: item.id_ville,
+    label: `${item.nom_ville}`,
+  }))}
+  placeholder={
+    <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+      <EnvironmentOutlined style={{ color: '#8c8c8c' }} />
+      Sélectionnez une ville...
+    </span>
+  }
+  optionFilterProp="label"
+/>
+}
+                                </Form.Item>
+                            </Col>
 
-                        <Button type="primary" size='large' htmlType="submit" icon={<SendOutlined />}>
-                            Soumettre
-                        </Button>
-                    </Row>
-                </Form>
-            </div>
+                            <Button style={{marginTop:'10px'}} type="primary" loading={loading} disabled={loading} htmlType="submit" icon={<SendOutlined />}>
+                                Soumettre
+                            </Button>
+                        </Row>
+                    </Form>
+                </div>
+            </Card>
         </div>
     </>
   )

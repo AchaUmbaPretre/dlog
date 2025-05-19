@@ -119,7 +119,7 @@ const InspectionGenTracking = ({ idSubInspectionGen }) => {
       <div className="client-wrapper">
         <Card style={{marginBottom:'15px', background:'#f8f8f8'}}>
             <div style={{width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
-              <Title level={5}>DETAILS DE L'INSPECTION</Title>
+              <Title level={5}>DETAILS DES TRACKING</Title>
               <div>
                 <Text strong>MARQUE :</Text> <Text>{marque.toUpperCase()}</Text>
               </div>
