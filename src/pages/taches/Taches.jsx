@@ -584,6 +584,7 @@ const handleEdit = (idTache) => {
                 disabled={
                  role !== 'Admin' && !permissions[record.id_tache]?.can_view
                 }
+                style={{ color: 'blue' }}
                 aria-label="Voir les détails de la tâche"
                 className="view-details-btn"
               />
