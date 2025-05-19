@@ -26,6 +26,9 @@ export const getVille = async() => {
 export const getLocalite = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/localite`)
 }
+export const postLocalite = async (data) => {
+    return axios.post(`${DOMAIN}/api/transporteur/localite`, data)
+}
 
 export const getSiteLoc = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/site_loc`)

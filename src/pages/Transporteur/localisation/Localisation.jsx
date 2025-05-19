@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
+import { Table, Button, Space, Tabs, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, ApartmentOutlined, NumberOutlined, UserOutlined, TagsOutlined, PrinterOutlined, EditOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getLocalisation } from '../../../services/transporteurService';
 import LocalisationFormMulti from './localisationForm/LocalisationFormMulti';
 import LocalisationForm from './localisationForm/LocalisationForm';
+import TabPane from 'antd/es/tabs/TabPane';
+import Localite from '../localite/Localite';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -15,7 +17,13 @@ const Localisation = () => {
   const scroll = { x: 'max-content' };
   const [localisationId, setLocalisationId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
+  const [activeKey, setActiveKey] = useState(['1', '2']);
   
+  
+    const handleTabChange = (key) => {
+        setActiveKey(key);
+      };
+
     const fetchData = async () => {
       try {
         const { data } = await getLocalisation();
@@ -200,62 +208,107 @@ const columns = [
 
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
-            </div>
-            <h2 className="client-h2">Localisation</h2>
-          </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-                <Search 
-                    placeholder="Recherche..." 
-                    enterButton 
-                    onChange={(e) => setSearchValue(e.target.value)}
-                />
-            </div>
-            <div className="client-rows-right">
-                <Dropdown overlay={getActionMenu(openModal)} trigger={['click']}>
-                    <Button
-                        type="text"
-                        icon={<MoreOutlined />}
-                        style={{
-                        color: '#595959',              // gris foncé professionnel
-                        backgroundColor: '#f5f5f5',    // gris clair au hover
-                        border: '1px solid #d9d9d9',   // bordure fine
-                        borderRadius: '4px',
-                        boxShadow: 'none',
-                        }}
-                    />
-                </Dropdown>
 
-                <Dropdown overlay={menu} trigger={['click']}>
-                    <Button icon={<ExportOutlined />}>Export</Button>
-                </Dropdown>
-                
-                <Button
-                    icon={<PrinterOutlined />}
-                    onClick={handlePrint}
-                >
-                    Print
-                </Button>
-            </div>
-          </div>
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            loading={loading}
-            pagination={{ pageSize: 10 }}
-            rowKey="id"
-            bordered
-            size="small"
-            scroll={scroll}
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-          />
-        </div>
-      </div>
+        <Tabs
+            activeKey={activeKey[0]}
+            onChange={handleTabChange}
+            type="card"
+            tabPosition="top"
+            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+        >
+            <TabPane
+                tab={
+                    <span>
+                        <EnvironmentOutlined
+                            style={{
+                                color: 'red',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Localisation
+                    </span>
+                }
+                key="1"
+            >
+                <div className="client">
+                    <div className="client-wrapper">
+                    <div className="client-row">
+                        <div className="client-row-icon">
+                        <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
+                        </div>
+                        <h2 className="client-h2">Localisation</h2>
+                    </div>
+                    <div className="client-actions">
+                        <div className="client-row-left">
+                            <Search 
+                                placeholder="Recherche..." 
+                                enterButton 
+                                onChange={(e) => setSearchValue(e.target.value)}
+                            />
+                        </div>
+                        <div className="client-rows-right">
+                            <Dropdown overlay={getActionMenu(openModal)} trigger={['click']}>
+                                <Button
+                                    type="text"
+                                    icon={<MoreOutlined />}
+                                    style={{
+                                    color: '#595959',              // gris foncé professionnel
+                                    backgroundColor: '#f5f5f5',    // gris clair au hover
+                                    border: '1px solid #d9d9d9',   // bordure fine
+                                    borderRadius: '4px',
+                                    boxShadow: 'none',
+                                    }}
+                                />
+                            </Dropdown>
+
+                            <Dropdown overlay={menu} trigger={['click']}>
+                                <Button icon={<ExportOutlined />}>Export</Button>
+                            </Dropdown>
+                            
+                            <Button
+                                icon={<PrinterOutlined />}
+                                onClick={handlePrint}
+                            >
+                                Print
+                            </Button>
+                        </div>
+                    </div>
+                    <Table
+                        columns={columns}
+                        dataSource={filteredData}
+                        loading={loading}
+                        pagination={{ pageSize: 10 }}
+                        rowKey="id"
+                        bordered
+                        size="small"
+                        scroll={scroll}
+                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    />
+                    </div>
+                </div>
+            </TabPane>
+
+            
+            <TabPane
+                tab={
+                    <span>
+                        <EnvironmentOutlined
+                            style={{
+                                color: 'red',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Localité
+                    </span>
+                }
+                key="2"
+            >
+                <Localite/>
+            </TabPane>
+        </Tabs>
+
 
       <Modal
         title=""

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, DeleteOutlined, ApartmentOutlined, UserOutlined, TagsOutlined, PrinterOutlined, EditOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { getLocalisation, getLocalite } from '../../../services/transporteurService';
-import LocalisationFormMulti from './localisationForm/LocalisationFormMulti';
-import LocalisationForm from './localisationForm/LocalisationForm';
+import { ExportOutlined, DeleteOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { getLocalite } from '../../../services/transporteurService';
+import LocaliteForm from './localiteForm/LocaliteForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -42,6 +41,8 @@ const Localite = () => {
     const handleEdit = () => {
 
     }
+
+    const handleAdd = () => openModal('Add')
 
     const closeAllModals = () => {
         setModalType(null);
@@ -100,32 +101,14 @@ const columns = [
     title: (
       <Space>
         <TagsOutlined style={{ color: '#fa8c16' }} />
-        <Text strong>Type</Text>
+        <Text strong>Ville</Text>
       </Space>
     ),
-    dataIndex: 'type_loc',
-    key: 'type_loc',
+    dataIndex: 'nom_ville',
+    key: 'nom_ville',
     align: 'center',
     render: (text) => (
-      <Text type="secondary">{text?.toUpperCase()}</Text>
-    ),
-  },
-  {
-    title: (
-      <Space>
-        <ApartmentOutlined style={{ color: '#722ed1' }} />
-        <Text strong>Parent</Text>
-      </Space>
-    ),
-    dataIndex: 'parent',
-    key: 'parent',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text ?? 'Aucun'}>
-        <Text>{text ?? <Text type="secondary">Aucun</Text>}</Text>
-      </Tooltip>
+      <Text type="secondary">{text}</Text>
     ),
   },
   {
@@ -165,37 +148,8 @@ const columns = [
   },
 ];
 
-  const  getActionMenu = (openModal) => {
-    const handleClick = ({ key }) => {
-        switch (key) {
-            case 'add' : 
-                openModal('Add')
-                break
-            case 'addMulti' :
-                openModal('AddMulti')
-                break
-            default : 
-                break;
-        }
-    };
-
-    return (
-        <Menu onClick={handleClick}>
-            <Menu.Item key="add">
-                <PlusOutlined style={{ color: 'orange' }} /> Ajouter
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item key="addMulti">
-                <PlusOutlined style={{ color: 'orange' }} /> Ajouter Multi
-            </Menu.Item>
-        </Menu>
-    )
-  }
-
   const filteredData = data.filter(item =>
-    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.type_loc?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.parent?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_localite?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -217,19 +171,13 @@ const columns = [
                 />
             </div>
             <div className="client-rows-right">
-                <Dropdown overlay={getActionMenu(openModal)} trigger={['click']}>
-                    <Button
-                        type="text"
-                        icon={<MoreOutlined />}
-                        style={{
-                        color: '#595959',              // gris foncé professionnel
-                        backgroundColor: '#f5f5f5',    // gris clair au hover
-                        border: '1px solid #d9d9d9',   // bordure fine
-                        borderRadius: '4px',
-                        boxShadow: 'none',
-                        }}
-                    />
-                </Dropdown>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined />}
+                    onClick={handleAdd}
+                >
+                    Ajouter
+                </Button>
 
                 <Dropdown overlay={menu} trigger={['click']}>
                     <Button icon={<ExportOutlined />}>Export</Button>
@@ -265,18 +213,7 @@ const columns = [
         width={800}
         centered
       >
-        <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
-      </Modal>
-
-       <Modal
-        title=""
-        visible={modalType === 'AddMulti'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1000}
-        centered
-      >
-        <LocalisationFormMulti closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
+        <LocaliteForm closeModal={() => setModalType(null)}/>
       </Modal>
     </>
   );
