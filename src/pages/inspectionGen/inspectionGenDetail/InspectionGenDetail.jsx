@@ -162,7 +162,6 @@ const InspectionGenDetail = ({ inspectionId }) => {
                                     borderRadius: '4px',
                                     boxShadow: 'none',
                                 }}
-                        
                             />
                         </Dropdown>
                     </div>
