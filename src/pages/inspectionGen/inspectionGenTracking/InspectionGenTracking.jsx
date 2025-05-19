@@ -118,11 +118,15 @@ const InspectionGenTracking = ({ idSubInspectionGen }) => {
     <div className="client">
       <div className="client-wrapper">
         <Card style={{marginBottom:'15px'}}>
-            <>
-                    <Title level={4}>Détails de l’inspection</Title>
-                    <Text strong>Marque :</Text> <Text>{marque}</Text><br />
-                    <Text strong>Immatriculation :</Text> <Text>{vehicule}</Text><br />
-            </>
+            <div style={{width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+                    <Title level={5}>DETAILS DE L'INSPECTION</Title>
+                    <div>
+                      <Text strong>Marque :</Text> <Text>{marque}</Text>
+                    </div>
+                    <div>
+                      <Text strong>Immatriculation :</Text> <Text>{vehicule}</Text>
+                    </div>
+            </div>
           </Card>
         <div className="client-actions">
           <div className="client-row-left">
