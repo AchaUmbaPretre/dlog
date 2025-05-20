@@ -55,7 +55,7 @@ const LocalisationForm = ({closeModal, fetchData, localisationId}) => {
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
         }
-    };
+    }
 
     fetchData();
 }, [localisationId]);
