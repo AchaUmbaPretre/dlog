@@ -54,7 +54,6 @@ const Localite = () => {
         setLocalisationId(localisationId)
     };
 
-
     const handleExportExcel = () => {
         message.success('Exporting to Excel...');
     };
@@ -63,11 +62,11 @@ const Localite = () => {
         message.success('Exporting to PDF...');
     };
 
-  const handlePrint = () => {
-    window.print();
-  };
+    const handlePrint = () => {
+        window.print();
+    };
 
-  const menu = (
+    const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
         <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
