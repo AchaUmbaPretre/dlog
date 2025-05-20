@@ -18,6 +18,10 @@ const Localisation = () => {
   const [localisationId, setLocalisationId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [activeKey, setActiveKey] = useState(['1', '2']);
+  const [pagination, setPagination] = useState({
+      current: 1,
+      pageSize: 15,
+    });
   
   
     const handleTabChange = (key) => {
@@ -86,6 +90,17 @@ const Localisation = () => {
   );
 
 const columns = [
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
+  },
   {
     title: (
       <Space>
@@ -278,7 +293,7 @@ const columns = [
                         columns={columns}
                         dataSource={filteredData}
                         loading={loading}
-                        pagination={{ pageSize: 10 }}
+                        onChange={(pagination) => setPagination(pagination)}
                         rowKey="id"
                         bordered
                         size="small"
