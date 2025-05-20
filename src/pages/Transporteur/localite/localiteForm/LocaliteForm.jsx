@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Col, Form, Card, notification, Input, Row, Select, Skeleton, Button, message } from 'antd';
 import { SendOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { getVille, postLocalite } from '../../../../services/transporteurService';
+import { getLocaliteOne, getVille, postLocalite, putLocalite } from '../../../../services/transporteurService';
 
-const LocaliteForm = ({closeModal, fetchData}) => {
+const LocaliteForm = ({closeModal, fetchData, localiteId}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [ville, setVille] = useState([]);
@@ -14,6 +14,14 @@ const LocaliteForm = ({closeModal, fetchData}) => {
                 try {
                     const { data } = await getVille();
                     setVille(data)
+
+                    if(localiteId) {
+                        const { data : d } = await getLocaliteOne(localiteId);
+                        form.setFieldsValue({
+                            nom_localite : d[0]?.nom_localite,
+                            id_ville: d[0]?.id_ville
+                        })
+                    }
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 } finally {
@@ -22,7 +30,7 @@ const LocaliteForm = ({closeModal, fetchData}) => {
             }
 
             fetchData()
-        }, [])
+        }, [localiteId])
 
     const onFinish = async (values) => {
         const loadingKey = 'loadingLocalité';
@@ -37,12 +45,20 @@ const LocaliteForm = ({closeModal, fetchData}) => {
     
             setLoading(true);
     
-            await postLocalite(values);
-    
-            message.success({
-                content: 'La localité a été enregistré avec succès.',
-                key: loadingKey,
-            });
+            if (localiteId) {
+                await postLocalite(values);
+        
+                message.success({
+                    content: 'La localité a été enregistré avec succès.',
+                    key: loadingKey,
+                });
+            } else {
+                const valuesUpdate = {
+                    ...values,
+                    id_localite: localiteId
+                }
+                await putLocalite(valuesUpdate)
+            }
     
             form.resetFields();
             fetchData();
@@ -75,7 +91,7 @@ const LocaliteForm = ({closeModal, fetchData}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">ENREGISTRER UNE LOCALITE</h2>
+                <h2 className="controle_h2">{localiteId ? 'MODIFIER' : 'ENREGISTRER' } UNE LOCALITE</h2>
             </div>
             <Card>
                 <div className="controle_wrapper">
@@ -135,7 +151,7 @@ const LocaliteForm = ({closeModal, fetchData}) => {
                             </Col>
 
                             <Button size='middle' style={{marginTop:'10px'}} type="primary" loading={loading} disabled={loading} htmlType="submit" icon={<SendOutlined />}>
-                                Soumettre
+                                { localiteId ? 'Modifier' : 'Soumettre'}
                             </Button>
                         </Row>
                     </Form>

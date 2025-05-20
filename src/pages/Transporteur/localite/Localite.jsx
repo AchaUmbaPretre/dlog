@@ -42,9 +42,7 @@ const Localite = () => {
 
     }
   
-    const handleEdit = () => {
-
-    }
+    const handleEdit = (id) => openModal('Add', id)
 
     const handleAdd = () => openModal('Add')
 
@@ -137,14 +135,14 @@ const columns = [
             type="text"
             icon={<EditOutlined />}
             style={{ color: '#1890ff' }}
-            onClick={() => handleEdit(record.id_localisation)}
+            onClick={() => handleEdit(record.id_localite)}
             aria-label="Modifier"
           />
         </Tooltip>
         <Tooltip title="Supprimer définitivement">
           <Popconfirm
             title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
-            onConfirm={() => handleDelete(record.id_frequence)}
+            onConfirm={() => handleDelete(record.id_localite)}
             okText="Oui"
             cancelText="Non"
             okButtonProps={{ danger: true }}
@@ -227,7 +225,7 @@ const columns = [
         width={700}
         centered
       >
-        <LocaliteForm closeModal={() => setModalType(null)} fetchData={fetchData}/>
+        <LocaliteForm closeModal={() => setModalType(null)} fetchData={fetchData} localiteId={localiteId} />
       </Modal>
     </>
   );
