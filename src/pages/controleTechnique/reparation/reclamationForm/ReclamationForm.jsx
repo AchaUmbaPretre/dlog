@@ -63,7 +63,7 @@ const ReclamationForm = ({closeModal, fetchData, id_sud_reparation}) => {
             message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
             fetchData();
             form.resetFields();
-            closeModal()
+            closeModal();
             
         } catch (error) {
             console.error("Erreur lors de l'ajout de controle technique:", error);
