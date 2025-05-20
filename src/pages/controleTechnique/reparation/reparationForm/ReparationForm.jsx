@@ -295,52 +295,52 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                             </Col>
 
                             <Col xs={24} md={8}>
-                                        <Form.Item
-                                            name="code_rep"
-                                            label="Code de réparation"
-                                            rules={[
-                                                {
-                                                    required: false,
-                                                    message: 'Veuillez fournir une référence...',
-                                                }
-                                            ]}
-                                        >
-                                            {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Saisir le code de réparation..." style={{width:'100%'}}/>}
-                                        </Form.Item>
+                                <Form.Item
+                                    name="code_rep"
+                                    label="Code de réparation"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez fournir une référence...',
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Saisir le code de réparation..." />}
+                                </Form.Item>
                             </Col>
 
                             <Col xs={24} md={8}>
-                                        <Form.Item
-                                            name="kilometrage"
-                                            label="Kilometrage"
-                                            rules={[
-                                                {
-                                                    required: false,
-                                                    message: 'Veuillez fournir une date...',
-                                                },
-                                            ]}
-                                        >
-                                                {loadingData ? (
-                                                    <Skeleton.Input active={true} />
-                                                ) : (
-                                                    <InputNumber style={{width:'100%'}} />
-                                                )}
-                                        </Form.Item>
+                                <Form.Item
+                                    name="kilometrage"
+                                    label="Kilometrage"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez fournir une date...',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? (
+                                        <Skeleton.Input active={true} />
+                                        ) : (
+                                            <InputNumber style={{width:'100%'}} />
+                                            )}
+                                </Form.Item>
                             </Col>
 
                             <Col xs={24} md={8}>
-                                    <Form.Item
-                                            name="commentaire"
-                                            label="Commentaire"
-                                            rules={[
-                                                {
-                                                    required: false,
-                                                    message: 'Veuillez fournir un commentaire...',
-                                                }
-                                            ]}
-                                        >
-                                            {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>}
-                                        </Form.Item>
+                                <Form.Item
+                                    name="commentaire"
+                                    label="Commentaire"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez fournir un commentaire...',
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>}
+                                </Form.Item>
                             </Col>
 
                         </Row>
