@@ -12,7 +12,7 @@ const Localite = () => {
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
-  const [localisationId, setLocalisationId] = useState(null);
+  const [localisatId, setLocalisationId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   
     const fetchData = async () => {
