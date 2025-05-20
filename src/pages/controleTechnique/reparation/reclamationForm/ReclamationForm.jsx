@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
-import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ShopOutlined, WarningOutlined, UserOutlined  } from '@ant-design/icons';
+import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
-import { getEvaluation, getInspectionValide, getPiece, getStatutVehicule, getTypeReparation, getVehicule, postReparation } from '../../../../services/charroiService';
+import { getPiece, getStatutVehicule, getTypeReparation } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
-import { getTypes } from '../../../../services/typeService';
 import moment from 'moment';
 import { getCat_inspection } from '../../../../services/batimentService';
-
-const { Option } = Select;
 
 const ReclamationForm = ({closeModal, fetchData, id_sud_reparation}) => {
     const [form] = Form.useForm();
@@ -18,7 +15,6 @@ const ReclamationForm = ({closeModal, fetchData, id_sud_reparation}) => {
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [loading, setLoading] = useState(false);
     const [ statut, setStatut ] = useState([]);
-    const [evaluation, setEvaluation] = useState([]);
     const [piece, setPiece] = useState([]);
     const [tache, setTache] = useState([]);
 
