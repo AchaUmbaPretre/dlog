@@ -324,7 +324,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                         <Skeleton.Input active={true} />
                                         ) : (
                                             <InputNumber style={{width:'100%'}} />
-                                            )}
+                                        )}
                                 </Form.Item>
                             </Col>
 
