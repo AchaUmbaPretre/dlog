@@ -161,6 +161,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                     >
                         <Card>
                             <Row gutter={12}>
+                            
                                 <Col xs={24} md={8}>
                                     <Form.Item
                                         name="id_vehicule"
@@ -326,6 +327,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                 )}
                                         </Form.Item>
                                 </Col>
+
                                 <Col xs={24} md={8}>
                                     <Form.Item
                                             name="commentaire"
@@ -340,6 +342,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                             {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>}
                                         </Form.Item>
                                 </Col>
+
                             </Row>
                         </Card>
 
