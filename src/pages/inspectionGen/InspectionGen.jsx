@@ -204,7 +204,7 @@ const InspectionGen = () => {
       }
     };
 
-    const fetchDataInsp = useCallback(async (filters, searchValue = '') => {
+    const fetchDataInsp = useCallback(async (filters, searchValue) => {
         setLoading(true);
         try {
           const [inspectionData] = await Promise.all([
@@ -299,7 +299,7 @@ const InspectionGen = () => {
     };
 
     useEffect(() => {
-      fetchDataInsp(filteredDatas);
+      fetchDataInsp(filteredDatas,searchValue);
   }, [searchValue, filteredDatas]);
 
 /*       useEffect(() => {

@@ -4,8 +4,9 @@ import './inspectionGenValider.scss'
 import { getSubInspection, postInspectionValide } from '../../../services/charroiService';
 import { notification } from 'antd';
 import { useSelector } from 'react-redux';
+import { useMenu } from '../../../context/MenuProvider';
 
-const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
+const InspectionGenValider = ({ closeModal, inspectionId }) => {
     const [data, setData] = useState([]);
     const scroll = { x: 400 };
     const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
     const [manoeuvreData, setManoeuvreData] = useState({});
     const [budgetValide, setBudgetValide] = useState({});
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    
+    const { fetchDataInsp } = useMenu();
 
     const fetchDatas = async() => {
         try {
@@ -164,7 +165,7 @@ const InspectionGenValider = ({ closeModal, fetchData, inspectionId }) => {
             setManoeuvreData({});
             setBudgetValide({});
             fetchDatas();
-            fetchData();
+            fetchDataInsp();
             closeModal();
         
           } catch (error) {
