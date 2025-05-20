@@ -12,7 +12,7 @@ const Localite = () => {
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
-  const [localisatId, setLocalisationId] = useState(null);
+  const [localiteId, setLocaliteId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   
     const fetchData = async () => {
@@ -51,7 +51,7 @@ const Localite = () => {
     const openModal = (type, localisationId = '') => {
         closeAllModals();
         setModalType(type);
-        setLocalisationId(localisationId)
+        setLocaliteId(localisationId)
     };
 
     const handleExportExcel = () => {
