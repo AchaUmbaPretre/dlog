@@ -51,9 +51,7 @@ const Localisation = () => {
 
     }
   
-    const handleEdit = () => {
-
-    }
+    const handleEdit = (id) => openModal('Add', id)
 
     const closeAllModals = () => {
         setModalType(null);

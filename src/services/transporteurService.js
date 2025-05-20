@@ -7,8 +7,16 @@ export const getLocalisation = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/localisation`)
 }
 
+export const getLocalisationOne = async(id) => {
+    return axios.get(`${DOMAIN}/api/transporteur/localisation/one?id_localisation=${id}`)
+}
+
 export const postLocalisation = async(data) => {
     return axios.post(`${DOMAIN}/api/transporteur/localisation`, data)
+}
+
+export const putLocalisation = async(data) => {
+    return axios.put(`${DOMAIN}/api/transporteur/localisation`, data)
 }
 
 export const getTypeLocalisation = async() => {

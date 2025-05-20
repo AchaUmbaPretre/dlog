@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { Form, Button, notification, message, Input, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
 import { PlusCircleOutlined, EnvironmentOutlined } from '@ant-design/icons'
-import { getLocalite, getPays, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
+import { getLocalisationOne, getLocalite, getPays, getTypeLocalisation, getVille, postLocalisation, putLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 
-const LocalisationForm = ({closeModal, fetchData}) => {
+const LocalisationForm = ({closeModal, fetchData, localisationId}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [province, setProvince] = useState([]);
@@ -39,13 +39,26 @@ const LocalisationForm = ({closeModal, fetchData}) => {
             setLocalite(localiteData.data);
             setPays(paysData.data);
 
+            if(localisationId) {
+                const { data: d } = await getLocalisationOne(localisationId);
+                setTypeLocId(d[0].type_loc)
+
+                form.setFieldsValue({
+                    nom : d[0].nom,
+                    type_loc : d[0].type_loc,
+                    id_parent: d[0].id_parent,
+                    commentaire: d[0].commentaire,
+                })
+
+            }
+
         } catch (error) {
             handleError('Une erreur est survenue lors du chargement des données.');
         }
     };
 
     fetchData();
-}, []);
+}, [localisationId]);
 
   const handleSubmit = async (values) => {
     await form.validateFields();
@@ -56,13 +69,24 @@ const LocalisationForm = ({closeModal, fetchData}) => {
     setLoading(true); 
 
     try {
-        const v = {
-            ...values,
-            type_loc: typeLocId,
-            id_nom : idParent
+
+        if(localisationId) {
+            const valput = {
+                ...values,
+                type_loc: typeLocId,
+                id_localisation : localisationId
+            }
+            await putLocalisation(valput);
+            message.success({ content: 'La localisation a été modifiée avec succès.', key: loadingKey });
+
+        } else{
+            const v = {
+                ...values,
+                type_loc: typeLocId,
+            }
+            await postLocalisation(v)
+            message.success({ content: 'La localisation a été enregistrée avec succès.', key: loadingKey });
         }
-        await postLocalisation(v)
-        message.success({ content: 'La localisation a été enregistrée avec succès.', key: loadingKey });
         form.resetFields();
         fetchData();
         closeModal();
