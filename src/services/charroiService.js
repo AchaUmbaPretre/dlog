@@ -358,8 +358,8 @@ export const getDocumentInspection = async (id) => {
 }
 
 //Historique
-export const getHistorique = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/historique`);
+export const getHistorique = async (data) => {
+    return axios.get(`${DOMAIN}/api/charroi/historique?searchValue=${data}`);
 }
 
 //Reclamation

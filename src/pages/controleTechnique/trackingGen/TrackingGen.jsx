@@ -20,19 +20,25 @@ const TrackingGen = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const scroll = { x: 'max-content' };
+    const [dateRecente, setDateRecente] = useState(null);
+    const [dateAncienne, setDateAncienne] = useState(null);
+    const [state, setState] = useState([]);
 
     const fetchData = async() => {
             try {
-                const { data } = await getHistorique();
-                setData(data);
+                const { data } = await getHistorique(searchValue);
+                setData(data?.data);
+                setDateRecente(data?.date_recente);
+                setDateAncienne(data?.date_ancienne);
+                setState(data?.statut)
                 setLoading(false);
     
             } catch (error) {
                 notification.error({
-                    message: 'Erreur de chargement',
-                    description: 'Une erreur est survenue lors du chargement des données.',
-                  });
-                  setLoading(false);
+                  message: 'Erreur de chargement',
+                  description: 'Une erreur est survenue lors du chargement des données.',
+                });
+                setLoading(false);
             }
         }
     
@@ -44,7 +50,7 @@ const TrackingGen = () => {
               }, 5000);
           
               return () => clearInterval(intervalId);
-      }, [])
+      }, [searchValue])
     
       const columns = [
             {
@@ -203,6 +209,17 @@ const TrackingGen = () => {
                             <FileSearchOutlined className='client-icon'/>
                         </div>
                         <h2 className="client-h2">Liste des tracking</h2>
+                    </div>
+
+                    <div className="client-row-lefts">
+                      <span className='client-title'>Resumé :</span>
+                      <div className="client-row-sou">
+                        <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
+                          <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Du <strong>{moment(dateRecente).format('LL')}</strong> au <strong>{moment(dateAncienne).format('LL')}</strong></span>
+                          <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Dernier statut : <strong>{state[0]?.nom_type_statut}</strong></span>
+                          <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Dernier statut du véhicule : <strong>{state[0]?.nom_statut_vehicule}</strong></span>
+                        </div>
+                      </div>
                     </div>
                 </div>
                 <div className="client-actions">
