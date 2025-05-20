@@ -99,7 +99,7 @@ const LocaliteForm = ({closeModal, fetchData}) => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Saisir..." style={{width:'100%'}}/>}
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Input  placeholder="Saisir..." style={{width:'100%'}}/>}
                                 </Form.Item>
                             </Col>
 
