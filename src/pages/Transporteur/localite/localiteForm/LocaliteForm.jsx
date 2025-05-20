@@ -134,7 +134,7 @@ const LocaliteForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Button style={{marginTop:'10px'}} type="primary" loading={loading} disabled={loading} htmlType="submit" icon={<SendOutlined />}>
+                            <Button size='middle' style={{marginTop:'10px'}} type="primary" loading={loading} disabled={loading} htmlType="submit" icon={<SendOutlined />}>
                                 Soumettre
                             </Button>
                         </Row>
