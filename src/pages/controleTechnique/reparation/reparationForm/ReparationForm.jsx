@@ -150,19 +150,19 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
             <div className="controle_title_rows">
                 <h2 className="controle_h2">{idReparations ? 'MODIFIER UNE REPARATION' : 'ENREGISTRER UNE REPARATION'}</h2>
             </div>
-                <div className="controle_wrapper">
-                    <Form
-                        form={form}
-                        name="chauffeurForm"
-                        layout="vertical"
-                        autoComplete="off"
-                        className="custom-form"
-                        onFinish={onFinish}
-                    >
-                        <Card>
-                            <Row gutter={12}>
-                            
-                                <Col xs={24} md={8}>
+            <div className="controle_wrapper">
+                <Form
+                    form={form}
+                    name="chauffeurForm"
+                    layout="vertical"
+                    autoComplete="off"
+                    className="custom-form"
+                    onFinish={onFinish}
+                >
+                    <Card>
+                        <Row gutter={12}>
+
+                            <Col xs={24} md={8}>
                                     <Form.Item
                                         name="id_vehicule"
                                         label="Matricule"
@@ -188,9 +188,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                             />
                                         )}
                                     </Form.Item>
-                                </Col>
+                            </Col>
 
-                                <Col xs={24} md={8}>
+                            <Col xs={24} md={8}>
                                     <Form.Item
                                         name="id_fournisseur"
                                         label="Fournisseur"
@@ -213,9 +213,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                 optionFilterProp="label"
                                         /> }
                                     </Form.Item>
-                                </Col>
+                            </Col>
 
-                                <Col xs={24} md={8}>
+                            <Col xs={24} md={8}>
                                         <Form.Item
                                             name="id_statut_vehicule"
                                             label="Statut véhicule"
@@ -238,9 +238,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                 optionFilterProp="label"
                                             /> }
                                         </Form.Item>
-                                </Col>
+                            </Col>
 
-                                <Col xs={24} md={8}>
+                            <Col xs={24} md={8}>
                                     <Form.Item
                                         name="date_entree"
                                         label="Date entrée"
@@ -258,9 +258,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                 <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
                                             )}
                                         </Form.Item>
-                                </Col>
+                            </Col>
 
-                                <Col xs={24} md={8}>
+                            <Col xs={24} md={8}>
                                     <Form.Item
                                         name="date_prevu"
                                         label="Date prevue"
@@ -277,9 +277,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                         <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
                                     )}
                                     </Form.Item>
-                                </Col>
+                            </Col>
 
-                                <Col xs={24} md={8}>
+                            <Col xs={24} md={8}>
                                         <Form.Item
                                             name="cout"
                                             label="Cout(devise)"
@@ -292,9 +292,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                         >
                                             {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir le cout..." style={{width:'100%'}}/>}
                                         </Form.Item>
-                                </Col>
+                            </Col>
 
-                                <Col xs={24} md={8}>
+                            <Col xs={24} md={8}>
                                         <Form.Item
                                             name="code_rep"
                                             label="Code de réparation"
@@ -307,9 +307,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                         >
                                             {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Saisir le code de réparation..." style={{width:'100%'}}/>}
                                         </Form.Item>
-                                </Col>
+                            </Col>
 
-                                <Col xs={24} md={8}>
+                            <Col xs={24} md={8}>
                                         <Form.Item
                                             name="kilometrage"
                                             label="Kilometrage"
@@ -326,9 +326,9 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                     <InputNumber style={{width:'100%'}} />
                                                 )}
                                         </Form.Item>
-                                </Col>
+                            </Col>
 
-                                <Col xs={24} md={8}>
+                            <Col xs={24} md={8}>
                                     <Form.Item
                                             name="commentaire"
                                             label="Commentaire"
@@ -341,104 +341,104 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                         >
                                             {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'80px'}}/>}
                                         </Form.Item>
-                                </Col>
+                            </Col>
 
-                            </Row>
-                        </Card>
+                        </Row>
+                    </Card>
 
-                            {/* Réparations dynamiques */}
-                            <Form.List name="reparations">
-                            {(fields, { add, remove }) => (
-                                <>
-                                <Divider className='title_row'>Réparations</Divider>
-                                {fields.map(({ key, name, ...restField }) => (
-                                    <Card>
-                                        <Row key={key} gutter={12} align="middle">
+                        {/* Réparations dynamiques */}
+                        <Form.List name="reparations">
+                                {(fields, { add, remove }) => (
+                                    <>
+                                    <Divider className='title_row'>Réparations</Divider>
+                                    {fields.map(({ key, name, ...restField }) => (
+                                        <Card>
+                                            <Row key={key} gutter={12} align="middle">
 
-                                            <Col xs={24} md={7}>
-                                                <Form.Item
-                                                {...restField}
-                                                name={[name, 'id_type_reparation']}
-                                                label="Type de réparation"
-                                                rules={[
-                                                    { required: true, message: 'Veuillez fournir une réparation...' },
-                                                ]}
-                                                >
-                                                <Select
-                                                    allowClear
-                                                    showSearch
-                                                    options={reparation.map((item) => ({
-                                                        value: item.id_type_reparation,
-                                                        label: `${item.type_rep}`,
-                                                    }))}
-                                                    placeholder="Sélectionnez un type de réparation..."
-                                                    optionFilterProp="label"
-                                                />
-                                                </Form.Item>
-                                            </Col>
-
-                                            <Col xs={24} md={7}>
-                                                <Form.Item
-                                                {...restField}
-                                                name={[name, 'montant']}
-                                                label="Montant"
-                                                rules={[
-                                                    { required: false, message: 'Veuillez fournir le montant...' },
-                                                ]}
-                                                >
-                                                    <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
-                                                </Form.Item>
-                                            </Col>
-                                            <Col xs={24} md={8}>
-                                                <Form.Item
-                                                {...restField}
-                                                name={[name, 'description']}
-                                                label="Description"
-                                                rules={[
-                                                    { required: true, message: 'Veuillez fournir une description...' },
-                                                ]}
-                                                >
-                                                    <Input.TextArea
-                                                        placeholder="Saisir la description"
-                                                        style={{ width: '100%', resize: 'none' }}
+                                                <Col xs={24} md={7}>
+                                                    <Form.Item
+                                                    {...restField}
+                                                    name={[name, 'id_type_reparation']}
+                                                    label="Type de réparation"
+                                                    rules={[
+                                                        { required: true, message: 'Veuillez fournir une réparation...' },
+                                                    ]}
+                                                    >
+                                                    <Select
+                                                        allowClear
+                                                        showSearch
+                                                        options={reparation.map((item) => ({
+                                                            value: item.id_type_reparation,
+                                                            label: `${item.type_rep}`,
+                                                        }))}
+                                                        placeholder="Sélectionnez un type de réparation..."
+                                                        optionFilterProp="label"
                                                     />
-                                                </Form.Item>
-                                            </Col>
-                                            <Col xs={24} md={2}>
-                                                <Button
-                                                type="text"
-                                                danger
-                                                icon={<MinusCircleOutlined />}
-                                                onClick={() => remove(name)}
-                                                >
-                                                </Button>
-                                            </Col>
-                                        </Row>
-                                    </Card>
-                                ))}
-                                { subInspectionId == null &&
-                                <Form.Item>
-                                    <Button
-                                    type="dashed"
-                                    onClick={() => add()}
-                                    icon={<PlusCircleOutlined />}
-                                    style={{ width: '100%' }}
-                                    >
-                                    Ajouter une réparation
-                                    </Button>
-                                </Form.Item>
-                                }
-                            </>
-                            )}
-                            </Form.List>
+                                                    </Form.Item>
+                                                </Col>
+
+                                                <Col xs={24} md={7}>
+                                                    <Form.Item
+                                                    {...restField}
+                                                    name={[name, 'montant']}
+                                                    label="Montant"
+                                                    rules={[
+                                                        { required: false, message: 'Veuillez fournir le montant...' },
+                                                    ]}
+                                                    >
+                                                        <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
+                                                    </Form.Item>
+                                                </Col>
+                                                <Col xs={24} md={8}>
+                                                    <Form.Item
+                                                    {...restField}
+                                                    name={[name, 'description']}
+                                                    label="Description"
+                                                    rules={[
+                                                        { required: true, message: 'Veuillez fournir une description...' },
+                                                    ]}
+                                                    >
+                                                        <Input.TextArea
+                                                            placeholder="Saisir la description"
+                                                            style={{ width: '100%', resize: 'none' }}
+                                                        />
+                                                    </Form.Item>
+                                                </Col>
+                                                <Col xs={24} md={2}>
+                                                    <Button
+                                                    type="text"
+                                                    danger
+                                                    icon={<MinusCircleOutlined />}
+                                                    onClick={() => remove(name)}
+                                                    >
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </Card>
+                                    ))}
+                                    { subInspectionId == null &&
+                                    <Form.Item>
+                                        <Button
+                                        type="dashed"
+                                        onClick={() => add()}
+                                        icon={<PlusCircleOutlined />}
+                                        style={{ width: '100%' }}
+                                        >
+                                        Ajouter une réparation
+                                        </Button>
+                                    </Form.Item>
+                                    }
+                                </>
+                                )}
+                        </Form.List>
                         <div style={{ marginTop: '20px' }}>
                             <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>
                                 { idReparations ? 'Modifier' : 'Soumettre'}
                             </Button>
                         </div>
-                    </Form>
-                </div>
+                </Form>
             </div>
+        </div>
         <Modal
             title=""
             visible={modalType === 'Detail'}
