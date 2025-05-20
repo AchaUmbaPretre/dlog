@@ -104,7 +104,7 @@ const LocalisationForm = ({closeModal, fetchData, localisationId}) => {
     <Card>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>CREER UNE LOCALISATION</h2>                
+                <h2 className='controle_h2'>{localisationId ? 'MODIFIER' : 'CREER'} UNE LOCALISATION</h2>                
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -291,7 +291,7 @@ const LocalisationForm = ({closeModal, fetchData, localisationId}) => {
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={loading} disabled={loading}  icon={<PlusCircleOutlined />}>
-                            Soumettre
+                            { localisationId ? 'Modifier' : 'Soumettre'}
                         </Button>
                     </Form.Item>
                 </Form>
