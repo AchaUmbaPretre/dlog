@@ -266,9 +266,9 @@ const columns = [
                                     type="text"
                                     icon={<MoreOutlined />}
                                     style={{
-                                    color: '#595959',              // gris foncé professionnel
-                                    backgroundColor: '#f5f5f5',    // gris clair au hover
-                                    border: '1px solid #d9d9d9',   // bordure fine
+                                    color: '#595959',              
+                                    backgroundColor: '#f5f5f5',    
+                                    border: '1px solid #d9d9d9',
                                     borderRadius: '4px',
                                     boxShadow: 'none',
                                     }}
