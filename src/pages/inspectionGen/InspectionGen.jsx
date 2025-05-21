@@ -413,7 +413,7 @@ const InspectionGen = () => {
             </Menu.Item>
           </Menu>
         );
-    };
+  };
 
   const columnStyles = {
         title: {
@@ -428,7 +428,7 @@ const InspectionGen = () => {
             display: 'none',
           },
         },
-    };
+  };
       
   const menus = (
         <Menu>
@@ -441,7 +441,7 @@ const InspectionGen = () => {
             </Menu.Item>
           ))}
         </Menu>
-    ); 
+  ); 
     
   const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
