@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { getLocalite } from '../../../services/transporteurService';
+import { getLocalite, getTrajet } from '../../../services/transporteurService';
 import TrajetForm from './trajetForm/TrajetForm';
 
 const { Search } = Input;
@@ -21,7 +21,7 @@ const Trajet = () => {
   
     const fetchData = async () => {
       try {
-        const { data } = await getLocalite();
+        const { data } = await getTrajet();
 
         setData(data);
         setLoading(false);

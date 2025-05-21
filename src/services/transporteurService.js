@@ -66,3 +66,7 @@ export const getTypeTarif = async() => {
 export const getTransporteur = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/transporteur`)
 }
+
+export const getTrajet = async() => {
+    return axios.get(`${DOMAIN}/api/transporteur/trajet`)
+}
