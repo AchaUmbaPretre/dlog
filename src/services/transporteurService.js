@@ -62,3 +62,7 @@ export const getModeTransport = async() => {
 export const getTypeTarif = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/type_tarif`)
 }
+
+export const getTransporteur = async() => {
+    return axios.get(`${DOMAIN}/api/transporteur/transporteur`)
+}
