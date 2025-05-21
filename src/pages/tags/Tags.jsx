@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input, message, Modal, notification, Table, Tag, Typography } from 'antd';
 import { getSearch } from '../../services/tacheService';
 import DetailTacheGlobalOne from '../taches/detailTacheGlobalOne/DetailTacheGlobalOne';
@@ -62,9 +62,9 @@ const Tags = () => {
     };
 
     if (searchValue) {
-      fetchData(); // N'appelle fetchData que si searchValue n'est pas vide
+      fetchData();
     } else {
-      setResults([]); // Réinitialiser les résultats si la recherche est vide
+      setResults([]);
     }
   }, [searchValue]);
 
@@ -136,16 +136,16 @@ const Tags = () => {
                     </div>
                 </div>
                 <Table
-                    dataSource={results}
-                    columns={columns}
-                    rowKey="id_tache" // Assurez-vous que le champ de la clé primaire correspond à votre structure
-                    loading={loading}
-                    pagination={false}
+                  dataSource={results}
+                  columns={columns}
+                  rowKey="id_tache"
+                  loading={loading}
+                  pagination={false}
                 />
             </div>
         </div>
 
-    <Modal
+      <Modal
         title=""
         visible={modalType === 'tache'}
         onCancel={closeAllModals}
@@ -178,7 +178,6 @@ const Tags = () => {
         <DetailOffre idOffre={idTache}/>
       </Modal>
     </>
-    
   );
 };
 
