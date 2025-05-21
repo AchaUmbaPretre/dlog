@@ -6,6 +6,7 @@ import LocalisationFormMulti from './localisationForm/LocalisationFormMulti';
 import LocalisationForm from './localisationForm/LocalisationForm';
 import TabPane from 'antd/es/tabs/TabPane';
 import Localite from '../localite/Localite';
+import Trajet from '../trajet/Trajet';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -232,14 +233,7 @@ const columns = [
             <TabPane
                 tab={
                     <span>
-                        <EnvironmentOutlined
-                            style={{
-                                color: 'red',
-                                fontSize: '18px',
-                                marginRight: '8px',
-                            }}
-                        />
-                            Localisation
+                        📍Localisation
                     </span>
                 }
                 key="1"
@@ -305,19 +299,23 @@ const columns = [
             <TabPane
                 tab={
                     <span>
-                        <GlobalOutlined
-                            style={{
-                                color: 'green',
-                                fontSize: '18px',
-                                marginRight: '8px',
-                            }}
-                        />
-                            Localité
+                        🏘️ Localité
                     </span>
                 }
                 key="2"
             >
                 <Localite/>
+            </TabPane>
+
+            <TabPane
+                tab={
+                    <span>
+                         🛣️ Trajets
+                    </span>
+                }
+                key="3"
+            >
+                <Trajet/>
             </TabPane>
         </Tabs>
 
