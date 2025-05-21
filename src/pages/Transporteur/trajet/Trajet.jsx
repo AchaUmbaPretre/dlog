@@ -220,7 +220,7 @@ const columns = [
             <div className="client-row-icon">
               <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
             </div>
-            <h2 className="client-h2">Localisation</h2>
+            <h2 className="client-h2">Trajet</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
