@@ -325,10 +325,10 @@ const InspectionGen = () => {
   };
 
   const openModal = (type, inspectionId = '', vehicule) => {
-      closeAllModals();
-      setModalType(type);
-      setInspectionId(inspectionId)
-      setVehicule(vehicule)
+    closeAllModals();
+    setModalType(type);
+    setInspectionId(inspectionId)
+    setVehicule(vehicule)
   };
 
   const getActionMenu = (record, openModal) => {
@@ -444,8 +444,8 @@ const InspectionGen = () => {
     ); 
     
   const handleFilterChange = (newFilters) => {
-      setFilteredDatas(newFilters); 
-    };
+    setFilteredDatas(newFilters); 
+  };
 
   const toggleColumnVisibility = (columnName, e) => {
     e.stopPropagation();
