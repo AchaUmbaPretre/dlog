@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Form, Row, Divider, Card, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
-import { getLocalisation, getModeTransport, getTypeTarif } from '../../../../services/transporteurService';
+import { useEffect, useState } from 'react'
+import { Form, Row, Divider, Card, Col, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
+import { getLocalisation, getModeTransport, getTransporteur, getTypeTarif } from '../../../../services/transporteurService';
+import { SendOutlined } from '@ant-design/icons';
 
 
 const TrajetForm = () => {
@@ -10,17 +11,20 @@ const TrajetForm = () => {
     const [ loadingData, setLoadingData ] = useState(false);
     const [ mode, setMode ] = useState([]);
     const [ tarif, setTarif ] = useState([]);
+    const [ trans, setTrans ] = useState([]);
 
     const fetchData = async () => {
         try {
-            const [locaData, modeData, typeData] = await Promise.all([
+            const [locaData, modeData, typeData, transData] = await Promise.all([
             getLocalisation(),
             getModeTransport(),
-            getTypeTarif()
+            getTypeTarif(),
+            getTransporteur()
         ])
         setLocal(locaData.data);
         setMode(modeData.data);
         setTarif(typeData.data);
+        setTrans(transData.data)
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -143,6 +147,26 @@ const TrajetForm = () => {
 
                         <Col xs={24} md={8}>
                             <Form.Item
+                                label="Transporteur"
+                                name="id_transporteur"
+                            >
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={trans?.map((item) => ({
+                                        value: item.id_transporteur ,
+                                        label: `${item.nom_transporteur}`,
+                                    }))}
+                                    optionFilterProp="label"
+                                    placeholder="Sélectionnez..."
+                                />
+                                }
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
                                 label="Distance"
                                 name="distance_km"
                                 rules={[{ required: false, message: 'Veuillez entrer la distance' }]}
@@ -250,6 +274,10 @@ const TrajetForm = () => {
                                 <InputNumber min={0} placeholder="ex: 4jours" style={{width:'100%'}}/>
                             </Form.Item>
                         </Col>
+
+                        <Button type="primary" size='large' htmlType="submit" icon={<SendOutlined />}>
+                            Soumettre
+                        </Button>
                     </Row>
                 </Form>
             </div>
