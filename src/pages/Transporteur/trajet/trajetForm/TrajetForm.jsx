@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
-import { getLocalisation, getModeTransport } from '../../../../services/transporteurService';
+import { getLocalisation, getModeTransport, getTypeTarif } from '../../../../services/transporteurService';
 
 
 const TrajetForm = () => {
@@ -9,15 +9,18 @@ const TrajetForm = () => {
     const [ local, setLocal ] = useState([]);
     const [ loadingData, setLoadingData ] = useState(false);
     const [ mode, setMode ] = useState([]);
+    const [ tarif, setTarif ] = useState([]);
 
     const fetchData = async () => {
         try {
-            const [locaData, modeData] = await Promise.all([
+            const [locaData, modeData, typeData] = await Promise.all([
             getLocalisation(),
-            getModeTransport()
+            getModeTransport(),
+            getTypeTarif()
         ])
         setLocal(locaData.data);
-        setMode(modeData.data)
+        setMode(modeData.data);
+        setTarif(typeData.data);
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -116,6 +119,28 @@ const TrajetForm = () => {
                                 }
                             </Form.Item>
                         </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Type tarif"
+                                name="type tarif"
+                                rules={[{ required: false, message: 'Veuillez sélectionner un type' }]}
+                            >
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={tarif?.map((item) => ({
+                                        value: item.id_type_tarif,
+                                        label: `${item.nom_type_tarif}`,
+                                    }))}
+                                    optionFilterProp="label"
+                                    placeholder="Sélectionnez..."
+                                />
+                                }
+                            </Form.Item>
+                        </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 label="Distance"
