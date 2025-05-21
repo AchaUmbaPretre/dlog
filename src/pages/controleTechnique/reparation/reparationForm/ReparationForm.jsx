@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { getTypes } from '../../../../services/typeService';
 import moment from 'moment';
 import ReparationDetail from '../reparationDetail/ReparationDetail';
+import { useMenu } from '../../../../context/MenuProvider';
 
 const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations}) => {
     const [form] = Form.useForm();
@@ -20,6 +21,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
     const [modalType, setModalType] = useState(null);
     const [idReparation, setIdReparation] = useState(null)
     const [data, setData] = useState([]);
+    const { fetchDataInsp } = useMenu();
     
     const fetchDatas = async () => {
         try {
@@ -129,9 +131,8 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
             message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
             fetchData();
             form.resetFields();
-            closeModal()
-
-            
+            closeModal();
+            fetchDataInsp();
         } catch (error) {
             console.error("Erreur lors de l'ajout de controle technique:", error);
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });

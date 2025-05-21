@@ -448,9 +448,9 @@ const InspectionGen = () => {
     };
 
   const toggleColumnVisibility = (columnName, e) => {
-        e.stopPropagation();
-        setColumnsVisibility(prev => ({
-          ...prev,
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
           [columnName]: !prev[columnName]
         }));
     };
