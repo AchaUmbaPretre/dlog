@@ -105,7 +105,7 @@ const TrajetForm = () => {
                                     }
                                 </Form.Item>
                             </Col>
-                                                        <Col xs={24} md={8}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Délai prévu"
                                     name="delai_prevu"
@@ -132,8 +132,6 @@ const TrajetForm = () => {
                                     <InputNumber min={0} placeholder="Saisir la distance..." style={{width:'100%'}}/>
                                 </Form.Item>
                             </Col>
-                                <Divider orientation="left" plain>Principaux</Divider>
-
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Mode"
@@ -195,7 +193,7 @@ const TrajetForm = () => {
                                     }
                                 </Form.Item>
                             </Col>
-
+                            <Divider />
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Poids réel"
