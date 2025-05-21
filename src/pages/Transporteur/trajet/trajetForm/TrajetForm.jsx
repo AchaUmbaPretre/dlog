@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
-import { getLocalisation } from '../../../../services/transporteurService';
+import { getLocalisation, getModeTransport } from '../../../../services/transporteurService';
 
 
 const TrajetForm = () => {
@@ -12,10 +12,12 @@ const TrajetForm = () => {
 
     const fetchData = async () => {
         try {
-            const [locaData] = await Promise.all([
-            getLocalisation()
+            const [locaData, modeData] = await Promise.all([
+            getLocalisation(),
+            getModeTransport()
         ])
-        setLocal(locaData.data)
+        setLocal(locaData.data);
+        setMode(modeData.data)
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -112,6 +114,15 @@ const TrajetForm = () => {
                                     placeholder="Sélectionnez..."
                                 />
                                 }
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Distance"
+                                name="distance_km"
+                                rules={[{ required: false, message: 'Veuillez entrer la distance' }]}
+                            >
+                                <InputNumber min={0} placeholder="Saisir la distance..." style={{width:'100%'}}/>
                             </Form.Item>
                         </Col>
                     </Row>
