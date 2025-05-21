@@ -220,7 +220,7 @@ const InspectionGen = () => {
         } finally {
           setLoading(false);
         }
-      }, []);
+    }, []);
     
     const handFilter = () => {
       fetchDataInsp()

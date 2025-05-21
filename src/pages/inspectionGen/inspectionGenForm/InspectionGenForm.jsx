@@ -9,6 +9,7 @@ import { icons } from '../../../utils/prioriteIcons';
 import html2canvas from 'html2canvas';
 import moment from 'moment';
 import config from '../../../config';
+import { useMenu } from '../../../context/MenuProvider';
 
 const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -24,6 +25,8 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
     const [uploadedImages, setUploadedImages] = useState({});
     const [iconPositionsMap, setIconPositionsMap] = useState({});
     const [data, setData] = useState([]);
+    const { fetchDataInsp } = useMenu();
+    
 
     const fetchDatas = async () => {
 
@@ -164,13 +167,14 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                     id_inspection_gen: data[0]?.id_inspection_gen,
                     formData
                 })
+                message.success({ content: "L'inspection a été mise a jour avec succès.", key: loadingKey });
             } else{
                 await postInspectionGen(formData);
+                message.success({ content: "L'inspection a été enregistrée avec succès.", key: loadingKey });
             }
     
-            message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
             form.resetFields();
-            fetchData();
+            fetchDataInsp();
             closeModal();
     
         } catch (error) {
