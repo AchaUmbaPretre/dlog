@@ -64,6 +64,7 @@ const TrajetForm = () => {
                 >
                     <Card>
                         <Row gutter={12}>
+                            <Divider orientation="left" plain>Principaux</Divider>
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Départ"
@@ -131,6 +132,7 @@ const TrajetForm = () => {
                                     <InputNumber min={0} placeholder="Saisir la distance..." style={{width:'100%'}}/>
                                 </Form.Item>
                             </Col>
+                                <Divider orientation="left" plain>Principaux</Divider>
 
                             <Col xs={24} md={8}>
                                 <Form.Item
