@@ -54,3 +54,7 @@ export const getSiteLoc = async() => {
 export const getPays = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/pays`)
 }
+
+export const getModeTransport = async() => {
+    return axios.get(`${DOMAIN}/api/transporteur/mode_transport`)
+}

@@ -8,6 +8,7 @@ const TrajetForm = () => {
     const [ loading, setLoading ] = useState(false);
     const [ local, setLocal ] = useState([]);
     const [ loadingData, setLoadingData ] = useState(false);
+    const [ mode, setMode ] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -97,9 +98,20 @@ const TrajetForm = () => {
                             <Form.Item
                                 label="Mode"
                                 name="id_mode"
-                                rules={[{ required: false, message: 'Veuillez sélectionner un chauffeur' }]}
+                                rules={[{ required: false, message: 'Veuillez sélectionner un mode' }]}
                             >
-
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={mode?.map((item) => ({
+                                            value: item.id_mode_transport,
+                                            label: `${item.nom_mode}`,
+                                    }))}
+                                    optionFilterProp="label"
+                                    placeholder="Sélectionnez..."
+                                />
+                                }
                             </Form.Item>
                         </Col>
                     </Row>
