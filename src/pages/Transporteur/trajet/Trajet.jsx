@@ -270,7 +270,7 @@ const columns = [
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={700}
+        width={900}
         centered
       >
         <TrajetForm closeModal={() => setModalType(null)} fetchData={fetchData} localiteId={localiteId} />

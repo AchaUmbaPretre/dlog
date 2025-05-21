@@ -6,13 +6,22 @@ import { getLocalisation } from '../../../../services/transporteurService';
 const TrajetForm = () => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
-    const [local, setLocal] = useState([]);
+    const [ local, setLocal ] = useState([]);
+    const [ loadingData, setLoadingData ] = useState(false);
 
     const fetchData = async () => {
-        const [locaData] = await Promise.all([
+        try {
+            const [locaData] = await Promise.all([
             getLocalisation()
         ])
         setLocal(locaData.data)
+            
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoadingData(false);
+        }
+
     }
 
     useEffect(()=> {
@@ -49,6 +58,46 @@ const TrajetForm = () => {
                                 label="Départ"
                                 name="id_depart"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un ' }]}
+                            >
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={local?.map((item) => ({
+                                            value: item.id_localisation,
+                                            label: `${item.nom}`,
+                                    }))}
+                                    optionFilterProp="label"
+                                    placeholder="Sélectionnez..."
+                                />
+                                }
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Arrivée"
+                                name="id_arrive"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un' }]}
+                            >
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={local?.map((item) => ({
+                                            value: item.id_localisation,
+                                            label: `${item.nom}`,
+                                    }))}
+                                    optionFilterProp="label"
+                                    placeholder="Sélectionnez..."
+                                />
+                                }
+                            </Form.Item>
+                        </Col>
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Mode"
+                                name="id_mode"
+                                rules={[{ required: false, message: 'Veuillez sélectionner un chauffeur' }]}
                             >
 
                             </Form.Item>
