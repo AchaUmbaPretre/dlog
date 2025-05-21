@@ -278,7 +278,7 @@ const TrajetForm = () => {
 
                         </Row>
                     </Card>
-                    <Button type="primary" size='large' htmlType="submit" icon={<SendOutlined />}>
+                    <Button type="primary" size='large' htmlType="submit" icon={<SendOutlined />} style={{marginTop:'20px'}}>
                         Soumettre
                     </Button>
                 </Form>
