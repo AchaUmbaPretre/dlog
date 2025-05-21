@@ -790,7 +790,7 @@ const InspectionGen = () => {
           }
     ]
 
-    const menu = (
+  const menu = (
       <Menu>
         <Menu.Item key="1" onClick={handleExportExcel}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -807,13 +807,13 @@ const InspectionGen = () => {
       </Menu>
     );
     
-    const filteredData = data.filter(item =>
-        item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) || 
-        item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) || 
-        item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) || 
-        item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
-        item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase())
-    );
+  const filteredData = data.filter(item =>
+    item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <>
