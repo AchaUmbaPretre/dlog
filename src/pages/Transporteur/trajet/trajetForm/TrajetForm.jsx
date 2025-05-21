@@ -275,10 +275,10 @@ const TrajetForm = () => {
                             </Form.Item>
                         </Col>
 
-                        <Button type="primary" size='large' htmlType="submit" icon={<SendOutlined />}>
-                            Soumettre
-                        </Button>
                     </Row>
+                    <Button type="primary" size='large' htmlType="submit" icon={<SendOutlined />}>
+                        Soumettre
+                    </Button>
                 </Form>
             </div>
         </div>
