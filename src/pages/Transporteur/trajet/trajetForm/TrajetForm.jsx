@@ -150,6 +150,106 @@ const TrajetForm = () => {
                                 <InputNumber min={0} placeholder="Saisir la distance..." style={{width:'100%'}}/>
                             </Form.Item>
                         </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Poids réel"
+                                name="poids_reel"
+                            >
+                                <InputNumber min={0} placeholder="ex: 100" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Poids volume"
+                                name="poids_volume"
+                            >
+                                <InputNumber min={0} placeholder="ex: 100" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Poids facture"
+                                name="poids_facture"
+                            >
+                                <InputNumber min={0} placeholder="ex: 150" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Cout principal"
+                                name="cout_principal"
+                            >
+                                <InputNumber min={0} placeholder="ex: 100$" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Manutention départ"
+                                name="manutention_depart"
+                            >
+                                <InputNumber min={0} placeholder="ex: 150" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Manutention arrivée"
+                                name="manutention_arrivee	"
+                                rules={[{ required: false, message: 'Veuillez fournir la manutention arrivée' }]}
+                            >
+                                <InputNumber min={0} placeholder=" ex: 200$" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Livraison locale"
+                                name="livraison_locale"
+                            >
+                                <InputNumber min={0} placeholder="ex: 150" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Frais"
+                                name="frais"
+                            >
+                                <InputNumber min={0} placeholder="ex: 90" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Total"
+                                name="total"
+                            >
+                                <InputNumber min={0} placeholder="ex: 100" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Délai prévu"
+                                name="delai_prevu"
+                            >
+                                <InputNumber min={0} placeholder="ex: 5 jours" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Délai réel"
+                                name="delai_reel"
+                            >
+                                <InputNumber min={0} placeholder="ex: 4jours" style={{width:'100%'}}/>
+                            </Form.Item>
+                        </Col>
                     </Row>
                 </Form>
             </div>
