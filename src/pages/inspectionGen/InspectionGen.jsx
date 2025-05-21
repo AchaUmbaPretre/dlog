@@ -451,9 +451,9 @@ const InspectionGen = () => {
     e.stopPropagation();
     setColumnsVisibility(prev => ({
       ...prev,
-          [columnName]: !prev[columnName]
-        }));
-    };
+      [columnName]: !prev[columnName]
+    }));
+  };
 
   const columns = [
     {
