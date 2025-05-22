@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, InfoCircleOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, InfoCircleOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 import { getDemandeVehicule } from '../../../services/charroiService';
 import moment from 'moment';
+import { statusIcons } from '../../../utils/prioriteIcons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -90,9 +91,9 @@ const columns = [
       const pageIndex = pagination.current || 1;
       return (pageIndex - 1) * pageSize + index + 1;
     },
-    width: "4%",
+    width: "3%",
   },
-  {
+/*   {
     title: (
       <Space>
         <LoginOutlined style={{ color: '#1890ff' }} />
@@ -106,11 +107,11 @@ const columns = [
         const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
         return (
         <Tooltip placement="topLeft" title={formattedDate}>
-            <Tag color="blue">{formattedDate}</Tag>
+            <Tag icon={<CalendarOutlined />}  color="blue">{formattedDate}</Tag>
         </Tooltip>
         );
     },
-  },
+  }, */
   {
     title: (
       <Space>
@@ -125,7 +126,7 @@ const columns = [
     const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
     return (
       <Tooltip placement="topLeft" title={formattedDate}>
-        <Tag color="green">{formattedDate}</Tag>
+        <Tag icon={<CalendarOutlined />} color="green">{formattedDate}</Tag>
       </Tooltip>
     );
   },
@@ -144,7 +145,7 @@ const columns = [
     const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
     return (
       <Tooltip placement="topLeft" title={formattedDate}>
-        <Tag color="orange">{formattedDate}</Tag>
+        <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
       </Tooltip>
     );
   },
@@ -156,8 +157,8 @@ const columns = [
         <Text strong>Type véhicule</Text>
       </Space>
     ),
-    dataIndex: 'type_vehicule',
-    key: 'type_vehicule',
+    dataIndex: 'nom_type_vehicule',
+    key: 'nom_type_vehicule',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
@@ -168,8 +169,8 @@ const columns = [
         <Text strong>Motif</Text>
       </Space>
     ),
-    dataIndex: 'motif',
-    key: 'motif',
+    dataIndex: 'nom_motif_demande',
+    key: 'nom_motif_demande',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
@@ -180,10 +181,29 @@ const columns = [
         <Text strong>Demandeur</Text>
       </Space>
     ),
-    dataIndex: 'id_demandeur',
-    key: 'id_demandeur',
+    dataIndex: 'nom_service',
+    key: 'nom_service',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
+  },
+    {
+    title: (
+      <Space>
+        <CheckCircleOutlined style={{ color: '#1890ff' }} />
+        <Text strong>Statut</Text>
+      </Space>
+    ),
+    dataIndex: 'nom_type_statut',
+    key: 'nom_type_statut',
+    align: 'center',
+    render: text => {
+        const { icon, color } = statusIcons[text] || {};
+        return (
+                <Space>
+                    <Tag icon={icon} color={color}>{text}</Tag>
+                </Space>
+            );
+    },
   },
   {
     title: (
@@ -191,9 +211,9 @@ const columns = [
     ),
     key: 'action',
     align: 'center',
-    width: '120px',
+    width: '100px',
     render: (text, record) => (
-      <Space size="middle">
+      <Space size="small">
         <Tooltip title="Modifier cette localisation">
           <Button
             type="text"
@@ -224,6 +244,11 @@ const columns = [
   },
 ];
 
+  const filteredData = data.filter(item =>
+    item.nom_motif_demande?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_service?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
 
   return (
     <>
@@ -231,7 +256,7 @@ const columns = [
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
+              <FileSyncOutlined className='client-icon' style={{color:'blue'}} />
             </div>
             <h2 className="client-h2">Liste des demandes</h2>
           </div>
@@ -266,7 +291,7 @@ const columns = [
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={filteredData}
             loading={loading}
             onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
