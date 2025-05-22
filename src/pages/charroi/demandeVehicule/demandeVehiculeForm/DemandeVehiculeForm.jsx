@@ -62,7 +62,7 @@ const DemandeVehiculeForm = ({closeModal}) => {
             user_cr : userId
         }
         await postDemandeVehicule(v);
-        message.success({ content: 'La demande a été enregistrée avec succès.', key: loadingKey });
+        message.success({ content: 'La demande a été envoyée avec succès.', key: loadingKey });
 
         form.resetFields();
         fetchData();
