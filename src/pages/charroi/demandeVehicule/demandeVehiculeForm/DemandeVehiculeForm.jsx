@@ -215,7 +215,7 @@ const DemandeVehiculeForm = () => {
 
                             <Col xs={24} md={8}>
                                 <Form.Item
-                                    label="Personne"
+                                    label="Personne(s) qui sort(ent) avec le véhicule"
                                     name="id_utilisateur"
                                     rules={[{ required: true, message: 'Veuillez sélectionner au moins une personne.' }]}
                                 >
@@ -223,6 +223,7 @@ const DemandeVehiculeForm = () => {
                                     <Select
                                         allowClear
                                         showSearch
+                                        mode="multiple"
                                         options={user?.map((item) => ({
                                             value: item.id_utilisateur,
                                             label: `${item.nom} - ${item.prenom ?? ''}`,
