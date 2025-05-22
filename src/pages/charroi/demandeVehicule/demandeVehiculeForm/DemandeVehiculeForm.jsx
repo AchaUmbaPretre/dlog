@@ -45,6 +45,7 @@ const DemandeVehiculeForm = () => {
                                 rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
                             >
                                 <DatePicker 
+                                    style={{width:'100%'}}
                                     showTime={{ format: 'HH:mm' }} 
                                     format="YYYY-MM-DD HH:mm" 
                                     placeholder="Choisir date et heure" 
@@ -59,6 +60,7 @@ const DemandeVehiculeForm = () => {
                                 rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
                             >
                                 <DatePicker 
+                                    style={{width:'100%'}}
                                     showTime={{ format: 'HH:mm' }} 
                                     format="YYYY-MM-DD HH:mm" 
                                     placeholder="Choisir date et heure" 
@@ -73,6 +75,7 @@ const DemandeVehiculeForm = () => {
                                 rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
                             >
                                 <DatePicker 
+                                    style={{width:'100%'}}
                                     showTime={{ format: 'HH:mm' }} 
                                     format="YYYY-MM-DD HH:mm" 
                                     placeholder="Choisir date et heure" 
