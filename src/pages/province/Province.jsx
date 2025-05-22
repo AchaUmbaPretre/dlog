@@ -161,7 +161,7 @@ const columns = [
 ];
 
   const filteredData = data.filter(item =>
-    item.nom_localite?.toLowerCase().includes(searchValue.toLowerCase())
+    item.name?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (

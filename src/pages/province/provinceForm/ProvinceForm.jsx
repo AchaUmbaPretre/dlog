@@ -1,9 +1,178 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
+import {
+  Col,
+  Form,
+  Card,
+  notification,
+  Input,
+  Row,
+  Select,
+  Skeleton,
+  Button,
+  message,
+} from 'antd';
+import { SendOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { getPays } from '../../../services/transporteurService';
+import { postProvince } from '../../../services/clientService';
 
-const ProvinceForm = () => {
+const ProvinceForm = ({ closeModal, fetchData, provinceId }) => {
+  const [form] = Form.useForm();
+  const [loadingData, setLoadingData] = useState(true);
+  const [pays, setPays] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchPays = async () => {
+      try {
+        const { data } = await getPays();
+        setPays(data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des pays :', error);
+        notification.error({
+          message: 'Chargement échoué',
+          description: 'Impossible de charger la liste des pays.',
+        });
+      } finally {
+        setLoadingData(false);
+      }
+    };
+
+    fetchPays();
+  }, []);
+
+  const onFinish = async (values) => {
+    const loadingKey = 'loadingProvince';
+
+    try {
+      await form.validateFields();
+
+      message.loading({
+        content: 'Traitement en cours, veuillez patienter...',
+        key: loadingKey,
+        duration: 0,
+      });
+
+      setLoading(true);
+
+      await postProvince(values)
+
+      message.success({
+        content: provinceId ? 'Province mise à jour avec succès' : 'Province enregistrée avec succès',
+        key: loadingKey,
+      });
+
+      form.resetFields();
+      fetchData();
+      closeModal();
+    } catch (error) {
+      console.error("Erreur lors de l'enregistrement :", error);
+
+      const errorMsg =
+        error?.response?.data?.error || "Une erreur inconnue est survenue. Veuillez réessayer.";
+
+      message.error({
+        content: 'Échec de l’enregistrement.',
+        key: loadingKey,
+      });
+
+      notification.error({
+        message: 'Erreur lors de l’enregistrement',
+        description: errorMsg,
+        placement: 'topRight',
+        duration: 6,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div>ProvinceForm</div>
-  )
-}
+    <div className="controle_form">
+      <div className="controle_title_rows">
+        <h2 className="controle_h2">
+          {provinceId ? 'MODIFIER' : 'ENREGISTRER'} UNE PROVINCE
+        </h2>
+      </div>
+      <Card>
+        <div className="controle_wrapper">
+          <Form
+            form={form}
+            layout="vertical"
+            autoComplete="off"
+            className="custom-form"
+            onFinish={onFinish}
+          >
+            <Row gutter={12}>
+              <Col xs={24}>
+                <Form.Item
+                  name="name"
+                  label="Nom"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Veuillez fournir le nom de la province.",
+                    },
+                  ]}
+                >
+                  {loadingData ? (
+                    <Skeleton.Input active />
+                  ) : (
+                    <Input placeholder="Saisir le nom..." />
+                  )}
+                </Form.Item>
+              </Col>
 
-export default ProvinceForm
+              <Col xs={24}>
+                <Form.Item
+                  name="id_pays"
+                  label="Pays"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Veuillez sélectionner un pays.',
+                    },
+                  ]}
+                >
+                  {loadingData ? (
+                    <Skeleton.Input active />
+                  ) : (
+                    <Select
+                      allowClear
+                      showSearch
+                      options={pays.map((item) => ({
+                        value: item.id_pays,
+                        label: item.nom_pays,
+                      }))}
+                      placeholder={
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <EnvironmentOutlined style={{ color: '#8c8c8c' }} />
+                          Sélectionnez un pays...
+                        </span>
+                      }
+                      optionFilterProp="label"
+                    />
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col xs={24}>
+                <Button
+                  type="primary"
+                  loading={loading}
+                  disabled={loading}
+                  htmlType="submit"
+                  icon={<SendOutlined />}
+                  style={{ marginTop: '10px' }}
+                >
+                  {provinceId ? 'Modifier' : 'Soumettre'}
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+export default ProvinceForm;
