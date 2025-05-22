@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Col, Form, Card, notification, Input, Row, Skeleton, Button, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 
-const PaysForm = ({closeModal, fetchData, localiteId}) => {
+const PaysForm = ({closeModal, fetchData, paysId}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     
@@ -74,7 +74,7 @@ const PaysForm = ({closeModal, fetchData, localiteId}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">{localiteId ? 'MODIFIER' : 'ENREGISTRER' } UNE LOCALITE</h2>
+                <h2 className="controle_h2">{paysId ? 'MODIFIER' : 'ENREGISTRER' } UN PAYS</h2>
             </div>
             <Card>
                 <div className="controle_wrapper">
@@ -103,7 +103,7 @@ const PaysForm = ({closeModal, fetchData, localiteId}) => {
                             </Col>
 
                             <Button size='middle' style={{marginTop:'10px'}} type="primary" loading={loading} disabled={loading} htmlType="submit" icon={<SendOutlined />}>
-                                { localiteId ? 'Modifier' : 'Soumettre'}
+                                { paysId ? 'Modifier' : 'Soumettre'}
                             </Button>
                         </Row>
                     </Form>
