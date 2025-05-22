@@ -81,7 +81,7 @@ const DemandeVehiculeForm = () => {
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Date & heure de départ prévue"
-                                    name="date_preuve"
+                                    name="date_prevue"
                                     rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
                                 >
                                     <DatePicker 
@@ -109,22 +109,22 @@ const DemandeVehiculeForm = () => {
                             </Col>
 
                             <Col xs={24} md={8}>
-                                    <Form.Item
-                                        label="Type de véhicule"
-                                        name="id_type_vehicule"
-                                        rules={[{ required: true, message: 'Veuillez sélectionner un type de vehicule' }]}
-                                    >
-                                        { loadingData ? <Skeleton.Input active={true} /> : 
-                                        <Select
-                                            allowClear
-                                            showSearch
-                                            options={type?.map((item) => ({
-                                                    value: item.id_type_vehicule,
-                                                    label: `${item.nom_type_vehicule}`,
-                                            }))}
-                                            optionFilterProp="label"
-                                            placeholder="Sélectionnez..."
-                                        />
+                                <Form.Item
+                                    label="Type de véhicule"
+                                    name="id_type_vehicule"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un type de vehicule' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={type?.map((item) => ({
+                                            value: item.id_type_vehicule,
+                                            label: `${item.nom_type_vehicule}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
                                         }
                                     </Form.Item>
                             </Col>
@@ -228,8 +228,8 @@ const DemandeVehiculeForm = () => {
                                             value: item.id_utilisateur,
                                             label: `${item.nom} - ${item.prenom ?? ''}`,
                                         }))}
-                                            optionFilterProp="label"
-                                            placeholder="Sélectionnez..."
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
                                     />
                                     }
                                 </Form.Item>
