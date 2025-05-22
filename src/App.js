@@ -66,6 +66,7 @@ import Piece from './pages/piece/Piece';
 import Page404 from './pages/page404/Page404';
 import { secure } from './utils/secure';
 import Localisation from './pages/Transporteur/localisation/Localisation';
+import DemandeVehicule from './pages/charroi/demandeVehicule/DemandeVehicule';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -339,6 +340,10 @@ function App() {
           path: '/localisation',
           element: secure('/localisation', <Localisation/>)
         },
+        {
+          path: '/demande_vehicule',
+          element: secure('/demande_vehicule', <DemandeVehicule/>)
+        }
       ]
     },
     { path: '/login', element: <Login /> },
