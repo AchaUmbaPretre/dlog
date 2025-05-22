@@ -374,3 +374,16 @@ export const getReclamationOne = async (id) => {
 export const postReclamation = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/reclamation`, data );
 }
+
+//Service demandeur
+export const getServiceDemandeur = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/serviceDemadeur`);
+}
+
+export const getTypeVehicule = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/type_vehicule`);
+}
+
+export const getMotif = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/motif`);
+}
