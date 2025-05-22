@@ -3,6 +3,7 @@ import { Form, Row, Divider, Card, Col, message, notification, InputNumber, Skel
 import { getMotif, getServiceDemandeur, getTypeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
+import { getUser } from '../../../../services/userService';
 
 
 const DemandeVehiculeForm = () => {
@@ -14,22 +15,24 @@ const DemandeVehiculeForm = () => {
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
     const [ local, setLocal ] = useState([]);
-
+    const [ user, setUser ] = useState([]);
 
     const fetchData = async () => {
         try {
-            const [ serviceData, typeData, motifData, clientData, localData ] = await Promise.all([
+            const [ serviceData, typeData, motifData, clientData, localData, userData ] = await Promise.all([
                 getServiceDemandeur(),
                 getTypeVehicule(),
                 getMotif(),
                 getClient(),
-                getLocalisation()
+                getLocalisation(),
+                getUser()
             ]) 
             setService(serviceData.data);
             setType(typeData.data);
             setMotif(motifData.data);
             setClient(clientData.data);
             setLocal(localData.data);
+            setUser(userData.data)
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -211,16 +214,16 @@ const DemandeVehiculeForm = () => {
 
                         <Col xs={24} md={8}>
                             <Form.Item
-                                label="Destination"
-                                name="id_localisation"
-                                rules={[{ required: true, message: 'Veuillez sélectionner une localisation.' }]}
+                                label="Personne"
+                                name="id_utilisateur"
+                                rules={[{ required: true, message: 'Veuillez sélectionner au moins une personne.' }]}
                             >
                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                 <Select
                                     allowClear
                                     showSearch
-                                    options={local?.map((item) => ({
-                                        value: item.id_localisation ,
+                                    options={user?.map((item) => ({
+                                        value: item.id_utilisateur,
                                         label: `${item.nom}`,
                                     }))}
                                         optionFilterProp="label"
