@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, InfoCircleOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
+import { getDemandeVehicule } from '../../../services/charroiService';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -20,8 +21,8 @@ const DemandeVehicule = () => {
   
     const fetchData = async () => {
       try {
-/*         const { data } = await getTrajet();
- */
+         const { data } = await getDemandeVehicule();
+
         setData(data);
         setLoading(false);
       } catch (error) {
