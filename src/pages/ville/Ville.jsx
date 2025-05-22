@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getProvince } from '../../services/clientService';
-import ProvinceForm from './provinceForm/ProvinceForm';
+import VilleForm from './villeForm/VilleForm';
+import { getVille } from '../../services/transporteurService';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -12,7 +13,7 @@ const Ville = () => {
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
-  const [provinceId, setProvinceId] = useState(null);
+  const [villeId, setVilleId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
       current: 1,
@@ -21,7 +22,7 @@ const Ville = () => {
   
     const fetchData = async () => {
       try {
-        const { data } = await getProvince();
+        const { data } = await getVille();
 
         setData(data);
         setLoading(false);
@@ -50,10 +51,10 @@ const Ville = () => {
         setModalType(null);
     };
 
-    const openModal = (type, provinceId = '') => {
+    const openModal = (type, villeId = '') => {
         closeAllModals();
         setModalType(type);
-        setProvinceId(provinceId)
+        setVilleId(villeId)
     };
 
     const handleExportExcel = () => {
@@ -98,8 +99,8 @@ const columns = [
         <Text strong>Nom</Text>
       </Space>
     ),
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'nom_ville',
+    key: 'nom_ville',
     ellipsis: {
       showTitle: false,
     },
@@ -113,11 +114,11 @@ const columns = [
     title: (
       <Space>
         <TagsOutlined style={{ color: '#fa8c16' }} />
-        <Text strong>Pays</Text>
+        <Text strong>Province</Text>
       </Space>
     ),
-    dataIndex: 'nom_pays',
-    key: 'nom_pays',
+    dataIndex: 'name',
+    key: 'name',
     align: 'center',
     render: (text) => (
       <Text type="secondary">{text}</Text>
@@ -161,7 +162,7 @@ const columns = [
 ];
 
   const filteredData = data.filter(item =>
-    item.name?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_ville?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -172,7 +173,7 @@ const columns = [
             <div className="client-row-icon">
               <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
             </div>
-            <h2 className="client-h2">Localisation</h2>
+            <h2 className="client-h2">Ville</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -225,7 +226,7 @@ const columns = [
         width={700}
         centered
       >
-        <ProvinceForm closeModal={() => setModalType(null)} fetchData={fetchData} provinceId={provinceId} />
+        <VilleForm closeModal={() => setModalType(null)} fetchData={fetchData} villeId={villeId} />
       </Modal>
     </>
   );

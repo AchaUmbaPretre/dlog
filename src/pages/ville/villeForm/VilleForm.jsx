@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import { SendOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getProvince, postProvince } from '../../../services/clientService';
+import { postVille } from '../../../services/transporteurService';
 
 const VilleForm = ({ closeModal, fetchData, villeId }) => {
   const [form] = Form.useForm();
@@ -53,10 +54,10 @@ const VilleForm = ({ closeModal, fetchData, villeId }) => {
 
       setLoading(true);
 
-      await postProvince(values)
+      await postVille(values)
 
       message.success({
-        content: provinceId ? 'Province mise à jour avec succès' : 'Province enregistrée avec succès',
+        content: villeId ? 'Ville mise à jour avec succès' : 'Ville enregistrée avec succès',
         key: loadingKey,
       });
 
@@ -138,7 +139,7 @@ const VilleForm = ({ closeModal, fetchData, villeId }) => {
                     <Select
                       allowClear
                       showSearch
-                      options={pays.map((item) => ({
+                      options={province.map((item) => ({
                         value: item.id,
                         label: item.name,
                       }))}
@@ -163,7 +164,7 @@ const VilleForm = ({ closeModal, fetchData, villeId }) => {
                   icon={<SendOutlined />}
                   style={{ marginTop: '10px' }}
                 >
-                  {provinceId ? 'Modifier' : 'Soumettre'}
+                  {villeId ? 'Modifier' : 'Soumettre'}
                 </Button>
               </Col>
             </Row>

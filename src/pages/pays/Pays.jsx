@@ -5,6 +5,7 @@ import { getPays } from '../../services/transporteurService';
 import PaysForm from './paysForm/PaysForm';
 import TabPane from 'antd/es/tabs/TabPane';
 import Province from '../province/Province';
+import Ville from '../ville/Ville';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -236,6 +237,17 @@ const columns = [
                 key="2"
             >
                 <Province/>
+            </TabPane>
+
+            <TabPane
+                tab={
+                    <span>
+                        📍 Ville
+                    </span>
+                }
+                key="3"
+            >
+                <Ville/>
             </TabPane>
         </Tabs>
 
