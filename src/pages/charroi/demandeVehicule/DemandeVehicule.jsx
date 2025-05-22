@@ -94,11 +94,11 @@ const columns = [
     title: (
       <Space>
         <LoginOutlined style={{ color: '#1890ff' }} />
-        <Text strong>Départ</Text>
+        <Text strong>Date chargement</Text>
       </Space>
     ),
-    dataIndex: 'depart',
-    key: 'depart',
+    dataIndex: 'date_chargement',
+    key: 'date_chargement',
     ellipsis: { showTitle: false },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
@@ -110,11 +110,11 @@ const columns = [
     title: (
       <Space>
         <LogoutOutlined style={{ color: '#52c41a' }} />
-        <Text strong>Arrivée</Text>
+        <Text strong>Date départ prevue</Text>
       </Space>
     ),
-    dataIndex: 'arrivee',
-    key: 'arrivee',
+    dataIndex: 'date_depart',
+    key: 'date_depart',
     ellipsis: { showTitle: false },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
@@ -126,11 +126,11 @@ const columns = [
     title: (
       <Space>
         <AimOutlined style={{ color: '#faad14' }} />
-        <Text strong>Distance</Text>
+        <Text strong>Date retour</Text>
       </Space>
     ),
-    dataIndex: 'distance_km',
-    key: 'distance_km',
+    dataIndex: 'date_retour',
+    key: 'date_retour',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
@@ -150,22 +150,33 @@ const columns = [
     title: (
       <Space>
         <FieldTimeOutlined style={{ color: '#eb2f96' }} />
-        <Text strong>Délai réel</Text>
+        <Text strong>Type véhicule</Text>
       </Space>
     ),
-    dataIndex: 'delai_reel',
-    key: 'delai_reel',
+    dataIndex: 'type_vehicule',
+    key: 'type_vehicule',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
   {
     title: (
       <Space>
-        <Text strong>Total</Text>
+        <Text strong>Motif</Text>
       </Space>
     ),
-    dataIndex: 'total',
-    key: 'total',
+    dataIndex: 'motif',
+    key: 'motif',
+    align: 'center',
+    render: (text) => <Text type="secondary">{text}</Text>,
+  },
+  {
+    title: (
+      <Space>
+        <Text strong>Demandeur</Text>
+      </Space>
+    ),
+    dataIndex: 'id_demandeur',
+    key: 'id_demandeur',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
