@@ -67,6 +67,7 @@ import Page404 from './pages/page404/Page404';
 import { secure } from './utils/secure';
 import Localisation from './pages/Transporteur/localisation/Localisation';
 import DemandeVehicule from './pages/charroi/demandeVehicule/DemandeVehicule';
+import Pays from './pages/pays/Pays';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -343,6 +344,10 @@ function App() {
         {
           path: '/demande_vehicule',
           element: secure('/demande_vehicule', <DemandeVehicule/>)
+        },
+        {
+          path: '/liste_pays',
+          element: secure('/demande_vehicule', <Pays/>)
         }
       ]
     },
