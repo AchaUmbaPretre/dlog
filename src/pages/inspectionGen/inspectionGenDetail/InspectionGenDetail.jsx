@@ -5,7 +5,7 @@ import moment from 'moment';
 import config from '../../../config';
 import './inspectionGenDetail.scss';
 import imgDetail from './../../../assets/Pas_image.jpg';
-import { LeftCircleFilled, EyeOutlined, CalendarOutlined, RightCircleFilled, PlusOutlined, MoreOutlined, FileSearchOutlined, ToolOutlined, FileTextOutlined, FileImageOutlined } from '@ant-design/icons';
+import { LeftCircleFilled, EyeOutlined, CalendarOutlined, DollarCircleOutlined, RightCircleFilled, CarOutlined, PlusOutlined, MoreOutlined, FileSearchOutlined, ToolOutlined, FileTextOutlined, FileImageOutlined } from '@ant-design/icons';
 import { handleRepair, handleValider } from '../../../utils/modalUtils';
 import InspectionGenValider from '../inspectionGenValider/InspectionGenValider';
 import InspectionGenDoc from '../inspectionGenDoc/InspectionGenDoc';
@@ -242,13 +242,22 @@ const InspectionGenDetail = ({ inspectionId }) => {
                     </div>
 
                     <div className="inspectionGen_top">
-                        <span className="inspection_span">TOTAL : <strong>{total} $</strong></span>
-                        <span className="inspection_span">MARQUE : <strong>{headerInfo.marque?.toUpperCase()}</strong></span>
-                        <span className="inspection_span">IMMATRICULATION : <strong>{headerInfo.immatriculation}</strong></span>
-                        <span className="inspection_span">
-                            DATE INSPECTION :{' '}
-                            <strong>{headerInfo.date_inspection ? moment(headerInfo.date_inspection).format('DD-MM-YYYY') : 'N/A'}</strong>
-                        </span>
+                      <span className="inspection_span">
+                        <DollarCircleOutlined style={{ color: '#13c2c2' }} /> TOTAL : <strong>{total} $</strong>
+                      </span>
+
+                      <span className="inspection_span">
+                        <CarOutlined style={{ color: '#722ed1' }} /> MARQUE : <strong>{headerInfo.marque?.toUpperCase()}</strong>
+                      </span>
+
+                      <span className="inspection_span">
+                        <CarOutlined style={{ color: '#fa8c16' }} /> IMMATRICULATION : <strong>{headerInfo.immatriculation}</strong>
+                      </span>
+
+                      <span className="inspection_span">
+                        <CalendarOutlined style={{ color: '#1890ff' }} /> DATE INSPECTION :{' '}
+                        <strong>{headerInfo.date_inspection ? moment(headerInfo.date_inspection).format('DD-MM-YYYY') : 'N/A'}</strong>
+                      </span>
                     </div>
 
                     <div className="inspectionGen_bottom_wrapper">
