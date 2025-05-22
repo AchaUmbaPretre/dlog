@@ -144,19 +144,19 @@ const DemandeVehiculeForm = () => {
                                 name="id_demandeur"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un motif' }]}
                             >
-                                    { loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        allowClear
-                                        showSearch
-                                        options={service?.map((item) => ({
-                                                value: item.id_service_demandeur,
-                                                label: `${item.nom_service}`,
-                                        }))}
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={service?.map((item) => ({
+                                        value: item.id_service_demandeur,
+                                        label: `${item.nom_service}`,
+                                    }))}
                                         optionFilterProp="label"
                                         placeholder="Sélectionnez..."
-                                    />
-                                    }
-                                </Form.Item>
+                                />
+                                }
+                            </Form.Item>
                         </Col>
 
                     </Row>
