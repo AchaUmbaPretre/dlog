@@ -3,6 +3,7 @@ import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, me
 import { ExportOutlined, InfoCircleOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 import { getDemandeVehicule } from '../../../services/charroiService';
+import moment from 'moment';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -101,27 +102,33 @@ const columns = [
     dataIndex: 'date_chargement',
     key: 'date_chargement',
     ellipsis: { showTitle: false },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
+    render: (text) => {
+        const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
+        return (
+        <Tooltip placement="topLeft" title={formattedDate}>
+            <Tag color="blue">{formattedDate}</Tag>
+        </Tooltip>
+        );
+    },
   },
   {
     title: (
       <Space>
         <LogoutOutlined style={{ color: '#52c41a' }} />
-        <Text strong>Date départ prévue</Text>
+        <Text strong>Date prévue</Text>
       </Space>
     ),
-    dataIndex: 'date_depart',
-    key: 'date_depart',
+    dataIndex: 'date_prevue',
+    key: 'date_prevue',
     ellipsis: { showTitle: false },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+    render: (text) => {
+    const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
+    return (
+      <Tooltip placement="topLeft" title={formattedDate}>
+        <Tag color="green">{formattedDate}</Tag>
       </Tooltip>
-    ),
+    );
+  },
   },
   {
     title: (
@@ -133,19 +140,14 @@ const columns = [
     dataIndex: 'date_retour',
     key: 'date_retour',
     align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
+    render: (text) => {
+    const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
+    return (
+      <Tooltip placement="topLeft" title={formattedDate}>
+        <Tag color="orange">{formattedDate}</Tag>
+      </Tooltip>
+    );
   },
-  {
-    title: (
-      <Space>
-        <ClockCircleOutlined style={{ color: '#722ed1' }} />
-        <Text strong>Délai prévu</Text>
-      </Space>
-    ),
-    dataIndex: 'delai_prevu',
-    key: 'delai_prevu',
-    align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
   },
   {
     title: (
@@ -223,10 +225,6 @@ const columns = [
 ];
 
 
-  const filteredData = data.filter(item =>
-    item.nom_localite?.toLowerCase().includes(searchValue.toLowerCase())
-  );
-
   return (
     <>
       <div className="client">
@@ -268,7 +266,7 @@ const columns = [
           </div>
           <Table
             columns={columns}
-            dataSource={filteredData}
+            dataSource={data}
             loading={loading}
             onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
