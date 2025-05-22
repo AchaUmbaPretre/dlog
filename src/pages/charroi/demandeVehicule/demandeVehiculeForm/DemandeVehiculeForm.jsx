@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
 import { getMotif, getServiceDemandeur, getTypeVehicule } from '../../../../services/charroiService';
+import { getClient } from '../../../../services/clientService';
+import { getLocalisation } from '../../../../services/transporteurService';
 
 
 const DemandeVehiculeForm = () => {
@@ -10,18 +12,24 @@ const DemandeVehiculeForm = () => {
     const [ motif, setMotif ] = useState([]);
     const [ type, setType ] = useState([]);
     const [ service, setService ] = useState([]);
+    const [ client, setClient ] = useState([]);
+    const [ local, setLocal ] = useState([]);
 
 
     const fetchData = async () => {
         try {
-            const [ serviceData, typeData, motifData ] = await Promise.all([
+            const [ serviceData, typeData, motifData, clientData, localData ] = await Promise.all([
                 getServiceDemandeur(),
                 getTypeVehicule(),
-                getMotif()
+                getMotif(),
+                getClient(),
+                getLocalisation()
             ]) 
             setService(serviceData.data);
             setType(typeData.data);
             setMotif(motifData.data);
+            setClient(clientData.data);
+            setLocal(localData.data);
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -151,6 +159,69 @@ const DemandeVehiculeForm = () => {
                                     options={service?.map((item) => ({
                                         value: item.id_service_demandeur,
                                         label: `${item.nom_service}`,
+                                    }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                />
+                                }
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Client"
+                                name="id_client"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un client' }]}
+                            >
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={client?.map((item) => ({
+                                        value: item.id_client,
+                                        label: `${item.nom}`,
+                                    }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                />
+                                }
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Destination"
+                                name="id_localisation"
+                                rules={[{ required: true, message: 'Veuillez sélectionner une localisation.' }]}
+                            >
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={local?.map((item) => ({
+                                        value: item.id_localisation ,
+                                        label: `${item.nom}`,
+                                    }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                />
+                                }
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Destination"
+                                name="id_localisation"
+                                rules={[{ required: true, message: 'Veuillez sélectionner une localisation.' }]}
+                            >
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={local?.map((item) => ({
+                                        value: item.id_localisation ,
+                                        label: `${item.nom}`,
                                     }))}
                                         optionFilterProp="label"
                                         placeholder="Sélectionnez..."
