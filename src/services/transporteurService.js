@@ -55,6 +55,10 @@ export const getPays = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/pays`)
 }
 
+export const postPays = async(data) => {
+    return axios.post(`${DOMAIN}/api/transporteur/pays`, data)
+}
+
 export const getModeTransport = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/mode_transport`)
 }
