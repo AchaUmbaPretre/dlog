@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
+import { Table, Button, Space, Tabs, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getPays } from '../../services/transporteurService';
 import PaysForm from './paysForm/PaysForm';
+import TabPane from 'antd/es/tabs/TabPane';
+import Province from '../province/Province';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -18,6 +20,8 @@ const Pays = () => {
       current: 1,
       pageSize: 15,
     });
+  const [activeKey, setActiveKey] = useState(['1', '2']);
+
   
     const fetchData = async () => {
       try {
@@ -37,6 +41,10 @@ const Pays = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    const handleTabChange = (key) => {
+        setActiveKey(key);
+    };
 
     const handleDelete = () => {
 
@@ -152,56 +160,84 @@ const columns = [
 
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
-            </div>
-            <h2 className="client-h2">Pays</h2>
-          </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-                <Search 
-                    placeholder="Recherche..." 
-                    enterButton 
-                    onChange={(e) => setSearchValue(e.target.value)}
-                />
-            </div>
-            <div className="client-rows-right">
-                <Button
-                    type="primary"
-                    icon={<PlusCircleOutlined />}
-                    onClick={handleAdd}
-                >
-                    Ajouter
-                </Button>
+        <Tabs
+            activeKey={activeKey[0]}
+            onChange={handleTabChange}
+            type="card"
+            tabPosition="top"
+            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+        >
+            <TabPane
+                tab={
+                    <span>
+                        🌍 Pays
+                    </span>
+                }
+                key="1"
+            >
+                <div className="client">
+                    <div className="client-wrapper">
+                    <div className="client-row">
+                        <div className="client-row-icon">
+                        <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
+                        </div>
+                        <h2 className="client-h2">Pays</h2>
+                    </div>
+                    <div className="client-actions">
+                        <div className="client-row-left">
+                            <Search 
+                                placeholder="Recherche..." 
+                                enterButton 
+                                onChange={(e) => setSearchValue(e.target.value)}
+                            />
+                        </div>
+                        <div className="client-rows-right">
+                            <Button
+                                type="primary"
+                                icon={<PlusCircleOutlined />}
+                                onClick={handleAdd}
+                            >
+                                Ajouter
+                            </Button>
 
-                <Dropdown overlay={menu} trigger={['click']}>
-                    <Button icon={<ExportOutlined />}>Export</Button>
-                </Dropdown>
-                
-                <Button
-                    icon={<PrinterOutlined />}
-                    onClick={handlePrint}
-                >
-                    Print
-                </Button>
-            </div>
-          </div>
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            loading={loading}
-            onChange={(pagination) => setPagination(pagination)}
-            rowKey="id"
-            bordered
-            size="small"
-            scroll={scroll}
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-          />
-        </div>
-      </div>
+                            <Dropdown overlay={menu} trigger={['click']}>
+                                <Button icon={<ExportOutlined />}>Export</Button>
+                            </Dropdown>
+                            
+                            <Button
+                                icon={<PrinterOutlined />}
+                                onClick={handlePrint}
+                            >
+                                Print
+                            </Button>
+                        </div>
+                    </div>
+                    <Table
+                        columns={columns}
+                        dataSource={filteredData}
+                        loading={loading}
+                        onChange={(pagination) => setPagination(pagination)}
+                        rowKey="id"
+                        bordered
+                        size="small"
+                        scroll={scroll}
+                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    />
+                    </div>
+                </div>
+            </TabPane>
+
+            <TabPane
+                tab={
+                    <span>
+                        🧭 Province
+                    </span>
+                }
+                key="2"
+            >
+                <Province/>
+            </TabPane>
+        </Tabs>
 
       <Modal
         title=""
