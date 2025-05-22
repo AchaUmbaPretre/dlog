@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, DeleteOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, InfoCircleOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 
 const { Search } = Input;
@@ -110,7 +110,7 @@ const columns = [
     title: (
       <Space>
         <LogoutOutlined style={{ color: '#52c41a' }} />
-        <Text strong>Date départ prevue</Text>
+        <Text strong>Date départ prévue</Text>
       </Space>
     ),
     dataIndex: 'date_depart',
@@ -149,7 +149,7 @@ const columns = [
   {
     title: (
       <Space>
-        <FieldTimeOutlined style={{ color: '#eb2f96' }} />
+        <CarOutlined style={{ color: '#eb2f96' }} />
         <Text strong>Type véhicule</Text>
       </Space>
     ),
@@ -161,6 +161,7 @@ const columns = [
   {
     title: (
       <Space>
+        <InfoCircleOutlined style={{ color: '#13c2c2' }} />
         <Text strong>Motif</Text>
       </Space>
     ),
@@ -172,6 +173,7 @@ const columns = [
   {
     title: (
       <Space>
+        <UserOutlined style={{ color: '#fa541c' }} />
         <Text strong>Demandeur</Text>
       </Space>
     ),
@@ -181,7 +183,9 @@ const columns = [
     render: (text) => <Text type="secondary">{text}</Text>,
   },
   {
-    title: <Text strong>Actions</Text>,
+    title: (
+      <Text strong>Actions</Text>
+    ),
     key: 'action',
     align: 'center',
     width: '120px',

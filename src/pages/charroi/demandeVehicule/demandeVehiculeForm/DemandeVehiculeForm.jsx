@@ -29,7 +29,7 @@ const DemandeVehiculeForm = () => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Enregistrer une demande</div>
+                <div className="controle_h2">Formulaire de demande</div>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -39,8 +39,47 @@ const DemandeVehiculeForm = () => {
                 >
                     <Row gutter={12}>
                         <Col xs={24} md={8}>
-                            
+                            <Form.Item
+                                label="Date & heurre de chargement"
+                                name="date_chargement"
+                                rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
+                            >
+                                <DatePicker 
+                                    showTime={{ format: 'HH:mm' }} 
+                                    format="YYYY-MM-DD HH:mm" 
+                                    placeholder="Choisir date et heure" 
+                                />
+                            </Form.Item>
                         </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Date & heure de départ prévue"
+                                name="date_preuve"
+                                rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
+                            >
+                                <DatePicker 
+                                    showTime={{ format: 'HH:mm' }} 
+                                    format="YYYY-MM-DD HH:mm" 
+                                    placeholder="Choisir date et heure" 
+                                />
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                label="Date & heurre de retour prévue"
+                                name="date_retour"
+                                rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
+                            >
+                                <DatePicker 
+                                    showTime={{ format: 'HH:mm' }} 
+                                    format="YYYY-MM-DD HH:mm" 
+                                    placeholder="Choisir date et heure" 
+                                />
+                            </Form.Item>
+                        </Col>
+
                     </Row>
                 </Form>
             </div>
