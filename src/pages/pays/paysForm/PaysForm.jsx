@@ -4,8 +4,6 @@ import { SendOutlined } from '@ant-design/icons';
 
 const PaysForm = ({closeModal, fetchData, localiteId}) => {
     const [form] = Form.useForm();
-    const [loadingData, setLoadingData] = useState(false);
-    const [ville, setVille] = useState([]);
     const [loading, setLoading] = useState(false);
     
 /*         useEffect(()=> {
@@ -100,7 +98,7 @@ const PaysForm = ({closeModal, fetchData, localiteId}) => {
                                         }
                                     ]}
                                 >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <Input  placeholder="Saisir..." style={{width:'100%'}}/>}
+                                    <Input  placeholder="Saisir..." style={{width:'100%'}}/>
                                 </Form.Item>
                             </Col>
 
