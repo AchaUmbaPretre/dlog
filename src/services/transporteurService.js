@@ -31,6 +31,10 @@ export const getVille = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/ville`)
 }
 
+export const postVille = async(data) => {
+    return axios.post(`${DOMAIN}/api/transporteur/ville`, data)
+}
+
 export const getLocalite = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/localite`)
 }
