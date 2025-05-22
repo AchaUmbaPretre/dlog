@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
-import { getMotif, getServiceDemandeur, getTypeVehicule } from '../../../../services/charroiService';
+import { getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
 import { getUser } from '../../../../services/userService';
 import { SendOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 
-const DemandeVehiculeForm = () => {
+const DemandeVehiculeForm = ({closeModal}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ loadingData, setLoadingData ] = useState(false);
@@ -16,6 +17,8 @@ const DemandeVehiculeForm = () => {
     const [ client, setClient ] = useState([]);
     const [ local, setLocal ] = useState([]);
     const [ user, setUser ] = useState([]);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+
 
     const fetchData = async () => {
         try {
@@ -45,9 +48,34 @@ const DemandeVehiculeForm = () => {
         fetchData();
     }, [])
 
-    const onFinish = async () => {
+  const onFinish = async (values) => {
+    await form.validateFields();
+        
+    const loadingKey = 'loadingDemandeVehicule';
+    message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+        
+    setLoading(true); 
 
+    try {
+        const v = {
+            ...values,
+            user_cr : userId
+        }
+        await postDemandeVehicule(v);
+        message.success({ content: 'La demande a été enregistrée avec succès.', key: loadingKey });
+
+        form.resetFields();
+        fetchData();
+        closeModal();
+    } catch (error) {
+      notification.error({
+        message: 'Erreur',
+        description: 'Erreur lors de l\'enregistrement de demande.',
+      });
+    } finally {
+      setLoading(false);
     }
+  };
 
   return (
     <>
@@ -234,10 +262,9 @@ const DemandeVehiculeForm = () => {
                                     }
                                 </Form.Item>
                             </Col>
-
                         </Row>
                     </Card>
-                    <Button type="primary" size='large' htmlType="submit" icon={<SendOutlined />} style={{marginTop:'20px'}}>
+                    <Button type="primary" size='large' loading={loading} disabled={loading} htmlType="submit" icon={<SendOutlined />} style={{marginTop:'20px'}}>
                         Soumettre
                     </Button>
                 </Form>

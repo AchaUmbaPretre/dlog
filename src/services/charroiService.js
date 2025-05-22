@@ -387,3 +387,11 @@ export const getTypeVehicule = async () => {
 export const getMotif = async () => {
     return axios.get(`${DOMAIN}/api/charroi/motif`);
 }
+
+export const getDemandeVehicule = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/demande_vehicule`);
+}
+
+export const postDemandeVehicule = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/demande_vehicule`, data);
+}
