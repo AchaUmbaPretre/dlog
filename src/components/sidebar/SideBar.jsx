@@ -3,6 +3,7 @@ import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
   SwapOutlined,
+  GlobalOutlined,
   RetweetOutlined,
   TruckOutlined,
   CarOutlined,
@@ -131,6 +132,8 @@ const SideBar = ({data}) => {
     SwapOutlined: <SwapOutlined style={{ color: '#ffc069' }} />,
     RetweetOutlined: <RetweetOutlined style={{ color: 'cyan' }} />,
     DeliveredProcedureOutlined : <DeliveredProcedureOutlined style={{ color: '#2f54eb' }} />,
+    GlobalOutlined : <GlobalOutlined style={{ color: 'green' }} />
+
   };
   
   const renderIcon = (iconName) => {

@@ -141,7 +141,7 @@ const columns = [
         </Tooltip>
         <Tooltip title="Supprimer définitivement">
           <Popconfirm
-            title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
+            title="Êtes-vous sûr de vouloir supprimer cette province ?"
             onConfirm={() => handleDelete(record.id_localite)}
             okText="Oui"
             cancelText="Non"
@@ -172,7 +172,7 @@ const columns = [
             <div className="client-row-icon">
               <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
             </div>
-            <h2 className="client-h2">Localisation</h2>
+            <h2 className="client-h2">Province</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
