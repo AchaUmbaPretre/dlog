@@ -247,7 +247,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
                         <span className="inspection_span">IMMATRICULATION : <strong>{headerInfo.immatriculation}</strong></span>
                         <span className="inspection_span">
                             DATE INSPECTION :{' '}
-                            <strong>{headerInfo.date_inspection ? moment(headerInfo.date_inspection).format('DD/MM/YYYY') : 'N/A'}</strong>
+                            <strong>{headerInfo.date_inspection ? moment(headerInfo.date_inspection).format('DD-MM-YYYY') : 'N/A'}</strong>
                         </span>
                     </div>
 
