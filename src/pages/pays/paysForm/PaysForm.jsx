@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Col, Form, Card, notification, Input, Row, Skeleton, Button, message } from 'antd';
+import { Col, Form, Card, notification, Input, Row, Button, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
+import { postPays } from '../../../services/transporteurService';
 
 const PaysForm = ({closeModal, fetchData, paysId}) => {
     const [form] = Form.useForm();
@@ -40,6 +41,12 @@ const PaysForm = ({closeModal, fetchData, paysId}) => {
                 duration: 0,
             });
     
+            await postPays(values)
+                    
+                message.success({
+                    content: 'Le pays a été enregistré avec succès.',
+                    key: loadingKey,
+                });
             setLoading(true);
 
     
@@ -89,12 +96,12 @@ const PaysForm = ({closeModal, fetchData, paysId}) => {
                         <Row gutter={12}>
                             <Col xs={24} md={24}>
                                 <Form.Item
-                                    name="nom_localite"
+                                    name="nom_pays"
                                     label="Nom"
                                     rules={[
                                         {
                                             required: true,
-                                            message: "Veuillez fournir le nom d'une localité...",
+                                            message: "Veuillez fournir le nom d'un pays...",
                                         }
                                     ]}
                                 >
