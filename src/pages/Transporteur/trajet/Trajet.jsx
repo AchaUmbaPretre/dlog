@@ -107,6 +107,7 @@ const columns = [
         <Tag color="blue">{text}</Tag>
       </Tooltip>
     ),
+    width: "15%",
   },
   {
     title: (
@@ -134,6 +135,7 @@ const columns = [
     dataIndex: 'distance',
     key: 'distance',
     align: 'center',
+    width: "5%",
     render: (text) => <Badge count={`${text} km`} style={{ backgroundColor: '#faad14' }} />,
   },
   {
@@ -148,9 +150,11 @@ const columns = [
     align: 'center',
     render: (text) => {
       const formattedDate = moment(text).format('DD-MM-YYYY');
+      return (
       <Tooltip placement="center" title={formattedDate}>
         <Tag icon={<CalendarOutlined />} color="green">{formattedDate}</Tag>
       </Tooltip>
+      )
     }
   },
   {
@@ -163,7 +167,14 @@ const columns = [
     dataIndex: 'date_arrivee',
     key: 'date_arrivee',
     align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
+    render: (text) => {
+      const formattedDate = moment(text).format('DD-MM-YYYY');
+      return (
+      <Tooltip placement="center" title={formattedDate}>
+        <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
+      </Tooltip>
+      )
+    }
   },
   {
     title: <Text strong>Modes trans.</Text>,
@@ -183,16 +194,18 @@ const columns = [
     dataIndex: 'duree_jours',
     key: 'duree_jours',
     align: 'center',
+    width: "6%",
     render: (text) => <Tag color="purple">{text} j</Tag>,
   },
   {
-    title: <Text strong>Total (€)</Text>,
+    title: <Text strong>Total</Text>,
     dataIndex: 'total',
     key: 'total',
     align: 'center',
+    width: "8%",
     render: (text) => (
       <Text style={{ fontWeight: 'bold', color: '#3f8600' }}>
-        {parseFloat(text).toFixed(2)} €
+        {parseFloat(text).toFixed(2)} $
       </Text>
     ),
   },
