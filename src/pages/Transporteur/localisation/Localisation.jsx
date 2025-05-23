@@ -325,7 +325,7 @@ const columns = [
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={650}
         centered
       >
         <LocalisationForm closeModal={() => setModalType(null)} fetchData={fetchData}  localisationId={localisationId} />
