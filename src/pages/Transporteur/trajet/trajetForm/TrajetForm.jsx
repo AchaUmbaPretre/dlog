@@ -114,7 +114,7 @@ const TrajetForm = () => {
                             {fields.map(({ key, name, ...restField }) => (
                                 <Card style={{marginBottom:'10px'}}>
                                     <Row key={key} gutter={12} align="middle">
-                                        <Col xs={24} md={8}>
+                                        <Col xs={24} md={6}>
                                             <Form.Item
                                                 {...restField}
                                                 name={[name, 'ordre']}
@@ -127,7 +127,7 @@ const TrajetForm = () => {
                                             </Form.Item>
                                         </Col>
 
-                                        <Col xs={24} md={8}>
+                                        <Col xs={24} md={6}>
                                             <Form.Item
                                                 label="Départ"
                                                 {...restField}
@@ -149,7 +149,7 @@ const TrajetForm = () => {
                                             </Form.Item>
                                         </Col>
                                         
-                                        <Col xs={24} md={8}>
+                                        <Col xs={24} md={6}>
                                             <Form.Item
                                                 label="Destination"
                                                 {...restField}
@@ -171,7 +171,7 @@ const TrajetForm = () => {
                                             </Form.Item>
                                         </Col>
 
-                                        <Col xs={24} md={8}>
+                                        <Col xs={24} md={6}>
                                             <Form.Item
                                                 label="Date départ"
                                                 {...restField}
@@ -182,7 +182,7 @@ const TrajetForm = () => {
                                             </Form.Item>
                                         </Col>
 
-                                        <Col xs={24} md={8}>
+                                        <Col xs={24} md={6}>
                                             <Form.Item
                                                 label="Date arrivée"
                                                 {...restField}
@@ -193,18 +193,17 @@ const TrajetForm = () => {
                                             </Form.Item>
                                         </Col>
 
-                                        <Col xs={24} md={8}>
+                                        <Col xs={24} md={6}>
                                             <Form.Item
                                                 label="Distance Km"
                                                 {...restField}
                                                 name={[name, "distance_km"]}
-                                                rules={[{ required: true, message: 'Veuillez fournir la distance km' }]}
                                             >
                                                 <InputNumber min={0} placeholder="Saisir..." style={{width:'100%'}}/>
                                             </Form.Item>
                                         </Col>
 
-                                        <Col xs={24} md={8}>
+                                        <Col xs={24} md={6}>
                                             <Form.Item
                                                 label="Mode transport"
                                                 {...restField}
@@ -226,7 +225,7 @@ const TrajetForm = () => {
                                             </Form.Item>
                                         </Col>
 
-                                        <Col xs={24} md={8}>
+                                        <Col xs={24} md={6}>
                                             <Form.Item
                                                 label="Prix"
                                                 {...restField}
@@ -246,7 +245,6 @@ const TrajetForm = () => {
                                             onClick={() => {
                                                 remove(name);
                                             }}
-
                                         >
                                         </Button>
                                     </Col>
