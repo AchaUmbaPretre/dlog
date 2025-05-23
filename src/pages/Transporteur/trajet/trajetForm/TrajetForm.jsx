@@ -112,13 +112,14 @@ const TrajetForm = () => {
                             <>
                             <Divider orientation="left" plain>Le(s) segment(s)</Divider>
                             {fields.map(({ key, name, ...restField }) => (
-                                <Card style={{marginBottom:'10px'}} size="small" type="inner" title={`Segment ${key}`}>
+                                <Card style={{marginBottom:'10px'}} size="small" type="inner" title={`Segment ${key + 1}`}>
                                     <Row key={key} gutter={12} align="middle">
                                         <Col xs={24} md={6}>
                                             <Form.Item
                                                 {...restField}
                                                 name={[name, 'ordre']}
                                                 label="ordre"
+                                                initialValue={key + 1}
                                                 rules={[
                                                     { required: true, message: 'Veuillez fournir un numero...' },
                                                 ]}
