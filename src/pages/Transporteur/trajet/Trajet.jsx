@@ -20,7 +20,25 @@ const Trajet = () => {
       pageSize: 15,
     });
   
-    const fetchData = async () => {
+  
+  const columnStyles = {
+    title: {
+      maxWidth: '220px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
+
+  const fetchData = async () => {
       try {
         const { data } = await getTrajet();
 
@@ -90,29 +108,34 @@ const columns = [
       const pageIndex = pagination.current || 1;
       return (pageIndex - 1) * pageSize + index + 1;
     },
-    width: "4%",
+    width: "3%",
   },
   {
     title: (
       <Space>
         <LoginOutlined style={{ color: '#1890ff' }} />
-        <Text strong>Départ → Destination</Text>
+        <Text strong>Trajet</Text>
       </Space>
     ),
     dataIndex: 'depart_destination',
     key: 'depart_destination',
     ellipsis: true,
     render: (text) => (
-      <Tooltip title={text}>
-        <Tag color="blue">{text}</Tag>
-      </Tooltip>
-    ),
-    width: "15%",
+  <div
+    style={columnStyles.title}
+    className={columnStyles.hideScroll}
+  >
+    <Tooltip title={text}>
+      <Tag color="blue">{text}</Tag>
+    </Tooltip>
+  </div>
+)
+
   },
   {
     title: (
       <Space>
-        <LogoutOutlined style={{ color: '#52c41a' }} />
+        📍
         <Text strong>Itinéraire</Text>
       </Space>
     ),
@@ -120,9 +143,14 @@ const columns = [
     key: 'itineraire_complet',
     ellipsis: true,
     render: (text) => (
-      <Tooltip title={text}>
-        <Text style={{ fontStyle: 'italic' }} type="secondary">{text}</Text>
-      </Tooltip>
+      <div
+        style={columnStyles.title}
+        className={columnStyles.hideScroll}
+      >
+        <Tooltip title={text}>
+          <Tag color="magenta">{text}</Tag>
+        </Tooltip>
+      </div>
     ),
   },
   {
@@ -135,7 +163,7 @@ const columns = [
     dataIndex: 'distance',
     key: 'distance',
     align: 'center',
-    width: "5%",
+    width: "8%",
     render: (text) => <Badge count={`${text} km`} style={{ backgroundColor: '#faad14' }} />,
   },
   {
@@ -213,7 +241,7 @@ const columns = [
     title: <Text strong>Actions</Text>,
     key: 'action',
     align: 'center',
-    width: '100px',
+    width: '90px',
     render: (text, record) => (
       <Space size="middle">
         <Tooltip title="Modifier ce trajet">
