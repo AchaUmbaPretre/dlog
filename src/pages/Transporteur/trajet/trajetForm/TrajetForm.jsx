@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
-import { getLocalisation, getModeTransport, getTransporteur, getTypeTarif } from '../../../../services/transporteurService';
+import { getLocalisation, getModeTransport, getTransporteur, getTypeTarif, postTrajet } from '../../../../services/transporteurService';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 
 
-const TrajetForm = () => {
+const TrajetForm = ({closeModal, fetchDatas}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ local, setLocal ] = useState([]);
@@ -12,6 +13,8 @@ const TrajetForm = () => {
     const [ mode, setMode ] = useState([]);
     const [ tarif, setTarif ] = useState([]);
     const [ trans, setTrans ] = useState([]);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    
 
     const fetchData = async () => {
         try {
@@ -44,10 +47,24 @@ const TrajetForm = () => {
         message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
         setLoading(true);
         try {
+            const valueObjet = {
+                ...values,
+                user_cr : userId
+            }
+
+            await postTrajet(valueObjet)
+            message.success({ content: "L'inspection a été enregistrée avec succès.", key: loadingKey });
+                        
+            form.resetFields();
+            closeModal();
+            fetchDatas();
             
         } catch (error) {
-            
-        }  
+            console.error("Erreur lors de l'ajout de contrôle technique :", error);
+            message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+        }  finally {
+            setLoading(false);
+        }
     }
 
   return (
@@ -264,7 +281,7 @@ const TrajetForm = () => {
                             </>
                         )}
                     </Form.List>
-                    <Button type="primary" size='large' htmlType="submit" icon={<SendOutlined />}>
+                    <Button type="primary" size='large' htmlType="submit" loading={loading} icon={<SendOutlined />}>
                         Soumettre
                     </Button>
                 </Form>

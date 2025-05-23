@@ -273,7 +273,7 @@ const columns = [
         width={950}
         centered
       >
-        <TrajetForm closeModal={() => setModalType(null)} fetchData={fetchData} localiteId={localiteId} />
+        <TrajetForm closeModal={() => setModalType(null)} fetchDatas={fetchData} localiteId={localiteId} />
       </Modal>
     </>
   );
