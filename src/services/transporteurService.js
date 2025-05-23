@@ -78,3 +78,7 @@ export const getTransporteur = async() => {
 export const getTrajet = async() => {
     return axios.get(`${DOMAIN}/api/transporteur/trajet`)
 }
+
+export const postTrajet = async(data) => {
+    return axios.post(`${DOMAIN}/api/transporteur/trajet`, data)
+}
