@@ -237,7 +237,6 @@ const TrajetForm = () => {
                                                 }
                                             </Form.Item>
                                         </Col>
-
                                                                             <Col xs={24} md={2}>
                                         <Button
                                             type="text"
