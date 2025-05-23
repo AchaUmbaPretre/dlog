@@ -26,7 +26,6 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
     const [iconPositionsMap, setIconPositionsMap] = useState({});
     const [data, setData] = useState([]);
     const { fetchDataInsp } = useMenu();
-    
 
     const fetchDatas = async () => {
 
@@ -103,7 +102,6 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
         try {
 
             const formData = new FormData();
-    
             // Champs principaux
             formData.append('id_vehicule', values.id_vehicule);
             formData.append('id_chauffeur', values.id_chauffeur);
