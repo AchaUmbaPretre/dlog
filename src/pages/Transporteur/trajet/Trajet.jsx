@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Badge, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, DeleteOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, DeleteOutlined, CalendarOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getTrajet } from '../../../services/transporteurService';
 import TrajetForm from './trajetForm/TrajetForm';
+import moment from 'moment';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -127,7 +128,7 @@ const columns = [
     title: (
       <Space>
         <AimOutlined style={{ color: '#faad14' }} />
-        <Text strong>Distance (km)</Text>
+        <Text strong>km</Text>
       </Space>
     ),
     dataIndex: 'distance',
@@ -145,7 +146,12 @@ const columns = [
     dataIndex: 'date_depart',
     key: 'date_depart',
     align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
+    render: (text) => {
+      const formattedDate = moment(text).format('DD-MM-YYYY');
+      <Tooltip placement="center" title={formattedDate}>
+        <Tag icon={<CalendarOutlined />} color="green">{formattedDate}</Tag>
+      </Tooltip>
+    }
   },
   {
     title: (
@@ -160,7 +166,7 @@ const columns = [
     render: (text) => <Text type="secondary">{text}</Text>,
   },
   {
-    title: <Text strong>Modes transport</Text>,
+    title: <Text strong>Modes trans.</Text>,
     dataIndex: 'modes_transport',
     key: 'modes_transport',
     align: 'center',
@@ -173,7 +179,7 @@ const columns = [
     ),
   },
   {
-    title: <Text strong>Durée (jours)</Text>,
+    title: <Text strong>Durée</Text>,
     dataIndex: 'duree_jours',
     key: 'duree_jours',
     align: 'center',
@@ -194,7 +200,7 @@ const columns = [
     title: <Text strong>Actions</Text>,
     key: 'action',
     align: 'center',
-    width: '130px',
+    width: '100px',
     render: (text, record) => (
       <Space size="middle">
         <Tooltip title="Modifier ce trajet">
