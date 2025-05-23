@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Badge, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, DeleteOutlined, CalendarOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, DeleteOutlined, MoreOutlined, CalendarOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getTrajet } from '../../../services/transporteurService';
 import TrajetForm from './trajetForm/TrajetForm';
 import moment from 'moment';
@@ -61,9 +61,12 @@ const Trajet = () => {
 
     }
   
-    const handleEdit = (id) => openModal('Add', id)
+    const handleEdit = (id) => openModal('Add', id);
+    const handleAdd = () => openModal('Add');
 
-    const handleAdd = () => openModal('Add')
+    const getActionMenu = (record, openModal) => {
+
+    }
 
     const closeAllModals = () => {
       setModalType(null);
@@ -75,19 +78,19 @@ const Trajet = () => {
       setLocaliteId(localisationId)
     };
 
-    const handleExportExcel = () => {
-      message.success('Exporting to Excel...');
+  const handleExportExcel = () => {
+    message.success('Exporting to Excel...');
     };
 
-    const handleExportPDF = () => {
+  const handleExportPDF = () => {
         message.success('Exporting to PDF...');
     };
 
-    const handlePrint = () => {
-        window.print();
-    };
+  const handlePrint = () => {
+    window.print();
+  };
 
-    const menu = (
+  const menu = (
       <Menu>
         <Menu.Item key="1" onClick={handleExportExcel}>
           <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
@@ -98,180 +101,182 @@ const Trajet = () => {
       </Menu>
     );
 
-const columns = [
-  {
-    title: '#',
-    dataIndex: 'id',
-    key: 'id',
-    render: (text, record, index) => {
-      const pageSize = pagination.pageSize || 10;
-      const pageIndex = pagination.current || 1;
-      return (pageIndex - 1) * pageSize + index + 1;
+  const columns = [
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "3%",
     },
-    width: "3%",
-  },
-  {
-    title: (
-      <Space>
-        📍
-        <Text strong>Trajet</Text>
-      </Space>
-    ),
-    dataIndex: 'depart_destination',
-    key: 'depart_destination',
-    ellipsis: true,
-    render: (text) => (
-  <div
-    style={columnStyles.title}
-    className={columnStyles.hideScroll}
-  >
-    <Tooltip title={text}>
-      <Tag color="blue">{text}</Tag>
-    </Tooltip>
-  </div>
-)
+    {
+      title: (
+        <Space>
+          📍
+          <Text strong>Trajet</Text>
+        </Space>
+      ),
+      dataIndex: 'depart_destination',
+      key: 'depart_destination',
+      ellipsis: true,
+      render: (text) => (
+    <div
+      style={columnStyles.title}
+      className={columnStyles.hideScroll}
+    >
+      <Tooltip title={text}>
+        <Tag color="blue">{text}</Tag>
+      </Tooltip>
+    </div>
+  )
 
-  },
-  {
-    title: (
-      <Space>
-        📍
-        <Text strong>Itinéraire</Text>
-      </Space>
-    ),
-    dataIndex: 'itineraire_complet',
-    key: 'itineraire_complet',
-    ellipsis: true,
-    render: (text) => (
-      <div
-        style={columnStyles.title}
-        className={columnStyles.hideScroll}
-      >
-        <Tooltip title={text}>
-          <Tag color="magenta">{text}</Tag>
+    },
+    {
+      title: (
+        <Space>
+          📍
+          <Text strong>Itinéraire</Text>
+        </Space>
+      ),
+      dataIndex: 'itineraire_complet',
+      key: 'itineraire_complet',
+      ellipsis: true,
+      render: (text) => (
+        <div
+          style={columnStyles.title}
+          className={columnStyles.hideScroll}
+        >
+          <Tooltip title={text}>
+            <Tag color="magenta">{text}</Tag>
+          </Tooltip>
+        </div>
+      ),
+    },
+    {
+      title: (
+        <Space>
+          <AimOutlined style={{ color: '#faad14' }} />
+          <Text strong>km</Text>
+        </Space>
+      ),
+      dataIndex: 'distance',
+      key: 'distance',
+      align: 'center',
+      width: "8%",
+      render: (text) => <Badge count={`${text} km`} style={{ backgroundColor: '#faad14' }} />,
+    },
+    {
+      title: (
+        <Space>
+          <ClockCircleOutlined style={{ color: '#722ed1' }} />
+          <Text strong>Départ</Text>
+        </Space>
+      ),
+      dataIndex: 'date_depart',
+      key: 'date_depart',
+      align: 'center',
+      render: (text) => {
+        const formattedDate = moment(text).format('DD-MM-YYYY');
+        return (
+        <Tooltip placement="center" title={formattedDate}>
+          <Tag icon={<CalendarOutlined />} color="green">{formattedDate}</Tag>
         </Tooltip>
-      </div>
-    ),
-  },
-  {
-    title: (
-      <Space>
-        <AimOutlined style={{ color: '#faad14' }} />
-        <Text strong>km</Text>
-      </Space>
-    ),
-    dataIndex: 'distance',
-    key: 'distance',
-    align: 'center',
-    width: "8%",
-    render: (text) => <Badge count={`${text} km`} style={{ backgroundColor: '#faad14' }} />,
-  },
-  {
-    title: (
-      <Space>
-        <ClockCircleOutlined style={{ color: '#722ed1' }} />
-        <Text strong>Départ</Text>
-      </Space>
-    ),
-    dataIndex: 'date_depart',
-    key: 'date_depart',
-    align: 'center',
-    render: (text) => {
-      const formattedDate = moment(text).format('DD-MM-YYYY');
-      return (
-      <Tooltip placement="center" title={formattedDate}>
-        <Tag icon={<CalendarOutlined />} color="green">{formattedDate}</Tag>
-      </Tooltip>
-      )
-    }
-  },
-  {
-    title: (
-      <Space>
-        <FieldTimeOutlined style={{ color: '#eb2f96' }} />
-        <Text strong>Arrivée</Text>
-      </Space>
-    ),
-    dataIndex: 'date_arrivee',
-    key: 'date_arrivee',
-    align: 'center',
-    render: (text) => {
-      const formattedDate = moment(text).format('DD-MM-YYYY');
-      return (
-      <Tooltip placement="center" title={formattedDate}>
-        <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
-      </Tooltip>
-      )
-    }
-  },
-  {
-    title: <Text strong>Modes trans.</Text>,
-    dataIndex: 'modes_transport',
-    key: 'modes_transport',
-    align: 'center',
-    render: (text) => (
-      <>
-        {text.split(',').map((mode) => (
-          <Tag color="green" key={mode.trim()}>{mode.trim()}</Tag>
-        ))}
-      </>
-    ),
-  },
-  {
-    title: <Text strong>Durée</Text>,
-    dataIndex: 'duree_jours',
-    key: 'duree_jours',
-    align: 'center',
-    width: "6%",
-    render: (text) => <Tag color="purple">{text} j</Tag>,
-  },
-  {
-    title: <Text strong>Total</Text>,
-    dataIndex: 'total',
-    key: 'total',
-    align: 'center',
-    width: "8%",
-    render: (text) => (
-      <Text style={{ fontWeight: 'bold', color: '#3f8600' }}>
-        {parseFloat(text).toFixed(2)} $
-      </Text>
-    ),
-  },
-  {
-    title: <Text strong>Actions</Text>,
-    key: 'action',
-    align: 'center',
-    width: '90px',
-    render: (text, record) => (
-      <Space size="middle">
-        <Tooltip title="Modifier ce trajet">
-          <Button
-            type="text"
-            icon={<EditOutlined />}
-            onClick={() => handleEdit(record.id)}
-            aria-label="Modifier"
-          />
+        )
+      }
+    },
+    {
+      title: (
+        <Space>
+          <FieldTimeOutlined style={{ color: '#eb2f96' }} />
+          <Text strong>Arrivée</Text>
+        </Space>
+      ),
+      dataIndex: 'date_arrivee',
+      key: 'date_arrivee',
+      align: 'center',
+      render: (text) => {
+        const formattedDate = moment(text).format('DD-MM-YYYY');
+        return (
+        <Tooltip placement="center" title={formattedDate}>
+          <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
         </Tooltip>
-        <Tooltip title="Supprimer définitivement">
-          <Popconfirm
-            title="Êtes-vous sûr de vouloir supprimer ce trajet ?"
-            onConfirm={() => handleDelete(record.id)}
-            okText="Oui"
-            cancelText="Non"
-            okButtonProps={{ danger: true }}
-          >
+        )
+      }
+    },
+    {
+      title: <Text strong>Modes trans.</Text>,
+      dataIndex: 'modes_transport',
+      key: 'modes_transport',
+      align: 'center',
+      render: (text) => (
+        <>
+          {text.split(',').map((mode) => (
+            <Tag color="green" key={mode.trim()}>{mode.trim()}</Tag>
+          ))}
+        </>
+      ),
+    },
+    {
+      title: <Text strong>Durée</Text>,
+      dataIndex: 'duree_jours',
+      key: 'duree_jours',
+      align: 'center',
+      width: "6%",
+      render: (text) => <Tag color="purple">{text} j</Tag>,
+    },
+    {
+      title: <Text strong>Total</Text>,
+      dataIndex: 'total',
+      key: 'total',
+      align: 'center',
+      width: "8%",
+      render: (text) => (
+        <Text style={{ fontWeight: 'bold', color: '#3f8600' }}>
+          {parseFloat(text).toFixed(2)} $
+        </Text>
+      ),
+    },
+    {
+      title: <Text strong>Actions</Text>,
+      key: 'action',
+      align: 'center',
+      render: (text, record) => (
+        <Space size="small">
+          <Tooltip title="Modifier ce trajet">
             <Button
               type="text"
-              danger
-              icon={<DeleteOutlined />}
-              aria-label="Supprimer"
+              icon={<EditOutlined />}
+              onClick={() => handleEdit(record.id)}
+              aria-label="Modifier"
             />
-          </Popconfirm>
-        </Tooltip>
-      </Space>
-    ),
-  },
-];
+          </Tooltip>
+          <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+            <Button type="text" icon={<MoreOutlined />} style={{ color: 'blue' }} />
+          </Dropdown>
+          <Tooltip title="Supprimer définitivement">
+            <Popconfirm
+              title="Êtes-vous sûr de vouloir supprimer ce trajet ?"
+              onConfirm={() => handleDelete(record.id)}
+              okText="Oui"
+              cancelText="Non"
+              okButtonProps={{ danger: true }}
+            >
+              <Button
+                type="text"
+                danger
+                icon={<DeleteOutlined />}
+                aria-label="Supprimer"
+              />
+            </Popconfirm>
+          </Tooltip>
+        </Space>
+      ),
+    },
+  ];
 
   const filteredData = data.filter(item =>
     item.depart_destination?.toLowerCase().includes(searchValue.toLowerCase())
