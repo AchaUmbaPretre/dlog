@@ -112,7 +112,7 @@ const TrajetForm = () => {
                             <>
                             <Divider orientation="left" plain>Le(s) segment(s)</Divider>
                             {fields.map(({ key, name, ...restField }) => (
-                                <Card style={{marginBottom:'10px'}}>
+                                <Card style={{marginBottom:'10px'}} size="small" type="inner" title={`Segment ${key}`}>
                                     <Row key={key} gutter={12} align="middle">
                                         <Col xs={24} md={6}>
                                             <Form.Item
