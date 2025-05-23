@@ -95,11 +95,11 @@ const columns = [
     title: (
       <Space>
         <LoginOutlined style={{ color: '#1890ff' }} />
-        <Text strong>Départ</Text>
+        <Text strong>Départ & destination</Text>
       </Space>
     ),
-    dataIndex: 'depart',
-    key: 'depart',
+    dataIndex: 'depart_destination',
+    key: 'depart_destination',
     ellipsis: { showTitle: false },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
@@ -111,11 +111,11 @@ const columns = [
     title: (
       <Space>
         <LogoutOutlined style={{ color: '#52c41a' }} />
-        <Text strong>Arrivée</Text>
+        <Text strong>Itineraire</Text>
       </Space>
     ),
-    dataIndex: 'arrivee',
-    key: 'arrivee',
+    dataIndex: 'itineraire_complet',
+    key: 'itineraire_complet',
     ellipsis: { showTitle: false },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
@@ -130,8 +130,8 @@ const columns = [
         <Text strong>Distance</Text>
       </Space>
     ),
-    dataIndex: 'distance_km',
-    key: 'distance_km',
+    dataIndex: 'distance',
+    key: 'distance',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
@@ -139,11 +139,11 @@ const columns = [
     title: (
       <Space>
         <ClockCircleOutlined style={{ color: '#722ed1' }} />
-        <Text strong>Délai prévu</Text>
+        <Text strong>Date départ</Text>
       </Space>
     ),
-    dataIndex: 'delai_prevu',
-    key: 'delai_prevu',
+    dataIndex: 'date_depart',
+    key: 'date_depart',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
@@ -151,11 +151,33 @@ const columns = [
     title: (
       <Space>
         <FieldTimeOutlined style={{ color: '#eb2f96' }} />
-        <Text strong>Délai réel</Text>
+        <Text strong>Date arrivée</Text>
       </Space>
     ),
-    dataIndex: 'delai_reel',
-    key: 'delai_reel',
+    dataIndex: 'date_arrivee',
+    key: 'date_arrivee',
+    align: 'center',
+    render: (text) => <Text type="secondary">{text}</Text>,
+  },
+  {
+    title: (
+      <Space>
+        <Text strong>Total</Text>
+      </Space>
+    ),
+    dataIndex: 'total',
+    key: 'total',
+    align: 'center',
+    render: (text) => <Text type="secondary">{text}</Text>,
+  },
+  {
+    title: (
+      <Space>
+        <Text strong>Total</Text>
+      </Space>
+    ),
+    dataIndex: 'total',
+    key: 'total',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
@@ -209,7 +231,7 @@ const columns = [
 
 
   const filteredData = data.filter(item =>
-    item.nom_localite?.toLowerCase().includes(searchValue.toLowerCase())
+    item.depart_destination?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
