@@ -113,7 +113,7 @@ const columns = [
   {
     title: (
       <Space>
-        <LoginOutlined style={{ color: '#1890ff' }} />
+        📍
         <Text strong>Trajet</Text>
       </Space>
     ),
