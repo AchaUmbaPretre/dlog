@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { Layout, Menu, message } from 'antd';
 import {
   HomeOutlined,
@@ -69,7 +69,7 @@ const SideBar = ({data}) => {
     ) {
       toggleMenu();
     }
-  }, [isOpen, toggleMenu]); // Dépendances
+  }, [isOpen, toggleMenu]);
   
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
