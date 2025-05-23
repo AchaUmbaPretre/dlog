@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
+import { Table, Button, Space, Badge, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, LogoutOutlined, LoginOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { getLocalite, getTrajet } from '../../../services/transporteurService';
+import { getTrajet } from '../../../services/transporteurService';
 import TrajetForm from './trajetForm/TrajetForm';
 
 const { Search } = Input;
@@ -35,7 +35,7 @@ const Trajet = () => {
     };
   
     useEffect(() => {
-        fetchData();
+      fetchData();
     }, []);
 
     const handleDelete = () => {
@@ -47,17 +47,17 @@ const Trajet = () => {
     const handleAdd = () => openModal('Add')
 
     const closeAllModals = () => {
-        setModalType(null);
+      setModalType(null);
     };
 
     const openModal = (type, localisationId = '') => {
-        closeAllModals();
-        setModalType(type);
-        setLocaliteId(localisationId)
+      closeAllModals();
+      setModalType(type);
+      setLocaliteId(localisationId)
     };
 
     const handleExportExcel = () => {
-        message.success('Exporting to Excel...');
+      message.success('Exporting to Excel...');
     };
 
     const handleExportPDF = () => {
@@ -69,15 +69,15 @@ const Trajet = () => {
     };
 
     const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
-      </Menu.Item>
-    </Menu>
-  );
+      <Menu>
+        <Menu.Item key="1" onClick={handleExportExcel}>
+          <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
+        </Menu.Item>
+        <Menu.Item key="2" onClick={handleExportPDF}>
+          <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
+        </Menu.Item>
+      </Menu>
+    );
 
 const columns = [
   {
@@ -95,15 +95,15 @@ const columns = [
     title: (
       <Space>
         <LoginOutlined style={{ color: '#1890ff' }} />
-        <Text strong>Départ & destination</Text>
+        <Text strong>Départ → Destination</Text>
       </Space>
     ),
     dataIndex: 'depart_destination',
     key: 'depart_destination',
-    ellipsis: { showTitle: false },
+    ellipsis: true,
     render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+      <Tooltip title={text}>
+        <Tag color="blue">{text}</Tag>
       </Tooltip>
     ),
   },
@@ -111,15 +111,15 @@ const columns = [
     title: (
       <Space>
         <LogoutOutlined style={{ color: '#52c41a' }} />
-        <Text strong>Itineraire</Text>
+        <Text strong>Itinéraire</Text>
       </Space>
     ),
     dataIndex: 'itineraire_complet',
     key: 'itineraire_complet',
-    ellipsis: { showTitle: false },
+    ellipsis: true,
     render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+      <Tooltip title={text}>
+        <Text style={{ fontStyle: 'italic' }} type="secondary">{text}</Text>
       </Tooltip>
     ),
   },
@@ -127,19 +127,19 @@ const columns = [
     title: (
       <Space>
         <AimOutlined style={{ color: '#faad14' }} />
-        <Text strong>Distance</Text>
+        <Text strong>Distance (km)</Text>
       </Space>
     ),
     dataIndex: 'distance',
     key: 'distance',
     align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
+    render: (text) => <Badge count={`${text} km`} style={{ backgroundColor: '#faad14' }} />,
   },
   {
     title: (
       <Space>
         <ClockCircleOutlined style={{ color: '#722ed1' }} />
-        <Text strong>Date départ</Text>
+        <Text strong>Départ</Text>
       </Space>
     ),
     dataIndex: 'date_depart',
@@ -151,7 +151,7 @@ const columns = [
     title: (
       <Space>
         <FieldTimeOutlined style={{ color: '#eb2f96' }} />
-        <Text strong>Date arrivée</Text>
+        <Text strong>Arrivée</Text>
       </Space>
     ),
     dataIndex: 'date_arrivee',
@@ -160,66 +160,63 @@ const columns = [
     render: (text) => <Text type="secondary">{text}</Text>,
   },
   {
-    title: (
-      <Space>
-        <Text strong>Total</Text>
-      </Space>
-    ),
-    dataIndex: 'total',
-    key: 'total',
+    title: <Text strong>Modes transport</Text>,
+    dataIndex: 'modes_transport',
+    key: 'modes_transport',
     align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
+    render: (text) => (
+      <>
+        {text.split(',').map((mode) => (
+          <Tag color="green" key={mode.trim()}>{mode.trim()}</Tag>
+        ))}
+      </>
+    ),
   },
   {
-    title: (
-      <Space>
-        <Text strong>Total</Text>
-      </Space>
-    ),
-    dataIndex: 'total',
-    key: 'total',
+    title: <Text strong>Durée (jours)</Text>,
+    dataIndex: 'duree_jours',
+    key: 'duree_jours',
     align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
+    render: (text) => <Tag color="purple">{text} j</Tag>,
   },
   {
-    title: (
-      <Space>
-        <Text strong>Total</Text>
-      </Space>
-    ),
+    title: <Text strong>Total (€)</Text>,
     dataIndex: 'total',
     key: 'total',
     align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
+    render: (text) => (
+      <Text style={{ fontWeight: 'bold', color: '#3f8600' }}>
+        {parseFloat(text).toFixed(2)} €
+      </Text>
+    ),
   },
   {
     title: <Text strong>Actions</Text>,
     key: 'action',
     align: 'center',
-    width: '120px',
+    width: '130px',
     render: (text, record) => (
       <Space size="middle">
-        <Tooltip title="Modifier cette localisation">
+        <Tooltip title="Modifier ce trajet">
           <Button
             type="text"
             icon={<EditOutlined />}
-            style={{ color: '#1890ff' }}
-            onClick={() => handleEdit(record.id_localite)}
+            onClick={() => handleEdit(record.id)}
             aria-label="Modifier"
           />
         </Tooltip>
         <Tooltip title="Supprimer définitivement">
           <Popconfirm
-            title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
-            onConfirm={() => handleDelete(record.id_localite)}
+            title="Êtes-vous sûr de vouloir supprimer ce trajet ?"
+            onConfirm={() => handleDelete(record.id)}
             okText="Oui"
             cancelText="Non"
             okButtonProps={{ danger: true }}
           >
             <Button
               type="text"
+              danger
               icon={<DeleteOutlined />}
-              style={{ color: '#ff4d4f' }}
               aria-label="Supprimer"
             />
           </Popconfirm>
@@ -228,7 +225,6 @@ const columns = [
     ),
   },
 ];
-
 
   const filteredData = data.filter(item =>
     item.depart_destination?.toLowerCase().includes(searchValue.toLowerCase())
