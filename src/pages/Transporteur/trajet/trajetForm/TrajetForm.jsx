@@ -233,7 +233,7 @@ const TrajetForm = () => {
                                                 name={[name, "prix"]}
                                             >
                                                 { loadingData ? <Skeleton.Input active={true} /> : 
-                                                    <InputNumber min={0} placeholder="ex : 100$..." style={{width:'100%'}}/>
+                                                <InputNumber min={0} placeholder="ex : 100$..." style={{width:'100%'}}/>
                                                 }
                                             </Form.Item>
                                         </Col>
