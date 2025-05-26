@@ -14,7 +14,7 @@ const DemandeVehicule = () => {
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
-  const [localiteId, setLocaliteId] = useState(null);
+  const [demandeId, setDemandeId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
       current: 1,
@@ -52,10 +52,10 @@ const DemandeVehicule = () => {
         setModalType(null);
     };
 
-    const openModal = (type, localisationId = '') => {
+    const openModal = (type, demandeId = '') => {
         closeAllModals();
         setModalType(type);
-        setLocaliteId(localisationId)
+        setDemandeId(demandeId)
     };
 
     const handleExportExcel = () => {
@@ -312,7 +312,7 @@ const columns = [
         width={1000}
         centered
       >
-        <DemandeVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} localiteId={localiteId} />
+        <DemandeVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} demandeId={demandeId} />
       </Modal>
     </>
   );

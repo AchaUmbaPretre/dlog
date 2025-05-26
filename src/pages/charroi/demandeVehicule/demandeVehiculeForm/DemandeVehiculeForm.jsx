@@ -7,7 +7,7 @@ import { getUser } from '../../../../services/userService';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
-const DemandeVehiculeForm = ({closeModal}) => {
+const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ loadingData, setLoadingData ] = useState(false);
@@ -19,7 +19,7 @@ const DemandeVehiculeForm = ({closeModal}) => {
     const [ user, setUser ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
-    const fetchData = async () => {
+    const fetchDatas = async () => {
         try {
             const [ serviceData, typeData, motifData, clientData, localData, userData ] = await Promise.all([
                 getServiceDemandeur(),
@@ -44,7 +44,7 @@ const DemandeVehiculeForm = ({closeModal}) => {
     }
 
     useEffect(()=> {
-        fetchData();
+        fetchDatas();
     }, [])
 
   const onFinish = async (values) => {
