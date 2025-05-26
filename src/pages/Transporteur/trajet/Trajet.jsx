@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Badge, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, DeleteOutlined, MoreOutlined, CalendarOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined, KeyOutlined } from '@ant-design/icons';
+import { ExportOutlined, DeleteOutlined, PlusOutlined, FileTextOutlined, EyeOutlined, MoreOutlined, CalendarOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined, KeyOutlined } from '@ant-design/icons';
 import { getTrajet } from '../../../services/transporteurService';
 import TrajetForm from './trajetForm/TrajetForm';
 import moment from 'moment';
@@ -80,7 +80,10 @@ const Trajet = () => {
       };
       return (
         <Menu onClick={handleClick}>
-          
+          <Menu.Item key="voirDetail">
+            <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+          </Menu.Item>
+          <Menu.Divider />
         </Menu>
       )
     }
