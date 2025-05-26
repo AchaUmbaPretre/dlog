@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Divider, Card, Col, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
+import { Form, Row, Divider, Card, Col, message, InputNumber, Skeleton, Select, Button,  DatePicker } from 'antd';
 import { getLocalisation, getModeTransport, getTransporteur, getTypeTarif, postTrajet } from '../../../../services/transporteurService';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-
 
 const TrajetForm = ({closeModal, fetchDatas}) => {
     const [form] = Form.useForm();
@@ -15,7 +14,6 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
     const [ trans, setTrans ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     
-
     const fetchData = async () => {
         try {
             const [locaData, modeData, typeData, transData] = await Promise.all([
@@ -34,7 +32,6 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
         } finally {
             setLoadingData(false);
         }
-
     }
 
     useEffect(()=> {
@@ -187,7 +184,7 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
                                                 />
                                                 }
                                             </Form.Item>
-                                        </Col>
+                                         </Col>
 
                                         <Col xs={24} md={6}>
                                             <Form.Item
