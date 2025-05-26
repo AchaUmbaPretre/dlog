@@ -251,17 +251,18 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
                                                 }
                                             </Form.Item>
                                         </Col>
-                                                                            <Col xs={24} md={2}>
-                                        <Button
-                                            type="text"
-                                            danger
-                                            icon={<MinusCircleOutlined />}
-                                            onClick={() => {
-                                                remove(name);
-                                            }}
-                                        >
-                                        </Button>
-                                    </Col>
+                                        
+                                        <Col xs={24} md={2}>
+                                            <Button
+                                                type="text"
+                                                danger
+                                                icon={<MinusCircleOutlined />}
+                                                onClick={() => {
+                                                    remove(name);
+                                                }}
+                                            >
+                                            </Button>
+                                        </Col>
                                     </Row>
                                 </Card>
                             ))}
