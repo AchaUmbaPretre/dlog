@@ -21,10 +21,14 @@ const DemandeVehicule = () => {
       pageSize: 15,
     });
   
-    const updatedVu = async(id) => {
-        putDemandeVehiculeVu(id)
-        fetchData();
-    }
+    const updatedVu = async (id) => {
+        try {
+            await putDemandeVehiculeVu(id);
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour :", error);
+        }
+    };
+
 
     const fetchData = async () => {
       try {
@@ -221,7 +225,7 @@ const columns = [
     key: 'nom_type_statut',
     align: 'center',
     render: (text, record) => (
-        <Tag color={ text === 1 ? 'green' : 'red'} onClick={() => updatedVu(record.id_demande_vehicule)}>
+        <Tag color={text === 1 ? 'green' : 'red'} onClick={() => updatedVu(record.id_demande_vehicule)} style={{ cursor: 'pointer' }}>
             { text === 1 ? 'Vu' : 'Non vu' }
         </Tag>
     )
