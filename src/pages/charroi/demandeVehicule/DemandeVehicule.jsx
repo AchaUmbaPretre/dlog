@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, InfoCircleOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
-import { getDemandeVehicule } from '../../../services/charroiService';
+import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
 import moment from 'moment';
 import { statusIcons } from '../../../utils/prioriteIcons';
 
@@ -21,6 +21,11 @@ const DemandeVehicule = () => {
       pageSize: 15,
     });
   
+    const updatedVu = async(id) => {
+        putDemandeVehiculeVu(id)
+        fetchData();
+    }
+
     const fetchData = async () => {
       try {
          const { data } = await getDemandeVehicule();
@@ -187,7 +192,7 @@ const columns = [
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
-    {
+  {
     title: (
       <Space>
         <CheckCircleOutlined style={{ color: '#1890ff' }} />
@@ -205,6 +210,21 @@ const columns = [
                 </Space>
             );
     },
+  },
+  {
+    title: (
+      <Space>
+        <Text strong>Vu</Text>
+      </Space>
+    ),
+    dataIndex: 'nom_type_statut',
+    key: 'nom_type_statut',
+    align: 'center',
+    render: (text, record) => (
+        <Tag color={ text === 1 ? 'green' : 'red'} onClick={updatedVu}>
+            { text === 1 ? 'Vu' : 'Non vu' }
+        </Tag>
+    )
   },
   {
     title: (
