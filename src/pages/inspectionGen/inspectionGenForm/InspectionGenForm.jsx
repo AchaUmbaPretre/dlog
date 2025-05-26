@@ -274,7 +274,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                             label: item.nom,
                                         }))}
                                         optionFilterProp="label"
-                                        placeholder="Sélectionnez une categorie..."
+                                        placeholder="Sélectionnez un chauffeur..."
                                     />}
                                 </Form.Item>
                             </Col>
