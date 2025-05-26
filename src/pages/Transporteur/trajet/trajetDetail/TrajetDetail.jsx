@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './trajetDetail.scss';
 import { getTrajetOne } from '../../../../services/transporteurService';
 import { Card, Typography, Spin } from 'antd';
+import { CalendarOutlined, CarOutlined, DollarOutlined, DashboardOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
@@ -45,13 +46,12 @@ const TrajetDetail = ({ id_trajet }) => {
                 style={{ marginBottom: 20 }}
                 bordered
               >
-                <p><strong>Date de départ :</strong> {new Date(trajet.date_depart).toLocaleDateString()}</p>
-                <p><strong>Date d'arrivée :</strong> {new Date(trajet.date_arrivee).toLocaleDateString()}</p>
-                <p><strong>Itinéraire :</strong> {trajet.itineraire_complet}</p>
-                <p><strong>Distance :</strong> {trajet.distance} km</p>
-                <p><strong>Durée :</strong> {trajet.duree_jours} jours</p>
-                <p><strong>Mode de transport :</strong> {trajet.modes_transport}</p>
-                <p><strong>Coût total :</strong> {trajet.total} $</p>
+                <p><CalendarOutlined /> <strong>Date de départ :</strong> {new Date(trajet.date_depart).toLocaleDateString()}</p>
+                <p><CalendarOutlined /> <strong>Date d'arrivée :</strong> {new Date(trajet.date_arrivee).toLocaleDateString()}</p>
+                <p><DashboardOutlined />  <strong>Distance :</strong> {trajet.distance} km</p>
+                <p><ClockCircleOutlined/>  <strong>Durée :</strong> {trajet.duree_jours} jours</p>
+                <p><CarOutlined />  <strong>Mode de transport :</strong> {trajet.modes_transport}</p>
+                <p><DollarOutlined />  <strong>Coût total :</strong> {trajet.total} $</p>
               </Card>
             ))}
           </div>

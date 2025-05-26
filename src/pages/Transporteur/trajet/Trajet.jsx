@@ -155,9 +155,8 @@ const Trajet = () => {
       </Tooltip>
     </div>
   )
-
     },
-    {
+/*     {
       title: (
         <Space>
           📍
@@ -177,7 +176,7 @@ const Trajet = () => {
           </Tooltip>
         </div>
       ),
-    },
+    }, */
     {
       title: (
         <Space>
