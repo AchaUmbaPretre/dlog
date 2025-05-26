@@ -4,6 +4,7 @@ import { ExportOutlined, DeleteOutlined, EyeOutlined, MoreOutlined, CalendarOutl
 import { getTrajet } from '../../../services/transporteurService';
 import TrajetForm from './trajetForm/TrajetForm';
 import moment from 'moment';
+import TrajetDetail from './trajetDetail/TrajetDetail';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -11,6 +12,7 @@ const { Text } = Typography;
 const Trajet = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [trajetId, setTrajetId] = useState([]);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
   const [localiteId, setLocaliteId] = useState(null);
@@ -69,7 +71,7 @@ const Trajet = () => {
 
         switch (key) {
           case 'voirDetail':
-            openModal('detailTrajet', record.id_trajet)
+            openModal('Detail', record.id_trajet)
             break;
           case 'edit':
             openModal('editTrajet', record.id_trajet)
@@ -92,10 +94,10 @@ const Trajet = () => {
       setModalType(null);
     };
 
-    const openModal = (type, localisationId = '') => {
+    const openModal = (type, trajetId = '') => {
       closeAllModals();
       setModalType(type);
-      setLocaliteId(localisationId)
+      setTrajetId(trajetId)
     };
 
   const handleExportExcel = () => {
@@ -364,6 +366,17 @@ const Trajet = () => {
         centered
       >
         <TrajetForm closeModal={() => setModalType(null)} fetchDatas={fetchData} localiteId={localiteId} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Detail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={950}
+        centered
+      >
+        <TrajetDetail id_trajet={trajetId} />
       </Modal>
     </>
   );

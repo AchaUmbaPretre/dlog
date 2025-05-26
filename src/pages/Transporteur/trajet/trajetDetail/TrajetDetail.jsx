@@ -5,6 +5,8 @@ import { getTrajetOne } from '../../../../services/transporteurService'
 const TrajetDetail = ({id_trajet}) => {
     const [ data, setData ] = useState([]);
 
+    console.log(id_trajet)
+
     useEffect(()=> {
         const fetchData = async() => {
             const { data } = await getTrajetOne(id_trajet);
@@ -17,7 +19,7 @@ const TrajetDetail = ({id_trajet}) => {
   return (
     <>
         <div className="trajetDetail">
-            
+
         </div>
     </>
   )
