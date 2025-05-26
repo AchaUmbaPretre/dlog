@@ -3,7 +3,7 @@ import { Form, Row, Card, Col, message, Skeleton, Select, Button } from 'antd';
 import { getChauffeur, getVehicule, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined } from '@ant-design/icons';
 
-const AffectationDemandeForm = ({id_demande_vehicule, closeModal, fetchData}) => {
+const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ loadingData, setLoadingData ] = useState(false);

@@ -397,7 +397,7 @@ const columns = [
             width={800}
             centered
         >
-            <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} demandeId={demandeId} />
+            <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
         </Modal>
     </>
   );
