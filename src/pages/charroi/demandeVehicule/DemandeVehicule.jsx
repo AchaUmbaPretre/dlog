@@ -5,6 +5,7 @@ import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
 import moment from 'moment';
 import { statusIcons } from '../../../utils/prioriteIcons';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -20,6 +21,8 @@ const DemandeVehicule = () => {
       current: 1,
       pageSize: 15,
     });
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const role = useSelector((state) => state.user?.currentUser?.role);
   
     const updatedVu = async (id) => {
         try {
@@ -32,7 +35,7 @@ const DemandeVehicule = () => {
 
     const fetchData = async () => {
       try {
-         const { data } = await getDemandeVehicule();
+         const { data } = await getDemandeVehicule(userId, role);
 
         setData(data);
         setLoading(false);
@@ -63,11 +66,11 @@ const DemandeVehicule = () => {
         };
         return (
             <Menu onClick={handleClick}>
-                            <Menu.SubMenu
+            <Menu.SubMenu
               key="inspection"
               title={
                 <>
-                  <FileTextOutlined style={{ color: '#1890ff' }} /> Inspection
+                  <FileTextOutlined style={{ color: '#1890ff' }} /> Affectation
                 </>
               }
             >
@@ -75,7 +78,7 @@ const DemandeVehicule = () => {
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
               </Menu.Item>
                 <Menu.Item key="validerInspection">
-                    <PlusOutlined style={{ color: 'orange' }} /> Valider
+                    <PlusOutlined style={{ color: 'orange' }} /> Affectatation d'un vehicule
                 </Menu.Item>
                 </Menu.SubMenu>
             </Menu>
@@ -248,22 +251,30 @@ const columns = [
             );
     },
   },
-  {
-    title: (
-      <Space>
-        <Text strong>Vu</Text>
-      </Space>
-    ),
-    dataIndex: 'vu',
-    key: 'vu',
-    align: 'center',
-    width: '80px',
-    render: (text, record) => (
-        <Tag color={text === 1 ? 'green' : 'red'} onClick={() => updatedVu(record.id_demande_vehicule)} style={{ cursor: 'pointer' }}>
-            { text === 1 ? 'Vu' : 'Non vu' }
-        </Tag>
-    )
-  },
+  ...(role === 'Admin'
+    ? [
+        {
+          title: (
+            <Space>
+              <Text strong>Vu</Text>
+            </Space>
+          ),
+          dataIndex: 'vu',
+          key: 'vu',
+          align: 'center',
+          width: '80px',
+          render: (text, record) => (
+            <Tag
+              color={text === 1 ? 'green' : 'red'}
+              onClick={() => updatedVu(record.id_demande_vehicule)}
+              style={{ cursor: 'pointer' }}
+            >
+              {text === 1 ? 'Vu' : 'Non vu'}
+            </Tag>
+          ),
+        },
+      ]
+    : []),
   {
     title: (
       <Text strong>Actions</Text>

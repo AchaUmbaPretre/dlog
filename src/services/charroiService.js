@@ -388,8 +388,8 @@ export const getMotif = async () => {
     return axios.get(`${DOMAIN}/api/charroi/motif`);
 }
 
-export const getDemandeVehicule = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/demande_vehicule`);
+export const getDemandeVehicule = async (userId, role) => {
+    return axios.get(`${DOMAIN}/api/charroi/demande_vehicule?userId=${userId}&userRole=${role}`);
 }
 
 export const postDemandeVehicule = async (data) => {
