@@ -394,7 +394,7 @@ const columns = [
             visible={modalType === 'affectation'}
             onCancel={closeAllModals}
             footer={null}
-            width={900}
+            width={800}
             centered
         >
             <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} demandeId={demandeId} />

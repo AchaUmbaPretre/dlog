@@ -67,6 +67,7 @@ const AffectationDemandeForm = ({id_demande_vehicule, closeModal, fetchData}) =>
                 >
                     <Card>
                         <Row gutter={12}>
+
                             <Col xs={24} md={12}>
                                 <Form.Item
                                     label="Véhicule"
@@ -108,7 +109,7 @@ const AffectationDemandeForm = ({id_demande_vehicule, closeModal, fetchData}) =>
                             </Col>
                             
                             <div style={{ marginTop: '20px' }}>
-                                <Button size='large' type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
+                                <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
                                     Soumettre
                                 </Button>
                             </div>
