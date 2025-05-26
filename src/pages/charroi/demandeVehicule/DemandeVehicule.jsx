@@ -30,7 +30,6 @@ const DemandeVehicule = () => {
         }
     };
 
-
     const fetchData = async () => {
       try {
          const { data } = await getDemandeVehicule();
@@ -173,7 +172,7 @@ const columns = [
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
   },
-  {
+/*   {
     title: (
       <Space>
         <InfoCircleOutlined style={{ color: '#13c2c2' }} />
@@ -184,7 +183,7 @@ const columns = [
     key: 'nom_motif_demande',
     align: 'center',
     render: (text) => <Text type="secondary">{text}</Text>,
-  },
+  }, */
   {
     title: (
       <Space>
@@ -225,7 +224,7 @@ const columns = [
     dataIndex: 'vu',
     key: 'vu',
     align: 'center',
-    width: '50px',
+    width: '80px',
     render: (text, record) => (
         <Tag color={text === 1 ? 'green' : 'red'} onClick={() => updatedVu(record.id_demande_vehicule)} style={{ cursor: 'pointer' }}>
             { text === 1 ? 'Vu' : 'Non vu' }
