@@ -19,7 +19,6 @@ const DemandeVehiculeForm = ({closeModal}) => {
     const [ user, setUser ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
-
     const fetchData = async () => {
         try {
             const [ serviceData, typeData, motifData, clientData, localData, userData ] = await Promise.all([
