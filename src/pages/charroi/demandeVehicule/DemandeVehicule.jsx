@@ -47,6 +47,8 @@ const DemandeVehicule = () => {
   
     useEffect(() => {
         fetchData();
+        const interval = setInterval(fetchData, 5000)
+        return () => clearInterval(interval)
     }, []);
 
     const getActionMenu = (record, openModal) => {
