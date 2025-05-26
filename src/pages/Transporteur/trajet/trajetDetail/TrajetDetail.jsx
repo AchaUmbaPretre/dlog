@@ -17,7 +17,7 @@ const TrajetDetail = ({id_trajet}) => {
   return (
     <>
         <div className="trajetDetail">
-
+            
         </div>
     </>
   )
