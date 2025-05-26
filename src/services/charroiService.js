@@ -397,5 +397,5 @@ export const postDemandeVehicule = async (data) => {
 }
 
 export const putDemandeVehiculeVu = async(id) => {
-    return axios.put(`${DOMAIN}/api/transporteur/demande_vehiculeVue?id_demande=${id}`)
+    return axios.put(`${DOMAIN}/api/charroi/demande_vehiculeVue?id_demande=${id}`)
 }

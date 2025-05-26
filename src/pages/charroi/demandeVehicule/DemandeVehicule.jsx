@@ -24,6 +24,7 @@ const DemandeVehicule = () => {
     const updatedVu = async (id) => {
         try {
             await putDemandeVehiculeVu(id);
+            fetchData();
         } catch (error) {
             console.error("Erreur lors de la mise à jour :", error);
         }
@@ -221,8 +222,8 @@ const columns = [
         <Text strong>Vu</Text>
       </Space>
     ),
-    dataIndex: 'nom_type_statut',
-    key: 'nom_type_statut',
+    dataIndex: 'vu',
+    key: 'vu',
     align: 'center',
     render: (text, record) => (
         <Tag color={text === 1 ? 'green' : 'red'} onClick={() => updatedVu(record.id_demande_vehicule)} style={{ cursor: 'pointer' }}>
