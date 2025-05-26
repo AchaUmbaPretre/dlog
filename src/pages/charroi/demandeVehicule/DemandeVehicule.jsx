@@ -126,7 +126,7 @@ const columns = [
     const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
     return (
       <Tooltip placement="topLeft" title={formattedDate}>
-        <Tag icon={<CalendarOutlined />} color="green">{formattedDate}</Tag>
+        <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
       </Tooltip>
     );
   },
@@ -144,7 +144,8 @@ const columns = [
     render: (text) => {
     const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
     return (
-      <Tooltip placement="topLeft" title={formattedDate}>
+      <Tooltip placement="topLeft"
+       title={formattedDate}>
         <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
       </Tooltip>
     );
