@@ -221,7 +221,7 @@ const columns = [
     key: 'nom_type_statut',
     align: 'center',
     render: (text, record) => (
-        <Tag color={ text === 1 ? 'green' : 'red'} onClick={updatedVu}>
+        <Tag color={ text === 1 ? 'green' : 'red'} onClick={() => updatedVu(record.id_demande_vehicule)}>
             { text === 1 ? 'Vu' : 'Non vu' }
         </Tag>
     )
