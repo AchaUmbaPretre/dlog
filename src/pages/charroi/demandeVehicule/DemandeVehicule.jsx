@@ -308,7 +308,7 @@ const columns = [
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={950}
+        width={1000}
         centered
       >
         <DemandeVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} localiteId={localiteId} />

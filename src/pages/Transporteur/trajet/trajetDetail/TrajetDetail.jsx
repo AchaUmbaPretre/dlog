@@ -46,8 +46,8 @@ const TrajetDetail = ({ id_trajet }) => {
                 style={{ marginBottom: 20 }}
                 bordered
               >
-                <p><CalendarOutlined /> <strong>Date de départ :</strong> {new Date(trajet.date_depart).toLocaleDateString()}</p>
-                <p><CalendarOutlined /> <strong>Date d'arrivée :</strong> {new Date(trajet.date_arrivee).toLocaleDateString()}</p>
+                <p><CalendarOutlined />  <strong>Date de départ :</strong> {new Date(trajet.date_depart).toLocaleDateString()}</p>
+                <p><CalendarOutlined />  <strong>Date d'arrivée :</strong> {new Date(trajet.date_arrivee).toLocaleDateString()}</p>
                 <p><DashboardOutlined />  <strong>Distance :</strong> {trajet.distance} km</p>
                 <p><ClockCircleOutlined/>  <strong>Durée :</strong> {trajet.duree_jours} jours</p>
                 <p><CarOutlined />  <strong>Mode de transport :</strong> {trajet.modes_transport}</p>
