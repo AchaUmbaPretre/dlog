@@ -128,202 +128,202 @@ const DemandeVehicule = () => {
         <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
       </Menu.Item>
     </Menu>
-  );
+    );
 
-const columns = [
-  {
-    title: '#',
-    dataIndex: 'id',
-    key: 'id',
-    render: (text, record, index) => {
-      const pageSize = pagination.pageSize || 10;
-      const pageIndex = pagination.current || 1;
-      return (pageIndex - 1) * pageSize + index + 1;
+    const columns = [
+    {
+        title: '#',
+        dataIndex: 'id',
+        key: 'id',
+        render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+        },
+        width: "3%",
     },
-    width: "3%",
-  },
-/*   {
-    title: (
-      <Space>
-        <LoginOutlined style={{ color: '#1890ff' }} />
-        <Text strong>Date chargement</Text>
-      </Space>
-    ),
-    dataIndex: 'date_chargement',
-    key: 'date_chargement',
-    ellipsis: { showTitle: false },
-    render: (text) => {
+    /*   {
+        title: (
+        <Space>
+            <LoginOutlined style={{ color: '#1890ff' }} />
+            <Text strong>Date chargement</Text>
+        </Space>
+        ),
+        dataIndex: 'date_chargement',
+        key: 'date_chargement',
+        ellipsis: { showTitle: false },
+        render: (text) => {
+            const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
+            return (
+            <Tooltip placement="topLeft" title={formattedDate}>
+                <Tag icon={<CalendarOutlined />}  color="blue">{formattedDate}</Tag>
+            </Tooltip>
+            );
+        },
+    }, */
+    {
+        title: (
+        <Space>
+            <LogoutOutlined style={{ color: '#52c41a' }} />
+            <Text strong>Date prévue</Text>
+        </Space>
+        ),
+        dataIndex: 'date_prevue',
+        key: 'date_prevue',
+        ellipsis: { showTitle: false },
+        render: (text) => {
         const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
         return (
         <Tooltip placement="topLeft" title={formattedDate}>
-            <Tag icon={<CalendarOutlined />}  color="blue">{formattedDate}</Tag>
+            <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
         </Tooltip>
         );
     },
-  }, */
-  {
-    title: (
-      <Space>
-        <LogoutOutlined style={{ color: '#52c41a' }} />
-        <Text strong>Date prévue</Text>
-      </Space>
-    ),
-    dataIndex: 'date_prevue',
-    key: 'date_prevue',
-    ellipsis: { showTitle: false },
-    render: (text) => {
-    const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
-    return (
-      <Tooltip placement="topLeft" title={formattedDate}>
-        <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
-      </Tooltip>
-    );
-  },
-  },
-{
-    title: (
-      <Space>
-        <AimOutlined style={{ color: '#faad14' }} />
-        <Text strong>Date retour</Text>
-      </Space>
-    ),
-    dataIndex: 'date_retour',
-    key: 'date_retour',
-    align: 'center',
-    render: (text) => {
-    const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
-    return (
-      <Tooltip placement="topLeft"
-       title={formattedDate}>
-        <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
-      </Tooltip>
-    );
-  },
-  },
-  {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: '#eb2f96' }} />
-        <Text strong>Type véhicule</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_type_vehicule',
-    key: 'nom_type_vehicule',
-    align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
-  },
-/*   {
-    title: (
-      <Space>
-        <InfoCircleOutlined style={{ color: '#13c2c2' }} />
-        <Text strong>Motif</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_motif_demande',
-    key: 'nom_motif_demande',
-    align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
-  }, */
-  {
-    title: (
-      <Space>
-        <UserOutlined style={{ color: '#fa541c' }} />
-        <Text strong>Demandeur</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_service',
-    key: 'nom_service',
-    align: 'center',
-    render: (text) => <Text type="secondary">{text}</Text>,
-  },
-  {
-    title: (
-      <Space>
-        <CheckCircleOutlined style={{ color: '#1890ff' }} />
-        <Text strong>Statut</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_type_statut',
-    key: 'nom_type_statut',
-    align: 'center',
-    render: text => {
-        const { icon, color } = statusIcons[text] || {};
-        return (
-                <Space>
-                    <Tag icon={icon} color={color}>{text}</Tag>
-                </Space>
-            );
     },
-  },
-  ...(role === 'Admin'
-    ? [
-        {
-          title: (
-            <Space>
-              <Text strong>Vu</Text>
-            </Space>
-          ),
-          dataIndex: 'vu',
-          key: 'vu',
-          align: 'center',
-          width: '80px',
-          render: (text, record) => (
-            <Tag
-              color={text === 1 ? 'green' : 'red'}
-              onClick={() => updatedVu(record.id_demande_vehicule)}
-              style={{ cursor: 'pointer' }}
-            >
-              {text === 1 ? 'Vu' : 'Non vu'}
-            </Tag>
-          ),
+    {
+        title: (
+        <Space>
+            <AimOutlined style={{ color: '#faad14' }} />
+            <Text strong>Date retour</Text>
+        </Space>
+        ),
+        dataIndex: 'date_retour',
+        key: 'date_retour',
+        align: 'center',
+        render: (text) => {
+        const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
+        return (
+        <Tooltip placement="topLeft"
+        title={formattedDate}>
+            <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
+        </Tooltip>
+        );
+    },
+    },
+    {
+        title: (
+        <Space>
+            <CarOutlined style={{ color: '#eb2f96' }} />
+            <Text strong>Type véhicule</Text>
+        </Space>
+        ),
+        dataIndex: 'nom_type_vehicule',
+        key: 'nom_type_vehicule',
+        align: 'center',
+        render: (text) => <Text type="secondary">{text}</Text>,
+    },
+    /*   {
+        title: (
+        <Space>
+            <InfoCircleOutlined style={{ color: '#13c2c2' }} />
+            <Text strong>Motif</Text>
+        </Space>
+        ),
+        dataIndex: 'nom_motif_demande',
+        key: 'nom_motif_demande',
+        align: 'center',
+        render: (text) => <Text type="secondary">{text}</Text>,
+    }, */
+    {
+        title: (
+        <Space>
+            <UserOutlined style={{ color: '#fa541c' }} />
+            <Text strong>Demandeur</Text>
+        </Space>
+        ),
+        dataIndex: 'nom_service',
+        key: 'nom_service',
+        align: 'center',
+        render: (text) => <Text type="secondary">{text}</Text>,
+    },
+    {
+        title: (
+        <Space>
+            <CheckCircleOutlined style={{ color: '#1890ff' }} />
+            <Text strong>Statut</Text>
+        </Space>
+        ),
+        dataIndex: 'nom_type_statut',
+        key: 'nom_type_statut',
+        align: 'center',
+        render: text => {
+            const { icon, color } = statusIcons[text] || {};
+            return (
+                    <Space>
+                        <Tag icon={icon} color={color}>{text}</Tag>
+                    </Space>
+                );
         },
-      ]
-    : []),
-  {
-    title: (
-      <Text strong>Actions</Text>
-    ),
-    key: 'action',
-    align: 'center',
-    render: (text, record) => (
-      <Space size="small">
-        <Tooltip title="Modifier cette localisation">
-          <Button
-            type="text"
-            icon={<EditOutlined />}
-            style={{ color: '#1890ff' }}
-            onClick={() => handleEdit(record.id_localite)}
-            aria-label="Modifier"
-          />
-        </Tooltip>
-        <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
-            <Button type='text' icon={<MoreOutlined />} style={{ color: 'blue' }} />
-        </Dropdown>
-        <Tooltip title="Supprimer définitivement">
-          <Popconfirm
-            title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
-            onConfirm={() => handleDelete(record.id_localite)}
-            okText="Oui"
-            cancelText="Non"
-            okButtonProps={{ danger: true }}
-          >
+    },
+    ...(role === 'Admin'
+        ? [
+            {
+            title: (
+                <Space>
+                <Text strong>Vu</Text>
+                </Space>
+            ),
+            dataIndex: 'vu',
+            key: 'vu',
+            align: 'center',
+            width: '80px',
+            render: (text, record) => (
+                <Tag
+                color={text === 1 ? 'green' : 'red'}
+                onClick={() => updatedVu(record.id_demande_vehicule)}
+                style={{ cursor: 'pointer' }}
+                >
+                {text === 1 ? 'Vu' : 'Non vu'}
+                </Tag>
+            ),
+            },
+        ]
+        : []),
+    {
+        title: (
+        <Text strong>Actions</Text>
+        ),
+        key: 'action',
+        align: 'center',
+        render: (text, record) => (
+        <Space size="small">
+            <Tooltip title="Modifier cette localisation">
             <Button
-              type="text"
-              icon={<DeleteOutlined />}
-              style={{ color: '#ff4d4f' }}
-              aria-label="Supprimer"
+                type="text"
+                icon={<EditOutlined />}
+                style={{ color: '#1890ff' }}
+                onClick={() => handleEdit(record.id_localite)}
+                aria-label="Modifier"
             />
-          </Popconfirm>
-        </Tooltip>
-      </Space>
-    ),
-  },
-];
+            </Tooltip>
+            <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+                <Button type='text' icon={<MoreOutlined />} style={{ color: 'blue' }} />
+            </Dropdown>
+            <Tooltip title="Supprimer définitivement">
+            <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
+                onConfirm={() => handleDelete(record.id_localite)}
+                okText="Oui"
+                cancelText="Non"
+                okButtonProps={{ danger: true }}
+            >
+                <Button
+                type="text"
+                icon={<DeleteOutlined />}
+                style={{ color: '#ff4d4f' }}
+                aria-label="Supprimer"
+                />
+            </Popconfirm>
+            </Tooltip>
+        </Space>
+        ),
+    },
+    ];
 
-  const filteredData = data.filter(item =>
-    item.nom_motif_demande?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom_service?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+    const filteredData = data.filter(item =>
+        item.nom_motif_demande?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.nom_service?.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
   return (
     <>
