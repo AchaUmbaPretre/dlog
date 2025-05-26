@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Form, Row, Divider, Card, Col, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
+import { useEffect, useState } from 'react'
+import { Form, Row, Card, Col, message, notification, Skeleton, Select, Button, DatePicker } from 'antd';
 import { getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
