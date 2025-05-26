@@ -141,7 +141,7 @@ const columns = [
     );
   },
   },
-  {
+{
     title: (
       <Space>
         <AimOutlined style={{ color: '#faad14' }} />
@@ -225,6 +225,7 @@ const columns = [
     dataIndex: 'vu',
     key: 'vu',
     align: 'center',
+    width: '50px',
     render: (text, record) => (
         <Tag color={text === 1 ? 'green' : 'red'} onClick={() => updatedVu(record.id_demande_vehicule)} style={{ cursor: 'pointer' }}>
             { text === 1 ? 'Vu' : 'Non vu' }
