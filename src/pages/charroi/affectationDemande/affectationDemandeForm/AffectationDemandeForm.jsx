@@ -1,23 +1,24 @@
-import React, { useState } from 'react'
-import { Form, message } from 'antd';
+import { useEffect, useState } from 'react'
+import { Form, Row, Card, Col, message, Skeleton, Select, Button } from 'antd';
 import { getChauffeur, getVehicule, postAffectationDemande } from '../../../../services/charroiService';
+import { SendOutlined } from '@ant-design/icons';
 
-const AffectationDemandeForm = ({id_demande_vehicule, fetchData}) => {
+const AffectationDemandeForm = ({id_demande_vehicule, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ loadingData, setLoadingData ] = useState(false);
     const [ vehicule, setVehicule ] = useState([]);
     const [ chauffeur, setChauffeur ] = useState([]);
 
-    const fetchData = async() => {
+    const fetchDatas = async() => {
         try {
             const [vehiculeData, chaufferData] = await Promise.all([
                 getVehicule(),
                 getChauffeur()
             ])
 
-            setVehicule(vehiculeData.data)
-            setChauffeur(chaufferData.data)
+            setVehicule(vehiculeData.data?.data)
+            setChauffeur(chaufferData.data?.data)
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -25,6 +26,11 @@ const AffectationDemandeForm = ({id_demande_vehicule, fetchData}) => {
             setLoadingData(false);
         }
     }
+
+    useEffect(()=> {
+        fetchDatas();
+    }, [id_demande_vehicule])
+    
 
     const onFinish = async (values) => {
         await form.validateFields();
@@ -83,9 +89,9 @@ const AffectationDemandeForm = ({id_demande_vehicule, fetchData}) => {
 
                             <Col xs={24} md={12}>
                                 <Form.Item
-                                    label="Véhicule"
-                                    name="id_vehicule"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un véhicule' }]}
+                                    label="Chauffeur"
+                                    name="id_chauffeur"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un chauffeur' }]}
                                 >
                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                 <Select
@@ -93,7 +99,7 @@ const AffectationDemandeForm = ({id_demande_vehicule, fetchData}) => {
                                     showSearch
                                     options={chauffeur?.map((item) => ({
                                         value: item.id_chauffeur,
-                                        label: item.nom,
+                                        label: item.nom
                                     }))}
                                     optionFilterProp="label"
                                     placeholder="Sélectionnez un chauffeur..."

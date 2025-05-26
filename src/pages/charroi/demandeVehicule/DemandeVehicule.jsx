@@ -6,6 +6,7 @@ import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/char
 import moment from 'moment';
 import { statusIcons } from '../../../utils/prioriteIcons';
 import { useSelector } from 'react-redux';
+import AffectationDemandeForm from '../affectationDemande/affectationDemandeForm/AffectationDemandeForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -60,6 +61,9 @@ const DemandeVehicule = () => {
                 case 'voirDetail': 
                     openModal('Detail', record.id_demande_vehicule)
                     break;
+                case 'affectation': 
+                    openModal('affectation', record.id_demande_vehicule)
+                    break;
                 default:
                     break
             }
@@ -77,7 +81,7 @@ const DemandeVehicule = () => {
               <Menu.Item key="voirDetail">
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
               </Menu.Item>
-                <Menu.Item key="validerInspection">
+                <Menu.Item key="affectation">
                     <PlusOutlined style={{ color: 'orange' }} /> Affectatation d'un vehicule
                 </Menu.Item>
                 </Menu.SubMenu>
@@ -384,6 +388,17 @@ const columns = [
       >
         <DemandeVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} demandeId={demandeId} />
       </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'affectation'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+            <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} demandeId={demandeId} />
+        </Modal>
     </>
   );
 };
