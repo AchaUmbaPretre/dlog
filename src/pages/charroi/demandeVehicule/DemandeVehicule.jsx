@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, InfoCircleOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
+import { ExportOutlined, MoreOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
 import moment from 'moment';
@@ -48,6 +48,37 @@ const DemandeVehicule = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    const getActionMenu = (record, openModal) => {
+        const handleClick = ({ key }) => {
+            switch (key) {
+                case 'voirDetail': 
+                    openModal('Detail', record.id_demande_vehicule)
+                    break;
+                default:
+                    break
+            }
+        };
+        return (
+            <Menu onClick={handleClick}>
+                            <Menu.SubMenu
+              key="inspection"
+              title={
+                <>
+                  <FileTextOutlined style={{ color: '#1890ff' }} /> Inspection
+                </>
+              }
+            >
+              <Menu.Item key="voirDetail">
+                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+              </Menu.Item>
+                <Menu.Item key="validerInspection">
+                    <PlusOutlined style={{ color: 'orange' }} /> Valider
+                </Menu.Item>
+                </Menu.SubMenu>
+            </Menu>
+        )
+    }
 
     const handleDelete = () => {
 
@@ -237,7 +268,6 @@ const columns = [
     ),
     key: 'action',
     align: 'center',
-    width: '100px',
     render: (text, record) => (
       <Space size="small">
         <Tooltip title="Modifier cette localisation">
@@ -249,6 +279,9 @@ const columns = [
             aria-label="Modifier"
           />
         </Tooltip>
+        <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+            <Button type='text' icon={<MoreOutlined />} style={{ color: 'blue' }} />
+        </Dropdown>
         <Tooltip title="Supprimer définitivement">
           <Popconfirm
             title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
