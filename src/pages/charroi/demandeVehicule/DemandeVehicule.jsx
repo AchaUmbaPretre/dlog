@@ -321,7 +321,6 @@ const columns = [
     item.nom_service?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-
   return (
     <>
       <div className="client">
