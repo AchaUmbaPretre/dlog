@@ -81,7 +81,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
             message.success({ content: 'La demande a été modifiée avec succès.', key: loadingKey });
 
         } else{
-            
+
             const v = {
                 ...values,
                 user_cr : userId
@@ -122,7 +122,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                 <Form.Item
                                     label="Date & heurre de chargement"
                                     name="date_chargement"
-                                    rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
+                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
                                 >
                                     <DatePicker 
                                         style={{width:'100%'}}
@@ -137,7 +137,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                 <Form.Item
                                     label="Date & heure de départ prévue"
                                     name="date_prevue"
-                                    rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
+                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
                                 >
                                     <DatePicker 
                                         style={{width:'100%'}}
@@ -152,7 +152,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                 <Form.Item
                                     label="Date & heurre de retour prévue"
                                     name="date_retour"
-                                    rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
+                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
                                 >
                                     <DatePicker 
                                         style={{width:'100%'}}
