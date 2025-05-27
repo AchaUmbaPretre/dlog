@@ -140,6 +140,21 @@ const DemandeVehicule = () => {
     </Menu>
     );
 
+    const columnStyles = {
+        title: {
+          maxWidth: '220px',
+          whiteSpace: 'nowrap',
+          overflowX: 'scroll', 
+          scrollbarWidth: 'none',
+          '-ms-overflow-style': 'none', 
+        },
+        hideScroll: {
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+    };
+
     const columns = [
     {
         title: '#',
@@ -153,13 +168,10 @@ const DemandeVehicule = () => {
         width: "3%",
     },
     {
-        title : (
-            <Space>
-                <Text strong>Client</Text>
-            </Space>
-        ),
+        title : "Client",
         dataIndex: 'nom',
         key:'nom',
+        align: 'center',
         render : (text) => (
             <Tag color="green">{text}</Tag>
         )
@@ -178,7 +190,9 @@ const DemandeVehicule = () => {
         const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
         return (
         <Tooltip placement="topLeft" title={formattedDate}>
-            <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
+            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
+            </div>
         </Tooltip>
         );
     },
@@ -196,10 +210,11 @@ const DemandeVehicule = () => {
         render: (text) => {
         const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
         return (
-        <Tooltip placement="topLeft"
-        title={formattedDate}>
-            <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
-        </Tooltip>
+            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                <Tooltip placement="topLeft" title={formattedDate}>
+                    <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
+                </Tooltip>
+            </div>
         );
     },
     },
@@ -207,7 +222,7 @@ const DemandeVehicule = () => {
         title: (
         <Space>
             <CarOutlined style={{ color: '#eb2f96' }} />
-            <Text strong>Type véhicule</Text>
+            <Text strong>T. véhicule</Text>
         </Space>
         ),
         dataIndex: 'nom_type_vehicule',
