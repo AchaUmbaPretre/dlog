@@ -70,20 +70,21 @@ const DemandeVehicule = () => {
         };
         return (
             <Menu onClick={handleClick}>
-            <Menu.SubMenu
-              key="inspection"
-              title={
-                <>
-                  <FileTextOutlined style={{ color: '#1890ff' }} /> Affectation
-                </>
-              }
-            >
-              <Menu.Item key="voirDetail">
-                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
-              </Menu.Item>
-                <Menu.Item key="affectation">
-                    <PlusOutlined style={{ color: 'orange' }} /> Affectater
-                </Menu.Item>
+                <Menu.SubMenu
+                    key="inspection"
+                    title={
+                        <>
+                        <FileTextOutlined style={{ color: '#1890ff' }} /> Affectation
+                        </>
+                    }
+                >
+                    <Menu.Item key="voirDetail">
+                        <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+                    </Menu.Item>
+                    <Menu.Divider />
+                    <Menu.Item key="affectation">
+                        <PlusOutlined style={{ color: 'orange' }} /> Affectater
+                    </Menu.Item>
                 </Menu.SubMenu>
             </Menu>
         )
