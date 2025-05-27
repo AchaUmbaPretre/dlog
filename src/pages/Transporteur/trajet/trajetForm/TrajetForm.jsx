@@ -3,6 +3,7 @@ import { Form, Row, Divider, Card, Col, message, InputNumber, Skeleton, Select, 
 import { getLocalisation, getModeTransport, getTransporteur, getTypeTarif, postTrajet } from '../../../../services/transporteurService';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
+import { f } from 'html2pdf.js';
 
 const TrajetForm = ({closeModal, fetchDatas}) => {
     const [form] = Form.useForm();
@@ -191,7 +192,7 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
                                                 label="Date départ"
                                                 {...restField}
                                                 name={[name, "date_depart"]}
-                                                rules={[{ required: true, message: 'Veuillez sélectionner un' }]}
+                                                rules={[{ required: false, message: 'Veuillez sélectionner un' }]}
                                             >
                                                 <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
                                             </Form.Item>
@@ -202,7 +203,7 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
                                                 label="Date arrivée"
                                                 {...restField}
                                                 name={[name, "date_arrivee"]}
-                                                rules={[{ required: true, message: 'Veuillez sélectionner un' }]}
+                                                rules={[{ required: false, message: 'Veuillez sélectionner un' }]}
                                             >
                                                 <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
                                             </Form.Item>
@@ -251,7 +252,7 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
                                                 }
                                             </Form.Item>
                                         </Col>
-                                        
+
                                         <Col xs={24} md={2}>
                                             <Button
                                                 type="text"

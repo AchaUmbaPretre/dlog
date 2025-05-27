@@ -265,6 +265,7 @@ const Trajet = () => {
       title: <Text strong>Actions</Text>,
       key: 'action',
       align: 'center',
+      width: '125px',
       render: (text, record) => (
         <Space size="small">
           <Tooltip title="Modifier ce trajet">
