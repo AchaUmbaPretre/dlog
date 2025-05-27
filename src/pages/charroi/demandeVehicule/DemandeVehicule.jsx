@@ -82,7 +82,7 @@ const DemandeVehicule = () => {
                 <EyeOutlined style={{ color: 'green' }} /> Voir Détail
               </Menu.Item>
                 <Menu.Item key="affectation">
-                    <PlusOutlined style={{ color: 'orange' }} /> Affectatation d'un vehicule
+                    <PlusOutlined style={{ color: 'orange' }} /> Affectater
                 </Menu.Item>
                 </Menu.SubMenu>
             </Menu>
