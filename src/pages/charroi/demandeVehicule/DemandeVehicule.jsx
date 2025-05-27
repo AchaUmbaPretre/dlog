@@ -287,11 +287,11 @@ const DemandeVehicule = () => {
             width: '80px',
             render: (text, record) => (
                 <Tag
-                color={text === 1 ? 'green' : 'red'}
-                onClick={() => updatedVu(record.id_demande_vehicule)}
-                style={{ cursor: 'pointer' }}
+                    color={text === 1 ? 'green' : 'red'}
+                    onClick={text === 1 ? undefined : () => updatedVu(record.id_demande_vehicule)}
+                    style={{ cursor: text === 1 ? 'default' : 'pointer' }}
                 >
-                {text === 1 ? 'Vu' : 'Non vu'}
+                    {text === 1 ? 'Vu' : 'Non vu'}
                 </Tag>
             ),
             },
