@@ -280,7 +280,7 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
                             </>
                         )}
                     </Form.List>
-                    <Button type="primary" size='large' htmlType="submit" loading={loading} icon={<SendOutlined />}>
+                    <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>
                         Soumettre
                     </Button>
                 </Form>
