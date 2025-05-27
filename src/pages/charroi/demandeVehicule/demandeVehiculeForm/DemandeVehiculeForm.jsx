@@ -40,9 +40,9 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
             if (demandeId) {
                 const { data : d} = await getDemandeVehiculeOne(demandeId);
                 form.setFieldsValue({
-                    date_chargement : moment(d[0].date_chargement).format('YYYY-MM-DD HH:mm'),
-                    date_prevue : moment(d[0].date_prevue).format('YYYY-MM-DD HH:mm'),
-                    date_retour : moment(d[0].date_retour).format('YYYY-MM-DD HH:mm'),
+                    date_chargement : moment(d[0].date_chargement),
+                    date_prevue : moment(d[0].date_prevue),
+                    date_retour : moment(d[0].date_retour),
                     id_type_vehicule : d[0].id_type_vehicule,
                     id_motif_demande: d[0].id_motif_demande,
                     id_demandeur: d[0].id_demandeur,
