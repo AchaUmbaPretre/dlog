@@ -152,25 +152,18 @@ const DemandeVehicule = () => {
         },
         width: "3%",
     },
-    /*   {
-        title: (
-        <Space>
-            <LoginOutlined style={{ color: '#1890ff' }} />
-            <Text strong>Date chargement</Text>
-        </Space>
+    {
+        title : (
+            <Space>
+                <Text strong>Client</Text>
+            </Space>
         ),
-        dataIndex: 'date_chargement',
-        key: 'date_chargement',
-        ellipsis: { showTitle: false },
-        render: (text) => {
-            const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
-            return (
-            <Tooltip placement="topLeft" title={formattedDate}>
-                <Tag icon={<CalendarOutlined />}  color="blue">{formattedDate}</Tag>
-            </Tooltip>
-            );
-        },
-    }, */
+        dataIndex: 'nom',
+        key:'nom',
+        render : (text) => (
+            <Tag color="green">{text}</Tag>
+        )
+    },
     {
         title: (
         <Space>
@@ -295,6 +288,7 @@ const DemandeVehicule = () => {
         ),
         key: 'action',
         align: 'center',
+        width : '120px',
         render: (text, record) => (
         <Space size="small">
             <Tooltip title="Modifier cette localisation">
