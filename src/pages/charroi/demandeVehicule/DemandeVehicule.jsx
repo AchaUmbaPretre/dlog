@@ -7,6 +7,7 @@ import moment from 'moment';
 import { statusIcons } from '../../../utils/prioriteIcons';
 import { useSelector } from 'react-redux';
 import AffectationDemandeForm from '../affectationDemande/affectationDemandeForm/AffectationDemandeForm';
+import DemandeVehiculeDetail from './demandeVehiculeDetail/DemandeVehiculeDetail';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -379,16 +380,16 @@ const DemandeVehicule = () => {
         </div>
       </div>
 
-      <Modal
-        title=""
-        visible={modalType === 'Add'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1000}
-        centered
-      >
-        <DemandeVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} demandeId={demandeId} />
-      </Modal>
+        <Modal
+            title=""
+            visible={modalType === 'Add'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1000}
+            centered
+        >
+            <DemandeVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} demandeId={demandeId} />
+        </Modal>
 
         <Modal
             title=""
@@ -399,6 +400,17 @@ const DemandeVehicule = () => {
             centered
         >
             <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={800}
+            centered
+        >
+            <DemandeVehiculeDetail closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
         </Modal>
     </>
   );
