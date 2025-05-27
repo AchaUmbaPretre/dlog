@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, MoreOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
-import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
+import { getDemandeVehicule, putDemandeVehiculeAnnuler, putDemandeVehiculeVu } from '../../../services/charroiService';
 import moment from 'moment';
 import { statusIcons } from '../../../utils/prioriteIcons';
 import { useSelector } from 'react-redux';
@@ -26,6 +26,15 @@ const DemandeVehicule = () => {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const role = useSelector((state) => state.user?.currentUser?.role);
   
+    const vehiculeUpdateAnnuler = async (id) => {
+        try {
+            await putDemandeVehiculeAnnuler(id);
+            fetchData();
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour :", error);
+        }
+    };
+
     const updatedVu = async (id) => {
         try {
             await putDemandeVehiculeVu(id);
@@ -64,6 +73,9 @@ const DemandeVehicule = () => {
                     break;
                 case 'affectation': 
                     openModal('affectation', record.id_demande_vehicule)
+                    break;
+                case 'closeDemande': 
+                    vehiculeUpdateAnnuler(record.id_demande_vehicule)
                     break;
                 default:
                     break

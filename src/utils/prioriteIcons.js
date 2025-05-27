@@ -126,6 +126,11 @@ export const statusIcons = {
   'Réparé': {
     icon : <ToolOutlined />,
     color: 'cyan'
+  },
+  'Annulé':
+  {
+    icon : <CloseCircleOutlined />,
+    color: 'red'
   }
 };
 
