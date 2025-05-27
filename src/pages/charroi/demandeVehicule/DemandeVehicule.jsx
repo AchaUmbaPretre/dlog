@@ -75,6 +75,10 @@ const DemandeVehicule = () => {
         };
         return (
             <Menu onClick={handleClick}>
+                <Menu.Item key="voirDetail">
+                    <EyeOutlined style={{ color: '#2db7f5' }} /> Voir Détail
+                </Menu.Item>
+                <Menu.Divider />
                 <Menu.Item key="closeDemande">
                     <CloseCircleOutlined style={{ color: 'red' }} /> Annuler
                 </Menu.Item>
@@ -87,9 +91,6 @@ const DemandeVehicule = () => {
                         </>
                     }
                 >
-                    <Menu.Item key="voirDetail">
-                        <EyeOutlined style={{ color: 'green' }} /> Voir Détail
-                    </Menu.Item>
                     <Menu.Item key="affectation">
                         <PlusOutlined style={{ color: 'orange' }} /> Affectater
                     </Menu.Item>
