@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, MoreOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
+import { ExportOutlined, MoreOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
 import moment from 'moment';
@@ -71,6 +71,10 @@ const DemandeVehicule = () => {
         };
         return (
             <Menu onClick={handleClick}>
+                <Menu.Item key="closeDemande">
+                    <CloseCircleOutlined style={{ color: 'red' }} /> Annuler
+                </Menu.Item>
+                <Menu.Divider />
                 <Menu.SubMenu
                     key="inspection"
                     title={
@@ -82,7 +86,6 @@ const DemandeVehicule = () => {
                     <Menu.Item key="voirDetail">
                         <EyeOutlined style={{ color: 'green' }} /> Voir Détail
                     </Menu.Item>
-                    <Menu.Divider />
                     <Menu.Item key="affectation">
                         <PlusOutlined style={{ color: 'orange' }} /> Affectater
                     </Menu.Item>
