@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Card, Col, message, notification, Skeleton, Select, Button, DatePicker } from 'antd';
-import { getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule } from '../../../../services/charroiService';
+import { getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule, putDemandeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
 import { getUser } from '../../../../services/userService';
@@ -71,12 +71,25 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     setLoading(true); 
 
     try {
-        const v = {
-            ...values,
-            user_cr : userId
+
+        if(demandeId) {
+            const v = {
+                ...values,
+                user_cr : userId
+            }
+            await putDemandeVehicule(v)
+            message.success({ content: 'La demande a été modifiée avec succès.', key: loadingKey });
+
+        } else{
+
+            const v = {
+                ...values,
+                user_cr : userId
+            }
+            await postDemandeVehicule(v);
+            message.success({ content: 'La demande a été envoyée avec succès.', key: loadingKey });
+
         }
-        await postDemandeVehicule(v);
-        message.success({ content: 'La demande a été envoyée avec succès.', key: loadingKey });
 
         form.resetFields();
         fetchData();
