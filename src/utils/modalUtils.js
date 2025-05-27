@@ -108,7 +108,6 @@ export const handleRepair = (openModal, record) => {
     }
   };
   
-
 export const handleValider = (openModal, record) => {
     const alreadyValidated = !!record.date_validation;
 
