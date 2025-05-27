@@ -46,7 +46,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                     id_type_vehicule : d[0].id_type_vehicule,
                     id_motif_demande: d[0].id_motif_demande,
                     id_demandeur: d[0].id_demandeur,
-                    id_client: d[0].id_client,
+                    id_client : d[0].id_client,
                     id_localisation : d[0].id_localisation,
                     id_utilisateur : d[0].id_utilisateur
                 })
