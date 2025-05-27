@@ -8,6 +8,7 @@ import { statusIcons } from '../../../utils/prioriteIcons';
 import { useSelector } from 'react-redux';
 import AffectationDemandeForm from '../affectationDemande/affectationDemandeForm/AffectationDemandeForm';
 import DemandeVehiculeDetail from './demandeVehiculeDetail/DemandeVehiculeDetail';
+import { vehiculeUpdateAnnuler } from '../../../utils/modalUtils';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -26,15 +27,6 @@ const DemandeVehicule = () => {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const role = useSelector((state) => state.user?.currentUser?.role);
   
-    const vehiculeUpdateAnnuler = async (id) => {
-        try {
-            await putDemandeVehiculeAnnuler(id);
-            fetchData();
-        } catch (error) {
-            console.error("Erreur lors de la mise à jour :", error);
-        }
-    };
-
     const updatedVu = async (id) => {
         try {
             await putDemandeVehiculeVu(id);
@@ -75,7 +67,7 @@ const DemandeVehicule = () => {
                     openModal('affectation', record.id_demande_vehicule)
                     break;
                 case 'closeDemande': 
-                    vehiculeUpdateAnnuler(record.id_demande_vehicule)
+                    vehiculeUpdateAnnuler(record.id_demande_vehicule, fetchData)
                     break;
                 default:
                     break
@@ -109,6 +101,7 @@ const DemandeVehicule = () => {
     const handleDelete = () => {
 
     }
+
   
     const handleEdit = (id) => openModal('Add', id)
 

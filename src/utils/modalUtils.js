@@ -1,5 +1,8 @@
-import { Button, Modal, notification } from 'antd';
-import { ExclamationCircleTwoTone, CheckOutlined,  InfoCircleOutlined, CheckCircleTwoTone, FormOutlined, ToolOutlined, EyeOutlined } from '@ant-design/icons'
+import { Button, Modal, notification, Typography } from 'antd';
+import { ExclamationCircleTwoTone, ExclamationCircleOutlined, CheckOutlined,  InfoCircleOutlined, CheckCircleTwoTone, FormOutlined, ToolOutlined, EyeOutlined } from '@ant-design/icons'
+import { putDemandeVehiculeAnnuler } from '../services/charroiService';
+
+const { Text } = Typography;
 
 export const handleRepair = (openModal, record) => {
     const alreadyValidated = !!record.date_validation;
@@ -205,3 +208,76 @@ export const handleValider = (openModal, record) => {
       ),
     });
   }
+
+export const vehiculeUpdateAnnuler = async (id, fetchData) => {
+  Modal.confirm({
+    title: (
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <ExclamationCircleOutlined style={{ fontSize: 28, color: "#FF4D4F" }} />
+        <Typography.Text strong style={{ fontSize: 18, color: "#333", fontWeight: '600' }}>
+          Annuler la demande
+        </Typography.Text>
+      </div>
+    ),
+    content: (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <Typography.Text style={{ fontSize: 16, color: '#666', lineHeight: 1.6 }}>
+          Êtes-vous sûr de vouloir annuler cette demande ?
+        </Typography.Text>
+        <Typography.Text type="danger" style={{ fontSize: 14, marginTop: 12 }}>
+          Cette action est irréversible et la demande ne pourra pas être récupérée.
+        </Typography.Text>
+      </div>
+    ),
+    okText: "Oui, annuler",
+    cancelText: "Non",
+    okType: "danger",
+    centered: true,
+    maskClosable: true,
+    icon: null,
+    okButtonProps: {
+      style: {
+        backgroundColor: "#FF4D4F",
+        borderColor: "#FF4D4F",
+        fontWeight: 600,
+        color: "#fff",
+        borderRadius: 4,
+        transition: 'all 0.3s ease-in-out',
+      },
+      onMouseEnter: (e) => {
+        e.target.style.backgroundColor = '#FF2A2A';
+      },
+      onMouseLeave: (e) => {
+        e.target.style.backgroundColor = '#FF4D4F';
+      },
+    },
+    cancelButtonProps: {
+      style: {
+        fontWeight: 600,
+        color: "#333",
+        borderRadius: 4,
+        borderColor: "#ddd",
+        transition: 'all 0.3s ease-in-out',
+      },
+    },
+    onOk: async () => {
+      try {
+        await putDemandeVehiculeAnnuler(id);
+        notification.success({
+          message: 'Demande annulée',
+          description: 'La demande a été annulée avec succès.',
+          placement: 'topRight',
+        });
+        fetchData(); 
+      } catch (error) {
+        console.error("Erreur lors de l’annulation :", error);
+        notification.error({
+          message: 'Erreur',
+          description: 'Une erreur est survenue lors de l’annulation de la demande.',
+          placement: 'topRight',
+        });
+      }
+    }
+  });
+};
+

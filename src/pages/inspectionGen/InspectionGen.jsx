@@ -221,7 +221,7 @@ const InspectionGen = () => {
           setLoading(false);
         }
     }, []);
-    
+
     const handFilter = () => {
       fetchDataInsp()
       setFilterVisible(!filterVisible)
