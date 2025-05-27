@@ -41,7 +41,10 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
 
         try {
             
-            await postAffectationDemande(values)
+            await postAffectationDemande({
+                ...values,
+                id_demande_vehicule : id_demande_vehicule
+            })
             message.success({ content: "L'affectation a été mise a jour avec succès.", key: loadingKey });
             fetchData();
             closeModal();
