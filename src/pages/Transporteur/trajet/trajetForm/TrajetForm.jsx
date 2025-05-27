@@ -3,7 +3,6 @@ import { Form, Row, Divider, Card, Col, message, InputNumber, Skeleton, Select, 
 import { getLocalisation, getModeTransport, getTransporteur, getTypeTarif, postTrajet } from '../../../../services/transporteurService';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import { f } from 'html2pdf.js';
 
 const TrajetForm = ({closeModal, fetchDatas}) => {
     const [form] = Form.useForm();
@@ -17,16 +16,12 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
     
     const fetchData = async () => {
         try {
-            const [locaData, modeData, typeData, transData] = await Promise.all([
+            const [locaData, modeData] = await Promise.all([
             getLocalisation(),
-            getModeTransport(),
-            getTypeTarif(),
-            getTransporteur()
+            getModeTransport()
         ])
         setLocal(locaData.data);
         setMode(modeData.data);
-        setTarif(typeData.data);
-        setTrans(transData.data)
             
         } catch (error) {
             console.error('Error fetching data:', error);
