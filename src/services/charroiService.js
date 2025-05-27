@@ -392,6 +392,10 @@ export const getDemandeVehicule = async (userId, role) => {
     return axios.get(`${DOMAIN}/api/charroi/demande_vehicule?userId=${userId}&userRole=${role}`);
 }
 
+export const getDemandeVehiculeOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/demande_vehiculeOne?id_demande_vehicule=${id}`);
+}
+
 export const postDemandeVehicule = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/demande_vehicule`, data);
 }
