@@ -77,7 +77,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                 ...values,
                 user_cr : userId
             }
-            await putDemandeVehicule(v)
+            await putDemandeVehicule(demandeId, v)
             message.success({ content: 'La demande a été modifiée avec succès.', key: loadingKey });
 
         } else{
