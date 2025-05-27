@@ -400,6 +400,10 @@ export const postDemandeVehicule = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/demande_vehicule`, data);
 }
 
+export const putDemandeVehicule = async (id, data) => {
+    return axios.put(`${DOMAIN}/api/charroi/demande_vehicule?id_demande_vehicule=${id}`,data);
+}
+
 export const putDemandeVehiculeVu = async(id) => {
     return axios.put(`${DOMAIN}/api/charroi/demande_vehiculeVue?id_demande=${id}`)
 }

@@ -49,7 +49,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                     id_client : d[0].id_client,
                     id_localisation : d[0].id_localisation,
                     id_utilisateur : d[0].id_utilisateur
-                })
+                });
             }
         } catch (error) {
             console.error('Error fetching data:', error);
