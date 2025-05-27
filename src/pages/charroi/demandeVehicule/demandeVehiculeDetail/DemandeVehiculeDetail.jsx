@@ -72,7 +72,6 @@ const DemandeVehiculeDetail = ({ id_demande_vehicule }) => {
           bordered
           column={1}
           size="middle"
-          layout="vertical"
         >
           <Descriptions.Item label="Client">{data.nom}</Descriptions.Item>
           <Descriptions.Item label="Service">{data.nom_service}</Descriptions.Item>
@@ -85,7 +84,7 @@ const DemandeVehiculeDetail = ({ id_demande_vehicule }) => {
           <Descriptions.Item label="Date de chargement">{formatDate(data.date_chargement)}</Descriptions.Item>
           <Descriptions.Item label="Date prévue">{formatDate(data.date_prevue)}</Descriptions.Item>
           <Descriptions.Item label="Date de retour">{formatDate(data.date_retour)}</Descriptions.Item>
-          <Descriptions.Item label="Utilisateur">{data.nom_user}</Descriptions.Item>
+          <Descriptions.Item label="Crée par">{data.nom_user}</Descriptions.Item>
         </Descriptions>
       </div>
     </>
