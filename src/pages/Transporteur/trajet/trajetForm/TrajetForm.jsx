@@ -148,7 +148,7 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
                                                 label="Départ"
                                                 {...restField}
                                                 name={[name, "id_depart"]}
-                                                rules={[{ required: true, message: 'Veuillez sélectionner un ' }]}
+                                                rules={[{ required: true, message: 'Veuillez sélectionner un départ ' }]}
                                             >
                                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                                 <Select
@@ -170,7 +170,7 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
                                                 label="Destination"
                                                 {...restField}
                                                 name={[name, "id_arrive"]}
-                                                rules={[{ required: true, message: 'Veuillez sélectionner un' }]}
+                                                rules={[{ required: true, message: 'Veuillez sélectionner une destination' }]}
                                             >
                                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                                 <Select
