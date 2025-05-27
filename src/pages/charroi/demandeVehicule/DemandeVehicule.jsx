@@ -357,7 +357,7 @@ const DemandeVehicule = () => {
             <div className="client-row-icon">
               <FileSyncOutlined className='client-icon' style={{color:'blue'}} />
             </div>
-            <h2 className="client-h2">Liste des réservations des véhicules</h2>
+            <h2 className="client-h2">Liste des réservations de véhicules</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
