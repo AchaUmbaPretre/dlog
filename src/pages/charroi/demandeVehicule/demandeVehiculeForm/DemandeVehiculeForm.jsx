@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Card, Col, message, notification, Skeleton, Select, Button, DatePicker } from 'antd';
-import { getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule } from '../../../../services/charroiService';
+import { getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
 import { getUser } from '../../../../services/userService';
@@ -36,6 +36,20 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
             setLocal(localData.data);
             setUser(userData.data)
 
+            if (demandeId) {
+                const { data : d} = await getDemandeVehiculeOne(demandeId);
+                form.setFieldsValue({
+                    date_chargement : d[0].date_chargement,
+                    date_prevue : d[0].date_prevue,
+                    date_retour : d[0].date_retour,
+                    id_type_vehicule : d[0].id_type_vehicule,
+                    id_motif_demande: d[0].id_motif_demande,
+                    id_demandeur: d[0].id_demandeur,
+                    id_client: d[0].id_client,
+                    id_localisation : d[0].id_localisation,
+                    id_utilisateur : d[0].id_utilisateur
+                })
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
