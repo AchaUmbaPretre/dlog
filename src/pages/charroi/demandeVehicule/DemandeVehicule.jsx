@@ -407,7 +407,7 @@ const DemandeVehicule = () => {
             visible={modalType === 'Detail'}
             onCancel={closeAllModals}
             footer={null}
-            width={800}
+            width={900}
             centered
         >
             <DemandeVehiculeDetail closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
