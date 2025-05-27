@@ -80,7 +80,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Formulaire de demande</div>
+                <div className="controle_h2">{demandeId ? 'Modifier la demande' : 'Formulaire de demande'}</div>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -263,8 +263,8 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                             </Col>
                         </Row>
                     </Card>
-                    <Button type="primary" size='large' loading={loading} disabled={loading} htmlType="submit" icon={<SendOutlined />} style={{marginTop:'20px'}}>
-                        Soumettre
+                    <Button type="primary" loading={loading} disabled={loading} htmlType="submit" icon={<SendOutlined />} style={{marginTop:'20px'}}>
+                       { demandeId ? 'Modifier' : 'Soumettre'}
                     </Button>
                 </Form>
             </div>
