@@ -81,7 +81,7 @@ const Trajet = () => {
       return (
         <Menu onClick={handleClick}>
           <Menu.Item key="voirDetail">
-            <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+            <EyeOutlined style={{ color: '#2db7f5' }} /> Détail
           </Menu.Item>
           <Menu.Divider />
         </Menu>
