@@ -15,12 +15,11 @@ const Trajet = () => {
   const [trajetId, setTrajetId] = useState([]);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
-  const [localiteId, setLocaliteId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
       current: 1,
       pageSize: 15,
-    });
+  });
   
   const columnStyles = {
     title: {
@@ -267,7 +266,7 @@ const Trajet = () => {
       width: '125px',
       render: (text, record) => (
         <Space size="small">
-{/*           <Tooltip title="Modifier ce trajet">
+          <Tooltip title="Modifier ce trajet">
             <Button
               type="text"
               icon={<EditOutlined />}
@@ -275,7 +274,7 @@ const Trajet = () => {
               style={{ color: '#1890ff' }}
               aria-label="Modifier"
             />
-          </Tooltip> */}
+          </Tooltip>
           <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
             <Button type="text" icon={<MoreOutlined />} style={{ color: 'blue' }} />
           </Dropdown>
@@ -365,7 +364,7 @@ const Trajet = () => {
         width={950}
         centered
       >
-        <TrajetForm closeModal={() => setModalType(null)} fetchDatas={fetchData} localiteId={localiteId} />
+        <TrajetForm closeModal={() => setModalType(null)} fetchDatas={fetchData} trajetId={trajetId} />
       </Modal>
 
       <Modal
