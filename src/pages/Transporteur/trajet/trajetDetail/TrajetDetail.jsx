@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './trajetDetail.scss';
 import { getTrajetOne } from '../../../../services/transporteurService';
-import { Card, Typography, Spin } from 'antd';
+import { Card, Typography, Spin, Tooltip, Button } from 'antd';
 import { CalendarOutlined, CarOutlined, DollarOutlined, DashboardOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
@@ -52,6 +52,16 @@ const TrajetDetail = ({ id_trajet }) => {
                 <p><ClockCircleOutlined/>  <strong>Durée :</strong> {trajet.duree_jours} jours</p>
                 <p><CarOutlined />  <strong>Mode de transport :</strong> {trajet.modes_transport}</p>
                 <p><DollarOutlined />  <strong>Coût total :</strong> {trajet.total} $</p>
+                <div >
+                  <Tooltip title="Modifier cette trajet">
+                   <Button
+                      type="text"
+                      icon={<EditOutlined />}
+                      style={{ color: '#1890ff' }}
+                      aria-label="Modifier"
+                   />
+                  </Tooltip>
+                </div>
               </Card>
             ))}
           </div>
