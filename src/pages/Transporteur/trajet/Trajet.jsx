@@ -22,7 +22,6 @@ const Trajet = () => {
       pageSize: 15,
     });
   
-  
   const columnStyles = {
     title: {
       maxWidth: '220px',
@@ -272,7 +271,7 @@ const Trajet = () => {
             <Button
               type="text"
               icon={<EditOutlined />}
-              onClick={() => handleEdit(record.id)}
+              onClick={() => handleEdit(record.id_trajet)}
               aria-label="Modifier"
             />
           </Tooltip>
@@ -282,7 +281,7 @@ const Trajet = () => {
           <Tooltip title="Supprimer définitivement">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer ce trajet ?"
-              onConfirm={() => handleDelete(record.id)}
+              onConfirm={() => handleDelete(record.id_trajet)}
               okText="Oui"
               cancelText="Non"
               okButtonProps={{ danger: true }}
