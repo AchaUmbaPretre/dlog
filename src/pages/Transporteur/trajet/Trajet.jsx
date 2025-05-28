@@ -12,7 +12,7 @@ const { Text } = Typography;
 const Trajet = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [trajetId, setTrajetId] = useState([]);
+  const [trajetId, setTrajetId] = useState(null);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
   const [searchValue, setSearchValue] = useState('');
@@ -201,8 +201,8 @@ const Trajet = () => {
       render: (text) => {
         const formattedDate = moment(text).format('DD-MM-YYYY');
         return (
-        <Tooltip placement="center" title={formattedDate}>
-          <Tag icon={<CalendarOutlined />} color="green">{formattedDate}</Tag>
+        <Tooltip placement="center" title={text ? formattedDate : 'Aucune'}>
+          <Tag icon={<CalendarOutlined />} color="green">{text ? formattedDate : 'Aucune'}</Tag>
         </Tooltip>
         )
       }
@@ -220,8 +220,8 @@ const Trajet = () => {
       render: (text) => {
         const formattedDate = moment(text).format('DD-MM-YYYY');
         return (
-        <Tooltip placement="center" title={formattedDate}>
-          <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
+        <Tooltip placement="center" title={ text ? formattedDate : 'Aucune'}>
+          <Tag icon={<CalendarOutlined />} color="blue">{text ? formattedDate : 'Aucune'}</Tag>
         </Tooltip>
         )
       }
@@ -233,11 +233,11 @@ const Trajet = () => {
       align: 'center',
       render: (text) => (
         <>
-          {text.split(',').map((mode) => (
-            <Tag color="green" key={mode.trim()}>{mode.trim()}</Tag>
+          {(text || '').split(',').map((mode) => (
+          <Tag color="green" key={mode.trim()}>{mode.trim()}</Tag>
           ))}
         </>
-      ),
+      )
     },
 /*     {
       title: <Text strong>Durée</Text>,
@@ -347,7 +347,7 @@ const Trajet = () => {
             dataSource={filteredData}
             loading={loading}
             onChange={(pagination) => setPagination(pagination)}
-            rowKey="id"
+            rowKey="id_trajet"
             bordered
             size="small"
             scroll={scroll}

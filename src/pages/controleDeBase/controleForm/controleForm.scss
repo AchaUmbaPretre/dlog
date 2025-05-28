@@ -3,6 +3,7 @@
     border-radius: 8px;
   
     .controle_title_rows {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -28,7 +29,7 @@
   width: 0;
   background-color: #0056b3;
   z-index: 0;
-  animation: fillRow 1.5s forwards;
+  animation: fillRow 5s forwards;
   border-radius: 6px;
 }
 
