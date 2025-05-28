@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, message, InputNumber, Skeleton, Select, Button,  DatePicker } from 'antd';
-import { getLocalisation, getModeTransport, getTransporteur, getTypeTarif, postTrajet } from '../../../../services/transporteurService';
+import { getLocalisation, getModeTransport, getTrajetOneV, postTrajet } from '../../../../services/transporteurService';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
-const TrajetForm = ({closeModal, fetchDatas}) => {
+const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ local, setLocal ] = useState([]);
     const [ loadingData, setLoadingData ] = useState(false);
     const [ mode, setMode ] = useState([]);
-    const [ tarif, setTarif ] = useState([]);
-    const [ trans, setTrans ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     
     const fetchData = async () => {
@@ -22,6 +20,11 @@ const TrajetForm = ({closeModal, fetchDatas}) => {
         ])
         setLocal(locaData.data);
         setMode(modeData.data);
+
+        if(trajetId) {
+            const { data : d } = await getTrajetOneV(trajetId);
+            
+        }
             
         } catch (error) {
             console.error('Error fetching data:', error);
