@@ -241,14 +241,14 @@ const Trajet = () => {
         </>
       ),
     },
-    {
+/*     {
       title: <Text strong>Durée</Text>,
       dataIndex: 'duree_jours',
       key: 'duree_jours',
       align: 'center',
       width: "6%",
       render: (text) => <Tag color="purple">{text} j</Tag>,
-    },
+    }, */
     {
       title: <Text strong>Total</Text>,
       dataIndex: 'total',
