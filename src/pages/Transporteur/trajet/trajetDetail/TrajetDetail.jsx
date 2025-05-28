@@ -4,7 +4,7 @@ import { getTrajetOne } from '../../../../services/transporteurService';
 import { Card, Typography, Spin } from 'antd';
 import { CalendarOutlined, CarOutlined, DollarOutlined, DashboardOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const TrajetDetail = ({ id_trajet }) => {
   const [data, setData] = useState([]);
