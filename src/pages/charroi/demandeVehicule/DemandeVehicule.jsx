@@ -369,7 +369,7 @@ const DemandeVehicule = () => {
             <TabPane
                 tab={
                     <span>
-                      📅 Réservation
+                      📅 Réservations
                     </span>
                 }
                 key="1"
