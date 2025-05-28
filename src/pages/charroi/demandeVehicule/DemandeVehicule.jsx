@@ -382,8 +382,8 @@ const DemandeVehicule = () => {
                             </div>
                            <h2 className="client-h2">Liste des réservations de véhicules</h2>
                         </div>
-          <div className="client-actions">
-            <div className="client-row-left">
+                        <div className="client-actions">
+                            <div className="client-row-left">
                 <Search 
                     placeholder="Recherche..." 
                     enterButton 
