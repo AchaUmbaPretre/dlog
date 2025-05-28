@@ -3,6 +3,7 @@ import { Form, Row, Divider, Card, Col, message, InputNumber, Skeleton, Select, 
 import { getLocalisation, getModeTransport, getTrajetOneV, postTrajet } from '../../../../services/transporteurService';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
     const [form] = Form.useForm();
@@ -23,7 +24,20 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
 
         if(trajetId) {
             const { data : d } = await getTrajetOneV(trajetId);
-            
+            form.setFieldsValue({
+                id_depart : d[0].id_depart,
+                id_arrive : d[0].id_arrive,
+                segment : d.map((item, index) => ({
+                    ordre : item.ordre,
+                    id_depart : item.id_depart,
+                    id_arrive : item.id_destination,
+                    date_depart : moment(item.date_depart),
+                    date_arrivee : moment(item.date_arrivee),
+                    distance_km : item.distance_km,
+                    mode_transport : item.mode_transport,
+                    prix : item.prix
+                }))
+            })
         }
             
         } catch (error) {
@@ -35,7 +49,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
 
     useEffect(()=> {
         fetchData();
-    }, [])
+    }, [trajetId])
 
     const onFinish = async(values) => {
         await form.validateFields();
@@ -67,7 +81,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Enregistrer un trajet</div>
+                <div className="controle_h2">{ trajetId ? 'Modifier un trajet' : 'Enregistrer un trajet'}</div>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -279,7 +293,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                         )}
                     </Form.List>
                     <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>
-                        Soumettre
+                        { trajetId ? 'Modifier' : 'Soumettre'}
                     </Button>
                 </Form>
             </div>
