@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, message, InputNumber, Skeleton, Select, Button,  DatePicker } from 'antd';
-import { getLocalisation, getModeTransport, getTrajetOneV, postTrajet } from '../../../../services/transporteurService';
+import { getLocalisation, getModeTransport, getTrajetOneV, postTrajet, putTrajet } from '../../../../services/transporteurService';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -57,14 +57,25 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
         message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
         setLoading(true);
         try {
-            const valueObjet = {
+
+            if(trajetId) {
+               const valueObjet = {
                 ...values,
                 user_cr : userId
-            }
+               }
+                await putTrajet(trajetId, valueObjet)
+                message.success({ content: "Le trajet a été modifié avec succès.", key: loadingKey });
+
+            }else {
+                const valueObjet = {
+                ...values,
+                user_cr : userId
+               }
 
             await postTrajet(valueObjet)
-            message.success({ content: "L'inspection a été enregistrée avec succès.", key: loadingKey });
-                        
+            message.success({ content: "Le trajet a été enregistré avec succès.", key: loadingKey });
+             
+            }   
             form.resetFields();
             closeModal();
             fetchDatas();
@@ -80,9 +91,10 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
   return (
     <>
         <div className="controle_form">
-            <div className="controle_title_rows">
+            <div className={`controle_title_rows ${loading ? 'loading' : ''}`}>
                 <div className="controle_h2">{ trajetId ? 'Modifier un trajet' : 'Enregistrer un trajet'}</div>
-            </div>
+             </div>
+
             <div className="controle_wrapper">
                 <Form
                     form={form}

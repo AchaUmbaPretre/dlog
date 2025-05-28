@@ -11,12 +11,42 @@
       margin-bottom: 20px;
       border-radius: 6px;
       border-left: 3px solid #0056b3;
-    
+      overflow: hidden; /* Important pour que le ::before ne déborde pas */
       .controle_h2 {
         font-weight: 300;
         color: #0056b3;
         margin: 0;
       }
+
+      /* Barre de progression simulée */
+.controle_title_rows.loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: #0056b3;
+  z-index: 0;
+  animation: fillRow 1.5s forwards;
+  border-radius: 6px;
+}
+
+/* Texte au-dessus de la barre */
+.controle_title_rows .controle_h2 {
+  position: relative;
+  z-index: 1;
+}
+
+/* Animation de remplissage */
+@keyframes fillRow {
+  from {
+    width: 3px; /* simule la border-left initiale */
+  }
+  to {
+    width: 100%;
+  }
+}
     }
     
     .controle_title_rows{
