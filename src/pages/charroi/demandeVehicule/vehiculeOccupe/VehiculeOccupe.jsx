@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, Button, Space, Tabs, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import {  CarOutlined, UserOutlined } from '@ant-design/icons';
+import { getAffectationDemande } from '../../../../services/charroiService';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -15,6 +16,15 @@ const VehiculeOccupe = () => {
           current: 1,
           pageSize: 15,
     });
+
+    useEffect(() => {
+        const fetchData = async() => {
+            const { data } = await getAffectationDemande()
+            setData(data)
+        }
+
+        fetchData()
+    },[]);
 
    const columns = [
         {
@@ -46,7 +56,7 @@ const VehiculeOccupe = () => {
       </Tooltip>
     ),
   },
-           {
+    {
     title: (
       <Space>
         <CarOutlined style={{ color: 'red' }} />
@@ -67,7 +77,7 @@ const VehiculeOccupe = () => {
    ]
 
     const filteredData = data.filter(item =>
-     item.nom_chauffeur?.toLowerCase().includes(searchValue.toLowerCase())
+     item.nom?.toLowerCase().includes(searchValue.toLowerCase())
     );
   return (
     <>
