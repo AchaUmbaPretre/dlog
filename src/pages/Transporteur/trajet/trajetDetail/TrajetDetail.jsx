@@ -3,7 +3,6 @@ import './trajetDetail.scss';
 import { getTrajetOne } from '../../../../services/transporteurService';
 import { Card, Typography, Spin } from 'antd';
 import { CalendarOutlined, CarOutlined, DollarOutlined, DashboardOutlined, ClockCircleOutlined } from '@ant-design/icons';
-
 const { Text } = Typography;
 
 const TrajetDetail = ({ id_trajet }) => {
