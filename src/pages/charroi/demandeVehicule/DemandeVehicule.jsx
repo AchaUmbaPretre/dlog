@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
+import { Table, Button, Tabs, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, MoreOutlined, RightCircleOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux';
 import AffectationDemandeForm from '../affectationDemande/affectationDemandeForm/AffectationDemandeForm';
 import DemandeVehiculeDetail from './demandeVehiculeDetail/DemandeVehiculeDetail';
 import { vehiculeUpdateAnnuler } from '../../../utils/modalUtils';
+import VehiculeOccupe from './vehiculeOccupe/VehiculeOccupe';
+import TabPane from 'antd/es/tabs/TabPane';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -18,6 +20,7 @@ const DemandeVehicule = () => {
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
+  const [activeKey, setActiveKey] = useState(['1', '2']);
   const [demandeId, setDemandeId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
@@ -27,6 +30,10 @@ const DemandeVehicule = () => {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const role = useSelector((state) => state.user?.currentUser?.role);
   
+    const handleTabChange = (key) => {
+        setActiveKey(key);
+    };
+
     const updatedVu = async (id) => {
         try {
             await putDemandeVehiculeVu(id);
@@ -351,7 +358,23 @@ const DemandeVehicule = () => {
 
   return (
     <>
-      <div className="client">
+      
+        <Tabs
+            activeKey={activeKey[0]}
+            onChange={handleTabChange}
+            type="card"
+            tabPosition="top"
+            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+        >
+            <TabPane
+                tab={
+                    <span>
+                        Réservation
+                    </span>
+                }
+                key="1"
+            >
+                      <div className="client">
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
@@ -401,6 +424,19 @@ const DemandeVehicule = () => {
           />
         </div>
       </div>
+            </TabPane>
+            <TabPane
+                tab={
+                    <span>
+                        Les vehicules occupés
+                    </span>
+                }
+                key="2"
+            >
+                <VehiculeOccupe/>
+            </TabPane>
+        </Tabs>
+
 
         <Modal
             title=""
