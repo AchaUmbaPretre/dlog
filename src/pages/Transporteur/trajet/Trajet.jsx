@@ -57,8 +57,8 @@ const Trajet = () => {
       fetchData();
     }, []);
 
-    const handleDelete = () => {
-
+    const handleDelete = (id) => {
+       
     }
   
     const handleEdit = (id) => openModal('Add', id);
