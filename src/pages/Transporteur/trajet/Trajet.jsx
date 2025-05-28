@@ -186,7 +186,7 @@ const Trajet = () => {
       key: 'distance',
       align: 'center',
       width: "8%",
-      render: (text) => <Badge count={`${text} km`} style={{ backgroundColor: '#faad14' }} />,
+      render: (text) => <Badge count={ text ? `${text} km` : '0 km'} style={{ backgroundColor: '#faad14' }} />,
     },
     {
       title: (
@@ -234,7 +234,7 @@ const Trajet = () => {
       render: (text) => (
         <>
           {(text || '').split(',').map((mode) => (
-          <Tag color="green" key={mode.trim()}>{mode.trim()}</Tag>
+          <Tag color="green" key={mode.trim()}>{ text ? mode.trim() : 'Aucun'}</Tag>
           ))}
         </>
       )
@@ -255,7 +255,7 @@ const Trajet = () => {
       width: "8%",
       render: (text) => (
         <Text style={{ fontWeight: 'bold', color: '#3f8600' }}>
-          {parseFloat(text).toFixed(2)} $
+          { text ? parseFloat(text).toFixed(2) : '0'} $
         </Text>
       ),
     },
