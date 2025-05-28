@@ -18,10 +18,22 @@ const VehiculeOccupe = () => {
     });
 
     useEffect(() => {
+        
         const fetchData = async() => {
-            const { data } = await getAffectationDemande()
-            setData(data)
-        }
+            try {
+                const { data } = await getAffectationDemande()
+                setData(data)
+            } catch (error) {
+                notification.error({
+                  message: 'Erreur de chargement',
+                  description: 'Une erreur est survenue lors du chargement des données.',
+                });
+                
+            } finally{
+               setLoading(false);
+            }
+
+        };
 
         fetchData()
     },[]);
@@ -41,7 +53,7 @@ const VehiculeOccupe = () => {
     {
     title: (
       <Space>
-        <UserOutlined />
+        <UserOutlined  style={{color:'orange'}}/>
         <Text strong>Chauffeur</Text>
       </Space>
     ),
@@ -55,15 +67,15 @@ const VehiculeOccupe = () => {
         <Text>{text}</Text>
       </Tooltip>
     ),
-  },
+    },
     {
     title: (
       <Space>
         <CarOutlined style={{ color: 'red' }} />
-        <Text strong>Véhicule</Text>
+        <Text strong>Immatriculation</Text>
       </Space>
     ),
-    dataIndex: 'Vehicule',
+    dataIndex: 'immatriculation',
     key: 'immatriculation',
     ellipsis: {
       showTitle: false,
@@ -73,7 +85,43 @@ const VehiculeOccupe = () => {
         <Text>{text}</Text>
       </Tooltip>
     ),
-  },
+    },
+    {
+    title: (
+      <Space>
+        <CarOutlined style={{ color: 'blue' }} />
+        <Text strong>Modèle</Text>
+      </Space>
+    ),
+    dataIndex: 'modele',
+    key: 'modele',
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>
+        <Text>{text}</Text>
+      </Tooltip>
+    ),
+    },
+    {
+    title: (
+      <Space>
+        <CarOutlined style={{ color: '#2db7f5' }} />
+        <Text strong>Marque</Text>
+      </Space>
+    ),
+    dataIndex: 'nom_marque',
+    key: 'nom_marque',
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>
+        <Text>{text}</Text>
+      </Tooltip>
+    ),
+    },
    ]
 
     const filteredData = data.filter(item =>
