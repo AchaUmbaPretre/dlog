@@ -86,7 +86,7 @@ const Trajet = () => {
           <Menu.Divider />
         </Menu>
       )
-    }
+    };
 
     const closeAllModals = () => {
       setModalType(null);
@@ -98,19 +98,19 @@ const Trajet = () => {
       setTrajetId(trajetId)
     };
 
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
+    const handleExportExcel = () => {
+      message.success('Exporting to Excel...');
     };
 
-  const handleExportPDF = () => {
-        message.success('Exporting to PDF...');
+    const handleExportPDF = () => {
+      message.success('Exporting to PDF...');
     };
 
-  const handlePrint = () => {
-    window.print();
-  };
+    const handlePrint = () => {
+      window.print();
+    };
 
-  const menu = (
+    const menu = (
       <Menu>
         <Menu.Item key="1" onClick={handleExportExcel}>
           <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
@@ -121,7 +121,7 @@ const Trajet = () => {
       </Menu>
     );
 
-  const columns = [
+    const columns = [
     {
       title: '#',
       dataIndex: 'id',
@@ -297,11 +297,11 @@ const Trajet = () => {
         </Space>
       ),
     },
-  ];
+    ];
 
-  const filteredData = data.filter(item =>
-    item.depart_destination?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+    const filteredData = data.filter(item =>
+      item.depart_destination?.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
   return (
     <>
