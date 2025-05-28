@@ -267,14 +267,15 @@ const Trajet = () => {
       width: '125px',
       render: (text, record) => (
         <Space size="small">
-          <Tooltip title="Modifier ce trajet">
+{/*           <Tooltip title="Modifier ce trajet">
             <Button
               type="text"
               icon={<EditOutlined />}
               onClick={() => handleEdit(record.id_trajet)}
+              style={{ color: '#1890ff' }}
               aria-label="Modifier"
             />
-          </Tooltip>
+          </Tooltip> */}
           <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
             <Button type="text" icon={<MoreOutlined />} style={{ color: 'blue' }} />
           </Dropdown>
