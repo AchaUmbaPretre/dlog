@@ -50,23 +50,6 @@ const DemandeVehiculeDispo = () => {
           width: "4%" 
         },
         {
-          title: 'Image',
-          dataIndex: 'img',
-          key: 'img',
-          render: (text, record) => (
-            <div className="userList">
-              <Image
-                className="userImg"
-                src={ record.img ? `${DOMAIN}/${record.img}` : vehiculeImg}
-                width={40}
-                height={40}
-                style={{ borderRadius: '50%' }}
-                alt="Profil vehicule"
-              />
-            </div>
-          ),
-        },
-        {
             title: 'Matricule',
             dataIndex: 'immatriculation',
             render: (text) => (
