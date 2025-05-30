@@ -101,11 +101,11 @@ const LocalisationForm = ({closeModal, fetchData, localisationId}) => {
   };
 
   return (
-    <Card>
         <div className="controle_form">
             <div className="controle_title_rows">
                 <h2 className='controle_h2'>{localisationId ? 'MODIFIER' : 'CREER'} UNE LOCALISATION</h2>                
             </div>
+            <Card>
             <div className="controle_wrapper">
                 <Form
                     form={form}
@@ -296,8 +296,8 @@ const LocalisationForm = ({closeModal, fetchData, localisationId}) => {
                     </Form.Item>
                 </Form>
             </div>
+            </Card>
         </div>
-    </Card>
   );
 };
 
