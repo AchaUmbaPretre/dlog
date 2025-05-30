@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Card, Col, message, Skeleton, Select, Button } from 'antd';
-import { getChauffeur, getVehicule, postAffectationDemande } from '../../../../services/charroiService';
+import { getChauffeur, getVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined } from '@ant-design/icons';
 
 const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
@@ -13,11 +13,11 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const fetchDatas = async() => {
         try {
             const [vehiculeData, chaufferData] = await Promise.all([
-                getVehicule(),
+                getVehiculeDispo(),
                 getChauffeur()
             ])
 
-            setVehicule(vehiculeData.data?.data)
+            setVehicule(vehiculeData.data)
             setChauffeur(chaufferData.data?.data)
             
         } catch (error) {
