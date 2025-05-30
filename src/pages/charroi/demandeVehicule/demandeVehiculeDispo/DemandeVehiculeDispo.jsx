@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CarOutlined, TruckOutlined } from '@ant-design/icons';
-import { Table, Image, Tooltip, Input, Tag, notification } from 'antd';
-import vehiculeImg from './../../../../assets/vehicule.png'
-import config from '../../../../config';
+import { Table, Tooltip, Input, Tag, notification } from 'antd';
 import { getVehiculeDispo } from '../../../../services/charroiService';
 
 const { Search } = Input;
@@ -15,7 +13,6 @@ const DemandeVehiculeDispo = () => {
         pageSize: 15,
     });
     const [searchValue, setSearchValue] = useState('');
-    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const scroll = { x: 'max-content' };
 
      const fetchData = async () => {
