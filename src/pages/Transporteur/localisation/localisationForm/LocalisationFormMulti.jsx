@@ -43,10 +43,9 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
   };
 
   reader.readAsBinaryString(file);
-};
+  };
 
-
-  const handleError = (message) => {
+   const handleError = (message) => {
     notification.error({
         message: 'Erreur de chargement',
         description: message,
