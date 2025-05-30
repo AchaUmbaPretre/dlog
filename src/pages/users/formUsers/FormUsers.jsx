@@ -132,6 +132,7 @@ const FormUsers = ({userId, close, fetchData}) => {
                   <Option value="Admin">Admin</Option>
                   <Option value="Owner">Owner</Option>
                   <Option value="Manager">Manager</Option>
+                  <Option value="Securité">Securité</Option>
                 </Select>
               </Form.Item>
             </Col>
