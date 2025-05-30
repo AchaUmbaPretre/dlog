@@ -222,73 +222,73 @@ const columns = [
   return (
     <>
         <Tabs
-            activeKey={activeKey[0]}
-            onChange={handleTabChange}
-            type="card"
-            tabPosition="top"
-            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+          activeKey={activeKey[0]}
+          onChange={handleTabChange}
+          type="card"
+          tabPosition="top"
+          renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
         >
-            <TabPane
-                tab={
-                    <span>
-                        📍Localisation
-                    </span>
-                }
+          <TabPane
+            tab={
+                <span>
+                  📍Localisation
+                </span>
+              }
                 key="1"
-            >
-                <div className="client">
-                    <div className="client-wrapper">
-                    <div className="client-row">
-                        <div className="client-row-icon">
-                        <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
-                        </div>
-                        <h2 className="client-h2">Localisation</h2>
-                    </div>
+          >
+            <div className="client">
+              <div className="client-wrapper">
+                <div className="client-row">
+                  <div className="client-row-icon">
+                    <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
+                  </div>
+                  <h2 className="client-h2">Localisation</h2>
+                  </div>
                     <div className="client-actions">
-                        <div className="client-row-left">
-                            <Search 
-                                placeholder="Recherche..." 
-                                enterButton 
-                                onChange={(e) => setSearchValue(e.target.value)}
-                            />
-                        </div>
-                        <div className="client-rows-right">
-                            <Dropdown overlay={getActionMenu(openModal)} trigger={['click']}>
-                                <Button
-                                    type="text"
-                                    icon={<MoreOutlined />}
-                                    style={{
-                                    color: '#595959',              
-                                    backgroundColor: '#f5f5f5',    
-                                    border: '1px solid #d9d9d9',
-                                    borderRadius: '4px',
-                                    boxShadow: 'none',
-                                    }}
-                                />
-                            </Dropdown>
+                      <div className="client-row-left">
+                        <Search 
+                          placeholder="Recherche..." 
+                          enterButton 
+                          onChange={(e) => setSearchValue(e.target.value)}
+                        />
+                      </div>
+                      <div className="client-rows-right">
+                        <Dropdown overlay={getActionMenu(openModal)} trigger={['click']}>
+                          <Button
+                            type="text"
+                            icon={<MoreOutlined />}
+                            style={{
+                              color: '#595959',              
+                              backgroundColor: '#f5f5f5',    
+                              border: '1px solid #d9d9d9',
+                              borderRadius: '4px',
+                              boxShadow: 'none',
+                            }}
+                          />
+                        </Dropdown>
 
-                            <Dropdown overlay={menu} trigger={['click']}>
-                                <Button icon={<ExportOutlined />}>Export</Button>
-                            </Dropdown>
+                        <Dropdown overlay={menu} trigger={['click']}>
+                          <Button icon={<ExportOutlined />}>Export</Button>
+                        </Dropdown>
                             
-                            <Button
-                                icon={<PrinterOutlined />}
-                                onClick={handlePrint}
-                            >
-                                Print
-                            </Button>
-                        </div>
+                        <Button
+                          icon={<PrinterOutlined />}
+                          onClick={handlePrint}
+                        >
+                          Print
+                        </Button>
+                      </div>
                     </div>
                     <Table
-                        columns={columns}
-                        dataSource={filteredData}
-                        loading={loading}
-                        onChange={(pagination) => setPagination(pagination)}
-                        rowKey="id"
-                        bordered
-                        size="small"
-                        scroll={scroll}
-                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                      columns={columns}
+                      dataSource={filteredData}
+                      loading={loading}
+                      onChange={(pagination) => setPagination(pagination)}
+                      rowKey="id"
+                      bordered
+                      size="small"
+                      scroll={scroll}
+                      rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                     />
                     </div>
                 </div>
