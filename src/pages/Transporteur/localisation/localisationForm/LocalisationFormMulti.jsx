@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { Form, Button, notification, message, Input, Row, Col, Select, Card } from 'antd';
+import { Form, Button, notification, message, Upload, Input, Row, Col, Select, Card } from 'antd';
 import { useState } from 'react';
-import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined, MinusCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import { getLocalite, getPays, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
 import * as XLSX from 'xlsx';
