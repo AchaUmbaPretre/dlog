@@ -114,18 +114,18 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
                 <h2 className='controle_h2'>CREER UNE LOCALISATION</h2>                
             </div>
 
-<Col span={24} style={{ marginBottom: 16 }}>
-  <Upload
-    accept=".xlsx,.xls"
-    showUploadList={false}
-    beforeUpload={(file) => {
-      handleExcelImport({ target: { files: [file] } });
-      return false; // Empêche l'upload automatique
-    }}
-  >
-    <Button icon={<UploadOutlined />}>Importer depuis Excel</Button>
-  </Upload>
-</Col>
+            <Col span={24} style={{ marginBottom: 16 }}>
+            <Upload
+                accept=".xlsx,.xls"
+                showUploadList={false}
+                beforeUpload={(file) => {
+                handleExcelImport({ target: { files: [file] } });
+                return false;
+                }}
+            >
+                <Button icon={<UploadOutlined />}>Importer depuis Excel</Button>
+            </Upload>
+            </Col>
 
 
             <div className="controle_wrapper">
