@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Select, Row, Col, notification } from 'antd';
+import { Form, Input, Button, Select, Card, Row, Col, notification } from 'antd';
 import { getUserOne, postUser, putUser } from '../../../services/userService';
 import { getProvince } from '../../../services/clientService';
 import { getDepartement } from '../../../services/departementService';
@@ -68,123 +68,125 @@ const FormUsers = ({userId, close, fetchData}) => {
       <div className="controle_title_rows">
         <h2 className='controle_h2'>{ userId ? 'Modifier un utilisateur' : 'Créer un Utilisateur'}</h2>                
       </div>
-      <div className="controle_wrapper">
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onFinish}
-          initialValues={{ role: 'Owner' }}
-        >
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="Nom"
-                name="nom"
-                rules={[{ required: true, message: 'Le nom est obligatoire' }]}
-              >
-                <Input placeholder="Entrez le nom" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="Prénom"
-                name="prenom"
-                rules={[{ required: false }]}
-              >
-                <Input placeholder="Entrez le prénom" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  { type: 'email', message: "L'adresse e-mail n'est pas valide" },
-                  { required: true, message: 'L’email est obligatoire' },
-                ]}
-              >
-                <Input placeholder="Entrez l'adresse e-mail" />
-              </Form.Item>
-            </Col>
-            {
-              !userId  &&
+      <Card>
+        <div className="controle_wrapper">
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={onFinish}
+            initialValues={{ role: 'Owner' }}
+          >
+            <Row gutter={16}>
               <Col span={12}>
-              <Form.Item
-                label="Mot de Passe"
-                name="mot_de_passe"
-                rules={[{ required: false, message: 'Le mot de passe n/est obligatoire' }]}
-              >
-                <Input.Password placeholder="Entrez le mot de passe" />
-              </Form.Item>
-            </Col>
-            }
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="Rôle"
-                name="role"
-                rules={[{ required: true, message: 'Le rôle est obligatoire' }]}
-              >
-                <Select>
-                  <Option value="Admin">Admin</Option>
-                  <Option value="Owner">Owner</Option>
-                  <Option value="Manager">Manager</Option>
-                  <Option value="Securité">Securité</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="Ville"
-                name="id_ville"
-                rules={[{ required: false, message: 'La ville est obligatoire' }]}
-              >
-                <Select
-                  showSearch
-                  options={provinces?.map((item) => ({
-                    value: item.id,
-                    label: item.capital,
+                <Form.Item
+                  label="Nom"
+                  name="nom"
+                  rules={[{ required: true, message: 'Le nom est obligatoire' }]}
+                >
+                  <Input placeholder="Entrez le nom" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  label="Prénom"
+                  name="prenom"
+                  rules={[{ required: false }]}
+                >
+                  <Input placeholder="Entrez le prénom" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    { type: 'email', message: "L'adresse e-mail n'est pas valide" },
+                    { required: true, message: 'L’email est obligatoire' },
+                  ]}
+                >
+                  <Input placeholder="Entrez l'adresse e-mail" />
+                </Form.Item>
+              </Col>
+              {
+                !userId  &&
+                <Col span={12}>
+                <Form.Item
+                  label="Mot de Passe"
+                  name="mot_de_passe"
+                  rules={[{ required: false, message: 'Le mot de passe n/est obligatoire' }]}
+                >
+                  <Input.Password placeholder="Entrez le mot de passe" />
+                </Form.Item>
+              </Col>
+              }
+            </Row>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                  label="Rôle"
+                  name="role"
+                  rules={[{ required: true, message: 'Le rôle est obligatoire' }]}
+                >
+                  <Select>
+                    <Option value="Admin">Admin</Option>
+                    <Option value="Owner">Owner</Option>
+                    <Option value="Manager">Manager</Option>
+                    <Option value="Securité">Securité</Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  label="Ville"
+                  name="id_ville"
+                  rules={[{ required: false, message: 'La ville est obligatoire' }]}
+                >
+                  <Select
+                    showSearch
+                    options={provinces?.map((item) => ({
+                      value: item.id,
+                      label: item.capital,
+                      }))}
+                    placeholder="Sélectionnez une ville..."
+                    optionFilterProp="label"
+                    />
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} md={24}>
+                <Form.Item
+                  name="id_departement"
+                  label="Département"
+                  rules={[
+                          {
+                            required: false,
+                            message: 'Veuillez sélectionner un département.',
+                          },
+                        ]}
+                >
+                  <Select
+                    showSearch
+                    options={departement.map((item) => ({
+                            value: item.id_departement,
+                            label: item.nom_departement,
                     }))}
-                  placeholder="Sélectionnez une ville..."
-                  optionFilterProp="label"
+                    placeholder="Sélectionnez un département..."
+                    optionFilterProp="label"
                   />
-              </Form.Item>
-            </Col>
+                </Form.Item>
+              </Col>
+            </Row>
 
-            <Col xs={24} md={24}>
-              <Form.Item
-                name="id_departement"
-                label="Département"
-                rules={[
-                        {
-                          required: false,
-                          message: 'Veuillez sélectionner un département.',
-                        },
-                      ]}
-              >
-                <Select
-                  showSearch
-                  options={departement.map((item) => ({
-                          value: item.id_departement,
-                          label: item.nom_departement,
-                  }))}
-                  placeholder="Sélectionnez un département..."
-                  optionFilterProp="label"
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
-              { userId ? "Modifier" : "Créer l'Utilisateur"}
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" style={{ width: '100%' }} loading={isLoading} disabled={isLoading}>
+                { userId ? "Modifier" : "Créer l'Utilisateur"}
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </Card>
     </div>
   );
 };
