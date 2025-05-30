@@ -16,8 +16,6 @@ const VehiculeOccupe = () => {
           current: 1,
           pageSize: 15,
     });
-
-    useEffect(() => {
         
         const fetchData = async() => {
             try {
@@ -35,8 +33,15 @@ const VehiculeOccupe = () => {
 
         };
 
-        fetchData()
+    useEffect(() => {
+      fetchData()
     },[]);
+
+        useEffect(() => {
+        fetchData();
+        const interval = setInterval(fetchData, 5000)
+        return () => clearInterval(interval)
+    }, []);
 
    const columns = [
         {
