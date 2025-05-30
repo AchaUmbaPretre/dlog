@@ -127,7 +127,6 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
                 </Upload>
             </Col>
 
-
             <div className="controle_wrapper">
                 <Form
                     form={form}
