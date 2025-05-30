@@ -115,10 +115,20 @@ const handleSubmit = async (values) => {
             <div className="controle_title_rows">
                 <h2 className='controle_h2'>CREER UNE LOCALISATION</h2>                
             </div>
-            
-            <Col span={24} style={{ marginBottom: 16 }}>
-               <input type="file" accept=".xlsx,.xls" onChange={handleExcelImport} />
-            </Col>
+
+<Col span={24} style={{ marginBottom: 16 }}>
+  <Upload
+    accept=".xlsx,.xls"
+    showUploadList={false}
+    beforeUpload={(file) => {
+      handleExcelImport({ target: { files: [file] } });
+      return false; // Empêche l'upload automatique
+    }}
+  >
+    <Button icon={<UploadOutlined />}>Importer depuis Excel</Button>
+  </Upload>
+</Col>
+
 
             <div className="controle_wrapper">
                 <Form
