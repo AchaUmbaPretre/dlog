@@ -11,6 +11,7 @@ import DemandeVehiculeDetail from './demandeVehiculeDetail/DemandeVehiculeDetail
 import { vehiculeUpdateAnnuler } from '../../../utils/modalUtils';
 import VehiculeOccupe from './vehiculeOccupe/VehiculeOccupe';
 import TabPane from 'antd/es/tabs/TabPane';
+import DemandeVehiculeDispo from './demandeVehiculeDispo/DemandeVehiculeDispo';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -435,6 +436,19 @@ const DemandeVehicule = () => {
             >
                 <VehiculeOccupe/>
             </TabPane>
+
+            <TabPane
+                tab={
+                    <span>
+                    🚙 Les vehicules disponibles
+                    </span>
+                }
+                key="3"
+            >
+                <DemandeVehiculeDispo/>
+            </TabPane>
+
+        
         </Tabs>
 
 
