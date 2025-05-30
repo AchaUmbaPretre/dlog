@@ -16,43 +16,43 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
   const [pays, setPays] = useState([]);
   const [typeLocId, setTypeLocId] = useState(null);
 
-  const handleExcelImport = (e) => {
-  const file = e.target.files[0];
-  const reader = new FileReader();
+    const handleExcelImport = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
 
-  reader.onload = (evt) => {
-    const bstr = evt.target.result;
-    const workbook = XLSX.read(bstr, { type: 'binary' });
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
+    reader.onload = (evt) => {
+        const bstr = evt.target.result;
+        const workbook = XLSX.read(bstr, { type: 'binary' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
 
-    const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-    
-    // Ignorer les lignes vides
-    const filteredRows = rows.filter(row => row.length > 0 && row[0]);
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        
+        // Ignorer les lignes vides
+        const filteredRows = rows.filter(row => row.length > 0 && row[0]);
 
-    // Map vers le format attendu par Form.List
-    const nomsData = filteredRows.map((row) => ({ nom: row[0] }));
+        // Map vers le format attendu par Form.List
+        const nomsData = filteredRows.map((row) => ({ nom: row[0] }));
 
-    if (nomsData.length > 0) {
-      form.setFieldsValue({ noms: nomsData });
-      message.success(`Importé ${nomsData.length} nom(s) depuis le fichier.`);
-    } else {
-      message.warning("Le fichier ne contient pas de données valides.");
-    }
-  };
+        if (nomsData.length > 0) {
+        form.setFieldsValue({ noms: nomsData });
+        message.success(`Importé ${nomsData.length} nom(s) depuis le fichier.`);
+        } else {
+        message.warning("Le fichier ne contient pas de données valides.");
+        }
+    };
 
-  reader.readAsBinaryString(file);
-  };
+    reader.readAsBinaryString(file);
+    };
 
-   const handleError = (message) => {
+    const handleError = (message) => {
     notification.error({
         message: 'Erreur de chargement',
         description: message,
     });
     };
 
-  useEffect(() => {
+    useEffect(() => {
     const fetchData = async () => {
         try {
             const [ provinceData, villeData, typeLocData, localiteData, paysData ] = await Promise.all([
@@ -74,39 +74,38 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
     };
 
     fetchData();
-}, []);
+    }, []);
 
-const handleSubmit = async (values) => {
-  await form.validateFields();
-  const loadingKey = 'loadingLocalisation';
-  message.loading({ content: 'Traitement en cours...', key: loadingKey, duration: 0 });
-  setLoading(true);
+    const handleSubmit = async (values) => {
+    await form.validateFields();
+    const loadingKey = 'loadingLocalisation';
+    message.loading({ content: 'Traitement en cours...', key: loadingKey, duration: 0 });
+    setLoading(true);
 
-  try {
-    for (const nom of values.noms) {
-      const payload = {
-        nom : nom.nom,
-        type_loc: typeLocId,
-        id_parent: values.id_parent,
-        commentaire: values.commentaire || ''
-      };
-      await postLocalisation(payload);
+    try {
+        for (const nom of values.noms) {
+        const payload = {
+            nom : nom.nom,
+            type_loc: typeLocId,
+            id_parent: values.id_parent,
+            commentaire: values.commentaire || ''
+        };
+        await postLocalisation(payload);
+        }
+
+        message.success({ content: 'Localisations enregistrées.', key: loadingKey });
+        form.resetFields();
+        fetchData();
+        closeModal();
+    } catch (error) {
+        notification.error({
+        message: 'Erreur',
+        description: 'Erreur lors de l\'enregistrement.',
+        });
+    } finally {
+        setLoading(false);
     }
-
-    message.success({ content: 'Localisations enregistrées.', key: loadingKey });
-    form.resetFields();
-    fetchData();
-    closeModal();
-  } catch (error) {
-    notification.error({
-      message: 'Erreur',
-      description: 'Erreur lors de l\'enregistrement.',
-    });
-  } finally {
-    setLoading(false);
-  }
-};
-
+    };
 
   return (
     <Card>
