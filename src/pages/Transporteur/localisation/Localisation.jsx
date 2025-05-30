@@ -54,22 +54,22 @@ const Localisation = () => {
   const handleEdit = (id) => openModal('Add', id)
 
   const closeAllModals = () => {
-        setModalType(null);
-    };
+    setModalType(null);
+  };
 
-    const openModal = (type, localisationId = '') => {
+  const openModal = (type, localisationId = '') => {
         closeAllModals();
         setModalType(type);
         setLocalisationId(localisationId)
     };
 
-    const handleExportExcel = () => {
+  const handleExportExcel = () => {
         message.success('Exporting to Excel...');
     };
 
-    const handleExportPDF = () => {
-      message.success('Exporting to PDF...');
-    };
+  const handleExportPDF = () => {
+    message.success('Exporting to PDF...');
+  };
 
   const handlePrint = () => {
     window.print();
