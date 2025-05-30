@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Tabs, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, MoreOutlined, RightCircleOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
-import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
+import { getDemandeVehicule, putDemandeVehiculeRetour, putDemandeVehiculeVu } from '../../../services/charroiService';
 import moment from 'moment';
 import { statusIcons } from '../../../utils/prioriteIcons';
 import { useSelector } from 'react-redux';
 import AffectationDemandeForm from '../affectationDemande/affectationDemandeForm/AffectationDemandeForm';
 import DemandeVehiculeDetail from './demandeVehiculeDetail/DemandeVehiculeDetail';
-import { vehiculeUpdateAnnuler } from '../../../utils/modalUtils';
+import { vehiculeRetour, vehiculeUpdateAnnuler } from '../../../utils/modalUtils';
 import VehiculeOccupe from './vehiculeOccupe/VehiculeOccupe';
 import TabPane from 'antd/es/tabs/TabPane';
 import DemandeVehiculeDispo from './demandeVehiculeDispo/DemandeVehiculeDispo';
@@ -77,6 +77,9 @@ const DemandeVehicule = () => {
                 case 'closeDemande': 
                     vehiculeUpdateAnnuler(record.id_demande_vehicule, fetchData)
                     break;
+                case 'retourDemande': 
+                    vehiculeRetour(record.id_demande_vehicule, fetchData)
+                    break;
                 default:
                     break
             }
@@ -91,7 +94,7 @@ const DemandeVehicule = () => {
                     <CloseCircleOutlined style={{ color: 'red' }} /> Annuler
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item key="closeDemande">
+                <Menu.Item key="retourDemande">
                     <RightCircleOutlined style={{ color: '#87d068' }} /> Retour
                 </Menu.Item>
                 <Menu.Divider />
@@ -385,12 +388,12 @@ const DemandeVehicule = () => {
                         </div>
                         <div className="client-actions">
                             <div className="client-row-left">
-                <Search 
-                    placeholder="Recherche..." 
-                    enterButton 
-                    onChange={(e) => setSearchValue(e.target.value)}
-                />
-            </div>
+                                <Search 
+                                    placeholder="Recherche..." 
+                                    enterButton 
+                                    onChange={(e) => setSearchValue(e.target.value)}
+                                />
+                            </div>
             <div className="client-rows-right">
                 <Button
                     type="primary"
@@ -447,8 +450,6 @@ const DemandeVehicule = () => {
             >
                 <DemandeVehiculeDispo/>
             </TabPane>
-
-        
         </Tabs>
 
 

@@ -4,16 +4,17 @@ import { getDemandeVehiculeOne } from '../../../../services/charroiService';
 import html2pdf from 'html2pdf.js';
 
 const DemandeVehiculeDetail = ({ id_demande_vehicule }) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const detailRef = useRef();
+
+  console.log(data)
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await getDemandeVehiculeOne(id_demande_vehicule);
-      const [demande] = response.data;
-      setData(demande || null);
+      setData(response.data);
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -73,18 +74,21 @@ const DemandeVehiculeDetail = ({ id_demande_vehicule }) => {
           column={1}
           size="middle"
         >
-          <Descriptions.Item label="Client">{data.nom}</Descriptions.Item>
-          <Descriptions.Item label="Service">{data.nom_service}</Descriptions.Item>
-          <Descriptions.Item label="Type de véhicule">{data.nom_type_vehicule}</Descriptions.Item>
-          <Descriptions.Item label="Immatriculation">{data.immatriculation}</Descriptions.Item>
-          <Descriptions.Item label="Chauffeur">{data.nom_chauffeur}</Descriptions.Item>
-          <Descriptions.Item label="Statut">{data.nom_type_statut}</Descriptions.Item>
-          <Descriptions.Item label="Motif">{data.nom_motif_demande}</Descriptions.Item>
-          <Descriptions.Item label="Localisation">{data.localisation}</Descriptions.Item>
-          <Descriptions.Item label="Date de chargement">{formatDate(data.date_chargement)}</Descriptions.Item>
-          <Descriptions.Item label="Date prévue">{formatDate(data.date_prevue)}</Descriptions.Item>
-          <Descriptions.Item label="Date de retour">{formatDate(data.date_retour)}</Descriptions.Item>
-          <Descriptions.Item label="Crée par">{data.nom_user}</Descriptions.Item>
+          <Descriptions.Item label="Client">{data[0]?.nom}</Descriptions.Item>
+          <Descriptions.Item label="Service">{data[0]?.nom_service}</Descriptions.Item>
+          <Descriptions.Item label="Type de véhicule">{data[0]?.nom_type_vehicule}</Descriptions.Item>
+          <Descriptions.Item label="Immatriculation">{data[0]?.immatriculation}</Descriptions.Item>
+          <Descriptions.Item label="Chauffeur">{data[0]?.nom_chauffeur}</Descriptions.Item>
+          <Descriptions.Item label="Statut">{data[0]?.nom_type_statut}</Descriptions.Item>
+          <Descriptions.Item label="Motif">{data[0]?.nom_motif_demande}</Descriptions.Item>
+          <Descriptions.Item label="Localisation">{data[0]?.localisation}</Descriptions.Item>
+          <Descriptions.Item label="Date de chargement">{formatDate(data[0]?.date_chargement)}</Descriptions.Item>
+          <Descriptions.Item label="Date prévue">{formatDate(data[0]?.date_prevue)}</Descriptions.Item>
+          <Descriptions.Item label="Date de retour">{formatDate(data[0]?.date_retour)}</Descriptions.Item>
+          <Descriptions.Item label="Le(s) personnel(s)">
+            {data?.map((d) => d.nom_user).join(', ')}
+          </Descriptions.Item>
+
         </Descriptions>
       </div>
     </>
