@@ -205,7 +205,7 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
                             </Form.Item>
                         </Col>
                     
-                    { typeLocId === "localité" && 
+                    { typeLocId === "Localité" && 
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
@@ -224,7 +224,7 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
                         </Col>
                     }
 
-                    { typeLocId === "province" &&
+                    { typeLocId === "Province" &&
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
@@ -243,7 +243,7 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
                         </Col>
                     }
 
-                    { typeLocId === "ville" && 
+                    { typeLocId === "Ville" && 
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
@@ -262,7 +262,7 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
                         </Col>
                     }
 
-                    { typeLocId === "commune" && 
+                    { typeLocId === "Commune" && 
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
@@ -281,7 +281,7 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
                         </Col>
                     }
 
-                    { typeLocId === "site" &&
+                    { typeLocId === "Site" &&
                         <Col span={24}>
                             <Form.Item
                                 name="id_parent"
