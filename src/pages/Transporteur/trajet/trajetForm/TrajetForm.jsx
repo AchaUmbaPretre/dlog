@@ -4,6 +4,8 @@ import { getLocalisation, getModeTransport, getTrajetOneV, postTrajet, putTrajet
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { useWatch } from 'antd/es/form/Form';
+
 
 const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
     const [form] = Form.useForm();
@@ -50,6 +52,34 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
     useEffect(()=> {
         fetchData();
     }, [trajetId])
+
+    const segments = Form.useWatch('segment', form);
+    const departPrincipal = Form.useWatch('id_depart', form);
+
+    useEffect(() => {
+    if (!segments || segments.length === 0) return;
+
+    const updatedSegments = segments.map((seg, index) => {
+        const previousSegment = segments[index - 1];
+
+        const autoDepart =
+        index === 0
+            ? departPrincipal || null
+            : previousSegment && previousSegment.id_arrive
+            ? previousSegment.id_arrive
+            : null;
+
+        return {
+        ...seg,
+        id_depart: autoDepart,
+        };
+    });
+
+    form.setFieldsValue({ segment: updatedSegments });
+    }, [
+    JSON.stringify(segments?.map(s => s?.id_arrive || '')),
+    departPrincipal
+    ]);
 
     const onFinish = async(values) => {
         await form.validateFields();
