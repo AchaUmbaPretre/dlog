@@ -59,7 +59,7 @@ const FormUsers = ({userId, closeModal, fetchData}) => {
                 description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
             });
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
   };
 
