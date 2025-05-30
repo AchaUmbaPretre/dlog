@@ -24,12 +24,11 @@ const Localisation = () => {
       pageSize: 15,
     });
   
-  
-    const handleTabChange = (key) => {
-        setActiveKey(key);
-      };
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
 
-    const fetchData = async () => {
+  const fetchData = async () => {
       try {
         const { data } = await getLocalisation();
 
@@ -42,19 +41,19 @@ const Localisation = () => {
         });
         setLoading(false);
       }
-    };
+  };
   
-    useEffect(() => {
+  useEffect(() => {
         fetchData();
-    }, []);
+  }, []);
 
-    const handleDelete = () => {
+  const handleDelete = () => {
 
-    }
+  }
   
-    const handleEdit = (id) => openModal('Add', id)
+  const handleEdit = (id) => openModal('Add', id)
 
-    const closeAllModals = () => {
+  const closeAllModals = () => {
         setModalType(null);
     };
 
