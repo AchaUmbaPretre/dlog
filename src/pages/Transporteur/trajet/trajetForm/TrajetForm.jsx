@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { useWatch } from 'antd/es/form/Form';
 
-
 const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
@@ -47,7 +46,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
         } finally {
             setLoadingData(false);
         }
-    }
+    };
 
     useEffect(()=> {
         fetchData();
