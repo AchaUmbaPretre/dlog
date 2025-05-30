@@ -88,7 +88,6 @@ const DemandeVehiculeDetail = ({ id_demande_vehicule }) => {
           <Descriptions.Item label="Le(s) personnel(s)">
             {data?.map((d) => d.nom_user).join(', ')}
           </Descriptions.Item>
-
         </Descriptions>
       </div>
     </>
