@@ -115,16 +115,16 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
             </div>
 
             <Col span={24} style={{ marginBottom: 16 }}>
-            <Upload
-                accept=".xlsx,.xls"
-                showUploadList={false}
-                beforeUpload={(file) => {
-                handleExcelImport({ target: { files: [file] } });
-                return false;
-                }}
-            >
-                <Button icon={<UploadOutlined />}>Importer depuis Excel</Button>
-            </Upload>
+                <Upload
+                    accept=".xlsx,.xls"
+                    showUploadList={false}
+                    beforeUpload={(file) => {
+                    handleExcelImport({ target: { files: [file] } });
+                    return false;
+                    }}
+                >
+                    <Button icon={<UploadOutlined />}>Importer depuis Excel</Button>
+                </Upload>
             </Col>
 
 
