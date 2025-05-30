@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { CarOutlined, TruckOutlined } from '@ant-design/icons';
-import { Table, Tooltip, Input, Tag, notification } from 'antd';
+import { Table, Tooltip, Typography, Input, Space, notification } from 'antd';
 import { getVehiculeDispo } from '../../../../services/charroiService';
 
 const { Search } = Input;
+const { Text } = Typography;
 
 const DemandeVehiculeDispo = () => {
     const [loading, setLoading] = useState(true);
@@ -36,53 +37,73 @@ const DemandeVehiculeDispo = () => {
         return () => clearInterval(interval)
     }, []);
 
-    const columns = [
-        { 
-          title: '#', 
-          dataIndex: 'id', 
-          key: 'id', 
-          render: (text, record, index) => (
-            <Tooltip title={`Ligne ${index + 1}`}>
-              <Tag color="blue">{index + 1}</Tag>
-            </Tooltip>
-          ),
-          width: "4%" 
+       const columns = [
+        {
+          title: '#',
+          dataIndex: 'id',
+          key: 'id',
+          render: (text, record, index) => {
+            const pageSize = pagination.pageSize || 10;
+            const pageIndex = pagination.current || 1;
+            return (pageIndex - 1) * pageSize + index + 1;
         },
-        {
-            title: 'Matricule',
-            dataIndex: 'immatriculation',
-            render: (text) => (
-                <div className="vehicule-matricule">
-                    <span className="car-wrapper">
-                        <span className="car-boost" />
-                            <CarOutlined className="car-icon-animated" />
-                        <span className="car-shadow" />
-                    </span>
-                    <Tag color="geekblue">{text}</Tag>
-                </div>
-            )
-        }, 
-        {
-            title: 'Marque',
-            dataIndex: 'nom_marque',
-            align: 'center',
-                render: (text, record) => (
-                    <Tag icon={<CarOutlined />} color="cyan">
-                        {text}
-                    </Tag>
-                )
-        },
-        {
-            title: 'Modèle',
-            dataIndex: 'modele',
-            align: 'center',
-            render : (text) => (
-                <Tag icon={<CarOutlined />} color="green">
-                    {text ?? 'Aucun'}
-                </Tag>
-            )
-        }
-      ];
+        width: "4%"
+    },
+    {
+    title: (
+      <Space>
+        <CarOutlined style={{ color: 'red' }} />
+        <Text strong>Immatriculation</Text>
+      </Space>
+    ),
+    dataIndex: 'immatriculation',
+    key: 'immatriculation',
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>
+        <Text>{text}</Text>
+      </Tooltip>
+    ),
+    },
+    {
+    title: (
+      <Space>
+        <CarOutlined style={{ color: 'blue' }} />
+        <Text strong>Modèle</Text>
+      </Space>
+    ),
+    dataIndex: 'modele',
+    key: 'modele',
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>
+        <Text>{text}</Text>
+      </Tooltip>
+    ),
+    },
+    {
+    title: (
+      <Space>
+        <CarOutlined style={{ color: '#2db7f5' }} />
+        <Text strong>Marque</Text>
+      </Space>
+    ),
+    dataIndex: 'nom_marque',
+    key: 'nom_marque',
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>
+        <Text>{text}</Text>
+      </Tooltip>
+    ),
+    },
+   ]
 
   const filteredData = data.filter(item =>
     item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())

@@ -288,21 +288,21 @@ export const vehiculeRetour = async (id, fetchData) => {
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <ExclamationCircleOutlined style={{ fontSize: 28, color: "#FF4D4F" }} />
         <Typography.Text strong style={{ fontSize: 18, color: "#333", fontWeight: '600' }}>
-          Annuler le retour du vehicule
+          Confirmer le retour du véhicule
         </Typography.Text>
       </div>
     ),
     content: (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
         <Typography.Text style={{ fontSize: 16, color: '#666', lineHeight: 1.6 }}>
-          Êtes-vous sûr de vouloir annuler retourné ce vehicule ?
+          Êtes-vous sûr de vouloir enregistrer le retour de ce véhicule ?
         </Typography.Text>
         <Typography.Text type="danger" style={{ fontSize: 14, marginTop: 12 }}>
-          Cette action est irréversible et la demande ne pourra pas être récupérée.
+          Cette action est définitive et mettra à jour l’état du véhicule.
         </Typography.Text>
       </div>
     ),
-    okText: "Oui, annuler",
+    okText: "Oui, confirmer",
     cancelText: "Non",
     okType: "danger",
     centered: true,
@@ -318,10 +318,10 @@ export const vehiculeRetour = async (id, fetchData) => {
         transition: 'all 0.3s ease-in-out',
       },
       onMouseEnter: (e) => {
-        e.target.style.backgroundColor = '#FF2A2A';
+        e.currentTarget.style.backgroundColor = '#FF2A2A';
       },
       onMouseLeave: (e) => {
-        e.target.style.backgroundColor = '#FF4D4F';
+        e.currentTarget.style.backgroundColor = '#FF4D4F';
       },
     },
     cancelButtonProps: {
@@ -337,16 +337,16 @@ export const vehiculeRetour = async (id, fetchData) => {
       try {
         await putDemandeVehiculeRetour(id);
         notification.success({
-          message: 'Le véhicule est retourné',
-          description: 'Le véhicule est retourné avec succès.',
+          message: 'Succès',
+          description: 'Le véhicule a bien été marqué comme retourné.',
           placement: 'topRight',
         });
         fetchData(); 
       } catch (error) {
-        console.error("Erreur lors de l’annulation :", error);
+        console.error("Erreur lors du retour du véhicule :", error);
         notification.error({
           message: 'Erreur',
-          description: 'Une erreur est survenue lors de l’annulation de la demande.',
+          description: 'Une erreur est survenue lors de la mise à jour du retour du véhicule.',
           placement: 'topRight',
         });
       }

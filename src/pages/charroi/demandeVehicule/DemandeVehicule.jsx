@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Tabs, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, MoreOutlined, RightCircleOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
-import { getDemandeVehicule, putDemandeVehiculeRetour, putDemandeVehiculeVu } from '../../../services/charroiService';
+import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
 import moment from 'moment';
 import { statusIcons } from '../../../utils/prioriteIcons';
 import { useSelector } from 'react-redux';
