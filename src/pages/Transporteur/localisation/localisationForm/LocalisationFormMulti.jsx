@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons'
 import { getLocalite, getPays, getTypeLocalisation, getVille, postLocalisation } from '../../../../services/transporteurService';
 import { getProvince } from '../../../../services/clientService';
+import * as XLSX from 'xlsx';
 
 const LocalisationFormMulti = ({closeModal, fetchData}) => {
   const [form] = Form.useForm();
@@ -14,6 +15,36 @@ const LocalisationFormMulti = ({closeModal, fetchData}) => {
   const [type, setType] = useState([]);
   const [pays, setPays] = useState([]);
   const [typeLocId, setTypeLocId] = useState(null);
+
+  const handleExcelImport = (e) => {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = (evt) => {
+    const bstr = evt.target.result;
+    const workbook = XLSX.read(bstr, { type: 'binary' });
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+
+    const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    
+    // Ignorer les lignes vides
+    const filteredRows = rows.filter(row => row.length > 0 && row[0]);
+
+    // Map vers le format attendu par Form.List
+    const nomsData = filteredRows.map((row) => ({ nom: row[0] }));
+
+    if (nomsData.length > 0) {
+      form.setFieldsValue({ noms: nomsData });
+      message.success(`Importé ${nomsData.length} nom(s) depuis le fichier.`);
+    } else {
+      message.warning("Le fichier ne contient pas de données valides.");
+    }
+  };
+
+  reader.readAsBinaryString(file);
+};
+
 
   const handleError = (message) => {
     notification.error({
@@ -84,6 +115,11 @@ const handleSubmit = async (values) => {
             <div className="controle_title_rows">
                 <h2 className='controle_h2'>CREER UNE LOCALISATION</h2>                
             </div>
+            
+            <Col span={24} style={{ marginBottom: 16 }}>
+               <input type="file" accept=".xlsx,.xls" onChange={handleExcelImport} />
+            </Col>
+
             <div className="controle_wrapper">
                 <Form
                     form={form}
