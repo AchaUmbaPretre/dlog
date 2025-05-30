@@ -416,6 +416,10 @@ export const putDemandeVehiculeAnnuler = async(id) => {
     return axios.put(`${DOMAIN}/api/charroi/demande_vehiculeAnnuler?id_demande=${id}`)
 }
 
+export const putDemandeVehiculeRetour = async(id) => {
+    return axios.put(`${DOMAIN}/api/charroi/demande_vehicule_retour?id_demande=${id}`)
+}
+
 //Affectation
 export const getAffectationDemande = async () => {
     return axios.get(`${DOMAIN}/api/charroi/affectation_demande`);
