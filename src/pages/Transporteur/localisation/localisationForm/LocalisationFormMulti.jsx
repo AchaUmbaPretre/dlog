@@ -114,7 +114,6 @@ const handleSubmit = async (values) => {
                                             style={{ width: '100%', marginBottom:'25px' }}
                                             icon={<MinusCircleOutlined /> }
                                         >
-                                            
                                         </Button>
                                         )}
                                     </Col>
