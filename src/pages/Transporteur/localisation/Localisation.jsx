@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tabs, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, DeleteOutlined, ApartmentOutlined, GlobalOutlined, TagsOutlined, PrinterOutlined, EditOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, DeleteOutlined, ApartmentOutlined, TagsOutlined, PrinterOutlined, EditOutlined, PlusOutlined, MoreOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getLocalisation } from '../../../services/transporteurService';
 import LocalisationFormMulti from './localisationForm/LocalisationFormMulti';
 import LocalisationForm from './localisationForm/LocalisationForm';
@@ -64,13 +64,12 @@ const Localisation = () => {
         setLocalisationId(localisationId)
     };
 
-
     const handleExportExcel = () => {
         message.success('Exporting to Excel...');
     };
 
     const handleExportPDF = () => {
-        message.success('Exporting to PDF...');
+      message.success('Exporting to PDF...');
     };
 
   const handlePrint = () => {
@@ -222,7 +221,6 @@ const columns = [
 
   return (
     <>
-
         <Tabs
             activeKey={activeKey[0]}
             onChange={handleTabChange}
