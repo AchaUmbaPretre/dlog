@@ -6,7 +6,7 @@ import { getDepartement } from '../../../services/departementService';
 
 const { Option } = Select;
 
-const FormUsers = ({userId, close, fetchData}) => {
+const FormUsers = ({userId, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [provinces, setProvinces] = useState([]);
@@ -52,7 +52,7 @@ const FormUsers = ({userId, close, fetchData}) => {
                 });
             }
             fetchData();
-            close()
+            closeModal()
         } catch (error) {
             notification.error({
                 message: 'Erreur',
