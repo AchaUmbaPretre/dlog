@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Input, Button, Select, Card, Row, Col, notification } from 'antd';
 import { getUserOne, postUser, putUser } from '../../../services/userService';
 import { getProvince } from '../../../services/clientService';
