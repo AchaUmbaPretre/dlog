@@ -21,16 +21,15 @@ const VehiculeOccupe = () => {
         const { data } = await getAffectationDemande()
         setData(data)
       } catch (error) {
-                notification.error({
-                  message: 'Erreur de chargement',
-                  description: 'Une erreur est survenue lors du chargement des données.',
-                });
+        notification.error({
+          message: 'Erreur de chargement',
+          escription: 'Une erreur est survenue lors du chargement des données.',
+        });
                 
-            } finally{
+      } finally{
                setLoading(false);
-            }
-
-        };
+      }
+    };
 
     useEffect(() => {
       fetchData()
