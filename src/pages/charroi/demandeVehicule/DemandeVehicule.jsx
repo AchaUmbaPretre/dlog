@@ -13,6 +13,7 @@ import VehiculeOccupe from './vehiculeOccupe/VehiculeOccupe';
 import TabPane from 'antd/es/tabs/TabPane';
 import DemandeVehiculeDispo from './demandeVehiculeDispo/DemandeVehiculeDispo';
 import AffectationDemande from '../affectationDemande/AffectationDemande';
+import RetourVehiculeForm from '../retourVehicule/retourVehiculeForm/RetourVehiculeForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -63,7 +64,7 @@ const DemandeVehicule = () => {
     useEffect(() => {
         fetchData();
     }, []);
-    
+
     useEffect(() => {
         fetchData();
         const interval = setInterval(fetchData, 5000)
@@ -83,8 +84,10 @@ const DemandeVehicule = () => {
                     vehiculeUpdateAnnuler(record.id_demande_vehicule, fetchData)
                     break;
                 case 'retourDemande': 
-                    vehiculeRetour(record.id_demande_vehicule, fetchData)
-                    break;
+/*                     vehiculeRetour(record.id_demande_vehicule, fetchData)
+ */                    
+                openModal('retour', record.id_demande_vehicule)
+                break;
                 default:
                     break
             }
@@ -507,6 +510,17 @@ const DemandeVehicule = () => {
             centered
         >
             <DemandeVehiculeDetail closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'retour'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={900}
+            centered
+        >
+            <RetourVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
         </Modal>
     </>
   );
