@@ -517,7 +517,7 @@ const DemandeVehicule = () => {
             visible={modalType === 'retour'}
             onCancel={closeAllModals}
             footer={null}
-            width={900}
+            width={700}
             centered
         >
             <RetourVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />

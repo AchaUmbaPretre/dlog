@@ -45,7 +45,7 @@ const RetourVehiculeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">FORM DE RETOUR</h2>
+                <h2 className="controle_h2">Formulaire de retour</h2>
             </div>
             <div className="controle_wrapper">
                 <Form
