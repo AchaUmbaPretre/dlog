@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Space, Tooltip, Typography, Input, notification } from 'antd';
-import {  CarOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
 
@@ -144,9 +144,9 @@ const AffectationDemande = () => {
           <div className="client-wrapper">
             <div className="client-row">
               <div className="client-row-icon">
-                <CarOutlined className='client-icon' style={{color:'red'}} />
+                <SwapOutlined className='client-icon' style={{color:'blue'}} />
               </div>
-              <h2 className="client-h2">Les véhicules occupés</h2>
+              <h2 className="client-h2"> Liste d'affectations</h2>
             </div>
             <div className="client-actions">
               <div className="client-row-left">
