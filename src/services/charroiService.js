@@ -436,3 +436,12 @@ export const getAffectationDemandeOne = async () => {
 export const postAffectationDemande = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/affectation_demande`, data);
 }
+
+//Retour vehicule
+export const getRetourVehicule = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/retour_vehicule`);
+}
+
+export const postRetourVehicule = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/retour_vehicule`, data );
+}
