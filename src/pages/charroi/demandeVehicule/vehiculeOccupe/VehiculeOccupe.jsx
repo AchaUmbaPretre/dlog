@@ -16,11 +16,11 @@ const VehiculeOccupe = () => {
           pageSize: 15,
     });
         
-        const fetchData = async() => {
-            try {
-                const { data } = await getAffectationDemande()
-                setData(data)
-            } catch (error) {
+    const fetchData = async() => {
+      try {
+        const { data } = await getAffectationDemande()
+        setData(data)
+      } catch (error) {
                 notification.error({
                   message: 'Erreur de chargement',
                   description: 'Une erreur est survenue lors du chargement des données.',
