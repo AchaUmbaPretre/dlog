@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Card, Col, message, Skeleton, Select, Button } from 'antd';
-import { getChauffeur, getVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
+import { Form, Row, Input, Card, Col, message, Skeleton, Select, Button } from 'antd';
+import { getChauffeur, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 
@@ -111,6 +111,15 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                     optionFilterProp="label"
                                     placeholder="Sélectionnez un chauffeur..."
                                 />}
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    label="Commentaire"
+                                    name="commentaire"
+                                >
+                                    <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'85px'}}/>
                                 </Form.Item>
                             </Col>
                             
