@@ -12,6 +12,7 @@ import { vehiculeRetour, vehiculeUpdateAnnuler } from '../../../utils/modalUtils
 import VehiculeOccupe from './vehiculeOccupe/VehiculeOccupe';
 import TabPane from 'antd/es/tabs/TabPane';
 import DemandeVehiculeDispo from './demandeVehiculeDispo/DemandeVehiculeDispo';
+import AffectationDemande from '../affectationDemande/AffectationDemande';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -434,10 +435,23 @@ const DemandeVehicule = () => {
             <TabPane
                 tab={
                     <span>
-                    🚗 Les vehicules occupés
+                    ➡️ Liste d'affectations
                     </span>
                 }
                 key="2"
+            >
+                <AffectationDemande/>
+            </TabPane>
+            }
+
+            { role === 'Admin' &&
+            <TabPane
+                tab={
+                    <span>
+                    🚗 Les vehicules occupés
+                    </span>
+                }
+                key="3"
             >
                 <VehiculeOccupe/>
             </TabPane>
@@ -450,7 +464,7 @@ const DemandeVehicule = () => {
                     🚙 Les vehicules disponibles
                     </span>
                 }
-                key="3"
+                key="4"
             >
                 <DemandeVehiculeDispo/>
             </TabPane>

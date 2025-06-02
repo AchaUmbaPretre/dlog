@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Table, Space, Tooltip, Typography, Input, notification } from 'antd';
 import {  CarOutlined, UserOutlined } from '@ant-design/icons';
-import { getAffectationDemande } from '../../../../services/charroiService';
+import { getAffectationDemande, getVehiculeOccupe } from '../../../../services/charroiService';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -18,7 +18,7 @@ const VehiculeOccupe = () => {
         
     const fetchData = async() => {
       try {
-        const { data } = await getAffectationDemande()
+        const { data } = await getVehiculeOccupe()
         setData(data)
       } catch (error) {
         notification.error({
@@ -32,10 +32,6 @@ const VehiculeOccupe = () => {
     };
 
     useEffect(() => {
-      fetchData()
-    },[]);
-
-        useEffect(() => {
         fetchData();
         const interval = setInterval(fetchData, 5000)
         return () => clearInterval(interval)
