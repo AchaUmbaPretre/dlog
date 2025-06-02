@@ -6,7 +6,6 @@ import { getAffectationDemande } from '../../../../services/charroiService';
 const { Search } = Input;
 const { Text } = Typography;
 
-
 const VehiculeOccupe = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
