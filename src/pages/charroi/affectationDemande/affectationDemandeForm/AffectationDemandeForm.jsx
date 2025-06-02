@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Form, Row, Card, Col, message, Skeleton, Select, Button } from 'antd';
 import { getChauffeur, getVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 
 const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
@@ -9,6 +10,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const [ loadingData, setLoadingData ] = useState(false);
     const [ vehicule, setVehicule ] = useState([]);
     const [ chauffeur, setChauffeur ] = useState([]);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const fetchDatas = async() => {
         try {
@@ -43,7 +45,8 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             
             await postAffectationDemande({
                 ...values,
-                id_demande_vehicule : id_demande_vehicule
+                id_demande_vehicule : id_demande_vehicule,
+                user_cr: userId
             })
             
             message.success({ content: "L'affectation a été mise a jour avec succès.", key: loadingKey });
@@ -54,7 +57,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             console.error("Erreur lors de l'ajout d'affectation :", error);
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });
         }
-
     }
 
   return (
