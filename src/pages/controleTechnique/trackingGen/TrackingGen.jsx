@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Table, Input, Tag, notification, Space } from 'antd';
 import { CheckCircleOutlined, ToolOutlined, UserOutlined, CalendarOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { getHistorique} from '../../../services/charroiService';
@@ -52,7 +52,7 @@ const TrackingGen = () => {
               return () => clearInterval(intervalId);
       }, [searchValue])
     
-      const columns = [
+    const columns = [
             {
               title: '#',
               dataIndex: 'id',
@@ -190,7 +190,7 @@ const TrackingGen = () => {
                 </Tag>
               ),
             }
-        ];
+    ];
 
     const filteredData = data.filter(item =>
       item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -215,7 +215,7 @@ const TrackingGen = () => {
                       <span className='client-title'>Resumé :</span>
                       <div className="client-row-sou">
                         <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
-                          <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Du <strong>{moment(dateRecente).format('LL')}</strong> au <strong>{moment(dateAncienne).format('LL')}</strong></span>
+                          <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Du <strong>{moment(dateAncienne).format('LL')}</strong> au <strong>{moment(dateRecente).format('LL')}</strong></span>
                           <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Dernier statut : <strong>{state[0]?.nom_type_statut}</strong></span>
                           <span style={{fontSize:'.8rem',  fontWeight:'200'}}>Dernier statut du véhicule : <strong>{state[0]?.nom_statut_vehicule}</strong></span>
                         </div>
