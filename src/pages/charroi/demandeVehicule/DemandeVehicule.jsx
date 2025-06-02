@@ -429,6 +429,8 @@ const DemandeVehicule = () => {
         </div>
       </div>
             </TabPane>
+
+            { role === 'Admin' &&
             <TabPane
                 tab={
                     <span>
@@ -439,7 +441,9 @@ const DemandeVehicule = () => {
             >
                 <VehiculeOccupe/>
             </TabPane>
+            }
 
+            { role === 'Admin' &&
             <TabPane
                 tab={
                     <span>
@@ -450,6 +454,7 @@ const DemandeVehicule = () => {
             >
                 <DemandeVehiculeDispo/>
             </TabPane>
+            }
         </Tabs>
 
 

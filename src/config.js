@@ -5,12 +5,12 @@ const currentUser = user && JSON.parse(user).currentUser;
 const TOKEN = currentUser?.accessToken;
 
 const config = {
-  REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com'
+  REACT_APP_SERVER_DOMAIN : 'http://localhost:8080'
 };
 
 export default config;
 
 export const userRequest = axios.create({
-  baseURL: 'https://apidlog.loginsmart-cd.com',
+  baseURL: 'http://localhost:8080',
   headers: { Authorization: `Bearer ${TOKEN}` },
 });
