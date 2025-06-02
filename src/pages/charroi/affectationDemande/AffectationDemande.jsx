@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Table, Space, Tooltip, Typography, Input, notification } from 'antd';
-import {  CarOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Table, Modal, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
+import {  CarOutlined, PlusCircleOutlined, UserOutlined, ExportOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
+import AffectationDemandeForm from './affectationDemandeForm/AffectationDemandeForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -16,6 +17,21 @@ const AffectationDemande = () => {
           current: 1,
           pageSize: 15,
     });
+    const [modalType, setModalType] = useState(null);
+    const [affectationId, setAffectationId] = useState('');
+
+
+    const handleAdd = () => openModal('Add')
+
+    const closeAllModals = () => {
+      setModalType(null);
+    };
+
+    const openModal = (type, affectationId = '') => {
+      closeAllModals();
+      setModalType(type);
+      setAffectationId(affectationId)
+    };
         
     const fetchData = async() => {
       try {
@@ -153,49 +169,43 @@ const AffectationDemande = () => {
                 <Search 
                   placeholder="Recherche..." 
                   enterButton 
-                      onChange={(e) => setSearchValue(e.target.value)}
+                  onChange={(e) => setSearchValue(e.target.value)}
                 />
-                        </div>
-{/*                         <div className="client-rows-right">
-                            <Dropdown overlay={getActionMenu(openModal)} trigger={['click']}>
-                                <Button
-                                    type="text"
-                                    icon={<MoreOutlined />}
-                                    style={{
-                                    color: '#595959',              
-                                    backgroundColor: '#f5f5f5',    
-                                    border: '1px solid #d9d9d9',
-                                    borderRadius: '4px',
-                                    boxShadow: 'none',
-                                    }}
-                                />
-                            </Dropdown>
-
-                            <Dropdown overlay={menu} trigger={['click']}>
-                                <Button icon={<ExportOutlined />}>Export</Button>
-                            </Dropdown>
-                            
-                            <Button
-                                icon={<PrinterOutlined />}
-                                onClick={handlePrint}
-                            >
-                                Print
-                            </Button>
-                        </div> */}
-                    </div>
-                    <Table
-                        columns={columns}
-                        dataSource={filteredData}
-                        loading={loading}
-                        onChange={(pagination) => setPagination(pagination)}
-                        rowKey="id"
-                        bordered
-                        size="small"
-                        scroll={scroll}
-                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                    />
-                    </div>
+              </div>
+              <div className="client-rows-right">
+                <Button
+                  type="primary"
+                  icon={<PlusCircleOutlined />}
+                  onClick={handleAdd}
+                >
+                  Ajouter
+                </Button>
+              </div>
+              </div>
+              <Table
+                columns={columns}
+                dataSource={filteredData}
+                loading={loading}
+                onChange={(pagination) => setPagination(pagination)}
+                rowKey="id"
+                bordered
+                size="small"
+                scroll={scroll}
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+              />
+            </div>
         </div>
+
+        <Modal
+          title=""
+          visible={modalType === 'Add'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={800}
+          centered
+        >
+          <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }
