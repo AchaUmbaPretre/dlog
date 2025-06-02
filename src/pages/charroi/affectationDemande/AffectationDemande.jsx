@@ -21,6 +21,24 @@ const AffectationDemande = () => {
     const [affectationId, setAffectationId] = useState('');
 
 
+    const columnStyles = {
+      title: {
+        maxWidth: '220px',
+        whiteSpace: 'nowrap',
+        overflowX: 'scroll', 
+        overflowY: 'hidden',
+        textOverflow: 'ellipsis',
+        scrollbarWidth: 'none',
+        '-ms-overflow-style': 'none', 
+      },
+      hideScroll: {
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+      },
+    };
+
+
     const handleAdd = () => openModal('Add')
 
     const closeAllModals = () => {
@@ -146,6 +164,22 @@ const AffectationDemande = () => {
         <Tooltip placement="topLeft" title={text}>
           <Text>{moment(text).format('DD-MM-yyyy')}</Text>
         </Tooltip>
+      ),
+    },
+    {
+      title: (
+        <Space>
+          <Text strong>Commentaire</Text>
+        </Space>
+      ),
+      dataIndex: 'commentaire',
+      key: 'commentaire',
+      render: (text) => (
+        <div style={columnStyles.title} className={columnStyles.hideScroll}>
+          <Tooltip placement="topLeft" title={text}>
+            <Text>{text}</Text>
+          </Tooltip>
+        </div>
       ),
     },
    ]
