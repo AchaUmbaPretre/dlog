@@ -60,6 +60,10 @@ export const getVehiculeDispo = async () => {
     return axios.get(`${DOMAIN}/api/charroi/vehicule_dispo`);
 }
 
+export const getVehiculeOccupe = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/vehicule_occupe`);
+}
+
 export const getVehiculeOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/vehicule/one?id_vehicule=${id}`);
 }
