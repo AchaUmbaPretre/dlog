@@ -133,20 +133,20 @@ const VehiculeOccupe = () => {
   return (
     <>
         <div className="client">
-                    <div className="client-wrapper">
-                    <div className="client-row">
-                        <div className="client-row-icon">
-                        <CarOutlined className='client-icon' style={{color:'red'}} />
-                        </div>
-                        <h2 className="client-h2">Les véhicules occupés</h2>
-                    </div>
-                    <div className="client-actions">
-                        <div className="client-row-left">
-                            <Search 
-                                placeholder="Recherche..." 
-                                enterButton 
-                                onChange={(e) => setSearchValue(e.target.value)}
-                            />
+          <div className="client-wrapper">
+            <div className="client-row">
+              <div className="client-row-icon">
+                <CarOutlined className='client-icon' style={{color:'red'}} />
+              </div>
+              <h2 className="client-h2">Les véhicules occupés</h2>
+            </div>
+            <div className="client-actions">
+              <div className="client-row-left">
+                <Search 
+                  placeholder="Recherche..." 
+                  enterButton 
+                      onChange={(e) => setSearchValue(e.target.value)}
+                />
                         </div>
 {/*                         <div className="client-rows-right">
                             <Dropdown overlay={getActionMenu(openModal)} trigger={['click']}>
