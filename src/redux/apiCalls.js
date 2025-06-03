@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 
 export const login = async (dispatch, user, navigate) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const role = useSelector((state) => state.user?.currentUser?.role);
 
 
   dispatch(loginStart());
@@ -15,8 +14,10 @@ export const login = async (dispatch, user, navigate) => {
     dispatch(loginSuccess(res.data));
     if (res.data.success) {
       message.success("Connectez-vous avec succès");
+      const role = res.data?.role;
 
-      if (role === 'securite') {
+      console.log(role)
+      if (role === 'Securité') {
         navigate('/securite/dashboard');
       } else {
         navigate('/');
