@@ -5,6 +5,8 @@ import config from "../config";
 
 export const login = async (dispatch, user, navigate) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const role = useSelector((state) => state.user?.currentUser?.role);
+
 
   dispatch(loginStart());
   try {
@@ -12,7 +14,13 @@ export const login = async (dispatch, user, navigate) => {
     dispatch(loginSuccess(res.data));
     if (res.data.success) {
       message.success("Connectez-vous avec succès");
-      navigate('/');
+
+      if (role === 'securite') {
+        navigate('/securite/dashboard');
+      } else {
+        navigate('/');
+      }
+      
     } else {
       navigate('/login')
       message.error(res.data.message);
