@@ -1,54 +1,39 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Menu } from 'antd';
 import {
   HomeOutlined,
   UserOutlined,
   SettingOutlined,
   SafetyCertificateOutlined,
 } from '@ant-design/icons';
-import './bottomNav.scss';
 import { useSelector } from 'react-redux';
+import './bottomNav.scss';
 
 const BottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const role = useSelector((state) => state.user.currentUser?.role);
 
-  const menuItems = [
-    {
-      key: '/',
-      label: 'Accueil',
-      icon: <HomeOutlined />,
-    },
+  const navItems = [
+    { path: '/', icon: <HomeOutlined /> },
     ...(role === 'Securité'
-      ? [{
-          key: '/securite/dashboard',
-          label: 'Sécurité',
-          icon: <SafetyCertificateOutlined />,
-        }]
+      ? [{ path: '/securite/dashboard', icon: <SafetyCertificateOutlined /> }]
       : []),
-    {
-      key: '/profile',
-      label: 'Profil',
-      icon: <UserOutlined />,
-    },
-    {
-      key: '/settings',
-      label: 'Réglages',
-      icon: <SettingOutlined />,
-    },
+    { path: '/profile', icon: <UserOutlined /> },
+    { path: '/settings', icon: <SettingOutlined /> },
   ];
 
   return (
-    <div className="bottom-nav-wrapper">
-      <Menu
-        mode="horizontal"
-        selectedKeys={[location.pathname]}
-        onClick={(e) => navigate(e.key)}
-        items={menuItems}
-        className="bottom-nav-menu"
-      />
+    <div className="bottom-nav">
+      {navItems.map((item) => (
+        <button
+          key={item.path}
+          className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
+          onClick={() => navigate(item.path)}
+        >
+          {item.icon}
+        </button>
+      ))}
     </div>
   );
 };

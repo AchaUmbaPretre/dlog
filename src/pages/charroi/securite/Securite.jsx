@@ -22,6 +22,14 @@ const Securite = () => {
                         <PoweroffOutlined className='securite_icon' />
                     </div>
                 </div>
+                <div className="securite_center_rows">
+                    <div className="securite_center_left">
+
+                    </div>
+                    <div className="securite_center_right">
+                                
+                    </div>
+                </div>
             </div>
             <BottomNav/>
         </div>
