@@ -12,11 +12,25 @@
             
             .securite-row-img{
                 display: flex;
+                align-items: center;
                 gap: 5px;
                 .securite-img{
                     width: 45px;
                     height: 45px;
                     border-radius: 50%;
+                }
+                .securite-row-text{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                    .text_span{
+                        font-size: .7rem;
+                        color: rgb(3, 3, 141);
+                    }
+                    .text_span_sub{
+                        font-size: .6rem;
+                        color: #808080;
+                    }
                 }
             }
             .securite-disconneted{

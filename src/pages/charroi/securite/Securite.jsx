@@ -15,7 +15,7 @@ const Securite = () => {
                         <img src={userIcon} alt="" className="securite-img" />
                         <div className="securite-row-text">
                             <span className="text_span">John</span>
-                            <span className="text_span">Securité</span>
+                            <span className="text_span_sub">Securité</span>
                         </div>
                     </div>
                     <div className="securite-disconneted">

@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 const BottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const role = useSelector((state) => state.user?.currentUser?.role);
+  const role = useSelector((state) => state.user.currentUser?.role);
 
   const menuItems = [
     {
@@ -21,7 +21,7 @@ const BottomNav = () => {
       label: 'Accueil',
       icon: <HomeOutlined />,
     },
-    ...(role === 'securite'
+    ...(role === 'Securité'
       ? [{
           key: '/securite/dashboard',
           label: 'Sécurité',
