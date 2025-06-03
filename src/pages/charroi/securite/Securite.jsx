@@ -1,5 +1,6 @@
 import './securite.scss'
 import userIcon from './../../../assets/user.png';
+import securiteIcon from './../../../assets/securite.png';
 import BottomNav from './bottomNav/BottomNav';
 import {
 PoweroffOutlined
@@ -22,13 +23,9 @@ const Securite = () => {
                         <PoweroffOutlined className='securite_icon' />
                     </div>
                 </div>
+                <h2 className="title-h2">Bienvenue d'application</h2>
                 <div className="securite_center_rows">
-                    <div className="securite_center_left">
-
-                    </div>
-                    <div className="securite_center_right">
-                                
-                    </div>
+                    <img src={securiteIcon} alt="" className='img_sec' />
                 </div>
             </div>
             <BottomNav/>
