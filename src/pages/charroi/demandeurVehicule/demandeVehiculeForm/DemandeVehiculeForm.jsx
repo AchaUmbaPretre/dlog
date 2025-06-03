@@ -3,6 +3,7 @@ import { Col, Form, Card, notification, Input, Row, Select, Skeleton, Button, me
 import { SendOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getLocaliteOne, getVille, postLocalite, putLocalite } from '../../../../services/transporteurService';
 import { getDepartement } from '../../../../services/departementService';
+import { postServiceDemandeur } from '../../../../services/charroiService';
 
 const DemandeVehiculeForm = ({closeModal, fetchData, localiteId}) => {
     const [form] = Form.useForm();
@@ -38,21 +39,13 @@ const DemandeVehiculeForm = ({closeModal, fetchData, localiteId}) => {
             });
     
             setLoading(true);
-    
-            if (localiteId) {
-                await postLocalite(values);
+
+            await postServiceDemandeur(values);
         
-                message.success({
-                    content: 'La localité a été enregistré avec succès.',
-                    key: loadingKey,
-                });
-            } else {
-                const valuesUpdate = {
-                    ...values,
-                    id_localite: localiteId
-                }
-                await putLocalite(valuesUpdate)
-            }
+            message.success({
+                content: 'Le demandeur a été enregistré avec succès.',
+                key: loadingKey,
+            });
     
             form.resetFields();
             fetchData();
