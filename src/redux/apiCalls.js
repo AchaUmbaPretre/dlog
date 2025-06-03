@@ -2,6 +2,7 @@ import { loginFailure, loginStart, loginSuccess } from "./userRedux";
 import axios from "axios";
 import { message } from "antd";
 import config from "../config";
+import { useSelector } from "react-redux";
 
 export const login = async (dispatch, user, navigate) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -20,7 +21,7 @@ export const login = async (dispatch, user, navigate) => {
       } else {
         navigate('/');
       }
-      
+
     } else {
       navigate('/login')
       message.error(res.data.message);
