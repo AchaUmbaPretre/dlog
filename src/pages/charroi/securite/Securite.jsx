@@ -23,10 +23,22 @@ const Securite = () => {
                         <PoweroffOutlined className='securite_icon' />
                     </div>
                 </div>
-                <h2 className="title-h2">Bienvenue d'application</h2>
+                <h2 className="title-h2">👋 Bienvenue sur notre application</h2>
                 <div className="securite_center_rows">
                     <img src={securiteIcon} alt="" className='img_sec' />
                 </div>
+                <h2 className="title-sous-h2">⚙️ Nos Options :</h2>
+
+                <div className="securite-menus-rows">
+                    <div className="securite_menu-row">
+                        aaaaaaa
+                    </div>
+                    <div className="securite_menu-row">
+                        aaaaa
+                    </div>
+                </div>
+
+
             </div>
             <BottomNav/>
         </div>
