@@ -100,12 +100,12 @@ const DemandeVehiculeForm = ({closeModal, fetchData, localiteId}) => {
                         <Row gutter={12}>
                             <Col xs={24} md={24}>
                                 <Form.Item
-                                    name="nom_localite"
+                                    name="nom_service"
                                     label="Nom"
                                     rules={[
                                         {
                                             required: true,
-                                            message: "Veuillez fournir le nom d'une localité...",
+                                            message: "Veuillez fournir le nom un service...",
                                         }
                                     ]}
                                 >
