@@ -2,26 +2,20 @@ import { useEffect, useState } from 'react'
 import { Col, Form, Card, notification, Input, Row, Select, Skeleton, Button, message } from 'antd';
 import { SendOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getLocaliteOne, getVille, postLocalite, putLocalite } from '../../../../services/transporteurService';
+import { getDepartement } from '../../../../services/departementService';
 
 const DemandeVehiculeForm = ({closeModal, fetchData, localiteId}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
-    const [ville, setVille] = useState([]);
+    const [departement, setDepartement] = useState([]);
     const [loading, setLoading] = useState(false);
     
         useEffect(()=> {
             const fetchData = async() => {
                 try {
-                    const { data } = await getVille();
-                    setVille(data)
+                    const { data } = await getDepartement();
+                    setDepartement(data)
 
-                    if(localiteId) {
-                        const { data : d } = await getLocaliteOne(localiteId);
-                        form.setFieldsValue({
-                            nom_localite : d[0]?.nom_localite,
-                            id_ville: d[0]?.id_ville
-                        })
-                    }
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 } finally {
@@ -121,8 +115,8 @@ const DemandeVehiculeForm = ({closeModal, fetchData, localiteId}) => {
 
                             <Col xs={24} md={24}>
                                 <Form.Item
-                                    name="id_ville"
-                                    label="Ville"
+                                    name="id_departement"
+                                    label="Département"
                                     rules={[
                                         {
                                             required: true,
@@ -134,14 +128,14 @@ const DemandeVehiculeForm = ({closeModal, fetchData, localiteId}) => {
                                     <Select
                                         allowClear
                                         showSearch
-                                        options={ville.map((item) => ({
-                                            value: item.id_ville,
-                                            label: `${item.nom_ville}`,
+                                        options={departement.map((item) => ({
+                                            value: item.id_departement,
+                                            label: `${item.nom_departement}`,
                                         }))}
                                         placeholder={
                                             <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                                                 <EnvironmentOutlined style={{ color: '#8c8c8c' }} />
-                                                Sélectionnez une ville...
+                                                Sélectionnez un département...
                                             </span>
                                         }
                                         optionFilterProp="label"
