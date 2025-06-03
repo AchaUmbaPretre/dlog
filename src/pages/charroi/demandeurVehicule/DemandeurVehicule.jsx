@@ -135,14 +135,14 @@ const columns = [
             type="text"
             icon={<EditOutlined />}
             style={{ color: '#1890ff' }}
-            onClick={() => handleEdit(record.id_localite)}
+            onClick={() => handleEdit(record.id_service_demandeur)}
             aria-label="Modifier"
           />
         </Tooltip>
         <Tooltip title="Supprimer définitivement">
           <Popconfirm
-            title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
-            onConfirm={() => handleDelete(record.id_localite)}
+            title="Êtes-vous sûr de vouloir supprimer ce demandeur ?"
+            onConfirm={() => handleDelete(record.id_service_demandeur)}
             okText="Oui"
             cancelText="Non"
             okButtonProps={{ danger: true }}
