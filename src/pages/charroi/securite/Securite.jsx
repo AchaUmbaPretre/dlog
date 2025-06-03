@@ -36,9 +36,10 @@ const Securite = () => {
                         <img src={sortieIcon} alt="" className='icons'/>
                         <h3 className="securite_h3">Sortie</h3>
                     </div>
+                    
                     <div className="securite_menu-row">
                         <img src={retourIcon} alt="" className='icons'/>
-                        <h3 className="securite_h3">Rentrée</h3>
+                        <h3 className="securite_h3">Entrée</h3>
                     </div>
                 </div>
 
