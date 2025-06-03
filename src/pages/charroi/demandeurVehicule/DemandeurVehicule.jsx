@@ -130,7 +130,7 @@ const columns = [
     width: '120px',
     render: (text, record) => (
       <Space size="middle">
-        <Tooltip title="Modifier cette localisation">
+        <Tooltip title="Modifier">
           <Button
             type="text"
             icon={<EditOutlined />}
