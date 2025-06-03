@@ -388,6 +388,10 @@ export const getServiceDemandeur = async () => {
     return axios.get(`${DOMAIN}/api/charroi/serviceDemadeur`);
 }
 
+export const postServiceDemandeur = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/serviceDemadeur`, data);
+}
+
 export const getTypeVehicule = async () => {
     return axios.get(`${DOMAIN}/api/charroi/type_vehicule`);
 }
