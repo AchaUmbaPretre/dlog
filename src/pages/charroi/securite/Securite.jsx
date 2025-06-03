@@ -1,8 +1,12 @@
-import React from 'react'
+import './securite.scss'
 
 const Securite = () => {
   return (
-    <div>Securite</div>
+    <>
+        <div className="securite">
+            Securite
+        </div>
+    </>
   )
 }
 

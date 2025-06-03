@@ -349,12 +349,11 @@ function App() {
         {
           path: '/liste_pays',
           element: secure('/demande_vehicule', <Pays/>)
-        },
-        {
-          path: '/securite/dashboard',
-          element: <Securite/>
         }
       ]
+    },
+    {
+      path: '/securite/dashboard', element: <Securite/>
     },
     { path: '/login', element: <Login /> },
     { path: '/register', element: <Register /> },
