@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Col, Form, Card, notification, Input, Row, Select, Skeleton, Button, message } from 'antd';
-import { SendOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { getLocaliteOne, getVille, postLocalite, putLocalite } from '../../../../services/transporteurService';
+import { SendOutlined } from '@ant-design/icons';
 import { getDepartement } from '../../../../services/departementService';
 import { postServiceDemandeur } from '../../../../services/charroiService';
 
@@ -125,12 +124,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, localiteId}) => {
                                             value: item.id_departement,
                                             label: `${item.nom_departement}`,
                                         }))}
-                                        placeholder={
-                                            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                                <EnvironmentOutlined style={{ color: '#8c8c8c' }} />
-                                                Sélectionnez un département...
-                                            </span>
-                                        }
+                                        placeholder= 'Sélectionnez un département..'
                                         optionFilterProp="label"
                                     />
                                     }
