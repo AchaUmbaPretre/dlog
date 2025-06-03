@@ -1,6 +1,8 @@
 import './securite.scss'
 import userIcon from './../../../assets/user.png';
 import securiteIcon from './../../../assets/securite.png';
+import retourIcon from './../../../assets/retour.png';
+import sortieIcon from './../../../assets/sortie.png';
 import BottomNav from './bottomNav/BottomNav';
 import {
 PoweroffOutlined
@@ -27,17 +29,18 @@ const Securite = () => {
                 <div className="securite_center_rows">
                     <img src={securiteIcon} alt="" className='img_sec' />
                 </div>
-                <h2 className="title-sous-h2">⚙️ Nos Options :</h2>
+                <h2 className="title-sous-h2">⚙️ Nos Options</h2>
 
                 <div className="securite-menus-rows">
                     <div className="securite_menu-row">
-                        aaaaaaa
+                        <img src={sortieIcon} alt="" className='icons'/>
+                        <h3 className="securite_h3">Sortie</h3>
                     </div>
                     <div className="securite_menu-row">
-                        aaaaa
+                        <img src={retourIcon} alt="" className='icons'/>
+                        <h3 className="securite_h3">Rentrée</h3>
                     </div>
                 </div>
-
 
             </div>
             <BottomNav/>

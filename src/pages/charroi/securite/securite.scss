@@ -72,14 +72,29 @@
             letter-spacing: 1px;
         }
         .securite-menus-rows{
-            display: flex;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 10px;
             .securite_menu-row{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                gap: 10px;
                 padding: 10px;
                 flex: 1;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-                height: 150px;
+                height: 170px;
                 border-radius: 10px;
+                .icons{
+                    width: 100px;
+                }
+                .securite_h3{
+                    font-size: 1rem;
+                    color: #797979;
+                    font-weight: 300;
+                    letter-spacing: 2px;
+                }
             }
         }
     }
