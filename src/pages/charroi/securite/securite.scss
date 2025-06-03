@@ -1,0 +1,38 @@
+.securite{
+    width: 100%;
+    .securite_wrapper{
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        .securite_top{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+            .securite-row-img{
+                display: flex;
+                gap: 5px;
+                .securite-img{
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                }
+            }
+            .securite-disconneted{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(231, 5, 5, 0.863);
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                .securite_icon{
+                    color: white;
+                    margin: 0;
+                    font-size: 1.1rem;
+                }
+            }
+        }
+    }
+}
