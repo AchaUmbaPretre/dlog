@@ -122,13 +122,11 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                     <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'85px'}}/>
                                 </Form.Item>
                             </Col>
-                            
                             <div style={{ marginTop: '20px' }}>
                                 <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
                                     Soumettre
                                 </Button>
                             </div>
-
                         </Row>
                     </Card>
                 </Form>

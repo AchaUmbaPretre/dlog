@@ -115,9 +115,9 @@ const DemandeVehiculeDispo = () => {
             <div className="client-wrapper">
                 <div className="client-row">
                     <div className="client-row-icon">
-                        <TruckOutlined className='client-icon'/>
+                        <TruckOutlined className='client-icon' style={{color:'red'}}/>
                     </div>
-                    <h2 className="client-h2">Liste des vehicules</h2>
+                    <h2 className="client-h2"> Les vehicules disponibles</h2>
                 </div>
                 <div className="client-actions">
                     <div className="client-row-left">
@@ -125,9 +125,6 @@ const DemandeVehiculeDispo = () => {
                             enterButton 
                             onChange={(e) => setSearchValue(e.target.value)}
                         />
-                    </div>
-                    <div className="client-rows-right">
-
                     </div>
                 </div>
                 <Table
