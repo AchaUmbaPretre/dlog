@@ -4,7 +4,7 @@ import { SendOutlined } from '@ant-design/icons';
 import { getDepartement } from '../../../../services/departementService';
 import { postServiceDemandeur } from '../../../../services/charroiService';
 
-const DemandeVehiculeForm = ({closeModal, fetchData, localiteId}) => {
+const DemandeurVehiculeForm = ({closeModal, fetchData, localiteId}) => {
     const [form] = Form.useForm();
     const [loadingData, setLoadingData] = useState(false);
     const [departement, setDepartement] = useState([]);
@@ -143,4 +143,4 @@ const DemandeVehiculeForm = ({closeModal, fetchData, localiteId}) => {
   )
 }
 
-export default DemandeVehiculeForm;
+export default DemandeurVehiculeForm;

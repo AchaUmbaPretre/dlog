@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, FileTextOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getServiceDemandeur } from '../../../services/charroiService';
-import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
+import DemandeurVehiculeForm from './demandeurVehiculeForm/DemandeurVehiculeForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -225,7 +225,7 @@ const columns = [
         width={700}
         centered
       >
-        <DemandeVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} localiteId={localiteId} />
+        <DemandeurVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} localiteId={localiteId} />
       </Modal>
     </>
   );
