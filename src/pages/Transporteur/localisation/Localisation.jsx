@@ -319,7 +319,7 @@ const columns = [
             <TabPane
                 tab={
                     <span>
-                         🛣️ Expedition
+                         🚚 Expedition
                     </span>
                 }
                 key="4"
