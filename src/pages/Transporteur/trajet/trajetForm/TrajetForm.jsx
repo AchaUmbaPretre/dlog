@@ -239,7 +239,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                     <Form.List name="segment">
                         {(fields, { add, remove }) => (
                             <>
-                            <Divider orientation="left" plain>Le(s) segment(s)</Divider>
+                            <Divider orientation="left" plain>Le(s) transits</Divider>
                             {fields.map(({ key, name, ...restField }) => (
                                 <Card style={{marginBottom:'10px'}} size="small" type="inner" title={`Segment ${key + 1}`}>
                                     <Row key={key} gutter={12} align="middle">
@@ -388,7 +388,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                                         icon={<PlusCircleOutlined />}
                                         style={{ width: '100%' }}
                                     >
-                                       Ajouter un segment
+                                       Ajouter un point de transit
                                     </Button>
                                 </Form.Item>
                             </>
