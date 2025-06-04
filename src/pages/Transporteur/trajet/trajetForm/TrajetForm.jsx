@@ -25,17 +25,24 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
         if(trajetId) {
             const { data : d } = await getTrajetOneV(trajetId);
             form.setFieldsValue({
-                id_depart : d[0].id_depart,
-                id_arrive : d[0].id_arrive,
-                segment : d.map((item, index) => ({
-                    ordre : item.ordre,
-                    id_depart : item.id_depart,
-                    id_arrive : item.id_destination,
-                    date_depart : moment(item.date_depart),
-                    date_arrivee : moment(item.date_arrivee),
-                    distance_km : item.distance_km,
-                    mode_transport : item.mode_transport,
-                    prix : item.prix
+                id_depart : d[0].id_depart_tr,
+                id_destination : d[0].id_destination_tr,
+                date_depart : moment(d[0].date_depart_tr),
+                date_arrivee : moment(d[0].date_arrivee_tr),
+                distance_km : d[0].distance_km_tr,
+                mode_transport : d[0].mode_transport_tr,
+                prix : d[0].prix_tr,
+                segment: d
+                .filter(item => item.id_segment !== null)
+                .map(item => ({
+                    ordre: item.ordre,
+                    id_depart: item.id_depart,
+                    id_destination: item.id_destination,
+                    date_depart: moment(item.date_depart),
+                    date_arrivee: moment(item.date_arrivee),
+                    distance_km: item.distance_km,
+                    mode_transport: item.mode_transport,
+                    prix: item.prix
                 }))
             })
         }
