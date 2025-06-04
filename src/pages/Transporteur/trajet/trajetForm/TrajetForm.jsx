@@ -239,9 +239,9 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                     <Form.List name="segment">
                         {(fields, { add, remove }) => (
                             <>
-                            <Divider orientation="left" plain>Le(s) transits</Divider>
+                            <Divider orientation="left" plain>Le(s) transit(s)</Divider>
                             {fields.map(({ key, name, ...restField }) => (
-                                <Card style={{marginBottom:'10px'}} size="small" type="inner" title={`Segment ${key + 1}`}>
+                                <Card style={{marginBottom:'10px'}} size="small" type="inner" title={`Transit ${key + 1}`}>
                                     <Row key={key} gutter={12} align="middle">
                                         <Col xs={24} md={6}>
                                             <Form.Item
