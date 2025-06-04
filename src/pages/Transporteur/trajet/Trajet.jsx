@@ -26,9 +26,9 @@ const [columnsVisibility, setColumnsVisibility] = useState({
   date_depart: true,
   date_arrivee: true,
   distance_km: true,
-  duree: true,
+  duree: false,
   prix: false,
-  nom: true,
+  nom: false,
   nom_mode: true
 });
 
@@ -118,28 +118,29 @@ const [columnsVisibility, setColumnsVisibility] = useState({
       message.success('Exporting to PDF...');
     };
 
-    const toggleColumnVisibility = (columnName, e) => {
-      e.stopPropagation();
-      setColumnsVisibility(prev => ({
+    const toggleColumnVisibility = (key) => {
+      setColumnsVisibility((prev) => ({
         ...prev,
-        [columnName]: !prev[columnName]
+        [key]: !prev[key],
       }));
     };
+
     const handlePrint = () => {
       window.print();
     };
 
       const menus = (
         <Menu>
-          {Object.keys(columnsVisibility).map(columnName => (
-            <Menu.Item key={columnName}>
-              <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
-                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
-                <span style={{ marginLeft: 8 }}>{columnName}</span>
+          {Object.keys(columnsVisibility).map((colKey) => (
+            <Menu.Item key={colKey}>
+              <span onClick={() => toggleColumnVisibility(colKey)}>
+                <input type="checkbox" checked={columnsVisibility[colKey]} readOnly />
+                <span style={{ marginLeft: 8 }}>{colKey}</span>
               </span>
             </Menu.Item>
           ))}
         </Menu>
+
       );  
       
     const menu = (
@@ -280,6 +281,7 @@ const [columnsVisibility, setColumnsVisibility] = useState({
     {
       title: <Text strong>Actions</Text>,
       key: 'action',
+      width: '130px',
       align: 'center',
       render: (text, record) => (
         <Space size="small">
