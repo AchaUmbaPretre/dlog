@@ -37,17 +37,6 @@ const FilterTaches = ({ onFilter }) => {
     const [selectedPriorite, setSelectedPriorite] = useState('');
     const [selectedOwners, setSelectedOwners] = useState('');
 
-    const handleFilter = async () => {
-        onFilter({
-            departement: selectedDepartement,
-            client: selectedClients,
-            statut: selectedStatut,
-            priorite: selectedPriorite,
-            dateRange,
-            owners: selectedOwners,
-        });
-    };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -69,6 +58,21 @@ const FilterTaches = ({ onFilter }) => {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const handleFilter = async () => {
+                onFilter({
+                    departement: selectedDepartement,
+                    client: selectedClients,
+                    statut: selectedStatut,
+                    priorite: selectedPriorite,
+                    dateRange,
+                    owners: selectedOwners,
+                });
+            };
+
+            handleFilter();
+    }, [selectedDepartement, selectedClients, selectedStatut, selectedPriorite, selectedOwners, dateRange  ])
 
     return (
         <div className="filterTache">
@@ -158,9 +162,6 @@ const FilterTaches = ({ onFilter }) => {
                     onChange={setSelectedOwners} // Met à jour les propriétaires sélectionnés
                 />
             </div>
-            <Button type="primary" icon={<SearchOutlined />} onClick={handleFilter}>
-                Filtrer
-            </Button>
         </div>
     );
 };

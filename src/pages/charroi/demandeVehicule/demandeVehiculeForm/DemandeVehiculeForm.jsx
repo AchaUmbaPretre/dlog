@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Card, Col, message, notification, Skeleton, Select, Button, DatePicker } from 'antd';
+import { Form, Row, Card, Col, message, Input, notification, Skeleton, Select, Button, DatePicker } from 'antd';
 import { getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule, putDemandeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
@@ -270,22 +270,11 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
 
                             <Col xs={24} md={8}>
                                 <Form.Item
-                                    label="Personne(s) qui sort(ent) avec le véhicule"
-                                    name="id_utilisateur"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner au moins une personne.' }]}
+                                    label="Personne(s) à bord"
+                                    name="personne_bord"
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        allowClear
-                                        showSearch
-                                        mode="multiple"
-                                        options={user?.map((item) => ({
-                                            value: item.id_utilisateur,
-                                            label: `${item.nom} - ${item.prenom ?? ''}`,
-                                        }))}
-                                        optionFilterProp="label"
-                                        placeholder="Sélectionnez..."
-                                    />
+                                    <Input  placeholder="Saisir..." style={{width:'100%'}}/>
                                     }
                                 </Form.Item>
                             </Col>

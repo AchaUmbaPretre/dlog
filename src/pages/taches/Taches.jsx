@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton, Alert } from 'antd';
 import { 
   ExportOutlined, WarningOutlined,MoreOutlined, UnlockOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
@@ -154,7 +154,7 @@ const Taches = () => {
     } finally {
         setLoading(false);
     }
-};
+  };
 
 useEffect(() => {
   fetchData(filteredDatas);
@@ -183,7 +183,7 @@ const handleEdit = (idTache) => {
     setIdTache(idTache);
     setIsModalVisible(true);
 
-  };
+};
 
   const handleAllDetails = (idTache) => {
     openModal('Alldetail', idTache);
