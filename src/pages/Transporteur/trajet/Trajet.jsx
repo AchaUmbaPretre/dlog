@@ -170,7 +170,7 @@ const [columnsVisibility, setColumnsVisibility] = useState({
       title: (
         <Space>
           📍
-          <Text strong>Trajet</Text>
+          <Text strong>Départ</Text>
         </Space>
       ),
       dataIndex: 'depart',
@@ -182,7 +182,28 @@ const [columnsVisibility, setColumnsVisibility] = useState({
       className={columnStyles.hideScroll}
     >
       <Tooltip title={text}>
-        <Tag color="blue">{record.depart} - {record.destination}</Tag>
+        <Tag color="blue">{record.depart}</Tag>
+      </Tooltip>
+    </div>
+    ),
+    },
+     {
+      title: (
+        <Space>
+          📍
+          <Text strong>Destination</Text>
+        </Space>
+      ),
+      dataIndex: 'destination',
+      key: 'destination',
+      ellipsis: true,
+      render: (text, record) => (
+    <div
+      style={columnStyles.title}
+      className={columnStyles.hideScroll}
+    >
+      <Tooltip title={text}>
+        <Tag color="green">{record.depart}</Tag>
       </Tooltip>
     </div>
     ),
@@ -199,84 +220,6 @@ const [columnsVisibility, setColumnsVisibility] = useState({
       align: 'center',
       width: "8%",
       render: (text) => <Badge count={ text ? `${text} km` : '0 km'} style={{ backgroundColor: '#faad14' }} />,
-    },
-    {
-      title: (
-        <Space>
-          <ClockCircleOutlined style={{ color: '#722ed1' }} />
-          <Text strong>Départ</Text>
-        </Space>
-      ),
-      dataIndex: 'date_depart',
-      key: 'date_depart',
-      align: 'center',
-      render: (text) => {
-        const formattedDate = moment(text).format('DD-MM-YYYY');
-        return (
-        <Tooltip placement="center" title={text ? formattedDate : 'Aucune'}>
-          <Tag icon={<CalendarOutlined />} color="green">{text ? formattedDate : 'Aucune'}</Tag>
-        </Tooltip>
-        )
-      },
-    },
-    {
-      title: (
-        <Space>
-          <FieldTimeOutlined style={{ color: '#eb2f96' }} />
-          <Text strong>Arrivée</Text>
-        </Space>
-      ),
-      dataIndex: 'date_arrivee',
-      key: 'date_arrivee',
-      align: 'center',
-      render: (text) => {
-        const formattedDate = moment(text).format('DD-MM-YYYY');
-        return (
-        <Tooltip placement="center" title={ text ? formattedDate : 'Aucune'}>
-          <Tag icon={<CalendarOutlined />} color="blue">{text ? formattedDate : 'Aucune'}</Tag>
-        </Tooltip>
-        )
-      },
-    },
-    {
-      title: <Text strong>Modes trans.</Text>,
-      dataIndex: 'nom_mode',
-      key: 'nom_mode',
-      align: 'center',
-      render: (text) => (
-        <>
-          {(text || '').split(',').map((mode) => (
-          <Tag color="green" key={mode.trim()}>{ text ? mode.trim() : 'Aucun'}</Tag>
-          ))}
-        </>
-      ),
-    },
-    {
-      title: <Text strong>Durée</Text>,
-      dataIndex: 'duree',
-      key: 'duree',
-      align: 'center',
-      width: "6%",
-      render: (text) => <Tag color="purple">{text ?? 0} j</Tag>,
-    },
-    {
-      title: <Text strong>Total</Text>,
-      dataIndex: 'prix',
-      key: 'prix',
-      align: 'center',
-      width: "8%",
-      render: (text) => (
-        <Text style={{ fontWeight: 'bold', color: '#3f8600' }}>
-          { text ? parseFloat(text).toFixed(2) : '0'} $
-        </Text>
-      ),
-    },
-    {
-      title: <Text strong>Créer par</Text>,
-      dataIndex: 'nom',
-      key: 'nom',
-      width: "6%",
-      render: (text) => <Tag color="orange">{text}</Tag>,
     },
     {
       title: <Text strong>Actions</Text>,
