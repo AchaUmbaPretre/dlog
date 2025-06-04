@@ -150,7 +150,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                             <Col xs={24} md={24}>
                                 <Form.Item
                                     label="Destination"
-                                    name="id_arrive"
+                                    name="id_destination"
                                     rules={[{ required: true, message: 'Veuillez sélectionner un' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
