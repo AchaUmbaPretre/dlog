@@ -3,8 +3,6 @@ import { Table, Button, Space, Badge, Tooltip, Popconfirm, Modal, Typography, In
 import { ExportOutlined, DeleteOutlined, MenuOutlined, DownOutlined, EyeOutlined, MoreOutlined, CalendarOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getTrajet } from '../../../services/transporteurService';
 import TrajetForm from './trajetForm/TrajetForm';
-import moment from 'moment';
-import TrajetDetail from './trajetDetail/TrajetDetail';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -93,8 +91,8 @@ const [columnsVisibility, setColumnsVisibility] = useState({
       return (
         <Menu onClick={handleClick}>
           <Menu.Item key="voirDetail">
-            <EyeOutlined style={{ color: '#2db7f5' }} /> Détail
-          </Menu.Item>
+{/*             <EyeOutlined style={{ color: '#2db7f5' }} /> Détail
+ */}          </Menu.Item>
           <Menu.Divider />
         </Menu>
       )
@@ -164,7 +162,7 @@ const [columnsVisibility, setColumnsVisibility] = useState({
         const pageIndex = pagination.current || 1;
         return (pageIndex - 1) * pageSize + index + 1;
       },
-      width: "3%",
+      width: "5%",
     },
     {
       title: (
@@ -218,7 +216,6 @@ const [columnsVisibility, setColumnsVisibility] = useState({
       dataIndex: 'distance_km',
       key: 'distance_km',
       align: 'center',
-      width: "8%",
       render: (text) => <Badge count={ text ? `${text} km` : '0 km'} style={{ backgroundColor: '#faad14' }} />,
     },
     {
@@ -330,17 +327,6 @@ const [columnsVisibility, setColumnsVisibility] = useState({
         centered
       >
         <TrajetForm closeModal={() => setModalType(null)} fetchDatas={fetchData} trajetId={trajetId} />
-      </Modal>
-
-      <Modal
-        title=""
-        visible={modalType === 'Detail'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={950}
-        centered
-      >
-        <TrajetDetail id_trajet={trajetId} />
       </Modal>
     </>
   );

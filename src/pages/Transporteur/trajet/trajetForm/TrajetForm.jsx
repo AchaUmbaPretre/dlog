@@ -25,8 +25,9 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
         if(trajetId) {
             const { data : d } = await getTrajetOneV(trajetId);
             form.setFieldsValue({
-                id_depart : d[0].id_depart_tr,
-                id_destination : d[0].id_destination_tr,
+                id_depart : d[0].id_depart,
+                id_destination : d[0].id_destination,
+                distance_km : d[0].distance_km
             })
         }
             
@@ -172,12 +173,12 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                                     label="Distance Km"
                                     name="distance_km"
                                 >
-                                    <InputNumber min={0} placeholder="Saisir..." style={{width:'100%'}}/>
+                                    <InputNumber min={0} placeholder="ex: 1000" style={{width:'100%'}}/>
                                 </Form.Item>
                             </Col>
                         </Row>
                     </Card>
-                    <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>
+                    <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />} style={{marginTop:'20px'}}>
                         { trajetId ? 'Modifier' : 'Soumettre'}
                     </Button>
                 </Form>
