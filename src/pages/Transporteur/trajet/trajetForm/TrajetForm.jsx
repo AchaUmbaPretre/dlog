@@ -132,7 +132,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                 >
                     <Card size="small" type="inner" title='Principaux'>
                         <Row gutter={12}>
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Départ"
                                     name="id_depart"
@@ -152,10 +152,10 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                                     }
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Destination"
-                                    name="id_arrive"
+                                    name="id_destination"
                                     rules={[{ required: true, message: 'Veuillez sélectionner un' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
@@ -169,6 +169,68 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                                         optionFilterProp="label"
                                         placeholder="Sélectionnez..."
                                     />
+                                    }
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={6}>
+                                <Form.Item
+                                    label="Date départ"
+                                    name="date_depart"
+                                    rules={[{ required: false, message: 'Veuillez sélectionner un' }]}
+                                >
+                                    <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+
+
+                            <Col xs={24} md={6}>
+                                <Form.Item
+                                    label="Date arrivée"
+                                    name="date_arrivee"
+                                    rules={[{ required: false, message: 'Veuillez sélectionner un' }]}
+                                >
+                                    <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={6}>
+                                <Form.Item
+                                    label="Distance Km"
+                                    name="distance_km"
+                                >
+                                    <InputNumber min={0} placeholder="Saisir..." style={{width:'100%'}}/>
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={6}>
+                                <Form.Item
+                                    label="Mode transport"
+                                    name="mode_transport"
+                                    rules={[{ required: false, message: 'Veuillez sélectionner un mode' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                            allowClear
+                                            showSearch
+                                            options={mode?.map((item) => ({
+                                            value: item.id_mode_transport,
+                                            label: `${item.nom_mode}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={6}>
+                                <Form.Item
+                                    label="Prix"
+                                    name="prix"
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <InputNumber min={0} placeholder="ex : 100$..." style={{width:'100%'}}/>
                                     }
                                 </Form.Item>
                             </Col>
