@@ -64,8 +64,8 @@ const Localisation = () => {
     };
 
   const handleExportExcel = () => {
-        message.success('Exporting to Excel...');
-    };
+    message.success('Exporting to Excel...');
+  };
 
   const handleExportPDF = () => {
     message.success('Exporting to PDF...');
