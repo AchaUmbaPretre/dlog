@@ -314,6 +314,17 @@ const columns = [
             >
                 <Trajet/>
             </TabPane>
+
+            <TabPane
+                tab={
+                    <span>
+                         🛣️ Expedition
+                    </span>
+                }
+                key="4"
+            >
+                <Trajet/>
+            </TabPane>
         </Tabs>
 
 
