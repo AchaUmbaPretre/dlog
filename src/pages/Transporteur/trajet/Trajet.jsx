@@ -140,16 +140,16 @@ const Trajet = () => {
           <Text strong>Trajet</Text>
         </Space>
       ),
-      dataIndex: 'depart_destination',
-      key: 'depart_destination',
+      dataIndex: 'depart',
+      key: 'depart',
       ellipsis: true,
-      render: (text) => (
+      render: (text, record) => (
     <div
       style={columnStyles.title}
       className={columnStyles.hideScroll}
     >
       <Tooltip title={text}>
-        <Tag color="blue">{text}</Tag>
+        <Tag color="blue">{record.depart} - {record.destination}</Tag>
       </Tooltip>
     </div>
   )
@@ -182,8 +182,8 @@ const Trajet = () => {
           <Text strong>km</Text>
         </Space>
       ),
-      dataIndex: 'distance',
-      key: 'distance',
+      dataIndex: 'distance_km',
+      key: 'distance_km',
       align: 'center',
       width: "8%",
       render: (text) => <Badge count={ text ? `${text} km` : '0 km'} style={{ backgroundColor: '#faad14' }} />,
@@ -228,8 +228,8 @@ const Trajet = () => {
     },
     {
       title: <Text strong>Modes trans.</Text>,
-      dataIndex: 'modes_transport',
-      key: 'modes_transport',
+      dataIndex: 'nom_mode',
+      key: 'nom_mode',
       align: 'center',
       render: (text) => (
         <>
@@ -249,8 +249,8 @@ const Trajet = () => {
     }, */
     {
       title: <Text strong>Total</Text>,
-      dataIndex: 'total',
-      key: 'total',
+      dataIndex: 'prix',
+      key: 'prix',
       align: 'center',
       width: "8%",
       render: (text) => (
@@ -300,7 +300,7 @@ const Trajet = () => {
     ];
 
     const filteredData = data.filter(item =>
-      item.depart_destination?.toLowerCase().includes(searchValue.toLowerCase())
+      item.depart?.toLowerCase().includes(searchValue.toLowerCase())
     );
 
   return (
