@@ -20,6 +20,19 @@ const Trajet = () => {
       current: 1,
       pageSize: 15,
   });
+  const [columnsVisibility, setColumnsVisibility] = useState({
+      '#': true,
+      'Trajet': true,
+      'Date_depart': true,
+      'Date_arrivee': true,
+      "distance_km": true,
+      "duree": false,
+      "Priorite": true,
+      "prix" : true,
+      'Créer par' : false,
+      'depart': true,
+      'Mode de transport' : false
+    });
   
   const columnStyles = {
     title: {
