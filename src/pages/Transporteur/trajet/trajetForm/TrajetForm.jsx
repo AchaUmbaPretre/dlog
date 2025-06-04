@@ -63,8 +63,8 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
         const autoDepart =
         index === 0
             ? departPrincipal || null
-            : previousSegment && previousSegment.id_arrive
-            ? previousSegment.id_arrive
+            : previousSegment && previousSegment.id_destination 
+            ? previousSegment.id_destination 
             : null;
 
         return {
@@ -75,7 +75,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
 
     form.setFieldsValue({ segment: updatedSegments });
     }, [
-    JSON.stringify(segments?.map(s => s?.id_arrive || '')),
+    JSON.stringify(segments?.map(s => s?.id_destination || '')),
     departPrincipal
     ]);
 
