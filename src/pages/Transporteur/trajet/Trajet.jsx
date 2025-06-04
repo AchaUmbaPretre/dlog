@@ -20,19 +20,18 @@ const Trajet = () => {
       current: 1,
       pageSize: 15,
   });
-  const [columnsVisibility, setColumnsVisibility] = useState({
-      '#': true,
-      'Trajet': true,
-      'Date_depart': true,
-      'Date_arrivee': true,
-      "distance_km": true,
-      "duree": false,
-      "Priorite": true,
-      "prix" : true,
-      'Créer par' : false,
-      'depart': true,
-      'Mode de transport' : false
-    });
+const [columnsVisibility, setColumnsVisibility] = useState({
+  id: true,
+  depart: true,
+  date_depart: true,
+  date_arrivee: true,
+  distance_km: true,
+  duree: true,
+  prix: false,
+  nom: true,
+  nom_mode: true
+});
+
   
   const columnStyles = {
     title: {
@@ -185,29 +184,8 @@ const Trajet = () => {
         <Tag color="blue">{record.depart} - {record.destination}</Tag>
       </Tooltip>
     </div>
-  )
+    ),
     },
-/*     {
-      title: (
-        <Space>
-          📍
-          <Text strong>Itinéraire</Text>
-        </Space>
-      ),
-      dataIndex: 'itineraire_complet',
-      key: 'itineraire_complet',
-      ellipsis: true,
-      render: (text) => (
-        <div
-          style={columnStyles.title}
-          className={columnStyles.hideScroll}
-        >
-          <Tooltip title={text}>
-            <Tag color="magenta">{text}</Tag>
-          </Tooltip>
-        </div>
-      ),
-    }, */
     {
       title: (
         <Space>
@@ -238,7 +216,7 @@ const Trajet = () => {
           <Tag icon={<CalendarOutlined />} color="green">{text ? formattedDate : 'Aucune'}</Tag>
         </Tooltip>
         )
-      }
+      },
     },
     {
       title: (
@@ -257,7 +235,7 @@ const Trajet = () => {
           <Tag icon={<CalendarOutlined />} color="blue">{text ? formattedDate : 'Aucune'}</Tag>
         </Tooltip>
         )
-      }
+      },
     },
     {
       title: <Text strong>Modes trans.</Text>,
@@ -270,16 +248,16 @@ const Trajet = () => {
           <Tag color="green" key={mode.trim()}>{ text ? mode.trim() : 'Aucun'}</Tag>
           ))}
         </>
-      )
+      ),
     },
-/*     {
+    {
       title: <Text strong>Durée</Text>,
-      dataIndex: 'duree_jours',
-      key: 'duree_jours',
+      dataIndex: 'duree',
+      key: 'duree',
       align: 'center',
       width: "6%",
-      render: (text) => <Tag color="purple">{text} j</Tag>,
-    }, */
+      render: (text) => <Tag color="purple">{text ?? 0} j</Tag>,
+    },
     {
       title: <Text strong>Total</Text>,
       dataIndex: 'prix',
@@ -293,10 +271,16 @@ const Trajet = () => {
       ),
     },
     {
+      title: <Text strong>Créer par</Text>,
+      dataIndex: 'nom',
+      key: 'nom',
+      width: "6%",
+      render: (text) => <Tag color="orange">{text}</Tag>,
+    },
+    {
       title: <Text strong>Actions</Text>,
       key: 'action',
       align: 'center',
-      width: '125px',
       render: (text, record) => (
         <Space size="small">
           <Tooltip title="Modifier ce trajet">
@@ -377,9 +361,11 @@ const Trajet = () => {
             </div>
           </div>
           <Table
-            columns={columns}
             dataSource={filteredData}
             loading={loading}
+            columns={columns.filter(col => {
+              return columnsVisibility[col.key] !== false;
+            })}
             onChange={(pagination) => setPagination(pagination)}
             rowKey="id_trajet"
             bordered
