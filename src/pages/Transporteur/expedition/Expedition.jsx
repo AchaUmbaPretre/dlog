@@ -267,7 +267,7 @@ const [columnsVisibility, setColumnsVisibility] = useState({
             <div className="client-row-icon">
               <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
             </div>
-            <h2 className="client-h2">Trajet</h2>
+            <h2 className="client-h2">Liste d'expeditions</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">

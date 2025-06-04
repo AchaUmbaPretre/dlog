@@ -7,6 +7,7 @@ import LocalisationForm from './localisationForm/LocalisationForm';
 import TabPane from 'antd/es/tabs/TabPane';
 import Localite from '../localite/Localite';
 import Trajet from '../trajet/Trajet';
+import Expedition from '../expedition/Expedition';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -323,7 +324,7 @@ const columns = [
                 }
                 key="4"
             >
-                <Trajet/>
+                <Expedition/>
             </TabPane>
         </Tabs>
 
