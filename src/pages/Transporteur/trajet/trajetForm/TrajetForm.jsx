@@ -350,7 +350,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                                                 label="Mode transport"
                                                 {...restField}
                                                 name={[name, "mode_transport"]}
-                                                rules={[{ required: false, message: 'Veuillez sélectionner un mode' }]}
+                                                rules={[{ required: true, message: 'Veuillez sélectionner un mode' }]}
                                             >
                                                 { loadingData ? <Skeleton.Input active={true} /> : 
                                                 <Select
