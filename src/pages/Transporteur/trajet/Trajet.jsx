@@ -363,15 +363,16 @@ const Trajet = () => {
                     Ajouter
                 </Button>
 
-                <Dropdown overlay={menu} trigger={['click']}>
-                    <Button icon={<ExportOutlined />}>Export</Button>
-                </Dropdown>
-                
                 <Dropdown overlay={menus} trigger={['click']}>
                   <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                     Colonnes <DownOutlined />
                   </Button>
                 </Dropdown>
+                
+                <Dropdown overlay={menu} trigger={['click']}>
+                    <Button icon={<ExportOutlined />}>Export</Button>
+                </Dropdown>
+                
             </div>
           </div>
           <Table
