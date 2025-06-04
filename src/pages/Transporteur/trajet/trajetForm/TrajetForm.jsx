@@ -126,47 +126,55 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                     onFinish={onFinish}
                 >
                     <Card size="small" type="inner" title='Principaux'>
-                                                <Row gutter={12}>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Départ"
-                                name="id_depart"
-                                rules={[{ required: true, message: 'Veuillez sélectionner un ' }]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={local?.map((item) => ({
-                                        value: item.id_localisation,
-                                        label: `${item.nom}`,
-                                    }))}
-                                    optionFilterProp="label"
-                                    placeholder="Sélectionnez..."
-                                />
-                                }
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Destination"
-                                name="id_arrive"
-                                rules={[{ required: true, message: 'Veuillez sélectionner un' }]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={local?.map((item) => ({
-                                        value: item.id_localisation,
-                                        label: `${item.nom}`,
-                                    }))}
-                                    optionFilterProp="label"
-                                    placeholder="Sélectionnez..."
-                                />
-                                }
-                            </Form.Item>
-                        </Col>
+                        <Row gutter={12}>
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    label="Départ"
+                                    name="id_depart"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un ' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={local?.map((item) => ({
+                                            value: item.id_localisation,
+                                            label: `${item.nom}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    label="Destination"
+                                    name="id_arrive"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={local?.map((item) => ({
+                                            value: item.id_localisation,
+                                            label: `${item.nom}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    label="Distance Km"
+                                    name="distance_km"
+                                >
+                                    <InputNumber min={0} placeholder="Saisir..." style={{width:'100%'}}/>
+                                </Form.Item>
+                            </Col>
                         </Row>
                     </Card>
                     <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>

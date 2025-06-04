@@ -383,7 +383,7 @@ const [columnsVisibility, setColumnsVisibility] = useState({
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={950}
+        width={700}
         centered
       >
         <TrajetForm closeModal={() => setModalType(null)} fetchDatas={fetchData} trajetId={trajetId} />
