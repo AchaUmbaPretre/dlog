@@ -4,6 +4,7 @@ import { getLocalisation, getModeTransport, getTrajetOneV, postTrajet, putTrajet
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { useWatch } from 'antd/es/form/Form';
 
 const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
     const [form] = Form.useForm();
