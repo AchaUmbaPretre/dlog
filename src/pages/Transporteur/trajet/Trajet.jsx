@@ -333,7 +333,8 @@ const Trajet = () => {
     ];
 
     const filteredData = data.filter(item =>
-      item.depart?.toLowerCase().includes(searchValue.toLowerCase())
+      item.depart?.toLowerCase().includes(searchValue.toLowerCase()) || 
+      item.destination?.toLowerCase().includes(searchValue.toLowerCase())
     );
 
   return (
@@ -368,7 +369,7 @@ const Trajet = () => {
                     Colonnes <DownOutlined />
                   </Button>
                 </Dropdown>
-                
+
                 <Dropdown overlay={menu} trigger={['click']}>
                     <Button icon={<ExportOutlined />}>Export</Button>
                 </Dropdown>
