@@ -62,29 +62,34 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
     const departPrincipal = Form.useWatch('id_depart', form);
 
     useEffect(() => {
-    if (!segments || segments.length === 0) return;
+    if (!segments || segments.length === 0 || !departPrincipal) return;
 
-    const updatedSegments = segments.map((seg, index) => {
-        const previousSegment = segments[index - 1];
+    const updatedSegments = [...segments];
 
-        const autoDepart =
-        index === 0
-            ? departPrincipal || null
-            : previousSegment && previousSegment.id_destination 
-            ? previousSegment.id_destination 
-            : null;
+    for (let i = 0; i < segments.length; i++) {
+        const currentSegment = { ...segments[i] };
 
-        return {
-        ...seg,
-        id_depart: autoDepart,
-        };
-    });
+        // Départ automatique
+        if (i === 0) {
+        currentSegment.id_depart = departPrincipal;
+        } else {
+        const previousDestination = updatedSegments[i - 1]?.id_destination;
+        if (previousDestination) {
+            currentSegment.id_depart = previousDestination;
+        }
+        }
 
-    form.setFieldsValue({ segment: updatedSegments });
+        updatedSegments[i] = currentSegment;
+    }
+
+    if (JSON.stringify(updatedSegments) !== JSON.stringify(segments)) {
+        form.setFieldsValue({ segment: updatedSegments });
+    }
     }, [
-    JSON.stringify(segments?.map(s => s?.id_destination || '')),
-    departPrincipal
+    departPrincipal,
+    JSON.stringify(segments?.map(s => s?.id_destination || null)),
     ]);
+
 
     const onFinish = async(values) => {
         await form.validateFields();
@@ -260,7 +265,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                                                     { required: true, message: 'Veuillez fournir un numero...' },
                                                 ]}
                                             >
-                                                <InputNumber min={0} placeholder="Saisir le budget..." style={{width:'100%'}}/>
+                                                <InputNumber min={0} placeholder="Ex: 1" style={{width:'100%'}}/>
                                             </Form.Item>
                                         </Col>
 
@@ -290,7 +295,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                                             <Form.Item
                                                 label="Destination"
                                                 {...restField}
-                                                name={[name, "id_arrive"]}
+                                                name={[name, "id_destination"]}
                                                 rules={[{ required: true, message: 'Veuillez sélectionner une destination' }]}
                                             >
                                                 { loadingData ? <Skeleton.Input active={true} /> : 
@@ -391,7 +396,7 @@ const TrajetForm = ({closeModal, fetchDatas, trajetId}) => {
                                 <Form.Item>
                                     <Button
                                         type="dashed"
-                                        onClick={() => add()}
+                                        onClick={() => add({ ordre: fields.length + 1 })} 
                                         icon={<PlusCircleOutlined />}
                                         style={{ width: '100%' }}
                                     >
