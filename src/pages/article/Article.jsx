@@ -173,7 +173,7 @@ const Article = () => {
             <span>
               <ShoppingOutlined
                 style={{
-                  color: '#52c41a',
+                  color: 'blue',
                   fontSize: '18px',
                   marginRight: '8px',
                 }}
