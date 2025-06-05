@@ -147,33 +147,32 @@ const Projet = () => {
     </Menu>
   );
 
-  
-  const statusIcons = {
-    'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
-    'En cours': { icon: <HourglassOutlined />, color: 'blue' },
-    'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
-    'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
-    'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
-    'Budget': { icon: <DollarOutlined />, color: 'gold' },
-    'Executé': { icon: <RocketOutlined />, color: 'cyan' },
-  };
+    const statusIcons = {
+      'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
+      'En cours': { icon: <HourglassOutlined />, color: 'blue' },
+      'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
+      'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
+      'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
+      'Budget': { icon: <DollarOutlined />, color: 'gold' },
+      'Executé': { icon: <RocketOutlined />, color: 'cyan' },
+    };
 
     const columnStyles = {
-    title: {
-      maxWidth: '220px',
-      whiteSpace: 'nowrap',
-      overflowX: 'scroll', 
-      overflowY: 'hidden',
-      textOverflow: 'ellipsis',
-      scrollbarWidth: 'none',
-      '-ms-overflow-style': 'none', 
-    },
-    hideScroll: {
-      '&::-webkit-scrollbar': {
-        display: 'none',
+      title: {
+        maxWidth: '220px',
+        whiteSpace: 'nowrap',
+        overflowX: 'scroll', 
+        overflowY: 'hidden',
+        textOverflow: 'ellipsis',
+        scrollbarWidth: 'none',
+        '-ms-overflow-style': 'none', 
       },
-    },
-  };
+      hideScroll: {
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+      },
+    };
 
   const columns = [
     {
