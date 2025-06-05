@@ -10,6 +10,7 @@ import InspectionGen from '../inspectionGen/InspectionGen';
 import TrackingGen from './trackingGen/TrackingGen';
 import AuditLogInspection from './auditLogInspection/AuditLogInspection';
 import { useSelector } from 'react-redux';
+import Piece from '../piece/Piece';
 
 const { Search } = Input;
 
@@ -329,6 +330,28 @@ const ControleTechnique = () => {
                 key="5"
             >
                 <AuditLogInspection/>
+            </TabPane>
+            )
+            }
+
+            { 
+                role === 'Admin' && (
+            <TabPane
+                tab={
+                    <span>
+                        <ToolOutlined 
+                            style={{
+                                color: 'black',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
+                        />
+                        Piéce
+                    </span>
+                }
+                key="6"
+            >
+                <Piece/>
             </TabPane>
             )
             }

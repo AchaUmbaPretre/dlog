@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
+import { useEffect, useState } from 'react';
+import { Table, Button, Modal, Input, message, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, ToolOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getPiece } from '../../services/charroiService';
