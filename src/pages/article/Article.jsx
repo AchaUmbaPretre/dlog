@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { FileExcelOutlined, TagOutlined, EditOutlined, FileTextOutlined,PlusCircleOutlined,PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { Table, Button, Modal, Tabs, Input, message, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
+import { FileExcelOutlined, ShoppingOutlined, TagOutlined, EditOutlined, FileTextOutlined,PlusCircleOutlined,PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ArticleForm from './articleForm/ArticleForm';
 import { getArticle } from '../../services/typeService';
 import FormArticleExcel from './formArticleExcel/FormArticleExcel';
 import { estSupprimeArticle } from '../../services/offreService';
+import TabPane from 'antd/es/tabs/TabPane';
+import Categorie from '../categorie/Categorie';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -15,6 +17,7 @@ const Article = () => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [activeKey, setActiveKey] = useState(['1', '2']);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 400 };
   const [pagination, setPagination] = useState({
@@ -23,6 +26,10 @@ const Article = () => {
   });
   const [idArticle, setIdArticle] = useState('')
 
+
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
 
   const closeAllModals = () => {
     setModalType(null);
@@ -154,60 +161,102 @@ const Article = () => {
 
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <TagOutlined className='client-icon'/>
+      <Tabs
+        activeKey={activeKey[0]}
+        onChange={handleTabChange}
+        type="card"
+        tabPosition="top"
+        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+      >
+        <TabPane
+          tab={
+            <span>
+              <ShoppingOutlined
+                style={{
+                  color: '#52c41a',
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+                Articles
+            </span>
+          }
+                key="1"
+        >
+          <div className="client">
+            <div className="client-wrapper">
+              <div className="client-row">
+                <div className="client-row-icon">
+                  <TagOutlined className='client-icon'/>
+                </div>
+                <h2 className="client-h2">Articles</h2>
+              </div>
+              <div className="client-actions">
+                <div className="client-row-left">
+                  <Search 
+                    onChange={(e) => setSearchValue(e.target.value)} 
+                    placeholder="Recherche..." 
+                    enterButton
+                  />
+                </div>
+                <div className="client-rows-right">
+                  <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined />}
+                    onClick={handleAjouterOffre}
+                  >
+                    Article
+                  </Button>
+                  <Button
+                        className="button-excel"
+                        icon={<FileExcelOutlined />}
+                        onClick={handlExcelImport}
+                  >
+                        Exporter vers Excel
+                  </Button>
+                  <Button
+                    icon={<PrinterOutlined />}
+                    onClick={handleImprimer}
+                    className='client-export'
+                  >
+                    Imprimer
+                  </Button>
+                </div>
+              </div>
+              <Table
+                columns={colonnes}
+                dataSource={filteredData}
+                rowKey="id_article"
+                loading={loading}
+                scroll={scroll}
+                size="small"
+                bordered
+                pagination={pagination}
+                onChange={(pagination) => setPagination(pagination)}
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+              />
             </div>
-            <h2 className="client-h2">Articles</h2>
           </div>
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search 
-                onChange={(e) => setSearchValue(e.target.value)} 
-                placeholder="Recherche..." 
-                enterButton
-               />
-            </div>
-            <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAjouterOffre}
-              >
-                Article
-              </Button>
-              <Button
-                    className="button-excel"
-                    icon={<FileExcelOutlined />}
-                    onClick={handlExcelImport}
-               >
-                    Exporter vers Excel
-              </Button>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handleImprimer}
-                className='client-export'
-              >
-                Imprimer
-              </Button>
-            </div>
-          </div>
-          <Table
-            columns={colonnes}
-            dataSource={filteredData}
-            rowKey="id_article"
-            loading={loading}
-            scroll={scroll}
-            size="small"
-            bordered
-            pagination={pagination}
-            onChange={(pagination) => setPagination(pagination)}
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-          />
-        </div>
-      </div>
+        </TabPane>
+
+        <TabPane
+          tab={
+            <span>
+              <ShoppingOutlined
+                style={{
+                  color: '#52c41a',
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+                Categorie
+            </span>
+          }
+                key="2"
+        >
+          <Categorie/>
+        </TabPane>
+      </Tabs>
 
       <Modal
         title=""
