@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Image, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
+import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
 import { ExportOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
 import { getVehicule, putVehicule } from '../../services/charroiService';
@@ -20,8 +20,14 @@ const Charroi = () => {
       });
   const scroll = { x: 'max-content' };
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [idVehicule, setIdVehicule] = useState('')
+  const [idVehicule, setIdVehicule] = useState('');
+  const [activeKey, setActiveKey] = useState(['1', '2']);
+
   
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
+
   const handleEdit = (id) => {
   };
 
@@ -227,6 +233,15 @@ const Charroi = () => {
 
   return (
     <>
+      <Tabs
+        activeKey={activeKey[0]}
+        onChange={handleTabChange}
+        type="card"
+        tabPosition="top"
+        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+      >
+
+      </Tabs>
       <div className="client">
         <div className="client-wrapper">
           <div className="client-row">
