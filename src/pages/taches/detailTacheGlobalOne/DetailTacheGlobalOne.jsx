@@ -14,6 +14,7 @@ import TacheProjet from '../tacheProjet/TacheProjet';
 import ProjetAssocieForm from '../projetAssocie/ProjetAssocieForm';
 import SuiviTache from '../suiviTache/SuiviTache';
 import InstructionForm from '../../instructions/instructionForm/InstructionForm';
+import PermissionTache from '../../permission/permissionTache/PermissionTache';
 
 const { Title, Text } = Typography;
 
@@ -77,6 +78,8 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const handleEditer = () => openModal('edite');
   const handleAssocierProjet = () => openModal('associe_projet');
   const handleInspection = () => openModal('add_inspection');
+  const handlePermission = () => openModal('permission');
+
 
   const goToNextTache = () => {
     setIdTache((prevId) => prevId + 1);
@@ -298,9 +301,9 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 
             <Tooltip title="Permission">
               <div 
-                onClick={handleInspection} 
+                onClick={handlePermission} 
                 style={{
-                  background: '#1890ff', // 🔵 bleu sécurité
+                  background: '#1890ff',
                   height: '30px',
                   width: '30px',
                   borderRadius: '50%',
@@ -319,7 +322,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
                 <LockFilled />
               </div>
             </Tooltip>
-            
+
           </div>
         </h1>
       </div>
@@ -540,6 +543,17 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
         centered
       >
         <InstructionForm idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={''} idTache={idTache}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'permission'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1070}
+        centered
+      >
+        <PermissionTache idTache={idTache}/>
       </Modal>
 
     </div>
