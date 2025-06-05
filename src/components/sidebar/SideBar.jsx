@@ -132,7 +132,8 @@ const SideBar = ({data}) => {
     SwapOutlined: <SwapOutlined style={{ color: '#ffc069' }} />,
     RetweetOutlined: <RetweetOutlined style={{ color: 'cyan' }} />,
     DeliveredProcedureOutlined : <DeliveredProcedureOutlined style={{ color: '#2f54eb' }} />,
-    GlobalOutlined : <GlobalOutlined style={{ color: 'green' }} />
+    GlobalOutlined : <GlobalOutlined style={{ color: 'green' }} />,
+    FolderOpenOutlined: <FolderOpenOutlined style={{ color: 'yellow' }} />,
 
   };
   
