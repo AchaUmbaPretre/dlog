@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Select, DatePicker, Button } from 'antd';
+import { useEffect, useState } from 'react';
+import { Select, DatePicker } from 'antd';
 import 'antd/dist/reset.css';
 import './filterTaches.scss';
 import { getDepartement } from '../../../services/departementService';
@@ -8,7 +8,6 @@ import { getClient } from '../../../services/clientService';
 import { getTypes } from '../../../services/typeService';
 import { getPriorityIcon } from '../../../utils/prioriteIcons';
 
-const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const colorMapping = {
@@ -101,7 +100,7 @@ const FilterTaches = ({ onFilter }) => {
                     }))}
                     placeholder="Sélectionnez un client..."
                     optionFilterProp="label"
-                    onChange={setSelectedClients} // Met à jour les clients sélectionnés
+                    onChange={setSelectedClients}
                 />
             </div>
             <div className="filter_row">
@@ -118,7 +117,7 @@ const FilterTaches = ({ onFilter }) => {
                             </div>
                         ),
                     }))}
-                    onChange={setSelectedStatut} // Met à jour le statut sélectionné
+                    onChange={setSelectedStatut}
                 />
             </div>
             <div className="filter_row">
@@ -142,7 +141,7 @@ const FilterTaches = ({ onFilter }) => {
                 <RangePicker
                     style={{ width: '100%' }}
                     value={dateRange}
-                    onChange={setDateRange} // Met à jour la plage de dates
+                    onChange={setDateRange}
                 />
             </div>
             <div className="filter_row">
