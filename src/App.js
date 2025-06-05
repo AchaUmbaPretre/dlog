@@ -70,6 +70,7 @@ import DemandeVehicule from './pages/charroi/demandeVehicule/DemandeVehicule';
 import Pays from './pages/pays/Pays';
 import Securite from './pages/charroi/securite/Securite';
 import DemandeurVehicule from './pages/charroi/demandeurVehicule/DemandeurVehicule';
+import Generale from './pages/generale/Generale';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -354,6 +355,10 @@ function App() {
         {
           path: '/liste_demandeur',
           element: secure('/liste_demandeur', <DemandeurVehicule/>)
+        },
+        {
+          path: '/generale',
+          element: secure('/generale', <Generale/>)
         }
       ]
     },
