@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Input, Button, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 import { FileSearchOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { deleteInspectionGen, getInspectionGen} from '../../services/charroiService';
@@ -66,6 +66,11 @@ const InspectionGen = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [statistique, setStatistique] = useState(null);
+    const [activeKey, setActiveKey] = useState(['1', '2']);
+
+    const handleTabChange = (key) => {
+      setActiveKey(key);
+    };
 
     const handleExportExcel = () => {
       try {
@@ -817,6 +822,31 @@ const InspectionGen = () => {
 
   return (
     <>
+        <Tabs
+          activeKey={activeKey[0]}
+          onChange={handleTabChange}
+          type="card"
+          tabPosition="top"
+          renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+        >
+          <Tabs.TabPane
+              tab={
+                    <span>
+                        <FileSearchOutlined
+                            style={{
+                                color: 'green',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Inspection
+                    </span>
+                }
+            key="1"
+          >
+                <InspectionGen/>
+          </Tabs.TabPane>
+        </Tabs>
         <div className="client">
             <div className="client-wrapper">
               <div className="client-rows">

@@ -52,11 +52,11 @@ const ControleTechnique = () => {
 
     const handleTabChange = (key) => {
         setActiveKey(key);
-      };
+    };
 
     const closeAllModals = () => {
         setModalType(null);
-      };
+    };
       
     const openModal = (type) => {
         closeAllModals();
