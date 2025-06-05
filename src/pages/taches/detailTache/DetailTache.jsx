@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getTacheOne } from '../../../services/tacheService';
 import { notification, Skeleton, Card, Row, Col, Tag } from 'antd';
 import { UserOutlined, CalendarOutlined, EnvironmentOutlined } from '@ant-design/icons';

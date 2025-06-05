@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
-import { InfoCircleOutlined,LinkOutlined,FormOutlined,FileAddOutlined,ProjectOutlined, EditOutlined, DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, LockFilled, LinkOutlined,FormOutlined,FileAddOutlined,ProjectOutlined, EditOutlined, DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
@@ -28,7 +28,6 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const [cout, setCount] = useState('');
   const [cat, setCat] = useState([]);
 
-
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -53,14 +52,12 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
     }
   };
 
-useEffect(() => {
-  if (idTache) {
-    fetchData();
-  }
-}, [idTache]);
+  useEffect(() => {
+    if (idTache) {
+      fetchData();
+    }
+  }, [idTache]);
 
-
-  
   const closeAllModals = () => {
     setModalType(null);
   };
@@ -81,7 +78,6 @@ useEffect(() => {
   const handleAssocierProjet = () => openModal('associe_projet');
   const handleInspection = () => openModal('add_inspection');
 
-
   const goToNextTache = () => {
     setIdTache((prevId) => prevId + 1);
   };
@@ -92,7 +88,7 @@ useEffect(() => {
 
   useEffect(() => {
     setIdTache(initialIdTache);
-}, [initialIdTache]);
+  }, [initialIdTache]);
 
   const renderDataCards = () => (
     <Row gutter={[16, 16]} justify="center" className="data-cards">
@@ -299,6 +295,31 @@ useEffect(() => {
                 <FormOutlined />
               </div>
             </Tooltip>
+
+            <Tooltip title="Permission">
+              <div 
+                onClick={handleInspection} 
+                style={{
+                  background: '#1890ff', // 🔵 bleu sécurité
+                  height: '30px',
+                  width: '30px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#fff',
+                  marginLeft: '10px',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <LockFilled />
+              </div>
+            </Tooltip>
+            
           </div>
         </h1>
       </div>
