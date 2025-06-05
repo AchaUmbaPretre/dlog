@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form,Card, Input, Space, Row, Col, Select, notification, DatePicker, Skeleton, Modal } from 'antd';
 import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
@@ -51,26 +51,25 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
     const handlCatTache = () => openModal('AddCatTache');
     const handlClient= () => openModal('AddClient');
 
-
     const closeAllModals = () => {
         setModalType(null);
-      };
+    };
       
-      const openModal = (type) => {
+    const openModal = (type) => {
         closeAllModals();
         setModalType(type);
-      };
+    };
 
     const handleEditorChange = (content) => {
         setEditorContent(content);
         form.setFieldsValue({ description: content });
     };
 
-        const fetchDataAll = async () => {
-            setLoadingData(true);
+    const fetchDataAll = async () => {
+        setLoadingData(true);
 
-            try {
-                const [departementData, frequenceData, usersData, clientData, provinceData, batimentData, corpsData, catTacheData] = await Promise.all([
+        try {
+            const [departementData, frequenceData, usersData, clientData, provinceData, batimentData, corpsData, catTacheData] = await Promise.all([
                     getDepartement(),
                     getFrequence(),
                     getUser(),
@@ -125,7 +124,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
         };
     
     useEffect(() => {
-
         fetchDataAll();
     }, [idTache,idProjet,form]);
 
