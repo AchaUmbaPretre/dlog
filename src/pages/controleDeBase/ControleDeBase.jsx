@@ -327,7 +327,11 @@ const ControleDeBase = ({datas}) => {
             </div>
             <h2 className="client-h2">Contrôle de base</h2>
           </div>
-          <Tabs defaultActiveKey="0">
+          <Tabs 
+            defaultActiveKey="0"
+            type="card"
+            tabPosition="top"
+          >
             <Tabs.TabPane tab='Liste de contrôle de base' key="0">
               <div className="client-actions">
                 <div className="client-row-left">
