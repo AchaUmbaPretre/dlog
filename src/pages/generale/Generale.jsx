@@ -112,6 +112,24 @@ const Generale = () => {
             >
                 <Pays/>
             </Tabs.TabPane>
+
+            <Tabs.TabPane
+                tab={
+                    <span>
+                        <UnlockOutlined
+                            style={{
+                                color: '#000',
+                                fontSize: '16px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Permissions
+                    </span>
+                }
+                key="6"
+            >
+                <Pays/>
+            </Tabs.TabPane>
         </Tabs>
     </>
   )
