@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Select, DatePicker, Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import './filterTaches.scss';
 import { getDepartement } from '../../../services/departementService';
@@ -8,7 +7,6 @@ import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
 import { getTypes } from '../../../services/typeService';
 import { getPriorityIcon } from '../../../utils/prioriteIcons';
-import { getTache } from '../../../services/tacheService';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -31,11 +29,11 @@ const FilterTaches = ({ onFilter }) => {
     const [dateRange, setDateRange] = useState([]);
     const [owners, setOwners] = useState([]);
     const [type, setType] = useState([]);
-    const [selectedDepartement, setSelectedDepartement] = useState('');
-    const [selectedClients, setSelectedClients] = useState('');
-    const [selectedStatut, setSelectedStatut] = useState('');
-    const [selectedPriorite, setSelectedPriorite] = useState('');
-    const [selectedOwners, setSelectedOwners] = useState('');
+    const [selectedDepartement, setSelectedDepartement] = useState([]);
+    const [selectedClients, setSelectedClients] = useState([]);
+    const [selectedStatut, setSelectedStatut] = useState([]);
+    const [selectedPriorite, setSelectedPriorite] = useState([]);
+    const [selectedOwners, setSelectedOwners] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -159,7 +157,7 @@ const FilterTaches = ({ onFilter }) => {
                     }))}
                     placeholder="Sélectionnez..."
                     optionFilterProp="label"
-                    onChange={setSelectedOwners} // Met à jour les propriétaires sélectionnés
+                    onChange={setSelectedOwners} 
                 />
             </div>
         </div>

@@ -183,11 +183,10 @@ const handFilter = () => {
   setFilterVisible(!filterVisible)
 }
 
-const handleEdit = (idTache) => {
+  const handleEdit = (idTache) => {
     setIdTache(idTache);
     setIsModalVisible(true);
-
-};
+  };
 
   const handleAllDetails = (idTache) => {
     openModal('Alldetail', idTache);
@@ -895,7 +894,6 @@ const handleEdit = (idTache) => {
       </Collapse>
     );
   };
-
 
   const groupedTasks = groupTasks(data);
   const displayedData = filteredData(groupedTasks, searchValue);
