@@ -4,7 +4,6 @@ import { BankOutlined, UnlockOutlined, DeleteOutlined, TeamOutlined, UserOutline
 import Users from '../users/Users';
 import Client from '../client/Client';
 import Fournisseur from '../fournisseur/Fournisseur';
-import Profile from '../profile/Profile';
 import Pays from '../pays/Pays';
 import Permission from '../permission/Permission';
 import Corbeille from '../corbeille/Corbeille';
@@ -77,24 +76,6 @@ const Generale = () => {
                 key="3"
             >
                 <Fournisseur/>
-            </Tabs.TabPane>
-
-            <Tabs.TabPane
-                tab={
-                    <span>
-                        <UserOutlined
-                            style={{
-                                color: 'orange',
-                                fontSize: '16px',
-                                marginRight: '8px',
-                            }}
-                        />
-                            Profil
-                    </span>
-                }
-                key="4"
-            >
-                <Profile/>
             </Tabs.TabPane>
 
             <Tabs.TabPane
