@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Tabs } from 'antd';
-import { BankOutlined, TeamOutlined } from '@ant-design/icons';
+import { BankOutlined, TeamOutlined, UserOutlined, GlobalOutlined } from '@ant-design/icons';
 import Users from '../users/Users';
 import Client from '../client/Client';
 import Fournisseur from '../fournisseur/Fournisseur';
-
+import Profile from '../profile/Profile';
+import Pays from '../pays/Pays';
 
 const Generale = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
@@ -28,7 +29,7 @@ const Generale = () => {
                         <TeamOutlined
                             style={{
                                 color: 'orange',
-                                fontSize: '18px',
+                                fontSize: '16px',
                                 marginRight: '8px',
                             }}
                         />
@@ -46,7 +47,7 @@ const Generale = () => {
                         <TeamOutlined
                             style={{
                                 color: 'orange',
-                                fontSize: '18px',
+                                fontSize: '16px',
                                 marginRight: '8px',
                             }}
                         />
@@ -64,16 +65,52 @@ const Generale = () => {
                         <BankOutlined
                             style={{
                                 color: '#000',
-                                fontSize: '18px',
+                                fontSize: '16px',
                                 marginRight: '8px',
                             }}
                         />
                             Fournisseur
                     </span>
                 }
-                key="2"
+                key="3"
             >
                 <Fournisseur/>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+                tab={
+                    <span>
+                        <UserOutlined
+                            style={{
+                                color: 'orange',
+                                fontSize: '16px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Profil
+                    </span>
+                }
+                key="4"
+            >
+                <Profile/>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+                tab={
+                    <span>
+                        <GlobalOutlined
+                            style={{
+                                color: 'green',
+                                fontSize: '16px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Pays & Province
+                    </span>
+                }
+                key="5"
+            >
+                <Pays/>
             </Tabs.TabPane>
         </Tabs>
     </>
