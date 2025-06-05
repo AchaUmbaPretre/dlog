@@ -7,6 +7,8 @@ import { getVehicule, putVehicule } from '../../services/charroiService';
 import config from '../../config';
 import vehiculeImg from './../../assets/vehicule.png'
 import VehiculeDetail from './vehiculeDetail/VehiculeDetail';
+import Modele from '../modeles/Modele';
+import Marque from '../marque/Marque';
 
 const { Search } = Input;
 
@@ -319,7 +321,7 @@ const Charroi = () => {
             }
             key="2"
           >
-            
+            <Modele/>
           </TabPane>
 
           <TabPane
@@ -336,7 +338,7 @@ const Charroi = () => {
             }
             key="3"
           >
-            
+            <Marque/>
           </TabPane>
       </Tabs>
  
