@@ -14,6 +14,7 @@ import TabPane from 'antd/es/tabs/TabPane';
 import DemandeVehiculeDispo from './demandeVehiculeDispo/DemandeVehiculeDispo';
 import AffectationDemande from '../affectationDemande/AffectationDemande';
 import RetourVehiculeForm from '../retourVehicule/retourVehiculeForm/RetourVehiculeForm';
+import DemandeurVehicule from '../demandeurVehicule/DemandeurVehicule';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -474,6 +475,19 @@ const DemandeVehicule = () => {
                 key="4"
             >
                 <DemandeVehiculeDispo/>
+            </TabPane>
+            }
+
+            { role === 'Admin' &&
+            <TabPane
+                tab={
+                    <span>
+                    👤 Démandeurs
+                    </span>
+                }
+                key="5"
+            >
+                <DemandeurVehicule/>
             </TabPane>
             }
         </Tabs>

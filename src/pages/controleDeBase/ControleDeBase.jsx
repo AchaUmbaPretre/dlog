@@ -64,9 +64,9 @@ const ControleDeBase = ({datas}) => {
       } finally {
         setLoading(false);
       }
-    };
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -138,33 +138,33 @@ const ControleDeBase = ({datas}) => {
     </Menu>
   );
 
-const groupByControle = (data) => {
-  const grouped = data.reduce((acc, current) => {
-    const { id_controle, departement, nom_client, format, controle_de_base, frequence, responsable } = current;
+  const groupByControle = (data) => {
+    const grouped = data.reduce((acc, current) => {
+      const { id_controle, departement, nom_client, format, controle_de_base, frequence, responsable } = current;
 
-    if (!acc[id_controle]) {
-      acc[id_controle] = {
-        id_controle,
-        departement,
-        nom_client,
-        format,
-        controle_de_base,
-        frequence,
-        responsables: new Set(),
-        items: []
-      };
-    }
-    acc[id_controle].responsables.add(responsable);
-    acc[id_controle].items.push(current);
-    return acc;
-  }, {});
+      if (!acc[id_controle]) {
+        acc[id_controle] = {
+          id_controle,
+          departement,
+          nom_client,
+          format,
+          controle_de_base,
+          frequence,
+          responsables: new Set(),
+          items: []
+        };
+      }
+      acc[id_controle].responsables.add(responsable);
+      acc[id_controle].items.push(current);
+      return acc;
+    }, {});
 
-  return Object.values(grouped).map(group => ({
-    ...group,
-    responsables: Array.from(group.responsables).join(', '), // Convertir le Set en chaîne de caractères
-    nom_client: group.items.length > 1 ? "ALL" : group.nom_client // Afficher "ALL" si plusieurs entrées
-  }));
-};
+    return Object.values(grouped).map(group => ({
+      ...group,
+      responsables: Array.from(group.responsables).join(', '), // Convertir le Set en chaîne de caractères
+      nom_client: group.items.length > 1 ? "ALL" : group.nom_client // Afficher "ALL" si plusieurs entrées
+    }));
+  };
 
   const groupedData = groupByControle(data);
 
