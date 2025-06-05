@@ -11,6 +11,7 @@ import TrackingGen from './trackingGen/TrackingGen';
 import AuditLogInspection from './auditLogInspection/AuditLogInspection';
 import { useSelector } from 'react-redux';
 import Piece from '../piece/Piece';
+import TypeReparation from '../typeReparation/TypeReparation';
 
 const { Search } = Input;
 
@@ -355,6 +356,29 @@ const ControleTechnique = () => {
             </TabPane>
             )
             }
+
+            { 
+                role === 'Admin' && (
+            <TabPane
+                tab={
+                    <span>
+                        <ToolOutlined 
+                            style={{
+                                color: 'gray',
+                                fontSize: '18px',
+                                marginRight: '8px',
+                            }}
+                        />
+                        Type de réparation
+                    </span>
+                }
+                key="7"
+            >
+                <TypeReparation/>
+            </TabPane>
+            )
+            }
+
         </Tabs>
 
         <Modal

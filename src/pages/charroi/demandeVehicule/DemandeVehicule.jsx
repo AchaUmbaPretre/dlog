@@ -442,7 +442,7 @@ const DemandeVehicule = () => {
             <TabPane
                 tab={
                     <span>
-                    ➡️ Liste d'affectations
+                    ✅ Courses validées
                     </span>
                 }
                 key="2"
