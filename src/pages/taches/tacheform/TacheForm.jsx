@@ -92,7 +92,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
 
                 if(idProjet){
                     const {data} = await getProjetOne(idProjet)
-                    setProjetName(data[0]?.nom_projet)
+                    setProjetName(data.projet[0]?.nom_projet)
                 }
 
                 if(idTache){
@@ -191,7 +191,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
     return (
         <div className="controle_form" style={{background:'#fff', width:'100%'}}>
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>{ idTache ? 'Modifier une tâche' : idProjet ? `Insérer une nouvelle tache dans le projet ${projetName}` : 'Ajouter une nouvelle tâche'}</h2>                
+                <h2 className='controle_h2'>{ idTache ? 'Modifier une tâche' : idProjet ? `Insérer une nouvelle tache dans le projet  "${projetName}"` : 'Ajouter une nouvelle tâche'}</h2>                
             </div>
             <div className="controle_wrapper" >
                 <Form

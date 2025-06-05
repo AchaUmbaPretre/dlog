@@ -324,7 +324,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         visible={modalType === 'add-tache'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={1000}
         centered
       >
         <TacheForm idProjet ={idProjet} idTache={''} closeModal={closeAllModals} fetchData={fetchData}/>
