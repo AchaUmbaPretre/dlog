@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Tabs } from 'antd';
-import { BankOutlined, TeamOutlined, UserOutlined, GlobalOutlined } from '@ant-design/icons';
+import { BankOutlined, UnlockOutlined, TeamOutlined, UserOutlined, GlobalOutlined } from '@ant-design/icons';
 import Users from '../users/Users';
 import Client from '../client/Client';
 import Fournisseur from '../fournisseur/Fournisseur';
 import Profile from '../profile/Profile';
 import Pays from '../pays/Pays';
+import Permission from '../permission/Permission';
 
 const Generale = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
@@ -123,12 +124,12 @@ const Generale = () => {
                                 marginRight: '8px',
                             }}
                         />
-                            Permissions
+                        Permissions
                     </span>
                 }
                 key="6"
             >
-                <Pays/>
+                <Permission/>
             </Tabs.TabPane>
         </Tabs>
     </>
