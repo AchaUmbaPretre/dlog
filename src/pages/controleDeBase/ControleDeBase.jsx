@@ -19,6 +19,8 @@ import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
 import { useSelector } from 'react-redux';
+import Frequence from '../frequence/Frequence';
+import Format from '../format/Format';
 
 const { Search } = Input;
 
@@ -393,6 +395,15 @@ const ControleDeBase = ({datas}) => {
                 />
               </div>
             </Tabs.TabPane>
+
+            <Tabs.TabPane tab='Fréquence' key="1">
+              <Frequence />
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab='Format' key="2">
+              <Format />
+            </Tabs.TabPane>
+
           </Tabs>
         </div>
       </div>
