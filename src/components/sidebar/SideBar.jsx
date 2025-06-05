@@ -12,7 +12,7 @@ import {
   SettingOutlined,
   LogoutOutlined,
   TagOutlined,
-  FolderOpenOutlined,
+  FolderOpenFilled,
   DashboardOutlined,
   ProjectOutlined,
   FileTextOutlined,
@@ -134,7 +134,7 @@ const SideBar = ({data}) => {
     RetweetOutlined: <RetweetOutlined style={{ color: 'cyan' }} />,
     DeliveredProcedureOutlined : <DeliveredProcedureOutlined style={{ color: '#2f54eb' }} />,
     GlobalOutlined : <GlobalOutlined style={{ color: 'green' }} />,
-    FolderOpenOutlined: <FolderOpenOutlined style={{ color: '#fadb14' }} />,
+    FolderOpenFilled: <FolderOpenFilled style={{ color: '#fadb14' }} />,
 
   };
   
