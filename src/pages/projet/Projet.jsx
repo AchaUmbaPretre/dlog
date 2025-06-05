@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
-import { ExportOutlined,MoreOutlined, BarsOutlined,CheckSquareOutlined,SolutionOutlined,RocketOutlined,HourglassOutlined,WarningOutlined,CheckCircleOutlined,ClockCircleOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined,MoreOutlined, CalendarOutlined, BarsOutlined,CheckSquareOutlined,SolutionOutlined,RocketOutlined,HourglassOutlined,WarningOutlined,CheckCircleOutlined,ClockCircleOutlined,InfoCircleOutlined, FileTextOutlined, DollarOutlined,PlusCircleOutlined,UserOutlined, PrinterOutlined, EditOutlined, PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import ProjetForm from './projetForm/ProjetForm';
@@ -221,6 +221,18 @@ const Projet = () => {
           </Tag>
         </Space>
       ),
+    },
+    {
+      title: 'Date création',
+      dataIndex: 'date_creation',
+      key: 'date_creation',
+        sorter: (a, b) => moment(a.date_creation) - moment(b.date_creation),
+        sortDirections: ['descend', 'ascend'],
+        render: (text,record) => 
+          <Tag icon={<CalendarOutlined />} color="blue">
+            {moment(text).format('DD-MM-yyyy')}
+          </Tag>,
+    
     },
     {
       title: 'Action',
