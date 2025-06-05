@@ -70,15 +70,15 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
 
         try {
             const [departementData, frequenceData, usersData, clientData, provinceData, batimentData, corpsData, catTacheData] = await Promise.all([
-                    getDepartement(),
-                    getFrequence(),
-                    getUser(),
-                    getClient(),
-                    getProvince(),
-                    getBatiment(),
-                    getCorpsMetier(),
-                    getCatTache()
-                ]);
+                getDepartement(),
+                getFrequence(),
+                getUser(),
+                getClient(),
+                getProvince(),
+                getBatiment(),
+                getCorpsMetier(),
+                getCatTache()
+            ]);
 
                 setDepartement(departementData.data);
                 setFrequence(frequenceData.data);
