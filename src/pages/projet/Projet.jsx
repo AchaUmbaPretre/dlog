@@ -114,9 +114,9 @@ const Projet = () => {
     }
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
+    const handlePrint = () => {
+      window.print();
+    };
 
     const fetchData = async () => {
       try {
@@ -158,6 +158,22 @@ const Projet = () => {
     'Executé': { icon: <RocketOutlined />, color: 'cyan' },
   };
 
+    const columnStyles = {
+    title: {
+      maxWidth: '220px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
 
   const columns = [
     {
@@ -184,7 +200,7 @@ const Projet = () => {
       dataIndex: 'nom_projet', 
       key: 'nom_projet',
       render: (text, record) => (
-        <Space>
+        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
           <Tag onClick={() => handleViewDetails(record.id_projet)} icon={<FileTextOutlined />} color='cyan'>{text}</Tag>
         </Space>
       ),
