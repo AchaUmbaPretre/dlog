@@ -7,6 +7,7 @@ import Fournisseur from '../fournisseur/Fournisseur';
 import Profile from '../profile/Profile';
 import Pays from '../pays/Pays';
 import Permission from '../permission/Permission';
+import Corbeille from '../corbeille/Corbeille';
 
 const Generale = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
@@ -114,7 +115,7 @@ const Generale = () => {
                 <Pays/>
             </Tabs.TabPane>
 
-                        <Tabs.TabPane
+            <Tabs.TabPane
                 tab={
                     <span>
                         <DeleteOutlined
@@ -129,7 +130,7 @@ const Generale = () => {
                 }
                 key="6"
             >
-                <Permission/>
+                <Corbeille/>
             </Tabs.TabPane>
 
             <Tabs.TabPane
