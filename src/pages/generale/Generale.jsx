@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Tabs } from 'antd';
-import { BankOutlined, UnlockOutlined, DeleteOutlined, TeamOutlined, UserOutlined, GlobalOutlined } from '@ant-design/icons';
+import { BankOutlined, UnlockOutlined, DeleteOutlined, TeamOutlined, GlobalOutlined } from '@ant-design/icons';
 import Users from '../users/Users';
 import Client from '../client/Client';
 import Fournisseur from '../fournisseur/Fournisseur';
@@ -34,7 +34,7 @@ const Generale = () => {
                                 marginRight: '8px',
                             }}
                         />
-                            Utilisateurs
+                        Utilisateurs
                     </span>
                 }
                 key="1"
