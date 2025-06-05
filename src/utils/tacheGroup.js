@@ -17,6 +17,30 @@ export const groupTasks = (tasks) => {
     return Array.from(taskMap.values()).filter(task => task.id_tache_parente === null);
   }
 
+const filterSubTasks = (subTasks, searchValue) => {
+    return subTasks.filter(task =>
+      task.nom_tache?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      task.statut?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      task.owner?.toLowerCase().includes(searchValue.toLowerCase())
+    );
+};
+
+export const filteredData = (tasks, searchValue) => {
+    return tasks.filter(task => {
+      const filteredSubTasks = filterSubTasks(task.sousTaches || [], searchValue);
+      return filteredSubTasks.length > 0 || 
+             task.nom_tache?.toLowerCase().includes(searchValue.toLowerCase()) ||
+             task.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
+             task.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
+             task.statut?.toLowerCase().includes(searchValue.toLowerCase()) ||
+             task.frequence?.toLowerCase().includes(searchValue.toLowerCase()) ||
+             task.owner?.toLowerCase().includes(searchValue.toLowerCase());
+    }).map(task => ({
+      ...task,
+      sousTaches: filterSubTasks(task.sousTaches || [], searchValue),
+    }));
+};
+
 export const getSubMenuAccessByUrl = (currentUrl, datas) => {
     for (let menu of datas) {
         // Vérifier si l'URL correspond à un sous-menu

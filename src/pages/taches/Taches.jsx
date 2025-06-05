@@ -19,7 +19,7 @@ import * as XLSX from 'xlsx';
 import SousTacheForm from './sousTacheForm/SousTacheForm';
 import './taches.scss'
 import { getPriorityColor, getPriorityIcon, getPriorityLabel } from '../../utils/prioriteIcons';
-import { groupTasks } from '../../utils/tacheGroup';
+import { filteredData, groupTasks } from '../../utils/tacheGroup';
 import AllDetail from './allDetail/AllDetail';
 import FilterTaches from './filterTaches/FilterTaches';
 import  getColumnSearchProps  from '../../utils/columnSearchUtils';
@@ -896,29 +896,6 @@ const handleEdit = (idTache) => {
     );
   };
 
-  const filterSubTasks = (subTasks, searchValue) => {
-    return subTasks.filter(task =>
-      task.nom_tache?.toLowerCase().includes(searchValue.toLowerCase()) ||
-      task.statut?.toLowerCase().includes(searchValue.toLowerCase()) ||
-      task.owner?.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  };
-  
-  const filteredData = (tasks, searchValue) => {
-    return tasks.filter(task => {
-      const filteredSubTasks = filterSubTasks(task.sousTaches || [], searchValue);
-      return filteredSubTasks.length > 0 || 
-             task.nom_tache?.toLowerCase().includes(searchValue.toLowerCase()) ||
-             task.departement?.toLowerCase().includes(searchValue.toLowerCase()) ||
-             task.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
-             task.statut?.toLowerCase().includes(searchValue.toLowerCase()) ||
-             task.frequence?.toLowerCase().includes(searchValue.toLowerCase()) ||
-             task.owner?.toLowerCase().includes(searchValue.toLowerCase());
-    }).map(task => ({
-      ...task,
-      sousTaches: filterSubTasks(task.sousTaches || [], searchValue),
-    }));
-  };
 
   const groupedTasks = groupTasks(data);
   const displayedData = filteredData(groupedTasks, searchValue);
