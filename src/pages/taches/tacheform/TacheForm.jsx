@@ -196,13 +196,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             <div className="controle_wrapper" >
                 <Form
                     form={form}
-                    name="validateOnly"
                     layout="vertical"
                     autoComplete="off"
-                    className="custom-form"
                     onFinish={onFinish}
                 >
-                    <Row gutter={12}>
+                <Card>
+                    <Row gutter={24}>
+                        
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="nom_tache"
@@ -359,11 +359,12 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 
+                                <Select
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
-                                        label: `${item.prenom} - ${item.nom}`,
+                                        label: [item.prenom, item.nom].filter(Boolean).join(' - '),
                                     }))}
                                     placeholder="Sélectionnez un responsable..."
                                     optionFilterProp="label"
@@ -392,7 +393,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     showSearch
                                     options={users.map((item) => ({
                                         value: item.id_utilisateur,
-                                        label: `${item.prenom} - ${item.nom}`,
+                                        label: [item.prenom, item.nom].filter(Boolean).join(' - '),
                                     }))}
                                     placeholder="Sélectionnez un demandeur..."
                                     optionFilterProp="label"
@@ -552,6 +553,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 )}
                             </Form.Item>
                         </Col>
+                        
                         {categories.map((category, index) => (
                             <Card 
                                 key={index} 
@@ -590,7 +592,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                         <Button 
                             type="dashed" 
                             onClick={handleAddCategory} 
-                            style={{ marginBottom: 16 }}
+                            style={{ marginBottom: 16, marginLeft:10 }}
                         >
                             Ajouter une catégorie
                         </Button>
@@ -608,6 +610,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                             </Form.Item>
                         </Col>
                     </Row>
+                    </Card>
                 </Form>
             </div>
             <Modal
