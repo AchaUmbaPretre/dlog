@@ -28,6 +28,9 @@ import UploadTacheExcel from './uploadTacheExcel/UploadTacheExcel';
 import TacheTagsForm from './tacheTagsForm/TacheTagsForm';
 import { useSelector } from 'react-redux';
 import PermissionTache from '../permission/permissionTache/PermissionTache';
+import ListCatTache from '../listCatTache/ListCatTache';
+import CorpsMetier from '../corpsMetier/CorpsMetier';
+import AuditLogTache from './auditLogsTache/AuditLogsTache';
 const { Search } = Input;
 const { Panel } = Collapse;
 
@@ -162,7 +165,7 @@ const Taches = () => {
   }, [filteredDatas]);  
 
   const handleFilterChange = (newFilters) => {
-      setFilteredDatas(newFilters); 
+    setFilteredDatas(newFilters); 
   };
 
   const closeAllModals = () => {
@@ -968,7 +971,11 @@ const handleEdit = (idTache) => {
             }
           </div>
           {filterVisible && <FilterTaches onFilter={handleFilterChange}/>}
-          <Tabs defaultActiveKey="0">
+          <Tabs 
+            defaultActiveKey="0"
+            type="card"
+            tabPosition="top"
+          >
             <Tabs.TabPane tab='Liste de tache' key="0">
               <div className="client-actions">
                 <div className="client-row-left">
@@ -1033,6 +1040,15 @@ const handleEdit = (idTache) => {
             </Tabs.TabPane>
             <Tabs.TabPane tab='Vue calendrier' key="1">
               <FormatCalendar/>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab='Catégorie des taches' key="2">
+              <ListCatTache/>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab='Corps métier' key="3">
+              <CorpsMetier/>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab='Audit logs' key="4">
+              <AuditLogTache/>
             </Tabs.TabPane>
           </Tabs>
         </div>
