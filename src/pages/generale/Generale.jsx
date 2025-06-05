@@ -125,7 +125,7 @@ const Generale = () => {
                                 marginRight: '8px',
                             }}
                         />
-                        Corbeille
+                        Corbeilles
                     </span>
                 }
                 key="6"
