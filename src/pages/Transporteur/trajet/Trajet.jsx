@@ -180,7 +180,7 @@ const [columnsVisibility, setColumnsVisibility] = useState({
       className={columnStyles.hideScroll}
     >
       <Tooltip title={text}>
-        <Tag color="blue">{record.depart}</Tag>
+        <Text>{record.depart}</Text>
       </Tooltip>
     </div>
     ),
@@ -194,14 +194,14 @@ const [columnsVisibility, setColumnsVisibility] = useState({
       ),
       dataIndex: 'destination',
       key: 'destination',
-      ellipsis: true,
+      ellipsis: false,
       render: (text, record) => (
     <div
       style={columnStyles.title}
       className={columnStyles.hideScroll}
     >
       <Tooltip title={text}>
-        <Tag color="green">{record.depart}</Tag>
+        <Text type="secondary">{text}</Text>
       </Tooltip>
     </div>
     ),

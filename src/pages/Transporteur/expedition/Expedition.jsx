@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Badge, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, DeleteOutlined, MenuOutlined, DownOutlined, EyeOutlined, MoreOutlined, CalendarOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { ExportOutlined, TruckOutlined, DeleteOutlined, MenuOutlined, DownOutlined, EyeOutlined, MoreOutlined, CalendarOutlined, PlusCircleOutlined, FieldTimeOutlined, AimOutlined, ClockCircleOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -265,7 +265,7 @@ const [columnsVisibility, setColumnsVisibility] = useState({
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
+              <TruckOutlined className='client-icon' style={{color:'blue'}} />
             </div>
             <h2 className="client-h2">Liste d'expeditions</h2>
           </div>
