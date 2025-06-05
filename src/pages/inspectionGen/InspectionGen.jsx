@@ -22,6 +22,7 @@ import InspectionGenDoc from './inspectionGenDoc/InspectionGenDoc';
 import { handleRepair, handleValider } from '../../utils/modalUtils';
 import InspectionImage from './inspectionImage/InspectionImage';
 import ReparationDetail from '../controleTechnique/reparation/reparationDetail/ReparationDetail';
+import CatInspection from '../catInspection/CatInspection';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -831,6 +832,125 @@ const InspectionGen = () => {
         >
           <Tabs.TabPane
               tab={
+                <span>
+                  <FileSearchOutlined
+                    style={{
+                      color: 'green',
+                      fontSize: '18px',
+                      marginRight: '8px',
+                    }}
+                  />
+                  Inspection
+                </span>
+              }
+            key="1"
+          >
+            <div className="client">
+              <div className="client-wrapper">
+                  <div className="client-rows">
+                    <div className="client-row">
+                        <div className="client-row-icon">
+                            <FileSearchOutlined className='client-icon'/>
+                        </div>
+                        <h2 className="client-h2">Inspection</h2>
+                    </div>
+                    {
+                        role === 'Admin' &&
+                        <div className='client-row-lefts'>
+                        <span className='client-title'>
+                        Resumé :
+                        </span>
+                        <div className="client-row-sou">
+                          {loading ? (
+                            <Skeleton active paragraph={{ rows: 1 }} />
+                          ) : (
+                              <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
+                                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Inspection : <strong>{statistique?.nbre_inspection?.toLocaleString()}</strong></span>
+                                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Véhicule : <strong>{Math.round(parseFloat(statistique?.nbre_vehicule)).toLocaleString() || 0}</strong></span>
+                                <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                                  Budget non validé : <strong>
+                                    {Number.isFinite(parseFloat(statistique?.budget_total))
+                                      ? Math.round(parseFloat(statistique?.budget_total)).toLocaleString()
+                                      : 0} $</strong>
+                                </span>
+
+                                <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                                  Budget validé  : <strong>
+                                    {Number.isFinite(parseFloat(statistique?.budget_valide))
+                                      ? Math.round(parseFloat(statistique?.budget_valide)).toLocaleString()
+                                      : 0} $</strong>
+                                </span>
+
+                                <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                                  #Immobile : <strong>
+                                    {Number.isFinite(parseFloat(statistique?.nbre_vehicule_immobile))
+                                      ? Math.round(parseFloat(statistique?.nbre_vehicule_immobile)).toLocaleString()
+                                      : 0}</strong>
+                                </span>
+
+                                <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                                  #En réparation : <strong>
+                                    {Number.isFinite(parseFloat(statistique?.nbre_reparation))
+                                      ? Math.round(parseFloat(statistique?.nbre_reparation)).toLocaleString()
+                                      : 0}</strong>
+                                </span>
+                              </div>
+                          )}
+                        </div>
+                      </div>
+                      }
+                  </div>
+                    <div className="client-actions">
+                      <div className="client-row-left">
+                        <Search 
+                          placeholder="Recherche..." 
+                          onChange={(e) => setSearchValue(e.target.value)}
+                          enterButton
+                        />
+                      </div>
+                      <div className="client-rows-right">
+                            <Button
+                                type="primary"
+                                icon={<PlusCircleOutlined />}
+                                onClick={handleAddInspection}
+                            >
+                                Ajouter
+                            </Button>
+                            <Dropdown overlay={menu} trigger={['click']}>
+                              <Button icon={<ExportOutlined />}>Export</Button>
+                            </Dropdown>
+                            <Button
+                              type="default"
+                              onClick={handFilter}
+                            >
+                              {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
+                            </Button>
+
+                            <Dropdown overlay={menus} trigger={['click']}>
+                              <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                                Colonnes <DownOutlined />
+                              </Button>
+                            </Dropdown>
+                      </div>
+                    </div>
+                    {filterVisible && <FilterInspectionGen onFilter={handleFilterChange}/>}
+                    <Table
+                      columns={columns}
+                      dataSource={filteredData}
+                      rowKey="id_inspection_gen"
+                      loading={loading}
+                      scroll={scroll}
+                      size="small"
+                      onChange={(pagination)=> setPagination(pagination)}
+                      bordered
+                      rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    />
+              </div>
+            </div>
+          </Tabs.TabPane>
+
+          <Tabs.TabPane
+              tab={
                     <span>
                         <FileSearchOutlined
                             style={{
@@ -839,116 +959,16 @@ const InspectionGen = () => {
                                 marginRight: '8px',
                             }}
                         />
-                            Inspection
+                          Categorie
                     </span>
                 }
-            key="1"
+            key="2"
           >
-                <InspectionGen/>
+                <CatInspection/>
           </Tabs.TabPane>
+
         </Tabs>
-        <div className="client">
-            <div className="client-wrapper">
-              <div className="client-rows">
-                <div className="client-row">
-                    <div className="client-row-icon">
-                        <FileSearchOutlined className='client-icon'/>
-                    </div>
-                    <h2 className="client-h2">Inspection</h2>
-                </div>
-                {
-                    role === 'Admin' &&
-                    <div className='client-row-lefts'>
-                    <span className='client-title'>
-                    Resumé :
-                    </span>
-                    <div className="client-row-sou">
-                      {loading ? (
-                        <Skeleton active paragraph={{ rows: 1 }} />
-                      ) : (
-                          <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Inspection : <strong>{statistique?.nbre_inspection?.toLocaleString()}</strong></span>
-                            <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Véhicule : <strong>{Math.round(parseFloat(statistique?.nbre_vehicule)).toLocaleString() || 0}</strong></span>
-                            <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                              Budget non validé : <strong>
-                                {Number.isFinite(parseFloat(statistique?.budget_total))
-                                  ? Math.round(parseFloat(statistique?.budget_total)).toLocaleString()
-                                  : 0} $</strong>
-                            </span>
 
-                            <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                              Budget validé  : <strong>
-                                {Number.isFinite(parseFloat(statistique?.budget_valide))
-                                  ? Math.round(parseFloat(statistique?.budget_valide)).toLocaleString()
-                                  : 0} $</strong>
-                            </span>
-
-                            <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                              #Immobile : <strong>
-                                {Number.isFinite(parseFloat(statistique?.nbre_vehicule_immobile))
-                                  ? Math.round(parseFloat(statistique?.nbre_vehicule_immobile)).toLocaleString()
-                                  : 0}</strong>
-                            </span>
-
-                            <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                              #En réparation : <strong>
-                                {Number.isFinite(parseFloat(statistique?.nbre_reparation))
-                                  ? Math.round(parseFloat(statistique?.nbre_reparation)).toLocaleString()
-                                  : 0}</strong>
-                            </span>
-                          </div>
-                      )}
-                    </div>
-                  </div>
-                  }
-              </div>
-                <div className="client-actions">
-                  <div className="client-row-left">
-                    <Search 
-                      placeholder="Recherche..." 
-                      onChange={(e) => setSearchValue(e.target.value)}
-                      enterButton
-                    />
-                  </div>
-                  <div className="client-rows-right">
-                        <Button
-                            type="primary"
-                            icon={<PlusCircleOutlined />}
-                            onClick={handleAddInspection}
-                        >
-                            Ajouter
-                        </Button>
-                        <Dropdown overlay={menu} trigger={['click']}>
-                          <Button icon={<ExportOutlined />}>Export</Button>
-                        </Dropdown>
-                        <Button
-                          type="default"
-                          onClick={handFilter}
-                        >
-                          {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
-                        </Button>
-
-                        <Dropdown overlay={menus} trigger={['click']}>
-                          <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                            Colonnes <DownOutlined />
-                          </Button>
-                        </Dropdown>
-                  </div>
-                </div>
-                {filterVisible && <FilterInspectionGen onFilter={handleFilterChange}/>}
-                <Table
-                  columns={columns}
-                  dataSource={filteredData}
-                  rowKey="id_inspection_gen"
-                  loading={loading}
-                  scroll={scroll}
-                  size="small"
-                  onChange={(pagination)=> setPagination(pagination)}
-                  bordered
-                  rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                />
-            </div>
-        </div>
         <Modal
             title=""
             visible={modalType === 'Add'}
