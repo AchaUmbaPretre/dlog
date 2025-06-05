@@ -73,6 +73,7 @@ const Taches = () => {
   const role = useSelector((state) => state.user?.currentUser?.role);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [permissions, setPermissions] = useState({});
+
   const handleDoubleClick = (record) => {
     setEditingRow(record.id_tache);
     setNewPriority(record.priorite);
@@ -156,23 +157,23 @@ const Taches = () => {
     }
   };
 
-useEffect(() => {
-  fetchData(filteredDatas);
-}, [filteredDatas]);  
+  useEffect(() => {
+    fetchData(filteredDatas);
+  }, [filteredDatas]);  
 
-const handleFilterChange = (newFilters) => {
-    setFilteredDatas(newFilters); 
-};
+  const handleFilterChange = (newFilters) => {
+      setFilteredDatas(newFilters); 
+  };
 
-const closeAllModals = () => {
-  setModalType(null);
-};
+  const closeAllModals = () => {
+    setModalType(null);
+  };
 
-const openModal = (type, idTache = '') => {
-  closeAllModals();
-  setModalType(type);
-  setIdTache(idTache);
-};
+  const openModal = (type, idTache = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdTache(idTache);
+  };
 
 const handFilter = () => {
   fetchData()
