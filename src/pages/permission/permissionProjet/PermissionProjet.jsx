@@ -5,6 +5,7 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import { statusIcons } from '../../../utils/prioriteIcons';
 import { getProjet } from '../../../services/projetService';
+import PermissionProjetOne from './permissionProjetOne/PermissionProjetOne';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -18,8 +19,11 @@ const PermissionProjet = () => {
     });
     const scroll = { x: 400 };
     const [searchValue, setSearchValue] = useState('');
+    const [idProjet, setIdProjet] = useState(null);
+    const [modalType, setModalType] = useState(null);
 
-        const fetchData = async () => {
+
+    const fetchData = async () => {
           try {
             const { data } = await getProjet();
             setData(data);
@@ -33,9 +37,9 @@ const PermissionProjet = () => {
           }
         };
     
-      useEffect(() => {
+    useEffect(() => {
         fetchData();
-      }, []);
+    }, []);
 
     const columnStyles = {
           title: {
@@ -147,11 +151,21 @@ const PermissionProjet = () => {
             
           ),
         },
-      ];
+    ];
 
-    const  handleViewDetails = () => {
+    const  handleViewDetails = (idProjet) => {
+        openModal('detail', idProjet);
+    };
 
-    }
+    const closeAllModals = () => {
+        setModalType(null);
+    };
+    
+    const openModal = (type, idProjet = '') => {
+        closeAllModals();
+        setModalType(type);
+        setIdProjet(idProjet);
+    }; 
 
     const filteredData = data.filter(item =>
         item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -191,6 +205,16 @@ const PermissionProjet = () => {
             />
             </div>
         </div>
+        <Modal
+            title=""
+            visible={modalType === 'detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1070}
+            centered
+        >
+            <PermissionProjetOne idProjet={idProjet}/>
+        </Modal>
     </>
   )
 }

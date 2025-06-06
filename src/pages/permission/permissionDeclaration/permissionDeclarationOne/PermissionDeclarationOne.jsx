@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input, notification, Switch, Table } from 'antd';
 import { EyeOutlined, DeleteOutlined, PlusCircleOutlined, EditOutlined, UnlockOutlined } from '@ant-design/icons';
 import { getPermissionsDeclaration, updatePermissionDeclaration } from '../../../../services/permissionService';
