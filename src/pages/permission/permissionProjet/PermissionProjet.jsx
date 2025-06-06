@@ -136,7 +136,8 @@ const PermissionProjet = () => {
         {
           title: 'Action',
           key: 'action',
-          width: '10%',
+          width: '8%',
+          align: 'center',
           render: (text, record) => (
               <Space>
                 <Tooltip title="Voir détails">
@@ -145,6 +146,7 @@ const PermissionProjet = () => {
                     onClick={() => handleViewDetails(record.id_projet)}
                     aria-label="View budget details"
                     style={{ color: 'blue' }}
+                    type='text'
                 />
                 </Tooltip>
               </Space>
