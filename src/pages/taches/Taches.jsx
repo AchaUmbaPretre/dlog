@@ -72,6 +72,7 @@ const Taches = () => {
   const [searchedColumn, setSearchedColumn] = useState('');
   const [statistique, setStatistique] = useState([]);
   const [total, setTotal] = useState([]);
+  const [allIds, setAllIds] = useState([]);
   const searchInput = useRef(null);
   const role = useSelector((state) => state.user?.currentUser?.role);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -118,6 +119,8 @@ const Taches = () => {
     try {
         const response = await getTache(filters, userId, role);
 
+        setAllIds([...new Set(response?.data?.taches?.map(d => d.id_tache) || [])]);
+
         const groupedData = response.data.taches.reduce((acc, curr) => {
             const found = acc.find(item => item.id_tache === curr.id_tache);
 
@@ -159,6 +162,8 @@ const Taches = () => {
         setLoading(false);
     }
   };
+
+  console.log(allIds)
 
   useEffect(() => {
     fetchData(filteredDatas);
@@ -1069,7 +1074,7 @@ const Taches = () => {
         width={1070}
         centered
       >
-        <DetailTacheGlobalOne initialIdTache={idTache} />
+        <DetailTacheGlobalOne initialIdTache={idTache} allIds={allIds} />
       </Modal>
 
       <Modal

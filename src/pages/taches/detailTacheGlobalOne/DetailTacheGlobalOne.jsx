@@ -33,7 +33,7 @@ import PermissionTache from '../../permission/permissionTache/PermissionTache';
 
 const { Title, Text } = Typography;
 
-const DetailTacheGlobalOne = ({ initialIdTache }) => {
+const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [modalType, setModalType] = useState(null);
@@ -51,7 +51,6 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
         getTacheOne(idTache),
         getSuiviTacheOneV(idTache),
         getTrackingAllOne(idTache)
-
       ]);
 
       setData(response.data.tache[0]);
@@ -104,6 +103,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   };
 
   const goToNext = () => {
+    
   };
 
   const goToPrevious = () => {
