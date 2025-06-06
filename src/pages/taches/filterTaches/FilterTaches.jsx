@@ -7,6 +7,7 @@ import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
 import { getTypes } from '../../../services/typeService';
 import { getPriorityIcon } from '../../../utils/prioriteIcons';
+import { getProjet } from '../../../services/projetService';
 
 const { RangePicker } = DatePicker;
 
@@ -27,6 +28,7 @@ const FilterTaches = ({ onFilter }) => {
     const [client, setClient] = useState([]);
     const [dateRange, setDateRange] = useState([]);
     const [owners, setOwners] = useState([]);
+    const [projet, setProjet] = useState([]);
     const [type, setType] = useState([]);
     const [selectedDepartement, setSelectedDepartement] = useState([]);
     const [selectedClients, setSelectedClients] = useState([]);
@@ -37,17 +39,19 @@ const FilterTaches = ({ onFilter }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [departementData, usersData, clientData, typeData] = await Promise.all([
+                const [departementData, usersData, clientData, typeData, projetData] = await Promise.all([
                     getDepartement(),
                     getUser(),
                     getClient(),
                     getTypes(),
+                    getProjet()
                 ]);
 
                 setDepartement(departementData.data);
                 setOwners(usersData.data);
                 setClient(clientData.data);
                 setType(typeData.data);
+                setProjet(projetData.data)
             } catch (error) {
                 console.error(error);
             }
