@@ -168,7 +168,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
             <LeftCircleFilled className="icon-arrow" />
           </Button>
         </Tooltip>
-        <h2 className="inspection_h2">
+        <h2 className="tache_title_h2">
           DÉTAILS DE LA TACHE N° {`${new Date().getFullYear().toString().slice(2)}${idTache?.toString().padStart(4, '0')}`}
         </h2>
         <Tooltip title="Suivant">
