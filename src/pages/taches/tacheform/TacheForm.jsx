@@ -4,7 +4,7 @@ import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getFrequence } from '../../../services/frequenceService';
 import { getUser } from '../../../services/userService';
-import {   PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { getTacheOneV, postTache, putTache } from '../../../services/tacheService';
 import moment from 'moment';
 import { getBatiment, getCatTache, getCorpsMetier } from '../../../services/typeService';
