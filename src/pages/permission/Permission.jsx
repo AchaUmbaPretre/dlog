@@ -218,8 +218,16 @@ const Permission = () => {
                 >
                   <PermissionClient/>
                 </Tabs.TabPane>
-                
               </Tabs>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab= {
+              <span>
+                <UnlockOutlined style={{ color: '#D2691E' }} /> Permission des projets
+              </span>
+                    } 
+                  key="5"
+            >
+                  <PermissionClient/>
             </Tabs.TabPane>
 
           </Tabs>
