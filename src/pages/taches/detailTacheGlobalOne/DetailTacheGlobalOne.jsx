@@ -103,20 +103,22 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
   };
 
   const goToNext = () => {
-      setIdTache((prevId) => {
-        const currentIndex = allIds.indexOf(prevId);
-          return currentIndex !== -1 && currentIndex < allIds.length - 1
-            ? allIds[currentIndex + 1]
-            : prevId;
-        });
+    setIdTache(prevId => {
+      const index = allIds.indexOf(prevId);
+      return index !== -1 && index < allIds.length - 1 ? allIds[index + 1] : prevId;
+    });
   };
 
   const goToPrevious = () => {
-    setIdTache((prevId) => {
-      const currentIndex = allIds.indexOf(prevId);
-      return currentIndex > 0 ? allIds[currentIndex - 1] : prevId;
+    setIdTache(prevId => {
+      const index = allIds.indexOf(prevId);
+      return index > 0 ? allIds[index - 1] : prevId;
     });
   };
+
+  const currentIndex = allIds.indexOf(idTache);
+  const isFirst = currentIndex <= 0;
+  const isLast = currentIndex >= allIds.length - 1;
 
   useEffect(() => {
     setIdTache(initialIdTache);
@@ -162,7 +164,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
     <div className="dataTableau">
       <div className="detail_tache_arrow">
         <Tooltip title="Précédent">
-          <Button className="row-arrow" onClick={goToPrevious}>
+          <Button className="row-arrow" onClick={goToPrevious}  disabled={isFirst}>
             <LeftCircleFilled className="icon-arrow" />
           </Button>
         </Tooltip>
@@ -170,7 +172,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           DÉTAILS DE LA TACHE N° {`${new Date().getFullYear().toString().slice(2)}${idTache?.toString().padStart(4, '0')}`}
         </h2>
         <Tooltip title="Suivant">
-          <Button className="row-arrow" onClick={goToNext}>
+          <Button className="row-arrow" onClick={goToNext} disabled={isLast}>
             <RightCircleFilled className="icon-arrow" />
           </Button>
         </Tooltip>
