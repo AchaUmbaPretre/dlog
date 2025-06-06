@@ -4,6 +4,10 @@ import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Spa
 import moment from 'moment';
 import 'moment/locale/fr';
 import { statusIcons } from '../../../utils/prioriteIcons';
+import { getProjet } from '../../../services/projetService';
+moment.locale('fr');
+
+const { Search } = Input;
 
 const PermissionProjet = () => {
     const [loading, setLoading] = useState(true);
@@ -13,6 +17,25 @@ const PermissionProjet = () => {
         pageSize: 15,
     });
     const scroll = { x: 400 };
+    const [searchValue, setSearchValue] = useState('');
+
+        const fetchData = async () => {
+          try {
+            const { data } = await getProjet();
+            setData(data);
+            setLoading(false);
+          } catch (error) {
+            notification.error({
+              message: 'Erreur de chargement',
+              description: 'Une erreur est survenue lors du chargement des données.',
+            });
+            setLoading(false);
+          }
+        };
+    
+      useEffect(() => {
+        fetchData();
+      }, []);
 
     const columnStyles = {
           title: {
@@ -130,8 +153,45 @@ const PermissionProjet = () => {
 
     }
 
+    const filteredData = data.filter(item =>
+        item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.nom_projet?.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.nom_type_statut?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.responsable?.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
   return (
-    <div>PermissionProjet</div>
+    <>
+        <div className="client">
+            <div className="client-wrapper">
+            <div className="client-row">
+                <div className="client-row-icon">
+                <BarsOutlined className='client-icon'/>
+                </div>
+                <h2 className="client-h2">Projet</h2>
+            </div>
+            <div className="client-actions">
+                <div className="client-row-left">
+                <Search 
+                    placeholder="Recherche..." 
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    enterButton
+                />
+                </div>
+            </div>
+            <Table
+                columns={columns}
+                dataSource={filteredData}
+                rowKey="id_projet"
+                loading={loading}
+                scroll={scroll}
+                size="small"
+                bordered
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+            />
+            </div>
+        </div>
+    </>
   )
 }
 
