@@ -124,7 +124,7 @@ const PermissionProjetOne = ({idProjet}) => {
             ),
         },
         {
-            title: <span style={{ color: '#52c41a' }}>Voir <EyeOutlined /></span>,
+            title: <span style={{ color: '#52c41a', textAlign:'center' }}>Voir <EyeOutlined /></span>,
             dataIndex: 'can_view',
             key: 'can_view',
 /*             render: (text, record) => (
@@ -135,7 +135,7 @@ const PermissionProjetOne = ({idProjet}) => {
             ), */
         },
         {
-            title: <span style={{ color: '#1890ff' }}>Modifier <EditOutlined /></span>,
+            title: <span style={{ color: '#1890ff', textAlign:'center' }}>Modifier <EditOutlined /></span>,
             dataIndex: 'can_edit',
             key: 'can_edit',
 /*             render: (text, record) => (
@@ -146,7 +146,7 @@ const PermissionProjetOne = ({idProjet}) => {
             ), */
         },
         {
-            title: <span style={{ color: '#000' }}>Ajouter <FormOutlined /></span>,
+            title: <span style={{ color: '#000', textAlign:'center' }}>Ajouter <FormOutlined /></span>,
             dataIndex: 'can_comment',
             key: 'can_comment',
 /*             render: (text, record) => (
@@ -158,9 +158,9 @@ const PermissionProjetOne = ({idProjet}) => {
         },
     ];
     
-      const filteredData = data.filter(item =>
+    const filteredData = data.filter(item =>
         item.nom?.toLowerCase().includes(searchValue.toLowerCase())
-      );
+    );
 
   return (
     <>
