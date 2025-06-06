@@ -48,9 +48,9 @@ const CorpsMetier = () => {
       }
     };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+    useEffect(() => {
+      fetchData();
+    }, []);
 
   const handleAddClient = () => {
     setIsModalVisible(true);

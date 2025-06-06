@@ -244,6 +244,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 {loadingData ? <Skeleton.Input active={true} />  : <DatePicker style={{width:'100%'}}/>}
                             </Form.Item>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_departement"
@@ -267,10 +268,10 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 />}
                             </Form.Item>
                             <Button 
-                                    style={{ marginBotton: '5px' }}
-                                    icon={<PlusOutlined />}
-                                    onClick={handlDepartement}
-                                >
+                                style={{ width:'19px', height:'19px' }}
+                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                onClick={handlDepartement}
+                            >
                             </Button>
                         </Col>
                         <Col xs={24} md={8}>
@@ -295,8 +296,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 />}
                             </Form.Item>
                             <Button 
-                                style={{ marginBottom: '5px' }}
-                                icon={<PlusOutlined />}
+                                style={{ width:'19px', height:'19px' }}
+                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
                                 onClick={handlClient}
                             >
                             </Button>
@@ -325,6 +326,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 />}
                             </Form.Item>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_frequence"
@@ -336,7 +338,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Select
+                                {loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
                                     showSearch
                                     options={frequence.map((item) => ({
                                         value: item.id_frequence,
@@ -347,6 +350,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 />}
                             </Form.Item>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="responsable_principal"
@@ -370,12 +374,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 />}
                             </Form.Item>
                             <Button 
-                                style={{ marginTop: '5px' }}
-                                icon={<PlusOutlined />}
+                                style={{ width:'19px', height:'19px' }}
+                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
                                 onClick={handOwner}
                             >
                             </Button>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_demandeur"
@@ -400,12 +405,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 
                             </Form.Item>
                             <Button 
-                                style={{ marginTop: '5px' }}
-                                icon={<PlusOutlined />}
+                                style={{ width:'19px', height:'19px' }}
+                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
                                 onClick={handlDemandeur}
                             >
                             </Button>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_batiment"
@@ -428,8 +434,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 />}
                             </Form.Item>
                             <Button 
-                                style={{ marginTop: '5px' }}
-                                icon={<PlusOutlined />}
+                                style={{ width:'19px', height:'19px' }}
+                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
                                 onClick={handlEntite}
                             >
                             </Button>
@@ -454,12 +460,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 />}
                             </Form.Item>
                             <Button 
-                                style={{ marginTop: '5px' }}
-                                icon={<PlusOutlined />}
+                                style={{ width:'19px', height:'19px' }}
+                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
                                 onClick={handlCorpsMetier}
                             >
                             </Button>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_cat_tache"
@@ -481,12 +488,13 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 />}
                             </Form.Item>
                             <Button 
-                                style={{ marginTop: '5px' }}
-                                icon={<PlusOutlined />}
+                                style={{ width:'19px', height:'19px' }}
+                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
                                 onClick={handlCatTache}
                             >
                             </Button>
                         </Col>
+
                         <Col xs={24} md={24}>
                         <Form.Item
                                 name="priorite"

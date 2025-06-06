@@ -104,10 +104,10 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
 
   const goToNext = () => {
       setIdTache((prevId) => {
-            const currentIndex = allIds.indexOf(prevId);
-            return currentIndex !== -1 && currentIndex < allIds.length - 1
-                ? allIds[currentIndex + 1]
-                : prevId;
+        const currentIndex = allIds.indexOf(prevId);
+          return currentIndex !== -1 && currentIndex < allIds.length - 1
+            ? allIds[currentIndex + 1]
+            : prevId;
         });
   };
 

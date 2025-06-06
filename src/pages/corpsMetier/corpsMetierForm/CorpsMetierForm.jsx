@@ -3,7 +3,7 @@ import { Form, Input, Button, notification } from 'antd';
 import { getFrequenceOne, postFrequence, putFrequence } from '../../../services/frequenceService';
 import { getCorpsMetierOne, postCorpsMetier, putCorpsMetier } from '../../../services/typeService';
 
-const CorpsMetierForm = ({idCorps}) => {
+const CorpsMetierForm = ({idCorps,closeModal, fetchData}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,9 @@ const CorpsMetierForm = ({idCorps}) => {
           message: 'Succès',
           description: 'Le formulaire a été soumis avec succès.',
         });
-        window.location.reload();
+
+        fetchData();
+        closeModal();
         form.resetFields();
     } catch (error) {
         notification.error({

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { notification, Card, Row, Col, Typography, Modal, Divider, Skeleton, Badge, Tooltip } from 'antd';
 import { InfoCircleOutlined, FileOutlined, FormOutlined, FileAddOutlined, EditOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import ProjetDetailGeneral from './projetDetailGen/ProjetDetailGeneral';
