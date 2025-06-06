@@ -103,10 +103,19 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
   };
 
   const goToNext = () => {
-    
+      setIdTache((prevId) => {
+            const currentIndex = allIds.indexOf(prevId);
+            return currentIndex !== -1 && currentIndex < allIds.length - 1
+                ? allIds[currentIndex + 1]
+                : prevId;
+        });
   };
 
   const goToPrevious = () => {
+    setIdTache((prevId) => {
+      const currentIndex = allIds.indexOf(prevId);
+      return currentIndex > 0 ? allIds[currentIndex - 1] : prevId;
+    });
   };
 
   useEffect(() => {
