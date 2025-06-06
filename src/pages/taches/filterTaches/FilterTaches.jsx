@@ -35,6 +35,7 @@ const FilterTaches = ({ onFilter }) => {
     const [selectedStatut, setSelectedStatut] = useState([]);
     const [selectedPriorite, setSelectedPriorite] = useState([]);
     const [selectedOwners, setSelectedOwners] = useState([]);
+    const [selectedProjet, setSelectedProjet] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -69,11 +70,12 @@ const FilterTaches = ({ onFilter }) => {
                     priorite: selectedPriorite,
                     dateRange,
                     owners: selectedOwners,
+                    projet: selectedProjet
                 });
             };
 
             handleFilter();
-    }, [selectedDepartement, selectedClients, selectedStatut, selectedPriorite, selectedOwners, dateRange  ])
+    }, [selectedDepartement, selectedClients, selectedStatut, selectedPriorite, selectedOwners, dateRange, selectedProjet ])
 
     return (
         <div className="filterTache">
@@ -92,6 +94,23 @@ const FilterTaches = ({ onFilter }) => {
                     onChange={setSelectedDepartement}
                 />
             </div>
+
+            <div className="filter_row">
+                <label>Projet:</label>
+                <Select
+                    mode="multiple"
+                    showSearch
+                    style={{ width: '100%' }}
+                    options={projet.map((item) => ({
+                        value: item.id_projet,
+                        label: item.nom_projet,
+                    }))}
+                    placeholder="Sélectionnez ..."
+                    optionFilterProp="label"
+                    onChange={setSelectedProjet}
+                />
+            </div>
+
             <div className="filter_row">
                 <label>Clients:</label>
                 <Select
