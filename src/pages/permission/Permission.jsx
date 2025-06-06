@@ -125,21 +125,21 @@ const Permission = () => {
               } 
               key="0"
             >
-            <div className="client-actions">
-              <div className="client-row-left">
-                <Search placeholder="recherche..." enterButton />
+              <div className="client-actions">
+                <div className="client-row-left">
+                  <Search placeholder="recherche..." enterButton />
+                </div>
               </div>
-            </div>
-          <Table
-            columns={columns}
-            dataSource={data}
-            pagination={{ pageSize: 15 }}
-            rowKey="id_utilisateur"
-            bordered
-            size="middle"
-            scroll={scroll}
-            loading={loading}
-          />
+              <Table
+                columns={columns}
+                dataSource={data}
+                pagination={{ pageSize: 15 }}
+                rowKey="id_utilisateur"
+                bordered
+                size="middle"
+                scroll={scroll}
+                loading={loading}
+              />
             </Tabs.TabPane>
 
             <Tabs.TabPane tab= {
@@ -210,15 +210,14 @@ const Permission = () => {
                 </Tabs.TabPane>
 
                 <Tabs.TabPane tab= {
-                <span>
-                  <UnlockOutlined style={{ color: '#D2691E' }} /> Par client
-                </span>
-                  } 
-                key="2"
-              >
-                <PermissionClient/>
-              </Tabs.TabPane>
-
+                  <span>
+                    <UnlockOutlined style={{ color: '#D2691E' }} /> Par client
+                  </span>
+                    } 
+                  key="2"
+                >
+                  <PermissionClient/>
+                </Tabs.TabPane>
                 
               </Tabs>
             </Tabs.TabPane>
