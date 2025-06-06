@@ -178,10 +178,10 @@ const Taches = () => {
     setIdTache(idTache);
   };
 
-const handFilter = () => {
-  fetchData()
-  setFilterVisible(!filterVisible)
-}
+  const handFilter = () => {
+    fetchData()
+    setFilterVisible(!filterVisible)
+  }
 
   const handleEdit = (idTache) => {
     setIdTache(idTache);
