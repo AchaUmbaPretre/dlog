@@ -151,21 +151,21 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 
   return (
     <div className="dataTableau">
-             <div className="detail_tache_arrow">
-          <Tooltip title="Précédent">
-            <Button className="row-arrow" onClick={goToPrevious}>
-              <LeftCircleFilled className="icon-arrow" />
-            </Button>
-          </Tooltip>
-          <h2 className="inspection_h2">
-            DÉTAILS DE LA TACHE N° {`${new Date().getFullYear().toString().slice(2)}${idTache?.toString().padStart(4, '0')}`}
-          </h2>
-          <Tooltip title="Suivant">
-            <Button className="row-arrow" onClick={goToNext}>
-              <RightCircleFilled className="icon-arrow" />
-            </Button>
-          </Tooltip>
-        </div>
+      <div className="detail_tache_arrow">
+        <Tooltip title="Précédent">
+          <Button className="row-arrow" onClick={goToPrevious}>
+            <LeftCircleFilled className="icon-arrow" />
+          </Button>
+        </Tooltip>
+        <h2 className="inspection_h2">
+          DÉTAILS DE LA TACHE N° {`${new Date().getFullYear().toString().slice(2)}${idTache?.toString().padStart(4, '0')}`}
+        </h2>
+        <Tooltip title="Suivant">
+          <Button className="row-arrow" onClick={goToNext}>
+            <RightCircleFilled className="icon-arrow" />
+          </Button>
+        </Tooltip>
+      </div>
       <div className="title_row">
         <div style={{display: 'flex', justifyContent:'space-between'}}>
           <h1 className="title_h1">
