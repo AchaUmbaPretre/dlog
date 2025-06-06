@@ -33,7 +33,7 @@ const PermissionProjetOne = ({idProjet}) => {
 
                 if(idProjet){
                     const {data} = await getProjetOne(idProjet)
-                    setTitle(data[0].nom_projet)
+                    setTitle(data.projet[0].nom_projet)
                 }
     
 /*                 setPermissions(formattedPermissions);
