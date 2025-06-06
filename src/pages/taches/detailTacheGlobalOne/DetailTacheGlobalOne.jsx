@@ -14,6 +14,8 @@ import { InfoCircleOutlined,
   RightCircleOutlined, 
   HistoryOutlined, 
   FileTextOutlined, 
+  LeftCircleFilled,
+  RightCircleFilled,
   ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -101,6 +103,12 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
     setIdTache((prevId) => (prevId > 1 ? prevId - 1 : prevId));
   };
 
+  const goToNext = () => {
+  };
+
+  const goToPrevious = () => {
+  };
+
   useEffect(() => {
     setIdTache(initialIdTache);
   }, [initialIdTache]);
@@ -144,21 +152,21 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   return (
     <div className="dataTableau">
       <div className="title_row">
-{/*         <div className="detail_tache_arrow">
+         <div className="detail_tache_arrow">
           <Tooltip title="Précédent">
             <Button className="row-arrow" onClick={goToPrevious}>
               <LeftCircleFilled className="icon-arrow" />
             </Button>
           </Tooltip>
           <h2 className="inspection_h2">
-            DÉTAILS DE LA TACHE N° {`${new Date().getFullYear().toString().slice(2)}${inspectionId?.toString().padStart(4, '0')}`}
+            DÉTAILS DE LA TACHE N° {`${new Date().getFullYear().toString().slice(2)}${idTache?.toString().padStart(4, '0')}`}
           </h2>
           <Tooltip title="Suivant">
             <Button className="row-arrow" onClick={goToNext}>
               <RightCircleFilled className="icon-arrow" />
             </Button>
           </Tooltip>
-        </div> */}
+        </div>
         <div style={{display: 'flex', justifyContent:'space-between'}}>
           <h1 className="title_h1">
             <FileTextOutlined style={{ marginRight: '8px' }} />
