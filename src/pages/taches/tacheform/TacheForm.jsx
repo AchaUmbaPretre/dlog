@@ -255,7 +255,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Select
+                                {loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
                                     showSearch
                                     options={departement.map((item) => ({
                                         value: item.id_departement,
@@ -415,13 +416,15 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
+                                {loadingData ? <Skeleton.Input active={true} /> :                                 
+                                <Select
                                     placeholder="Sélectionnez un bâtiment"
                                     showSearch
                                     options={batiment?.map((item) => ({
                                         value: item.id_batiment,
                                         label: item.nom_batiment,
                                     }))}
+                                    optionFilterProp="label"
                                 />}
                             </Form.Item>
                             <Button 
