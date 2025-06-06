@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, notification } from 'antd';
-import { getFrequenceOne, postFrequence, putFrequence } from '../../../services/frequenceService';
+import { useEffect, useState } from 'react';
+import { Form, Input, Button, Card, notification } from 'antd';
 import { getCorpsMetierOne, postCorpsMetier, putCorpsMetier } from '../../../services/typeService';
 
 const CorpsMetierForm = ({idCorps,closeModal, fetchData}) => {
@@ -68,19 +67,21 @@ const CorpsMetierForm = ({idCorps,closeModal, fetchData}) => {
                 onFinishFailed={onFinishFailed}
                 style={{ maxWidth: 600, margin: '0 auto' }}
             >
-        <Form.Item
-            label="Corps de métier"
-            name="nom_corps_metier"
-            rules={[{ required: true, message: 'Veuillez entrer le nom du corps de métier' }]}
-        >
-            <Input placeholder="Entrez le nom du corps..." />
-        </Form.Item>
+                <Card>
+                    <Form.Item
+                        label="Corps de métier"
+                        name="nom_corps_metier"
+                        rules={[{ required: true, message: 'Veuillez entrer le nom du corps de métier' }]}
+                    >
+                        <Input placeholder="Entrez le nom du corps..." />
+                    </Form.Item>
 
-        <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-            Soumettre
-            </Button>
-        </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                            Soumettre
+                        </Button>
+                    </Form.Item>
+                </Card>
             </Form>
         </div>
     </div>
