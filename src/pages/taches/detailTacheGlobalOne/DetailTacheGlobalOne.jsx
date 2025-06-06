@@ -151,8 +151,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
 
   return (
     <div className="dataTableau">
-      <div className="title_row">
-         <div className="detail_tache_arrow">
+             <div className="detail_tache_arrow">
           <Tooltip title="Précédent">
             <Button className="row-arrow" onClick={goToPrevious}>
               <LeftCircleFilled className="icon-arrow" />
@@ -167,6 +166,7 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
             </Button>
           </Tooltip>
         </div>
+      <div className="title_row">
         <div style={{display: 'flex', justifyContent:'space-between'}}>
           <h1 className="title_h1">
             <FileTextOutlined style={{ marginRight: '8px' }} />
