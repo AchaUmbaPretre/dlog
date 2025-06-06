@@ -357,7 +357,6 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
                 <LockFilled />
               </div>
             </Tooltip>
-
           </div>
         </h1>
       </div>
