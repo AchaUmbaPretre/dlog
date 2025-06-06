@@ -24,6 +24,7 @@ import PermissionVille from './permissionVille/PermissionVille';
 import PermissionDeclaVille from './permissionDeclaVille/PermissionDeclaVille';
 import PermissionClient from './permissionClient/PermissionClient';
 import PermissionDepartAll from './permissionDepart/permissionDepartAll/PermissionDepartAll';
+import PermissionProjet from './permissionProjet/PermissionProjet';
 
 const { Search } = Input;
 
@@ -222,12 +223,12 @@ const Permission = () => {
             </Tabs.TabPane>
             <Tabs.TabPane tab= {
               <span>
-                <UnlockOutlined style={{ color: '#D2691E' }} /> Permission des projets
+                <UnlockOutlined style={{ color: '#000' }} /> Permission des projets
               </span>
                     } 
                   key="5"
             >
-                  <PermissionClient/>
+              <PermissionProjet/>
             </Tabs.TabPane>
 
           </Tabs>
