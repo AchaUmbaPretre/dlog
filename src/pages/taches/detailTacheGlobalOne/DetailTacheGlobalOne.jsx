@@ -1,7 +1,20 @@
 import { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
 import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
-import { InfoCircleOutlined, RightCircleFilled, LeftCircleFilled, LockFilled, LinkOutlined,FormOutlined,FileAddOutlined,ProjectOutlined, EditOutlined, DollarOutlined, CalendarOutlined, LeftCircleOutlined, RightCircleOutlined, HistoryOutlined, FileTextOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, 
+  LockFilled, 
+  LinkOutlined,
+  FormOutlined,
+  FileAddOutlined,
+  ProjectOutlined, 
+  EditOutlined, 
+  DollarOutlined, 
+  CalendarOutlined, 
+  LeftCircleOutlined, 
+  RightCircleOutlined, 
+  HistoryOutlined, 
+  FileTextOutlined, 
+  ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
 import ListeTracking from '../listeTracking/ListeTracking';
@@ -79,7 +92,6 @@ const DetailTacheGlobalOne = ({ initialIdTache }) => {
   const handleAssocierProjet = () => openModal('associe_projet');
   const handleInspection = () => openModal('add_inspection');
   const handlePermission = () => openModal('permission');
-
 
   const goToNextTache = () => {
     setIdTache((prevId) => prevId + 1);
