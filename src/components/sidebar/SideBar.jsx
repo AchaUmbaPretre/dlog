@@ -221,7 +221,6 @@ const SideBar = ({data}) => {
       </Menu>
     </Sider>
   </div>
-
   );
 };
 
