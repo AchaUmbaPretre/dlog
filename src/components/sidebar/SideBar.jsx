@@ -143,84 +143,84 @@ const SideBar = ({data}) => {
   };
 
   return (
-    <div
-  ref={sidebarRef}
-  className={`sidebar ${isOpen ? 'visible' : ''} ${isReduced ? 'sidebar-reduced' : ''}`}
->
-  <button className="sidebar-toggle" onClick={toggleSidebar}>
-    {isReduced ? (
-      <ArrowRightOutlined style={{ color: 'var(--text-secondary)' }} />
-    ) : (
-      <ArrowLeftOutlined style={{ color: 'var(--text-secondary)' }} />
-    )}
-  </button>
-
-  <Sider style={{ background: 'var(--bg)' }}>
-    <Menu
-      mode="inline"
-      defaultSelectedKeys={['/']}
-      openKeys={openKeys}
-      onOpenChange={onOpenChange}
-      style={{
-        background: 'var(--bg)',
-        color: 'var(--text)',
-      }}
-      theme="light"
-    >
-      <Item
-        key="/"
-        icon={<HomeOutlined style={{ color: 'var(--accent)' }} />}
-        onClick={toggleMenu}
-      >
-        <Link to="/">Accueil</Link>
-      </Item>
-
-      {data?.map((menuItem) =>
-        menuItem.subMenus && menuItem.subMenus[0]?.submenu_id ? (
-          <SubMenu
-            key={menuItem?.menu_id}
-            icon={renderIcon(menuItem.menu_icon)}
-            title={<span className="sidebarH3">{menuItem.menu_title}</span>}
-          >
-            {menuItem?.subMenus.map((subMenu) => (
-              <Item
-                key={`submenu-${menuItem.menu_id}-${subMenu?.submenu_id}`}
-                icon={renderIcon(subMenu.submenu_icon)}
-              >
-                <Link
-                  to={subMenu?.submenu_url}
-                  className="sidebarLink"
-                  onClick={toggleMenu}
-                >
-                  {subMenu.submenu_title}
-                </Link>
-              </Item>
-            ))}
-          </SubMenu>
-        ) : (
-          <Item key={menuItem.menu_id} icon={renderIcon(menuItem.menu_icon)}>
-            <Link
-              to={menuItem.menu_url}
-              className="sidebarLink"
-              onClick={toggleMenu}
-            >
-              {menuItem.menu_title}
-            </Link>
-          </Item>
-        )
+  <div
+    ref={sidebarRef}
+    className={`sidebar ${isOpen ? 'visible' : ''} ${isReduced ? 'sidebar-reduced' : ''}`}
+  >
+    <button className="sidebar-toggle" onClick={toggleSidebar}>
+      {isReduced ? (
+        <ArrowRightOutlined style={{ color: 'var(--text-secondary)' }} />
+      ) : (
+        <ArrowLeftOutlined style={{ color: 'var(--text-secondary)' }} />
       )}
+    </button>
 
-      <Item
-        key="logout"
-        icon={<LogoutOutlined style={{ color: 'var(--logout-color)' }} />}
-        className="logout-item"
-        onClick={Logout}
+    <Sider style={{ background: 'var(--bg)' }}>
+      <Menu
+        mode="inline"
+        defaultSelectedKeys={['/']}
+        openKeys={openKeys}
+        onOpenChange={onOpenChange}
+        style={{
+          background: 'var(--bg)',
+          color: 'var(--text)',
+        }}
+        theme="light"
       >
-        <Link>Déconnecter</Link>
-      </Item>
-    </Menu>
-  </Sider>
-</div>
+        <Item
+          key="/"
+          icon={<HomeOutlined style={{ color: 'var(--accent)' }} />}
+          onClick={toggleMenu}
+        >
+          <Link to="/">Accueil</Link>
+        </Item>
+
+        {data?.map((menuItem) =>
+          menuItem.subMenus && menuItem.subMenus[0]?.submenu_id ? (
+            <SubMenu
+              key={menuItem?.menu_id}
+              icon={renderIcon(menuItem.menu_icon)}
+              title={<span className="sidebarH3">{menuItem.menu_title}</span>}
+            >
+              {menuItem?.subMenus.map((subMenu) => (
+                <Item
+                  key={`submenu-${menuItem.menu_id}-${subMenu?.submenu_id}`}
+                  icon={renderIcon(subMenu.submenu_icon)}
+                >
+                  <Link
+                    to={subMenu?.submenu_url}
+                    className="sidebarLink"
+                    onClick={toggleMenu}
+                  >
+                    {subMenu.submenu_title}
+                  </Link>
+                </Item>
+              ))}
+            </SubMenu>
+          ) : (
+            <Item key={menuItem.menu_id} icon={renderIcon(menuItem.menu_icon)}>
+              <Link
+                to={menuItem.menu_url}
+                className="sidebarLink"
+                onClick={toggleMenu}
+              >
+                {menuItem.menu_title}
+              </Link>
+            </Item>
+          )
+        )}
+
+        <Item
+          key="logout"
+          icon={<LogoutOutlined style={{ color: 'var(--logout-color)' }} />}
+          className="logout-item"
+          onClick={Logout}
+        >
+          <Link>Déconnecter</Link>
+        </Item>
+      </Menu>
+    </Sider>
+  </div>
 
   );
 };
