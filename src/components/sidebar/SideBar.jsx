@@ -163,7 +163,7 @@ const SideBar = ({data}) => {
       onOpenChange={onOpenChange}
       style={{
         background: 'var(--bg)',
-        color: 'var(--text)',        // ✅ ici !
+        color: 'var(--text)',
       }}
       theme="light"
     >
