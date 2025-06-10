@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, notification, Table, Tag, Tooltip, Skeleton } from 'antd';
 import moment from 'moment';
 import {

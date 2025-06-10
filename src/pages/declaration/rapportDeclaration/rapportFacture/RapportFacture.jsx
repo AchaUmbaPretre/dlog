@@ -44,9 +44,8 @@ const RapportFacture = () => {
     const [ clientdetail, setClientDetail] = useState([]);
     const [ idClient, setIdClient ] = useState('');
     const [modalType, setModalType] = useState(null);
-const isDarkMode = localStorage.getItem('theme') === 'dark';
+    const isDarkMode = localStorage.getItem('theme') === 'dark';
 
-    console.log(isDarkMode)
     const closeAllModals = () => {
       setModalType(null);
     };

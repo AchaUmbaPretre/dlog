@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button, notification, Skeleton, Space, Table, Tooltip } from 'antd';
 import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import { getRapportComplet } from '../../../../services/templateService';
@@ -16,6 +16,8 @@ const RapportComplet = () => {
     const [data, setData] = useState([]);
     const [ detail, setDetail] = useState('');
     const scroll = { x: 400 };
+    const isDarkMode = localStorage.getItem('theme') === 'dark';
+
 
     const handleFilterChange = (newFilters) => {
         setFilteredDatas(newFilters); 
@@ -212,13 +214,16 @@ const RapportComplet = () => {
             ) : (
                 <div
                     style={{
-                            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-                            borderRadius: '8px',
-                            backgroundColor: '#fff',
-                            width: 'fit-content',
-                            margin: '20px 0',
-                            padding: '15px',
-                        }}
+                        boxShadow: isDarkMode
+                        ? '0 4px 10px rgba(255, 255, 255, 0.05)'
+                        : '0 4px 10px rgba(0, 0, 0, 0.1)',
+                        borderRadius: '8px',
+                        backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
+                        color: isDarkMode ? '#ddd' : '#000',
+                        width: 'fit-content',
+                        margin: '20px 0',
+                        padding: '15px',
+                            }}
                     >
                         <span
                             style={{
