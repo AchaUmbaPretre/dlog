@@ -188,7 +188,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           <h1 className="title_h1">
             <strong>Owner : {<Tag icon={<UserOutlined />} >{data.owner}</Tag>}</strong>
           </h1>
-          { data.demandeur ?
+          { data?.demandeur ?
           <h1 className="title_h1">
             <strong>Demandeur : {<Tag icon={<UserOutlined />} >{data.demandeur}</Tag>}</strong>
           </h1> : ''
