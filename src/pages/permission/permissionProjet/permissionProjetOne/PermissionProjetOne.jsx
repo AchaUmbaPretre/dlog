@@ -4,6 +4,7 @@ import { EyeOutlined, EditOutlined, DeleteOutlined, FormOutlined, UserOutlined, 
 import { useSelector } from 'react-redux';
 import { getProjetOne } from '../../../../services/projetService';
 import { getUser } from '../../../../services/userService';
+import { getPermissionsProjet, updatePermissionProjet } from '../../../../services/permissionService';
 
 const PermissionProjetOne = ({idProjet}) => {
     const [permissions, setPermissions] = useState({});
@@ -20,7 +21,7 @@ const PermissionProjetOne = ({idProjet}) => {
                 const { data: users } = await getUser();
                 setData(users);
     
-/*                 const permissionsData = await getPermissionsTache(idProjet);
+               const permissionsData = await getPermissionsProjet(idProjet);
     
                 const formattedPermissions = permissionsData.data.reduce((acc, permission) => {
                     acc[permission.id_user] = {
@@ -29,15 +30,15 @@ const PermissionProjetOne = ({idProjet}) => {
                         can_comment: Boolean(permission.can_comment),
                     };
                     return acc;
-                }, {}); */
+                }, {});
 
                 if(idProjet){
                     const {data} = await getProjetOne(idProjet)
                     setTitle(data.projet[0].nom_projet)
                 }
     
-/*                 setPermissions(formattedPermissions);
- */                setLoading(false);
+                setPermissions(formattedPermissions);
+                setLoading(false);
             } catch (error) {
                 notification.error({
                     message: 'Erreur de chargement',
@@ -51,18 +52,17 @@ const PermissionProjetOne = ({idProjet}) => {
     }, [idProjet]);
     
     
-/*     const handlePermissionChange = async (idUser, field, value) => {
+    const handlePermissionChange = async (idUser, field, value) => {
         try {
-            // Mettez à jour l'état local pour inclure `id_tache` et refléter immédiatement les modifications
             setPermissions((prevPermissions) => {
                 const updatedPermissions = {
                     ...prevPermissions,
                     [idUser]: {
                         ...prevPermissions[idUser],
-                        id_projet: idProjet, // Assurez-vous que `id_tache` est présent
-                        id_user: idUser,  // Assurez-vous que `id_user` est présent
+                        id_projet: idProjet,
+                        id_user: idUser,
                         user_cr: userId,
-                        [field]: value ? 1 : 0, // Mettez à jour le champ spécifique
+                        [field]: value ? 1 : 0,
                     },
                 };
     
@@ -81,13 +81,13 @@ const PermissionProjetOne = ({idProjet}) => {
                 description: `Une erreur est survenue lors de la mise à jour de la permission "${field}".`,
             });
         }
-    }; */
+    };
     
-/*     const updatePermissionsToServer = async (permissions) => {
+    const updatePermissionsToServer = async (permissions) => {
         try {
             // Envoyez toutes les permissions avec `id_tache` et `id_user` au serveur
-            await updatePermissionTache({
-                id_tache: permissions.id_tache,
+            await updatePermissionProjet({
+                id_projet: permissions.id_projet,
                 id_user: permissions.id_user,
                 user_cr: userId,
                 can_view: permissions.can_view || 0,
@@ -98,7 +98,6 @@ const PermissionProjetOne = ({idProjet}) => {
             console.error('Erreur lors de l’envoi des permissions au serveur:', error);
         }
     };
-     */
     
 
     const columns = [
@@ -127,46 +126,46 @@ const PermissionProjetOne = ({idProjet}) => {
             title: <span style={{ color: '#52c41a', textAlign:'center' }}>Voir <EyeOutlined /></span>,
             dataIndex: 'can_view',
             key: 'can_view',
-/*             render: (text, record) => (
+           render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_utilisateur]?.can_view || false}
                     onChange={value => handlePermissionChange(record.id_utilisateur, 'can_view', value)}
                 />
-            ), */
+            ),
         },
         {
             title: <span style={{ color: '#1890ff', textAlign:'center' }}>Modifier <EditOutlined /></span>,
             dataIndex: 'can_edit',
             key: 'can_edit',
-/*             render: (text, record) => (
+           render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_utilisateur]?.can_edit || false}
                     onChange={value => handlePermissionChange(record.id_utilisateur, 'can_edit', value)}
                 />
-            ), */
+            ),
         },
         {
             title: <span style={{ color: '#000', textAlign:'center' }}>Ajouter <FormOutlined /></span>,
             dataIndex: 'can_comment',
             key: 'can_comment',
-/*             render: (text, record) => (
+           render: (text, record) => (
                 <Switch
                     checked={permissions[record.id_utilisateur]?.can_comment || false}
                     onChange={value => handlePermissionChange(record.id_utilisateur, 'can_comment', value)}
                 />
-            ), */
+            ),
         },
         {
             title: <span style={{ color: 'red' }}>Supprimer <DeleteOutlined /></span>,
             dataIndex: 'can_delete',
             key: 'can_delete',
             align: 'center',
-/*             render: (text, record) => (
+            render: (text, record) => (
                 <Switch
-                    checked={permissions[record.id_template]?.can_delete || false}
-                    onChange={(value) => handlePermissionChange(record.id_template, idUser, 'can_delete', value)}
+                    checked={permissions[record.id_utilisateur]?.can_delete || false}
+                    onChange={(value) => handlePermissionChange(record.id_utilisateur, 'can_delete', value)}
                 />
-            ), */
+            ),
         },
     ];
     
