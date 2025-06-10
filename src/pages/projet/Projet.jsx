@@ -256,10 +256,11 @@ const Projet = () => {
       key: 'action',
       width: '10%',
       render: (text, record) => (
+        
           <Space>
             <Tooltip title="Voir détails">
               <Button
-                disabled={role !== 'Admin' || !record.can_view}
+                disabled={ role == 'Admin' ? false : record.can_view === 0}
                 icon={<EyeOutlined />}
                 onClick={() => handleViewDetails(record.id_projet)}
                 aria-label="View budget details"
@@ -305,7 +306,7 @@ const Projet = () => {
             </Popover>
             <Tooltip title="Modifier">
               <Button
-                disabled={role !== 'Admin' || !record.can_edit}
+                disabled={ role == 'Admin' ? false : record.can_edit === 0}
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
                 onClick={() => handleEdit(record.id_projet)}
@@ -320,7 +321,7 @@ const Projet = () => {
                 cancelText="Non"
               >
                 <Button
-                  disabled={role !== 'Admin' || !record.can_delete}
+                  disabled={role == 'Admin' ? false : record.can_delete === 0}
                   icon={<DeleteOutlined />}
                   style={{ color: 'red' }}
                   aria-label="Delete budget"
