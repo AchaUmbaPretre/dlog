@@ -16,15 +16,14 @@ import { deletePutNotification, getNotification } from '../../services/tacheServ
 const TopBar = () => {
   const user = useSelector((state) => state.user?.currentUser);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-  const role = useSelector((state) => state.user?.currentUser?.role);
   const navigate = useNavigate();
   const { isOpen, toggleMenu } = useMenu();
   const { t, i18n } = useTranslation();
   const [notifications, setNotifications] = useState([]);
   const [visible, setVisible] = useState(false);
   const [selectedNotif, setSelectedNotif] = useState(null);
-    const [theme, setTheme] = useState(() => {
-    // Initialiser avec le thème du navigateur ou localStorage
+  const [theme, setTheme] = useState(() => {
+  
   const storedTheme = localStorage.getItem('theme');
     if (storedTheme) return storedTheme;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -40,7 +39,6 @@ const TopBar = () => {
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
-
 
   const closeModal = () => {
     setSelectedNotif(null);
@@ -78,7 +76,6 @@ const TopBar = () => {
     return () => clearInterval(interval);
   }, [userId]);
   
-
   const handleLogout = async () => {
     try {
       await logout();
@@ -144,7 +141,6 @@ const TopBar = () => {
     />
   );
   
-
   return (
     <div className="topbar">
       <div className="topbar-left" onClick={() => navigate('/')} role="button" tabIndex={0}>
@@ -159,11 +155,11 @@ const TopBar = () => {
           visible={visible}
           onVisibleChange={setVisible}
         >
-            <Badge count={notifications.length} overflowCount={99}>
-              <div className="topbar-icons">
-                <BellOutlined aria-label="Notifications" />
-              </div>
-            </Badge> 
+          <Badge count={notifications.length} overflowCount={99}>
+            <div className="topbar-icons">
+              <BellOutlined aria-label="Notifications" />
+            </div>
+          </Badge> 
         </Popover>
         <hr />
         <div className="topbar-icons">

@@ -32,7 +32,6 @@ const TopBar = () => {
     setIdNotif(id)
   }
 
-
   useEffect(() => {
     const fetchData = async() => {
       try {
