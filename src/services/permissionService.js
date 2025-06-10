@@ -75,4 +75,13 @@ export const getPermissionsDeclaration = async (userId) => {
 
 export const updatePermissionDeclaration = async (data) => {
   return axios.post(`${DOMAIN}/api/permission/permission_declaration`, data)
-}
+};
+
+//Permission projet
+export const getPermissionsProjet = async (userId) => {
+  return axios.get(`${DOMAIN}/api/permission/permission_projet?userId=${userId}`);
+};
+
+export const updatePermissionProjet = async (data) => {
+  return axios.post(`${DOMAIN}/api/permission/permission_projet`, data)
+};
