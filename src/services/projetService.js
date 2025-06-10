@@ -6,17 +6,17 @@ export const getProjetCount = async () => {
   return axios.get(`${DOMAIN}/api/projet/count`);
 };
 
-export const getProjet = async () => {
-    return axios.get(`${DOMAIN}/api/projet`);
-  };
+export const getProjet = async (role, userId) => {
+  return axios.get(`${DOMAIN}/api/projet?role${role}&userId=${userId}`);
+};
 
 export const getProjetOneF = async (id) => {
-    return axios.get(`${DOMAIN}/api/projet/oneF?id_projet=${id}`);
-  };
+  return axios.get(`${DOMAIN}/api/projet/oneF?id_projet=${id}`);
+};
 
 export const getProjetOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/projet/one?id_projet=${id}`);
-  };
+  return axios.get(`${DOMAIN}/api/projet/one?id_projet=${id}`);
+};
 
 //Doc 
 export const getProjetDoc = async () => {

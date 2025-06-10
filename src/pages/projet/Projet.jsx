@@ -30,6 +30,7 @@ const Projet = () => {
   const [form] = Form.useForm();
   const scroll = { x: 400 };
   const role = useSelector((state) => state.user?.currentUser.role);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 15,
@@ -41,7 +42,8 @@ const Projet = () => {
 
   const handleListeTache = (id) => {
     openModal('list_tache', id)
-  }
+  };
+
   const handleViewDetails = (id) => {
     openModal('Detail', id)
   };
@@ -53,7 +55,7 @@ const Projet = () => {
   const handleAddBesoinLimit = (id) => {
     setIdProjet(id)
     setIsUpdateVisible(true)
-  }
+  };
 
   const handleAddTache = (id) => {
     openModal('AddTache', id)
@@ -120,7 +122,7 @@ const Projet = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getProjet();
+        const { data } = await getProjet(role, userId);
         setData(data);
         setLoading(false);
       } catch (error) {
