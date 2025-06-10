@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './topBar.scss';
 import { useNavigate } from 'react-router-dom';
 import { Popover, Button, Divider, message, Select, Badge, List, notification, Modal, Typography, Space } from 'antd';
-import { BellOutlined, DashOutlined, MailOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { BellOutlined, MoonOutlined, SunOutlined, DashOutlined, MailOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png';
 import { useSelector } from 'react-redux';
 import { logout } from '../../services/authService';
@@ -199,8 +199,8 @@ const TopBar = () => {
           <div className="line"></div>
           <div className="line"></div>
         </div>
-        <div onClick={toggleTheme}>
-          theme
+        <div onClick={toggleTheme} className="topbar-icons">
+          {theme === 'light' ? <MoonOutlined /> : <SunOutlined />}
         </div>
         <div className="topBar-logout">
           <Popover
