@@ -44,8 +44,9 @@ const RapportFacture = () => {
     const [ clientdetail, setClientDetail] = useState([]);
     const [ idClient, setIdClient ] = useState('');
     const [modalType, setModalType] = useState(null);
-    
+const isDarkMode = localStorage.getItem('theme') === 'dark';
 
+    console.log(isDarkMode)
     const closeAllModals = () => {
       setModalType(null);
     };
@@ -345,13 +346,16 @@ const RapportFacture = () => {
             ) : (
                 <div
                 style={{
-                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: isDarkMode
+                      ? '0 4px 10px rgba(255, 255, 255, 0.05)'
+                      : '0 4px 10px rgba(0, 0, 0, 0.1)',
                     borderRadius: '8px',
-                    backgroundColor: '#fff',
+                    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
+                    color: isDarkMode ? '#ddd' : '#000',
                     width: 'fit-content',
                     margin: '20px 0',
                     padding: '15px',
-                }}
+                  }}
                 >
                     <span
                         style={{

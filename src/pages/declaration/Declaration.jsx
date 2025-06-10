@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs, Popover } from 'antd';
 import { MenuOutlined, EditOutlined, LockOutlined, PieChartOutlined, EyeOutlined, DeleteOutlined, CalendarOutlined, DownOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, DollarOutlined, BarcodeOutlined, ScheduleOutlined, PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import { deletePutDeclaration, getDeclaration } from '../../services/templateService';

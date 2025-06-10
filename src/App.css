@@ -106,3 +106,23 @@ body,.app-rows{
   border-color: #1677ff;
   color: #fff;
 }
+
+[data-theme='dark'] .ant-tabs {
+  background-color: #1e1e1e;
+  color: #eee;
+}
+
+[data-theme='dark'] .ant-tabs-tab {
+  color: #aaa;
+  background-color: #2a2a2a;
+}
+
+[data-theme='dark'] .ant-tabs-tab.ant-tabs-tab-active {
+  color: #1890ff;
+  background-color: #121212;
+  border-color: #1890ff #1890ff #121212;
+}
+
+[data-theme='dark'] .ant-tabs-nav::before {
+  border-bottom: 1px solid #333;
+}
