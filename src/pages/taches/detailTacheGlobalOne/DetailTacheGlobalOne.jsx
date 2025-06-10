@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './detailTacheGlobalOne.scss';
-import { Card, Row, Col, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
+import { Card, Row, Col, Tag, Badge, Typography, Modal, Divider, Skeleton, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined, 
   LockFilled, 
   LinkOutlined,
@@ -15,7 +15,9 @@ import { InfoCircleOutlined,
   HistoryOutlined, 
   FileTextOutlined, 
   LeftCircleFilled,
+  PushpinFilled,
   RightCircleFilled,
+  UserOutlined,
   ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -182,6 +184,12 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           <h1 className="title_h1">
             <FileTextOutlined style={{ marginRight: '8px' }} />
             <strong>Titre : </strong> {data?.nom_tache || <Skeleton.Input active />}
+          </h1>
+          <h1 className="title_h1">
+            <strong>Owner : {<Tag icon={<UserOutlined />} >{data.owner}</Tag>}</strong>
+          </h1>
+          <h1 className="title_h1">
+            <strong>Statut : {<Tag icon={<PushpinFilled />} >{data.statut}</Tag>}</strong>
           </h1>
           <h1 className="title_h1">
             <CalendarOutlined style={{ marginRight: '8px' }} />
