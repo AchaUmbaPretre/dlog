@@ -80,7 +80,6 @@ const SideBar = ({data}) => {
     };
   }, [handleClickOutside]);
   
-
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find(key => !openKeys.includes(key));
     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
