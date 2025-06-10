@@ -102,13 +102,10 @@ const Declaration = () => {
 };
 
 useEffect(() => {
-  // 🔹 Attendre 5 minutes avant le premier appel
   const initialTimeout = setTimeout(() => {
       checkAndUnlockStaleRecords();
 
       const interval = setInterval(checkAndUnlockStaleRecords, 300000);
-
-      // Nettoyage : Arrêter l'intervalle si le composant est démonté
       return () => clearInterval(interval);
   }, 300000);
 

@@ -6,6 +6,7 @@ import 'moment/locale/fr';
 import { statusIcons } from '../../../utils/prioriteIcons';
 import { getProjet } from '../../../services/projetService';
 import PermissionProjetOne from './permissionProjetOne/PermissionProjetOne';
+import { useSelector } from 'react-redux';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -21,11 +22,13 @@ const PermissionProjet = () => {
     const [searchValue, setSearchValue] = useState('');
     const [idProjet, setIdProjet] = useState(null);
     const [modalType, setModalType] = useState(null);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const role = useSelector((state) => state.user?.currentUser?.role);
 
 
     const fetchData = async () => {
           try {
-            const { data } = await getProjet();
+            const { data } = await getProjet(role, userId);
             setData(data);
             setLoading(false);
           } catch (error) {

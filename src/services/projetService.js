@@ -7,7 +7,7 @@ export const getProjetCount = async () => {
 };
 
 export const getProjet = async (role, userId) => {
-  return axios.get(`${DOMAIN}/api/projet?role${role}&userId=${userId}`);
+  return axios.get(`${DOMAIN}/api/projet?role=${role}&userId=${userId}`);
 };
 
 export const getProjetOneF = async (id) => {

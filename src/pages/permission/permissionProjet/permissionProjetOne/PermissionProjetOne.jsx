@@ -14,6 +14,7 @@ const PermissionProjetOne = ({idProjet}) => {
     const [title, setTitle] = useState('');
     const scroll = { x: 400 };
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const role = useSelector((state) => state.user?.currentUser?.role);
 
     useEffect(() => {
         const fetchPermissions = async () => {
