@@ -15,7 +15,6 @@ import ListeTacheProjet1 from './listeTacheProjet/ListeTacheProjet1';
 import ProjetDoc from './projetDoc/ProjetDoc';
 import ProjetDocForm from './projetDoc/ProjetDocForm';
 import { useSelector } from 'react-redux';
-import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
 moment.locale('fr');
 
 const { Search } = Input;
@@ -36,10 +35,6 @@ const Projet = () => {
     current: 1,
     pageSize: 15,
   });
-
-  const currentUrl = window.location.pathname;
-  const access = getSubMenuAccessByUrl(currentUrl, data);
-  
 
   const handleEdit = (id) => {
     openModal('edit', id)
@@ -264,7 +259,7 @@ const Projet = () => {
           <Space>
             <Tooltip title="Voir détails">
               <Button
-                disabled={access?.can_read === 0}
+                disabled={!record.can_view}
                 icon={<EyeOutlined />}
                 onClick={() => handleViewDetails(record.id_projet)}
                 aria-label="View budget details"
@@ -310,7 +305,7 @@ const Projet = () => {
             </Popover>
             <Tooltip title="Modifier">
               <Button
-                disabled={access?.can_edit === 0}
+                disabled={!record.can_edit}
                 icon={<EditOutlined />}
                 style={{ color: 'green' }}
                 onClick={() => handleEdit(record.id_projet)}
@@ -325,7 +320,7 @@ const Projet = () => {
                 cancelText="Non"
               >
                 <Button
-                  disabled={access?.can_delete === 0}
+                  disabled={!record.can_delete}
                   icon={<DeleteOutlined />}
                   style={{ color: 'red' }}
                   aria-label="Delete budget"

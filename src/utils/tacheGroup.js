@@ -44,7 +44,7 @@ export const filteredData = (tasks, searchValue) => {
 export const getSubMenuAccessByUrl = (currentUrl, datas) => {
     for (let menu of datas) {
         // Vérifier si l'URL correspond à un sous-menu
-        const submenu = menu.subMenus.find(sub => sub.submenu_url === currentUrl);
+        const submenu = menu?.subMenus.find(sub => sub.submenu_url === currentUrl);
         
         if (submenu) {
             return {
