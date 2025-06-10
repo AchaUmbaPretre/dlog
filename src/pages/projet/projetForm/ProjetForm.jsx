@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Form, Input, DatePicker, InputNumber, Select, Button,Skeleton, Row, Col, notification, Space, Modal, Tooltip } from 'antd';
+import { Form, Input, DatePicker, Card, InputNumber, Select, Button,Skeleton, Row, Col, notification, Space, Modal, Tooltip } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
@@ -135,171 +135,172 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
             </div>
             <div className="controle_wrapper">
                 <Form layout="vertical" onFinish={onFinish} form={form} initialValues={{ budget: 0 }}>
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Titre"
-                                name="nom_projet"
-                                rules={[{ required: true, message: 'Le nom du projet est requis' }]}
-                            >
-                                {loading ? <Skeleton.Input active /> : <Input placeholder="Entrez le titre du projet" />}
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Chef de Projet"
-                                name="chef_projet"
-                                rules={[{ required: true, message: 'Le chef de projet est requis' }]}
-                            >
-                                {loading ? <Skeleton.Input active /> : 
+                    <Card>
+                        <Row gutter={16}>
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Titre"
+                                    name="nom_projet"
+                                    rules={[{ required: true, message: 'Le nom du projet est requis' }]}
+                                >
+                                    {loading ? <Skeleton.Input active /> : <Input placeholder="Entrez le titre du projet" />}
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Chef de Projet"
+                                    name="chef_projet"
+                                    rules={[{ required: true, message: 'Le chef de projet est requis' }]}
+                                >
+                                    {loading ? <Skeleton.Input active /> : 
+                                        <Select
+                                        placeholder="Sélectionnez un chef de projet"
+                                        showSearch
+                                        options={users?.map((chef) => ({
+                                            value: chef.id_utilisateur,
+                                            label: `${chef.nom} - ${chef.prenom}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlUser}
+                                >
+                                </Button>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Date de Début"
+                                    name="date_debut"
+                                    rules={[{ required: true, message: 'La date de début est requise' }]}
+                                    initialValue={moment()}
+                                >
+                                    {loading ? <Skeleton.Input active /> : <DatePicker placeholder="Sélectionnez la date de début" style={{ width: '100%' }} />}
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Date de Fin"
+                                    name="date_fin"
+                                    rules={[{ required: true, message: 'La date de fin est requise' }]}
+                                >
+                                    {loading ? <Skeleton.Input active /> : <DatePicker placeholder="Sélectionnez la date de fin" style={{ width: '100%' }} />}
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Budget"
+                                    name="budget"
+                                    rules={[{ required: false }]}
+                                >
+                                    {loading ? <Skeleton.Input active /> :                             
+                                    <InputNumber
+                                        placeholder="Entrez le budget"
+                                        style={{ width: '100%' }}
+                                        min={0}
+                                        formatter={(value) => `${value} $`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                        parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+                                    />}
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Client"
+                                    name="client"
+                                    rules={[{ required: false, message: 'Le client est requis' }]}
+                                >
+                                    {loading ? <Skeleton.Input active /> :                             
                                     <Select
-                                    placeholder="Sélectionnez un chef de projet"
-                                    showSearch
-                                    options={users?.map((chef) => ({
-                                        value: chef.id_utilisateur,
-                                        label: `${chef.nom} - ${chef.prenom}`,
-                                    }))}
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined />}
-                                onClick={handlUser}
-                            >
-                            </Button>
-                        </Col>
-                    </Row>
+                                        mode="multiple"
+                                        placeholder="Sélectionnez un client"
+                                        showSearch
+                                        options={client?.map((item) => ({
+                                            value: item.id_client,
+                                            label: item.nom,
+                                        }))}
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlClient}
+                                >
+                                </Button>
+                            </Col>
 
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Date de Début"
-                                name="date_debut"
-                                rules={[{ required: true, message: 'La date de début est requise' }]}
-                                initialValue={moment()}
-                            >
-                                {loading ? <Skeleton.Input active /> : <DatePicker placeholder="Sélectionnez la date de début" style={{ width: '100%' }} />}
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Date de Fin"
-                                name="date_fin"
-                                rules={[{ required: true, message: 'La date de fin est requise' }]}
-                            >
-                                {loading ? <Skeleton.Input active /> : <DatePicker placeholder="Sélectionnez la date de fin" style={{ width: '100%' }} />}
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                            <Col span={24}>
+                                <Form.Item
+                                    label="Entité"
+                                    name="id_batiment"
+                                    rules={[{ required: false }]}
+                                >
+                                    {loading ? <Skeleton.Input active /> :                             
+                                    <Select
+                                        mode="multiple"
+                                        placeholder="Sélectionnez un bâtiment"
+                                        showSearch
+                                        options={batiment?.map((item) => ({
+                                            value: item.id_batiment,
+                                            label: item.nom_batiment,
+                                        }))}
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined />}
+                                    onClick={handlBatiment}
+                                >
+                                </Button>
+                            </Col>
 
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Budget"
-                                name="budget"
-                                rules={[{ required: false }]}
-                            >
-                                {loading ? <Skeleton.Input active /> :                             
-                                <InputNumber
-                                    placeholder="Entrez le budget"
-                                    style={{ width: '100%' }}
-                                    min={0}
-                                    formatter={(value) => `${value} $`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                    parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-                                />}
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                label="Client"
-                                name="client"
-                                rules={[{ required: false, message: 'Le client est requis' }]}
-                            >
-                                {loading ? <Skeleton.Input active /> :                             
-                                <Select
-                                    mode="multiple"
-                                    placeholder="Sélectionnez un client"
-                                    showSearch
-                                    options={client?.map((item) => ({
-                                        value: item.id_client,
-                                        label: item.nom,
-                                    }))}
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined />}
-                                onClick={handlClient}
-                            >
-                            </Button>
-                        </Col>
-                    </Row>
+                            <Col span={24}>
+                                <Form.Item
+                                    label="Description"
+                                    name="description"
+                                    rules={[{ required: false, message: 'La description est requis' }]}
+                                >
+                                    {loading ? <Skeleton.Input active /> : 
+                                        <FroalaEditor
+                                            tag='textarea'
+                                                model={editorContent}
+                                                onModelChange={handleEditorChange}
+                                                config={{
+                                                toolbarButtons: [
+                                                        'bold', 
+                                                        'italic', 
+                                                        'underline', 
+                                                        '|', 
+                                                        'insertLink', 
+                                                        'insertImage', 
+                                                        'insertHR', 
+                                                        '|', 
+                                                        'undo', 
+                                                        'redo', 
+                                                        '|', 
+                                                        'paragraphFormat',
+                                                        'align',
+                                                        'insertTable',
+                                                        'clearFormatting'
+                                                    ],
+                                                    height: 200,
+                                                    placeholder: 'Entrez votre description ici...'
+                                                }}
+                                        />
+                                    }
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </Card>
 
-                    <Row gutter={16}>
-                        <Col span={24}>
-                            <Form.Item
-                                label="Entité"
-                                name="id_batiment"
-                                rules={[{ required: false }]}
-                            >
-                                {loading ? <Skeleton.Input active /> :                             
-                                <Select
-                                    mode="multiple"
-                                    placeholder="Sélectionnez un bâtiment"
-                                    showSearch
-                                    options={batiment?.map((item) => ({
-                                        value: item.id_batiment,
-                                        label: item.nom_batiment,
-                                    }))}
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined />}
-                                onClick={handlBatiment}
-                            >
-                            </Button>
-                        </Col>
-                        <Col span={24}>
-                            <Form.Item
-                                label="Description"
-                                name="description"
-                                rules={[{ required: false, message: 'La description est requis' }]}
-                            >
-                                {loading ? <Skeleton.Input active /> : 
-                                    <FroalaEditor
-                                        tag='textarea'
-                                            model={editorContent}
-                                            onModelChange={handleEditorChange}
-                                            config={{
-                                            toolbarButtons: [
-                                                    'bold', 
-                                                    'italic', 
-                                                    'underline', 
-                                                    '|', 
-                                                    'insertLink', 
-                                                    'insertImage', 
-                                                    'insertHR', 
-                                                    '|', 
-                                                    'undo', 
-                                                    'redo', 
-                                                    '|', 
-                                                    'paragraphFormat',
-                                                    'align',
-                                                    'insertTable',
-                                                    'clearFormatting'
-                                                ],
-                                                height: 200,
-                                                placeholder: 'Entrez votre description ici...'
-                                            }}
-                                    />
-                                }
-                            </Form.Item>
-                        </Col>
-                    </Row>
                     { idProjet === '' && 
                     <div>
                         <Tooltip title='Ajouter article'>
