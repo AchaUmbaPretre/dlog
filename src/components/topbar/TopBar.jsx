@@ -195,7 +195,7 @@ const TopBar = () => {
           <div className="line"></div>
           <div className="line"></div>
         </div>
-        <div onClick={toggleTheme} className="topbar-icons">
+        <div onClick={toggleTheme} className="topbar-icons" style={{cursor:'pointer'}}>
           {theme === 'light' ? <MoonOutlined /> : <SunOutlined />}
         </div>
         <div className="topBar-logout">

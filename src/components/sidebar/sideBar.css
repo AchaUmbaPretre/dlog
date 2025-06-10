@@ -10,7 +10,7 @@
   transition: width 0.3s ease, padding 0.3s ease, transform 0.3s ease;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* OK dans les deux thèmes */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* Scrollbar styles */
