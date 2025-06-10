@@ -23,6 +23,24 @@ const TopBar = () => {
   const [notifications, setNotifications] = useState([]);
   const [visible, setVisible] = useState(false);
   const [selectedNotif, setSelectedNotif] = useState(null);
+    const [theme, setTheme] = useState(() => {
+    // Initialiser avec le thème du navigateur ou localStorage
+  const storedTheme = localStorage.getItem('theme');
+    if (storedTheme) return storedTheme;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return prefersDark ? 'dark' : 'light';
+  })
+
+  
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
 
   const closeModal = () => {
     setSelectedNotif(null);
@@ -180,6 +198,9 @@ const TopBar = () => {
           <div className="line"></div>
           <div className="line"></div>
           <div className="line"></div>
+        </div>
+        <div onClick={toggleTheme}>
+          theme
         </div>
         <div className="topBar-logout">
           <Popover

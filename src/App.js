@@ -382,7 +382,7 @@ function App() {
         <PacmanLoader color="rgb(131, 159, 241)" loading={isLoading} height={15} radius={2} margin={2} />
       </div>
     ) : (
-      <div>
+      <div className="app">
         <RouterProvider router={router} />
       </div>
     )}

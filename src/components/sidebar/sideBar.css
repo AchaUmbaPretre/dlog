@@ -4,13 +4,13 @@
   height: calc(100vh - 57px);
   position: sticky;
   top: 57px;
-  border-right: 1px solid #cfcfcf;
-  background: #fff;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
   padding: 10px;
   transition: width 0.3s ease, padding 0.3s ease, transform 0.3s ease;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* OK dans les deux thèmes */
 }
 
 /* Scrollbar styles */
@@ -19,21 +19,21 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--scroll-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #c2c2c2;
+  background-color: var(--scroll-thumb);
   border-radius: 10px;
-  border: 1px solid #f1f1f1;
+  border: 1px solid var(--scroll-track);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #8d8d8d;
+  background-color: var(--scroll-thumb-hover);
 }
 
 .sidebar-toggle {
-  background:#f8f8f8f1;
+  background: var(--bg-alt);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -46,15 +46,15 @@
   top: 20px;
   right: -20px;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  color: #000;
+  color: var(--text);
   font-size: 15px;
   z-index: 1001;
 }
 
 .sidebar-toggle:hover {
-  background-color: #f0f0f0;
+  background-color: var(--scroll-track);
   transform: scale(1.1);
-  color: #000;
+  color: var(--text);
 }
 
 .ant-menu-item,
@@ -62,6 +62,12 @@
   font-size: 13px;
   padding: 10px;
   transition: background-color 0.3s ease, color 0.3s ease;
+  color: var(--text) !important;
+}
+
+.ant-menu-item-selected {
+  background-color: var(--bg-alt) !important;
+  color: var(--accent) !important;
 }
 
 .ant-menu-item:hover .ant-menu-item-icon,
@@ -69,11 +75,11 @@
   transform: scale(1.1);
 }
 
-.ant-menu-item:hover{
+.ant-menu-item:hover {
   transform: scale(1.1);
 }
 
-/* Styles pour la sidebar réduite */
+/* Sidebar réduite */
 .sidebar-reduced {
   width: 80px;
   padding: 0 10px;
@@ -99,11 +105,11 @@
 }
 
 .logout-item:hover {
-  background-color: rgba(245, 34, 45, 0.1);
-  color: #f5222d;
+  background-color: var(--logout-hover);
+  color: var(--logout-color);
 }
 
-/* Styles pour les petits écrans */
+/* Petits écrans */
 @media screen and (max-width: 414px) {
   .sidebar {
     position: fixed;

@@ -7,11 +7,25 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.app-rows{
+/* App.css */
+
+:root {
+  --bg: #fff;
+  --text: #000;
+}
+
+[data-theme='dark'] {
+  --bg: #121212;
+  --text: #f5f5f5;
+}
+
+body,.app-rows{
   position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg);
+  color: var(--text);
 }
 .app-container {
   position: relative;
@@ -24,7 +38,8 @@
   overflow: hidden;
   flex: 5;
   width: 100%;
-  background: #f8f8f8f1;
+  background-color: var(--bg);
+  color: var(--text);
   padding: 20px;
 }
 

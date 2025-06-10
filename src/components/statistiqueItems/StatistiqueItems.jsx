@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './statistiqueItems.scss'
 import { BankOutlined, ScheduleOutlined, ProjectOutlined } from '@ant-design/icons';
 import CountUp from 'react-countup';
