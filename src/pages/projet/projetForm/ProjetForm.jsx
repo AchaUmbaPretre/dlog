@@ -163,7 +163,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                 />}
                             </Form.Item>
                             <Button 
-                                style={{ marginBottom: '5px' }}
+                                style={{ width:'19px', height:'19px' }}
                                 icon={<PlusOutlined />}
                                 onClick={handlUser}
                             >
@@ -229,7 +229,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                 />}
                             </Form.Item>
                             <Button 
-                                style={{ marginBottom: '5px' }}
+                                style={{ width:'19px', height:'19px' }}
                                 icon={<PlusOutlined />}
                                 onClick={handlClient}
                             >
@@ -257,7 +257,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                 />}
                             </Form.Item>
                             <Button 
-                                style={{ marginBottom: '10px' }}
+                                style={{ width:'19px', height:'19px' }}
                                 icon={<PlusOutlined />}
                                 onClick={handlBatiment}
                             >
