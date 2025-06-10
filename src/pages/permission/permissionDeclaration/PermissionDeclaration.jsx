@@ -264,7 +264,6 @@ const PermissionDeclaration = () => {
         },
       ]
     },
-  
     // Groupe Manutention
     {
       title: 'Manutention',
@@ -469,9 +468,9 @@ const PermissionDeclaration = () => {
         }
     };
 
-        useEffect(() => {
-          fetchData();
-        }, [searchValue]);
+    useEffect(() => {
+      fetchData();
+    }, [searchValue]);
 
   const toggleColumnVisibility = (columnName, e) => {
     e.stopPropagation();

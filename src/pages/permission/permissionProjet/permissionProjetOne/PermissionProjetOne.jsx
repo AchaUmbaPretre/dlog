@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Input, notification, Switch, Tag, Table, Space } from 'antd';
-import { EyeOutlined, EditOutlined, FormOutlined, UserOutlined, UnlockOutlined } from '@ant-design/icons';
+import { EyeOutlined, EditOutlined, DeleteOutlined, FormOutlined, UserOutlined, UnlockOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getProjetOne } from '../../../../services/projetService';
 import { getUser } from '../../../../services/userService';
@@ -153,6 +153,18 @@ const PermissionProjetOne = ({idProjet}) => {
                 <Switch
                     checked={permissions[record.id_utilisateur]?.can_comment || false}
                     onChange={value => handlePermissionChange(record.id_utilisateur, 'can_comment', value)}
+                />
+            ), */
+        },
+        {
+            title: <span style={{ color: 'red' }}>Supprimer <DeleteOutlined /></span>,
+            dataIndex: 'can_delete',
+            key: 'can_delete',
+            align: 'center',
+/*             render: (text, record) => (
+                <Switch
+                    checked={permissions[record.id_template]?.can_delete || false}
+                    onChange={(value) => handlePermissionChange(record.id_template, idUser, 'can_delete', value)}
                 />
             ), */
         },
