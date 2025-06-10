@@ -42,6 +42,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
     const [totalCost, setTotalCost] = useState(0);
     const [modalType, setModalType] = useState(null);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const isDarkMode = localStorage.getItem('theme') === 'dark';
 
     const handlDepartement = () => openModal('AddDepartement');
     const handOwner = () => openModal('AddOwner');
@@ -187,7 +188,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
     };
 
     return (
-        <div className="controle_form" style={{background:'#fff', width:'100%'}}>
+        <div className="controle_form" style={{background: isDarkMode ? '#1e1e1e' : '#fff' }}>
             <div className="controle_title_rows">
                 <h2 className='controle_h2'>{ idTache ? 'Modifier une tâche' : idProjet ? `Insérer une nouvelle tache dans le projet  "${projetName}"` : 'Ajouter une nouvelle tâche'}</h2>                
             </div>

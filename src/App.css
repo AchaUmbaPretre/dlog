@@ -126,3 +126,50 @@ body,.app-rows{
 [data-theme='dark'] .ant-tabs-nav::before {
   border-bottom: 1px solid #333;
 }
+
+[data-theme='dark'] {
+  .ant-modal-content {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+  }
+
+  .ant-modal-header {
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #333;
+  }
+
+  .ant-modal-title {
+    color: #f0f0f0;
+  }
+
+  .ant-modal-close-x {
+    color: #ccc;
+  }
+
+  .ant-modal-body {
+    background-color: #1e1e1e;
+  }
+}
+
+[data-theme='dark'] {
+  .ant-card {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    border-color: #333;
+  }
+
+  .ant-card-head {
+    background-color: #2a2a2a;
+    border-bottom: 1px solid #444;
+  }
+
+  .ant-card-head-title {
+    color: #f0f0f0;
+  }
+
+  .ant-card-body {
+    color: #ccc;
+  }
+}
+
+
