@@ -2,8 +2,6 @@ import { Button, Modal, notification, Typography } from 'antd';
 import { ExclamationCircleTwoTone, ExclamationCircleOutlined, CheckOutlined,  InfoCircleOutlined, CheckCircleTwoTone, FormOutlined, ToolOutlined, EyeOutlined } from '@ant-design/icons'
 import { putDemandeVehiculeAnnuler, putDemandeVehiculeRetour } from '../services/charroiService';
 
-const { Text } = Typography;
-
 export const handleRepair = (openModal, record) => {
     const alreadyValidated = !!record.date_validation;
   
