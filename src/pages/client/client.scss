@@ -1,107 +1,120 @@
 @import '../../style.scss';
 
-.client{
+.client {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+
+  @include mobileXR {
+    display: flex;
+  }
+
+  .client-wrapper {
     position: relative;
+    background: var(--card-bg);
+    padding: 20px;
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     width: 100%;
     max-width: 100%;
-    @include mobileXR{
-        display: flex;
+    overflow: hidden;
+    border-radius: 5px;
+
+    .client-rows {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      @include mobileXR {
+        flex-direction: column;
       }
-    .client-wrapper{
-        position: relative;
-        background: #fff;
-        padding: 20px;
-        box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden;
-        border-radius: 5px;
-        .client-rows{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            @include mobileXR{
-            flex-direction: column;
-            }
-        }
-        .client-row{
-            display: flex;
-            align-items: center;
-            gap: 5px;;
-            margin-bottom: 20px;
-            padding: 8px 15px;
-            width: max-content;
-            border-radius: 5px;
-            box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
-            .client-row-icon{
-                border-right: 1px solid #a8a8a8ee;
-                .client-icon{
-                    padding-right: 8px;
-                    font-size: 1.2rem;
-                    color: #292929ee;
-                }
-            }
-            .client-h2{
-                font-size: .9rem;
-                font-weight: 300;
-                color: #292929ee;
-            }
-        }
-        .client-arrow{
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 10px 0;
-          .row-arrow{
-            .icon-arrow{
-              font-size: 1.2rem;
-              color: rgb(0, 119, 255);
-              cursor: pointer;
-            }
-          }
-        }
-        .client-actions{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            gap: 20px;
-            .client-rows-right {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                overflow-x: auto;
-                scrollbar-width: none;
-                
-                &::-webkit-scrollbar {
-                  display: none;
-                }
-                
-                .client-export {
-                  display: none;
-                }
-              }
-              
-        }
-        .tableau_client{
-            position: relative;
-            width: 100%;
-            overflow-x: auto;
-            .tableau_x{
-                width: 100%;
-                overflow-x: auto;
-            }
-        }
     }
+
+    .client-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 20px;
+      padding: 8px 15px;
+      width: max-content;
+      border-radius: 5px;
+      background: var(--card-bg);
+      box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+
+      .client-row-icon {
+        border-right: 1px solid var(--divider-color);
+
+        .client-icon {
+          padding-right: 8px;
+          font-size: 1.2rem;
+          color: var(--text-secondary);
+        }
+      }
+
+      .client-h2 {
+        font-size: 0.9rem;
+        font-weight: 300;
+        color: var(--text-secondary);
+      }
+    }
+
+    .client-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+
+      .row-arrow {
+        .icon-arrow {
+          font-size: 1.2rem;
+          color: var(--primary-color);
+          cursor: pointer;
+        }
+      }
+    }
+
+    .client-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 20px;
+
+      .client-rows-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        overflow-x: auto;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        .client-export {
+          display: none;
+        }
+      }
+    }
+
+    .tableau_client {
+      position: relative;
+      width: 100%;
+      overflow-x: auto;
+
+      .tableau_x {
+        width: 100%;
+        overflow-x: auto;
+      }
+    }
+  }
 }
 
 @media print {
-    .no-print {
-      display: none;
-    }
-  
-    #tableau_client {
-      display: block;
-    }
+  .no-print {
+    display: none;
   }
-  
+
+  #tableau_client {
+    display: block;
+  }
+}
