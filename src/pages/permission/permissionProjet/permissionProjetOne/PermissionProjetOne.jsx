@@ -28,6 +28,7 @@ const PermissionProjetOne = ({idProjet}) => {
                         can_view: Boolean(permission.can_view),
                         can_edit: Boolean(permission.can_edit),
                         can_comment: Boolean(permission.can_comment),
+                        can_delete: Boolean(permission.can_delete)
                     };
                     return acc;
                 }, {});
@@ -93,6 +94,7 @@ const PermissionProjetOne = ({idProjet}) => {
                 can_view: permissions.can_view || 0,
                 can_edit: permissions.can_edit || 0,
                 can_comment: permissions.can_comment || 0,
+                can_delete: permissions.can_delete || 0
             });
         } catch (error) {
             console.error('Erreur lors de l’envoi des permissions au serveur:', error);
