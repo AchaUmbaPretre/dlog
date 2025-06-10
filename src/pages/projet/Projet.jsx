@@ -304,6 +304,7 @@ const Projet = () => {
                 />
               </Tooltip>
             </Popover>
+
             <Tooltip title="Modifier">
               <Button
                 disabled={ role == 'Admin' ? false : record.can_edit === 0}
@@ -313,6 +314,7 @@ const Projet = () => {
                 aria-label="Edit department"
               />
             </Tooltip>
+            
             <Tooltip title="Supprimer">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce budget ?"
