@@ -1,5 +1,3 @@
-// SecureRoute.jsx
-import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useMenu } from '../context/MenuProvider';
 import { useSelector } from 'react-redux';
