@@ -174,6 +174,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
+            form.resetFields();
             navigate('/tache')
             closeModal();
             fetchData();
