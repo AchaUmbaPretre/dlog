@@ -216,6 +216,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                             {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Nom..." />}
                             </Form.Item>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="date_debut"
@@ -231,6 +232,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 {loadingData ? <Skeleton.Input active={true} /> : <DatePicker style={{width:'100%'}} />}
                             </Form.Item>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="date_fin"
