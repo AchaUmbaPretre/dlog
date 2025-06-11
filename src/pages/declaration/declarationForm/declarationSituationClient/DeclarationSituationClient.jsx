@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Table, notification, Tag, Space } from 'antd';
 import { ScheduleOutlined,CalendarOutlined, DollarOutlined, HomeOutlined, FileTextOutlined, BarcodeOutlined, EnvironmentOutlined  } from '@ant-design/icons';
 import { getDeclarationClientOneAll } from '../../../../services/templateService';

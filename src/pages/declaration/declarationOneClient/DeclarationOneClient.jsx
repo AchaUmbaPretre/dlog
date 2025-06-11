@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Menu, Tag, Dropdown, Button, Select, Skeleton, Space } from 'antd';
 import { CalendarOutlined,MenuOutlined,DownOutlined,EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
@@ -373,7 +373,7 @@ const DeclarationOneClient = ({idClient, idTemplate, periode, idDeclarations }) 
                     ?
                     <>
                         <div className="row-title" style={{display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%', marginBottom:'15px', borderBottom:'2px solid #e8e8e8', paddingBottom:'10px'}}>
-                            <h2 className="table-title" style={{fontSize:'17px', fontWeight:'600', color:'#333'}}>Declaration {nameTemplate} </h2>
+                            <h2 className="table-title" style={{fontSize:'17px', fontWeight:'600', color:'#333'}}>Template {nameTemplate} </h2>
                             <div style={{display:'flex', gap:'10px'}}>
                                 <Dropdown overlay={menus} trigger={['click']}>
                                     <Button icon={<MenuOutlined />} className="ant-dropdown-link">

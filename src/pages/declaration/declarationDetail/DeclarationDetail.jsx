@@ -1,5 +1,5 @@
 import { Card, Divider, Descriptions, notification } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getDeclarationOne } from '../../../services/templateService';
 import { HomeOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
@@ -8,7 +8,6 @@ const DeclarationDetail = ({ idDeclaration }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const role = useSelector((state) => state.user?.currentUser.role);
-  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   const fetchDatas = async () => {
     try {

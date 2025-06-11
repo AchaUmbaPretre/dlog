@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
+import { useEffect, useState } from 'react';
+import { Table, Input, Menu, notification, Tag, Space, Tooltip, Popconfirm } from 'antd';
 import { CalendarOutlined, EnvironmentOutlined, HomeOutlined, FileTextOutlined, ToolOutlined, DollarOutlined, BarcodeOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getDeclaration5derniers } from '../../../services/templateService';
