@@ -327,23 +327,23 @@ const InspectionGenDetail = ({ inspectionId }) => {
         </Modal>
 
         <Modal
-            title=""
-            visible={modalType === 'Reparer'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1000}
-            centered
+          title=""
+          visible={modalType === 'Reparer'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
         >
-            <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionIds} />
+          <ReparationForm closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionIds} />
         </Modal>
 
         <Modal
-            title=""
-            visible={modalType === 'Document'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1000}
-            centered
+          title=""
+          visible={modalType === 'Document'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
         >
           <InspectionGenDoc closeModal={() => setModalType(null)} fetchData={fetchDataInsp} subInspectionId={inspectionIds} />
         </Modal>
@@ -364,8 +364,8 @@ const InspectionGenDetail = ({ inspectionId }) => {
             visible={modalType === 'Detail'}
             onCancel={closeAllModals}
             footer={null}
-            width={900}
-            centered
+          width={900}
+          centered
         >
           <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchDataInsp} idReparation={null} inspectionId={inspectionId} />
         </Modal>
