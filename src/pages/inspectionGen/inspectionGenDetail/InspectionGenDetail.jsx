@@ -45,23 +45,23 @@ const InspectionGenDetail = ({ inspectionId }) => {
         }
       }, []);
 
-      useEffect(() => {
-        fetchDataInsp()
-      }, [])
+    useEffect(() => {
+      fetchDataInsp()
+    }, [])
 
     const closeAllModals = () => {
         setModalType(null);
     };
 
-  const openModal = (type, inspectionId = '') => {
-      closeAllModals();
-      setModalType(type);
-      setInspectionIds(inspectionId)
-  };
+    const openModal = (type, inspectionId = '') => {
+        closeAllModals();
+        setModalType(type);
+        setInspectionIds(inspectionId)
+    };
 
-  const handleTracking = (id) => openModal('DetailSuivi', id);
+    const handleTracking = (id) => openModal('DetailSuivi', id);
 
-  useEffect(() => {
+    useEffect(() => {
         setIdInspections(inspectionId)
     }, [inspectionId]);;
 
