@@ -169,10 +169,12 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
         setIsLoading(true);
         try {
             if(idTache) {
-                await putTache(idTache, dataAll)
+                await putTache(idTache, dataAll);
+                message.success({ content: "La tache a été mise a jour avec succès.", key: loadingKey });
             }
             else{
-                await postTache(dataAll)
+                await postTache(dataAll);
+                message.success({ content: "La tache a été enregistrée avec succès.", key: loadingKey });
             }
             notification.success({
                 message: 'Succès',
