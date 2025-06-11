@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Input, Button, Upload, Select, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { getTacheDocOne, postTacheDoc, putTacheDoc } from '../../../services/tacheService';
+import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 
@@ -10,6 +11,7 @@ const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   useEffect(() => {
     if (idTacheDoc) {
@@ -29,6 +31,7 @@ const TacheDoc = ({ idTache, fetchData, closeModal, idTacheDoc }) => {
     formData.append('nom_document', values.nom_document);
     formData.append('type_document', values.type_document);
     formData.append('id_tache', idTache);
+    formData.append('user_cr', userId)
   
     if (values.chemin_document && values.chemin_document.length > 0) {
       values.chemin_document.forEach((file) => {
