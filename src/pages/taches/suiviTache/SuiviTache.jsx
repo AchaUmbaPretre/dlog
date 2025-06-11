@@ -5,6 +5,7 @@ import { getTypes } from '../../../services/typeService';
 import { postSuiviTache } from '../../../services/suiviService';
 import { getTacheOne } from '../../../services/tacheService';
 import { colorMapping } from '../../../utils/prioriteIcons';
+import { useSelector } from 'react-redux';
 
 
 const SuiviTache = ({idTache, closeModal, fetchData}) => {
@@ -13,6 +14,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
     const [users, setUsers] = useState([]);
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const handleError = (message) => {
         notification.error({
@@ -48,7 +50,8 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
         try {
             await postSuiviTache({
                 ...values,
-                id_tache: idTache
+                id_tache: idTache,
+                user_cr: userId
             });
             notification.success({
                 message: 'Succès',
