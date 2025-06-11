@@ -50,7 +50,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
     }, [])
 
     const closeAllModals = () => {
-        setModalType(null);
+      setModalType(null);
     };
 
     const openModal = (type, inspectionId = '') => {
@@ -197,6 +197,7 @@ const InspectionGenDetail = ({ inspectionId }) => {
           </Menu>
         );
     };
+    
     const goToNext = () => {
         setIdInspections((prevId) => {
             const currentIndex = idValides.indexOf(prevId);
