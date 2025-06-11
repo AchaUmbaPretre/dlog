@@ -59,9 +59,9 @@ const InspectionGenDetail = ({ inspectionId }) => {
       setInspectionIds(inspectionId)
   };
 
-    const handleTracking = (id) => openModal('DetailSuivi', id);
+  const handleTracking = (id) => openModal('DetailSuivi', id);
 
-    useEffect(() => {
+  useEffect(() => {
         setIdInspections(inspectionId)
     }, [inspectionId]);;
 
