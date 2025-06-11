@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Form,Card, Input, Space, Row, Col, Select, notification, DatePicker, Skeleton, Modal } from 'antd';
+import { Button, Form,Card, message, Input, Space, Row, Col, Select, notification, DatePicker, Skeleton, Modal } from 'antd';
 import { getDepartement } from '../../../services/departementService';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getFrequence } from '../../../services/frequenceService';
@@ -155,6 +155,10 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
     };
 
     const onFinish = async (values) => {
+
+        const loadingKey = 'loadingTache';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+            
         const dataAll = {
             ...values,
             id_control : idControle,
