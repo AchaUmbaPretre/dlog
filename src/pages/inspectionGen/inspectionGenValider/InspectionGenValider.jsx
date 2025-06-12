@@ -38,7 +38,7 @@ const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
               setManoeuvreData(manoeuvreInit);
               setBudgetValide(budgetInit);
 
-              // Optionnel : précocher les lignes modifiées ?
+              // Optionnel : précocher les lignes modifiées
               const selectedKeys = validationData.map(i => i.id_sub_inspection_gen);
               const selectedRows = data.filter(d => selectedKeys.includes(d.id_sub_inspection_gen));
               setSelectedRowKeys(selectedKeys);
