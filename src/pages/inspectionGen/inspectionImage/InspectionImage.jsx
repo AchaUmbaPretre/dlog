@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Card, Col, Upload, message, notification, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { icons } from '../../../utils/prioriteIcons';
@@ -85,8 +85,8 @@ const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) =
       form.resetFields();
       setPreviewImage(null);
       setFileList([]);
-      if (fetchData) fetchData();
-      if (closeModal) closeModal();
+      fetchData();
+      closeModal();
   
     } catch (err) {
       console.error("Erreur onFinish :", err);

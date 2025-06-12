@@ -1069,12 +1069,12 @@ const InspectionGen = () => {
         </Modal>
 
         <Modal
-            title=""
-            visible={modalType === 'Detail'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={900}
-            centered
+          title=""
+          visible={modalType === 'Detail'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
         >
           <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchDataInsp} idReparation={null} inspectionId={inspectionId} />
         </Modal>
