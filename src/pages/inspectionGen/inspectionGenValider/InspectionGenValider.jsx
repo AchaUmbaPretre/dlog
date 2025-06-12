@@ -22,8 +22,28 @@ const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
         try {
             const { data } = await getSubInspection(inspectionId);
             setData(data)
+
+
             if(modelTypes === 'updatedValider') {
-              const { data : d } = await getInspectionValideAll(inspectionId)
+              const { data : validationData } = await getInspectionValideAll(inspectionId);
+
+              const manoeuvreInit = {};
+              const budgetInit = {};
+
+              validationData?.forEach(item => {
+                manoeuvreInit[item.id_sub_inspection_gen] = item.manoeuvre || 0;
+                budgetInit[item.id_sub_inspection_gen] = item.budget_valide || 0;
+              });
+
+              setManoeuvreData(manoeuvreInit);
+              setBudgetValide(budgetInit);
+
+              // Optionnel : précocher les lignes modifiées ?
+              const selectedKeys = validationData.map(i => i.id_sub_inspection_gen);
+              const selectedRows = data.filter(d => selectedKeys.includes(d.id_sub_inspection_gen));
+              setSelectedRowKeys(selectedKeys);
+              setSelectedInspectionIds(selectedKeys);
+              setSelectedRows(selectedRows);
             }        
 
         } catch (error) {
@@ -142,6 +162,8 @@ const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
               )
             }
         ];
+
+        console.log(selectedRows, budgetValide, manoeuvreData)
           
         const handleSubmitValidation = async () => {
           try {
