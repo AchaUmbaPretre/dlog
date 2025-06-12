@@ -625,20 +625,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                             icon={<MinusCircleOutlined />}
                                             onClick={() => {
                                                 remove(name);
-
-                                                setUploadedImages(prev => {
-                                                    const newState = { ...prev };
-                                                    delete newState[name];
-                                                    return newState;
-                                                });
-
-                                                setIconPositionsMap(prev => {
-                                                    const newState = { ...prev };
-                                                    delete newState[name];
-                                                    return newState;
-                                                });
                                             }}
-
                                         >
                                         </Button>
                                     </Col>
@@ -653,7 +640,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                     icon={<PlusCircleOutlined />}
                                     style={{ width: '100%' }}
                                 >
-                                    Signaler un problème technique
+                                    Mets les réferences de paiements
                                 </Button>
                             </Form.Item>
                         </>
