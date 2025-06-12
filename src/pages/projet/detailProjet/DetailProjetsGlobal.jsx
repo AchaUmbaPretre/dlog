@@ -56,10 +56,6 @@ const DetailProjetsGlobal = ({ idProjet }) => {
     openModal('tracking');
   };
 
-  const handleBesoin = () => {
-    openModal('besoin');
-  };
-
   const handleDoc = () => {
     openModal('detail-doc')
   }
@@ -253,7 +249,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         visible={modalType === 'tracking'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={1080}
         centered
       >
         <ListeTacheProjet1 idProjet={idProjet} fetchDatas={fetchData} closeModal={()=>setModalType(null)}/>

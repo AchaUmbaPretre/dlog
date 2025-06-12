@@ -14,8 +14,6 @@ import FormUsers from '../../users/formUsers/FormUsers';
 import ArticleForm from '../../article/articleForm/ArticleForm';
 import ClientForm from '../../client/clientForm/ClientForm';
 
-const { Option } = Select;
-
 const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     const [form] = Form.useForm();
     const [client, setClient] = useState([]);
@@ -26,7 +24,6 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
     const [editorContent, setEditorContent] = useState('');
     const [modalType, setModalType] = useState(null);
 
-
     const handlBatiment = () => openModal('AddBatiment');
     const handlArticle = () => openModal('AddArticle');
     const handlUser = () => openModal('AddUser');
@@ -35,12 +32,12 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
 
     const closeAllModals = () => {
         setModalType(null);
-      };
+    };
       
-      const openModal = (type) => {
+    const openModal = (type) => {
         closeAllModals();
         setModalType(type);
-      };
+    };
 
 
     const handleEditorChange = (content) => {

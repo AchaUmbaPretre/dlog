@@ -247,7 +247,7 @@ const Projet = () => {
         sortDirections: ['descend', 'ascend'],
         render: (text,record) => 
           <Tag icon={<CalendarOutlined />} color="blue">
-            {moment(text).format('DD-MM-yyyy')}
+            {moment( text).format('DD-MM-yyyy')}
           </Tag>,
     
     },
@@ -314,7 +314,7 @@ const Projet = () => {
                 aria-label="Edit department"
               />
             </Tooltip>
-            
+
             <Tooltip title="Supprimer">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer ce budget ?"
@@ -420,7 +420,7 @@ const Projet = () => {
         visible={modalType === 'Detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={1050}
+        width={1055}
         centered
       >
         <DetailProjetsGlobal idProjet={idProjet} />

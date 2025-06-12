@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton } from 'antd';
 import { 
   ExportOutlined, WarningOutlined,MoreOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
@@ -145,7 +145,7 @@ const ListeTacheProjet1 = ({ idProjet, fetchDatas }) => {
 
 useEffect(() => {
     fetchData(filteredDatas);
-}, [filteredDatas]);  
+}, [filteredDatas, idProjet]);  
 
 const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
