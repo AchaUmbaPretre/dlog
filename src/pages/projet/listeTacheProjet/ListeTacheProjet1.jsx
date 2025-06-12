@@ -166,10 +166,9 @@ const handFilter = () => {
 }
 
 const handleEdit = (idTache) => {
-    setIdTache(idTache);
-    setIsModalVisible(true);
-
-  };
+  setIdTache(idTache);
+  setIsModalVisible(true);
+};
 
   const handleAllDetails = (idTache) => {
     openModal('Alldetail', idTache);
