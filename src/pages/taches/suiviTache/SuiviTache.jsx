@@ -85,6 +85,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                     onFinish={onFinish}
                 >
                     <Row gutter={24} justify="center">
+
                         <Col span={24}>
                             <Form.Item
                                 name="commentaire"
@@ -99,6 +100,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                                 <Input.TextArea style={{ height: '70px' }} placeholder="Commentaire..." />
                             </Form.Item>
                         </Col>
+
                         <Col span={24}>
                             <Form.Item
                                 name="effectue_par"
@@ -121,6 +123,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={24}>
                             <Form.Item
                                 label="Pourcentage d'Avancement"
@@ -136,6 +139,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={24}>
                             <Form.Item
                                 name="est_termine"
@@ -145,6 +149,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                             </Form.Item>
 
                         </Col>
+
                         <Col span={24}>
                             <Form.Item
                                 name="status"
@@ -169,6 +174,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                                 />
                             </Form.Item>
                         </Col>
+
                         <Col span={24}>
                             <Form.Item style={{ marginTop: '10px' }}>
                                 <Space className="button-group">
@@ -181,6 +187,7 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                                 </Space>
                             </Form.Item>
                         </Col>
+
                     </Row>
                 </Form>
             </div>
