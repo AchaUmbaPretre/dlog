@@ -64,6 +64,7 @@ const ListeTacheProjet1 = ({ idProjet, fetchDatas }) => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [statistique, setStatistique] = useState([]);
+  const [allIds, setAllIds] = useState([]);
   const [total, setTotal] = useState([]);
   const searchInput = useRef(null);
 
@@ -109,6 +110,8 @@ const fetchData = async (filters) => {
 
     try {
         const response = await getProjetTacheOne(idProjet);
+
+        setAllIds([...new Set(response?.data?.taches?.map(d => d.id_tache) || [])]);
 
         const groupedData = response.data.reduce((acc, curr) => {
             const found = acc.find(item => item.id_tache === curr.id_tache);
@@ -175,7 +178,6 @@ const handleEdit = (idTache) => {
   };
 
   const handleViewDetails = (idTache) => {
-    message.info(`Affichage des détails de la tâche : ${idTache}`);
     openModal('detail', idTache);
   };
 
@@ -965,7 +967,7 @@ const handleEdit = (idTache) => {
         width={1050}
         centered
       >
-        <DetailTacheGlobalOne initialIdTache={idTache} />
+        <DetailTacheGlobalOne initialIdTache={idTache} allIds={allIds} />
       </Modal>
 
       <Modal
