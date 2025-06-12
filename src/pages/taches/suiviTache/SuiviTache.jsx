@@ -187,7 +187,6 @@ const SuiviTache = ({idTache, closeModal, fetchData}) => {
                                 </Space>
                             </Form.Item>
                         </Col>
-
                     </Row>
                 </Form>
             </div>
