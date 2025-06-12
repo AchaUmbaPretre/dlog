@@ -7,7 +7,7 @@ import { putInspectionGenImage } from '../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import html2canvas from 'html2canvas';
 
-const InspectionImage = ({ closeModal, fetchData, subInspectionId, vehicule }) => {
+const InspectionImage = ({ closeModal, fetchData,  subInspectionId, vehicule }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
