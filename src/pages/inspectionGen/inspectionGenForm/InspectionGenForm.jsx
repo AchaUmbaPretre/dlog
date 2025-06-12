@@ -554,6 +554,111 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                         </>
                         )}
                     </Form.List>
+
+                    <Form.List name="ref">
+                        {(fields, { add, remove }) => (
+                        <>
+                            <Divider className='title_row'>Réference des paiements</Divider>
+                            {fields.map(({ key, name, ...restField }) => (
+                            <Card style={{marginBottom:'10px'}}>
+                                <Row key={key} gutter={12} align="middle">
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'reference']}
+                                            label="Réference"
+                                            rules={[
+                                                { required: true, message: 'Veuillez fournir une réference...' },
+                                            ]}
+                                        >
+                                            <Input placeholder="REF-1234-XYZ" />
+                                        </Form.Item>
+                                    </Col>
+
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'montant']}
+                                            label="Budget ($)"
+                                            rules={[{ required: false, message: 'Veuillez fournir le montant...' },]}
+                                        >
+                                            <InputNumber min={0} placeholder="Saisir le budget..." style={{width:'100%'}}/>
+                                        </Form.Item>
+                                    </Col>
+
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="date_paiement"
+                                            label="Date paiement"
+                                            initialValue={moment()}
+                                            rules={[
+                                                {
+                                                    required: false,
+                                                    message: 'Veuillez fournir une date...',
+                                                },
+                                            ]}
+                                        >
+
+                                            <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col xs={24} md={8}>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'commentaire']}
+                                            label="Commentaire"
+                                            rules={[
+                                                {
+                                                    required: false,
+                                                    message: 'Veuillez fournir un commentaire...',
+                                                }
+                                            ]}
+                                        >
+                                            {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'50px'}}/>}
+                                        </Form.Item>
+                                    </Col>
+
+                                    <Col xs={24} md={2}>
+                                        <Button
+                                            type="text"
+                                            danger
+                                            icon={<MinusCircleOutlined />}
+                                            onClick={() => {
+                                                remove(name);
+
+                                                setUploadedImages(prev => {
+                                                    const newState = { ...prev };
+                                                    delete newState[name];
+                                                    return newState;
+                                                });
+
+                                                setIconPositionsMap(prev => {
+                                                    const newState = { ...prev };
+                                                    delete newState[name];
+                                                    return newState;
+                                                });
+                                            }}
+
+                                        >
+                                        </Button>
+                                    </Col>
+
+                                </Row>
+                            </Card>
+                            ))}
+                            <Form.Item>
+                                <Button
+                                    type="dashed"
+                                    onClick={() => add()}
+                                    icon={<PlusCircleOutlined />}
+                                    style={{ width: '100%' }}
+                                >
+                                    Signaler un problème technique
+                                </Button>
+                            </Form.Item>
+                        </>
+                        )}
+                    </Form.List>
                     <div style={{ marginTop: '20px' }}>
                         <Button size='large' type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
                             Soumettre
