@@ -588,7 +588,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
 
                                     <Col xs={24} md={8}>
                                         <Form.Item
-                                            name="date_paiement"
+                                            name={[name, 'date_paiement']}
                                             label="Date paiement"
                                             initialValue={moment()}
                                             rules={[
