@@ -137,7 +137,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                 <Form layout="vertical" onFinish={onFinish} form={form} initialValues={{ budget: 0 }}>
                     <Card>
                         <Row gutter={24}>
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Titre"
                                     name="nom_projet"
@@ -147,7 +147,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Chef de Projet"
                                     name="chef_projet"
@@ -172,7 +172,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                 </Button>
                             </Col>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Date de Début"
                                     name="date_debut"
@@ -183,7 +183,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Date de Fin"
                                     name="date_fin"
@@ -236,7 +236,7 @@ const ProjetForm = ({ idProjet,fetchData,closeModal }) => {
                                 </Button>
                             </Col>
 
-                            <Col xs={24} md={24}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Entité"
                                     name="id_batiment"
