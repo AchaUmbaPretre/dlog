@@ -1014,6 +1014,17 @@ const InspectionGen = () => {
         </Modal>
 
         <Modal
+          title=""
+          visible={modalType === 'updatedValider'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
+        >
+            <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchDataInsp} inspectionId={inspectionId} />
+        </Modal>
+
+        <Modal
             title=""
             visible={modalType === 'DetailSuivi'}
             onCancel={closeAllModals}

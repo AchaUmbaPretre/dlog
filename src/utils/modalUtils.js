@@ -164,7 +164,7 @@ export const handleValider = (openModal, record) => {
                 style={{ backgroundColor: '#52c41a', color: 'white', borderRadius: 4 }}
                 onClick={() => {
                   modal.destroy();
-                  openModal('AddValider', record.id_inspection_gen);
+                  openModal('updatedValider', record.id_inspection_gen);
                   notification.success({
                     message: 'Nouvelle validation',
                     description: 'Vous pouvez créer une nouvelle validation pour cette inspection.',
