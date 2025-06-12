@@ -6,14 +6,16 @@ import { Rnd } from 'react-rnd';
 import { putInspectionGenImage } from '../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import html2canvas from 'html2canvas';
+import { useMenu } from '../../../context/MenuProvider';
 
-const InspectionImage = ({ closeModal, fetchData,  subInspectionId, vehicule }) => {
+const InspectionImage = ({ closeModal, subInspectionId, vehicule }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const [iconPositionsMap, setIconPositionsMap] = useState({ image: [] }); // keyed by field name "image"
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const { fetchDataInsp } = useMenu();
 
   const handleImageChange = ({ fileList: newFileList }) => {
     const limitedFileList = newFileList.slice(-1);
@@ -85,7 +87,7 @@ const InspectionImage = ({ closeModal, fetchData,  subInspectionId, vehicule }) 
       form.resetFields();
       setPreviewImage(null);
       setFileList([]);
-      fetchData();
+      fetchDataInsp();
       closeModal();
   
     } catch (err) {
