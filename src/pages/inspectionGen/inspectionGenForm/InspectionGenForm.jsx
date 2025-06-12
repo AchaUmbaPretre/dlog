@@ -110,12 +110,10 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
             formData.append('id_statut_vehicule', values.id_statut_vehicule);
             formData.append('kilometrage', values.kilometrage);
             formData.append('user_cr', userId);
+
     
             // Récupération de l'élément image-container
             const imageContainer = document.querySelector('.image-container');
-/*             if (!imageContainer) {
-                throw new Error("L'élément .image-container n'a pas été trouvé dans le DOM.");
-            } */
     
             // Traitement des réparations
             for (let index = 0; index < values.reparations.length; index++) {
@@ -157,6 +155,15 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                     const finalFile = new File([blob], `image_${index}.png`, { type: 'image/png' });
                     formData.append(`img_${index}`, finalFile);
                 }
+            }
+
+            if (values.ref && values.ref.length > 0) {
+                values.ref.forEach((item, index) => {
+                    formData.append(`ref[${index}][reference]`, item.reference || '');
+                    formData.append(`ref[${index}][montant]`, item.montant || 0);
+                    formData.append(`ref[${index}][date_paiement]`, item.date_paiement?.format('YYYY-MM-DD') || '');
+                    formData.append(`ref[${index}][commentaire]`, item.commentaire || '');
+                });
             }
     
             if(idSubInspectionGen) {
