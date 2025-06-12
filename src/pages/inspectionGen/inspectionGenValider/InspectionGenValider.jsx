@@ -275,7 +275,7 @@ const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
                         onClick={handleSubmitValidation}
                         disabled={selectedRows.length === 0}
                     >
-                        Valider les réparations
+                      { modelTypes === 'updatedValider' ? 'Modifier les réparations' : 'Valider les réparations'}
                     </Button>
 
                 </Card>
