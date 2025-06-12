@@ -156,6 +156,8 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
 
     const onFinish = async (values) => {
 
+        if (isLoading) return;
+
         const loadingKey = 'loadingTache';
         message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
             
@@ -185,7 +187,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             closeModal();
             fetchData();
             fetchDatas();
-            form.resetFields();
             setEditorContent();
         } catch (error) {
             console.log(error)
@@ -632,6 +633,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                     </Card>
                 </Form>
             </div>
+
             <Modal
                 title=""
                 visible={modalType === 'AddDepartement'}
@@ -642,6 +644,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             >
                 <DepartementForm id_departement={''} closeModal={() => setModalType(null)} fetchData={fetchDataAll } />
             </Modal>
+
             <Modal
                 title=""
                 visible={modalType === 'AddOwner'}
@@ -652,6 +655,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             >
                 <FormUsers userId={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
+            
             <Modal
                 title=""
                 visible={modalType === 'AddDemandeur'}
