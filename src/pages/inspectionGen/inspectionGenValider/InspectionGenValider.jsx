@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Table, Card, Button,  Skeleton } from 'antd';
 import './inspectionGenValider.scss'
-import { getSubInspection, postInspectionValide } from '../../../services/charroiService';
+import { getInspectionValideAll, getSubInspection, postInspectionValide } from '../../../services/charroiService';
 import { notification } from 'antd';
 import { useSelector } from 'react-redux';
 import { useMenu } from '../../../context/MenuProvider';
 
-const InspectionGenValider = ({ closeModal, inspectionId }) => {
+const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
     const [data, setData] = useState([]);
     const scroll = { x: 400 };
     const [loading, setLoading] = useState(true);
@@ -22,6 +22,9 @@ const InspectionGenValider = ({ closeModal, inspectionId }) => {
         try {
             const { data } = await getSubInspection(inspectionId);
             setData(data)
+            if(modelTypes === 'updatedValider') {
+              const { data : d } = await getInspectionValideAll(inspectionId)
+            }        
 
         } catch (error) {
             notification.error({
