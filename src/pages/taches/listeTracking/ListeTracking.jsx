@@ -4,6 +4,7 @@ import { PlusCircleOutlined, FileTextOutlined, DeleteOutlined } from '@ant-desig
 import { getSuiviTacheOneV } from '../../../services/suiviService';
 import moment from 'moment';
 import SuiviTache from '../suiviTache/SuiviTache';
+import { statusIcons } from '../../../utils/prioriteIcons';
 
 const { Search } = Input;
 
@@ -84,7 +85,16 @@ const ListeTracking = ({ idTache }) => {
       width: "4%"
     },
     { title: 'Titre', dataIndex: 'nom_tache', key: 'nom_tache', render: (text) => <Tag color="green">{text}</Tag> },
-    { title: 'Statut', dataIndex: 'nom_type_statut', key: 'nom_type_statut', render: (text) => <Tag color="blue">{text}</Tag> },
+    { title: 'Statut', dataIndex: 'nom_type_statut', key: 'nom_type_statut', 
+      render: (text) => {
+        const { icon, color } = statusIcons[text] || {};
+        return (
+          <Space>
+            <Tag icon={icon} color={color}>{text}</Tag>
+          </Space>
+        );
+      }
+     },
     { title: 'Commentaire', dataIndex: 'commentaire', key: 'commentaire', render: (text) => <Tag color="blue">{text}</Tag> },
     { title: 'Date', dataIndex: 'date_suivi', key: 'date_suivi', render: (text) => <Tag color='purple'>{moment(text).format('LL')}</Tag> },
     {
@@ -127,21 +137,18 @@ const ListeTracking = ({ idTache }) => {
             </Button>
           </div>
         </div>
-        {loading ? (
-          <Skeleton active />
-        ) : (
-          <Table
-            columns={columns}
-            dataSource={data}
-            onChange={(pagination) => setPagination(pagination)}
-            pagination={pagination}
-            rowKey="id"
-            bordered
-            size="small"
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-          />
-        )}
+        <Table
+          columns={columns}
+          dataSource={data}
+          onChange={(pagination) => setPagination(pagination)}
+          pagination={pagination}
+          rowKey="id"
+          bordered
+          size="small"
+          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+        />
       </div>
+      
       <Modal
         title=""
         visible={modalType === 'suivi'}
