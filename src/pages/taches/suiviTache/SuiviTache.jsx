@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Input, Space, Row, Col, Select, notification, InputNumber, Checkbox } from 'antd';
 import { getUser } from '../../../services/userService';
 import { getTypes } from '../../../services/typeService';
@@ -6,7 +6,6 @@ import { postSuiviTache } from '../../../services/suiviService';
 import { getTacheOne } from '../../../services/tacheService';
 import { colorMapping } from '../../../utils/prioriteIcons';
 import { useSelector } from 'react-redux';
-
 
 const SuiviTache = ({idTache, closeModal, fetchData}) => {
     const [form] = Form.useForm();
