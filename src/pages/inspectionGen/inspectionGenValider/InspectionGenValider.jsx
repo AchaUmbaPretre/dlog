@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Table, Card, Button,  Skeleton } from 'antd';
 import './inspectionGenValider.scss'
-import { getInspectionValideAll, getSubInspection, postInspectionValide } from '../../../services/charroiService';
+import { getInspectionValideAll, getSubInspection, postInspectionValide, putInspectionValide } from '../../../services/charroiService';
 import { notification } from 'antd';
 import { useSelector } from 'react-redux';
 import { useMenu } from '../../../context/MenuProvider';
@@ -163,7 +163,6 @@ const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
             }
         ];
 
-        console.log(selectedRows, budgetValide, manoeuvreData)
           
         const handleSubmitValidation = async () => {
           try {
@@ -177,12 +176,19 @@ const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
               user_cr : userId 
             }));
         
-            await postInspectionValide(payload);
-        
-            notification.success({
-              message: 'Succès',
-              description: 'Les réparations ont été validées avec succès.',
-            });
+            if ( modelTypes === 'updatedValider') {
+              await putInspectionValide(payload);
+              notification.success({
+                message: 'Succès',
+                description: 'Les validations ont été modifiées avec succès.',
+              });
+            } else {
+              await postInspectionValide(payload);
+              notification.success({
+                message: 'Succès',
+                description: 'Les réparations ont été validées avec succès.',
+              });
+            }        
         
             // Reset
             setSelectedRowKeys([]);

@@ -294,6 +294,10 @@ export const postInspectionValide= async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/inspection_validation`, data );
 }
 
+export const putInspectionValide= async (data) => {
+    return axios.put(`${DOMAIN}/api/charroi/inspection_validation_put`, data );
+}
+
 //Suivie Inspection
 export const getSuiviInspections = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/suivi_inspections?id_sub_inspection_gen=${id}`);
