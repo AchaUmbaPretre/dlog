@@ -188,6 +188,7 @@ const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
                 message: 'Succès',
                 description: 'Les réparations ont été validées avec succès.',
               });
+              closeModal();
             }        
         
             // Reset
@@ -197,7 +198,6 @@ const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
             setBudgetValide({});
             fetchDatas();
             fetchDataInsp();
-            closeModal();
         
           } catch (error) {
             console.error('Erreur de validation:', error);
