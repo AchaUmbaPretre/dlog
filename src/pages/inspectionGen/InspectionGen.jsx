@@ -1021,7 +1021,7 @@ const InspectionGen = () => {
           width={1000}
           centered
         >
-          <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchDataInsp} inspectionId={inspectionId} />
+          <InspectionGenValider closeModal={() => setModalType(null)} fetchData={fetchDataInsp} inspectionId={inspectionId} modelTypes={modalType} />
         </Modal>
 
         <Modal

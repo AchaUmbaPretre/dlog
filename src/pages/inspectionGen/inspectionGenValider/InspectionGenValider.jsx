@@ -6,7 +6,7 @@ import { notification } from 'antd';
 import { useSelector } from 'react-redux';
 import { useMenu } from '../../../context/MenuProvider';
 
-const InspectionGenValider = ({ closeModal, inspectionId }) => {
+const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
     const [data, setData] = useState([]);
     const scroll = { x: 400 };
     const [loading, setLoading] = useState(true);
@@ -22,6 +22,10 @@ const InspectionGenValider = ({ closeModal, inspectionId }) => {
         try {
             const { data } = await getSubInspection(inspectionId);
             setData(data)
+
+            if (modelTypes === 'updatedValider') {
+              
+            }
 
         } catch (error) {
             notification.error({
