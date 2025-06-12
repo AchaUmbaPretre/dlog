@@ -103,7 +103,7 @@ const ListeTacheProjet1 = ({ idProjet, fetchDatas }) => {
     }
   };
 
-  const fetchData = async (filters) => {
+const fetchData = async (filters) => {
     setLoading(true);
     setFilteredDatas(filters);
 
@@ -144,11 +144,11 @@ const ListeTacheProjet1 = ({ idProjet, fetchDatas }) => {
 
 
 useEffect(() => {
-    fetchData(filteredDatas);
+  fetchData(filteredDatas);
 }, [filteredDatas, idProjet]);  
 
 const handleFilterChange = (newFilters) => {
-    setFilteredDatas(newFilters); 
+  setFilteredDatas(newFilters); 
 };
 
 const closeAllModals = () => {
