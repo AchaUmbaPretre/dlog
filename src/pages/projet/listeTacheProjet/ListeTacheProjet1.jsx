@@ -142,7 +142,6 @@ const fetchData = async (filters) => {
     }
 };
 
-
 useEffect(() => {
   fetchData(filteredDatas);
 }, [filteredDatas, idProjet]);  
