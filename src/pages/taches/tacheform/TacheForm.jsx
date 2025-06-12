@@ -206,429 +206,429 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                     autoComplete="off"
                     onFinish={onFinish}
                 >
-                <Card>
-                    <Row gutter={24}>
-                        
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="nom_tache"
-                                label="Titre"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir un nom...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Nom..." />}
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="date_debut"
-                                label="Date début"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez sélectionner une date de début.',
-                                    },
-                                ]}
-                                initialValue={moment()}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <DatePicker style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="date_fin"
-                                label="Date fin"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez sélectionner une date de fin.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} />  : <DatePicker style={{width:'100%'}}/>}
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_departement"
-                                label="Département"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez sélectionner un département.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    showSearch
-                                    options={departement.map((item) => ({
-                                        value: item.id_departement,
-                                        label: item.nom_departement,
-                                    }))}
-                                    placeholder="Sélectionnez un département..."
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
-                                onClick={handlDepartement}
-                            >
-                            </Button>
-                        </Col>
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_client"
-                                label="Client"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez sélectionner un client.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Select
-                                    showSearch
-                                    options={client.map((item) => ({
-                                        value: item.id_client,
-                                        label: item.nom,
-                                    }))}
-                                    placeholder="Sélectionnez un client..."
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
-                                onClick={handlClient}
-                            >
-                            </Button>
-                        </Col>
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                label="Ville"
-                                name="id_ville"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez sélectionner une ville.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={provinces?.map((item) => ({
-                                        value: item.id,
-                                        label: item.capital,
-                                    }))}
-                                    placeholder="Sélectionnez une ville..."
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_frequence"
-                                label="Fréquence"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez indiquer la fréquence.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    showSearch
-                                    options={frequence.map((item) => ({
-                                        value: item.id_frequence,
-                                        label: item.nom,
-                                    }))}
-                                    placeholder="Sélectionnez une fréquence..."
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="responsable_principal"
-                                label="Owner"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez indiquer le responsable.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 
-                                <Select
-                                    showSearch
-                                    options={users.map((item) => ({
-                                        value: item.id_utilisateur,
-                                        label: [item.prenom, item.nom].filter(Boolean).join(' - '),
-                                    }))}
-                                    placeholder="Sélectionnez un responsable..."
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
-                                onClick={handOwner}
-                            >
-                            </Button>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_demandeur"
-                                label="Demandeur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez indiquer un demandeur.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 
-                                <Select
-                                    showSearch
-                                    options={users.map((item) => ({
-                                        value: item.id_utilisateur,
-                                        label: [item.prenom, item.nom].filter(Boolean).join(' - '),
-                                    }))}
-                                    placeholder="Sélectionnez un demandeur..."
-                                    optionFilterProp="label"
-                                />}
-                                
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
-                                onClick={handlDemandeur}
-                            >
-                            </Button>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_batiment"
-                                label="Entité"
-                                rules={[
-                                    {
-                                        required: false
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 
-                                <Select
-                                    placeholder="Sélectionnez un bâtiment"
-                                    showSearch
-                                    options={batiment?.map((item) => ({
-                                        value: item.id_batiment,
-                                        label: item.nom_batiment,
-                                    }))}
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
-                                onClick={handlEntite}
-                            >
-                            </Button>
-                        </Col>
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_corps_metier"
-                                label="Corps metier"
-                                rules={[
-                                    {
-                                        required: false
-                                    }
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
-                                    placeholder="Sélectionnez.."
-                                    showSearch
-                                    options={corps?.map((item) => ({
-                                        value: item.id_corps_metier,
-                                        label: item.nom_corps_metier
-                                    }))}
-                                />}
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
-                                onClick={handlCorpsMetier}
-                            >
-                            </Button>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_cat_tache"
-                                label="Cat tache"
-                                rules={[
-                                    {
-                                        required: false
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 
-                                <Select
-                                    placeholder="Sélectionnez.."
-                                    showSearch
-                                    options={catTache?.map((item) => ({
-                                        value: item.id_cat_tache,
-                                        label: item.nom_cat_tache
-                                    }))}
-                                />}
-                            </Form.Item>
-                            <Button 
-                                style={{ width:'19px', height:'19px' }}
-                                icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
-                                onClick={handlCatTache}
-                            >
-                            </Button>
-                        </Col>
-
-                        <Col xs={24} md={24}>
-                        <Form.Item
-                                name="priorite"
-                                label="Priorité"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez sélectionner une priorité.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
-                                    placeholder="Sélectionnez une priorité..."
-                                    optionFilterProp="label"
-                                    options={[
-                                        { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
-                                        { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
-                                        { value: 3, label: <span>{getPriorityIcon(3)} Moyenne</span> },
-                                        { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
-                                        { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
+                    <Card>
+                        <Row gutter={24}>
+                            
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="nom_tache"
+                                    label="Titre"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez fournir un nom...',
+                                        },
                                     ]}
-                                />}
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={24}>
-                            <Form.Item
-                                name="description"
-                                label="Description"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir une description.',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? (
-                                    <Skeleton.Input active={true} />
-                                ) : (
-                                    <FroalaEditor
-                                        tag='textarea'
-                                        model={editorContent}
-                                        onModelChange={handleEditorChange}
-                                        config={{
-                                           toolbarButtons: [
-                                                'bold', 
-                                                'italic', 
-                                                'underline', 
-                                                '|', 
-                                                'insertLink', 
-                                                'insertImage', 
-                                                'insertHR', 
-                                                '|', 
-                                                'undo', 
-                                                'redo', 
-                                                '|', 
-                                                'paragraphFormat',
-                                                'align',
-                                                'insertTable',
-                                                'clearFormatting'
-                                            ],
-                                            height: 150,
-                                            placeholder: 'Entrez votre description ici...'
-                                        }}
-                                    />
-                                )}
-                            </Form.Item>
-                        </Col>
-                        
-                        {categories.map((category, index) => (
-                            <Card 
-                                key={index} 
-                                title={`Catégorie ${index + 1}`} 
-                                style={{ marginBottom: 16 }}
-                            >
-                                <Row gutter={12}>
-                                    <Col xs={24} md={12}>
-                                        <Form.Item label="Catégorie" style={{ marginBottom: 0 }}>
-                                            <Select
-                                                showSearch
-                                                placeholder="Sélectionnez une catégorie"
-                                                value={category.id_cat}
-                                                onChange={(value) => handleCategoryChange(index, 'id_cat', value)}
-                                                options={catTache.map((item) => ({
-                                                    value: item.id_cat_tache,
-                                                    label: item.nom_cat_tache,
-                                                }))}
-                                                optionFilterProp="label"
-                                            />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col xs={24} md={12}>
-                                        <Form.Item label="Coût" style={{ marginBottom: 0 }}>
-                                            <Input
-                                                type="number"
-                                                placeholder="Entrez le coût"
-                                                value={category.cout}
-                                                onChange={(e) => handleCategoryChange(index, 'cout', e.target.value)}
-                                            />
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                            </Card>
-                        ))}
-                        <Button 
-                            type="dashed" 
-                            onClick={handleAddCategory} 
-                            style={{ marginBottom: 16, marginLeft:10 }}
-                        >
-                            Ajouter une catégorie
-                        </Button>
+                                >
+                                {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Nom..." />}
+                                </Form.Item>
+                            </Col>
 
-                        <Col xs={24}>
-                            <Form.Item>
-                                <Space className="button-group">
-                                    <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
-                                        { idTache ? 'Modifier' : 'Ajouter'}
-                                    </Button>
-                                    <Button htmlType="reset">
-                                        Réinitialiser
-                                    </Button>
-                                </Space>
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="date_debut"
+                                    label="Date début"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez sélectionner une date de début.',
+                                        },
+                                    ]}
+                                    initialValue={moment()}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <DatePicker style={{width:'100%'}} />}
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="date_fin"
+                                    label="Date fin"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez sélectionner une date de fin.',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} />  : <DatePicker style={{width:'100%'}}/>}
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="id_departement"
+                                    label="Département"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez sélectionner un département.',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        showSearch
+                                        options={departement.map((item) => ({
+                                            value: item.id_departement,
+                                            label: item.nom_departement,
+                                        }))}
+                                        placeholder="Sélectionnez un département..."
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                    onClick={handlDepartement}
+                                >
+                                </Button>
+                            </Col>
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="id_client"
+                                    label="Client"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez sélectionner un client.',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <Select
+                                        showSearch
+                                        options={client.map((item) => ({
+                                            value: item.id_client,
+                                            label: item.nom,
+                                        }))}
+                                        placeholder="Sélectionnez un client..."
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                    onClick={handlClient}
+                                >
+                                </Button>
+                            </Col>
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Ville"
+                                    name="id_ville"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez sélectionner une ville.',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={provinces?.map((item) => ({
+                                            value: item.id,
+                                            label: item.capital,
+                                        }))}
+                                        placeholder="Sélectionnez une ville..."
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="id_frequence"
+                                    label="Fréquence"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez indiquer la fréquence.',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        showSearch
+                                        options={frequence.map((item) => ({
+                                            value: item.id_frequence,
+                                            label: item.nom,
+                                        }))}
+                                        placeholder="Sélectionnez une fréquence..."
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="responsable_principal"
+                                    label="Owner"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez indiquer le responsable.',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> :                                 
+                                    <Select
+                                        showSearch
+                                        options={users.map((item) => ({
+                                            value: item.id_utilisateur,
+                                            label: [item.prenom, item.nom].filter(Boolean).join(' - '),
+                                        }))}
+                                        placeholder="Sélectionnez un responsable..."
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                    onClick={handOwner}
+                                >
+                                </Button>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="id_demandeur"
+                                    label="Demandeur"
+                                    rules={[
+                                        {
+                                            required: false,
+                                            message: 'Veuillez indiquer un demandeur.',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> :                                 
+                                    <Select
+                                        showSearch
+                                        options={users.map((item) => ({
+                                            value: item.id_utilisateur,
+                                            label: [item.prenom, item.nom].filter(Boolean).join(' - '),
+                                        }))}
+                                        placeholder="Sélectionnez un demandeur..."
+                                        optionFilterProp="label"
+                                    />}
+                                    
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                    onClick={handlDemandeur}
+                                >
+                                </Button>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="id_batiment"
+                                    label="Entité"
+                                    rules={[
+                                        {
+                                            required: false
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> :                                 
+                                    <Select
+                                        placeholder="Sélectionnez un bâtiment"
+                                        showSearch
+                                        options={batiment?.map((item) => ({
+                                            value: item.id_batiment,
+                                            label: item.nom_batiment,
+                                        }))}
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                    onClick={handlEntite}
+                                >
+                                </Button>
+                            </Col>
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="id_corps_metier"
+                                    label="Corps metier"
+                                    rules={[
+                                        {
+                                            required: false
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
+                                        placeholder="Sélectionnez.."
+                                        showSearch
+                                        options={corps?.map((item) => ({
+                                            value: item.id_corps_metier,
+                                            label: item.nom_corps_metier
+                                        }))}
+                                    />}
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                    onClick={handlCorpsMetier}
+                                >
+                                </Button>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    name="id_cat_tache"
+                                    label="Cat tache"
+                                    rules={[
+                                        {
+                                            required: false
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> :                                 
+                                    <Select
+                                        placeholder="Sélectionnez.."
+                                        showSearch
+                                        options={catTache?.map((item) => ({
+                                            value: item.id_cat_tache,
+                                            label: item.nom_cat_tache
+                                        }))}
+                                    />}
+                                </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                    onClick={handlCatTache}
+                                >
+                                </Button>
+                            </Col>
+
+                            <Col xs={24} md={24}>
+                            <Form.Item
+                                    name="priorite"
+                                    label="Priorité"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez sélectionner une priorité.',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? <Skeleton.Input active={true} /> :                                 <Select
+                                        placeholder="Sélectionnez une priorité..."
+                                        optionFilterProp="label"
+                                        options={[
+                                            { value: 1, label: <span>{getPriorityIcon(1)} Très faible</span> },
+                                            { value: 2, label: <span>{getPriorityIcon(2)} Faible</span> },
+                                            { value: 3, label: <span>{getPriorityIcon(3)} Moyenne</span> },
+                                            { value: 4, label: <span>{getPriorityIcon(4)} Haute</span> },
+                                            { value: 5, label: <span>{getPriorityIcon(5)} Très haute</span> },
+                                        ]}
+                                    />}
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    name="description"
+                                    label="Description"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez fournir une description.',
+                                        },
+                                    ]}
+                                >
+                                    {loadingData ? (
+                                        <Skeleton.Input active={true} />
+                                    ) : (
+                                        <FroalaEditor
+                                            tag='textarea'
+                                            model={editorContent}
+                                            onModelChange={handleEditorChange}
+                                            config={{
+                                            toolbarButtons: [
+                                                    'bold', 
+                                                    'italic', 
+                                                    'underline', 
+                                                    '|', 
+                                                    'insertLink', 
+                                                    'insertImage', 
+                                                    'insertHR', 
+                                                    '|', 
+                                                    'undo', 
+                                                    'redo', 
+                                                    '|', 
+                                                    'paragraphFormat',
+                                                    'align',
+                                                    'insertTable',
+                                                    'clearFormatting'
+                                                ],
+                                                height: 150,
+                                                placeholder: 'Entrez votre description ici...'
+                                            }}
+                                        />
+                                    )}
+                                </Form.Item>
+                            </Col>
+                            
+                            {categories.map((category, index) => (
+                                <Card 
+                                    key={index} 
+                                    title={`Catégorie ${index + 1}`} 
+                                    style={{ marginBottom: 16 }}
+                                >
+                                    <Row gutter={12}>
+                                        <Col xs={24} md={12}>
+                                            <Form.Item label="Catégorie" style={{ marginBottom: 0 }}>
+                                                <Select
+                                                    showSearch
+                                                    placeholder="Sélectionnez une catégorie"
+                                                    value={category.id_cat}
+                                                    onChange={(value) => handleCategoryChange(index, 'id_cat', value)}
+                                                    options={catTache.map((item) => ({
+                                                        value: item.id_cat_tache,
+                                                        label: item.nom_cat_tache,
+                                                    }))}
+                                                    optionFilterProp="label"
+                                                />
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={24} md={12}>
+                                            <Form.Item label="Coût" style={{ marginBottom: 0 }}>
+                                                <Input
+                                                    type="number"
+                                                    placeholder="Entrez le coût"
+                                                    value={category.cout}
+                                                    onChange={(e) => handleCategoryChange(index, 'cout', e.target.value)}
+                                                />
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Card>
+                            ))}
+                            <Button 
+                                type="dashed" 
+                                onClick={handleAddCategory} 
+                                style={{ marginBottom: 16, marginLeft:10 }}
+                            >
+                                Ajouter une catégorie
+                            </Button>
+
+                            <Col xs={24}>
+                                <Form.Item>
+                                    <Space className="button-group">
+                                        <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
+                                            { idTache ? 'Modifier' : 'Ajouter'}
+                                        </Button>
+                                        <Button htmlType="reset">
+                                            Réinitialiser
+                                        </Button>
+                                    </Space>
+                                </Form.Item>
+                            </Col>
+                        </Row>
                     </Card>
                 </Form>
             </div>
