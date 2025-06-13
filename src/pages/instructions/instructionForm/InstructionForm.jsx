@@ -211,17 +211,6 @@ const addIcon = (icon) => {
                             />}
                         </Form.Item>
                     </Col>
-
-                    <Col xs={24} md={12}>
-                        <Form.Item
-                            label="Commentaire"
-                            name="commentaire"
-                            rules={[{ required: true, message: 'Veuillez entrer un commentaire' }]}
-                        >
-                        <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
-                        </Form.Item>
-                    </Col>
-
                     <Col xs={24} md={12}>
                         <Form.Item
                             label="Catégorie d'Instruction"
@@ -259,6 +248,16 @@ const addIcon = (icon) => {
 
                             />
                             }
+                        </Form.Item>
+                    </Col>
+                    
+                    <Col xs={24} md={12}>
+                        <Form.Item
+                            label="Commentaire"
+                            name="commentaire"
+                            rules={[{ required: true, message: 'Veuillez entrer un commentaire' }]}
+                        >
+                        <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
                         </Form.Item>
                     </Col>
 
