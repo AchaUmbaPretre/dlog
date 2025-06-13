@@ -38,8 +38,6 @@ const ListeTrackingGlobal = () => {
     fetchData();
   }, []);
 
-
-
   const handleDelete = async (id) => {
     try {
        await estSupprimeSuivi(id);
@@ -66,7 +64,6 @@ const ListeTrackingGlobal = () => {
     setModalType(type);
     setIdTrack(idTrack);
   };
-  
 
   const columnStyles = {
     title: {
