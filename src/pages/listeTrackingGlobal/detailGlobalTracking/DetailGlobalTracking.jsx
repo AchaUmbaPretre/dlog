@@ -47,9 +47,9 @@ const DetailGlobalTracking = ({ idTrack }) => {
 
         <div className="detail_global_bottom_wrapper">
         {data.map(item => (
-          
+
           <div className="detail_global_bottom">
-            <h2 className="detail_global_title">{item.nom_tache}</h2>
+            <h2 className="detail_global_title">Titre : {item.nom_tache}</h2>
 
             <Divider style={{margin:'0', margin:'10px'}} />
 
