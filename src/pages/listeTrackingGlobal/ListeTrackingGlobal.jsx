@@ -94,8 +94,8 @@ const ListeTrackingGlobal = () => {
       title: 'Titre',
       dataIndex: 'nom_tache',
       key: 'nom_tache',
-      render: (text) => (
-        <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+      render: (text, record) => (
+        <Space style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleViewDetails(record.id_suivi)}>
             <Tag icon={<FileTextOutlined />} color="green">{text}</Tag>
         </Space>
       ),
