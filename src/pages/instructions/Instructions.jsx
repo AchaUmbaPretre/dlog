@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
 import { ExportOutlined, HomeOutlined, FileTextOutlined, FormOutlined, EyeOutlined,MoreOutlined, PrinterOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspection, putInspectionDelete } from '../../services/batimentService';
@@ -198,7 +198,7 @@ const Instructions = () => {
             overlay={(
               <Menu>
                 <Menu.Item onClick={() => handleApres(record.id_inspection)}>
-                  <FormOutlined /> Faire encore une inspection
+                  <FormOutlined /> Mettre à jour l'inspection
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item onClick={() => handleTache(record.id_inspection)}>
