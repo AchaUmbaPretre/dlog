@@ -106,6 +106,23 @@ const Instructions = () => {
     </Menu>
   );
 
+    const columnStyles = {
+    title: {
+      maxWidth: '220px',
+      whiteSpace: 'nowrap',
+      overflowX: 'scroll', 
+      overflowY: 'hidden',
+      textOverflow: 'ellipsis',
+      scrollbarWidth: 'none',
+      '-ms-overflow-style': 'none', 
+    },
+    hideScroll: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  };
+
   const columns = [
     { 
       title: '#', 
@@ -129,7 +146,7 @@ const Instructions = () => {
         dataIndex: 'commentaire', 
         key: 'commentaire',
         render: text => (
-          <Space>
+          <Space style={columnStyles.title} className={columnStyles.hideScroll}>
             <Tag color='cyan'>{text}</Tag>
           </Space>
         ),
@@ -164,7 +181,7 @@ const Instructions = () => {
         key: 'nom_tache',
         render: text => {
           return (
-            <Space>
+            <Space style={columnStyles.title} className={columnStyles.hideScroll}>
               <Tag icon={<FileTextOutlined />} color={"cyan"}>
                  {text ?? 'Aucune'}
               </Tag>
