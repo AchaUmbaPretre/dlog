@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Form, Input, Select, Divider, Card, Upload, Button, notification, Row, Col, Skeleton } from 'antd';
-import { UploadOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { UploadOutlined, SendOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Rnd } from 'react-rnd';
 import { getCat_inspection, getInspectionOneV, getType_instruction, getType_photo, postInspection, putInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
 import './instructionForm.css'
 import html2canvas from 'html2canvas';
-const { TextArea } = Input;
 
 const icons = [
     { id: 'danger', label: 'Danger', icon: '⚠️' },
@@ -65,65 +64,54 @@ useEffect(() => {
 
 const handleSubmit = async (values) => {
     setLoading(true);
-
-    const uploadedFiles = values.img.map((file) => file.originFileObj);
+    
     const formData = new FormData();
     formData.append('id_tache', idTache);
     formData.append('id_batiment', values.id_batiment);
-    formData.append('commentaire', values.commentaire);
     formData.append('id_type_photo', values.id_type_photo);
     formData.append('id_cat_instruction', values.id_cat_instruction);
     formData.append('id_type_instruction', values.id_type_instruction);
 
-/*     uploadedFiles.forEach((file) => {
-        formData.append('files', file);
-    }); */
+    const imageContainers = document.querySelectorAll('.image-container');
 
-      if (uploadedImage) {
-        // Capture de l'image avec html2canvas
-        const imageContainer = document.querySelector('.image-container');
-        
-        if (!imageContainer) {
-            console.error("L'élément .image-container n'a pas été trouvé dans le DOM.");
-            submitData(formData); // Soumettre les autres données sans image modifiée
-            return;
-        }
+    for (let index = 0; index < values.subData.length; index++) {
+        const sub = values.subData[index];
+        formData.append(`subData[${index}][commentaire]`, sub.commentaire || '');
 
-        html2canvas(imageContainer).then((canvas) => {
-            const originalWidth = canvas.width;
-            const originalHeight = canvas.height;
-            
-            let targetWidth = 500; // Nouvelle largeur souhaitée (en pixels)
-            let targetHeight;
+        const file = sub.img?.[0]?.originFileObj;
 
-            if (originalWidth < targetWidth) {
+        if (file && imageContainers[index]) {
+            try {
+                const canvas = await html2canvas(imageContainers[index]);
+
+                const originalWidth = canvas.width;
+                const originalHeight = canvas.height;
+
+                const targetWidth = 500;
                 const ratio = targetWidth / originalWidth;
-                targetHeight = originalHeight * ratio;
-            } else {
-                targetWidth = originalWidth;
-                targetHeight = originalHeight;
+                const targetHeight = originalHeight * ratio;
+
+                const resizedCanvas = document.createElement('canvas');
+                const ctx = resizedCanvas.getContext('2d');
+
+                resizedCanvas.width = targetWidth;
+                resizedCanvas.height = targetHeight;
+
+                ctx.drawImage(canvas, 0, 0, originalWidth, originalHeight, 0, 0, targetWidth, targetHeight);
+
+                const blob = await new Promise((resolve) =>
+                    resizedCanvas.toBlob(resolve, 'image/png')
+                );
+
+                const finalFile = new File([blob], `image_${index}.png`, { type: 'image/png' });
+                formData.append(`img_${index}`, finalFile);
+            } catch (err) {
+                console.error(`Erreur lors du traitement de l'image ${index}`, err);
             }
-
-            const resizedCanvas = document.createElement('canvas');
-            const ctx = resizedCanvas.getContext('2d');
-            resizedCanvas.width = targetWidth;
-            resizedCanvas.height = targetHeight;
-
-            // Redessiner l'image redimensionnée sur le nouveau canvas
-            ctx.drawImage(canvas, 0, 0, originalWidth, originalHeight, 0, 0, targetWidth, targetHeight);
-
-            // Convertir le canvas redimensionné en Blob
-            resizedCanvas.toBlob((blob) => {
-                const file = new File([blob], 'image_with_icons_resized.png', { type: 'image/png' });
-                formData.append('files', file);
-                
-                // Soumission des données après avoir ajouté l'image redimensionnée
-                submitData(formData);
-            });
-        });
-    } else {
-        submitData(formData);
+        }
     }
+
+    await submitData(formData);
 };
 
 
@@ -157,6 +145,19 @@ const submitData = async (formData) => {
     }
 };
 
+
+const handleImageUpload = (info, fieldName) => {
+        const file = info.fileList[0]?.originFileObj;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setUploadedImages(prev => ({ ...prev, [fieldName]: e.target.result }));
+                setIconPositionsMap(prev => ({ ...prev, [fieldName]: [] })); // reset icons
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 const addIconToField = (icon, fieldName) => {
     setIconPositionsMap(prev => ({
         ...prev,
@@ -172,16 +173,6 @@ const updateIconPosition = (fieldName, index, updatedPos) => {
     });
 };
     
-
-  const handleImageUpload = (info) => {
-    const file = info.fileList[0]?.originFileObj;
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => setUploadedImage(e.target.result);
-      reader.readAsDataURL(file);
-    }
-  };
-
   return (
     <div className="controle_form">
         <div className="controle_title_rows">
@@ -409,13 +400,11 @@ const updateIconPosition = (fieldName, index, updatedPos) => {
                             </>
                         )}
                     </Form.List>
-                    <Col xs={24} md={12}>
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit" disabled={loading} loading={loading} style={{marginTop:'10px'}}>
-                                Soumettre
-                            </Button>
-                        </Form.Item>
-                    </Col>
+                    <div style={{ marginTop: '20px' }}>
+                        <Button size='large' type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
+                            Soumettre
+                        </Button>
+                    </div>
                 </Form>
             </div>
     </div>
