@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
 import './detailGlobalTracking.scss'
-import { notification, Spin, Card, Col, Row, Typography, Tag, Divider } from 'antd';
-import { CheckCircleOutlined, ClockCircleOutlined, UserOutlined, EditOutlined } from '@ant-design/icons';
+import { notification, Spin, Button, Card, Tooltip, Typography, Tag, Divider } from 'antd';
+import { RightCircleFilled, LeftCircleFilled, UserOutlined, EditOutlined } from '@ant-design/icons';
 import { getSuiviTacheUne } from '../../../services/suiviService';
 const { Title, Text } = Typography;
 
 const DetailGlobalTracking = ({ idTrack }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [idTache, setIdTache] = useState(idTrack); 
+
+  useEffect(() => {
+    setIdTache(idTrack);
+  }, [idTrack]);
 
   const fetchData = async () => {
     try {
@@ -27,6 +32,14 @@ const DetailGlobalTracking = ({ idTrack }) => {
     fetchData();
   }, [idTrack]);
 
+    const goToNext = () => {
+    setIdTache((prevId) => prevId + 1);
+  };
+
+  const goToPrevious = () => {
+    setIdTache((prevId) => (prevId > 1 ? prevId - 1 : prevId));
+  };
+
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -42,10 +55,23 @@ const DetailGlobalTracking = ({ idTrack }) => {
   return (
     <div className='detail_global_tracking'>
       <div className="detail_global_wrapper">
-        <Card style={{margin:0}}>
+        <Card size="small">
           <h2 className="detail_global_h2">Détails du Suivi</h2>
         </Card>
-        
+
+        <div className="detail_global_arrow">
+          <Tooltip title="Précédent">
+            <Button className="row-arrow" onClick={goToPrevious}>
+              <LeftCircleFilled className="icon-arrow" />
+            </Button>
+          </Tooltip>
+
+          <Tooltip title="Suivant">
+            <Button className="row-arrow" onClick={goToNext}>
+              <RightCircleFilled className="icon-arrow" />
+            </Button>
+          </Tooltip>
+        </div>
         <Card>
           <div className="detail_global_bottom_wrapper">
           {data.map(item => (
@@ -62,7 +88,11 @@ const DetailGlobalTracking = ({ idTrack }) => {
                 <Divider style={{margin:'0'}} />
                 <span className="detail_global_txt"><strong>✅ Statut : </strong><Tag color={item.est_termine === 'Oui' ? 'green' : 'volcano'}>{item.nom_type_statut}</Tag></span>
                 <Divider style={{margin:'0'}} />
-                <span className="detail_global_txt"><strong>💬 Commentaire :</strong>{item.commentaire}</span>
+                <span className="detail_global_txt" style={{display:'flex', flexDirection:'column', gap:'10px'}}><strong>💬 Commentaire : </strong>
+                <div>
+                  {item.commentaire}
+                </div>
+                </span>
               </div>
             </div>
           ))}

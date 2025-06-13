@@ -13,6 +13,14 @@
             font-size: 1.3rem;
             color: rgb(0, 96, 206);
         }
+        .detail_global_arrow{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .row-arrow{
+                color: #03A9F4;
+            }
+        }
         .detail_global_bottom_wrapper{
             display: flex;
             gap: 20px;
@@ -31,8 +39,8 @@
 
                 .detail_global_title{
                     text-transform: capitalize;
-                    font-size: 1.1rem;
-                    font-weight: bold;
+                    font-size: 1rem;
+                    font-weight:300;
                 }
                 .detail_global_bottom_rows{
                     display: flex;
