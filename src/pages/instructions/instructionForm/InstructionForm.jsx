@@ -203,11 +203,11 @@ const addIcon = (icon) => {
                                 { loadingData ? <Skeleton.Input active={true} /> :
                                 <Select
                                     showSearch
-                                    placeholder="Sélectionnez un batiment..."
                                     options={batiment.map((item) => ({
-                                            value: item.id_batiment,
-                                            label: item.nom_batiment,
-                                        }))}
+                                        value: item.id_batiment,
+                                        label: item.nom_batiment,
+                                    }))}
+                                    placeholder="Sélectionnez un batiment..."
                                     optionFilterProp="label"
                                 />}
                             </Form.Item>
