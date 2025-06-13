@@ -32,6 +32,7 @@ import ProjetAssocieForm from '../projetAssocie/ProjetAssocieForm';
 import SuiviTache from '../suiviTache/SuiviTache';
 import InstructionForm from '../../instructions/instructionForm/InstructionForm';
 import PermissionTache from '../../permission/permissionTache/PermissionTache';
+import { statusIcons } from '../../../utils/prioriteIcons';
 
 const { Title, Text } = Typography;
 
@@ -162,6 +163,8 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
     </Row>
   );
 
+  const statusData = statusIcons[data?.statut];
+
   return (
     <div className="dataTableau">
       <div className="detail_tache_arrow">
@@ -194,7 +197,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           </h1> : ''
           }
           <h1 className="title_h1">
-            <strong>Statut : {<Tag icon={<PushpinFilled />} >{data.statut}</Tag>}</strong>
+            <strong>Statut : {<Tag icon={statusData?.icon} color={statusData?.color || 'default'} >{data.statut}</Tag>}</strong>
           </h1>
           <h1 className="title_h1">
             <CalendarOutlined style={{ marginRight: '8px' }} />
