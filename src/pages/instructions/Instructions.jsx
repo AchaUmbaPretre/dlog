@@ -298,7 +298,7 @@ const Instructions = () => {
             pagination={{ pageSize: 10 }}
             rowKey="key"
             bordered
-            size="middle"
+            size="small"
             scroll={scroll}
             loading={loading}
           />
