@@ -15,7 +15,6 @@ import { InfoCircleOutlined,
   HistoryOutlined, 
   FileTextOutlined, 
   LeftCircleFilled,
-  PushpinFilled,
   RightCircleFilled,
   UserOutlined,
   ClockCircleOutlined } from '@ant-design/icons';
