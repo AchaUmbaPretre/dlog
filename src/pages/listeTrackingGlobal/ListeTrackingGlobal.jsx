@@ -130,7 +130,7 @@ const ListeTrackingGlobal = () => {
         sorter: (a, b) => moment(a.date_suivi) - moment(b.date_suivi),
         sortDirections: ['descend', 'ascend'],
         render: text => (
-          <Tag icon={<CalendarOutlined />} color='purple'>{moment(text).format('LL')}</Tag>
+          <Tag icon={<CalendarOutlined />} color='purple'>{moment(text)}</Tag>
         ),
       },
     {
