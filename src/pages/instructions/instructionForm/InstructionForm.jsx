@@ -346,16 +346,15 @@ const addIcon = (icon) => {
                                 </div>
                                 </div>
                             )}
-
-                            <Col xs={24} md={12}>
-                                <Form.Item>
-                                    <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
-                                        Soumettre
-                                    </Button>
-                                </Form.Item>
-                            </Col>
                         </Row>
                     </Card>
+                    <Col xs={24} md={12}>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
+                                Soumettre
+                            </Button>
+                        </Form.Item>
+                    </Col>
                 </Form>
             </div>
     </div>
