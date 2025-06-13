@@ -201,7 +201,7 @@ const ListeTrackingGlobal = () => {
             pagination={{ pageSize: 10 }}
             rowKey="id"
             bordered
-            size="middle"
+            size="small"
             scroll={scroll}
           />
         </div>
