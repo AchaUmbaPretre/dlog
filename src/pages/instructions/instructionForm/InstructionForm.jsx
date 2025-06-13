@@ -350,7 +350,7 @@ const addIcon = (icon) => {
                     </Card>
                     <Col xs={24} md={12}>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
+                            <Button type="primary" htmlType="submit" disabled={loading} loading={loading} style={{marginTop:'10px'}}>
                                 Soumettre
                             </Button>
                         </Form.Item>
