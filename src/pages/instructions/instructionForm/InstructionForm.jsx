@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Form, Input, Select, Divider, Card, Upload, Button, notification, Row, Col, Skeleton } from 'antd';
-import { UploadOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { UploadOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Rnd } from 'react-rnd';
 import { getCat_inspection, getInspectionOneV, getType_instruction, getType_photo, postInspection, putInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
@@ -279,26 +279,16 @@ const updateIconPosition = (fieldName, index, updatedPos) => {
                                     }
                                 </Form.Item>
                             </Col>
-
-                            <Col xs={24} md={12}>
-                                <Form.Item
-                                    label="Commentaire"
-                                    name="commentaire"
-                                    rules={[{ required: true, message: 'Veuillez entrer un commentaire' }]}
-                                >
-                                <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
-                                </Form.Item>
-                            </Col>
                         </Row>
                     </Card>
                     <Form.List name='subData'>
                         {(fields, { add, remove }) => (
                             <>
-                                <Divider className='title_row'>Ajouter l'image</Divider>
+                                <Divider className='title_row'>Image</Divider>
                                 {fields.map(({ key, name, ...restField }) => (
                                     <Card style={{marginBottom:'10px'}}>
                                         <Row key={key} gutter={12} align="middle">
-                                            <Col xs={24} md={7}>
+                                            <Col xs={24} md={11}>
                                                 <Form.Item
                                                     label="Image"
                                                     name={[name, 'img']}
@@ -363,7 +353,7 @@ const updateIconPosition = (fieldName, index, updatedPos) => {
                                                     </div>
                                             )}
 
-                                            <Col xs={24} md={8}>
+                                            <Col xs={24} md={11}>
                                                 <Form.Item
                                                     {...restField}
                                                     name={[name, 'commentaire']}
@@ -401,11 +391,21 @@ const updateIconPosition = (fieldName, index, updatedPos) => {
                                                     }}
                                                 >
                                                     </Button>
-                                                </Col>
+                                            </Col>
 
                                         </Row>
                                     </Card>
                                 ))}
+                                <Form.Item>
+                                    <Button
+                                        type="dashed"
+                                        onClick={() => add()}
+                                        icon={<PlusCircleOutlined />}
+                                        style={{ width: '100%' }}
+                                    >
+                                        Ajouter l'image
+                                    </Button>
+                                </Form.Item>
                             </>
                         )}
                     </Form.List>
