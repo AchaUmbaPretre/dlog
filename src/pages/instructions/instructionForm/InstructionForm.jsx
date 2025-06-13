@@ -25,8 +25,6 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTac
   const [typePhoto, setTypePhoto] = useState([]);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [iconPositions, setIconPositions] = useState([]);
-  const canvasRef = useRef(null);
-
 
   const fetchDataAll = async() => {
     setLoadingData(true);
@@ -92,21 +90,17 @@ const handleSubmit = async (values) => {
             const originalWidth = canvas.width;
             const originalHeight = canvas.height;
             
-            // Si la largeur de l'image est trop petite, redimensionner tout en respectant le ratio
             let targetWidth = 500; // Nouvelle largeur souhaitée (en pixels)
             let targetHeight;
 
             if (originalWidth < targetWidth) {
-                // Calcul du ratio en fonction de la largeur et de la hauteur originales
                 const ratio = targetWidth / originalWidth;
                 targetHeight = originalHeight * ratio;
             } else {
-                // Garder la taille originale si la largeur est suffisante
                 targetWidth = originalWidth;
                 targetHeight = originalHeight;
             }
 
-            // Créer un nouveau canvas avec la largeur et la hauteur redimensionnées
             const resizedCanvas = document.createElement('canvas');
             const ctx = resizedCanvas.getContext('2d');
             resizedCanvas.width = targetWidth;
@@ -125,7 +119,6 @@ const handleSubmit = async (values) => {
             });
         });
     } else {
-        // Si aucune image n'est téléchargée, soumettez simplement les autres données
         submitData(formData);
     }
 };
