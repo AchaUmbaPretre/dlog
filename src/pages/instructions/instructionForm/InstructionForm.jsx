@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification, Row, Col, Skeleton } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { Rnd } from 'react-rnd';
@@ -7,7 +7,6 @@ import { getBatiment } from '../../../services/typeService';
 import './instructionForm.css'
 import html2canvas from 'html2canvas';
 const { TextArea } = Input;
-const { Option } = Select;
 
 const icons = [
     { id: 'danger', label: 'Danger', icon: '⚠️' },
