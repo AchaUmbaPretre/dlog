@@ -179,7 +179,6 @@ const addIcon = (icon) => {
         <div className="controle_title_rows">
             <h2 className="controle_h2">{ idInspection ? 'Modifier une inspection' : 'Insérer une inspection'}</h2>
         </div>
-        <Card>
             <div className="controle_wrapper">
                 <Form
                     form={form}
@@ -193,171 +192,172 @@ const addIcon = (icon) => {
                     id_type_instruction: 1
                     }}
                 >
-                    <Row gutter={12}>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Bâtiment"
-                                name="id_batiment"
-                                rules={[{ required: false, message: 'Veuillez entrer l’ID du bâtiment' }]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> :
-                                <Select
-                                    showSearch
-                                    options={batiment.map((item) => ({
-                                        value: item.id_batiment,
-                                        label: item.nom_batiment,
-                                    }))}
-                                    placeholder="Sélectionnez un batiment..."
-                                    optionFilterProp="label"
-                                />}
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Catégorie d'Instruction"
-                                name="id_cat_instruction"
-                                rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    showSearch
-                                    options={cat.map((item) => ({
-                                            value: item.id_cat_inspection,
-                                            label: item.nom_cat_inspection,
-                                        }))}
-                                    placeholder="Sélectionnez une categorie..."
-                                    optionFilterProp="label"
-                                /> }
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Type d'inspection"
-                                name="id_type_instruction"
-                                rules={[{ required: true, message: 'Veuillez sélectionner un type d inspection' }]}
-                            >
-                                {
-                                    loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select 
-                                    showSearch
-                                    options={instructionData.map((item) => ({
-                                        value: item.id_type_instruction,
-                                        label: item.nom_type_instruction,
-                                    }))}
-                                    placeholder="Sélectionnez un type d inspection" 
-
-                                />
-                                }
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Status"
-                                name="id_type_photo"
-                                rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    showSearch
-                                    options={typePhoto.map((item) => ({
-                                            value: item.id_type_photo,
-                                            label: item.nom_type_photo,
-                                        }))}
-                                    placeholder="Sélectionnez un statut..."
-                                    optionFilterProp="label"
-                                />
-                                }
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Commentaire"
-                                name="commentaire"
-                                rules={[{ required: true, message: 'Veuillez entrer un commentaire' }]}
-                            >
-                            <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Image"
-                                name="img"
-                                valuePropName="fileList"
-                                getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-                                rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
-                            >
-                                <Upload name="img" listType="picture" beforeUpload={() => false} onChange={handleImageUpload}>
-                                    <Button icon={<UploadOutlined />}  className="custom-button">Télécharger une image</Button>
-                                </Upload>
-                            </Form.Item>
-                        </Col>
-                        {uploadedImage && (
-                            <div className="image-editor">
-                            <div className="icon-toolbar">
-                                {icons.map((icon) => (
-                                <Button key={icon.id} onClick={() => addIcon(icon.icon)}>
-                                    {icon.icon} {icon.label}
-                                </Button>
-                                ))}
-                            </div>
-                            <div className="image-container">
-                                <img src={uploadedImage} alt="Uploaded" className="uploaded-image" />
-                                {iconPositions.map((pos, index) => (
-                                <Rnd
-                                    key={index}
-                                    bounds="parent"
-                                    size={{ width: pos.width, height: pos.height }}
-                                    position={{ x: pos.x, y: pos.y }}
-                                    onDragStop={(e, d) => {
-                                    const updatedIcons = [...iconPositions];
-                                    updatedIcons[index] = { ...updatedIcons[index], x: d.x, y: d.y };
-                                    setIconPositions(updatedIcons);
-                                    }}
-                                    onResizeStop={(e, direction, ref, delta, position) => {
-                                    const updatedIcons = [...iconPositions];
-                                    updatedIcons[index] = {
-                                        ...updatedIcons[index],
-                                        width: ref.offsetWidth,
-                                        height: ref.offsetHeight,
-                                        ...position,
-                                    };
-                                    setIconPositions(updatedIcons);
-                                    }}
+                    <Card>
+                        <Row gutter={12}>
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    label="Bâtiment"
+                                    name="id_batiment"
+                                    rules={[{ required: false, message: 'Veuillez entrer l’ID du bâtiment' }]}
                                 >
-                                    <div
-                                    style={{
-                                        fontSize: '30px',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        width: '100%',
-                                        height: '100%',
-                                        cursor: 'move',
-                                    }}
-                                    >
-                                    {pos.icon}
-                                    </div>
-                                </Rnd>
-                                ))}
-                            </div>
-                            </div>
-                        )}
+                                    { loadingData ? <Skeleton.Input active={true} /> :
+                                    <Select
+                                        showSearch
+                                        options={batiment.map((item) => ({
+                                            value: item.id_batiment,
+                                            label: item.nom_batiment,
+                                        }))}
+                                        placeholder="Sélectionnez un batiment..."
+                                        optionFilterProp="label"
+                                    />}
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    label="Catégorie d'Instruction"
+                                    name="id_cat_instruction"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner une catégorie' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        showSearch
+                                        options={cat.map((item) => ({
+                                                value: item.id_cat_inspection,
+                                                label: item.nom_cat_inspection,
+                                            }))}
+                                        placeholder="Sélectionnez une categorie..."
+                                        optionFilterProp="label"
+                                    /> }
+                                </Form.Item>
+                            </Col>
 
-                        <Col xs={24} md={12}>
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
-                                    Soumettre
-                                </Button>
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    label="Type d'inspection"
+                                    name="id_type_instruction"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un type d inspection' }]}
+                                >
+                                    {
+                                        loadingData ? <Skeleton.Input active={true} /> : 
+                                        <Select 
+                                        showSearch
+                                        options={instructionData.map((item) => ({
+                                            value: item.id_type_instruction,
+                                            label: item.nom_type_instruction,
+                                        }))}
+                                        placeholder="Sélectionnez un type d inspection" 
+
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    label="Status"
+                                    name="id_type_photo"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un statut' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        showSearch
+                                        options={typePhoto.map((item) => ({
+                                                value: item.id_type_photo,
+                                                label: item.nom_type_photo,
+                                            }))}
+                                        placeholder="Sélectionnez un statut..."
+                                        optionFilterProp="label"
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    label="Commentaire"
+                                    name="commentaire"
+                                    rules={[{ required: true, message: 'Veuillez entrer un commentaire' }]}
+                                >
+                                <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    label="Image"
+                                    name="img"
+                                    valuePropName="fileList"
+                                    getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+                                    rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
+                                >
+                                    <Upload name="img" listType="picture" beforeUpload={() => false} onChange={handleImageUpload}>
+                                        <Button icon={<UploadOutlined />}  className="custom-button">Télécharger une image</Button>
+                                    </Upload>
+                                </Form.Item>
+                            </Col>
+                            {uploadedImage && (
+                                <div className="image-editor">
+                                <div className="icon-toolbar">
+                                    {icons.map((icon) => (
+                                    <Button key={icon.id} onClick={() => addIcon(icon.icon)}>
+                                        {icon.icon} {icon.label}
+                                    </Button>
+                                    ))}
+                                </div>
+                                <div className="image-container">
+                                    <img src={uploadedImage} alt="Uploaded" className="uploaded-image" />
+                                    {iconPositions.map((pos, index) => (
+                                    <Rnd
+                                        key={index}
+                                        bounds="parent"
+                                        size={{ width: pos.width, height: pos.height }}
+                                        position={{ x: pos.x, y: pos.y }}
+                                        onDragStop={(e, d) => {
+                                        const updatedIcons = [...iconPositions];
+                                        updatedIcons[index] = { ...updatedIcons[index], x: d.x, y: d.y };
+                                        setIconPositions(updatedIcons);
+                                        }}
+                                        onResizeStop={(e, direction, ref, delta, position) => {
+                                        const updatedIcons = [...iconPositions];
+                                        updatedIcons[index] = {
+                                            ...updatedIcons[index],
+                                            width: ref.offsetWidth,
+                                            height: ref.offsetHeight,
+                                            ...position,
+                                        };
+                                        setIconPositions(updatedIcons);
+                                        }}
+                                    >
+                                        <div
+                                        style={{
+                                            fontSize: '30px',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            width: '100%',
+                                            height: '100%',
+                                            cursor: 'move',
+                                        }}
+                                        >
+                                        {pos.icon}
+                                        </div>
+                                    </Rnd>
+                                    ))}
+                                </div>
+                                </div>
+                            )}
+
+                            <Col xs={24} md={12}>
+                                <Form.Item>
+                                    <Button type="primary" htmlType="submit" disabled={loading} loading={loading}>
+                                        Soumettre
+                                    </Button>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </Card>
                 </Form>
             </div>
-        </Card>
     </div>
   );
 };
