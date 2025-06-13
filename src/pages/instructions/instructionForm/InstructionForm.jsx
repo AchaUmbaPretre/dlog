@@ -22,8 +22,6 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTac
   const [instructionData, setInstructionData] = useState([]);
   const [cat, setCat] = useState([]);
   const [typePhoto, setTypePhoto] = useState([]);
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [iconPositions, setIconPositions] = useState([]);
   const [uploadedImages, setUploadedImages] = useState({});
   const [iconPositionsMap, setIconPositionsMap] = useState({});
 
@@ -56,7 +54,6 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTac
         setLoadingData(false); 
     }
   }
-
 
 useEffect(() => {
     fetchDataAll();
