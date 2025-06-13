@@ -348,6 +348,14 @@ const addIcon = (icon) => {
                             )}
                         </Row>
                     </Card>
+                    <Form.List name='subData'>
+                        {(fields, { add, remove }) => (
+                            <>
+                                <Divider className='title_row'>Ajouter l'image</Divider>
+                                {fields.map}
+                            </>
+                        )}
+                    </Form.List>
                     <Col xs={24} md={12}>
                         <Form.Item>
                             <Button type="primary" htmlType="submit" disabled={loading} loading={loading} style={{marginTop:'10px'}}>
