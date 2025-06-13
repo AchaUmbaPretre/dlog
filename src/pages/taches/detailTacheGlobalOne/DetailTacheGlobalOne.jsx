@@ -172,9 +172,16 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
             <LeftCircleFilled className="icon-arrow" />
           </Button>
         </Tooltip>
-        <h2 className="tache_title_h2">
-          DÉTAILS DE LA TACHE N° {`${new Date().getFullYear().toString().slice(2)}${idTache?.toString().padStart(4, '0')}`}
-        </h2>
+
+        <div className="serpent-wrapper">
+          <h2 className="tache_title_h2">
+            DÉTAILS DE LA TACHE N° {`${new Date().getFullYear().toString().slice(2)}${idTache?.toString().padStart(4, '0')}`}
+          </h2>
+          <svg className="serpent-border" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <rect x="1" y="1" width="98" height="98" rx="10" ry="10" />
+          </svg>
+        </div>
+
         <Tooltip title="Suivant">
           <Button className="row-arrow" onClick={goToNext} disabled={isLast}>
             <RightCircleFilled className="icon-arrow" />
