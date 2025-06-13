@@ -42,28 +42,33 @@ const DetailGlobalTracking = ({ idTrack }) => {
   return (
     <div className='detail_global_tracking'>
       <div className="detail_global_wrapper">
+        <Card style={{margin:0}}>
+          <h2 className="detail_global_h2">Détails du Suivi</h2>
+        </Card>
+        
+        <Card>
+          <div className="detail_global_bottom_wrapper">
+          {data.map(item => (
+            
+            <div className="detail_global_bottom">
+              <h2 className="detail_global_title">Titre : {item.nom_tache}</h2>
 
-        <h2 className="detail_global_h2">Détails du Suivi</h2>
+              <Divider style={{margin:'0'}} />
 
-        <div className="detail_global_bottom_wrapper">
-        {data.map(item => (
-
-          <div className="detail_global_bottom">
-            <h2 className="detail_global_title">Titre : {item.nom_tache}</h2>
-
-            <Divider style={{margin:'0', margin:'10px'}} />
-
-            <div className="detail_global_bottom_rows">
-              <span className="detail_global_txt">👤 Effectué par : <strong>{item.nom}</strong></span>
-              <span className="detail_global_txt">🗓️ Date de suivi : <strong>{new Date(item.date_suivi).toLocaleString()}</strong></span>
-              <span className="detail_global_txt">✅ Statut : <strong><Tag color={item.est_termine === 'Oui' ? 'green' : 'volcano'}>{item.nom_type_statut}</Tag></strong></span>
-              <span className="detail_global_txt">💬 Commentaire : <strong>{item.commentaire}</strong></span>
+              <div className="detail_global_bottom_rows">
+                <span className="detail_global_txt"><strong>👤 Effectué par : </strong>{item.nom}</span>
+                <Divider style={{margin:'0'}} />
+                <span className="detail_global_txt"><strong>🗓️ Date de suivi : </strong>{new Date(item.date_suivi).toLocaleString()}</span>
+                <Divider style={{margin:'0'}} />
+                <span className="detail_global_txt"><strong>✅ Statut : </strong><Tag color={item.est_termine === 'Oui' ? 'green' : 'volcano'}>{item.nom_type_statut}</Tag></span>
+                <Divider style={{margin:'0'}} />
+                <span className="detail_global_txt"><strong>💬 Commentaire :</strong>{item.commentaire}</span>
+              </div>
             </div>
+          ))}
           </div>
-        ))}
-        </div>
+        </Card>
       </div>
-      <Divider />
     </div>
   );
 };
