@@ -110,7 +110,6 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
             formData.append('id_statut_vehicule', values.id_statut_vehicule);
             formData.append('kilometrage', values.kilometrage);
             formData.append('user_cr', userId);
-
     
             // Récupération de l'élément image-container
             const imageContainer = document.querySelector('.image-container');
