@@ -293,7 +293,7 @@ const Instructions = () => {
         visible={modalType === 'add'}
         onCancel={closeAllModals}
         footer={null}
-        width={700}
+        width={900}
         centered
       >
         <InstructionForm idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={''} idTache={''}/>
