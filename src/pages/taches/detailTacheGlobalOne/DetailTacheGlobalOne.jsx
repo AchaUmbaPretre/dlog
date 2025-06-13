@@ -188,6 +188,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           </Button>
         </Tooltip>
       </div>
+
       <div className="title_row">
         <div style={{display: 'flex', justifyContent:'space-between'}}>
           <h1 className="title_h1">
@@ -217,6 +218,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           </h1>
         </div>
       </div>
+
       <div className="title_row">
         <h1 className="title_h1" style={{display:'flex', justifyContent:'space-between'}}>
           <div style={{flex:'6'}}>
@@ -399,6 +401,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           </div>
         </h1>
       </div>
+      
       { cout ? 
         <div className="title_row">
           <h1 className="title_h1">
