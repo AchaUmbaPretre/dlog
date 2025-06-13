@@ -163,8 +163,6 @@ const Taches = () => {
     }
   };
 
-  console.log(allIds)
-
   useEffect(() => {
     fetchData(filteredDatas);
   }, [filteredDatas]);  
@@ -198,7 +196,6 @@ const Taches = () => {
   };
 
   const handleViewDetails = (idTache) => {
-    message.info(`Affichage des détails de la tâche : ${idTache}`);
     openModal('detail', idTache);
   };
 
