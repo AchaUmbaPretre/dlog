@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Input, message, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
-import { ClockCircleOutlined,EyeOutlined,CheckSquareOutlined,RocketOutlined,CheckCircleOutlined,DollarOutlined,HourglassOutlined,WarningOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EyeOutlined, CalendarOutlined, FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { estSupprimeSuivi, getSuiviTacheOne } from '../../services/suiviService';
 import DetailGlobalTracking from './detailGlobalTracking/DetailGlobalTracking';
 import { useSelector } from 'react-redux';
+import { statusIcons } from '../../utils/prioriteIcons';
 
 const { Search } = Input;
 
@@ -37,16 +38,6 @@ const ListeTrackingGlobal = () => {
     fetchData();
   }, []);
 
-
-  const statusIcons = {
-    'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
-    'En cours': { icon: <HourglassOutlined />, color: 'blue' },
-    'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
-    'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
-    'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
-    'Budget': { icon: <DollarOutlined />, color: 'gold' },
-    'Executé': { icon: <RocketOutlined />, color: 'cyan' },
-  };
 
 
   const handleDelete = async (id) => {
