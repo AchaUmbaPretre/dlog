@@ -74,6 +74,7 @@ const ListeTrackingGlobal = () => {
       textOverflow: 'ellipsis',
       scrollbarWidth: 'none',
       '-ms-overflow-style': 'none', 
+      cursor : 'pointer'
     },
     hideScroll: {
       '&::-webkit-scrollbar': {
