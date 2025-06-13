@@ -162,7 +162,7 @@ const Instructions = () => {
         ),
       },
       {
-        title: "Type d'inspection",
+        title: "Type",
         dataIndex: 'nom_type_instruction',
         key: 'nom_type_instruction',
         render: text => {

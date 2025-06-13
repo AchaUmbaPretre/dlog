@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'; 
-import { Form, Button, notification, Select } from 'antd';
+import { useEffect, useState } from 'react'; 
+import { Form, Skeleton, Button, notification, Select } from 'antd';
 import { putInspectionTache } from '../../../services/batimentService';
 import { getTache } from '../../../services/tacheService';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ const { Option } = Select;
 const InspectionTache = ({ closeModal, fetchData, idInspection }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
   const [data, setData] = useState([]);
   const role = useSelector((state) => state.user?.currentUser.role);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -28,13 +29,13 @@ const InspectionTache = ({ closeModal, fetchData, idInspection }) => {
       }, []);
       
       setData(uniqueTasks);
-      setLoading(false);
+      setLoadingData(false);
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
         description: 'Une erreur est survenue lors du chargement des données.',
       });
-      setLoading(false);
+      setLoadingData(false);
     }
   };
 
@@ -90,6 +91,7 @@ const InspectionTache = ({ closeModal, fetchData, idInspection }) => {
                     name="id_tache"
                     rules={[{ required: true, message: 'Veuillez sélectionner une tâche' }]}
                 >
+                  { loadingData ? <Skeleton.Input active={true} /> :
                     <Select placeholder="Sélectionnez une tâche">
                     {/* Affichage des tâches sans doublons */}
                     {data?.map((dd) => (
@@ -98,6 +100,7 @@ const InspectionTache = ({ closeModal, fetchData, idInspection }) => {
                         </Option>
                     ))}
                     </Select>
+                   }
                 </Form.Item>
 
                 <Form.Item>

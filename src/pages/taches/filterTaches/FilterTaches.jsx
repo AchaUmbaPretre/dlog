@@ -8,6 +8,7 @@ import { getClient } from '../../../services/clientService';
 import { getTypes } from '../../../services/typeService';
 import { getPriorityIcon } from '../../../utils/prioriteIcons';
 import { getProjet } from '../../../services/projetService';
+import { useSelector } from 'react-redux';
 
 const { RangePicker } = DatePicker;
 
@@ -36,6 +37,8 @@ const FilterTaches = ({ onFilter }) => {
     const [selectedPriorite, setSelectedPriorite] = useState([]);
     const [selectedOwners, setSelectedOwners] = useState([]);
     const [selectedProjet, setSelectedProjet] = useState([]);
+    const role = useSelector((state) => state.user?.currentUser?.role);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,7 +48,7 @@ const FilterTaches = ({ onFilter }) => {
                     getUser(),
                     getClient(),
                     getTypes(),
-                    getProjet()
+                    getProjet(role, userId)
                 ]);
 
                 setDepartement(departementData.data);
@@ -75,7 +78,7 @@ const FilterTaches = ({ onFilter }) => {
             };
 
             handleFilter();
-    }, [selectedDepartement, selectedClients, selectedStatut, selectedPriorite, selectedOwners, dateRange, selectedProjet ])
+    }, [selectedDepartement, selectedClients, selectedStatut, selectedPriorite, selectedOwners, dateRange, selectedProjet, role, userId ])
 
     return (
         <div className="filterTache">
