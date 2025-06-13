@@ -67,7 +67,6 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                         status: 'done',
                         url: `${DOMAIN}/${item.img}`,
                         }] : []
-
                     }))
                 })
                 const uploaded = {};
