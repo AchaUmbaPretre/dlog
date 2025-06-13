@@ -89,7 +89,6 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
         fetchDatas()
     }, [form, idSubInspectionGen])
 
-
     const onFinish = async (values) => {
         await form.validateFields();
     
@@ -349,7 +348,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                         {
                                             required: true,
                                             message: 'Veuillez selectionner un statut...',
-                                        },
+                                        }
                                     ]}
                                 >
                                     {loadingData ? <Skeleton.Input active={true} /> : 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Form, Input, Select, Card, Upload, Button, notification, Row, Col, Skeleton } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Form, Input, Select, Divider, Card, Upload, Button, notification, Row, Col, Skeleton } from 'antd';
+import { UploadOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Rnd } from 'react-rnd';
 import { getCat_inspection, getInspectionOneV, getType_instruction, getType_photo, postInspection, putInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
@@ -25,6 +25,8 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTac
   const [typePhoto, setTypePhoto] = useState([]);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [iconPositions, setIconPositions] = useState([]);
+  const [uploadedImages, setUploadedImages] = useState({});
+  const [iconPositionsMap, setIconPositionsMap] = useState({});
 
   const fetchDataAll = async() => {
     setLoadingData(true);
@@ -55,6 +57,7 @@ const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTac
         setLoadingData(false); 
     }
   }
+
 
 useEffect(() => {
     fetchDataAll();
@@ -154,16 +157,21 @@ const submitData = async (formData) => {
     }
 };
 
+const addIconToField = (icon, fieldName) => {
+    setIconPositionsMap(prev => ({
+        ...prev,
+        [fieldName]: [...(prev[fieldName] || []), { icon, x: 0, y: 0, width: 50, height: 50 }]
+    }));
+};
 
-const addIcon = (icon) => {
-    setIconPositions([...iconPositions, { icon, x: 50, y: 50, width: 50, height: 50 }]);
-  };
-
-  const moveIcon = (index, x, y) => {
-    const updatedIcons = [...iconPositions];
-    updatedIcons[index] = { ...updatedIcons[index], x, y };
-    setIconPositions(updatedIcons);
-  };
+const updateIconPosition = (fieldName, index, updatedPos) => {
+    setIconPositionsMap(prev => {
+        const updated = [...(prev[fieldName] || [])];
+            updated[index] = { ...updated[index], ...updatedPos };
+            return { ...prev, [fieldName]: updated };
+    });
+};
+    
 
   const handleImageUpload = (info) => {
     const file = info.fileList[0]?.originFileObj;
@@ -281,78 +289,123 @@ const addIcon = (icon) => {
                                 <TextArea rows={4} style={{resize:'none', height:'70px'}} placeholder="Entrez votre commentaire" />
                                 </Form.Item>
                             </Col>
-
-                            <Col xs={24} md={12}>
-                                <Form.Item
-                                    label="Image"
-                                    name="img"
-                                    valuePropName="fileList"
-                                    getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-                                    rules={[{ required: true, message: 'Veuillez télécharger une image' }]}
-                                >
-                                    <Upload name="img" listType="picture" beforeUpload={() => false} onChange={handleImageUpload}>
-                                        <Button icon={<UploadOutlined />}  className="custom-button">Télécharger une image</Button>
-                                    </Upload>
-                                </Form.Item>
-                            </Col>
-                            {uploadedImage && (
-                                <div className="image-editor">
-                                <div className="icon-toolbar">
-                                    {icons.map((icon) => (
-                                    <Button key={icon.id} onClick={() => addIcon(icon.icon)}>
-                                        {icon.icon} {icon.label}
-                                    </Button>
-                                    ))}
-                                </div>
-                                <div className="image-container">
-                                    <img src={uploadedImage} alt="Uploaded" className="uploaded-image" />
-                                    {iconPositions.map((pos, index) => (
-                                    <Rnd
-                                        key={index}
-                                        bounds="parent"
-                                        size={{ width: pos.width, height: pos.height }}
-                                        position={{ x: pos.x, y: pos.y }}
-                                        onDragStop={(e, d) => {
-                                        const updatedIcons = [...iconPositions];
-                                        updatedIcons[index] = { ...updatedIcons[index], x: d.x, y: d.y };
-                                        setIconPositions(updatedIcons);
-                                        }}
-                                        onResizeStop={(e, direction, ref, delta, position) => {
-                                        const updatedIcons = [...iconPositions];
-                                        updatedIcons[index] = {
-                                            ...updatedIcons[index],
-                                            width: ref.offsetWidth,
-                                            height: ref.offsetHeight,
-                                            ...position,
-                                        };
-                                        setIconPositions(updatedIcons);
-                                        }}
-                                    >
-                                        <div
-                                        style={{
-                                            fontSize: '30px',
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            width: '100%',
-                                            height: '100%',
-                                            cursor: 'move',
-                                        }}
-                                        >
-                                        {pos.icon}
-                                        </div>
-                                    </Rnd>
-                                    ))}
-                                </div>
-                                </div>
-                            )}
                         </Row>
                     </Card>
                     <Form.List name='subData'>
                         {(fields, { add, remove }) => (
                             <>
                                 <Divider className='title_row'>Ajouter l'image</Divider>
-                                {fields.map}
+                                {fields.map(({ key, name, ...restField }) => (
+                                    <Card style={{marginBottom:'10px'}}>
+                                        <Row key={key} gutter={12} align="middle">
+                                            <Col xs={24} md={7}>
+                                                <Form.Item
+                                                    label="Image"
+                                                    name={[name, 'img']}
+                                                    valuePropName="fileList"
+                                                    getValueFromEvent={(e) => (Array.isArray(e?.fileList) ? e.fileList : [])}
+                                                    rules={[{ required: false, message: 'Veuillez télécharger une image' }]}
+                                                >
+                                                    <Upload
+                                                        name="img"
+                                                        listType="picture"
+                                                        beforeUpload={() => false}
+                                                        onChange={(info) => handleImageUpload(info, name)}
+                                                    >
+                                                        <Button icon={<UploadOutlined />} className="custom-button">
+                                                            Télécharger une image
+                                                        </Button>
+                                                        </Upload>
+                                                    </Form.Item>
+                                            
+                                            </Col>
+                                                {uploadedImages[name] && (
+                                                    <div className="image-editor">
+                                                        <div className="icon-toolbar">
+                                                            {icons.map((icon) => (
+                                                                <Button key={icon.id} onClick={() => addIconToField(icon.icon, name)}>
+                                                                    {icon.icon} {icon.label}
+                                                                </Button>
+                                                            ))}
+                                                        </div>
+                                                        <div className="image-container">
+                                                            <img src={uploadedImages[name]} alt="Uploaded" className="uploaded-image" />
+                                                            {(iconPositionsMap[name] || []).map((pos, index) => (
+                                                                <Rnd
+                                                                    key={index}
+                                                                    bounds="parent"
+                                                                    size={{ width: pos.width, height: pos.height }}
+                                                                    position={{ x: pos.x, y: pos.y }}
+                                                                    onDragStop={(e, d) => updateIconPosition(name, index, { x: d.x, y: d.y })}
+                                                                    onResizeStop={(e, direction, ref, delta, position) =>
+                                                                        updateIconPosition(name, index, {
+                                                                            width: ref.offsetWidth,
+                                                                            height: ref.offsetHeight,
+                                                                            ...position,
+                                                                        })
+                                                                    }
+                                                                >
+                                                                    <div style={{
+                                                                            fontSize: '30px',
+                                                                            display: 'flex',
+                                                                            justifyContent: 'center',
+                                                                            alignItems: 'center',
+                                                                            width: '100%',
+                                                                            height: '100%',
+                                                                            cursor: 'move',
+                                                                        }}
+                                                                    >
+                                                                        {pos.icon}
+                                                                    </div>
+                                                                </Rnd>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                            )}
+
+                                            <Col xs={24} md={8}>
+                                                <Form.Item
+                                                    {...restField}
+                                                    name={[name, 'commentaire']}
+                                                    label="Commentaire"
+                                                    rules={[
+                                                        {
+                                                            required: false,
+                                                            message: 'Veuillez fournir un commentaire...',
+                                                        }
+                                                    ]}
+                                                >
+                                                    {loadingData ? <Skeleton.Input active={true} /> : <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'50px'}}/>}
+                                                </Form.Item>
+                                            </Col>
+
+                                            <Col xs={24} md={2}>
+                                                <Button
+                                                    type="text"
+                                                    danger
+                                                    icon={<MinusCircleOutlined />}
+                                                    onClick={() => {
+                                                    remove(name);
+                                            
+                                                    setUploadedImages(prev => {
+                                                        const newState = { ...prev };
+                                                            delete newState[name];
+                                                            return newState;
+                                                    });
+                                            
+                                                    setIconPositionsMap(prev => {
+                                                        const newState = { ...prev };
+                                                        delete newState[name];
+                                                        return newState;
+                                                        });
+                                                    }}
+                                                >
+                                                    </Button>
+                                                </Col>
+
+                                        </Row>
+                                    </Card>
+                                ))}
                             </>
                         )}
                     </Form.List>
