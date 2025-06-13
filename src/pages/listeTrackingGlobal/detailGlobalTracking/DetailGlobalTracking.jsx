@@ -16,7 +16,7 @@ const DetailGlobalTracking = ({ idTrack }) => {
 
   const fetchData = async () => {
     try {
-      const response = await getSuiviTacheUne(idTrack);
+      const response = await getSuiviTacheUne(idTache);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -30,7 +30,7 @@ const DetailGlobalTracking = ({ idTrack }) => {
 
   useEffect(() => {
     fetchData();
-  }, [idTrack]);
+  }, [idTache]);
 
     const goToNext = () => {
     setIdTache((prevId) => prevId + 1);
