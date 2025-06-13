@@ -1,11 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Card, Spin, notification, Typography, Row, Col, Button, Space } from "antd";
+import { useEffect, useRef, useState } from "react";
+import { Card, Spin, notification, Tooltip, Typography, Row, Col, Button, Space } from "antd";
 import { getInspectionOneV } from "../../../services/batimentService";
 import html2pdf from "html2pdf.js";
 import htmlDocx from "html-docx-js/dist/html-docx";
 import config from "../../../config";
 import "./instructionsDetail.scss";
-import html2canvas from 'html2canvas'; // Importer la bibliothèque
+import { 
+  LeftCircleFilled,
+  RightCircleFilled } from '@ant-design/icons';
 
 
 const { Title, Text } = Typography;
@@ -15,14 +17,25 @@ const InstructionsDetail = ({ idInspection }) => {
   const [groupedData, setGroupedData] = useState({ avant: [], apres: [] });
   const [loading, setLoading] = useState(true);
   const [batimentInfo, setBatimentInfo] = useState({});
+  const [inspectionId, setInspectionId] = useState(idInspection)
   const exportRef = useRef();
+
+    useEffect(() => {
+      setInspectionId(idInspection);
+    }, [idInspection]);
+
+  const goToNext = () => {
+    setInspectionId((prevId) => prevId + 1);
+  };
+
+  const goToPrevious = () => {
+    setInspectionId((prevId) => (prevId > 1 ? prevId - 1 : prevId));
+  };
 
   const fetchData = async () => {
     try {
-      const { data } = await getInspectionOneV(idInspection);
+      const { data } = await getInspectionOneV(inspectionId);
       
-      console.log(data)
-
       if (data.length === 0) {
         notification.warning({
           message: "Aucune donnée trouvée",
@@ -31,7 +44,6 @@ const InstructionsDetail = ({ idInspection }) => {
         return;
       }
 
-      // Informations générales (on suppose qu'elles sont identiques pour toutes les données)
       const generalInfo = {
         name: data[0]?.nom_batiment || "Inconnu",
         typeInstruction: data[0]?.nom_type_instruction || "Inconnu",
@@ -57,10 +69,10 @@ const InstructionsDetail = ({ idInspection }) => {
 
 
   useEffect(() => {
-    if (idInspection) {
+    if (inspectionId) {
       fetchData();
     }
-  }, [idInspection]);
+  }, [inspectionId]);
 
   // Fonction pour exporter en PDF
   const exportToPDF = () => {
@@ -130,16 +142,27 @@ const InstructionsDetail = ({ idInspection }) => {
               Détails des Instructions
             </Title>
 
-            {/* Informations générales */}
-            <Card style={{ marginBottom: 24, borderRadius: 8, display:'flex', flexDirection:"column", gap:'15px' }}>
-              <Text strong>Bâtiment :</Text> <Text>{batimentInfo.name}</Text>
-              <br />
-              <Text strong>Type d'Instruction :</Text> <Text>{batimentInfo.typeInstruction}</Text>
-              <br />
-              <Text strong>Catégorie :</Text> <Text>{batimentInfo.categorie}</Text>
-              <br />
-              <Text strong>Date de Création :</Text> <Text>{new Date(batimentInfo.dateCreation).toLocaleString()}</Text>
-            </Card>
+            <div className="row_inspections" style={{display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
+              <Tooltip title="Précédent">
+                <Button className="row-arrow" onClick={goToPrevious}>
+                  <LeftCircleFilled className="icon-arrow" />
+                </Button>
+              </Tooltip>
+              <Card style={{ marginBottom: 24, borderRadius: 8, display:'flex', flexDirection:"column", gap:'15px' }}>
+                <Text strong>Bâtiment :</Text> <Text>{batimentInfo.name}</Text>
+                <br />
+                <Text strong>Type d'Instruction :</Text> <Text>{batimentInfo.typeInstruction}</Text>
+                <br />
+                <Text strong>Catégorie :</Text> <Text>{batimentInfo.categorie}</Text>
+                <br />
+                <Text strong>Date de Création :</Text> <Text>{new Date(batimentInfo.dateCreation).toLocaleString()}</Text>
+              </Card>
+              <Tooltip title="Suivant">
+                <Button className="row-arrow" onClick={goToNext}>
+                  <RightCircleFilled className="icon-arrow" />
+                </Button>
+              </Tooltip>
+            </div>            
 
             {/* Section "Avant" */}
             <Row gutter={[16, 16]}>
