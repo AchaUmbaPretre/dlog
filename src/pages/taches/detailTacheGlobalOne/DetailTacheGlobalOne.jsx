@@ -199,8 +199,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
             <strong>Statut : {<Tag icon={statusData?.icon} color={statusData?.color || 'default'} >{data.statut}</Tag>}</strong>
           </h1>
           <h1 className="title_h1">
-            <CalendarOutlined style={{ marginRight: '8px' }} />
-            <strong>{dates && `Date du dernier tracking : ${moment(dates).format('LL')}` }</strong>
+            <strong>{dates && `Dernier tracking : ` }<Tag icon={<CalendarOutlined/>} color='blue' >{moment(dates).format('LL')}</Tag></strong>
           </h1>
         </div>
       </div>
