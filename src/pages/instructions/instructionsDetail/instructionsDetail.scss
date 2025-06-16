@@ -14,11 +14,15 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                .row-arrow{
+                    flex: 1;
+                }
                 .instruction_row{
                     width: 100%;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    flex: 2;
                     .instruction_sous_row{
                         display: flex;
                         flex-direction: column;
