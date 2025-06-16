@@ -30,6 +30,7 @@ import Niveau from './niveau/Niveau';
 import Adresse from '../adresse/Adresse';
 import Instructions from '../instructions/Instructions';
 import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
+import ListCroquis from './listCroquis/ListCroquis';
 
 const { Search } = Input;
 
@@ -163,6 +164,10 @@ const Batiment = ({datas}) => {
 
   const handleAddInstruction = ( idBatiment) =>{
     openModal('addInstruction', idBatiment)
+  }
+
+    const handleCroquis = ( idBatiment) =>{
+    openModal('ListCroque', idBatiment)
   }
 
   const handleAddClient = () => {
@@ -466,7 +471,7 @@ const Batiment = ({datas}) => {
                 <Button
                   type="dashed"
                   icon={<PictureOutlined />}
-                  onClick={handleAddClient}
+                  onClick={handleCroquis}
                 >
                   Croquis
                 </Button>
@@ -504,8 +509,8 @@ const Batiment = ({datas}) => {
           width={1000}
           centered
       >
-{/*         <NiveauForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData} />
- */}      </Modal>
+        <ListCroquis idBatiment={idBatiment}  />
+      </Modal>
 
       <Modal
         title=""
