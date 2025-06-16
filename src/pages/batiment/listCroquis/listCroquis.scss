@@ -3,6 +3,15 @@
     overflow-y: scroll;
     .list_croquis_wrapper{
         width: 100%;
+        .list_croquis_top{
+            .list_croquis_h2{
+                text-align: center;
+                font-size: 1.4rem;
+                text-transform: uppercase;
+                font-weight: bold;
+                letter-spacing: 2px;
+            }
+        }
         .list_croquis_bottom{
             .list_croquis_rows{
                 display: flex;

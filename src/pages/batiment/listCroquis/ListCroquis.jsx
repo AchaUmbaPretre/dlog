@@ -33,7 +33,7 @@ useEffect(() => {
         <div className="list_croquis">
             <div className="list_croquis_wrapper">
                 <div className="list_croquis_top">
-                    
+                    <h2 className="list_croquis_h2">Liste des croquis</h2>
                 </div>
                 <div className="list_croquis_bottom">
                     <div className="list_croquis_rows">
