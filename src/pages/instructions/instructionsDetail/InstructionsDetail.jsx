@@ -166,7 +166,6 @@ const InstructionsDetail = ({ idInspection }) => {
                   <strong className="instruction_desc_strong">Date de Création : </strong>
                   <span className="instruction_desc">{new Date(batimentInfo.dateCreation).toLocaleString()}</span>
                 </div>
-
               </div>
               <Tooltip title="Suivant">
                 <Button className="row-arrow" onClick={goToNext}>
