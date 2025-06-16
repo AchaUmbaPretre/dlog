@@ -135,26 +135,39 @@ const InstructionsDetail = ({ idInspection }) => {
             </Button>
           </Space>
           <Divider style={{margin:0}}/>
-          <div ref={exportRef}>
-            <Title level={3} style={{ textAlign: "center", marginBottom: 24, fontWeight: 300 }}>
+          <div ref={exportRef} className="instruction_rows">
+            <h2 className="instruction_h2" style={{ textAlign: "center", marginBottom: 24, fontWeight: 300 }}>
               Détails des Instructions
-            </Title>
+            </h2>
 
-            <div className="row_inspections" style={{display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
+            <div className="row_inspections">
               <Tooltip title="Précédent">
                 <Button className="row-arrow" onClick={goToPrevious}>
                   <LeftCircleFilled className="icon-arrow" />
                 </Button>
               </Tooltip>
-              <Card style={{ marginBottom: 24, borderRadius: 8, display:'flex', flexDirection:"column", gap:'15px' }}>
-                <Text strong>Bâtiment :</Text> <Text>{batimentInfo.name}</Text>
-                <br />
-                <Text strong>Type d'Instruction :</Text> <Text>{batimentInfo.typeInstruction}</Text>
-                <br />
-                <Text strong>Catégorie :</Text> <Text>{batimentInfo.categorie}</Text>
-                <br />
-                <Text strong>Date de Création :</Text> <Text>{new Date(batimentInfo.dateCreation).toLocaleString()}</Text>
-              </Card>
+              <div className="instruction_row">
+                <div className="instruction_sous_row">
+                  <strong className="instruction_desc_strong">Bâtiment : </strong>
+                  <span className="instruction_desc">{batimentInfo.name}</span>
+                </div>
+
+                <div className="instruction_sous_row">
+                  <strong className="instruction_desc_strong">Type d'Instruction : </strong>
+                  <span className="instruction_desc">{batimentInfo.typeInstruction}</span>
+                </div>
+
+                <div className="instruction_sous_row">
+                  <strong className="instruction_desc_strong">Catégorie : </strong>
+                  <span className="instruction_desc">{batimentInfo.categorie}</span>
+                </div>
+
+                <div className="instruction_sous_row">
+                  <strong className="instruction_desc_strong">Date de Création : </strong>
+                  <span className="instruction_desc">{new Date(batimentInfo.dateCreation).toLocaleString()}</span>
+                </div>
+
+              </div>
               <Tooltip title="Suivant">
                 <Button className="row-arrow" onClick={goToNext}>
                   <RightCircleFilled className="icon-arrow" />
