@@ -1,21 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Input, Button, notification, Select } from 'antd';
-import { getBins, getBinsOneV, postAdresse } from '../../../services/batimentService';
+import { getBins, getBinsOne, getBinsOneV, postAdresse } from '../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
+import { getBatiment } from '../../../services/typeService';
 
 const AdresseForm = ({closeModal, fetchData, idBin}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
+  const [idBatiment, setIdBatiment] = useState([]);
+  const [bin, setBin] = useState([]);
   const navigate = useNavigate()
 
   const fetchDataAll = async () => {
         
     try {
-        const [binData] = await Promise.all([
-            getBins()
+        const [binData, batimentData] = await Promise.all([
+            getBinsOne(idBatiment),
+            getBatiment()
         ])
-        setBatiment(binData.data)
+        setBin(binData.data)
+        setBatiment(batimentData.data)
 
         if (idBin) {
           const {data} = await getBinsOneV(idBin)
@@ -73,13 +78,27 @@ useEffect(() => {
           style={{ maxWidth: 600, margin: '0 auto' }}
         >
           <Form.Item
+            label="Warehouse"
+            name="id_batiment"
+            rules={[{ required: true, message: 'Veuillez selectionner un bin' }]}
+          >
+            <Select
+              showSearch
+              options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
+              placeholder="Sélectionnez..."
+              optionFilterProp="label"
+              onChange={setIdBatiment}
+            />
+          </Form.Item>
+
+          <Form.Item
             label="Bin"
             name="id_bin"
             rules={[{ required: true, message: 'Veuillez entrer un bin' }]}
           >
             <Select
               showSearch
-              options={batiment.map(item => ({ value: item.id, label: item.nom }))}
+              options={bin.map(item => ({ value: item.id, label: item.nom }))}
               placeholder="Sélectionnez..."
               optionFilterProp="label"
             />
