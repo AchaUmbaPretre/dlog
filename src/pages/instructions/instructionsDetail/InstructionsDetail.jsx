@@ -181,11 +181,11 @@ const InstructionsDetail = ({ idInspection }) => {
                 <h2 className="inspection_title_h2">Avant</h2>
                 {groupedData.avant.length > 0 && (
                   <Card style={{ marginBottom: 24, borderRadius: 8 }}>
-                    <Text strong>Commentaire Avant :</Text>{" "}
-                    <Text>{groupedData.avant[0]?.commentaire || "Aucun commentaire"}</Text>
                     <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
                       {groupedData.avant.map((instruction, index) => (
                         <Col xs={24} sm={12} md={8} lg={6} key={`avant-img-${index}`}>
+                          <Text strong>Commentaire Avant :</Text>{" "}
+                          <Text>{instruction?.commentaire || "Aucun commentaire"}</Text>
                           <a
                             href={`${DOMAIN}/${instruction.img}`}
                             target="_blank"
