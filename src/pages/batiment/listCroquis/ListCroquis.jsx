@@ -17,11 +17,10 @@ const ListCroquis = () => {
     const [selectedBatiment, setSelectedBatiment] = useState([]);
 
 
-useEffect(() => {
     const fetchData = async () => {
         try {
             const [ planData, batimentData ] = await Promise.all([
-                getPlans(),
+                getPlans(searchValue),
                 getBatiment()
             ])
             setData(planData.data)
@@ -35,8 +34,10 @@ useEffect(() => {
             setLoading(false)
         }
     }
-    fetchData()
-}, [])
+    
+    useEffect(() => {
+        fetchData()
+    }, []);
 
   return (
     <>
