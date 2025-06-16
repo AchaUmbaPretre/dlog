@@ -22,6 +22,7 @@ useEffect(() => {
     }
     fetchData()
 }, [])
+
   return (
     <>
         <div className="list_croquis">
