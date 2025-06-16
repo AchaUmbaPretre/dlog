@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getStatutVehicule, getTypeReparation, getVehicule } from '../../../services/charroiService';
 import { Select } from 'antd';
-
 
 const FilterInspectionGen = ({ onFilter}) => {
     const [selectedStatut, setSelectedStatut] = useState([]);

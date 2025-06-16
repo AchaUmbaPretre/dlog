@@ -1,21 +1,28 @@
 import { useEffect, useState } from 'react'
 import './listCroquis.scss'
 import { getPlans } from '../../../services/batimentService'
-import { notification } from 'antd';
+import { notification, Input, Select } from 'antd';
 import config from '../../../config';
 import { FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+
+const { Search } = Input;
 
 const ListCroquis = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+    const [searchValue, setSearchValue] = useState('');
+    const [batiment, setBatiment] = useState([]);
+    const [selectedBatiment, setSelectedBatiment] = useState([]);
 
 
 useEffect(() => {
     const fetchData = async () => {
         try {
-            const { data } = await getPlans();
-            setData(data)
+            const [ planData ] = await Promise.all([
+                getPlans()
+            ])
+            setData(planData.data)
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -34,6 +41,29 @@ useEffect(() => {
             <div className="list_croquis_wrapper">
                 <div className="list_croquis_top">
                     <h2 className="list_croquis_h2">Liste des croquis</h2>
+                </div>
+                <div className="list_croquis_row_filter">
+                    <div className="list_croquis_left">
+                        <Search placeholder="Recherche..." 
+                            enterButton 
+                            onChange={(e) => setSearchValue(e.target.value)}
+                        />
+                    </div>
+                    <div className="list_croquis_right">
+                        <label>Batiment : </label>
+                        <Select
+                            mode="multiple"
+                            showSearch
+                            style={{ width: '100%' }}
+                            options={batiment.map((item) => ({
+                                value: item.id_departement,
+                                label: item.nom_departement,
+                            }))}
+                            placeholder="Sélectionnez ..."
+                            optionFilterProp="label"
+                            onChange={setSelectedBatiment}
+                        />
+                    </div>
                 </div>
                 <div className="list_croquis_bottom">
                     <div className="list_croquis_rows">
