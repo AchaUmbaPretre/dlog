@@ -4,6 +4,7 @@ import { getPlans } from '../../../services/batimentService'
 import { notification, Input, Select } from 'antd';
 import config from '../../../config';
 import { FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import { getBatiment } from '../../../services/typeService';
 
 const { Search } = Input;
 
@@ -19,10 +20,12 @@ const ListCroquis = () => {
 useEffect(() => {
     const fetchData = async () => {
         try {
-            const [ planData ] = await Promise.all([
-                getPlans()
+            const [ planData, batimentData ] = await Promise.all([
+                getPlans(),
+                getBatiment()
             ])
             setData(planData.data)
+            setBatiment(batimentData.data)
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
@@ -56,8 +59,8 @@ useEffect(() => {
                             showSearch
                             style={{ width: '100%' }}
                             options={batiment.map((item) => ({
-                                value: item.id_departement,
-                                label: item.nom_departement,
+                                value: item.id_batiment,
+                                label: item.nom_batiment,
                             }))}
                             placeholder="Sélectionnez ..."
                             optionFilterProp="label"
