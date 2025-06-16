@@ -136,43 +136,44 @@ const InstructionsDetail = ({ idInspection }) => {
           </Space>
           <Divider style={{margin:0}}/>
           <div ref={exportRef} className="instruction_rows">
-            <h2 className="instruction_h2" style={{ textAlign: "center", marginBottom: 24, fontWeight: 300 }}>
+            <h2 className="instruction_h2">
               Détails des Instructions
             </h2>
+            <Card style={{background: '#f5f5f5', margin:0, marginBottom:'20px'}}>
+              <div className="row_inspections">
+                <Tooltip title="Précédent">
+                  <Button className="row-arrow" onClick={goToPrevious}>
+                    <LeftCircleFilled className="icon-arrow" />
+                  </Button>
+                </Tooltip>
+                <div className="instruction_row">
+                  <div className="instruction_sous_row">
+                    <strong className="instruction_desc_strong">🏢 Bâtiment : </strong>
+                    <span className="instruction_desc">{batimentInfo.name}</span>
+                  </div>
 
-            <div className="row_inspections">
-              <Tooltip title="Précédent">
-                <Button className="row-arrow" onClick={goToPrevious}>
-                  <LeftCircleFilled className="icon-arrow" />
-                </Button>
-              </Tooltip>
-              <div className="instruction_row">
-                <div className="instruction_sous_row">
-                  <strong className="instruction_desc_strong">Bâtiment : </strong>
-                  <span className="instruction_desc">{batimentInfo.name}</span>
-                </div>
+                  <div className="instruction_sous_row">
+                    <strong className="instruction_desc_strong">🛠️ Type d'Inspection : </strong>
+                    <span className="instruction_desc">{batimentInfo.typeInstruction}</span>
+                  </div>
 
-                <div className="instruction_sous_row">
-                  <strong className="instruction_desc_strong">Type d'Instruction : </strong>
-                  <span className="instruction_desc">{batimentInfo.typeInstruction}</span>
-                </div>
+                  <div className="instruction_sous_row">
+                    <strong className="instruction_desc_strong">🏷️ Catégorie : </strong>
+                    <span className="instruction_desc">{batimentInfo.categorie}</span>
+                  </div>
 
-                <div className="instruction_sous_row">
-                  <strong className="instruction_desc_strong">Catégorie : </strong>
-                  <span className="instruction_desc">{batimentInfo.categorie}</span>
+                  <div className="instruction_sous_row">
+                    <strong className="instruction_desc_strong">🗓️ Date de Création : </strong>
+                    <span className="instruction_desc">{new Date(batimentInfo.dateCreation).toLocaleString()}</span>
+                  </div>
                 </div>
-
-                <div className="instruction_sous_row">
-                  <strong className="instruction_desc_strong">Date de Création : </strong>
-                  <span className="instruction_desc">{new Date(batimentInfo.dateCreation).toLocaleString()}</span>
-                </div>
-              </div>
-              <Tooltip title="Suivant">
-                <Button className="row-arrow" onClick={goToNext}>
-                  <RightCircleFilled className="icon-arrow" />
-                </Button>
-              </Tooltip>
-            </div>            
+                <Tooltip title="Suivant">
+                  <Button className="row-arrow" onClick={goToNext}>
+                    <RightCircleFilled className="icon-arrow" />
+                  </Button>
+                </Tooltip>
+              </div>  
+            </Card>          
 
             {/* Section "Avant" */}
             <Row gutter={[16, 16]}>

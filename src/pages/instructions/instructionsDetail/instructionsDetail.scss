@@ -1,31 +1,36 @@
 .instruction{
-    padding: 20px;
+    padding: 10px;
     .instruction_wrapper{
         display: flex;
         flex-direction: column;
         gap: 20px;
         .instruction_rows{
             .instruction_h2{
-                text-align: center;
-                font-weight: 300;
+                text-transform: uppercase;
                 text-align: center;
             }
             .row_inspections{
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                gap: 20px;
                 .row-arrow{
-                    flex: 1;
+                    font-size: 1.2rem;
+                    color: rgb(0, 96, 206);
+                    cursor: pointer;
                 }
                 .instruction_row{
                     width: 100%;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    flex: 2;
                     .instruction_sous_row{
                         display: flex;
                         flex-direction: column;
+                        .instruction_desc{
+                            font-size: .8rem;
+                            margin-left: 20px;
+                        }
                     }
                 }
             }

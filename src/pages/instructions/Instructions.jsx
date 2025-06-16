@@ -331,7 +331,7 @@ const Instructions = () => {
         visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={1000}
         centered
       >
         <InstructionsDetail idInspection={idInspection}/>
