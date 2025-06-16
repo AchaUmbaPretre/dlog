@@ -331,7 +331,7 @@ const Instructions = () => {
         visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={1025}
         centered
       >
         <InstructionsDetail idInspection={idInspection}/>
@@ -342,7 +342,7 @@ const Instructions = () => {
         visible={modalType === 'addApres'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={1025}
         centered
       >
         <InstructionFormApres closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
