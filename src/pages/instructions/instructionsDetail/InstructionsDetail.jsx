@@ -190,6 +190,7 @@ const InstructionsDetail = ({ idInspection }) => {
                             href={`${DOMAIN}/${instruction.img}`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            style={{width:'100%'}}
                           >
                             <img
                               alt="Avant"
