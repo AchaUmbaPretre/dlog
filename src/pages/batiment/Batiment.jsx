@@ -464,7 +464,7 @@ const Batiment = ({datas}) => {
                   Batiment
                 </Button>
                 <Button
-                  type="primary"
+                  type="dashed"
                   icon={<PictureOutlined />}
                   onClick={handleAddClient}
                 >
