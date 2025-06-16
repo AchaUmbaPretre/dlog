@@ -24,11 +24,6 @@ const ListBinGlobal = () => {
   const [activeKey, setActiveKey] = useState(['1', '2']);
 
 
-  const handleEdit = (id) => {
-    setIdBins(id)
-    setIsModalVisible(true)
-  }
-
   const handleDelete = async (id) => {
     try {
       await putDeleteBins(id);
@@ -301,10 +296,10 @@ const ListBinGlobal = () => {
                 visible={modalType === 'Add'}
                 onCancel={closeAllModals}
                 footer={null}
-                width={650}
+                width={900}
                 centered
             >
-                <BinForm idBatiment={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData} idBins={idBins}/>
+              <BinForm idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchData} idBins={idBins}/>
             </Modal>
 
             <Modal

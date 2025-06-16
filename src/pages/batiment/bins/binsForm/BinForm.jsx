@@ -54,9 +54,9 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                 await postBins(value);
                 message.success('Bin créé avec succès !');
             }
-            closeModal();
             form.resetFields();
             fetchData();
+            closeModal();
             navigate('/liste_bins');
         } catch (error) {
             message.error('Erreur lors de la création du bin. Veuillez réessayer.', 3);
@@ -66,7 +66,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
     return (
         <div className="bin-form-container">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">{idBins ? 'Mise à jour' : 'Créer un Nouvel Bin'}</h2>
+                <h2 className="controle_h2">{idBins ? 'Mise à jour du bin' : 'Créer un Nouvel Bin'}</h2>
             </div>
             {loading ? (
                 <Skeleton active />

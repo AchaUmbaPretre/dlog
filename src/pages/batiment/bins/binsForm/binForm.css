@@ -1,16 +1,15 @@
 .bin-form-container {
-    max-width: 600px;
     margin: 0 auto;
-    padding: 24px;
-    background: #ffffff; /* Couleur de fond propre et moderne */
-    border-radius: 12px; /* Bords arrondis pour un aspect doux */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre douce pour profondeur */
+    padding: 20px;
+    background: #ffffff; 
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .form-title {
     text-align: center;
     margin-bottom: 24px;
-    color: #333; /* Couleur de texte plus sombre pour le contraste */
+    color: #333; 
 }
 
 .submit-button {
