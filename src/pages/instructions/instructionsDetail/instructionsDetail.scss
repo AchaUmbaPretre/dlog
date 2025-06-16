@@ -15,7 +15,9 @@
                 align-items: center;
                 justify-content: space-between;
                 .instruction_row{
+                    width: 100%;
                     display: flex;
+                    align-items: center;
                     justify-content: space-between;
                     .instruction_sous_row{
                         display: flex;
