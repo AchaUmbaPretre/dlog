@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Form, Input, Button, notification, Select } from 'antd';
-import { getBins, getBinsOne, getBinsOneV, postAdresse } from '../../../services/batimentService';
+import { Form, Input, Card, Button, notification, Select } from 'antd';
+import {  getBinsOne, getBinsOneV, postAdresse } from '../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 import { getBatiment } from '../../../services/typeService';
 
@@ -69,55 +69,57 @@ useEffect(() => {
         <h2 className="controle_h2">Insérer une adresse</h2>
       </div>
       <div className="client_wrapper">
-        <Form
-          form={form}
-          name="format_form"
-          layout="vertical"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          style={{ maxWidth: 600, margin: '0 auto' }}
-        >
-          <Form.Item
-            label="Warehouse"
-            name="id_batiment"
-            rules={[{ required: true, message: 'Veuillez selectionner un bin' }]}
+        <Card>
+          <Form
+            form={form}
+            name="format_form"
+            layout="vertical"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            style={{ maxWidth: 600, margin: '0 auto' }}
           >
-            <Select
-              showSearch
-              options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
-              placeholder="Sélectionnez..."
-              optionFilterProp="label"
-              onChange={setIdBatiment}
-            />
-          </Form.Item>
+            <Form.Item
+              label="Warehouse"
+              name="id_batiment"
+              rules={[{ required: true, message: 'Veuillez selectionner un bin' }]}
+            >
+              <Select
+                showSearch
+                options={batiment.map(item => ({ value: item.id_batiment, label: item.nom_batiment }))}
+                placeholder="Sélectionnez..."
+                optionFilterProp="label"
+                onChange={setIdBatiment}
+              />
+            </Form.Item>
 
-          <Form.Item
-            label="Bin"
-            name="id_bin"
-            rules={[{ required: true, message: 'Veuillez entrer un bin' }]}
-          >
-            <Select
-              showSearch
-              options={bin.map(item => ({ value: item.id, label: item.nom }))}
-              placeholder="Sélectionnez..."
-              optionFilterProp="label"
-            />
-          </Form.Item>
+            <Form.Item
+              label="Bin"
+              name="id_bin"
+              rules={[{ required: true, message: 'Veuillez entrer un bin' }]}
+            >
+              <Select
+                showSearch
+                options={bin.map(item => ({ value: item.id, label: item.nom }))}
+                placeholder="Sélectionnez..."
+                optionFilterProp="label"
+              />
+            </Form.Item>
 
-          <Form.Item
-            label="Adresse"
-            name="adresse"
-            rules={[{ required: true, message: 'Veuillez entrer une adresse' }]}
-          >
-            <Input.TextArea rows={4} placeholder="Entrez l'adresse..." />
-          </Form.Item>
+            <Form.Item
+              label="Adresse"
+              name="adresse"
+              rules={[{ required: true, message: 'Veuillez entrer une adresse' }]}
+            >
+              <Input.TextArea rows={4} placeholder="Entrez l'adresse..." />
+            </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-              Soumettre
-            </Button>
-          </Form.Item>
-        </Form>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                Soumettre
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
       </div>
     </div>
   );
