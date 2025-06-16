@@ -176,9 +176,9 @@ const InstructionsDetail = ({ idInspection }) => {
             </Card>          
 
             {/* Section "Avant" */}
-            <Row gutter={[16, 16]}>
-              <Col xs={24}>
-                <Title level={4}>Avant</Title>
+            <div className="inspection_bottom">
+              <div className="inspection_bottom_wrapper">
+                <h2 className="inspection_title_h2">Avant</h2>
                 {groupedData.avant.length > 0 && (
                   <Card style={{ marginBottom: 24, borderRadius: 8 }}>
                     <Text strong>Commentaire Avant :</Text>{" "}
@@ -208,7 +208,7 @@ const InstructionsDetail = ({ idInspection }) => {
                     </Row>
                   </Card>
                 )}
-              </Col>
+              </div>
 
               {/* Section "Après" */}
               <Col xs={24}>
@@ -243,7 +243,7 @@ const InstructionsDetail = ({ idInspection }) => {
                   </Card>
                 )}
               </Col>
-            </Row>
+            </div>
 
           </div>
         </div>
