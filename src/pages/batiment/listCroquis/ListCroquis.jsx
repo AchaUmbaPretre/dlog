@@ -27,7 +27,10 @@ useEffect(() => {
     <>
         <div className="list_croquis">
             <div className="list_croquis_wrapper">
-                CROQUIS
+                <div className="list_croquis_top"></div>
+                <div className="list_croquis_bottom">
+                    
+                </div>
             </div>
         </div>
     </>
