@@ -512,7 +512,7 @@ const Batiment = ({datas}) => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={800}
+        width={1000}
         centered
       >
         <BatimentForm idBatiment={idBatiment} closeModal={()=>setIsModalVisible(false)} fetchData={fetchData}/>
@@ -523,7 +523,7 @@ const Batiment = ({datas}) => {
         visible={modalType === 'editBatiment'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={1000}
         centered
       >
         <BatimentForm idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
