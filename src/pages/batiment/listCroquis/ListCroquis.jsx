@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './listCroquis.scss'
 import { getPlans } from '../../../services/batimentService'
-import { notification, Input, Select } from 'antd';
+import { notification, Input, Select, Skeleton, Card, Col, Empty, Row } from 'antd';
 import config from '../../../config';
 import { FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getBatiment } from '../../../services/typeService';
@@ -69,6 +69,22 @@ const ListCroquis = () => {
                 </div>
                 <div className="list_croquis_bottom">
                     <div className="list_croquis_rows">
+                    { loading ? (
+                        <Row gutter={[16, 16]} className="gallery-row">
+                            {[...Array(8)].map((_, index) => (
+                                <Col key={index} xs={24} sm={12} md={8} lg={6}>
+                                <Card className="gallery-card">
+                                    <Skeleton.Image className="gallery-skeleton-image" />
+                                    <Skeleton active />
+                                    <Skeleton.Button active style={{ width: '100%', marginTop: 10 }} />
+                                </Card>
+                                </Col>
+                            ))}
+                        </Row>
+                    ) : data.length === 0 ? (
+                        <Empty description="Aucune image disponible" />
+                    ) : (
+                        <>
                     { data?.map((dd) => (
                         <div className="list_croquis_row">
                             <div className="list_croquis_title_row">
@@ -77,7 +93,7 @@ const ListCroquis = () => {
                             </div>
                             <img src={`${DOMAIN}/${dd.chemin_document}`} alt={dd.nom_document} className="list_croquis_img" />
                         </div>
-                    ))}
+                    ))} </>)}
                     </div>
                 </div>
             </div>
