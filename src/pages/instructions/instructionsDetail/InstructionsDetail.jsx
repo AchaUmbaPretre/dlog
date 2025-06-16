@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Card, Spin, notification, Tooltip, Typography, Row, Col, Button, Space } from "antd";
+import { Card, Spin, notification, Divider, Tooltip, Typography, Row, Col, Button, Space } from "antd";
 import { getInspectionOneV } from "../../../services/batimentService";
 import html2pdf from "html2pdf.js";
 import htmlDocx from "html-docx-js/dist/html-docx";
@@ -134,6 +134,7 @@ const InstructionsDetail = ({ idInspection }) => {
               Exporter en Word
             </Button>
           </Space>
+          <Divider/>
           <div ref={exportRef}>
             <Title level={3} style={{ textAlign: "center", marginBottom: 24, fontWeight: 300 }}>
               Détails des Instructions
