@@ -54,7 +54,7 @@ const Batiment = ({datas}) => {
   
   const handleDelete = async (id) => {
     try {
-        await putDeleteBatiment(id);
+      await putDeleteBatiment(id);
       setData(data.filter((item) => item.id_batiment !== id));
       message.success('Batiment supprimé avec succès');
     } catch (error) {
@@ -65,7 +65,7 @@ const Batiment = ({datas}) => {
     }
   };
 
-    const fetchData = async () => {
+  const fetchData = async () => {
       try {
         const { data } = await getBatiment();
         setData(data);
@@ -79,11 +79,9 @@ const Batiment = ({datas}) => {
       }
     };
 
-    useEffect(() => {
-
+  useEffect(() => {
     fetchData();
   }, []);
-
 
   const closeAllModals = () => {
     setModalType(null);
