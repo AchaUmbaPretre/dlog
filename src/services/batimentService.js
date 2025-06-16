@@ -25,8 +25,8 @@ export const putEquipement = async (id,data) => {
 };
 
 //Batiment plan
-export const getPlans = async () => {
-    return axios.get(`${DOMAIN}/api/batiment/plans`);
+export const getPlans = async (searchValue, selectedBatiment) => {
+    return axios.get(`${DOMAIN}/api/batiment/plans?searchValue=${searchValue}&selectedBatiment=${selectedBatiment}`);
   };
 
 export const getPlansOne = async (id) => {

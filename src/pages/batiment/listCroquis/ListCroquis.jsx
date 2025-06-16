@@ -19,7 +19,7 @@ const ListCroquis = () => {
     const fetchData = async () => {
         try {
             const [ planData, batimentData ] = await Promise.all([
-                getPlans(searchValue),
+                getPlans(searchValue, selectedBatiment),
                 getBatiment()
             ])
             setData(planData.data)
