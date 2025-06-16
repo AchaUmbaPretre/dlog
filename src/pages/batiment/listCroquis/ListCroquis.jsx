@@ -3,6 +3,7 @@ import './listCroquis.scss'
 import { getPlans } from '../../../services/batimentService'
 import { notification } from 'antd';
 import config from '../../../config';
+import { FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const ListCroquis = () => {
     const [loading, setLoading] = useState(true);
@@ -37,8 +38,8 @@ useEffect(() => {
                     { data?.map((dd) => (
                         <div className="list_croquis_row">
                             <div className="list_croquis_title_row">
-                                <h1 className="list_croquis_h1">Croquis {dd.nom_document}</h1>
-                                <span className="list_span_croquis"><strong>Date : </strong>{new Date(dd.date_ajout).toLocaleDateString()}</span>
+                                <h1 className="list_croquis_h1"><FileTextOutlined /> Croquis {dd.nom_document}</h1>
+                                <span className="list_span_croquis"><strong style={{color:'black'}}><CalendarOutlined style={{color:'blue'}} /> Date : </strong>{new Date(dd.date_ajout).toLocaleDateString()}</span>
                             </div>
                             <img src={`${DOMAIN}/${dd.chemin_document}`} alt={dd.nom_document} className="list_croquis_img" />
                         </div>
