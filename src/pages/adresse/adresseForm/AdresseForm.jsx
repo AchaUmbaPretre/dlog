@@ -39,7 +39,7 @@ const AdresseForm = ({closeModal, fetchData, idBin}) => {
 
 useEffect(() => {
   fetchDataAll()
-}, [idBin]);
+}, [idBin, idBatiment]);
 
   const onFinish = async(values) => {
     setLoading(true)

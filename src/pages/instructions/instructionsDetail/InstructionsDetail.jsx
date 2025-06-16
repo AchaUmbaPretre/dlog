@@ -217,7 +217,7 @@ const InstructionsDetail = ({ idInspection }) => {
                 <Title level={4}>Après</Title>
                 {groupedData.apres.length > 0 && (
                   <Card style={{ marginBottom: 24, borderRadius: 8 }}>
-                    <Text strong>Commentaire Après :</Text>{" "}
+                    <Text strong>Commentaire : </Text>{" "}
                     <Text>{groupedData.apres[0]?.commentaire || "Aucun commentaire"}</Text>
                     <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
                       {groupedData.apres.map((instruction, index) => (
