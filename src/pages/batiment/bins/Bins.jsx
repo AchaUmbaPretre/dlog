@@ -264,7 +264,7 @@ const [idBin, setIdBin] = useState(null);
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={650}
+        width={900}
         centered
       >
         <BinForm idBatiment={idBatiment} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
