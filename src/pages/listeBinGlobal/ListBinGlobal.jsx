@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Tabs } from 'antd';
-import { ExportOutlined, PrinterOutlined, EnvironmentOutlined, BankOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, EnvironmentOutlined, BankOutlined, ApartmentOutlined,EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import { getBins, putDeleteBins } from '../../services/batimentService';
 import BinForm from '../batiment/bins/binsForm/BinForm';
 import AdresseForm from '../adresse/adresseForm/AdresseForm';
@@ -61,7 +61,7 @@ const ListBinGlobal = () => {
   }, []);
 
   const handleAddresse = (idBin) => openModal('Addresse', idBin);
-  const handleAdd = () => openModal('Add');
+  const handleAdd = (idBin) => openModal('Add', idBin);
 
 
   const closeAllModals = () => {
@@ -195,7 +195,7 @@ const ListBinGlobal = () => {
           <Tooltip title="Modifier">
             <Button
               icon={<EditOutlined />}
-              onClick={() => handleEdit(record.id)}
+              onClick={() => handleAdd(record.id)}
               style={{ color: 'green' }}
               aria-label="Modifier entrepôt"
             />

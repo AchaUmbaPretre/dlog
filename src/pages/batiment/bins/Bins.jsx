@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined, PrinterOutlined, ContainerOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PrinterOutlined, ContainerOutlined, ApartmentOutlined,EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import { getBinsOne, putDeleteBins } from '../../../services/batimentService';
 import BinForm from '../bins/binsForm/BinForm';
 import AdresseForm from '../../adresse/adresseForm/AdresseForm';
@@ -18,18 +18,23 @@ const Bins = ({idBatiment}) => {
     current: 1,
     pageSize: 20,
   });
-
+const [idBin, setIdBin] = useState(null);
   const scroll = { x: 400 };
 
-  const handleAddBin = () => openModal('Addresse');
+  const handleAddBin = (id) => openModal('Addresse', id);
+
+  const handleAddClient = (id) => openModal('Add', id)
 
   const closeAllModals = () => {
     setModalType(null);
   };
 
-  const openModal = (type) => {
+  const openModal = (type, id = '') => {
     setModalType(type);
+    setIdBin(id)
   };
+
+  console.log(idBin)
 
   const handleDelete = async (id) => {
     try {
@@ -62,11 +67,6 @@ const Bins = ({idBatiment}) => {
   useEffect(() => {
     fetchData();
   }, [idBatiment]);
-
-  const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
-
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
@@ -180,6 +180,7 @@ const Bins = ({idBatiment}) => {
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               aria-label="Modifier entrepôt"
+              onClick={() => handleAddClient(record.id)}
             />
           </Tooltip>
           <Tooltip title="Supprimer">
