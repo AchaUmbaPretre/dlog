@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton } from 'antd';
+import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select } from 'antd';
 import { 
   ExportOutlined, WarningOutlined,MoreOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
   CheckSquareOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
@@ -111,7 +111,7 @@ const fetchData = async (filters) => {
     try {
         const response = await getProjetTacheOne(idProjet);
 
-        setAllIds([...new Set(response?.data?.taches?.map(d => d.id_tache) || [])]);
+        setAllIds([...new Set(response?.data?.map(d => d.id_tache) || [])]);
 
         const groupedData = response.data.reduce((acc, curr) => {
             const found = acc.find(item => item.id_tache === curr.id_tache);

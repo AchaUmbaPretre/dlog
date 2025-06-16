@@ -10,7 +10,6 @@ import {
   } from '@ant-design/icons';
 import * as XLSX from 'xlsx';
 import './allDetail.scss';
-import { getPriorityTag } from '../../../utils/prioriteIcons';
 
 const { Title, Paragraph: AntParagraph } = Typography;
 const { Panel } = Collapse;
