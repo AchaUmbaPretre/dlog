@@ -181,11 +181,11 @@ const InstructionsDetail = ({ idInspection }) => {
                 <h2 className="inspection_title_h2">Avant</h2>
                 {groupedData.avant.length > 0 && (
                   <Card style={{ marginBottom: 24, borderRadius: 8 }}>
-                    <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
+                    <div className="inspection_bottom_rows">
                       {groupedData.avant.map((instruction, index) => (
-                        <Col xs={24} sm={12} md={8} lg={6} key={`avant-img-${index}`}>
-                          <Text strong>Commentaire Avant :</Text>{" "}
-                          <Text>{instruction?.commentaire || "Aucun commentaire"}</Text>
+                        <div className="inspection_bottom_row" key={`avant-img-${index}`}>
+                          <strong className="title_sous_inspection">Commentaire Avant :</strong>{" "}
+                          <span className="inspection_desc">{instruction?.commentaire || "Aucun commentaire"}</span>
                           <a
                             href={`${DOMAIN}/${instruction.img}`}
                             target="_blank"
@@ -201,12 +201,13 @@ const InstructionsDetail = ({ idInspection }) => {
                                 objectFit: "cover",
                                 borderRadius: 8,
                                 boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                                marginTop:'20px',
                               }}
                             />
                           </a>
-                        </Col>
+                        </div>
                       ))}
-                    </Row>
+                    </div>
                   </Card>
                 )}
               </div>
