@@ -506,7 +506,7 @@ const Batiment = ({datas}) => {
           visible={modalType === 'ListCroque'}
           onCancel={closeAllModals}
           footer={null}
-          width={1000}
+          width={1050}
           centered
       >
         <ListCroquis idBatiment={idBatiment}  />
