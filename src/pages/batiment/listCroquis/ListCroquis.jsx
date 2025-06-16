@@ -32,7 +32,9 @@ useEffect(() => {
     <>
         <div className="list_croquis">
             <div className="list_croquis_wrapper">
-                <div className="list_croquis_top"></div>
+                <div className="list_croquis_top">
+                    
+                </div>
                 <div className="list_croquis_bottom">
                     <div className="list_croquis_rows">
                     { data?.map((dd) => (
