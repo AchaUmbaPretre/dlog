@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import './detailGlobalTracking.scss'
-import { notification, Spin, Button, Card, Tooltip, Typography, Tag, Divider } from 'antd';
-import { RightCircleFilled, LeftCircleFilled, UserOutlined, EditOutlined } from '@ant-design/icons';
+import { notification, Spin, Button, Card, Tooltip,Tag, Divider } from 'antd';
+import { RightCircleFilled, LeftCircleFilled } from '@ant-design/icons';
 import { getSuiviTacheUne } from '../../../services/suiviService';
-const { Title, Text } = Typography;
 
 const DetailGlobalTracking = ({ idTrack }) => {
   const [data, setData] = useState([]);
