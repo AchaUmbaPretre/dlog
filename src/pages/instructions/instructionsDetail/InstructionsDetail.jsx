@@ -134,7 +134,7 @@ const InstructionsDetail = ({ idInspection }) => {
               Exporter en Word
             </Button>
           </Space>
-          <Divider/>
+          <Divider style={{margin:0}}/>
           <div ref={exportRef}>
             <Title level={3} style={{ textAlign: "center", marginBottom: 24, fontWeight: 300 }}>
               Détails des Instructions
