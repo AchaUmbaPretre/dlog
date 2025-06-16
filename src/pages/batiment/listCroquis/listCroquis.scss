@@ -4,12 +4,21 @@
     .list_croquis_wrapper{
         width: 100%;
         .list_croquis_top{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eeeeee;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
             .list_croquis_h2{
                 text-align: center;
-                font-size: 1.4rem;
+                font-size: 1.2rem;
                 text-transform: uppercase;
                 font-weight: bold;
                 letter-spacing: 2px;
+                margin: 0;
+                padding: 0;
             }
         }
         .list_croquis_bottom{
