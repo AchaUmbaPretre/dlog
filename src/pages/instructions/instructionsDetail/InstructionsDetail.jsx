@@ -5,10 +5,7 @@ import html2pdf from "html2pdf.js";
 import htmlDocx from "html-docx-js/dist/html-docx";
 import config from "../../../config";
 import "./instructionsDetail.scss";
-import { 
-  LeftCircleFilled,
-  RightCircleFilled } from '@ant-design/icons';
-
+import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
@@ -124,11 +121,11 @@ const InstructionsDetail = ({ idInspection }) => {
   };
 
   return (
-    <div style={{ padding: 16 }}>
+    <div className="instruction">
       {loading ? (
         <Spin size="large" style={{ display: "block", margin: "50px auto" }} />
       ) : (
-        <div>
+        <div className="instruction_wrapper">
           <Space style={{ marginBottom: 16 }}>
             <Button type="primary" onClick={exportToPDF}>
               Exporter en PDF
