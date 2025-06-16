@@ -419,7 +419,9 @@ const Batiment = ({datas}) => {
   };
 
   const filteredData = data.filter(item =>
-    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.name?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.site?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
