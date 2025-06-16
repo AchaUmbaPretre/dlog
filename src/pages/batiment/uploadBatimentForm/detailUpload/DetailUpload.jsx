@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getPlansOne } from '../../../../services/batimentService';
-import { Spin, notification, Card, Col, Row, Modal, Button, Typography, Pagination, Empty, Skeleton } from 'antd';
+import { notification, Card, Col, Row, Modal, Button, Typography, Pagination, Empty, Skeleton } from 'antd';
 import { EyeOutlined, DownloadOutlined } from '@ant-design/icons';
 import './detailUpload.scss';
 import config from '../../../../config';
