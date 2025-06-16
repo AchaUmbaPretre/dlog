@@ -3,6 +3,7 @@ import './detailGlobalTracking.scss'
 import { notification, Spin, Button, Card, Tooltip,Tag, Divider } from 'antd';
 import { RightCircleFilled, LeftCircleFilled } from '@ant-design/icons';
 import { getSuiviTacheUne } from '../../../services/suiviService';
+import { statusIcons } from '../../../utils/prioriteIcons';
 
 const DetailGlobalTracking = ({ idTrack }) => {
   const [data, setData] = useState([]);
@@ -73,31 +74,44 @@ const DetailGlobalTracking = ({ idTrack }) => {
         </div>
         <Card>
           <div className="detail_global_bottom_wrapper">
-          {data.map(item => (
-            
-            <div className="detail_global_bottom">
-              <h2 className="detail_global_title"><strong>TITRE : </strong> 
-              <br />
-              {item.nom_tache}
-              </h2>
+            {data.map((item, index) => {
+              const { icon, color } = statusIcons[item.nom_type_statut] || {};
 
-              <Divider style={{margin:'0'}} />
+              return (
+                <div className="detail_global_bottom" key={index}>
+                  <h2 className="detail_global_title">
+                    <strong>TITRE : </strong>
+                    <br />
+                    {item.nom_tache}
+                  </h2>
 
-              <div className="detail_global_bottom_rows">
-                <span className="detail_global_txt"><strong>👤 Effectué par : </strong>{item.nom}</span>
-                <Divider style={{margin:'0'}} />
-                <span className="detail_global_txt"><strong>🗓️ Date de suivi : </strong>{new Date(item.date_suivi).toLocaleString()}</span>
-                <Divider style={{margin:'0'}} />
-                <span className="detail_global_txt"><strong>✅ Statut : </strong><Tag color={item.est_termine === 'Oui' ? 'green' : 'volcano'}>{item.nom_type_statut}</Tag></span>
-                <Divider style={{margin:'0'}} />
-                <span className="detail_global_txt" style={{display:'flex', flexDirection:'column', gap:'10px'}}><strong>💬 Commentaire : </strong>
-                <div>
-                  {item.commentaire}
+                  <Divider style={{ margin: '0' }} />
+
+                  <div className="detail_global_bottom_rows">
+                    <span className="detail_global_txt">
+                      <strong>👤 Effectué par : </strong>{item.nom}
+                    </span>
+                    <Divider style={{ margin: '0' }} />
+
+                    <span className="detail_global_txt">
+                      <strong>🗓️ Date de suivi : </strong>{new Date(item.date_suivi).toLocaleString()}
+                    </span>
+                    <Divider style={{ margin: '0' }} />
+
+                    <span className="detail_global_txt">
+                      <strong>✅ Statut : </strong>
+                      <Tag icon={icon} color={color}>{item.nom_type_statut}</Tag>
+                    </span>
+                    <Divider style={{ margin: '0' }} />
+
+                    <span className="detail_global_txt" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <strong>💬 Commentaire : </strong>
+                      <div>{item.commentaire}</div>
+                    </span>
+                  </div>
                 </div>
-                </span>
-              </div>
-            </div>
-          ))}
+              );
+            })}
           </div>
         </Card>
       </div>
