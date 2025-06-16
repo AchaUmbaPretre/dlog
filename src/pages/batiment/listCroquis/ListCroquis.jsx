@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './listCroquis.scss'
 import { getPlans } from '../../../services/batimentService'
-import { notification, Input, Select, Skeleton, Card, Col, Empty, Row } from 'antd';
+import { notification, Image, Input, Select, Skeleton, Card, Col, Empty, Row } from 'antd';
 import config from '../../../config';
 import { FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getBatiment } from '../../../services/typeService';
@@ -91,7 +91,7 @@ const ListCroquis = () => {
                                 <h1 className="list_croquis_h1"><FileTextOutlined /> Croquis {dd.nom_document}</h1>
                                 <span className="list_span_croquis"><strong style={{color:'black'}}><CalendarOutlined style={{color:'blue'}} /> Date : </strong>{new Date(dd.date_ajout).toLocaleDateString()}</span>
                             </div>
-                            <img src={`${DOMAIN}/${dd.chemin_document}`} alt={dd.nom_document} className="list_croquis_img" />
+                            <Image src={`${DOMAIN}/${dd.chemin_document}`} alt={dd.nom_document} className="list_croquis_img" />
                         </div>
                     ))} </>)}
                     </div>
