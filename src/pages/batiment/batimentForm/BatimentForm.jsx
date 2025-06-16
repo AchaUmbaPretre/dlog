@@ -1,5 +1,5 @@
-import { Button, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Button, Card, Form, Input, notification, Modal, Select, Row, Col } from 'antd';
+import { useEffect, useState } from 'react';
 import { getBatimentOne, getStatus_batiment, postBatiment, putBatiment } from '../../../services/typeService';
 import { getProvince } from '../../../services/clientService';
 
@@ -85,125 +85,127 @@ const BatimentForm = ({ idBatiment, closeModal, fetchData }) => {
             <div className="controle_title_rows">
                 <h2 className="controle_h2">{idBatiment ? "Modifier le bâtiment" : "Insérer un nouveau bâtiment"}</h2>
             </div>
-            <div className="client_wrapper">
-                <Form form={form} layout="vertical" onFinish={onFinish}>
-                    <Row gutter={16}>
-                        <Col span={8}>
+            <Card>
+                <div className="client_wrapper">
+                    <Form form={form} layout="vertical" onFinish={onFinish}>
+                        <Row gutter={16}>
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Nom du bâtiment"
+                                    name="nom_batiment"
+                                    rules={[{ required: true, message: 'Veuillez entrer le nom du bâtiment!' }]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item label="Site" name="site">
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Ville"
+                                    name="ville"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner une ville!' }]}
+                                >
+                                    <Select
+                                        showSearch
+                                        options={data.map((item) => ({
+                                            value: item.id,
+                                            label: item.capital,
+                                        }))}
+                                        placeholder="Sélectionnez une ville..."
+                                        optionFilterProp="label"
+                                    />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item label="Longueur" name="longueur">
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item label="Largeur" name="largeur">
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item label="Hauteur" name="hauteur">
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item label="Surface du sol" name="surface_sol">
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item label="Surface des murs" name="surface_murs">
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item label="Mètres linéaires" name="metres_lineaires">
+                                    <Input />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={12}>
+                                <Form.Item label="Type bâtiment" name="type_batiment">
+                                    <Select placeholder="Sélectionnez un type de bâtiment...">
+                                        <Option value="bureaux">Bureaux</Option>
+                                        <Option value="entrepot">Entrepôt</Option>
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={12}>
                             <Form.Item
-                                label="Nom du bâtiment"
-                                name="nom_batiment"
-                                rules={[{ required: true, message: 'Veuillez entrer le nom du bâtiment!' }]}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </Col>
+                                    label="Entrepot"
+                                    name="statut_batiment"
+                                    rules={[{ required: true, message: 'Veuillez entrer le status batiment !' }]}
+                                >
+                                    <Select
+                                        showSearch
+                                        options={types?.map((item) => ({
+                                            value: item.id_status_batiment,
+                                            label: item.nom_status_batiment,
+                                        }))}
+                                        placeholder="Sélectionnez le status batiment..."
+                                        optionFilterProp="label"
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Row>
 
-                        <Col span={8}>
-                            <Form.Item label="Site" name="site">
-                                <Input />
-                            </Form.Item>
-                        </Col>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
+                                {idBatiment ? 'Modifier' : 'Ajouter'}
+                            </Button>
+                        </Form.Item>
+                    </Form>
 
-                        <Col span={8}>
-                            <Form.Item
-                                label="Ville"
-                                name="ville"
-                                rules={[{ required: true, message: 'Veuillez sélectionner une ville!' }]}
-                            >
-                                <Select
-                                    showSearch
-                                    options={data.map((item) => ({
-                                        value: item.id,
-                                        label: item.capital,
-                                    }))}
-                                    placeholder="Sélectionnez une ville..."
-                                    optionFilterProp="label"
-                                />
-                            </Form.Item>
-                        </Col>
-
-                        <Col span={8}>
-                            <Form.Item label="Longueur" name="longueur">
-                                <Input />
-                            </Form.Item>
-                        </Col>
-
-                        <Col span={8}>
-                            <Form.Item label="Largeur" name="largeur">
-                                <Input />
-                            </Form.Item>
-                        </Col>
-
-                        <Col span={8}>
-                            <Form.Item label="Hauteur" name="hauteur">
-                                <Input />
-                            </Form.Item>
-                        </Col>
-
-                        <Col span={8}>
-                            <Form.Item label="Surface du sol" name="surface_sol">
-                                <Input />
-                            </Form.Item>
-                        </Col>
-
-                        <Col span={8}>
-                            <Form.Item label="Surface des murs" name="surface_murs">
-                                <Input />
-                            </Form.Item>
-                        </Col>
-
-                        <Col span={8}>
-                            <Form.Item label="Mètres linéaires" name="metres_lineaires">
-                                <Input />
-                            </Form.Item>
-                        </Col>
-
-                        <Col span={12}>
-                            <Form.Item label="Type bâtiment" name="type_batiment">
-                                <Select placeholder="Sélectionnez un type de bâtiment...">
-                                    <Option value="bureaux">Bureaux</Option>
-                                    <Option value="entrepot">Entrepôt</Option>
-                                </Select>
-                            </Form.Item>
-                        </Col>
-
-                        <Col span={12}>
-                        <Form.Item
-                                label="Entrepot"
-                                name="statut_batiment"
-                                rules={[{ required: true, message: 'Veuillez entrer le status batiment !' }]}
-                            >
-                                <Select
-                                    showSearch
-                                    options={types?.map((item) => ({
-                                        value: item.id_status_batiment,
-                                        label: item.nom_status_batiment,
-                                    }))}
-                                    placeholder="Sélectionnez le status batiment..."
-                                    optionFilterProp="label"
-                                />
-                            </Form.Item>
-                        </Col>
-                    </Row>
-
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
-                            {idBatiment ? 'Modifier' : 'Ajouter'}
-                        </Button>
-                    </Form.Item>
-                </Form>
-
-                <Modal
-                    title="Confirmer la soumission"
-                    open={isModalVisible}
-                    onOk={handleOk}
-                    onCancel={handleCancel}
-                    okText="Confirmer"
-                    cancelText="Annuler"
-                >
-                    <p>Êtes-vous sûr de vouloir enregistrer ces informations ?</p>
-                </Modal>
-            </div>
+                    <Modal
+                        title="Confirmer la soumission"
+                        open={isModalVisible}
+                        onOk={handleOk}
+                        onCancel={handleCancel}
+                        okText="Confirmer"
+                        cancelText="Annuler"
+                    >
+                        <p>Êtes-vous sûr de vouloir enregistrer ces informations ?</p>
+                    </Modal>
+                </div>
+            </Card>
         </div>
     );
 };
