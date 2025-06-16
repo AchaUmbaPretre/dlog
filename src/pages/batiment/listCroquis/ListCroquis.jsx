@@ -53,7 +53,6 @@ useEffect(() => {
                         />
                     </div>
                     <div className="list_croquis_right">
-                        <label>Batiment : </label>
                         <Select
                             mode="multiple"
                             showSearch
@@ -62,7 +61,7 @@ useEffect(() => {
                                 value: item.id_batiment,
                                 label: item.nom_batiment,
                             }))}
-                            placeholder="Sélectionnez ..."
+                            placeholder="Sélectionnez un batiment ..."
                             optionFilterProp="label"
                             onChange={setSelectedBatiment}
                         />

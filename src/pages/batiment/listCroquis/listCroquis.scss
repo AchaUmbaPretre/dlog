@@ -22,8 +22,15 @@
             }
         }
         .list_croquis_row_filter{
+            width: 100%;
             display: flex;
             justify-content: space-between;
+            .list_croquis_right{
+                display: flex;
+                width: 20%;
+                gap: 10px;
+                margin: 0 20px;
+            }
         }
         .list_croquis_bottom{
             .list_croquis_rows{
