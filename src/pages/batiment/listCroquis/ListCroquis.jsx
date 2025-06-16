@@ -36,7 +36,7 @@ const ListCroquis = () => {
 
     useEffect(() => {
         fetchData()
-    }, []);
+    }, [selectedBatiment, searchValue]);
 
   return (
     <>
