@@ -212,8 +212,8 @@ const InstructionsDetail = ({ idInspection }) => {
               </div>
 
               {/* Section "Après" */}
-              <Col xs={24}>
-                <Title level={4}>Après</Title>
+              <div className="inspection_bottom">
+                <h2 className="inspection_title_h2">Après</h2>
                 {groupedData.apres.length > 0 && (
                   <Card style={{ marginBottom: 24, borderRadius: 8 }}>
                     <Text strong>Commentaire : </Text>{" "}
@@ -243,7 +243,7 @@ const InstructionsDetail = ({ idInspection }) => {
                     </Row>
                   </Card>
                 )}
-              </Col>
+              </div>
             </div>
 
           </div>
