@@ -12,7 +12,6 @@ const { Search } = Input;
 const ListBinGlobal = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [idBins, setIdBins] = useState('')
   const scroll = { x: 400 };
