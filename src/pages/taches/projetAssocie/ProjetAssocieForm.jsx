@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Select, Button, notification, Skeleton } from 'antd';
 import { getProjet } from '../../../services/projetService';
 import { putProjetAssocie } from '../../../services/tacheService';
+import { useSelector } from 'react-redux';
 
 const { Option } = Select;
 
 const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState(true); // État de chargement
-    const [loadingButton, setLoadingButton] = useState(false); // État pour le bouton de chargement
+    const [loading, setLoading] = useState(true);
+    const [loadingButton, setLoadingButton] = useState(false);
     const [projet, setProjet] = useState([]);
+    const role = useSelector((state) => state.user?.currentUser?.role);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const handleSubmit = async (values) => {
         setLoadingButton(true);
@@ -42,13 +45,13 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
                 description: error.response?.data?.message || 'Une erreur inattendue s\'est produite.',
             });
         } finally {
-            setLoadingButton(false); // Désactiver le bouton de chargement
+            setLoadingButton(false);
         }
     };
 
     const fetchDatas = async () => {
         try {
-            const { data } = await getProjet();
+            const { data } = await getProjet(role, userId);
             setProjet(data);
             setLoading(false);
         } catch (error) {
@@ -62,7 +65,7 @@ const ProjetAssocieForm = ({ idTache, fetchData, closeModal }) => {
 
     useEffect(() => {
         fetchDatas();
-    }, [idTache]);
+    }, [idTache,role, userId]);
 
     return (
         <div className="controle_form">
