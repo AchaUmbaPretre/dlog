@@ -401,7 +401,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           </div>
         </h1>
       </div>
-      
+
       { cout ? 
         <div className="title_row">
           <h1 className="title_h1">
@@ -615,7 +615,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
         visible={modalType === 'add_inspection'}
         onCancel={closeAllModals}
         footer={null}
-        width={700}
+        width={900}
         centered
       >
         <InstructionForm idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={''} idTache={idTache}/>
