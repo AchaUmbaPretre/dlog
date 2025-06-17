@@ -98,6 +98,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
   const handleAssocierProjet = () => openModal('associe_projet');
   const handleInspection = () => openModal('add_inspection');
   const handlePermission = () => openModal('permission');
+  const handleInspectionRead = () => openModal('inspection_read');
 
   const goToNextTache = () => {
     setIdTache((prevId) => prevId + 1);
@@ -156,7 +157,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           </Card>
       </Col>
 
-      <Col xs={24} sm={12} md={6} onClick={handleDoc}>
+      <Col xs={24} sm={12} md={6} onClick={handleInspectionRead}>
           <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
               <AuditOutlined style={{ fontSize: '40px', color: '#1890ff', marginBottom: '10px' }} />
             <h3>Inspection</h3>
