@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { getNotificationOne } from '../../../services/tacheService';
-import { notification, Spin, Card } from 'antd';
+import { notification, Skeleton, Card } from 'antd';
 
 const Notification = ({ idNotif }) => {
-  const [data, setData] = useState(null); // Utilisez `null` pour vérifier si les données sont chargées
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
@@ -29,17 +29,21 @@ const Notification = ({ idNotif }) => {
 
   return (
     <div style={{ padding: '20px' }}>
-      {loading ? (
-        <Spin tip="Chargement de la notification..." />
-      ) : data ? (
-        <Card title="Détails de la notification" bordered style={{ maxWidth: 500 }}>
-          <p><strong>Message :</strong> {data.message}</p>
-          <p><strong>Date :</strong> {new Date(data.timestamp).toLocaleString('fr-FR')}</p>
-          <p><strong>Utilisateur :</strong> {data.nom} {data.prenom}</p>
-        </Card>
-      ) : (
-        <p>Aucune notification trouvée pour l'ID spécifié.</p>
-      )}
+      <Card title="Détails de la notification" bordered style={{ maxWidth: 500 }}>
+        {loading ? (
+          <>
+            <Skeleton active paragraph={{ rows: 3 }} />
+          </>
+        ) : data ? (
+          <>
+            <p><strong>Message :</strong> {data.message}</p>
+            <p><strong>Date :</strong> {new Date(data.timestamp).toLocaleString('fr-FR')}</p>
+            <p><strong>Utilisateur :</strong> {data.nom} {data.prenom}</p>
+          </>
+        ) : (
+          <p>Aucune notification trouvée pour l'ID spécifié.</p>
+        )}
+      </Card>
     </div>
   );
 };

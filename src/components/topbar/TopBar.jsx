@@ -142,83 +142,95 @@ const TopBar = () => {
   );
   
   return (
-    <div className="topbar">
-      <div className="topbar-left" onClick={() => navigate('/')} role="button" tabIndex={0}>
-        <span className="logo"><div className="logo-d">D</div>LOG</span>
-      </div>
-      <div className="topbar-right">
-         <Popover
-          content={renderNotifications()}
-          title={t('Notifications')}
-          trigger="click"
-          placement="Right"
-          visible={visible}
-          onVisibleChange={setVisible}
-        >
-          <Badge count={notifications.length} overflowCount={99}>
-            <div className="topbar-icons">
-              <BellOutlined aria-label="Notifications" />
-            </div>
-          </Badge> 
-        </Popover>
-        <hr />
-        <div className="topbar-icons">
-          <MailOutlined aria-label="Messages" />
+    <>
+      {selectedNotif && (
+        <div className="notification-float-detail">
+          <div className="notification-float-header">
+            <div></div>
+            <Button type="text" danger onClick={closeModal}>Fermer</Button>
+          </div>
+          <Notification idNotif={selectedNotif.id_notifications} />
         </div>
-        <hr />
-        <div className="topBar-trait">
-          <Select
-            value={i18n.language}
-            style={{ width: 100 }}
-            onChange={handleLanguageChange}
-            dropdownMatchSelectWidth={false}
+      )}
+
+      <div className="topbar">
+        <div className="topbar-left" onClick={() => navigate('/')} role="button" tabIndex={0}>
+          <span className="logo"><div className="logo-d">D</div>LOG</span>
+        </div>
+        <div className="topbar-right">
+          <Popover
+            content={renderNotifications()}
+            title={t('Notifications')}
+            trigger="click"
+            placement="Right"
+            visible={visible}
+            onVisibleChange={setVisible}
           >
-            <Select.Option value="en">
-              <img src={flagEN} alt="English" style={{ width: 20, marginRight: 8 }} />
-              {t('En')}
-            </Select.Option>
-            <Select.Option value="fr">
-              <img src={flagFR} alt="Français" style={{ width: 20, marginRight: 8 }} />
-              {t('Fr')}
-            </Select.Option>
-          </Select>
-        </div>
-        <div className="topbar-user-rows">
-          <img src={userIcon} alt="Utilisateur" className="user-logo" />
-          <div className="topbar-name-rows">
-            <span className="topbar-name">{user?.nom || t('Nom Utilisateur')}</span>
-            <span className="topbar-sous-name">{user?.role || t('Rôle')}</span>
+            <Badge count={notifications.length} overflowCount={99}>
+              <div className="topbar-icons">
+                <BellOutlined aria-label="Notifications" />
+              </div>
+            </Badge> 
+          </Popover>
+          <hr />
+          <div className="topbar-icons">
+            <MailOutlined aria-label="Messages" />
+          </div>
+          <hr />
+          <div className="topBar-trait">
+            <Select
+              value={i18n.language}
+              style={{ width: 100 }}
+              onChange={handleLanguageChange}
+              dropdownMatchSelectWidth={false}
+            >
+              <Select.Option value="en">
+                <img src={flagEN} alt="English" style={{ width: 20, marginRight: 8 }} />
+                {t('En')}
+              </Select.Option>
+              <Select.Option value="fr">
+                <img src={flagFR} alt="Français" style={{ width: 20, marginRight: 8 }} />
+                {t('Fr')}
+              </Select.Option>
+            </Select>
+          </div>
+          <div className="topbar-user-rows">
+            <img src={userIcon} alt="Utilisateur" className="user-logo" />
+            <div className="topbar-name-rows">
+              <span className="topbar-name">{user?.nom || t('Nom Utilisateur')}</span>
+              <span className="topbar-sous-name">{user?.role || t('Rôle')}</span>
+            </div>
+          </div>
+          <div className={`hamburger ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
+            <div className="line"></div>
+            <div className="line"></div>
+            <div className="line"></div>
+          </div>
+          <div onClick={toggleTheme} className="topbar-icons" style={{cursor:'pointer'}}>
+            {theme === 'light' ? <MoonOutlined /> : <SunOutlined />}
+          </div>
+          <div className="topBar-logout">
+            <Popover
+              content={renderLogoutContent}
+              title={t('Déconnexion')}
+              trigger="click"
+              placement="bottomRight"
+              arrowPointAtCenter
+            >
+              <DashOutlined className="topbar-icon" aria-label="Options utilisateur" />
+            </Popover>
           </div>
         </div>
-        <div className={`hamburger ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
-          <div className="line"></div>
-          <div className="line"></div>
-          <div className="line"></div>
-        </div>
-        <div onClick={toggleTheme} className="topbar-icons" style={{cursor:'pointer'}}>
-          {theme === 'light' ? <MoonOutlined /> : <SunOutlined />}
-        </div>
-        <div className="topBar-logout">
-          <Popover
-            content={renderLogoutContent}
-            title={t('Déconnexion')}
-            trigger="click"
-            placement="bottomRight"
-            arrowPointAtCenter
-          >
-            <DashOutlined className="topbar-icon" aria-label="Options utilisateur" />
-          </Popover>
-        </div>
+  {/*       <Modal
+          title={''}
+          visible={!!selectedNotif}
+          onCancel={closeModal}
+          footer={null}
+        >
+          {selectedNotif && <Notification idNotif={selectedNotif.id_notifications} />}
+        </Modal> */}
       </div>
-      <Modal
-        title={''}
-        visible={!!selectedNotif}
-        onCancel={closeModal}
-        footer={null}
-      >
-        {selectedNotif && <Notification idNotif={selectedNotif.id_notifications} />}
-      </Modal>
-    </div>
+    </>
   );
 };
 
