@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { notification, Skeleton, Card, Row, Col, Tag } from 'antd';
 import { UserOutlined, BankOutlined,CalendarOutlined, DollarOutlined } from '@ant-design/icons';
 import { getProjetOne } from '../../../../services/projetService';

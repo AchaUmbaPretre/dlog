@@ -249,7 +249,7 @@ const DetailProjetsGlobal = ({ idProjet }) => {
         visible={modalType === 'tracking'}
         onCancel={closeAllModals}
         footer={null}
-        width={1090}
+        width={1095}
         centered
       >
         <ListeTacheProjet1 idProjet={idProjet} fetchDatas={fetchData} closeModal={()=>setModalType(null)}/>

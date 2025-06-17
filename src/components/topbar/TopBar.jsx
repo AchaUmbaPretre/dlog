@@ -114,7 +114,6 @@ const TopBar = () => {
             cursor: 'pointer',
             transition: 'background-color 0.3s ease',
             borderBottom: '1px solid #f0f0f0',
-            padding: '12px 16px',
             borderRadius: '8px',
           }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f7f7f7')}
@@ -128,7 +127,7 @@ const TopBar = () => {
             ) : (
               <BellOutlined style={{ color: '#faad14' }} />
             )}
-            <Typography.Text style={{ fontSize: '14px', fontWeight: 500 }}>{moment(item.timestamp).format('DD-MM-YYYY HH:mm')} : {item.message}</Typography.Text>
+            <Typography.Text style={{ fontSize: '12px', fontWeight: 500 }}>{moment(item.timestamp).format('DD-MM-YYYY HH:mm')} : {item.message}</Typography.Text>
           </Space>
         </List.Item>
       )}
@@ -152,7 +151,7 @@ const TopBar = () => {
           content={renderNotifications()}
           title={t('Notifications')}
           trigger="click"
-          placement="bottomRight"
+          placement="Right"
           visible={visible}
           onVisibleChange={setVisible}
         >
