@@ -1,3 +1,5 @@
+@import '../../../style.scss';
+
 .instruction{
     padding: 10px;
     .instruction_wrapper{
@@ -14,16 +16,30 @@
                 align-items: center;
                 justify-content: space-between;
                 gap: 20px;
+                @include mobileXR {
+                    width: 100%;
+                    display: grid;
+                    align-items: center;
+                    justify-content: center;
+                    grid-template-columns: repeat(1, 1fr);
+                }
                 .row-arrow{
                     font-size: 1.2rem;
                     color: rgb(0, 96, 206);
                     cursor: pointer;
+                    @include mobileXR {
+                        width: max-content;
+                    }
                 }
                 .instruction_row{
                     width: 100%;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    @include mobileXR {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                    }
                     .instruction_sous_row{
                         display: flex;
                         flex-direction: column;
@@ -42,7 +58,7 @@
                     }
                     .inspection_bottom_rows{
                         display: flex;
-                        flex-wrap: nowrap;
+                        flex-wrap: wrap;
                         gap: 20px;
                         .inspection_bottom_row{
                             width: 300px;

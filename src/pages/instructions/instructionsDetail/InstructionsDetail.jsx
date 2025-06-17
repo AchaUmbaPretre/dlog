@@ -213,21 +213,23 @@ const InstructionsDetail = ({ idInspection }) => {
 
               {/* Section "Après" */}
               <div className="inspection_bottom">
-                <h2 className="inspection_title_h2">Après</h2>
-                {groupedData.apres.length > 0 && (
-                  <Card style={{ marginBottom: 24, borderRadius: 8 }}>
-                    <Text strong>Commentaire : </Text>{" "}
-                    <Text>{groupedData.apres[0]?.commentaire || "Aucun commentaire"}</Text>
-                    <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
-                      {groupedData.apres.map((instruction, index) => (
-                        <Col xs={24} sm={12} md={8} lg={6} key={`apres-img-${index}`}>
+                <div className="inspection_bottom_wrapper">
+                  <h2 className="inspection_title_h2">Après</h2>
+                  {groupedData.apres.length > 0 && (
+                    <Card style={{ marginBottom: 24, borderRadius: 8 }}>
+                      <div className="inspection_bottom_rows">
+                        {groupedData.apres.map((instruction, index) => (
+                        <div className="inspection_bottom_row" key={`avant-img-${index}`}>
+                          <strong className="title_sous_inspection">Commentaire :</strong>{" "}
+                          <span className="inspection_desc">{instruction?.commentaire || "Aucun commentaire"}</span>
                           <a
                             href={`${DOMAIN}/${instruction.img}`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            style={{width:'100%'}}
                           >
                             <img
-                              alt="Après"
+                              alt="Avant"
                               src={`${DOMAIN}/${instruction.img}`}
                               style={{
                                 width: "100%",
@@ -235,14 +237,16 @@ const InstructionsDetail = ({ idInspection }) => {
                                 objectFit: "cover",
                                 borderRadius: 8,
                                 boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                                marginTop:'20px',
                               }}
                             />
                           </a>
-                        </Col>
-                      ))}
-                    </Row>
-                  </Card>
-                )}
+                        </div>
+                         ))}
+                      </div>
+                    </Card>
+                  )}
+                </div>
               </div>
             </div>
 
