@@ -42,7 +42,7 @@ const Taches = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [modalType, setModalType] = useState(null);
-  const [idTache, setIdTache] = useState('');
+  const [idTache, setIdTache] = useState(null);
   const scroll = { x: 400 };
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
