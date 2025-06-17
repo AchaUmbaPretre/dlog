@@ -8,7 +8,7 @@ import { statusIcons } from '../../../utils/prioriteIcons';
 import { useSelector } from 'react-redux';
 import AffectationDemandeForm from '../affectationDemande/affectationDemandeForm/AffectationDemandeForm';
 import DemandeVehiculeDetail from './demandeVehiculeDetail/DemandeVehiculeDetail';
-import { vehiculeRetour, vehiculeUpdateAnnuler } from '../../../utils/modalUtils';
+import { vehiculeUpdateAnnuler } from '../../../utils/modalUtils';
 import VehiculeOccupe from './vehiculeOccupe/VehiculeOccupe';
 import TabPane from 'antd/es/tabs/TabPane';
 import DemandeVehiculeDispo from './demandeVehiculeDispo/DemandeVehiculeDispo';
