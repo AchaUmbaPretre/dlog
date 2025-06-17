@@ -241,21 +241,21 @@ const ListBinGlobal = () => {
             key="1"
           >
             <div className="client">
-                <div className="client-wrapper">
-                  <div className="client-row">
-                    <div className="client-row-icon">
-                      <BankOutlined className='client-icon'/>
-                    </div>
-                    <h2 className="client-h2">Bins</h2>
+              <div className="client-wrapper">
+                <div className="client-row">
+                  <div className="client-row-icon">
+                    <BankOutlined className='client-icon'/>
                   </div>
-                  <div className="client-actions">
-                    <div className="client-row-left">
-                      <Search placeholder="Recherche..." 
-                        enterButton 
-                        onChange={(e) => setSearchValue(e.target.value)}
-                      />
-                    </div>
-                    <div className="client-rows-right">
+                  <h2 className="client-h2">Bins</h2>
+                </div>
+                <div className="client-actions">
+                  <div className="client-row-left">
+                    <Search placeholder="Recherche..." 
+                      enterButton 
+                      onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                  </div>
+                  <div className="client-rows-right">
         {/*               <Button
                         type="primary"
                         icon={<PlusCircleOutlined />}
