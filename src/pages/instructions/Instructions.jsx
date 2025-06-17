@@ -81,7 +81,7 @@ const Instructions = ({idTache}) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [idTache]);
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
