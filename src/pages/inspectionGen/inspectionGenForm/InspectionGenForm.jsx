@@ -562,7 +562,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                     <Form.List name="ref">
                         {(fields, { add, remove }) => (
                         <>
-                            <Divider className='title_row'>Réference des paiements</Divider>
+                            <Divider className='title_row'>Référence des paiements</Divider>
                             {fields.map(({ key, name, ...restField }) => (
                             <Card style={{marginBottom:'10px'}}>
                                 <Row key={key} gutter={12} align="middle">
