@@ -28,7 +28,6 @@ import TabPane from 'antd/es/tabs/TabPane';
 import ListBureaux from '../Listbureaux/ListBureaux';
 import Niveau from './niveau/Niveau';
 import Adresse from '../adresse/Adresse';
-import Instructions from '../instructions/Instructions';
 import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
 import ListCroquis from './listCroquis/ListCroquis';
 
@@ -787,16 +786,6 @@ const Batiment = ({datas}) => {
             <Adresse/>
           </TabPane>
 
-          <TabPane
-            tab={
-              <span>
-                <EnvironmentOutlined style={{ color: '#722ed1' }} /> Liste des inspections
-              </span>
-            }
-            key="6"
-          >
-            <Instructions/>
-          </TabPane>
       </Tabs>
     </>
   );
