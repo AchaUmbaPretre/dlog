@@ -51,8 +51,6 @@ const InstructionFormApres = ({closeModal, fetchData, idInspection}) => {
   const handleSubmit = async (values) => {
     setLoading(true);
 
-    const uploadedFiles = values.img.map((file) => file.originFileObj);
-
     const formData = new FormData();
     formData.append('id_inspection', idInspection);
     formData.append('id_type_photo', values.id_type_photo);
