@@ -47,7 +47,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
   const [track, setTrack] = useState('');
   const [cout, setCount] = useState('');
   const [cat, setCat] = useState([]);
-  const [Inspection, setInspection] = useState([]);
+  const [inspection, setInspection] = useState([]);
 
 
   const fetchData = async () => {
@@ -65,6 +65,7 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
       setDates(dateData.data[0]?.date_dernier_suivi);
       setTrack(allData.data?.nbre_tracking);
       setDocs(allData.data?.nbre_doc);
+      setInspection(allData.data?.nbre_inspe)
 
     } catch (error) {
       console.log(error);
@@ -160,7 +161,9 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
 
       <Col xs={24} sm={12} md={6} onClick={handleInspectionRead}>
           <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
+            <Badge count={inspection || 0} showZero>
               <AuditOutlined style={{ fontSize: '40px', color: '#1890ff', marginBottom: '10px' }} />
+            </Badge>
             <h3>Inspection</h3>
           </Card>
       </Col>
