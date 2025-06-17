@@ -124,7 +124,7 @@ const fetchData = async (filters) => {
             } else {
                 acc.push({
                     ...curr,
-                    nom_tag: [curr.nom_tag], // Initialisation des tags
+                    nom_tag: [curr.nom_tag],
                 });
             }
 
