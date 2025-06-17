@@ -254,6 +254,7 @@ const [idBin, setIdBin] = useState(null);
             scroll={scroll}
             loading={loading}
             pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           />
         </div>
