@@ -17,6 +17,7 @@ import { InfoCircleOutlined,
   LeftCircleFilled,
   RightCircleFilled,
   UserOutlined,
+  FileDoneOutlined,
   ClockCircleOutlined } from '@ant-design/icons';
 import { getTacheOne } from '../../../services/tacheService';
 import DetailTache from '../detailTache/DetailTache';
@@ -45,6 +46,8 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
   const [track, setTrack] = useState('');
   const [cout, setCount] = useState('');
   const [cat, setCat] = useState([]);
+  const [Inspection, setInspection] = useState([]);
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -150,6 +153,13 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
               <FileTextOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
             </Badge>
             <h3>Documents</h3>
+          </Card>
+      </Col>
+
+      <Col xs={24} sm={12} md={6} onClick={handleDoc}>
+          <Card className="data-card" hoverable style={{ textAlign: 'center' }} bodyStyle={{ padding: '20px' }}>
+              <FileDoneOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '10px' }} />
+            <h3>Inspection</h3>
           </Card>
       </Col>
 
