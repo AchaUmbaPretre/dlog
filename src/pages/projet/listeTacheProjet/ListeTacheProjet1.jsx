@@ -111,9 +111,9 @@ const fetchData = async (filters) => {
     try {
         const response = await getProjetTacheOne(idProjet);
 
-        setAllIds([...new Set(response?.data?.map(d => d.id_tache) || [])]);
+        setAllIds([...new Set(response?.data?.taches.map(d => d.id_tache) || [])]);
 
-        const groupedData = response.data.reduce((acc, curr) => {
+        const groupedData = response.data?.taches.reduce((acc, curr) => {
             const found = acc.find(item => item.id_tache === curr.id_tache);
 
             if (found) {
@@ -867,7 +867,7 @@ const handleEdit = (idTache) => {
                 {loading ? (
                 <Skeleton active paragraph={{ rows: 1 }} />
                 ) : (
-                              statistique.map((s, index) => (
+                              statistique?.map((s, index) => (
                                 <div key={index}>
                                   <span>{s.statut} : <strong>{s.nombre_taches}</strong></span>
                                 </div>
