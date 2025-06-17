@@ -175,7 +175,6 @@ const InstructionsDetail = ({ idInspection }) => {
               </div>  
             </Card>          
 
-            {/* Section "Avant" */}
             <div className="inspection_bottom">
               <div className="inspection_bottom_wrapper">
                 <h2 className="inspection_title_h2">Avant</h2>
