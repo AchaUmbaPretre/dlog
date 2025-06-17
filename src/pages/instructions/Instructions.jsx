@@ -10,7 +10,7 @@ import InspectionTache from './inspectionTache/InspectionTache';
 
 const { Search } = Input;
 
-const Instructions = () => {
+const Instructions = ({idTache}) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -67,7 +67,7 @@ const Instructions = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getInspection();
+        const { data } = await getInspection(idTache);
         setData(data);
         setLoading(false);
       } catch (error) {

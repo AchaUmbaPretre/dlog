@@ -299,8 +299,8 @@ export const postAdresse = async (data) => {
   };
 
 //Inspection
-export const getInspection = async () => {
-  return axios.get(`${DOMAIN}/api/batiment/inspections`);
+export const getInspection = async (idTache) => {
+  return axios.get(`${DOMAIN}/api/batiment/inspections?idTache=${idTache}`);
 };
 
 export const getInspectionOneV = async (id) => {

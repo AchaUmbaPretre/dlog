@@ -33,6 +33,7 @@ import SuiviTache from '../suiviTache/SuiviTache';
 import InstructionForm from '../../instructions/instructionForm/InstructionForm';
 import PermissionTache from '../../permission/permissionTache/PermissionTache';
 import { statusIcons } from '../../../utils/prioriteIcons';
+import Instructions from '../../instructions/Instructions';
 
 const { Title, Text } = Typography;
 
@@ -641,6 +642,17 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
         centered
       >
         <PermissionTache idTache={idTache}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'inspection_read'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+        <Instructions idTache={idTache}/>
       </Modal>
 
     </div>
