@@ -614,7 +614,7 @@ const Batiment = ({datas}) => {
         visible={modalType === 'ListBin'}
         onCancel={closeAllModals}
         footer={null}
-        width={1025}
+        width={1035}
         centered
       >
         <Bins idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
