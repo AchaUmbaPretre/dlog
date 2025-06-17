@@ -184,7 +184,7 @@ const InstructionsDetail = ({ idInspection }) => {
                     <div className="inspection_bottom_rows">
                       {groupedData.avant.map((instruction, index) => (
                         <div className="inspection_bottom_row" key={`avant-img-${index}`}>
-                          <strong className="title_sous_inspection">Commentaire Avant :</strong>{" "}
+                          <strong className="title_sous_inspection">Commentaire :</strong>{" "}
                           <span className="inspection_desc">{instruction?.commentaire || "Aucun commentaire"}</span>
                           <a
                             href={`${DOMAIN}/${instruction.img}`}
