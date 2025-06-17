@@ -618,7 +618,7 @@ const Batiment = ({datas}) => {
         centered
       >
         <Bins idBatiment={idBatiment} closeModal={()=>setModalType(null)} fetchData={fetchData}/>
-     </Modal>
+      </Modal>
 
       <Modal
         title=""

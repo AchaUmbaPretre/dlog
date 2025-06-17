@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag } from 'antd';
-import { ExportOutlined,MoreOutlined, PrinterOutlined,BankOutlined,ToolOutlined, ApartmentOutlined,EditOutlined, PlusCircleOutlined,DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined,MoreOutlined, PrinterOutlined,BankOutlined,ToolOutlined, ApartmentOutlined,EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import { getBureau, putDeleteBureau } from '../../services/batimentService';
 import ListeEquipement from '../batiment/equipement/listeEquipement/ListeEquipement';
 import EquipementForm from '../batiment/equipement/equipementForm/EquipementForm';
@@ -72,12 +72,7 @@ const ListBureaux = ({idBatiment}) => {
 
   const openModal = (type, idBatiment = '') => {
     closeAllModals();
-/*     setIdBatiment(idBatiment); */
     setModalType(type);
-  };
-
-  const handleAddClient = () => {
-    setIsModalVisible(true);
   };
 
   const handleCancel = () => {
