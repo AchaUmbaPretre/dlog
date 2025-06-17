@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './topBar.scss';
+import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { Popover, Button, Divider, message, Select, Badge, List, notification, Modal, Typography, Space } from 'antd';
 import { BellOutlined, MoonOutlined, SunOutlined, DashOutlined, MailOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
@@ -127,7 +128,7 @@ const TopBar = () => {
             ) : (
               <BellOutlined style={{ color: '#faad14' }} />
             )}
-            <Typography.Text style={{ fontSize: '14px', fontWeight: 500 }}>{item.message}</Typography.Text>
+            <Typography.Text style={{ fontSize: '14px', fontWeight: 500 }}>{moment(item.timestamp).format('DD-MM-YYYY HH:mm')} : {item.message}</Typography.Text>
           </Space>
         </List.Item>
       )}
