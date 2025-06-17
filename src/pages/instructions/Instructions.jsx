@@ -342,7 +342,7 @@ const Instructions = ({idTache}) => {
         visible={modalType === 'addApres'}
         onCancel={closeAllModals}
         footer={null}
-        width={1025}
+        width={900}
         centered
       >
         <InstructionFormApres closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
