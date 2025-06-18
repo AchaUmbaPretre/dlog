@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Form, Card, Row, Col, Select, DatePicker, Button, message } from 'antd';
+import { useEffect, useState, useRef } from 'react';
+import { Form, Card, notification, Row, Col, Select, DatePicker, Button, message } from 'antd';
 import SignaturePad from 'react-signature-canvas';
 import { getUser } from '../../../../../services/userService';
+import { posValidationDemande } from '../../../../../services/charroiService';
 
-
-const ValidationDemandeForm = () => {
+const ValidationDemandeForm = ({closeModal, fetchData, demandeId}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [validateur, setValidateur] = useState([]);
     const sigCanvas = useRef();
     const [signatureURL, setSignatureURL] = useState('');
 
-    const fetchData = async () => {
+    const fetchDatas = async () => {
         try {
             const [userData] = await Promise.all([getUser()]);
             setValidateur(userData.data);
@@ -23,7 +23,7 @@ const ValidationDemandeForm = () => {
     };
 
     useEffect(() => {
-        fetchData();
+        fetchDatas();
     }, []);
 
     const handleSaveSignature = () => {
@@ -45,9 +45,25 @@ const ValidationDemandeForm = () => {
 
     const onFinish = async (values) => {
         await form.validateFields();
-        console.log('Données soumises :', values);
-        // Appel API ici
-    };
+        const loadingKey = 'loadingDemandeVehicule';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+
+        try {
+            await posValidationDemande(values);
+
+            message.success({ content: 'La validation a été envoyée avec succès.', key: loadingKey });
+            form.resetFields();
+            fetchData();
+            closeModal();
+        } catch (error) {
+            notification.error({
+                message: 'Erreur',
+                description: 'Erreur lors de l\'enregistrement de demande.',
+            });
+        } finally {
+            setLoading(false);
+        }
+    }    
 
     return (
         <div className="controle_form">
