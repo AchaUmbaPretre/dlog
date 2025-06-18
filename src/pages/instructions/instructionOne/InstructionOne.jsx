@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Image } from 'antd';
 import { ExportOutlined, PrinterOutlined,ArrowLeftOutlined, ArrowRightOutlined,DeleteOutlined} from '@ant-design/icons';
 import { getInspectionOne } from '../../../services/batimentService';
