@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Modal, Collapse } from 'antd';
 import { ExportOutlined, PrinterOutlined,PlusCircleOutlined, ClockCircleOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, DollarOutlined, RocketOutlined, ApartmentOutlined, UserOutlined, CalendarOutlined, CheckCircleOutlined, EditOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import moment from 'moment';
@@ -284,16 +284,16 @@ const ListeSuivi = ({ idControle}) => {
             </div>
           </div>
           <Table
-        columns={columns}
-        dataSource={filteredData}
-        rowKey="id_tache"
-        loading={loading}
-        expandable={{
-          expandedRowRender: (record) => renderSuivi(record.id_tache),
-          rowExpandable: record => record.id_tache !== null,
-        }}
-        scroll={scroll}
-      />
+            columns={columns}
+            dataSource={filteredData}
+            rowKey="id_tache"
+            loading={loading}
+            expandable={{
+              expandedRowRender: (record) => renderSuivi(record.id_tache),
+              rowExpandable: record => record.id_tache !== null,
+            }}
+            scroll={scroll}
+          />
         </div>
       </div>
 
