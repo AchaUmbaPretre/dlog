@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Descriptions, Card, Badge, Avatar, Row, Col, Divider, notification, List } from 'antd';
 import { UserOutlined, ProjectOutlined, CalendarOutlined, InfoCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { getProjetOne, getProjetTacheOne } from '../../../services/projetService';
