@@ -437,6 +437,19 @@ export const putDemandeVehiculeRetour = async(id) => {
     return axios.put(`${DOMAIN}/api/charroi/demande_vehicule_retour?id_demande=${id}`)
 }
 
+//Demande validation
+export const getValidationDemande = async (userId, role) => {
+    return axios.get(`${DOMAIN}/api/charroi/validation_demande?userId=${userId}&userRole=${role}`);
+};
+
+export const getValidationDemandeOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/validation_demandeOne?id_demande_vehicule=${id}`);
+};
+
+export const posValidationDemande = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/demande_vehicule`, data);
+};
+
 //Affectation
 export const getAffectationDemande = async () => {
     return axios.get(`${DOMAIN}/api/charroi/affectation_demande`);
