@@ -20,7 +20,6 @@ const ListBureaux = ({idBatiment}) => {
     pageSize: 15,
   });
 
-
   const handleDelete = async (id) => {
     try {
       await putDeleteBureau(id);
@@ -34,19 +33,19 @@ const ListBureaux = ({idBatiment}) => {
     }
   };
 
-    const fetchData = async () => {
-      try {
-        const { data } = await getBureau();
-        setData(data);
-        setLoading(false);
-      } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const { data } = await getBureau();
+      setData(data);
+      setLoading(false);
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Une erreur est survenue lors du chargement des données.',
+      });
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchData();
