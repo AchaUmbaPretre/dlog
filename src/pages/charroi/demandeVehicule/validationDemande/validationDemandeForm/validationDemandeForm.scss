@@ -1,5 +1,10 @@
 .validation_wrapper_info{
     padding: 20px;
+    .validation_h2{
+        font-size: 1rem;
+        font-weight: 300;
+        text-transform: uppercase;
+    }
     .validation_rows_info{
         display: flex;
         flex-direction: column;
