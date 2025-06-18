@@ -8,7 +8,7 @@ import config from '../../../../../config';
 
 const { Text } = Typography;
 
-const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
+const ValidationDemandeForm = ({ fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [validateur, setValidateur] = useState([]);
