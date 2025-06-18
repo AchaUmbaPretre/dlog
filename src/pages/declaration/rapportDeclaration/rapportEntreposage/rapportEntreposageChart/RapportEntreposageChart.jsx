@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import moment from 'moment';
 import { ResponsiveLine } from '@nivo/line';
 import { Button } from 'antd';

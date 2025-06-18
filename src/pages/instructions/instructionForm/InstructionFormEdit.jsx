@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Select, Upload, Button, notification } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
 import { getInspectionOneV, getType_instruction, postInspection, putInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
 
