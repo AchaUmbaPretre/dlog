@@ -85,6 +85,9 @@ const DemandeVehicule = () => {
                 case 'closeDemande': 
                     vehiculeUpdateAnnuler(record.id_demande_vehicule, fetchData)
                     break;
+                case 'validation': 
+                    openModal('validation', record.id_demande_vehicule)
+                    break;
                 case 'retourDemande': 
 /*                     vehiculeRetour(record.id_demande_vehicule, fetchData)
  */                    
