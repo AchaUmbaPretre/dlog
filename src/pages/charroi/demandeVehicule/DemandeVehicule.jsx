@@ -15,6 +15,7 @@ import DemandeVehiculeDispo from './demandeVehiculeDispo/DemandeVehiculeDispo';
 import AffectationDemande from '../affectationDemande/AffectationDemande';
 import RetourVehiculeForm from '../retourVehicule/retourVehiculeForm/RetourVehiculeForm';
 import DemandeurVehicule from '../demandeurVehicule/DemandeurVehicule';
+import ValidationDemandeForm from './validationDemande/validationDemandeForm/ValidationDemandeForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -539,6 +540,17 @@ const DemandeVehicule = () => {
             centered
         >
             <RetourVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'validation'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={800}
+            centered
+        >
+            <ValidationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
         </Modal>
     </>
   );
