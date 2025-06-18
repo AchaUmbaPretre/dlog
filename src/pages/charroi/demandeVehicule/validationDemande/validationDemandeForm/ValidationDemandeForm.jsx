@@ -1,9 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
-import { Form, Card, notification, Row, Col, Select, DatePicker, Button, message } from 'antd';
+import { Form, Card, Table, notification,Typography, Row, Col, Select, DatePicker, Button, message } from 'antd';
 import SignaturePad from 'react-signature-canvas';
 import { getUser } from '../../../../../services/userService';
-import { getValidationDemande, getValidationDemandeOne, posValidationDemande } from '../../../../../services/charroiService';
-import './validationDemandeForm.css';
+import { getValidationDemandeOne, posValidationDemande } from '../../../../../services/charroiService';
+import './validationDemandeForm.scss';
+import config from '../../../../../config';
+
+const { Text } = Typography;
 
 const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
@@ -12,9 +15,12 @@ const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => 
     const [info, setInfo] = useState([]);
     const sigCanvas = useRef();
     const [signatureURL, setSignatureURL] = useState('');
-
-    console.log(id_demande_vehicule)
-
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 15,
+    });
+    const scroll = { x: 'max-content' };
+    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const fetchDatas = async () => {
         try {
             const [userData] = await Promise.all([getUser()]);
@@ -52,6 +58,52 @@ const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => 
         form.setFieldsValue({ signature_data: '' });
     };
 
+    const columns = [
+        {
+            title: '#',
+            dataIndex: 'id',
+            key: 'id',
+            render: (text, record, index) => {
+            const pageSize = pagination.pageSize || 10;
+            const pageIndex = pagination.current || 1;
+            return (pageIndex - 1) * pageSize + index + 1;
+            },
+            width: "3%",
+        },
+        {
+            title: 'Nom',
+            dataIndex: 'nom',
+            key: 'nom',
+            align: 'center',
+            render: (text) => <Text type="secondary">{text}</Text>,
+        },
+        {
+            title: 'Role',
+            dataIndex: 'role',
+            key: 'role',
+            align: 'center',
+            render: (text) => <Text type="secondary">{text}</Text>,
+        },
+          {
+    title: 'Signature',
+    dataIndex: 'signature',
+    key: 'signature',
+    align: 'center',
+    render: (path) =>
+      path ? (
+        <img
+          className="img_signature"
+          src={`${DOMAIN}/public/${path}`}
+          alt="signature"
+          style={{ maxHeight: '60px', maxWidth: '100px', objectFit: 'contain' }}
+        />
+      ) : (
+        <Text type="secondary">Aucune</Text>
+      ),
+  },
+
+    ]
+
     const onFinish = async (values) => {
         await form.validateFields();
         const loadingKey = 'loadingDemandeVehicule';
@@ -84,8 +136,21 @@ const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => 
             <div className="controle_title_rows">
                 <div className="controle_h2">Validation de demande</div>
             </div>
-            <div className="validation_rows_info">
-
+            <div className="validation_wrapper_info">
+                <h2 className="validation_h2">Ce qui sont deja signé :</h2>
+                <div className="validation_rows_info">
+                    <Table
+                        columns={columns}
+                        dataSource={info}
+                        loading={loading}
+                        onChange={(pagination) => setPagination(pagination)}
+                        rowKey="id"
+                        bordered
+                        scroll={scroll}
+                        size="small"
+                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    />
+                </div>
             </div>
             <div className="controle_wrapper">
                 <Form

@@ -1,0 +1,11 @@
+.validation_wrapper_info{
+    padding: 20px;
+    .validation_rows_info{
+        display: flex;
+        flex-direction: column;
+        .img_signature {
+            width: 200px;
+            height: 200px;
+        }
+    }
+}
