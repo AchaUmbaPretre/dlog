@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Input, Select, Upload, Button, notification } from 'antd';
+import { useEffect, useState } from 'react';
+import { Form, Input, Select, Button, notification } from 'antd';
 import { getInspectionOneV, getType_instruction, postInspection, putInspection } from '../../../services/batimentService';
 import { getBatiment } from '../../../services/typeService';
 

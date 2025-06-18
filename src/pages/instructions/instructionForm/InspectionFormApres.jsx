@@ -5,8 +5,6 @@ import { getType_instruction, getType_photo, postInspectionApres } from '../../.
 import { Rnd } from 'react-rnd';
 import html2canvas from 'html2canvas';
 
-const { TextArea } = Input;
-
 const icons = [
     { id: 'danger', label: 'Danger', icon: '⚠️' },
     { id: 'arrow', label: 'Flèche', icon: '➡️' },
