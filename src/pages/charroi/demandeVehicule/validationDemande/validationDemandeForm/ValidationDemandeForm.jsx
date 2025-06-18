@@ -39,7 +39,7 @@ const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => 
 
     useEffect(() => {
         fetchDatas();
-    }, []);
+    }, [id_demande_vehicule]);
 
     const handleSaveSignature = () => {
         if (!sigCanvas.current.isEmpty()) {
@@ -119,7 +119,7 @@ const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => 
             message.success({ content: 'La validation a été envoyée avec succès.', key: loadingKey });
             form.resetFields();
             fetchData();
-            closeModal();
+            fetchDatas()
 
         } catch (error) {
             notification.error({
@@ -138,6 +138,7 @@ const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => 
             </div>
             <div className="validation_wrapper_info">
                 <h2 className="validation_h2">Ceux qui ont déjà signé : </h2>
+                { info.length > 1 ?
                 <div className="validation_rows_info">
                     <Table
                         columns={columns}
@@ -151,6 +152,8 @@ const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => 
                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                     />
                 </div>
+                : <div className='message_users'>Aucune signature enregistrée pour le moment.</div>
+                 }
             </div>
             <div className="controle_wrapper">
                 <Form
