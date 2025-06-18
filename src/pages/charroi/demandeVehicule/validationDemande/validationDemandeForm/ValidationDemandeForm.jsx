@@ -137,7 +137,7 @@ const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => 
                 <div className="controle_h2">Validation de demande</div>
             </div>
             <div className="validation_wrapper_info">
-                <h2 className="validation_h2">Ce qui sont deja signé:</h2>
+                <h2 className="validation_h2">Ceux qui ont déjà signé : </h2>
                 <div className="validation_rows_info">
                     <Table
                         columns={columns}
