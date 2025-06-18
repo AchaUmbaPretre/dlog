@@ -12,7 +12,6 @@ const InstructionFormEdit = ({idBatiment, closeModal, fetchData, idInspection}) 
   const [batiment, setBatiment] = useState([]);
   const [instructionData, setInstructionData] = useState([]);
 
-
   const fetchDataAll = async() => {
     try {
         const [batimentData, typeInspe] = await Promise.all([
@@ -35,9 +34,9 @@ const InstructionFormEdit = ({idBatiment, closeModal, fetchData, idInspection}) 
     }
   }
 
-useEffect(() => {
-    fetchDataAll();
-}, [form, idInspection]);
+    useEffect(() => {
+        fetchDataAll();
+    }, [form, idInspection]);
 
   const handleSubmit = async (values) => {
     setLoading(true);
