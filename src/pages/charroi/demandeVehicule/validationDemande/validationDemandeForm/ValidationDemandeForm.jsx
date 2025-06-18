@@ -2,19 +2,28 @@ import { useEffect, useState, useRef } from 'react';
 import { Form, Card, notification, Row, Col, Select, DatePicker, Button, message } from 'antd';
 import SignaturePad from 'react-signature-canvas';
 import { getUser } from '../../../../../services/userService';
-import { posValidationDemande } from '../../../../../services/charroiService';
+import { getValidationDemande, getValidationDemandeOne, posValidationDemande } from '../../../../../services/charroiService';
+import './validationDemandeForm.css';
 
-const ValidationDemandeForm = ({closeModal, fetchData, demandeId}) => {
+const ValidationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [validateur, setValidateur] = useState([]);
+    const [info, setInfo] = useState([]);
     const sigCanvas = useRef();
     const [signatureURL, setSignatureURL] = useState('');
+
+    console.log(id_demande_vehicule)
 
     const fetchDatas = async () => {
         try {
             const [userData] = await Promise.all([getUser()]);
             setValidateur(userData.data);
+
+            if(id_demande_vehicule) {
+                const { data: res} = await getValidationDemandeOne(id_demande_vehicule);
+                setInfo(res)
+            }
         } catch (error) {
             console.error('Erreur chargement données :', error);
         } finally {
@@ -49,12 +58,17 @@ const ValidationDemandeForm = ({closeModal, fetchData, demandeId}) => {
         message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
 
         try {
-            await posValidationDemande(values);
+            const v = {
+                ...values,
+                id_demande_vehicule : id_demande_vehicule
+            }
+            await posValidationDemande(v);
 
             message.success({ content: 'La validation a été envoyée avec succès.', key: loadingKey });
             form.resetFields();
             fetchData();
             closeModal();
+
         } catch (error) {
             notification.error({
                 message: 'Erreur',
@@ -69,6 +83,9 @@ const ValidationDemandeForm = ({closeModal, fetchData, demandeId}) => {
         <div className="controle_form">
             <div className="controle_title_rows">
                 <div className="controle_h2">Validation de demande</div>
+            </div>
+            <div className="validation_rows_info">
+
             </div>
             <div className="controle_wrapper">
                 <Form

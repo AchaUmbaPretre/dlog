@@ -447,7 +447,7 @@ export const getValidationDemandeOne = async (id) => {
 };
 
 export const posValidationDemande = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/demande_vehicule`, data);
+    return axios.post(`${DOMAIN}/api/charroi/validation_demande`, data);
 };
 
 //Affectation
