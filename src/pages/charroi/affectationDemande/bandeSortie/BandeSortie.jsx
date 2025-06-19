@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, EyeOutlined, RollbackOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, EyeOutlined, RollbackOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -201,7 +201,6 @@ const BandeSortie = () => {
         <Space size="small">
             <Tooltip title="Voir les détails">
                 <Button
-                    type='text'
                     icon={<EyeOutlined />}
                     aria-label="Voir les détails de la tâche"
                     style={{ color: 'blue' }}
@@ -209,9 +208,8 @@ const BandeSortie = () => {
             </Tooltip>
             <Tooltip title="valider">
                 <Button
-                    type="text"
-                    icon={<FormOutlined />}
-                    style={{ color: '#1890ff' }}
+                    icon={<CheckCircleOutlined />}
+                    style={{ color: 'green' }}
                     onClick={() => handlSortie(record.id_affectation_demande)}
                     aria-label="Modifier"
                 />
@@ -244,13 +242,6 @@ const BandeSortie = () => {
                 />
               </div>
               <div className="client-rows-right">
-                <Button
-                  type="primary"
-                  icon={<PlusCircleOutlined />}
-                  onClick={handleAdd}
-                >
-                  Ajouter
-                </Button>
               </div>
               </div>
               <Table
