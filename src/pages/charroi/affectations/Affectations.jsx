@@ -13,8 +13,8 @@ const Affectations = () => {
     const [data, setData] = useState([]);
     const scroll = { x: 400 };
     const [pagination, setPagination] = useState({
-        current: 1,
-        pageSize: 15,
+      current: 1,
+      pageSize: 15,
     });
     const [modalType, setModalType] = useState(null);
     
