@@ -463,6 +463,19 @@ export const postAffectationDemande = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/affectation_demande`, data);
 }
 
+//Bande de sortie
+export const getBandeSortie = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/bande_sortie`);
+}
+
+export const getBandeSortieOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/bande_sortieOne?id_bande_sortie=${id}`);
+}
+
+export const postBandeSortie = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/bande_sortie`, data);
+}
+
 //Retour vehicule
 export const getRetourVehicule = async () => {
     return axios.get(`${DOMAIN}/api/charroi/retour_vehicule`);
