@@ -4,6 +4,7 @@ import { getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehicu
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getClient } from '../../../../services/clientService';
+import { getLocalisation } from '../../../../services/transporteurService';
 
 const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
@@ -20,17 +21,23 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
 
     const fetchDatas = async() => {
         try {
-            const [vehiculeData, chaufferData, serviceData, typeData] = await Promise.all([
+            const [vehiculeData, chaufferData, serviceData, typeData, motifData, clientData, localData] = await Promise.all([
                 getVehiculeDispo(),
                 getChauffeur(),
                 getServiceDemandeur(),
                 getTypeVehicule(),
                 getMotif(),
                 getClient(),
+                getLocalisation()
             ])
 
             setVehicule(vehiculeData.data)
             setChauffeur(chaufferData.data?.data)
+            setService(serviceData.data);
+            setType(typeData.data);
+            setMotif(motifData.data);
+            setClient(clientData.data);
+            setLocal(localData.data)
             
         } catch (error) {
             console.error('Error fetching data:', error);
