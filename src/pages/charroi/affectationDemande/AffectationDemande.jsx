@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Modal, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, ExportOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
 import AffectationDemandeForm from './affectationDemandeForm/AffectationDemandeForm';
@@ -21,7 +21,6 @@ const AffectationDemande = () => {
     const [modalType, setModalType] = useState(null);
     const [affectationId, setAffectationId] = useState('');
 
-
     const columnStyles = {
       title: {
         maxWidth: '220px',
@@ -41,6 +40,7 @@ const AffectationDemande = () => {
 
 
     const handleAdd = () => openModal('Add')
+    const handlSortie = (id) => openModal('Sortie', id)
 
     const closeAllModals = () => {
       setModalType(null);
@@ -83,7 +83,7 @@ const AffectationDemande = () => {
             const pageIndex = pagination.current || 1;
             return (pageIndex - 1) * pageSize + index + 1;
         },
-        width: "4%"
+        width: "3%"
     },
     {
         title : "Service",
@@ -185,12 +185,34 @@ const AffectationDemande = () => {
         render: text => {
             const { icon, color } = statusIcons[text] || {};
             return (
-              <Space>
+              <div style={columnStyles.title} className={columnStyles.hideScroll}>
                 <Tag icon={icon} color={color}>{text}</Tag>
-              </Space>
+              </div>
             );
         },
-    }
+    },
+    {
+        title: (
+        <Text strong>Actions</Text>
+        ),
+        key: 'action',
+        align: 'center',
+        width : '120px',
+        render: (text, record) => (
+        <Space size="small">
+          <Tooltip title="Bande de sortie">
+            <Button
+              type="text"
+              icon={<FormOutlined />}
+              style={{ color: '#1890ff' }}
+              onClick={() => handlSortie(record.id_demande_vehicule)}
+              aria-label="Modifier"
+            />
+          </Tooltip>
+
+        </Space>
+        ),
+    },
    ]
 
     const filteredData = data.filter(item =>
