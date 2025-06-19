@@ -199,15 +199,23 @@ const BandeSortie = () => {
         width : '120px',
         render: (text, record) => (
         <Space size="small">
-          <Tooltip title="Bande de sortie">
-            <Button
-              type="text"
-              icon={<FormOutlined />}
-              style={{ color: '#1890ff' }}
-              onClick={() => handlSortie(record.id_affectation_demande)}
-              aria-label="Modifier"
-            />
-          </Tooltip>
+            <Tooltip title="Voir les détails">
+                <Button
+                    icon={<EyeOutlined />}
+                    aria-label="Voir les détails de la tâche"
+                    style={{ color: 'blue' }}
+                    onClick={()=> handleDetail(record.id_vehicule)}
+                />
+            </Tooltip>
+            <Tooltip title="valider">
+                <Button
+                type="text"
+                icon={<FormOutlined />}
+                style={{ color: '#1890ff' }}
+                onClick={() => handlSortie(record.id_affectation_demande)}
+                aria-label="Modifier"
+                />
+            </Tooltip>
         </Space>
         ),
     },
