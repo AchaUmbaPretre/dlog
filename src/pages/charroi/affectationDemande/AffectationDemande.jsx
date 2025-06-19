@@ -270,6 +270,17 @@ const AffectationDemande = () => {
         >
           <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'Bande'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
+        >
+          <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }
