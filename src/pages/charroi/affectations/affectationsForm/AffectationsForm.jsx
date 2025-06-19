@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Form, Input, Skeleton, message, notification, Row, Col, Button, Select } from 'antd';
 import { useSelector } from 'react-redux';
 import { getChauffeur, getSite, postAffectation } from '../../../../services/charroiService';
-
-const { Option } = Select;
-
 
 const AffectationsForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -36,42 +33,43 @@ const AffectationsForm = ({closeModal, fetchData}) => {
     }, [])
 
 
-        const onFinish = async (values) => {
-            setLoading(true);
-            const loadingKey = 'loadingAffectation';
+    const onFinish = async (values) => {
+        setLoading(true);
+        const loadingKey = 'loadingAffectation';
         
-            try {
-                message.loading({ content: 'En cours...', key: loadingKey });
+        try {
+            message.loading({ content: 'En cours...', key: loadingKey });
         
-                await postAffectation({
-                    ...values,
-                    user_cr: userId
-                });
+            await postAffectation({
+                ...values,
+                user_cr: userId
+            });
         
-                message.success({
-                    content: "L'affectation été enregistrée avec succès.",
-                    key: loadingKey,
-                });
+            message.success({
+                content: "L'affectation été enregistrée avec succès.",
+                key: loadingKey,
+            });
         
-                form.resetFields();
-                closeModal();
-                fetchData();
+            form.resetFields();
+            closeModal();
+            fetchData();
         
-            } catch (error) {
-                console.error("Erreur lors de l'ajout de l'affectation :", error);
-                message.error({
-                    content: 'Une erreur est survenue.',
-                    key: loadingKey, 
-                });
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de l'affectation :", error);
+            message.error({
+                content: 'Une erreur est survenue.',
+                key: loadingKey, 
+            });
         
-                notification.error({
-                    message: 'Erreur',
-                    description: error.response?.data?.error || 'Une erreur inconnue s\'est produite.',
-                });
-            } finally {
-                setLoading(false);
-            }
-        };
+            notification.error({
+                message: 'Erreur',
+                description: error.response?.data?.error || 'Une erreur inconnue s\'est produite.',
+            });
+
+        } finally {
+            setLoading(false);
+        }
+    };
     
   return (
     <>
