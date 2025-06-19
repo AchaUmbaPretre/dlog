@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Input, Button, notification, Table, Space, Tooltip, Popconfirm, Modal } from 'antd';
-import { SwapOutlined, CalendarOutlined, PlusCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Input, Button, notification, Table, Tooltip, Modal } from 'antd';
+import { SwapOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import AffectationsForm from './affectationsForm/AffectationsForm';
 import { getAffectation } from '../../../services/charroiService';
