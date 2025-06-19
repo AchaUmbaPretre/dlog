@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Input, Card, Col, message, Skeleton, Select, Button } from 'antd';
-import { getChauffeur, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
+import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
+import { getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
+import { getClient } from '../../../../services/clientService';
 
 const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
@@ -11,12 +12,21 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const [ vehicule, setVehicule ] = useState([]);
     const [ chauffeur, setChauffeur ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const [ type, setType ] = useState([]);
+    const [ motif, setMotif ] = useState([]);
+    const [ service, setService ] = useState([]);
+    const [ client, setClient ] = useState([]);
+    const [ local, setLocal ] = useState([]);
 
     const fetchDatas = async() => {
         try {
-            const [vehiculeData, chaufferData] = await Promise.all([
+            const [vehiculeData, chaufferData, serviceData, typeData] = await Promise.all([
                 getVehiculeDispo(),
-                getChauffeur()
+                getChauffeur(),
+                getServiceDemandeur(),
+                getTypeVehicule(),
+                getMotif(),
+                getClient(),
             ])
 
             setVehicule(vehiculeData.data)
@@ -74,7 +84,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                     <Card>
                         <Row gutter={12}>
 
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Véhicule"
                                     name="id_vehicule"
@@ -94,7 +104,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Chauffeur"
                                     name="id_chauffeur"
@@ -114,12 +124,158 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                 </Form.Item>
                             </Col>
 
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Date & heure de départ prévue"
+                                    name="date_prevue"
+                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
+                                >
+                                    <DatePicker 
+                                        style={{width:'100%'}}
+                                        showTime={{ format: 'HH:mm' }} 
+                                        format="YYYY-MM-DD HH:mm" 
+                                                                    placeholder="Choisir date et heure" 
+                                                                />
+                                                            </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Date & heure de retour prévue"
+                                    name="date_retour"
+                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
+                                >
+                                    <DatePicker 
+                                        style={{width:'100%'}}
+                                        showTime={{ format: 'HH:mm' }} 
+                                        format="YYYY-MM-DD HH:mm" 
+                                        placeholder="Choisir date et heure" 
+                                    />
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Type de véhicule"
+                                    name="id_type_vehicule"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un type de vehicule' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={type?.map((item) => ({
+                                            value: item.id_type_vehicule,
+                                            label: `${item.nom_type_vehicule}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Motif"
+                                    name="id_motif_demande"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un motif' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={motif?.map((item) => ({
+                                            value: item.id_motif_demande,
+                                            label: `${item.nom_motif_demande}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Service demandeur"
+                                    name="id_demandeur"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un motif' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={service?.map((item) => ({
+                                            value: item.id_service_demandeur,
+                                            label: `${item.nom_service}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Client"
+                                    name="id_client"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un client' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={client?.map((item) => ({
+                                            value: item.id_client,
+                                            label: `${item.nom}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Destination"
+                                    name="id_localisation"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner une localisation.' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={local?.map((item) => ({
+                                            value: item.id_localisation ,
+                                            label: `${item.nom}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    label="Personne(s) à bord"
+                                    name="personne_bord"
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Input  placeholder="Saisir..." style={{width:'100%'}}/>
+                                    }
+                                </Form.Item>
+                            </Col>
+
                             <Col xs={24} md={24}>
                                 <Form.Item
                                     label="Commentaire"
                                     name="commentaire"
                                 >
-                                    <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'85px'}}/>
+                                    <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'70px'}}/>
                                 </Form.Item>
                             </Col>
                             <div style={{ marginTop: '20px' }}>

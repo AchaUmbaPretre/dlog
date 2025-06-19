@@ -150,7 +150,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
 
                             <Col xs={24} md={8}>
                                 <Form.Item
-                                    label="Date & heurre de retour prévue"
+                                    label="Date & heure de retour prévue"
                                     name="date_retour"
                                     rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
                                 >

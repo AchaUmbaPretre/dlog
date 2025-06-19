@@ -235,7 +235,7 @@ const AffectationDemande = () => {
           visible={modalType === 'Add'}
           onCancel={closeAllModals}
           footer={null}
-          width={800}
+          width={900}
           centered
         >
           <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} />
