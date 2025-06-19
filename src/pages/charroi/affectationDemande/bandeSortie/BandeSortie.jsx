@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, EyeOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -201,19 +201,19 @@ const BandeSortie = () => {
         <Space size="small">
             <Tooltip title="Voir les détails">
                 <Button
+                    type='text'
                     icon={<EyeOutlined />}
                     aria-label="Voir les détails de la tâche"
                     style={{ color: 'blue' }}
-                    onClick={()=> handleDetail(record.id_vehicule)}
                 />
             </Tooltip>
             <Tooltip title="valider">
                 <Button
-                type="text"
-                icon={<FormOutlined />}
-                style={{ color: '#1890ff' }}
-                onClick={() => handlSortie(record.id_affectation_demande)}
-                aria-label="Modifier"
+                    type="text"
+                    icon={<FormOutlined />}
+                    style={{ color: '#1890ff' }}
+                    onClick={() => handlSortie(record.id_affectation_demande)}
+                    aria-label="Modifier"
                 />
             </Tooltip>
         </Space>
