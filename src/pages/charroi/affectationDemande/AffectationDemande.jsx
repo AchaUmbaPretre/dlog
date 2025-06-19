@@ -205,7 +205,7 @@ const AffectationDemande = () => {
               type="text"
               icon={<FormOutlined />}
               style={{ color: '#1890ff' }}
-              onClick={() => handlSortie(record.id_demande_vehicule)}
+              onClick={() => handlSortie(record.id_affectation_demande)}
               aria-label="Modifier"
             />
           </Tooltip>
