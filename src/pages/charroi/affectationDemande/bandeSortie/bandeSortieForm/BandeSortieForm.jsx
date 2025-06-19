@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
-
+import { SendOutlined } from '@ant-design/icons';
+import moment from 'moment';
+import { getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo } from '../../../../../services/charroiService';
+import { getClient } from '../../../../../services/clientService';
+import { getLocalisation } from '../../../../../services/transporteurService';
+import { useSelector } from 'react-redux';
 
 const BandeSortieForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
@@ -35,7 +40,7 @@ const BandeSortieForm = ({closeModal, fetchData, id_demande_vehicule}) => {
                 setClient(clientData.data);
                 setLocal(localData.data);
     
-                if(id_demande_vehicule) {
+/*                 if(id_demande_vehicule) {
                     const { data : d } = await getDemandeVehiculeOne(id_demande_vehicule);
                     form.setFieldsValue({
                         date_prevue : moment(d[0].date_prevue),
@@ -47,7 +52,7 @@ const BandeSortieForm = ({closeModal, fetchData, id_demande_vehicule}) => {
                         id_localisation : d[0].id_localisation,
                         personne_bord : d[0].personne_bord
                     })
-                }
+                } */
                 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -70,13 +75,13 @@ const BandeSortieForm = ({closeModal, fetchData, id_demande_vehicule}) => {
         
                 try {
                     
-                    await postAffectationDemande({
+/*                     await postAffectationDemande({
                         ...values,
                         id_demande_vehicule : id_demande_vehicule,
                         user_cr: userId
-                    })
+                    }) */
                     
-                    message.success({ content: "L'affectation a été mise a jour avec succès.", key: loadingKey });
+                    message.success({ content: "La bande de sortie a été mise a jour avec succès.", key: loadingKey });
                     fetchData();
                     closeModal();
         

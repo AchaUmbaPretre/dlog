@@ -5,6 +5,7 @@ import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
 import AffectationDemandeForm from './affectationDemandeForm/AffectationDemandeForm';
 import { statusIcons } from '../../../utils/prioriteIcons';
+import BandeSortieForm from './bandeSortie/bandeSortieForm/BandeSortieForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -279,7 +280,7 @@ const AffectationDemande = () => {
           width={1000}
           centered
         >
-          <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+          <BandeSortieForm closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
     </>
   )
