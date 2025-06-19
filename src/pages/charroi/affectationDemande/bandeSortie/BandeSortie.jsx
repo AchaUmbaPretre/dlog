@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, EyeOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, EyeOutlined, RollbackOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -231,7 +231,7 @@ const BandeSortie = () => {
           <div className="client-wrapper">
             <div className="client-row">
               <div className="client-row-icon">
-                <SwapOutlined className='client-icon' style={{color:'blue'}} />
+                <RollbackOutlined className='client-icon' style={{color:'blue'}} />
               </div>
               <h2 className="client-h2"> Liste de bande de sortie</h2>
             </div>
