@@ -1,7 +1,9 @@
-import React from 'react'
+import { useRef, useState } from 'react'
 import SignaturePad from 'react-signature-canvas';
+import { Button, Form, Card, Col, Row, message, notification, Select, Tabs } from 'antd';
 
 const SignatureForm = () => {
+    const [form] = Form.useForm();
     const [info, setInfo] = useState([]);
     const sigCanvas = useRef();
     const [signatureURL, setSignatureURL] = useState('');
@@ -23,30 +25,15 @@ const SignatureForm = () => {
         form.setFieldsValue({ signature_data: '' });
     };
 
+    const onFinish = async (values) => {
+        
+    }
+
   return (
     <>
-                <div className="controle_form">
+        <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Validation de demande</div>
-            </div>
-            <div className="validation_wrapper_info">
-                <h2 className="validation_h2">Ceux qui ont déjà signé : </h2>
-                { info.length > 1 ?
-                <div className="validation_rows_info">
-                    <Table
-                        columns={columns}
-                        dataSource={info}
-                        loading={loading}
-                        onChange={(pagination) => setPagination(pagination)}
-                        rowKey="id"
-                        bordered
-                        scroll={scroll}
-                        size="small"
-                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                    />
-                </div>
-                : <div className='message_users'>Aucune signature enregistrée pour le moment.</div>
-                 }
+                <div className="controle_h2">Créer une signature</div>
             </div>
             <div className="controle_wrapper">
                 <Form
