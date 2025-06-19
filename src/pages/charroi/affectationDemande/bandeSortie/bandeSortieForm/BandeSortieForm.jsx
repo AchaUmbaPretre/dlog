@@ -7,7 +7,7 @@ import { getClient } from '../../../../../services/clientService';
 import { getLocalisation } from '../../../../../services/transporteurService';
 import { useSelector } from 'react-redux';
 
-const BandeSortieForm = ({closeModal, fetchData, id_demande_vehicule}) => {
+const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ loadingData, setLoadingData ] = useState(false);
@@ -63,7 +63,7 @@ const BandeSortieForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     
         useEffect(()=> {
             fetchDatas();
-        }, [id_demande_vehicule]);
+        }, [affectationId]);
 
 
     const onFinish = async (values) => {
@@ -295,14 +295,6 @@ const BandeSortieForm = ({closeModal, fetchData, id_demande_vehicule}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={24}>
-                                <Form.Item
-                                    label="Commentaire"
-                                    name="commentaire"
-                                >
-                                    <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'70px'}}/>
-                                </Form.Item>
-                            </Col>
                             <div style={{ marginTop: '20px' }}>
                                 <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
                                     Soumettre

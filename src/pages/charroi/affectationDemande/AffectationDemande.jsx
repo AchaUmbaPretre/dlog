@@ -41,7 +41,7 @@ const AffectationDemande = () => {
 
 
     const handleAdd = () => openModal('Add')
-    const handlSortie = (id) => openModal('Sortie', id)
+    const handlSortie = (id) => openModal('Bande', id)
 
     const closeAllModals = () => {
       setModalType(null);
@@ -280,7 +280,7 @@ const AffectationDemande = () => {
           width={1000}
           centered
         >
-          <BandeSortieForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+          <BandeSortieForm closeModal={() => setModalType(null)} fetchData={fetchData} affectationId={affectationId} />
         </Modal>
     </>
   )
