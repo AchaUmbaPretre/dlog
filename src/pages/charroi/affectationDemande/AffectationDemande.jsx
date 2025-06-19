@@ -209,7 +209,6 @@ const AffectationDemande = () => {
               aria-label="Modifier"
             />
           </Tooltip>
-
         </Space>
         ),
     },
