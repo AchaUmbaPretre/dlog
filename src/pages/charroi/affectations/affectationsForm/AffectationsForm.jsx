@@ -117,7 +117,7 @@ const AffectationsForm = ({closeModal, fetchData}) => {
                                     options={site.map((item) => ({
                                         value: item.id_site,
                                         label: `${item.nom_site}`,
-                                        }))}
+                                    }))}
                                     placeholder="Sélectionnez un site..."
                                     optionFilterProp="label"
                                 />}
