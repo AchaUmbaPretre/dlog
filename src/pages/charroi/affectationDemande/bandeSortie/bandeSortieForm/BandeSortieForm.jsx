@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { getAffectationDemandeOne, getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, getVehiculeDispo } from '../../../../../services/charroiService';
+import { getAffectationDemandeOne, getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, getVehiculeDispo, postBandeSortie } from '../../../../../services/charroiService';
 import { getClient } from '../../../../../services/clientService';
 import { getLocalisation } from '../../../../../services/transporteurService';
 import { useSelector } from 'react-redux';
@@ -77,12 +77,11 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
             setLoading(true);
         
                 try {
-                    
-/*                     await postAffectationDemande({
+                    await postBandeSortie({
                         ...values,
-                        id_demande_vehicule : id_demande_vehicule,
+                        id_affectation_demande : affectationId,
                         user_cr: userId
-                    }) */
+                    })
                     
                     message.success({ content: "La bande de sortie a été mise a jour avec succès.", key: loadingKey });
                     fetchData();
