@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo } from '../../../../../services/charroiService';
+import { getAffectationDemandeOne, getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, getVehiculeDispo } from '../../../../../services/charroiService';
 import { getClient } from '../../../../../services/clientService';
 import { getLocalisation } from '../../../../../services/transporteurService';
 import { useSelector } from 'react-redux';
@@ -20,10 +20,11 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [ client, setClient ] = useState([]);
     const [ local, setLocal ] = useState([]);
 
+
         const fetchDatas = async() => {
             try {
                 const [vehiculeData, chaufferData, serviceData, typeData, motifData, clientData, localData] = await Promise.all([
-                    getVehiculeDispo(),
+                    getVehicule(),
                     getChauffeur(),
                     getServiceDemandeur(),
                     getTypeVehicule(),
@@ -32,7 +33,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                     getLocalisation()
                 ])
     
-                setVehicule(vehiculeData.data)
+                setVehicule(vehiculeData.data.data)
                 setChauffeur(chaufferData.data?.data)
                 setService(serviceData.data);
                 setType(typeData.data);
@@ -40,9 +41,11 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                 setClient(clientData.data);
                 setLocal(localData.data);
     
-/*                 if(id_demande_vehicule) {
-                    const { data : d } = await getDemandeVehiculeOne(id_demande_vehicule);
+                 if(affectationId) {
+                    const { data : d } = await getAffectationDemandeOne(affectationId);
                     form.setFieldsValue({
+                        id_vehicule : d[0].id_vehicule,
+                        id_chauffeur : d[0].id_chauffeur,
                         date_prevue : moment(d[0].date_prevue),
                         date_retour : moment(d[0].date_retour),
                         id_type_vehicule : d[0].id_type_vehicule,
@@ -52,7 +55,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                         id_localisation : d[0].id_localisation,
                         personne_bord : d[0].personne_bord
                     })
-                } */
+                }
                 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -267,7 +270,6 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                 <Form.Item
                                     label="Destination"
                                     name="id_localisation"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner une localisation.' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select

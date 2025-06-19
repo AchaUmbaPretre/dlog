@@ -455,8 +455,8 @@ export const getAffectationDemande = async () => {
     return axios.get(`${DOMAIN}/api/charroi/affectation_demande`);
 }
 
-export const getAffectationDemandeOne = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/affectation_demandeOne`);
+export const getAffectationDemandeOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/affectation_demandeOne?id_affectation_demande=${id}`);
 }
 
 export const postAffectationDemande = async (data) => {
