@@ -1,5 +1,5 @@
 import { Button, Form, Input, notification, Select, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './ClientForm.scss';
 import { useNavigate } from 'react-router-dom';
 import { getClient_type, getClientOne, getProvince, postClient, putClient } from '../../../services/clientService';

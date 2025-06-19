@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined,ReloadOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined,ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -103,14 +103,42 @@ export const icons = [
 };
 
 export const statusIcons = {
-  'En attente': { icon: <ClockCircleOutlined spin />, color: 'orange' },
-  'En cours': { icon: <HourglassOutlined spin />, color: 'blue' },
-  'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
-  'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
-  'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
-  'Budget': { icon: <DollarOutlined />, color: 'gold' },
-  'Budget validé': { icon: <CheckCircleOutlined />, color: 'lime' }, // Nouveau statut
-  'Executé': { icon: <RocketOutlined />, color: 'cyan' },
+  'En attente': {
+    icon: <ClockCircleOutlined spin />,
+    color: 'orange',
+  },
+  'En cours': {
+    icon: <HourglassOutlined spin />,
+    color: 'blue',
+  },
+  'Point bloquant': {
+    icon: <WarningOutlined />,
+    color: 'red',
+  },
+  'En attente de validation': {
+    icon: <CheckSquareOutlined />,
+    color: 'purple',
+  },
+  'Validé': {
+    icon: <CheckCircleOutlined />,
+    color: 'green',
+  },
+  'Budget': {
+    icon: <DollarOutlined />,
+    color: 'gold',
+  },
+  'Budget validé': {
+    icon: <CheckCircleOutlined />,
+    color: 'lime',
+  },
+  'Executé': {
+    icon: <RocketOutlined />,
+    color: 'cyan',
+  },
+  'Prête à exécution': {
+    icon: <PlayCircleOutlined />,
+    color: 'blue',
+  },
   'Opérationnel': {
     icon: <CarOutlined />,
     color: 'green',
@@ -119,19 +147,18 @@ export const statusIcons = {
     icon: <ToolOutlined />,
     color: 'orange',
   },
+  'Réparé': {
+    icon: <ToolOutlined />,
+    color: 'cyan',
+  },
   'Immobile': {
     icon: <StopOutlined />,
     color: 'red',
   },
-  'Réparé': {
-    icon : <ToolOutlined />,
-    color: 'cyan'
+  'Annulé': {
+    icon: <CloseCircleOutlined />,
+    color: 'red',
   },
-  'Annulé':
-  {
-    icon : <CloseCircleOutlined />,
-    color: 'red'
-  }
 };
 
 export const getTagProps = (type) => {

@@ -517,7 +517,7 @@ const DemandeVehicule = () => {
             visible={modalType === 'affectation'}
             onCancel={closeAllModals}
             footer={null}
-            width={800}
+            width={1000}
             centered
         >
             <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />

@@ -15,9 +15,9 @@ const DemandeurVehicule = () => {
   const [localiteId, setLocaliteId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
-      current: 1,
-      pageSize: 15,
-    });
+    current: 1,
+    pageSize: 15,
+  });
   
     const fetchData = async () => {
       try {

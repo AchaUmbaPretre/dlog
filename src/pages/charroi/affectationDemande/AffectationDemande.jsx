@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Table, Modal, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, PlusCircleOutlined, UserOutlined, ExportOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Table, Modal, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
+import {  CarOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, ExportOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
 import AffectationDemandeForm from './affectationDemandeForm/AffectationDemandeForm';
+import { statusIcons } from '../../../utils/prioriteIcons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -73,7 +74,7 @@ const AffectationDemande = () => {
     }, []);
 
    const columns = [
-        {
+      {
           title: '#',
           dataIndex: 'id',
           key: 'id',
@@ -83,7 +84,15 @@ const AffectationDemande = () => {
             return (pageIndex - 1) * pageSize + index + 1;
         },
         width: "4%"
-       },
+    },
+    {
+        title : "Service",
+        dataIndex: 'nom_service',
+        key:'nom_service',
+        render : (text) => (
+          <Text>{text}</Text>
+        )
+    },
     {
     title: (
       <Space>
@@ -106,31 +115,14 @@ const AffectationDemande = () => {
     title: (
       <Space>
         <CarOutlined style={{ color: 'red' }} />
-        <Text strong>Immatriculation</Text>
+        <Text strong>Véhicule</Text>
       </Space>
     ),
-    dataIndex: 'immatriculation',
-    key: 'immatriculation',
-    align: 'center',
+    dataIndex:'nom_type_vehicule',
+    key: 'nom_type_vehicule',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
-    },
-    {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: 'blue' }} />
-        <Text strong>Modèle</Text>
-      </Space>
-    ),
-    dataIndex: 'modele',
-    key: 'modele',
-    align: 'center',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+        <Text  type="secondary">{text}</Text>
       </Tooltip>
     ),
     },
@@ -154,34 +146,51 @@ const AffectationDemande = () => {
       title: (
         <Space>
           <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Date d'affectation</Text>
+          <Text strong>Preuve</Text>
         </Space>
       ),
-      dataIndex: 'created_at',
-      key: 'created_at',
+      dataIndex: 'date_prevue',
+      key: '',
       align: 'center',
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Text>{moment(text).format('DD-MM-yyyy')}</Text>
+          <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
         </Tooltip>
       ),
     },
-    {
+        {
       title: (
         <Space>
-          <Text strong>Commentaire</Text>
+          <CalendarOutlined style={{ color: 'blue' }} />
+          <Text strong>Retour</Text>
         </Space>
       ),
-      dataIndex: 'commentaire',
-      key: 'commentaire',
+      dataIndex: 'date_retour',
+      key: '',
       render: (text) => (
-        <div style={columnStyles.title} className={columnStyles.hideScroll}>
-          <Tooltip placement="topLeft" title={text}>
-            <Text>{text}</Text>
-          </Tooltip>
-        </div>
+        <Tooltip placement="topLeft" title={text}>
+          <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
+        </Tooltip>
       ),
     },
+        {
+        title: (
+        <Space>
+            <CheckCircleOutlined style={{ color: '#1890ff' }} />
+            <Text strong>Statut</Text>
+        </Space>
+        ),
+        dataIndex: 'nom_type_statut',
+        key: 'nom_type_statut',
+        render: text => {
+            const { icon, color } = statusIcons[text] || {};
+            return (
+              <Space>
+                <Tag icon={icon} color={color}>{text}</Tag>
+              </Space>
+            );
+        },
+    }
    ]
 
     const filteredData = data.filter(item =>

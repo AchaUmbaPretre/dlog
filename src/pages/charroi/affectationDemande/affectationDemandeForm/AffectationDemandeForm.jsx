@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
-import { getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
+import { getChauffeur, getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
+import moment from 'moment';
 
 const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
@@ -37,7 +38,21 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             setType(typeData.data);
             setMotif(motifData.data);
             setClient(clientData.data);
-            setLocal(localData.data)
+            setLocal(localData.data);
+
+            if(id_demande_vehicule) {
+                const { data : d } = await getDemandeVehiculeOne(id_demande_vehicule);
+                form.setFieldsValue({
+                    date_prevue : moment(d[0].date_prevue),
+                    date_retour : moment(d[0].date_retour),
+                    id_type_vehicule : d[0].id_type_vehicule,
+                    id_motif_demande : d[0].id_motif_demande,
+                    id_demandeur : d[0].id_demandeur,
+                    id_client : d[0].id_client,
+                    id_localisation : d[0].id_localisation,
+                    personne_bord : d[0].personne_bord
+                })
+            }
             
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -73,6 +88,8 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
         } catch (error) {
             console.error("Erreur lors de l'ajout d'affectation :", error);
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+        } finally {
+            setLoading(false);
         }
     }
 
