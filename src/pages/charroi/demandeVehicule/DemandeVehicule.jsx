@@ -16,6 +16,7 @@ import AffectationDemande from '../affectationDemande/AffectationDemande';
 import RetourVehiculeForm from '../retourVehicule/retourVehiculeForm/RetourVehiculeForm';
 import DemandeurVehicule from '../demandeurVehicule/DemandeurVehicule';
 import ValidationDemandeForm from './validationDemande/validationDemandeForm/ValidationDemandeForm';
+import BandeSortie from '../affectationDemande/bandeSortie/BandeSortie';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -460,6 +461,16 @@ const DemandeVehicule = () => {
             </TabPane>
             }
 
+            <TabPane
+                tab={
+                    <span>
+                    🚗 Bande de sortie
+                    </span>
+                }
+                key="3"
+            >
+                <BandeSortie/>
+            </TabPane>
             { role === 'Admin' &&
             <TabPane
                 tab={
@@ -467,7 +478,7 @@ const DemandeVehicule = () => {
                     🚗 Les vehicules occupés
                     </span>
                 }
-                key="3"
+                key="4"
             >
                 <VehiculeOccupe/>
             </TabPane>
@@ -480,7 +491,7 @@ const DemandeVehicule = () => {
                     🚙 Les vehicules disponibles
                     </span>
                 }
-                key="4"
+                key="5"
             >
                 <DemandeVehiculeDispo/>
             </TabPane>
@@ -493,13 +504,12 @@ const DemandeVehicule = () => {
                     💼 Services
                     </span>
                 }
-                key="5"
+                key="6"
             >
                 <DemandeurVehicule/>
             </TabPane>
             }
         </Tabs>
-
 
         <Modal
             title=""
