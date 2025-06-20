@@ -37,7 +37,7 @@ const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
         );
     }
 
-const onFinish = async (values) => {
+const onFinish = async () => {
   setLoadingData(true);
   const notificationKey = 'bon_de_sortie_validation';
 
