@@ -1,27 +1,91 @@
-.signature{
+.signature {
     width: 100%;
-    .signature_wrapper{
+    font-family: 'Segoe UI', sans-serif;
+
+    .signature_wrapper {
         width: 100%;
-        .creer_signature{
-            width: 100%;
-            height: 90vh;
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9fafe;
+        padding: 20px;
+
+        .creer_signature {
             display: flex;
             align-items: center;
             justify-content: center;
-            .btn_signature{
+            flex-direction: column;
+            gap: 20px;
+
+            .btn_signature {
                 border: none;
-                padding: 10px 15px;
+                padding: 12px 24px;
                 background: #3366ff;
                 color: #fff;
-                border-radius: 10px;
+                font-size: 1rem;
+                font-weight: 500;
+                border-radius: 8px;
                 cursor: pointer;
                 transition: background 0.3s ease, transform 0.2s ease;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
                 &:hover {
                     background: #254eda;
                     transform: translateY(-2px);
-                    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+                    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
                 }
+
+                &:active {
+                    transform: translateY(0);
+                    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                }
+            }
+        }
+
+        .image_signature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+            max-width: 600px;
+            width: 100%;
+
+            .title_signe {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: #254eda;
+                background: #e9efff;
+                padding: 10px 20px;
+                border-radius: 6px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .img_signature {
+                max-width: 100%;
+                height: auto;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .signature_wrapper {
+            padding: 10px;
+
+            .image_signature {
+                padding: 20px;
+            }
+
+            .btn_signature {
+                width: 100%;
             }
         }
     }
