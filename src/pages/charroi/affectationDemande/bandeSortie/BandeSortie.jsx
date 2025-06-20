@@ -255,7 +255,7 @@ const BandeSortie = () => {
             visible={modalType === 'validation'}
             onCancel={closeAllModals}
             footer={null}
-            width={1000}
+            width={900}
             centered
         >
             <ValidationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
