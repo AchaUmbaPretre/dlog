@@ -1,6 +1,80 @@
-.validationDemandeForm{
+.validationDemandeForm {
     width: 100%;
-    .validationDemandeForm_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.loading {
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .validationDemandeForm_wrapper {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 800px;
         width: 100%;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .validation_title_row {
+            text-align: center;
+            padding: 15px;
+            background: #3366ff;
+            border-radius: 8px;
+
+            .validation_h1 {
+                color: #ffffff;
+                margin: 0;
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
+        }
+
+        .validationDemande_top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+
+            .info-item {
+                display: flex;
+                flex-direction: column;
+
+                .label {
+                    font-weight: 600;
+                    color: #555;
+                    margin-bottom: 4px;
+                }
+
+                .value {
+                    color: #222;
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        .validationDemande_bottom {
+            display: flex;
+            justify-content: center;
+
+            .validation_btn {
+                padding: 10px 30px;
+                font-size: 1rem;
+                font-weight: 500;
+                border-radius: 6px;
+                height: auto;
+            }
+        }
+    }
+
+    @media (max-width: 600px) {
+        .validationDemandeForm_wrapper {
+            padding: 20px;
+        }
     }
 }
