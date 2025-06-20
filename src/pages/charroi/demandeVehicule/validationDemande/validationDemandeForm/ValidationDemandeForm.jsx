@@ -3,11 +3,13 @@ import { getBandeSortieOne, posValidationDemande } from '../../../../../services
 import { notification, Button, message, Spin, Card } from 'antd';
 import moment from 'moment';
 import './validationDemandeForm.scss';
+import { useSelector } from 'react-redux';
 
 const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [loadingData, setLoadingData] = useState(false);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     useEffect(() => {
         const fetchDataAsync = async () => {
@@ -41,8 +43,11 @@ const onFinish = async (values) => {
 
   try {
     message.loading({ content: 'Validation en cours...', key: notificationKey });
-
-    await posValidationDemande(values);
+    const v = {
+        id_bande_sortie : id_bon,
+        validateur_id : userId
+    }
+    await posValidationDemande(v);
 
     message.success({
       content: 'Le bon de sortie a été validé avec succès.',
