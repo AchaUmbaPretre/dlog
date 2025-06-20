@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getBandeSortieOne } from '../../../../../services/charroiService';
-import { notification, Button, Spin } from 'antd';
+import { notification, Button, Spin, Card } from 'antd';
 import moment from 'moment';
 import './validationDemandeForm.scss';
 
@@ -41,20 +41,21 @@ const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
                 <div className="validation_title_row">
                     <h1 className="validation_h1">📝 Autorisation de sortie</h1>
                 </div>
-
-                <div className="validationDemande_top">
-                    <Info label="Nom de l'agent" value={data?.personne_bord} />
-                    <Info label="Service" value={data?.nom_service} />
-                    <Info
-                        label="Date & heure"
-                        value={`${moment(data?.date_prevue).format('D MMMM YYYY à HH:mm')} → ${moment(data?.date_retour).format('D MMMM YYYY à HH:mm')}`}
-                    />
-                    <Info label="Raison" value={data?.nom_motif_demande} />
-                    <Info label="Marque" value={data?.nom_marque} />
-                    <Info label="Modèle" value={data?.Yaris ?? 'Aucun'} />
-                    <Info label="Plaque" value={data?.immatriculation} />
-                    <Info label="Chauffeur" value={data?.nom_chauffeur} />
-                </div>
+                <Card>
+                    <div className="validationDemande_top">
+                        <Info label="Nom de l'agent" value={data?.personne_bord} />
+                        <Info label="Service" value={data?.nom_service} />
+                        <Info
+                            label="Date & heure"
+                            value={`${moment(data?.date_prevue).format('D MMMM YYYY à HH:mm')} → ${moment(data?.date_retour).format('D MMMM YYYY à HH:mm')}`}
+                        />
+                        <Info label="Raison" value={data?.nom_motif_demande} />
+                        <Info label="Marque" value={data?.nom_marque} />
+                        <Info label="Modèle" value={data?.Yaris ?? 'Aucun'} />
+                        <Info label="Plaque" value={data?.immatriculation} />
+                        <Info label="Chauffeur" value={data?.nom_chauffeur} />
+                    </div>
+                </Card>
 
                 <div className="validationDemande_bottom">
                     <Button className="validation_btn" type="primary" onClick={() => {}}>
