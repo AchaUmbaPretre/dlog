@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getBandeSortieOne } from '../../../../../services/charroiService';
-import { notification, Button, Spin, Card } from 'antd';
+import { notification, Button, Spin, Card, Divider } from 'antd';
 import moment from 'moment';
 import './validationDemandeForm.scss';
 
