@@ -1,29 +1,6 @@
-.validation_wrapper_info{
-    margin-bottom: 20px;
-    .validation_h2{
-        font-size: 1rem;
-        font-weight: 300;
-        text-transform: uppercase;
+.validationDemandeForm{
+    width: 100%;
+    .validationDemandeForm_wrapper{
+        width: 100%;
     }
-    .validation_rows_info{
-        display: flex;
-        flex-direction: column;
-        .img_signature {
-            width: 200px;
-            height: 200px;
-        }
-    }
-    .message_users {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 16px;
-    background-color: #fef2f2; /* rouge clair élégant */
-    color: #b91c1c; /* rouge professionnel (tailwind rouge-700) */
-    border: 1px solid #fca5a5;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 14px;
-    }
-
 }
