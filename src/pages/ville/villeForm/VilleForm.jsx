@@ -12,7 +12,7 @@ import {
   message,
 } from 'antd';
 import { SendOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { getProvince, postProvince } from '../../../services/clientService';
+import { getProvince } from '../../../services/clientService';
 import { postVille } from '../../../services/transporteurService';
 
 const VilleForm = ({ closeModal, fetchData, villeId }) => {

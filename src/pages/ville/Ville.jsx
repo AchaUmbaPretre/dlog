@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { getProvince } from '../../services/clientService';
 import VilleForm from './villeForm/VilleForm';
 import { getVille } from '../../services/transporteurService';
 
@@ -16,9 +15,9 @@ const Ville = () => {
   const [villeId, setVilleId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
-      current: 1,
-      pageSize: 15,
-    });
+    current: 1,
+    pageSize: 15,
+  });
   
     const fetchData = async () => {
       try {
