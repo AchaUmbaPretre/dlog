@@ -43,7 +43,10 @@ const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
                 <div className="validationDemande_top">
                     <Info label="Nom de l'agent" value={data?.personne_bord} />
                     <Info label="Service" value={data?.nom_service} />
-                    <Info label="Date & heure" value={`${data?.date_prevue} à ${data?.date_retour}`} />
+                    <Info
+                        label="Date & heure"
+                        value={`${moment(data?.date_prevue).format('dddd D MMMM YYYY à HH:mm')} → ${moment(data?.date_retour).format('dddd D MMMM YYYY à HH:mm')}`}
+                    />
                     <Info label="Raison" value={data?.nom_motif_demande} />
                     <Info label="Marque" value={data?.nom_marque} />
                     <Info label="Modèle" value={data?.Yaris ?? 'Aucun'} />
