@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getBandeSortieOne } from '../../../../../services/charroiService';
-import { notification, Button, Spin, Card } from 'antd';
+import { getBandeSortieOne, posValidationDemande } from '../../../../../services/charroiService';
+import { notification, Button, message, Spin, Card } from 'antd';
 import moment from 'moment';
 import './validationDemandeForm.scss';
 
@@ -35,9 +35,40 @@ const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
         );
     }
 
-    const onFinish = async (values) => {
-        setLoadingData(true)
-    }
+const onFinish = async (values) => {
+  setLoadingData(true);
+  const notificationKey = 'bon_de_sortie_validation';
+
+  try {
+    message.loading({ content: 'Validation en cours...', key: notificationKey });
+
+    await posValidationDemande(values);
+
+    message.success({
+      content: 'Le bon de sortie a été validé avec succès.',
+      key: notificationKey,
+      duration: 3,
+    });
+
+    fetchData();
+    closeModal();
+
+  } catch (error) {
+    console.error('Erreur lors de la validation du bon de sortie:', error);
+
+    const errorMsg = error?.response?.data?.message || 'Une erreur inattendue est survenue.';
+
+    message.error({
+      content: errorMsg,
+      key: notificationKey,
+      duration: 4,
+    });
+
+  } finally {
+    setLoadingData(false);
+  }
+};
+
 
     return (
         <div className="validationDemandeForm">
@@ -63,7 +94,7 @@ const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
 
 
                 <div className="validationDemande_bottom">
-                    <Button className="validation_btn" type="primary" onClick={() => {}}>
+                    <Button className="validation_btn" type="primary" onClick={onFinish} disabled={loadingData} loading={loadingData}>
                         ✅ Valider la demande
                     </Button>
                 </div>
