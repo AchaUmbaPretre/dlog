@@ -41,7 +41,7 @@ const Signature = () => {
         </div>
         <Modal
             title=""
-            visible={modalType === 'Detail'}
+            visible={modalType === 'Signature'}
             onCancel={closeAllModals}
             footer={null}
             width={900}
