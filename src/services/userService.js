@@ -28,7 +28,7 @@ export const putUserOne = async (id, data) => {
 
 //Signature
 export const getSignature = async (id) => {
-    return axios.get(`${DOMAIN}/api/user/signature?id_user=${id}`);
+    return axios.get(`${DOMAIN}/api/user/signature?userId=${id}`);
   };
 
 
