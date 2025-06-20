@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react';
 import { getBandeSortieOne } from '../../../../../services/charroiService';
 import { notification, Button, Spin } from 'antd';
 import moment from 'moment';
-import 'moment/locale/fr';
-moment.locale('fr');
-
 import './validationDemandeForm.scss';
+
 
 const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
     const [data, setData] = useState(null);
@@ -49,7 +47,7 @@ const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
                     <Info label="Service" value={data?.nom_service} />
                     <Info
                         label="Date & heure"
-                        value={`${moment(data?.date_prevue).format('dddd D MMMM YYYY à HH:mm')} → ${moment(data?.date_retour).format('dddd D MMMM YYYY à HH:mm')}`}
+                        value={`${moment(data?.date_prevue).format('D MMMM YYYY à HH:mm')} → ${moment(data?.date_retour).format('D MMMM YYYY à HH:mm')}`}
                     />
                     <Info label="Raison" value={data?.nom_motif_demande} />
                     <Info label="Marque" value={data?.nom_marque} />
