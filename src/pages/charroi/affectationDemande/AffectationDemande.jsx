@@ -227,7 +227,7 @@ const AffectationDemande = () => {
               <div className="client-row-icon">
                 <SwapOutlined className='client-icon' style={{color:'blue'}} />
               </div>
-              <h2 className="client-h2"> Liste d'affectations</h2>
+              <h2 className="client-h2"> Liste des Courses validées</h2>
             </div>
             <div className="client-actions">
               <div className="client-row-left">

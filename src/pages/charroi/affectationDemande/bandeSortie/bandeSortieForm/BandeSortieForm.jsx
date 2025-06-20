@@ -100,7 +100,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Form de bande de sortie</div>
+                <div className="controle_h2">Form de bon de sortie</div>
             </div>
             <div className="controle_wrapper">
                 <Form
