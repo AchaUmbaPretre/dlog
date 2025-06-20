@@ -41,7 +41,7 @@ const VilleForm = ({ closeModal, fetchData, villeId }) => {
   }, []);
 
   const onFinish = async (values) => {
-    const loadingKey = 'loadingProvince';
+    const loadingKey = 'loadingVille';
 
     try {
       await form.validateFields();
