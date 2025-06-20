@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getBandeSortieOne } from '../../../../../services/charroiService';
 import { notification, Button, Spin } from 'antd';
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
+
 import './validationDemandeForm.scss';
 
 const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
