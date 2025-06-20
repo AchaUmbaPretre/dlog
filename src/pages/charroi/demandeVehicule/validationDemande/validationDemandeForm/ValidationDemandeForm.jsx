@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import './validationDemandeForm.scss'
 import { getBandeSortieOne } from '../../../../../services/charroiService';
+import { notification } from 'antd';
 
 const ValidationDemandeForm = ({closeModal, fetchData, id_bon}) => {
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const fetchData = async () => {
