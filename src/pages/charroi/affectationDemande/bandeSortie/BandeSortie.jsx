@@ -4,6 +4,7 @@ import {  CarOutlined, EyeOutlined, ExportOutlined, CheckCircleOutlined, UserOut
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
+import ValidationDemandeForm from '../../demandeVehicule/validationDemande/validationDemandeForm/ValidationDemandeForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -18,7 +19,7 @@ const BandeSortie = () => {
           pageSize: 15,
     });
     const [modalType, setModalType] = useState(null);
-    const [affectationId, setAffectationId] = useState('');
+    const [bonId, setBonId] = useState('');
 
     const columnStyles = {
       title: {
@@ -43,10 +44,10 @@ const BandeSortie = () => {
       setModalType(null);
     };
 
-    const openModal = (type, affectationId = '') => {
+    const openModal = (type, id = '') => {
       closeAllModals();
       setModalType(type);
-      setAffectationId(affectationId)
+      setBonId(id)
     };
         
     const fetchData = async() => {
@@ -201,7 +202,7 @@ const BandeSortie = () => {
                 <Button
                     icon={<CheckCircleOutlined />}
                     style={{ color: 'green' }}
-                    onClick={() => handlSortie(record.id_affectation_demande)}
+                    onClick={() => handlSortie(record.id_bande_sortie)}
                     aria-label="Valider"
                 />
             </Tooltip>
@@ -249,16 +250,16 @@ const BandeSortie = () => {
             </div>
         </div>
 
-{/*         <Modal
-          title=""
-          visible={modalType === 'Bande'}
-          onCancel={closeAllModals}
-          footer={null}
-          width={1000}
-          centered
+        <Modal
+            title=""
+            visible={modalType === 'validation'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1000}
+            centered
         >
-          <BandeSortieForm closeModal={() => setModalType(null)} fetchData={fetchData} affectationId={affectationId} />
-        </Modal> */}
+            <ValidationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
+        </Modal>
     </>
   )
 }

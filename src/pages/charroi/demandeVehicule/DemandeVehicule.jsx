@@ -551,16 +551,6 @@ const DemandeVehicule = () => {
             <RetourVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
         </Modal>
 
-        <Modal
-            title=""
-            visible={modalType === 'validation'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1000}
-            centered
-        >
-            <ValidationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
-        </Modal>
     </>
   );
 };
