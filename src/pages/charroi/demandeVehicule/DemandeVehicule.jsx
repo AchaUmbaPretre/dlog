@@ -104,10 +104,6 @@ const DemandeVehicule = () => {
                     <EyeOutlined style={{ color: '#2db7f5' }} /> Voir Détail
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item key="validation">
-                    <CheckCircleOutlined style={{ color: '#87d068' }} /> Validation
-                </Menu.Item>
-                <Menu.Divider />
                 <Menu.Item key="closeDemande">
                     <CloseCircleOutlined style={{ color: 'red' }} /> Annuler
                 </Menu.Item>
