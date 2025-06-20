@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { getBandeSortieOne } from '../../../../../services/charroiService';
-import { notification, Button, Spin, Card, Divider } from 'antd';
+import { notification, Button, Spin, Card } from 'antd';
 import moment from 'moment';
 import './validationDemandeForm.scss';
-
 
 const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingData, setLoadingData] = useState(false);
 
     useEffect(() => {
         const fetchDataAsync = async () => {
@@ -33,6 +33,10 @@ const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
                 <Spin size="large" />
             </div>
         );
+    }
+
+    const onFinish = async (values) => {
+        setLoadingData(true)
     }
 
     return (
@@ -68,7 +72,6 @@ const ValidationDemandeForm = ({ closeModal, fetchData, id_bon }) => {
     );
 };
 
-// Petite sous-composant pour éviter la répétition
 const Info = ({ label, value }) => (
     <div className="info-item">
         <span className="label">{label} :</span>
