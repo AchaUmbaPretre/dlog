@@ -64,7 +64,7 @@ const Profile = () => {
           activeKey={activeKey[0]}
           onChange={handleTabChange}
           type="card"
-          tabPosition="top"
+          tabPosition="left"
           renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
         >
           <Tabs.TabPane

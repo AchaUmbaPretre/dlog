@@ -11,10 +11,17 @@
             .btn_signature{
                 border: none;
                 padding: 10px 15px;
-                background: rgba(51, 1, 231, 0.904);
+                background: #3366ff;
                 color: #fff;
                 border-radius: 10px;
                 cursor: pointer;
+                transition: background 0.3s ease, transform 0.2s ease;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                &:hover {
+                    background: #254eda;
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+                }
             }
         }
     }
