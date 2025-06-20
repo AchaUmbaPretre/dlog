@@ -38,7 +38,7 @@ const BandeSortie = () => {
       },
     };
 
-    const handlSortie = (id) => openModal('Bande', id)
+    const handlSortie = (id) => openModal('validation', id)
 
     const closeAllModals = () => {
       setModalType(null);
