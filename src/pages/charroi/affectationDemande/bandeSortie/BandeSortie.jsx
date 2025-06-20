@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, EyeOutlined, RollbackOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, EyeOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -37,8 +37,6 @@ const BandeSortie = () => {
       },
     };
 
-
-    const handleAdd = () => openModal('Add')
     const handlSortie = (id) => openModal('Bande', id)
 
     const closeAllModals = () => {
@@ -74,9 +72,9 @@ const BandeSortie = () => {
 
    const columns = [
       {
-          title: '#',
-          dataIndex: 'id',
-          key: 'id',
+        title: '#',
+        dataIndex: 'id',
+        key: 'id',
           render: (text, record, index) => {
             const pageSize = pagination.pageSize || 10;
             const pageIndex = pagination.current || 1;
@@ -229,7 +227,7 @@ const BandeSortie = () => {
           <div className="client-wrapper">
             <div className="client-row">
               <div className="client-row-icon">
-                <RollbackOutlined className='client-icon' style={{color:'blue'}} />
+                <ExportOutlined className='client-icon' style={{color:'blue'}} />
               </div>
               <h2 className="client-h2"> Liste de bande de sortie</h2>
             </div>

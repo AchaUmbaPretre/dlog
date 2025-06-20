@@ -464,7 +464,7 @@ const DemandeVehicule = () => {
             <TabPane
                 tab={
                     <span>
-                    🚗 Bande de sortie
+                    📤 Bon de sortie
                     </span>
                 }
                 key="3"
