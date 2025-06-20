@@ -1,7 +1,28 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import './validationDemandeForm.scss'
+import { getBandeSortieOne } from '../../../../../services/charroiService';
 
 const ValidationDemandeForm = ({closeModal, fetchData, id_bon}) => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const { data } = await getBandeSortieOne(id_bon);
+                setData(data[0]);
+                setLoading(false);
+            } catch (error) {
+                notification.error({
+                    message: 'Erreur de chargement',
+                    description: 'Une erreur est survenue lors du chargement des données.',
+                });
+                setLoading(false);
+            }
+        }
+
+        fetchData()
+    }, [id_bon]);
+
   return (
     <>
         <div className="validationDemandeForm">

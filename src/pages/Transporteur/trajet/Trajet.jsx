@@ -18,17 +18,17 @@ const Trajet = () => {
       current: 1,
       pageSize: 15,
   });
-const [columnsVisibility, setColumnsVisibility] = useState({
-  id: true,
-  depart: true,
-  date_depart: true,
-  date_arrivee: true,
-  distance_km: true,
-  duree: false,
-  prix: false,
-  nom: false,
-  nom_mode: true
-});
+  const [columnsVisibility, setColumnsVisibility] = useState({
+    id: true,
+    depart: true,
+    date_depart: true,
+    date_arrivee: true,
+    distance_km: true,
+    duree: false,
+    prix: false,
+    nom: false,
+    nom_mode: true
+  });
 
   
   const columnStyles = {
