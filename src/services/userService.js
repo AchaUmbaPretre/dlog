@@ -25,12 +25,10 @@ export const putUserOne = async (id, data) => {
   return axios.put(`${DOMAIN}/api/user/one?id=${id}`, data);
 };
 
-
 //Signature
 export const getSignature = async (id) => {
     return axios.get(`${DOMAIN}/api/user/signature?userId=${id}`);
   };
-
 
 export const postSignature = async (data) => {
   return axios.post(`${DOMAIN}/api/user/signature`, data);

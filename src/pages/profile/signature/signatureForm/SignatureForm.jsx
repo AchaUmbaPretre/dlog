@@ -1,12 +1,16 @@
 import { useRef, useState } from 'react'
 import SignaturePad from 'react-signature-canvas';
 import { Button, Form, Card, Col, Row, message, notification, Select, Tabs } from 'antd';
+import { useSelector } from 'react-redux';
+import { postSignature } from '../../../../services/userService';
 
-const SignatureForm = () => {
+const SignatureForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
     const [info, setInfo] = useState([]);
     const sigCanvas = useRef();
     const [signatureURL, setSignatureURL] = useState('');
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const handleSaveSignature = () => {
         if (!sigCanvas.current.isEmpty()) {
@@ -26,7 +30,30 @@ const SignatureForm = () => {
     };
 
     const onFinish = async (values) => {
-        
+        await form.validateFields();
+        const loadingKey = 'loadingDemandeVehicule';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+
+        try {
+            const v = {
+                ...values,
+                userId : userId
+            }
+            await postSignature(v);
+
+            message.success({ content: 'La signature a été enregistrée avec succès.', key: loadingKey });
+            form.resetFields();
+            fetchData();
+            closeModal();
+            
+        } catch (error) {
+            notification.error({
+                message: 'Erreur',
+                description: 'Erreur lors de l\'enregistrement de demande.',
+            });
+        } finally {
+            setLoading(false);
+        }
     }
 
   return (

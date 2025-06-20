@@ -21,6 +21,7 @@ const ValidationDemandeForm = ({ fetchData, id_demande_vehicule}) => {
     });
     const scroll = { x: 'max-content' };
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+    
     const fetchDatas = async () => {
         try {
             const [userData] = await Promise.all([getUser()]);

@@ -8,9 +8,6 @@ import { getUser } from '../../../services/userService';
 import { getControleOne, postControle, putControle } from '../../../services/controleService';
 import './controleForm.scss';
 
-const { Panel } = Collapse;
-
-
 const ControleForm = ({ idControle,fetchData,closeModal }) => {
     const [form] = Form.useForm();
     const [departement, setDepartement] = useState([]);
