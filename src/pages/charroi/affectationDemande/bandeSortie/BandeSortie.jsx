@@ -229,7 +229,7 @@ const BandeSortie = () => {
               <div className="client-row-icon">
                 <ExportOutlined className='client-icon' style={{color:'blue'}} />
               </div>
-              <h2 className="client-h2"> Liste de bande de sortie</h2>
+              <h2 className="client-h2"> Liste de bon de sortie</h2>
             </div>
             <div className="client-actions">
               <div className="client-row-left">
