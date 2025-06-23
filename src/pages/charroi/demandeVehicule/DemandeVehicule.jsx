@@ -18,6 +18,7 @@ import DemandeurVehicule from '../demandeurVehicule/DemandeurVehicule';
 import ValidationDemandeForm from './validationDemande/validationDemandeForm/ValidationDemandeForm';
 import BandeSortie from '../affectationDemande/bandeSortie/BandeSortie';
 import VehiculeCourse from './vehiculeCourse/VehiculeCourse';
+import Destination from './destination/Destination';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -520,6 +521,17 @@ const DemandeVehicule = () => {
                 <DemandeurVehicule/>
             </TabPane>
             }
+
+            <TabPane
+                tab={
+                    <span>
+                    🗺️ Destination
+                    </span>
+                }
+                key="8"
+            >
+                <Destination/>
+            </TabPane>
         </Tabs>
 
         <Modal

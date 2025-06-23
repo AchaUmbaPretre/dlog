@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { getLocalite } from '../../../services/transporteurService';
 import DestinationForm from './destinationForm/DestinationForm';
+import { getDestination, getDisposition } from '../../../../services/charroiService';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -21,7 +21,7 @@ const Destination = () => {
   
     const fetchData = async () => {
       try {
-        const { data } = await getLocalite();
+        const { data } = await getDestination();
 
         setData(data);
         setLoading(false);

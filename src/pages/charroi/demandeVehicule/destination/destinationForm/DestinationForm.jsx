@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Col, Form, Card, notification, Input, Row, Select, Skeleton, Button, message } from 'antd';
 import { SendOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import {  getVille } from '../../../../services/transporteurService';
+import { postDestination } from '../../../../../services/charroiService';
+import { getVille } from '../../../../../services/transporteurService';
 
 const DestinationForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -23,7 +24,7 @@ const DestinationForm = ({closeModal, fetchData}) => {
             }
 
             fetchData()
-        }, [localiteId])
+        }, [])
 
     const onFinish = async (values) => {
         const loadingKey = 'loadingLocalité';
@@ -38,20 +39,12 @@ const DestinationForm = ({closeModal, fetchData}) => {
     
             setLoading(true);
     
-            if (localiteId) {
-                await postLocalite(values);
+            await postDestination(values);
         
-                message.success({
-                    content: 'La localité a été enregistré avec succès.',
-                    key: loadingKey,
-                });
-            } else {
-                const valuesUpdate = {
-                    ...values,
-                    id_localite: localiteId
-                }
-                await putLocalite(valuesUpdate)
-            }
+            message.success({
+                content: 'La destination a été enregistrée avec succès.',
+                key: loadingKey,
+            });
     
             form.resetFields();
             fetchData();

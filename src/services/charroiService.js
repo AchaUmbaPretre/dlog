@@ -450,6 +450,15 @@ export const posValidationDemande = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/validation_demande`, data);
 };
 
+//Destination
+export const getDestination = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/destination`);
+};
+
+export const postDestination = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/destination`, data);
+};
+
 //Affectation
 export const getAffectationDemande = async () => {
     return axios.get(`${DOMAIN}/api/charroi/affectation_demande`);
