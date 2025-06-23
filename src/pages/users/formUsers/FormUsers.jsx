@@ -51,6 +51,7 @@ const FormUsers = ({userId, closeModal, fetchData}) => {
                     description: 'Les informations ont été enregistrées avec succès.',
                 });
             }
+            form.resetFields();
             fetchData();
             closeModal()
         } catch (error) {

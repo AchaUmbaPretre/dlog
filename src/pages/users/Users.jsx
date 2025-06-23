@@ -249,7 +249,7 @@ const Users = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={900}
         centered
       >
         <FormUsers closeModal={() => setModalType(null)} fetchData={fetchData}/>
