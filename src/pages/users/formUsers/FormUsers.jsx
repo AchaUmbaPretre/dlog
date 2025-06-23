@@ -38,11 +38,11 @@ const FormUsers = ({userId, closeModal, fetchData}) => {
     setIsLoading(true);
         try {
             if(userId) {
-                await putUser(userId, values)
-                notification.success({
-                    message: 'Succès',
-                    description: 'Les informations ont été Modifiées avec succès.',
-                });
+              await putUser(userId, values)
+              notification.success({
+                message: 'Succès',
+                description: 'Les informations ont été Modifiées avec succès.',
+              });
             }
             else{
               await postUser(values);
@@ -57,8 +57,8 @@ const FormUsers = ({userId, closeModal, fetchData}) => {
             closeModal()
         } catch (error) {
             notification.error({
-                message: 'Erreur',
-                description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
+              message: 'Erreur',
+              description: 'Une erreur s\'est produite lors de l\'enregistrement des informations.',
             });
         } finally {
           setIsLoading(false);
