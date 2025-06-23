@@ -7,8 +7,13 @@ import BottomNav from './bottomNav/BottomNav';
 import {
 PoweroffOutlined
 } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 const Securite = () => {
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const [modalType, setModalType] = useState(null);
+
   return (
     <>
         <div className="securite">
@@ -46,6 +51,8 @@ const Securite = () => {
             </div>
             <BottomNav/>
         </div>
+
+
     </>
   )
 }
