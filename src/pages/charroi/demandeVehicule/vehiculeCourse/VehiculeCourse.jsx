@@ -3,7 +3,7 @@ import { Table, Tag, Space, Modal, Tooltip, Button, Typography, Input, notificat
 import {  CarOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
-import { getBandeSortie } from '../../../../services/charroiService';
+import { getBandeSortie, getVehiculeCourse } from '../../../../services/charroiService';
 import ValidationDemandeForm from '../../demandeVehicule/validationDemande/validationDemandeForm/ValidationDemandeForm';
 
 const { Search } = Input;
@@ -17,7 +17,7 @@ const VehiculeCourse = () => {
     const [pagination, setPagination] = useState({
           current: 1,
           pageSize: 15,
-    });
+        });
     const [modalType, setModalType] = useState(null);
     const [bonId, setBonId] = useState('');
 
@@ -52,7 +52,7 @@ const VehiculeCourse = () => {
         
     const fetchData = async() => {
       try {
-        const { data } = await  getBandeSortie()
+        const { data } = await  getVehiculeCourse()
         setData(data)
       } catch (error) {
         notification.error({
