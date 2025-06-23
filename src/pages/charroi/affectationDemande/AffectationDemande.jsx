@@ -201,7 +201,7 @@ const AffectationDemande = () => {
         width : '120px',
         render: (text, record) => (
         <Space size="small">
-          <Tooltip title="Bon de sortie">
+          <Tooltip title="Créer un bon de sortie">
             <Button
               type="text"
               icon={<FormOutlined />}
