@@ -73,56 +73,56 @@
             letter-spacing: 1px;
         }
         .securite-menus-rows {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 20px;
-  padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 20px;
+            padding: 10px;
 
-  .securite_menu-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 16px;
-    height: 180px;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    user-select: none;
+            .securite_menu-row {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                padding: 16px;
+                height: 180px;
+                background: #fff;
+                border-radius: 14px;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+                transition: transform 0.2s ease, box-shadow 0.3s ease;
+                cursor: pointer;
+                user-select: none;
 
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    }
+                &:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+                }
 
-    &:active {
-      transform: scale(0.97);
-    }
+                &:active {
+                transform: scale(0.97);
+                }
 
-    .icons {
-      width: 70px;
-      height: auto;
-      transition: transform 0.3s ease;
+                .icons {
+                width: 70px;
+                height: auto;
+                transition: transform 0.3s ease;
 
-      // Animation légère au survol
-      .securite_menu-row:hover & {
-        transform: scale(1.05);
-      }
-    }
+                // Animation légère au survol
+                .securite_menu-row:hover & {
+                    transform: scale(1.05);
+                }
+                }
 
-    .securite_h3 {
-      font-size: 1.15rem;
-      color: #444;
-      font-weight: 500;
-      letter-spacing: 1px;
-      text-align: center;
-      margin: 0;
-    }
-  }
-}
+                .securite_h3 {
+                font-size: 1.15rem;
+                color: #444;
+                font-weight: 500;
+                letter-spacing: 1px;
+                text-align: center;
+                margin: 0;
+                }
+            }
+        }
 
     }
 }
