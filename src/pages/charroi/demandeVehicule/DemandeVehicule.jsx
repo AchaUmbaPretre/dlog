@@ -298,7 +298,9 @@ const DemandeVehicule = () => {
             const { icon, color } = statusIcons[text] || {};
             return (
                     <Space>
-                        <Tag icon={icon} color={color}>{text}</Tag>
+                        <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                            <Tag icon={icon} color={color}>{text}</Tag>
+                        </div>
                     </Space>
                 );
         },
