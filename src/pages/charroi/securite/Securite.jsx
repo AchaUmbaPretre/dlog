@@ -8,7 +8,6 @@ import BottomNav from './bottomNav/BottomNav';
 import {
 PoweroffOutlined
 } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import SecuriteSortie from './securiteSortie/SecuriteSortie';
 import SecuriteRetour from './securiteRetour/SecuriteRetour';
