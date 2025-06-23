@@ -98,8 +98,8 @@ const columns = [
         <Text strong>Nom</Text>
       </Space>
     ),
-    dataIndex: 'nom_localite',
-    key: 'nom_localite',
+    dataIndex: 'nom_destination',
+    key: 'nom_destination',
     ellipsis: {
       showTitle: false,
     },
@@ -161,7 +161,7 @@ const columns = [
 ];
 
   const filteredData = data.filter(item =>
-    item.nom_localite?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_destination?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
