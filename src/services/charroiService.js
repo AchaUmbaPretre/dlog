@@ -476,6 +476,11 @@ export const postBandeSortie = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/bande_sortie`, data);
 }
 
+//Véhicule des courses
+export const getVehiculeCourse = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/vehicule_course`);
+}
+
 //Retour vehicule
 export const getRetourVehicule = async () => {
     return axios.get(`${DOMAIN}/api/charroi/retour_vehicule`);
