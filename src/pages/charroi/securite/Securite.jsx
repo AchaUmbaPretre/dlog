@@ -4,6 +4,7 @@ import userIcon from './../../../assets/user.png';
 import securiteIcon from './../../../assets/securite.png';
 import retourIcon from './../../../assets/retour.png';
 import sortieIcon from './../../../assets/sortie.png';
+import visiteurIcon from './../../../assets/visiteur.png';
 import BottomNav from './bottomNav/BottomNav';
 import {
 PoweroffOutlined
@@ -63,6 +64,11 @@ const Securite = () => {
                     <div className="securite_menu-row" onClick={handleRetour}>
                         <img src={retourIcon} alt="" className='icons'/>
                         <h3 className="securite_h3">Entrée</h3>
+                    </div>
+
+                    <div className="securite_menu-row" onClick={handleRetour}>
+                        <img src={visiteurIcon} alt="" className='icons'/>
+                        <h3 className="securite_h3">Visiteur</h3>
                     </div>
                 </div>
 
