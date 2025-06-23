@@ -212,9 +212,10 @@ const VehiculeCourse = () => {
    ]
 
     const filteredData = data.filter(item =>
-     item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
-     item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
+        item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
     );
+
   return (
     <>
         <div className="client">
