@@ -45,12 +45,13 @@ const FormUsers = ({userId, closeModal, fetchData}) => {
                 });
             }
             else{
-                await postUser(values);
-                notification.success({
-                    message: 'Succès',
-                    description: 'Les informations ont été enregistrées avec succès.',
-                });
+              await postUser(values);
+              notification.success({
+                message: 'Succès',
+                description: 'Les informations ont été enregistrées avec succès.',
+              });
             }
+
             form.resetFields();
             fetchData();
             closeModal()
