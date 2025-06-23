@@ -56,12 +56,12 @@ const Securite = () => {
                 <h2 className="title-sous-h2">⚙️ Nos Options</h2>
 
                 <div className="securite-menus-rows">
-                    <div className="securite_menu-row">
+                    <div className="securite_menu-row" onClick={handleSortie}>
                         <img src={sortieIcon} alt="" className='icons'/>
                         <h3 className="securite_h3">Sortie</h3>
                     </div>
                     
-                    <div className="securite_menu-row">
+                    <div className="securite_menu-row" onClick={handleRetour}>
                         <img src={retourIcon} alt="" className='icons'/>
                         <h3 className="securite_h3">Entrée</h3>
                     </div>
