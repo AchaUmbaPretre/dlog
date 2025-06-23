@@ -17,6 +17,7 @@ import RetourVehiculeForm from '../retourVehicule/retourVehiculeForm/RetourVehic
 import DemandeurVehicule from '../demandeurVehicule/DemandeurVehicule';
 import ValidationDemandeForm from './validationDemande/validationDemandeForm/ValidationDemandeForm';
 import BandeSortie from '../affectationDemande/bandeSortie/BandeSortie';
+import VehiculeCourse from './vehiculeCourse/VehiculeCourse';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -478,7 +479,7 @@ const DemandeVehicule = () => {
                 }
                 key="4"
             >
-                <BandeSortie/>
+                <VehiculeCourse/>
             </TabPane>
 
             { role === 'Admin' &&
