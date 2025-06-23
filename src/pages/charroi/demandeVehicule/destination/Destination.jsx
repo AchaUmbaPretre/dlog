@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { getLocalite } from '../../../services/transporteurService';
+import DestinationForm from './destinationForm/DestinationForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -171,7 +172,7 @@ const columns = [
             <div className="client-row-icon">
               <EnvironmentOutlined className='client-icon' style={{color:'red'}} />
             </div>
-            <h2 className="client-h2">Localisation</h2>
+            <h2 className="client-h2">Destination</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -224,7 +225,7 @@ const columns = [
         width={700}
         centered
       >
-        <LocaliteForm closeModal={() => setModalType(null)} fetchData={fetchData} localiteId={localiteId} />
+        <DestinationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
       </Modal>
     </>
   );
