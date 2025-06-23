@@ -1,4 +1,5 @@
 import './securite.scss'
+import { Modal } from 'antd';
 import userIcon from './../../../assets/user.png';
 import securiteIcon from './../../../assets/securite.png';
 import retourIcon from './../../../assets/retour.png';
