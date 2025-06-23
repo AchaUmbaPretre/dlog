@@ -9,10 +9,29 @@ PoweroffOutlined
 } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import SecuriteSortie from './securiteSortie/SecuriteSortie';
+import SecuriteRetour from './securiteRetour/SecuriteRetour';
 
 const Securite = () => {
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [modalType, setModalType] = useState(null);
+
+    const closeAllModals = () => {
+        setModalType(null);
+    };
+
+    const openModal = (type) => {
+        closeAllModals();
+        setModalType(type);
+    };
+    
+    const handleSortie = () => {
+        openModal('Sortie');
+    };
+
+    const handleRetour = () => {
+        openModal('Retour');
+    };
 
   return (
     <>
@@ -51,8 +70,27 @@ const Securite = () => {
             </div>
             <BottomNav/>
         </div>
+        <Modal
+            title=""
+            visible={modalType === 'Sortie'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={500}
+            centered
+        >
+            <SecuriteSortie />
+        </Modal>
 
-
+        <Modal
+            title=""
+            visible={modalType === 'Retour'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={500}
+            centered
+        >
+            <SecuriteRetour />
+        </Modal>
     </>
   )
 }
