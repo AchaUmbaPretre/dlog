@@ -14,7 +14,6 @@ import SecuriteSortie from './securiteSortie/SecuriteSortie';
 import SecuriteRetour from './securiteRetour/SecuriteRetour';
 
 const Securite = () => {
-    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [modalType, setModalType] = useState(null);
 
     const closeAllModals = () => {
