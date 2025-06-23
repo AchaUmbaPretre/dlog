@@ -154,7 +154,7 @@ const AffectationDemande = () => {
       key: '',
       align: 'center',
       render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
+        <Tooltip placement="topLeft" title={moment(text).format('DD-MM-YYYY HH:mm')}>
           <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
         </Tooltip>
       ),
@@ -169,7 +169,7 @@ const AffectationDemande = () => {
       dataIndex: 'date_retour',
       key: '',
       render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
+        <Tooltip placement="topLeft" title={moment(text).format('DD-MM-YYYY HH:mm')}>
           <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
         </Tooltip>
       ),
