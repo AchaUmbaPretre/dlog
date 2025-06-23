@@ -56,22 +56,21 @@ const Securite = () => {
                 <h2 className="title-sous-h2">⚙️ Nos Options</h2>
 
                 <div className="securite-menus-rows">
-                    <div className="securite_menu-row" onClick={handleSortie}>
-                        <img src={sortieIcon} alt="" className='icons'/>
+                    <div className="securite_menu-row" onClick={handleSortie} role="button" tabIndex={0} aria-label="Sortie" onKeyPress={(e) => e.key === 'Enter' && handleSortie()}>
+                        <img src={sortieIcon} alt="Icône sortie" className='icons'/>
                         <h3 className="securite_h3">Sortie</h3>
                     </div>
-                    
-                    <div className="securite_menu-row" onClick={handleRetour}>
-                        <img src={retourIcon} alt="" className='icons'/>
+
+                    <div className="securite_menu-row" onClick={handleRetour} role="button" tabIndex={0} aria-label="Entrée" onKeyPress={(e) => e.key === 'Enter' && handleRetour()}>
+                        <img src={retourIcon} alt="Icône entrée" className='icons'/>
                         <h3 className="securite_h3">Entrée</h3>
                     </div>
 
-                    <div className="securite_menu-row" onClick={handleRetour}>
-                        <img src={visiteurIcon} alt="" className='icons'/>
+                    <div className="securite_menu-row" onClick={handleRetour} role="button" tabIndex={0} aria-label="Visiteur" onKeyPress={(e) => e.key === 'Enter' && handleRetour()}>
+                        <img src={visiteurIcon} alt="Icône visiteur" className='icons'/>
                         <h3 className="securite_h3">Visiteur</h3>
                     </div>
                 </div>
-
             </div>
             <BottomNav/>
         </div>
