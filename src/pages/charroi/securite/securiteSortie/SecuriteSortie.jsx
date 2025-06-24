@@ -25,10 +25,21 @@ const SecuriteSortie = () => {
         fetchData()
     }, [])
 
+    const onFinish = () => {
+        try {
+            const value = {
+
+            }
+        } catch (error) {
+            
+        }
+    }
+
   return (
     <>
         <div className='securiteSortie'>
             <div className="securiteSortie_wrapper">
+                <h2 className="securite_sortie_h2">Liste des véhicules à sortir</h2>
                 <div className="securite_sortie_rows">
                     <div className="securite_sortie_row">
                         <div className="row">
@@ -40,12 +51,6 @@ const SecuriteSortie = () => {
                             Sortie
                         </Button>
 
-                    </div>
-                    <div className="securite_sortie_row">
-                        B  
-                    </div>
-                    <div className="securite_sortie_row">
-                        C
                     </div>
                 </div>
             </div>
