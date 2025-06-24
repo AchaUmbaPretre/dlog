@@ -131,6 +131,8 @@ const submitData = async (formData) => {
         form.resetFields();
         closeModal();
         fetchData();
+        setIconPositionsMap({});
+        setUploadedImages({})
     } catch (error) {
         console.error(error);
         notification.error({

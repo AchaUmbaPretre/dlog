@@ -99,6 +99,7 @@ const InstructionFormApres = ({closeModal, fetchData, idInspection}) => {
             description: 'Les informations ont été enregistrées avec succès.',
         });
         form.resetFields();
+        setUploadedImages({})
         closeModal();
         fetchData()
     } catch (error) {
