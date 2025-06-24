@@ -34,6 +34,8 @@ const SecuriteSortie = () => {
 
   useEffect(() => {
     fetchData();
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const onFinish = async (idBandeSortie) => {
