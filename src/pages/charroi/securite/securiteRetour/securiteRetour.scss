@@ -1,0 +1,48 @@
+.securiteRetour {
+  padding: 1rem;
+  background: linear-gradient(180deg, #f9fbff, #eaf0f6);
+  font-family: 'Inter', sans-serif;
+
+  .securite_title {
+    text-align: center;
+    color: #003366;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .securite_loader {
+    display: flex;
+    justify-content: center;
+    padding: 4rem 0;
+  }
+
+  .securite_rows {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .securite_card {
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+
+    .securite_card_content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .securite_info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .ant-btn {
+      align-self: flex-end;
+    }
+  }
+}

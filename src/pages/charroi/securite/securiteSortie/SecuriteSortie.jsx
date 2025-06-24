@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
-import { notification, Button } from 'antd';
-import './securiteSortie.scss'
+import { useEffect, useState } from 'react';
+import { notification, Button, Card, Typography, Spin, Empty } from 'antd';
 import { getSortieVehicule, postSortieVehicule } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
+import './securiteSortie.scss';
+
+const { Title, Text } = Typography;
 
 const SecuriteSortie = () => {
   const [data, setData] = useState([]);
@@ -13,6 +15,13 @@ const SecuriteSortie = () => {
     try {
       const { data } = await getSortieVehicule();
       setData(data);
+
+      if (data.length === 0) {
+        notification.info({
+          message: 'Aucune demande',
+          description: 'Il n’y a actuellement aucune demande de sortie de véhicule.',
+        });
+      }
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -27,50 +36,69 @@ const SecuriteSortie = () => {
     fetchData();
   }, []);
 
-  const onFinish = async(idBandeSortie) => {
+  const onFinish = async (idBandeSortie) => {
     const value = {
-        id_bande_sortie: idBandeSortie,
-        id_agent: userId
+      id_bande_sortie: idBandeSortie,
+      id_agent: userId,
+    };
+
+    try {
+      await postSortieVehicule(value);
+      notification.success({
+        message: 'Sortie validée',
+        description: `Le véhicule avec la bande ${idBandeSortie} a été validé pour sortir.`,
+      });
+      fetchData();
+    } catch (error) {
+      notification.error({
+        message: 'Erreur',
+        description: 'Impossible de valider la sortie.',
+      });
     }
-    await postSortieVehicule(value);
-    fetchData();
-    notification.success({
-      message: 'Sortie validée',
-      description: `Le véhicule avec la bande ${idBandeSortie} a été validé pour sortir.`,
-    });
   };
 
   return (
     <div className='securiteSortie'>
-    { data.length === 0 ? (<div className="securite_sortie_empty">🚫 Aucune demande de sortie disponible.</div>) : (
       <div className="securiteSortie_wrapper">
-        <h2 className="securite_sortie_h2">Liste des véhicules à sortir</h2>
-        <div className="securite_sortie_rows">
-          {data.map((d) => (
-            <div className="securite_sortie_row" key={d.id_bande_sortie}>
-              <div className="row">
-                <strong className="securite_strong">
-                  Véhicule : <span className="securite_desc">{d?.immatriculation}</span>
-                </strong>
-                <strong className="securite_strong">
-                  Chauffeur : <span className="securite_desc">{d?.nom}</span>
-                </strong>
-              </div>
+        <Title level={4} className="securite_title">🚗 Sortie des véhicules</Title>
 
-              <Button
-                type='primary'
-                className='securite_btn'
-                onClick={() => onFinish(d.id_bande_sortie)}
-                loading={loading}
+        {loading ? (
+          <div className="securite_loader">
+            <Spin tip="Chargement des véhicules..." size="large" />
+          </div>
+        ) : data.length === 0 ? (
+          <Empty description="Aucune demande de sortie disponible." />
+        ) : (
+          <div className="securite_rows">
+            {data.map((d) => (
+              <Card
+                key={d.id_bande_sortie}
+                className="securite_card"
+                bordered
+                hoverable
               >
-                Sortie
-              </Button>
-            </div>
-          ))}
-        </div>
+                <div className="securite_card_content">
+                  <div className="securite_info">
+                    <Text strong>Véhicule :</Text>
+                    <Text>{d?.immatriculation}</Text>
+                  </div>
+                  <div className="securite_info">
+                    <Text strong>Chauffeur :</Text>
+                    <Text>{d?.nom}</Text>
+                  </div>
+                </div>
+                <Button
+                  type="primary"
+                  size="small"
+                  onClick={() => onFinish(d.id_bande_sortie)}
+                >
+                  Valider la sortie
+                </Button>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
-      )
-    }
     </div>
   );
 };
