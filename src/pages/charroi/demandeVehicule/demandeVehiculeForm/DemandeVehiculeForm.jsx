@@ -4,7 +4,7 @@ import { getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, 
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
 import { getUser } from '../../../../services/userService';
-import { SendOutlined } from '@ant-design/icons';
+import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -19,6 +19,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     const [ local, setLocal ] = useState([]);
     const [ user, setUser ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const [modalType, setModalType] = useState(null);
 
     const fetchDatas = async () => {
         try {
@@ -61,6 +62,17 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     useEffect(()=> {
         fetchDatas();
     }, [])
+
+    const closeAllModals = () => {
+        setModalType(null);
+    };
+      
+    const openModal = (type) => {
+        closeAllModals();
+        setModalType(type);
+    };
+
+    const handleDestination = () => openModal('Destination')
 
   const onFinish = async (values) => {
     await form.validateFields();
@@ -266,6 +278,12 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                     />
                                     }
                                 </Form.Item>
+                                <Button 
+                                    style={{ width:'19px', height:'19px' }}
+                                    icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                    onClick={handleDestination}
+                                >
+                                </Button>
                             </Col>
 
                             <Col xs={24} md={8}>
