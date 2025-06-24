@@ -49,10 +49,10 @@ const Securite = () => {
       const handleLogout = async () => {
         try {
           await logout();
-          localStorage.removeItem('persist:root');
-          message.success('Déconnexion réussie !');
-          navigate('/login');
-          window.location.reload();
+            localStorage.removeItem('persist:root');
+            message.success('Déconnexion réussie !');
+            navigate('/login');
+            window.location.reload();
         } catch (error) {
           message.error('Erreur lors de la déconnexion.');
         }
