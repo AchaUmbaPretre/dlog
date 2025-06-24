@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Card, Modal, Col, message, Input, notification, Skeleton, Select, Button, DatePicker } from 'antd';
+import { Form, Row, Card, Modal, Col, Tooltip, message, Input, notification, Skeleton, Select, Button, DatePicker } from 'antd';
 import { getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule, putDemandeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
@@ -282,12 +282,14 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                     />
                                     }
                                 </Form.Item>
-                                <Button 
-                                    style={{ width:'19px', height:'19px' }}
-                                    icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
-                                    onClick={handleDestination}
-                                >
-                                </Button>
+                                <Tooltip title={'Ajouter une destination'}>
+                                    <Button 
+                                        style={{ width:'19px', height:'19px' }}
+                                        icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                        onClick={handleDestination}
+                                    >
+                                    </Button>
+                                </Tooltip>
                             </Col>
 
                             <Col xs={24} md={8}>
