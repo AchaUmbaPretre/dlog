@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { notification, Button } from 'antd';
-import { getSortieVehicule, postSortieVehicule } from '../../../../services/charroiService';
+import { getSortieVehicule, postRetourVehicule, postSortieVehicule } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 
 const SecuriteRetour = () => {
@@ -31,11 +31,11 @@ const SecuriteRetour = () => {
         id_bande_sortie: idBandeSortie,
         id_agent: userId
     }
-    await postSortieVehicule(value);
+    await postRetourVehicule(value);
     fetchData();
     notification.success({
       message: 'Sortie validée',
-      description: `Le véhicule avec la bande ${idBandeSortie} a été validé pour sortir.`,
+      description: `Le véhicule avec le bon de sortie ${idBandeSortie} a été validé pour entrée.`,
     });
   };
 
