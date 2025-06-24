@@ -266,7 +266,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Destination"
-                                    name="id_localisation"
+                                    name="id_destination"
                                     rules={[{ required: true, message: 'Veuillez sélectionner une destination.' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
