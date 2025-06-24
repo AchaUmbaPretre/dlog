@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
+import { Form, Row, Modal, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { getChauffeur, getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
 import moment from 'moment';
+import DestinationForm from '../../demandeVehicule/destination/destinationForm/DestinationForm';
 
 const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
@@ -19,6 +20,9 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
     const [ local, setLocal ] = useState([]);
+    const [ destination, setDestination ] = useState([]);
+    const [modalType, setModalType] = useState(null);
+
 
     const fetchDatas = async() => {
         try {
@@ -65,6 +69,17 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
         fetchDatas();
     }, [id_demande_vehicule])
     
+        const closeAllModals = () => {
+        setModalType(null);
+    };
+      
+    const openModal = (type) => {
+        closeAllModals();
+        setModalType(type);
+    };
+
+    const handleDestination = () => openModal('Destination')
+
 
     const onFinish = async (values) => {
         await form.validateFields();
@@ -312,6 +327,16 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                 </Form>
             </div>
         </div>
+        <Modal
+            title=""
+            visible={modalType === 'Destination'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={700}
+            centered
+        >
+            <DestinationForm closeModal={() => setModalType(null)} fetchData={fetchDatas} />
+        </Modal>
     </>
   )
 }
