@@ -13,6 +13,7 @@ PoweroffOutlined
 import { useState } from 'react';
 import SecuriteSortie from './securiteSortie/SecuriteSortie';
 import SecuriteRetour from './securiteRetour/SecuriteRetour';
+import SecuriteVisiteurForm from './securiteVisiteur/securiteVisiteurForm/SecuriteVisiteurForm';
 
 const Securite = () => {
     const [modalType, setModalType] = useState(null);
@@ -36,6 +37,10 @@ const Securite = () => {
 
     const handleInfo = () => {
         openModal('Info');
+    };
+
+    const handleVisiteur = () => {
+        openModal('Visiteur');
     };
 
     const handleLogout = () => {
@@ -75,7 +80,7 @@ const Securite = () => {
             {[
                 { label: "Sortie", icon: sortieIcon, onClick: handleSortie },
                 { label: "Entrée", icon: retourIcon, onClick: handleRetour },
-                { label: "Visiteur", icon: visiteurIcon, onClick: handleRetour },
+                { label: "Visiteur", icon: visiteurIcon, onClick: handleVisiteur },
                 { label: "Info", icon: infoIcon, onClick: handleInfo },
             ].map(({ label, icon, onClick }) => (
                 <div
@@ -116,6 +121,17 @@ const Securite = () => {
             centered
         >
             <SecuriteRetour />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Visiteur'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={800}
+            centered
+        >
+            <SecuriteVisiteurForm closeModal={() => setModalType(null)} />
         </Modal>
 
         <Modal
