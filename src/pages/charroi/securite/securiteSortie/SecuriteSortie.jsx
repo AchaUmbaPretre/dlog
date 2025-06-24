@@ -16,12 +16,6 @@ const SecuriteSortie = () => {
       const { data } = await getSortieVehicule();
       setData(data);
 
-      if (data.length === 0) {
-        notification.info({
-          message: 'Aucune demande',
-          description: 'Il n’y a actuellement aucune demande de sortie de véhicule.',
-        });
-      }
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',

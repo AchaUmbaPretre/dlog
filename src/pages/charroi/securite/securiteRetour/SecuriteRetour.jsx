@@ -16,12 +16,6 @@ const SecuriteRetour = () => {
       const { data } = await getRetourVehicule();
       setData(data);
 
-      if (data.length === 0) {
-        notification.info({
-          message: 'Aucune demande',
-          description: 'Il n’y a actuellement aucune demande de retour de véhicule.',
-        });
-      }
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
