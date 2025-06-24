@@ -1,5 +1,5 @@
 import './securite.scss'
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import userIcon from './../../../assets/user.png';
 import securiteIcon from './../../../assets/securite.png';
 import retourIcon from './../../../assets/retour.png';
@@ -14,9 +14,12 @@ import { useState } from 'react';
 import SecuriteSortie from './securiteSortie/SecuriteSortie';
 import SecuriteRetour from './securiteRetour/SecuriteRetour';
 import SecuriteVisiteurForm from './securiteVisiteur/securiteVisiteurForm/SecuriteVisiteurForm';
+import { logout } from '../../../services/authService';
+import { useNavigate } from 'react-router-dom';
 
 const Securite = () => {
     const [modalType, setModalType] = useState(null);
+    const navigate = useNavigate();
 
     const closeAllModals = () => {
         setModalType(null);
@@ -43,9 +46,17 @@ const Securite = () => {
         openModal('Visiteur');
     };
 
-    const handleLogout = () => {
-        
-    };
+      const handleLogout = async () => {
+        try {
+          await logout();
+          localStorage.removeItem('persist:root');
+          message.success('Déconnexion réussie !');
+          navigate('/login');
+          window.location.reload();
+        } catch (error) {
+          message.error('Erreur lors de la déconnexion.');
+        }
+      };
 
   return (
     <>
