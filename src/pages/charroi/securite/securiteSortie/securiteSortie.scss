@@ -1,0 +1,17 @@
+.securiteSortie{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f7faff 0%, #eef2f6 100%);
+    font-family: 'Inter', sans-serif;
+    .securiteSortie_wrapper{
+        .securite_sortie_rows{
+            .securite_sortie_row{
+                .row{
+                    .securite_strong{
+                        font-size: .9rem;
+                    }
+                }
+            }
+        }
+    }
+}

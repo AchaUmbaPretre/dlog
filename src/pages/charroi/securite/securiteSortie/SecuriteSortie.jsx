@@ -31,7 +31,11 @@ const SecuriteSortie = () => {
             <div className="securiteSortie_wrapper">
                 <div className="securite_sortie_rows">
                     <div className="securite_sortie_row">
-                        A
+                        <div className="row">
+                            <strong className="securite_strong">Véhicule : </strong>
+                            <span className="securite_desc">12BD1</span>
+                        </div>
+                        
                     </div>
                     <div className="securite_sortie_row">
                         B  
