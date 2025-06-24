@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Card, Modal, Col, message, Input, notification, Skeleton, Select, Button, DatePicker } from 'antd';
-import { getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule, putDemandeVehicule } from '../../../../services/charroiService';
+import { getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule, putDemandeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
 import { getUser } from '../../../../services/userService';
@@ -19,25 +19,28 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     const [ client, setClient ] = useState([]);
     const [ local, setLocal ] = useState([]);
     const [ user, setUser ] = useState([]);
+    const [ destination, setDestination ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [modalType, setModalType] = useState(null);
 
     const fetchDatas = async () => {
         try {
-            const [ serviceData, typeData, motifData, clientData, localData, userData ] = await Promise.all([
+            const [ serviceData, typeData, motifData, clientData, localData, userData, destinationData ] = await Promise.all([
                 getServiceDemandeur(),
                 getTypeVehicule(),
                 getMotif(),
                 getClient(),
                 getLocalisation(),
-                getUser()
+                getUser(),
+                getDestination()
             ]) 
             setService(serviceData.data);
             setType(typeData.data);
             setMotif(motifData.data);
             setClient(clientData.data);
             setLocal(localData.data);
-            setUser(userData.data)
+            setUser(userData.data);
+            setDestination(destinationData.data)
 
             if (demandeId) {
                 const { data : d} = await getDemandeVehiculeOne(demandeId);
@@ -264,15 +267,15 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                 <Form.Item
                                     label="Destination"
                                     name="id_localisation"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner une localisation.' }]}
+                                    rules={[{ required: true, message: 'Veuillez sélectionner une destination.' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         allowClear
                                         showSearch
-                                        options={local?.map((item) => ({
-                                            value: item.id_localisation ,
-                                            label: `${item.nom}`,
+                                        options={destination?.map((item) => ({
+                                            value: item.id_destination ,
+                                            label: `${item.nom_destination}`,
                                         }))}
                                             optionFilterProp="label"
                                             placeholder="Sélectionnez..."
@@ -313,7 +316,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
             width={700}
             centered
         >
-            <DestinationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+            <DestinationForm closeModal={() => setModalType(null)} fetchData={fetchDatas} />
         </Modal>
     </>
   )
