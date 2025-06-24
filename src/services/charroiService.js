@@ -499,7 +499,7 @@ export const postSortieVehicule = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/sortie_vehicule`, data );
 }
 
-//Retour vehicule
+//Retour
 export const getRetourVehicule = async () => {
     return axios.get(`${DOMAIN}/api/charroi/retour_vehicule`);
 }

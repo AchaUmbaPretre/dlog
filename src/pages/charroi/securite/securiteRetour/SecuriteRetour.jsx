@@ -62,7 +62,7 @@ const SecuriteRetour = () => {
                 onClick={() => onFinish(d.id_bande_sortie)}
                 loading={loading}
               >
-                Sortie
+                Retourné
               </Button>
             </div>
           ))}
