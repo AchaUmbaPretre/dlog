@@ -5,6 +5,7 @@ import securiteIcon from './../../../assets/securite.png';
 import retourIcon from './../../../assets/retour.png';
 import sortieIcon from './../../../assets/sortie.png';
 import visiteurIcon from './../../../assets/visiteur.png';
+import infoIcon from './../../../assets/info.png';
 import BottomNav from './bottomNav/BottomNav';
 import {
 PoweroffOutlined
@@ -33,47 +34,68 @@ const Securite = () => {
         openModal('Retour');
     };
 
+    const handleInfo = () => {
+        openModal('Info');
+    };
+
+    const handleLogout = () => {
+        
+    };
+
   return (
     <>
         <div className="securite">
-            <div className="securite_wrapper">
-                <div className="securite_top">
-                    <div className="securite-row-img">
-                        <img src={userIcon} alt="" className="securite-img" />
-                        <div className="securite-row-text">
-                            <span className="text_span">John</span>
-                            <span className="text_span_sub">Securité</span>
-                        </div>
-                    </div>
-                    <div className="securite-disconneted">
-                        <PoweroffOutlined className='securite_icon' />
-                    </div>
-                </div>
-                <h2 className="title-h2">👋 Bienvenue sur notre application</h2>
-                <div className="securite_center_rows">
-                    <img src={securiteIcon} alt="" className='img_sec' />
-                </div>
-                <h2 className="title-sous-h2">⚙️ Nos Options</h2>
-
-                <div className="securite-menus-rows">
-                    <div className="securite_menu-row" onClick={handleSortie} role="button" tabIndex={0} aria-label="Sortie" onKeyPress={(e) => e.key === 'Enter' && handleSortie()}>
-                        <img src={sortieIcon} alt="Icône sortie" className='icons'/>
-                        <h3 className="securite_h3">Sortie</h3>
-                    </div>
-
-                    <div className="securite_menu-row" onClick={handleRetour} role="button" tabIndex={0} aria-label="Entrée" onKeyPress={(e) => e.key === 'Enter' && handleRetour()}>
-                        <img src={retourIcon} alt="Icône entrée" className='icons'/>
-                        <h3 className="securite_h3">Entrée</h3>
-                    </div>
-
-                    <div className="securite_menu-row" onClick={handleRetour} role="button" tabIndex={0} aria-label="Visiteur" onKeyPress={(e) => e.key === 'Enter' && handleRetour()}>
-                        <img src={visiteurIcon} alt="Icône visiteur" className='icons'/>
-                        <h3 className="securite_h3">Visiteur</h3>
-                    </div>
+        <div className="securite__wrapper">
+            <div className="securite__top">
+            <div className="securite__user-info">
+                <img src={userIcon} alt="Utilisateur" className="securite__avatar" />
+                <div className="securite__user-text">
+                <span className="securite__username">John</span>
+                <span className="securite__role">Sécurité</span>
                 </div>
             </div>
-            <BottomNav/>
+            <button
+                className="securite__logout"
+                onClick={handleLogout}
+                aria-label="Déconnexion"
+            >
+                <PoweroffOutlined className="securite__icon" />
+            </button>
+            </div>
+
+            <h2 className="securite__welcome">👋 Bienvenue sur notre application</h2>
+
+            <div className="securite__banner">
+            <img src={securiteIcon} alt="Bannière sécurité" className="securite__banner-img" />
+            </div>
+
+            <h2 className="securite__subtitle">⚙️ Nos Options</h2>
+
+            <div className="securite__menu">
+            {[
+                { label: "Sortie", icon: sortieIcon, onClick: handleSortie },
+                { label: "Entrée", icon: retourIcon, onClick: handleRetour },
+                { label: "Visiteur", icon: visiteurIcon, onClick: handleRetour },
+                { label: "Info", icon: infoIcon, onClick: handleInfo },
+            ].map(({ label, icon, onClick }) => (
+                <div
+                key={label}
+                className="securite__menu-item"
+                role="button"
+                tabIndex={0}
+                aria-label={label}
+                onClick={onClick}
+                onKeyPress={(e) => e.key === 'Enter' && onClick()}
+                >
+                <img src={icon} alt={`Icône ${label}`} className="securite__menu-icon" />
+                <h3 className="securite__menu-label">{label}</h3>
+                </div>
+            ))}
+            </div>
         </div>
+        <BottomNav />
+        </div>
+
         <Modal
             title=""
             visible={modalType === 'Sortie'}
@@ -94,6 +116,17 @@ const Securite = () => {
             centered
         >
             <SecuriteRetour />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Info'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={500}
+            centered
+        >
+            <div>INFO</div>
         </Modal>
     </>
   )

@@ -1,128 +1,138 @@
-.securite{
-    width: 100%;
-    .securite_wrapper{
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        .securite_top{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            
-            .securite-row-img{
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                .securite-img{
-                    width: 45px;
-                    height: 45px;
-                    border-radius: 50%;
-                }
-                .securite-row-text{
-                    display: flex;
-                    flex-direction: column;
-                    gap: 4px;
-                    .text_span{
-                        font-size: .7rem;
-                        color: rgb(3, 3, 141);
-                    }
-                    .text_span_sub{
-                        font-size: .6rem;
-                        color: #808080;
-                    }
-                }
-            }
-            .securite-disconneted{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: rgba(231, 5, 5, 0.863);
-                width: 35px;
-                height: 35px;
-                border-radius: 50%;
-                .securite_icon{
-                    color: white;
-                    margin: 0;
-                    font-size: 1.1rem;
-                }
-            }
-        }
-        .title-h2{
-            margin-top: 10px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: rgba(12, 27, 236, 0.952);
-            letter-spacing: 1px;
-        }
-        .securite_center_rows{
-            width: 100%;
-            height: 200px;
-            background: rgba(29, 29, 238, 0.438);
-            border-radius: 20px;
-            .img_sec{
-                width: 100%;
-                object-fit: cover;
-            }
-        }
-        .title-sous-h2{
-            margin-top: 45px;
-            font-size: 1rem;
-            font-weight: 800;
-            color: rgba(12, 27, 236, 0.952);
-            letter-spacing: 1px;
-        }
-        .securite-menus-rows {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 20px;
-            padding: 10px;
+.securite {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f7faff 0%, #eef2f6 100%);
+  font-family: 'Inter', sans-serif;
 
-            .securite_menu-row {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 12px;
-                padding: 16px;
-                height: 180px;
-                background: #fff;
-                border-radius: 14px;
-                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-                transition: transform 0.2s ease, box-shadow 0.3s ease;
-                cursor: pointer;
-                user-select: none;
+  &__wrapper {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
 
-                &:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-                }
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-                &:active {
-                transform: scale(0.97);
-                }
+  &__user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-                .icons {
-                width: 70px;
-                height: auto;
-                transition: transform 0.3s ease;
+  &__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+  }
 
-                // Animation légère au survol
-                .securite_menu-row:hover & {
-                    transform: scale(1.05);
-                }
-                }
-
-                .securite_h3 {
-                font-size: 1.15rem;
-                color: #444;
-                font-weight: 500;
-                letter-spacing: 1px;
-                text-align: center;
-                margin: 0;
-                }
-            }
-        }
-
+  &__user-text {
+    display: flex;
+    flex-direction: column;
+    .securite__username {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0d1f3c;
     }
+    .securite__role {
+      font-size: 0.75rem;
+      color: #7a7f92;
+    }
+  }
+
+  &__logout {
+    background: #ff4d4f;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: #d9363e;
+    }
+
+    .securite__icon {
+      color: white;
+      font-size: 1.2rem;
+    }
+  }
+
+  &__welcome {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e2a3a;
+  }
+
+  &__banner {
+    width: 100%;
+    height: 180px;
+    background: rgba(59, 130, 246, 0.15);
+    border-radius: 16px;
+    overflow: hidden;
+
+    &-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__subtitle {
+    margin-top: 32px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1e2a3a;
+  }
+
+  &__menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 20px;
+
+    &-item {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      &:active {
+        transform: scale(0.97);
+      }
+
+      .securite__menu-icon {
+        width: 64px;
+        height: auto;
+        margin-bottom: 12px;
+        transition: transform 0.3s ease;
+      }
+
+      .securite__menu-label {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #2d3748;
+        text-align: center;
+      }
+    }
+  }
 }
