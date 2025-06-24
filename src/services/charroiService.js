@@ -507,3 +507,12 @@ export const getRetourVehicule = async () => {
 export const postRetourVehicule = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/retour_vehicule`, data );
 }
+
+//Visiteur
+export const getVisiteurVehicule = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/visiteur_vehicule`);
+}
+
+export const postVisiteurVehicule = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/visiteur_vehicule`, data );
+}
