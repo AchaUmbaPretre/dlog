@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Card, Col, message, Input, notification, Skeleton, Select, Button, DatePicker } from 'antd';
+import { Form, Row, Card, Modal, Col, message, Input, notification, Skeleton, Select, Button, DatePicker } from 'antd';
 import { getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule, putDemandeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
@@ -7,6 +7,7 @@ import { getUser } from '../../../../services/userService';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import DestinationForm from '../destination/destinationForm/DestinationForm';
 
 const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     const [form] = Form.useForm();
@@ -304,6 +305,16 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                 </Form>
             </div>
         </div>
+        <Modal
+            title=""
+            visible={modalType === 'Destination'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={700}
+            centered
+        >
+            <DestinationForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }

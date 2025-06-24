@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, DeleteOutlined, PlusCircleOutlined, TagsOutlined, PrinterOutlined, EditOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import DestinationForm from './destinationForm/DestinationForm';
-import { getDestination, getDisposition } from '../../../../services/charroiService';
+import { getDestination } from '../../../../services/charroiService';
 
 const { Search } = Input;
 const { Text } = Typography;
