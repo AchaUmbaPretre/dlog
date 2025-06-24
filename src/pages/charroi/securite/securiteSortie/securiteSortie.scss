@@ -1,14 +1,33 @@
 .securiteSortie{
     width: 100%;
-    min-height: 100vh;
     background: linear-gradient(180deg, #f7faff 0%, #eef2f6 100%);
     font-family: 'Inter', sans-serif;
+    padding: 20px;
+
     .securiteSortie_wrapper{
+        width: 100%;
         .securite_sortie_rows{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
             .securite_sortie_row{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px;
+                background: white;
+                border-radius: 16px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
                 .row{
+                    display: flex;
+                    flex-direction: column;
                     .securite_strong{
-                        font-size: .9rem;
+                        font-size: .8rem;
+                        .securite_desc{
+                            font-size: .7rem;
+                            color: #555;
+                        }
                     }
                 }
             }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { notification } from 'antd';
+import { notification, Button } from 'antd';
 import './securiteSortie.scss'
 import { getSortieVehicule } from '../../../../services/charroiService';
 
@@ -32,10 +32,14 @@ const SecuriteSortie = () => {
                 <div className="securite_sortie_rows">
                     <div className="securite_sortie_row">
                         <div className="row">
-                            <strong className="securite_strong">Véhicule : </strong>
-                            <span className="securite_desc">12BD1</span>
+                            <strong className="securite_strong">Véhicule : <span className="securite_desc">12BD1</span></strong>
+                            <strong className="securite_strong">Chauffeur : <span className="securite_desc">Héritier</span></strong>
                         </div>
-                        
+
+                        <Button type='primary' className='securite_btn'>
+                            Sortie
+                        </Button>
+
                     </div>
                     <div className="securite_sortie_row">
                         B  
