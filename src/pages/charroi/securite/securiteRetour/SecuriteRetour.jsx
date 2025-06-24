@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { notification, Button } from 'antd';
-import { getSortieVehicule, postRetourVehicule, postSortieVehicule } from '../../../../services/charroiService';
+import { getRetourVehicule, getSortieVehicule, postRetourVehicule, postSortieVehicule } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 
 const SecuriteRetour = () => {
@@ -10,7 +10,7 @@ const SecuriteRetour = () => {
 
   const fetchData = async () => {
     try {
-      const { data } = await getSortieVehicule();
+      const { data } = await getRetourVehicule();
       setData(data);
     } catch (error) {
       notification.error({
