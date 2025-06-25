@@ -83,12 +83,12 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                         user_cr: userId
                     })
                     
-                    message.success({ content: "La bande de sortie a été mise a jour avec succès.", key: loadingKey });
+                    message.success({ content: "Le bon de sortie a été enregistré avec succès.", key: loadingKey });
                     fetchData();
                     closeModal();
         
                 } catch (error) {
-                    console.error("Erreur lors de l'ajout d'affectation :", error);
+                    console.error("Erreur lors de l'ajout de bon de sortie :", error);
                     message.error({ content: 'Une erreur est survenue.', key: loadingKey });
                 } finally {
                     setLoading(false);
