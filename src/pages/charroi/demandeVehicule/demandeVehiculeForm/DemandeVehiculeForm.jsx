@@ -8,6 +8,7 @@ import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import DestinationForm from '../destination/destinationForm/DestinationForm';
+import ClientForm from '../../../client/clientForm/ClientForm';
 
 const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     const [form] = Form.useForm();
@@ -77,6 +78,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     };
 
     const handleDestination = () => openModal('Destination')
+    const handleClient = () => openModal('Client')
 
   const onFinish = async (values) => {
     await form.validateFields();
@@ -261,6 +263,14 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                     />
                                     }
                                 </Form.Item>
+                                <Tooltip title={'Ajouter un client'}>
+                                    <Button 
+                                        style={{ width:'19px', height:'19px' }}
+                                        icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                        onClick={handleClient}
+                                    >
+                                    </Button>
+                                </Tooltip>
                             </Col>
 
                             <Col xs={24} md={8}>
@@ -319,6 +329,17 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
             centered
         >
             <DestinationForm closeModal={() => setModalType(null)} fetchData={fetchDatas} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Client'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={700}
+            centered
+        >
+            <ClientForm closeModal={() => setModalType(null)} fetchData={fetchDatas} />
         </Modal>
     </>
   )
