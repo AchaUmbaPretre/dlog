@@ -79,7 +79,7 @@ const Securite = () => {
             </button>
             </div>
 
-            <h2 className="securite__welcome">👋 Bienvenue sur notre application</h2>
+            <h2 className="securite__welcome">👋 Bienvenue sur DLOG</h2>
 
             <div className="securite__banner">
             <img src={securiteIcon} alt="Bannière sécurité" className="securite__banner-img" />
@@ -103,6 +103,10 @@ const Securite = () => {
                 onClick={onClick}
                 onKeyPress={(e) => e.key === 'Enter' && onClick()}
                 >
+                <span className="securite__menu-dot top-left" />
+                <span className="securite__menu-dot top-right" />
+                <span className="securite__menu-dot bottom-left" />
+                <span className="securite__menu-dot bottom-right" />
                 <img src={icon} alt={`Icône ${label}`} className="securite__menu-icon" />
                 <h3 className="securite__menu-label">{label}</h3>
                 </div>
