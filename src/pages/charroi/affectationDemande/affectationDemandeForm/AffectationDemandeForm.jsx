@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Modal, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
-import { getChauffeur, getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
+import { getCatVehicule, getChauffeur, getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getClient } from '../../../../services/clientService';
@@ -30,14 +30,14 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                 getVehiculeDispo(),
                 getChauffeur(),
                 getServiceDemandeur(),
-                getTypeVehicule(),
+                getCatVehicule(),
                 getMotif(),
                 getClient(),
                 getLocalisation()
             ])
 
-            setVehicule(vehiculeData.data)
-            setChauffeur(chaufferData.data?.data)
+            setVehicule(vehiculeData.data);
+            setChauffeur(chaufferData.data?.data);
             setService(serviceData.data);
             setType(typeData.data);
             setMotif(motifData.data);
@@ -192,27 +192,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                     />
                                 </Form.Item>
                             </Col>
-
-                            <Col xs={24} md={8}>
-                                <Form.Item
-                                    label="Type de véhicule"
-                                    name="id_type_vehicule"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un type de vehicule' }]}
-                                >
-                                    { loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        allowClear
-                                        showSearch
-                                        options={type?.map((item) => ({
-                                            value: item.id_type_vehicule,
-                                            label: `${item.nom_type_vehicule}`,
-                                        }))}
-                                        optionFilterProp="label"
-                                        placeholder="Sélectionnez..."
-                                    />
-                                    }
-                                </Form.Item>
-                            </Col>
                             
                             <Col xs={24} md={8}>
                                 <Form.Item
@@ -298,7 +277,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={24}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Personne(s) à bord"
                                     name="personne_bord"
