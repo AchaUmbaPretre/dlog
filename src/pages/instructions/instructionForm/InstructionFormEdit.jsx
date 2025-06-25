@@ -6,7 +6,7 @@ import { getBatiment } from '../../../services/typeService';
 const { TextArea } = Input;
 const { Option } = Select;
 
-const InstructionFormEdit = ({idBatiment, closeModal, fetchData, idInspection}) => {
+const InstructionFormEdit = ({closeModal, fetchData, idInspection}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);

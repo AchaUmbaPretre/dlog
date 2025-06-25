@@ -323,7 +323,7 @@ const Instructions = ({idTache}) => {
         width={700}
         centered
       >
-        <InstructionFormEdit idBatiment={''} closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
+        <InstructionFormEdit closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
       </Modal>
 
       <Modal
