@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Modal, Tooltip, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
-import { getCatVehicule, getChauffeur, getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
+import { getCatVehicule, getChauffeur, getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
 import moment from 'moment';
 import DestinationForm from '../../demandeVehicule/destination/destinationForm/DestinationForm';
+import ClientForm from '../../../client/clientForm/ClientForm';
 
 const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
@@ -19,7 +20,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const [ motif, setMotif ] = useState([]);
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
-    const [ local, setLocal ] = useState([]);
     const [ destination, setDestination ] = useState([]);
     const [modalType, setModalType] = useState(null);
 
@@ -33,7 +33,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                 getCatVehicule(),
                 getMotif(),
                 getClient(),
-                getLocalisation()
+                getDestination()
             ])
 
             setVehicule(vehiculeData.data);
@@ -42,7 +42,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             setType(typeData.data);
             setMotif(motifData.data);
             setClient(clientData.data);
-            setLocal(localData.data);
+            setDestination(localData.data);
 
             if(id_demande_vehicule) {
                 const { data : d } = await getDemandeVehiculeOne(id_demande_vehicule);
@@ -53,7 +53,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                     id_motif_demande : d[0].id_motif_demande,
                     id_demandeur : d[0].id_demandeur,
                     id_client : d[0].id_client,
-                    id_localisation : d[0].id_localisation,
+                    id_destination : d[0].id_destinattion,
                     personne_bord : d[0].personne_bord
                 })
             }
@@ -78,7 +78,8 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
         setModalType(type);
     };
 
-    const handleDestination = () => openModal('Destination')
+    const handleDestination = () => openModal('Destination');
+    const handleClient = () => openModal('Client')
 
 
     const onFinish = async (values) => {
@@ -173,9 +174,9 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                         style={{width:'100%'}}
                                         showTime={{ format: 'HH:mm' }} 
                                         format="YYYY-MM-DD HH:mm" 
-                                                                    placeholder="Choisir date et heure" 
-                                                                />
-                                                            </Form.Item>
+                                        placeholder="Choisir date et heure" 
+                                    />
+                                </Form.Item>
                             </Col>
                             
                             <Col xs={24} md={8}>
@@ -254,21 +255,29 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                     />
                                     }
                                 </Form.Item>
+                                <Tooltip title={'Ajouter un client'}>
+                                    <Button 
+                                        style={{ width:'19px', height:'19px' }}
+                                        icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                        onClick={handleClient}
+                                    >
+                                    </Button>
+                                </Tooltip>
                             </Col>
                             
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Destination"
-                                    name="id_localisation"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner une localisation.' }]}
+                                    name="id_destination"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner une destination.' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
                                         allowClear
                                         showSearch
-                                        options={local?.map((item) => ({
-                                            value: item.id_localisation ,
-                                            label: `${item.nom}`,
+                                        options={destination?.map((item) => ({
+                                            value: item.id_destination ,
+                                            label: `${item.nom_destination}`,
                                         }))}
                                         optionFilterProp="label"
                                         placeholder="Sélectionnez..."
@@ -323,6 +332,17 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             centered
         >
             <DestinationForm closeModal={() => setModalType(null)} fetchData={fetchDatas} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Client'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={700}
+            centered
+        >
+            <ClientForm closeModal={() => setModalType(null)} fetchData={fetchDatas} />
         </Modal>
     </>
   )
