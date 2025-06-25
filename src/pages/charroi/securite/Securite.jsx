@@ -16,10 +16,12 @@ import SecuriteRetour from './securiteRetour/SecuriteRetour';
 import SecuriteVisiteurForm from './securiteVisiteur/securiteVisiteurForm/SecuriteVisiteurForm';
 import { logout } from '../../../services/authService';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Securite = () => {
     const [modalType, setModalType] = useState(null);
     const navigate = useNavigate();
+    const datas = useSelector((state) => state.user?.currentUser);
 
     const closeAllModals = () => {
         setModalType(null);
@@ -66,8 +68,8 @@ const Securite = () => {
             <div className="securite__user-info">
                 <img src={userIcon} alt="Utilisateur" className="securite__avatar" />
                 <div className="securite__user-text">
-                <span className="securite__username">John</span>
-                <span className="securite__role">Sécurité</span>
+                <span className="securite__username">{datas?.nom}</span>
+                <span className="securite__role">{datas?.role}</span>
                 </div>
             </div>
             <button
