@@ -87,7 +87,9 @@ const onFinish = async () => {
                     <Info label="🏢 Service" value={data?.nom_service} />
                     <Info
                     label="🗓 Date & Heure"
-                    value={`${moment(data?.date_prevue).format('D-MM-YYYY [à] HH:mm')} → ${moment(data?.date_retour).format('D-MM-YYYY [à] HH:mm')}`}
+                    value={`${moment(data?.date_prevue).isValid() ? moment(data.date_prevue).format('D-MM-YYYY [à] HH:mm') : 'Date prévue invalide'}
+                    → 
+                    ${moment(data?.date_retour).isValid() ? moment(data.date_retour).format('D-MM-YYYY [à] HH:mm') : 'Date retour invalide'}`}
                     />
                     <Info label="🎯 Raison" value={data?.nom_motif_demande} />
                     <Info label="🚗 Marque" value={data?.nom_marque} />
