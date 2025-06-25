@@ -67,7 +67,6 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
             fetchDatas();
         }, [affectationId]);
 
-
     const onFinish = async (values) => {
         await form.validateFields();
         

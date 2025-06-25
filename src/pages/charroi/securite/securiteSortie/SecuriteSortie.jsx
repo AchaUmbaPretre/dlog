@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { notification, Button, Card, Typography, Spin, Empty } from 'antd';
+import { notification, Button, Modal, Card, Typography, Spin, Empty } from 'antd';
 import { getSortieVehicule, postSortieVehicule } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import './securiteSortie.scss';
+import moment from 'moment';
 
 const { Title, Text } = Typography;
 
@@ -82,14 +83,27 @@ const SecuriteSortie = () => {
                     <Text strong>Chauffeur :</Text>
                     <Text>{d?.nom}</Text>
                   </div>
+                  <div className="securite_info">
+                    <Text strong>Heure prevue :</Text>
+                    <Text>{moment(d?.date_prevue).format('HH:mm')}</Text>
+                  </div>
                 </div>
                 <Button
-                  type="primary"
-                  size="small"
-                  onClick={() => onFinish(d.id_bande_sortie)}
+                    type="primary"
+                size="small"
+                onClick={() => {
+                    Modal.confirm({
+                    title: 'Confirmation de sortie',
+                    content: `Voulez-vous vraiment valider la sortie maintenant à ${moment().format('HH:mm')} ?`,
+                    okText: 'Oui, valider',
+                    cancelText: 'Annuler',
+                    onOk: () => onFinish(d.id_bande_sortie),
+                    });
+                }}
                 >
-                  Valider la sortie
+                    Valider la sortie
                 </Button>
+
               </Card>
             ))}
           </div>
