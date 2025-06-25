@@ -147,7 +147,7 @@ const AffectationDemande = () => {
       title: (
         <Space>
           <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Preuve</Text>
+          <Text strong>Prévue</Text>
         </Space>
       ),
       dataIndex: 'date_prevue',
