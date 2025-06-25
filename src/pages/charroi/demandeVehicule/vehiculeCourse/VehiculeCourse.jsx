@@ -3,7 +3,7 @@ import { Table, Tag, Space, Modal, Tooltip, Button, Typography, Input, notificat
 import {  CarOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
-import { getBandeSortie, getVehiculeCourse } from '../../../../services/charroiService';
+import { getVehiculeCourse } from '../../../../services/charroiService';
 import ValidationDemandeForm from '../../demandeVehicule/validationDemande/validationDemandeForm/ValidationDemandeForm';
 
 const { Search } = Input;
