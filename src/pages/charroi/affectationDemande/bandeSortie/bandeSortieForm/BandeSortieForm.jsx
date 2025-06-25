@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { getAffectationDemandeOne, getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, getVehiculeDispo, postBandeSortie } from '../../../../../services/charroiService';
+import { getAffectationDemandeOne, getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, postBandeSortie } from '../../../../../services/charroiService';
 import { getClient } from '../../../../../services/clientService';
 import { getLocalisation } from '../../../../../services/transporteurService';
 import { useSelector } from 'react-redux';
