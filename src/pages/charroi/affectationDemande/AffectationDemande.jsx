@@ -75,7 +75,7 @@ const AffectationDemande = () => {
     }, []);
 
    const columns = [
-      {
+    {
           title: '#',
           dataIndex: 'id',
           key: 'id',
@@ -95,53 +95,53 @@ const AffectationDemande = () => {
         )
     },
     {
-    title: (
-      <Space>
-        <UserOutlined  style={{color:'orange'}}/>
-        <Text strong>Chauffeur</Text>
-      </Space>
-    ),
-    dataIndex: 'nom',
-    key: 'nom',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
-    },
-    {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: 'red' }} />
-        <Text strong>Véhicule</Text>
-      </Space>
-    ),
-    dataIndex:'nom_type_vehicule',
-    key: 'nom_type_vehicule',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text  type="secondary">{text}</Text>
-      </Tooltip>
-    ),
+      title: (
+        <Space>
+          <UserOutlined  style={{color:'orange'}}/>
+          <Text strong>Chauffeur</Text>
+        </Space>
+      ),
+      dataIndex: 'nom',
+      key: 'nom',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text>{text}</Text>
+        </Tooltip>
+      ),
     },
     {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: '#2db7f5' }} />
-        <Text strong>Marque</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_marque',
-    key: 'nom_marque',
-    align: 'center',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
+      title: (
+        <Space>
+          <CarOutlined style={{ color: 'red' }} />
+          <Text strong>Véhicule</Text>
+        </Space>
+      ),
+      dataIndex:'nom_type_vehicule',
+      key: 'nom_type_vehicule',
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text  type="secondary">{text}</Text>
+        </Tooltip>
+      ),
+    },
+    {
+      title: (
+        <Space>
+          <CarOutlined style={{ color: '#2db7f5' }} />
+          <Text strong>Marque</Text>
+        </Space>
+      ),
+      dataIndex: 'nom_marque',
+      key: 'nom_marque',
+      align: 'center',
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text>{text}</Text>
+        </Tooltip>
+      ),
     },
     {
       title: (
@@ -159,22 +159,34 @@ const AffectationDemande = () => {
         </Tooltip>
       ),
     },
-        {
+    {
       title: (
         <Space>
           <CalendarOutlined style={{ color: 'blue' }} />
           <Text strong>Retour</Text>
         </Space>
       ),
-      dataIndex: 'date_retour',
-      key: '',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={moment(text).format('DD-MM-YYYY HH:mm')}>
-          <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
-        </Tooltip>
-      ),
+        dataIndex: 'date_retour',
+        key: '',
+          render: (text) => {
+            if (!text) {
+              return (
+                <Tag icon={<CalendarOutlined />} color="red">
+                  Aucune date
+                </Tag>
+              );
+            }
+            const date = moment(text);
+            const isValid = date.isValid();
+                    
+            return (
+              <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+              </Tag>
+            );
+          },
     },
-        {
+    {
         title: (
         <Space>
             <CheckCircleOutlined style={{ color: '#1890ff' }} />
