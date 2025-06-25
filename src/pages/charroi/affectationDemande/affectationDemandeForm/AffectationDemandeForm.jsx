@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Modal, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
+import { Form, Row, Modal, Tooltip, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { getCatVehicule, getChauffeur, getDemandeVehiculeOne, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
-import { SendOutlined } from '@ant-design/icons';
+import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getClient } from '../../../../services/clientService';
 import { getLocalisation } from '../../../../services/transporteurService';
@@ -275,6 +275,14 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                     />
                                     }
                                 </Form.Item>
+                                <Tooltip title={'Ajouter une destination'}>
+                                    <Button 
+                                        style={{ width:'19px', height:'19px' }}
+                                        icon={<PlusOutlined style={{fontSize:'9px', margin:'0 auto'}} />}
+                                        onClick={handleDestination}
+                                    >
+                                    </Button>
+                                </Tooltip>
                             </Col>
                             
                             <Col xs={24} md={8}>
