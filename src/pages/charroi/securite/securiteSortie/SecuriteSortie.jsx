@@ -30,6 +30,32 @@ const SecuriteSortie = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const groupByBandeSortie = (rawData) => {
+  const grouped = {};
+
+  rawData.forEach(item => {
+    const id = item.id_bande_sortie;
+
+    if (!grouped[id]) {
+      grouped[id] = {
+        ...item,
+        signataires: []
+      };
+    }
+
+    grouped[id].signataires.push({
+      nom: item.personne_signe,
+      role: item.role
+    });
+  });
+
+  return Object.values(grouped);
+    };
+
+    const groupedData = groupByBandeSortie(data);
+
+
+
   const onFinish = async (idBandeSortie) => {
     const value = {
       id_bande_sortie: idBandeSortie,
@@ -64,29 +90,38 @@ const SecuriteSortie = () => {
           <Empty description="Aucune demande de sortie disponible." />
         ) : (
           <div className="securite_rows">
-            {data.map((d) => (
-              <Card
+            {groupedData.map((d) => (
+            <Card
                 key={d.id_bande_sortie}
                 className="securite_card"
                 bordered
                 hoverable
-              >
+            >
                 <div className="securite_card_content">
-                  <div className="securite_info">
+                <div className="securite_info">
                     <Text strong>Véhicule :</Text>
-                    <Text>{d?.immatriculation}</Text>
-                  </div>
-                  <div className="securite_info">
-                    <Text strong>Chauffeur :</Text>
-                    <Text>{d?.nom}</Text>
-                  </div>
-                  <div className="securite_info">
-                    <Text strong>Heure prevue :</Text>
-                    <Text>{moment(d?.date_prevue).format('HH:mm')}</Text>
-                  </div>
+                    <Text>{d.immatriculation}</Text>
                 </div>
+                <div className="securite_info">
+                    <Text strong>Chauffeur :</Text>
+                    <Text>{d.nom}</Text>
+                </div>
+                <div className="securite_info">
+                    <Text strong>Heure prévue :</Text>
+                    <Text>{moment(d.date_prevue).format('HH:mm')}</Text>
+                </div>
+                <div className="securite_info">
+                    <Text strong>Signataires :</Text>
+                    <ul style={{ margin: 0, paddingLeft: 16 }}>
+                    {d.signataires.map((s, i) => (
+                        <li key={i}>{s.nom} <em>({s.role})</em></li>
+                    ))}
+                    </ul>
+                </div>
+                </div>
+
                 <Button
-                    type="primary"
+                type="primary"
                 size="small"
                 onClick={() => {
                     Modal.confirm({
@@ -98,11 +133,11 @@ const SecuriteSortie = () => {
                     });
                 }}
                 >
-                    Valider la sortie
+                Valider la sortie
                 </Button>
-
-              </Card>
+            </Card>
             ))}
+
           </div>
         )}
       </div>
