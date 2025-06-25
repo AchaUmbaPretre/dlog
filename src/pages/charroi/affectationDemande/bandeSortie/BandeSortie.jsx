@@ -156,7 +156,7 @@ const BandeSortie = () => {
         </Tooltip>
       ),
     },
-        {
+    {
       title: (
         <Space>
           <CalendarOutlined style={{ color: 'blue' }} />
@@ -164,14 +164,25 @@ const BandeSortie = () => {
         </Space>
       ),
       dataIndex: 'date_retour',
-      key: '',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
-        </Tooltip>
-      ),
+      key: 'date_retour',
+      render: (text) => {
+        if (!text) {
+            return (
+                <Tag icon={<CalendarOutlined />} color="red">
+                    Aucune date
+                </Tag>
+            );
+        }
+        const date = moment(text);
+        const isValid = date.isValid();              
+            return (
+                <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                    {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+                </Tag>
+            );
+        },
     },
-        {
+    {
         title: (
         <Space>
             <CheckCircleOutlined style={{ color: '#1890ff' }} />

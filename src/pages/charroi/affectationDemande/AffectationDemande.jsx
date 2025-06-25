@@ -167,7 +167,7 @@ const AffectationDemande = () => {
         </Space>
       ),
         dataIndex: 'date_retour',
-        key: '',
+        key: 'date_retour',
           render: (text) => {
             if (!text) {
               return (
