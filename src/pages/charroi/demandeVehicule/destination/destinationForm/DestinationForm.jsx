@@ -77,7 +77,7 @@ const DestinationForm = ({closeModal, fetchData}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">ENREGISTRER</h2>
+                <h2 className="controle_h2">ENREGISTRER UNE DESTINATION</h2>
             </div>
             <Card>
                 <div className="controle_wrapper">
