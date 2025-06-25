@@ -30,7 +30,7 @@ const SecuriteSortie = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const groupByBandeSortie = (rawData) => {
+const groupByBandeSortie = (rawData) => {
   const grouped = {};
 
   rawData.forEach(item => {
@@ -52,9 +52,7 @@ const SecuriteSortie = () => {
   return Object.values(grouped);
     };
 
-    const groupedData = groupByBandeSortie(data);
-
-
+const groupedData = groupByBandeSortie(data);
 
   const onFinish = async (idBandeSortie) => {
     const value = {
