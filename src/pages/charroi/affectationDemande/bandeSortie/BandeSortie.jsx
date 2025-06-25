@@ -116,8 +116,8 @@ const BandeSortie = () => {
         <Text strong>Véhicule</Text>
       </Space>
     ),
-    dataIndex:'nom_type_vehicule',
-    key: 'nom_type_vehicule',
+    dataIndex:'nom_cat',
+    key: 'nom_cat',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
         <Text  type="secondary">{text}</Text>
