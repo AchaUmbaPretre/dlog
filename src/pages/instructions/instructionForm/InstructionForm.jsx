@@ -14,7 +14,7 @@ const icons = [
     { id: 'water', label: 'Goutte d’eau', icon: '💧' },
   ];
 
-const InstructionForm = ({idBatiment, closeModal, fetchData, idInspection, idTache}) => {
+const InstructionForm = ({ closeModal, fetchData, idInspection, idTache}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [batiment, setBatiment] = useState([]);
