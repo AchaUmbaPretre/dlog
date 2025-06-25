@@ -65,7 +65,7 @@ const Instructions = ({idTache}) => {
     }
   };
 
-    const fetchData = async () => {
+  const fetchData = async () => {
       try {
         const { data } = await getInspection(idTache);
         setData(data);
@@ -142,9 +142,9 @@ const Instructions = ({idTache}) => {
       ),
     },
     { 
-        title: 'Commentaire', 
-        dataIndex: 'commentaire', 
-        key: 'commentaire',
+      title: 'Commentaire', 
+      dataIndex: 'commentaire', 
+      key: 'commentaire',
         render: text => (
           <Space style={columnStyles.title} className={columnStyles.hideScroll}>
             <Tag color='cyan'>{text}</Tag>
