@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Tabs, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,  MoreOutlined, RightCircleOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
+import { ExportOutlined,  MoreOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
 import moment from 'moment';
@@ -13,7 +13,6 @@ import VehiculeOccupe from './vehiculeOccupe/VehiculeOccupe';
 import TabPane from 'antd/es/tabs/TabPane';
 import DemandeVehiculeDispo from './demandeVehiculeDispo/DemandeVehiculeDispo';
 import AffectationDemande from '../affectationDemande/AffectationDemande';
-import RetourVehiculeForm from '../retourVehicule/retourVehiculeForm/RetourVehiculeForm';
 import DemandeurVehicule from '../demandeurVehicule/DemandeurVehicule';
 import BandeSortie from '../affectationDemande/bandeSortie/BandeSortie';
 import VehiculeCourse from './vehiculeCourse/VehiculeCourse';
@@ -90,11 +89,6 @@ const DemandeVehicule = () => {
                 case 'validation': 
                     openModal('validation', record.id_demande_vehicule)
                     break;
-                case 'retourDemande': 
-/*                     vehiculeRetour(record.id_demande_vehicule, fetchData)
- */                    
-                openModal('retour', record.id_demande_vehicule)
-                break;
                 default:
                     break
             }
@@ -109,9 +103,6 @@ const DemandeVehicule = () => {
                     <CloseCircleOutlined style={{ color: 'red' }} /> Annuler
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item key="retourDemande">
-                    <RightCircleOutlined style={{ color: '#17a2b8' }} /> Retour
-                </Menu.Item>
                 <Menu.Divider />
                 <Menu.SubMenu
                     key="inspection"
@@ -565,18 +556,6 @@ const DemandeVehicule = () => {
         >
             <DemandeVehiculeDetail closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
         </Modal>
-
-        <Modal
-            title=""
-            visible={modalType === 'retour'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={700}
-            centered
-        >
-            <RetourVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
-        </Modal>
-
     </>
   );
 };
