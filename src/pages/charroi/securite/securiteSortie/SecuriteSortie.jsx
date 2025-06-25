@@ -66,7 +66,7 @@ const SecuriteSortie = () => {
       await postSortieVehicule(value);
       notification.success({
         message: 'Sortie validée',
-        description: `Le véhicule avec la bande ${idBandeSortie} a été validé pour sortir.`,
+        description: `Le véhicule avec le bon de sortie ${idBandeSortie} a été validé pour sortir.`,
       });
       fetchData();
     } catch (error) {
