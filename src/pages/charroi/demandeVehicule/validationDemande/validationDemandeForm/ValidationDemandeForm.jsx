@@ -88,12 +88,13 @@ const onFinish = async () => {
                     <Info
                     label="🗓 Date & Heure"
                     value={
-                        moment(data?.date_prevue).isValid() && moment(data?.date_retour).isValid()
+                        data?.date_prevue && moment(data.date_prevue).isValid()
+                            ? data.date_retour && moment(data.date_retour).isValid()
                             ? `${moment(data.date_prevue).format('D-MM-YYYY [à] HH:mm')} → ${moment(data.date_retour).format('D-MM-YYYY [à] HH:mm')}`
-                            : moment(data?.date_prevue).isValid()
-                            ? `${moment(data.date_prevue).format('D-MM-YYYY [à] HH:mm')}`
+                            : `${moment(data.date_prevue).format('D-MM-YYYY [à] HH:mm')}`
                             : 'Date prévue invalide'
-                        }   
+                        }
+
                     />
                     <Info label="🎯 Raison" value={data?.nom_motif_demande} />
                     <Info label="🚗 Marque" value={data?.nom_marque} />
