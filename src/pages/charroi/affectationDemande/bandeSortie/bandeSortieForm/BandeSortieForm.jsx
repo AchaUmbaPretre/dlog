@@ -20,7 +20,6 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [ client, setClient ] = useState([]);
     const [ local, setLocal ] = useState([]);
 
-
         const fetchDatas = async() => {
             try {
                 const [vehiculeData, chaufferData, serviceData, typeData, motifData, clientData, localData] = await Promise.all([
