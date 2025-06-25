@@ -157,20 +157,31 @@ const VehiculeCourse = () => {
       ),
     },
         {
-      title: (
-        <Space>
-          <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Retour</Text>
-        </Space>
-      ),
-      dataIndex: 'date_retour',
-      key: '',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
-        </Tooltip>
-      ),
-    },
+          title: (
+            <Space>
+              <CalendarOutlined style={{ color: 'blue' }} />
+              <Text strong>Retour</Text>
+            </Space>
+          ),
+          dataIndex: 'date_retour',
+          key: 'date_retour',
+          render: (text) => {
+            if (!text) {
+                return (
+                    <Tag icon={<CalendarOutlined />} color="red">
+                        Aucune date
+                    </Tag>
+                );
+            }
+            const date = moment(text);
+            const isValid = date.isValid();              
+                return (
+                    <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                        {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+                    </Tag>
+                );
+            },
+        },
         {
         title: (
         <Space>
