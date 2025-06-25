@@ -17,10 +17,7 @@ const SecuriteRetour = () => {
       setData(data);
 
     } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données.',
-      });
+        console.log(error)
     } finally {
       setLoading(false);
     }
