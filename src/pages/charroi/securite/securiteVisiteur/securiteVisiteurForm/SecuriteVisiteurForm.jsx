@@ -54,7 +54,7 @@ const SecuriteVisiteurForm = ({closeModal}) => {
                             <Form.Item
                                 label="Matricule"
                                 name="immatriculation"
-                                rules={[{ required: false, message: 'Le site est requis' }]}
+                                rules={[{ required: true, message: 'Immatriculation est requis' }]}
                             >
                                 <Input placeholder="Ex:3FB21..."  />
                             </Form.Item>
@@ -64,7 +64,7 @@ const SecuriteVisiteurForm = ({closeModal}) => {
                             <Form.Item
                                 label="Chauffeur"
                                 name="nom_chauffeur"
-                                rules={[{ required: false, message: 'Le site est requis' }]}
+                                rules={[{ required: true, message: 'Le nom cu chauffeur est requis' }]}
                             >
                                 <Input placeholder="Entrer le nom du chauffeur..."  />
                             </Form.Item>
