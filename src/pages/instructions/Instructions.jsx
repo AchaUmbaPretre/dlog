@@ -150,8 +150,8 @@ const Instructions = ({idTache}) => {
             <Tag color='cyan'>{text}</Tag>
           </Space>
         ),
-      },
-      { 
+    },
+    { 
         title: 'Categorie', 
         dataIndex: 'nom_cat_inspection', 
         key: 'nom_cat_inspection',
@@ -160,11 +160,11 @@ const Instructions = ({idTache}) => {
             <Tag color='cyan'>{text}</Tag>
           </Space>
         ),
-      },
-      {
-        title: "Type",
-        dataIndex: 'nom_type_instruction',
-        key: 'nom_type_instruction',
+    },
+    {
+      title: "Type",
+      dataIndex: 'nom_type_instruction',
+      key: 'nom_type_instruction',
         render: text => {
           return (
             <Space>
@@ -174,11 +174,11 @@ const Instructions = ({idTache}) => {
             </Space>
           );
         }
-      },
-      {
-        title: "Tache",
-        dataIndex: 'nom_tache',
-        key: 'nom_tache',
+    },
+    {
+      title: "Tache",
+      dataIndex: 'nom_tache',
+      key: 'nom_tache',
         render: text => {
           return (
             <Space style={columnStyles.title} className={columnStyles.hideScroll}>
@@ -188,7 +188,7 @@ const Instructions = ({idTache}) => {
             </Space>
           );
         }
-      },
+    },
     {
       title: 'Action',
       key: 'action',
