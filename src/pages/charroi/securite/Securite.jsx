@@ -103,10 +103,7 @@ const Securite = () => {
                 onClick={onClick}
                 onKeyPress={(e) => e.key === 'Enter' && onClick()}
                 >
-                <span className="securite__menu-dot top-left" />
-                <span className="securite__menu-dot top-right" />
-                <span className="securite__menu-dot bottom-left" />
-                <span className="securite__menu-dot bottom-right" />
+                <span className="securite__menu-dot" />
                 <img src={icon} alt={`Icône ${label}`} className="securite__menu-icon" />
                 <h3 className="securite__menu-label">{label}</h3>
                 </div>
