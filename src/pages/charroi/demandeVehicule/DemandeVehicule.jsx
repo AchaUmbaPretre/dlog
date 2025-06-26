@@ -463,13 +463,13 @@ const DemandeVehicule = () => {
             <TabPane
                 tab={
                     <span>
-                    │   🔴 ENTRÉE / SORTIE
+                    🔴 Entrée / Sortie
                     </span>
                 }
                 key="5"
             >
-                <VehiculeCourse/>
-            </TabPane>
+{/*                 <VehiculeCourse/>
+ */}            </TabPane>
 
             { role === 'Admin' &&
             <TabPane
