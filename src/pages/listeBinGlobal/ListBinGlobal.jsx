@@ -39,7 +39,7 @@ const ListBinGlobal = () => {
 
     const fetchData = async () => {
       try {
-         const { data } = await getBins();
+         const { data } = await getBins(searchValue);
         setData(data?.data);
         setStatistique(data?.statistiques)
         setLoading(false);
@@ -54,7 +54,7 @@ const ListBinGlobal = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [searchValue]);
 
   const handleAddresse = (idBin) => openModal('Addresse', idBin);
   const handleAdd = (idBin) => openModal('Add', idBin);
@@ -175,7 +175,7 @@ const ListBinGlobal = () => {
       ),
     },
     { 
-      title: 'Type de Stockage', 
+      title: 'T.Stockage', 
       dataIndex: 'type_stockage', 
       key: 'type_stockage',
       render: text => (
@@ -219,10 +219,10 @@ const ListBinGlobal = () => {
     setActiveKey(key);
   };
   
-
   const filteredData = data.filter(item =>
     item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.statut?.toLowerCase().includes(searchValue.toLowerCase())
+    item.statut?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -260,8 +260,8 @@ const ListBinGlobal = () => {
                           {loading ? (
                             <Skeleton active paragraph={{ rows: 1 }} />
                           ) : (
-                              <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
-                                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Bins : <strong>{statistique?.nbre_bin}</strong></span>
+                              <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'10px'}}>
+                                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Nbre de Bins : <strong>{statistique?.nbre_bin}</strong></span>
                                 <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Superficie : <strong>{Math.round(parseFloat(statistique?.total_superficie)).toLocaleString() || 0}</strong></span>
                                 <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
                                   #Longueur : <strong>

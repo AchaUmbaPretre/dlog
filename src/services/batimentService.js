@@ -138,8 +138,8 @@ export const putEntrepot = async (id, data) => {
 
 
 //BINS
-export const getBins = async () => {
-  return axios.get(`${DOMAIN}/api/batiment/bins`);
+export const getBins = async (search) => {
+  return axios.get(`${DOMAIN}/api/batiment/bins?search=${search}`);
 };
 
 export const getBinsOne = async (id) => {
