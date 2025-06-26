@@ -123,7 +123,9 @@ const AffectationDemande = () => {
       key: 'nom_cat',
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Text  type="secondary">{text}</Text>
+          <div style={columnStyles.title} className={columnStyles.hideScroll}>
+            <Text  type="secondary">{text}</Text>
+          </div>
         </Tooltip>
       ),
     },
