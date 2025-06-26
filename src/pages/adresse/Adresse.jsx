@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Input, message, notification, Tag, Button, Modal } from 'antd';
+import { useEffect, useState } from 'react';
+import { Table, Input, Typography, notification, Tag, Button, Modal } from 'antd';
 import { BankOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
 import AdresseForm from './adresseForm/AdresseForm';
 
 const { Search } = Input;
+const { Text } = Typography;
+
 
 const Adresse = () => {
   const [loading, setLoading] = useState(true);
@@ -46,19 +48,6 @@ const Adresse = () => {
     openModal('Add', idBin);
   }
 
-
-  const handleDelete = async (id) => {
-    try {
-      setData(data.filter((item) => item.id_client !== id));
-      message.success('Client deleted successfully');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du client.',
-      });
-    }
-  };
-
   const columns = [
     {
       title: '#',
@@ -71,16 +60,18 @@ const Adresse = () => {
         title: 'Batiment',
         dataIndex: 'nom_batiment',
         key: 'nom_batiment',
+        align: 'center',
         render: (text) => (
-          <Tag color="blue" icon={<BankOutlined />}>{text ?? 'Aucun'}</Tag>
+          <Text type="secondary">{text ?? 'Aucun'}</Text>
         ),
       },
     {
         title: 'Bin',
         dataIndex: 'nom',
         key: 'nom',
+        align: 'center',
         render: (text) => (
-          <Tag color="blue">{text ?? 'Aucun'}</Tag>
+          <Text type="secondary">{text ?? 'Aucun'}</Text>
         ),
       },
     {
@@ -88,7 +79,7 @@ const Adresse = () => {
       dataIndex: 'adresse',
       key: 'adresse',
       render: (text) => (
-        <Tag icon={<BankOutlined />} color="green">{text ?? 'Aucun'}</Tag>
+        <Text type="secondary">{text ?? 'Aucun'}</Text>
       ),
     }
   ]
