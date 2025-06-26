@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Space, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, FileTextOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -213,6 +213,15 @@ const BandeSortie = () => {
                 <Button
                     icon={<CheckCircleOutlined />}
                     style={{ color: 'green' }}
+                    onClick={() => handlSortie(record.id_bande_sortie)}
+                    aria-label="Valider"
+                />
+            </Tooltip>
+
+            <Tooltip title="Relevé des bons de sortie">
+                <Button
+                    icon={<FileTextOutlined />}
+                    style={{ color: 'blue' }}
                     onClick={() => handlSortie(record.id_bande_sortie)}
                     aria-label="Valider"
                 />
