@@ -270,7 +270,7 @@ const ListBinGlobal = () => {
 
                                 <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
                                   Largeur  : <strong>
-                                    { Math.round(parseFloat(statistique?.budget_valide)).toLocaleString() || 0}</strong>
+                                    { Math.round(parseFloat(statistique?.largeur)).toLocaleString() || 0}</strong>
                                 </span>
 
                                 <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
