@@ -178,189 +178,177 @@ const DemandeVehicule = () => {
     };
 
     const columns = [
-    {
-        title: '#',
-        dataIndex: 'id',
-        key: 'id',
-        render: (text, record, index) => {
-        const pageSize = pagination.pageSize || 10;
-        const pageIndex = pagination.current || 1;
-        return (pageIndex - 1) * pageSize + index + 1;
-        },
-        width: "3%",
-    },
-    {
-        title : "Client",
-        dataIndex: 'nom',
-        key:'nom',
-        align: 'center',
-        render : (text) => (
-            <Tag color="green">{text}</Tag>
-        )
-    },
-    {
-        title: (
-        <Space>
-            <LogoutOutlined style={{ color: '#52c41a' }} />
-            <Text strong>Date prévue</Text>
-        </Space>
-        ),
-        dataIndex: 'date_prevue',
-        key: 'date_prevue',
-        ellipsis: { showTitle: false },
-        render: (text) => {
-        const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
-        return (
-        <Tooltip placement="topLeft" title={formattedDate}>
-            <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
-            </div>
-        </Tooltip>
-        );
-    },
-    },
-    {
-        title: (
-        <Space>
-            <AimOutlined style={{ color: '#faad14' }} />
-            <Text strong>Date retour</Text>
-        </Space>
-        ),
-        dataIndex: 'date_retour',
-        key: 'date_retour',
-        align: 'center',
-        render: (text) => {
-        const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
-        return (
-            <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                <Tooltip placement="topLeft" title={formattedDate}>
-                    <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
-                </Tooltip>
-            </div>
-        );
-    },
-    },
-    {
-        title: (
-        <Space>
-            <CarOutlined style={{ color: '#eb2f96' }} />
-            <Text strong>T. véhicule</Text>
-        </Space>
-        ),
-        dataIndex: 'nom_type_vehicule',
-        key: 'nom_type_vehicule',
-        align: 'center',
-        render: (text) => <Text type="secondary">{text}</Text>,
-    },
-    /*   {
-        title: (
-        <Space>
-            <InfoCircleOutlined style={{ color: '#13c2c2' }} />
-            <Text strong>Motif</Text>
-        </Space>
-        ),
-        dataIndex: 'nom_motif_demande',
-        key: 'nom_motif_demande',
-        align: 'center',
-        render: (text) => <Text type="secondary">{text}</Text>,
-    }, */
-    {
-        title: (
-        <Space>
-            <UserOutlined style={{ color: '#fa541c' }} />
-            <Text strong>Demandeur</Text>
-        </Space>
-        ),
-        dataIndex: 'nom_service',
-        key: 'nom_service',
-        align: 'center',
-        render: (text) => <Text type="secondary">{text}</Text>,
-    },
-    {
-        title: (
-        <Space>
-            <CheckCircleOutlined style={{ color: '#1890ff' }} />
-            <Text strong>Statut</Text>
-        </Space>
-        ),
-        dataIndex: 'nom_type_statut',
-        key: 'nom_type_statut',
-        align: 'center',
-        render: text => {
-            const { icon, color } = statusIcons[text] || {};
-            return (
-                    <Space>
-                        <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                            <Tag icon={icon} color={color}>{text}</Tag>
-                        </div>
-                    </Space>
-                );
-        },
-    },
-    ...(role === 'Admin'
-        ? [
-            {
-            title: (
-                <Space>
-                <Text strong>Vu</Text>
-                </Space>
-            ),
-            dataIndex: 'vu',
-            key: 'vu',
-            align: 'center',
-            width: '80px',
-            render: (text, record) => (
-                <Tag
-                    color={text === 1 ? 'green' : 'red'}
-                    onClick={text === 1 ? undefined : () => updatedVu(record.id_demande_vehicule)}
-                    style={{ cursor: text === 1 ? 'default' : 'pointer' }}
-                >
-                    {text === 1 ? 'Vu' : 'Non vu'}
-                </Tag>
-            ),
+        {
+            title: '#',
+            dataIndex: 'id',
+            key: 'id',
+            render: (text, record, index) => {
+            const pageSize = pagination.pageSize || 10;
+            const pageIndex = pagination.current || 1;
+            return (pageIndex - 1) * pageSize + index + 1;
             },
-        ]
-        : []),
-    {
-        title: (
-        <Text strong>Actions</Text>
-        ),
-        key: 'action',
-        align: 'center',
-        width : '120px',
-        render: (text, record) => (
-        <Space size="small">
-            <Tooltip title="Modifier cette localisation">
-            <Button
-                type="text"
-                icon={<EditOutlined />}
-                style={{ color: '#1890ff' }}
-                onClick={() => handleEdit(record.id_demande_vehicule)}
-                aria-label="Modifier"
-            />
+            width: "3%",
+        },
+        {
+            title : "Client",
+            dataIndex: 'nom',
+            key:'nom',
+            align: 'center',
+            render : (text) => (
+                <Tag color="green">{text}</Tag>
+            )
+        },
+        {
+            title: (
+            <Space>
+                <LogoutOutlined style={{ color: '#52c41a' }} />
+                <Text strong>Date prévue</Text>
+            </Space>
+            ),
+            dataIndex: 'date_prevue',
+            key: 'date_prevue',
+            ellipsis: { showTitle: false },
+            render: (text) => {
+            const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
+            return (
+            <Tooltip placement="topLeft" title={formattedDate}>
+                <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                    <Tag icon={<CalendarOutlined />} color="blue">{formattedDate}</Tag>
+                </div>
             </Tooltip>
-            <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
-                <Button type='text' icon={<MoreOutlined />} style={{ color: 'blue' }} />
-            </Dropdown>
-            <Tooltip title="Supprimer définitivement">
-            <Popconfirm
-                title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
-                onConfirm={() => handleDelete(record.id_demande_vehicule)}
-                okText="Oui"
-                cancelText="Non"
-                okButtonProps={{ danger: true }}
-            >
+            );
+        },
+        },
+        {
+            title: (
+            <Space>
+                <AimOutlined style={{ color: '#faad14' }} />
+                <Text strong>Date retour</Text>
+            </Space>
+            ),
+            dataIndex: 'date_retour',
+            key: 'date_retour',
+            align: 'center',
+            render: (text) => {
+            const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
+            return (
+                <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                    <Tooltip placement="topLeft" title={formattedDate}>
+                        <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
+                    </Tooltip>
+                </div>
+            );
+        },
+        },
+        {
+            title: (
+            <Space>
+                <CarOutlined style={{ color: '#eb2f96' }} />
+                <Text strong>T. véhicule</Text>
+            </Space>
+            ),
+            dataIndex: 'nom_type_vehicule',
+            key: 'nom_type_vehicule',
+            align: 'center',
+            render: (text) => <Text type="secondary">{text}</Text>,
+        },
+        {
+            title: (
+            <Space>
+                <UserOutlined style={{ color: '#fa541c' }} />
+                <Text strong>Demandeur</Text>
+            </Space>
+            ),
+            dataIndex: 'nom_service',
+            key: 'nom_service',
+            align: 'center',
+            render: (text) => <Text type="secondary">{text}</Text>,
+        },
+        {
+            title: (
+            <Space>
+                <CheckCircleOutlined style={{ color: '#1890ff' }} />
+                <Text strong>Statut</Text>
+            </Space>
+            ),
+            dataIndex: 'nom_type_statut',
+            key: 'nom_type_statut',
+            align: 'center',
+            render: text => {
+                const { icon, color } = statusIcons[text] || {};
+                return (
+                        <Space>
+                            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                                <Tag icon={icon} color={color}>{text}</Tag>
+                            </div>
+                        </Space>
+                    );
+            },
+        },
+        ...(role === 'Admin'
+            ? [
+                {
+                title: (
+                    <Space>
+                    <Text strong>Vu</Text>
+                    </Space>
+                ),
+                dataIndex: 'vu',
+                key: 'vu',
+                align: 'center',
+                width: '80px',
+                render: (text, record) => (
+                    <Tag
+                        color={text === 1 ? 'green' : 'red'}
+                        onClick={text === 1 ? undefined : () => updatedVu(record.id_demande_vehicule)}
+                        style={{ cursor: text === 1 ? 'default' : 'pointer' }}
+                    >
+                        {text === 1 ? 'Vu' : 'Non vu'}
+                    </Tag>
+                ),
+                },
+            ]
+            : []),
+        {
+            title: (
+            <Text strong>Actions</Text>
+            ),
+            key: 'action',
+            align: 'center',
+            width : '120px',
+            render: (text, record) => (
+            <Space size="small">
+                <Tooltip title="Modifier cette localisation">
                 <Button
-                type="text"
-                icon={<DeleteOutlined />}
-                style={{ color: '#ff4d4f' }}
-                aria-label="Supprimer"
+                    type="text"
+                    icon={<EditOutlined />}
+                    style={{ color: '#1890ff' }}
+                    onClick={() => handleEdit(record.id_demande_vehicule)}
+                    aria-label="Modifier"
                 />
-            </Popconfirm>
-            </Tooltip>
-        </Space>
-        ),
-    },
+                </Tooltip>
+                <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+                    <Button type='text' icon={<MoreOutlined />} style={{ color: 'blue' }} />
+                </Dropdown>
+                <Tooltip title="Supprimer définitivement">
+                <Popconfirm
+                    title="Êtes-vous sûr de vouloir supprimer cette localisation ?"
+                    onConfirm={() => handleDelete(record.id_demande_vehicule)}
+                    okText="Oui"
+                    cancelText="Non"
+                    okButtonProps={{ danger: true }}
+                >
+                    <Button
+                    type="text"
+                    icon={<DeleteOutlined />}
+                    style={{ color: '#ff4d4f' }}
+                    aria-label="Supprimer"
+                    />
+                </Popconfirm>
+                </Tooltip>
+            </Space>
+            ),
+        },
     ];
 
     const filteredData = data.filter(item =>
@@ -370,7 +358,6 @@ const DemandeVehicule = () => {
 
   return (
     <>
-      
         <Tabs
             activeKey={activeKey[0]}
             onChange={handleTabChange}
