@@ -206,6 +206,23 @@ const AffectationDemande = () => {
             );
         },
     },
+        {
+      title: (
+        <Space>
+          <Text strong>Commentaire</Text>
+        </Space>
+      ),
+      dataIndex: 'commentaire',
+      key: 'commentaire',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text  type="secondary">{text}</Text>
+        </Tooltip>
+      ),
+    },
     {
         title: (
         <Text strong>Actions</Text>
