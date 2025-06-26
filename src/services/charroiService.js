@@ -490,6 +490,10 @@ export const getVehiculeCourse = async () => {
     return axios.get(`${DOMAIN}/api/charroi/vehicule_course`);
 }
 
+export const getVehiculeCourseOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/vehicule_courseOne?id_bande_sortie=${id}`);
+}
+
 //Sortie
 export const getSortieVehicule = async () => {
     return axios.get(`${DOMAIN}/api/charroi/sortie_vehicule`);

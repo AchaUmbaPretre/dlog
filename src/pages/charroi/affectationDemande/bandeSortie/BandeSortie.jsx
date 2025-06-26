@@ -5,6 +5,7 @@ import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
 import ValidationDemandeForm from '../../demandeVehicule/validationDemande/validationDemandeForm/ValidationDemandeForm';
+import ReleveBonDeSortie from './releveBonDeSortie/ReleveBonDeSortie';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -38,7 +39,8 @@ const BandeSortie = () => {
       },
     };
 
-    const handlSortie = (id) => openModal('validation', id)
+    const handlSortie = (id) => openModal('validation', id);
+    const handleReleve = (id) => openModal('releve', id);
 
     const closeAllModals = () => {
       setModalType(null);
@@ -214,8 +216,8 @@ const BandeSortie = () => {
                 <Button
                     icon={<FileTextOutlined />}
                     style={{ color: 'blue' }}
-                    onClick={() => handlSortie(record.id_bande_sortie)}
-                    aria-label="Valider"
+                    onClick={() => handleReleve(record.id_bande_sortie)}
+                    aria-label="Relevé"
                 />
             </Tooltip>
 
@@ -280,6 +282,17 @@ const BandeSortie = () => {
             centered
         >
             <ValidationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'releve'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1020}
+            centered
+        >
+            <ReleveBonDeSortie closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
         </Modal>
     </>
   )
