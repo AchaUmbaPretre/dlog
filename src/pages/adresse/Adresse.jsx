@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Input, Typography, notification, Tag, Button, Modal } from 'antd';
-import { BankOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
 import AdresseForm from './adresseForm/AdresseForm';
 
@@ -79,7 +79,10 @@ const Adresse = () => {
       dataIndex: 'adresse',
       key: 'adresse',
       render: (text) => (
-        <Text type="secondary">{text ?? 'Aucun'}</Text>
+         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <EnvironmentOutlined style={{color:'red'}} />
+          <Text type="secondary">{text ?? 'Aucun'}</Text>    
+        </div>
       ),
     }
   ]
