@@ -209,19 +209,20 @@ const BandeSortie = () => {
         width : '120px',
         render: (text, record) => (
         <Space size="small">
-            <Tooltip title="valider">
-                <Button
-                    icon={<CheckCircleOutlined />}
-                    style={{ color: 'green' }}
-                    onClick={() => handlSortie(record.id_bande_sortie)}
-                    aria-label="Valider"
-                />
-            </Tooltip>
 
             <Tooltip title="Relevé des bons de sortie">
                 <Button
                     icon={<FileTextOutlined />}
                     style={{ color: 'blue' }}
+                    onClick={() => handlSortie(record.id_bande_sortie)}
+                    aria-label="Valider"
+                />
+            </Tooltip>
+
+            <Tooltip title="valider">
+                <Button
+                    icon={<CheckCircleOutlined />}
+                    style={{ color: 'green' }}
                     onClick={() => handlSortie(record.id_bande_sortie)}
                     aria-label="Valider"
                 />
