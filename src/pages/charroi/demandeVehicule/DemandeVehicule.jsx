@@ -339,10 +339,10 @@ const DemandeVehicule = () => {
                     okButtonProps={{ danger: true }}
                 >
                     <Button
-                    type="text"
-                    icon={<DeleteOutlined />}
-                    style={{ color: '#ff4d4f' }}
-                    aria-label="Supprimer"
+                        type="text"
+                        icon={<DeleteOutlined />}
+                        style={{ color: '#ff4d4f' }}
+                        aria-label="Supprimer"
                     />
                 </Popconfirm>
                 </Tooltip>
