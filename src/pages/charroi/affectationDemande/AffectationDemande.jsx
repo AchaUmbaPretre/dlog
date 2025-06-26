@@ -229,7 +229,7 @@ const AffectationDemande = () => {
         ),
         key: 'action',
         align: 'center',
-        width : '120px',
+        width : '100px',
         render: (text, record) => (
         <Space size="small">
           <Tooltip title="Créer un bon de sortie">
