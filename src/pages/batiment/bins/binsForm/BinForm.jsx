@@ -34,7 +34,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                     description: 'Une erreur est survenue lors du chargement des données.',
                 });
             } finally {
-                setLoading(false); // Fin du chargement
+                setLoading(false);
             }
         };
 

@@ -34,13 +34,11 @@ const [idBin, setIdBin] = useState(null);
     setIdBin(id)
   };
 
-  console.log(idBin)
-
   const handleDelete = async (id) => {
     try {
       await putDeleteBins(id);
       setData(data.filter((item) => item.id !== id));
-      message.success('Departement supprimé avec succès');
+      message.success('Le bin a été supprimé avec succès.');
     } catch (error) {
       notification.error({
         message: 'Erreur de suppression',
