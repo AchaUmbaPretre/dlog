@@ -210,9 +210,6 @@ const [idBin, setIdBin] = useState(null);
     <>
       <div className="client">
         <div className="client-wrapper">
-          <div className="client-rows">
-            
-          </div>
           <div className="client-row">
             <div className="client-row-icon">
               <ContainerOutlined className='client-icon'/>

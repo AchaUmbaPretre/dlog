@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Tabs } from 'antd';
+import { Table, Button, Skeleton, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Tabs } from 'antd';
 import { ExportOutlined, PrinterOutlined, EnvironmentOutlined, BankOutlined, ApartmentOutlined,EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import { getBins, putDeleteBins } from '../../services/batimentService';
 import BinForm from '../batiment/bins/binsForm/BinForm';
@@ -21,6 +21,7 @@ const ListBinGlobal = () => {
     pageSize: 15,
   });
   const [activeKey, setActiveKey] = useState(['1', '2']);
+  const [statistique, setStatistique] = useState(null);
 
 
   const handleDelete = async (id) => {
@@ -39,7 +40,8 @@ const ListBinGlobal = () => {
     const fetchData = async () => {
       try {
          const { data } = await getBins();
-        setData(data);
+        setData(data?.data);
+        setStatistique(data?.statistiques)
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -242,12 +244,50 @@ const ListBinGlobal = () => {
           >
             <div className="client">
               <div className="client-wrapper">
-                <div className="client-row">
-                  <div className="client-row-icon">
-                    <BankOutlined className='client-icon'/>
+                <div className="client-rows">
+                  <div className="client-row">
+                    <div className="client-row-icon">
+                      <BankOutlined className='client-icon'/>
+                    </div>
+                    <h2 className="client-h2">Bins</h2>
                   </div>
-                  <h2 className="client-h2">Bins</h2>
+
+                      <div className='client-row-lefts'>
+                        <span className='client-title'>
+                        Resumé :
+                        </span>
+                        <div className="client-row-sou">
+                          {loading ? (
+                            <Skeleton active paragraph={{ rows: 1 }} />
+                          ) : (
+                              <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
+                                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Bins : <strong>{statistique?.nbre_inspection?.toLocaleString()}</strong></span>
+                                <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Superficie : <strong>{Math.round(parseFloat(statistique?.total_superfice)).toLocaleString() || 0}</strong></span>
+                                <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                                  Longueur : <strong>
+                                    {Math.round(parseFloat(statistique?.total_longueur)).toLocaleString() || 0}</strong>
+                                </span>
+
+                                <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                                  Largeur  : <strong>
+                                    { Math.round(parseFloat(statistique?.budget_valide)).toLocaleString() || 0}</strong>
+                                </span>
+
+                                <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                                  #Hauteur : <strong>
+                                    { Math.round(parseFloat(statistique?.total_hauteur)).toLocaleString() || 0}</strong>
+                                </span>
+
+                                <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                                  #Capacité : <strong>
+                                    { Math.round(parseFloat(statistique?.total_capacite)).toLocaleString() || 0}</strong>
+                                </span>
+                              </div>
+                          )}
+                        </div>
+                      </div>
                 </div>
+
                 <div className="client-actions">
                   <div className="client-row-left">
                     <Search placeholder="Recherche..." 

@@ -856,7 +856,7 @@ const InspectionGen = () => {
                     </div>
                     {
                         role === 'Admin' &&
-                        <div className='client-row-lefts'>
+                    <div className='client-row-lefts'>
                         <span className='client-title'>
                         Resumé :
                         </span>
