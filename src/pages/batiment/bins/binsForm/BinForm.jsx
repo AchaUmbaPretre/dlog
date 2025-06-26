@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Form, Input, Card, Select, Button, InputNumber, message, Row, Col, notification, Skeleton } from 'antd';
-import './binForm.css';
 import { getStatutBin, getTypeBin } from '../../../../services/typeService';
 import { getBinsOneV, postBins, putBins } from '../../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
@@ -64,14 +63,14 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
     };
 
     return (
-        <div className="bin-form-container">
+        <div className="controle_form">
             <div className="controle_title_rows">
                 <h2 className="controle_h2">{idBins ? 'Mise à jour du bin' : 'Créer un Nouvel Bin'}</h2>
             </div>
             {loading ? (
                 <Skeleton active />
             ) : (
-                <Card>
+
                     <Form
                         form={form}
                         layout="vertical"
@@ -82,8 +81,9 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                         }}
                         className="bin-form"
                     >
+                        <Card type="inner" title="Information génerale">
                         <Row gutter={16}>
-                            <Col span={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Nom"
                                     name="nom"
@@ -93,7 +93,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col span={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Superficie (m²)"
                                     name="superficie"
@@ -103,7 +103,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col span={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Longueur (m)"
                                     name="longueur"
@@ -112,8 +112,8 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                     <InputNumber min={0} placeholder="m" style={{ width: '100%' }} />
                                 </Form.Item>
                             </Col>
-                            
-                            <Col span={8}>
+
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Largeur (m)"
                                     name="largeur"
@@ -122,7 +122,8 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                     <InputNumber min={0} placeholder="m" style={{ width: '100%' }} />
                                 </Form.Item>
                             </Col>
-                            <Col span={8}>
+
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Hauteur (m)"
                                     name="hauteur"
@@ -132,7 +133,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
 
-                                                        <Col span={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Capacité"
                                     name="capacite"
@@ -142,7 +143,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col span={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Type de stockage"
                                     name="type_stockage"
@@ -160,7 +161,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
                             
-                            <Col span={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Statut"
                                     name="statut"
@@ -178,6 +179,21 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
                         </Row>
+                        </Card>
+
+                        <Card type="inner" title="Information d’adresse du bin" style={{marginTop:'10px'}}>
+                            <Row gutter={16}>
+                                <Col xs={24} md={24}>
+                                    <Form.Item
+                                        label="Adresse"
+                                        name="adresse"
+                                        rules={[{ required: true, message: 'Veuillez entrer une adresse' }]}
+                                    >
+                                        <Input.TextArea rows={4} placeholder="Entrez l'adresse..."  style={{ resize: 'none' }} />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Card>
 
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="submit-button" block loading={loading} disabled={loading}>
@@ -185,7 +201,6 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                             </Button>
                         </Form.Item>
                     </Form>
-                </Card>
             )}
         </div>
     );
