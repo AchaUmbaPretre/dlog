@@ -83,7 +83,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                         className="bin-form"
                     >
                         <Row gutter={16}>
-                            <Col span={12}>
+                            <Col span={8}>
                                 <Form.Item
                                     label="Nom"
                                     name="nom"
@@ -92,7 +92,8 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                     <Input placeholder="Entrez le nom du bin" />
                                 </Form.Item>
                             </Col>
-                            <Col span={12}>
+
+                            <Col span={8}>
                                 <Form.Item
                                     label="Superficie (m²)"
                                     name="superficie"
@@ -101,9 +102,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                     <InputNumber min={0} placeholder="m²" style={{ width: '100%' }} />
                                 </Form.Item>
                             </Col>
-                        </Row>
 
-                        <Row gutter={16}>
                             <Col span={8}>
                                 <Form.Item
                                     label="Longueur (m)"
@@ -113,6 +112,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                     <InputNumber min={0} placeholder="m" style={{ width: '100%' }} />
                                 </Form.Item>
                             </Col>
+                            
                             <Col span={8}>
                                 <Form.Item
                                     label="Largeur (m)"
@@ -131,10 +131,8 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                     <InputNumber min={0} placeholder="m" style={{ width: '100%' }} />
                                 </Form.Item>
                             </Col>
-                        </Row>
 
-                        <Row gutter={16}>
-                            <Col span={8}>
+                                                        <Col span={8}>
                                 <Form.Item
                                     label="Capacité"
                                     name="capacite"
@@ -143,6 +141,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                     <InputNumber min={0} placeholder="Capacité" style={{ width: '100%' }} />
                                 </Form.Item>
                             </Col>
+
                             <Col span={8}>
                                 <Form.Item
                                     label="Type de stockage"
@@ -160,6 +159,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                     />
                                 </Form.Item>
                             </Col>
+                            
                             <Col span={8}>
                                 <Form.Item
                                     label="Statut"
@@ -178,18 +178,6 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
                         </Row>
-
-    {/*                     <Row gutter={16}>
-                            <Col span={24}>
-                                <Form.Item
-                                    label="Adresse"
-                                    name="adresse"
-                                    rules={[{ required: false, message: 'Veuillez entrer l adresse.' }]}
-                                >
-                                    <Input.TextArea placeholder="Entrer l'adresse..." style={{ width: '100%', height:'100px', resize:'none' }} />
-                                </Form.Item>
-                            </Col>
-                        </Row> */}
 
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="submit-button" block loading={loading} disabled={loading}>
