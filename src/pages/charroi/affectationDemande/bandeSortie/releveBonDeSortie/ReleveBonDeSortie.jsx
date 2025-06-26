@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './releveBonDeSortie.scss';
 import { getVehiculeCourseOne } from '../../../../../services/charroiService';
 import config from '../../../../../config';
+import html2pdf from 'html2pdf.js';
 
 const groupBy = (array, key) => {
   return array.reduce((result, item) => {
@@ -14,18 +15,53 @@ const groupBy = (array, key) => {
   }, {});
 };
 
+const toBase64 = (url) =>
+  fetch(url)
+    .then((res) => res.blob())
+    .then(
+      (blob) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        })
+    );
+
 const ReleveBonDeSortie = ({ id_bon }) => {
   const [groupedData, setGroupedData] = useState({});
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const pdfRef = useRef();
 
   const fetchDatas = async () => {
     try {
       const response = await getVehiculeCourseOne(id_bon);
       const grouped = groupBy(response.data, 'id_bande_sortie');
+
+      // Convert all signatures to base64
+      for (const group of Object.values(grouped)) {
+        for (const entry of group) {
+          const fullUrl = `${DOMAIN}/${entry.signature}`;
+          entry.signatureBase64 = await toBase64(fullUrl);
+        }
+      }
+
       setGroupedData(grouped);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleDownloadPDF = () => {
+    const element = pdfRef.current;
+    const options = {
+      margin: 0.3,
+      filename: 'autorisation_de_sortie.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(options).from(element).save();
   };
 
   useEffect(() => {
@@ -34,99 +70,112 @@ const ReleveBonDeSortie = ({ id_bon }) => {
 
   return (
     <div className="releveBonDeSortie">
-      {Object.entries(groupedData).map(([id, records]) => {
-        const bon = records[0];
-        const signataires = records.map(({ personne_signe, role, signature }) => ({
-          personne_signe,
-          role,
-          signature,
-        }));
+      <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+        <button onClick={handleDownloadPDF} style={{cursor:'pointer'}}>🖨️ Imprimer / Exporter en PDF</button>
+      </div>
 
-        return (
-          <div key={id} className="bon-sortie-wrapper">
-            <div className="header">
-              <div className="entreprise">
-                <p><strong>GROUPE DE TRANSPORT MULTIMODAL "G.T.M" SARLU</strong></p>
-                <p>3116, Av Goodyear, Q/Kingabwa, C/Limete</p>
-                <p>RCCM : CD/KNG/RCCM/13-B-0562</p>
-                <p>NIF : A0700024L</p>
-                <p>Tél : +243 998018090 / 898930708</p>
-                <p>Email : secretariatgtm@gtmdrc.com</p>
+      <div ref={pdfRef}>
+        {Object.entries(groupedData).map(([id, records]) => {
+          const bon = records[0];
+          const signataires = records.map(({ personne_signe, role, signatureBase64 }) => ({
+            personne_signe,
+            role,
+            signatureBase64,
+          }));
+
+          return (
+            <div key={id} className="bon-sortie-wrapper" style={{ border: '1px solid black', padding: 20, marginBottom: 40 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection:'column' }}>
+                <div style={{ fontSize: 12 }}>
+                  <strong>GROUPE DE TRANSPORT MULTIMODAL "G.T.M" SARLU</strong><br />
+                  3116, Av Goodyear, Q/Kingabwa, C/Limete<br />
+                  RCCM : CD/KNG/RCCM/13-B-0562<br />
+                  NIF : A0700024L<br />
+                  Tél : +243 998018090 / 898930708<br />
+                  Email : secretariatgtm@gtmdrc.com
+                </div>
+                <div>
+                    <h3 style={{textDecoration:'underline', fontSize:'16px'}}>Département Administratif et des Ressources humaines</h3>
+                </div>
+                <div style={{ background: '#000', color: '#fff', padding: '10px 20px', alignSelf: 'center' }}>
+                  <h2 style={{ margin: 0, fontSize:'16px' }}>AUTORISATION DE SORTIE</h2>
+                </div>
               </div>
-              <div className="titre">
-                <h2>AUTORISATION DE SORTIE</h2>
+
+              <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 20, fontSize: 14 }}>
+                <tbody>
+                  <tr>
+                    <td><strong>Nom :</strong></td>
+                    <td>{bon.personne_bord || '...'}</td>
+                    <td><strong>Post-nom :</strong></td>
+                    <td>{bon.post_nom || '...'}</td>
+                    <td><strong>Matricule :</strong></td>
+                    <td>{bon.matricule || '...'}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Service :</strong></td>
+                    <td colSpan={5}>{bon.nom_service}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Heure de sortie :</strong></td>
+                    <td>{new Date(bon.date_prevue).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} à {new Date(bon.date_retour).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                    <td><strong>Date :</strong></td>
+                    <td>{new Date(bon.date_prevue).toLocaleDateString()}</td>
+                    <td><strong>Chauffeur :</strong></td>
+                    <td>{bon.nom || '...'}</td>
+                </tr>
+
+                  <tr>
+                    <td><strong>Véhicule :</strong></td>
+                    <td>{bon.nom_marque}</td>
+                    <td><strong>Plaque :</strong></td>
+                    <td>{bon.immatriculation}</td>
+                    <td><strong>Type :</strong></td>
+                    <td>{bon.nom_type_vehicule}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div style={{ marginTop: 20, fontSize: 14 }}>
+                <strong>Motif de sortie :</strong>
+                <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+                  <li>{bon.nom_motif_demande === 'Se rendre au CMM' ? '☑' : '☐'} Se rendre au CMM</li>
+                  <li>{bon.nom_motif_demande === 'Enterrement' ? '☑' : '☐'} Assister à un enterrement</li>
+                  <li>{bon.nom_motif_demande === 'Course de service' ? '☑' : '☐'} Course de service</li>
+                  <li>{!['Se rendre au CMM', 'Enterrement', 'Course de service'].includes(bon.nom_motif_demande)
+                    ? '☑' : '☐'} Autre raison : {bon.nom_motif_demande}</li>
+                </ul>
+              </div>
+
+              <div style={{ display: 'table', width: '100%', marginTop: 30, fontSize: 13 }}>
+                <div style={{ display: 'table-row' }}>
+                  <div style={{ display: 'table-cell', textAlign: 'center' }}>
+                    {signataires[0]?.signatureBase64 && (
+                      <>
+                        <img src={signataires[0].signatureBase64} alt="sig" style={{ width: 100, height: 50, objectFit: 'contain' }} /><br />
+                        <strong>{signataires[0].role}</strong><br />
+                        {signataires[0].personne_signe}
+                      </>
+                    )}
+                  </div>
+                  <div style={{ display: 'table-cell', textAlign: 'center', verticalAlign: 'middle' }}>
+                    <strong>POUR AVIS ET CONSIDÉRATION</strong>
+                  </div>
+                  <div style={{ display: 'table-cell', textAlign: 'center' }}>
+                    {signataires[1]?.signatureBase64 && (
+                      <>
+                        <img src={signataires[1].signatureBase64} alt="sig" style={{ width: 100, height: 50, objectFit: 'contain' }} /><br />
+                        <strong>{signataires[1].role}</strong><br />
+                        {signataires[1].personne_signe}
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-
-            <table className="info-table">
-              <tbody>
-                <tr>
-                  <td>Nom :</td>
-                  <td>{bon.nom || '...'}</td>
-                  <td>Post-nom :</td>
-                  <td>{bon.post_nom || '...'}</td>
-                  <td>Matricule :</td>
-                  <td>{bon.matricule || '...'}</td>
-                </tr>
-                <tr>
-                  <td>Service :</td>
-                  <td colSpan={5}>{bon.nom_service}</td>
-                </tr>
-                <tr>
-                  <td>Heure de sortie :</td>
-                  <td>{new Date(bon.date_prevue).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                  <td>Date :</td>
-                  <td>{new Date(bon.date_prevue).toLocaleDateString()}</td>
-                  <td>Chauffeur :</td>
-                  <td>{bon.personne_bord || '...'}</td>
-                </tr>
-                <tr>
-                  <td>Véhicule :</td>
-                  <td>{bon.nom_marque}</td>
-                  <td>Plaque :</td>
-                  <td>{bon.immatriculation}</td>
-                  <td>Type :</td>
-                  <td>{bon.nom_type_vehicule}</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div className="motifs">
-              <p><strong>Motif de sortie :</strong></p>
-              <ul>
-                <li>{bon.nom_motif_demande === 'Se rendre au CMM' ? '☑' : '☐'} Se rendre au CMM</li>
-                <li>{bon.nom_motif_demande === 'Enterrement' ? '☑' : '☐'} Assister à un enterrement</li>
-                <li>{bon.nom_motif_demande === 'Course de service' ? '☑' : '☐'} Course de service</li>
-                <li>{!['Se rendre au CMM', 'Enterrement', 'Course de service'].includes(bon.nom_motif_demande) ? '☑' : '☐'} Autre raison : {bon.nom_motif_demande}</li>
-              </ul>
-            </div>
-
-            <div className="signatures">
-              <div className="sign-left">
-                {signataires[0] && (
-                  <>
-                    <img src={`${DOMAIN}/${signataires[0].signature}`} alt="signature" />
-                    <p>{signataires[0].role}</p>
-                    <p>{signataires[0].personne_signe}</p>
-                  </>
-                )}
-              </div>
-              <div className="avis">
-                <p><strong>POUR AVIS ET CONSIDÉRATION</strong></p>
-              </div>
-              <div className="sign-right">
-                {signataires[1] && (
-                  <>
-                    <img src={`${DOMAIN}/${signataires[1].signature}`} alt="signature" />
-                    <p>{signataires[1].role}</p>
-                    <p>{signataires[1].personne_signe}</p>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
