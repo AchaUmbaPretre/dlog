@@ -460,6 +460,17 @@ const DemandeVehicule = () => {
                 <VehiculeCourse/>
             </TabPane>
 
+            <TabPane
+                tab={
+                    <span>
+                    │   🔴 ENTRÉE / SORTIE
+                    </span>
+                }
+                key="5"
+            >
+                <VehiculeCourse/>
+            </TabPane>
+
             { role === 'Admin' &&
             <TabPane
                 tab={
@@ -467,7 +478,7 @@ const DemandeVehicule = () => {
                     🚗 Les vehicules occupés
                     </span>
                 }
-                key="5"
+                key="6"
             >
                 <VehiculeOccupe/>
             </TabPane>
@@ -480,7 +491,7 @@ const DemandeVehicule = () => {
                     🚙 Les vehicules disponibles
                     </span>
                 }
-                key="6"
+                key="7"
             >
                 <DemandeVehiculeDispo/>
             </TabPane>
@@ -493,7 +504,7 @@ const DemandeVehicule = () => {
                     💼 Services
                     </span>
                 }
-                key="7"
+                key="8"
             >
                 <DemandeurVehicule/>
             </TabPane>
@@ -505,7 +516,7 @@ const DemandeVehicule = () => {
                     🗺️ Destination
                     </span>
                 }
-                key="8"
+                key="9"
             >
                 <Destination/>
             </TabPane>
