@@ -40,7 +40,7 @@ const ParametreSociete = () => {
         fetchData();
     }, []);
 
-    const handleAddSociete = (id) => openModal('Add', id)
+    const handleAddSociete = (id) => openModal('Add', id);
     const closeAllModals = () => {
         setModalType(null);
     };
@@ -162,7 +162,7 @@ const ParametreSociete = () => {
             visible={modalType === 'Add'}
             onCancel={closeAllModals}
             footer={null}
-            width={1000}
+            width={900}
             centered
         >
             <ParametreSocieteForm idSociete={idSociete} closeModal={() => setModalType(null)} fetchData={fetchData}/>
