@@ -49,7 +49,6 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
   const [cat, setCat] = useState([]);
   const [inspection, setInspection] = useState([]);
 
-
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -216,6 +215,11 @@ const DetailTacheGlobalOne = ({ initialIdTache, allIds }) => {
           { data?.demandeur ?
           <h1 className="title_h1">
             <strong>Demandeur : {<Tag icon={<UserOutlined />} >{data.demandeur}</Tag>}</strong>
+          </h1> : ''
+          }
+          { data?.nom_projet ?
+          <h1 className="title_h1">
+            <strong>Projet : {<Tag>{data.nom_projet}</Tag>}</strong>
           </h1> : ''
           }
           <h1 className="title_h1">
