@@ -30,7 +30,7 @@ const Piece = () => {
       }
     };
 
-useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, [DOMAIN]);
   

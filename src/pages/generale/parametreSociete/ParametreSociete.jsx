@@ -3,6 +3,7 @@ import { Table, Typography, Button, Image, Tabs, Input, message, Dropdown, Menu,
 import { FullscreenExitOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import config from '../../../config';
 import ParametreSocieteForm from './parametreSocieteForm/ParametreSocieteForm';
+import { getSociete } from '../../../services/userService';
 
 const { Search } = Input;
 const { Text } = Typography
@@ -21,12 +22,23 @@ const ParametreSociete = () => {
     });
 
     const fetchData = async() => {
-/*         try {
-            const { data } = await 
+        try {
+            const { data } = await getSociete();
+            setData(data)
+            setLoading(false);
+
         } catch (error) {
-            
-        } */
-    }
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+            });
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const handleAddSociete = (id) => openModal('Add', id)
     const closeAllModals = () => {
