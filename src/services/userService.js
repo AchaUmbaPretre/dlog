@@ -33,3 +33,12 @@ export const getSignature = async (id) => {
 export const postSignature = async (data) => {
   return axios.post(`${DOMAIN}/api/user/signature`, data);
 };
+
+//SOCIETE
+export const getSociete = async (id) => {
+  return axios.get(`${DOMAIN}/api/user/societe`);
+};
+
+export const postSociete = async (data) => {
+  return axios.post(`${DOMAIN}/api/user/societe`, data);
+};
