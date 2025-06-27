@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message, Modal } from 'antd';
+import { Col, DatePicker, Space, Form, Upload, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message, Modal } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import getCroppedImg from '../../../../utils/getCroppedImg';
+import Cropper from 'react-easy-crop';
+
 
 const ParametreSocieteForm = () => {
     const [form] = Form.useForm();

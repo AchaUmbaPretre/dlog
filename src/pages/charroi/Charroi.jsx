@@ -25,7 +25,6 @@ const Charroi = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [idVehicule, setIdVehicule] = useState('');
   const [activeKey, setActiveKey] = useState(['1', '2']);
-
   
   const handleTabChange = (key) => {
     setActiveKey(key);

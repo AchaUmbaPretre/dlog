@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Tabs } from 'antd';
-import { BankOutlined, UnlockOutlined, DeleteOutlined, TeamOutlined, GlobalOutlined } from '@ant-design/icons';
+import { BankOutlined, FullscreenExitOutlined, UnlockOutlined, DeleteOutlined, TeamOutlined, GlobalOutlined } from '@ant-design/icons';
 import Users from '../users/Users';
 import Client from '../client/Client';
 import Fournisseur from '../fournisseur/Fournisseur';
 import Pays from '../pays/Pays';
 import Permission from '../permission/Permission';
 import Corbeille from '../corbeille/Corbeille';
+import ParametreSociete from './parametreSociete/ParametreSociete';
 
 const Generale = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
@@ -117,6 +118,24 @@ const Generale = () => {
             <Tabs.TabPane
                 tab={
                     <span>
+                        <FullscreenExitOutlined
+                            style={{
+                                color: 'yellow',
+                                fontSize: '16px',
+                                marginRight: '8px',
+                            }}
+                        />
+                        Société
+                    </span>
+                }
+                key="7"
+            >
+                <ParametreSociete/>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+                tab={
+                    <span>
                         <UnlockOutlined
                             style={{
                                 color: '#000',
@@ -127,7 +146,7 @@ const Generale = () => {
                         Permissions
                     </span>
                 }
-                key="7"
+                key="8"
             >
                 <Permission/>
             </Tabs.TabPane>
