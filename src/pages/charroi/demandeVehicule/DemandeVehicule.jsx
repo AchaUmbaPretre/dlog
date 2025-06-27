@@ -17,6 +17,7 @@ import DemandeurVehicule from '../demandeurVehicule/DemandeurVehicule';
 import BandeSortie from '../affectationDemande/bandeSortie/BandeSortie';
 import VehiculeCourse from './vehiculeCourse/VehiculeCourse';
 import Destination from './destination/Destination';
+import SortieEntree from '../affectationDemande/sortieEntree/SortieEntree';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -468,10 +469,9 @@ const DemandeVehicule = () => {
                 }
                 key="5"
             >
-{/*                 <VehiculeCourse/>
- */}            </TabPane>
+                <SortieEntree/>
+           </TabPane>
 
-            { role === 'Admin' &&
             <TabPane
                 tab={
                     <span>
@@ -482,7 +482,6 @@ const DemandeVehicule = () => {
             >
                 <VehiculeOccupe/>
             </TabPane>
-            }
 
             { role === 'Admin' &&
             <TabPane
