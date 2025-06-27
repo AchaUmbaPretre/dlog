@@ -520,3 +520,12 @@ export const getVisiteurVehicule = async () => {
 export const postVisiteurVehicule = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/visiteur_vehicule`, data );
 }
+
+//SORTIE ENTREE
+export const getSortieEntree = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/sortie_entree`);
+}
+
+export const getSortieEntreeOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/sortie_entreeOn?id_sortie_retour=${id}`);
+}
