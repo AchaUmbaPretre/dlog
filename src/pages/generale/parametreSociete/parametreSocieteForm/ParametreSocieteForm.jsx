@@ -152,6 +152,19 @@ const ParametreSocieteForm = () => {
                                 </Upload>
                             </Form.Item>
                         </Col>
+
+                        <Col xs={24}>
+                            <Form.Item>
+                                <Space className="button-group">
+                                    <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                                        {'Ajouter'}
+                                    </Button>
+                                    <Button htmlType="reset">
+                                        Réinitialiser
+                                    </Button>
+                                </Space>
+                            </Form.Item>
+                        </Col>
                     </Row>
                 </Form>
             </div>
