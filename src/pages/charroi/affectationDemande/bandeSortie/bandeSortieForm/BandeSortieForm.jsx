@@ -297,6 +297,27 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                 </Form.Item>
                             </Col>
 
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Société"
+                                    name="societe_id"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner une société' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={societe?.map((item) => ({
+                                            value: item.id_societe,
+                                            label: `${item.nom_societe}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+
                             <div style={{ marginTop: '20px' }}>
                                 <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
                                     Soumettre
