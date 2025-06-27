@@ -5,7 +5,7 @@ import getCroppedImg from '../../../../utils/getCroppedImg';
 import Cropper from 'react-easy-crop';
 import { postSociete } from '../../../../services/userService';
 
-const ParametreSocieteForm = () => {
+const ParametreSocieteForm = ({idSociete, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [fileList, setFileList] = useState([]);
@@ -14,6 +14,7 @@ const ParametreSocieteForm = () => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+    const [croppedImageBase64, setCroppedImageBase64] = useState('');
 
     const handleUploadChange = ({ fileList }) => {
         setFileList(fileList);
@@ -27,41 +28,55 @@ const ParametreSocieteForm = () => {
         setCroppedAreaPixels(croppedAreaPixels);
     };
         
-    const handleCrop = async () => {
-        try {
-            const cropped = await getCroppedImg(previewImage, croppedAreaPixels);
-            const croppedFile = new File(
-                [await fetch(cropped).then((r) => r.blob())],
-                    'cropped-image.jpg',
-                    { type: 'image/jpeg' }
-                );
-        
-                setFileList([
-                    {
-                        uid: '-1',
-                        name: 'cropped-image.jpg',
-                        status: 'done',
-                        url: cropped,
-                        originFileObj: croppedFile,
-                    },
-                ]);
-        
-                setCropping(false);
-        } catch (e) {
-            console.error('Error cropping image:', e);
-        }
+const handleCrop = async () => {
+  try {
+    const cropped = await getCroppedImg(previewImage, croppedAreaPixels);
+    const blob = await fetch(cropped).then((r) => r.blob());
+
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      setCroppedImageBase64(base64data);
     };
+
+    const croppedFile = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg' });
+
+    setFileList([
+      {
+        uid: '-1',
+        name: 'cropped-image.jpg',
+        status: 'done',
+        url: cropped,
+        originFileObj: croppedFile,
+      },
+    ]);
+
+    setCropping(false);
+  } catch (e) {
+    console.error('Error cropping image:', e);
+  }
+};
+
     
 
     const onFinish = async(values) => {
         setLoading(true)
 
         try {
-            await postSociete(values);
+            const payload = {
+                ...values,
+                logo: croppedImageBase64,
+                };
+            await postSociete(payload);
             notification.success({
                 message: 'Succès',
                 description: 'La société a été enregistrée avec succès.',
             });
+            
+            form.resetFields();
+            closeModal();
+            fetchData();
 
         } catch (error) {
             notification.error({
@@ -139,7 +154,7 @@ const ParametreSocieteForm = () => {
 
                             <Col xs={24} md={8}>
                                 <Form.Item
-                                    name="tel"
+                                    name="telephone"
                                     label="Tél"
                                 >
                                     <Input size='large' placeholder="+243" style={{width:'100%'}}/>
@@ -161,12 +176,13 @@ const ParametreSocieteForm = () => {
                                     label="Logo"
                                 >
                                     <Upload  
+                                        name="logo"
                                         accept="image/*"
                                         listType="picture-card"
                                         onChange={handleUploadChange}
                                         beforeUpload={() => false} 
                                     >
-                                        <Button icon={<UploadOutlined style={{margin:0}} />}></Button>
+                                        {fileList.length < 1 && <Button icon={<UploadOutlined style={{margin:0}} />} />}
                                     </Upload>
                                 </Form.Item>
                             </Col>
@@ -174,10 +190,10 @@ const ParametreSocieteForm = () => {
                             <Col xs={24}>
                                 <Form.Item>
                                     <Space className="button-group">
-                                        <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
+                                        <Button type="primary" htmlType="submit" size='large' loading={loading} disabled={loading}>
                                             {'Ajouter'}
                                         </Button>
-                                        <Button htmlType="reset">
+                                        <Button htmlType="reset" size='large'>
                                             Réinitialiser
                                         </Button>
                                     </Space>
