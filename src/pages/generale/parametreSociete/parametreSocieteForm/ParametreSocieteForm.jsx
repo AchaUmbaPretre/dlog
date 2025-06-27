@@ -1,12 +1,59 @@
-import React from 'react'
-import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
+import { useEffect, useState } from 'react'
+import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message, Modal } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 const ParametreSocieteForm = () => {
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
+    const [fileList, setFileList] = useState([]);
+    const [previewImage, setPreviewImage] = useState('');
+    const [cropping, setCropping] = useState(false);
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+    const handleUploadChange = ({ fileList }) => {
+        setFileList(fileList);
+            if (fileList.length > 0) {
+              setPreviewImage(URL.createObjectURL(fileList[0].originFileObj));
+              setCropping(true);
+            }
+    };
+        
+    const onCropComplete = (croppedArea, croppedAreaPixels) => {
+        setCroppedAreaPixels(croppedAreaPixels);
+    };
+        
+    const handleCrop = async () => {
+        try {
+            const cropped = await getCroppedImg(previewImage, croppedAreaPixels);
+            const croppedFile = new File(
+                [await fetch(cropped).then((r) => r.blob())],
+                    'cropped-image.jpg',
+                    { type: 'image/jpeg' }
+                );
+        
+                setFileList([
+                    {
+                        uid: '-1',
+                        name: 'cropped-image.jpg',
+                        status: 'done',
+                        url: cropped,
+                        originFileObj: croppedFile,
+                    },
+                ]);
+        
+                setCropping(false);
+        } catch (e) {
+            console.error('Error cropping image:', e);
+        }
+    };
+    
 
     const onFinish = async() => {
 
     }
+
 
   return (
     <>
@@ -95,13 +142,42 @@ const ParametreSocieteForm = () => {
                                 name="logo"
                                 label="Logo"
                             >
-                                <Input size='large' placeholder="xxx@gmail.com" style={{width:'100%'}}/>
+                                <Upload  
+                                    accept="image/*"
+                                    listType="picture-card"
+                                    onChange={handleUploadChange}
+                                    beforeUpload={() => false} 
+                                >
+                                    <Button icon={<UploadOutlined />}></Button>
+                                </Upload>
                             </Form.Item>
                         </Col>
                     </Row>
                 </Form>
             </div>
         </div>
+
+        <Modal
+            visible={cropping}
+            title="Rogner l'image"
+            onCancel={() => setCropping(false)}
+            onOk={handleCrop}
+            okText="Rogner"
+            cancelText="Annuler"
+            width={800}
+        >
+            <div style={{ position: 'relative', height: 400 }}>
+                <Cropper
+                    image={previewImage}
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={1}
+                    onCropChange={setCrop}
+                    onZoomChange={setZoom}
+                    onCropComplete={onCropComplete}
+                />
+            </div>
+        </Modal>
     </>
   )
 }
