@@ -161,9 +161,7 @@ const columns = [
 ];
 
   const filteredData = data.filter(item =>
-    item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+    item.nom_societe?.toLowerCase().includes(searchValue.toLowerCase()) );
   return (
     <>
         <div className="client">
@@ -193,7 +191,7 @@ const columns = [
                 </div>
                     <Table
                         columns={columns}
-                        dataSource={data}
+                        dataSource={filteredData}
                         onChange={(pagination)=> setPagination(pagination)}
                         rowKey="id_vehicule"
                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
