@@ -43,7 +43,7 @@ const ReleveBonDeSortie = ({ id_bon }) => {
           const fullUrl = `${DOMAIN}/${entry.signature}`;
           const logoUrl = `${DOMAIN}/${entry.logo}`;
           entry.signatureBase64 = await toBase64(fullUrl);
-          entry.logoBase64 = await toBase64()
+          entry.logoBase64 = await toBase64(logoUrl)
         }
       }
 
@@ -87,17 +87,19 @@ const ReleveBonDeSortie = ({ id_bon }) => {
           return (
             <div key={id} className="bon-sortie-wrapper" style={{ border: '1px solid black', padding: 20, marginBottom: 40 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection:'column' }}>
-                <img src={bon.logoBase64} alt="" />
-                <div style={{ fontSize: 12 }}>
-                  <strong>{bon.nom_societe}</strong><br />
-                  {bon?.adresse}<br />
-                  RCCM : {bon?.rccm}<br />
-                  NIF : {bon?.nif}<br />
-                  Tél : {bon?.telephone}<br />
-                  Email : {bon?.email}
+                <div style={{display:'flex', gap:'20px'}}>
+                    <img src={bon.logoBase64} alt="" style={{ height:'100px', width:'80px', objectFit:'cover'}} />
+                    <div style={{ fontSize: 12 }}>
+                    <strong>{bon.nom_societe}</strong><br />
+                    {bon?.adresse}<br />
+                    RCCM : {bon?.rccm}<br />
+                    NIF : {bon?.nif}<br />
+                    Tél : {bon?.telephone}<br />
+                    Email : {bon?.email}
+                    </div>
                 </div>
                 <div>
-                    <h3 style={{textDecoration:'underline', fontSize:'16px'}}>Département Administratif et des Ressources humaines</h3>
+                    <h3 style={{textDecoration:'underline', fontSize:'16px', padding:'10px 0', lineHeight:'10px'}}>Département Administratif et des Ressources humaines</h3>
                 </div>
                 <div style={{ background: '#000', color: '#fff', padding: '10px 20px', alignSelf: 'center' }}>
                   <h2 style={{ margin: 0, fontSize:'16px' }}>AUTORISATION DE SORTIE</h2>

@@ -289,7 +289,7 @@ const BandeSortie = () => {
             visible={modalType === 'releve'}
             onCancel={closeAllModals}
             footer={null}
-            width={1020}
+            width={800}
             centered
         >
             <ReleveBonDeSortie closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
