@@ -71,6 +71,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
             fetchDatas();
         }, [affectationId]);
 
+
     const onFinish = async (values) => {
         await form.validateFields();
         
@@ -109,7 +110,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                     form={form}
                     layout="vertical"
                     onFinish={onFinish}
-                    initialValues={{ societe_id: 1 }}
+                    initialValues={{ id_societe: 1 }}
                 >
                     <Card>
                         <Row gutter={12}>
@@ -301,7 +302,8 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Société"
-                                    name="societe_id"
+                                    name="id_societe"
+                                    value={1}
                                     rules={[{ required: true, message: 'Veuillez sélectionner une société' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 

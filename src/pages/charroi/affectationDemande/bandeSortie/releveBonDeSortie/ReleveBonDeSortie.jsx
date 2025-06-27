@@ -41,7 +41,9 @@ const ReleveBonDeSortie = ({ id_bon }) => {
       for (const group of Object.values(grouped)) {
         for (const entry of group) {
           const fullUrl = `${DOMAIN}/${entry.signature}`;
+          const logoUrl = `${DOMAIN}/${entry.logo}`;
           entry.signatureBase64 = await toBase64(fullUrl);
+          entry.logoBase64 = await toBase64()
         }
       }
 
@@ -85,13 +87,14 @@ const ReleveBonDeSortie = ({ id_bon }) => {
           return (
             <div key={id} className="bon-sortie-wrapper" style={{ border: '1px solid black', padding: 20, marginBottom: 40 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection:'column' }}>
+                <img src={bon.logoBase64} alt="" />
                 <div style={{ fontSize: 12 }}>
-                  <strong>GROUPE DE TRANSPORT MULTIMODAL "G.T.M" SARLU</strong><br />
-                  3116, Av Goodyear, Q/Kingabwa, C/Limete<br />
-                  RCCM : CD/KNG/RCCM/13-B-0562<br />
-                  NIF : A0700024L<br />
-                  Tél : +243 998018090 / 898930708<br />
-                  Email : secretariatgtm@gtmdrc.com
+                  <strong>{bon.nom_societe}</strong><br />
+                  {bon?.adresse}<br />
+                  RCCM : {bon?.rccm}<br />
+                  NIF : {bon?.nif}<br />
+                  Tél : {bon?.telephone}<br />
+                  Email : {bon?.email}
                 </div>
                 <div>
                     <h3 style={{textDecoration:'underline', fontSize:'16px'}}>Département Administratif et des Ressources humaines</h3>
