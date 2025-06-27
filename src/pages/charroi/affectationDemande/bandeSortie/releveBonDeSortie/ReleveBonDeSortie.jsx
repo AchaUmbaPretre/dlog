@@ -38,7 +38,6 @@ const ReleveBonDeSortie = ({ id_bon }) => {
       const response = await getVehiculeCourseOne(id_bon);
       const grouped = groupBy(response.data, 'id_bande_sortie');
 
-      // Convert all signatures to base64
       for (const group of Object.values(grouped)) {
         for (const entry of group) {
           const fullUrl = `${DOMAIN}/${entry.signature}`;
