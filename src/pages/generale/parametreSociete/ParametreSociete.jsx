@@ -70,7 +70,7 @@ const ParametreSociete = () => {
                 <div className="userList">
                     <Image
                         className="userImg"
-                        src={`${DOMAIN}/${record.img}`}
+                        src={`${DOMAIN}/${record.logo}`}
                         width={40}
                         height={40}
                         style={{ borderRadius: '50%' }}
@@ -101,12 +101,19 @@ const ParametreSociete = () => {
             )
         },
         {
+            title:'Telephone',
+            dataIndex:'telephone',
+            render: (text) => (
+                <Text>{text}</Text>
+            )
+        },
+        {
             title:'Email',
             dataIndex:'email',
             render: (text) => (
                 <Text>{text}</Text>
             )
-        }
+        },
     ]
 
   return (

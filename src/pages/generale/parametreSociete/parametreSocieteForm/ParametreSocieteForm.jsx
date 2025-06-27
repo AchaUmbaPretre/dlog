@@ -58,8 +58,6 @@ const handleCrop = async () => {
   }
 };
 
-    
-
     const onFinish = async(values) => {
         setLoading(true)
 
@@ -73,7 +71,7 @@ const handleCrop = async () => {
                 message: 'Succès',
                 description: 'La société a été enregistrée avec succès.',
             });
-            
+
             form.resetFields();
             closeModal();
             fetchData();
