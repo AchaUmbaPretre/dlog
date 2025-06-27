@@ -101,13 +101,6 @@ const ParametreSociete = () => {
             )
         },
         {
-            title:'Nif',
-            dataIndex:'nif',
-            render: (text) => (
-                <Text>{text}</Text>
-            )
-        },
-        {
             title:'Email',
             dataIndex:'email',
             render: (text) => (
