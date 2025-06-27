@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Col, DatePicker, Space, Form, Upload, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message, Modal } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import getCroppedImg from '../../../../utils/getCroppedImg';
@@ -79,11 +79,11 @@ const ParametreSocieteForm = () => {
                                 name="nom_societe"
                                 label="Nom"
                                 rules={[
-                                        {
-                                            required: true,
-                                            message: 'Veuillez fournir une nom...',
-                                        }
-                                    ]}
+                                    {
+                                        required: true,
+                                        message: 'Veuillez fournir une nom...',
+                                    }
+                                ]}
                             >
                                 <Input size='large' placeholder="Saisir le nom de société..." style={{width:'100%'}}/>
                             </Form.Item>
