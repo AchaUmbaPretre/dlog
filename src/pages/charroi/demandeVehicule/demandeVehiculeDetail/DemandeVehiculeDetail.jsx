@@ -8,8 +8,6 @@ const DemandeVehiculeDetail = ({ id_demande_vehicule }) => {
   const [loading, setLoading] = useState(true);
   const detailRef = useRef();
 
-  console.log(data)
-
   const fetchData = async () => {
     setLoading(true);
     try {
