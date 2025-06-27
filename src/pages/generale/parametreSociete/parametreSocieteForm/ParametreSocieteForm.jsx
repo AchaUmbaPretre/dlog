@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Col, Card, Space, Form, Upload, Input, notification, Row, Select, Skeleton, Button, Divider, message, Modal } from 'antd';
+import { Col, Card, Space, Form, Upload, Input, notification, Row, Button, Modal } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import getCroppedImg from '../../../../utils/getCroppedImg';
 import Cropper from 'react-easy-crop';
@@ -64,10 +64,14 @@ const ParametreSocieteForm = () => {
             });
 
         } catch (error) {
-            
+            notification.error({
+                message: 'Erreur',
+                description: 'Erreur lors de l\'enregistrement de société.',
+            });
+        } finally {
+            setLoading(false);
         }
-    }
-
+    };
 
   return (
     <>
