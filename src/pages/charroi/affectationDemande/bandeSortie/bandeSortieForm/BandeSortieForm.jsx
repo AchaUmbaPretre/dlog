@@ -109,6 +109,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                     form={form}
                     layout="vertical"
                     onFinish={onFinish}
+                    initialValues={{ societe_id: 1 }}
                 >
                     <Card>
                         <Row gutter={12}>
@@ -286,7 +287,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={24}>
+                            <Col xs={24} md={16}>
                                 <Form.Item
                                     label="Personne(s) à bord"
                                     name="personne_bord"
