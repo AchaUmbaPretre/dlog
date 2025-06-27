@@ -95,6 +95,16 @@ const columns = [
     ),
     width: "6%"
   },
+    {
+    title: 'Nom',
+    dataIndex: 'nom_societe',
+    key: 'nom_societe',
+    render: (text) => (
+      <Tag style={columnStyles.title} className={columnStyles.hideScroll}>
+        {text}
+      </Tag>
+    )
+  },
   {
     title: 'Adresse',
     dataIndex: 'adresse',
@@ -150,6 +160,10 @@ const columns = [
   }
 ];
 
+  const filteredData = data.filter(item =>
+    item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
+  );
   return (
     <>
         <div className="client">
