@@ -21,6 +21,21 @@ const ParametreSociete = () => {
         pageSize: 15,
     });
 
+      const columnStyles = {
+        title: {
+          maxWidth: '220px',
+          whiteSpace: 'nowrap',
+          overflowX: 'scroll', 
+          scrollbarWidth: 'none',
+          '-ms-overflow-style': 'none', 
+        },
+        hideScroll: {
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+  };
+
     const fetchData = async() => {
         try {
             const { data } = await getSociete();
@@ -85,9 +100,11 @@ const columns = [
     dataIndex: 'adresse',
     key: 'adresse',
     render: (text) => (
-      <Tag icon={<EnvironmentOutlined />} color="cyan">
-        {text}
-      </Tag>
+        <div style={columnStyles.title} className={columnStyles.hideScroll}>
+            <Tag icon={<EnvironmentOutlined />} color="cyan">
+                {text}
+            </Tag>
+        </div>
     )
   },
   {
@@ -115,7 +132,7 @@ const columns = [
     dataIndex: 'telephone',
     key: 'telephone',
     render: (text) => (
-      <Text type="secondary" strong>
+      <Text type="secondary">
         <PhoneOutlined style={{ marginRight: 6 }} />
         {text}
       </Text>
@@ -127,7 +144,6 @@ const columns = [
     key: 'email',
     render: (text) => (
       <Text type="success">
-        <MailOutlined style={{ marginRight: 6 }} />
         {text}
       </Text>
     )
