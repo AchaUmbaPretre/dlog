@@ -132,8 +132,8 @@ const columns = [
     dataIndex: 'telephone',
     key: 'telephone',
     render: (text) => (
-      <Text type="secondary">
-        <PhoneOutlined style={{ marginRight: 6 }} />
+      <Text type="secondary" style={columnStyles.title} className={columnStyles.hideScroll}>
+        <PhoneOutlined style={{ marginRight: 5 }} />
         {text}
       </Text>
     )
@@ -143,7 +143,7 @@ const columns = [
     dataIndex: 'email',
     key: 'email',
     render: (text) => (
-      <Text type="success">
+      <Text type="success" style={columnStyles.title} className={columnStyles.hideScroll}>
         {text}
       </Text>
     )
