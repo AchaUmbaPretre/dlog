@@ -6,6 +6,7 @@ import { getAffectationDemandeOne, getChauffeur, getMotif, getServiceDemandeur, 
 import { getClient } from '../../../../../services/clientService';
 import { getLocalisation } from '../../../../../services/transporteurService';
 import { useSelector } from 'react-redux';
+import { getSociete } from '../../../../../services/userService';
 
 const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [form] = Form.useForm();
@@ -19,17 +20,19 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
     const [ local, setLocal ] = useState([]);
+    const [ societe, setSociete ] = useState([]);
 
         const fetchDatas = async() => {
             try {
-                const [vehiculeData, chaufferData, serviceData, typeData, motifData, clientData, localData] = await Promise.all([
+                const [vehiculeData, chaufferData, serviceData, typeData, motifData, clientData, localData, societeData] = await Promise.all([
                     getVehicule(),
                     getChauffeur(),
                     getServiceDemandeur(),
                     getTypeVehicule(),
                     getMotif(),
                     getClient(),
-                    getLocalisation()
+                    getLocalisation(),
+                    getSociete()
                 ])
     
                 setVehicule(vehiculeData.data.data)
@@ -39,6 +42,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                 setMotif(motifData.data);
                 setClient(clientData.data);
                 setLocal(localData.data);
+                setSociete(societeData.data)
     
                  if(affectationId) {
                     const { data : d } = await getAffectationDemandeOne(affectationId);
