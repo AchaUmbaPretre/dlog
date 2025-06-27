@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Typography, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
-import { FullscreenExitOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { FullscreenExitOutlined, EnvironmentOutlined, MailOutlined, PhoneOutlined, BarcodeOutlined, PlusCircleOutlined, NumberOutlined} from '@ant-design/icons';
 import config from '../../../config';
 import ParametreSocieteForm from './parametreSocieteForm/ParametreSocieteForm';
 import { getSociete } from '../../../services/userService';
@@ -50,71 +50,89 @@ const ParametreSociete = () => {
         setIdSociete(idSociete)
     };
 
-    const columns = [
-        {
-            title: '#', 
-            dataIndex: 'id', 
-            key: 'id', 
-            render: (text, record, index) => (
-                <Tooltip title={`Ligne ${index + 1}`}>
-                <Tag color="blue">{index + 1}</Tag>
-                </Tooltip>
-            ),
-            width: "4%" 
-        },
-        {
-            title: 'Logo',
-            dataIndex:'logo',
-            key:'logo',
-            render : (text, record) => (
-                <div className="userList">
-                    <Image
-                        className="userImg"
-                        src={`${DOMAIN}/${record.logo}`}
-                        width={40}
-                        height={40}
-                        style={{ borderRadius: '50%' }}
-                        alt="Profil vehicule"
-                    />
-                </div>
-            )
-        },
-        {
-            title:'Adresse',
-            dataIndex:'adresse',
-            render: (text) => (
-                <Text>{text}</Text>
-            )
-        },
-        {
-            title:'Rccm',
-            dataIndex:'rccm',
-            render: (text) => (
-                <Text>{text}</Text>
-            )
-        },
-        {
-            title:'Nif',
-            dataIndex:'nif',
-            render: (text) => (
-                <Text>{text}</Text>
-            )
-        },
-        {
-            title:'Telephone',
-            dataIndex:'telephone',
-            render: (text) => (
-                <Text>{text}</Text>
-            )
-        },
-        {
-            title:'Email',
-            dataIndex:'email',
-            render: (text) => (
-                <Text>{text}</Text>
-            )
-        },
-    ]
+const columns = [
+  {
+    title: '#',
+    dataIndex: 'id',
+    key: 'id',
+    render: (text, record, index) => (
+      <Tooltip title={`Ligne ${index + 1}`}>
+        <Tag color="geekblue">{index + 1}</Tag>
+      </Tooltip>
+    ),
+    width: "4%"
+  },
+  {
+    title: 'Logo',
+    dataIndex: 'logo',
+    key: 'logo',
+    render: (text, record) => (
+      <div className="userList">
+        <Image
+          src={`${DOMAIN}/${record.logo}`}
+          width={40}
+          height={40}
+          style={{ borderRadius: '50%', objectFit: 'cover' }}
+          alt="Logo société"
+          preview={false}
+        />
+      </div>
+    ),
+    width: "6%"
+  },
+  {
+    title: 'Adresse',
+    dataIndex: 'adresse',
+    key: 'adresse',
+    render: (text) => (
+      <Tag icon={<EnvironmentOutlined />} color="cyan">
+        {text}
+      </Tag>
+    )
+  },
+  {
+    title: 'RCCM',
+    dataIndex: 'rccm',
+    key: 'rccm',
+    render: (text) => (
+      <Tag icon={<NumberOutlined />} color="blue">
+        {text}
+      </Tag>
+    )
+  },
+  {
+    title: 'NIF',
+    dataIndex: 'nif',
+    key: 'nif',
+    render: (text) => (
+      <Tag icon={<BarcodeOutlined />} color="green">
+        {text}
+      </Tag>
+    )
+  },
+  {
+    title: 'Téléphone',
+    dataIndex: 'telephone',
+    key: 'telephone',
+    render: (text) => (
+      <Text type="secondary" strong>
+        <PhoneOutlined style={{ marginRight: 6 }} />
+        {text}
+      </Text>
+    )
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
+    render: (text) => (
+      <Text type="success">
+        <MailOutlined style={{ marginRight: 6 }} />
+        {text}
+      </Text>
+    )
+  }
+];
 
   return (
     <>
