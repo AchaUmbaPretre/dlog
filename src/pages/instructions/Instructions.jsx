@@ -157,7 +157,7 @@ const Instructions = ({idTache}) => {
         key: 'nom_cat_inspection',
         render: text => (
           <Space>
-            <Tag color='cyan'>{text}</Tag>
+            <Tag color='magenta'>{text}</Tag>
           </Space>
         ),
     },
@@ -168,7 +168,7 @@ const Instructions = ({idTache}) => {
         render: text => {
           return (
             <Space>
-              <Tag color={"green"}>
+              <Tag color={"purple"}>
                  {text}
               </Tag>
             </Space>
@@ -182,7 +182,7 @@ const Instructions = ({idTache}) => {
         render: text => {
           return (
             <Space style={columnStyles.title} className={columnStyles.hideScroll}>
-              <Tag icon={<FileTextOutlined />} color={"cyan"}>
+              <Tag icon={<FileTextOutlined />} color={"geekblue"}>
                  {text ?? 'Aucune'}
               </Tag>
             </Space>
