@@ -145,11 +145,11 @@ const SecuriteVisiteur = () => {
         render: (text, record) => (
         <Space size="small">
 
-            <Tooltip title={`Relevé de ${record.type}`}>
+            <Tooltip title={`Relevé de ${record.immatriculation}`}>
                 <Button
                     icon={<FileTextOutlined />}
                     style={{ color: 'blue' }}
-                    onClick={() => handleReleve(record.id_bande_sortie)}
+                    onClick={() => handleReleve(record.id_registre_visiteur)}
                     aria-label="Relevé"
                 />
             </Tooltip>
