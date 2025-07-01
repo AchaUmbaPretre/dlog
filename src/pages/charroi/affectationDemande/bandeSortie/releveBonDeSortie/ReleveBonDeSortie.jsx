@@ -194,25 +194,48 @@ const toBase64 = async (url) => {
                 </ul>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 30, fontSize: 13 }}>
-                {signataires.map((signataire, index) => (
-                    <div key={index} style={{ textAlign: 'center', flex: 1 }}>
-                    {signataire.signatureBase64 && (
+              {signataires.length === 2 ? (
+                <div style={{ display: 'table', width: '100%', marginTop: 30, fontSize: 13 }}>
+                    <div style={{ display: 'table-row' }}>
+                    <div style={{ display: 'table-cell', textAlign: 'center' }}>
+                        {signataires[0]?.signatureBase64 && (
                         <>
-                        <img
-                            src={signataire.signatureBase64}
-                            alt="signature"
-                            style={{ width: 100, height: 50, objectFit: 'contain' }}
-                        />
-                        <br />
-                        <strong>{signataire.role}</strong>
-                        <br />
-                        {signataire.personne_signe}
+                            <img src={signataires[0].signatureBase64} alt="sig" style={{ width: 100, height: 50, objectFit: 'contain' }} /><br />
+                            <strong>{signataires[0].role}</strong><br />
+                            {signataires[0].personne_signe}
                         </>
-                    )}
+                        )}
                     </div>
-                ))}
-              </div>
+                    <div style={{ display: 'table-cell', textAlign: 'center', verticalAlign: 'middle' }}>
+                        <strong>POUR AVIS ET CONSIDÉRATION</strong>
+                    </div>
+                    <div style={{ display: 'table-cell', textAlign: 'center' }}>
+                        {signataires[1]?.signatureBase64 && (
+                        <>
+                            <img src={signataires[1].signatureBase64} alt="sig" style={{ width: 100, height: 50, objectFit: 'contain' }} /><br />
+                            <strong>{signataires[1].role}</strong><br />
+                            {signataires[1].personne_signe}
+                        </>
+                        )}
+                    </div>
+                    </div>
+                </div>
+                ) : (
+                <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 30, fontSize: 13, gap: 20 }}>
+                    {signataires.map((signataire, index) => (
+                    <div key={index} style={{ textAlign: 'center' }}>
+                        {signataire.signatureBase64 && (
+                        <>
+                            <img src={signataire.signatureBase64} alt="signature" style={{ width: 100, height: 50, objectFit: 'contain' }} /><br />
+                            <strong>{signataire.role}</strong><br />
+                            {signataire.personne_signe}
+                        </>
+                        )}
+                    </div>
+                    ))}
+                </div>
+                )}
+
             </div>
           );
         })}
