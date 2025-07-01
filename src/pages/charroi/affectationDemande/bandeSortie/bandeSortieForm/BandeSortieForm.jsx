@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { getAffectationDemandeOne, getChauffeur, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, postBandeSortie } from '../../../../../services/charroiService';
+import { getAffectationDemandeOne, getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, postBandeSortie } from '../../../../../services/charroiService';
 import { getClient } from '../../../../../services/clientService';
 import { getLocalisation } from '../../../../../services/transporteurService';
 import { useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [ motif, setMotif ] = useState([]);
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
-    const [ local, setLocal ] = useState([]);
+    const [ destination, setDestination ] = useState([]);
     const [ societe, setSociete ] = useState([]);
 
         const fetchDatas = async() => {
@@ -31,7 +31,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                     getTypeVehicule(),
                     getMotif(),
                     getClient(),
-                    getLocalisation(),
+                    getDestination(),
                     getSociete()
                 ])
     
@@ -41,7 +41,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                 setType(typeData.data);
                 setMotif(motifData.data);
                 setClient(clientData.data);
-                setLocal(localData.data);
+                setDestination(localData.data);
                 setSociete(societeData.data)
     
                  if(affectationId) {
@@ -277,9 +277,9 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                     <Select
                                         allowClear
                                         showSearch
-                                        options={local?.map((item) => ({
-                                            value: item.id_localisation ,
-                                            label: `${item.nom}`,
+                                        options={destination?.map((item) => ({
+                                            value: item.id_destination,
+                                            label: `${item.nom_destination}`,
                                         }))}
                                         optionFilterProp="label"
                                         placeholder="Sélectionnez..."
