@@ -74,20 +74,6 @@ const SecuriteVisiteur = () => {
     {
     title: (
       <Space>
-        <Text strong>Véhicule</Text>
-      </Space>
-    ),
-    dataIndex:'nom_cat',
-    key: 'nom_cat',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text  type="secondary">{text}</Text>
-      </Tooltip>
-    ),
-    },
-    {
-    title: (
-      <Space>
         <Text strong>Matricule</Text>
       </Space>
     ),
@@ -100,24 +86,9 @@ const SecuriteVisiteur = () => {
     ),
     },
     {
-    title: (
-      <Space>
-        <Text strong>Marque</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_marque',
-    key: 'nom_marque',
-    align: 'center',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
-    },
-    {
-        title : "Type",
-        dataIndex: 'type',
-        key:'type',
+        title : "Motif",
+        dataIndex: 'nom_motif',
+        key:'nom',
         render : (text) => (
           <Tag color={ text === 'Retour' ? 'blue' : 'red'}>{text}</Tag>
         )
