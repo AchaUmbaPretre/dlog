@@ -15,23 +15,40 @@ const groupBy = (array, key) => {
   }, {});
 };
 
-const toBase64 = (url) =>
-  fetch(url)
-    .then((res) => res.blob())
-    .then(
-      (blob) =>
-        new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-        })
-    );
+
 
 const ReleveBonDeSortie = ({ id_bon }) => {
   const [groupedData, setGroupedData] = useState({});
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const pdfRef = useRef();
+
+const toBase64 = async (url) => {
+  // Choix dynamique du domaine en fonction de l'environnement
+  const isLocalhost = window.location.hostname === 'localhost';
+  const DOMAIN = isLocalhost ? 'http://localhost:8080' : 'https://apidlog.loginsmart-cd.com';
+
+  // On utilise le proxy backend pour convertir l’image
+  const proxyUrl = `${DOMAIN}/api/image-proxy?url=${encodeURIComponent(url)}`;
+  console.log('➡️  Appel du proxy URL :', proxyUrl);
+
+  try {
+    const response = await fetch(proxyUrl);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const blob = await response.blob();
+
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('Erreur lecture blob en base64'));
+      reader.readAsDataURL(blob);
+    });
+  } catch (err) {
+    console.error('❌ Erreur toBase64 proxy :', proxyUrl, err.message);
+    return null; // Retourne null si erreur
+  }
+};
+
 
   const fetchDatas = async () => {
     try {
@@ -40,12 +57,14 @@ const ReleveBonDeSortie = ({ id_bon }) => {
 
       for (const group of Object.values(grouped)) {
         for (const entry of group) {
-          const fullUrl = `${DOMAIN}/${entry.signature}`;
-          const logoUrl = `${DOMAIN}/${entry.logo}`;
-          entry.signatureBase64 = await toBase64(fullUrl);
-          entry.logoBase64 = await toBase64(logoUrl)
+            const fullUrl = `${DOMAIN}/${(entry.signature || '').replace(/^public\//, '')}`;
+            const logoUrl = `${DOMAIN}/${(entry.logo || '').replace(/^public\//, '')}`;
+
+            entry.signatureBase64 = await toBase64(fullUrl);
+            entry.logoBase64 = await toBase64(logoUrl);
         }
-      }
+    }
+
 
       setGroupedData(grouped);
     } catch (error) {
@@ -89,7 +108,7 @@ const ReleveBonDeSortie = ({ id_bon }) => {
               <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection:'column' }}>
                 <div style={{display:'flex', gap:'20px'}}>
                     <img src={bon.logoBase64} alt="" style={{ height:'100px', width:'80px', objectFit:'cover'}} />
-                    <div style={{ fontSize: 12 }}>
+                   <div style={{ fontSize: 12 }}>
                     <strong>{bon.nom_societe}</strong><br />
                     {bon?.adresse}<br />
                     RCCM : {bon?.rccm}<br />

@@ -250,7 +250,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Destination"
-                                    name="id_localisation"
+                                    name="id_destination"
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
