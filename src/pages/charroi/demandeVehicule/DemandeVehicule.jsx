@@ -18,6 +18,7 @@ import BandeSortie from '../affectationDemande/bandeSortie/BandeSortie';
 import VehiculeCourse from './vehiculeCourse/VehiculeCourse';
 import Destination from './destination/Destination';
 import SortieEntree from '../affectationDemande/sortieEntree/SortieEntree';
+import SecuriteVisiteur from '../securite/securiteVisiteur/SecuriteVisiteur';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -473,12 +474,22 @@ const DemandeVehicule = () => {
            </TabPane>
 
             <TabPane
+            tab={
+                <span>🪪 Les visiteurs</span>
+            }
+            key="6"
+            >
+            <SecuriteVisiteur />
+            </TabPane>
+
+
+            <TabPane
                 tab={
                     <span>
                     🚗 Les vehicules occupés
                     </span>
                 }
-                key="6"
+                key="7"
             >
                 <VehiculeOccupe/>
             </TabPane>
@@ -490,7 +501,7 @@ const DemandeVehicule = () => {
                     🚙 Les vehicules disponibles
                     </span>
                 }
-                key="7"
+                key="8"
             >
                 <DemandeVehiculeDispo/>
             </TabPane>
@@ -503,7 +514,7 @@ const DemandeVehicule = () => {
                     💼 Services
                     </span>
                 }
-                key="8"
+                key="9"
             >
                 <DemandeurVehicule/>
             </TabPane>
@@ -515,7 +526,7 @@ const DemandeVehicule = () => {
                     🗺️ Destination
                     </span>
                 }
-                key="9"
+                key="10"
             >
                 <Destination/>
             </TabPane>

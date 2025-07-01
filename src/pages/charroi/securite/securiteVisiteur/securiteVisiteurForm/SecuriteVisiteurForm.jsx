@@ -1,12 +1,29 @@
-import { useState } from 'react'
-import { Form, Input, message, notification, Row, Col, Button } from 'antd';
-import { postVisiteurVehicule } from '../../../../../services/charroiService';
+import { useEffect, useState } from 'react'
+import { Form, Input, message, Select, Skeleton, notification, Row, Col, Button } from 'antd';
+import { getMotif, postVisiteurVehicule } from '../../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 
 const SecuriteVisiteurForm = ({closeModal}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const [loadingData, setLoadingData] = useState(true);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const [ motif, setMotif ] = useState([]);
+
+    useEffect(()=> {
+        const fetch = async() => {
+            try {
+                const { data } = await getMotif();
+                setMotif(data);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoadingData(false);
+            }
+        }
+        fetch();
+    }, [])
 
     const onFinish = async (values) => {
         setLoading(true);
@@ -70,12 +87,24 @@ const SecuriteVisiteurForm = ({closeModal}) => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={24}>
+                        <Col xs={24} md={8}>
                             <Form.Item
                                 label="Motif"
-                                name="motif"
+                                name="id_motif"
+                                rules={[{ required: true, message: 'Veuillez sélectionner un motif' }]}
                             >
-                                <Input.TextArea placeholder="Entrer le motif..." style={{height:"80px", resize:'none'}} />
+                                { loadingData ? <Skeleton.Input active={true} /> : 
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={motif?.map((item) => ({
+                                        value: item.id_motif_demande,
+                                        label: `${item.nom_motif_demande}`,
+                                    }))}
+                                    optionFilterProp="label"
+                                    placeholder="Sélectionnez..."
+                                />
+                                }
                             </Form.Item>
                         </Col>
 

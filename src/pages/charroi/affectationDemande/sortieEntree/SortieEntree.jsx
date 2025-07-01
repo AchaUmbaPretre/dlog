@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { Input, Button, Tooltip, Typography, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 import moment from 'moment';
 import { getSortieEntree } from '../../../../services/charroiService';
-import {  SwapOutlined, FileTextOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  SwapOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Text } = Typography;
