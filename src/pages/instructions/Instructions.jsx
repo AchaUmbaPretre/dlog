@@ -377,7 +377,7 @@ const Instructions = ({idTache}) => {
         width={1000}
         centered
       >
-        <TacheForm  idInspection={idInspection} />
+        <TacheForm fetchData={fetchData} idInspection={idInspection} />
       </Modal>
     </>
   );

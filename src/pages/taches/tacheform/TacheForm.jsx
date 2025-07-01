@@ -23,7 +23,7 @@ import ListeCatTacheForm from '../../listCatTache/listeCatTacheForm/ListeCatTach
 import ClientForm from '../../client/clientForm/ClientForm';
 import { useSelector } from 'react-redux';
 
-const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDatas}) => {
+const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDatas, idInspection}) => {
     const [form] = Form.useForm();
     const [departement, setDepartement] = useState([]);
     const [client, setClient] = useState([]);
@@ -52,6 +52,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
     const handlCatTache = () => openModal('AddCatTache');
     const handlClient= () => openModal('AddClient');
 
+    
     const closeAllModals = () => {
         setModalType(null);
     };
@@ -166,6 +167,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             id_control : idControle,
             id_projet: idProjet,
             user_cr: userId,
+            idInspection: idInspection,
             categories
         }
         setIsLoading(true);
