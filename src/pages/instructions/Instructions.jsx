@@ -374,7 +374,7 @@ const Instructions = ({idTache}) => {
         visible={modalType === 'AddTache'}
         onCancel={closeAllModals}
         footer={null}
-        width={900}
+        width={1000}
         centered
       >
         <TacheForm  idInspection={idInspection} />
