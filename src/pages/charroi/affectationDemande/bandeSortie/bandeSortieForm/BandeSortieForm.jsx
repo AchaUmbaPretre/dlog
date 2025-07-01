@@ -55,7 +55,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                         id_motif_demande : d[0].id_motif_demande,
                         id_demandeur : d[0].id_demandeur,
                         id_client : d[0].id_client,
-                        id_localisation : d[0].id_localisation,
+                        id_destination : d[0].id_destination,
                         personne_bord : d[0].personne_bord
                     })
                 }

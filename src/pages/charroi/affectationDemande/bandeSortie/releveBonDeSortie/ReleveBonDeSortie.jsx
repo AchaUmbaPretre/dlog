@@ -21,6 +21,8 @@ const ReleveBonDeSortie = ({ id_bon }) => {
   const [groupedData, setGroupedData] = useState({});
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const pdfRef = useRef();
+  const [isLoading, setIsLoading] = useState(true);
+
 
 const toBase64 = async (url) => {
   // Choix dynamique du domaine en fonction de l'environnement
@@ -51,6 +53,7 @@ const toBase64 = async (url) => {
 
 
   const fetchDatas = async () => {
+      setIsLoading(true);
     try {
       const response = await getVehiculeCourseOne(id_bon);
       const grouped = groupBy(response.data, 'id_bande_sortie');
@@ -69,6 +72,8 @@ const toBase64 = async (url) => {
       setGroupedData(grouped);
     } catch (error) {
       console.error(error);
+    } finally {
+        setIsLoading(false);
     }
   };
 
@@ -88,8 +93,27 @@ const toBase64 = async (url) => {
     fetchDatas();
   }, [id_bon]);
 
+  const SkeletonBonDeSortie = () => {
+  return (
+    <div className="bon-sortie-wrapper skeleton" style={{ border: '1px solid #ccc', padding: 20, marginBottom: 40 }}>
+      <div className="skeleton-box" style={{ height: 100, width: 80, background: '#e0e0e0', marginBottom: 20 }} />
+      <div style={{ height: 14, background: '#e0e0e0', width: '60%', marginBottom: 10 }} />
+      <div style={{ height: 14, background: '#e0e0e0', width: '40%', marginBottom: 10 }} />
+      <div style={{ height: 14, background: '#e0e0e0', width: '70%', marginBottom: 20 }} />
+      <div style={{ height: 200, background: '#f0f0f0' }} />
+    </div>
+  );
+};
+
+
   return (
     <div className="releveBonDeSortie">
+    { isLoading ? (
+        <div>
+            <SkeletonBonDeSortie />
+        </div>
+    ) : (
+        <>
       <div style={{ marginBottom: '20px', textAlign: 'right' }}>
         <button onClick={handleDownloadPDF} style={{cursor:'pointer'}}>🖨️ Imprimer / Exporter en PDF</button>
       </div>
@@ -199,6 +223,8 @@ const toBase64 = async (url) => {
           );
         })}
       </div>
+        </>
+    ) }
     </div>
   );
 };
