@@ -7,6 +7,7 @@ import InstructionsDetail from './instructionsDetail/InstructionsDetail';
 import InstructionFormEdit from './instructionForm/InstructionFormEdit';
 import InstructionFormApres from './instructionForm/InspectionFormApres';
 import InspectionTache from './inspectionTache/InspectionTache';
+import TacheForm from '../taches/tacheform/TacheForm';
 
 const { Search } = Input;
 
@@ -40,6 +41,11 @@ const Instructions = ({idTache}) => {
 
   const handleTache = (id) => {
     openModal('relieTache', id)
+    setIdInspection(id)
+  };
+
+  const handleAddTache = (id) => {
+    openModal('AddTache', id)
     setIdInspection(id)
   }
 
@@ -221,6 +227,10 @@ const Instructions = ({idTache}) => {
                 <Menu.Item onClick={() => handleTache(record.id_inspection)}>
                   <FormOutlined /> Relier tache
                 </Menu.Item>
+                 <Menu.Divider />
+                 <Menu.Item onClick={() => handleAddTache(record.id_inspection)}>
+                  <FormOutlined /> Créer une tache
+                </Menu.Item>
               </Menu>
             )}
             trigger={['click']}
@@ -357,6 +367,17 @@ const Instructions = ({idTache}) => {
         centered
       >
         <InspectionTache closeModal={closeAllModals} fetchData={fetchData} idInspection={idInspection}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'AddTache'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+        <TacheForm  idInspection={idInspection} />
       </Modal>
     </>
   );
