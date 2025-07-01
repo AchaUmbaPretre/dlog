@@ -115,7 +115,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                     <Card>
                         <Row gutter={12}>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Véhicule"
                                     name="id_vehicule"
@@ -135,7 +135,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
                                     label="Chauffeur"
                                     name="id_chauffeur"
@@ -155,9 +155,9 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
-                                    label="Date & heure de départ prévue"
+                                    label="Départ prévue"
                                     name="date_prevue"
                                     rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
                                 >
@@ -170,9 +170,9 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={6}>
                                 <Form.Item
-                                    label="Date & heure de retour prévue"
+                                    label="Retour prévue"
                                     name="date_retour"
                                     rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
                                 >
@@ -182,27 +182,6 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                         format="YYYY-MM-DD HH:mm" 
                                         placeholder="Choisir date et heure" 
                                     />
-                                </Form.Item>
-                            </Col>
-
-                            <Col xs={24} md={8}>
-                                <Form.Item
-                                    label="Type de véhicule"
-                                    name="id_type_vehicule"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un type de vehicule' }]}
-                                >
-                                    { loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        allowClear
-                                        showSearch
-                                        options={type?.map((item) => ({
-                                            value: item.id_type_vehicule,
-                                            label: `${item.nom_type_vehicule}`,
-                                        }))}
-                                        optionFilterProp="label"
-                                        placeholder="Sélectionnez..."
-                                    />
-                                    }
                                 </Form.Item>
                             </Col>
                             
@@ -288,7 +267,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={16}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Personne(s) à bord"
                                     name="personne_bord"
