@@ -43,8 +43,11 @@
                     .instruction_sous_row{
                         display: flex;
                         flex-direction: column;
-                        .instruction_desc{
+                        .instruction_desc_strong{
                             font-size: .8rem;
+                        }
+                        .instruction_desc{
+                            font-size: .7rem;
                             margin-left: 20px;
                         }
                     }
@@ -57,11 +60,21 @@
                         font-weight: bold;
                     }
                     .inspection_bottom_rows{
-                        display: flex;
-                        flex-wrap: wrap;
+                        display: grid;
+                        align-items: stretch; // étire chaque ligne à la même hauteur
+                        grid-template-columns: repeat(2,1fr);
                         gap: 20px;
                         .inspection_bottom_row{
-                            width: 300px;
+                               display: flex;
+                                flex-direction: column;
+                                justify-content: space-between; // équilibre le contenu
+                                padding: 10px;
+                                background-color: #fff;
+                                border: 1px solid #ccc;
+                                border-radius: 8px;
+                                overflow: hidden; // évite le débordement
+                                box-sizing: border-box;
+
                             .title_sous_inspection{
                                 font-size: 1rem;
                             }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Card, Spin, notification, Divider, Tooltip, Typography, Row, Col, Button, Space } from "antd";
+import { Card, Spin, notification, Divider, Tooltip, Button, Space } from "antd";
 import { getInspectionOneV } from "../../../services/batimentService";
 import html2pdf from "html2pdf.js";
 import htmlDocx from "html-docx-js/dist/html-docx";
@@ -7,7 +7,6 @@ import config from "../../../config";
 import "./instructionsDetail.scss";
 import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 
-const { Title, Text } = Typography;
 
 const InstructionsDetail = ({ idInspection }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;

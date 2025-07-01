@@ -331,7 +331,7 @@ const Instructions = ({idTache}) => {
         visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={1025}
+        width={1045}
         centered
       >
         <InstructionsDetail idInspection={idInspection}/>
