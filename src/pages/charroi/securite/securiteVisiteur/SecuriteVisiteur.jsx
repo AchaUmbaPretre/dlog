@@ -90,14 +90,14 @@ const SecuriteVisiteur = () => {
         dataIndex: 'nom_motif',
         key:'nom',
         render : (text) => (
-          <Tag color={ text === 'Retour' ? 'blue' : 'red'}>{text}</Tag>
+          <Tag color={'green'}>{text}</Tag>
         )
     },
     {
       title: (
         <Space>
           <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Date & Heure</Text>
+          <Text strong>Date</Text>
         </Space>
       ),
       dataIndex: 'created_at',
