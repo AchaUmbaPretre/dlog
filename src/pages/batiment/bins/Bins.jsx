@@ -266,7 +266,7 @@ const Bins = ({idBatiment}) => {
         width={1000}
         centered
       >
-        <BinForm idBatiment={idBatiment} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+        <BinForm idBatiment={idBatiment} closeModal={() => setIsModalVisible(false)} fetchData={fetchData} idBin={idBin} />
      </Modal>
 
      <Modal
