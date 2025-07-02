@@ -199,20 +199,6 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                         </Row>
                         </Card>
 
-                        <Card type="inner" title="Information d’adresse du bin" style={{marginTop:'10px'}}>
-                            <Row gutter={16}>
-                                <Col xs={24} md={24}>
-                                    <Form.Item
-                                        label="Adresse"
-                                        name="adresse"
-                                        rules={[{ required: true, message: 'Veuillez entrer une adresse' }]}
-                                    >
-                                        <Input.TextArea rows={4} placeholder="Entrez l'adresse..."  style={{ resize: 'none' }} />
-                                    </Form.Item>
-                                </Col>
-                            </Row>
-                        </Card>
-
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="submit-button" block loading={loading} disabled={loading}>
                                 {idBins ? 'Mise à jour' : 'Créer Bin'}
