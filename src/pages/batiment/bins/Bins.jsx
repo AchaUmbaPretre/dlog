@@ -18,7 +18,7 @@ const Bins = ({idBatiment}) => {
     current: 1,
     pageSize: 20,
   });
-const [idBin, setIdBin] = useState(null);
+  const [idBin, setIdBin] = useState(null);
   const scroll = { x: 400 };
 
   const handleAddBin = (id) => openModal('Addresse', id);

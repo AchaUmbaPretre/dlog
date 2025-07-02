@@ -775,17 +775,6 @@ const Batiment = ({datas}) => {
             <Denomination/>
           </TabPane>
 
-          <TabPane
-            tab={
-              <span>
-                <HomeOutlined style={{ color: '#13c2c2' }} /> Liste des adresses
-              </span>
-            }
-            key="5"
-          >
-            <Adresse/>
-          </TabPane>
-
       </Tabs>
     </>
   );
