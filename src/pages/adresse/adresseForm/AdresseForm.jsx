@@ -64,11 +64,11 @@ useEffect(() => {
   };
 
   return (
-    <div className="client_form" style={{ padding: '20px', background: '#fff', borderRadius: '5px' }}>
+    <div className="controle_form" >
       <div className="controle_title_rows">
         <h2 className="controle_h2">Insérer une adresse</h2>
       </div>
-      <div className="client_wrapper">
+      <div className="controle_wrapper">
         <Card>
           <Form
             form={form}
