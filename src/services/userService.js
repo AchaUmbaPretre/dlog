@@ -51,3 +51,12 @@ export const getPersonne = async (user) => {
 export const postPersonnel = async (data) => {
   return axios.post(`${DOMAIN}/api/user/personnel`, data);
 };
+
+//Visiteur pieton
+export const getPieton = async (user) => {
+  return axios.get(`${DOMAIN}/api/user/pieton`);
+};
+
+export const postPieton = async (data) => {
+  return axios.post(`${DOMAIN}/api/user/pieton`, data);
+};

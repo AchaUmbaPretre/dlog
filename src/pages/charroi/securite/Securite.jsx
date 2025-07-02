@@ -18,6 +18,7 @@ import SecuriteVisiteurForm from './securiteVisiteur/securiteVisiteurForm/Securi
 import { logout } from '../../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import VisiteurPietonForm from './securiteVisiteur/visiteurPieton/visiteurPietonForm/VisiteurPietonForm';
 
 const Securite = () => {
     const [modalType, setModalType] = useState(null);
@@ -47,6 +48,10 @@ const Securite = () => {
 
     const handleVisiteur = () => {
         openModal('Visiteur');
+    };
+
+    const handleVisiteurPieton = () => {
+        openModal('Pieton')
     };
 
       const handleLogout = async () => {
@@ -96,15 +101,16 @@ const Securite = () => {
                 { label: "Entrée", icon: retourIcon, onClick: handleRetour },
                 { label: "Visiteur", icon: visiteurIcon, onClick: handleVisiteur },
                 { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
+                { label: "Visiteur Piéton", icon: visiteurIcon, onClick: handleVisiteurPieton },
             ].map(({ label, icon, onClick }) => (
                 <div
-                key={label}
-                className="securite__menu-item"
-                role="button"
-                tabIndex={0}
-                aria-label={label}
-                onClick={onClick}
-                onKeyPress={(e) => e.key === 'Enter' && onClick()}
+                    key={label}
+                    className="securite__menu-item"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={label}
+                    onClick={onClick}
+                    onKeyPress={(e) => e.key === 'Enter' && onClick()}
                 >
                 <span className="securite__menu-dot" />
                 <img src={icon} alt={`Icône ${label}`} className="securite__menu-icon" />
@@ -151,13 +157,13 @@ const Securite = () => {
 
         <Modal
             title=""
-            visible={modalType === 'Info'}
+            visible={modalType === 'Pieton'}
             onCancel={closeAllModals}
             footer={null}
             width={500}
             centered
         >
-            <div>INFO</div>
+            <VisiteurPietonForm closeModal={() => setModalType(null)} />
         </Modal>
     </>
   )

@@ -92,7 +92,25 @@ const Adresse = () => {
           <Text type="secondary">{text ?? 'Aucun'}</Text>    
         </div>
       ),
-    }
+    },
+    {
+      title: 'superfice sol',
+      dataIndex: 'superfice_sol',
+      key: 'superfice_sol',
+      align: 'center',
+        render: (text) => (
+          <Text type="secondary">{text ?? 'Aucun'}</Text>
+        ),
+    },
+    {
+      title: 'Volume (m³)',
+      dataIndex: 'volume_m3',
+      key: 'volume_m3',
+      align: 'center',
+        render: (text) => (
+          <Text type="secondary">{text ?? 'Aucun'}</Text>
+        ),
+    },
   ]
 
   const filteredData = data.filter(item =>

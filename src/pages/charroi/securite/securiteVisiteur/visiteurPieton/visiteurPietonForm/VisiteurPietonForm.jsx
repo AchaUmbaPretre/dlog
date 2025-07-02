@@ -1,25 +1,21 @@
 import { useEffect, useState } from 'react'
-import { Form, Input, message, Switch, Select, Skeleton, notification, Row, Col, Button } from 'antd';
-import { getCatVehicule, getMotif, postVisiteurVehicule } from '../../../../../services/charroiService';
+import { Form, Input, message, Select, Skeleton, notification, Row, Col, Button } from 'antd';
 import { useSelector } from 'react-redux';
+import { postPieton } from '../../../../../../services/userService';
+import { getMotif } from '../../../../../../services/charroiService';
 
-const SecuriteVisiteurForm = ({closeModal}) => {
+const VisiteurPietonForm = ({closeModal}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [loadingData, setLoadingData] = useState(true);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [ motif, setMotif ] = useState([]);
-    const [catVehicule, setCatVehicule] = useState([]);
 
     useEffect(()=> {
         const fetch = async() => {
             try {
-                const [ motifData, catData ] = await Promise.all([
-                    getMotif(),
-                    getCatVehicule()
-                ])
-                setMotif(motifData.data)
-                setCatVehicule(catData.data)
+               const { data } = await getMotif();
+               setMotif(data);
 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -40,7 +36,7 @@ const SecuriteVisiteurForm = ({closeModal}) => {
                 user_cr : userId
             }
             message.loading({ content: 'En cours...', key: loadingKey });
-            await postVisiteurVehicule(value)
+            await postPieton(value)
             message.success({
                 content: "Le visiteur été enregistré avec succès.",
                 key: loadingKey,
@@ -63,7 +59,7 @@ const SecuriteVisiteurForm = ({closeModal}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>Enregistrer un visiteur</h2>                
+                <h2 className='controle_h2'>Enregistrer un visiteur piéton</h2>                
             </div>
             <div className="controle_wrapper">
                 <Form 
@@ -74,69 +70,32 @@ const SecuriteVisiteurForm = ({closeModal}) => {
                     <Row gutter={16}>
                         <Col span={24}>
                             <Form.Item
-                                label="Immatriculation"
-                                name="immatriculation"
-                                rules={[{ required: true, message: 'Immatriculation est requis' }]}
+                                label="Nom complet"
+                                name="nom_complet"
+                                rules={[{ required: true, message: 'Nom est requis' }]}
                             >
-                                <Input placeholder="Ex:3FB21..."  />
+                                <Input placeholder="Entrer le nom..."  />
                             </Form.Item>
                         </Col>
 
                         <Col span={24}>
                             <Form.Item
-                                label="Type vehicule"
-                                name="type_vehicule"
+                                label="Piece identité"
+                                name="piece_identite"
                             >
-                                <Select
-                                    showSearch
-                                    allowClear
-                                    options={catVehicule.map((item) => ({
-                                            value: item.id_cat_vehicule                                           ,
-                                            label: item.nom_cat,
-                                    }))}
-                                    placeholder="Sélectionnez une categorie..."
-                                    optionFilterProp="label"
-                                />
+                                <Input placeholder="Entrer la piece identité..."  />
                             </Form.Item>
                         </Col>
 
-                        <Col span={24}>
-                            <Form.Item
-                                label="Chauffeur"
-                                name="nom_chauffeur"
-                                rules={[{ required: true, message: 'Le nom cu chauffeur est requis' }]}
-                            >
-                                <Input placeholder="Entrer le nom du chauffeur..."  />
-                            </Form.Item>
-                        </Col>
-
-                        <Col span={24}>
-                            <Form.Item
-                            label="Propriétaire"
-                            name="proprietaire"
-                            rules={[{ required: true, message: 'Veuillez sélectionner un propriétaire' }]} // optionnel mais recommandé
-                            >
-                            <Select
-                                showSearch
-                                allowClear
-                                placeholder="Sélectionnez une catégorie..."
-                                optionFilterProp="label"
-                                options={[
-                                { value: 'GTM', label: 'GTM' },
-                                { value: 'Visiteur GTM', label: 'Visiteur GTM' },
-                                { value: 'Visiteur Externe', label: 'Visiteur Externe' },
-                                ]}
-                            />
-                            </Form.Item>
-                        </Col>
                         <Col span={24}>
                             <Form.Item
                                 label="Entreprise"
                                 name="entreprise"
                             >
-                                <Input placeholder="Entrer le nom du chauffeur..."  />
+                                <Input placeholder="Entrer le nom de l'entreprise..."  />
                             </Form.Item>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 label="Motif"
@@ -158,18 +117,6 @@ const SecuriteVisiteurForm = ({closeModal}) => {
                             </Form.Item>
                         </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                label="Véhicule déjà connu"
-                                name="vehicule_connu"
-                                valuePropName="checked"
-                                 rules={[{ required: true, message: 'ce champ est requis' }]}
-                            >
-                            <Switch checkedChildren="1" unCheckedChildren="0" />
-                            </Form.Item>
-                        </Col>
-
-
                         <Form.Item>
                             <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>Enregistrer</Button>
                         </Form.Item>
@@ -181,4 +128,4 @@ const SecuriteVisiteurForm = ({closeModal}) => {
   )
 }
 
-export default SecuriteVisiteurForm
+export default VisiteurPietonForm;
