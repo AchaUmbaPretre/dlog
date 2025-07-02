@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Menu, notification, Tag } from 'antd';
+import { Table, Button, Modal, Input, Typography, message, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, ToolOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
 import config from '../../config';
 
 import PersonnelForm from './personnelForm/PersonnelForm';
+import { getPersonne } from '../../services/userService';
 
 const { Search } = Input;
+const { Text } = Typography
 
 const Personnel = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -18,8 +20,8 @@ const Personnel = () => {
 
    const fetchData = async () => {
       try {
-/*         const { data } = await getPiece();
- */        setData(data);
+        const { data } = await getPersonne();
+        setData(data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -94,10 +96,18 @@ const Personnel = () => {
     },
     {
       title: 'Nom',
-      dataIndex: 'nom_personnel',
-      key: 'nom_personnel',
+      dataIndex: 'nom',
+      key: 'nom',
       render: (text) => (
-        <div color="blue">{text}</div>
+        <Text>{text}</Text>
+      ),
+    },
+    {
+      title: 'Prenom',
+      dataIndex: 'prenom',
+      key: 'prenom',
+      render: (text) => (
+        <Text>{text}</Text>
       ),
     },
     {
@@ -105,7 +115,7 @@ const Personnel = () => {
       dataIndex: 'matricule',
       key: 'matricule',
       render: (text) => (
-        <div color="blue">{text}</div>
+        <Text>{text}</Text>
       ),
     },
     {
@@ -113,14 +123,14 @@ const Personnel = () => {
       dataIndex: 'nom_departement',
       key: 'nom_departement',
       render: (text) => (
-        <div color="blue">{text}</div>
+        <Text>{text}</Text>
       ),
     }
   ];
 
   const filteredData = data?.filter(item =>
     item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.titre?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (

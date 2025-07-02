@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Form, Input, Button, notification, Row, Col, Select } from 'antd';
 import { useState } from 'react';
 import { getDepartement } from '../../../services/departementService';
+import { postPersonnel } from '../../../services/userService';
 
 const PersonnelForm = ({fetchData, modalOff}) => {
   const [form] = Form.useForm();
@@ -33,10 +34,10 @@ const PersonnelForm = ({fetchData, modalOff}) => {
   const handleSubmit = async (values) => {
     setLoading(true); 
     try {
-/*        await postPiece(values);
- */        notification.success({
+       await postPersonnel(values);
+       notification.success({
         message: 'Succès',
-        description: 'La pièce a été enregistrée avec succès.',
+        description: 'Le personnel a été enregistré avec succès.',
       });
       form.resetFields();
       fetchData();
@@ -54,7 +55,8 @@ const PersonnelForm = ({fetchData, modalOff}) => {
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className='controle_h2'>Enregistrement nouvel personnel</h2>                
+        <h2 className='controle_h2'>Enregistrement d’un nouveau personnel
+</h2>                
       </div>
       <div className="controle_wrapper">
         <Form

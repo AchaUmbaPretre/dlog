@@ -42,3 +42,12 @@ export const getSociete = async (id) => {
 export const postSociete = async (data) => {
   return axios.post(`${DOMAIN}/api/user/societe`, data);
 };
+
+//Personnel
+export const getPersonne = async (user) => {
+  return axios.get(`${DOMAIN}/api/user/personnel`);
+};
+
+export const postPersonnel = async (data) => {
+  return axios.post(`${DOMAIN}/api/user/personnel`, data);
+};
