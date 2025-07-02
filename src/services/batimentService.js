@@ -296,7 +296,7 @@ export const getAdresseBinOne = async (id) => {
 
 export const postAdresse = async (data) => {
   return axios.post(`${DOMAIN}/api/batiment/adresse`, data);
-  };
+};
 
 //Inspection
 export const getInspection = async (idTache) => {

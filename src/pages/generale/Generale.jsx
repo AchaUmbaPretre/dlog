@@ -64,6 +64,24 @@ const Generale = () => {
             <Tabs.TabPane
                 tab={
                     <span>
+                        <TeamOutlined
+                            style={{
+                                color: 'black',
+                                fontSize: '16px',
+                                marginRight: '8px',
+                            }}
+                        />
+                            Personnels
+                    </span>
+                }
+                key="3"
+            >
+                <Client/>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+                tab={
+                    <span>
                         <BankOutlined
                             style={{
                                 color: '#000',
@@ -74,7 +92,7 @@ const Generale = () => {
                             Fournisseur
                     </span>
                 }
-                key="3"
+                key="4"
             >
                 <Fournisseur/>
             </Tabs.TabPane>
