@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Table, Input, Typography, notification, Button, Modal } from 'antd';
 import { EnvironmentOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
 import AdresseForm from './adresseForm/AdresseForm';
+import getColumnSearchProps from '../../utils/columnSearchUtils';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -11,6 +12,9 @@ const { Text } = Typography;
 const Adresse = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const searchInput = useRef(null);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
   const scroll = { x: 400 };
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
@@ -67,24 +71,48 @@ const Adresse = () => {
     {
         title: 'Batiment',
         dataIndex: 'nom_batiment',
+        ...getColumnSearchProps(
+        'nom_batiment',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput,
+            searchedColumn
+        ),
         key: 'nom_batiment',
         align: 'center',
         render: (text) => (
           <Text type="secondary">{text ?? 'Aucun'}</Text>
         ),
-      },
+    },
     {
         title: 'Bin',
         dataIndex: 'nom',
+        ...getColumnSearchProps(
+        'nom',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput,
+            searchedColumn
+        ),
         key: 'nom',
         align: 'center',
         render: (text) => (
           <Text type="secondary">{text ?? 'Aucun'}</Text>
         ),
-      },
+    },
     {
       title: 'Adresse',
       dataIndex: 'adresse',
+      ...getColumnSearchProps(
+        'adresse',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput,
+            searchedColumn
+        ),
       key: 'adresse',
       render: (text) => (
          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -110,7 +138,7 @@ const Adresse = () => {
         render: (text) => (
           <Text type="secondary">{text ?? 'Aucun'}</Text>
         ),
-    },
+    }
   ]
 
   const filteredData = data.filter(item =>
