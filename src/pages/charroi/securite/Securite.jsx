@@ -5,6 +5,7 @@ import securiteIcon from './../../../assets/securite.png';
 import retourIcon from './../../../assets/retour.png';
 import sortieIcon from './../../../assets/sortie.png';
 import visiteurIcon from './../../../assets/visiteur.png';
+import agentIcon from './../../../assets/agent.png';
 import infoIcon from './../../../assets/info.png';
 import BottomNav from './bottomNav/BottomNav';
 import {
@@ -94,7 +95,7 @@ const Securite = () => {
                 { label: "Sortie", icon: sortieIcon, onClick: handleSortie },
                 { label: "Entrée", icon: retourIcon, onClick: handleRetour },
                 { label: "Visiteur", icon: visiteurIcon, onClick: handleVisiteur },
-                { label: "Info", icon: infoIcon, onClick: handleInfo },
+                { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
             ].map(({ label, icon, onClick }) => (
                 <div
                 key={label}
