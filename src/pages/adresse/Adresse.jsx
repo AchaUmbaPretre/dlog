@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Input, Typography, notification, Tag, Button, Modal } from 'antd';
+import { Table, Input, Typography, notification, Button, Modal } from 'antd';
 import { EnvironmentOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
 import AdresseForm from './adresseForm/AdresseForm';

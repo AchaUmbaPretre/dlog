@@ -76,6 +76,7 @@ useEffect(() => {
             layout="vertical"
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
+            initialValues={{ adresses: [''] }} 
             style={{ maxWidth: 600, margin: '0 auto' }}
           >
             <Form.Item
@@ -105,13 +106,43 @@ useEffect(() => {
               />
             </Form.Item>
 
-            <Form.Item
-              label="Adresse"
-              name="adresse"
-              rules={[{ required: true, message: 'Veuillez entrer une adresse' }]}
-            >
-              <Input.TextArea rows={4} placeholder="Entrez l'adresse..." />
-            </Form.Item>
+            <Form.List name="adresses" rules={[{ required: true, message: 'Veuillez ajouter au moins une adresse' }]}>
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Form.Item
+                      key={key}
+                      label={name === 0 ? 'Adresse' : `Adresse ${name + 1}`}
+                      required
+                      {...restField}
+                      name={[name]}
+                      rules={[{ required: true, message: 'Veuillez entrer une adresse' }]}
+                    >
+                      <Input
+                        placeholder="Entrez l'adresse..."
+                        addonAfter={
+                          fields.length > 1 ? (
+                            <Button
+                              danger
+                              type="text"
+                              onClick={() => remove(name)}
+                              style={{ padding: 0 }}
+                            >
+                              Supprimer
+                            </Button>
+                          ) : null
+                        }
+                      />
+                    </Form.Item>
+                  ))}
+                  <Form.Item>
+                    <Button type="dashed" onClick={() => add()} block>
+                      + Ajouter une adresse
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
 
             <Form.Item>
               <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
