@@ -123,7 +123,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={6}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Hauteur (m)"
                                     name="hauteur"
@@ -133,7 +133,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={6}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Capacité"
                                     name="capacite"
@@ -143,7 +143,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={6}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Type de stockage"
                                     name="type_stockage"
@@ -161,7 +161,7 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={6}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Statut"
                                     name="statut"
@@ -176,6 +176,24 @@ const BinForm = ({ idBatiment, closeModal, fetchData, idBins }) => {
                                         placeholder="Sélectionnez..."
                                         optionFilterProp="label"
                                     />
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Superficie au sol"
+                                    name="superfice_sol"
+                                >
+                                    <InputNumber min={0} style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Volume (m³)"
+                                    name="volume_m3"
+                                >
+                                    <InputNumber min={0} placeholder="m³" style={{ width: '100%' }} />
                                 </Form.Item>
                             </Col>
                         </Row>
