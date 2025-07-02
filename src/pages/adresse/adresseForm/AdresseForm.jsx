@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Form, Input, Card, Button, notification, Select } from 'antd';
+import { Form, Input, Button, notification, Select } from 'antd';
 import {  getBinsOne, getBinsOneV, postAdresse } from '../../../services/batimentService';
 import { useNavigate } from 'react-router-dom';
 import { getBatiment } from '../../../services/typeService';
+import { MinusCircleOutlined } from '@ant-design/icons';
 
 const AdresseForm = ({closeModal, fetchData, idBin}) => {
   const [form] = Form.useForm();
@@ -69,7 +70,6 @@ useEffect(() => {
         <h2 className="controle_h2">Insérer une adresse</h2>
       </div>
       <div className="controle_wrapper">
-        <Card>
           <Form
             form={form}
             name="format_form"
@@ -77,7 +77,6 @@ useEffect(() => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             initialValues={{ adresses: [''] }} 
-            style={{ maxWidth: 600, margin: '0 auto' }}
           >
             <Form.Item
               label="Warehouse"
@@ -106,35 +105,54 @@ useEffect(() => {
               />
             </Form.Item>
 
-            <Form.List name="adresses" rules={[{ required: true, message: 'Veuillez ajouter au moins une adresse' }]}>
+            <Form.List
+              name="adresses"
+              rules={[{ required: true, message: 'Veuillez ajouter au moins une adresse' }]}
+            >
               {(fields, { add, remove }) => (
                 <>
                   {fields.map(({ key, name, ...restField }) => (
-                    <Form.Item
-                      key={key}
-                      label={name === 0 ? 'Adresse' : `Adresse ${name + 1}`}
-                      required
-                      {...restField}
-                      name={[name]}
-                      rules={[{ required: true, message: 'Veuillez entrer une adresse' }]}
-                    >
-                      <Input
-                        placeholder="Entrez l'adresse..."
-                        addonAfter={
-                          fields.length > 1 ? (
-                            <Button
-                              danger
-                              type="text"
-                              onClick={() => remove(name)}
-                              style={{ padding: 0 }}
-                            >
-                              Supprimer
-                            </Button>
-                          ) : null
-                        }
-                      />
-                    </Form.Item>
+                    <div key={key} style={{ marginBottom: '24px', border: '1px solid #eee', padding: '16px', borderRadius: '4px', display:'flex', gap:'20px' }}>
+                      <Form.Item
+                        {...restField}
+                        label={name === 0 ? 'Adresse' : `Adresse ${name + 1}`}
+                        name={[name, 'adresse']}
+                        rules={[{ required: true, message: 'Veuillez entrer une adresse' }]}
+                      >
+                        <Input placeholder="Entrez l'adresse..." />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        label="Superficie (m²)"
+                        name={[name, 'superficie_sol']}
+                        rules={[
+                          { required: true, message: 'Veuillez entrer la superficie' },
+                          { pattern: /^\d+(\.\d+)?$/, message: 'Valeur numérique uniquement' }
+                        ]}
+                      >
+                        <Input placeholder="Ex. 150.25" />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        label="Volume (m³)"
+                        name={[name, 'volume_m3']}
+                        rules={[
+                          { required: true, message: 'Veuillez entrer le volume' },
+                          { pattern: /^\d+(\.\d+)?$/, message: 'Valeur numérique uniquement' }
+                        ]}
+                      >
+                        <Input placeholder="Ex. 300.50" />
+                      </Form.Item>
+
+                      {fields.length > 1 && (
+                        <Button danger icon={<MinusCircleOutlined />} type="text" onClick={() => remove(name)} style={{marginTop:'25px'}}>
+                        </Button>
+                      )}
+                    </div>
                   ))}
+
                   <Form.Item>
                     <Button type="dashed" onClick={() => add()} block>
                       + Ajouter une adresse
@@ -150,7 +168,6 @@ useEffect(() => {
               </Button>
             </Form.Item>
           </Form>
-        </Card>
       </div>
     </div>
   );
