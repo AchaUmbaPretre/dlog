@@ -8,6 +8,7 @@ import Pays from '../pays/Pays';
 import Permission from '../permission/Permission';
 import Corbeille from '../corbeille/Corbeille';
 import ParametreSociete from './parametreSociete/ParametreSociete';
+import Personnel from '../personnel/Personnel';
 
 const Generale = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
@@ -76,7 +77,7 @@ const Generale = () => {
                 }
                 key="3"
             >
-                <Client/>
+                <Personnel/>
             </Tabs.TabPane>
 
             <Tabs.TabPane

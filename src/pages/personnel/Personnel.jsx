@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, ToolOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
 import config from '../../config';
-import { getPiece } from '../../services/charroiService';
-import PieceForm from './pieceForm/PieceForm';
+
 import PersonnelForm from './personnelForm/PersonnelForm';
 
 const { Search } = Input;
@@ -17,10 +16,10 @@ const Personnel = () => {
   const [searchValue, setSearchValue] = useState('');
   
 
-/*     const fetchData = async () => {
+   const fetchData = async () => {
       try {
-        const { data } = await getPiece();
-        setData(data);
+/*         const { data } = await getPiece();
+ */        setData(data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -33,7 +32,7 @@ const Personnel = () => {
 
   useEffect(() => {
     fetchData();
-  }, [DOMAIN]); */
+  }, [DOMAIN]);
   
 
   const handleAddClient = () => {

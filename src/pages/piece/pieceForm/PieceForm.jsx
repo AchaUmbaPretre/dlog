@@ -63,7 +63,7 @@ const PieceForm = ({fetchData, modalOff}) => {
             onFinish={handleSubmit}
         >
         <Row gutter={16}>
-          <Col span={12}>
+          <Col xs={24} span={12}>
             <Form.Item
               name="nom"
               label="Nom"
@@ -73,7 +73,7 @@ const PieceForm = ({fetchData, modalOff}) => {
             </Form.Item>
           </Col>
 
-          <Col span={12}>
+          <Col xs={24} span={12}>
             <Form.Item
               name="idcategorie"
               label="Catégorie"
