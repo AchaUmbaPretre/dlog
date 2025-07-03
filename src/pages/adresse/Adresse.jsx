@@ -8,7 +8,6 @@ import getColumnSearchProps from '../../utils/columnSearchUtils';
 const { Search } = Input;
 const { Text } = Typography;
 
-
 const Adresse = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -199,7 +198,6 @@ const Adresse = () => {
         >
           <AdresseForm closeModal={() => setModalType(null)} fetchData={fetchData} />
         </Modal>
-
       </div>
     </>
   );
