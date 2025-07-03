@@ -24,7 +24,7 @@ const AffectationDemande = () => {
 
     const columnStyles = {
       title: {
-        maxWidth: '220px',
+        maxWidth: '150px',
         whiteSpace: 'nowrap',
         overflowX: 'scroll', 
         overflowY: 'hidden',
@@ -38,7 +38,6 @@ const AffectationDemande = () => {
         },
       },
     };
-
 
     const handleAdd = () => openModal('Add')
     const handlSortie = (id) => openModal('Bande', id)
@@ -91,7 +90,7 @@ const AffectationDemande = () => {
         dataIndex: 'nom_service',
         key:'nom_service',
         render : (text) => (
-          <Text>{text}</Text>
+          <Tag color='magenta'>{text}</Tag>
         )
     },
     {
@@ -103,12 +102,9 @@ const AffectationDemande = () => {
       ),
       dataIndex: 'nom',
       key: 'nom',
-      ellipsis: {
-        showTitle: false,
-      },
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Text>{text}</Text>
+          <Tag color='geekblue'>{text}</Tag>
         </Tooltip>
       ),
     },
@@ -141,7 +137,7 @@ const AffectationDemande = () => {
       align: 'center',
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Text>{text}</Text>
+          <Tag color='cyan'>{text.toUpperCase()}</Tag>
         </Tooltip>
       ),
     },
@@ -155,11 +151,23 @@ const AffectationDemande = () => {
       dataIndex: 'date_prevue',
       key: '',
       align: 'center',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={moment(text).format('DD-MM-YYYY HH:mm')}>
-          <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
-        </Tooltip>
-      ),
+       render: (text) => {
+            if (!text) {
+              return (
+                <Tag icon={<CalendarOutlined />} color="red">
+                  Aucune date
+                </Tag>
+              );
+            }
+            const date = moment(text);
+            const isValid = date.isValid();
+                    
+            return (
+              <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+              </Tag>
+            );
+          },
     },
     {
       title: (
@@ -189,7 +197,8 @@ const AffectationDemande = () => {
           },
     },
     {
-        title: (
+        
+      title: (
         <Space>
             <CheckCircleOutlined style={{ color: '#1890ff' }} />
             <Text strong>Statut</Text>
@@ -214,22 +223,19 @@ const AffectationDemande = () => {
       ),
       dataIndex: 'commentaire',
       key: 'commentaire',
-      ellipsis: {
-        showTitle: false,
-      },
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Text  type="secondary">{text}</Text>
+          <div style={columnStyles.title} className={columnStyles.hideScroll}>
+            <Text  type="secondary">{text}</Text>
+          </div>
         </Tooltip>
       ),
     },
     {
-        title: (
-        <Text strong>Actions</Text>
-        ),
+      title: (<Text strong>Actions</Text>),
         key: 'action',
         align: 'center',
-        width : '100px',
+        width : '90px',
         render: (text, record) => (
         <Space size="small">
           <Tooltip title="Créer un bon de sortie">

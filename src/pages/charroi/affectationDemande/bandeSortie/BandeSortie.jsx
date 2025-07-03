@@ -86,45 +86,45 @@ const BandeSortie = () => {
         width: "3%"
     },
     {
-        title : "Service",
-        dataIndex: 'nom_service',
-        key:'nom_service',
+      title : "Service",
+      dataIndex: 'nom_service',
+      key:'nom_service',
         render : (text) => (
-          <Text>{text}</Text>
+          <Text type="secondary">{text}</Text>
         )
     },
     {
-    title: (
-      <Space>
-        <UserOutlined  style={{color:'orange'}}/>
-        <Text strong>Chauffeur</Text>
-      </Space>
-    ),
-    dataIndex: 'nom',
-    key: 'nom',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
+      title: (
+        <Space>
+          <UserOutlined  style={{color:'orange'}}/>
+          <Text strong>Chauffeur</Text>
+        </Space>
+      ),
+      dataIndex: 'nom',
+      key: 'nom',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text type="secondary">{text}</Text>
+        </Tooltip>
+      ),
     },
     {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: 'red' }} />
-        <Text strong>Véhicule</Text>
-      </Space>
-    ),
-    dataIndex:'nom_cat',
-    key: 'nom_cat',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text  type="secondary">{text}</Text>
-      </Tooltip>
-    ),
+      title: (
+        <Space>
+          <CarOutlined style={{ color: 'red' }} />
+          <Text strong>Véhicule</Text>
+        </Space>
+      ),
+      dataIndex:'nom_cat',
+      key: 'nom_cat',
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text type="secondary">{text}</Text>
+        </Tooltip>
+      ),
     },
     {
     title: (
