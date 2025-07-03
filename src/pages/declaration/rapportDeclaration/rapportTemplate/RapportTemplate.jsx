@@ -288,17 +288,17 @@ const exportToExcelHTML = () => {
           >
             <span
               style={{
-                  display: 'block',
-                  padding: '10px 15px',
-                  fontWeight: 'bold',
-                  fontSize: '1rem',
-                  borderBottom: '1px solid #f0f0f0',
-                }}
+                display: 'block',
+                padding: '10px 15px',
+                fontWeight: 'bold',
+                fontSize: '1rem',
+                borderBottom: '1px solid #f0f0f0',
+              }}
               >
                 Résumé :
               </span>
               <div
-                    style={{
+                style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(4, 1fr)',
                     gap: '15px',
