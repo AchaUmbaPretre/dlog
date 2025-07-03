@@ -98,7 +98,15 @@ const SecuriteVisiteur = () => {
       dataIndex: 'proprietaire',
       key:'proprietaire',
         render : (text) => (
-          <Tag color={'green'}>{text}</Tag>
+          <Tag color={'geekblue'}>{text}</Tag>
+        )
+    },
+    {
+      title : "Entreprise",
+      dataIndex: 'entreprise',
+      key:'proprietaire',
+        render : (text) => (
+          <Tag>{text}</Tag>
         )
     },
     {
@@ -171,6 +179,18 @@ const SecuriteVisiteur = () => {
     ),
     },
     {
+      title: (
+        <Space>
+          <Text strong>Connu</Text>
+        </Space>
+      ),
+      dataIndex: 'vehicule_connu',
+      key: 'vehicule_connu',
+      render: (text) => (
+        <Tag color={ text === 1 ? 'blue' : 'red'} >{text === 1 ? 'Oui' : 'Non'}</Tag>
+      ),
+    },
+    {
         title: (
         <Text strong>Actions</Text>
         ),
@@ -200,7 +220,7 @@ const SecuriteVisiteur = () => {
               <div className="client-row-icon">
                 <SolutionOutlined className='client-icon' style={{color:'blue'}} />
               </div>
-              <h2 className="client-h2">Entrée / Sortie</h2>
+              <h2 className="client-h2">Liste des visiteurs</h2>
             </div>
             <div className="client-actions">
               <div className="client-row-left">
