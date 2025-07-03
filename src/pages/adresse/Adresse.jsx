@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Table, Input, Skeleton, Typography, notification, Button, Modal } from 'antd';
-import { EnvironmentOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Table, Input, Menu, Dropdown, Skeleton, Typography, notification, Button, Modal } from 'antd';
+import { EnvironmentOutlined, MenuOutlined, DownOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
 import AdresseForm from './adresseForm/AdresseForm';
 import getColumnSearchProps from '../../utils/columnSearchUtils';
@@ -22,9 +22,16 @@ const Adresse = () => {
       pageSize: 20,
     });
   const [statistique, setStatistique] = useState(null);
+  const [columnsVisibility, setColumnsVisibility] = useState({
+      'Batiment' : true,
+      'Bin' : true,
+      'Adresse' : true,
+      'Superfice sol' : false,
+      'Volume' : false
+  });
   
 
-      const fetchData = async () => {
+  const fetchData = async () => {
 
       try {
         const { data } = await getAdresse(searchValue);
@@ -58,8 +65,29 @@ const Adresse = () => {
     openModal('Add', idBin);
   }
 
+  const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
+
+    const menus = (
+      <Menu>
+        {Object.keys(columnsVisibility).map(columnName => (
+          <Menu.Item key={columnName}>
+            <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+              <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+              <span style={{ marginLeft: 8 }}>{columnName}</span>
+            </span>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );  
+
   const columns = [
-        {
+    {
       title: '#',
       dataIndex: 'id',
       key: 'id',
@@ -86,6 +114,7 @@ const Adresse = () => {
         render: (text) => (
           <Text type="secondary">{text ?? 'Aucun'}</Text>
         ),
+        ...(columnsVisibility['Batiment'] ? {} : { className: 'hidden-column' }),
     },
     {
         title: 'Bin',
@@ -103,6 +132,7 @@ const Adresse = () => {
         render: (text) => (
           <Text type="secondary">{text ?? 'Aucun'}</Text>
         ),
+      ...(columnsVisibility['Bin'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: 'Adresse',
@@ -116,21 +146,25 @@ const Adresse = () => {
             searchedColumn
         ),
       key: 'adresse',
+      align: 'center',
       render: (text) => (
-         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+         <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent:'center' }}>
           <EnvironmentOutlined style={{color:'red'}} />
           <Text type="secondary">{text ?? 'Aucun'}</Text>    
         </div>
       ),
+      ...(columnsVisibility['Adresse'] ? {} : { className: 'hidden-column' }),
     },
     {
-      title: 'superfice sol',
+      title: 'Superfice sol',
       dataIndex: 'superfice_sol',
       key: 'superfice_sol',
       align: 'center',
         render: (text) => (
           <Text type="secondary">{text ?? 'Aucun'}</Text>
         ),
+      ...(columnsVisibility['Superfice sol'] ? {} : { className: 'hidden-column' }),
+
     },
     {
       title: 'Volume (m³)',
@@ -140,6 +174,7 @@ const Adresse = () => {
         render: (text) => (
           <Text type="secondary">{text ?? 'Aucun'}</Text>
         ),
+      ...(columnsVisibility['Volume'] ? {} : { className: 'hidden-column' }),
     }
   ]
 
@@ -203,6 +238,11 @@ const Adresse = () => {
             </div>
 
             <div className="client-rows-right">
+              <Dropdown overlay={menus} trigger={['click']}>
+                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                  Colonnes <DownOutlined />
+                </Button>
+              </Dropdown>
               <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
