@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Table, Input, Typography, notification, Button, Modal } from 'antd';
+import { Table, Input, Skeleton, Typography, notification, Button, Modal } from 'antd';
 import { EnvironmentOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getAdresse } from '../../services/batimentService';
 import AdresseForm from './adresseForm/AdresseForm';
@@ -21,6 +21,8 @@ const Adresse = () => {
       current: 1,
       pageSize: 20,
     });
+  const [statistique, setStatistique] = useState(null);
+  
 
       const fetchData = async () => {
 
@@ -150,12 +152,50 @@ const Adresse = () => {
     <>
       <div className="client">
         <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-            🏢
+          <div className="client-rows">
+            <div className="client-row">
+              <div className="client-row-icon">
+              🏢
+              </div>
+              <h2 className="client-h2">Liste d'adresses</h2>
             </div>
-            <h2 className="client-h2">Liste d'adresses</h2>
+            <div className="client-row-lefts">
+              <span className='client-title'>
+                Resumé :
+              </span>
+              <div className="client-row-sou">
+                {loading ? (
+                  <Skeleton active paragraph={{ rows: 1 }} />
+                ) : (
+                  <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'10px'}}>
+                    <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Nbre de Bins : <strong>{statistique?.nbre_bin}</strong></span>
+                    <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Superficie : <strong>{Math.round(parseFloat(statistique?.total_superficie)).toLocaleString() || 0}</strong></span>
+                    <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                      #Longueur : <strong>
+                      {Math.round(parseFloat(statistique?.total_longueur)).toLocaleString() || 0}</strong>
+                    </span>
+
+                    <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                      #Largeur  : <strong>
+                      { Math.round(parseFloat(statistique?.total_largeur)).toLocaleString() || 0}</strong>
+                    </span>
+
+                    <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                      #Hauteur : <strong>
+                      { Math.round(parseFloat(statistique?.total_hauteur)).toLocaleString() || 0}</strong>
+                    </span>
+
+                    <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
+                      #Capacité : <strong>
+                      { Math.round(parseFloat(statistique?.total_capacite)).toLocaleString() || 0}</strong>
+                    </span>
+
+                    </div>
+                  )}
+                    </div>
+            </div>
           </div>
+
           <div className="client-actions">
             <div className="client-row-left">
               <Search 

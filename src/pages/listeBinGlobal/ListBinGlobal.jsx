@@ -23,7 +23,6 @@ const ListBinGlobal = () => {
   const [activeKey, setActiveKey] = useState(['1', '2']);
   const [statistique, setStatistique] = useState(null);
 
-
   const handleDelete = async (id) => {
     try {
       await putDeleteBins(id);
@@ -252,11 +251,11 @@ const ListBinGlobal = () => {
                     <h2 className="client-h2">Bins</h2>
                   </div>
 
-                      <div className='client-row-lefts'>
-                        <span className='client-title'>
-                        Resumé :
-                        </span>
-                        <div className="client-row-sou">
+                  <div className='client-row-lefts'>
+                    <span className='client-title'>
+                      Resumé :
+                    </span>
+                    <div className="client-row-sou">
                           {loading ? (
                             <Skeleton active paragraph={{ rows: 1 }} />
                           ) : (
@@ -284,8 +283,8 @@ const ListBinGlobal = () => {
                                 </span>
                               </div>
                           )}
-                        </div>
-                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="client-actions">

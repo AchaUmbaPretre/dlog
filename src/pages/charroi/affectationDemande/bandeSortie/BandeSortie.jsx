@@ -24,7 +24,7 @@ const BandeSortie = () => {
 
     const columnStyles = {
       title: {
-        maxWidth: '220px',
+        maxWidth: '160px',
         whiteSpace: 'nowrap',
         overflowX: 'scroll', 
         overflowY: 'hidden',
@@ -90,7 +90,7 @@ const BandeSortie = () => {
       dataIndex: 'nom_service',
       key:'nom_service',
         render : (text) => (
-          <Text type="secondary">{text}</Text>
+          <Tag color='magenta'>{text}</Tag>
         )
     },
     {
@@ -122,7 +122,9 @@ const BandeSortie = () => {
       key: 'nom_cat',
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Text type="secondary">{text}</Text>
+          <div style={columnStyles.title} className={columnStyles.hideScroll}>
+            <Text  type="secondary">{text}</Text>
+          </div>
         </Tooltip>
       ),
     },
@@ -138,7 +140,7 @@ const BandeSortie = () => {
     align: 'center',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+        <Text type="secondary">{text}</Text>
       </Tooltip>
     ),
     },
@@ -152,11 +154,22 @@ const BandeSortie = () => {
       dataIndex: 'date_prevue',
       key: '',
       align: 'center',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
-        </Tooltip>
-      ),
+      render: (text) => {
+        if (!text) {
+          return (
+            <Tag icon={<CalendarOutlined />} color="red">
+              Aucune date
+            </Tag>
+          );
+        }
+        const date = moment(text);
+        const isValid = date.isValid();              
+          return (
+            <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+              {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+            </Tag>
+          );
+      },
     },
     {
       title: (

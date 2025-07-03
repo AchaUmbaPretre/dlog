@@ -4,7 +4,6 @@ import { getCatVehicule, getChauffeur, getDemandeVehiculeOne, getDestination, ge
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getClient } from '../../../../services/clientService';
-import { getLocalisation } from '../../../../services/transporteurService';
 import moment from 'moment';
 import DestinationForm from '../../demandeVehicule/destination/destinationForm/DestinationForm';
 import ClientForm from '../../../client/clientForm/ClientForm';
