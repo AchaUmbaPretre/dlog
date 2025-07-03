@@ -167,27 +167,17 @@ const Adresse = () => {
                 {loading ? (
                   <Skeleton active paragraph={{ rows: 1 }} />
                 ) : (
-                  <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'10px'}}>
+                  <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
                     <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Nbre de Bins : <strong>{statistique?.nbre_bin}</strong></span>
-                    <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Superficie : <strong>{Math.round(parseFloat(statistique?.total_superficie)).toLocaleString() || 0}</strong></span>
+                    <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Nre de batiment : <strong>{Math.round(parseFloat(statistique?.total_superficie)).toLocaleString() || 0}</strong></span>
                     <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                      #Longueur : <strong>
+                      #Superficie sol : <strong>
                       {Math.round(parseFloat(statistique?.total_longueur)).toLocaleString() || 0}</strong>
                     </span>
 
                     <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                      #Largeur  : <strong>
+                      #Volume (m³)  : <strong>
                       { Math.round(parseFloat(statistique?.total_largeur)).toLocaleString() || 0}</strong>
-                    </span>
-
-                    <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                      #Hauteur : <strong>
-                      { Math.round(parseFloat(statistique?.total_hauteur)).toLocaleString() || 0}</strong>
-                    </span>
-
-                    <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                      #Capacité : <strong>
-                      { Math.round(parseFloat(statistique?.total_capacite)).toLocaleString() || 0}</strong>
                     </span>
 
                     </div>
