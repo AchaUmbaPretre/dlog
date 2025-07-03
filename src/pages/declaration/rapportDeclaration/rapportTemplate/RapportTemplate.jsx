@@ -270,36 +270,34 @@ const exportToExcelHTML = () => {
   saveAs(data, `Rapport_${moment().format("YYYY-MM-DD")}.xlsx`);
 };
 
-  
-
   return (
     <>
       {
-            loading ? (
-                <Skeleton active paragraph={{ rows: 1 }} />
-            ) : (
-                <div
-                style={{
-                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-                    borderRadius: '8px',
-                    backgroundColor: '#fff',
-                    width: 'fit-content',
-                    margin: '20px 0',
-                    padding: '15px',
+        loading ? (
+          <Skeleton active paragraph={{ rows: 1 }} />
+        ) : (
+          <div
+            style={{
+              boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+              borderRadius: '8px',
+              backgroundColor: '#fff',
+              width: 'fit-content',
+              margin: '20px 0',
+              padding: '15px',
+            }}
+          >
+            <span
+              style={{
+                  display: 'block',
+                  padding: '10px 15px',
+                  fontWeight: 'bold',
+                  fontSize: '1rem',
+                  borderBottom: '1px solid #f0f0f0',
                 }}
-                >
-                    <span
-                        style={{
-                        display: 'block',
-                        padding: '10px 15px',
-                        fontWeight: 'bold',
-                        fontSize: '1rem',
-                        borderBottom: '1px solid #f0f0f0',
-                        }}
-                    >
-                        Résumé :
-                    </span>
-                <div
+              >
+                Résumé :
+              </span>
+              <div
                     style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(4, 1fr)',

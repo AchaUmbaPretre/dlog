@@ -57,8 +57,6 @@ const SecuriteVisiteurForm = ({ closeModal }) => {
         item, // conserver toutes les données
       }));
 
-        console.log('Suggestions:', formatted); // ← Ajoute ceci
-
       setSuggestions(formatted);
     } catch (error) {
       console.error('Erreur lors de la recherche de plaques :', error);
@@ -66,7 +64,7 @@ const SecuriteVisiteurForm = ({ closeModal }) => {
   };
 
 const handleSelectPlaque = (value, option) => {
-  console.log('Option sélectionnée:', option); // ← Ajoute ça pour vérifier
+  console.log('Option sélectionnée:', option);
   const selected = option.item;
 
   if (selected) {
