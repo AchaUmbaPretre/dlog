@@ -143,10 +143,10 @@ const Adresse = () => {
   ]
 
   const filteredData = data.filter(item =>
-        item.adresse?.toLowerCase().includes(searchValue.toLowerCase()) || 
-        item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase()) || 
-        item.nom?.toLowerCase().includes(searchValue.toLowerCase())
-   );
+    item.adresse?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <>
