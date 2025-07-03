@@ -12,7 +12,7 @@ import {
   Button,
   AutoComplete
 } from 'antd';
-import { getCatVehicule, getMotif, getVisiteurVehicule, postVisiteurVehicule } from '../../../../../services/charroiService';
+import { getCatVehicule, getMotif, getVisiteurVehicule, getVisiteurVehiculeSearch, postVisiteurVehicule } from '../../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 
 const SecuriteVisiteurForm = ({ closeModal }) => {
@@ -49,12 +49,12 @@ const SecuriteVisiteurForm = ({ closeModal }) => {
     }
 
     try {
-      const { data } = await getVisiteurVehicule(value);
+      const { data } = await getVisiteurVehiculeSearch(value);
 
       const formatted = data.map(item => ({
         value: item.immatriculation,
         label: `${item.immatriculation} (${item.nom_chauffeur || 'Inconnu'})`,
-        item, // conserver toutes les données
+        item,
       }));
 
       setSuggestions(formatted);
@@ -213,7 +213,6 @@ const handleSelectPlaque = (value, option) => {
                 label="Véhicule déjà connu"
                 name="vehicule_connu"
                 valuePropName="checked"
-                rules={[{ required: true, message: 'Ce champ est requis' }]}
               >
                 <Switch checkedChildren="1" unCheckedChildren="0" />
               </Form.Item>

@@ -55,35 +55,35 @@ const SecuriteVisiteur = () => {
         width: "3%"
     },
     {
-    title: (
-      <Space>
-        <Text strong>Chauffeur</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_chauffeur',
-    key: 'nom_chauffeur',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
+      title: (
+        <Space>
+          <Text strong>Chauffeur</Text>
+        </Space>
+      ),
+      dataIndex: 'nom_chauffeur',
+      key: 'nom_chauffeur',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text>{text}</Text>
+        </Tooltip>
+      ),
     },
     {
-    title: (
-      <Space>
-        <Text strong>Matricule</Text>
-      </Space>
-    ),
-    dataIndex:'immatriculation',
-    key: 'immatriculation',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text  type="secondary">{text}</Text>
-      </Tooltip>
-    ),
+      title: (
+        <Space>
+          <Text strong>Matricule</Text>
+        </Space>
+      ),
+      dataIndex:'immatriculation',
+      key: 'immatriculation',
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text  type="secondary">{text}</Text>
+        </Tooltip>
+      ),
     },
     {
         title : "Motif",
@@ -94,14 +94,22 @@ const SecuriteVisiteur = () => {
         )
     },
     {
+      title : "Proprietaire",
+      dataIndex: 'proprietaire',
+      key:'proprietaire',
+        render : (text) => (
+          <Tag color={'green'}>{text}</Tag>
+        )
+    },
+    {
       title: (
         <Space>
           <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Date</Text>
+          <Text strong>Date entree</Text>
         </Space>
       ),
-      dataIndex: 'created_at',
-      key: 'created_at',
+      dataIndex: 'date_entree',
+      key: 'date_entree',
       render: (text) => {
         if (!text) {
             return (
@@ -119,7 +127,33 @@ const SecuriteVisiteur = () => {
             );
         },
     },
-        {
+    {
+      title: (
+        <Space>
+          <CalendarOutlined style={{ color: 'blue' }} />
+          <Text strong>Date sortie</Text>
+        </Space>
+      ),
+      dataIndex: 'date_sortie',
+      key: 'date_sortie',
+      render: (text) => {
+        if (!text) {
+            return (
+                <Tag icon={<CalendarOutlined />} color="red">
+                    N'est pas sorti
+                </Tag>
+            );
+        }
+        const date = moment(text);
+        const isValid = date.isValid();              
+            return (
+                <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                    {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+                </Tag>
+            );
+        },
+    },
+    {
     title: (
       <Space>
         <Text strong>Securité</Text>
