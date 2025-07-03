@@ -286,8 +286,8 @@ return axios.post(`${DOMAIN}/api/batiment/whse_fact`, params);
 };
 
 //Adresse
-export const getAdresse = async () => {
-  return axios.get(`${DOMAIN}/api/batiment/adresse`);
+export const getAdresse = async (searchValue) => {
+  return axios.get(`${DOMAIN}/api/batiment/adresse?search=${searchValue}`);
 };
 
 export const getAdresseBinOne = async (id) => {

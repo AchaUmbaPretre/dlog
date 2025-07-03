@@ -27,7 +27,7 @@ const Adresse = () => {
       const fetchData = async () => {
 
       try {
-        const { data } = await getAdresse();
+        const { data } = await getAdresse(searchValue);
         setData(data.data);
         setStatistique(data.statistiques)
         setLoading(false);
@@ -42,7 +42,7 @@ const Adresse = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [searchValue]);
 ;
 
   const closeAllModals = () => {
@@ -173,12 +173,18 @@ const Adresse = () => {
                     <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Nre de batiment : <strong>{Math.round(parseFloat(statistique?.nbre_batiment)).toLocaleString() || 0}</strong></span>
                     <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
                       #Superficie sol : <strong>
-                      {Math.round(parseFloat(statistique?.total_superficie)).toLocaleString() || 0}</strong>
+                        { isNaN(parseFloat(statistique?.total_superficie)) 
+                          ? 0 
+                          : Math.round(parseFloat(statistique.total_superficie)).toLocaleString() }
+                      </strong>
                     </span>
 
                     <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
-                      #Volume (m³)  : <strong>
-                      { Math.round(parseFloat(statistique?.total_volume)).toLocaleString() || 0}</strong>
+                      #Volume (m³) : <strong>
+                        { isNaN(parseFloat(statistique?.total_volume)) 
+                          ? 0 
+                          : Math.round(parseFloat(statistique.total_volume)).toLocaleString() }
+                      </strong>
                     </span>
 
                     </div>
