@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Modal, Tooltip, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
-import { getCatVehicule, getChauffeur, getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
+import { getChauffeur, getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getClient } from '../../../../services/clientService';
@@ -19,8 +19,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
     const [ destination, setDestination ] = useState([]);
-    const [modalType, setModalType] = useState(null);
-
+    const [ modalType, setModalType ] = useState(null);
 
     const fetchDatas = async() => {
         try {
@@ -76,7 +75,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
 
     const handleDestination = () => openModal('Destination');
     const handleClient = () => openModal('Client')
-
 
     const onFinish = async (values) => {
         await form.validateFields();
