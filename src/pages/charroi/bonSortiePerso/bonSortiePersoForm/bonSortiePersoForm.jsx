@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import { getSociete } from '../../../../services/userService';
+import { getPersonne, getSociete } from '../../../../services/userService';
 import { getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, postBonSortiePerso } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 
@@ -10,8 +10,6 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ loadingData, setLoadingData ] = useState(false);
-    const [ vehicule, setVehicule ] = useState([]);
-    const [ chauffeur, setChauffeur ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [ type, setType ] = useState([]);
     const [ motif, setMotif ] = useState([]);
@@ -19,26 +17,27 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
     const [ client, setClient ] = useState([]);
     const [ destination, setDestination ] = useState([]);
     const [ societe, setSociete ] = useState([]);
+    const [ person, setPerson ] = useState([]);
 
         const fetchDatas = async() => {
             try {
-                const [chaufferData, serviceData, typeData, motifData, clientData, localData, societeData] = await Promise.all([
-                    getChauffeur(),
+                const [serviceData, typeData, motifData, clientData, localData, societeData, persoData] = await Promise.all([
                     getServiceDemandeur(),
                     getTypeVehicule(),
                     getMotif(),
                     getClient(),
                     getDestination(),
-                    getSociete()
+                    getSociete(),
+                    getPersonne()
                 ])
     
-                setChauffeur(chaufferData.data?.data)
                 setService(serviceData.data);
                 setType(typeData.data);
                 setMotif(motifData.data);
                 setClient(clientData.data);
                 setDestination(localData.data);
-                setSociete(societeData.data)
+                setSociete(societeData.data);
+                setPerson(persoData.data)
                 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -94,8 +93,28 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                     <Card>
                         <Row gutter={12}>
 
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Personnel"
+                                    name="id_personnel"
+                                    rules={[{ required: true, message: 'Veuillez sélectionner un personnel' }]}
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={person?.map((item) => ({
+                                            value: item.id_personnel ,
+                                            label: `${item.nom}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
 
-                            <Col xs={24} md={6}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Date & heure de sortie"
                                     name="	date_sortie"
@@ -110,7 +129,7 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={6}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Retour prévue"
                                     name="date_retour"
@@ -128,7 +147,7 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Motif"
-                                    name="id_motif_demande"
+                                    name="id_motif"
                                     rules={[{ required: true, message: 'Veuillez sélectionner un motif' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
@@ -146,7 +165,7 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={12}>
                                 <Form.Item
                                     label="Service demandeur"
                                     name="id_demandeur"
@@ -167,7 +186,7 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={12}>
                                 <Form.Item
                                     label="Client"
                                     name="id_client"
@@ -187,7 +206,7 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={12}>
                                 <Form.Item
                                     label="Destination"
                                     name="id_destination"
@@ -207,7 +226,7 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={12}>
                                 <Form.Item
                                     label="Société"
                                     name="id_societe"

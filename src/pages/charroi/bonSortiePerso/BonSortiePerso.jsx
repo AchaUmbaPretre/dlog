@@ -95,7 +95,7 @@ const BonSortiePerso = () => {
       title: (
         <Space>
           <UserOutlined  style={{color:'orange'}}/>
-          <Text strong>Chauffeur</Text>
+          <Text strong>Personnel</Text>
         </Space>
       ),
       dataIndex: 'nom',
@@ -108,41 +108,6 @@ const BonSortiePerso = () => {
           <Text type="secondary">{text}</Text>
         </Tooltip>
       ),
-    },
-    {
-      title: (
-        <Space>
-          <CarOutlined style={{ color: 'red' }} />
-          <Text strong>Véhicule</Text>
-        </Space>
-      ),
-      dataIndex:'nom_cat',
-      key: 'nom_cat',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <div style={columnStyles.title} className={columnStyles.hideScroll}>
-            <Text  type="secondary">{text}</Text>
-          </div>
-        </Tooltip>
-      ),
-    },
-    {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: '#2db7f5' }} />
-        <Text strong>Marque</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_marque',
-    key: 'nom_marque',
-    align: 'center',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Tag icon={<TrademarkOutlined />} color="blue">
-          {text}
-        </Tag>
-      </Tooltip>
-    ),
     },
     {
       title: (
@@ -288,7 +253,7 @@ const BonSortiePerso = () => {
             visible={modalType === 'AddBonSortie'}
             onCancel={closeAllModals}
             footer={null}
-            width={700}
+            width={1000}
             centered
         >
             <BonSortiePersoForm closeModal={() => setModalType(null)} fetchData={fetchData} />
