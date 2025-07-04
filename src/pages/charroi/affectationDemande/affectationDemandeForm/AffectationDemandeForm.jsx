@@ -22,6 +22,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const [ modalType, setModalType ] = useState(null);
 
     const fetchDatas = async() => {
+        setLoadingData(true);
         try {
             const [vehiculeData, chaufferData, serviceData, motifData, clientData, localData] = await Promise.all([
                 getVehiculeDispo(),
