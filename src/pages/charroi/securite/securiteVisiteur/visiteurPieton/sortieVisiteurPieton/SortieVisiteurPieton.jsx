@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { notification, Button, Card, Typography, Empty, Spin } from 'antd';
 import { getPietonRetour, putPietonRetour } from '../../../../../../services/userService';
+import moment from 'moment';
 
 const { Title, Text } = Typography;
 
@@ -32,7 +33,7 @@ const SortieVisiteurPieton = () => {
       await putPietonRetour(idVisiteur);
       notification.success({
         message: 'Sortie validé',
-        description: `Le pieton est sorti`,
+        description: `Le visiteur est sorti`,
       });
       fetchData();
     } catch (error) {
@@ -67,6 +68,20 @@ const SortieVisiteurPieton = () => {
                   <div className="securite_info">
                     <Text strong>Nom : </Text>
                     <Text>{d?.nom_complet}</Text>
+                  </div>
+
+                  <div className="securite_info">
+                    <Text strong>Motif : </Text>
+                    <Text>{d?.nom_motif_demande}</Text>
+                  </div>
+                  <div className="securite_info">
+                    <Text strong>Pièce : </Text>
+                    <Text>{d?.piece_identite}</Text>
+                  </div>
+
+                  <div className="securite_info">
+                    <Text strong>Heure d'entrée : </Text>
+                    <Text>{moment(d?.date_heure_arrivee).format("HH:mm")}</Text>
                   </div>
                 </div>
 

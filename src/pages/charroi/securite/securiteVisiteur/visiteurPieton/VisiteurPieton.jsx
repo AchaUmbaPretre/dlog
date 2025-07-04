@@ -134,8 +134,8 @@ const VisiteurPieton = () => {
           <Text strong>Date sortie</Text>
         </Space>
       ),
-      dataIndex: 'date_heure_depart"',
-      key: 'date_heure_depart"',
+      dataIndex: 'date_heure_depart',
+      key: 'date_heure_depart',
       render: (text) => {
         if (!text) {
             return (

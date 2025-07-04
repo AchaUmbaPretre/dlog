@@ -5,7 +5,10 @@ import securiteIcon from './../../../assets/securite.png';
 import retourIcon from './../../../assets/retour.png';
 import sortieIcon from './../../../assets/sortie.png';
 import visiteurIcon from './../../../assets/visiteur.png';
+import visiteurSortieIcon from './../../../assets/visiteur_sortie.png';
 import agentIcon from './../../../assets/agent.png';
+import visiteurPietonIcon from './../../../assets/visiteur_pieton.png';
+import visiteurPietonSortieIcon from './../../../assets/sortie_pieton.png';
 import BottomNav from './bottomNav/BottomNav';
 import {
 PoweroffOutlined
@@ -44,7 +47,7 @@ const Securite = () => {
     };
 
     const handleInfo = () => {
-        openModal('Info');
+        openModal('Agent');
     };
 
     const handleVisiteur = () => {
@@ -109,9 +112,9 @@ const Securite = () => {
                 { label: "Sortie", icon: sortieIcon, onClick: handleSortie },
                 { label: "Entrée", icon: retourIcon, onClick: handleRetour },
                 { label: "Visiteur", icon: visiteurIcon, onClick: handleVisiteur },
-                { label: "Sortie visiteur", icon: visiteurIcon, onClick: handleSortieVisiteur },
-                { label: "Visiteur Piéton", icon: visiteurIcon, onClick: handleVisiteurPieton },
-                { label: "Sortie Visiteur Piéton", icon: visiteurIcon, onClick: handleVisiteurPietonRetour },
+                { label: "Sortie visiteur", icon: visiteurSortieIcon, onClick: handleSortieVisiteur },
+                { label: "Visiteur Piéton", icon: visiteurPietonIcon, onClick: handleVisiteurPieton },
+                { label: "Sortie Visiteur Piéton", icon: visiteurPietonSortieIcon, onClick: handleVisiteurPietonRetour },
                 { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
 
             ].map(({ label, icon, onClick }) => (
@@ -199,6 +202,18 @@ const Securite = () => {
         >
             <VisiteurSortie closeModal={() => setModalType(null)} />
         </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'Agent'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={500}
+            centered
+        >
+            Agent
+{/*             <VisiteurSortie closeModal={() => setModalType(null)} />
+ */}        </Modal>
     </>
   )
 }

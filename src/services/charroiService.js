@@ -531,8 +531,8 @@ export const getSortieVisiteur = async () => {
     return axios.get(`${DOMAIN}/api/charroi/visiteur_retour`);
 }
 
-export const postSortieVisiteur = async (id) => {
-    return axios.post(`${DOMAIN}/api/charroi/visiteur_retour?id_registre_visiteur=${id}`);
+export const putSortieVisiteur = async (id) => {
+    return axios.put(`${DOMAIN}/api/charroi/visiteur_retour?id_registre_visiteur=${id}`);
 }
 
 //SORTIE ENTREE
