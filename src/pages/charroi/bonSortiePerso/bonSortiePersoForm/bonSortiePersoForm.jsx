@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
-import moment from 'moment';
-import { getAffectationDemandeOne, getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, postBandeSortie } from '../../../../../services/charroiService';
-import { getClient } from '../../../../../services/clientService';
 import { useSelector } from 'react-redux';
-import { getSociete } from '../../../../../services/userService';
+import { getSociete } from '../../../../services/userService';
+import { getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, postBonSortiePerso } from '../../../../services/charroiService';
+import { getClient } from '../../../../services/clientService';
 
-const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
+const BonSortiePersoForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ loadingData, setLoadingData ] = useState(false);
@@ -23,8 +22,7 @@ const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
 
         const fetchDatas = async() => {
             try {
-                const [vehiculeData, chaufferData, serviceData, typeData, motifData, clientData, localData, societeData] = await Promise.all([
-                    getVehicule(),
+                const [chaufferData, serviceData, typeData, motifData, clientData, localData, societeData] = await Promise.all([
                     getChauffeur(),
                     getServiceDemandeur(),
                     getTypeVehicule(),
@@ -34,7 +32,6 @@ const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
                     getSociete()
                 ])
     
-                setVehicule(vehiculeData.data.data)
                 setChauffeur(chaufferData.data?.data)
                 setService(serviceData.data);
                 setType(typeData.data);
@@ -42,22 +39,6 @@ const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
                 setClient(clientData.data);
                 setDestination(localData.data);
                 setSociete(societeData.data)
-    
-                 if(affectationId) {
-                    const { data : d } = await getAffectationDemandeOne(affectationId);
-                    form.setFieldsValue({
-                        id_vehicule : d[0].id_vehicule,
-                        id_chauffeur : d[0].id_chauffeur,
-                        date_prevue : moment(d[0].date_prevue),
-                        date_retour : moment(d[0].date_retour),
-                        id_type_vehicule : d[0].id_type_vehicule,
-                        id_motif_demande : d[0].id_motif_demande,
-                        id_demandeur : d[0].id_demandeur,
-                        id_client : d[0].id_client,
-                        id_destination : d[0].id_destination,
-                        personne_bord : d[0].personne_bord
-                    })
-                }
                 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -68,7 +49,7 @@ const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
     
         useEffect(()=> {
             fetchDatas();
-        }, [affectationId]);
+        }, []);
 
 
     const onFinish = async (values) => {
@@ -79,9 +60,8 @@ const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
             setLoading(true);
         
                 try {
-                    await postBandeSortie({
+                    await postBonSortiePerso({
                         ...values,
-                        id_affectation_demande : affectationId,
                         user_cr: userId
                     })
                     
@@ -102,7 +82,7 @@ const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Form de bon de sortie</div>
+                <div className="controle_h2">Form de bon de sortie perso.</div>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -114,50 +94,11 @@ const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
                     <Card>
                         <Row gutter={12}>
 
-                            <Col xs={24} md={6}>
-                                <Form.Item
-                                    label="Véhicule"
-                                    name="id_vehicule"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un véhicule' }]}
-                                >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        allowClear
-                                        showSearch
-                                        options={vehicule?.map((item) => ({
-                                            value: item.id_vehicule,
-                                            label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
-                                        }))}
-                                        optionFilterProp="label"
-                                        placeholder="Sélectionnez un vehicule..."
-                                /> }
-                                </Form.Item>
-                            </Col>
 
                             <Col xs={24} md={6}>
                                 <Form.Item
-                                    label="Chauffeur"
-                                    name="id_chauffeur"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un chauffeur' }]}
-                                >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={chauffeur?.map((item) => ({
-                                        value: item.id_chauffeur,
-                                        label: item.nom
-                                    }))}
-                                    optionFilterProp="label"
-                                    placeholder="Sélectionnez un chauffeur..."
-                                />}
-                                </Form.Item>
-                            </Col>
-
-                            <Col xs={24} md={6}>
-                                <Form.Item
-                                    label="Départ prévue"
-                                    name="date_prevue"
+                                    label="Date & heure de sortie"
+                                    name="	date_sortie"
                                     rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
                                 >
                                     <DatePicker 
@@ -265,17 +206,6 @@ const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
                                     }
                                 </Form.Item>
                             </Col>
-                            
-                            <Col xs={24} md={8}>
-                                <Form.Item
-                                    label="Personne(s) à bord"
-                                    name="personne_bord"
-                                >
-                                    { loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Input  placeholder="Saisir..." style={{width:'100%'}}/>
-                                    }
-                                </Form.Item>
-                            </Col>
 
                             <Col xs={24} md={8}>
                                 <Form.Item
@@ -313,4 +243,4 @@ const BonSortieForm = ({closeModal, fetchData, affectationId}) => {
   )
 }
 
-export default BonSortieForm;
+export default BonSortiePersoForm;

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Space, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, FileTextOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, PlusCircleOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getBonSortiePerso } from '../../../services/charroiService';
 import { statusIcons } from '../../../utils/prioriteIcons';
+import BonSortiePersoForm from './bonSortiePersoForm/BonSortiePersoForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -37,8 +38,7 @@ const BonSortiePerso = () => {
       },
     };
 
-    const handlSortie = (id) => openModal('validation', id);
-    const handleReleve = (id) => openModal('releve', id);
+    const handleAdd = () => openModal('AddBonSortie');
 
     const closeAllModals = () => {
       setModalType(null);
@@ -215,7 +215,7 @@ const BonSortiePerso = () => {
             );
         },
     },
-    {
+/*     {
         title: (
         <Text strong>Actions</Text>
         ),
@@ -224,15 +224,6 @@ const BonSortiePerso = () => {
         width : '120px',
         render: (text, record) => (
         <Space size="small">
-
-            <Tooltip title="Relevé des bons de sortie">
-                <Button
-                    icon={<FileTextOutlined />}
-                    style={{ color: 'blue' }}
-                    onClick={() => handleReleve(record.id_bande_sortie)}
-                    aria-label="Relevé"
-                />
-            </Tooltip>
 
             <Tooltip title="valider">
                 <Button
@@ -244,7 +235,7 @@ const BonSortiePerso = () => {
             </Tooltip>
         </Space>
         ),
-    },
+    }, */
    ]
 
     const filteredData = data.filter(item =>
@@ -270,6 +261,13 @@ const BonSortiePerso = () => {
                 />
               </div>
               <div className="client-rows-right">
+                <Button
+                  type="primary"
+                  icon={<PlusCircleOutlined />}
+                  onClick={handleAdd}
+                >
+                  Ajouter
+                </Button>
               </div>
               </div>
               <Table
@@ -285,7 +283,16 @@ const BonSortiePerso = () => {
               />
             </div>
         </div>
-
+        <Modal
+            title=""
+            visible={modalType === 'AddBonSortie'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={700}
+            centered
+        >
+            <BonSortiePersoForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }
