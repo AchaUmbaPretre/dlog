@@ -46,64 +46,64 @@ const DemandeVehiculeDispo = () => {
             const pageSize = pagination.pageSize || 10;
             const pageIndex = pagination.current || 1;
             return (pageIndex - 1) * pageSize + index + 1;
+          },
+          width: "4%"
         },
-        width: "4%"
-    },
-    {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: 'red' }} />
-        <Text strong>Immatriculation</Text>
-      </Space>
-    ),
-    dataIndex: 'immatriculation',
-    key: 'immatriculation',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
-    },
-    {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: 'blue' }} />
-        <Text strong>Modèle</Text>
-      </Space>
-    ),
-    dataIndex: 'modele',
-    key: 'modele',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
-    },
-    {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: '#2db7f5' }} />
-        <Text strong>Marque</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_marque',
-    key: 'nom_marque',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
-    },
-   ]
+        {
+        title: (
+          <Space>
+            <CarOutlined style={{ color: 'red' }} />
+            <Text strong>Immatriculation</Text>
+          </Space>
+        ),
+        dataIndex: 'immatriculation',
+        key: 'immatriculation',
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text>{text}</Text>
+          </Tooltip>
+        ),
+        },
+        {
+        title: (
+          <Space>
+            <CarOutlined style={{ color: 'blue' }} />
+            <Text strong>Modèle</Text>
+          </Space>
+        ),
+        dataIndex: 'modele',
+        key: 'modele',
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text>{text}</Text>
+          </Tooltip>
+        ),
+        },
+        {
+        title: (
+          <Space>
+            <CarOutlined style={{ color: '#2db7f5' }} />
+            <Text strong>Marque</Text>
+          </Space>
+        ),
+        dataIndex: 'nom_marque',
+        key: 'nom_marque',
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text>{text}</Text>
+          </Tooltip>
+        ),
+        },
+      ]
 
   const filteredData = data.filter(item =>
     item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
