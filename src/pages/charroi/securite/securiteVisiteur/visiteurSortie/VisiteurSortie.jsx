@@ -31,14 +31,14 @@ const VisiteurSortie = () => {
     try {
 /*       await putPietonRetour(idVisiteur);
  */      notification.success({
-        message: 'Retour validé',
+        message: 'Sortie validée',
         description: `Le pieton est sorti`,
       });
       fetchData();
     } catch (error) {
       notification.error({
         message: 'Erreur',
-        description: 'Impossible de valider le retour.',
+        description: 'Impossible de valider la sortie.',
       });
     }
   };
@@ -46,7 +46,7 @@ const VisiteurSortie = () => {
   return (
     <div className='securiteRetour'>
       <div className="securiteRetour_wrapper">
-        <Title level={4} className="securite_title">🔁 Sortie des visiteurs</Title>
+        <Title level={5} className="securite_title">🔁 Sortie des visiteurs</Title>
 
         {loading ? (
           <div className="securite_loader">
