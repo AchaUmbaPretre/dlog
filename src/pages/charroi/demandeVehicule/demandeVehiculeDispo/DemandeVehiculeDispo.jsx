@@ -130,7 +130,8 @@ const DemandeVehiculeDispo = () => {
                 <Table
                     columns={columns}
                     dataSource={filteredData}
-                    onChange={(pagination)=> setPagination(pagination)}
+                    pagination={pagination}
+                    onChange={(pagination) => setPagination(pagination)}
                     rowKey="id_vehicule"
                     rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                     bordered
