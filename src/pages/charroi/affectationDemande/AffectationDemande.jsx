@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Modal, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, TrademarkOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
 import AffectationDemandeForm from './affectationDemandeForm/AffectationDemandeForm';
@@ -137,7 +137,9 @@ const AffectationDemande = () => {
       align: 'center',
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Tag color='cyan'>{text.toUpperCase()}</Tag>
+          <Tag icon={<TrademarkOutlined />} color="blue">
+            {text.toUpperCase()}
+          </Tag>
         </Tooltip>
       ),
     },

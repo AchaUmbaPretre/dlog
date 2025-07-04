@@ -90,7 +90,7 @@ const BandeSortie = () => {
       dataIndex: 'nom_service',
       key:'nom_service',
         render : (text) => (
-          <Tag color='magenta'>{text}</Tag>
+          <Tag color='purple'>{text}</Tag>
         )
     },
     {

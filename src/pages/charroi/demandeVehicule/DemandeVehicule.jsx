@@ -167,7 +167,7 @@ const DemandeVehicule = () => {
 
     const columnStyles = {
         title: {
-          maxWidth: '220px',
+          maxWidth: '180px',
           whiteSpace: 'nowrap',
           overflowX: 'scroll', 
           scrollbarWidth: 'none',
@@ -318,7 +318,7 @@ const DemandeVehicule = () => {
             ),
             key: 'action',
             align: 'center',
-            width : '120px',
+            width : '110px',
             render: (text, record) => (
             <Space size="small">
                 <Tooltip title="Modifier cette localisation">
