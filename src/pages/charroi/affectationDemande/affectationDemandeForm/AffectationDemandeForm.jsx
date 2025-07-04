@@ -15,7 +15,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const [ vehicule, setVehicule ] = useState([]);
     const [ chauffeur, setChauffeur ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    const [ type, setType ] = useState([]);
     const [ motif, setMotif ] = useState([]);
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
@@ -25,11 +24,10 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
 
     const fetchDatas = async() => {
         try {
-            const [vehiculeData, chaufferData, serviceData, typeData, motifData, clientData, localData] = await Promise.all([
+            const [vehiculeData, chaufferData, serviceData, motifData, clientData, localData] = await Promise.all([
                 getVehiculeDispo(),
                 getChauffeur(),
                 getServiceDemandeur(),
-                getCatVehicule(),
                 getMotif(),
                 getClient(),
                 getDestination()
@@ -38,7 +36,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             setVehicule(vehiculeData.data);
             setChauffeur(chaufferData.data?.data);
             setService(serviceData.data);
-            setType(typeData.data);
             setMotif(motifData.data);
             setClient(clientData.data);
             setDestination(localData.data);

@@ -29,7 +29,7 @@ const DemandeVehicule = () => {
   const [data, setData] = useState([]);
   const [modalType, setModalType] = useState(null);
   const scroll = { x: 'max-content' };
-  const [activeKey, setActiveKey] = useState(['1', '2']);
+  const [activeKey, setActiveKey] = useState('1');
   const [demandeId, setDemandeId] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
@@ -362,11 +362,10 @@ const DemandeVehicule = () => {
   return (
     <>
         <Tabs
-            activeKey={activeKey[0]}
+            activeKey={activeKey}
             onChange={handleTabChange}
             type="card"
             tabPosition="top"
-            renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
         >
             <TabPane
                 tab={

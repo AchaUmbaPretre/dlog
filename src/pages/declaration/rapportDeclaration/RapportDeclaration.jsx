@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Tabs } from 'antd';
 import {
     AreaChartOutlined,
@@ -50,7 +50,6 @@ const RapportDeclaration = () => {
                     onChange={handleTabChange}
                     type="card"
                     tabPosition="top"
-                    
                 >
                     <TabPane
                         tab={
