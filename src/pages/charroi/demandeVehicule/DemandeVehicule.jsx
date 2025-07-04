@@ -20,6 +20,7 @@ import Destination from './destination/Destination';
 import SortieEntree from '../affectationDemande/sortieEntree/SortieEntree';
 import SecuriteVisiteur from '../securite/securiteVisiteur/SecuriteVisiteur';
 import VisiteurPieton from '../securite/securiteVisiteur/visiteurPieton/VisiteurPieton';
+import BonSortiePerso from '../bonSortiePerso/BonSortiePerso';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -459,10 +460,21 @@ const DemandeVehicule = () => {
             <TabPane
                 tab={
                     <span>
-                    🚗 Véhicule en course
+                    📤 Bon de sortie des perso
                     </span>
                 }
                 key="4"
+            >
+                <BonSortiePerso/>
+            </TabPane>
+
+            <TabPane
+                tab={
+                    <span>
+                    🚗 Véhicule en course
+                    </span>
+                }
+                key="5"
             >
                 <VehiculeCourse/>
             </TabPane>
@@ -473,7 +485,7 @@ const DemandeVehicule = () => {
                     🔴 Entrée / Sortie
                     </span>
                 }
-                key="5"
+                key="6"
             >
                 <SortieEntree/>
            </TabPane>
@@ -482,7 +494,7 @@ const DemandeVehicule = () => {
                 tab={
                     <span>🪪 Les visiteurs</span>
                 }
-                key="6"
+                key="7"
             >
                 <SecuriteVisiteur />
             </TabPane>
@@ -491,7 +503,7 @@ const DemandeVehicule = () => {
                 tab={
                     <span>🪪 Les piétons</span>
                 }
-                key="7"
+                key="8"
             >
                 <VisiteurPieton />
             </TabPane>
@@ -503,7 +515,7 @@ const DemandeVehicule = () => {
                     🚗 Les vehicules occupés
                     </span>
                 }
-                key="8"
+                key="9"
             >
                 <VehiculeOccupe/>
             </TabPane>
@@ -514,7 +526,7 @@ const DemandeVehicule = () => {
                     🚙 Les vehicules disponibles
                     </span>
                 }
-                key="9"
+                key="10"
             >
                 <DemandeVehiculeDispo/>
             </TabPane>
@@ -525,7 +537,7 @@ const DemandeVehicule = () => {
                     💼 Services
                     </span>
                 }
-                key="10"
+                key="11"
             >
                 <DemandeurVehicule/>
             </TabPane>
@@ -536,7 +548,7 @@ const DemandeVehicule = () => {
                     🗺️ Destination
                     </span>
                 }
-                key="11"
+                key="12"
             >
                 <Destination/>
             </TabPane>
