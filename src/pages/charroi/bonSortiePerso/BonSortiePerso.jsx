@@ -84,14 +84,6 @@ const BonSortiePerso = () => {
         width: "3%"
     },
     {
-      title : "Service",
-      dataIndex: 'nom_service',
-      key:'nom_service',
-        render : (text) => (
-          <Tag color='purple'>{text}</Tag>
-        )
-    },
-    {
       title: (
         <Space>
           <UserOutlined  style={{color:'orange'}}/>
@@ -110,14 +102,30 @@ const BonSortiePerso = () => {
       ),
     },
     {
+      title : "Service",
+      dataIndex: 'nom_service',
+      key:'nom_service',
+        render : (text) => (
+          <Tag color='purple'>{text}</Tag>
+        )
+    },
+    {
+      title : "Client",
+      dataIndex: 'nom_client',
+      key:'nom_client',
+        render : (text) => (
+          <Tag color='gold'>{text}</Tag>
+        )
+    },
+    {
       title: (
         <Space>
           <CalendarOutlined style={{ color: 'blue' }} />
           <Text strong>Preuve</Text>
         </Space>
       ),
-      dataIndex: 'date_prevue',
-      key: '',
+      dataIndex: 'date_sortie',
+      key: 'date_sortie',
       align: 'center',
       render: (text) => {
         if (!text) {
@@ -161,6 +169,35 @@ const BonSortiePerso = () => {
                 </Tag>
             );
         },
+    },
+     {
+      title: (
+        <Space>
+          <UserOutlined  style={{color:'orange'}}/>
+          <Text strong>Destination</Text>
+        </Space>
+      ),
+      dataIndex: 'nom_destination',
+      key: 'nom_destination',
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text type="secondary">{text}</Text>
+        </Tooltip>
+      ),
+    },
+    {
+      title: (
+        <Space>
+          <Text strong>Motif</Text>
+        </Space>
+      ),
+      dataIndex: 'nom_motif_demande',
+      key: 'nom_motif_demande',
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Tag type="secondary">{text}</Tag>
+        </Tooltip>
+      ),
     },
     {
         title: (
@@ -215,7 +252,7 @@ const BonSortiePerso = () => {
               <div className="client-row-icon">
                 <ExportOutlined className='client-icon' style={{color:'blue'}} />
               </div>
-              <h2 className="client-h2"> Tableau des bons de sortie perso</h2>
+              <h2 className="client-h2"> Tableau des bons de sortie du personnel</h2>
             </div>
             <div className="client-actions">
               <div className="client-row-left">

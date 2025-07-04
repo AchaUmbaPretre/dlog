@@ -81,7 +81,7 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Form de bon de sortie perso.</div>
+                <div className="controle_h2">Formulaire de bon de sortie du personnel</div>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -92,7 +92,6 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                 >
                     <Card>
                         <Row gutter={12}>
-
                             <Col xs={24} md={12}>
                                 <Form.Item
                                     label="Date & heure de sortie"
