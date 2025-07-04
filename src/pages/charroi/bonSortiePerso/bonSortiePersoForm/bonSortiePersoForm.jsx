@@ -93,7 +93,37 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                     <Card>
                         <Row gutter={12}>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    label="Date & heure de sortie"
+                                    name="date_sortie"
+                                    rules={[{ required: true, message: "Veuillez fournir la date et l'heure"}]}
+                                >
+                                    <DatePicker 
+                                        style={{width:'100%'}}
+                                        showTime={{ format: 'HH:mm' }} 
+                                        format="YYYY-MM-DD HH:mm" 
+                                        placeholder="Choisir date et heure" 
+                                    />
+                                </Form.Item>
+                            </Col>
+                            
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    label="Retour prévue"
+                                    name="date_retour"
+                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
+                                >
+                                    <DatePicker 
+                                        style={{width:'100%'}}
+                                        showTime={{ format: 'HH:mm' }} 
+                                        format="YYYY-MM-DD HH:mm" 
+                                        placeholder="Choisir date et heure" 
+                                    />
+                                </Form.Item>
+                            </Col>
+
+                                                        <Col xs={24} md={12}>
                                 <Form.Item
                                     label="Personnel"
                                     name="id_personnel"
@@ -113,38 +143,8 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                                     }
                                 </Form.Item>
                             </Col>
-
-                            <Col xs={24} md={8}>
-                                <Form.Item
-                                    label="Date & heure de sortie"
-                                    name="	date_sortie"
-                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
-                                >
-                                    <DatePicker 
-                                        style={{width:'100%'}}
-                                        showTime={{ format: 'HH:mm' }} 
-                                        format="YYYY-MM-DD HH:mm" 
-                                        placeholder="Choisir date et heure" 
-                                    />
-                                </Form.Item>
-                            </Col>
                             
-                            <Col xs={24} md={8}>
-                                <Form.Item
-                                    label="Retour prévue"
-                                    name="date_retour"
-                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
-                                >
-                                    <DatePicker 
-                                        style={{width:'100%'}}
-                                        showTime={{ format: 'HH:mm' }} 
-                                        format="YYYY-MM-DD HH:mm" 
-                                        placeholder="Choisir date et heure" 
-                                    />
-                                </Form.Item>
-                            </Col>
-                            
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={12}>
                                 <Form.Item
                                     label="Motif"
                                     name="id_motif"
@@ -169,7 +169,6 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                                 <Form.Item
                                     label="Service demandeur"
                                     name="id_demandeur"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un motif' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
