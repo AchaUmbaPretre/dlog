@@ -74,7 +74,7 @@ const VisiteurPieton = () => {
     {
       title: (
         <Space>
-          <Text strong>Pièce d'electeur</Text>
+          <Text strong>Pièce</Text>
         </Space>
       ),
       dataIndex:'piece_identite',
