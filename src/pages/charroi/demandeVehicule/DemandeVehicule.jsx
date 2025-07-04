@@ -253,12 +253,17 @@ const DemandeVehicule = () => {
             dataIndex: 'nom_type_vehicule',
             key: 'nom_type_vehicule',
             align: 'center',
-            render: (text) => <Text type="secondary">{text}</Text>,
+            render: (text) => (
+                <Tooltip placement="topLeft" title={text}>
+                    <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                        <Text type="secondary">{text}</Text>
+                    </div>
+                </Tooltip>
+            ),
         },
         {
             title: (
             <Space>
-                <UserOutlined style={{ color: '#fa541c' }} />
                 <Text strong>Demandeur</Text>
             </Space>
             ),
