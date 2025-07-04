@@ -485,6 +485,19 @@ export const postBandeSortie = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/bande_sortie`, data);
 }
 
+//Bon de sortie des personnels
+export const getBonSortiePerso = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/bon_sortie_perso`);
+}
+
+export const getBonSortiePersOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/bon_sortieOne_perso?id_bon_sortie=${id}`);
+}
+
+export const postBonSortiePerso = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/bon_sortie_perso`, data);
+}
+
 //Véhicule des courses
 export const getVehiculeCourse = async () => {
     return axios.get(`${DOMAIN}/api/charroi/vehicule_course`);
