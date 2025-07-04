@@ -60,3 +60,12 @@ export const getPieton = async (user) => {
 export const postPieton = async (data) => {
   return axios.post(`${DOMAIN}/api/user/pieton`, data);
 };
+
+//Visiteur pieton Retour
+export const getPietonRetour = async (user) => {
+  return axios.get(`${DOMAIN}/api/user/pieton_retour`);
+};
+
+export const putPietonRetour = async (id) => {
+  return axios.put(`${DOMAIN}/api/user/pieton_retour?id_visiteur=${id}`);
+};

@@ -6,7 +6,6 @@ import retourIcon from './../../../assets/retour.png';
 import sortieIcon from './../../../assets/sortie.png';
 import visiteurIcon from './../../../assets/visiteur.png';
 import agentIcon from './../../../assets/agent.png';
-import infoIcon from './../../../assets/info.png';
 import BottomNav from './bottomNav/BottomNav';
 import {
 PoweroffOutlined
@@ -19,6 +18,8 @@ import { logout } from '../../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import VisiteurPietonForm from './securiteVisiteur/visiteurPieton/visiteurPietonForm/VisiteurPietonForm';
+import VisiteurSortie from './securiteVisiteur/visiteurSortie/VisiteurSortie';
+import SortieVisiteurPieton from './securiteVisiteur/visiteurPieton/sortieVisiteurPieton/SortieVisiteurPieton';
 
 const Securite = () => {
     const [modalType, setModalType] = useState(null);
@@ -50,8 +51,16 @@ const Securite = () => {
         openModal('Visiteur');
     };
 
+    const handleSortieVisiteur = () => {
+        openModal('SortieVisiteur')
+    };
+
     const handleVisiteurPieton = () => {
         openModal('Pieton')
+    };
+
+    const handleVisiteurPietonRetour = () => {
+        openModal('PietonRetour')
     };
 
       const handleLogout = async () => {
@@ -100,9 +109,11 @@ const Securite = () => {
                 { label: "Sortie", icon: sortieIcon, onClick: handleSortie },
                 { label: "Entrée", icon: retourIcon, onClick: handleRetour },
                 { label: "Visiteur", icon: visiteurIcon, onClick: handleVisiteur },
-                { label: "Sortie visiteur", icon: visiteurIcon, onClick: handleVisiteur },
-                { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
+                { label: "Sortie visiteur", icon: visiteurIcon, onClick: handleSortieVisiteur },
                 { label: "Visiteur Piéton", icon: visiteurIcon, onClick: handleVisiteurPieton },
+                { label: "Sortie Visiteur Piéton", icon: visiteurIcon, onClick: handleVisiteurPietonRetour },
+                { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
+
             ].map(({ label, icon, onClick }) => (
                 <div
                     key={label}
@@ -165,6 +176,28 @@ const Securite = () => {
             centered
         >
             <VisiteurPietonForm closeModal={() => setModalType(null)} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'PietonRetour'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={500}
+            centered
+        >
+            <SortieVisiteurPieton closeModal={() => setModalType(null)} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'SortieVisiteur'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={500}
+            centered
+        >
+            <VisiteurSortie closeModal={() => setModalType(null)} />
         </Modal>
     </>
   )
