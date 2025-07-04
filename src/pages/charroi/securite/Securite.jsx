@@ -100,6 +100,7 @@ const Securite = () => {
                 { label: "Sortie", icon: sortieIcon, onClick: handleSortie },
                 { label: "Entrée", icon: retourIcon, onClick: handleRetour },
                 { label: "Visiteur", icon: visiteurIcon, onClick: handleVisiteur },
+                { label: "Sortie visiteur", icon: visiteurIcon, onClick: handleVisiteur },
                 { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
                 { label: "Visiteur Piéton", icon: visiteurIcon, onClick: handleVisiteurPieton },
             ].map(({ label, icon, onClick }) => (
