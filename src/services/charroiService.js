@@ -526,6 +526,15 @@ export const postVisiteurVehicule = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/visiteur_vehicule`, data );
 }
 
+//Sortie visiteur
+export const getSortieVisiteur = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/visiteur_retour`);
+}
+
+export const postSortieVisiteur = async (id) => {
+    return axios.post(`${DOMAIN}/api/charroi/visiteur_retour?id_registre_visiteur=${id}`);
+}
+
 //SORTIE ENTREE
 export const getSortieEntree = async () => {
     return axios.get(`${DOMAIN}/api/charroi/sortie_entree`);
