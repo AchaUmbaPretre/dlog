@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Input, Button, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
 import moment from 'moment';
-import { getVisiteurVehicule } from '../../../../services/charroiService';
 import {  SolutionOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getPieton } from '../../../../../services/userService';
 
@@ -39,7 +38,7 @@ const VisiteurPieton = () => {
         return () => clearInterval(interval)
     }, []);
 
-       const handleReleve = () => {
+    const handleReleve = () => {
     
         }
 
@@ -58,11 +57,11 @@ const VisiteurPieton = () => {
     {
       title: (
         <Space>
-          <Text strong>Chauffeur</Text>
+          <Text strong>Nom</Text>
         </Space>
       ),
-      dataIndex: 'nom_chauffeur',
-      key: 'nom_chauffeur',
+      dataIndex: 'nom_complet',
+      key: 'nom_complet',
       ellipsis: {
         showTitle: false,
       },
@@ -75,11 +74,11 @@ const VisiteurPieton = () => {
     {
       title: (
         <Space>
-          <Text strong>Matricule</Text>
+          <Text strong>Pièce d'electeur</Text>
         </Space>
       ),
-      dataIndex:'immatriculation',
-      key: 'immatriculation',
+      dataIndex:'piece_identite',
+      key: 'piece_identite',
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
           <Text  type="secondary">{text}</Text>
@@ -88,18 +87,10 @@ const VisiteurPieton = () => {
     },
     {
         title : "Motif",
-        dataIndex: 'nom_motif',
-        key:'nom',
+        dataIndex: 'nom_motif_demande',
+        key:'nom_motif_demande',
         render : (text) => (
           <Tag color={'green'}>{text}</Tag>
-        )
-    },
-    {
-      title : "Proprietaire",
-      dataIndex: 'proprietaire',
-      key:'proprietaire',
-        render : (text) => (
-          <Tag color={'geekblue'}>{text}</Tag>
         )
     },
     {
@@ -117,8 +108,8 @@ const VisiteurPieton = () => {
           <Text strong>Date entree</Text>
         </Space>
       ),
-      dataIndex: 'date_entree',
-      key: 'date_entree',
+      dataIndex: 'date_heure_arrivee',
+      key: 'date_heure_arrivee',
       render: (text) => {
         if (!text) {
             return (
@@ -143,8 +134,8 @@ const VisiteurPieton = () => {
           <Text strong>Date sortie</Text>
         </Space>
       ),
-      dataIndex: 'date_sortie',
-      key: 'date_sortie',
+      dataIndex: 'date_heure_depart"',
+      key: 'date_heure_depart"',
       render: (text) => {
         if (!text) {
             return (
@@ -161,35 +152,6 @@ const VisiteurPieton = () => {
                 </Tag>
             );
         },
-    },
-    {
-    title: (
-      <Space>
-        <Text strong>Securité</Text>
-      </Space>
-    ),
-    dataIndex: 'nom',
-    key: 'nom',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
-    },
-    {
-      title: (
-        <Space>
-          <Text strong>Connu</Text>
-        </Space>
-      ),
-      dataIndex: 'vehicule_connu',
-      key: 'vehicule_connu',
-      render: (text) => (
-        <Tag color={ text === 1 ? 'blue' : 'red'} >{text === 1 ? 'Oui' : 'Non'}</Tag>
-      ),
     },
     {
         title: (

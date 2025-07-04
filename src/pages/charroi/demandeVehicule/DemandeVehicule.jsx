@@ -19,6 +19,7 @@ import VehiculeCourse from './vehiculeCourse/VehiculeCourse';
 import Destination from './destination/Destination';
 import SortieEntree from '../affectationDemande/sortieEntree/SortieEntree';
 import SecuriteVisiteur from '../securite/securiteVisiteur/SecuriteVisiteur';
+import VisiteurPieton from '../securite/securiteVisiteur/visiteurPieton/VisiteurPieton';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -474,12 +475,21 @@ const DemandeVehicule = () => {
            </TabPane>
 
             <TabPane
-            tab={
-                <span>🪪 Les visiteurs</span>
-            }
-            key="6"
+                tab={
+                    <span>🪪 Les visiteurs</span>
+                }
+                key="6"
             >
-            <SecuriteVisiteur />
+                <SecuriteVisiteur />
+            </TabPane>
+
+            <TabPane
+                tab={
+                    <span>🪪 Les piétons</span>
+                }
+                key="7"
+            >
+                <VisiteurPieton />
             </TabPane>
 
 
@@ -489,36 +499,32 @@ const DemandeVehicule = () => {
                     🚗 Les vehicules occupés
                     </span>
                 }
-                key="7"
+                key="8"
             >
                 <VehiculeOccupe/>
             </TabPane>
 
-            { role === 'Admin' &&
             <TabPane
                 tab={
                     <span>
                     🚙 Les vehicules disponibles
                     </span>
                 }
-                key="8"
+                key="9"
             >
                 <DemandeVehiculeDispo/>
             </TabPane>
-            }
 
-            { role === 'Admin' &&
             <TabPane
                 tab={
                     <span>
                     💼 Services
                     </span>
                 }
-                key="9"
+                key="10"
             >
                 <DemandeurVehicule/>
             </TabPane>
-            }
 
             <TabPane
                 tab={
@@ -526,7 +532,7 @@ const DemandeVehicule = () => {
                     🗺️ Destination
                     </span>
                 }
-                key="10"
+                key="11"
             >
                 <Destination/>
             </TabPane>

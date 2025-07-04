@@ -74,7 +74,7 @@ const SecuriteVisiteur = () => {
     {
       title: (
         <Space>
-          <Text strong>Matricule</Text>
+          <Text strong>Plaque</Text>
         </Space>
       ),
       dataIndex:'immatriculation',
