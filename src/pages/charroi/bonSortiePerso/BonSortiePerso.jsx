@@ -259,7 +259,7 @@ const BonSortiePerso = () => {
               <div className="client-row-icon">
                 <ExportOutlined className='client-icon' style={{color:'blue'}} />
               </div>
-              <h2 className="client-h2"> Tableau des bons de sortie</h2>
+              <h2 className="client-h2"> Tableau des bons de sortie perso</h2>
             </div>
             <div className="client-actions">
               <div className="client-row-left">
