@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Space, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, FileTextOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, FileTextOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -140,7 +140,9 @@ const BandeSortie = () => {
     align: 'center',
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
-        <Text type="secondary">{text}</Text>
+        <Tag icon={<TrademarkOutlined />} color="blue">
+          {text}
+        </Tag>
       </Tooltip>
     ),
     },

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Input, Button, Tooltip, Typography, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { Input, Button, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
 import moment from 'moment';
 import { getSortieEntree } from '../../../../services/charroiService';
-import {  SwapOutlined, UndoOutlined, ExportOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  SwapOutlined, TrademarkOutlined, UndoOutlined, ExportOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -100,24 +100,27 @@ const SortieEntree = () => {
     ),
     },
     {
-    title: (
-      <Space>
-        <Text strong>Marque</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_marque',
-    key: 'nom_marque',
-    align: 'center',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
+      title: (
+        <Space>
+          <Text strong>Marque</Text>
+        </Space>
+      ),
+      dataIndex: 'nom_marque',
+      key: 'nom_marque',
+      align: 'center',
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Tag icon={<TrademarkOutlined />} color="blue">
+            {text}
+          </Tag>
+        </Tooltip>
+      ),
     },
     {
       title: "Type",
       dataIndex: 'type',
       key: 'type',
+      align: 'center',
       render: (text) => {
         const isRetour = text === 'Retour';
         const icon = isRetour ? <UndoOutlined /> : <ExportOutlined />;
