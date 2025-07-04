@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { Form, Row, Card, Modal, Col, Tooltip, message, Input, notification, Skeleton, Select, Button, DatePicker } from 'antd';
 import { getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, postDemandeVehicule, putDemandeVehicule } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
-import { getLocalisation } from '../../../../services/transporteurService';
-import { getUser } from '../../../../services/userService';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -18,29 +16,24 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     const [ type, setType ] = useState([]);
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
-    const [ local, setLocal ] = useState([]);
-    const [ user, setUser ] = useState([]);
     const [ destination, setDestination ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [modalType, setModalType] = useState(null);
 
     const fetchDatas = async () => {
+        setLoadingData(true)
         try {
-            const [ serviceData, typeData, motifData, clientData, localData, userData, destinationData ] = await Promise.all([
+            const [ serviceData, typeData, motifData, clientData, destinationData ] = await Promise.all([
                 getServiceDemandeur(),
                 getTypeVehicule(),
                 getMotif(),
                 getClient(),
-                getLocalisation(),
-                getUser(),
                 getDestination()
             ]) 
             setService(serviceData.data);
             setType(typeData.data);
             setMotif(motifData.data);
             setClient(clientData.data);
-            setLocal(localData.data);
-            setUser(userData.data);
             setDestination(destinationData.data)
 
             if (demandeId) {
@@ -66,7 +59,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
 
     useEffect(()=> {
         fetchDatas();
-    }, [])
+    }, [demandeId])
 
     const closeAllModals = () => {
         setModalType(null);

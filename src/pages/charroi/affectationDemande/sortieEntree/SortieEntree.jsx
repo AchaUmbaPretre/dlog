@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Input, Button, Tooltip, Typography, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 import moment from 'moment';
 import { getSortieEntree } from '../../../../services/charroiService';
-import {  SwapOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  SwapOutlined, UndoOutlined, ExportOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -115,12 +115,20 @@ const SortieEntree = () => {
     ),
     },
     {
-        title : "Type",
-        dataIndex: 'type',
-        key:'type',
-        render : (text) => (
-          <Tag color={ text === 'Retour' ? 'blue' : 'red'}>{text}</Tag>
-        )
+      title: "Type",
+      dataIndex: 'type',
+      key: 'type',
+      render: (text) => {
+        const isRetour = text === 'Retour';
+        const icon = isRetour ? <UndoOutlined /> : <ExportOutlined />;
+        const color = isRetour ? 'blue' : 'red';
+
+        return (
+          <Tag color={color} icon={icon}>
+            {text}
+          </Tag>
+        );
+      }
     },
     {
       title: (

@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined,ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -104,16 +104,16 @@ export const icons = [
 
 export const statusIcons = {
   'En attente': {
-    icon: <ClockCircleOutlined spin />,
+    icon: <ClockCircleOutlined />,
     color: 'orange',
   },
   'En cours': {
-    icon: <HourglassOutlined spin />,
+    icon: <HourglassOutlined />,
     color: 'blue',
   },
   'Point bloquant': {
     icon: <WarningOutlined />,
-    color: 'red',
+    color: 'volcano',
   },
   'En attente de validation': {
     icon: <CheckSquareOutlined />,
@@ -131,13 +131,13 @@ export const statusIcons = {
     icon: <CheckCircleOutlined />,
     color: 'lime',
   },
+  'Prête à exécution': {
+    icon: <PlayCircleOutlined />,
+    color: 'geekblue',
+  },
   'Executé': {
     icon: <RocketOutlined />,
     color: 'cyan',
-  },
-  'Prête à exécution': {
-    icon: <PlayCircleOutlined />,
-    color: 'blue',
   },
   'Opérationnel': {
     icon: <CarOutlined />,
@@ -158,6 +158,14 @@ export const statusIcons = {
   'Annulé': {
     icon: <CloseCircleOutlined />,
     color: 'red',
+  },
+  'Retourné': {
+    icon: <UndoOutlined />,
+    color: 'magenta',
+  },
+  'Sortie': {
+    icon: <ExportOutlined />,
+    color: 'volcano',
   },
 };
 
