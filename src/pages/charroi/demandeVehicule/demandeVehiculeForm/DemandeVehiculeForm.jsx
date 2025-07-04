@@ -18,7 +18,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
     const [ client, setClient ] = useState([]);
     const [ destination, setDestination ] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    const [modalType, setModalType] = useState(null);
+    const [ modalType, setModalType ] = useState(null);
 
     const fetchDatas = async () => {
         setLoadingData(true)
