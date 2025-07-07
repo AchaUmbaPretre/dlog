@@ -55,11 +55,7 @@ const BonSortiePerso = () => {
         const { data } = await  getBonSortiePerso()
         setData(data)
       } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          escription: 'Une erreur est survenue lors du chargement des données.',
-        });
-                
+        console.log(error)
       } finally{
         setLoading(false);
       }

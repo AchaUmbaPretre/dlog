@@ -487,7 +487,7 @@ export const postBandeSortie = async (data) => {
 
 //Bon de sortie des personnels
 export const getBonSortiePerso = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/bon_sortie_perso`);
+    return axios.get(`${DOMAIN}/api/charroi/bon_sortie`);
 }
 
 export const getBonSortiePersOne = async (id) => {
