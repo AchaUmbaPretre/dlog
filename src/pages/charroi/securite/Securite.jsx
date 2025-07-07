@@ -118,7 +118,6 @@ const Securite = () => {
                 { label: "Sortie Visiteur Piéton", icon: visiteurPietonSortieIcon, onClick: handleVisiteurPietonRetour },
                 { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
                 { label: "Retour agent", icon: agentRetourIcon, onClick: handleInfo }
-
             ].map(({ label, icon, onClick }) => (
                 <div
                     key={label}
