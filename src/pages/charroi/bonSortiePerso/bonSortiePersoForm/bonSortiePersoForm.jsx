@@ -122,7 +122,7 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                                 </Form.Item>
                             </Col>
 
-                                                        <Col xs={24} md={12}>
+                            <Col xs={24} md={12}>
                                 <Form.Item
                                     label="Personnel"
                                     name="id_personnel"

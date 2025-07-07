@@ -27,7 +27,7 @@ const AffectationDemande = () => {
       "Chauffeur" : true,
       "Véhicule" : true,
       "Marque" : true,
-      "Preuve" : true,
+      "Preuve" : false,
       "Retour" : true,
       "Statut" : true,
       "Commentaire" : false
@@ -214,7 +214,7 @@ const AffectationDemande = () => {
               </Tag>
             );
           },
-        ...(columnsVisibility['Prévue'] ? {} : { className: 'hidden-column' }),
+        ...(columnsVisibility['Preuve'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: (
@@ -325,7 +325,7 @@ const AffectationDemande = () => {
               <div className="client-rows-right">
                 <Dropdown overlay={menus} trigger={['click']}>
                   <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                    Colonnes <DownOutlined />
+                    filtre colonne<DownOutlined />
                   </Button>
                 </Dropdown>
                 <Button
