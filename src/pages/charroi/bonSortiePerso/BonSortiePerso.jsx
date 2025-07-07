@@ -65,179 +65,180 @@ const BonSortiePerso = () => {
         return () => clearInterval(interval)
     }, []);
 
-   const columns = [
+    const columns = [
+        {
+          title: '#',
+          dataIndex: 'id',
+          key: 'id',
+            render: (text, record, index) => {
+              const pageSize = pagination.pageSize || 10;
+              const pageIndex = pagination.current || 1;
+              return (pageIndex - 1) * pageSize + index + 1;
+          },
+          width: "3%"
+      },
       {
-        title: '#',
-        dataIndex: 'id',
-        key: 'id',
-          render: (text, record, index) => {
-            const pageSize = pagination.pageSize || 10;
-            const pageIndex = pagination.current || 1;
-            return (pageIndex - 1) * pageSize + index + 1;
-        },
-        width: "3%"
-    },
-    {
-      title: (
-        <Space>
-          <UserOutlined  style={{color:'orange'}}/>
-          <Text strong>Personnel</Text>
-        </Space>
-      ),
-      dataIndex: 'nom',
-      key: 'nom',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Text type="secondary">{text}</Text>
-        </Tooltip>
-      ),
-    },
-    {
-      title : "Service",
-      dataIndex: 'nom_service',
-      key:'nom_service',
-        render : (text) => (
-          <Tag color='purple'>{text}</Tag>
-        )
-    },
-    {
-      title : "Client",
-      dataIndex: 'nom_client',
-      key:'nom_client',
-        render : (text) => (
-          <Tag color='gold'>{text}</Tag>
-        )
-    },
-    {
-      title: (
-        <Space>
-          <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Preuve</Text>
-        </Space>
-      ),
-      dataIndex: 'date_sortie',
-      key: 'date_sortie',
-      align: 'center',
-      render: (text) => {
-        if (!text) {
-          return (
-            <Tag icon={<CalendarOutlined />} color="red">
-              Aucune date
-            </Tag>
-          );
-        }
-        const date = moment(text);
-        const isValid = date.isValid();              
-          return (
-            <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-              {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
-            </Tag>
-          );
-      },
-    },
-    {
-      title: (
-        <Space>
-          <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Retour</Text>
-        </Space>
-      ),
-      dataIndex: 'date_retour',
-      key: 'date_retour',
-      render: (text) => {
-        if (!text) {
-            return (
-                <Tag icon={<CalendarOutlined />} color="red">
-                    Aucune date
-                </Tag>
-            );
-        }
-        const date = moment(text);
-        const isValid = date.isValid();              
-            return (
-                <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-                    {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
-                </Tag>
-            );
-        },
-    },
-     {
-      title: (
-        <Space>
-          <UserOutlined  style={{color:'orange'}}/>
-          <Text strong>Destination</Text>
-        </Space>
-      ),
-      dataIndex: 'nom_destination',
-      key: 'nom_destination',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Text type="secondary">{text}</Text>
-        </Tooltip>
-      ),
-    },
-    {
-      title: (
-        <Space>
-          <Text strong>Motif</Text>
-        </Space>
-      ),
-      dataIndex: 'nom_motif_demande',
-      key: 'nom_motif_demande',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Tag type="secondary">{text}</Tag>
-        </Tooltip>
-      ),
-    },
-    {
         title: (
-        <Space>
-            <CheckCircleOutlined style={{ color: '#1890ff' }} />
-            <Text strong>Statut</Text>
-        </Space>
+          <Space>
+            <UserOutlined  style={{color:'orange'}}/>
+            <Text strong>Personnel</Text>
+          </Space>
         ),
-        dataIndex: 'nom_type_statut',
-        key: 'nom_type_statut',
-        render: text => {
-            const { icon, color } = statusIcons[text] || {};
-            return (
-              <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                <Tag icon={icon} color={color}>{text}</Tag>
-              </div>
-            );
+        dataIndex: 'nom',
+        key: 'nom',
+        ellipsis: {
+          showTitle: false,
         },
-    },
-/*     {
-        title: (
-        <Text strong>Actions</Text>
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text type="secondary">{text}</Text>
+          </Tooltip>
         ),
-        key: 'action',
+      },
+      {
+        title : "Service",
+        dataIndex: 'nom_service',
+        key:'nom_service',
+          render : (text) => (
+            <Tag color='purple'>{text}</Tag>
+          )
+      },
+      {
+        title : "Client",
+        dataIndex: 'nom_client',
+        key:'nom_client',
+          render : (text) => (
+            <Tag color='gold'>{text}</Tag>
+          )
+      },
+      {
+        title: (
+          <Space>
+            <CalendarOutlined style={{ color: 'blue' }} />
+            <Text strong>Preuve</Text>
+          </Space>
+        ),
+        dataIndex: 'date_sortie',
+        key: 'date_sortie',
         align: 'center',
-        width : '120px',
-        render: (text, record) => (
-        <Space size="small">
-
-            <Tooltip title="valider">
-                <Button
-                    icon={<CheckCircleOutlined />}
-                    style={{ color: 'green' }}
-                    onClick={() => handlSortie(record.id_bande_sortie)}
-                    aria-label="Valider"
-                />
-            </Tooltip>
-        </Space>
+        render: (text) => {
+          if (!text) {
+            return (
+              <Tag icon={<CalendarOutlined />} color="red">
+                Aucune date
+              </Tag>
+            );
+          }
+          const date = moment(text);
+          const isValid = date.isValid();              
+            return (
+              <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+              </Tag>
+            );
+        },
+      },
+      {
+        title: (
+          <Space>
+            <CalendarOutlined style={{ color: 'blue' }} />
+            <Text strong>Retour</Text>
+          </Space>
         ),
-    }, */
-   ]
+        dataIndex: 'date_retour',
+        key: 'date_retour',
+        render: (text) => {
+          if (!text) {
+              return (
+                  <Tag icon={<CalendarOutlined />} color="red">
+                      Aucune date
+                  </Tag>
+              );
+          }
+          const date = moment(text);
+          const isValid = date.isValid();              
+              return (
+                  <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                      {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+                  </Tag>
+              );
+          },
+      },
+      {
+        title: (
+          <Space>
+            <UserOutlined  style={{color:'orange'}}/>
+            <Text strong>Destination</Text>
+          </Space>
+        ),
+        dataIndex: 'nom_destination',
+        key: 'nom_destination',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text type="secondary">{text}</Text>
+          </Tooltip>
+        ),
+      },
+      {
+        title: (
+          <Space>
+            <Text strong>Motif</Text>
+          </Space>
+        ),
+        dataIndex: 'nom_motif_demande',
+        key: 'nom_motif_demande',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Tag type="secondary">{text}</Tag>
+          </Tooltip>
+        ),
+      },
+      {
+          title: (
+          <Space>
+              <CheckCircleOutlined style={{ color: '#1890ff' }} />
+              <Text strong>Statut</Text>
+          </Space>
+          ),
+          dataIndex: 'nom_type_statut',
+          key: 'nom_type_statut',
+          render: text => {
+              const { icon, color } = statusIcons[text] || {};
+              return (
+                <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                  <Tag icon={icon} color={color}>{text}</Tag>
+                </div>
+              );
+          },
+      },
+  /*     {
+          title: (
+          <Text strong>Actions</Text>
+          ),
+          key: 'action',
+          align: 'center',
+          width : '120px',
+          render: (text, record) => (
+          <Space size="small">
+
+              <Tooltip title="valider">
+                  <Button
+                      icon={<CheckCircleOutlined />}
+                      style={{ color: 'green' }}
+                      onClick={() => handlSortie(record.id_bande_sortie)}
+                      aria-label="Valider"
+                  />
+              </Tooltip>
+          </Space>
+          ),
+      }, */
+    ]
 
     const filteredData = data.filter(item =>
      item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
      item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
     );
+    
   return (
     <>
         <div className="client">
