@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Table, Tag, Space, Modal, Tooltip, Button, Typography, Input } from 'antd';
-import { PlusCircleOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Table, Tag, Space, Tabs, Modal, Tooltip, Button, Typography, Input } from 'antd';
+import { PlusCircleOutlined, FileSearchOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getBonSortiePerso } from '../../../services/charroiService';
 import { statusIcons } from '../../../utils/prioriteIcons';
@@ -19,6 +19,11 @@ const BonSortiePerso = () => {
           pageSize: 15,
     });
     const [modalType, setModalType] = useState(null);
+    const [activeKey, setActiveKey] = useState(['1', '2']);
+  
+    const handleTabChange = (key) => {
+      setActiveKey(key);
+    };
 
     const columnStyles = {
       title: {
@@ -238,9 +243,38 @@ const BonSortiePerso = () => {
      item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
      item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
     );
-    
+
   return (
     <>
+        <Tabs
+          activeKey={activeKey[0]}
+          onChange={handleTabChange}
+          type="card"
+          tabPosition="top"
+          renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+        >
+          <Tabs.TabPane
+              tab={
+                <span>
+                📤 Liste de bon de sortie
+                </span>
+              }
+            key="1"
+          >
+            
+          </Tabs.TabPane>
+
+          <Tabs.TabPane
+              tab={
+                <span>
+                  🔴 Entrée / Sortie
+                </span>
+              }
+            key="2"
+          >
+            
+          </Tabs.TabPane>
+        </Tabs>
         <div className="client">
           <div className="client-wrapper">
             <div className="client-row">

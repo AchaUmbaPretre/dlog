@@ -24,6 +24,8 @@ import { useSelector } from 'react-redux';
 import VisiteurPietonForm from './securiteVisiteur/visiteurPieton/visiteurPietonForm/VisiteurPietonForm';
 import VisiteurSortie from './securiteVisiteur/visiteurSortie/VisiteurSortie';
 import SortieVisiteurPieton from './securiteVisiteur/visiteurPieton/sortieVisiteurPieton/SortieVisiteurPieton';
+import EntreeAgent from './sortieEntreAgent/entreeAgent/EntreeAgent';
+import SortieAgent from './sortieEntreAgent/sortieAgent/SortieAgent';
 
 const Securite = () => {
     const [modalType, setModalType] = useState(null);
@@ -47,12 +49,12 @@ const Securite = () => {
         openModal('Retour');
     };
 
-    const handleInfo = () => {
-        openModal('Agent');
+    const handleInfoSortieAgent = () => {
+        openModal('SortieAgent');
     };
 
-    const handleInfoSortie = () => {
-        openModal('AgentSortie');
+    const handleInfoRetourAgent = () => {
+        openModal('RetourAgent');
     };
 
     const handleVisiteur = () => {
@@ -120,8 +122,8 @@ const Securite = () => {
                 { label: "Sortie visiteur", icon: visiteurSortieIcon, onClick: handleSortieVisiteur },
                 { label: "Visiteur Piéton", icon: visiteurPietonIcon, onClick: handleVisiteurPieton },
                 { label: "Sortie Visiteur Piéton", icon: visiteurPietonSortieIcon, onClick: handleVisiteurPietonRetour },
-                { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
-                { label: "Retour agent", icon: agentRetourIcon, onClick: handleInfoSortie }
+                { label: "Sortie agent", icon: agentIcon, onClick: handleInfoSortieAgent },
+                { label: "Retour agent", icon: agentRetourIcon, onClick: handleInfoRetourAgent }
             ].map(({ label, icon, onClick }) => (
                 <div
                     key={label}
@@ -210,25 +212,24 @@ const Securite = () => {
 
         <Modal
             title=""
-            visible={modalType === 'Agent'}
+            visible={modalType === 'SortieAgent'}
             onCancel={closeAllModals}
             footer={null}
             width={500}
             centered
         >
-            Agent
-{/*             <VisiteurSortie closeModal={() => setModalType(null)} />
- */}        </Modal>
+            <SortieAgent closeModal={() => setModalType(null)} />
+        </Modal>
 
          <Modal
             title=""
-            visible={modalType === 'agentSortie'}
+            visible={modalType === 'RetourAgent'}
             onCancel={closeAllModals}
             footer={null}
             width={500}
             centered
         >
-            Agent sortie
+            <EntreeAgent closeModal={() => setModalType(null)} />
         </Modal>
     </>
   )
