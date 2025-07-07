@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Table, Modal, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, TrademarkOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Table, Modal, Menu, Dropdown, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
+import {  CarOutlined, DownOutlined, MenuOutlined, TrademarkOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
 import AffectationDemandeForm from './affectationDemandeForm/AffectationDemandeForm';
@@ -83,6 +83,27 @@ const AffectationDemande = () => {
         return () => clearInterval(interval)
     }, []);
 
+    const menus = (
+        <Menu>
+          {Object.keys(columnsVisibility).map(columnName => (
+            <Menu.Item key={columnName}>
+              <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+                <span style={{ marginLeft: 8 }}>{columnName}</span>
+              </span>
+            </Menu.Item>
+          ))}
+        </Menu>
+    ); 
+
+    const toggleColumnVisibility = (columnName, e) => {
+      e.stopPropagation();
+      setColumnsVisibility(prev => ({
+        ...prev,
+        [columnName]: !prev[columnName]
+      }));
+    };
+
    const columns = [
     {
           title: '#',
@@ -101,15 +122,17 @@ const AffectationDemande = () => {
         key:'nom_service',
         render : (text) => (
           <Tag color='magenta'>{text}</Tag>
-        )
+        ),
+      ...(columnsVisibility['Service'] ? {} : { className: 'hidden-column' }),
     },
     {
-        title : "DPT",
-        dataIndex: 'nom_departement',
-        key:'nom_departement',
+      title : "DPT",
+      dataIndex: 'nom_departement',
+      key:'nom_departement',
         render : (text) => (
           <Tag>{text}</Tag>
-        )
+        ),
+        ...(columnsVisibility['Departement'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: (
@@ -125,6 +148,7 @@ const AffectationDemande = () => {
           <Tag color='geekblue'>{text}</Tag>
         </Tooltip>
       ),
+      ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: (
@@ -142,6 +166,7 @@ const AffectationDemande = () => {
           </div>
         </Tooltip>
       ),
+      ...(columnsVisibility['Véhicule'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: (
@@ -160,6 +185,7 @@ const AffectationDemande = () => {
           </Tag>
         </Tooltip>
       ),
+      ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: (
@@ -188,6 +214,7 @@ const AffectationDemande = () => {
               </Tag>
             );
           },
+        ...(columnsVisibility['Prévue'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: (
@@ -215,6 +242,7 @@ const AffectationDemande = () => {
               </Tag>
             );
           },
+        ...(columnsVisibility['Retour'] ? {} : { className: 'hidden-column' }),
     },
     {   
       title: (
@@ -233,6 +261,7 @@ const AffectationDemande = () => {
               </div>
             );
         },
+        ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' }),
     },
     {
         title: (
@@ -249,12 +278,12 @@ const AffectationDemande = () => {
           </div>
         </Tooltip>
       ),
+      ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: (<Text strong>Actions</Text>),
         key: 'action',
         align: 'center',
-        width : '90px',
         render: (text, record) => (
         <Space size="small">
           <Tooltip title="Créer un bon de sortie">
@@ -294,6 +323,11 @@ const AffectationDemande = () => {
                 />
               </div>
               <div className="client-rows-right">
+                <Dropdown overlay={menus} trigger={['click']}>
+                  <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                    Colonnes <DownOutlined />
+                  </Button>
+                </Dropdown>
                 <Button
                   type="primary"
                   icon={<PlusCircleOutlined />}
