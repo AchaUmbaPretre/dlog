@@ -7,6 +7,7 @@ import sortieIcon from './../../../assets/sortie.png';
 import visiteurIcon from './../../../assets/visiteur.png';
 import visiteurSortieIcon from './../../../assets/visiteur_sortie.png';
 import agentIcon from './../../../assets/agent.png';
+import agentRetourIcon from './../../../assets/agent_retour.png';
 import visiteurPietonIcon from './../../../assets/visiteur_pieton.png';
 import visiteurPietonSortieIcon from './../../../assets/sortie_pieton.png';
 import BottomNav from './bottomNav/BottomNav';
@@ -116,6 +117,7 @@ const Securite = () => {
                 { label: "Visiteur Piéton", icon: visiteurPietonIcon, onClick: handleVisiteurPieton },
                 { label: "Sortie Visiteur Piéton", icon: visiteurPietonSortieIcon, onClick: handleVisiteurPietonRetour },
                 { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
+                { label: "Retour agent", icon: agentRetourIcon, onClick: handleInfo }
 
             ].map(({ label, icon, onClick }) => (
                 <div
