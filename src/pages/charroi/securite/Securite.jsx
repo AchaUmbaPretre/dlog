@@ -51,6 +51,10 @@ const Securite = () => {
         openModal('Agent');
     };
 
+    const handleInfoSortie = () => {
+        openModal('AgentSortie');
+    };
+
     const handleVisiteur = () => {
         openModal('Visiteur');
     };
@@ -117,7 +121,7 @@ const Securite = () => {
                 { label: "Visiteur Piéton", icon: visiteurPietonIcon, onClick: handleVisiteurPieton },
                 { label: "Sortie Visiteur Piéton", icon: visiteurPietonSortieIcon, onClick: handleVisiteurPietonRetour },
                 { label: "Sortie agent", icon: agentIcon, onClick: handleInfo },
-                { label: "Retour agent", icon: agentRetourIcon, onClick: handleInfo }
+                { label: "Retour agent", icon: agentRetourIcon, onClick: handleInfoSortie }
             ].map(({ label, icon, onClick }) => (
                 <div
                     key={label}
@@ -128,9 +132,9 @@ const Securite = () => {
                     onClick={onClick}
                     onKeyPress={(e) => e.key === 'Enter' && onClick()}
                 >
-                <span className="securite__menu-dot" />
-                <img src={icon} alt={`Icône ${label}`} className="securite__menu-icon" />
-                <h3 className="securite__menu-label">{label}</h3>
+                    <span className="securite__menu-dot" />
+                    <img src={icon} alt={`Icône ${label}`} className="securite__menu-icon" />
+                    <h3 className="securite__menu-label">{label}</h3>
                 </div>
             ))}
             </div>
@@ -215,6 +219,17 @@ const Securite = () => {
             Agent
 {/*             <VisiteurSortie closeModal={() => setModalType(null)} />
  */}        </Modal>
+
+         <Modal
+            title=""
+            visible={modalType === 'agentSortie'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={500}
+            centered
+        >
+            Agent sortie
+        </Modal>
     </>
   )
 }
