@@ -21,7 +21,17 @@ const AffectationDemande = () => {
     });
     const [modalType, setModalType] = useState(null);
     const [affectationId, setAffectationId] = useState('');
-
+    const [columnsVisibility, setColumnsVisibility] = useState({
+      "Service" : true,
+      "Departement" : true,
+      "Chauffeur" : true,
+      "Véhicule" : true,
+      "Marque" : true,
+      "Preuve" : true,
+      "Retour" : true,
+      "Statut" : true,
+      "Commentaire" : false
+    })
     const columnStyles = {
       title: {
         maxWidth: '150px',
@@ -91,6 +101,14 @@ const AffectationDemande = () => {
         key:'nom_service',
         render : (text) => (
           <Tag color='magenta'>{text}</Tag>
+        )
+    },
+    {
+        title : "DPT",
+        dataIndex: 'nom_departement',
+        key:'nom_departement',
+        render : (text) => (
+          <Tag>{text}</Tag>
         )
     },
     {
@@ -198,8 +216,7 @@ const AffectationDemande = () => {
             );
           },
     },
-    {
-        
+    {   
       title: (
         <Space>
             <CheckCircleOutlined style={{ color: '#1890ff' }} />
@@ -217,8 +234,8 @@ const AffectationDemande = () => {
             );
         },
     },
-        {
-      title: (
+    {
+        title: (
         <Space>
           <Text strong>Commentaire</Text>
         </Space>
