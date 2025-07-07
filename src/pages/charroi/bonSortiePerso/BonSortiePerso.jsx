@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Space, Tabs, Modal, Tooltip, Button, Typography, Input } from 'antd';
-import { PlusCircleOutlined, FileSearchOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getBonSortiePerso } from '../../../services/charroiService';
 import { statusIcons } from '../../../utils/prioriteIcons';
 import BonSortiePersoForm from './bonSortiePersoForm/BonSortiePersoForm';
+import SortieRetourPerso from './sortieRetourPerso/SortieRetourPerso';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -261,7 +262,45 @@ const BonSortiePerso = () => {
               }
             key="1"
           >
-            
+            <div className="client">
+              <div className="client-wrapper">
+                <div className="client-row">
+                  <div className="client-row-icon">
+                    <ExportOutlined className='client-icon' style={{color:'blue'}} />
+                  </div>
+                  <h2 className="client-h2"> Tableau des bons de sortie du personnel</h2>
+                </div>
+                <div className="client-actions">
+                  <div className="client-row-left">
+                    <Search 
+                      placeholder="Recherche..." 
+                      enterButton 
+                      onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                  </div>
+                  <div className="client-rows-right">
+                    <Button
+                      type="primary"
+                      icon={<PlusCircleOutlined />}
+                      onClick={handleAdd}
+                    >
+                      Ajouter
+                    </Button>
+                  </div>
+                  </div>
+                  <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    loading={loading}
+                    onChange={(pagination) => setPagination(pagination)}
+                    rowKey="id"
+                    bordered
+                    size="small"
+                    scroll={scroll}
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                  />
+              </div>
+            </div>
           </Tabs.TabPane>
 
           <Tabs.TabPane
@@ -272,58 +311,20 @@ const BonSortiePerso = () => {
               }
             key="2"
           >
-            
+            <SortieRetourPerso/>
           </Tabs.TabPane>
         </Tabs>
-        <div className="client">
-          <div className="client-wrapper">
-            <div className="client-row">
-              <div className="client-row-icon">
-                <ExportOutlined className='client-icon' style={{color:'blue'}} />
-              </div>
-              <h2 className="client-h2"> Tableau des bons de sortie du personnel</h2>
-            </div>
-            <div className="client-actions">
-              <div className="client-row-left">
-                <Search 
-                  placeholder="Recherche..." 
-                  enterButton 
-                  onChange={(e) => setSearchValue(e.target.value)}
-                />
-              </div>
-              <div className="client-rows-right">
-                <Button
-                  type="primary"
-                  icon={<PlusCircleOutlined />}
-                  onClick={handleAdd}
-                >
-                  Ajouter
-                </Button>
-              </div>
-              </div>
-              <Table
-                columns={columns}
-                dataSource={filteredData}
-                loading={loading}
-                onChange={(pagination) => setPagination(pagination)}
-                rowKey="id"
-                bordered
-                size="small"
-                scroll={scroll}
-                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-              />
-            </div>
-        </div>
-        <Modal
-            title=""
-            visible={modalType === 'AddBonSortie'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1000}
-            centered
-        >
-            <BonSortiePersoForm closeModal={() => setModalType(null)} fetchData={fetchData} />
-        </Modal>
+
+          <Modal
+              title=""
+              visible={modalType === 'AddBonSortie'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={1000}
+              centered
+          >
+              <BonSortiePersoForm closeModal={() => setModalType(null)} fetchData={fetchData} />
+          </Modal>
     </>
   )
 }

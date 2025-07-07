@@ -53,10 +53,10 @@ const groupByBandeSortie = (rawData) => {
 
 const groupedData = groupByBandeSortie(data);
 
-  const onFinish = async (idBonSortie) => {
+  const onFinish = async (idBonSortie, idAgent) => {
     const value = {
       id_bon_sortie: idBonSortie,
-      id_agent: userId,
+      id_agent: idAgent,
     };
 
     try {
