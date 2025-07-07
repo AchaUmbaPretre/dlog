@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { notification, Button, Card, Typography, Empty, Spin } from 'antd';
+import { notification, message, Button, Card, Typography, Empty, Spin } from 'antd';
 import { getPietonRetour, putPietonRetour } from '../../../../../../services/userService';
 import moment from 'moment';
 
@@ -28,12 +28,16 @@ const SortieVisiteurPieton = () => {
   }, []);
 
   const onFinish = async (idVisiteur) => {
+    setLoading(true);
+    const loadingKey = 'loadingVisiteurPieton';
 
     try {
+      message.loading({ content: 'En cours...', key: loadingKey });
       await putPietonRetour(idVisiteur);
+      
       notification.success({
-        message: 'Sortie validé',
-        description: `Le visiteur est sorti`,
+        content: 'Sortie validé',
+        key: loadingKey,
       });
       fetchData();
     } catch (error) {

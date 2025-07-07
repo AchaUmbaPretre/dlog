@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Table, Tag, Space, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, PlusCircleOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Table, Tag, Space, Modal, Tooltip, Button, Typography, Input } from 'antd';
+import { PlusCircleOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getBonSortiePerso } from '../../../services/charroiService';
 import { statusIcons } from '../../../utils/prioriteIcons';
@@ -19,7 +19,6 @@ const BonSortiePerso = () => {
           pageSize: 15,
     });
     const [modalType, setModalType] = useState(null);
-    const [bonId, setBonId] = useState('');
 
     const columnStyles = {
       title: {
@@ -47,7 +46,6 @@ const BonSortiePerso = () => {
     const openModal = (type, id = '') => {
       closeAllModals();
       setModalType(type);
-      setBonId(id)
     };
         
     const fetchData = async() => {
