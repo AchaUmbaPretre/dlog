@@ -117,7 +117,7 @@ const DemandeVehicule = () => {
                     }
                 >
                     <Menu.Item key="affectation">
-                        <PlusOutlined style={{ color: 'orange' }} /> Affectater
+                        <PlusOutlined style={{ color: 'orange' }} /> Affecter
                     </Menu.Item>
                 </Menu.SubMenu>
             </Menu>
