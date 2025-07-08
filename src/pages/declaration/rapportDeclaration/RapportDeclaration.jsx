@@ -39,7 +39,7 @@ const RapportDeclaration = () => {
 
     const handleTabChange = (key) => {
         setActiveKey(key);
-      };
+    };
 
   return (
     <>
@@ -215,7 +215,7 @@ const RapportDeclaration = () => {
                         key="8"
                     >
                         <RapportClient/>
-                   </TabPane>
+                    </TabPane>
 
                     <TabPane
                         tab={

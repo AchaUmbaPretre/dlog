@@ -441,6 +441,7 @@ const DemandeVehicule = () => {
                             </div>
                         </div>
                     </TabPane>
+
                     <TabPane
                         tab={
                             <span>
@@ -462,6 +463,39 @@ const DemandeVehicule = () => {
                     >
                         <BandeSortie/>
                     </TabPane>
+
+                    <TabPane
+                        tab={
+                            <span>
+                            🚗 Véhicule en course
+                            </span>
+                        }
+                        key="5"
+                    >
+                        <VehiculeCourse/>
+                    </TabPane>
+
+                    <TabPane
+                        tab={
+                            <span>
+                            🔴 Entrée / Sortie
+                            </span>
+                        }
+                        key="6"
+                    >
+                        <SortieEntree/>
+                    </TabPane>
+
+                    <TabPane
+                        tab={
+                            <span>
+                            🚗 Les vehicules occupés
+                            </span>
+                        }
+                        key="9"
+                    >
+                        <VehiculeOccupe/>
+                    </TabPane>
                 </Tabs>
             </TabPane>
 
@@ -475,28 +509,6 @@ const DemandeVehicule = () => {
             >
                 <BonSortiePerso/>
             </TabPane>
-
-            <TabPane
-                tab={
-                    <span>
-                    🚗 Véhicule en course
-                    </span>
-                }
-                key="5"
-            >
-                <VehiculeCourse/>
-            </TabPane>
-
-            <TabPane
-                tab={
-                    <span>
-                    🔴 Entrée / Sortie
-                    </span>
-                }
-                key="6"
-            >
-                <SortieEntree/>
-           </TabPane>
 
             <TabPane
                 tab={
@@ -514,29 +526,6 @@ const DemandeVehicule = () => {
                 key="8"
             >
                 <VisiteurPieton />
-            </TabPane>
-
-
-            <TabPane
-                tab={
-                    <span>
-                    🚗 Les vehicules occupés
-                    </span>
-                }
-                key="9"
-            >
-                <VehiculeOccupe/>
-            </TabPane>
-
-            <TabPane
-                tab={
-                    <span>
-                    🚙 Les vehicules disponibles
-                    </span>
-                }
-                key="10"
-            >
-                <DemandeVehiculeDispo/>
             </TabPane>
 
             <TabPane
