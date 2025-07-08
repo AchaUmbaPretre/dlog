@@ -116,7 +116,6 @@ const DeclarationForm = ({closeModal, fetchData, idDeclaration, idDeclarationss,
 
                 setIdClient(declaration[0].id_client)
             }
-            
 
         } catch (error) {
             notification.error({
