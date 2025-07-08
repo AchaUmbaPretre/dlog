@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Select, Button, Collapse, Checkbox, } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { Select, Skeleton, Collapse, Checkbox, } from 'antd';
 import 'antd/dist/reset.css';
 import { getClient, getProvince } from '../../../services/clientService';
 import { getBatiment } from '../../../services/typeService';
 import moment from 'moment';
 import { getAnnee, getMois } from '../../../services/templateService';
 
-const { Option } = Select;
 const { Panel } = Collapse;
 
 const DeclarationFiltre = ({ onFilter, visible }) => {
@@ -21,9 +19,12 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
     const [selectedAnnees, setSelectedAnnees] = useState([]);
     const [mois, setMois] = useState([]);
     const [annee, setAnnee] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true)
             try {
                 const [batimentData, clientData, provinceData, yearData] = await Promise.all([
                     getBatiment(),
@@ -38,6 +39,8 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                 setAnnee(yearData.data);
             } catch (error) {
                 console.error(error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -47,7 +50,7 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
     
         const fetchMoisParAnnee = async (annee) => {
             try {
-                const response = await getMois(annee); // Modifier `getMois` pour accepter l'année comme paramètre
+                const response = await getMois(annee);
                 setMois((prev) => ({
                     ...prev,
                     [annee]: response.data,
@@ -119,6 +122,7 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
         <div className="filterTache" style={{ margin: '10px 0' }}>
             <div className="filter_row">
                 <label>Ville :</label>
+                { isLoading ? <Skeleton.Input active={true} /> : 
                 <Select
                     mode="multiple"
                     showSearch
@@ -131,11 +135,13 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     optionFilterProp="label"
                     onChange={setSelectedVille}
                 />
+                }
             </div>
 
             {!visible && (
                 <div className="filter_row">
                     <label>Clients :</label>
+                    { isLoading ? <Skeleton.Input active={true} /> : 
                     <Select
                         mode="multiple"
                         style={{ width: '100%' }}
@@ -148,11 +154,13 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                         optionFilterProp="label"
                         onChange={setSelectedClients}
                     />
+                    }
                 </div>
             )}
 
             <div className="filter_row">
                 <label>Bâtiment :</label>
+                { isLoading ? <Skeleton.Input active={true} /> : 
                 <Select
                     mode="multiple"
                     style={{ width: '100%' }}
@@ -164,11 +172,13 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     placeholder="Sélectionnez un bâtiment..."
                     optionFilterProp="label"
                     onChange={setSelectedBatiment}
-                />
+                /> 
+                }
             </div>
 
             <div className="filter_row">
                 <label>Année :</label>
+                { isLoading ? <Skeleton.Input active={true} /> : 
                 <Checkbox.Group
                     options={annee.map((item) => ({
                         label: item.annee,
@@ -177,6 +187,7 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     value={selectedAnnees}
                     onChange={handleAnneeChange}
                 />
+                }
             </div>
 
             {selectedAnnees.length > 0 && (
@@ -187,15 +198,6 @@ const DeclarationFiltre = ({ onFilter, visible }) => {
                     </Collapse>
                 </div>
             )}
-
-{/*             <Button
-                style={{ padding: '10px', marginTop: '20px' }}
-                type="primary"
-                icon={<SearchOutlined />}
-                onClick={handleFilter}
-            >
-                Filtrer
-            </Button> */}
         </div>
     );
 };

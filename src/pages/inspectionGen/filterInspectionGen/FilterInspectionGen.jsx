@@ -1,31 +1,41 @@
 import { useEffect, useState } from 'react'
 import { getStatutVehicule, getTypeReparation, getVehicule } from '../../../services/charroiService';
-import { Select } from 'antd';
+import { Select, Skeleton, notification } from 'antd';
 
 const FilterInspectionGen = ({ onFilter}) => {
     const [selectedStatut, setSelectedStatut] = useState([]);
     const [selectedVehicule, setSelectedVehicule] = useState([]);
     const [selectedType, setSelectedType] = useState([]);
-
     const [statut, setStatut] = useState([]);
     const [vehicule, setVehicule] = useState([]);
     const [type, setType] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchDatas = async () => {
-        const [vehiculeData, typeData, statutData] = await Promise.all([
-            getVehicule(),
-            getTypeReparation(),
-            getStatutVehicule()
-        ])
+        try {
+            setIsLoading(true)
+            const [vehiculeData, typeData, statutData] = await Promise.all([
+                getVehicule(),
+                getTypeReparation(),
+                getStatutVehicule()
+            ])
 
-        setVehicule(vehiculeData.data.data)
-        setType(typeData.data.data)
-        setStatut(statutData.data)
+            setVehicule(vehiculeData.data.data)
+            setType(typeData.data.data)
+            setStatut(statutData.data)
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+            });
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     useEffect(()=> {
         fetchDatas()
-    }, [])
+    }, []);
 
     useEffect(() => {
         const handleFilter = async () => {
@@ -44,6 +54,7 @@ const FilterInspectionGen = ({ onFilter}) => {
         <div className="filterTache" style={{ margin: '10px 0' }}>
             <div className="filter_row">
                 <label>Véhicule :</label>
+                { isLoading ? <Skeleton.Input active={true} /> : 
                 <Select
                     mode="multiple"
                     showSearch
@@ -56,9 +67,11 @@ const FilterInspectionGen = ({ onFilter}) => {
                     optionFilterProp="label"
                     onChange={setSelectedVehicule}
                 />
+                }
             </div>
             <div className="filter_row">
                 <label>Etat du véhicule :</label>
+                { isLoading ? <Skeleton.Input active={true} /> : 
                 <Select
                     mode="multiple"
                     showSearch
@@ -71,10 +84,12 @@ const FilterInspectionGen = ({ onFilter}) => {
                     optionFilterProp="label"
                     onChange={setSelectedStatut}
                 />
+                }
             </div>
 
             <div className="filter_row">
                 <label>Type réparation :</label>
+                { isLoading ? <Skeleton.Input active={true} /> : 
                 <Select
                     mode="multiple"
                     showSearch
@@ -87,6 +102,7 @@ const FilterInspectionGen = ({ onFilter}) => {
                     optionFilterProp="label"
                     onChange={setSelectedType}
                 />
+                }
             </div>
         </div>
     </>
