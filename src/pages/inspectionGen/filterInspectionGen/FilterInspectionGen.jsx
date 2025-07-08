@@ -9,11 +9,11 @@ const FilterInspectionGen = ({ onFilter}) => {
     const [statut, setStatut] = useState([]);
     const [vehicule, setVehicule] = useState([]);
     const [type, setType] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadings, setIsLoadings] = useState(false);
 
     const fetchDatas = async () => {
         try {
-            setIsLoading(true)
+            setIsLoadings(true)
             const [vehiculeData, typeData, statutData] = await Promise.all([
                 getVehicule(),
                 getTypeReparation(),
@@ -29,7 +29,7 @@ const FilterInspectionGen = ({ onFilter}) => {
                 description: 'Une erreur est survenue lors du chargement des données.',
             });
         } finally {
-            setIsLoading(false);
+            setIsLoadings(false);
         }
     }
 
@@ -54,7 +54,7 @@ const FilterInspectionGen = ({ onFilter}) => {
         <div className="filterTache" style={{ margin: '10px 0' }}>
             <div className="filter_row">
                 <label>Véhicule :</label>
-                { isLoading ? <Skeleton.Input active={true} /> : 
+                { isLoadings? <Skeleton.Input active={true} /> : 
                 <Select
                     mode="multiple"
                     showSearch
@@ -71,7 +71,7 @@ const FilterInspectionGen = ({ onFilter}) => {
             </div>
             <div className="filter_row">
                 <label>Etat du véhicule :</label>
-                { isLoading ? <Skeleton.Input active={true} /> : 
+                { isLoadings ? <Skeleton.Input active={true} /> : 
                 <Select
                     mode="multiple"
                     showSearch
@@ -89,7 +89,7 @@ const FilterInspectionGen = ({ onFilter}) => {
 
             <div className="filter_row">
                 <label>Type réparation :</label>
-                { isLoading ? <Skeleton.Input active={true} /> : 
+                { isLoadings ? <Skeleton.Input active={true} /> : 
                 <Select
                     mode="multiple"
                     showSearch

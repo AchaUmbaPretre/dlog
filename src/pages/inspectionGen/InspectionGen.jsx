@@ -306,7 +306,7 @@ const InspectionGen = () => {
 
     useEffect(() => {
       fetchDataInsp(filteredDatas,searchValue);
-  }, [searchValue, filteredDatas]);
+  }, [searchValue, filteredDatas, filterVisible]);
 
 /*       useEffect(() => {
       const handleReconnect = () => {
