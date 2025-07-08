@@ -691,7 +691,7 @@ const InspectionGen = () => {
             </Space>
           ),
           ...(columnsVisibility['Budget_valide'] ? {} : { className: 'hidden-column' }),
-        }, 
+        },
         {
           title: 'KM',
           dataIndex: 'kilometrage',
