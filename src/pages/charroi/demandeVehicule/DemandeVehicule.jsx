@@ -381,80 +381,88 @@ const DemandeVehicule = () => {
                 }
                 key="1"
             >
-               <div className="client">
-                   <div className="client-wrapper">
-                       <div className="client-row">
-                           <div className="client-row-icon">
-                               <FileSyncOutlined className='client-icon' style={{color:'blue'}} />
+                <Tabs defaultActiveKey="1">
+                    <TabPane
+                        tab={
+                            <span>
+                            📅 Liste des Réservations
+                            </span>
+                        }
+                        key="1"
+                    >
+                        <div className="client">
+                            <div className="client-wrapper">
+                            <div className="client-row">
+                                <div className="client-row-icon">
+                                    <FileSyncOutlined className='client-icon' style={{color:'blue'}} />
+                                    </div>
+                                <h2 className="client-h2">Liste des réservations de véhicules</h2>
+                                </div>
+                                <div className="client-actions">
+                                    <div className="client-row-left">
+                                        <Search 
+                                            placeholder="Recherche..." 
+                                            enterButton 
+                                            onChange={(e) => setSearchValue(e.target.value)}
+                                        />
+                                    </div>
+                    <div className="client-rows-right">
+                        <Button
+                            type="primary"
+                            icon={<PlusCircleOutlined />}
+                            onClick={handleAdd}
+                        >
+                            Ajouter
+                        </Button>
+
+                        <Dropdown overlay={menu} trigger={['click']}>
+                            <Button icon={<ExportOutlined />}>Export</Button>
+                        </Dropdown>
+                        
+                        <Button
+                            icon={<PrinterOutlined />}
+                            onClick={handlePrint}
+                        >
+                            Print
+                        </Button>
+                    </div>
+                </div>
+                <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    loading={loading}
+                    onChange={(pagination) => setPagination(pagination)}
+                    rowKey="id"
+                    bordered
+                    size="small"
+                    scroll={scroll}
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                />
                             </div>
-                           <h2 className="client-h2">Liste des réservations de véhicules</h2>
                         </div>
-                        <div className="client-actions">
-                            <div className="client-row-left">
-                                <Search 
-                                    placeholder="Recherche..." 
-                                    enterButton 
-                                    onChange={(e) => setSearchValue(e.target.value)}
-                                />
-                            </div>
-            <div className="client-rows-right">
-                <Button
-                    type="primary"
-                    icon={<PlusCircleOutlined />}
-                    onClick={handleAdd}
-                >
-                    Ajouter
-                </Button>
+                    </TabPane>
+                    <TabPane
+                        tab={
+                            <span>
+                            ✅ Courses validées
+                            </span>
+                        }
+                        key="2"
+                    >
+                        <AffectationDemande/>
+                    </TabPane>
 
-                <Dropdown overlay={menu} trigger={['click']}>
-                    <Button icon={<ExportOutlined />}>Export</Button>
-                </Dropdown>
-                
-                <Button
-                    icon={<PrinterOutlined />}
-                    onClick={handlePrint}
-                >
-                    Print
-                </Button>
-            </div>
-          </div>
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            loading={loading}
-            onChange={(pagination) => setPagination(pagination)}
-            rowKey="id"
-            bordered
-            size="small"
-            scroll={scroll}
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-          />
-        </div>
-      </div>
-            </TabPane>
-
-            { role === 'Admin' &&
-            <TabPane
-                tab={
-                    <span>
-                    ✅ Courses validées
-                    </span>
-                }
-                key="2"
-            >
-                <AffectationDemande/>
-            </TabPane>
-            }
-
-            <TabPane
-                tab={
-                    <span>
-                    📤 Bon de sortie
-                    </span>
-                }
-                key="3"
-            >
-                <BandeSortie/>
+                    <TabPane
+                        tab={
+                            <span>
+                            📤 Bon de sortie
+                            </span>
+                        }
+                        key="3"
+                    >
+                        <BandeSortie/>
+                    </TabPane>
+                </Tabs>
             </TabPane>
 
             <TabPane

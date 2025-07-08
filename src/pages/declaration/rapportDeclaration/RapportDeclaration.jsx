@@ -35,7 +35,7 @@ import RapportBatiment from './rapportBatiment/RapportBatiment';
 const { TabPane } = Tabs;
 
 const RapportDeclaration = () => {
-    const [activeKey, setActiveKey] = useState('1'); // Une seule valeur
+    const [activeKey, setActiveKey] = useState('1');
 
     const handleTabChange = (key) => {
         setActiveKey(key);

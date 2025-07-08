@@ -22,10 +22,11 @@ const SortieRetourPerso = () => {
             const { data } = await  getSortieRetourPersonnel()
             setData(data)
         } catch (error) {
-            notification.error({
+            console.log(error)
+/*             notification.error({
               message: 'Erreur de chargement',
               escription: 'Une erreur est survenue lors du chargement des données.',
-            });
+            }); */
                     
         } finally{
             setLoading(false);
