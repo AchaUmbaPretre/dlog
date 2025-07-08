@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { deleteInspectionGen, getInspectionGen} from '../../services/charroiService';
 import moment from 'moment';
@@ -835,7 +835,7 @@ const InspectionGen = () => {
                 <span>
                   <FileSearchOutlined
                     style={{
-                      color: 'green',
+                      color: '#1890ff',
                       fontSize: '18px',
                       marginRight: '8px',
                     }}
@@ -864,7 +864,7 @@ const InspectionGen = () => {
                           {loading ? (
                             <Skeleton active paragraph={{ rows: 1 }} />
                           ) : (
-                              <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'10px'}}>
+                              <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'10px'}}>
                                 <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Inspection : <strong>{statistique?.nbre_inspection?.toLocaleString()}</strong></span>
                                 <span style={{fontSize:'.8rem',  fontWeight:'200'}}>#Véhicule : <strong>{Math.round(parseFloat(statistique?.nbre_vehicule)).toLocaleString() || 0}</strong></span>
                                 <span style={{ fontSize: '.8rem', fontWeight: '200' }}>
@@ -952,11 +952,11 @@ const InspectionGen = () => {
           <Tabs.TabPane
               tab={
                     <span>
-                        <FileSearchOutlined
+                        <AppstoreOutlined
                             style={{
-                                color: 'green',
-                                fontSize: '18px',
-                                marginRight: '8px',
+                              color: '#fa8c16',
+                              fontSize: '18px',
+                              marginRight: '8px',
                             }}
                         />
                           Categorie
