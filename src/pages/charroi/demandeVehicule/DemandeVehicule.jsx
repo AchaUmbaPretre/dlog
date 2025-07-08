@@ -469,7 +469,7 @@ const DemandeVehicule = () => {
                             🚗 Véhicule en course
                             </span>
                         }
-                        key="5"
+                        key="4"
                     >
                         <VehiculeCourse/>
                     </TabPane>
@@ -478,6 +478,18 @@ const DemandeVehicule = () => {
                         tab={
                             <span>
                             🔴 Entrée / Sortie
+                            </span>
+                        }
+                        key="5"
+                    >
+                        <SortieEntree/>
+                    </TabPane>
+
+                    
+                    <TabPane
+                        tab={
+                            <span>
+                            🔴 Sortie exceptionnelle
                             </span>
                         }
                         key="6"
@@ -491,7 +503,7 @@ const DemandeVehicule = () => {
                             🚗 Les vehicules occupés
                             </span>
                         }
-                        key="9"
+                        key="7"
                     >
                         <VehiculeOccupe/>
                     </TabPane>
