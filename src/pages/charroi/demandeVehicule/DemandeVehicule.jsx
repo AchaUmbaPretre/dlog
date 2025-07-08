@@ -11,7 +11,6 @@ import DemandeVehiculeDetail from './demandeVehiculeDetail/DemandeVehiculeDetail
 import { vehiculeUpdateAnnuler } from '../../../utils/modalUtils';
 import VehiculeOccupe from './vehiculeOccupe/VehiculeOccupe';
 import TabPane from 'antd/es/tabs/TabPane';
-import DemandeVehiculeDispo from './demandeVehiculeDispo/DemandeVehiculeDispo';
 import AffectationDemande from '../affectationDemande/AffectationDemande';
 import DemandeurVehicule from '../demandeurVehicule/DemandeurVehicule';
 import BandeSortie from '../affectationDemande/bandeSortie/BandeSortie';
