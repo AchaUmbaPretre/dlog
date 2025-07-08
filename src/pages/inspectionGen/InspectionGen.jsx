@@ -666,7 +666,7 @@ const InspectionGen = () => {
                     </Tag>
                 </Space>
             ),
-            ...(columnsVisibility['Montant'] ? {} : { className: 'hidden-column' }),
+          ...(columnsVisibility['Montant'] ? {} : { className: 'hidden-column' }),
         },
         {
           title: "#Validé",
