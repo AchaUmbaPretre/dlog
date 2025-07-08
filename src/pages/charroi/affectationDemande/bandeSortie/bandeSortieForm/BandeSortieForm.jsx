@@ -24,6 +24,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
 
         const fetchDatas = async() => {
             try {
+                setLoadingData(true)
                 const [vehiculeData, chaufferData, serviceData, typeData, motifData, clientData, localData, societeData] = await Promise.all([
                     getVehicule(),
                     getChauffeur(),
