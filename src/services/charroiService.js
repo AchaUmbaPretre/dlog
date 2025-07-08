@@ -549,7 +549,7 @@ export const postRetourVehicule = async (data) => {
 }
 
 //Sortie exceptionnelle
-export const postRetourVehiculeExceptionnel = async (data) => {
+export const postSortieVehiculeExceptionnel = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/sortie_vehicule_exceptionnel`, data );
 }
 

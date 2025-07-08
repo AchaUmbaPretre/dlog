@@ -32,6 +32,7 @@ const AffectationDemande = () => {
       "Statut" : true,
       "Commentaire" : false
     })
+    
     const columnStyles = {
       title: {
         maxWidth: '150px',

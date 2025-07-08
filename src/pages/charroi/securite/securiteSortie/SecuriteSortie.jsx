@@ -4,6 +4,7 @@ import { getSortieVehicule, postSortieVehicule } from '../../../../services/char
 import { useSelector } from 'react-redux';
 import './securiteSortie.scss';
 import moment from 'moment';
+import SortieExceptionnelle from '../sortieExceptionnelle/SortieExceptionnelle';
 
 const { Title, Text } = Typography;
 
@@ -11,6 +12,18 @@ const SecuriteSortie = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const [modalType, setModalType] = useState(null);
+
+  const handleAdd = () => openModal('Exceptionnelle')
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type) => {
+      closeAllModals();
+      setModalType(type);
+  }
 
   const fetchData = async () => {
     try {
@@ -79,7 +92,7 @@ const groupedData = groupByBandeSortie(data);
     <div className='securiteSortie'>
       <div className="securiteSortie_wrapper">
         <Title level={4} className="securite_title">🚗 Sortie des véhicules</Title>
-
+        <Button onClick={handleAdd}>Nouvelle sortie exceptionnelle</Button>
         {loading ? (
           <div className="securite_loader">
             <Spin tip="Chargement des véhicules..." size="large" />
@@ -139,6 +152,17 @@ const groupedData = groupByBandeSortie(data);
           </div>
         )}
       </div>
+
+        <Modal
+          title=""
+          visible={modalType === 'Exceptionnelle'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
+        >
+          <SortieExceptionnelle closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </div>
   );
 };
