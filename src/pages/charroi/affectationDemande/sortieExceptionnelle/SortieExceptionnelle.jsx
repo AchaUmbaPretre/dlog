@@ -215,7 +215,7 @@ const SortieExceptionnelle = () => {
               <div className="client-row-icon">
                 <SwapOutlined className='client-icon' style={{color:'blue'}} />
               </div>
-              <h2 className="client-h2">ENTRÉE / SORTIE</h2>
+              <h2 className="client-h2">Entrée / Sortie</h2>
             </div>
             <div className="client-actions">
               <div className="client-row-left">
