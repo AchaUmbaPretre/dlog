@@ -5,7 +5,7 @@ import {
   Card,
   Typography,
   Empty,
-  Spin
+  message
 } from 'antd';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
@@ -23,6 +23,8 @@ const SecuriteRetour = () => {
   const [data, setData] = useState([]);
   const [exceptionnel, setException] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isloading, setIsLoading] = useState(false);
+
 
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
@@ -56,7 +58,7 @@ const SecuriteRetour = () => {
 
     const loadingKey = 'loadingSecurite';
     message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
-    setLoading(true);
+    setIsLoading(true);
 
     try {
       await postRetourVehicule(value);
@@ -69,7 +71,7 @@ const SecuriteRetour = () => {
         description: 'Impossible de valider le retour.',
       });
     } finally {
-            setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -97,7 +99,7 @@ const SecuriteRetour = () => {
 
     const loadingKey = 'loadingSecurite';
     message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
-    setLoading(true);
+    setIsLoading(true);
 
     try {
       await postRetourVehiculeExceptionnel(value);
@@ -109,7 +111,7 @@ const SecuriteRetour = () => {
         description: 'Impossible de valider le retour exceptionnel.',
       });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -148,7 +150,7 @@ const SecuriteRetour = () => {
                       type="primary"
                       size="small"
                       htmlType="button"
-                      loading={loading}
+                      loading={isloading}
                       onClick={() => onFinish(d.id_bande_sortie)}
                     >
                       Valider le retour
@@ -192,7 +194,7 @@ const SecuriteRetour = () => {
                       type="primary"
                       htmlType="button"
                       size="small"
-                      loading={loading}
+                      loading={isloading}
                       onClick={() =>
                         onFinishExcep(
                           d.id_sortie_retour,
