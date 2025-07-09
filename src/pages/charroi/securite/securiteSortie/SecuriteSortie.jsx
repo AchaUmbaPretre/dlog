@@ -17,27 +17,27 @@ const SecuriteSortie = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const buttonStyle = {
-  border: 'none',
-  borderRadius: '50%',
-  background: '#1a73e8',
-  height: '40px',
-  width: '40px',
-  color: '#fff',
-  fontSize: '18px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  cursor: 'pointer',
-  transition: 'background 0.3s',
-};
+    border: 'none',
+    borderRadius: '50%',
+    background: '#1a73e8',
+    height: '40px',
+    width: '40px',
+    color: '#fff',
+    fontSize: '18px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    transition: 'background 0.3s',
+  };
 
-const containerStyle = {
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  marginBottom: '10px',
-};
+  const containerStyle = {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginBottom: '10px',
+  };
 
   const handleAdd = () => openModal('Exceptionnelle');
 
@@ -70,7 +70,7 @@ const containerStyle = {
     return () => clearInterval(interval);
   }, []);
 
-const groupByBandeSortie = (rawData) => {
+  const groupByBandeSortie = (rawData) => {
   const grouped = {};
 
   rawData.forEach(item => {
@@ -92,7 +92,7 @@ const groupByBandeSortie = (rawData) => {
   return Object.values(grouped);
     };
 
-const groupedData = groupByBandeSortie(data);
+  const groupedData = groupByBandeSortie(data);
 
   const onFinish = async (idBandeSortie) => {
     const value = {
