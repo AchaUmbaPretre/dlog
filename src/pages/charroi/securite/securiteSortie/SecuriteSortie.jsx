@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { notification, Button, Tooltip, Modal, Card, Typography, Spin, Empty } from 'antd';
+import { notification, message, Button, Tooltip, Modal, Card, Typography, Spin, Empty } from 'antd';
 import { getSortieVehicule, postSortieVehicule } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -14,7 +14,7 @@ const SecuriteSortie = () => {
   const [loading, setLoading] = useState(true);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [modalType, setModalType] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(true);
 
   const buttonStyle = {
   border: 'none',
@@ -99,7 +99,9 @@ const groupedData = groupByBandeSortie(data);
       id_bande_sortie: idBandeSortie,
       id_agent: userId,
     };
-
+    const loadingKey = 'loadingSortie';
+      message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+      setIsLoading(true);
     try {
       await postSortieVehicule(value);
       notification.success({
@@ -112,6 +114,8 @@ const groupedData = groupByBandeSortie(data);
         message: 'Erreur',
         description: 'Impossible de valider la sortie.',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -170,17 +174,18 @@ const groupedData = groupByBandeSortie(data);
                 </div>
 
                 <Button
-                type="primary"
-                size="small"
-                onClick={() => {
-                    Modal.confirm({
-                    title: 'Confirmation de sortie',
-                    content: `Voulez-vous vraiment valider la sortie maintenant à ${moment().format('HH:mm')} ?`,
-                    okText: 'Oui, valider',
-                    cancelText: 'Annuler',
-                    onOk: () => onFinish(d.id_bande_sortie),
-                    });
-                }}
+                  type="primary"
+                  size="small"
+                  loading={isLoading}
+                  onClick={() => {
+                      Modal.confirm({
+                      title: 'Confirmation de sortie',
+                      content: `Voulez-vous vraiment valider la sortie maintenant à ${moment().format('HH:mm')} ?`,
+                      okText: 'Oui, valider',
+                      cancelText: 'Annuler',
+                      onOk: () => onFinish(d.id_bande_sortie),
+                      });
+                  }}
                 >
                 Valider la sortie
                 </Button>
