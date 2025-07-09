@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Input, Button, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
 import moment from 'moment';
-import { getSortieEntree } from '../../../../services/charroiService';
+import { getSortieEntree, getSortieVehiculeExceptionnel } from '../../../../services/charroiService';
 import {  SwapOutlined, TrademarkOutlined, UndoOutlined, ExportOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
@@ -19,7 +19,7 @@ const SortieExceptionnelle = () => {
 
     const fetchData = async() => {
         try {
-            const { data } = await  getSortieEntree()
+            const { data } = await getSortieVehiculeExceptionnel()
             setData(data)
         } catch (error) {
             notification.error({
@@ -158,23 +158,6 @@ const SortieExceptionnelle = () => {
                 </Tag>
             );
         },
-    },
-        {
-    title: (
-      <Space>
-        <Text strong>Securité</Text>
-      </Space>
-    ),
-    dataIndex: 'nom',
-    key: 'nom',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
     },
     {
         title: (
