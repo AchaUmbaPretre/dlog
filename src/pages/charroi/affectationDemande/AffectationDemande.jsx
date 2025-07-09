@@ -287,13 +287,13 @@ const AffectationDemande = () => {
         align: 'center',
         render: (text, record) => (
         <Space size="small">
-        <Tooltip title={record.statut === 4 
+        <Tooltip title={record.statut === 2 
           ? "Création de bon de sortie non autorisée" 
           : "Créer un bon de sortie"}
         >
             <Button
               type="text"
-              disabled={ record.statut === 4 }
+              disabled={ record.statut === 2 }
               icon={<FormOutlined />}
               style={{ color: '#1890ff' }}
               onClick={() => handlSortie(record.id_affectation_demande)}

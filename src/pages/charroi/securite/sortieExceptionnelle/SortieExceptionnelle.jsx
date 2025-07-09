@@ -75,7 +75,7 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Formulaire de bon de sortie exceptionnelle</div>
+                <div className="controle_h2">Formulaire de sortie sans bon de sortie</div>
             </div>
             <div className="controle_wrapper">
                 <Form

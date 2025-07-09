@@ -195,6 +195,7 @@ const SecuriteRetour = () => {
                       htmlType="button"
                       size="small"
                       loading={isloading}
+                      disabled={isloading}
                       onClick={() =>
                         onFinishExcep(
                           d.id_sortie_retour,

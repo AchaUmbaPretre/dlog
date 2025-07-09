@@ -127,16 +127,20 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                     rules={[{ required: true, message: 'Veuillez sélectionner un véhicule' }]}
                                 >
                                 { loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        allowClear
-                                        showSearch
-                                        options={vehicule?.map((item) => ({
-                                            value: item.id_vehicule,
-                                            label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
-                                        }))}
-                                        optionFilterProp="label"
-                                        placeholder="Sélectionnez un vehicule..."
-                                /> }
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={vehicule?.map((item) => ({
+                                        value: item.id_vehicule,
+                                        label: item.modele
+                                        ? `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`
+                                        : `${item.immatriculation} / ${item.nom_marque}`,
+                                    }))}
+                                    optionFilterProp="label"
+                                    placeholder="Sélectionnez un vehicule..."
+                                    />
+
+                                }
                                 </Form.Item>
                             </Col>
 
@@ -157,6 +161,21 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                     optionFilterProp="label"
                                     placeholder="Sélectionnez un chauffeur..."
                                 />}
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Date & heure de départ prévue"
+                                    name="date_prevue"
+                                    rules={[{ required: true, message: "Veuillez fournir la date et l'heure" }]}
+                                >
+                                    <DatePicker
+                                    style={{ width: '100%' }}
+                                    showTime={{ format: 'HH:mm' }}
+                                    format="YYYY-MM-DD HH:mm"
+                                    placeholder="Choisir date et heure"
+                                    />
                                 </Form.Item>
                             </Col>
 
@@ -195,20 +214,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                 </Form.Item>
                             </Col>
                             
-                            <Col xs={24} md={8}>
-                                <Form.Item
-                                    label="Date & heure de retour prévue"
-                                    name="date_retour"
-                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
-                                >
-                                    <DatePicker 
-                                        style={{width:'100%'}}
-                                        showTime={{ format: 'HH:mm' }} 
-                                        format="YYYY-MM-DD HH:mm" 
-                                        placeholder="Choisir date et heure" 
-                                    />
-                                </Form.Item>
-                            </Col>
                             
                             <Col xs={24} md={8}>
                                 <Form.Item

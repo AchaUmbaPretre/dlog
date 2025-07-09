@@ -102,13 +102,12 @@ const SecuriteSortie = () => {
     const loadingKey = 'loadingSortie';
       message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
       setIsLoading(true);
+
     try {
       await postSortieVehicule(value);
-      notification.success({
-        message: 'Sortie validée',
-        description: `Le véhicule avec le bon de sortie N° ${idBandeSortie} a été validé pour sortir.`,
-      });
+      message.success({ content: `Le véhicule avec le bon de sortie N° ${idBandeSortie} a été validé pour sortir.`, key: loadingKey });
       fetchData();
+      
     } catch (error) {
       notification.error({
         message: 'Erreur',
@@ -177,6 +176,7 @@ const SecuriteSortie = () => {
                   type="primary"
                   size="small"
                   loading={isLoading}
+                  disabled={isLoading}
                   onClick={() => {
                       Modal.confirm({
                       title: 'Confirmation de sortie',
