@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { notification, Button, Modal, Card, Typography, Spin, Empty } from 'antd';
-import { useSelector } from 'react-redux';
+import { notification, message, Button, Modal, Card, Typography, Spin, Empty } from 'antd';
 import moment from 'moment';
 import { getBonSortiePersoSortie, postBonSortiePersoSortie } from '../../../../../services/charroiService';
 
@@ -9,7 +8,7 @@ const { Title, Text } = Typography;
 const SortieAgent = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const [isloading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -59,13 +58,13 @@ const groupedData = groupByBandeSortie(data);
       id_agent: idAgent,
     };
 
+     const loadingKey = 'loadingSortieAgent';
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+
     try {
        await postBonSortiePersoSortie(value);
-       notification.success({
-        message: 'Entrée validée',
-        description: `Le personnel avec le bon de sortie N° ${idBonSortie} a été retour avec succes`,
-      });
-      fetchData();
+        message.success({ content:`Le personnel a été retour avec succes` , key: loadingKey });
+        fetchData();
 
     } catch (error) {
       notification.error({

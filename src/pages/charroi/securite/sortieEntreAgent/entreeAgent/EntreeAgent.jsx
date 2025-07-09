@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { notification, Button, Card, Typography, Empty, Spin } from 'antd';
-import { useSelector } from 'react-redux';
+import { notification, message, Button, Card, Typography, Empty, Spin } from 'antd';
 import { getBonSortiePersoRetour, postBonSortiePersoRetour } from '../../../../../services/charroiService';
 
 const { Title, Text } = Typography;
@@ -8,7 +7,7 @@ const { Title, Text } = Typography;
 const EntreeAgent = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const [isloading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -33,19 +32,21 @@ const EntreeAgent = () => {
       id_bon_sortie: idBonSortie,
       id_agent: idAgent,
     };
-
+      const loadingKey = 'loadingPersonnel';
+      message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+      setIsLoading(true);
     try {
        await postBonSortiePersoRetour(value);
-        notification.success({
-        message: 'Retour validé',
-        description: `Le personnel avec le bon de sortie ${idBonSortie} a été validé pour le retour.`,
-      });
+      message.success({ content: "Le personnel a été validé pour le retour", key: loadingKey });
+      
       fetchData();
     } catch (error) {
       notification.error({
         message: 'Erreur',
         description: 'Impossible de valider le retour.',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,6 +88,7 @@ const EntreeAgent = () => {
                 <Button
                   type="primary"
                   size="small"
+                  loading={isloading}
                   onClick={() => onFinish(d.id_bon_sortie, d.id_personnel)}
                 >
                   Valider le retour

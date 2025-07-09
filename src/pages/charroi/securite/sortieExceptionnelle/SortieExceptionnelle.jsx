@@ -48,7 +48,7 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
         await form.validateFields();
         
         const loadingKey = 'loadingExceptionnelle';
-            message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
             setLoading(true);
         
                 try {
