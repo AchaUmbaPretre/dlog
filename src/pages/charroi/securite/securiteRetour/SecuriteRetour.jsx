@@ -145,6 +145,7 @@ const SecuriteRetour = () => {
                     <Button
                       type="primary"
                       size="small"
+                      htmlType="button"
                       onClick={() => onFinish(d.id_bande_sortie)}
                     >
                       Valider le retour
@@ -186,6 +187,7 @@ const SecuriteRetour = () => {
 
                     <Button
                       type="primary"
+                      htmlType="button"
                       size="small"
                       onClick={() =>
                         onFinishExcep(

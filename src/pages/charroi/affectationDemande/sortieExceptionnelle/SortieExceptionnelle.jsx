@@ -198,6 +198,15 @@ const SortieExceptionnelle = () => {
     },
    ];
 
+    const filteredData = data.filter(item =>
+        item.nom_chauffeur?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.autorise_par?.toLowerCase().includes(searchValue.toLowerCase()) || 
+        item.type?.toLowerCase().includes(searchValue.toLowerCase())
+
+    );
+
   return (
     <>
         <div className="client">
@@ -206,7 +215,7 @@ const SortieExceptionnelle = () => {
               <div className="client-row-icon">
                 <SwapOutlined className='client-icon' style={{color:'blue'}} />
               </div>
-              <h2 className="client-h2">Entrée / Sortie</h2>
+              <h2 className="client-h2">ENTRÉE / SORTIE</h2>
             </div>
             <div className="client-actions">
               <div className="client-row-left">
@@ -221,7 +230,7 @@ const SortieExceptionnelle = () => {
               </div>
               <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={filteredData}
                 loading={loading}
                 onChange={(pagination) => setPagination(pagination)}
                 rowKey="id"
