@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { notification, Button, Card, Typography, Empty, Spin } from 'antd';
+import { notification, message, Button, Card, Typography, Empty, Spin } from 'antd';
 import { getSortieVisiteur, putSortieVisiteur } from '../../../../../services/charroiService';
 import moment from 'moment';
 const { Title, Text } = Typography;
@@ -7,6 +7,7 @@ const { Title, Text } = Typography;
 const VisiteurSortie = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
     try {
@@ -27,19 +28,20 @@ const VisiteurSortie = () => {
   }, []);
 
   const onFinish = async (idVisiteur) => {
-
+      const loadingKey = 'loadingVisiteur';
+      message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+      setIsLoading(true);
     try {
       await putSortieVisiteur(idVisiteur);
-      notification.success({
-        message: 'Sortie validée',
-        description: `Le visiteur est sorti`,
-      });
+      message.success({ content: "Le visiteur est sorti", key: loadingKey });
       fetchData();
     } catch (error) {
       notification.error({
         message: 'Erreur',
         description: 'Impossible de valider la sortie.',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -84,6 +86,7 @@ const VisiteurSortie = () => {
                 <Button
                   type="primary"
                   size="small"
+                  loading={isLoading}
                   onClick={() => onFinish(d.id_registre_visiteur)}
                 >
                   Valider le retour
