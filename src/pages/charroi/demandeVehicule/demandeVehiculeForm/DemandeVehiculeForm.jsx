@@ -145,33 +145,51 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                             </Col>
 
                             <Col xs={24} md={8}>
-                                <Form.Item
-                                    label="Date & heure de départ prévue"
-                                    name="date_prevue"
-                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
-                                >
-                                    <DatePicker 
-                                        style={{width:'100%'}}
-                                        showTime={{ format: 'HH:mm' }} 
-                                        format="YYYY-MM-DD HH:mm" 
-                                        placeholder="Choisir date et heure" 
-                                    />
-                                </Form.Item>
+                            <Form.Item
+                                label="Date & heure de départ prévue"
+                                name="date_prevue"
+                                rules={[{ required: true, message: "Veuillez fournir la date et l'heure" }]}
+                            >
+                                <DatePicker
+                                style={{ width: '100%' }}
+                                showTime={{ format: 'HH:mm' }}
+                                format="YYYY-MM-DD HH:mm"
+                                placeholder="Choisir date et heure"
+                                />
+                            </Form.Item>
                             </Col>
 
                             <Col xs={24} md={8}>
-                                <Form.Item
-                                    label="Date & heure de retour prévue"
-                                    name="date_retour"
-                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
-                                >
-                                    <DatePicker 
-                                        style={{width:'100%'}}
-                                        showTime={{ format: 'HH:mm' }} 
-                                        format="YYYY-MM-DD HH:mm" 
-                                        placeholder="Choisir date et heure" 
-                                    />
-                                </Form.Item>
+                            <Form.Item
+                                label="Date & heure de retour prévue"
+                                name="date_retour"
+                                dependencies={['date_prevue']}
+                                rules={[
+                                { required: true, message: "Veuillez fournir la date et l'heure" },
+                                ({ getFieldValue }) => ({
+                                    validator(_, value) {
+                                    const depart = getFieldValue('date_prevue');
+                                    if (!value || !depart) return Promise.resolve();
+
+                                    // autorise égalité ou postérieur
+                                    if (value.isSameOrAfter(depart)) {
+                                        return Promise.resolve();
+                                    }
+
+                                    return Promise.reject(
+                                        new Error("La date de retour ne peut pas être antérieure à la date de départ.")
+                                    );
+                                    },
+                                }),
+                                ]}
+                            >
+                                <DatePicker
+                                style={{ width: '100%' }}
+                                showTime={{ format: 'HH:mm' }}
+                                format="YYYY-MM-DD HH:mm"
+                                placeholder="Choisir date et heure"
+                                />
+                            </Form.Item>
                             </Col>
 
                             <Col xs={24} md={8}>
