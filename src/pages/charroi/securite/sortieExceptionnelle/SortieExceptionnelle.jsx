@@ -59,7 +59,7 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
                     
                     message.success({ content: "Sortie exceptionnelle a été enregistré avec succès.", key: loadingKey });
                     form.resetFields();
-                    fetchData();
+                    fetchDatas();
                     closeModal();
         
                 } catch (error) {

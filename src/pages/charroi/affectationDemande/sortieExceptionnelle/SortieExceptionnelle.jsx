@@ -160,6 +160,23 @@ const SortieExceptionnelle = () => {
         },
     },
     {
+    title: (
+      <Space>
+        <Text strong>Autorisé par</Text>
+      </Space>
+    ),
+    dataIndex: 'autorise_par',
+    key: 'autorise_par',
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (text) => (
+      <Tooltip placement="topLeft" title={text}>
+        <Text>{text}</Text>
+      </Tooltip>
+    ),
+    },
+    {
         title: (
         <Text strong>Actions</Text>
         ),

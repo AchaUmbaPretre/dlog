@@ -76,16 +76,18 @@ const SecuriteRetour = () => {
     id_destination,
     id_motif,
     id_demandeur,
-    personne_bord
+    personne_bord,
+    autorise_par
   ) => {
     const value = {
-      id_sortie_retour,
+      id_sortieRetourParent: id_sortie_retour,
       id_vehicule,
       id_chauffeur,
       id_destination,
       id_motif,
       id_demandeur,
       personne_bord,
+      autorise_par,
       id_agent: userId
     };
 
@@ -193,7 +195,8 @@ const SecuriteRetour = () => {
                           d.id_destination,
                           d.id_motif,
                           d.id_demandeur,
-                          d.personne_bord
+                          d.personne_bord,
+                          d.autorise_par
                         )
                       }
                     >
