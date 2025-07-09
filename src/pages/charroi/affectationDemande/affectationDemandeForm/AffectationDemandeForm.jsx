@@ -92,12 +92,13 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                 user_cr: userId
             })
             
-            message.success({ content: "L'affectation a été mise a jour avec succès.", key: loadingKey });
+            message.success({ content: "La course a été mise a jour avec succès.", key: loadingKey });
+            form.resetFields();
             fetchData();
             closeModal();
 
         } catch (error) {
-            console.error("Erreur lors de l'ajout d'affectation :", error);
+            console.error("Erreur lors de l'ajout de course :", error);
             message.error({ content: 'Une erreur est survenue.', key: loadingKey });
         } finally {
             setLoading(false);
@@ -108,7 +109,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Form d'affectation</div>
+                <div className="controle_h2">Formulaire de validation de course</div>
             </div>
             <div className="controle_wrapper">
                 <Form

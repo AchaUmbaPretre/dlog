@@ -165,19 +165,21 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                 name="date_retour"
                                 dependencies={['date_prevue']}
                                 rules={[
-                                { required: true, message: "Veuillez fournir la date et l'heure" },
+                                {
+                                    required: true,
+                                    message: "Veuillez fournir la date et l'heure de retour",
+                                },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
                                     const depart = getFieldValue('date_prevue');
                                     if (!value || !depart) return Promise.resolve();
 
-                                    // autorise égalité ou postérieur
-                                    if (value.isSameOrAfter(depart)) {
-                                        return Promise.resolve();
+                                    if (value.isAfter(depart)) {
+                                        return Promise.resolve(); // OK si après en date ou en heure
                                     }
 
                                     return Promise.reject(
-                                        new Error("La date de retour ne peut pas être antérieure à la date de départ.")
+                                        new Error("La date de retour doit être strictement postérieure à la date de départ.")
                                     );
                                     },
                                 }),
@@ -191,6 +193,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                 />
                             </Form.Item>
                             </Col>
+
 
                             <Col xs={24} md={8}>
                                 <Form.Item
