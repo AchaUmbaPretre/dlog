@@ -52,8 +52,10 @@ const containerStyle = {
 
   const fetchData = async () => {
     try {
-      const { data } = await getSortieVehicule();
-      setData(data);
+      const [ sortieData] = await Promise.all([
+        getSortieVehicule()
+      ])
+      setData(sortieData.data);
 
     } catch (error) {
         console.log(error)
@@ -184,7 +186,6 @@ const groupedData = groupByBandeSortie(data);
                 </Button>
             </Card>
             ))}
-
           </div>
         )}
       </div>

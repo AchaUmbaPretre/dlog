@@ -88,7 +88,7 @@ const SortieVisiteurPieton = () => {
                     <Text>{moment(d?.date_heure_arrivee).format("HH:mm")}</Text>
                   </div>
                 </div>
-
+                
                 <Button
                   type="primary"
                   size="small"
