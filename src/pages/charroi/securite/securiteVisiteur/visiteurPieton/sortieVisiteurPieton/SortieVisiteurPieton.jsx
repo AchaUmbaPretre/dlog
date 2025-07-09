@@ -8,6 +8,8 @@ const { Title, Text } = Typography;
 const SortieVisiteurPieton = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const fetchData = async () => {
     try {
@@ -28,7 +30,7 @@ const SortieVisiteurPieton = () => {
   }, []);
 
   const onFinish = async (idVisiteur) => {
-    setLoading(true);
+    setIsLoading(true);
     const loadingKey = 'loadingVisiteurPieton';
 
     try {
@@ -45,6 +47,8 @@ const SortieVisiteurPieton = () => {
         message: 'Erreur',
         description: 'Impossible de valider la sortie.',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,10 +92,11 @@ const SortieVisiteurPieton = () => {
                     <Text>{moment(d?.date_heure_arrivee).format("HH:mm")}</Text>
                   </div>
                 </div>
-                
+
                 <Button
                   type="primary"
                   size="small"
+                  loading={isLoading}
                   onClick={() => onFinish(d.id_visiteur)}
                 >
                   Valider le retour

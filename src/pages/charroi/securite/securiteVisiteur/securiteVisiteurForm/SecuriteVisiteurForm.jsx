@@ -12,7 +12,7 @@ import {
   Button,
   AutoComplete
 } from 'antd';
-import { getCatVehicule, getMotif, getVisiteurVehicule, getVisiteurVehiculeSearch, postVisiteurVehicule } from '../../../../../services/charroiService';
+import { getCatVehicule, getMotif, getVisiteurVehiculeSearch, postVisiteurVehicule } from '../../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 
 const SecuriteVisiteurForm = ({ closeModal }) => {
