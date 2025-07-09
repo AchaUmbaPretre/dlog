@@ -32,7 +32,7 @@ const AffectationDemande = () => {
       "Statut" : true,
       "Commentaire" : false
     })
-    
+
     const columnStyles = {
       title: {
         maxWidth: '150px',
@@ -287,9 +287,13 @@ const AffectationDemande = () => {
         align: 'center',
         render: (text, record) => (
         <Space size="small">
-          <Tooltip title="Créer un bon de sortie">
+        <Tooltip title={record.statut === 4 
+          ? "Création de bon de sortie non autorisée" 
+          : "Créer un bon de sortie"}
+        >
             <Button
               type="text"
+              disabled={ record.statut === 4 }
               icon={<FormOutlined />}
               style={{ color: '#1890ff' }}
               onClick={() => handlSortie(record.id_affectation_demande)}

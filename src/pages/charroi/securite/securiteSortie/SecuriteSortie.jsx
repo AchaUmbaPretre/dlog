@@ -14,7 +14,7 @@ const SecuriteSortie = () => {
   const [loading, setLoading] = useState(true);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [modalType, setModalType] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const buttonStyle = {
     border: 'none',

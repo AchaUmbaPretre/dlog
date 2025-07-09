@@ -162,15 +162,35 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
 
                             <Col xs={24} md={8}>
                                 <Form.Item
-                                    label="Date & heure de départ prévue"
-                                    name="date_prevue"
-                                    rules={[{ required: false, message: "Veuillez fournir la date et l'heure"}]}
+                                    label="Date & heure de retour prévue"
+                                    name="date_retour"
+                                    dependencies={['date_prevue']}
+                                    rules={[
+                                    {
+                                        required: true,
+                                        message: "Veuillez fournir la date et l'heure de retour",
+                                    },
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                        const depart = getFieldValue('date_prevue');
+                                        if (!value || !depart) return Promise.resolve();
+
+                                        if (value.isAfter(depart)) {
+                                            return Promise.resolve(); // OK si après en date ou en heure
+                                        }
+
+                                        return Promise.reject(
+                                            new Error("La date de retour doit être strictement postérieure à la date de départ.")
+                                        );
+                                        },
+                                    }),
+                                    ]}
                                 >
-                                    <DatePicker 
-                                        style={{width:'100%'}}
-                                        showTime={{ format: 'HH:mm' }} 
-                                        format="YYYY-MM-DD HH:mm" 
-                                        placeholder="Choisir date et heure" 
+                                    <DatePicker
+                                    style={{ width: '100%' }}
+                                    showTime={{ format: 'HH:mm' }}
+                                    format="YYYY-MM-DD HH:mm"
+                                    placeholder="Choisir date et heure"
                                     />
                                 </Form.Item>
                             </Col>

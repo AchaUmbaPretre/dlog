@@ -7,7 +7,7 @@ const { Title, Text } = Typography;
 const VisiteurSortie = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
     try {
