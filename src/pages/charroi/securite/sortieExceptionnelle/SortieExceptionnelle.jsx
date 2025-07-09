@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
+import { Form, Row, Input, Card, Col, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import { getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, postSortieVehiculeExceptionnel } from '../../../../services/charroiService';
+import { getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, getVehiculeDispo, postSortieVehiculeExceptionnel } from '../../../../services/charroiService';
 
 const SortieExceptionnelle = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -19,14 +19,14 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
             try {
                 setLoadingData(true)
                 const [vehiculeData, chaufferData, serviceData, motifData,localData ] = await Promise.all([
-                    getVehicule(),
+                    getVehiculeDispo(),
                     getChauffeur(),
                     getServiceDemandeur(),
                     getMotif(),
                     getDestination(),
                 ])
     
-                setVehicule(vehiculeData.data.data)
+                setVehicule(vehiculeData.data)
                 setChauffeur(chaufferData.data?.data)
                 setService(serviceData.data);
                 setMotif(motifData.data);
@@ -193,6 +193,17 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
                                 <Form.Item
                                     label="Personne(s) à bord"
                                     name="personne_bord"
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Input  placeholder="Saisir..." style={{width:'100%'}}/>
+                                    }
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Autorisé par"
+                                    name="autorise_par"
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Input  placeholder="Saisir..." style={{width:'100%'}}/>
