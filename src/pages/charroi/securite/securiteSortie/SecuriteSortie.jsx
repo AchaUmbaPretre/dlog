@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { notification, Button, Modal, Card, Typography, Spin, Empty } from 'antd';
+import { notification, Button, Tooltip, Modal, Card, Typography, Spin, Empty } from 'antd';
 import { getSortieVehicule, postSortieVehicule } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import './securiteSortie.scss';
 import moment from 'moment';
 import SortieExceptionnelle from '../sortieExceptionnelle/SortieExceptionnelle';
@@ -14,7 +15,31 @@ const SecuriteSortie = () => {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const [modalType, setModalType] = useState(null);
 
-  const handleAdd = () => openModal('Exceptionnelle')
+
+  const buttonStyle = {
+  border: 'none',
+  borderRadius: '50%',
+  background: '#1a73e8',
+  height: '40px',
+  width: '40px',
+  color: '#fff',
+  fontSize: '18px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  transition: 'background 0.3s',
+};
+
+const containerStyle = {
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  marginBottom: '10px',
+};
+
+  const handleAdd = () => openModal('Exceptionnelle');
 
   const closeAllModals = () => {
     setModalType(null);
@@ -90,9 +115,20 @@ const groupedData = groupByBandeSortie(data);
 
   return (
     <div className='securiteSortie'>
+      <div style={containerStyle}>
+        <Tooltip title="Nouvelle sortie sans bon" placement="top">
+          <Button
+            onClick={handleAdd}
+            style={buttonStyle}
+            aria-label="Ajouter une sortie"
+            title="Nouvelle sortie sans bon"
+          >
+            <PlusCircleOutlined />
+          </Button>
+        </Tooltip>
+      </div>
       <div className="securiteSortie_wrapper">
         <Title level={4} className="securite_title">🚗 Sortie des véhicules</Title>
-        <Button onClick={handleAdd}>Nouvelle sortie exceptionnelle</Button>
         {loading ? (
           <div className="securite_loader">
             <Spin tip="Chargement des véhicules..." size="large" />
