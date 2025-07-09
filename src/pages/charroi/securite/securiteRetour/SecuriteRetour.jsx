@@ -54,18 +54,22 @@ const SecuriteRetour = () => {
       id_agent: userId
     };
 
+    const loadingKey = 'loadingSecurite';
+    message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+    setLoading(true);
+
     try {
       await postRetourVehicule(value);
-      notification.success({
-        message: 'Retour validé',
-        description: `Le véhicule avec le bon de sortie ${idBandeSortie} a été validé pour l’entrée.`,
-      });
+      message.success({ content:  `Le véhicule avec le bon de sortie ${idBandeSortie} a été validé pour l’entrée.`, key: loadingKey });
+
       fetchData();
     } catch (error) {
       notification.error({
         message: 'Erreur',
         description: 'Impossible de valider le retour.',
       });
+    } finally {
+            setLoading(false);
     }
   };
 
@@ -91,18 +95,21 @@ const SecuriteRetour = () => {
       id_agent: userId
     };
 
+    const loadingKey = 'loadingSecurite';
+    message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+    setLoading(true);
+
     try {
       await postRetourVehiculeExceptionnel(value);
-      notification.success({
-        message: 'Retour sans bon de sortie validé',
-        description: 'Le véhicule sans bon de sortie a été validé pour l’entrée.',
-      });
+        message.success({ content:  `Le véhicule sans bon de sortie a été validé pour l’entrée.`, key: loadingKey });
       fetchData();
     } catch (error) {
       notification.error({
         message: 'Erreur',
         description: 'Impossible de valider le retour exceptionnel.',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,11 +120,6 @@ const SecuriteRetour = () => {
           🔁 Retours des véhicules
         </Title>
 
-        {loading ? (
-          <div className="securite_loader">
-            <Spin tip="Chargement des véhicules..." size="large" />
-          </div>
-        ) : (
           <>
             {/* Retours normaux */}
             {data.length === 0 ? (
@@ -146,6 +148,7 @@ const SecuriteRetour = () => {
                       type="primary"
                       size="small"
                       htmlType="button"
+                      loading={loading}
                       onClick={() => onFinish(d.id_bande_sortie)}
                     >
                       Valider le retour
@@ -189,6 +192,7 @@ const SecuriteRetour = () => {
                       type="primary"
                       htmlType="button"
                       size="small"
+                      loading={loading}
                       onClick={() =>
                         onFinishExcep(
                           d.id_sortie_retour,
@@ -211,7 +215,6 @@ const SecuriteRetour = () => {
 )}
 
           </>
-        )}
       </div>
     </div>
   );
