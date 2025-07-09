@@ -195,7 +195,7 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
                                     name="personne_bord"
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Input  placeholder="Saisir..." style={{width:'100%'}}/>
+                                    <Input placeholder="Saisir..." style={{width:'100%'}}/>
                                     }
                                 </Form.Item>
                             </Col>
@@ -204,6 +204,7 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
                                 <Form.Item
                                     label="Autorisé par"
                                     name="autorise_par"
+                                    rules={[{ required: true, message: 'Veuillez saisir le nom des chefs ayant validé' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Input  placeholder="Saisir..." style={{width:'100%'}}/>

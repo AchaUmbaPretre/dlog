@@ -213,8 +213,12 @@ const handleSelectPlaque = (value, option) => {
                 label="Véhicule déjà connu"
                 name="vehicule_connu"
                 valuePropName="checked"
+                tooltip="Indiquez si le véhicule a déjà été enregistré dans le système"
               >
-                <Switch checkedChildren="1" unCheckedChildren="0" />
+                <Switch
+                  checkedChildren="Oui"
+                  unCheckedChildren="Non"
+                />
               </Form.Item>
             </Col>
 
