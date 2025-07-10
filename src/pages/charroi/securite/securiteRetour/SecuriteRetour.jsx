@@ -93,7 +93,7 @@ const SecuriteRetour = () => {
       id_vehicule: d.id_vehicule,
       id_chauffeur: d.id_chauffeur,
       id_destination: d.id_destination,
-      id_motif: d.id_motif_demande,
+      id_motif: d.id_motif,
       id_demandeur: d.id_demandeur,
       id_client: d.id_client,
       personne_bord: d.personne_bord,
@@ -102,7 +102,6 @@ const SecuriteRetour = () => {
       id_agent: userId,
       autorise_par: d.autorise_par,
       id_sortieRetourParent: d.id_sortie_retour
-
     };
 
     const loadingKey = 'loadingSecurite';
