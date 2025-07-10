@@ -94,9 +94,17 @@ const SecuriteSortie = () => {
 
   const groupedData = groupByBandeSortie(data);
 
-  const onFinish = async (idBandeSortie) => {
+  const onFinish = async (d) => {
     const value = {
-      id_bande_sortie: idBandeSortie,
+      id_bande_sortie: d.id_bande_sortie,
+      id_vehicule: d.id_vehicule,
+      id_chauffeur: d.id_chauffeur,
+      id_destination: d.id_destination,
+      id_motif: d.id_motif_demande,
+      id_demandeur: d.id_demandeur,
+      id_client: d.id_client,
+      personne_bord: d.personne_bord,
+      id_societe: d.id_societe,
       id_agent: userId,
     };
     const loadingKey = 'loadingSortie';
@@ -105,7 +113,7 @@ const SecuriteSortie = () => {
 
     try {
       await postSortieVehicule(value);
-      message.success({ content: `Le véhicule avec le bon de sortie N° ${idBandeSortie} a été validé pour sortir.`, key: loadingKey });
+      message.success({ content: `Le véhicule avec le bon de sortie N° ${d.id_bande_sortie} a été validé pour sortir.`, key: loadingKey });
       fetchData();
       
     } catch (error) {
@@ -183,7 +191,7 @@ const SecuriteSortie = () => {
                       content: `Voulez-vous vraiment valider la sortie maintenant à ${moment().format('HH:mm')} ?`,
                       okText: 'Oui, valider',
                       cancelText: 'Annuler',
-                      onOk: () => onFinish(d.id_bande_sortie),
+                      onOk: () => onFinish(d),
                       });
                   }}
                 >

@@ -49,7 +49,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                     id_motif_demande : d[0].id_motif_demande,
                     id_demandeur : d[0].id_demandeur,
                     id_client : d[0].id_client,
-                    id_destination : d[0].id_destinattion,
+                    id_destination : d[0].id_destination,
                     personne_bord : d[0].personne_bord
                 })
             }

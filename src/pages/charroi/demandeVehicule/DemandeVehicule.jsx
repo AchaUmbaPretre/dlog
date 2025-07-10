@@ -467,27 +467,26 @@ const DemandeVehicule = () => {
                     <TabPane
                         tab={
                             <span>
-                            🚗 Véhicule en course
+                            🔴 Entrée / Sortie
                             </span>
                         }
                         key="4"
                     >
-                        <VehiculeCourse/>
+                        <SortieEntree/>
                     </TabPane>
 
                     <TabPane
                         tab={
                             <span>
-                            🔴 Entrée / Sortie
+                            🚗 Véhicule en course
                             </span>
                         }
                         key="5"
                     >
-                        <SortieEntree/>
+                        <VehiculeCourse/>
                     </TabPane>
 
-                    
-                    <TabPane
+{/*                     <TabPane
                         tab={
                             <span>
                             🔴 Sortie exceptionnelle
@@ -496,7 +495,7 @@ const DemandeVehicule = () => {
                         key="6"
                     >
                         <SortieExceptionnelle/>
-                    </TabPane>
+                    </TabPane> */}
 
                     <TabPane
                         tab={

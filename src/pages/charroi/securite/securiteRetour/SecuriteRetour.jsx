@@ -5,9 +5,12 @@ import {
   Card,
   Typography,
   Empty,
-  message
+  message,
+  Tooltip,
+  Modal
 } from 'antd';
 import moment from 'moment';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import {
   getRetourVehicule,
@@ -16,6 +19,7 @@ import {
   postRetourVehiculeExceptionnel
 } from '../../../../services/charroiService';
 import './securiteRetour.scss';
+import RetourExceptionnelle from '../retourExceptionnelle/RetourExceptionnelle';
 
 const { Title, Text } = Typography;
 
@@ -24,9 +28,42 @@ const SecuriteRetour = () => {
   const [exceptionnel, setException] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isloading, setIsLoading] = useState(false);
-
-
+  const [modalType, setModalType] = useState(null);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+
+  const buttonStyle = {
+      border: 'none',
+      borderRadius: '50%',
+      background: '#1a73e8',
+      height: '40px',
+      width: '40px',
+      color: '#fff',
+      fontSize: '18px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      transition: 'background 0.3s',
+    };
+
+  const containerStyle = {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginBottom: '10px',
+  };
+
+  const handleAdd = () => openModal('retourExceptionnelle');
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type) => {
+      closeAllModals();
+      setModalType(type);
+  }
 
   const fetchData = async () => {
     setLoading(true);
@@ -50,10 +87,18 @@ const SecuriteRetour = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const onFinish = async (idBandeSortie) => {
+  const onFinish = async (d) => {
     const value = {
-      id_bande_sortie: idBandeSortie,
-      id_agent: userId
+      id_bande_sortie: d.id_bande_sortie,
+      id_vehicule: d.id_vehicule,
+      id_chauffeur: d.id_chauffeur,
+      id_destination: d.id_destination,
+      id_motif: d.id_motif_demande,
+      id_demandeur: d.id_demandeur,
+      id_client: d.id_client,
+      personne_bord: d.personne_bord,
+      id_societe: d.id_societe,
+      id_agent: userId,
     };
 
     const loadingKey = 'loadingSecurite';
@@ -62,7 +107,7 @@ const SecuriteRetour = () => {
 
     try {
       await postRetourVehicule(value);
-      message.success({ content:  `Le véhicule avec le bon de sortie ${idBandeSortie} a été validé pour l’entrée.`, key: loadingKey });
+      message.success({ content:  `Le véhicule avec le bon de sortie ${d.id_bande_sortie} a été validé pour l’entrée.`, key: loadingKey });
 
       fetchData();
     } catch (error) {
@@ -117,6 +162,18 @@ const SecuriteRetour = () => {
 
   return (
     <div className="securiteRetour">
+          <div style={containerStyle}>
+            <Tooltip title="Nouvelle sortie sans bon" placement="top">
+              <Button
+                onClick={handleAdd}
+                style={buttonStyle}
+                aria-label="Ajouter une sortie"
+                title="Nouvelle sortie sans bon"
+              >
+                <PlusCircleOutlined />
+              </Button>
+            </Tooltip>
+          </div>
       <div className="securiteRetour_wrapper">
         <Title level={4} className="securite_title">
           🔁 Retours des véhicules
@@ -151,7 +208,7 @@ const SecuriteRetour = () => {
                       size="small"
                       htmlType="button"
                       loading={isloading}
-                      onClick={() => onFinish(d.id_bande_sortie)}
+                      onClick={() => onFinish(d)}
                     >
                       Valider le retour
                     </Button>
@@ -219,6 +276,16 @@ const SecuriteRetour = () => {
 
           </>
       </div>
+        <Modal
+          title=""
+          visible={modalType === 'retourExceptionnelle'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
+        >
+          <RetourExceptionnelle closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </div>
   );
 };

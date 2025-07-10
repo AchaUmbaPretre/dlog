@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Input, Button, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
 import moment from 'moment';
 import { getSortieEntree } from '../../../../services/charroiService';
-import {  SwapOutlined, TrademarkOutlined, UndoOutlined, ExportOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  SwapOutlined, TrademarkOutlined, CheckCircleOutlined, ExclamationCircleOutlined, UndoOutlined, ExportOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -129,6 +129,25 @@ const SortieEntree = () => {
         return (
           <Tag color={color} icon={icon}>
             {text}
+          </Tag>
+        );
+      }
+    },
+    {
+      title: "Mouvement",
+      dataIndex: 'mouvement_exceptionnel',
+      key: 'mouvement_exceptionnel',
+      align: 'center',
+      render: (text) => {
+        const isExceptional = text !== 0;
+
+        const color = isExceptional ? 'red' : 'green';
+        const label = isExceptional ? 'Exceptionnel' : 'Normal';
+        const icon = isExceptional ? <ExclamationCircleOutlined /> : <CheckCircleOutlined />;
+
+        return (
+          <Tag color={color} icon={icon}>
+            {label}
           </Tag>
         );
       }

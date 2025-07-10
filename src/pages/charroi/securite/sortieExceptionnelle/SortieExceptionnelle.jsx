@@ -3,6 +3,7 @@ import { Form, Row, Input, Card, Col, message, Skeleton, Select, Button } from '
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, getVehiculeDispo, postSortieVehiculeExceptionnel } from '../../../../services/charroiService';
+import { getClient } from '../../../../services/clientService';
 
 const SortieExceptionnelle = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -14,16 +15,18 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
     const [ motif, setMotif ] = useState([]);
     const [ service, setService ] = useState([]);
     const [ destination, setDestination ] = useState([]);
+    const [ client, setClient ] = useState([]);
 
         const fetchDatas = async() => {
             try {
                 setLoadingData(true)
-                const [vehiculeData, chaufferData, serviceData, motifData,localData ] = await Promise.all([
+                const [vehiculeData, chaufferData, serviceData, motifData, localData, clientData ] = await Promise.all([
                     getVehiculeDispo(),
                     getChauffeur(),
                     getServiceDemandeur(),
                     getMotif(),
                     getDestination(),
+                    getClient()
                 ])
     
                 setVehicule(vehiculeData.data)
@@ -31,6 +34,7 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
                 setService(serviceData.data);
                 setMotif(motifData.data);
                 setDestination(localData.data);
+                setClient(clientData.data);
     
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -161,6 +165,26 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
                                         options={service?.map((item) => ({
                                             value: item.id_service_demandeur,
                                             label: `${item.nom_service}`,
+                                        }))}
+                                        optionFilterProp="label"
+                                        placeholder="Sélectionnez..."
+                                    />
+                                    }
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={8}>
+                                <Form.Item
+                                    label="Client"
+                                    name="id_client"
+                                >
+                                    { loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        allowClear
+                                        showSearch
+                                        options={client?.map((item) => ({
+                                            value: item.id_client,
+                                            label: `${item.nom}`,
                                         }))}
                                         optionFilterProp="label"
                                         placeholder="Sélectionnez..."

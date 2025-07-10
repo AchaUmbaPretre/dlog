@@ -46,8 +46,9 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                     id_motif_demande: d[0].id_motif_demande,
                     id_demandeur: d[0].id_demandeur,
                     id_client : d[0].id_client,
-                    id_localisation : d[0].id_localisation,
-                    id_utilisateur: d.map((item) => item.id_utilisateur)
+                    id_destination : d[0].id_destination,
+                    id_utilisateur: d.map((item) => item.id_utilisateur),
+                    personne_bord: d[0].personne_bord
                 });
             }
         } catch (error) {
