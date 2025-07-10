@@ -9,14 +9,12 @@ import {
   Tooltip,
   Modal
 } from 'antd';
-import moment from 'moment';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import {
   getRetourVehicule,
   getRetourVehiculeExceptionnel,
-  postRetourVehicule,
-  postRetourVehiculeExceptionnel
+  postRetourVehicule
 } from '../../../../services/charroiService';
 import './securiteRetour.scss';
 import RetourExceptionnelle from '../retourExceptionnelle/RetourExceptionnelle';
@@ -25,7 +23,6 @@ const { Title, Text } = Typography;
 
 const SecuriteRetour = () => {
   const [data, setData] = useState([]);
-  const [exceptionnel, setException] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isloading, setIsLoading] = useState(false);
   const [modalType, setModalType] = useState(null);
@@ -68,12 +65,11 @@ const SecuriteRetour = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [retourData, excepData] = await Promise.all([
+      const [retourData] = await Promise.all([
         getRetourVehicule(),
         getRetourVehiculeExceptionnel()
       ]);
       setData(retourData.data || []);
-      setException(excepData.data || []);
     } catch (error) {
       console.error('Erreur lors de la récupération des données :', error);
     } finally {
