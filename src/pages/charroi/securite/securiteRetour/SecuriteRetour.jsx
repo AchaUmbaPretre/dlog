@@ -139,7 +139,9 @@ const SecuriteRetour = () => {
       id_demandeur,
       personne_bord,
       autorise_par,
-      id_agent: userId
+      id_agent: userId,
+      mouvement_exceptionnel: 1,
+      type:'Retour'
     };
 
     const loadingKey = 'loadingSecurite';
@@ -221,7 +223,7 @@ const SecuriteRetour = () => {
             {exceptionnel.length > 0 && (
             <>
               <Title level={5} style={{ marginTop: 24 }}>
-                🚨 Retours exceptionnels (sans bon de sortie)
+                🚨 Retour sans bon de sortie
               </Title>
 
               <div className="securite_rows">

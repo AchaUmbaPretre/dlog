@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, getVehiculeDispo, postSortieVehiculeExceptionnel } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 
-const SortieExceptionnelle = ({closeModal, fetchData}) => {
+const SortieExceptionnelle = ({closeModal}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
     const [ loadingData, setLoadingData ] = useState(false);
@@ -79,7 +79,7 @@ const SortieExceptionnelle = ({closeModal, fetchData}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Formulaire de sortie sans bon de sortie</div>
+                <div className="controle_h2">Formulaire de sortie sans bon</div>
             </div>
             <div className="controle_wrapper">
                 <Form

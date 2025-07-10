@@ -58,7 +58,9 @@ const  RetourExceptionnelle = ({closeModal}) => {
                 try {
                     await postRetourVehiculeExceptionnel({
                         ...values,
-                        id_agent: userId
+                        id_agent: userId,
+                        type: 'Retour',
+                        mouvement_exceptionnel: 1
                     })
                     
                     message.success({ content: "Sortie exceptionnelle a été enregistré avec succès.", key: loadingKey });
@@ -79,7 +81,7 @@ const  RetourExceptionnelle = ({closeModal}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Formulaire de sortie sans bon de sortie</div>
+                <div className="controle_h2">Formulaire de retour sans bon ni enregistrement de sortie</div>
             </div>
             <div className="controle_wrapper">
                 <Form
