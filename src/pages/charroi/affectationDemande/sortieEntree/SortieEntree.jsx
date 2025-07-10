@@ -67,37 +67,37 @@ const SortieEntree = () => {
     },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
-    },
-    {
-    title: (
-      <Space>
-        <Text strong>Véhicule</Text>
-      </Space>
-    ),
-    dataIndex:'nom_cat',
-    key: 'nom_cat',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
         <Text  type="secondary">{text}</Text>
       </Tooltip>
     ),
     },
     {
-    title: (
-      <Space>
-        <Text strong>Matricule</Text>
-      </Space>
-    ),
-    dataIndex:'immatriculation',
-    key: 'immatriculation',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text  type="secondary">{text}</Text>
-      </Tooltip>
-    ),
+      title: (
+        <Space>
+          <Text strong>Véhicule</Text>
+        </Space>
+      ),
+      dataIndex:'nom_cat',
+      key: 'nom_cat',
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text  type="secondary">{text}</Text>
+        </Tooltip>
+      ),
+    },
+    {
+      title: (
+        <Space>
+          <Text strong>Matricule</Text>
+        </Space>
+      ),
+      dataIndex:'immatriculation',
+      key: 'immatriculation',
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text  type="secondary">{text}</Text>
+        </Tooltip>
+      ),
     },
     {
       title: (
@@ -178,22 +178,22 @@ const SortieEntree = () => {
             );
         },
     },
-        {
-    title: (
-      <Space>
-        <Text strong>Securité</Text>
-      </Space>
-    ),
-    dataIndex: 'nom',
-    key: 'nom',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
-      </Tooltip>
-    ),
+    {
+      title: (
+        <Space>
+          <Text strong>Securité</Text>
+        </Space>
+      ),
+      dataIndex: 'nom',
+      key: 'nom',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <Text  type="secondary">{text}</Text>
+        </Tooltip>
+      ),
     },
     {
         title: (
