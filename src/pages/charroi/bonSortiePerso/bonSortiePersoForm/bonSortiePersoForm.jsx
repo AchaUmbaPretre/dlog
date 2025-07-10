@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
+import { Form, Row, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { getPersonne, getSociete } from '../../../../services/userService';
-import { getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, postBonSortiePerso } from '../../../../services/charroiService';
+import { getDestination, getMotif, getServiceDemandeur, getTypeVehicule, postBonSortiePerso } from '../../../../services/charroiService';
 import { getClient } from '../../../../services/clientService';
 
 const BonSortiePersoForm = ({closeModal, fetchData}) => {
@@ -11,7 +11,6 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
     const [ loading, setLoading ] = useState(false);
     const [ loadingData, setLoadingData ] = useState(false);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    const [ type, setType ] = useState([]);
     const [ motif, setMotif ] = useState([]);
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
@@ -21,7 +20,7 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
 
         const fetchDatas = async() => {
             try {
-                const [serviceData, typeData, motifData, clientData, localData, societeData, persoData] = await Promise.all([
+                const [serviceData, motifData, clientData, localData, societeData, persoData] = await Promise.all([
                     getServiceDemandeur(),
                     getTypeVehicule(),
                     getMotif(),
@@ -32,7 +31,6 @@ const BonSortiePersoForm = ({closeModal, fetchData}) => {
                 ])
     
                 setService(serviceData.data);
-                setType(typeData.data);
                 setMotif(motifData.data);
                 setClient(clientData.data);
                 setDestination(localData.data);
