@@ -8,7 +8,7 @@ const { Title, Text } = Typography;
 const SortieVisiteurPieton = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const fetchData = async () => {
@@ -97,6 +97,7 @@ const SortieVisiteurPieton = () => {
                   type="primary"
                   size="small"
                   loading={isLoading}
+                  disabled={isLoading}
                   onClick={() => onFinish(d.id_visiteur)}
                 >
                   Valider le retour
