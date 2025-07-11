@@ -143,15 +143,15 @@ const TopBar = () => {
   
   return (
     <>
-      {selectedNotif && (
-        <div className="notification-float-detail">
-          <div className="notification-float-header">
-            <div></div>
-            <Button type="text" danger onClick={closeModal}>Fermer</Button>
-          </div>
-          <Notification idNotif={selectedNotif.id_notifications} />
-        </div>
-      )}
+      {selectedNotif && !selectedNotif.closed && (
+  <div className="notification-float-detail">
+    <Notification
+      idNotif={selectedNotif.id_notifications}
+      onClose={() => setSelectedNotif(null)} 
+    />
+  </div>
+)}
+
 
       <div className="topbar">
         <div className="topbar-left" onClick={() => navigate('/')} role="button" tabIndex={0}>
@@ -221,14 +221,6 @@ const TopBar = () => {
             </Popover>
           </div>
         </div>
-  {/*       <Modal
-          title={''}
-          visible={!!selectedNotif}
-          onCancel={closeModal}
-          footer={null}
-        >
-          {selectedNotif && <Notification idNotif={selectedNotif.id_notifications} />}
-        </Modal> */}
       </div>
     </>
   );
