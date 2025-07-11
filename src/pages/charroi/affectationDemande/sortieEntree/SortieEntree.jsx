@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Input, Button, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
+import { Input, Button, Menu, Dropdown, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
 import moment from 'moment';
 import { getSortieEntree } from '../../../../services/charroiService';
-import {  SwapOutlined, TrademarkOutlined, CheckCircleOutlined, ExclamationCircleOutlined, UndoOutlined, ExportOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  SwapOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, CheckCircleOutlined, ExclamationCircleOutlined, UndoOutlined, ExportOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -16,6 +16,41 @@ const SortieEntree = () => {
         current: 1,
         pageSize: 15,
     });
+    const [columnsVisibility, setColumnsVisibility] = useState({
+      "#" : true,
+      "Chauffeur" : true,
+      "Véhicule" : true,
+      "Matricule" : true,
+      "Marque" : true,
+      "Type" : true,
+      "Mouvement" : true,
+      "Date & Heure" : true,
+      "Destination" : false,
+      "Client" : false,
+      "Demandeur" : false,
+      "Securité" : true
+    })
+
+    const menus = (
+      <Menu>
+        {Object.keys(columnsVisibility).map(columnName => (
+          <Menu.Item key={columnName}>
+            <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+              <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+              <span style={{ marginLeft: 8 }}>{columnName}</span>
+            </span>
+          </Menu.Item>
+        ))}
+      </Menu>
+    ); 
+    
+    const toggleColumnVisibility = (columnName, e) => {
+      e.stopPropagation();
+      setColumnsVisibility(prev => ({
+        ...prev,
+        [columnName]: !prev[columnName]
+      }));
+    };
 
     const fetchData = async() => {
         try {
@@ -38,184 +73,219 @@ const SortieEntree = () => {
         return () => clearInterval(interval)
     }, []);
 
-       const handleReleve = () => {
-    
-        }
+    const handleReleve = () => {
+    }
 
     const columns = [
-      {
-        title: '#',
-        dataIndex: 'id',
-        key: 'id',
-          render: (text, record, index) => {
-            const pageSize = pagination.pageSize || 10;
-            const pageIndex = pagination.current || 1;
-            return (pageIndex - 1) * pageSize + index + 1;
-        },
-        width: "3%"
-    },
-    {
-    title: (
-      <Space>
-        <Text strong>Chauffeur</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_chauffeur',
-    key: 'nom_chauffeur',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Text  type="secondary">{text}</Text>
-      </Tooltip>
-    ),
-    },
-    {
-      title: (
-        <Space>
-          <Text strong>Véhicule</Text>
-        </Space>
-      ),
-      dataIndex:'nom_cat',
-      key: 'nom_cat',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Text  type="secondary">{text}</Text>
-        </Tooltip>
-      ),
-    },
-    {
-      title: (
-        <Space>
-          <Text strong>Matricule</Text>
-        </Space>
-      ),
-      dataIndex:'immatriculation',
-      key: 'immatriculation',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Text  type="secondary">{text}</Text>
-        </Tooltip>
-      ),
-    },
-    {
-      title: (
-        <Space>
-          <Text strong>Marque</Text>
-        </Space>
-      ),
-      dataIndex: 'nom_marque',
-      key: 'nom_marque',
-      align: 'center',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Tag icon={<TrademarkOutlined />} color="blue">
-            {text}
-          </Tag>
-        </Tooltip>
-      ),
-    },
-    {
-      title: "Type",
-      dataIndex: 'type',
-      key: 'type',
-      align: 'center',
-      render: (text) => {
-        const isRetour = text === 'Retour';
-        const icon = isRetour ? <UndoOutlined /> : <ExportOutlined />;
-        const color = isRetour ? 'blue' : 'red';
+              {
+                  title: '#',
+                  dataIndex: 'id',
+                  key: 'id',
+                    render: (text, record, index) => {
+                      const pageSize = pagination.pageSize || 10;
+                      const pageIndex = pagination.current || 1;
+                      return (pageIndex - 1) * pageSize + index + 1;
+                  },
+                  width: "3%"
+              },
+              {
+                title: (
+                  <Space>
+                    <Text strong>Chauffeur</Text>
+                  </Space>
+                ),
+                dataIndex: 'nom_chauffeur',
+                key: 'nom_chauffeur',
+                ellipsis: {
+                  showTitle: false,
+                },
+                render: (text) => (
+                  <Tooltip placement="topLeft" title={text}>
+                    <Text  type="secondary">{text}</Text>
+                  </Tooltip>
+                ),
+                ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' })
+              },
+              {
+                title: (
+                  <Space>
+                    <Text strong>Véhicule</Text>
+                  </Space>
+                ),
+                dataIndex:'nom_cat',
+                key: 'nom_cat',
+                render: (text) => (
+                  <Tooltip placement="topLeft" title={text}>
+                    <Text  type="secondary">{text}</Text>
+                  </Tooltip>
+                ),
+                ...(columnsVisibility['Véhicule'] ? {} : { className: 'hidden-column' })
+              },
+              {
+                title: (
+                  <Space>
+                    <Text strong>Matricule</Text>
+                  </Space>
+                ),
+                dataIndex:'immatriculation',
+                key: 'immatriculation',
+                render: (text) => (
+                  <Tooltip placement="topLeft" title={text}>
+                    <Text  type="secondary">{text}</Text>
+                  </Tooltip>
+                ),
+                ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' }),
+              },
+              {
+                title: (
+                  <Space>
+                    <Text strong>Marque</Text>
+                  </Space>
+                ),
+                dataIndex: 'nom_marque',
+                key: 'nom_marque',
+                align: 'center',
+                render: (text) => (
+                  <Tooltip placement="topLeft" title={text}>
+                    <Tag icon={<TrademarkOutlined />} color="blue">
+                      {text}
+                    </Tag>
+                  </Tooltip>
+                ),
+                ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
+              },
+              {
+                title: "Type",
+                dataIndex: 'type',
+                key: 'type',
+                align: 'center',
+                render: (text) => {
+                  const isRetour = text === 'Retour';
+                  const icon = isRetour ? <UndoOutlined /> : <ExportOutlined />;
+                  const color = isRetour ? 'blue' : 'red';
 
-        return (
-          <Tag color={color} icon={icon}>
-            {text}
-          </Tag>
-        );
-      }
-    },
-    {
-      title: "Mouvement",
-      dataIndex: 'mouvement_exceptionnel',
-      key: 'mouvement_exceptionnel',
-      align: 'center',
-      render: (text) => {
-        const isExceptional = text !== 0;
+                  return (
+                    <Tag color={color} icon={icon}>
+                      {text}
+                    </Tag>
+                  );
+                },
+                ...(columnsVisibility['Type'] ? {} : { className: 'hidden-column' }),
 
-        const color = isExceptional ? 'red' : 'green';
-        const label = isExceptional ? 'Exceptionnel' : 'Normal';
-        const icon = isExceptional ? <ExclamationCircleOutlined /> : <CheckCircleOutlined />;
+              },
+              {
+                title: "Mouvement",
+                dataIndex: 'mouvement_exceptionnel',
+                key: 'mouvement_exceptionnel',
+                align: 'center',
+                render: (text) => {
+                  const isExceptional = text !== 0;
 
-        return (
-          <Tag color={color} icon={icon}>
-            {label}
-          </Tag>
-        );
-      }
-    },
-    {
-      title: (
-        <Space>
-          <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Date & Heure</Text>
-        </Space>
-      ),
-      dataIndex: 'created_at',
-      key: 'created_at',
-      render: (text) => {
-        if (!text) {
-            return (
-                <Tag icon={<CalendarOutlined />} color="red">
-                    Aucune date
-                </Tag>
-            );
-        }
-        const date = moment(text);
-        const isValid = date.isValid();              
-            return (
-                <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-                    {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
-                </Tag>
-            );
-        },
-    },
-    {
-      title: (
-        <Space>
-          <Text strong>Securité</Text>
-        </Space>
-      ),
-      dataIndex: 'nom',
-      key: 'nom',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Text  type="secondary">{text}</Text>
-        </Tooltip>
-      ),
-    },
-    {
-        title: (
-        <Text strong>Actions</Text>
-        ),
-        key: 'action',
-        align: 'center',
-        render: (text, record) => (
-        <Space size="small">
+                  const color = isExceptional ? 'red' : 'green';
+                  const label = isExceptional ? 'Exceptionnel' : 'Normal';
+                  const icon = isExceptional ? <ExclamationCircleOutlined /> : <CheckCircleOutlined />;
 
-            <Tooltip title={`Relevé de ${record.type}`}>
-                <Button
-                    icon={<FileTextOutlined />}
-                    style={{ color: 'blue' }}
-                    onClick={() => handleReleve(record.id_bande_sortie)}
-                    aria-label="Relevé"
-                />
-            </Tooltip>
-        </Space>
-        ),
-    },
-   ];
+                  return (
+                    <Tag color={color} icon={icon}>
+                      {label}
+                    </Tag>
+                  );
+                },
+                ...(columnsVisibility['Mouvement'] ? {} : { className: 'hidden-column' }),
+              },
+              {
+                title: (
+                  <Space>
+                    <CalendarOutlined style={{ color: 'blue' }} />
+                    <Text strong>Date & Heure</Text>
+                  </Space>
+                ),
+                dataIndex: 'created_at',
+                key: 'created_at',
+                render: (text) => {
+                  if (!text) {
+                      return (
+                          <Tag icon={<CalendarOutlined />} color="red">
+                              Aucune date
+                          </Tag>
+                      );
+                  }
+                  const date = moment(text);
+                  const isValid = date.isValid();              
+                      return (
+                          <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                              {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+                          </Tag>
+                      );
+                  },
+                ...(columnsVisibility['Date & Heure'] ? {} : { className: 'hidden-column' }),
+              },
+              {
+                title : "Destination",
+                dataIndex: 'nom_destination',
+                key:'nom_destination',
+                  render : (text) => (
+                    <Tag color={'geekblue'}>{text}</Tag>
+                  ),
+                ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' }),
+              },
+              {
+                title : "Demandeur",
+                dataIndex: 'nom_service',
+                key:'nom_service',
+                  render : (text) => (
+                    <Tag color={'geekblue'}>{text}</Tag>
+                  ),
+                ...(columnsVisibility['Demandeur'] ? {} : { className: 'hidden-column' }),
+              },
+              {
+                title : "Client",
+                dataIndex: 'nom_client',
+                key:'nom_client',
+                  render : (text) => (
+                    <Tag color={'geekblue'}>{text}</Tag>
+                  ),
+                ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' }),
+              },
+              {
+                title: (
+                  <Space>
+                    <Text strong>Securité</Text>
+                  </Space>
+                ),
+                dataIndex: 'nom',
+                key: 'nom',
+                ellipsis: {
+                  showTitle: false,
+                },
+                render: (text) => (
+                  <Tooltip placement="topLeft" title={text}>
+                    <Text  type="secondary">{text}</Text>
+                  </Tooltip>
+                ),
+                ...(columnsVisibility['Securité'] ? {} : { className: 'hidden-column' }),
+              },
+              {
+                  title: (
+                  <Text strong>Actions</Text>
+                  ),
+                  key: 'action',
+                  align: 'center',
+                  render: (text, record) => (
+                  <Space size="small">
+
+                      <Tooltip title={`Relevé de ${record.type}`}>
+                          <Button
+                              icon={<FileTextOutlined />}
+                              style={{ color: 'blue' }}
+                              onClick={() => handleReleve(record.id_bande_sortie)}
+                              aria-label="Relevé"
+                          />
+                      </Tooltip>
+                  </Space>
+                  ),
+              },
+            ];
 
   return (
     <>
@@ -236,6 +306,11 @@ const SortieEntree = () => {
                 />
               </div>
               <div className="client-rows-right">
+                <Dropdown overlay={menus} trigger={['click']}>
+                  <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                    Colonnes <DownOutlined />
+                  </Button>
+                </Dropdown>
               </div>
               </div>
               <Table

@@ -24,6 +24,8 @@ const SecuriteVisiteur = () => {
       "Entreprise" : true,
       "Date entree" : true,
       "Date sortie" : true,
+      "Destination": false,
+      "Client" : false,
       "Securité" : true,
       "Connu" : false
     })
@@ -98,7 +100,7 @@ const SecuriteVisiteur = () => {
       },
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Text>{text}</Text>
+          <Text type="secondary">{text}</Text>
         </Tooltip>
       ),
      ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
@@ -113,7 +115,7 @@ const SecuriteVisiteur = () => {
       key: 'immatriculation',
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Text  type="secondary">{text}</Text>
+          <Tag>{text}</Tag>
         </Tooltip>
       ),
       ...(columnsVisibility['Plaque'] ? {} : { className: 'hidden-column' }),
@@ -215,7 +217,7 @@ const SecuriteVisiteur = () => {
     },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+        <Text type="secondary">{text}</Text>
       </Tooltip>
     ),
       ...(columnsVisibility['Securité'] ? {} : { className: 'hidden-column' })
