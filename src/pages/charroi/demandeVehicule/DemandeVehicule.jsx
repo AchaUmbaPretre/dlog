@@ -20,7 +20,6 @@ import SortieEntree from '../affectationDemande/sortieEntree/SortieEntree';
 import SecuriteVisiteur from '../securite/securiteVisiteur/SecuriteVisiteur';
 import VisiteurPieton from '../securite/securiteVisiteur/visiteurPieton/VisiteurPieton';
 import BonSortiePerso from '../bonSortiePerso/BonSortiePerso';
-import SortieExceptionnelle from '../affectationDemande/sortieExceptionnelle/SortieExceptionnelle';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -419,12 +418,6 @@ const DemandeVehicule = () => {
                                             <Button icon={<ExportOutlined />}>Export</Button>
                                         </Dropdown>
                                         
-                                        <Button
-                                            icon={<PrinterOutlined />}
-                                            onClick={handlePrint}
-                                        >
-                                            Print
-                                        </Button>
                                     </div>
                                 </div>
                                     <Table
