@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Input, Button, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
+import { Input, Button, Menu, Dropdown, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
 import moment from 'moment';
 import { getVisiteurVehicule } from '../../../../services/charroiService';
-import {  SolutionOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  SolutionOutlined, MenuOutlined, DownOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -16,6 +16,37 @@ const SecuriteVisiteur = () => {
         current: 1,
         pageSize: 15,
     });
+    const [columnsVisibility, setColumnsVisibility] = useState({
+      "Chauffeur" : true,
+      "Plaque" : true,
+      "Motif" : true,
+      "Proprietaire" : true,
+      "Entreprise" : true,
+      "Date entree" : true,
+      "Date sortie" : true,
+      "Securité" : true,
+      "Connu" : false
+    })
+
+      const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
+    const menus = (
+        <Menu>
+          {Object.keys(columnsVisibility).map(columnName => (
+            <Menu.Item key={columnName}>
+              <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+                <span style={{ marginLeft: 8 }}>{columnName}</span>
+              </span>
+            </Menu.Item>
+          ))}
+        </Menu>
+  ); 
 
     const fetchData = async() => {
         try {
@@ -70,6 +101,7 @@ const SecuriteVisiteur = () => {
           <Text>{text}</Text>
         </Tooltip>
       ),
+     ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: (
@@ -84,6 +116,8 @@ const SecuriteVisiteur = () => {
           <Text  type="secondary">{text}</Text>
         </Tooltip>
       ),
+      ...(columnsVisibility['Plaque'] ? {} : { className: 'hidden-column' }),
+
     },
     {
         title : "Motif",
@@ -91,7 +125,8 @@ const SecuriteVisiteur = () => {
         key:'nom',
         render : (text) => (
           <Tag color={'green'}>{text}</Tag>
-        )
+        ),
+        ...(columnsVisibility['Motif'] ? {} : { className: 'hidden-column' }),
     },
     {
       title : "Proprietaire",
@@ -99,7 +134,9 @@ const SecuriteVisiteur = () => {
       key:'proprietaire',
         render : (text) => (
           <Tag color={'geekblue'}>{text}</Tag>
-        )
+        ),
+      ...(columnsVisibility['Proprietaire'] ? {} : { className: 'hidden-column' }),
+
     },
     {
       title : "Entreprise",
@@ -107,7 +144,8 @@ const SecuriteVisiteur = () => {
       key:'entreprise',
         render : (text) => (
           <Tag>{text}</Tag>
-        )
+        ),
+      ...(columnsVisibility['Entreprise'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: (
@@ -134,6 +172,8 @@ const SecuriteVisiteur = () => {
                 </Tag>
             );
         },
+      ...(columnsVisibility['Date entree'] ? {} : { className: 'hidden-column' }),
+
     },
     {
       title: (
@@ -160,6 +200,7 @@ const SecuriteVisiteur = () => {
                 </Tag>
             );
         },
+      ...(columnsVisibility['Date sortie'] ? {} : { className: 'hidden-column' }),
     },
     {
     title: (
@@ -177,11 +218,12 @@ const SecuriteVisiteur = () => {
         <Text>{text}</Text>
       </Tooltip>
     ),
+      ...(columnsVisibility['Securité'] ? {} : { className: 'hidden-column' })
     },
     {
       title: (
         <Space>
-          <Text strong>Connu</Text>
+          <Text strong>Connu ?</Text>
         </Space>
       ),
       dataIndex: 'vehicule_connu',
@@ -189,6 +231,8 @@ const SecuriteVisiteur = () => {
       render: (text) => (
         <Tag color={ text === 1 ? 'blue' : 'red'} >{text === 1 ? 'Oui' : 'Non'}</Tag>
       ),
+      ...(columnsVisibility['Connu'] ? {} : { className: 'hidden-column' })
+
     },
     {
         title: (
@@ -237,6 +281,11 @@ const SecuriteVisiteur = () => {
                 />
               </div>
               <div className="client-rows-right">
+              <Dropdown overlay={menus} trigger={['click']}>
+                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                  Colonnes <DownOutlined />
+                </Button>
+              </Dropdown>
               </div>
               </div>
               <Table
