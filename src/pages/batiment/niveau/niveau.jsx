@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Input, message,Button, notification, Popconfirm, Space, Tooltip, Tag, Modal } from 'antd';
 import { ClusterOutlined,BankOutlined,DeleteOutlined,EditOutlined} from '@ant-design/icons';
 import { getNiveau, putNiveauDelete } from '../../../services/batimentService';
@@ -13,6 +13,10 @@ const Niveau = ({idBatiment}) => {
   const scroll = { x: 400 };
   const [modalType, setModalType] = useState(null);
   const [idNiveau, setIdNiveau] = useState([]);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
   const fetchData = async () => {
 
@@ -63,8 +67,12 @@ const Niveau = ({idBatiment}) => {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     {
       title: 'Batiment',
@@ -143,11 +151,13 @@ const Niveau = ({idBatiment}) => {
             columns={columns}
             dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
             rowKey="id"
             bordered
             size="middle"
             scroll={scroll}
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
+
           />
         </div>
         <Modal

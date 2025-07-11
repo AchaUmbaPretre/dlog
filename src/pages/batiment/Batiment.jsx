@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tooltip, Popconfirm, Tag, Tabs } from 'antd';
-import { ExportOutlined, PictureOutlined, MoreOutlined,HomeOutlined,CloseCircleOutlined,CheckCircleOutlined,LineChartOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
+import { ExportOutlined, PictureOutlined, MoreOutlined,CloseCircleOutlined,CheckCircleOutlined,LineChartOutlined, ApartmentOutlined, EditOutlined,ToolOutlined, ContainerOutlined, PrinterOutlined,BankOutlined, DashboardOutlined, EnvironmentOutlined, PlusCircleOutlined,EyeOutlined, CloudDownloadOutlined, FileTextOutlined, DeleteOutlined} from '@ant-design/icons';
 import BatimentForm from './batimentForm/BatimentForm';
 import { getBatiment, putDeleteBatiment } from '../../services/typeService';
 import UploadBatimentForm from './uploadBatimentForm/UploadBatimentForm';
@@ -27,7 +27,6 @@ import DenominationOne from './denomination/DenominationOne';
 import TabPane from 'antd/es/tabs/TabPane';
 import ListBureaux from '../Listbureaux/ListBureaux';
 import Niveau from './niveau/Niveau';
-import Adresse from '../adresse/Adresse';
 import { getSubMenuAccessByUrl } from '../../utils/tacheGroup';
 import ListCroquis from './listCroquis/ListCroquis';
 
