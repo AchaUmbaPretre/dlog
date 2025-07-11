@@ -23,7 +23,6 @@ const { Title, Text } = Typography;
 
 const SecuriteRetour = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [isloading, setIsLoading] = useState(false);
   const [modalType, setModalType] = useState(null);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -63,7 +62,6 @@ const SecuriteRetour = () => {
   }
 
   const fetchData = async () => {
-    setLoading(true);
     try {
       const [retourData] = await Promise.all([
         getRetourVehicule(),
@@ -72,9 +70,7 @@ const SecuriteRetour = () => {
       setData(retourData.data || []);
     } catch (error) {
       console.error('Erreur lors de la récupération des données :', error);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   useEffect(() => {
