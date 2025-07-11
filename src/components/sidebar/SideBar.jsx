@@ -41,7 +41,7 @@ import {
   DeliveredProcedureOutlined
 } from '@ant-design/icons';
 import './sideBar.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authService';
 import { useMenu } from '../../context/MenuProvider';
 
@@ -55,6 +55,9 @@ const SideBar = ({data}) => {
   const sidebarRef = useRef(null);
   const hamburgerRef = useRef(null);
   const [isReduced, setIsReduced] = useState(false);
+  const location = useLocation();
+  const currentPath = location.pathname;
+
 
   const toggleSidebar = () => {
     setIsReduced(!isReduced);
@@ -79,11 +82,31 @@ const SideBar = ({data}) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
-  
+
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find(key => !openKeys.includes(key));
     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
   };
+
+  useEffect(() => {
+  const currentPath = location.pathname;
+
+  // Trouver le menu parent d’un sous-menu actif
+  const parentMenu = data?.find(menu =>
+    menu.subMenus?.some(sub => sub.submenu_url === currentPath)
+  );
+
+  if (parentMenu) {
+    setOpenKeys([parentMenu.menu_id.toString()]);
+  } else {
+    // Ouvrir uniquement le menu correspondant s’il n’a pas de sous-menus
+    const directMenu = data?.find(menu => menu.menu_url === currentPath);
+    if (directMenu && !directMenu.subMenus?.length) {
+      setOpenKeys([]);
+    }
+  }
+}, [location.pathname, data]);
+
 
   const Logout = async () => {
     try {
@@ -157,7 +180,7 @@ const SideBar = ({data}) => {
     <Sider style={{ background: 'var(--bg)' }}>
       <Menu
         mode="inline"
-        defaultSelectedKeys={['/']}
+        selectedKeys={[currentPath]}
         openKeys={openKeys}
         onOpenChange={onOpenChange}
         style={{
@@ -177,14 +200,14 @@ const SideBar = ({data}) => {
         {data?.map((menuItem) =>
           menuItem.subMenus && menuItem.subMenus[0]?.submenu_id ? (
             <SubMenu
-              key={menuItem?.menu_id}
+              key={menuItem.menu_id.toString()}
               icon={renderIcon(menuItem.menu_icon)}
               title={<span className="sidebarH3">{menuItem.menu_title}</span>}
             >
               {menuItem?.subMenus.map((subMenu) => (
                 <Item
-                  key={`submenu-${menuItem.menu_id}-${subMenu?.submenu_id}`}
                   icon={renderIcon(subMenu.submenu_icon)}
+                  key={subMenu?.submenu_url}
                 >
                   <Link
                     to={subMenu?.submenu_url}
@@ -197,7 +220,7 @@ const SideBar = ({data}) => {
               ))}
             </SubMenu>
           ) : (
-            <Item key={menuItem.menu_id} icon={renderIcon(menuItem.menu_icon)}>
+            <Item key={menuItem.menu_url} icon={renderIcon(menuItem.menu_icon)}>
               <Link
                 to={menuItem.menu_url}
                 className="sidebarLink"

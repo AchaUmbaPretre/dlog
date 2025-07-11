@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Space, Tooltip, Tag, Tabs } from 'antd';
 import { EditOutlined, FileSyncOutlined, MoreOutlined, UnlockOutlined, SnippetsOutlined,ShareAltOutlined,EyeOutlined,LockOutlined,FileTextOutlined,MenuOutlined,DownOutlined,TagOutlined,OrderedListOutlined,ApartmentOutlined,HomeOutlined,CalendarOutlined,ScheduleOutlined,PlusCircleOutlined, UserOutlined, PrinterOutlined, DeleteOutlined } from '@ant-design/icons';
 import TemplateForm from './templateForm/TemplateForm';
@@ -320,15 +320,6 @@ const Template = ({datas}) => {
                 aria-label="Edit tache"
               />
             </Tooltip>
-{/*             <Tooltip title="Voir les détails">
-            <Button
-              icon={<EyeOutlined />}
-              disabled={access?.can_read === 0}
-              onClick={() => handleDetail(record.id_template)}
-              aria-label="détail"
-              style={{ color: 'blue' }}
-            />
-            </Tooltip> */}
 
             <Dropdown
               overlay= {

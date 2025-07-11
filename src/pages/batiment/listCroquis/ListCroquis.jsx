@@ -15,14 +15,18 @@ const ListCroquis = () => {
     const [searchValue, setSearchValue] = useState('');
     const [batiment, setBatiment] = useState([]);
     const [selectedBatiment, setSelectedBatiment] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [totalItems, setTotalItems] = useState(0);
 
     const fetchData = async () => {
         try {
             const [ planData, batimentData ] = await Promise.all([
-                getPlans(searchValue, selectedBatiment),
+                getPlans(searchValue, selectedBatiment, currentPage, pageSize, totalItems ),
                 getBatiment()
             ])
-            setData(planData.data)
+            setData(planData.data);
+            setTotalItems(planData.total);
             setBatiment(batimentData.data)
         } catch (error) {
             notification.error({
@@ -36,7 +40,7 @@ const ListCroquis = () => {
 
     useEffect(() => {
         fetchData()
-    }, [selectedBatiment, searchValue]);
+    }, [selectedBatiment, searchValue, selectedBatiment, currentPage, pageSize]);
 
   return (
     <>
