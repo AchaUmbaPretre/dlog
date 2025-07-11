@@ -37,7 +37,13 @@ const DemandeVehicule = () => {
       pageSize: 15,
     });
   const [columnsVisibility, setColumnsVisibility] = useState({
-    
+    "Client" : true,
+    "Date prévue" : true,
+    "Date retour" : true,
+    "T. véhicule" : true,
+    "Demandeur" : true,
+    "Statut" : true,
+    "Vu" : true
   })
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const role = useSelector((state) => state.user?.currentUser?.role);
@@ -202,7 +208,8 @@ const DemandeVehicule = () => {
             align: 'center',
             render : (text) => (
                 <Tag color="green">{text}</Tag>
-            )
+            ),
+            ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' }),
         },
         {
             title: (
@@ -224,6 +231,7 @@ const DemandeVehicule = () => {
             </Tooltip>
             );
         },
+        ...(columnsVisibility['Date prévue'] ? {} : { className: 'hidden-column' }),
         },
         {
             title: (
@@ -236,15 +244,16 @@ const DemandeVehicule = () => {
             key: 'date_retour',
             align: 'center',
             render: (text) => {
-            const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
-            return (
-                <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                    <Tooltip placement="topLeft" title={formattedDate}>
-                        <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
-                    </Tooltip>
-                </div>
-            );
-        },
+                const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
+                return (
+                    <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                        <Tooltip placement="topLeft" title={formattedDate}>
+                            <Tag icon={<CalendarOutlined />}  color="orange">{formattedDate}</Tag>
+                        </Tooltip>
+                    </div>
+                );
+            },
+            ...(columnsVisibility['Date retour'] ? {} : { className: 'hidden-column' }),
         },
         {
             title: (
@@ -263,6 +272,7 @@ const DemandeVehicule = () => {
                     </div>
                 </Tooltip>
             ),
+            ...(columnsVisibility['T. véhicule'] ? {} : { className: 'hidden-column' }),
         },
         {
             title: (
@@ -274,6 +284,7 @@ const DemandeVehicule = () => {
             key: 'nom_service',
             align: 'center',
             render: (text) => <Text type="secondary">{text}</Text>,
+            ...(columnsVisibility['Demandeur'] ? {} : { className: 'hidden-column' })
         },
         {
             title: (
@@ -288,13 +299,14 @@ const DemandeVehicule = () => {
             render: text => {
                 const { icon, color } = statusIcons[text] || {};
                 return (
-                        <Space>
-                            <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                                <Tag icon={icon} color={color}>{text}</Tag>
-                            </div>
-                        </Space>
-                    );
+                    <Space>
+                        <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                            <Tag icon={icon} color={color}>{text}</Tag>
+                        </div>
+                    </Space>
+                );
             },
+            ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
         },
         ...(role === 'Admin'
             ? [
