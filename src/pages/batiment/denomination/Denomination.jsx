@@ -15,7 +15,7 @@ const Denomination = () => {
   const [idDenom, setIdDenom] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 20,
+    pageSize: 15,
   });
 
      const fetchData = async () => {
@@ -151,12 +151,13 @@ const Denomination = () => {
           <Table
             columns={columns}
             dataSource={filteredData}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             loading={loading}
             pagination={pagination}
             onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
             bordered
-            size="middle"
+            size="small"
             scroll={scroll}
           />
         </div>

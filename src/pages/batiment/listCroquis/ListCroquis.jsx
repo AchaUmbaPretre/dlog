@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import './listCroquis.scss'
 import { getPlans } from '../../../services/batimentService'
 import { notification, Image, Pagination, Input, Select, Skeleton, Card, Col, Empty, Row } from 'antd';
@@ -19,28 +19,28 @@ const ListCroquis = () => {
     const [pageSize, setPageSize] = useState(10);
     const [totalItems, setTotalItems] = useState(0);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
-            const [ planData, batimentData ] = await Promise.all([
-                getPlans(searchValue, selectedBatiment, currentPage, pageSize, totalItems ),
+            const [planData, batimentData] = await Promise.all([
+                getPlans(searchValue, selectedBatiment, currentPage, pageSize, totalItems),
                 getBatiment()
-            ])
+            ]);
             setData(planData.data.rows);
             setTotalItems(planData.data.total);
-            setBatiment(batimentData.data)
+            setBatiment(batimentData.data);
         } catch (error) {
             notification.error({
                 message: 'Erreur de chargement',
                 description: 'Une erreur est survenue lors du chargement des données.',
             });
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    }, [searchValue, selectedBatiment, currentPage, pageSize, totalItems]);
 
     useEffect(() => {
-        fetchData()
-    }, [selectedBatiment, searchValue, selectedBatiment, currentPage, pageSize]);
+        fetchData();
+    }, [fetchData]);
 
   return (
     <>
