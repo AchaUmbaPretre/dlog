@@ -104,7 +104,7 @@ const SecuriteVisiteur = () => {
     {
       title : "Entreprise",
       dataIndex: 'entreprise',
-      key:'proprietaire',
+      key:'entreprise',
         render : (text) => (
           <Tag>{text}</Tag>
         )
@@ -212,6 +212,12 @@ const SecuriteVisiteur = () => {
     },
    ];
 
+  const filteredData = data.filter(item =>
+    item.entreprise?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_chauffeur?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <>
         <div className="client">
@@ -235,7 +241,7 @@ const SecuriteVisiteur = () => {
               </div>
               <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={filteredData}
                 loading={loading}
                 onChange={(pagination) => setPagination(pagination)}
                 rowKey="id"
