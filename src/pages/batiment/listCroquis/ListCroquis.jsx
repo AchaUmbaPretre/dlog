@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './listCroquis.scss'
 import { getPlans } from '../../../services/batimentService'
-import { notification, Image, Input, Select, Skeleton, Card, Col, Empty, Row } from 'antd';
+import { notification, Image, Pagination, Input, Select, Skeleton, Card, Col, Empty, Row } from 'antd';
 import config from '../../../config';
 import { FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getBatiment } from '../../../services/typeService';
@@ -25,8 +25,8 @@ const ListCroquis = () => {
                 getPlans(searchValue, selectedBatiment, currentPage, pageSize, totalItems ),
                 getBatiment()
             ])
-            setData(planData.data);
-            setTotalItems(planData.total);
+            setData(planData.data.rows);
+            setTotalItems(planData.data.total);
             setBatiment(batimentData.data)
         } catch (error) {
             notification.error({
@@ -102,6 +102,22 @@ const ListCroquis = () => {
                 </div>
             </div>
         </div>
+
+        {!loading && data.length > 0 && (
+        <div style={{ marginTop: 24, textAlign: 'center' }}>
+            <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={totalItems}
+            onChange={(page, size) => {
+                setCurrentPage(page);
+                setPageSize(size);
+            }}
+            showSizeChanger
+            pageSizeOptions={['5', '10', '20', '50']}
+            />
+        </div>
+        )}
     </>
   )
 }
