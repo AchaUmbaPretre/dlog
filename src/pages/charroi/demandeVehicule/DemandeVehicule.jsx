@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Tabs, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
-import { ExportOutlined,  MoreOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
+import { ExportOutlined, DownOutlined, MenuOutlined, MoreOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, PrinterOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
 import moment from 'moment';
@@ -39,9 +39,12 @@ const DemandeVehicule = () => {
   const [columnsVisibility, setColumnsVisibility] = useState({
     "Client" : true,
     "Date prévue" : true,
-    "Date retour" : true,
+    "Date retour" : false,
     "T. véhicule" : true,
     "Demandeur" : true,
+    "Motif": false,
+    "Destination" : true,
+    "Crée par" : false,
     "Statut" : true,
     "Vu" : true
   })
@@ -174,6 +177,27 @@ const DemandeVehicule = () => {
     </Menu>
     );
 
+    const menus = (
+        <Menu>
+          {Object.keys(columnsVisibility).map(columnName => (
+            <Menu.Item key={columnName}>
+              <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+                <span style={{ marginLeft: 8 }}>{columnName}</span>
+              </span>
+            </Menu.Item>
+          ))}
+        </Menu>
+    ); 
+
+    const toggleColumnVisibility = (columnName, e) => {
+      e.stopPropagation();
+      setColumnsVisibility(prev => ({
+        ...prev,
+        [columnName]: !prev[columnName]
+      }));
+    };
+
     const columnStyles = {
         title: {
           maxWidth: '180px',
@@ -289,6 +313,30 @@ const DemandeVehicule = () => {
         {
             title: (
             <Space>
+                <Text strong>Destination</Text>
+            </Space>
+            ),
+            dataIndex: 'nom_destination',
+            key: 'nom_destination',
+            align: 'center',
+            render: (text) => <Text type="secondary">{text}</Text>,
+            ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' })
+        },
+        {
+            title: (
+            <Space>
+                <Text strong>Motif</Text>
+            </Space>
+            ),
+            dataIndex: 'nom_motif_demande',
+            key: 'nom_motif_demande',
+            align: 'center',
+            render: (text) => <Text type="secondary">{text}</Text>,
+            ...(columnsVisibility['Motif'] ? {} : { className: 'hidden-column' })
+        },
+        {
+            title: (
+            <Space>
                 <CheckCircleOutlined style={{ color: '#1890ff' }} />
                 <Text strong>Statut</Text>
             </Space>
@@ -308,6 +356,18 @@ const DemandeVehicule = () => {
             },
             ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
         },
+                        {
+            title: (
+            <Space>
+                <Text strong>Crée par</Text>
+            </Space>
+            ),
+            dataIndex: 'nom_user',
+            key: 'nom_user',
+            align: 'center',
+            render: (text) => <Text type="secondary">{text}</Text>,
+            ...(columnsVisibility['Crée par'] ? {} : { className: 'hidden-column' })
+        },
         ...(role === 'Admin'
             ? [
                 {
@@ -319,7 +379,6 @@ const DemandeVehicule = () => {
                 dataIndex: 'vu',
                 key: 'vu',
                 align: 'center',
-                width: '80px',
                 render: (text, record) => (
                     <Tag
                         color={text === 1 ? 'green' : 'red'}
@@ -338,7 +397,6 @@ const DemandeVehicule = () => {
             ),
             key: 'action',
             align: 'center',
-            width : '110px',
             render: (text, record) => (
             <Space size="small">
                 <Tooltip title="Modifier cette localisation">
@@ -428,6 +486,12 @@ const DemandeVehicule = () => {
                                         >
                                             Ajouter
                                         </Button>
+
+                                        <Dropdown overlay={menus} trigger={['click']}>
+                                        <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                                            colonne<DownOutlined />
+                                        </Button>
+                                        </Dropdown>
 
                                         <Dropdown overlay={menu} trigger={['click']}>
                                             <Button icon={<ExportOutlined />}>Export</Button>
