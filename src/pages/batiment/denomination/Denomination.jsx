@@ -13,6 +13,10 @@ const Denomination = () => {
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
   const [idDenom, setIdDenom] = useState([]);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
      const fetchData = async () => {
 
@@ -63,8 +67,12 @@ const Denomination = () => {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     {
       title: 'Batiment',
@@ -144,7 +152,8 @@ const Denomination = () => {
             columns={columns}
             dataSource={filteredData}
             loading={loading}
-            pagination={{ pageSize: 10 }}
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
             rowKey="id"
             bordered
             size="middle"
