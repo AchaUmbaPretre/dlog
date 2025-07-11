@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Table, Modal, Menu, Dropdown, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, DownOutlined, MenuOutlined, TrademarkOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Table, Modal, Menu, message, Dropdown, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
+import {  CarOutlined, DownOutlined, ExportOutlined, MenuOutlined, TrademarkOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
 import AffectationDemandeForm from './affectationDemandeForm/AffectationDemandeForm';
@@ -83,8 +83,26 @@ const AffectationDemande = () => {
         const interval = setInterval(fetchData, 5000)
         return () => clearInterval(interval)
     }, []);
+    const handleExportExcel = () => {
+        message.success('Exporting to Excel...');
+    };
 
-    const menus = (
+    const handleExportPDF = () => {
+        message.success('Exporting to PDF...');
+    };
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" onClick={handleExportExcel}>
+        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
+      </Menu.Item>
+      <Menu.Item key="2" onClick={handleExportPDF}>
+        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
+      </Menu.Item>
+    </Menu>
+  );
+
+  const menus = (
         <Menu>
           {Object.keys(columnsVisibility).map(columnName => (
             <Menu.Item key={columnName}>
@@ -95,7 +113,7 @@ const AffectationDemande = () => {
             </Menu.Item>
           ))}
         </Menu>
-    ); 
+  ); 
 
     const toggleColumnVisibility = (columnName, e) => {
       e.stopPropagation();
@@ -328,11 +346,6 @@ const AffectationDemande = () => {
                 />
               </div>
               <div className="client-rows-right">
-                <Dropdown overlay={menus} trigger={['click']}>
-                  <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                    filtre colonne<DownOutlined />
-                  </Button>
-                </Dropdown>
                 <Button
                   type="primary"
                   icon={<PlusCircleOutlined />}
@@ -340,6 +353,16 @@ const AffectationDemande = () => {
                 >
                   Ajouter
                 </Button>
+
+                <Dropdown overlay={menus} trigger={['click']}>
+                  <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                    colonne<DownOutlined />
+                  </Button>
+                </Dropdown>
+                
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <Button icon={<ExportOutlined />}>Export</Button>
+                </Dropdown>
               </div>
               </div>
               <Table

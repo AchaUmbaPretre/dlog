@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Table, Tag, Space, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, FileTextOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Table, Tag, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
+import {  CarOutlined, FileTextOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -21,6 +21,20 @@ const BandeSortie = () => {
     });
     const [modalType, setModalType] = useState(null);
     const [bonId, setBonId] = useState('');
+    const [columnsVisibility, setColumnsVisibility] = useState({
+      "#" : true,
+      "Service" : true,
+      "Chauffeur" : true,
+      "Véhicule" : true,
+      "Marque" : true,
+      "Preuve" : true,
+      "Retour" : true,
+      "Statut" : true,
+      "Client" : false,
+      "Demandeur" : false,
+      "Agent" : false,
+      "Securité" : true
+    })
 
     const columnStyles = {
       title: {
@@ -51,7 +65,15 @@ const BandeSortie = () => {
       setModalType(type);
       setBonId(id)
     };
-        
+    
+    const handleExportExcel = () => {
+      message.success('Exporting to Excel...');
+    };
+
+    const handleExportPDF = () => {
+      message.success('Exporting to PDF...');
+    };
+
     const fetchData = async() => {
       try {
         const { data } = await  getBandeSortie()
@@ -68,186 +90,246 @@ const BandeSortie = () => {
     };
 
     useEffect(() => {
-        fetchData();
+      fetchData();
         const interval = setInterval(fetchData, 5000)
         return () => clearInterval(interval)
     }, []);
 
-   const columns = [
+    const menu = (
+      <Menu>
+        <Menu.Item key="1" onClick={handleExportExcel}>
+          <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
+        </Menu.Item>
+        <Menu.Item key="2" onClick={handleExportPDF}>
+          <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
+        </Menu.Item>
+      </Menu>
+    );
+
+    const menus = (
+          <Menu>
+            {Object.keys(columnsVisibility).map(columnName => (
+              <Menu.Item key={columnName}>
+                <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+                  <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+                  <span style={{ marginLeft: 8 }}>{columnName}</span>
+                </span>
+              </Menu.Item>
+            ))}
+          </Menu>
+    ); 
+
+    const toggleColumnVisibility = (columnName, e) => {
+      e.stopPropagation();
+      setColumnsVisibility(prev => ({
+        ...prev,
+        [columnName]: !prev[columnName]
+      }));
+    };
+
+    const columns = [
+        {
+          title: '#',
+          dataIndex: 'id',
+          key: 'id',
+            render: (text, record, index) => {
+              const pageSize = pagination.pageSize || 10;
+              const pageIndex = pagination.current || 1;
+              return (pageIndex - 1) * pageSize + index + 1;
+          },
+          width: "3%"
+      },
       {
-        title: '#',
-        dataIndex: 'id',
-        key: 'id',
-          render: (text, record, index) => {
-            const pageSize = pagination.pageSize || 10;
-            const pageIndex = pagination.current || 1;
-            return (pageIndex - 1) * pageSize + index + 1;
-        },
-        width: "3%"
-    },
-    {
-      title : "Service",
-      dataIndex: 'nom_service',
-      key:'nom_service',
-        render : (text) => (
-          <Tag color='purple'>{text}</Tag>
-        )
-    },
-    {
-      title: (
-        <Space>
-          <UserOutlined  style={{color:'orange'}}/>
-          <Text strong>Chauffeur</Text>
-        </Space>
-      ),
-      dataIndex: 'nom',
-      key: 'nom',
-      ellipsis: {
-        showTitle: false,
+        title : "Demandeur",
+        dataIndex: 'nom_service',
+        key:'nom_service',
+          render : (text) => (
+            <Tag color='purple'>{text}</Tag>
+          ),
+        ...(columnsVisibility['Demandeur'] ? {} : { className: 'hidden-column' }),
+
       },
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <Text type="secondary">{text}</Text>
-        </Tooltip>
-      ),
-    },
-    {
-      title: (
-        <Space>
-          <CarOutlined style={{ color: 'red' }} />
-          <Text strong>Véhicule</Text>
-        </Space>
-      ),
-      dataIndex:'nom_cat',
-      key: 'nom_cat',
-      render: (text) => (
-        <Tooltip placement="topLeft" title={text}>
-          <div style={columnStyles.title} className={columnStyles.hideScroll}>
-            <Text  type="secondary">{text}</Text>
-          </div>
-        </Tooltip>
-      ),
-    },
-    {
-    title: (
-      <Space>
-        <CarOutlined style={{ color: '#2db7f5' }} />
-        <Text strong>Marque</Text>
-      </Space>
-    ),
-    dataIndex: 'nom_marque',
-    key: 'nom_marque',
-    align: 'center',
-    render: (text) => (
-      <Tooltip placement="topLeft" title={text}>
-        <Tag icon={<TrademarkOutlined />} color="blue">
-          {text}
-        </Tag>
-      </Tooltip>
-    ),
-    },
-    {
-      title: (
-        <Space>
-          <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Preuve</Text>
-        </Space>
-      ),
-      dataIndex: 'date_prevue',
-      key: '',
-      align: 'center',
-      render: (text) => {
-        if (!text) {
-          return (
-            <Tag icon={<CalendarOutlined />} color="red">
-              Aucune date
-            </Tag>
-          );
-        }
-        const date = moment(text);
-        const isValid = date.isValid();              
-          return (
-            <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-              {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
-            </Tag>
-          );
+      {
+        title: (
+          <Space>
+            <UserOutlined  style={{color:'orange'}}/>
+            <Text strong>Chauffeur</Text>
+          </Space>
+        ),
+        dataIndex: 'nom',
+        key: 'nom',
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text type="secondary">{text}</Text>
+          </Tooltip>
+        ),
+        ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
+
       },
-    },
-    {
-      title: (
-        <Space>
-          <CalendarOutlined style={{ color: 'blue' }} />
-          <Text strong>Retour</Text>
-        </Space>
-      ),
-      dataIndex: 'date_retour',
-      key: 'date_retour',
-      render: (text) => {
-        if (!text) {
-            return (
-                <Tag icon={<CalendarOutlined />} color="red">
-                    Aucune date
-                </Tag>
-            );
-        }
-        const date = moment(text);
-        const isValid = date.isValid();              
-            return (
-                <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-                    {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
-                </Tag>
-            );
-        },
-    },
-    {
+      {
         title: (
-        <Space>
-            <CheckCircleOutlined style={{ color: '#1890ff' }} />
-            <Text strong>Statut</Text>
-        </Space>
+          <Space>
+            <UserOutlined  style={{color:'orange'}}/>
+            <Text strong>Agent</Text>
+          </Space>
         ),
-        dataIndex: 'nom_type_statut',
-        key: 'nom_type_statut',
-        render: text => {
-            const { icon, color } = statusIcons[text] || {};
-            return (
-              <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                <Tag icon={icon} color={color}>{text}</Tag>
-              </div>
-            );
+        dataIndex: 'personne_bord',
+        key: 'personne_bord',
+        ellipsis: {
+          showTitle: false,
         },
-    },
-    {
-        title: (
-        <Text strong>Actions</Text>
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text type="secondary">{text}</Text>
+          </Tooltip>
         ),
-        key: 'action',
+        ...(columnsVisibility['Agent'] ? {} : { className: 'hidden-column' }),
+
+      },
+      {
+        title: (
+          <Space>
+            <CarOutlined style={{ color: 'red' }} />
+            <Text strong>Véhicule</Text>
+          </Space>
+        ),
+        dataIndex:'nom_cat',
+        key: 'nom_cat',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+              <Text  type="secondary">{text}</Text>
+            </div>
+          </Tooltip>
+        ),
+        ...(columnsVisibility['Véhicule'] ? {} : { className: 'hidden-column' })
+      },
+      {
+        title: (
+          <Space>
+            <CarOutlined style={{ color: '#2db7f5' }} />
+            <Text strong>Marque</Text>
+          </Space>
+        ),
+        dataIndex: 'nom_marque',
+        key: 'nom_marque',
         align: 'center',
-        width : '120px',
-        render: (text, record) => (
-        <Space size="small">
-
-            <Tooltip title="Relevé des bons de sortie">
-                <Button
-                    icon={<FileTextOutlined />}
-                    style={{ color: 'blue' }}
-                    onClick={() => handleReleve(record.id_bande_sortie)}
-                    aria-label="Relevé"
-                />
-            </Tooltip>
-
-            <Tooltip title="valider">
-                <Button
-                    icon={<CheckCircleOutlined />}
-                    style={{ color: 'green' }}
-                    onClick={() => handlSortie(record.id_bande_sortie)}
-                    aria-label="Valider"
-                />
-            </Tooltip>
-        </Space>
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Tag icon={<TrademarkOutlined />} color="blue">
+              {text}
+            </Tag>
+          </Tooltip>
         ),
-    },
-   ]
+        ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' })
+      },
+      {
+        title: (
+          <Space>
+            <CalendarOutlined style={{ color: 'blue' }} />
+            <Text strong>Preuve</Text>
+          </Space>
+        ),
+        dataIndex: 'date_prevue',
+        key: '',
+        align: 'center',
+        render: (text) => {
+          if (!text) {
+            return (
+              <Tag icon={<CalendarOutlined />} color="red">
+                Aucune date
+              </Tag>
+            );
+          }
+          const date = moment(text);
+          const isValid = date.isValid();              
+            return (
+              <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+              </Tag>
+            );
+        },
+        ...(columnsVisibility['Preuve'] ? {} : { className: 'hidden-column' })
+      },
+      {
+        title: (
+          <Space>
+            <CalendarOutlined style={{ color: 'blue' }} />
+            <Text strong>Retour</Text>
+          </Space>
+        ),
+        dataIndex: 'date_retour',
+        key: 'date_retour',
+        render: (text) => {
+          if (!text) {
+              return (
+                  <Tag icon={<CalendarOutlined />} color="red">
+                      Aucune date
+                  </Tag>
+              );
+          }
+          const date = moment(text);
+          const isValid = date.isValid();              
+              return (
+                  <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                      {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+                  </Tag>
+              );
+          },
+        ...(columnsVisibility['Retour'] ? {} : { className: 'hidden-column' })
+
+      },
+      {
+        title: (
+          <Space>
+              <CheckCircleOutlined style={{ color: '#1890ff' }} />
+              <Text strong>Statut</Text>
+          </Space>
+          ),
+          dataIndex: 'nom_type_statut',
+          key: 'nom_type_statut',
+          render: text => {
+              const { icon, color } = statusIcons[text] || {};
+              return (
+                <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                  <Tag icon={icon} color={color}>{text}</Tag>
+                </div>
+              );
+          },
+      },
+      {
+          title: (
+          <Text strong>Actions</Text>
+          ),
+          key: 'action',
+          align: 'center',
+          render: (text, record) => (
+          <Space size="small">
+
+              <Tooltip title="Relevé des bons de sortie">
+                  <Button
+                      icon={<FileTextOutlined />}
+                      style={{ color: 'blue' }}
+                      onClick={() => handleReleve(record.id_bande_sortie)}
+                      aria-label="Relevé"
+                  />
+              </Tooltip>
+
+              <Tooltip title="valider">
+                  <Button
+                      icon={<CheckCircleOutlined />}
+                      style={{ color: 'green' }}
+                      onClick={() => handlSortie(record.id_bande_sortie)}
+                      aria-label="Valider"
+                  />
+              </Tooltip>
+          </Space>
+          ),
+      },
+    ]
 
     const filteredData = data.filter(item =>
      item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
@@ -272,6 +354,15 @@ const BandeSortie = () => {
                 />
               </div>
               <div className="client-rows-right">
+                <Dropdown overlay={menus} trigger={['click']}>
+                  <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                    Colonnes <DownOutlined />
+                  </Button>
+                </Dropdown>
+
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <Button icon={<ExportOutlined />}>Export</Button>
+                </Dropdown>
               </div>
               </div>
               <Table

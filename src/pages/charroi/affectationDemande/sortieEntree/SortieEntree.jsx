@@ -86,7 +86,9 @@ const SortieEntree = () => {
                       const pageIndex = pagination.current || 1;
                       return (pageIndex - 1) * pageSize + index + 1;
                   },
-                  width: "3%"
+                  width: "3%",
+              ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' }),
+
               },
               {
                 title: (
@@ -286,6 +288,14 @@ const SortieEntree = () => {
                   ),
               },
             ];
+    
+  const filteredData = data.filter(item =>
+    item.nom_chauffeur?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.type?.toLowerCase().includes(searchValue.toLocaleLowerCase())
+  );
+  
 
   return (
     <>
@@ -315,7 +325,7 @@ const SortieEntree = () => {
               </div>
               <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={filteredData}
                 loading={loading}
                 onChange={(pagination) => setPagination(pagination)}
                 rowKey="id"

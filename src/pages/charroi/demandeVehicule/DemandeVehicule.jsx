@@ -406,85 +406,85 @@ const DemandeVehicule = () => {
                                             onChange={(e) => setSearchValue(e.target.value)}
                                         />
                                     </div>
-                    <div className="client-rows-right">
-                        <Button
-                            type="primary"
-                            icon={<PlusCircleOutlined />}
-                            onClick={handleAdd}
-                        >
-                            Ajouter
-                        </Button>
+                                    <div className="client-rows-right">
+                                        <Button
+                                            type="primary"
+                                            icon={<PlusCircleOutlined />}
+                                            onClick={handleAdd}
+                                        >
+                                            Ajouter
+                                        </Button>
 
-                        <Dropdown overlay={menu} trigger={['click']}>
-                            <Button icon={<ExportOutlined />}>Export</Button>
-                        </Dropdown>
-                        
-                        <Button
-                            icon={<PrinterOutlined />}
-                            onClick={handlePrint}
-                        >
-                            Print
-                        </Button>
-                    </div>
-                </div>
-                <Table
-                    columns={columns}
-                    dataSource={filteredData}
-                    loading={loading}
-                    onChange={(pagination) => setPagination(pagination)}
-                    rowKey="id"
-                    bordered
-                    size="small"
-                    scroll={scroll}
-                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                />
+                                        <Dropdown overlay={menu} trigger={['click']}>
+                                            <Button icon={<ExportOutlined />}>Export</Button>
+                                        </Dropdown>
+                                        
+                                        <Button
+                                            icon={<PrinterOutlined />}
+                                            onClick={handlePrint}
+                                        >
+                                            Print
+                                        </Button>
+                                    </div>
+                                </div>
+                                    <Table
+                                        columns={columns}
+                                        dataSource={filteredData}
+                                        loading={loading}
+                                        onChange={(pagination) => setPagination(pagination)}
+                                        rowKey="id"
+                                        bordered
+                                        size="small"
+                                        scroll={scroll}
+                                        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    </TabPane>
+                        </TabPane>
 
-                    <TabPane
-                        tab={
-                            <span>
-                            ✅ Courses validées
-                            </span>
-                        }
-                        key="2"
-                    >
-                        <AffectationDemande/>
-                    </TabPane>
+                        <TabPane
+                            tab={
+                                <span>
+                                ✅ Courses validées
+                                </span>
+                            }
+                            key="2"
+                        >
+                            <AffectationDemande/>
+                        </TabPane>
 
-                    <TabPane
-                        tab={
-                            <span>
-                            📤 Bon de sortie
-                            </span>
-                        }
-                        key="3"
-                    >
-                        <BandeSortie/>
-                    </TabPane>
+                        <TabPane
+                            tab={
+                                <span>
+                                📤 Bon de sortie
+                                </span>
+                            }
+                            key="3"
+                        >
+                            <BandeSortie/>
+                        </TabPane>
 
-                    <TabPane
-                        tab={
-                            <span>
-                            🔴 Entrée / Sortie
-                            </span>
-                        }
-                        key="4"
-                    >
-                        <SortieEntree/>
-                    </TabPane>
+                        <TabPane
+                            tab={
+                                <span>
+                                🔴 Entrée / Sortie
+                                </span>
+                            }
+                            key="4"
+                        >
+                            <SortieEntree/>
+                        </TabPane>
 
-                    <TabPane
-                        tab={
-                            <span>
-                            🚗 Véhicule en course
-                            </span>
-                        }
-                        key="5"
-                    >
-                        <VehiculeCourse/>
-                    </TabPane>
+                        <TabPane
+                            tab={
+                                <span>
+                                🚗 Véhicule en course
+                                </span>
+                            }
+                            key="5"
+                        >
+                            <VehiculeCourse/>
+                        </TabPane>
 
 {/*                     <TabPane
                         tab={
@@ -497,104 +497,104 @@ const DemandeVehicule = () => {
                         <SortieExceptionnelle/>
                     </TabPane> */}
 
-                    <TabPane
-                        tab={
-                            <span>
-                            🚗 Les vehicules occupés
-                            </span>
-                        }
-                        key="7"
-                    >
-                        <VehiculeOccupe/>
-                    </TabPane>
-                </Tabs>
-            </TabPane>
+                        <TabPane
+                            tab={
+                                <span>
+                                🚗 Les vehicules occupés
+                                </span>
+                            }
+                            key="7"
+                        >
+                            <VehiculeOccupe/>
+                        </TabPane>
+                    </Tabs>
+                </TabPane>
 
-            <TabPane
-                tab={
-                    <span>
-                    📤 Bon de sortie du personnel
-                    </span>
-                }
-                key="4"
+                <TabPane
+                    tab={
+                        <span>
+                        📤 Bon de sortie du personnel
+                        </span>
+                    }
+                    key="4"
+                >
+                    <BonSortiePerso/>
+                </TabPane>
+
+                <TabPane
+                    tab={
+                        <span>🪪 Les visiteurs</span>
+                    }
+                    key="7"
+                >
+                    <SecuriteVisiteur />
+                </TabPane>
+
+                <TabPane
+                    tab={
+                        <span>🪪 Les piétons</span>
+                    }
+                    key="8"
+                >
+                    <VisiteurPieton />
+                </TabPane>
+
+                <TabPane
+                    tab={
+                        <span>
+                        💼 Services
+                        </span>
+                    }
+                    key="11"
+                >
+                    <DemandeurVehicule/>
+                </TabPane>
+
+                <TabPane
+                    tab={
+                        <span>
+                        🗺️ Destination
+                        </span>
+                    }
+                    key="12"
+                >
+                    <Destination/>
+                </TabPane>
+            </Tabs>
+
+            <Modal
+                title=""
+                visible={modalType === 'Add'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={1000}
+                centered
             >
-                <BonSortiePerso/>
-            </TabPane>
+                <DemandeVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} demandeId={demandeId} />
+            </Modal>
 
-            <TabPane
-                tab={
-                    <span>🪪 Les visiteurs</span>
-                }
-                key="7"
+            <Modal
+                title=""
+                visible={modalType === 'affectation'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={1000}
+                centered
             >
-                <SecuriteVisiteur />
-            </TabPane>
+                <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
+            </Modal>
 
-            <TabPane
-                tab={
-                    <span>🪪 Les piétons</span>
-                }
-                key="8"
+            <Modal
+                title=""
+                visible={modalType === 'Detail'}
+                onCancel={closeAllModals}
+                footer={null}
+                width={900}
+                centered
             >
-                <VisiteurPieton />
-            </TabPane>
-
-            <TabPane
-                tab={
-                    <span>
-                    💼 Services
-                    </span>
-                }
-                key="11"
-            >
-                <DemandeurVehicule/>
-            </TabPane>
-
-            <TabPane
-                tab={
-                    <span>
-                    🗺️ Destination
-                    </span>
-                }
-                key="12"
-            >
-                <Destination/>
-            </TabPane>
-        </Tabs>
-
-        <Modal
-            title=""
-            visible={modalType === 'Add'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1000}
-            centered
-        >
-            <DemandeVehiculeForm closeModal={() => setModalType(null)} fetchData={fetchData} demandeId={demandeId} />
-        </Modal>
-
-        <Modal
-            title=""
-            visible={modalType === 'affectation'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1000}
-            centered
-        >
-            <AffectationDemandeForm closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
-        </Modal>
-
-        <Modal
-            title=""
-            visible={modalType === 'Detail'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={900}
-            centered
-        >
-            <DemandeVehiculeDetail closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
-        </Modal>
-    </>
+                <DemandeVehiculeDetail closeModal={() => setModalType(null)} fetchData={fetchData} id_demande_vehicule={demandeId} />
+            </Modal>
+        </>
   );
 };
 
