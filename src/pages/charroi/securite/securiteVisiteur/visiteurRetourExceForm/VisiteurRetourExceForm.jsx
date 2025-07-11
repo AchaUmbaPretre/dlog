@@ -15,7 +15,7 @@ import {
 import { getCatVehicule, getMotif, getVisiteurVehiculeSearch, postVisiteurVehicule } from '../../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 
-const SecuriteVisiteurForm = ({ closeModal }) => {
+const VisiteurRetourExcelForm = ({ closeModal }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
@@ -86,7 +86,8 @@ const handleSelectPlaque = (value, option) => {
     try {
       const value = {
         ...values,
-        user_cr: userId,
+        date_sortie : moment().format('YYYY-MM-DD HH:mm:ss'),
+        user_cr: userId
       };
 
       message.loading({ content: 'En cours...', key: loadingKey });
@@ -233,4 +234,4 @@ const handleSelectPlaque = (value, option) => {
   );
 };
 
-export default SecuriteVisiteurForm;
+export default VisiteurRetourExcelForm;
