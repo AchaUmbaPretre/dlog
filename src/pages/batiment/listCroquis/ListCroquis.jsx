@@ -103,8 +103,8 @@ const ListCroquis = () => {
             </div>
         </div>
 
-        {!loading && data.length > 0 && (
-        <div style={{ marginTop: 24, textAlign: 'center' }}>
+    {!loading && data.length > 0 && (
+        <div style={{ marginTop: 40, display: 'flex', justifyContent: 'center' }}>
             <Pagination
             current={currentPage}
             pageSize={pageSize}
@@ -115,9 +115,24 @@ const ListCroquis = () => {
             }}
             showSizeChanger
             pageSizeOptions={['5', '10', '20', '50']}
+            showQuickJumper
+            showTotal={(total, range) => (
+                <span style={{ fontStyle: 'italic', color: '#555' }}>
+                Affichage de <strong>{range[0]}</strong> à <strong>{range[1]}</strong> sur <strong>{total}</strong> croquis
+                </span>
+            )}
+            nextIcon={<span style={{ fontWeight: 500 }}>›</span>}
+            prevIcon={<span style={{ fontWeight: 500 }}>‹</span>}
+            style={{
+                padding: '12px 24px',
+                borderRadius: '8px',
+                background: '#fafafa',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+            }}
             />
         </div>
-        )}
+    )}
+
     </>
   )
 }
