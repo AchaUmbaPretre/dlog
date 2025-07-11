@@ -14,6 +14,7 @@ import {
 } from 'antd';
 import { getCatVehicule, getMotif, getVisiteurVehiculeSearch, postVisiteurVehicule } from '../../../../../services/charroiService';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const VisiteurRetourExcelForm = ({ closeModal }) => {
   const [form] = Form.useForm();
@@ -113,7 +114,7 @@ const handleSelectPlaque = (value, option) => {
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className="controle_h2">Enregistrer un visiteur</h2>
+        <h2 className="controle_h2">Enregistrer la sortie du visiteur</h2>
       </div>
       <div className="controle_wrapper">
         <Form layout="vertical" onFinish={onFinish} form={form}>
