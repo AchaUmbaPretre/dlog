@@ -146,7 +146,7 @@ const VisiteurSortie = () => {
       </div>
       <Modal
         title=""
-        visible={modalType === 'sortieExceptionnelle'}
+        visible={modalType === 'SortieExceptionnelle'}
         onCancel={closeAllModals}
         footer={null}
         width={1000}
