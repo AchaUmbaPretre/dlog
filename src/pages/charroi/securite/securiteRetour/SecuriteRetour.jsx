@@ -148,8 +148,16 @@ const SecuriteRetour = () => {
                   >
                     <div className="securite_card_content">
                       <div className="securite_info">
-                        <Text strong>Véhicule : </Text>
-                        <Text>{d?.immatriculation}</Text>
+                        <Text strong>Marque : </Text>
+                        <strong>{d?.nom_marque}</strong>
+                      </div>
+                      <div className="securite_info">
+                        <Text strong>Plaque : </Text>
+                        <strong>{d?.immatriculation}</strong>
+                      </div>
+                      <div className="securite_info">
+                        <Text strong>Type du vehicule : </Text>
+                        <strong>{d?.nom_type_vehicule}</strong>
                       </div>
                       <div className="securite_info">
                         <Text strong>Chauffeur : </Text>
