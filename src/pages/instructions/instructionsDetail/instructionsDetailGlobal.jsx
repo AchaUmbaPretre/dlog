@@ -7,8 +7,7 @@ import config from "../../../config";
 import "./instructionsDetail.scss";
 import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 
-
-const InstructionsDetail = ({ idInspection }) => {
+const InstructionsDetailGlobal = ({ idInspection }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [groupedData, setGroupedData] = useState({ avant: [], apres: [] });
   const [loading, setLoading] = useState(true);
@@ -256,4 +255,4 @@ const InstructionsDetail = ({ idInspection }) => {
   );
 };
 
-export default InstructionsDetail;
+export default InstructionsDetailGlobal;
