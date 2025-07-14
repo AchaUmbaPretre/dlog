@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Input, Button, Menu, Dropdown, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
+import { Input, Button, message, Menu, Dropdown, Tooltip, Typography, Tag, Table, Space, notification } from 'antd';
 import moment from 'moment';
 import { getSortieEntree } from '../../../../services/charroiService';
 import {  SwapOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, CheckCircleOutlined, ExclamationCircleOutlined, UndoOutlined, ExportOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
@@ -75,6 +75,14 @@ const SortieEntree = () => {
 
     const handleReleve = () => {
     }
+
+    const handleExportExcel = () => {
+      message.success('Exporting to Excel...');
+    };
+    
+    const handleExportPDF = () => {
+      message.success('Exporting to PDF...');
+    };
 
     const columns = [
               {
@@ -288,7 +296,18 @@ const SortieEntree = () => {
                   ),
               },
             ];
-    
+  
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" onClick={handleExportExcel}>
+        <Tag icon={<ExportOutlined />} color="green">Export to Excel</Tag>
+      </Menu.Item>
+      <Menu.Item key="2" onClick={handleExportPDF}>
+        <Tag icon={<ExportOutlined />} color="blue">Export to PDF</Tag>
+      </Menu.Item>
+    </Menu>
+  );
+
   const filteredData = data.filter(item =>
     item.nom_chauffeur?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase()) || 
@@ -319,6 +338,10 @@ const SortieEntree = () => {
                   <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                     Colonnes <DownOutlined />
                   </Button>
+                </Dropdown>
+
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <Button icon={<ExportOutlined />}>Export</Button>
                 </Dropdown>
               </div>
               </div>
