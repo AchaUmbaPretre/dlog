@@ -292,7 +292,6 @@ const InspectionGen = () => {
             });
             setData((prevData) => prevData.filter((item) => item.id_sub_inspection_gen  !== id));
             message.success("L'inspection a été supprimée avec succès.", 3);
-            fetchDataInsp()
           } catch (error) {
             notification.error({
               message: "Erreur de suppression",
