@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Card, Spin, notification, Divider, Tooltip, Button, Space } from "antd";
+import { Card, Spin, notification, Divider, Button, Space, Pagination } from "antd";
 import { getInspectionDetailAll } from "../../../services/batimentService";
 import html2pdf from "html2pdf.js";
 import htmlDocx from "html-docx-js/dist/html-docx";
@@ -11,36 +11,32 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
   const [groupedData, setGroupedData] = useState({ avant: [], apres: [] });
   const [loading, setLoading] = useState(true);
   const [batimentInfo, setBatimentInfo] = useState({});
-  const [inspectionId, setInspectionId] = useState(idInspection)
+  const [inspectionId, setInspectionId] = useState(idInspection);
   const exportRef = useRef();
 
-    useEffect(() => {
-      setInspectionId(idInspection);
-    }, [idInspection]);
+  // Pagination states
+  const [currentPageAvant, setCurrentPageAvant] = useState(1);
+  const [currentPageApres, setCurrentPageApres] = useState(1);
+  const pageSize = 10;
+
+  useEffect(() => {
+    setInspectionId(idInspection);
+  }, [idInspection]);
 
   const fetchData = async () => {
     try {
-        const { data } = await getInspectionDetailAll(inspectionId);
-      
-        if (data.length === 0) {
-            notification.warning({
-            message: "Aucune donnée trouvée",
-            description: "Il n'y a aucune instruction disponible pour cet ID d'inspection.",
-            });
-            return;
-        }
+      const { data } = await getInspectionDetailAll(inspectionId, pageSize);
 
-      const generalInfo = {
-        name: data[0]?.nom_batiment || "Inconnu",
-        typeInstruction: data[0]?.nom_type_instruction || "Inconnu",
-        categorie: data[0]?.nom_cat_inspection || "Inconnu",
-        dateCreation: data[0]?.date_creation || "Inconnu",
-      };
-      setBatimentInfo(generalInfo);
+      if (data.data.length === 0) {
+        notification.warning({
+          message: "Aucune donnée trouvée",
+          description: "Il n'y a aucune instruction disponible pour cet ID d'inspection.",
+        });
+        return;
+      }
 
-      // Séparer les données en "Avant" et "Après"
-      const avant = data.filter((instruction) => instruction.nom_type_photo === "Avant");
-      const apres = data.filter((instruction) => instruction.nom_type_photo === "Après");
+      const avant = data.data.filter((instruction) => instruction.nom_type_photo === "Avant");
+      const apres = data.data.filter((instruction) => instruction.nom_type_photo === "Après");
 
       setGroupedData({ avant, apres });
     } catch (error) {
@@ -53,14 +49,13 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
     }
   };
 
-
   useEffect(() => {
     if (inspectionId) {
       fetchData();
     }
   }, [inspectionId]);
 
-  // Fonction pour exporter en PDF
+  // Export PDF
   const exportToPDF = () => {
     const element = exportRef.current;
 
@@ -85,6 +80,7 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
     });
   };
 
+  // Export Word
   const exportToWord = () => {
     const content = `
       <!DOCTYPE html>
@@ -97,7 +93,7 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
         ${exportRef.current.innerHTML}
       </body>
       </html>
-      `;
+    `;
 
     const blob = htmlDocx.asBlob(content);
     const link = document.createElement("a");
@@ -107,6 +103,10 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
     link.click();
     document.body.removeChild(link);
   };
+
+  // Paginated data
+  const paginatedAvant = groupedData.avant.slice((currentPageAvant - 1) * pageSize, currentPageAvant * pageSize);
+  const paginatedApres = groupedData.apres.slice((currentPageApres - 1) * pageSize, currentPageApres * pageSize);
 
   return (
     <div className="instruction">
@@ -122,18 +122,17 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
               Exporter en Word
             </Button>
           </Space>
-          <Divider style={{margin:0}}/>
+          <Divider style={{ margin: 0 }} />
           <div ref={exportRef} className="instruction_rows">
-            <h2 className="instruction_h2">
-              Détails global des Inspections
-            </h2>          
+            <h2 className="instruction_h2" style={{padding:'10px', background:'#f5f5f5', fontSize:'1.2rem', marginBottom:'10px', borderRadius:'5px', fontWeight:'700'}}>Détails globaux des inspections</h2>
             <div className="inspection_bottom">
+              {/* Avant */}
               <div className="inspection_bottom_wrapper">
                 <h2 className="inspection_title_h2">Avant</h2>
-                {groupedData.avant.length > 0 && (
+                {paginatedAvant.length > 0 && (
                   <Card style={{ marginBottom: 24, borderRadius: 8 }}>
                     <div className="inspection_bottom_rows">
-                      {groupedData.avant.map((instruction, index) => (
+                      {paginatedAvant.map((instruction, index) => (
                         <div className="inspection_bottom_row" key={`avant-img-${index}`}>
                           <strong className="title_sous_inspection">Commentaire :</strong>{" "}
                           <span className="inspection_desc">{instruction?.commentaire || "Aucun commentaire"}</span>
@@ -141,7 +140,7 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
                             href={`${DOMAIN}/${instruction.img}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{width:'100%'}}
+                            style={{ width: '100%' }}
                           >
                             <img
                               alt="Avant"
@@ -152,36 +151,42 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
                                 objectFit: "cover",
                                 borderRadius: 8,
                                 boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                                marginTop:'20px',
+                                marginTop: '20px',
                               }}
                             />
                           </a>
                         </div>
                       ))}
                     </div>
+                    <Pagination
+                      current={currentPageAvant}
+                      pageSize={pageSize}
+                      total={groupedData.avant.length}
+                      onChange={(page) => setCurrentPageAvant(page)}
+                      style={{ textAlign: 'center', marginTop: 16 }}
+                    />
                   </Card>
                 )}
               </div>
 
-              {/* Section "Après" */}
-              <div className="inspection_bottom">
-                <div className="inspection_bottom_wrapper">
-                  <h2 className="inspection_title_h2">Après</h2>
-                  {groupedData.apres.length > 0 && (
-                    <Card style={{ marginBottom: 24, borderRadius: 8 }}>
-                      <div className="inspection_bottom_rows">
-                        {groupedData.apres.map((instruction, index) => (
-                        <div className="inspection_bottom_row" key={`avant-img-${index}`}>
+              {/* Après */}
+              <div className="inspection_bottom_wrapper">
+                <h2 className="inspection_title_h2">Après</h2>
+                {paginatedApres.length > 0 && (
+                  <Card style={{ marginBottom: 24, borderRadius: 8 }}>
+                    <div className="inspection_bottom_rows">
+                      {paginatedApres.map((instruction, index) => (
+                        <div className="inspection_bottom_row" key={`apres-img-${index}`}>
                           <strong className="title_sous_inspection">Commentaire :</strong>{" "}
                           <span className="inspection_desc">{instruction?.commentaire || "Aucun commentaire"}</span>
                           <a
                             href={`${DOMAIN}/${instruction.img}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            style={{width:'100%'}}
+                            style={{ width: '100%' }}
                           >
                             <img
-                              alt="Avant"
+                              alt="Après"
                               src={`${DOMAIN}/${instruction.img}`}
                               style={{
                                 width: "100%",
@@ -189,19 +194,24 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
                                 objectFit: "cover",
                                 borderRadius: 8,
                                 boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                                marginTop:'20px',
+                                marginTop: '20px',
                               }}
                             />
                           </a>
                         </div>
-                         ))}
-                      </div>
-                    </Card>
-                  )}
-                </div>
+                      ))}
+                    </div>
+                    <Pagination
+                      current={currentPageApres}
+                      pageSize={pageSize}
+                      total={groupedData.apres.length}
+                      onChange={(page) => setCurrentPageApres(page)}
+                      style={{ textAlign: 'center', marginTop: 16 }}
+                    />
+                  </Card>
+                )}
               </div>
             </div>
-
           </div>
         </div>
       )}

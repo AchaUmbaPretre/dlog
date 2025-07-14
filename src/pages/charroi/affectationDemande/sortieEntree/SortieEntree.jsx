@@ -183,20 +183,20 @@ const SortieEntree = () => {
                 ...(columnsVisibility['Type'] ? {} : { className: 'hidden-column' }),
 
               },
-              {
-                title: "Mouvement",
+             {
+                title: "Sortie",
                 dataIndex: 'mouvement_exceptionnel',
                 key: 'mouvement_exceptionnel',
                 align: 'center',
                 render: (text) => {
                   const isExceptional = text !== 0;
 
-                  const color = isExceptional ? 'red' : 'green';
-                  const label = isExceptional ? 'Exceptionnel' : 'Normal';
+                  const color = isExceptional ? 'volcano' : 'green';
+                  const label = isExceptional ? 'Exceptionnelle' : 'Ordinaire';
                   const icon = isExceptional ? <ExclamationCircleOutlined /> : <CheckCircleOutlined />;
 
                   return (
-                    <Tag color={color} icon={icon}>
+                    <Tag icon={icon} color={color} style={{ fontWeight: 'bold' }}>
                       {label}
                     </Tag>
                   );

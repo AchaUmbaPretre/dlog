@@ -307,9 +307,15 @@ export const getInspectionOneV = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/inspectionsOneV?id=${id}`);
 };
 
-export const getInspectionDetailAll = (ids) => {
-  return axios.get(`${DOMAIN}/api/batiment/inspectionsOneAll?ids=${ids}`)
-}
+export const getInspectionDetailAll = (ids, pageSize, page = 1) => {
+  return axios.get(`${DOMAIN}/api/batiment/inspectionsOneAll`, {
+    params: {
+      ids: Array.isArray(ids) ? ids.join(',') : ids,
+      page: page,
+      limit: pageSize
+    }
+  });
+};
 
 export const getInspectionOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/inspectionsOne?id_batiment=${id}`);
