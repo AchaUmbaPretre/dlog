@@ -4,6 +4,7 @@ import { notification, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import DetailTacheGlobalOne from '../../../pages/taches/detailTacheGlobalOne/DetailTacheGlobalOne';
 import InspectionGenDetail from '../../../pages/inspectionGen/inspectionGenDetail/InspectionGenDetail';
+import ReparationDetail from '../../../pages/controleTechnique/reparation/reparationDetail/ReparationDetail';
 
 const Notification = ({ idNotif, onClose }) => {
   const [data, setData] = useState(null);
@@ -83,6 +84,17 @@ const Notification = ({ idNotif, onClose }) => {
         centered
       >
         <InspectionGenDetail inspectionId={id} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Detail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={900}
+        centered
+      >
+        <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={id} />
       </Modal>
     </>
   );
