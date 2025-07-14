@@ -66,7 +66,7 @@ const RapportTemplate = () => {
         const monthName = moment(`${curr.Année}-${curr.Mois}-01`).format('MMM-YYYY');
 
         if (!existing) {
-          existing = { desc_template: curr.desc_template, nom: curr.nom };
+          existing = { desc_template: curr.desc_template, nom: curr.nom, batiment: curr.nom_batiment, };
           acc.push(existing);
         }
 
@@ -74,8 +74,7 @@ const RapportTemplate = () => {
  */
         existing[`${monthName}_${selectedField}`] = {
           value: curr[selectedField] ?? 0,
-          id: curr.id_declaration_super,
-        };
+          id: curr.id_declaration_super,        };
 
         return acc;
       }, []);
@@ -164,42 +163,23 @@ const RapportTemplate = () => {
             ),
             width: "15%",
           },
-          
+          {
+        title: "Bâtiment",
+        dataIndex: "batiment",
+        key: "batiment",
+        ...getColumnSearchProps(
+          'batiment',
+          searchText,
+          setSearchText,
+          setSearchedColumn,
+          searchInput
+        ),
+        render: (text) => (
+          <span style={{ whiteSpace: "nowrap" }}>{text}</span>
+        ),
+        width: "12%",
+      }
       ];
-
-/*       const dynamicColumns = uniqueMonths.map(month => {
-        const monthName = moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY');
-        return {
-            title: (
-                <div style={{ textAlign: "center" }} onClick={() => handleModify()}>
-                    <Tag color={"#2db7f5"}>{monthName}</Tag>
-                </div>
-            ),
-            dataIndex: `${monthName}_${selectedField}`,
-            key: `${month}_${selectedField}`,
-            sorter: (a, b) => (a[`${monthName}_${selectedField}`] || 0) - (b[`${monthName}_${selectedField}`] || 0),
-            sortDirections: ["descend", "ascend"],
-            render: (value) => {
-                if (value) {
-                    return (
-                        <span style={{ color: "black" }}>
-                            {selectedField === 'total_facture' || selectedField === 'total_occupe' 
-                                ? `${parseFloat(value).toLocaleString("en-US", { minimumFractionDigits: 2 })}`
-                                : `${parseFloat(value).toLocaleString("en-US", { minimumFractionDigits: 2 })} $`
-                            }
-                        </span>
-                    );
-                }
-                return (
-                    <span style={{ color: "red" }}>
-                        0.00
-                    </span>
-                );
-            },
-            align: "right",
-        };
-    }); */
-    
 
     const dynamicColumns = uniqueMonths.map(month => {
       const monthName = moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY');
@@ -249,7 +229,7 @@ const RapportTemplate = () => {
 
 const exportToExcelHTML = () => {
   const exportData = dataSource.map(item => {
-    let row = { Template: item.desc_template, Nom: item.nom };
+    let row = { Template: item.desc_template, Nom: item.nom, Bâtiment: item.batiment };
 
     uniqueMonths.forEach(month => {
       const monthName = moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY');
