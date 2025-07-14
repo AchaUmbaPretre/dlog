@@ -8,6 +8,7 @@ import InstructionFormEdit from './instructionForm/InstructionFormEdit';
 import InstructionFormApres from './instructionForm/InspectionFormApres';
 import InspectionTache from './inspectionTache/InspectionTache';
 import TacheForm from '../taches/tacheform/TacheForm';
+import InstructionsDetailGlobal from './instructionsDetail/instructionsDetailGlobal';
 
 const { Search } = Input;
 
@@ -18,11 +19,21 @@ const Instructions = ({idTache}) => {
   const [idInspection, setIdInspection] = useState('');
   const scroll = { x: 400 };
   const [modalType, setModalType] = useState(null);
+  const [idDetail, setIdDetail] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
   const handleAddInstruction = (id) => {
     openModal('add', id);
     setIdInspection(id)
   };
+
+  const handledetail = () => {
+
+  }
 
   const handleEdit = (id) => {
     openModal('edit', id);
@@ -130,12 +141,16 @@ const Instructions = ({idTache}) => {
   };
 
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => index + 1, 
-      width: "3%" 
+        {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
     },
     { 
       title: 'Batiment', 
@@ -260,6 +275,17 @@ const Instructions = ({idTache}) => {
     },
   ];
 
+  const onSelectChange = (newSelectedRowKeys) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+    setIdDetail(newSelectedRowKeys);
+  };
+
+  console.log(idDetail)
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
   const filteredData = data.filter(item =>
     item.commentaire?.toLowerCase().includes(searchValue.toLowerCase()) || 
     item.nom_batiment?.toLowerCase().includes(searchValue.toLowerCase())
@@ -290,6 +316,11 @@ const Instructions = ({idTache}) => {
               >
                 Inspection
               </Button>
+              <Button
+                onClick={handledetail}
+              >
+                👁️ détails
+              </Button>
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
@@ -305,12 +336,13 @@ const Instructions = ({idTache}) => {
           <Table
             columns={columns}
             dataSource={filteredData}
-            pagination={{ pageSize: 10 }}
-            rowKey="key"
+            pagination={pagination}
+            rowKey="id_inspection"
             bordered
             size="small"
             scroll={scroll}
             loading={loading}
+            rowSelection={rowSelection}
           />
         </div>
       </div>
@@ -345,6 +377,17 @@ const Instructions = ({idTache}) => {
         centered
       >
         <InstructionsDetail idInspection={idInspection}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'detail'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1045}
+        centered
+      >
+        <InstructionsDetailGlobal idInspection={idInspection}/>
       </Modal>
 
       <Modal

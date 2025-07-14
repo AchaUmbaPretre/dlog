@@ -18,7 +18,7 @@ import html2pdf from 'html2pdf.js';
 import * as XLSX from 'xlsx';
 import SousTacheForm from './sousTacheForm/SousTacheForm';
 import './taches.scss'
-import { getPriorityColor, getPriorityIcon, getPriorityLabel } from '../../utils/prioriteIcons';
+import { getPriorityColor, getPriorityIcon, getPriorityLabel, statusIcons } from '../../utils/prioriteIcons';
 import { filteredData, groupTasks } from '../../utils/tacheGroup';
 import AllDetail from './allDetail/AllDetail';
 import FilterTaches from './filterTaches/FilterTaches';
@@ -289,16 +289,6 @@ const Taches = () => {
       ...prev,
       [columnName]: !prev[columnName]
     }));
-  };
-
-  const statusIcons = {
-    'En attente': { icon: <ClockCircleOutlined />, color: 'orange' },
-    'En cours': { icon: <HourglassOutlined />, color: 'blue' },
-    'Point bloquant': { icon: <WarningOutlined />, color: 'red' },
-    'En attente de validation': { icon: <CheckSquareOutlined />, color: 'purple' },
-    'Validé': { icon: <CheckCircleOutlined />, color: 'green' },
-    'Budget': { icon: <DollarOutlined />, color: 'gold' },
-    'Executé': { icon: <RocketOutlined />, color: 'cyan' },
   };
 
   const columnStyles = {
