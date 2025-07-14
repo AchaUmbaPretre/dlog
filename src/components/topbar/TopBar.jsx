@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './topBar.scss';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-import { Popover, Button, Divider, message, Select, Badge, List, notification, Modal, Typography, Space } from 'antd';
+import { Popover, Button, Divider, message, Select, Badge, List, notification, Typography, Space } from 'antd';
 import { BellOutlined, MoonOutlined, SunOutlined, DashOutlined, MailOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png';
 import { useSelector } from 'react-redux';
@@ -20,18 +20,17 @@ const TopBar = () => {
   const navigate = useNavigate();
   const { isOpen, toggleMenu } = useMenu();
   const { t, i18n } = useTranslation();
+
   const [notifications, setNotifications] = useState([]);
   const [visible, setVisible] = useState(false);
   const [selectedNotif, setSelectedNotif] = useState(null);
   const [theme, setTheme] = useState(() => {
-  
-  const storedTheme = localStorage.getItem('theme');
+    const storedTheme = localStorage.getItem('theme');
     if (storedTheme) return storedTheme;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     return prefersDark ? 'dark' : 'light';
-  })
+  });
 
-  
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
@@ -66,17 +65,15 @@ const TopBar = () => {
         const { data } = await getNotification(userId);
         setNotifications(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
-  
+
     fetchNotifications();
-  
     const interval = setInterval(fetchNotifications, 5000);
-  
     return () => clearInterval(interval);
   }, [userId]);
-  
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -99,7 +96,6 @@ const TopBar = () => {
     </div>
   );
 
-  // Fonction pour changer la langue
   const handleLanguageChange = (value) => {
     i18n.changeLanguage(value);
   };
@@ -127,7 +123,9 @@ const TopBar = () => {
             ) : (
               <BellOutlined style={{ color: '#faad14' }} />
             )}
-            <Typography.Text style={{ fontSize: '12px', fontWeight: 500 }}>{moment(item.timestamp).format('DD-MM-YYYY HH:mm')} : {item.message}</Typography.Text>
+            <Typography.Text style={{ fontSize: '12px', fontWeight: 500 }}>
+              {moment(item.timestamp).format('DD-MM-YYYY HH:mm')} : {item.message}
+            </Typography.Text>
           </Space>
         </List.Item>
       )}
@@ -140,18 +138,18 @@ const TopBar = () => {
       }}
     />
   );
-  
+
   return (
     <>
-      {selectedNotif && !selectedNotif.closed && (
-  <div className="notification-float-detail">
-    <Notification
-      idNotif={selectedNotif.id_notifications}
-      onClose={() => setSelectedNotif(null)} 
-    />
-  </div>
-)}
-
+      {/* ✅ Modale Notification */}
+      {selectedNotif && (
+        <div style={{ position: 'relative', zIndex: 3000 }}>
+          <Notification
+            idNotif={selectedNotif.id_notifications}
+            onClose={closeModal}
+          />
+        </div>
+      )}
 
       <div className="topbar">
         <div className="topbar-left" onClick={() => navigate('/')} role="button" tabIndex={0}>
@@ -170,7 +168,7 @@ const TopBar = () => {
               <div className="topbar-icons">
                 <BellOutlined aria-label="Notifications" />
               </div>
-            </Badge> 
+            </Badge>
           </Popover>
           <hr />
           <div className="topbar-icons">
@@ -206,7 +204,7 @@ const TopBar = () => {
             <div className="line"></div>
             <div className="line"></div>
           </div>
-          <div onClick={toggleTheme} className="topbar-icons" style={{cursor:'pointer'}}>
+          <div onClick={toggleTheme} className="topbar-icons" style={{ cursor: 'pointer' }}>
             {theme === 'light' ? <MoonOutlined /> : <SunOutlined />}
           </div>
           <div className="topBar-logout">
