@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Card, Spin, notification, Divider, Tooltip, Button, Space } from "antd";
-import { getInspectionOneV } from "../../../services/batimentService";
+import { getInspectionDetailAll } from "../../../services/batimentService";
 import html2pdf from "html2pdf.js";
 import htmlDocx from "html-docx-js/dist/html-docx";
 import config from "../../../config";
 import "./instructionsDetail.scss";
-import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 
 const InstructionsDetailGlobal = ({ idInspection }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -19,17 +18,9 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
       setInspectionId(idInspection);
     }, [idInspection]);
 
-  const goToNext = () => {
-    setInspectionId((prevId) => prevId + 1);
-  };
-
-  const goToPrevious = () => {
-    setInspectionId((prevId) => (prevId > 1 ? prevId - 1 : prevId));
-  };
-
   const fetchData = async () => {
     try {
-        const { data } = await getInspectionOneV(inspectionId);
+        const { data } = await getInspectionDetailAll(inspectionId);
       
         if (data.length === 0) {
             notification.warning({
@@ -94,7 +85,6 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
     });
   };
 
-  // Fonction pour exporter en Word
   const exportToWord = () => {
     const content = `
       <!DOCTYPE html>
@@ -135,44 +125,8 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
           <Divider style={{margin:0}}/>
           <div ref={exportRef} className="instruction_rows">
             <h2 className="instruction_h2">
-              Détails des Inspections
-            </h2>
-            <Card style={{background: '#f5f5f5', margin:0, marginBottom:'20px'}}>
-              <div className="row_inspections">
-                <Tooltip title="Précédent">
-                  <Button className="row-arrow" onClick={goToPrevious}>
-                    <LeftCircleFilled className="icon-arrow" />
-                  </Button>
-                </Tooltip>
-                <div className="instruction_row">
-                  <div className="instruction_sous_row">
-                    <strong className="instruction_desc_strong">🏢 Bâtiment : </strong>
-                    <span className="instruction_desc">{batimentInfo.name}</span>
-                  </div>
-
-                  <div className="instruction_sous_row">
-                    <strong className="instruction_desc_strong">🛠️ Type d'Inspection : </strong>
-                    <span className="instruction_desc">{batimentInfo.typeInstruction}</span>
-                  </div>
-
-                  <div className="instruction_sous_row">
-                    <strong className="instruction_desc_strong">🏷️ Catégorie : </strong>
-                    <span className="instruction_desc">{batimentInfo.categorie}</span>
-                  </div>
-
-                  <div className="instruction_sous_row">
-                    <strong className="instruction_desc_strong">🗓️ Date de Création : </strong>
-                    <span className="instruction_desc">{new Date(batimentInfo.dateCreation).toLocaleString()}</span>
-                  </div>
-                </div>
-                <Tooltip title="Suivant">
-                  <Button className="row-arrow" onClick={goToNext}>
-                    <RightCircleFilled className="icon-arrow" />
-                  </Button>
-                </Tooltip>
-              </div>  
-            </Card>          
-
+              Détails global des Inspections
+            </h2>          
             <div className="inspection_bottom">
               <div className="inspection_bottom_wrapper">
                 <h2 className="inspection_title_h2">Avant</h2>

@@ -307,6 +307,10 @@ export const getInspectionOneV = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/inspectionsOneV?id=${id}`);
 };
 
+export const getInspectionDetailAll = (ids) => {
+  return axios.get(`${DOMAIN}/api/batiment/inspectionsOneAll?ids=${ids}`)
+}
+
 export const getInspectionOne = async (id) => {
   return axios.get(`${DOMAIN}/api/batiment/inspectionsOne?id_batiment=${id}`);
 };
