@@ -185,22 +185,29 @@ const SecuriteSortie = () => {
                 </div>
 
                 <Button
-                  type="primary"
-                  size="small"
-                  loading={isLoading}
-                  disabled={isLoading}
-                  onClick={() => {
-                      Modal.confirm({
-                      title: 'Confirmation de sortie',
-                      content: `Voulez-vous vraiment valider la sortie maintenant à ${moment().format('HH:mm')} ?`,
-                      okText: 'Oui, valider',
-                      cancelText: 'Annuler',
-                      onOk: () => onFinish(d),
-                      });
-                  }}
-                >
+                type="primary"
+                size="small"
+                loading={isLoading}
+                disabled={isLoading}
+                onClick={() => {
+                  Modal.confirm({
+                    title: 'Confirmation de sortie',
+                    content: (
+                      <div>
+                        <p>Voulez-vous vraiment valider la sortie maintenant à <strong>{moment().format('HH:mm')}</strong> ?</p>
+                        <p><strong>Véhicule :</strong> {d.nom_marque} - {d.immatriculation}</p>
+                        <p><strong>Chauffeur :</strong> {d.nom}</p>
+                      </div>
+                    ),
+                    okText: 'Oui, valider',
+                    cancelText: 'Annuler',
+                    onOk: () => onFinish(d),
+                  });
+                }}
+              >
                 Valider la sortie
-                </Button>
+              </Button>
+
             </Card>
             ))}
           </div>
