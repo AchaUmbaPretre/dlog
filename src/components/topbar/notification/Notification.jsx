@@ -94,6 +94,7 @@ const Notification = ({ idNotif, onClose }) => {
         footer={null}
         width={900}
         centered
+        zIndex={2000}
       >
         <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchData} idReparation={id} />
       </Modal>

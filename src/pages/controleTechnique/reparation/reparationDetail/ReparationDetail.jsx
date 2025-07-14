@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Button, Skeleton, Tooltip, Menu, Dropdown, Modal, Divider, Space, Table, notification, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined, FileTextOutlined, UserOutlined, MoreOutlined } from '@ant-design/icons';
 import { getReclamation, getReparationImage, getReparationOne, getSuiviReparation } from '../../../../services/charroiService';
