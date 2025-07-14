@@ -36,6 +36,8 @@ const Notification = ({ idNotif, onClose }) => {
           case 'inspection':
             openModal('DetailInspection', notifData.target_id)
             break;
+          case 'reparateur':
+            openModal('reparation', notifData.target_id)
           default:
             notification.warning({
               message: 'Type inconnu',
