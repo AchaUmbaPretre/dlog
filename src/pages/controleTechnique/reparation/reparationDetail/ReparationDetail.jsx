@@ -360,7 +360,6 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
               );
             }
           }
-          
     ]
 
     return (
