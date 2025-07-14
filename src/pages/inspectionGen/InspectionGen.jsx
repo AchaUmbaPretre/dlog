@@ -776,7 +776,6 @@ const InspectionGen = () => {
                     icon={<EditOutlined />}
                     style={{ color: 'green' }}
                     onClick={() => handleEdit(record.id_sub_inspection_gen)}
-                    disabled={role !== 'Admin'}
                     aria-label="Edit tache"
                   />
                 </Tooltip>
