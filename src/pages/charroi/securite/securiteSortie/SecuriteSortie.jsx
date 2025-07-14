@@ -158,14 +158,18 @@ const SecuriteSortie = () => {
                 hoverable
             >
                 <div className="securite_card_content">
-                <div className="securite_info">
-                    <Text strong>Plaque :</Text>
-                    <strong>{d.immatriculation}</strong>
-                </div>
-                <div className="securite_info">
-                    <Text strong>Chauffeur :</Text>
-                    <Text>{d.nom}</Text>
-                </div>
+                  <div className="securite_info">
+                    <Text strong>Marque :</Text>
+                    <strong>{d.nom_marque}</strong>
+                  </div>
+                  <div className="securite_info">
+                      <Text strong>Plaque :</Text>
+                      <strong>{d.immatriculation}</strong>
+                  </div>
+                  <div className="securite_info">
+                      <Text strong>Chauffeur :</Text>
+                      <Text>{d.nom}</Text>
+                  </div>
                 <div className="securite_info">
                     <Text strong>Heure prévue :</Text>
                     <Text>{moment(d.date_prevue).format('HH:mm')}</Text>
