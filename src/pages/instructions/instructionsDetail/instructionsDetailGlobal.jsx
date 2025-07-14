@@ -29,15 +29,15 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
 
   const fetchData = async () => {
     try {
-      const { data } = await getInspectionOneV(inspectionId);
+        const { data } = await getInspectionOneV(inspectionId);
       
-      if (data.length === 0) {
-        notification.warning({
-          message: "Aucune donnée trouvée",
-          description: "Il n'y a aucune instruction disponible pour cet ID d'inspection.",
-        });
-        return;
-      }
+        if (data.length === 0) {
+            notification.warning({
+            message: "Aucune donnée trouvée",
+            description: "Il n'y a aucune instruction disponible pour cet ID d'inspection.",
+            });
+            return;
+        }
 
       const generalInfo = {
         name: data[0]?.nom_batiment || "Inconnu",

@@ -32,7 +32,7 @@ const Instructions = ({idTache}) => {
   };
 
   const handledetail = () => {
-
+    openModal('detailGlobal')
   }
 
   const handleEdit = (id) => {
@@ -280,7 +280,6 @@ const Instructions = ({idTache}) => {
     setIdDetail(newSelectedRowKeys);
   };
 
-  console.log(idDetail)
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
@@ -381,13 +380,13 @@ const Instructions = ({idTache}) => {
 
       <Modal
         title=""
-        visible={modalType === 'detail'}
+        visible={modalType === 'detailGlobal'}
         onCancel={closeAllModals}
         footer={null}
         width={1045}
         centered
       >
-        <InstructionsDetailGlobal idInspection={idInspection}/>
+        <InstructionsDetailGlobal idInspection={idDetail}/>
       </Modal>
 
       <Modal
