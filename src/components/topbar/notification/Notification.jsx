@@ -3,22 +3,23 @@ import { getNotificationOne } from '../../../services/tacheService';
 import { notification, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import DetailTacheGlobalOne from '../../../pages/taches/detailTacheGlobalOne/DetailTacheGlobalOne';
+import InspectionGenDetail from '../../../pages/inspectionGen/inspectionGenDetail/InspectionGenDetail';
 
 const Notification = ({ idNotif, onClose }) => {
   const [data, setData] = useState(null);
   const [modalType, setModalType] = useState(null);
-  const [idTache, setIdTache] = useState(null);
+  const [id, setId] = useState(null);
   const navigate = useNavigate();
 
   const closeAllModals = () => {
     setModalType(null);
-    setIdTache(null);
+    setId(null);
   };
 
   const openModal = (type, id = '') => {
     closeAllModals();
     setModalType(type);
-    setIdTache(id);
+    setId(id);
   };
 
   const fetchData = async () => {
@@ -32,8 +33,8 @@ const Notification = ({ idNotif, onClose }) => {
           case 'tache':
             openModal('detail', notifData.target_id);
             break;
-          case 'inspection':
-            navigate(`/inspection/${notifData.target_id}`);
+          case 'Inspection':
+            openModal('DetailInspection', notifData.target_id)
             break;
           default:
             notification.warning({
@@ -67,7 +68,18 @@ const Notification = ({ idNotif, onClose }) => {
         centered
         zIndex={2000}
       >
-        <DetailTacheGlobalOne initialIdTache={idTache} />
+        <DetailTacheGlobalOne initialIdTache={id} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'DetailInspection'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1023}
+        centered
+      >
+        <InspectionGenDetail inspectionId={id} />
       </Modal>
     </>
   );
