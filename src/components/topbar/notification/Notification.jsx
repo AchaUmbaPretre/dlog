@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getNotificationOne } from '../../../services/tacheService';
-import { notification, Skeleton, Modal } from 'antd';
+import { notification, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import DetailTacheGlobalOne from '../../../pages/taches/detailTacheGlobalOne/DetailTacheGlobalOne';
 
 const Notification = ({ idNotif, onClose }) => {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [modalType, setModalType] = useState(null);
   const [idTache, setIdTache] = useState(null);
-  const [allIds, setAllIds] = useState([]);
   const navigate = useNavigate();
 
   const closeAllModals = () => {
@@ -25,7 +23,6 @@ const Notification = ({ idNotif, onClose }) => {
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       const response = await getNotificationOne(idNotif);
       const notifData = response.data;
       setData(notifData);
@@ -50,8 +47,6 @@ const Notification = ({ idNotif, onClose }) => {
         message: 'Erreur de chargement',
         description: 'Une erreur est survenue lors du chargement des données.',
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -70,9 +65,9 @@ const Notification = ({ idNotif, onClose }) => {
         footer={null}
         width={1070}
         centered
-        zIndex={2000} // 👈 z-index élevé
+        zIndex={2000}
       >
-        <DetailTacheGlobalOne initialIdTache={idTache} allIds={allIds} />
+        <DetailTacheGlobalOne initialIdTache={idTache} />
       </Modal>
     </>
   );
