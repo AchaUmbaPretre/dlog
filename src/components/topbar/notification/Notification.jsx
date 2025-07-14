@@ -72,7 +72,7 @@ const Notification = ({ idNotif, onClose }) => {
         centered
         zIndex={2000}
       >
-        <DetailTacheGlobalOne initialIdTache={id} />
+        <DetailTacheGlobalOne initialIdTache={id}  allIds={[]}/>
       </Modal>
 
       <Modal
