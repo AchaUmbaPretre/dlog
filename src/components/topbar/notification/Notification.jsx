@@ -37,8 +37,9 @@ const Notification = ({ idNotif, onClose }) => {
           case 'inspection':
             openModal('DetailInspection', notifData.target_id)
             break;
-          case 'reparateur':
-            openModal('reparation', notifData.target_id)
+          case 'reparation':
+            openModal('detail_reparation', notifData.target_id)
+            break;
           default:
             notification.warning({
               message: 'Type inconnu',
@@ -88,7 +89,7 @@ const Notification = ({ idNotif, onClose }) => {
 
       <Modal
         title=""
-        visible={modalType === 'Detail'}
+        visible={modalType === 'detail_reparation'}
         onCancel={closeAllModals}
         footer={null}
         width={900}
