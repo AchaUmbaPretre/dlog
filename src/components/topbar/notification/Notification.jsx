@@ -33,7 +33,7 @@ const Notification = ({ idNotif, onClose }) => {
           case 'tache':
             openModal('detail', notifData.target_id);
             break;
-          case 'Inspection':
+          case 'inspection':
             openModal('DetailInspection', notifData.target_id)
             break;
           default:
@@ -77,6 +77,7 @@ const Notification = ({ idNotif, onClose }) => {
         onCancel={closeAllModals}
         footer={null}
         width={1023}
+        zIndex={2000}
         centered
       >
         <InspectionGenDetail inspectionId={id} />
