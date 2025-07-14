@@ -162,7 +162,21 @@ const SecuriteRetour = () => {
                       size="small"
                       htmlType="button"
                       loading={isloading}
-                      onClick={() => onFinish(d)}
+                      onClick={() => {
+                        Modal.confirm({
+                          title: 'Confirmation de retour',
+                          content: (
+                            <div>
+                              <p>Voulez-vous vraiment valider le retour maintenant à <strong>{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong> ?</p>
+                              <p><strong>Véhicule :</strong> {d.nom_marque} - {d.immatriculation}</p>
+                              <p><strong>Chauffeur :</strong> {d.nom}</p>
+                            </div>
+                          ),
+                          okText: 'Oui, valider',
+                          cancelText: 'Annuler',
+                          onOk: () => onFinish(d),
+                        });
+                      }}
                     >
                       Valider le retour
                     </Button>
