@@ -19,7 +19,7 @@ const SortieEntree = () => {
     const [columnsVisibility, setColumnsVisibility] = useState({
       "#" : true,
       "Chauffeur" : true,
-      "Véhicule" : true,
+      "Véhicule" : false,
       "Matricule" : true,
       "Marque" : true,
       "Type" : true,
@@ -296,7 +296,6 @@ const SortieEntree = () => {
     item.type?.toLowerCase().includes(searchValue.toLocaleLowerCase())
   );
   
-
   return (
     <>
         <div className="client">
