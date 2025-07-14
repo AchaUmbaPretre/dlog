@@ -131,7 +131,7 @@ const SecuriteRetour = () => {
           </div>
       <div className="securiteRetour_wrapper">
         <Title level={4} className="securite_title">
-          🔁 Retours des véhicules
+          🔁 RETOUR DU VEHICULE
         </Title>
 
           <>
@@ -156,10 +156,6 @@ const SecuriteRetour = () => {
                         <strong>{d?.immatriculation}</strong>
                       </div>
                       <div className="securite_info">
-                        <Text strong>Type du vehicule : </Text>
-                        <strong>{d?.nom_type_vehicule}</strong>
-                      </div>
-                      <div className="securite_info">
                         <Text strong>Chauffeur : </Text>
                         <Text>{d?.nom}</Text>
                       </div>
@@ -177,6 +173,7 @@ const SecuriteRetour = () => {
                             <div>
                               <p>Voulez-vous vraiment valider le retour maintenant à <strong>{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong> ?</p>
                               <p><strong>Véhicule :</strong> {d.nom_marque} - {d.immatriculation}</p>
+                              <p><strong>Type du véhicule :</strong> {d.nom_type_vehicule}</p>
                               <p><strong>Chauffeur :</strong> {d.nom}</p>
                             </div>
                           ),

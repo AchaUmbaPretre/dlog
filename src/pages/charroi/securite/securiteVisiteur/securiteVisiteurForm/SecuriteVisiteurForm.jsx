@@ -112,7 +112,7 @@ const handleSelectPlaque = (value, option) => {
   return (
     <div className="controle_form">
       <div className="controle_title_rows">
-        <h2 className="controle_h2">Enregistrer un visiteur</h2>
+        <h2 className="controle_h2"> FORM DU VISITEUR</h2>
       </div>
       <div className="controle_wrapper">
         <Form layout="vertical" onFinish={onFinish} form={form}>

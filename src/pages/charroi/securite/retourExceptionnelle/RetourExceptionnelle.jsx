@@ -81,7 +81,7 @@ const  RetourExceptionnelle = ({closeModal}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <div className="controle_h2">Formulaire de retour sans bon ni enregistrement de sortie</div>
+                <div className="controle_h2">FORM DE RETOUR SANS BON</div>
             </div>
             <div className="controle_wrapper">
                 <Form

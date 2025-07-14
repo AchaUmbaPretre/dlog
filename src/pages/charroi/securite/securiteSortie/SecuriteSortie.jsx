@@ -141,7 +141,7 @@ const SecuriteSortie = () => {
         </Tooltip>
       </div>
       <div className="securiteSortie_wrapper">
-        <Title level={4} className="securite_title">🚗 Sortie des véhicules</Title>
+        <Title level={4} className="securite_title">🚗 SORTIE DU VEHICULE</Title>
         {loading ? (
           <div className="securite_loader">
             <Spin tip="Chargement des véhicules..." size="large" />

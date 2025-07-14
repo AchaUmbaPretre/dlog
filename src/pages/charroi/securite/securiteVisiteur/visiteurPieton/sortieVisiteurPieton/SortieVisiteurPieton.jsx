@@ -55,7 +55,7 @@ const SortieVisiteurPieton = () => {
   return (
     <div className='securiteRetour'>
       <div className="securiteRetour_wrapper">
-        <Title level={5} className="securite_title">🔁 Sortie des visiteurs piétons</Title>
+        <Title level={5} className="securite_title">🔁 SORTIE DU VISITEUR PIETON</Title>
 
         {loading ? (
           <div className="securite_loader">

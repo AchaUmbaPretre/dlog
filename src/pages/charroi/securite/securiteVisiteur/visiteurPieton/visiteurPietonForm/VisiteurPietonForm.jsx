@@ -59,7 +59,7 @@ const VisiteurPietonForm = ({closeModal}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className='controle_h2'>Enregistrer un visiteur piéton</h2>                
+                <h2 className='controle_h2'>FORM DU VISITEUR PIÉTON</h2>                
             </div>
             <div className="controle_wrapper">
                 <Form 

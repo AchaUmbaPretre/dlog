@@ -77,7 +77,7 @@ const groupedData = groupByBandeSortie(data);
   return (
     <div className='securiteSortie'>
       <div className="securiteSortie_wrapper">
-        <Title level={4} className="securite_title">🚗 Sortie des personnels</Title>
+        <Title level={4} className="securite_title">🚗 SORTIE DU PERSONNEL</Title>
 
         {loading ? (
           <div className="securite_loader">

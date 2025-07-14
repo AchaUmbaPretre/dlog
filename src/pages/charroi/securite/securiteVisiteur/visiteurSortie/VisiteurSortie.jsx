@@ -96,7 +96,7 @@ const VisiteurSortie = () => {
         </Tooltip>
       </div>
       <div className="securiteRetour_wrapper">
-        <Title level={5} className="securite_title">🔁 Sortie des visiteurs</Title>
+        <Title level={5} className="securite_title">🔁 SORTIE DU VISITEUR</Title>
 
         {loading ? (
           <div className="securite_loader">

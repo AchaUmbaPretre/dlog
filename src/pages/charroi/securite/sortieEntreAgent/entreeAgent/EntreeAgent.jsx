@@ -53,7 +53,7 @@ const EntreeAgent = () => {
   return (
     <div className='securiteRetour'>
       <div className="securiteRetour_wrapper">
-        <Title level={4} className="securite_title">🔁 Retours des personnels</Title>
+        <Title level={4} className="securite_title">🔁 RETOUR DU PERSONNEL</Title>
 
         {loading ? (
           <div className="securite_loader">
