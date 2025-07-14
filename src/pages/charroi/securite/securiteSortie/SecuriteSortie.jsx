@@ -159,8 +159,8 @@ const SecuriteSortie = () => {
             >
                 <div className="securite_card_content">
                 <div className="securite_info">
-                    <Text strong>Véhicule :</Text>
-                    <Text>{d.immatriculation}</Text>
+                    <Text strong>Plaque :</Text>
+                    <strong>{d.immatriculation}</strong>
                 </div>
                 <div className="securite_info">
                     <Text strong>Chauffeur :</Text>
