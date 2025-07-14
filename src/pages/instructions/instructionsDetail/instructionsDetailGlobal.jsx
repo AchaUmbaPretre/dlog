@@ -13,101 +13,110 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
   const [batimentInfo, setBatimentInfo] = useState({});
   const [inspectionId, setInspectionId] = useState(idInspection);
   const exportRef = useRef();
+  const [total, setTotal] = useState(null);
 
   // Pagination states
   const [currentPageAvant, setCurrentPageAvant] = useState(1);
   const [currentPageApres, setCurrentPageApres] = useState(1);
-  const pageSize = 10;
+  const pageSize = 6;
 
   useEffect(() => {
     setInspectionId(idInspection);
   }, [idInspection]);
 
-  const fetchData = async () => {
-    try {
-      const { data } = await getInspectionDetailAll(inspectionId, pageSize);
+  const fetchData = async (page, typePhoto) => {
+  try {
+    setLoading(true);
 
-      if (data.data.length === 0) {
-        notification.warning({
-          message: "Aucune donnée trouvée",
-          description: "Il n'y a aucune instruction disponible pour cet ID d'inspection.",
-        });
-        return;
-      }
+    const { data } = await getInspectionDetailAll(inspectionId, pageSize, page);
 
-      const avant = data.data.filter((instruction) => instruction.nom_type_photo === "Avant");
-      const apres = data.data.filter((instruction) => instruction.nom_type_photo === "Après");
-
-      setGroupedData({ avant, apres });
-    } catch (error) {
-      notification.error({
-        message: "Erreur de chargement",
-        description: `Une erreur est survenue lors du chargement des données : ${error.message}`,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (inspectionId) {
-      fetchData();
-    }
-  }, [inspectionId]);
-
-  // Export PDF
-  const exportToPDF = () => {
-    const element = exportRef.current;
-
-    const images = element.querySelectorAll("img");
-    const loadPromises = Array.from(images).map(
-      (img) =>
-        new Promise((resolve) => {
-          if (img.complete) resolve();
-          else img.onload = resolve;
-        })
+    const filteredData = data.data.filter(
+      (instruction) => instruction.nom_type_photo === typePhoto
     );
 
-    Promise.all(loadPromises).then(() => {
-      const options = {
-        margin: 1,
-        filename: `Instructions_${idInspection}.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: "cm", format: "a4", orientation: "portrait" },
-      };
-      html2pdf().set(options).from(element).save();
+    if (filteredData.length === 0) {
+      notification.warning({
+        message: "Aucune donnée trouvée",
+        description: `Aucune instruction "${typePhoto}" disponible.`,
+      });
+    }
+
+    setGroupedData(prev => ({
+      ...prev,
+      [typePhoto.toLowerCase()]: filteredData
+    }));
+
+    setTotal(data.total);
+  } catch (error) {
+    notification.error({
+      message: "Erreur de chargement",
+      description: `Erreur : ${error.message}`,
     });
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
-  // Export Word
-  const exportToWord = () => {
-    const content = `
-      <!DOCTYPE html>
-      <html lang="fr">
-      <head>
-        <meta charset="UTF-8">
-        <title>Instructions</title>
-      </head>
-      <body>
-        ${exportRef.current.innerHTML}
-      </body>
-      </html>
-    `;
 
-    const blob = htmlDocx.asBlob(content);
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `Instructions_${batimentInfo.name}.docx`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  useEffect(() => {
+  if (inspectionId) {
+    fetchData(currentPageAvant, 'Avant');
+    fetchData(currentPageApres, 'Après');
+  }
+}, [inspectionId, currentPageAvant, currentPageApres]);
 
-  // Paginated data
-  const paginatedAvant = groupedData.avant.slice((currentPageAvant - 1) * pageSize, currentPageAvant * pageSize);
-  const paginatedApres = groupedData.apres.slice((currentPageApres - 1) * pageSize, currentPageApres * pageSize);
 
+    // Export PDF
+    const exportToPDF = () => {
+        const element = exportRef.current;
+
+        const images = element.querySelectorAll("img");
+        const loadPromises = Array.from(images).map(
+        (img) =>
+            new Promise((resolve) => {
+            if (img.complete) resolve();
+            else img.onload = resolve;
+            })
+        );
+
+        Promise.all(loadPromises).then(() => {
+        const options = {
+            margin: 1,
+            filename: `Instructions_${idInspection}.pdf`,
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: "cm", format: "a4", orientation: "portrait" },
+        };
+        html2pdf().set(options).from(element).save();
+        });
+    };
+
+    // Export Word
+    const exportToWord = () => {
+        const content = `
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <title>Instructions</title>
+        </head>
+        <body>
+            ${exportRef.current.innerHTML}
+        </body>
+        </html>
+        `;
+
+        const blob = htmlDocx.asBlob(content);
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `Instructions_${batimentInfo.name}.docx`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const paginatedAvant = groupedData.avant;
+    const paginatedApres = groupedData.apres;
   return (
     <div className="instruction">
       {loading ? (
@@ -161,7 +170,7 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
                     <Pagination
                       current={currentPageAvant}
                       pageSize={pageSize}
-                      total={groupedData.avant.length}
+                      total={total}
                       onChange={(page) => setCurrentPageAvant(page)}
                       style={{ textAlign: 'center', marginTop: 16 }}
                     />
@@ -204,7 +213,7 @@ const InstructionsDetailGlobal = ({ idInspection }) => {
                     <Pagination
                       current={currentPageApres}
                       pageSize={pageSize}
-                      total={groupedData.apres.length}
+                      total={total}
                       onChange={(page) => setCurrentPageApres(page)}
                       style={{ textAlign: 'center', marginTop: 16 }}
                     />

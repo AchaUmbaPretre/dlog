@@ -158,7 +158,7 @@ const Instructions = ({idTache}) => {
       key: 'nom_batiment',
       render: text => (
         <Space>
-          <Tag icon={<HomeOutlined />} color='green'>{text ?? 'Aucun'}</Tag>
+          <Tag icon={<HomeOutlined />} color='blue'>{text ?? 'Aucun'}</Tag>
         </Space>
       ),
     },
