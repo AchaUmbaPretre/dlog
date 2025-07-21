@@ -95,7 +95,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                         user_cr: userId
                     });
 
-                     const newId = response.data?.id_bande_sortie;
+                    const newId = response.data?.id_bande_sortie;
                     setBonId(newId);
                     
                     message.success({ content: "Le bon de sortie a été enregistré avec succès.", key: loadingKey });
