@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Input, Checkbox, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
+import { Form, Row, Modal, Input, Checkbox, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getAffectationDemandeOne, getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, postBandeSortie } from '../../../../../services/charroiService';
 import { getClient } from '../../../../../services/clientService';
 import { useSelector } from 'react-redux';
 import { getSociete } from '../../../../../services/userService';
+import ReleveBonDeSortie from '../releveBonDeSortie/ReleveBonDeSortie';
 
 const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [form] = Form.useForm();
@@ -20,7 +21,14 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [ client, setClient ] = useState([]);
     const [ destination, setDestination ] = useState([]);
     const [ societe, setSociete ] = useState([]);
+    const [ modalType, setModalType ] = useState(null);
     const [createBS, setCreateBS] = useState(true);
+    const [ bonId, setBonId ] = useState('')
+
+    const closeAllModals = () => {
+        setModalType(null);
+    };
+
     
         const fetchDatas = async() => {
             try {
@@ -81,15 +89,23 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
             setLoading(true);
         
                 try {
-                    await postBandeSortie({
+                    const response = await postBandeSortie({
                         ...values,
                         id_affectation_demande : affectationId,
                         user_cr: userId
-                    })
+                    });
+
+                     const newId = response.data?.id_bande_sortie;
+                    setBonId(newId);
                     
                     message.success({ content: "Le bon de sortie a été enregistré avec succès.", key: loadingKey });
                     fetchData();
-                    closeModal();
+                    
+                    if (createBS) {
+                    setModalType('releve');
+                    } else {
+                        closeModal();
+                    }
         
                 } catch (error) {
                     console.error("Erreur lors de l'ajout de bon de sortie :", error);
@@ -320,6 +336,17 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                 </Form>
             </div>
         </div>
+
+        <Modal
+            title=""
+            visible={modalType === 'releve'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={800}
+            centered
+        >
+            <ReleveBonDeSortie closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
+        </Modal>
     </>
   )
 }
