@@ -573,9 +573,8 @@ export const getVisiteurVehiculeSearch = async (search) => {
     return axios.get(`${DOMAIN}/api/charroi/visiteur_vehicule_search?search=${search}`);
 }
 
-
 export const postVisiteurVehicule = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/visiteur_vehicule`, data );
+    return axios.post(`${DOMAIN}/api/charroi/visiteur_vehicule`, data )
 }
 
 //Sortie visiteur

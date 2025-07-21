@@ -261,7 +261,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                 <Form.Item
                                     label="Client"
                                     name="id_client"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un client' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select

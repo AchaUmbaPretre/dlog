@@ -197,7 +197,7 @@ const  RetourExceptionnelle = ({closeModal}) => {
                             
                             <Col xs={24} md={8}>
                                 <Form.Item
-                                    label="Destination"
+                                    label="Provenance"
                                     name="id_destination"
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 

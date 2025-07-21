@@ -88,7 +88,6 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                 })
             } else {
                 await postVehicule(values)
-                console.log(values)
             }
 
             message.success({ content: 'Véhicule ajouté avec succès!', key: 'submit' });
@@ -107,13 +106,13 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
 
     const handleUploadChange = ({ fileList }) => {
         setFileList(fileList);
-        if (fileList.length > 0) {
-          setPreviewImage(URL.createObjectURL(fileList[0].originFileObj));
-          setCropping(true);
-        }
-      };
+            if (fileList.length > 0) {
+            setPreviewImage(URL.createObjectURL(fileList[0].originFileObj));
+            setCropping(true);
+            }
+        };
     
-      const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    const onCropComplete = (croppedArea, croppedAreaPixels) => {
         setCroppedAreaPixels(croppedAreaPixels);
       };
     
