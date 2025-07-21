@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getBandeSortieOne, posValidationDemande } from '../../../../../services/charroiService';
-import { notification, Button, message, Spin, Card } from 'antd';
+import { notification, Button, message, Modal, Spin, Card } from 'antd';
 import moment from 'moment';
 import './validationDemandeForm.scss';
 import { useSelector } from 'react-redux';
@@ -61,13 +61,49 @@ const onFinish = async () => {
   } catch (error) {
     console.error('Erreur lors de la validation du bon de sortie:', error);
 
-    const errorMsg = error?.response?.data?.message || 'Une erreur inattendue est survenue.';
+    const errorMsg = error?.response?.data?.error || 'Une erreur inattendue est survenue.';
 
-    message.error({
-      content: errorMsg,
-      key: notificationKey,
-      duration: 4,
-    });
+    if (errorMsg.includes('déjà validé')) {
+      Modal.confirm({
+        title: 'Bon de Sortie déjà validé',
+        content: (
+          <>
+            <p>{errorMsg}</p>
+            <p style={{ marginTop: 8 }}>
+              ❓ <strong>Souhaitez-vous invalider et remplacer ce bon de sortie ?</strong>
+            </p>
+          </>
+        ),
+        okText: '✅ Oui, remplacer',
+        cancelText: '❌ Non, annuler',
+        centered: true,
+        onOk: async () => {
+          try {
+           const v = {
+                id_bande_sortie : id_bon,
+                validateur_id : userId,
+                remplacer: true
+            }
+            await posValidationDemande(v);
+            notification.success({
+              message: 'Remplacement effectué',
+              description: 'Le bon de sortie a été remplacé avec succès.',
+            });
+          } catch (replaceError) {
+            notification.error({
+              message: 'Erreur lors du remplacement',
+              description:
+                replaceError?.response?.data?.error ||
+                'Une erreur est survenue lors du remplacement du bon de sortie.',
+            });
+          }
+        },
+    })} else {
+      notification.error({
+        message: 'Erreur',
+        description: errorMsg,
+      });
+    }
 
   } finally {
     setLoadingData(false);
