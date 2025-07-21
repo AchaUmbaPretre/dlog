@@ -196,6 +196,7 @@ const SecuriteSortie = () => {
                       <div>
                         <p>Voulez-vous vraiment valider la sortie maintenant à <strong>{moment().format('HH:mm')}</strong> ?</p>
                         <p><strong>Véhicule :</strong> {d.nom_marque} - {d.immatriculation}</p>
+                        <p><strong>Type véhicule :</strong> {d.type_vehicule}</p>
                         <p><strong>Chauffeur :</strong> {d.nom}</p>
                       </div>
                     ),

@@ -317,6 +317,7 @@ const Instructions = ({idTache}) => {
               </Button>
               <Button
                 onClick={handledetail}
+                disabled={idDetail.length < 1}
               >
                 👁️ détails
               </Button>
