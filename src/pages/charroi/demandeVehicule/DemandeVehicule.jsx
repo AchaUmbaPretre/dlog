@@ -341,8 +341,8 @@ const DemandeVehicule = () => {
                 <Text strong>Statut</Text>
             </Space>
             ),
-            dataIndex: 'nom_type_statut',
-            key: 'nom_type_statut',
+            dataIndex: 'nom_statut_bs',
+            key: 'nom_statut_bs',
             align: 'center',
             render: text => {
                 const { icon, color } = statusIcons[text] || {};
