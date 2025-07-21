@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, FileTextOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -126,6 +126,11 @@ const BandeSortie = () => {
         [columnName]: !prev[columnName]
       }));
     };
+
+
+    const handlAnnuler = () => {
+
+    }
 
     const columns = [
         {
@@ -323,6 +328,15 @@ const BandeSortie = () => {
                       icon={<CheckCircleOutlined />}
                       style={{ color: 'green' }}
                       onClick={() => handlSortie(record.id_bande_sortie)}
+                      aria-label="Valider"
+                  />
+              </Tooltip>
+
+              <Tooltip title="Annuler le BS">
+                  <Button
+                      icon={<CloseOutlined />}
+                      style={{ color: 'red' }}
+                      onClick={() => handlAnnuler(record.id_bande_sortie)}
                       aria-label="Valider"
                   />
               </Tooltip>
