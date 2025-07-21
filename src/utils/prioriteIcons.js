@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, ArrowRightOutlined, FileSearchOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -167,6 +167,38 @@ export const statusIcons = {
     icon: <ExportOutlined />,
     color: 'volcano',
   },
+    'En attente d\'affectation': {
+    icon: <ClockCircleOutlined />,
+    color: 'orange',
+  },
+  'Véhicule affecté': {
+    icon: <CarOutlined />,
+    color: 'blue',
+  },
+  'En attente de validation du BS': {
+    icon: <FileSearchOutlined />,
+    color: 'purple',
+  },
+  'BS validé': {
+    icon: <CheckSquareOutlined />,
+    color: 'green',
+  },
+  'Départ': {
+    icon: <ArrowRightOutlined />,
+    color: 'geekblue',
+  },
+  'Départ sans BS': {
+    icon: <WarningOutlined />,
+    color: 'volcano',
+  },
+  'Retour': {
+    icon: <UndoOutlined />,
+    color: 'green',
+  },
+  'Retour sans BS': {
+    icon: <WarningOutlined />,
+    color: 'red',
+  }
 };
 
 export const getTagProps = (type) => {

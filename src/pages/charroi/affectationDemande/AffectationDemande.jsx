@@ -270,8 +270,8 @@ const AffectationDemande = () => {
             <Text strong>Statut</Text>
         </Space>
         ),
-        dataIndex: 'nom_type_statut',
-        key: 'nom_type_statut',
+        dataIndex: 'nom_statut_bs',
+        key: 'nom_statut_bs',
         render: text => {
             const { icon, color } = statusIcons[text] || {};
             return (
@@ -311,7 +311,7 @@ const AffectationDemande = () => {
         >
             <Button
               type="text"
-              disabled={ record.statut === 2 }
+              disabled={ record.statut === 4 }
               icon={<FormOutlined />}
               style={{ color: '#1890ff' }}
               onClick={() => handlSortie(record.id_affectation_demande)}

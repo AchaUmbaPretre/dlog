@@ -289,8 +289,8 @@ const BandeSortie = () => {
               <Text strong>Statut</Text>
           </Space>
           ),
-          dataIndex: 'nom_type_statut',
-          key: 'nom_type_statut',
+          dataIndex: 'nom_statut_bs',
+          key: 'nom_statut_bs',
           render: text => {
               const { icon, color } = statusIcons[text] || {};
               return (
