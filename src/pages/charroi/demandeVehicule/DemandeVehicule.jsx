@@ -37,7 +37,7 @@ const DemandeVehicule = () => {
       pageSize: 15,
     });
   const [columnsVisibility, setColumnsVisibility] = useState({
-    "Client" : true,
+    "Client" : false,
     "Date prévue" : true,
     "Date retour" : false,
     "T. véhicule" : true,
