@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
+import { Form, Row, Input, Checkbox, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getAffectationDemandeOne, getChauffeur, getDestination, getMotif, getServiceDemandeur, getTypeVehicule, getVehicule, postBandeSortie } from '../../../../../services/charroiService';
@@ -20,7 +20,8 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [ client, setClient ] = useState([]);
     const [ destination, setDestination ] = useState([]);
     const [ societe, setSociete ] = useState([]);
-
+    const [createBS, setCreateBS] = useState(true);
+    
         const fetchDatas = async() => {
             try {
                 setLoadingData(true)
@@ -298,6 +299,15 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                     />
                                     }
                                 </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={24}>
+                                <Checkbox
+                                    checked={createBS}
+                                    onChange={e => setCreateBS(e.target.checked)}
+                                >
+                                    Afficher le BS aprés la validation
+                                </Checkbox>
                             </Col>
 
                             <div style={{ marginTop: '20px' }}>
