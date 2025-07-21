@@ -263,7 +263,7 @@ const DemandeVehiculeForm = ({closeModal, fetchData, demandeId}) => {
                                 <Form.Item
                                     label="Client"
                                     name="id_client"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner un client' }]}
+                                    rules={[{ required: false, message: 'Veuillez sélectionner un client' }]}
                                 >
                                     { loadingData ? <Skeleton.Input active={true} /> : 
                                     <Select
