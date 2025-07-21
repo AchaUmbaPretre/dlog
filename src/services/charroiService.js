@@ -594,3 +594,8 @@ export const getSortieEntree = async () => {
 export const getSortieEntreeOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/sortie_entreeOn?id_sortie_retour=${id}`);
 }
+
+//Status BS
+export const getStatusBs = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/status_bs`);
+}
