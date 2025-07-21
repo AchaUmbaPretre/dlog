@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Form, Row, Modal, Tooltip, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
+import { Form, Row, Checkbox, Modal, Tooltip, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
 import { getChauffeur, getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
@@ -104,6 +104,10 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             setLoading(false);
         }
     }
+
+    const onChange = e => {
+    console.log(`checked = ${e.target.checked}`);
+    };
 
   return (
     <>
@@ -332,6 +336,10 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                 >
                                     <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'70px'}}/>
                                 </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={24}>
+                                <Checkbox onChange={onChange}>Créer bon de BS</Checkbox>
                             </Col>
                             <div style={{ marginTop: '20px' }}>
                                 <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
