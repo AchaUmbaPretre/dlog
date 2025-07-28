@@ -477,6 +477,10 @@ export const getBandeSortie = async () => {
     return axios.get(`${DOMAIN}/api/charroi/bande_sortie`);
 }
 
+export const getBandeSortieUnique = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/bande_sortie_unique`);
+}
+
 export const getBandeSortieOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/bande_sortieOne?id_bande_sortie=${id}`);
 }
