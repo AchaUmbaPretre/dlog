@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import { CarOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CarOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -147,9 +147,17 @@ const BandeSortie = () => {
           width: "3%"
       },
       {
-        title : "Service",
+        title: (
+          <Space>
+            <AppstoreOutlined style={{ color: '#1890ff' }} />
+            <Text strong>Service</Text>
+          </Space>
+        ),
         dataIndex: 'nom_motif_demande',
         key:'nom_motif_demande',
+        ellipsis: {
+          showTitle: false,
+        },
           render : (text) => (
             <Tooltip placement="topLeft" title={text}>
               <Text type="secondary">{text}</Text>
@@ -204,7 +212,9 @@ const BandeSortie = () => {
         },
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>
-            <Text type="secondary">{text}</Text>
+            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+              <Text  type="secondary">{text}</Text>
+            </div>
           </Tooltip>
         ),
         ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' }),
