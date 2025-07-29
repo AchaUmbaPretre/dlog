@@ -28,7 +28,7 @@ const AffectationDemande = () => {
       "Destination" : true,
       "Chauffeur" : true,
       "Véhicule" : true,
-      "Marque" : true,
+      "Marque" : false,
       "Preuve" : false,
       "Retour" : true,
       "Statut" : true,
