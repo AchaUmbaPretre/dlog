@@ -353,8 +353,11 @@ const AffectationDemande = () => {
     },
     {
       title: (<Text strong>Actions</Text>),
-        key: 'action',
-        align: 'center',
+      key: 'action',
+      align: 'center',
+      ellipsis: {
+        showTitle: false,
+      },
         render: (text, record) => (
         <Space size="small">
         <Tooltip title={record.statut === 2 
