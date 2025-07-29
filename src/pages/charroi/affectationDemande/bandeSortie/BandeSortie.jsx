@@ -32,9 +32,8 @@ const BandeSortie = () => {
       "Statut" : true,
       "Client" : false,
       "Demandeur" : false,
-      "Agent" : false,
-      "Securité" : true
-    })
+      "Agent" : false
+      })
 
     const columnStyles = {
       title: {
@@ -192,7 +191,6 @@ const BandeSortie = () => {
           </Tooltip>
         ),
         ...(columnsVisibility['Agent'] ? {} : { className: 'hidden-column' }),
-
       },
       {
         title: (
