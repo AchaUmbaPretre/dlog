@@ -25,6 +25,7 @@ const BandeSortie = () => {
       "#" : true,
       "Service" : true,
       "Chauffeur" : true,
+      "Destination" : true,
       "Véhicule" : true,
       "Marque" : true,
       "Preuve" : true,
@@ -171,6 +172,22 @@ const BandeSortie = () => {
           </Tooltip>
         ),
         ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
+
+      },
+      {
+        title: (
+          <Space>
+            <Text strong>Destination</Text>
+          </Space>
+        ),
+        dataIndex: 'nom_destination',
+        key: 'nom_destination',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text type="secondary">{text}</Text>
+          </Tooltip>
+        ),
+        ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' }),
 
       },
       {
