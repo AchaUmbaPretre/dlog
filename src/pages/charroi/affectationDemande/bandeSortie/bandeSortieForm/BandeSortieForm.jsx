@@ -104,6 +104,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                     
                     if (createBS) {
                     setModalType('releve');
+                    closeModal();
                     } else {
                         closeModal();
                     }
