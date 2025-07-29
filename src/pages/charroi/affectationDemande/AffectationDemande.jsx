@@ -138,11 +138,11 @@ const AffectationDemande = () => {
       width: "3%"
     },
     {
-        title: (
-          <Space>
-            <AppstoreOutlined style={{ color: '#1890ff' }} />
-            <Text strong>Service</Text>
-          </Space>
+      title: (
+      <Space>
+        <AppstoreOutlined style={{ color: '#1890ff' }} />
+        <Text strong>Service</Text>
+      </Space>
         ),
         dataIndex: 'nom_motif_demande',
         key:'nom_motif_demande',
@@ -160,6 +160,9 @@ const AffectationDemande = () => {
         title : "Demandeur",
         dataIndex: 'nom_service',
         key:'nom_service',
+        ellipsis: {
+          showTitle: false,
+        },
         render : (text) => (
           <Tooltip placement="topLeft" title={text}>
             <Text type="secondary">{text}</Text>
@@ -187,6 +190,9 @@ const AffectationDemande = () => {
       ),
       dataIndex: 'nom',
       key: 'nom',
+      ellipsis: {
+          showTitle: false,
+        },
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
           <Text type="secondary">{text}</Text>
@@ -194,13 +200,13 @@ const AffectationDemande = () => {
       ),
       ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
     },
-          {
-            title: (
-              <Space>
-                <EnvironmentOutlined style={{ color: 'red' }} />
-                <Text strong>Destination</Text>
-              </Space>
-            ),
+    {
+      title: (
+        <Space>
+          <EnvironmentOutlined style={{ color: 'red' }} />
+          <Text strong>Destination</Text>
+        </Space>
+      ),
             dataIndex: 'nom_destination',
             key: 'nom_destination',
             ellipsis: {
