@@ -248,6 +248,9 @@ const BandeSortie = () => {
         ),
         dataIndex:'nom_cat',
         key: 'nom_cat',
+        ellipsis: {
+          showTitle: false,
+        },
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>
             <div style={columnStyles.title} className={columnStyles.hideScroll}>
@@ -284,8 +287,11 @@ const BandeSortie = () => {
           </Space>
         ),
         dataIndex: 'date_prevue',
-        key: '',
+        key: 'date_prevue',
         align: 'center',
+        ellipsis: {
+          showTitle: false,
+        },
         render: (text) => {
           if (!text) {
             return (
