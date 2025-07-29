@@ -17,7 +17,7 @@ const AffectationDemande = () => {
     const [searchValue, setSearchValue] = useState('');
     const [pagination, setPagination] = useState({
           current: 1,
-          pageSize: 15,
+          pageSize: 20,
     });
     const [modalType, setModalType] = useState(null);
     const [affectationId, setAffectationId] = useState('');
@@ -375,10 +375,13 @@ const AffectationDemande = () => {
     },
    ]
 
-    const filteredData = data.filter(item =>
+  const filteredData = data.filter(item =>
      item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
+     item.nom_destination?.toLowerCase().includes(searchValue.toLowerCase()) ||
+     item.nom_service?.toLowerCase().includes(searchValue.toLowerCase()) ||
      item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
     );
+
   return (
     <>
         <div className="client">
@@ -421,6 +424,7 @@ const AffectationDemande = () => {
                 columns={columns}
                 dataSource={filteredData}
                 loading={loading}
+                pagination={pagination}
                 onChange={(pagination) => setPagination(pagination)}
                 rowKey="id"
                 bordered

@@ -484,6 +484,7 @@ const BandeSortie = () => {
                 columns={columns}
                 dataSource={filteredData}
                 loading={loading}
+                pagination={pagination}
                 onChange={(pagination) => setPagination(pagination)}
                 rowKey="id"
                 bordered
