@@ -101,12 +101,11 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                     message.success({ content: "Le bon de sortie a été enregistré avec succès.", key: loadingKey });
                     form.resetFields();
                     fetchData();
+                    closeModal();
                     
                     if (createBS) {
                     setModalType('releve');
                     closeModal();
-                    } else {
-                        closeModal();
                     }
         
                 } catch (error) {

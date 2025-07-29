@@ -102,12 +102,11 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             message.success({ content: "La course a été mise a jour avec succès.", key: loadingKey });
             form.resetFields();
             fetchData();
+            closeModal();
 
             if (createBS) {
             setModalType('Bande');
             closeModal();
-            } else {
-                closeModal();
             }
 
         } catch (error) {
