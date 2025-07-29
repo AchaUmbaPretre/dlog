@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Modal, Menu, message, Dropdown, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, EnvironmentOutlined, DownOutlined, ExportOutlined, MenuOutlined, TrademarkOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, AppstoreOutlined, EnvironmentOutlined, DownOutlined, ExportOutlined, MenuOutlined, TrademarkOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
 import AffectationDemandeForm from './affectationDemandeForm/AffectationDemandeForm';
@@ -138,15 +138,23 @@ const AffectationDemande = () => {
       width: "3%"
     },
     {
-      title : "Service",
-      dataIndex: 'nom_motif_demande',
-      key:'nom_motif_demande',
-        render : (text) => (
-          <Tooltip placement="topLeft" title={text}>
-            <Text type="secondary">{text}</Text>
-          </Tooltip>
+        title: (
+          <Space>
+            <AppstoreOutlined style={{ color: '#1890ff' }} />
+            <Text strong>Service</Text>
+          </Space>
         ),
-      ...(columnsVisibility['Service'] ? {} : { className: 'hidden-column' }),
+        dataIndex: 'nom_motif_demande',
+        key:'nom_motif_demande',
+        ellipsis: {
+          showTitle: false,
+        },
+          render : (text) => (
+            <Tooltip placement="topLeft" title={text}>
+              <Text type="secondary">{text}</Text>
+            </Tooltip>
+          ),
+        ...(columnsVisibility['Service'] ? {} : { className: 'hidden-column' }),
     },
     {
         title : "Demandeur",
@@ -200,12 +208,13 @@ const AffectationDemande = () => {
             },
             render: (text) => (
               <Tooltip placement="topLeft" title={text}>
-                <Text type="secondary">{text}</Text>
+                <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                  <Text  type="secondary">{text}</Text>
+                </div>
               </Tooltip>
             ),
             ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' }),
-    
-          },
+    },
     {
       title: (
         <Space>

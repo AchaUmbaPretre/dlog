@@ -242,7 +242,7 @@ const BandeSortie = () => {
       {
         title: (
           <Space>
-            <CarOutlined style={{ color: 'geekblue' }} />
+            <CarOutlined style={{ color: 'green' }} />
             <Text strong>Véhicule</Text>
           </Space>
         ),
