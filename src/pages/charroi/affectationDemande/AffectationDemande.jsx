@@ -17,7 +17,7 @@ const AffectationDemande = () => {
     const [searchValue, setSearchValue] = useState('');
     const [pagination, setPagination] = useState({
           current: 1,
-          pageSize: 20,
+          pageSize: 15,
     });
     const [modalType, setModalType] = useState(null);
     const [affectationId, setAffectationId] = useState('');
