@@ -320,6 +320,9 @@ const BandeSortie = () => {
         dataIndex: 'date_retour',
         key: 'date_retour',
         align: 'center',
+        ellipsis: {
+          showTitle: false,
+        },
         render: (text) => {
           if (!text) {
               return (
@@ -347,8 +350,11 @@ const BandeSortie = () => {
           </Space>
         ),
         dataIndex: 'sortie_time',
-        key: '',
+        key: 'sortie_time',
         align: 'center',
+        ellipsis: {
+          showTitle: false,
+        },
         render: (text) => {
           if (!text) {
             return (
@@ -376,6 +382,9 @@ const BandeSortie = () => {
         ),
         dataIndex: 'retour_time',
         key: 'retour_time',
+        ellipsis: {
+          showTitle: false,
+        },
         render: (text) => {
           if (!text) {
               return (
@@ -458,7 +467,7 @@ const BandeSortie = () => {
       item.nom_destination?.toLowerCase().includes(searchValue.toLowerCase()) || 
       item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
     );
-    
+
   return (
     <>
         <div className="client">
