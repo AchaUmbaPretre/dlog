@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CarOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -26,13 +26,15 @@ const BandeSortie = () => {
       "Service" : true,
       "Chauffeur" : true,
       "Destination" : true,
+      "Retour effectif" : true,
+      "Depart" : true,
       "Véhicule" : true,
-      "Marque" : true,
+      "Marque" : false,
       "Preuve" : true,
       "Retour" : true,
       "Statut" : true,
       "Client" : false,
-      "Demandeur" : false,
+      "Demandeur" : true,
       "Agent" : false
       })
 
@@ -145,11 +147,25 @@ const BandeSortie = () => {
           width: "3%"
       },
       {
+        title : "Service",
+        dataIndex: 'nom_motif_demande',
+        key:'nom_motif_demande',
+          render : (text) => (
+            <Tooltip placement="topLeft" title={text}>
+              <Text type="secondary">{text}</Text>
+            </Tooltip>
+          ),
+        ...(columnsVisibility['Service'] ? {} : { className: 'hidden-column' }),
+
+      },
+      {
         title : "Demandeur",
         dataIndex: 'nom_service',
         key:'nom_service',
           render : (text) => (
-            <Tag color='purple'>{text}</Tag>
+            <Tooltip placement="topLeft" title={text}>
+              <Text type="secondary">{text}</Text>
+            </Tooltip>
           ),
         ...(columnsVisibility['Demandeur'] ? {} : { className: 'hidden-column' }),
 
@@ -177,11 +193,15 @@ const BandeSortie = () => {
       {
         title: (
           <Space>
+            <EnvironmentOutlined style={{ color: 'red' }} />
             <Text strong>Destination</Text>
           </Space>
         ),
         dataIndex: 'nom_destination',
         key: 'nom_destination',
+        ellipsis: {
+          showTitle: false,
+        },
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>
             <Text type="secondary">{text}</Text>
@@ -212,7 +232,7 @@ const BandeSortie = () => {
       {
         title: (
           <Space>
-            <CarOutlined style={{ color: 'red' }} />
+            <CarOutlined style={{ color: 'geekblue' }} />
             <Text strong>Véhicule</Text>
           </Space>
         ),
@@ -250,7 +270,7 @@ const BandeSortie = () => {
         title: (
           <Space>
             <CalendarOutlined style={{ color: 'blue' }} />
-            <Text strong>Preuve</Text>
+            <Text strong>Sortie prevue</Text>
           </Space>
         ),
         dataIndex: 'date_prevue',
@@ -267,8 +287,8 @@ const BandeSortie = () => {
           const date = moment(text);
           const isValid = date.isValid();              
             return (
-              <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-                {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+              <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
+                {isValid ? date.format('HH:mm') : 'Aucune'}
               </Tag>
             );
         },
@@ -277,16 +297,17 @@ const BandeSortie = () => {
       {
         title: (
           <Space>
-            <CalendarOutlined style={{ color: 'blue' }} />
-            <Text strong>Retour</Text>
+            <FieldTimeOutlined style={{ color: 'blue' }} />
+            <Text strong>Retour prevu</Text>
           </Space>
         ),
         dataIndex: 'date_retour',
         key: 'date_retour',
+        align: 'center',
         render: (text) => {
           if (!text) {
               return (
-                  <Tag icon={<CalendarOutlined />} color="red">
+                  <Tag icon={<FieldTimeOutlined />} color="red">
                       Aucune date
                   </Tag>
               );
@@ -294,13 +315,68 @@ const BandeSortie = () => {
           const date = moment(text);
           const isValid = date.isValid();              
               return (
-                  <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-                      {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+                  <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
+                      {isValid ? date.format('HH:mm') : 'Aucune'}
                   </Tag>
               );
           },
         ...(columnsVisibility['Retour'] ? {} : { className: 'hidden-column' })
 
+      },
+      {
+        title: (
+          <Space>
+            <CalendarOutlined style={{ color: 'blue' }} />
+            <Text strong>Depart</Text>
+          </Space>
+        ),
+        dataIndex: 'sortie_time',
+        key: '',
+        align: 'center',
+        render: (text) => {
+          if (!text) {
+            return (
+              <Tag icon={<CalendarOutlined />} color="red">
+                N'est pas sorti
+              </Tag>
+            );
+          }
+          const date = moment(text);
+          const isValid = date.isValid();              
+            return (
+              <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"}>
+                {isValid ? date.format('DD-MM-YYYY HH:mm') : "N'est pas sorti"}
+              </Tag>
+            );
+        },
+        ...(columnsVisibility['Depart'] ? {} : { className: 'hidden-column' })
+      },
+      {
+        title: (
+          <Space>
+            <CalendarOutlined style={{ color: 'blue' }} />
+            <Text strong>Retour</Text>
+          </Space>
+        ),
+        dataIndex: 'retour_time',
+        key: 'retour_time',
+        render: (text) => {
+          if (!text) {
+              return (
+                  <Tag icon={<CalendarOutlined />} color="red">
+                      N'est pas retourné
+                  </Tag>
+              );
+          }
+          const date = moment(text);
+          const isValid = date.isValid();              
+              return (
+                  <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"}>
+                      {isValid ? date.format('HH:mm') : 'Nest pas retourné'}
+                  </Tag>
+              );
+          },
+        ...(columnsVisibility['Retour effectif'] ? {} : { className: 'hidden-column' })
       },
       {
         title: (

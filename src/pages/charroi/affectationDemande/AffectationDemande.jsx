@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Modal, Menu, message, Dropdown, Tag, Space, Tooltip, Button, Typography, Input, notification } from 'antd';
-import {  CarOutlined, DownOutlined, ExportOutlined, MenuOutlined, TrademarkOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
+import {  CarOutlined, EnvironmentOutlined, DownOutlined, ExportOutlined, MenuOutlined, TrademarkOutlined, FormOutlined, CheckCircleOutlined, PlusCircleOutlined, UserOutlined, SwapOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getAffectationDemande } from '../../../services/charroiService';
 import moment from 'moment';
 import AffectationDemandeForm from './affectationDemandeForm/AffectationDemandeForm';
@@ -23,7 +23,9 @@ const AffectationDemande = () => {
     const [affectationId, setAffectationId] = useState('');
     const [columnsVisibility, setColumnsVisibility] = useState({
       "Service" : true,
-      "Departement" : true,
+      "Demandeur" : true,
+      "Departement" : false,
+      "Destination" : true,
       "Chauffeur" : true,
       "Véhicule" : true,
       "Marque" : true,
@@ -136,20 +138,35 @@ const AffectationDemande = () => {
         width: "3%"
     },
     {
-        title : "Service",
+      title : "Service",
+      dataIndex: 'nom_motif_demande',
+      key:'nom_motif_demande',
+        render : (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text type="secondary">{text}</Text>
+          </Tooltip>
+        ),
+      ...(columnsVisibility['Service'] ? {} : { className: 'hidden-column' }),
+    },
+    {
+        title : "Demandeur",
         dataIndex: 'nom_service',
         key:'nom_service',
         render : (text) => (
-          <Tag color='magenta'>{text}</Tag>
+          <Tooltip placement="topLeft" title={text}>
+            <Text type="secondary">{text}</Text>
+          </Tooltip>
         ),
-      ...(columnsVisibility['Service'] ? {} : { className: 'hidden-column' }),
+      ...(columnsVisibility['Demandeur'] ? {} : { className: 'hidden-column' }),
     },
     {
       title : "DPT",
       dataIndex: 'nom_departement',
       key:'nom_departement',
         render : (text) => (
-          <Tag>{text}</Tag>
+          <Tooltip placement="topLeft" title={text}>
+            <Text type="secondary">{text}</Text>
+          </Tooltip>
         ),
         ...(columnsVisibility['Departement'] ? {} : { className: 'hidden-column' }),
     },
@@ -164,11 +181,31 @@ const AffectationDemande = () => {
       key: 'nom',
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-          <Tag color='geekblue'>{text}</Tag>
+          <Text type="secondary">{text}</Text>
         </Tooltip>
       ),
       ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
     },
+          {
+            title: (
+              <Space>
+                <EnvironmentOutlined style={{ color: 'red' }} />
+                <Text strong>Destination</Text>
+              </Space>
+            ),
+            dataIndex: 'nom_destination',
+            key: 'nom_destination',
+            ellipsis: {
+              showTitle: false,
+            },
+            render: (text) => (
+              <Tooltip placement="topLeft" title={text}>
+                <Text type="secondary">{text}</Text>
+              </Tooltip>
+            ),
+            ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' }),
+    
+          },
     {
       title: (
         <Space>
