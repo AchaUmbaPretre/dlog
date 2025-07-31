@@ -139,9 +139,7 @@ const DemandeVehicule = () => {
 
     }
 
-  
     const handleEdit = (id) => openModal('Add', id)
-
     const handleAdd = () => openModal('Add')
 
     const closeAllModals = () => {
@@ -160,10 +158,6 @@ const DemandeVehicule = () => {
 
     const handleExportPDF = () => {
         message.success('Exporting to PDF...');
-    };
-
-    const handlePrint = () => {
-        window.print();
     };
 
     const menu = (
