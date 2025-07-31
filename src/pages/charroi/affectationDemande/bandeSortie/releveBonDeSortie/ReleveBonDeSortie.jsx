@@ -132,7 +132,7 @@ const toBase64 = async (url) => {
               <div style={{ display: 'flex', justifyContent: 'space-between', flexDirection:'column' }}>
                 <div style={{display:'flex', gap:'20px'}}>
                     <img src={bon.logoBase64} alt="" style={{ height:'100px', width:'80px', objectFit:'cover'}} />
-                   <div style={{ fontSize: 12 }}>
+                   <div style={{ fontSize: 10 }}>
                     <strong>{bon.nom_societe}</strong><br />
                     {bon?.adresse}<br />
                     RCCM : {bon?.rccm}<br />
@@ -142,14 +142,14 @@ const toBase64 = async (url) => {
                     </div>
                 </div>
                 <div>
-                    <h3 style={{textDecoration:'underline', fontSize:'16px', padding:'10px 0', lineHeight:'10px'}}>Département Administratif et des Ressources humaines</h3>
+                    <h3 style={{textDecoration:'underline', fontSize:'15px', padding:'10px 0', lineHeight:'10px'}}>Département Administratif et des Ressources humaines</h3>
                 </div>
                 <div style={{ background: '#000', color: '#fff', padding: '10px 20px', alignSelf: 'center' }}>
-                  <h2 style={{ margin: 0, fontSize:'16px' }}>AUTORISATION DE SORTIE</h2>
+                  <h2 style={{ margin: 0, fontSize:'14px' }}>AUTORISATION DE SORTIE</h2>
                 </div>
               </div>
 
-              <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 20, fontSize: 14 }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: 20, fontSize: 12 }}>
                 <tbody>
                   <tr>
                     <td><strong>Nom :</strong></td>
@@ -183,7 +183,7 @@ const toBase64 = async (url) => {
                 </tbody>
               </table>
 
-              <div style={{ marginTop: 20, fontSize: 14 }}>
+              <div style={{ marginTop: 20, fontSize: 13 }}>
                 <strong>Motif de sortie :</strong>
                 <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
                   <li>{bon.nom_motif_demande === 'Se rendre au CMM' ? '☑' : '☐'} Se rendre au CMM</li>
