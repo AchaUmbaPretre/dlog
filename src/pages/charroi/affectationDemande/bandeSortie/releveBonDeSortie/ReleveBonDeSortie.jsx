@@ -31,7 +31,6 @@ const toBase64 = async (url) => {
 
   // On utilise le proxy backend pour convertir l’image
   const proxyUrl = `${DOMAIN}/api/image-proxy?url=${encodeURIComponent(url)}`;
-  console.log('➡️  Appel du proxy URL :', proxyUrl);
 
   try {
     const response = await fetch(proxyUrl);
@@ -76,6 +75,20 @@ const toBase64 = async (url) => {
         setIsLoading(false);
     }
   };
+
+  const formatRole = (role) => {
+  switch (role) {
+    case 'RS':
+      return 'RESPONSABLE DE SERVICE';
+    case 'RH':
+      return 'RESSOURCES HUMAINES';
+    case 'Admin':
+      return 'DIRECTEUR';
+    default:
+      return role;
+  }
+};
+
 
   const handleDownloadPDF = () => {
     const element = pdfRef.current;
@@ -172,6 +185,11 @@ const toBase64 = async (url) => {
                     <td>{bon.nom || '...'}</td>
                 </tr>
 
+                <tr>
+                  <td><strong>Destination :</strong></td>
+                  <td>{bon.nom_destination}</td>
+                </tr>
+
                   <tr>
                     <td><strong>Véhicule :</strong></td>
                     <td>{bon.nom_marque}</td>
@@ -201,7 +219,7 @@ const toBase64 = async (url) => {
                         {signataires[0]?.signatureBase64 && (
                         <>
                             <img src={signataires[0].signatureBase64} alt="sig" style={{ width: 100, height: 50, objectFit: 'contain' }} /><br />
-                            <strong>{signataires[0].role}</strong><br />
+                            <strong>{formatRole(signataires[0].role)}</strong><br />
                             {signataires[0].personne_signe}
                         </>
                         )}
@@ -213,7 +231,7 @@ const toBase64 = async (url) => {
                         {signataires[1]?.signatureBase64 && (
                         <>
                             <img src={signataires[1].signatureBase64} alt="sig" style={{ width: 100, height: 50, objectFit: 'contain' }} /><br />
-                            <strong>{signataires[1].role}</strong><br />
+                            <strong>{formatRole(signataires[1].role)}</strong><br />
                             {signataires[1].personne_signe}
                         </>
                         )}
@@ -227,7 +245,7 @@ const toBase64 = async (url) => {
                         {signataire.signatureBase64 && (
                         <>
                             <img src={signataire.signatureBase64} alt="signature" style={{ width: 100, height: 50, objectFit: 'contain' }} /><br />
-                            <strong>{signataire.role}</strong><br />
+                            <strong>{formatRole(signataire.role)}</strong><br />
                             {signataire.personne_signe}
                         </>
                         )}
