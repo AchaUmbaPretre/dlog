@@ -44,7 +44,7 @@ const DemandeVehicule = () => {
     "Demandeur" : true,
     "Motif": false,
     "Destination" : true,
-    "Crée par" : false,
+    "Crée par" : true,
     "Statut" : true,
     "Vu" : true
   })
@@ -375,6 +375,7 @@ const DemandeVehicule = () => {
                         {
             title: (
             <Space>
+                <UserOutlined style={{ color: 'orange' }} />
                 <Text strong>Crée par</Text>
             </Space>
             ),
