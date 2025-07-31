@@ -30,6 +30,7 @@ const BandeSortie = () => {
       "Retour effectif" : true,
       "Depart" : true,
       "Véhicule" : true,
+      "Immatriculation": false,
       "Marque" : false,
       "Preuve" : true,
       "Retour" : true,
@@ -273,6 +274,28 @@ const BandeSortie = () => {
       {
         title: (
           <Space>
+            <CarOutlined style={{ color: 'green' }} />
+            <Text strong>Immatriculation</Text>
+          </Space>
+        ),
+        dataIndex:'immatriculation',
+        key: 'immatriculation',
+        ellipsis: {
+          showTitle: false,
+        },
+        align: 'center',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+              <Tag>{text}</Tag>
+            </div>
+          </Tooltip>
+        ),
+        ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' })
+      },
+      {
+        title: (
+          <Space>
             <CarOutlined style={{ color: '#2db7f5' }} />
             <Text strong>Marque</Text>
           </Space>
@@ -310,14 +333,16 @@ const BandeSortie = () => {
               </Tag>
             );
           }
-          const date = moment(text);
-          const isValid = date.isValid();              
-            return (
-              <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
-                {isValid ? date.format('HH:mm') : 'Aucune'}
-              </Tag>
-            );
-        },
+
+          const date = moment.utc(text);
+          const isValid = date.isValid();
+
+          return (
+            <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
+              {isValid ? date.format('HH:mm') : 'Aucune'}
+            </Tag>
+          );
+        },  
         ...(columnsVisibility['Preuve'] ? {} : { className: 'hidden-column' })
       },
       {
@@ -335,20 +360,22 @@ const BandeSortie = () => {
         },
         render: (text) => {
           if (!text) {
-              return (
-                  <Tag icon={<FieldTimeOutlined />} color="red">
-                      Aucune date
-                  </Tag>
-              );
+            return (
+              <Tag icon={<CalendarOutlined />} color="red">
+                Aucune date
+              </Tag>
+            );
           }
-          const date = moment(text);
-          const isValid = date.isValid();              
-              return (
-                  <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
-                      {isValid ? date.format('HH:mm') : 'Aucune'}
-                  </Tag>
-              );
-          },
+
+          const date = moment.utc(text);
+          const isValid = date.isValid();
+
+          return (
+            <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
+              {isValid ? date.format('HH:mm') : 'Aucune'}
+            </Tag>
+          );
+        },
         ...(columnsVisibility['Retour'] ? {} : { className: 'hidden-column' })
 
       },
