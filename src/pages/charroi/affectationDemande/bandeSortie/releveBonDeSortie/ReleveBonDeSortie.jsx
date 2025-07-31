@@ -127,9 +127,26 @@ const toBase64 = async (url) => {
         </div>
     ) : (
         <>
-      <div style={{ marginBottom: '20px', textAlign: 'right' }}>
-        <button onClick={handleDownloadPDF} style={{cursor:'pointer'}}>🖨️ Imprimer / Exporter en PDF</button>
-      </div>
+        <div style={{ marginBottom: '20px', textAlign: 'right' }}>
+          <button
+            onClick={handleDownloadPDF}
+            style={{
+              backgroundColor: '#1890ff',
+              color: '#fff',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              fontSize: '14px',
+              cursor: 'pointer',
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+              transition: 'background-color 0.3s ease',
+            }}
+            onMouseEnter={e => (e.target.style.backgroundColor = '#40a9ff')}
+            onMouseLeave={e => (e.target.style.backgroundColor = '#1890ff')}
+          >
+            🖨️ Imprimer / Exporter en PDF
+          </button>
+        </div>
 
       <div ref={pdfRef}>
         {Object.entries(groupedData).map(([id, records]) => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import { CarOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CarOutlined, ApartmentOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
@@ -167,9 +167,17 @@ const BandeSortie = () => {
 
       },
       {
-        title : "Demandeur",
+        title: (
+          <span>
+            <ApartmentOutlined style={{ marginRight: 6, color: '#1d39c4' }} />
+            Demandeur
+          </span>
+        ),
         dataIndex: 'nom_service',
         key:'nom_service',
+        ellipsis: {
+          showTitle: false,
+        },
           render : (text) => (
             <Tooltip placement="topLeft" title={text}>
               <Text type="secondary">{text}</Text>
@@ -218,7 +226,6 @@ const BandeSortie = () => {
           </Tooltip>
         ),
         ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' }),
-
       },
       {
         title: (
@@ -282,7 +289,7 @@ const BandeSortie = () => {
       {
         title: (
           <Space>
-            <CalendarOutlined style={{ color: 'blue' }} />
+            <FieldTimeOutlined style={{ color: 'blue' }} />
             <Text strong>Sortie prevue</Text>
           </Space>
         ),
