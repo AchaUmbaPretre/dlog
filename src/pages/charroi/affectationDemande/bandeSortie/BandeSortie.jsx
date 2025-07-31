@@ -6,6 +6,7 @@ import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie } from '../../../../services/charroiService';
 import ValidationDemandeForm from '../../demandeVehicule/validationDemande/validationDemandeForm/ValidationDemandeForm';
 import ReleveBonDeSortie from './releveBonDeSortie/ReleveBonDeSortie';
+import BandeSortieDetail from './bandeSortieDetail/BandeSortieDetail';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -57,7 +58,7 @@ const BandeSortie = () => {
 
     const handlSortie = (id) => openModal('validation', id);
     const handleReleve = (id) => openModal('releve', id);
-    const handleDetail = (id) => openModal('releve', id);
+    const handleDetail = (id) => openModal('detail', id);
 
 
     const closeAllModals = () => {
@@ -220,9 +221,9 @@ const BandeSortie = () => {
         ellipsis: {
           showTitle: false,
         },
-        render: (text) => (
+        render: (text, record) => (
           <Tooltip placement="topLeft" title={text}>
-            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+            <div style={columnStyles.title} className={columnStyles.hideScroll} onClick={() => handleDetail(record.id_bande_sortie)}>
               <Text  type="secondary">{text}</Text>
             </div>
           </Tooltip>
@@ -542,6 +543,17 @@ const BandeSortie = () => {
             centered
         >
             <ReleveBonDeSortie closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
+        </Modal>
+
+        <Modal
+            title=""
+            visible={modalType === 'detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1000}
+            centered
+        >
+          <BandeSortieDetail closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
         </Modal>
     </>
   )
