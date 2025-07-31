@@ -57,6 +57,8 @@ const BandeSortie = () => {
 
     const handlSortie = (id) => openModal('validation', id);
     const handleReleve = (id) => openModal('releve', id);
+    const handleDetail = (id) => openModal('releve', id);
+
 
     const closeAllModals = () => {
       setModalType(null);
