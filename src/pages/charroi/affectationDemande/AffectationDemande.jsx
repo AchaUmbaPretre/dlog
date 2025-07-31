@@ -33,8 +33,7 @@ const AffectationDemande = () => {
       "Retour" : true,
       "Statut" : true,
       "Commentaire" : false
-    })
-
+    });
     const columnStyles = {
       title: {
         maxWidth: '150px',
@@ -85,6 +84,7 @@ const AffectationDemande = () => {
         const interval = setInterval(fetchData, 5000)
         return () => clearInterval(interval)
     }, []);
+
     const handleExportExcel = () => {
         message.success('Exporting to Excel...');
     };
@@ -117,15 +117,15 @@ const AffectationDemande = () => {
         </Menu>
   ); 
 
-    const toggleColumnVisibility = (columnName, e) => {
-      e.stopPropagation();
-      setColumnsVisibility(prev => ({
-        ...prev,
-        [columnName]: !prev[columnName]
-      }));
-    };
+  const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
 
-   const columns = [
+  const columns = [
     {
       title: '#',
       dataIndex: 'id',
@@ -376,14 +376,14 @@ const AffectationDemande = () => {
         </Space>
         ),
     },
-   ]
+  ]
 
   const filteredData = data.filter(item =>
      item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
      item.nom_destination?.toLowerCase().includes(searchValue.toLowerCase()) ||
      item.nom_service?.toLowerCase().includes(searchValue.toLowerCase()) ||
      item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
-    );
+  );
 
   return (
     <>
