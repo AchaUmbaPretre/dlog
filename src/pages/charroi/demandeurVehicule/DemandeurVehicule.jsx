@@ -119,6 +119,9 @@ const columns = [
     dataIndex: 'nom_departement',
     key: 'nom_departement',
     align: 'center',
+    ellipsis: {
+      showTitle: false,
+    },
     render: (text) => (
       <Text type="secondary">{text}</Text>
     ),

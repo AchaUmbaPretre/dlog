@@ -200,9 +200,11 @@ const DemandeVehicule = () => {
 
     const columnStyles = {
         title: {
-          maxWidth: '180px',
+          maxWidth: '150px',
           whiteSpace: 'nowrap',
           overflowX: 'scroll', 
+          overflowY: 'hidden',
+          textOverflow: 'ellipsis',
           scrollbarWidth: 'none',
           '-ms-overflow-style': 'none', 
         },
@@ -230,6 +232,7 @@ const DemandeVehicule = () => {
             dataIndex: 'nom',
             key:'nom',
             align: 'center',
+            ellipsis: { showTitle: false },
             render : (text) => (
                 <Tag color="green">{text}</Tag>
             ),
@@ -267,6 +270,7 @@ const DemandeVehicule = () => {
             dataIndex: 'date_retour',
             key: 'date_retour',
             align: 'center',
+            ellipsis: { showTitle: false},
             render: (text) => {
                 const formattedDate = moment(text).format('DD-MM-YYYY HH:mm');
                 return (
@@ -289,6 +293,7 @@ const DemandeVehicule = () => {
             dataIndex: 'nom_type_vehicule',
             key: 'nom_type_vehicule',
             align: 'center',
+            ellipsis: { showTitle: false},
             render: (text) => (
                 <Tooltip placement="topLeft" title={text}>
                     <div style={columnStyles.title} className={columnStyles.hideScroll}>
@@ -307,6 +312,9 @@ const DemandeVehicule = () => {
             dataIndex: 'nom_service',
             key: 'nom_service',
             align: 'center',
+            ellipsis: {
+                showTitle: false,
+            },
             render: (text) => <Text type="secondary">{text}</Text>,
             ...(columnsVisibility['Demandeur'] ? {} : { className: 'hidden-column' })
         },
@@ -319,6 +327,9 @@ const DemandeVehicule = () => {
             dataIndex: 'nom_destination',
             key: 'nom_destination',
             align: 'center',
+            ellipsis: {
+                showTitle: false,
+            },
             render: (text) => <Text type="secondary">{text}</Text>,
             ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' })
         },
@@ -331,6 +342,9 @@ const DemandeVehicule = () => {
             dataIndex: 'nom_motif_demande',
             key: 'nom_motif_demande',
             align: 'center',
+            ellipsis: {
+                showTitle: false,
+            },
             render: (text) => <Text type="secondary">{text}</Text>,
             ...(columnsVisibility['Motif'] ? {} : { className: 'hidden-column' })
         },
@@ -344,14 +358,15 @@ const DemandeVehicule = () => {
             dataIndex: 'nom_statut_bs',
             key: 'nom_statut_bs',
             align: 'center',
+            ellipsis: {
+                showTitle: false,
+            },
             render: text => {
                 const { icon, color } = statusIcons[text] || {};
                 return (
-                    <Space>
-                        <div style={columnStyles.title} className={columnStyles.hideScroll}>
-                            <Tag icon={icon} color={color}>{text}</Tag>
-                        </div>
-                    </Space>
+                    <div style={columnStyles.title} className={columnStyles.hideScroll}>
+                        <Tag icon={icon} color={color}>{text}</Tag>
+                    </div>
                 );
             },
             ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
@@ -365,6 +380,9 @@ const DemandeVehicule = () => {
             dataIndex: 'nom_user',
             key: 'nom_user',
             align: 'center',
+            ellipsis: {
+                showTitle: false,
+            },
             render: (text) => <Text type="secondary">{text}</Text>,
             ...(columnsVisibility['Crée par'] ? {} : { className: 'hidden-column' })
         },
@@ -379,6 +397,9 @@ const DemandeVehicule = () => {
                 dataIndex: 'vu',
                 key: 'vu',
                 align: 'center',
+                ellipsis: {
+                    showTitle: false,
+                },
                 render: (text, record) => (
                     <Tag
                         color={text === 1 ? 'green' : 'red'}

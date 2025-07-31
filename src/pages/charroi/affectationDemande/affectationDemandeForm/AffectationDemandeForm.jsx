@@ -35,7 +35,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                 getMotif(),
                 getClient(),
                 getDestination()
-            ])
+            ]);
 
             setVehicule(vehiculeData.data);
             setChauffeur(chaufferData.data?.data);
