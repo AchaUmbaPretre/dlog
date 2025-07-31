@@ -39,7 +39,7 @@ const DemandeVehicule = () => {
   const [columnsVisibility, setColumnsVisibility] = useState({
     "Client" : false,
     "Date prévue" : true,
-    "Date retour" : false,
+    "Date retour" : true,
     "T. véhicule" : true,
     "Demandeur" : true,
     "Motif": false,
