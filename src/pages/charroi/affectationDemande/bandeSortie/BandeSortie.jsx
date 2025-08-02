@@ -37,7 +37,8 @@ const BandeSortie = () => {
       "Statut" : true,
       "Client" : false,
       "Demandeur" : true,
-      "Agent" : false
+      "Agent" : false,
+      "Createur" : false
       })
 
     const columnStyles = {
@@ -457,6 +458,25 @@ const BandeSortie = () => {
                 </div>
               );
           },
+      },
+            {
+        title: (
+          <Space>
+            <UserOutlined style={{ color: 'orange' }} />
+            <Text strong>Créateur</Text>
+          </Space>
+        ),
+        dataIndex: 'created',
+        key: 'created',
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text  type="secondary">{text}</Text>
+          </Tooltip>
+        ),
+        ...(columnsVisibility['Createur'] ? {} : { className: 'hidden-column' })
       },
       {
           title: (
