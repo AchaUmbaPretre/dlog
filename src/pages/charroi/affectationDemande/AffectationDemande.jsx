@@ -34,6 +34,7 @@ const AffectationDemande = () => {
       "Statut" : true,
       "Commentaire" : false
     });
+
     const columnStyles = {
       title: {
         maxWidth: '150px',
@@ -238,6 +239,28 @@ const AffectationDemande = () => {
         </Tooltip>
       ),
       ...(columnsVisibility['Véhicule'] ? {} : { className: 'hidden-column' }),
+    },
+    {
+      title: (
+        <Space>
+          <CarOutlined style={{ color: 'green' }} />
+          <Text strong>Immatriculation</Text>
+        </Space>
+      ),
+      dataIndex:'immatriculation',
+      key: 'immatriculation',
+      ellipsis: {
+        showTitle: false,
+      },
+      align: 'center',
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <div style={columnStyles.title} className={columnStyles.hideScroll}>
+              <Tag>{text}</Tag>
+            </div>
+          </Tooltip>
+        ),
+        ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' })
     },
     {
       title: (
