@@ -33,7 +33,8 @@ const AffectationDemande = () => {
       "Preuve" : false,
       "Retour" : true,
       "Statut" : true,
-      "Commentaire" : false
+      "Commentaire" : false,
+      "Createur" : false,
     });
 
     const columnStyles = {
@@ -375,6 +376,26 @@ const AffectationDemande = () => {
       ),
       ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' }),
     },
+          {
+        title: (
+          <Space>
+            <UserOutlined style={{ color: 'orange' }} />
+            <Text strong>Créateur</Text>
+          </Space>
+        ),
+        dataIndex: 'created',
+        key: 'created',
+        align: 'center',
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text) => (
+          <Tooltip placement="topLeft" title={text}>
+            <Text  type="secondary">{text}</Text>
+          </Tooltip>
+        ),
+        ...(columnsVisibility['Createur'] ? {} : { className: 'hidden-column' })
+      },
     {
       title: (<Text strong>Actions</Text>),
       key: 'action',

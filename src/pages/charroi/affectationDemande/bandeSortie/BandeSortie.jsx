@@ -459,7 +459,7 @@ const BandeSortie = () => {
               );
           },
       },
-            {
+      {
         title: (
           <Space>
             <UserOutlined style={{ color: 'orange' }} />
