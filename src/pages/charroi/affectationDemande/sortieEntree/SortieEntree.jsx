@@ -29,7 +29,7 @@ const SortieEntree = () => {
       "Client" : false,
       "Demandeur" : false,
       "Securité" : true
-    })
+    });
 
     const menus = (
       <Menu>
