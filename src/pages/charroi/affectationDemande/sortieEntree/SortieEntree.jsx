@@ -25,7 +25,7 @@ const SortieEntree = () => {
       "Type" : true,
       "Mouvement" : true,
       "Date & Heure" : true,
-      "Destination" : false,
+      "Destination" : true,
       "Client" : false,
       "Demandeur" : false,
       "Securité" : true
