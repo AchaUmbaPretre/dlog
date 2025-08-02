@@ -139,6 +139,9 @@ const SortieEntree = () => {
                 ),
                 dataIndex:'immatriculation',
                 key: 'immatriculation',
+                ellipsis: {
+                  showTitle: false,
+                },
                 render: (text) => (
                   <Tooltip placement="topLeft" title={text}>
                     <Text  type="secondary">{text}</Text>

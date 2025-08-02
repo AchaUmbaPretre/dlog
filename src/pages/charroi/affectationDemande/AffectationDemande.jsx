@@ -28,6 +28,7 @@ const AffectationDemande = () => {
       "Destination" : true,
       "Chauffeur" : true,
       "Véhicule" : true,
+      "Immatriculation" : true,
       "Marque" : false,
       "Preuve" : false,
       "Retour" : true,
@@ -256,7 +257,7 @@ const AffectationDemande = () => {
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>
             <div style={columnStyles.title} className={columnStyles.hideScroll}>
-              <Tag>{text}</Tag>
+              <Tag color='magenta'>{text}</Tag>
             </div>
           </Tooltip>
         ),
@@ -358,7 +359,7 @@ const AffectationDemande = () => {
         ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' }),
     },
     {
-        title: (
+      title: (
         <Space>
           <Text strong>Commentaire</Text>
         </Space>

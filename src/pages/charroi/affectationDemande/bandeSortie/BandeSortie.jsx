@@ -30,7 +30,7 @@ const BandeSortie = () => {
       "Retour effectif" : true,
       "Depart" : true,
       "Véhicule" : true,
-      "Immatriculation": false,
+      "Immatriculation": true,
       "Marque" : false,
       "Preuve" : true,
       "Retour" : true,
@@ -287,7 +287,7 @@ const BandeSortie = () => {
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>
             <div style={columnStyles.title} className={columnStyles.hideScroll}>
-              <Tag>{text}</Tag>
+              <Tag color='magenta'>{text}</Tag>
             </div>
           </Tooltip>
         ),
@@ -464,6 +464,9 @@ const BandeSortie = () => {
           ),
           key: 'action',
           align: 'center',
+          ellipsis: {
+            showTitle: false,
+          },
           render: (text, record) => (
           <Space size="small">
 
