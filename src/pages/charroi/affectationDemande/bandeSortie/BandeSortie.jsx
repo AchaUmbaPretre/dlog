@@ -468,6 +468,7 @@ const BandeSortie = () => {
         ),
         dataIndex: 'created',
         key: 'created',
+        align: 'center',
         ellipsis: {
           showTitle: false,
         },
