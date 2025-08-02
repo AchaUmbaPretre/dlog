@@ -384,7 +384,7 @@ const AffectationDemande = () => {
       },
         render: (text, record) => (
         <Space size="small">
-        <Tooltip title={record.statut === 2 
+        <Tooltip title={record.statut === 4 
           ? "Création de bon de sortie non autorisée" 
           : "Créer un bon de sortie"}
         >
