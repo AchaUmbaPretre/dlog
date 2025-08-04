@@ -508,19 +508,19 @@ const BandeSortie = () => {
 
               <Tooltip title="Relevé des bons de sortie">
                   <Button
-                      icon={<FileTextOutlined />}
-                      style={{ color: 'blue' }}
-                      onClick={() => handleReleve(record.id_bande_sortie)}
-                      aria-label="Relevé"
+                    icon={<FileTextOutlined />}
+                    style={{ color: 'blue' }}
+                    onClick={() => handleReleve(record.id_bande_sortie)}
+                    aria-label="Relevé"
                   />
               </Tooltip>
 
               <Tooltip title="valider">
                   <Button
-                      icon={<CheckCircleOutlined />}
-                      style={{ color: 'green' }}
-                      onClick={() => handlSortie(record.id_bande_sortie)}
-                      aria-label="Valider"
+                    icon={<CheckCircleOutlined />}
+                    style={{ color: 'green' }}
+                    onClick={() => handlSortie(record.id_bande_sortie)}
+                    aria-label="Valider"
                   />
               </Tooltip>
 
@@ -529,22 +529,24 @@ const BandeSortie = () => {
                     icon={<CloseOutlined />}
                     style={{ color: 'red' }}
                     onClick={() => handlAnnuler(record.id_bande_sortie)}
-                    aria-label="Valider"
+                    aria-label="Annuler"
+                    disabled = {record.nom_statut_bs === 'Retour'}
                   />
               </Tooltip>
 
               <Tooltip title="Supprimer">
                 <Popconfirm
-                    title="Êtes-vous sûr de vouloir supprimer ce bon de sortie ?"
-                    onConfirm={() => handleDelete(record.id_bande_sortie)}
-                    okText="Oui"
-                    cancelText="Non"
+                  title="Êtes-vous sûr de vouloir supprimer ce bon de sortie ?"
+                  onConfirm={() => handleDelete(record.id_bande_sortie)}
+                  okText="Oui"
+                  cancelText="Non"
                 >
-                    <Button
-                      icon={<DeleteOutlined />}
-                      style={{ color: 'red' }}
-                      aria-label="Delete bon"
-                    />
+                  <Button
+                    icon={<DeleteOutlined />}
+                    style={{ color: 'red' }}
+                    aria-label="Delete bon"
+                    disabled = {record.nom_statut_bs === 'Retour'}
+                  />
                 </Popconfirm>
             </Tooltip>
           </Space>
