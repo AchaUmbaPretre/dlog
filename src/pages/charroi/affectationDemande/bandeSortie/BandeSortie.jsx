@@ -541,9 +541,9 @@ const BandeSortie = () => {
                     cancelText="Non"
                 >
                     <Button
-                        icon={<DeleteOutlined />}
-                        style={{ color: 'red' }}
-                        aria-label="Delete bon"
+                      icon={<DeleteOutlined />}
+                      style={{ color: 'red' }}
+                      aria-label="Delete bon"
                     />
                 </Popconfirm>
             </Tooltip>
