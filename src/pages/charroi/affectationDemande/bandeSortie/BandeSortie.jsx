@@ -416,7 +416,7 @@ const BandeSortie = () => {
               </Tag>
             );
           }
-          const date = moment(text);
+          const date = moment.utc(text);
           const isValid = date.isValid();              
             return (
               <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"}>
@@ -446,7 +446,7 @@ const BandeSortie = () => {
                   </Tag>
               );
           }
-          const date = moment(text);
+          const date = moment.utc(text);
           const isValid = date.isValid();              
               return (
                   <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"}>
@@ -478,7 +478,7 @@ const BandeSortie = () => {
         title: (
           <Space>
             <UserOutlined style={{ color: 'orange' }} />
-            <Text strong>Créateur</Text>
+            <Text strong>Crée par</Text>
           </Space>
         ),
         dataIndex: 'created',

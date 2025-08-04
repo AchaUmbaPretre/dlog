@@ -194,8 +194,8 @@ const AffectationDemande = () => {
       dataIndex: 'nom',
       key: 'nom',
       ellipsis: {
-          showTitle: false,
-        },
+        showTitle: false,
+      },
       render: (text) => (
         <Tooltip placement="topLeft" title={text}>
           <Text type="secondary">{text}</Text>
@@ -301,7 +301,7 @@ const AffectationDemande = () => {
                 </Tag>
               );
             }
-            const date = moment(text);
+            const date = moment.utc(text);
             const isValid = date.isValid();
                     
             return (
@@ -329,7 +329,7 @@ const AffectationDemande = () => {
                 </Tag>
               );
             }
-            const date = moment(text);
+            const date = moment.utc(text);
             const isValid = date.isValid();
                     
             return (
@@ -380,7 +380,7 @@ const AffectationDemande = () => {
         title: (
           <Space>
             <UserOutlined style={{ color: 'orange' }} />
-            <Text strong>Créateur</Text>
+            <Text strong>Crée par</Text>
           </Space>
         ),
         dataIndex: 'created',
