@@ -223,7 +223,7 @@ const SortieEntree = () => {
                           </Tag>
                       );
                   }
-                  const date = moment(text);
+                  const date = moment.utc(text);
                   const isValid = date.isValid();              
                       return (
                           <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
@@ -279,7 +279,7 @@ const SortieEntree = () => {
                 ...(columnsVisibility['Securité'] ? {} : { className: 'hidden-column' }),
               },
               {
-                  title: (
+                title: (
                   <Text strong>Actions</Text>
                   ),
                   key: 'action',
