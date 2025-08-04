@@ -210,6 +210,7 @@ const Charroi = () => {
                 onClick={()=> handleDetail(record.id_vehicule)}
                 />
             </Tooltip>
+            
             <Tooltip title="Supprimer">
                 <Popconfirm
                     title="Êtes-vous sûr de vouloir supprimer ce véhicule ?"

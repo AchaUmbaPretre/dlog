@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Table, Tag, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import { CarOutlined, ApartmentOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { Table, Tag, Popconfirm, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
+import { CarOutlined, DeleteOutlined, ApartmentOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
-import { getBandeSortie } from '../../../../services/charroiService';
+import { getBandeSortie, putEstSupprimeBandeSortie } from '../../../../services/charroiService';
 import ValidationDemandeForm from '../../demandeVehicule/validationDemande/validationDemandeForm/ValidationDemandeForm';
 import ReleveBonDeSortie from './releveBonDeSortie/ReleveBonDeSortie';
 import BandeSortieDetail from './bandeSortieDetail/BandeSortieDetail';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -14,6 +15,7 @@ const { Text } = Typography;
 const BandeSortie = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const scroll = { x: 'max-content' };
     const [searchValue, setSearchValue] = useState('');
     const [pagination, setPagination] = useState({
@@ -66,6 +68,19 @@ const BandeSortie = () => {
     const closeAllModals = () => {
       setModalType(null);
     };
+
+    const handleDelete = async(id) => {
+      try {
+        await putEstSupprimeBandeSortie(id, userId);
+        setData((prevData) => prevData.filter((item) => item.id_bande_sortie  !== id));
+        message.success("Le bon de sortie a été supprimée avec succès.");
+      } catch (error) {
+          notification.error({
+          message: 'Erreur de suppression',
+          description: 'Une erreur est survenue lors de la suppression du bon.',
+        });
+      }
+    }
 
     const openModal = (type, id = '') => {
       closeAllModals();
@@ -340,7 +355,7 @@ const BandeSortie = () => {
 
           return (
             <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
-              {isValid ? date.format('HH:mm') : 'Aucune'}
+              {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
             </Tag>
           );
         },  
@@ -373,7 +388,7 @@ const BandeSortie = () => {
 
           return (
             <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
-              {isValid ? date.format('HH:mm') : 'Aucune'}
+              {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
             </Tag>
           );
         },
@@ -435,7 +450,7 @@ const BandeSortie = () => {
           const isValid = date.isValid();              
               return (
                   <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"}>
-                      {isValid ? date.format('HH:mm') : 'Nest pas retourné'}
+                    {isValid ? date.format('DD-MM-YYYY HH:mm ') : 'Nest pas retourné'}
                   </Tag>
               );
           },
@@ -511,12 +526,27 @@ const BandeSortie = () => {
 
               <Tooltip title="Annuler le BS">
                   <Button
-                      icon={<CloseOutlined />}
-                      style={{ color: 'red' }}
-                      onClick={() => handlAnnuler(record.id_bande_sortie)}
-                      aria-label="Valider"
+                    icon={<CloseOutlined />}
+                    style={{ color: 'red' }}
+                    onClick={() => handlAnnuler(record.id_bande_sortie)}
+                    aria-label="Valider"
                   />
               </Tooltip>
+
+              <Tooltip title="Supprimer">
+                <Popconfirm
+                    title="Êtes-vous sûr de vouloir supprimer ce bon de sortie ?"
+                    onConfirm={() => handleDelete(record.id_bande_sortie)}
+                    okText="Oui"
+                    cancelText="Non"
+                >
+                    <Button
+                        icon={<DeleteOutlined />}
+                        style={{ color: 'red' }}
+                        aria-label="Delete bon"
+                    />
+                </Popconfirm>
+            </Tooltip>
           </Space>
           ),
       },
