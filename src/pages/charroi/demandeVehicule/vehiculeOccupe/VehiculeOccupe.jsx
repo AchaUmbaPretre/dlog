@@ -126,29 +126,28 @@ const VehiculeOccupe = () => {
     {
       title: (
         <Space>
-          <FieldTimeOutlined style={{ color: 'blue' }} />
+          <CalendarOutlined  style={{ color: 'blue' }} />
           <Text strong>Date</Text>
         </Space>
       ),
-            dataIndex: 'created_at',
-            key: 'created_at',
-            align: 'center',
-            ellipsis: {
-              showTitle: false,
-            },
-            render: (text) => {
-              if (!text) {
-                return (
-                  <Tag icon={<CalendarOutlined />} color="red">
-                    Aucune date
-                  </Tag>
-                );
-              }
-    
-              const date = moment.utc(text);
-              const isValid = date.isValid();
-    
-              return (
+      dataIndex: 'created_at',
+      key: 'created_at',
+      align: 'center',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text) => {
+        if (!text) {
+          return (
+          <Tag icon={<CalendarOutlined />} color="red">
+            Aucune date
+          </Tag>
+          );
+        }
+  
+        const date = moment.utc(text);
+        const isValid = date.isValid();
+        return (
                 <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
                   {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
                 </Tag>
@@ -159,6 +158,7 @@ const VehiculeOccupe = () => {
 
     const filteredData = data.filter(item =>
      item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
+     item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) ||
      item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
     );
   return (
