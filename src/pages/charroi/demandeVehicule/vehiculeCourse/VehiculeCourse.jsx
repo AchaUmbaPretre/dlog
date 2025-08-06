@@ -84,11 +84,11 @@ const VehiculeCourse = () => {
             width: "3%"
         },
         {
-            title : "Service",
-            dataIndex: 'nom_service',
-            key:'nom_service',
+          title : "Service",
+          dataIndex: 'nom_service',
+          key:'nom_service',
             render : (text) => (
-            <Text>{text}</Text>
+            <Text type="secondary">{text}</Text>
             )
         },
         {
@@ -105,7 +105,7 @@ const VehiculeCourse = () => {
         },
         render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-            <Text>{text}</Text>
+            <Text type="secondary">{text}</Text>
         </Tooltip>
         ),
         },
@@ -125,17 +125,18 @@ const VehiculeCourse = () => {
         ),
         },
         {
-        title: (
-        <Space>
-            <CarOutlined style={{ color: 'red' }} />
-            <Text strong>Immatriculation</Text>
-        </Space>
-        ),
-        dataIndex:'immatriculation',
-        key: 'immatriculation',
-        ellipsis: {
-          showTitle: false,
-        },
+          title: (
+          <Space>
+              <CarOutlined style={{ color: 'red' }} />
+              <Text strong>Immatriculation</Text>
+          </Space>
+          ),
+          dataIndex:'immatriculation',
+          key: 'immatriculation',
+          ellipsis: {
+            showTitle: false,
+          },
+          align: 'center',
         render: (text) => (
         <Tooltip placement="topLeft" title={text}>
           <div style={columnStyles.title} className={columnStyles.hideScroll}>
@@ -153,10 +154,13 @@ const VehiculeCourse = () => {
         ),
         dataIndex: 'nom_marque',
         key: 'nom_marque',
+        ellipsis: {
+          showTitle: false,
+        },
         align: 'center',
         render: (text) => (
         <Tooltip placement="topLeft" title={text}>
-            <Text>{text}</Text>
+            <Text type="secondary">{text}</Text>
         </Tooltip>
         ),
         },
@@ -170,9 +174,12 @@ const VehiculeCourse = () => {
         dataIndex: 'date_prevue',
         key: '',
         align: 'center',
+        ellipsis: {
+          showTitle: false,
+        },
         render: (text) => (
             <Tooltip placement="topLeft" title={text}>
-            <Text>{moment(text).format('DD-MM-YYYY HH:mm')}</Text>
+            <Tag color='green'>{moment(text).format('DD-MM-YYYY HH:mm')}</Tag>
             </Tooltip>
         ),
         },
@@ -220,7 +227,7 @@ const VehiculeCourse = () => {
                 );
             },
         },
-        {
+/*         {
             title: (
             <Text strong>Actions</Text>
             ),
@@ -239,7 +246,7 @@ const VehiculeCourse = () => {
                 </Tooltip>
             </Space>
             ),
-        },
+        }, */
     ]
 
     const filteredData = data.filter(item =>
