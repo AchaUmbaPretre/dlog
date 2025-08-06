@@ -40,17 +40,17 @@ const VehiculeOccupe = () => {
     }, []);
 
    const columns = [
-        {
-          title: '#',
-          dataIndex: 'id',
-          key: 'id',
-          render: (text, record, index) => {
-            const pageSize = pagination.pageSize || 10;
-            const pageIndex = pagination.current || 1;
-            return (pageIndex - 1) * pageSize + index + 1;
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+        render: (text, record, index) => {
+          const pageSize = pagination.pageSize || 10;
+          const pageIndex = pagination.current || 1;
+          return (pageIndex - 1) * pageSize + index + 1;
         },
         width: "4%"
-       },
+    },
     {
     title: (
       <Space>
@@ -65,7 +65,7 @@ const VehiculeOccupe = () => {
     },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+        <Text type="secondary">{text}</Text>
       </Tooltip>
     ),
     },
@@ -83,7 +83,7 @@ const VehiculeOccupe = () => {
     },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+        <Text type="secondary">{text}</Text>
       </Tooltip>
     ),
     },
@@ -101,7 +101,7 @@ const VehiculeOccupe = () => {
     },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+        <Text type="secondary">{text}</Text>
       </Tooltip>
     ),
     },
@@ -119,7 +119,7 @@ const VehiculeOccupe = () => {
     },
     render: (text) => (
       <Tooltip placement="topLeft" title={text}>
-        <Text>{text}</Text>
+        <Text type="secondary">{text}</Text>
       </Tooltip>
     ),
     },
