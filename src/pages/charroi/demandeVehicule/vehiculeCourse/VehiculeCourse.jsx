@@ -127,6 +127,26 @@ const VehiculeCourse = () => {
         {
         title: (
         <Space>
+            <CarOutlined style={{ color: 'red' }} />
+            <Text strong>Immatriculation</Text>
+        </Space>
+        ),
+        dataIndex:'immatriculation',
+        key: 'immatriculation',
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text) => (
+        <Tooltip placement="topLeft" title={text}>
+          <div style={columnStyles.title} className={columnStyles.hideScroll}>
+            <Text  type="secondary">{text}</Text>
+          </div>
+        </Tooltip>
+        ),
+        },
+        {
+        title: (
+        <Space>
             <CarOutlined style={{ color: '#2db7f5' }} />
             <Text strong>Marque</Text>
         </Space>

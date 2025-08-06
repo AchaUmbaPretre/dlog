@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Table, Space, Tooltip, Typography, Input, notification } from 'antd';
-import {  CarOutlined, UserOutlined } from '@ant-design/icons';
-import { getAffectationDemande, getVehiculeOccupe } from '../../../../services/charroiService';
+import { Table, Space, Tooltip, Tag, Typography, Input, notification } from 'antd';
+import {  CarOutlined, UserOutlined, FieldTimeOutlined, CalendarOutlined } from '@ant-design/icons';
+import { getVehiculeOccupe } from '../../../../services/charroiService';
+import moment from 'moment';
+
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -121,6 +123,38 @@ const VehiculeOccupe = () => {
       </Tooltip>
     ),
     },
+    {
+      title: (
+        <Space>
+          <FieldTimeOutlined style={{ color: 'blue' }} />
+          <Text strong>Date</Text>
+        </Space>
+      ),
+            dataIndex: 'created_at',
+            key: 'created_at',
+            align: 'center',
+            ellipsis: {
+              showTitle: false,
+            },
+            render: (text) => {
+              if (!text) {
+                return (
+                  <Tag icon={<CalendarOutlined />} color="red">
+                    Aucune date
+                  </Tag>
+                );
+              }
+    
+              const date = moment.utc(text);
+              const isValid = date.isValid();
+    
+              return (
+                <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
+                  {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
+                </Tag>
+              );
+            },  
+          },
    ]
 
     const filteredData = data.filter(item =>

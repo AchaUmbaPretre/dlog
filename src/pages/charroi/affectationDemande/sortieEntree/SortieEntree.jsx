@@ -218,9 +218,9 @@ const SortieEntree = () => {
                 render: (text) => {
                   if (!text) {
                       return (
-                          <Tag icon={<CalendarOutlined />} color="red">
-                              Aucune date
-                          </Tag>
+                        <Tag icon={<CalendarOutlined />} color="red">
+                          Aucune date
+                        </Tag>
                       );
                   }
                   const date = moment.utc(text);

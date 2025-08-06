@@ -40,7 +40,7 @@ const BandeSortie = () => {
       "Client" : false,
       "Demandeur" : true,
       "Agent" : false,
-      "Createur" : false
+      "Cree par" : false
       })
 
     const columnStyles = {
