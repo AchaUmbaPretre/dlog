@@ -58,8 +58,8 @@ const VehiculeOccupe = () => {
         <Text strong>Chauffeur</Text>
       </Space>
     ),
-    dataIndex: 'nom',
-    key: 'nom',
+    dataIndex: 'nom_chauffeur',
+    key: 'nom_chauffeur',
     ellipsis: {
       showTitle: false,
     },

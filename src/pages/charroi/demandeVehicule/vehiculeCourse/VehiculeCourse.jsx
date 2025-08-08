@@ -87,6 +87,9 @@ const VehiculeCourse = () => {
           title : "Service",
           dataIndex: 'nom_service',
           key:'nom_service',
+            ellipsis: {
+              showTitle: false,
+            },
             render : (text) => (
             <Text type="secondary">{text}</Text>
             )

@@ -3,7 +3,7 @@ import { Table, Tag, Popconfirm, message, Dropdown, Space, Menu, Modal, Tooltip,
 import { CarOutlined, DeleteOutlined, ApartmentOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
-import { getBandeSortie, putEstSupprimeBandeSortie } from '../../../../services/charroiService';
+import { getBandeSortie, putAnnulereBandeSortie, putEstSupprimeBandeSortie } from '../../../../services/charroiService';
 import ValidationDemandeForm from '../../demandeVehicule/validationDemande/validationDemandeForm/ValidationDemandeForm';
 import ReleveBonDeSortie from './releveBonDeSortie/ReleveBonDeSortie';
 import BandeSortieDetail from './bandeSortieDetail/BandeSortieDetail';
@@ -69,9 +69,9 @@ const BandeSortie = () => {
       setModalType(null);
     };
 
-    const handleDelete = async(id) => {
+    const handleDelete = async(id, idVehicule) => {
       try {
-        await putEstSupprimeBandeSortie(id, userId);
+        await putEstSupprimeBandeSortie(id, idVehicule, userId);
         setData((prevData) => prevData.filter((item) => item.id_bande_sortie  !== id));
         message.success("Le bon de sortie a été supprimée avec succès.");
       } catch (error) {
@@ -149,9 +149,20 @@ const BandeSortie = () => {
       }));
     };
 
+    const handlAnnuler = async (id_bande_sortie, id_vehicule, userId) => {
+      const loadingKey = 'loadingAnnuler';
+      message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
+      setLoading(true)
 
-    const handlAnnuler = () => {
+      try {
+          await putAnnulereBandeSortie(id_bande_sortie, id_vehicule, userId);
+          message.success({ content: `Le bon de sortie ${id_bande_sortie} a été annulé avec succès.`, key: loadingKey });
+          fetchData();
 
+      } catch (error) {
+        console.error(error)
+        message.error({ content: 'Une erreur est survenue.', key: loadingKey });
+      }
     }
 
     const columns = [
@@ -507,12 +518,12 @@ const BandeSortie = () => {
           <Space size="small">
 
               <Tooltip title="Relevé des bons de sortie">
-                  <Button
-                    icon={<FileTextOutlined />}
-                    style={{ color: 'blue' }}
-                    onClick={() => handleReleve(record.id_bande_sortie)}
-                    aria-label="Relevé"
-                  />
+                <Button
+                  icon={<FileTextOutlined />}
+                  style={{ color: 'blue' }}
+                  onClick={() => handleReleve(record.id_bande_sortie)}
+                  aria-label="Relevé"
+                />
               </Tooltip>
 
               <Tooltip title="valider">
@@ -528,7 +539,7 @@ const BandeSortie = () => {
                   <Button
                     icon={<CloseOutlined />}
                     style={{ color: 'red' }}
-                    onClick={() => handlAnnuler(record.id_bande_sortie)}
+                    onClick={() => handlAnnuler(record.id_bande_sortie, record.id_vehicule)}
                     aria-label="Annuler"
                     disabled = {record.nom_statut_bs === 'Retour'}
                   />
@@ -537,7 +548,7 @@ const BandeSortie = () => {
               <Tooltip title="Supprimer">
                 <Popconfirm
                   title="Êtes-vous sûr de vouloir supprimer ce bon de sortie ?"
-                  onConfirm={() => handleDelete(record.id_bande_sortie)}
+                  onConfirm={() => handleDelete(record.id_bande_sortie, record.id_vehicule)}
                   okText="Oui"
                   cancelText="Non"
                 >

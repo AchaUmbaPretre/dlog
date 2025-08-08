@@ -24,7 +24,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const [ modalType, setModalType ] = useState(null);
     const [createBS, setCreateBS] = useState(true);
 
-
     const fetchDatas = async() => {
         setLoadingData(true);
         try {
@@ -105,8 +104,8 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             closeModal();
 
             if (createBS) {
-            setModalType('Bande');
-            closeModal();
+                setModalType('Bande');
+                closeModal();
             }
 
         } catch (error) {

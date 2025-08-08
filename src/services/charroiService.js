@@ -489,8 +489,12 @@ export const postBandeSortie = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/bande_sortie`, data);
 }
 
-export const putEstSupprimeBandeSortie = async (id, userId) => {
-    return axios.put(`${DOMAIN}/api/charroi/bande_sortie_est_supprime?id_bande_sortie=${id}&userId=${userId}`);
+export const putEstSupprimeBandeSortie = async (id, idVehicule, userId) => {
+    return axios.put(`${DOMAIN}/api/charroi/bande_sortie_est_supprime?id_bande_sortie=${id}&id_vehicule=${idVehicule}&userId=${userId}`);
+}
+
+export const putAnnulereBandeSortie = async (id, idVehicule, userId) => {
+    return axios.put(`${DOMAIN}/api/charroi/bande_sortie_annuler?id_bande_sortie=${id}&id_vehicule=${idVehicule}&userId=${userId}`);
 }
 
 //Bon de sortie des personnels
