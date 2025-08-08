@@ -34,7 +34,7 @@ const AffectationDemande = () => {
       "Retour" : true,
       "Statut" : true,
       "Commentaire" : false,
-      "Createur" : false,
+      "Crée par" : false,
     });
 
     const columnStyles = {
@@ -394,7 +394,7 @@ const AffectationDemande = () => {
             <Text  type="secondary">{text}</Text>
           </Tooltip>
         ),
-        ...(columnsVisibility['Createur'] ? {} : { className: 'hidden-column' })
+        ...(columnsVisibility['Crée par'] ? {} : { className: 'hidden-column' })
       },
     {
       title: (<Text strong>Actions</Text>),
@@ -405,13 +405,13 @@ const AffectationDemande = () => {
       },
         render: (text, record) => (
         <Space size="small">
-        <Tooltip title={record.statut === 4 
+        <Tooltip title={record.statut === 4  || record.statut === 9
           ? "Création de bon de sortie non autorisée" 
           : "Créer un bon de sortie"}
         >
             <Button
               type="text"
-              disabled={ record.statut === 4 }
+              disabled={ record.statut === 4 || record.statut === 9}
               icon={<FormOutlined />}
               style={{ color: '#1890ff' }}
               onClick={() => handlSortie(record.id_affectation_demande)}

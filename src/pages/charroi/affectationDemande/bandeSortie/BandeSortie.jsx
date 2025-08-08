@@ -40,7 +40,7 @@ const BandeSortie = () => {
       "Client" : false,
       "Demandeur" : true,
       "Agent" : false,
-      "Cree par" : false
+      "Crée par" : false
       })
 
     const columnStyles = {
@@ -519,7 +519,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
             <Text  type="secondary">{text}</Text>
           </Tooltip>
         ),
-        ...(columnsVisibility['Cree par'] ? {} : { className: 'hidden-column' })
+        ...(columnsVisibility['Crée par'] ? {} : { className: 'hidden-column' })
       },
       {
           title: (
@@ -557,7 +557,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
                     style={{ color: 'red' }}
                     onClick={() => handleAnnuler(record.id_bande_sortie, record.id_vehicule)}
                     aria-label="Annuler"
-                    disabled = {record.nom_statut_bs === 'Retour'}
+                    disabled = {record.nom_statut_bs === 'Retour' || record.nom_statut_bs === 'Annulé' }
                   />
               </Tooltip>
 
