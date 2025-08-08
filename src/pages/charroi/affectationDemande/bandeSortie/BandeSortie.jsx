@@ -149,21 +149,37 @@ const BandeSortie = () => {
       }));
     };
 
-    const handlAnnuler = async (id_bande_sortie, id_vehicule, userId) => {
-      const loadingKey = 'loadingAnnuler';
-      message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
-      setLoading(true)
+const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
+  const loadingKey = 'loadingAnnuler';
+  message.loading({
+    content: 'Traitement en cours, veuillez patienter...',
+    key: loadingKey,
+    duration: 0,
+  });
 
-      try {
-          await putAnnulereBandeSortie(id_bande_sortie, id_vehicule, userId);
-          message.success({ content: `Le bon de sortie ${id_bande_sortie} a été annulé avec succès.`, key: loadingKey });
-          fetchData();
+  setLoading(true);
 
-      } catch (error) {
-        console.error(error)
-        message.error({ content: 'Une erreur est survenue.', key: loadingKey });
-      }
+  try {
+    await putAnnulereBandeSortie(id_bande_sortie, id_vehicule, userId);
+    
+    message.success({
+      content: `Le bon de sortie ${id_bande_sortie} a été annulé avec succès.`,
+      key: loadingKey,
+    });
+
+    fetchData();
+  } catch (error) {
+    console.error("Erreur lors de l'annulation :", error);
+
+    message.error({
+      content: 'Une erreur est survenue lors de l\'annulation.',
+      key: loadingKey,
+    });
+    
+  } finally {
+    setLoading(false);
     }
+  }
 
     const columns = [
         {
@@ -174,8 +190,8 @@ const BandeSortie = () => {
               const pageSize = pagination.pageSize || 10;
               const pageIndex = pagination.current || 1;
               return (pageIndex - 1) * pageSize + index + 1;
-          },
-          width: "3%"
+        },
+        width: "3%"
       },
       {
         title: (
@@ -503,7 +519,7 @@ const BandeSortie = () => {
             <Text  type="secondary">{text}</Text>
           </Tooltip>
         ),
-        ...(columnsVisibility['Createur'] ? {} : { className: 'hidden-column' })
+        ...(columnsVisibility['Cree par'] ? {} : { className: 'hidden-column' })
       },
       {
           title: (
@@ -539,7 +555,7 @@ const BandeSortie = () => {
                   <Button
                     icon={<CloseOutlined />}
                     style={{ color: 'red' }}
-                    onClick={() => handlAnnuler(record.id_bande_sortie, record.id_vehicule)}
+                    onClick={() => handleAnnuler(record.id_bande_sortie, record.id_vehicule)}
                     aria-label="Annuler"
                     disabled = {record.nom_statut_bs === 'Retour'}
                   />
