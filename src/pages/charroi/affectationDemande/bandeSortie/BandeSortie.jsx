@@ -41,8 +41,7 @@ const BandeSortie = () => {
       "Demandeur" : true,
       "Agent" : false,
       "Crée par" : false
-      })
-
+      });
     const columnStyles = {
       title: {
         maxWidth: '160px',
@@ -557,7 +556,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
                     style={{ color: 'red' }}
                     onClick={() => handleAnnuler(record.id_bande_sortie, record.id_vehicule)}
                     aria-label="Annuler"
-                    disabled = {record.nom_statut_bs === 'Retour' || record.nom_statut_bs === 'Annulé' }
+                    disabled = {record.nom_statut_bs === 'Retour' || record.nom_statut_bs === 'Annulé' || record.nom_statut_bs === 'Départ' }
                   />
               </Tooltip>
 
