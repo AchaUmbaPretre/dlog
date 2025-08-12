@@ -376,7 +376,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
             );
           }
 
-          const date = moment.utc(text);
+          const date = moment(text);
           const isValid = date.isValid();
 
           return (
@@ -409,7 +409,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
             );
           }
 
-          const date = moment.utc(text);
+          const date = moment(text);
           const isValid = date.isValid();
 
           return (
@@ -442,7 +442,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
               </Tag>
             );
           }
-          const date = moment.utc(text);
+          const date = moment(text);
           const isValid = date.isValid();              
             return (
               <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"}>
@@ -472,11 +472,11 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
                   </Tag>
               );
           }
-          const date = moment.utc(text);
+          const date = moment(text);
           const isValid = date.isValid();              
               return (
                   <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"}>
-                    {isValid ? date.format('DD-MM-YYYY HH:mm ') : 'Nest pas retourné'}
+                    {isValid ? date.local().format('DD-MM-YYYY HH:mm ') : 'Nest pas retourné'}
                   </Tag>
               );
           },

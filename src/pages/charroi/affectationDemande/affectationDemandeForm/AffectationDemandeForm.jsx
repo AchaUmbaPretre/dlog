@@ -82,6 +82,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
 
     const onFinish = async (values) => {
         await form.validateFields();
+        console.log(values)
 
         const loadingKey = 'loadingAffectation';
         message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });

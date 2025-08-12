@@ -30,8 +30,8 @@ const AffectationDemande = () => {
       "Véhicule" : true,
       "Immatriculation" : true,
       "Marque" : false,
-      "Preuve" : false,
-      "Retour" : true,
+      "Preuve" : true,
+      "Retour" : false,
       "Statut" : true,
       "Commentaire" : false,
       "Crée par" : false,
@@ -301,7 +301,7 @@ const AffectationDemande = () => {
                 </Tag>
               );
             }
-            const date = moment.utc(text);
+            const date = moment(text);
             const isValid = date.isValid();
                     
             return (
@@ -329,7 +329,7 @@ const AffectationDemande = () => {
                 </Tag>
               );
             }
-            const date = moment.utc(text);
+            const date = moment(text);
             const isValid = date.isValid();
                     
             return (
