@@ -40,7 +40,7 @@ const BandeSortie = () => {
       "Client" : false,
       "Demandeur" : true,
       "Agent" : false,
-      "Crée par" : false
+      "Créé par" : false
       });
     const columnStyles = {
       title: {
@@ -504,7 +504,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
         title: (
           <Space>
             <UserOutlined style={{ color: 'orange' }} />
-            <Text strong>Crée par</Text>
+            <Text strong>Créé par</Text>
           </Space>
         ),
         dataIndex: 'created',
@@ -518,7 +518,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
             <Text  type="secondary">{text}</Text>
           </Tooltip>
         ),
-        ...(columnsVisibility['Crée par'] ? {} : { className: 'hidden-column' })
+        ...(columnsVisibility['Créé par'] ? {} : { className: 'hidden-column' })
       },
       {
           title: (
