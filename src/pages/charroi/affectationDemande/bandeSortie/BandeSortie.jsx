@@ -672,7 +672,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
           visible={modalType === 'dateTime'}
           onCancel={closeAllModals}
           footer={null}
-          width={900}
+          width={800}
           centered
         >
           <UpdateTime closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />

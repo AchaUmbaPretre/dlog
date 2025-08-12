@@ -33,6 +33,7 @@ const UpdateTime = ({ closeModal, fetchData, id_bon, userId }) => {
     }
   }, [id_bon]);
 
+
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
@@ -70,7 +71,7 @@ const UpdateTime = ({ closeModal, fetchData, id_bon, userId }) => {
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Card>
             <Row gutter={12}>
-              <Col xs={24} md={8}>
+              <Col xs={24} md={12}>
                 <Form.Item
                   label="Date & heure de départ"
                   name="sortie_time"
@@ -85,7 +86,7 @@ const UpdateTime = ({ closeModal, fetchData, id_bon, userId }) => {
                 </Form.Item>
               </Col>
 
-              <Col xs={24} md={8}>
+              <Col xs={24} md={12}>
                 <Form.Item
                   label="Date & heure de retour prévue"
                   name="retour_time"
