@@ -226,7 +226,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                 </Form.Item>
                             </Col>
                             
-                            
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Motif"

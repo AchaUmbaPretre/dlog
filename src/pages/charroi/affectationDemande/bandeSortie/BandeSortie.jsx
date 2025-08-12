@@ -8,6 +8,7 @@ import ValidationDemandeForm from '../../demandeVehicule/validationDemande/valid
 import ReleveBonDeSortie from './releveBonDeSortie/ReleveBonDeSortie';
 import BandeSortieDetail from './bandeSortieDetail/BandeSortieDetail';
 import { useSelector } from 'react-redux';
+import UpdateTime from './updateTime/UpdateTime';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -62,6 +63,7 @@ const BandeSortie = () => {
     const handlSortie = (id) => openModal('validation', id);
     const handleReleve = (id) => openModal('releve', id);
     const handleDetail = (id) => openModal('detail', id);
+    const handleUpdateTime = (id) => openModal('dateTime', id);
 
 
     const closeAllModals = () => {
@@ -434,10 +436,10 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
         ellipsis: {
           showTitle: false,
         },
-        render: (text) => {
+        render: (text, record) => {
           if (!text) {
             return (
-              <Tag icon={<CalendarOutlined />} color="red">
+              <Tag icon={<CalendarOutlined />} color="red" onClick={() => handleUpdateTime(record.id_bande_sortie)}>
                 N'est pas sorti
               </Tag>
             );
@@ -445,7 +447,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
           const date = moment(text);
           const isValid = date.isValid();              
             return (
-              <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"}>
+              <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"} onClick={() => handleUpdateTime(record.id_bande_sortie)}>
                 {isValid ? date.format('DD-MM-YYYY HH:mm') : "N'est pas sorti"}
               </Tag>
             );
@@ -464,10 +466,10 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
         ellipsis: {
           showTitle: false,
         },
-        render: (text) => {
+        render: (text, record) => {
           if (!text) {
               return (
-                  <Tag icon={<CalendarOutlined />} color="red">
+                  <Tag icon={<CalendarOutlined />} color="red" onClick={() => handleUpdateTime(record.id_bande_sortie)}>
                       N'est pas retourné
                   </Tag>
               );
@@ -475,7 +477,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
           const date = moment(text);
           const isValid = date.isValid();              
               return (
-                  <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"}>
+                  <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"} onClick={() => handleUpdateTime(record.id_bande_sortie)}>
                     {isValid ? date.local().format('DD-MM-YYYY HH:mm ') : 'Nest pas retourné'}
                   </Tag>
               );
@@ -663,6 +665,17 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
             centered
         >
           <BandeSortieDetail closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'dateTime'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={900}
+          centered
+        >
+          <UpdateTime closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
         </Modal>
     </>
   )
