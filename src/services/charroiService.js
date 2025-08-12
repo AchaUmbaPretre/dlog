@@ -473,8 +473,8 @@ export const postAffectationDemande = async (data) => {
 }
 
 //Bande de sortie
-export const getBandeSortie = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/bande_sortie`);
+export const getBandeSortie = async (userId) => {
+    return axios.get(`${DOMAIN}/api/charroi/bande_sortie?userId=${userId}`);
 }
 
 export const getBandeSortieUnique = async () => {

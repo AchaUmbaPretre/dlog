@@ -99,7 +99,7 @@ const BandeSortie = () => {
 
     const fetchData = async() => {
       try {
-        const { data } = await  getBandeSortie()
+        const { data } = await  getBandeSortie(userId)
         setData(data)
       } catch (error) {
         notification.error({
@@ -116,7 +116,7 @@ const BandeSortie = () => {
       fetchData();
         const interval = setInterval(fetchData, 5000)
         return () => clearInterval(interval)
-    }, []);
+    }, [userId]);
 
     const menu = (
       <Menu>
@@ -543,13 +543,20 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
                 />
               </Tooltip>
 
-              <Tooltip title="valider">
-                  <Button
-                    icon={<CheckCircleOutlined />}
-                    style={{ color: 'green' }}
-                    onClick={() => handlSortie(record.id_bande_sortie)}
-                    aria-label="Valider"
-                  />
+              <Tooltip title={record.utilisateur_a_valide ? "Vous avez déjà validé" : "Valider"}>
+                <Button
+                  icon={
+                    record.utilisateur_a_valide
+                      ? <CheckCircleOutlined style={{ color: 'gray' }} />
+                      : <CheckCircleOutlined />
+                  }
+                  style={{
+                    color: record.utilisateur_a_valide ? 'gray' : 'green',
+                  }}
+                  onClick={() => handlSortie(record.id_bande_sortie)}
+                  disabled={record.utilisateur_a_valide}
+                  aria-label="Valider"
+                />
               </Tooltip>
 
               <Tooltip title="Annuler le BS">
