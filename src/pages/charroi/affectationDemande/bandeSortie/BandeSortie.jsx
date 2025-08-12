@@ -447,7 +447,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
           const date = moment(text);
           const isValid = date.isValid();              
             return (
-              <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"} onClick={() => handleUpdateTime(record.id_bande_sortie)}>
+              <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"} onDoubleClick={() => handleUpdateTime(record.id_bande_sortie)}>
                 {isValid ? date.format('DD-MM-YYYY HH:mm') : "N'est pas sorti"}
               </Tag>
             );
@@ -477,7 +477,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
           const date = moment(text);
           const isValid = date.isValid();              
               return (
-                  <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"} onClick={() => handleUpdateTime(record.id_bande_sortie)}>
+                  <Tag icon={<CalendarOutlined />} color={isValid ? "purple" : "red"} onDoubleClick={() => handleUpdateTime(record.id_bande_sortie)}>
                     {isValid ? date.local().format('DD-MM-YYYY HH:mm ') : 'Nest pas retourné'}
                   </Tag>
               );
@@ -544,20 +544,21 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
               </Tooltip>
 
               <Tooltip title={record.utilisateur_a_valide ? "Vous avez déjà validé" : "Valider"}>
-                <Button
-                  icon={
-                    record.utilisateur_a_valide
-                      ? <CheckCircleOutlined style={{ color: 'gray' }} />
-                      : <CheckCircleOutlined />
-                  }
-                  style={{
-                    color: record.utilisateur_a_valide ? 'gray' : 'green',
-                  }}
-                  onClick={() => handlSortie(record.id_bande_sortie)}
-                  disabled={record.utilisateur_a_valide}
-                  aria-label="Valider"
-                />
-              </Tooltip>
+              <Button
+                icon={
+                  record.utilisateur_a_valide
+                    ? <CheckCircleOutlined style={{ color: 'gray' }} />
+                    : <CheckCircleOutlined />
+                }
+                style={{
+                  color: record.utilisateur_a_valide ? 'gray' : 'green',
+                }}
+                onClick={() => handlSortie(record.id_bande_sortie)}
+                disabled={record.utilisateur_a_valide}
+                aria-label="Valider"
+              />
+            </Tooltip>
+
 
               <Tooltip title="Annuler le BS">
                   <Button
