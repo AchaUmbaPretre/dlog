@@ -44,7 +44,7 @@ const DemandeVehicule = () => {
     "Demandeur" : true,
     "Motif": false,
     "Destination" : true,
-    "Crée par" : true,
+    "Créé par" : true,
     "Statut" : true,
     "Vu" : true
   })
@@ -370,7 +370,7 @@ const DemandeVehicule = () => {
             title: (
             <Space>
                 <UserOutlined style={{ color: 'orange' }} />
-                <Text strong>Crée par</Text>
+                <Text strong>Créé par</Text>
             </Space>
             ),
             dataIndex: 'nom_user',
@@ -380,7 +380,7 @@ const DemandeVehicule = () => {
                 showTitle: false,
             },
             render: (text) => <Text type="secondary">{text}</Text>,
-            ...(columnsVisibility['Crée par'] ? {} : { className: 'hidden-column' })
+            ...(columnsVisibility['Créé par'] ? {} : { className: 'hidden-column' })
         },
         ...(role === 'Admin'
             ? [
