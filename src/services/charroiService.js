@@ -497,9 +497,15 @@ export const putAnnulereBandeSortie = async (id, idVehicule, userId) => {
     return axios.put(`${DOMAIN}/api/charroi/bande_sortie_annuler?id_bande_sortie=${id}&id_vehicule=${idVehicule}&userId=${userId}`);
 }
 
-export const putBonSortieUpdateDate = async (id, sortie_time, retour_time, userId) => {
-    return axios.put(`${DOMAIN}/api/charroi/bon_update_date?id_bon=${id}&sortie_time=${sortie_time}&retour_time=${retour_time}&userId=${userId}`);
-}
+export const putBonSortieUpdateDate = async ({ id_bon, sortie_time, retour_time, user_cr }) => {
+  return axios.put(`${DOMAIN}/api/charroi/bon_update_date`, {
+    id_bon,
+    sortie_time,
+    retour_time,
+    user_cr
+  });
+};
+
 
 //Bon de sortie des personnels
 export const getBonSortiePerso = async () => {
