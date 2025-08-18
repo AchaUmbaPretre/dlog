@@ -1,6 +1,9 @@
 import { Card, Divider, Tabs } from 'antd'
 import './rapportBs.scss'
 import { useState } from 'react';
+import Performance_op from './performance_op/Performance_op';
+import SuiviStatutBs from './suiviStatutBs/SuiviStatutBs';
+import Indicateurs_log from './Indicateurs _log/Indicateurs_log';
 
 const RapportBs = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
@@ -112,7 +115,7 @@ const RapportBs = () => {
                         }
                         key="2"
                     >
-
+                        <Performance_op/>
                     </Tabs.TabPane>
 
                     <Tabs.TabPane
@@ -123,20 +126,20 @@ const RapportBs = () => {
                         }
                         key="3"
                     >
-
+                        <SuiviStatutBs/>
                     </Tabs.TabPane>
 
                     <Tabs.TabPane
-                            tab={
-                                <span>                        
-                                    Indicateurs logistiques spécifiques
-                                </span>
-                            }
-                            key="4"
-                        >
-
-                        </Tabs.TabPane>
-                    </Tabs>
+                        tab={
+                            <span>                        
+                                Indicateurs logistiques spécifiques
+                            </span>
+                        }
+                        key="4"
+                    >
+                        <Indicateurs_log/>
+                    </Tabs.TabPane>
+                </Tabs>
             </Card>
         </div>
     </>
