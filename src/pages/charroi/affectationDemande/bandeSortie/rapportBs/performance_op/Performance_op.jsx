@@ -54,7 +54,35 @@ const Performance_op = () => {
     }
   ]
 
-  const MoyenDureeColumns = [
+  const MoyenneDureeColumns = [
+    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
+    {
+      title: 'Destination', dataIndex: 'nom_destination', key: 'nom_destination', 
+      render: (text, record) => (
+        <Space>
+          <Text type='secondary'>{text}</Text>
+        </Space>
+      )
+    },
+    {
+      title: 'Date', dataIndex: 'Date', key: 'date',
+      render: (text, record) => (
+        <Space>
+          <Text type='secondary'>{text}</Text>
+        </Space>
+      )
+    },
+    {
+      title: 'Nbre moyen', key: 'nbre_moyen', 
+      render: (text, record) => (
+        <Space>
+          <Text type='secondary'>{text}</Text>
+        </Space>
+      )
+    }
+  ]
+
+  const TotaleDureeColumns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
       title: 'Destination', dataIndex: 'nom_destination', key: 'nom_destination', 
@@ -97,11 +125,11 @@ const Performance_op = () => {
               </Card>
 
               <Card type="inner" title="Durée moyenne d’une course">
-                <Table dataSource={data} columns={columns} />
+                <Table dataSource={data} columns={MoyenneDureeColumns} />
               </Card>
 
               <Card type="inner" title="Durée totale cumulée des courses">
-                <Table dataSource={data} columns={columns} />
+                <Table dataSource={data} columns={TotaleDureeColumns} />
               </Card>
             </div>
           </Card>
