@@ -3,7 +3,7 @@ import './rapportBs.scss'
 import { useState } from 'react';
 import Performance_op from './performance_op/Performance_op';
 import SuiviStatutBs from './suiviStatutBs/SuiviStatutBs';
-import Indicateurs_log from './Indicateurs _log/Indicateurs_log';
+import Indicateurs_log from './Indicateurs_log/Indicateurs_log';
 
 const RapportBs = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
