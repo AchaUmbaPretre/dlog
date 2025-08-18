@@ -50,7 +50,6 @@ const Batiment = ({datas}) => {
 
   const access = getSubMenuAccessByUrl(currentUrl, datas);
 
-  
   const handleDelete = async (id) => {
     try {
       await putDeleteBatiment(id);
