@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Popconfirm, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import { CarOutlined, DeleteOutlined, ApartmentOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CarOutlined, StockOutlined, DeleteOutlined, ApartmentOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie, putAnnulereBandeSortie, putEstSupprimeBandeSortie } from '../../../../services/charroiService';
@@ -618,10 +618,10 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
               </div>
               <div className="client-rows-right">
                 <Button
-                  type='defaut'
+                  type='primary'
                   onClick={handleRapportBs}
                 >
-                  Rapport
+                  <StockOutlined/> Rapport
                 </Button>
                 <Dropdown overlay={menus} trigger={['click']}>
                   <Button icon={<MenuOutlined />} className="ant-dropdown-link">
@@ -698,7 +698,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
           visible={modalType === 'rapport'}
           onCancel={closeAllModals}
           footer={null}
-          width={1050}
+          width={1270}
           centered
         >
           <RapportBs />
