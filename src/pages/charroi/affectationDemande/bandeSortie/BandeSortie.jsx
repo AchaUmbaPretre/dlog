@@ -9,6 +9,7 @@ import ReleveBonDeSortie from './releveBonDeSortie/ReleveBonDeSortie';
 import BandeSortieDetail from './bandeSortieDetail/BandeSortieDetail';
 import { useSelector } from 'react-redux';
 import UpdateTime from './updateTime/UpdateTime';
+import RapportBs from './rapportBs/RapportBs';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -64,7 +65,7 @@ const BandeSortie = () => {
     const handleReleve = (id) => openModal('releve', id);
     const handleDetail = (id) => openModal('detail', id);
     const handleUpdateTime = (id) => openModal('dateTime', id);
-
+    const handleRapportBs = () => openModal('rapport');
 
     const closeAllModals = () => {
       setModalType(null);
@@ -626,20 +627,20 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
                   <Button icon={<ExportOutlined />}>Export</Button>
                 </Dropdown>
               </div>
-              </div>
-              <Table
-                columns={columns}
-                dataSource={filteredData}
-                loading={loading}
-                pagination={pagination}
-                onChange={(pagination) => setPagination(pagination)}
-                rowKey="id"
-                bordered
-                size="small"
-                scroll={scroll}
-                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-              />
             </div>
+            <Table
+              columns={columns}
+              dataSource={filteredData}
+              loading={loading}
+              pagination={pagination}
+              onChange={(pagination) => setPagination(pagination)}
+              rowKey="id"
+              bordered
+              size="small"
+              scroll={scroll}
+              rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+            />
+          </div>
         </div>
 
         <Modal
@@ -684,6 +685,17 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
           centered
         >
           <UpdateTime closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'rapport'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1050}
+          centered
+        >
+          <RapportBs />
         </Modal>
     </>
   )
