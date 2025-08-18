@@ -1,5 +1,8 @@
 .rapport_bs{
     width: 100%;
+    .rapport_h2{
+        margin-bottom: 20px;
+    }
     .rapport_bs_wrapper{
         .rapport_bs_globals{
             .rapport_bs_global{
@@ -11,6 +14,18 @@
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
+                    }
+                }
+                .bs_global_infos{
+                    .rows{
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 20px;
+                        .row{
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        }
                     }
                 }
             }

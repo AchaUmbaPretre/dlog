@@ -101,16 +101,16 @@ const Declaration = () => {
     }
 };
 
-useEffect(() => {
-  const initialTimeout = setTimeout(() => {
-      checkAndUnlockStaleRecords();
+  useEffect(() => {
+    const initialTimeout = setTimeout(() => {
+        checkAndUnlockStaleRecords();
 
-      const interval = setInterval(checkAndUnlockStaleRecords, 300000);
-      return () => clearInterval(interval);
-  }, 300000);
+        const interval = setInterval(checkAndUnlockStaleRecords, 300000);
+        return () => clearInterval(interval);
+    }, 300000);
 
-  return () => clearTimeout(initialTimeout);
-}, []);
+    return () => clearTimeout(initialTimeout);
+  }, []);
 
   const fetchData = async () => {
     try {
