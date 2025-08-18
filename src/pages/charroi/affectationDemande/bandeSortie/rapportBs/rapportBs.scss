@@ -1,6 +1,19 @@
 .rapport_bs{
     width: 100%;
     .rapport_bs_wrapper{
-
+        .rapport_bs_globals{
+            .rapport_bs_global{
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                .bs_global_info{
+                    .row{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    }
+                }
+            }
+        }
     }
 }
