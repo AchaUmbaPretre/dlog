@@ -116,19 +116,19 @@ const Performance_op = () => {
         <div className="rapport_bs_wrapper">
           <Card  type="inner" title="Performance opérationnelle" className="rapport_bs_globals">
             <div className="rapport_bs_global">
-              <Card type="inner" title="Nombre moyen de sorties par véhicule">
+              <Card  title="Nombre moyen de sorties par véhicule" variant="borderless">
                 <Table dataSource={data} columns={columns} />
               </Card>
 
-              <Card type="inner" title="Nombre moyen de sorties par chauffeur">
+              <Card title="Nombre moyen de sorties par chauffeur" variant="borderless">
                 <Table dataSource={data} columns={ChauffeurColumns} />
               </Card>
 
-              <Card type="inner" title="Durée moyenne d’une course">
+              <Card title="Durée moyenne d’une course" variant="borderless">
                 <Table dataSource={data} columns={MoyenneDureeColumns} />
               </Card>
 
-              <Card type="inner" title="Durée totale cumulée des courses">
+              <Card title="Durée totale cumulée des courses" variant="borderless">
                 <Table dataSource={data} columns={TotaleDureeColumns} />
               </Card>
             </div>
