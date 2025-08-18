@@ -617,6 +617,12 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
                 />
               </div>
               <div className="client-rows-right">
+                <Button
+                  type='defaut'
+                  onClick={handleRapportBs}
+                >
+                  Rapport
+                </Button>
                 <Dropdown overlay={menus} trigger={['click']}>
                   <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                     Colonnes <DownOutlined />
