@@ -102,3 +102,11 @@ export const getRapportBonPerformance = async (startDate, endDate) => {
       params: { startDate, endDate }
     });
 };
+
+export const getRapportStatutPrincipaux = async (params) => {
+  return axios.get(`${DOMAIN}/api/rapport/rapport_statut_principaux`, { params });
+};
+
+export const getRapportIndicateurLog = async (params) => {
+  return axios.get(`${DOMAIN}/api/rapport/rapport_indicateurs_log`, { params });
+};

@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Indicateurs_log = () => {
+  const [data, setData] = useState([])
+
   return (
-    <div>Indicateurs_log</div>
+    <>
+
+    </>
   )
 }
 
