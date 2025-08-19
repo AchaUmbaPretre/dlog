@@ -38,8 +38,8 @@ const RapportBs = () => {
         <h2 className="rapport_h2">Rapport de Bon de sortie</h2>
         <Tabs activeKey={activeKey} onChange={setActiveKey} type="card" tabPosition="top">
           
-          <TabPane tab="Volume global des activités" key="1">
-            <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+          <TabPane tab="Volume global des activités" key="1" style={{background: "#f0f2f5", padding: 24 }}>
+            <Row gutter={[16, 16]} style={{ marginBottom: 24, background: "#f0f2f5" }}>
               <Col xs={24} sm={8}>
                 <Card className="kpi_card">
                   <Statistic title="Nombre total de bons de sortie" value={globals.total_bons || 0} />

@@ -32,6 +32,7 @@ const PerformanceOp = () => {
   const [loading, setLoading] = useState(false);
   const [searchVehicule, setSearchVehicule] = useState("");
   const [searchChauffeur, setSearchChauffeur] = useState("");
+  const [searchDestination, setSearchDestination] = useState("");
 
   const fetchData = async (startDate, endDate) => {
     try {
@@ -68,6 +69,9 @@ const PerformanceOp = () => {
 
   const filteredVehicules = vehicule.filter(v => v.immatriculation.toLowerCase().includes(searchVehicule.toLowerCase()));
   const filteredChauffeurs = chauffeur.filter(c => c.nom.toLowerCase().includes(searchChauffeur.toLowerCase()));
+  const filteredDureeData = dureeData.filter(d =>
+    d.nom_destination.toLowerCase().includes(searchDestination.toLowerCase())
+  );
 
   const graphData = dureeData.map(c => ({
     destination: c.nom_destination,
@@ -160,8 +164,14 @@ const PerformanceOp = () => {
 
           {/* Tableau duréeData amélioré */}
           <Card type="inner" title="Durée des courses par destination">
+            <Search 
+              placeholder="Rechercher destination" 
+              onChange={e => setSearchDestination(e.target.value)} 
+              style={{ marginBottom: 12, width: 300 }} 
+              allowClear 
+            />
             <Table
-              dataSource={dureeData}
+              dataSource={filteredDureeData}
               rowKey={(record, index) => index}
               pagination={{ pageSize: 5 }}
               bordered
