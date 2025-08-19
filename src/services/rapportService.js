@@ -97,5 +97,8 @@ export const getRapportBonGlobal = async (startDate, endDate) => {
 };
 
 export const getRapportBonPerformance = async (startDate, endDate) => {
-  return axios.get(`${DOMAIN}/api/rapport/rapport_performance?startDate=${startDate}&endDate=${endDate}`,);
+  return axios.get(`${DOMAIN}/api/rapport/rapport_performance`,
+    {
+      params: { startDate, endDate }
+    });
 };

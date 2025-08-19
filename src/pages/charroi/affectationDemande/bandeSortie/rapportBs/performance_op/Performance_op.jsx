@@ -1,107 +1,170 @@
-import { Card, Typography, Space, Table, DatePicker, Statistic, Progress, Button } from 'antd';
-import { useEffect, useState } from 'react';
-import moment from 'moment';
-import { getRapportBonPerformance } from '../../../../../../services/rapportService';
-import { CSVLink } from 'react-csv';
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  Table,
+  Row,
+  Col,
+  DatePicker,
+  Button,
+  Statistic,
+  Progress,
+  message,
+  Spin,
+  Input,
+  Typography,
+  Tag,
+  Tooltip,
+} from "antd";
+import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import { ResponsiveBar } from "@nivo/bar";
+import moment from "moment";
+import { getRapportBonPerformance } from "../../../../../../services/rapportService";
 
-const { Text } = Typography;
 const { RangePicker } = DatePicker;
+const { Search } = Input;
+const { Title } = Typography;
 
-const Performance_op = () => {
-  const [dateRange, setDateRange] = useState([moment().startOf('month'), moment().endOf('month')]);
+const PerformanceOp = () => {
   const [vehicule, setVehicule] = useState([]);
   const [chauffeur, setChauffeur] = useState([]);
-  const [course, setCourse] = useState([]);
-  const [courseDuree, setCourseDuree] = useState([]);
-  const [tauxRespect, setTauxRespect] = useState(0);
+  const [dureeData, setDureeData] = useState([]);
+  const [tauxData, setTauxData] = useState({ taux_retour_delais: 0 });
+  const [dates, setDates] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchVehicule, setSearchVehicule] = useState("");
+  const [searchChauffeur, setSearchChauffeur] = useState("");
 
-  const fetchData = async (start, end) => {
-    setLoading(true);
+  const fetchData = async (startDate, endDate) => {
     try {
-      const [performanceData] = await Promise.all([
-        getRapportBonPerformance(start, end)
-      ]);
-
-      setVehicule(performanceData.data.vehiculeData || []);
-      setChauffeur(performanceData.data.chauffeurData || []);
-      setCourse(performanceData.data.dureeData || []);
-      setCourseDuree(performanceData.data.dureeData || []);
-      setTauxRespect(performanceData.data.tauxData?.taux_retour_delais || 0);
+      setLoading(true);
+      const { data } = await getRapportBonPerformance(startDate, endDate);
+      setVehicule(data.vehiculeData || []);
+      setChauffeur(data.chauffeurData || []);
+      setDureeData(data.dureeData || []);
+      setTauxData(data.tauxData || { taux_retour_delais: 0 });
     } catch (error) {
-      console.log(error);
+      message.error("Erreur lors du chargement des données");
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchData(dateRange[0].format('YYYY-MM-DD'), dateRange[1].format('YYYY-MM-DD'));
-  }, []);
+  useEffect(() => { fetchData(); }, []);
 
-  const columnsVehicule = [
-    { title: '#', key: 'id', render: (text, record, index) => index + 1, width: '3%' },
-    { title: 'Immatriculation', dataIndex: 'immatriculation', key: 'immatriculation' },
-    { title: 'Marque', dataIndex: 'nom_marque', key: 'nom_marque' },
-    { title: 'Catégorie', dataIndex: 'nom_cat', key: 'nom_cat' },
-    { title: 'Nbre sorties', dataIndex: 'total_sorties', key: 'total_sorties' }
+  const handleDateChange = (dates) => setDates(dates);
+  const applyFilter = () => {
+    if (dates && dates.length === 2) {
+      fetchData(moment(dates[0]).format("YYYY-MM-DD"), moment(dates[1]).format("YYYY-MM-DD"));
+    } else {
+      message.warning("Veuillez sélectionner une plage de dates");
+    }
+  };
+
+  // Graph data
+  const graphData = dureeData.map(c => ({
+    destination: c.nom_destination,
+    duree: parseFloat(c.duree_moyenne_heures) || 0,
+  }));
+
+  const filteredVehicules = vehicule.filter(v => v.immatriculation.toLowerCase().includes(searchVehicule.toLowerCase()));
+  const filteredChauffeurs = chauffeur.filter(c => c.nom.toLowerCase().includes(searchChauffeur.toLowerCase()));
+
+  const vehiculeColumns = [
+    { title: "#", key: "id", render: (_, __, index) => index + 1, width: 50 },
+    { title: "Immatriculation", dataIndex: "immatriculation", key: "immatriculation" },
+    { title: "Marque", dataIndex: "nom_marque", key: "nom_marque" },
+    { title: "Catégorie", dataIndex: "nom_cat", key: "nom_cat" },
+    { title: "Sorties", dataIndex: "total_sorties", key: "total_sorties", sorter: (a, b) => a.total_sorties - b.total_sorties },
   ];
 
-  const columnsChauffeur = [
-    { title: '#', key: 'id', render: (text, record, index) => index + 1, width: '3%' },
-    { title: 'Nom', dataIndex: 'nom', key: 'nom' },
-    { title: 'Nbre sorties', dataIndex: 'total_sorties', key: 'total_sorties' }
+  const chauffeurColumns = [
+    { title: "#", key: "id", render: (_, __, index) => index + 1, width: 50 },
+    { title: "Nom", dataIndex: "nom", key: "nom" },
+    { title: "Sorties", dataIndex: "total_sorties", key: "total_sorties", sorter: (a, b) => a.total_sorties - b.total_sorties },
   ];
 
-  const columnsCourse = [
-    { title: '#', key: 'id', render: (text, record, index) => index + 1, width: '3%' },
-    { title: 'Destination', dataIndex: 'nom_destination', key: 'nom_destination' },
-    { title: 'Durée moyenne (heures)', dataIndex: 'duree_moyenne_heures', key: 'duree_moyenne_heures' },
-    { title: 'Durée totale (jours)', dataIndex: 'duree_totale_jours', key: 'duree_totale_jours' }
+  const dureeColumns = [
+    { title: "#", key: "id", render: (_, __, index) => index + 1, width: 50 },
+    { title: "Destination", dataIndex: "nom_destination", key: "nom_destination" },
+    { title: "Durée moyenne (h)", dataIndex: "duree_moyenne_heures", key: "duree_moyenne_heures" },
+    { title: "Durée totale (h)", dataIndex: "duree_totale_heures", key: "duree_totale_heures" },
+    { title: "Durée totale (j)", dataIndex: "duree_totale_jours", key: "duree_totale_jours" },
   ];
 
   return (
-    <div className='rapport_bs'>
-      <Card type='inner' title='Performance opérationnelle'>
-        <Space style={{ marginBottom: 16 }}>
-          <RangePicker
-            value={dateRange}
-            format='YYYY-MM-DD'
-            onChange={(dates) => {
-              if (dates) {
-                setDateRange(dates);
-                fetchData(dates[0].format('YYYY-MM-DD'), dates[1].format('YYYY-MM-DD'));
-              }
-            }}
-          />
-          <CSVLink data={vehicule} filename={`vehicule_${moment().format('YYYYMMDD')}.csv`}>
-            <Button type='primary'>Exporter Véhicules CSV</Button>
-          </CSVLink>
-        </Space>
+    <div style={{ padding: 24, background: "#f0f2f5", minHeight: "100vh" }}>
+      {/* Filtrage */}
+      <Row gutter={[16,16]} align="middle" style={{ marginBottom: 24 }}>
+        <Col><RangePicker onChange={handleDateChange} /></Col>
+        <Col><Button type="primary" onClick={applyFilter}>Appliquer</Button></Col>
+      </Row>
 
-        <Card title={`Taux de respect des délais`} style={{ marginBottom: 16 }}>
-          <Statistic
-            title='Respect des délais (%)'
-            value={tauxRespect}
-            precision={2}
-          />
-          <Progress percent={tauxRespect} status={tauxRespect >= 100 ? 'success' : 'active'} />
-        </Card>
+      <Spin spinning={loading} tip="Chargement des données..." size="large">
+        {/* Top KPIs animés */}
+        <Row gutter={16} style={{ marginBottom: 24 }}>
+          <Col xs={24} sm={8}>
+            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
+              <Statistic
+                title="Taux retour dans les délais"
+                value={tauxData.taux_retour_delais || 0}
+                precision={2}
+                suffix="%"
+              />
+              <Progress percent={tauxData.taux_retour_delais || 0} strokeColor={{ from: "#108ee9", to: "#87d068" }} strokeWidth={14} />
+            </Card>
+          </Col>
+          <Col xs={24} sm={8}>
+            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
+              <Statistic title="Véhicules mobilisés" value={vehicule.length} prefix={vehicule.length > 10 ? <ArrowUpOutlined style={{ color: "green" }} /> : <ArrowDownOutlined style={{ color: "red" }} />} />
+            </Card>
+          </Col>
+          <Col xs={24} sm={8}>
+            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
+              <Statistic title="Chauffeurs mobilisés" value={chauffeur.length} prefix={chauffeur.length > 10 ? <ArrowUpOutlined style={{ color: "green" }} /> : <ArrowDownOutlined style={{ color: "red" }} />} />
+            </Card>
+          </Col>
+        </Row>
 
-        <Card title='Nombre moyen de sorties par véhicule' style={{ marginBottom: 16 }}>
-          <Table dataSource={vehicule} columns={columnsVehicule} loading={loading} rowKey='id_vehicule' pagination={{ pageSize: 5 }} />
-        </Card>
+        {/* Tables et graphiques */}
+        <Card title={<Title level={4}>Performance opérationnelle</Title>} bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
+          
+          {/* Véhicules */}
+          <Card type="inner" title="Véhicules" style={{ marginBottom: 16, borderRadius: 8 }}>
+            <Search placeholder="Rechercher véhicule" onChange={e => setSearchVehicule(e.target.value)} style={{ marginBottom: 12, width: 300 }} allowClear />
+            <Table dataSource={filteredVehicules} columns={vehiculeColumns} rowKey="id_vehicule" pagination={{ pageSize: 5 }} bordered size="middle" scroll={{ x: true }} />
+          </Card>
 
-        <Card title='Nombre moyen de sorties par chauffeur' style={{ marginBottom: 16 }}>
-          <Table dataSource={chauffeur} columns={columnsChauffeur} loading={loading} rowKey='id_chauffeur' pagination={{ pageSize: 5 }} />
-        </Card>
+          {/* Chauffeurs */}
+          <Card type="inner" title="Chauffeurs" style={{ marginBottom: 16, borderRadius: 8 }}>
+            <Search placeholder="Rechercher chauffeur" onChange={e => setSearchChauffeur(e.target.value)} style={{ marginBottom: 12, width: 300 }} allowClear />
+            <Table dataSource={filteredChauffeurs} columns={chauffeurColumns} rowKey="id_chauffeur" pagination={{ pageSize: 5 }} bordered size="middle" scroll={{ x: true }} />
+          </Card>
 
-        <Card title='Durée moyenne et totale des courses' style={{ marginBottom: 16 }}>
-          <Table dataSource={course} columns={columnsCourse} loading={loading} rowKey='nom_destination' pagination={{ pageSize: 5 }} />
+          {/* Graphique interactif */}
+          <Card type="inner" title="Durée moyenne par destination" style={{ borderRadius: 8 }}>
+            <div style={{ height: 400 }}>
+              <ResponsiveBar
+                data={graphData}
+                keys={["duree"]}
+                indexBy="destination"
+                margin={{ top: 20, right: 50, bottom: 70, left: 60 }}
+                padding={0.3}
+                colors={d => d.value >= 5 ? "green" : "orange"}
+                axisBottom={{ tickRotation: -45, legend: "Destination", legendPosition: "middle", legendOffset: 50 }}
+                axisLeft={{ legend: "Durée moyenne (h)", legendPosition: "middle", legendOffset: -50 }}
+                enableLabel
+                labelTextColor={{ from: "color", modifiers: [["darker", 1.2]] }}
+                tooltip={({ indexValue, value }) => <Tooltip title={`${indexValue}: ${value} h`}><span>{value} h</span></Tooltip>}
+                animate
+              />
+            </div>
+          </Card>
+
         </Card>
-      </Card>
+      </Spin>
     </div>
   );
 };
 
-export default Performance_op;
+export default PerformanceOp;
