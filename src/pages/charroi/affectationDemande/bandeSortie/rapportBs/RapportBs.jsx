@@ -1,4 +1,5 @@
 import { Card, Divider, Tabs, notification, Row, Col, Statistic } from 'antd';
+import { FileTextOutlined, CarOutlined, UserOutlined } from '@ant-design/icons';
 import './rapportBs.scss';
 import { useEffect, useState } from 'react';
 import PerformanceOp from './performance_op/Performance_op';
@@ -38,44 +39,51 @@ const RapportBs = () => {
         <h2 className="rapport_h2">Rapport de Bon de sortie</h2>
         <Tabs activeKey={activeKey} onChange={setActiveKey} type="card" tabPosition="top">
           
-          <TabPane tab="Volume global des activités" key="1" style={{background: "#f0f2f5", padding: 24 }}>
-            <Row gutter={[16, 16]} style={{ marginBottom: 24, background: "#f0f2f5" }}>
+          <TabPane tab="Volume global des activités" key="1" style={{ background: "#f0f2f5", padding: 24 }}>
+            <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
               <Col xs={24} sm={8}>
-                <Card className="kpi_card">
-                  <Statistic title="Nombre total de bons de sortie" value={globals.total_bons || 0} />
+                <Card className="kpi_card" style={{ textAlign: 'center' }}>
+                  <FileTextOutlined style={{ fontSize: 48, color: '#52c41a', marginBottom: 8 }} />
+                  <Statistic value={globals.total_bons || 0} />
+                  <div style={{ marginTop: 8 }}>Nombre total de bons de sortie</div>
                 </Card>
               </Col>
               <Col xs={24} sm={8}>
-                <Card className="kpi_card">
-                  <Statistic title="Nombre total de véhicules mobilisés" value={globals.total_vehicules || 0} />
+                <Card className="kpi_card" style={{ textAlign: 'center' }}>
+                  <CarOutlined style={{ fontSize: 48, color: '#faad14', marginBottom: 8 }} />
+                  <Statistic value={globals.total_vehicules || 0} />
+                  <div style={{ marginTop: 8 }}>Nombre total de véhicules mobilisés</div>
                 </Card>
               </Col>
               <Col xs={24} sm={8}>
-                <Card className="kpi_card">
-                  <Statistic title="Nombre de chauffeurs impliqués" value={globals.total_chauffeurs || 0} />
+                <Card className="kpi_card" style={{ textAlign: 'center' }}>
+                  <UserOutlined style={{ fontSize: 48, color: '#eb2f96', marginBottom: 8 }} />
+                  <Statistic value={globals.total_chauffeurs || 0} />
+                  <div style={{ marginTop: 8 }}>Nombre de chauffeurs impliqués</div>
                 </Card>
               </Col>
             </Row>
 
             <Divider />
+            <div style={{display:'flex', justifyContent: 'space-between', width:"100%", gap: 10}}>
+                <Card type="inner" title="Répartition par type de véhicule" style={{flex: 1}} className="inner_card">
+                {vehicules.map((v, idx) => (
+                    <Row key={idx} justify="space-between" className="row_item">
+                    <Col>{v.nom_cat}</Col>
+                    <Col><strong>{v.nbre}</strong></Col>
+                    </Row>
+                ))}
+                </Card>
 
-            <Card type="inner" title="Répartition par type de véhicule" className="inner_card">
-              {vehicules.map((v, idx) => (
-                <Row key={idx} justify="space-between" className="row_item">
-                  <Col>{v.nom_cat}</Col>
-                  <Col><strong>{v.nbre}</strong></Col>
-                </Row>
-              ))}
-            </Card>
-
-            <Card type="inner" title="Répartition par service" className="inner_card">
-              {services.map((s, idx) => (
-                <Row key={idx} justify="space-between" className="row_item">
-                  <Col>{s.nom_service}</Col>
-                  <Col><strong>{s.nbre}</strong></Col>
-                </Row>
-              ))}
-            </Card>
+                <Card type="inner" title="Répartition par service" style={{flex: 1}} className="inner_card">
+                {services.map((s, idx) => (
+                    <Row key={idx} justify="space-between" className="row_item">
+                    <Col>{s.nom_service}</Col>
+                    <Col><strong>{s.nbre}</strong></Col>
+                    </Row>
+                ))}
+                </Card>
+            </div>
           </TabPane>
 
           <TabPane tab="Performance opérationnelle" key="2">

@@ -52,7 +52,7 @@ const PerformanceOp = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [dates]);
 
   const handleDateChange = (dates) => setDates(dates);
   const applyFilter = () => {
