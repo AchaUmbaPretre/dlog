@@ -1,142 +1,107 @@
-import { Card, Typography, Space, Table } from 'antd'
-import { useState } from 'react';
+import { Card, Typography, Space, Table, DatePicker, Statistic, Progress, Button } from 'antd';
+import { useEffect, useState } from 'react';
+import moment from 'moment';
+import { getRapportBonPerformance } from '../../../../../../services/rapportService';
+import { CSVLink } from 'react-csv';
 
 const { Text } = Typography;
+const { RangePicker } = DatePicker;
 
 const Performance_op = () => {
-  const [data, setData] = useState([]);
+  const [dateRange, setDateRange] = useState([moment().startOf('month'), moment().endOf('month')]);
+  const [vehicule, setVehicule] = useState([]);
+  const [chauffeur, setChauffeur] = useState([]);
+  const [course, setCourse] = useState([]);
+  const [courseDuree, setCourseDuree] = useState([]);
+  const [tauxRespect, setTauxRespect] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    {
-      title: 'Immatriculation', key: 'immatriculation', 
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    },
-    {
-      title: 'Marque', key: 'nom_marque', 
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    },
-    {
-      title: 'Nbre moyen', key: 'nbre_moyen', 
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    }
-  ]
+  const fetchData = async (start, end) => {
+    setLoading(true);
+    try {
+      const [performanceData] = await Promise.all([
+        getRapportBonPerformance(start, end)
+      ]);
 
-  const ChauffeurColumns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    {
-      title: 'Nom', dataIndex: 'nom_chauffeur', key: 'nom_chauffeur', 
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    },
-    {
-      title: 'Nbre moyen', key: 'nbre_moyen', 
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
+      setVehicule(performanceData.data.vehiculeData || []);
+      setChauffeur(performanceData.data.chauffeurData || []);
+      setCourse(performanceData.data.dureeData || []);
+      setCourseDuree(performanceData.data.dureeData || []);
+      setTauxRespect(performanceData.data.tauxData?.taux_retour_delais || 0);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-  ]
+  };
 
-  const MoyenneDureeColumns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    {
-      title: 'Destination', dataIndex: 'nom_destination', key: 'nom_destination', 
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    },
-    {
-      title: 'Date', dataIndex: 'Date', key: 'date',
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    },
-    {
-      title: 'Nbre moyen', key: 'nbre_moyen', 
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    }
-  ]
+  useEffect(() => {
+    fetchData(dateRange[0].format('YYYY-MM-DD'), dateRange[1].format('YYYY-MM-DD'));
+  }, []);
 
-  const TotaleDureeColumns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    {
-      title: 'Destination', dataIndex: 'nom_destination', key: 'nom_destination', 
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    },
-    {
-      title: 'Date', dataIndex: 'Date', key: 'date',
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    },
-    {
-      title: 'Nbre moyen', key: 'nbre_moyen', 
-      render: (text, record) => (
-        <Space>
-          <Text type='secondary'>{text}</Text>
-        </Space>
-      )
-    }
-  ]
+  const columnsVehicule = [
+    { title: '#', key: 'id', render: (text, record, index) => index + 1, width: '3%' },
+    { title: 'Immatriculation', dataIndex: 'immatriculation', key: 'immatriculation' },
+    { title: 'Marque', dataIndex: 'nom_marque', key: 'nom_marque' },
+    { title: 'Catégorie', dataIndex: 'nom_cat', key: 'nom_cat' },
+    { title: 'Nbre sorties', dataIndex: 'total_sorties', key: 'total_sorties' }
+  ];
+
+  const columnsChauffeur = [
+    { title: '#', key: 'id', render: (text, record, index) => index + 1, width: '3%' },
+    { title: 'Nom', dataIndex: 'nom', key: 'nom' },
+    { title: 'Nbre sorties', dataIndex: 'total_sorties', key: 'total_sorties' }
+  ];
+
+  const columnsCourse = [
+    { title: '#', key: 'id', render: (text, record, index) => index + 1, width: '3%' },
+    { title: 'Destination', dataIndex: 'nom_destination', key: 'nom_destination' },
+    { title: 'Durée moyenne (heures)', dataIndex: 'duree_moyenne_heures', key: 'duree_moyenne_heures' },
+    { title: 'Durée totale (jours)', dataIndex: 'duree_totale_jours', key: 'duree_totale_jours' }
+  ];
 
   return (
-    <>
-      <div className="rapport_bs">
-        <div className="rapport_bs_wrapper">
-          <Card  type="inner" title="Performance opérationnelle" className="rapport_bs_globals">
-            <div className="rapport_bs_global">
-              <Card  title="Nombre moyen de sorties par véhicule" variant="borderless">
-                <Table dataSource={data} columns={columns} />
-              </Card>
+    <div className='rapport_bs'>
+      <Card type='inner' title='Performance opérationnelle'>
+        <Space style={{ marginBottom: 16 }}>
+          <RangePicker
+            value={dateRange}
+            format='YYYY-MM-DD'
+            onChange={(dates) => {
+              if (dates) {
+                setDateRange(dates);
+                fetchData(dates[0].format('YYYY-MM-DD'), dates[1].format('YYYY-MM-DD'));
+              }
+            }}
+          />
+          <CSVLink data={vehicule} filename={`vehicule_${moment().format('YYYYMMDD')}.csv`}>
+            <Button type='primary'>Exporter Véhicules CSV</Button>
+          </CSVLink>
+        </Space>
 
-              <Card title="Nombre moyen de sorties par chauffeur" variant="borderless">
-                <Table dataSource={data} columns={ChauffeurColumns} />
-              </Card>
+        <Card title={`Taux de respect des délais`} style={{ marginBottom: 16 }}>
+          <Statistic
+            title='Respect des délais (%)'
+            value={tauxRespect}
+            precision={2}
+          />
+          <Progress percent={tauxRespect} status={tauxRespect >= 100 ? 'success' : 'active'} />
+        </Card>
 
-              <Card title="Durée moyenne d’une course" variant="borderless">
-                <Table dataSource={data} columns={MoyenneDureeColumns} />
-              </Card>
+        <Card title='Nombre moyen de sorties par véhicule' style={{ marginBottom: 16 }}>
+          <Table dataSource={vehicule} columns={columnsVehicule} loading={loading} rowKey='id_vehicule' pagination={{ pageSize: 5 }} />
+        </Card>
 
-              <Card title="Durée totale cumulée des courses" variant="borderless">
-                <Table dataSource={data} columns={TotaleDureeColumns} />
-              </Card>
-            </div>
-          </Card>
-        </div>
-      </div>
-    </>
-  )
-}
+        <Card title='Nombre moyen de sorties par chauffeur' style={{ marginBottom: 16 }}>
+          <Table dataSource={chauffeur} columns={columnsChauffeur} loading={loading} rowKey='id_chauffeur' pagination={{ pageSize: 5 }} />
+        </Card>
 
-export default Performance_op
+        <Card title='Durée moyenne et totale des courses' style={{ marginBottom: 16 }}>
+          <Table dataSource={course} columns={columnsCourse} loading={loading} rowKey='nom_destination' pagination={{ pageSize: 5 }} />
+        </Card>
+      </Card>
+    </div>
+  );
+};
+
+export default Performance_op;
