@@ -12,8 +12,7 @@ import {
   Spin,
   Input,
   Typography,
-  Tag,
-  Tooltip,
+  Tooltip
 } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import { ResponsiveBar } from "@nivo/bar";
@@ -50,7 +49,9 @@ const PerformanceOp = () => {
     }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleDateChange = (dates) => setDates(dates);
   const applyFilter = () => {
@@ -61,36 +62,17 @@ const PerformanceOp = () => {
     }
   };
 
-  // Graph data
-  const graphData = dureeData.map(c => ({
-    destination: c.nom_destination,
-    duree: parseFloat(c.duree_moyenne_heures) || 0,
-  }));
+  // Totaux pour dureeData
+  const totalHeures = dureeData.reduce((acc, curr) => acc + curr.duree_totale_heures, 0);
+  const totalJours = dureeData.reduce((acc, curr) => acc + curr.duree_totale_jours, 0);
 
   const filteredVehicules = vehicule.filter(v => v.immatriculation.toLowerCase().includes(searchVehicule.toLowerCase()));
   const filteredChauffeurs = chauffeur.filter(c => c.nom.toLowerCase().includes(searchChauffeur.toLowerCase()));
 
-  const vehiculeColumns = [
-    { title: "#", key: "id", render: (_, __, index) => index + 1, width: 50 },
-    { title: "Immatriculation", dataIndex: "immatriculation", key: "immatriculation" },
-    { title: "Marque", dataIndex: "nom_marque", key: "nom_marque" },
-    { title: "Catégorie", dataIndex: "nom_cat", key: "nom_cat" },
-    { title: "Sorties", dataIndex: "total_sorties", key: "total_sorties", sorter: (a, b) => a.total_sorties - b.total_sorties },
-  ];
-
-  const chauffeurColumns = [
-    { title: "#", key: "id", render: (_, __, index) => index + 1, width: 50 },
-    { title: "Nom", dataIndex: "nom", key: "nom" },
-    { title: "Sorties", dataIndex: "total_sorties", key: "total_sorties", sorter: (a, b) => a.total_sorties - b.total_sorties },
-  ];
-
-  const dureeColumns = [
-    { title: "#", key: "id", render: (_, __, index) => index + 1, width: 50 },
-    { title: "Destination", dataIndex: "nom_destination", key: "nom_destination" },
-    { title: "Durée moyenne (h)", dataIndex: "duree_moyenne_heures", key: "duree_moyenne_heures" },
-    { title: "Durée totale (h)", dataIndex: "duree_totale_heures", key: "duree_totale_heures" },
-    { title: "Durée totale (j)", dataIndex: "duree_totale_jours", key: "duree_totale_jours" },
-  ];
+  const graphData = dureeData.map(c => ({
+    destination: c.nom_destination,
+    duree: parseFloat(c.duree_moyenne_heures) || 0
+  }));
 
   return (
     <div style={{ padding: 24, background: "#f0f2f5", minHeight: "100vh" }}>
@@ -101,7 +83,7 @@ const PerformanceOp = () => {
       </Row>
 
       <Spin spinning={loading} tip="Chargement des données..." size="large">
-        {/* Top KPIs animés */}
+        {/* KPI */}
         <Row gutter={16} style={{ marginBottom: 24 }}>
           <Col xs={24} sm={8}>
             <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
@@ -116,33 +98,48 @@ const PerformanceOp = () => {
           </Col>
           <Col xs={24} sm={8}>
             <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
-              <Statistic title="Véhicules mobilisés" value={vehicule.length} prefix={vehicule.length > 10 ? <ArrowUpOutlined style={{ color: "green" }} /> : <ArrowDownOutlined style={{ color: "red" }} />} />
+              <Statistic
+                title="Véhicules mobilisés"
+                value={vehicule.length}
+                prefix={vehicule.length > 10 ? <ArrowUpOutlined style={{ color: "green" }} /> : <ArrowDownOutlined style={{ color: "red" }} />}
+              />
             </Card>
           </Col>
           <Col xs={24} sm={8}>
             <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
-              <Statistic title="Chauffeurs mobilisés" value={chauffeur.length} prefix={chauffeur.length > 10 ? <ArrowUpOutlined style={{ color: "green" }} /> : <ArrowDownOutlined style={{ color: "red" }} />} />
+              <Statistic
+                title="Chauffeurs mobilisés"
+                value={chauffeur.length}
+                prefix={chauffeur.length > 10 ? <ArrowUpOutlined style={{ color: "green" }} /> : <ArrowDownOutlined style={{ color: "red" }} />}
+              />
             </Card>
           </Col>
         </Row>
 
-        {/* Tables et graphiques */}
+        {/* Tables et graphique */}
         <Card title={<Title level={4}>Performance opérationnelle</Title>} bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
           
-          {/* Véhicules */}
-          <Card type="inner" title="Véhicules" style={{ marginBottom: 16, borderRadius: 8 }}>
+          <Card type="inner" title="Véhicules" style={{ marginBottom: 16 }}>
             <Search placeholder="Rechercher véhicule" onChange={e => setSearchVehicule(e.target.value)} style={{ marginBottom: 12, width: 300 }} allowClear />
-            <Table dataSource={filteredVehicules} columns={vehiculeColumns} rowKey="id_vehicule" pagination={{ pageSize: 5 }} bordered size="middle" scroll={{ x: true }} />
+            <Table dataSource={filteredVehicules} rowKey="id_vehicule" pagination={{ pageSize: 5 }} bordered columns={[
+              { title: "#", render: (_, __, index) => index + 1 },
+              { title: "Immatriculation", dataIndex: "immatriculation" },
+              { title: "Marque", dataIndex: "nom_marque" },
+              { title: "Catégorie", dataIndex: "nom_cat" },
+              { title: "Sorties", dataIndex: "total_sorties", sorter: (a, b) => a.total_sorties - b.total_sortie }
+            ]}/>
           </Card>
 
-          {/* Chauffeurs */}
-          <Card type="inner" title="Chauffeurs" style={{ marginBottom: 16, borderRadius: 8 }}>
+          <Card type="inner" title="Chauffeurs" style={{ marginBottom: 16 }}>
             <Search placeholder="Rechercher chauffeur" onChange={e => setSearchChauffeur(e.target.value)} style={{ marginBottom: 12, width: 300 }} allowClear />
-            <Table dataSource={filteredChauffeurs} columns={chauffeurColumns} rowKey="id_chauffeur" pagination={{ pageSize: 5 }} bordered size="middle" scroll={{ x: true }} />
+            <Table dataSource={filteredChauffeurs} rowKey="id_chauffeur" pagination={{ pageSize: 5 }} bordered columns={[
+              { title: "#", render: (_, __, index) => index + 1 },
+              { title: "Nom", dataIndex: "nom" },
+              { title: "Sorties", dataIndex: "total_sorties",sorter: (a, b) => a.total_sorties - b.total_sorties }
+            ]}/>
           </Card>
 
-          {/* Graphique interactif */}
-          <Card type="inner" title="Durée moyenne par destination" style={{ borderRadius: 8 }}>
+          <Card type="inner" title="Durée moyenne par destination" style={{ marginBottom: 16 }}>
             <div style={{ height: 400 }}>
               <ResponsiveBar
                 data={graphData}
@@ -150,7 +147,7 @@ const PerformanceOp = () => {
                 indexBy="destination"
                 margin={{ top: 20, right: 50, bottom: 70, left: 60 }}
                 padding={0.3}
-                colors={d => d.value >= 5 ? "green" : "orange"}
+                colors={d => d.value >= 5 ? "green" : d.value >=2 ? "orange" : "red"}
                 axisBottom={{ tickRotation: -45, legend: "Destination", legendPosition: "middle", legendOffset: 50 }}
                 axisLeft={{ legend: "Durée moyenne (h)", legendPosition: "middle", legendOffset: -50 }}
                 enableLabel
@@ -159,6 +156,36 @@ const PerformanceOp = () => {
                 animate
               />
             </div>
+          </Card>
+
+          {/* Tableau duréeData amélioré */}
+          <Card type="inner" title="Durée des courses par destination">
+            <Table
+              dataSource={dureeData}
+              rowKey={(record, index) => index}
+              pagination={{ pageSize: 5 }}
+              bordered
+              columns={[
+                { title: "#", render: (_, __, index) => index + 1 },
+                { title: "Destination", dataIndex: "nom_destination" },
+                { 
+                  title: "Durée moyenne (h)", 
+                  dataIndex: "duree_moyenne_heures", 
+                  sorter: (a, b) => a.duree_moyenne_heures - b.duree_moyenne_heures,
+                  render: value => {
+                    const color = value >=5 ? "green" : value >=2 ? "orange" : "red";
+                    return <span style={{ color, fontWeight: "bold" }}>{value}</span>;
+                  }
+                },
+                { title: "Durée totale (h)", dataIndex: "duree_totale_heures", sorter: (a, b) => a.duree_totale_heures - b.duree_totale_heures },
+                { title: "Durée totale (j)", dataIndex: "duree_totale_jours", sorter: (a, b) => a.duree_totale_jours - b.duree_totale_jours },
+              ]}
+              footer={() => (
+                <div style={{ fontWeight: "bold" }}>
+                  Totaux : {totalHeures.toFixed(2)} h / {totalJours.toFixed(2)} j
+                </div>
+              )}
+            />
           </Card>
 
         </Card>
