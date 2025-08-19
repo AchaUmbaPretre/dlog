@@ -1,12 +1,38 @@
-import { Card, Divider, Tabs } from 'antd'
+import { Card, Divider, Tabs, notification } from 'antd'
 import './rapportBs.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Performance_op from './performance_op/Performance_op';
 import SuiviStatutBs from './suiviStatutBs/SuiviStatutBs';
 import Indicateurs_log from './Indicateurs_log/Indicateurs_log';
+import { getRapportBonGlobal } from '../../../../../services/rapportService';
 
 const RapportBs = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
+    const [data, setData] = useState([]);
+    const [globals, setGlobals] = useState({});
+    const [vehicules, setVehicules] = useState([]);
+    const [services, setServices] = useState([]);
+   
+    const fetchData = async() => {
+        try {
+            const [ globalData ] = await Promise.all([
+                getRapportBonGlobal()
+            ])
+
+            setGlobals(globalData.data.global);
+            setVehicules(globalData.data.repartitionVehicule);
+            setServices(globalData?.data?.repartitionService)
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+            });
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const handleTabChange = (key) => {
         setActiveKey(key);
@@ -38,7 +64,7 @@ const RapportBs = () => {
                                     <div className="bs_global_info">
                                         <div className="row">
                                             <span className="type">Nombre total de bons de sortie :</span>
-                                            <strong className="info_strong">5</strong>
+                                            <strong className="info_strong">{globals.total_bons}</strong>
                                         </div>
                                         <Divider style={{margin:'20px 0'}} />
                                     </div>
@@ -46,7 +72,7 @@ const RapportBs = () => {
                                     <div className="bs_global_info">
                                         <div className="row">
                                             <span className="type">Nombre total de véhicules mobilisés :</span>
-                                            <strong className="info_strong">5</strong>
+                                            <strong className="info_strong">{globals.total_chauffeurs}</strong>
                                         </div>
                                         <Divider style={{margin:'20px 0'}} />
                                     </div>
@@ -54,32 +80,25 @@ const RapportBs = () => {
                                     <div className="bs_global_info">
                                         <div className="row">
                                             <span className="type">Nombre de chauffeurs impliqués :</span>
-                                            <strong className="info_strong">5</strong>
+                                            <strong className="info_strong">{globals.total_vehicules}</strong>
                                         </div>
                                         <Divider style={{margin:'20px 0'}} />
                                     </div>
                                     <div className="bs_global_info">
                                         <div className="row">
-                                            <span className="type">Nombre total de bons de sortie :</span>
-                                            <strong className="info_strong">5</strong>
+                                            _____
                                         </div>
                                         <Divider style={{margin:'20px 0'}} />
                                     </div>
                                     <Card type="inner" title="Répartition par type de véhicule">
                                         <div className="bs_global_infos">
                                             <div className="rows">
+                                                {vehicules.map((dd) => (
                                                 <div className="row">
-                                                    <span className="type">Motos  :</span>
-                                                    <strong className="info_strong">5</strong>
+                                                    <span className="type">{dd?.nom_cat}  :</span>
+                                                    <strong className="info_strong">{dd?.nbre}</strong>
                                                 </div>
-                                                <div className="row">
-                                                    <span className="type">Voitures  :</span>
-                                                    <strong className="info_strong">5</strong>
-                                                </div>
-                                                <div className="row">
-                                                    <span className="type">Camions semi-remorques  :</span>
-                                                    <strong className="info_strong">5</strong>
-                                                </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </Card>
@@ -87,18 +106,12 @@ const RapportBs = () => {
                                     <Card type="inner" title="Répartition par service">
                                         <div className="bs_global_infos">
                                             <div className="rows">
+                                                { services.map((dd) => (
                                                 <div className="row">
-                                                    <span className="type">Logistique :</span>
-                                                    <strong className="info_strong">5</strong>
+                                                    <span className="type">{dd.nom_service} :</span>
+                                                    <strong className="info_strong">{dd.nbre}</strong>
                                                 </div>
-                                                <div className="row">
-                                                    <span className="type">Administratif :</span>
-                                                    <strong className="info_strong">5</strong>
-                                                </div>
-                                                <div className="row">
-                                                    <span className="type">Maritime :</span>
-                                                    <strong className="info_strong">5</strong>
-                                                </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </Card>

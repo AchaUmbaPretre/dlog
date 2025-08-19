@@ -698,7 +698,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
           visible={modalType === 'rapport'}
           onCancel={closeAllModals}
           footer={null}
-          width={1270}
+          width={1060}
           centered
         >
           <RapportBs />

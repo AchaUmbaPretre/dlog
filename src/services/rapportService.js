@@ -90,3 +90,12 @@ export const postCloture = async (data) => {
 export const postClotureSimple = async (data) => {
     return axios.post(`${DOMAIN}/api/rapport/cloture_simple`, data)
 }
+
+//Rapport de bon de sortie
+export const getRapportBonGlobal = async (startDate, endDate) => {
+  return axios.get(`${DOMAIN}/api/rapport/rapport_bon_global?startDate=${startDate}&endDate=${endDate}`,);
+};
+
+export const getRapportBonPerformance = async (startDate, endDate) => {
+  return axios.get(`${DOMAIN}/api/rapport/rapport_performance?startDate=${startDate}&endDate=${endDate}`,);
+};
