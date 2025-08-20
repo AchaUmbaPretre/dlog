@@ -55,7 +55,8 @@ const VolumeGlobal = () => {
   ];
 
   return (
-    <>
+    <div className="volume-global">
+      {/* KPI Section */}
       <Row gutter={[16, 16]} style={{ marginBottom: 32 }}>
         {KPIs.map((kpi, index) => (
           <Col xs={24} sm={12} md={8} key={index}>
@@ -80,7 +81,8 @@ const VolumeGlobal = () => {
 
       <Divider />
 
-      <Row gutter={[16, 16]}>
+      {/* Tabular Breakdown */}
+      <Row gutter={[16, 16]} style={{ marginBottom: 32 }}>
         <Col xs={24} md={12}>
           <Card
             title="Répartition par type de véhicule"
@@ -124,43 +126,47 @@ const VolumeGlobal = () => {
             )}
           </Card>
         </Col>
+      </Row>
 
+      {/* Graphical Insights */}
+      <Divider orientation="left" style={{ fontWeight: 600, marginTop: 40 }}>Visualisations dynamiques</Divider>
+
+      <Row gutter={[16, 16]}>
         <Col xs={24} md={12}>
-            <Card
-                title="Répartition par type de véhicule"
-                type="inner"
-                className="inner_card"
-                bodyStyle={{ padding: '16px 24px' }}
-            >
-                {loading ? (
-                <Skeleton active />
-                ) : vehicules.length > 0 ? (
-                <VehiculeBarChart data={vehicules} />
-                ) : (
-                <div>Aucune donnée disponible.</div>
-                )}
-            </Card>
-
-            <Col xs={24} md={12}>
-                <Card
-                    title="Répartition par service"
-                    type="inner"
-                    className="inner_card"
-                    bodyStyle={{ padding: '16px 24px' }}
-                >
-                    {loading ? (
-                    <Skeleton active />
-                    ) : services.length > 0 ? (
-                    <ServicePieChart data={services} />
-                    ) : (
-                    <div>Aucune donnée disponible.</div>
-                    )}
-                </Card>
-            </Col>
+          <Card
+            title="Graphique : Répartition par type de véhicule"
+            type="inner"
+            className="inner_card"
+            bodyStyle={{ padding: '16px 24px' }}
+          >
+            {loading ? (
+              <Skeleton active />
+            ) : vehicules.length > 0 ? (
+              <VehiculeBarChart data={vehicules} />
+            ) : (
+              <div>Aucune donnée disponible.</div>
+            )}
+          </Card>
         </Col>
 
+        <Col xs={24} md={12}>
+          <Card
+            title="Graphique : Répartition par service"
+            type="inner"
+            className="inner_card"
+            bodyStyle={{ padding: '16px 24px' }}
+          >
+            {loading ? (
+              <Skeleton active />
+            ) : services.length > 0 ? (
+              <ServicePieChart data={services} />
+            ) : (
+              <div>Aucune donnée disponible.</div>
+            )}
+          </Card>
+        </Col>
       </Row>
-    </>
+    </div>
   );
 };
 
