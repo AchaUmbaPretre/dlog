@@ -617,12 +617,26 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
                 />
               </div>
               <div className="client-rows-right">
-                <Button
-                  type='primary'
-                  onClick={handleRapportBs}
-                >
-                  <StockOutlined/> Rapport
-                </Button>
+              
+                <Tooltip title="Cliquez pour générer un rapport complet des stocks">
+                  <Button
+                    type="primary"
+                    icon={<StockOutlined />}
+                    onClick={handleRapportBs}
+                    style={{
+                      backgroundColor: '#002140',
+                      borderColor: '#001529',
+                      color: 'white',
+                      fontWeight: 'bold',
+                      padding: '8px 20px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                    }}
+                    aria-label="Générer le rapport des stocks"
+                  >
+                    Générer Rapport
+                  </Button>
+                </Tooltip>
+
                 <Dropdown overlay={menus} trigger={['click']}>
                   <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                     Colonnes <DownOutlined />
@@ -698,7 +712,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
           visible={modalType === 'rapport'}
           onCancel={closeAllModals}
           footer={null}
-          width={1060}
+          width={1150}
           centered
         >
           <RapportBs />
