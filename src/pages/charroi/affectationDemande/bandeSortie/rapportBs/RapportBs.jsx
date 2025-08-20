@@ -1,5 +1,5 @@
 import { Card, Divider, Tabs, notification, Row, Col, Statistic } from 'antd';
-import { FileTextOutlined, CarOutlined, UserOutlined } from '@ant-design/icons';
+import { FileTextOutlined, CarOutlined, BarChartOutlined, ContainerOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons';
 import './rapportBs.scss';
 import { useEffect, useState } from 'react';
 import PerformanceOp from './performance_op/Performance_op';
@@ -14,6 +14,29 @@ const RapportBs = () => {
   const [globals, setGlobals] = useState({});
   const [vehicules, setVehicules] = useState([]);
   const [services, setServices] = useState([]);
+
+  const tabItems = [
+  {
+    key: '1',
+    label: 'Volume global des activités',
+    icon: FileTextOutlined,
+  },
+  {
+    key: '2',
+    label: 'Performance opérationnelle',
+    icon: BarChartOutlined,
+  },
+  {
+    key: '3',
+    label: 'Suivi des statuts',
+    icon: SyncOutlined,
+  },
+  {
+    key: '4',
+    label: 'Indicateurs logistiques spécifiques',
+    icon: ContainerOutlined,
+  },
+];
 
   const fetchData = async () => {
     try {
