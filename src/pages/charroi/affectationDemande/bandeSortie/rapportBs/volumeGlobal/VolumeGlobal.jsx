@@ -6,6 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { getRapportBonGlobal } from '../../../../../../services/rapportService';
+import VehiculeBarChart from './vehiculeBarChart/VehiculeBarChart';
 
 const VolumeGlobal = () => {
   const [globals, setGlobals] = useState({});
@@ -122,6 +123,24 @@ const VolumeGlobal = () => {
             )}
           </Card>
         </Col>
+
+        <Col xs={24} md={12}>
+            <Card
+                title="Répartition par type de véhicule"
+                type="inner"
+                className="inner_card"
+                bodyStyle={{ padding: '16px 24px' }}
+            >
+                {loading ? (
+                <Skeleton active />
+                ) : vehicules.length > 0 ? (
+                <VehiculeBarChart data={vehicules} />
+                ) : (
+                <div>Aucune donnée disponible.</div>
+                )}
+            </Card>
+        </Col>
+        
       </Row>
     </>
   );
