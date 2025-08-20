@@ -1,5 +1,5 @@
-import { Card, Divider, Tabs, notification, Row, Col, Statistic } from 'antd';
-import { FileTextOutlined, CarOutlined, BarChartOutlined, ContainerOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons';
+import { Card, Tabs } from 'antd';
+import { FileTextOutlined, BarChartOutlined, ContainerOutlined, SyncOutlined } from '@ant-design/icons';
 import './rapportBs.scss';
 import { useState } from 'react';
 import PerformanceOp from './performance_op/Performance_op';
@@ -11,9 +11,6 @@ const { TabPane } = Tabs;
 
 const RapportBs = () => {
   const [activeKey, setActiveKey] = useState('1');
-  const [globals, setGlobals] = useState({});
-  const [vehicules, setVehicules] = useState([]);
-  const [services, setServices] = useState([]);
 
   const tabItems = [
   {
@@ -36,7 +33,7 @@ const RapportBs = () => {
     label: 'Indicateurs logistiques spécifiques',
     icon: ContainerOutlined,
   },
-];
+    ];
 
 
   return (
