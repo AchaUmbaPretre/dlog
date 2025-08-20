@@ -35,7 +35,6 @@ const RapportBs = () => {
   },
     ];
 
-
   return (
     <div className="rapport_bs">
       <Card bordered={false} className="rapport_bs_card">
