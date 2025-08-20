@@ -618,7 +618,7 @@ const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
               </div>
               <div className="client-rows-right">
 
-                <Tooltip title="Cliquez pour générer un rapport complet">
+                <Tooltip title="Cliquez pour voir le rapport complet">
                   <Button
                     type="primary"
                     icon={<StockOutlined />}
