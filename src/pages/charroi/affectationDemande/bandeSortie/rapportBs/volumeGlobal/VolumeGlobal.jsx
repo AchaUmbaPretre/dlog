@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons';
 import { getRapportBonGlobal } from '../../../../../../services/rapportService';
 import VehiculeBarChart from './vehiculeBarChart/VehiculeBarChart';
+import ServicePieChart from './servicePieChart/ServicePieChart';
 
 const VolumeGlobal = () => {
   const [globals, setGlobals] = useState({});
@@ -139,8 +140,25 @@ const VolumeGlobal = () => {
                 <div>Aucune donnée disponible.</div>
                 )}
             </Card>
+
+            <Col xs={24} md={12}>
+                <Card
+                    title="Répartition par service"
+                    type="inner"
+                    className="inner_card"
+                    bodyStyle={{ padding: '16px 24px' }}
+                >
+                    {loading ? (
+                    <Skeleton active />
+                    ) : services.length > 0 ? (
+                    <ServicePieChart data={services} />
+                    ) : (
+                    <div>Aucune donnée disponible.</div>
+                    )}
+                </Card>
+            </Col>
         </Col>
-        
+
       </Row>
     </>
   );
