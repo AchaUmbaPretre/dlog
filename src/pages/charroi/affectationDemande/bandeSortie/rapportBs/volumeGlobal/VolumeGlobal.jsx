@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Divider, Row, Col, Statistic, Skeleton, notification } from 'antd';
+import { Card, Divider, Row, Col, Statistic, Skeleton, notification, Tooltip } from 'antd';
 import {
   FileTextOutlined,
   CarOutlined,
   UserOutlined,
+  ClockCircleOutlined,
 } from '@ant-design/icons';
 import { getRapportBonGlobal } from '../../../../../../services/rapportService';
 import VehiculeBarChart from './vehiculeBarChart/VehiculeBarChart';
@@ -52,6 +53,16 @@ const VolumeGlobal = () => {
       label: 'Nbre chauffeurs',
       value: globals.total_chauffeurs || 0,
     },
+    {
+      icon: <ClockCircleOutlined style={{ fontSize: 40, color: '#1890ff' }} />,
+      label: 'Durée moyenne',
+      value: globals.temps_moyen_minutes
+        ? `${globals.temps_moyen_minutes} min`
+        : '—',
+      extra: globals.temps_moyen_heures
+        ? `≈ ${globals.temps_moyen_heures} h`
+        : '',
+    },
   ];
 
   return (
@@ -59,19 +70,39 @@ const VolumeGlobal = () => {
       {/* KPI Section */}
       <Row gutter={[16, 16]} style={{ marginBottom: 32 }}>
         {KPIs.map((kpi, index) => (
-          <Col xs={24} sm={12} md={8} key={index}>
+          <Col xs={24} sm={12} md={6} key={index}>
             <Card
               className="kpi_card"
               hoverable
-              style={{ textAlign: 'center', height: '100%' }}
+              style={{
+                textAlign: 'center',
+                height: '100%',
+                borderRadius: 16,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              }}
             >
               {loading ? (
                 <Skeleton active paragraph={false} />
               ) : (
                 <>
                   <div style={{ marginBottom: 12 }}>{kpi.icon}</div>
-                  <Statistic value={kpi.value} />
-                  <div style={{ marginTop: 8, color: '#595959' }}>{kpi.label}</div>
+                  <Statistic
+                    value={kpi.value}
+                    valueStyle={{
+                      fontSize: 24,
+                      fontWeight: 600,
+                    }}
+                  />
+                  <div style={{ marginTop: 8, color: '#595959' }}>
+                    {kpi.label}
+                  </div>
+                  {kpi.extra && (
+                    <Tooltip title="Valeur arrondie en heures">
+                      <div style={{ marginTop: 4, fontSize: 12, color: '#8c8c8c' }}>
+                        {kpi.extra}
+                      </div>
+                    </Tooltip>
+                  )}
                 </>
               )}
             </Card>
@@ -96,7 +127,9 @@ const VolumeGlobal = () => {
               vehicules.map((v, idx) => (
                 <Row key={idx} justify="space-between" className="row_item">
                   <Col>{v.nom_cat}</Col>
-                  <Col><strong>{v.nbre}</strong></Col>
+                  <Col>
+                    <strong>{v.nbre}</strong>
+                  </Col>
                 </Row>
               ))
             ) : (
@@ -118,7 +151,9 @@ const VolumeGlobal = () => {
               services.map((s, idx) => (
                 <Row key={idx} justify="space-between" className="row_item">
                   <Col>{s.nom_service}</Col>
-                  <Col><strong>{s.nbre}</strong></Col>
+                  <Col>
+                    <strong>{s.nbre}</strong>
+                  </Col>
                 </Row>
               ))
             ) : (
@@ -129,7 +164,12 @@ const VolumeGlobal = () => {
       </Row>
 
       {/* Graphical Insights */}
-      <Divider orientation="left" style={{ fontWeight: 600, marginTop: 40 }}>Visualisations dynamiques</Divider>
+      <Divider
+        orientation="left"
+        style={{ fontWeight: 600, marginTop: 40 }}
+      >
+        Visualisations dynamiques
+      </Divider>
 
       <Row gutter={[16, 16]}>
         <Col xs={24} md={12}>
