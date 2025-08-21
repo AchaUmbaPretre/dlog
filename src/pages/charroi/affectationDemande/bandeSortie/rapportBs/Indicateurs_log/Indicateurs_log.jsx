@@ -1,38 +1,36 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import {
   Card, Row, Col, Statistic, Space, Typography, Tooltip,
-  Skeleton, Empty, Button, DatePicker, Divider, Badge, message
+  Skeleton, Empty, Button, Divider, Badge, message
 } from 'antd';
 import {
   ReloadOutlined, InfoCircleOutlined, DashboardOutlined,
   ClockCircleOutlined, AppstoreOutlined, ArrowUpOutlined, ArrowDownOutlined
 } from '@ant-design/icons';
-import dayjs from 'dayjs';
 import { getRapportIndicateurLog } from '../../../../../../services/rapportService';
-import { ResponsiveBar } from '@nivo/bar';
+import FilterBs from '../filterBs/FilterBs';
 
-const { Title, Text } = Typography;
-const { RangePicker } = DatePicker;
+const { Text } = Typography;
 
 const IndicateursLog = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [range, setRange] = useState(null);
-  
+  const [filters, setFilters] = useState({
+    vehicule: [],
+    service: [],
+    destination: [],
+    dateRange: [],
+  });
 
   const numberOrZero = (v) => Number.isFinite(Number(v)) ? Number(v) : 0;
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async (appliedFilters) => {
     try {
       setLoading(true);
       setError(null);
-      const params = {};
-      if (range?.[0] && range?.[1]) {
-        params.startDate = range[0].format('YYYY-MM-DD');
-        params.endDate = range[1].format('YYYY-MM-DD');
-      }
-      const { data: resp } = await getRapportIndicateurLog(params);
+
+      const { data: resp } = await getRapportIndicateurLog(appliedFilters);
       setData(resp);
     } catch (err) {
       console.error(err);
@@ -41,11 +39,11 @@ const IndicateursLog = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [range]);
+    fetchData(filters);
+  }, [filters, fetchData]);
 
   const totalCourses = useMemo(() => numberOrZero(data?.nb_ot), [data]);
 
@@ -55,7 +53,7 @@ const IndicateursLog = () => {
     return 'error';
   };
 
-  const renderCard = (title, value, tooltip, icon = <DashboardOutlined />, extra = null) => (
+  const renderCard = useCallback((title, value, tooltip, icon = <DashboardOutlined />, extra = null) => (
     <Card
       bordered={false}
       style={{
@@ -84,7 +82,7 @@ const IndicateursLog = () => {
         />
       </Space>
     </Card>
-  );
+  ), []);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -98,35 +96,8 @@ const IndicateursLog = () => {
         }}
       >
         <Row gutter={[16, 16]} align="middle" justify="space-between">
-          <Col xs={24} md={12}>
-            <Space direction="vertical" size={0}>
-              <Title level={4} style={{ margin: 0 }}>Indicateurs – Bons de sortie</Title>
-              <Text type="secondary">Vue des opérations</Text>
-            </Space>
-          </Col>
-          <Col xs={24} md={12} style={{ textAlign: 'right' }}>
-            <Space wrap>
-              <RangePicker
-                allowClear
-                value={range}
-                onChange={(vals) => setRange(vals ? [vals[0], vals[1]] : null)}
-                format="YYYY-MM-DD"
-              />
-              <Button
-                type="default"
-                onClick={() => setRange([dayjs().startOf('day'), dayjs().endOf('day')])}
-              >
-                Aujourd'hui
-              </Button>
-              <Button
-                type="primary"
-                icon={<ReloadOutlined />}
-                onClick={fetchData}
-                loading={loading}
-              >
-                Actualiser
-              </Button>
-            </Space>
+          <Col xs={24} md={24} style={{ textAlign: 'right' }}>
+            <FilterBs onFilter={setFilters}/>
           </Col>
         </Row>
         <Divider style={{ margin: '16px 0' }} />
@@ -145,26 +116,26 @@ const IndicateursLog = () => {
       ) : error ? (
         <Card bordered={false}>
           <Empty description="Impossible de charger les données">
-            <Button onClick={fetchData} icon={<ReloadOutlined />}>Réessayer</Button>
+            <Button onClick={() => fetchData(filters)} icon={<ReloadOutlined />}>Réessayer</Button>
           </Empty>
         </Card>
       ) : data ? (
         <>
           {/* Totaux principaux */}
-          <Row gutter={[24, 24]} justify="center">
+          <Row gutter={[24, 24]} justify="center" style={{ display: 'flex', gap: '20px' }}>
             {renderCard(
               'Nombre total de bons de sortie',
               data.nb_ot,
               'Total des bons de sortie émis',
               <AppstoreOutlined />,
-              <Badge count={data.nb_ot || 0} style={{ backgroundColor: '#52c41a' }} />
+              <Badge count={numberOrZero(data.nb_ot)} style={{ backgroundColor: '#52c41a' }} />
             )}
             {renderCard(
               'Taux d\'utilisation du parc',
               data.taux_utilisation_parc,
               'Pourcentage d\'utilisation du parc',
               <DashboardOutlined />,
-              <Badge status={getBadgeStatus(data.taux_utilisation_parc)} text={`${data.taux_utilisation_parc}%`} />
+              <Badge status={getBadgeStatus(data.taux_utilisation_parc)} text={`${numberOrZero(data.taux_utilisation_parc)}%`} />
             )}
           </Row>
 
@@ -172,7 +143,7 @@ const IndicateursLog = () => {
           <Divider orientation="left">Top destinations & Temps moyen</Divider>
           <Row gutter={[24, 24]} justify="center">
             {data.top_destinations?.map((d, i) => {
-              const delta = d.nb_courses - (d.nb_courses_prev || 0);
+              const delta = numberOrZero(d.nb_courses) - numberOrZero(d.nb_courses_prev);
               return (
                 <Col xs={24} sm={12} md={12} lg={8} xl={6} key={i}>
                   <Card
@@ -186,7 +157,6 @@ const IndicateursLog = () => {
                     }}
                   >
                     <Space direction="vertical" size={10} style={{ width: '100%' }}>
-                      {/* Titre + évolution */}
                       <Space style={{ justifyContent: 'space-between', width: '100%' }}>
                         <Text strong style={{ fontSize: 16 }}>
                           <ClockCircleOutlined style={{ marginRight: 6 }} />
@@ -203,17 +173,15 @@ const IndicateursLog = () => {
                         )}
                       </Space>
 
-                      {/* Nombre de courses */}
                       <Statistic
                         title="Nombre de courses"
-                        value={d.nb_courses}
+                        value={numberOrZero(d.nb_courses)}
                         valueStyle={{ fontWeight: 700, fontSize: 22 }}
                       />
 
-                      {/* Temps moyen */}
                       <Statistic
                         title="Temps moyen"
-                        value={`${Math.round(d.duree_moyenne_minutes)} min (${d.duree_moyenne_heures} h)`}
+                        value={`${numberOrZero(d.duree_moyenne_minutes)} min (${numberOrZero(d.duree_moyenne_heures)} h)`}
                         valueStyle={{ color: '#1890ff', fontSize: 20, fontWeight: 600 }}
                         prefix={<ClockCircleOutlined />}
                       />
@@ -240,23 +208,20 @@ const IndicateursLog = () => {
                   }}
                 >
                   <Space direction="vertical" size={10} style={{ width: '100%' }}>
-                    {/* Titre */}
                     <Text strong style={{ fontSize: 16 }}>
                       <AppstoreOutlined style={{ marginRight: 6 }} />
                       {s.nom_service}
                     </Text>
 
-                    {/* Nombre de courses */}
                     <Statistic
                       title="Nombre de courses"
-                      value={s.nb_courses}
+                      value={numberOrZero(s.nb_courses)}
                       valueStyle={{ fontWeight: 700, fontSize: 22 }}
                     />
 
-                    {/* Temps moyen */}
                     <Statistic
                       title="Temps moyen"
-                      value={`${Math.round(s.temps_moyen_minutes)} min`}
+                      value={`${numberOrZero(s.temps_moyen_minutes)} min`}
                       valueStyle={{ color: '#722ed1', fontSize: 20, fontWeight: 600 }}
                       prefix={<ClockCircleOutlined />}
                     />

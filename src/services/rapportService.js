@@ -104,6 +104,7 @@ export const getRapportBonPerformance = async (filter) => {
 };
 
 export const getRapportStatutPrincipaux = async (params) => {
+  console.log(params)
   return axios.get(`${DOMAIN}/api/rapport/rapport_statut_principaux`, { params });
 };
 
