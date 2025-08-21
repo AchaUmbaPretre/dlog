@@ -2,7 +2,7 @@ import { ResponsiveBar } from '@nivo/bar';
 
 const VehiculeBarChart = ({ data }) => {
   const formattedData = data.map(item => ({
-    type: item.nom_cat,
+    type: item.abreviation,
     véhicules: item.nbre,
   }));
 
