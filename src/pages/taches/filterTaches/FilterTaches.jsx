@@ -6,23 +6,11 @@ import { getDepartement } from '../../../services/departementService';
 import { getUser } from '../../../services/userService';
 import { getClient } from '../../../services/clientService';
 import { getTypes } from '../../../services/typeService';
-import { getPriorityIcon } from '../../../utils/prioriteIcons';
+import { colorMapping, getPriorityIcon } from '../../../utils/prioriteIcons';
 import { getProjet } from '../../../services/projetService';
 import { useSelector } from 'react-redux';
 
 const { RangePicker } = DatePicker;
-
-const colorMapping = {
-    'En attente': '#FFA500',
-    'En cours': '#1E90FF',
-    'Point bloquant': '#FF4500',
-    'En attente de validation': '#32CD32',
-    'Validé': '#228B22',
-    'Budget': '#FFD700',
-    'Exécuté': '#A9A9A9',
-    1: '#32CD32',
-    0: '#FF6347',
-};
 
 const FilterTaches = ({ onFilter }) => {
     const [departement, setDepartement] = useState([]);
