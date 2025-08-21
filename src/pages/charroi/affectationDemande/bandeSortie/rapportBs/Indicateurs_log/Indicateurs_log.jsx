@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { getRapportIndicateurLog } from '../../../../../../services/rapportService';
+import { ResponsiveBar } from '@nivo/bar';
 
 const { Title, Text } = Typography;
 const { RangePicker } = DatePicker;
@@ -18,6 +19,7 @@ const IndicateursLog = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [range, setRange] = useState(null);
+  
 
   const numberOrZero = (v) => Number.isFinite(Number(v)) ? Number(v) : 0;
 
@@ -173,17 +175,50 @@ const IndicateursLog = () => {
               const delta = d.nb_courses - (d.nb_courses_prev || 0);
               return (
                 <Col xs={24} sm={12} md={12} lg={8} xl={6} key={i}>
-                  {renderCard(
-                    `Destination: ${d.nom_destination}`,
-                    d.nb_courses,
-                    `Nombre de courses: ${d.nb_courses}`,
-                    <ClockCircleOutlined />,
-                    delta !== 0 ? (
-                      <Tooltip title={`Changement par rapport à la période précédente: ${delta > 0 ? '+' : ''}${delta}`}>
-                        {delta > 0 ? <ArrowUpOutlined style={{ color: '#cf1322' }} /> : <ArrowDownOutlined style={{ color: '#3f8600' }} />}
-                      </Tooltip>
-                    ) : null
-                  )}
+                  <Card
+                    bordered={false}
+                    hoverable
+                    style={{
+                      borderRadius: 16,
+                      boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+                      height: '100%',
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    <Space direction="vertical" size={10} style={{ width: '100%' }}>
+                      {/* Titre + évolution */}
+                      <Space style={{ justifyContent: 'space-between', width: '100%' }}>
+                        <Text strong style={{ fontSize: 16 }}>
+                          <ClockCircleOutlined style={{ marginRight: 6 }} />
+                          {d.nom_destination}
+                        </Text>
+                        {delta !== 0 && (
+                          <Tooltip title={`Évolution par rapport à la période précédente: ${delta > 0 ? '+' : ''}${delta}`}>
+                            {delta > 0 ? (
+                              <ArrowUpOutlined style={{ color: '#cf1322' }} />
+                            ) : (
+                              <ArrowDownOutlined style={{ color: '#3f8600' }} />
+                            )}
+                          </Tooltip>
+                        )}
+                      </Space>
+
+                      {/* Nombre de courses */}
+                      <Statistic
+                        title="Nombre de courses"
+                        value={d.nb_courses}
+                        valueStyle={{ fontWeight: 700, fontSize: 22 }}
+                      />
+
+                      {/* Temps moyen */}
+                      <Statistic
+                        title="Temps moyen"
+                        value={`${Math.round(d.duree_moyenne_minutes)} min (${d.duree_moyenne_heures} h)`}
+                        valueStyle={{ color: '#1890ff', fontSize: 20, fontWeight: 600 }}
+                        prefix={<ClockCircleOutlined />}
+                      />
+                    </Space>
+                  </Card>
                 </Col>
               );
             })}
@@ -194,12 +229,39 @@ const IndicateursLog = () => {
           <Row gutter={[24, 24]} justify="center">
             {data.volume_courses_par_service?.map((s, i) => (
               <Col xs={24} sm={12} md={12} lg={8} xl={6} key={i}>
-                {renderCard(
-                  `Service: ${s.nom_service}`,
-                  s.nb_courses,
-                  `Nombre de courses du service ${s.nom_service}`,
-                  <AppstoreOutlined />
-                )}
+                <Card
+                  bordered={false}
+                  hoverable
+                  style={{
+                    borderRadius: 16,
+                    boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+                    height: '100%',
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  <Space direction="vertical" size={10} style={{ width: '100%' }}>
+                    {/* Titre */}
+                    <Text strong style={{ fontSize: 16 }}>
+                      <AppstoreOutlined style={{ marginRight: 6 }} />
+                      {s.nom_service}
+                    </Text>
+
+                    {/* Nombre de courses */}
+                    <Statistic
+                      title="Nombre de courses"
+                      value={s.nb_courses}
+                      valueStyle={{ fontWeight: 700, fontSize: 22 }}
+                    />
+
+                    {/* Temps moyen */}
+                    <Statistic
+                      title="Temps moyen"
+                      value={`${Math.round(s.temps_moyen_minutes)} min`}
+                      valueStyle={{ color: '#722ed1', fontSize: 20, fontWeight: 600 }}
+                      prefix={<ClockCircleOutlined />}
+                    />
+                  </Space>
+                </Card>
               </Col>
             ))}
           </Row>
