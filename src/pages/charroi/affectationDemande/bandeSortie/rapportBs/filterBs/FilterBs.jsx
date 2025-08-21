@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Select, DatePicker } from 'antd';
 import { getDestination, getServiceDemandeur, getVehicule } from '../../../../../../services/charroiService';
+import { CalendarOutlined, CarOutlined, TeamOutlined, FlagOutlined } from '@ant-design/icons';
 import './filterBs.scss';
 
 const { RangePicker } = DatePicker;
@@ -21,7 +22,6 @@ const FilterBs = ({ onFilter }) => {
                 getVehicule(),
                 getDestination()
             ]);
-
             setService(serviceData.data);
             setVehicule(vehiculeData.data.data);
             setDestination(destinationData.data);
@@ -46,7 +46,7 @@ const FilterBs = ({ onFilter }) => {
     return (
         <div className="filterBs">
             <div className="filter_card">
-                <label>Service :</label>
+                <label><TeamOutlined /> Service :</label>
                 <Select
                     mode="multiple"
                     showSearch
@@ -55,15 +55,17 @@ const FilterBs = ({ onFilter }) => {
                         value: item.id_service_demandeur,
                         label: item.nom_service,
                     }))}
-                    placeholder="Sélectionnez ..."
+                    placeholder="Sélectionnez un ou plusieurs services"
                     optionFilterProp="label"
                     onChange={setSelectedService}
                     value={selectedService}
+                    allowClear
+                    dropdownStyle={{ borderRadius: 12 }}
                 />
             </div>
 
             <div className="filter_card">
-                <label>Véhicule :</label>
+                <label><CarOutlined /> Véhicule :</label>
                 <Select
                     mode="multiple"
                     showSearch
@@ -72,15 +74,17 @@ const FilterBs = ({ onFilter }) => {
                         value: item.id_vehicule,
                         label: item.immatriculation,
                     }))}
-                    placeholder="Sélectionnez ..."
+                    placeholder="Sélectionnez un ou plusieurs véhicules"
                     optionFilterProp="label"
                     onChange={setSelectedVehicule}
                     value={selectedVehicule}
+                    allowClear
+                    dropdownStyle={{ borderRadius: 12 }}
                 />
             </div>
 
             <div className="filter_card">
-                <label>Destination :</label>
+                <label><FlagOutlined /> Destination :</label>
                 <Select
                     mode="multiple"
                     showSearch
@@ -89,19 +93,24 @@ const FilterBs = ({ onFilter }) => {
                         value: item.id_destination,
                         label: item.nom_destination,
                     }))}
-                    placeholder="Sélectionnez ..."
+                    placeholder="Sélectionnez une ou plusieurs destinations"
                     optionFilterProp="label"
                     onChange={setSelectedDestination}
                     value={selectedDestination}
+                    allowClear
+                    dropdownStyle={{ borderRadius: 12 }}
                 />
             </div>
 
             <div className="filter_card">
-                <label>Date : </label>
+                <label><CalendarOutlined /> Date :</label>
                 <RangePicker
                     style={{ width: '100%' }}
                     value={dateRange}
                     onChange={setDateRange}
+                    allowClear
+                    format="DD/MM/YYYY"
+                    placeholder={['Date début', 'Date fin']}
                 />
             </div>
         </div>

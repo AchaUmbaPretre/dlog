@@ -38,26 +38,26 @@ const PerformanceOp = () => {
     dateRange: [],
   });
 
+const fetchData = async (startDate, endDate) => {
+  try {
+    setLoading(true);
+    const { data } = await getRapportBonPerformance(startDate, endDate);
+    setVehicule(data.vehiculeData || []);
+    setChauffeur(data.chauffeurData || []);
+    setDureeData(data.dureeData || []);
+    setTauxData(data.tauxData || { taux_retour_delais: 0 });
+  } catch (error) {
+    message.error("Erreur lors du chargement des données");
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  const fetchData = async (startDate, endDate) => {
-    try {
-      setLoading(true);
-      const { data } = await getRapportBonPerformance(startDate, endDate);
-      setVehicule(data.vehiculeData || []);
-      setChauffeur(data.chauffeurData || []);
-      setDureeData(data.dureeData || []);
-      setTauxData(data.tauxData || { taux_retour_delais: 0 });
-    } catch (error) {
-      message.error("Erreur lors du chargement des données");
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [dates]);
+useEffect(() => {
+  const [startDate, endDate] = filters.dateRange || [];
+  fetchData(startDate, endDate);
+}, [filters.dateRange]);
 
   // Totaux pour dureeData
   const totalHeures = dureeData.reduce((acc, curr) => acc + curr.duree_totale_heures, 0);
@@ -69,6 +69,8 @@ const PerformanceOp = () => {
     d.nom_destination.toLowerCase().includes(searchDestination.toLowerCase())
   );
 
+  console.log(filters)
+
   const graphData = dureeData.map(c => ({
     destination: c.nom_destination,
     duree: parseFloat(c.duree_moyenne_heures) || 0
@@ -78,7 +80,7 @@ const PerformanceOp = () => {
     <div style={{ padding: 24, background: "#f0f2f5", minHeight: "100vh" }}>
       {/* Filtrage */}
       <div style={{ marginBottom: 24 }}>
-        <FilterBs/>
+        <FilterBs onFilter={setFilters}/>
       </div>
 
       <Spin spinning={loading} tip="Chargement des données..." size="large">
