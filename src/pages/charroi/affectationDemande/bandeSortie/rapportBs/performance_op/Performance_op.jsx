@@ -26,6 +26,7 @@ const PerformanceOp = () => {
   const [dureeData, setDureeData] = useState([]);
   const [tauxData, setTauxData] = useState({ taux_retour_delais: 0 });
   const [loading, setLoading] = useState(false);
+  const scroll = { x: 400 };
   const [searchVehicule, setSearchVehicule] = useState("");
   const [searchChauffeur, setSearchChauffeur] = useState("");
   const [searchDestination, setSearchDestination] = useState("");
@@ -65,8 +66,6 @@ useEffect(() => {
   const filteredDureeData = dureeData.filter(d =>
     d.nom_destination.toLowerCase().includes(searchDestination.toLowerCase())
   );
-
-  console.log(filters)
 
   const graphData = dureeData.map(c => ({
     destination: c.nom_destination,
@@ -130,7 +129,7 @@ useEffect(() => {
 
           <Card type="inner" title="Chauffeurs" style={{ marginBottom: 16 }}>
             <Search placeholder="Rechercher chauffeur" onChange={e => setSearchChauffeur(e.target.value)} style={{ marginBottom: 12, width: 300 }} allowClear />
-            <Table dataSource={filteredChauffeurs} rowKey="id_chauffeur" pagination={{ pageSize: 5 }} bordered columns={[
+            <Table dataSource={filteredChauffeurs} scroll={scroll} rowKey="id_chauffeur" pagination={{ pageSize: 5 }} bordered columns={[
               { title: "#", render: (_, __, index) => index + 1 },
               { title: "Nom", dataIndex: "nom" },
               { title: "Sorties", dataIndex: "total_sorties",sorter: (a, b) => a.total_sorties - b.total_sorties }
@@ -169,6 +168,7 @@ useEffect(() => {
               rowKey={(record, index) => index}
               pagination={{ pageSize: 5 }}
               bordered
+              scroll={scroll}
               columns={[
                 { title: "#", render: (_, __, index) => index + 1 },
                 { title: "Destination", dataIndex: "nom_destination" },
@@ -183,6 +183,7 @@ useEffect(() => {
                 },
                 { title: "Durée totale (h)", dataIndex: "duree_totale_heures", sorter: (a, b) => a.duree_totale_heures - b.duree_totale_heures },
                 { title: "Durée totale (j)", dataIndex: "duree_totale_jours", sorter: (a, b) => a.duree_totale_jours - b.duree_totale_jours },
+                { title: "Nbre sortie", dataIndex:"total_sorties", sorter: (a, b) => a.total_sorties - b.total_sorties}
               ]}
               footer={() => (
                 <div style={{ fontWeight: "bold" }}>
