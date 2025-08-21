@@ -113,7 +113,7 @@ const IndicateursLog = () => {
       ) : data ? (
         <>
           {/* Totaux principaux */}
-          <Row gutter={[24, 24]} justify="center">
+          <Row gutter={[24, 24]} justify="center" style={{display:'flex', gap:'20px'}}>
             {renderCard(
               'Nombre total de bons de sortie',
               data.nb_ot,
@@ -136,7 +136,7 @@ const IndicateursLog = () => {
             {data.top_destinations?.map((d, i) => {
               const delta = numberOrZero(d.nb_courses) - numberOrZero(d.nb_courses_prev);
               return (
-                <Col xs={24} sm={12} md={12} lg={8} xl={6} key={i}>
+                <Col xs={24} sm={12} md={12} lg={8} xl={8} key={i}>
                   <Card
                     bordered={false}
                     hoverable
@@ -184,7 +184,7 @@ const IndicateursLog = () => {
           <Divider orientation="left">Volume courses par service</Divider>
           <Row gutter={[24, 24]} justify="center">
             {data.volume_courses_par_service?.map((s, i) => (
-              <Col xs={24} sm={12} md={12} lg={8} xl={6} key={i}>
+              <Col xs={24} sm={12} md={12} lg={8} xl={8} key={i}>
                 <Card
                   bordered={false}
                   hoverable

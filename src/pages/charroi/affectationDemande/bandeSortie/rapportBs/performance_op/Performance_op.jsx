@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react"; 
 import {
   Card,
   Table,
@@ -10,80 +10,83 @@ import {
   Spin,
   Input,
   Typography,
-  Tooltip
+  Tooltip,
+  Badge,
+  Divider
 } from "antd";
-import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import { ArrowUpOutlined, ArrowDownOutlined, DashboardOutlined, CarOutlined, UserOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { ResponsiveBar } from "@nivo/bar";
 import { getRapportBonPerformance } from "../../../../../../services/rapportService";
 import FilterBs from "../filterBs/FilterBs";
 
 const { Search } = Input;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const PerformanceOp = () => {
   const [vehicule, setVehicule] = useState([]);
   const [chauffeur, setChauffeur] = useState([]);
   const [dureeData, setDureeData] = useState([]);
   const [tauxData, setTauxData] = useState({ taux_retour_delais: 0 });
+  const [sortieTotal, setSortieTotal] = useState([]);
   const [loading, setLoading] = useState(false);
   const scroll = { x: 400 };
   const [searchVehicule, setSearchVehicule] = useState("");
   const [searchChauffeur, setSearchChauffeur] = useState("");
   const [searchDestination, setSearchDestination] = useState("");
   const [filters, setFilters] = useState({
-    vehicule: [],
-    service: [],
-    destination: [],
-    dateRange: [],
+    vehicule: [], service: [], destination: [], dateRange: [],
   });
 
-const fetchData = async (filter) => {
-  try {
-    setLoading(true);
-    const { data } = await getRapportBonPerformance(filter);
-    setVehicule(data.vehiculeData || []);
-    setChauffeur(data.chauffeurData || []);
-    setDureeData(data.dureeData || []);
-    setTauxData(data.tauxData || { taux_retour_delais: 0 });
-  } catch (error) {
-    message.error("Erreur lors du chargement des données");
-    console.error(error);
-  } finally {
-    setLoading(false);
-  }
-};
+  const fetchData = async (filter) => {
+    try {
+      setLoading(true);
+      const { data } = await getRapportBonPerformance(filter);
+      setVehicule(data.vehiculeData || []);
+      setChauffeur(data.chauffeurData || []);
+      setDureeData(data.dureeData || []);
+      setTauxData(data.tauxData || { taux_retour_delais: 0 });
+      setSortieTotal(data.sortieTotal || []);
+    } catch (error) {
+      message.error("Erreur lors du chargement des données");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-useEffect(() => {
-  fetchData(filters);
-}, [filters]);
+  useEffect(() => {
+    fetchData(filters);
+  }, [filters]);
 
   // Totaux pour dureeData
   const totalHeures = dureeData.reduce((acc, curr) => acc + curr.duree_totale_heures, 0);
   const totalJours = dureeData.reduce((acc, curr) => acc + curr.duree_totale_jours, 0);
+  const totalSorties = sortieTotal.length;
 
   const filteredVehicules = vehicule.filter(v => v.immatriculation.toLowerCase().includes(searchVehicule.toLowerCase()));
   const filteredChauffeurs = chauffeur.filter(c => c.nom.toLowerCase().includes(searchChauffeur.toLowerCase()));
-  const filteredDureeData = dureeData.filter(d =>
-    d.nom_destination.toLowerCase().includes(searchDestination.toLowerCase())
-  );
+  const filteredDureeData = dureeData.filter(d => d.nom_destination.toLowerCase().includes(searchDestination.toLowerCase()));
+  const graphData = dureeData.map(c => ({ destination: c.nom_destination, duree: parseFloat(c.duree_moyenne_heures) || 0 }));
 
-  const graphData = dureeData.map(c => ({
-    destination: c.nom_destination,
-    duree: parseFloat(c.duree_moyenne_heures) || 0
-  }));
+  // Badge couleur dynamique
+  const getBadgeStatus = (value) => {
+    if (value > 80) return "success";
+    if (value > 50) return "warning";
+    return "error";
+  };
 
   return (
     <div style={{ padding: 24, background: "#f0f2f5", minHeight: "100vh" }}>
       {/* Filtrage */}
       <div style={{ marginBottom: 24 }}>
-        <FilterBs onFilter={setFilters}/>
+        <FilterBs onFilter={setFilters} />
       </div>
 
       <Spin spinning={loading} tip="Chargement des données..." size="large">
-        {/* KPI */}
+        {/* KPI Cards */}
         <Row gutter={16} style={{ marginBottom: 24 }}>
-          <Col xs={24} sm={8}>
-            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
+          <Col xs={24} sm={6}>
+            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 6px 20px rgba(0,0,0,0.08)", transition: "all 0.3s", height: "100%" }}>
               <Statistic
                 title="Taux retour dans les délais"
                 value={tauxData.taux_retour_delais || 0}
@@ -93,49 +96,41 @@ useEffect(() => {
               <Progress percent={tauxData.taux_retour_delais || 0} strokeColor={{ from: "#108ee9", to: "#87d068" }} strokeWidth={14} />
             </Card>
           </Col>
-          <Col xs={24} sm={8}>
-            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
+          <Col xs={24} sm={6}>
+            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 6px 20px rgba(0,0,0,0.08)", transition: "all 0.3s", height: "100%" }}>
               <Statistic
                 title="Véhicules mobilisés"
                 value={vehicule.length}
-                prefix={vehicule.length > 10 ? <ArrowUpOutlined style={{ color: "green" }} /> : <ArrowDownOutlined style={{ color: "red" }} />}
+                prefix={<CarOutlined style={{ color: vehicule.length > 10 ? "green" : "red" }} />}
               />
             </Card>
           </Col>
-          <Col xs={24} sm={8}>
-            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
+          <Col xs={24} sm={6}>
+            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 6px 20px rgba(0,0,0,0.08)", transition: "all 0.3s", height: "100%" }}>
               <Statistic
                 title="Chauffeurs mobilisés"
                 value={chauffeur.length}
-                prefix={chauffeur.length > 10 ? <ArrowUpOutlined style={{ color: "green" }} /> : <ArrowDownOutlined style={{ color: "red" }} />}
+                prefix={<UserOutlined style={{ color: chauffeur.length > 10 ? "green" : "red" }} />}
               />
+            </Card>
+          </Col>
+          <Col xs={24} sm={6}>
+            <Card bordered={false} style={{ borderRadius: 12, boxShadow: "0 6px 20px rgba(0,0,0,0.08)", transition: "all 0.3s", height: "100%" }}>
+              <Statistic
+                title="Sorties totales"
+                value={totalSorties}
+                prefix={<DashboardOutlined style={{ color: totalSorties > 50 ? "green" : "orange" }} />}
+              />
+              <Badge count={totalSorties} style={{ backgroundColor: "#1890ff", marginTop: 8 }} />
             </Card>
           </Col>
         </Row>
 
-        {/* Tables et graphique */}
+        <Divider />
+
+        {/* Graphique et tableaux */}
         <Card title={<Title level={4}>Performance opérationnelle</Title>} bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
-          
-          <Card type="inner" title="Véhicules" style={{ marginBottom: 16 }}>
-            <Search placeholder="Rechercher véhicule" onChange={e => setSearchVehicule(e.target.value)} style={{ marginBottom: 12, width: 300 }} allowClear />
-            <Table dataSource={filteredVehicules} rowKey="id_vehicule" pagination={{ pageSize: 5 }} bordered columns={[
-              { title: "#", render: (_, __, index) => index + 1 },
-              { title: "Immatriculation", dataIndex: "immatriculation" },
-              { title: "Marque", dataIndex: "nom_marque" },
-              { title: "Catégorie", dataIndex: "nom_cat" },
-              { title: "Sorties", dataIndex: "total_sorties", sorter: (a, b) => a.total_sorties - b.total_sortie }
-            ]}/>
-          </Card>
-
-          <Card type="inner" title="Chauffeurs" style={{ marginBottom: 16 }}>
-            <Search placeholder="Rechercher chauffeur" onChange={e => setSearchChauffeur(e.target.value)} style={{ marginBottom: 12, width: 300 }} allowClear />
-            <Table dataSource={filteredChauffeurs} scroll={scroll} rowKey="id_chauffeur" pagination={{ pageSize: 5 }} bordered columns={[
-              { title: "#", render: (_, __, index) => index + 1 },
-              { title: "Nom", dataIndex: "nom" },
-              { title: "Sorties", dataIndex: "total_sorties",sorter: (a, b) => a.total_sorties - b.total_sorties }
-            ]}/>
-          </Card>
-
+          {/* Graphique barres */}
           <Card type="inner" title="Durée moyenne par destination" style={{ marginBottom: 16 }}>
             <div style={{ height: 400 }}>
               <ResponsiveBar
@@ -155,7 +150,7 @@ useEffect(() => {
             </div>
           </Card>
 
-          {/* Tableau duréeData amélioré */}
+          {/* Tableau duréeData */}
           <Card type="inner" title="Durée des courses par destination">
             <Search 
               placeholder="Rechercher destination" 
@@ -187,12 +182,11 @@ useEffect(() => {
               ]}
               footer={() => (
                 <div style={{ fontWeight: "bold" }}>
-                  Totaux : {totalHeures.toFixed(2)} h / {totalJours.toFixed(2)} j
+                  Totaux : {totalHeures.toFixed(2)} h / {totalJours.toFixed(2)} j / {totalSorties} sorties
                 </div>
               )}
             />
           </Card>
-
         </Card>
       </Spin>
     </div>
