@@ -17,10 +17,7 @@ const IndicateursLog = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
-    vehicule: [],
-    service: [],
-    destination: [],
-    dateRange: [],
+    vehicule: [], service: [], destination: [], dateRange: [],
   });
 
   const numberOrZero = (v) => Number.isFinite(Number(v)) ? Number(v) : 0;
@@ -29,7 +26,6 @@ const IndicateursLog = () => {
     try {
       setLoading(true);
       setError(null);
-
       const { data: resp } = await getRapportIndicateurLog(appliedFilters);
       setData(resp);
     } catch (err) {
@@ -41,9 +37,7 @@ const IndicateursLog = () => {
     }
   }, []);
 
-  useEffect(() => {
-    fetchData(filters);
-  }, [filters, fetchData]);
+  useEffect(() => { fetchData(filters); }, [filters, fetchData]);
 
   const totalCourses = useMemo(() => numberOrZero(data?.nb_ot), [data]);
 
@@ -56,16 +50,17 @@ const IndicateursLog = () => {
   const renderCard = useCallback((title, value, tooltip, icon = <DashboardOutlined />, extra = null) => (
     <Card
       bordered={false}
-      style={{
-        borderRadius: 12,
-        boxShadow: '0 10px 25px rgba(0,0,0,0.08)',
-        transition: 'transform 0.3s, box-shadow 0.3s',
-        height: '100%',
-      }}
       hoverable
-      bodyStyle={{ padding: 20 }}
+      style={{
+        borderRadius: 14,
+        boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+        transition: 'transform 0.4s, box-shadow 0.4s',
+        height: '100%',
+        background: 'linear-gradient(135deg, #ffffff, #f0f5ff)',
+      }}
+      bodyStyle={{ padding: 24 }}
     >
-      <Space direction="vertical" size={6} style={{ width: '100%' }}>
+      <Space direction="vertical" size={8} style={{ width: '100%' }}>
         <Space style={{ width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
           <Space>
             {icon}
@@ -78,30 +73,26 @@ const IndicateursLog = () => {
         </Space>
         <Statistic
           value={numberOrZero(value)}
-          valueStyle={{ fontWeight: 700, fontSize: 28 }}
+          valueStyle={{ fontWeight: 700, fontSize: 30, color: '#1d39c4' }}
         />
       </Space>
     </Card>
   ), []);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
       {/* --- Header / Filtres --- */}
       <Card
         bordered={false}
-        bodyStyle={{
-          padding: 20,
-          borderRadius: 12,
-          boxShadow: '0 10px 25px rgba(0,0,0,0.08)',
-        }}
+        bodyStyle={{ padding: 24, borderRadius: 14, boxShadow: '0 10px 25px rgba(0,0,0,0.08)' }}
       >
         <Row gutter={[16, 16]} align="middle" justify="space-between">
           <Col xs={24} md={24} style={{ textAlign: 'right' }}>
-            <FilterBs onFilter={setFilters}/>
+            <FilterBs onFilter={setFilters} />
           </Col>
         </Row>
         <Divider style={{ margin: '16px 0' }} />
-        <Text>Total courses: <b>{totalCourses}</b></Text>
+        <Text strong style={{ fontSize: 16 }}>Total courses: <span style={{ color: '#1d39c4' }}>{totalCourses}</span></Text>
       </Card>
 
       {/* --- KPI Cards --- */}
@@ -122,13 +113,13 @@ const IndicateursLog = () => {
       ) : data ? (
         <>
           {/* Totaux principaux */}
-          <Row gutter={[24, 24]} justify="center" style={{ display: 'flex', gap: '20px' }}>
+          <Row gutter={[24, 24]} justify="center">
             {renderCard(
               'Nombre total de bons de sortie',
               data.nb_ot,
               'Total des bons de sortie émis',
               <AppstoreOutlined />,
-              <Badge count={numberOrZero(data.nb_ot)} style={{ backgroundColor: '#52c41a' }} />
+              <Badge count={numberOrZero(data.nb_ot)} style={{ backgroundColor: '#52c41a', boxShadow: '0 0 0 2px white' }} />
             )}
             {renderCard(
               'Taux d\'utilisation du parc',
@@ -151,24 +142,21 @@ const IndicateursLog = () => {
                     hoverable
                     style={{
                       borderRadius: 16,
-                      boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+                      boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
                       height: '100%',
                       transition: 'all 0.3s ease',
+                      background: 'linear-gradient(135deg, #ffffff, #e6f7ff)',
                     }}
                   >
                     <Space direction="vertical" size={10} style={{ width: '100%' }}>
                       <Space style={{ justifyContent: 'space-between', width: '100%' }}>
                         <Text strong style={{ fontSize: 16 }}>
-                          <ClockCircleOutlined style={{ marginRight: 6 }} />
+                          <ClockCircleOutlined style={{ marginRight: 6, color: '#1890ff' }} />
                           {d.nom_destination}
                         </Text>
                         {delta !== 0 && (
                           <Tooltip title={`Évolution par rapport à la période précédente: ${delta > 0 ? '+' : ''}${delta}`}>
-                            {delta > 0 ? (
-                              <ArrowUpOutlined style={{ color: '#cf1322' }} />
-                            ) : (
-                              <ArrowDownOutlined style={{ color: '#3f8600' }} />
-                            )}
+                            {delta > 0 ? <ArrowUpOutlined style={{ color: '#cf1322' }} /> : <ArrowDownOutlined style={{ color: '#3f8600' }} />}
                           </Tooltip>
                         )}
                       </Space>
@@ -176,13 +164,13 @@ const IndicateursLog = () => {
                       <Statistic
                         title="Nombre de courses"
                         value={numberOrZero(d.nb_courses)}
-                        valueStyle={{ fontWeight: 700, fontSize: 22 }}
+                        valueStyle={{ fontWeight: 700, fontSize: 24 }}
                       />
 
                       <Statistic
                         title="Temps moyen"
                         value={`${numberOrZero(d.duree_moyenne_minutes)} min (${numberOrZero(d.duree_moyenne_heures)} h)`}
-                        valueStyle={{ color: '#1890ff', fontSize: 20, fontWeight: 600 }}
+                        valueStyle={{ color: '#096dd9', fontSize: 20, fontWeight: 600 }}
                         prefix={<ClockCircleOutlined />}
                       />
                     </Space>
@@ -202,14 +190,15 @@ const IndicateursLog = () => {
                   hoverable
                   style={{
                     borderRadius: 16,
-                    boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+                    boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
                     height: '100%',
                     transition: 'all 0.3s ease',
+                    background: 'linear-gradient(135deg, #ffffff, #f9f0ff)',
                   }}
                 >
                   <Space direction="vertical" size={10} style={{ width: '100%' }}>
                     <Text strong style={{ fontSize: 16 }}>
-                      <AppstoreOutlined style={{ marginRight: 6 }} />
+                      <AppstoreOutlined style={{ marginRight: 6, color: '#722ed1' }} />
                       {s.nom_service}
                     </Text>
 
