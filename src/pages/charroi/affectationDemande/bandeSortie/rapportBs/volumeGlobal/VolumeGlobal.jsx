@@ -39,17 +39,17 @@ const VolumeGlobal = () => {
   const KPIs = [
     {
       icon: <FileTextOutlined style={{ fontSize: 40, color: '#52c41a' }} />,
-      label: 'Nombre total de bons de sortie',
+      label: 'Nbre bons',
       value: globals.total_bons || 0,
     },
     {
       icon: <CarOutlined style={{ fontSize: 40, color: '#faad14' }} />,
-      label: 'Nombre total de véhicules mobilisés',
+      label: 'Nbre véhicules',
       value: globals.total_vehicules || 0,
     },
     {
       icon: <UserOutlined style={{ fontSize: 40, color: '#eb2f96' }} />,
-      label: 'Nombre de chauffeurs impliqués',
+      label: 'Nbre chauffeurs',
       value: globals.total_chauffeurs || 0,
     },
   ];

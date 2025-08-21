@@ -38,7 +38,7 @@ const RapportBs = () => {
   return (
     <div className="rapport_bs">
       <Card bordered={false} className="rapport_bs_card">
-        <h2 className="rapport_h2">Rapport de Bon de sortie</h2>
+        <h2 className="rapport_h2">RAPPORT SORTIES VEHICULES</h2>
         <Tabs 
             activeKey={activeKey} 
             onChange={setActiveKey} 
