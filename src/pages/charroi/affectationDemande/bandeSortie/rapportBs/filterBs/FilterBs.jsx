@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Select, DatePicker } from 'antd';
 import { getDestination, getServiceDemandeur, getVehicule } from '../../../../../../services/charroiService';
 import './filterBs.scss'
@@ -20,11 +20,10 @@ const FilterBs = ({ onFilter }) => {
                 const [serviceData, vehiculeData, destinationData ] = await Promise.all([
                     getServiceDemandeur(),
                     getVehicule(),
-                    getDestination(
+                    getDestination()
                 ]);
-
                     setService(serviceData.data);
-                    setVehicule(vehiculeData.data);
+                    setVehicule(vehiculeData.data.data);
                     setDestination(destinationData.data)
                 } catch (error) {
                     console.error(error);
@@ -120,7 +119,6 @@ const FilterBs = ({ onFilter }) => {
                     onChange={setDateRange}
                 />
              </div>
-
         </div>
     </>
   )

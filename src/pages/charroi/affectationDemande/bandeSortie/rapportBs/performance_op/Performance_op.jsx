@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   DatePicker,
-  Button,
   Statistic,
   Progress,
   message,
@@ -18,8 +17,8 @@ import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import { ResponsiveBar } from "@nivo/bar";
 import moment from "moment";
 import { getRapportBonPerformance } from "../../../../../../services/rapportService";
+import FilterBs from "../filterBs/FilterBs";
 
-const { RangePicker } = DatePicker;
 const { Search } = Input;
 const { Title } = Typography;
 
@@ -54,15 +53,6 @@ const PerformanceOp = () => {
     fetchData();
   }, [dates]);
 
-  const handleDateChange = (dates) => setDates(dates);
-  const applyFilter = () => {
-    if (dates && dates.length === 2) {
-      fetchData(moment(dates[0]).format("YYYY-MM-DD"), moment(dates[1]).format("YYYY-MM-DD"));
-    } else {
-      message.warning("Veuillez sélectionner une plage de dates");
-    }
-  };
-
   // Totaux pour dureeData
   const totalHeures = dureeData.reduce((acc, curr) => acc + curr.duree_totale_heures, 0);
   const totalJours = dureeData.reduce((acc, curr) => acc + curr.duree_totale_jours, 0);
@@ -81,10 +71,9 @@ const PerformanceOp = () => {
   return (
     <div style={{ padding: 24, background: "#f0f2f5", minHeight: "100vh" }}>
       {/* Filtrage */}
-      <Row gutter={[16,16]} align="middle" style={{ marginBottom: 24 }}>
-        <Col><RangePicker onChange={handleDateChange} /></Col>
-        <Col><Button type="primary" onClick={applyFilter}>Appliquer</Button></Col>
-      </Row>
+      <div style={{ marginBottom: 24 }}>
+        <FilterBs/>
+      </div>
 
       <Spin spinning={loading} tip="Chargement des données..." size="large">
         {/* KPI */}
