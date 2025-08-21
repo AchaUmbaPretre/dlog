@@ -37,33 +37,38 @@ const VolumeGlobal = () => {
     fetchData();
   }, []);
 
-  const KPIs = [
-    {
-      icon: <FileTextOutlined style={{ fontSize: 40, color: '#52c41a' }} />,
-      label: 'Nbre bons',
-      value: globals.total_bons || 0,
-    },
-    {
-      icon: <CarOutlined style={{ fontSize: 40, color: '#faad14' }} />,
-      label: 'Nbre véhicules',
-      value: globals.total_vehicules || 0,
-    },
-    {
-      icon: <UserOutlined style={{ fontSize: 40, color: '#eb2f96' }} />,
-      label: 'Nbre chauffeurs',
-      value: globals.total_chauffeurs || 0,
-    },
-    {
-      icon: <ClockCircleOutlined style={{ fontSize: 40, color: '#1890ff' }} />,
-      label: 'Durée moyenne',
-      value: globals.temps_moyen_minutes
-        ? `${globals.temps_moyen_minutes} min`
-        : '—',
-      extra: globals.temps_moyen_heures
-        ? `≈ ${globals.temps_moyen_heures} h`
-        : '',
-    },
-  ];
+const KPIs = [
+  {
+    icon: <FileTextOutlined style={{ fontSize: 28, color: '#52c41a' }} />,
+    label: 'Nbre bons',
+    value: globals.total_bons || 0,
+    bg: 'rgba(82, 196, 26, 0.15)',
+  },
+  {
+    icon: <CarOutlined style={{ fontSize: 28, color: '#faad14' }} />,
+    label: 'Nbre véhicules',
+    value: globals.total_vehicules || 0,
+    bg: 'rgba(250, 173, 20, 0.15)',
+  },
+  {
+    icon: <UserOutlined style={{ fontSize: 28, color: '#eb2f96' }} />,
+    label: 'Nbre chauffeurs',
+    value: globals.total_chauffeurs || 0,
+    bg: 'rgba(235, 47, 150, 0.15)',
+  },
+  {
+    icon: <ClockCircleOutlined style={{ fontSize: 28, color: '#1890ff' }} />,
+    label: 'Durée moyenne',
+    value: globals.temps_moyen_minutes
+      ? `${globals.temps_moyen_minutes} min`
+      : '—',
+    extra: globals.temps_moyen_heures
+      ? `≈ ${globals.temps_moyen_heures} h`
+      : '',
+    bg: 'rgba(24, 144, 255, 0.15)',
+  },
+];
+
 
   return (
     <div className="volume-global">
@@ -85,7 +90,20 @@ const VolumeGlobal = () => {
                 <Skeleton active paragraph={false} />
               ) : (
                 <>
-                  <div style={{ marginBottom: 12 }}>{kpi.icon}</div>
+                  <div
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: 64,
+                      height: 64,
+                      borderRadius: "50%",
+                      backgroundColor: kpi.bg, // couleur semi-transparente
+                      marginBottom: 12,
+                    }}
+                  >
+                    {kpi.icon}
+                  </div>
                   <Statistic
                     value={kpi.value}
                     valueStyle={{
