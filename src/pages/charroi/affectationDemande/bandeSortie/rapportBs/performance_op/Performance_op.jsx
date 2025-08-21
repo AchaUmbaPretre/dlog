@@ -14,7 +14,6 @@ import {
 } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import { ResponsiveBar } from "@nivo/bar";
-import moment from "moment";
 import { getRapportBonPerformance } from "../../../../../../services/rapportService";
 import FilterBs from "../filterBs/FilterBs";
 
@@ -26,7 +25,6 @@ const PerformanceOp = () => {
   const [chauffeur, setChauffeur] = useState([]);
   const [dureeData, setDureeData] = useState([]);
   const [tauxData, setTauxData] = useState({ taux_retour_delais: 0 });
-  const [dates, setDates] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchVehicule, setSearchVehicule] = useState("");
   const [searchChauffeur, setSearchChauffeur] = useState("");
@@ -38,10 +36,10 @@ const PerformanceOp = () => {
     dateRange: [],
   });
 
-const fetchData = async (startDate, endDate) => {
+const fetchData = async (filter) => {
   try {
     setLoading(true);
-    const { data } = await getRapportBonPerformance(startDate, endDate);
+    const { data } = await getRapportBonPerformance(filter);
     setVehicule(data.vehiculeData || []);
     setChauffeur(data.chauffeurData || []);
     setDureeData(data.dureeData || []);
@@ -55,9 +53,8 @@ const fetchData = async (startDate, endDate) => {
 };
 
 useEffect(() => {
-  const [startDate, endDate] = filters.dateRange || [];
-  fetchData(startDate, endDate);
-}, [filters.dateRange]);
+  fetchData(filters);
+}, [filters]);
 
   // Totaux pour dureeData
   const totalHeures = dureeData.reduce((acc, curr) => acc + curr.duree_totale_heures, 0);
