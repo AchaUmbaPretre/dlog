@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Table,
   Row,
   Col,
-  DatePicker,
   Statistic,
   Progress,
   message,
@@ -32,6 +31,13 @@ const PerformanceOp = () => {
   const [searchVehicule, setSearchVehicule] = useState("");
   const [searchChauffeur, setSearchChauffeur] = useState("");
   const [searchDestination, setSearchDestination] = useState("");
+  const [filters, setFilters] = useState({
+    vehicule: [],
+    service: [],
+    destination: [],
+    dateRange: [],
+  });
+
 
   const fetchData = async (startDate, endDate) => {
     try {
