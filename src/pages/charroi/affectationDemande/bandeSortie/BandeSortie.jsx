@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Table, Tag, Popconfirm, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import { CarOutlined, StockOutlined, DeleteOutlined, ApartmentOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CarOutlined, StockOutlined, ExclamationCircleOutlined, DeleteOutlined, ApartmentOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie, putAnnulereBandeSortie, putEstSupprimeBandeSortie } from '../../../../services/charroiService';
@@ -13,6 +13,7 @@ import RapportBs from './rapportBs/RapportBs';
 
 const { Search } = Input;
 const { Text } = Typography;
+const { confirm } = Modal;
 
 const BandeSortie = () => {
     const [loading, setLoading] = useState(true);
@@ -151,37 +152,48 @@ const BandeSortie = () => {
       }));
     };
 
-const handleAnnuler = async (id_bande_sortie, id_vehicule) => {
-  const loadingKey = 'loadingAnnuler';
-  message.loading({
-    content: 'Traitement en cours, veuillez patienter...',
-    key: loadingKey,
-    duration: 0,
-  });
+    const handleAnnuler = (id_bande_sortie, id_vehicule) => {
+      confirm({
+        title: "Voulez-vous vraiment annuler ce bon ?",
+        icon: <ExclamationCircleOutlined style={{ color: "#faad14" }} />,
+        content: `Le bon de sortie n°${id_bande_sortie} sera définitivement annulé.`,
+        okText: "Oui, annuler",
+        cancelText: "Non, garder",
+        okType: "danger",
+        centered: true,
+        async onOk() {
+          const loadingKey = "loadingAnnuler";
 
-  setLoading(true);
+          message.loading({
+            content: "Traitement en cours, veuillez patienter...",
+            key: loadingKey,
+            duration: 0,
+          });
 
-  try {
-    await putAnnulereBandeSortie(id_bande_sortie, id_vehicule, userId);
-    
-    message.success({
-      content: `Le bon de sortie ${id_bande_sortie} a été annulé avec succès.`,
-      key: loadingKey,
-    });
+          setLoading(true);
 
-    fetchData();
-  } catch (error) {
-    console.error("Erreur lors de l'annulation :", error);
+          try {
+            await putAnnulereBandeSortie(id_bande_sortie, id_vehicule, userId);
 
-    message.error({
-      content: 'Une erreur est survenue lors de l\'annulation.',
-      key: loadingKey,
-    });
-    
-  } finally {
-    setLoading(false);
-    }
-  }
+            message.success({
+              content: `Le bon de sortie ${id_bande_sortie} a été annulé avec succès.`,
+              key: loadingKey,
+            });
+
+            fetchData();
+          } catch (error) {
+            console.error("Erreur lors de l'annulation :", error);
+
+            message.error({
+              content: "Une erreur est survenue lors de l'annulation.",
+              key: loadingKey,
+            });
+          } finally {
+            setLoading(false);
+          }
+        },
+      });
+    };
 
     const columns = [
         {
