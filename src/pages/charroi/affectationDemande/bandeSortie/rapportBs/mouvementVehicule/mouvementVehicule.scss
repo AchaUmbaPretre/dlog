@@ -1,13 +1,49 @@
-.mouvement_vehicule{
+.mouvement_vehicule {
+  width: 100%;
+  padding: 20px;
+
+  .mouv_vehicule_wrapper {
     width: 100%;
-    .mouv_vehicule_wrapper{
-        width: 100%;
-        .mouv_vehicule_row{
-            display: flex;
-            .mouv_vehicule_card{
-                border-color: 1px solid #555;
-                padding: 15px;
-            }
-        }
+
+    .mouv_vehicule_row {
+      margin-top: 20px;
     }
+
+    .mouv_vehicule_card {
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      text-align: center;
+
+      .ant-statistic-title {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .ant-statistic-content-value {
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      }
+
+      &.attente {
+        background: linear-gradient(135deg, #fff4e6, #ffe9d6);
+        color: #d46b08;
+      }
+
+      &.hors_site {
+        background: linear-gradient(135deg, #e6f4ff, #d6ecff);
+        color: #096dd9;
+      }
+
+      &.dispo {
+        background: linear-gradient(135deg, #f6ffed, #e6fffb);
+        color: #389e0d;
+      }
+    }
+  }
 }
