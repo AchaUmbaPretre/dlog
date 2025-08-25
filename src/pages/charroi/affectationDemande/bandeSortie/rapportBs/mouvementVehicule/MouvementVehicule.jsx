@@ -1,8 +1,21 @@
-import React from 'react'
+import { Select } from 'antd';
+import './mouvementVehicule.scss'
+import { useState } from 'react';
+import MouvementFilter from './mouvementFilter/MouvementFilter';
+const { Option } = Select;
+
 
 const MouvementVehicule = () => {
+
+
   return (
-    <div>MouvementVehicule</div>
+    <>
+      <div className="mouvement_vehicule">
+        <div className="mouv_vehicule_wrapper">
+          <MouvementFilter/>
+        </div>
+      </div>
+    </>
   )
 }
 
