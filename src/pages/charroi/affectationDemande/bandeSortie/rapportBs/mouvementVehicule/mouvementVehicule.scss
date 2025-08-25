@@ -1,12 +1,13 @@
 .mouvement_vehicule{
+    width: 100%;
     .mouv_vehicule_wrapper{
-        .mouv_periode{
+        width: 100%;
+        .mouv_vehicule_row{
             display: flex;
-            flex-direction: column;
-            gap: 10px;
-            .mouv_labe {
-
+            .mouv_vehicule_card{
+                border-color: 1px solid #555;
+                padding: 15px;
             }
         }
-    }   
+    }
 }
