@@ -111,3 +111,7 @@ export const getRapportStatutPrincipaux = async (params) => {
 export const getRapportIndicateurLog = async (params) => {
   return axios.get(`${DOMAIN}/api/rapport/rapport_indicateurs_log`, { params });
 };
+
+export const getMouvementVehicule = async (params) => {
+  return axios.get(`${DOMAIN}/api/rapport/mouvement_vehicule`, { params });
+};
