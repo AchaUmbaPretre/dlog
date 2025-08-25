@@ -27,6 +27,7 @@ const MouvementFilter = ({ onFilter }) => {
   const [types, setTypes] = useState([]);
   const [department, setDepartment] = useState([]);
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,6 +59,29 @@ const MouvementFilter = ({ onFilter }) => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (onFilter) {
+      onFilter({
+        dateFilter,
+        dateRange,
+        selectedVehicule,
+        selectedService,
+        selectedDestination,
+        selectedType,
+        selectedDepartment,
+      });
+    }
+  }, [
+    dateFilter,
+    dateRange,
+    selectedVehicule,
+    selectedService,
+    selectedDestination,
+    selectedType,
+    selectedDepartment,
+    onFilter,
+  ]);
 
   return (
     <div className="mouv_card">
