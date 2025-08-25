@@ -91,14 +91,7 @@ const MouvementVehicule = () => {
     <div className="mouvement_vehicule">
       <div className="mouv_vehicule_wrapper">
         {/* Filtres */}
-        <MouvementFilter onFilter={async (filters) => {
-          try {
-            const res = await getMouvementVehicule(filters);
-            setData(res);
-          } catch (err) {
-            console.error(err);
-          }
-        }} />
+        <MouvementFilter />
 
         {/* Statistiques principales */}
         <Row gutter={[24, 24]} className="mouv_vehicule_row">
