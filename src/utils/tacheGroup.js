@@ -15,7 +15,7 @@ export const groupTasks = (tasks) => {
     });
   
     return Array.from(taskMap.values()).filter(task => task.id_tache_parente === null);
-  }
+};
 
 const filterSubTasks = (subTasks, searchValue) => {
     return subTasks.filter(task =>
@@ -38,7 +38,7 @@ export const filteredData = (tasks, searchValue) => {
     }).map(task => ({
       ...task,
       sousTaches: filterSubTasks(task.sousTaches || [], searchValue),
-    }));
+    })); 
 };
 
 export const getSubMenuAccessByUrl = (currentUrl, datas) => {

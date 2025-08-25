@@ -1,39 +1,46 @@
 import { Card, Tabs } from 'antd';
-import { FileTextOutlined, BarChartOutlined, ContainerOutlined, SyncOutlined } from '@ant-design/icons';
+import { FileTextOutlined, SwapOutlined, BarChartOutlined, ContainerOutlined, SyncOutlined } from '@ant-design/icons';
 import './rapportBs.scss';
 import { useState } from 'react';
 import PerformanceOp from './performance_op/Performance_op';
 import SuiviStatutBs from './suiviStatutBs/SuiviStatutBs';
 import IndicateursLog from './Indicateurs_log/Indicateurs_log';
 import VolumeGlobal from './volumeGlobal/VolumeGlobal';
+import MouvementVehicule from './mouvementVehicule/MouvementVehicule';
 
 const { TabPane } = Tabs;
 
 const RapportBs = () => {
   const [activeKey, setActiveKey] = useState('1');
 
-  const tabItems = [
-  {
-    key: '1',
-    label: 'Volume global des activités',
-    icon: FileTextOutlined,
-  },
-  {
-    key: '2',
-    label: 'Performance opérationnelle',
-    icon: BarChartOutlined,
-  },
-  {
-    key: '3',
-    label: 'Suivi des statuts',
-    icon: SyncOutlined,
-  },
-  {
-    key: '4',
-    label: 'Indicateurs logistiques spécifiques',
-    icon: ContainerOutlined,
-  },
-    ];
+  const tabItems = 
+  [
+    {
+      key: '1',
+      label: 'Volume global des activités',
+      icon: FileTextOutlined,
+    },
+    {
+      key: '2',
+      label: 'Performance opérationnelle',
+      icon: BarChartOutlined,
+    },
+    {
+      key: '3',
+      label: 'Suivi des statuts',
+      icon: SyncOutlined,
+    },
+    {
+      key: '4',
+      label: 'Indicateurs logistiques spécifiques',
+      icon: ContainerOutlined,
+    },
+    {
+      key: '5',
+      label: 'Mouvements véhicules',
+      icon: SwapOutlined,
+    },
+  ];
 
   return (
     <div className="rapport_bs">
@@ -70,6 +77,7 @@ const RapportBs = () => {
             {key === '2' && <PerformanceOp />}
             {key === '3' && <SuiviStatutBs />}
             {key === '4' && <IndicateursLog />}
+            {key === '5' && <MouvementVehicule />}
           </TabPane>
         ))}
         </Tabs>
