@@ -5,9 +5,9 @@ import {
   getCatVehicule,
   getDestination,
   getServiceDemandeur,
-  getTypeVehicule,
   getVehicule
 } from '../../../../../../../services/charroiService';
+import { getDepartement } from '../../../../../../../services/departementService';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -18,12 +18,14 @@ const MouvementFilter = ({ onFilter }) => {
   const [selectedService, setSelectedService] = useState([]);
   const [selectedDestination, setSelectedDestination] = useState([]);
   const [selectedType, setSelectedType] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState([]);
   const [dateRange, setDateRange] = useState([]);
 
   const [vehicules, setVehicules] = useState([]);
   const [services, setServices] = useState([]);
   const [destinations, setDestinations] = useState([]);
   const [types, setTypes] = useState([]);
+  const [department, setDepartment] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,18 +34,23 @@ const MouvementFilter = ({ onFilter }) => {
           serviceData,
           vehiculeData,
           destinationData,
-          typeData
+          typeData,
+          departmentData
         ] = await Promise.all([
           getServiceDemandeur(),
           getVehicule(),
           getDestination(),
-          getCatVehicule()
+          getCatVehicule(),
+          getDepartement()
+
         ]);
 
         setServices(serviceData.data);
         setVehicules(vehiculeData.data.data);
         setDestinations(destinationData.data);
         setTypes(typeData.data);
+        setDepartment(departmentData.data);
+
       } catch (error) {
         console.error('Erreur lors du chargement des filtres :', error);
       }
@@ -142,6 +149,24 @@ const MouvementFilter = ({ onFilter }) => {
           }))}
           value={selectedType}
           onChange={setSelectedType}
+          style={{ width: '100%' }}
+          optionFilterProp="label"
+        />
+      </div>
+
+      <div className="mouv_periode">
+        <label className="mouv_labe">Département :</label>
+        <Select
+          mode="multiple"
+          showSearch
+          allowClear
+          placeholder="Sélectionnez un ou plusieurs département"
+          options={department.map(type => ({
+            value: type.id_departement,
+            label: type.nom_departement
+          }))}
+          value={selectedDepartment}
+          onChange={setSelectedDepartment}
           style={{ width: '100%' }}
           optionFilterProp="label"
         />
