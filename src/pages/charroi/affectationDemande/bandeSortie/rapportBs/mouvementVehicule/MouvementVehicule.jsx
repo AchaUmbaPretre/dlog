@@ -55,6 +55,7 @@ useEffect(() => {
   const [retoursConfirmes, totalRetours] = parseRatio(data?.retours_confirmes);
   const vehiculesHorsSite = data?.vehicules_hors_site ?? 0;
   const vehiculesDispo = data?.vehicules_disponibles ?? 0;
+  const bonEnAttente = data?.bons_en_attente  ?? 0;
 
   const getColor = (label) => {
     if (label.includes("hors timing")) return "orange";
@@ -66,7 +67,7 @@ useEffect(() => {
   const stats = [
     {
       title: "Bons en attente",
-      value: 0,
+      value: bonEnAttente,
       icon: <FileTextOutlined />,
       tooltip: "Nombre total de bons en attente de validation",
       className: "attente",
