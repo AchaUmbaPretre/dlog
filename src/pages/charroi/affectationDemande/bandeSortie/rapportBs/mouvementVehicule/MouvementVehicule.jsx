@@ -1,4 +1,4 @@
-import { Card, Row, Col, Statistic, Tooltip, Typography, Divider, Badge } from "antd";
+import { Card, Row, Col, Statistic, Tooltip, Typography, Divider, Badge, Button } from "antd";
 import {
   CarOutlined,
   FileTextOutlined,
@@ -7,6 +7,7 @@ import {
   RollbackOutlined,
   CloseCircleOutlined,
   ExclamationCircleOutlined,
+  FilterOutlined,
 } from "@ant-design/icons";
 import MouvementFilter from "./mouvementFilter/MouvementFilter";
 import "./mouvementVehicule.scss";
@@ -17,6 +18,7 @@ const { Title } = Typography;
 
 const MouvementVehicule = () => {
   const [data, setData] = useState(null);
+  const [showFilter, setShowFilter] = useState(false); // état pour afficher/masquer
 
   const fetchData = async () => {
     try {
@@ -44,37 +46,37 @@ const MouvementVehicule = () => {
   const [retoursConfirmes, totalRetours] = parseRatio(data?.retours_confirmes);
   const vehiculesHorsSite = data?.vehicules_hors_site ?? 0;
 
-  // Couleur dynamique selon gravité
   const getColor = (label) => {
     if (label.includes("hors timing")) return "orange";
     if (label.includes("annulées")) return "red";
-    if (label.includes("validés") || label.includes("effectués") || label.includes("confirmés")) return "green";
+    if (label.includes("validés") || label.includes("effectués") || label.includes("confirmés")) return "success";
     return "blue";
   };
 
-  // --- Statistiques principales ---
   const stats = [
     {
       title: "Bons en attente",
       value: 0,
       icon: <FileTextOutlined />,
       tooltip: "Nombre total de bons en attente de validation",
+      className: "attente",
     },
     {
       title: "Véhicules hors site",
       value: vehiculesHorsSite,
       icon: <CarOutlined />,
       tooltip: "Véhicules actuellement hors site",
+      className: "hors_site",
     },
     {
       title: "Disponibles",
       value: 0,
       icon: <CheckCircleOutlined />,
       tooltip: "Véhicules disponibles sur site",
+      className: "dispo",
     },
   ];
 
-  // --- Mini statistiques ---
   const miniStats = [
     { value: `${bonsValides} / ${totalBons}`, label: "Bons validés", icon: <CheckCircleOutlined /> },
     { value: `${departsEffectues} / ${totalDeparts}`, label: "Départs effectués", icon: <CarOutlined /> },
@@ -87,20 +89,31 @@ const MouvementVehicule = () => {
   return (
     <div className="mouvement_vehicule">
       <div className="mouv_vehicule_wrapper">
-        {/* Filtres */}
-        <MouvementFilter />
+        {/* Bouton toggle filtre */}
+        <div className="filter_toggle">
+          <Button
+            type="primary"
+            icon={<FilterOutlined />}
+            onClick={() => setShowFilter(!showFilter)}
+          >
+            {showFilter ? "Masquer le filtre" : "Afficher le filtre"}
+          </Button>
+        </div>
+
+        {/* Filtre affiché seulement si showFilter === true */}
+        {showFilter && <MouvementFilter />}
 
         {/* Statistiques principales */}
         <Row gutter={[24, 24]} className="mouv_vehicule_row">
           {stats.map((stat, index) => (
             <Col xs={24} md={8} key={index}>
               <Tooltip title={stat.tooltip}>
-                <Card bordered={false} className="mouv_vehicule_card">
+                <Card bordered={false} className={`mouv_vehicule_card ${stat.className}`}>
+                  <div className="card_icon">{stat.icon}</div>
                   <Statistic
                     title={stat.title}
                     value={stat.value}
-                    prefix={stat.icon}
-                    valueStyle={{ fontSize: 24, fontWeight: 600 }}
+                    valueStyle={{ fontSize: 28, fontWeight: 700 }}
                   />
                 </Card>
               </Tooltip>
@@ -108,11 +121,8 @@ const MouvementVehicule = () => {
           ))}
         </Row>
 
-        {/* Section compteur absolu */}
         <Divider />
-        <Title level={4} className="mouv_h3">
-          Compteur absolu
-        </Title>
+        <Title level={4} className="mouv_h3">Compteur absolu</Title>
 
         <Row gutter={[16, 16]} className="mouv_cards_row">
           {miniStats.map((item, index) => (
@@ -123,10 +133,7 @@ const MouvementVehicule = () => {
               >
                 <Card bordered={false} className={`mini_stat_card ${getColor(item.label)}`}>
                   <div className="mini_icon">{item.icon}</div>
-                  <Statistic
-                    value={item.value}
-                    valueStyle={{ fontSize: 20, fontWeight: 600 }}
-                  />
+                  <Statistic value={item.value} valueStyle={{ fontSize: 20, fontWeight: 600 }} />
                   <div className="mini_stat_label">{item.label}</div>
                 </Card>
               </Badge.Ribbon>
