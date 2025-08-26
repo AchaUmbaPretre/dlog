@@ -32,6 +32,8 @@ const MouvementVehicule = () => {
 
   useEffect(() => {
     fetchData(filters);
+    const interval = setInterval(fetchData, 5000)
+    return () => clearInterval(interval)
   }, [filters]);
 
   // --- Fonction de parsing sécurisée X / Y ---
