@@ -20,13 +20,11 @@ const MouvementFilter = ({ onFilter }) => {
   const [selectedType, setSelectedType] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState([]);
   const [dateRange, setDateRange] = useState([]);
-
   const [vehicules, setVehicules] = useState([]);
   const [services, setServices] = useState([]);
   const [destinations, setDestinations] = useState([]);
   const [types, setTypes] = useState([]);
   const [department, setDepartment] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +67,7 @@ const MouvementFilter = ({ onFilter }) => {
         selectedService,
         selectedDestination,
         selectedType,
-        selectedDepartment,
+        selectedDepartment
       });
     }
   }, [

@@ -20,13 +20,13 @@ const { Title } = Typography;
 const MouvementVehicule = () => {
   const [data, setData] = useState(null);
   const [showFilter, setShowFilter] = useState(false); 
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({});  
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   
 
   const fetchData = async(filters) => {
     try {
-      const res = await getMouvementVehicule(filters);
+      const res = await getMouvementVehicule({...filters, userId});
       setData(res.data);
     } catch (error) {
       console.error(error);
@@ -41,7 +41,7 @@ useEffect(() => {
   }, 5000);
 
   return () => clearInterval(interval);
-}, [filters]);
+}, [filters, userId]);
 
   const parseRatio = (str) => {
     if (!str) return [0, 0];
