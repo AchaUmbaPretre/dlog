@@ -158,7 +158,7 @@ const MouvementFilter = ({ onFilter }) => {
       </div>
 
       {/* Type */}
-      <div className="mouv_periode">
+{/*       <div className="mouv_periode">
         <label className="mouv_labe">Type :</label>
         <Select
           mode="multiple"
@@ -192,7 +192,7 @@ const MouvementFilter = ({ onFilter }) => {
           style={{ width: '100%' }}
           optionFilterProp="label"
         />
-      </div>
+      </div> */}
 
       {/* Date personnalisée */}
       <div className="mouv_periode">
