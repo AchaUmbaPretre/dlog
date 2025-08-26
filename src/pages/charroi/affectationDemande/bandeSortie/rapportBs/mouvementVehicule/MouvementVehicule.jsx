@@ -13,6 +13,7 @@ import MouvementFilter from "./mouvementFilter/MouvementFilter";
 import "./mouvementVehicule.scss";
 import { useEffect, useState } from "react";
 import { getMouvementVehicule } from "../../../../../../services/rapportService";
+import { useSelector } from "react-redux";
 
 const { Title } = Typography;
 
@@ -20,6 +21,8 @@ const MouvementVehicule = () => {
   const [data, setData] = useState(null);
   const [showFilter, setShowFilter] = useState(false); 
   const [filters, setFilters] = useState({});
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  
 
   const fetchData = async(filters) => {
     try {
@@ -30,13 +33,16 @@ const MouvementVehicule = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData(filters);
-    const interval = setInterval(fetchData, 5000)
-    return () => clearInterval(interval)
-  }, [filters]);
+useEffect(() => {
+  fetchData(filters);
 
-  // --- Fonction de parsing sécurisée X / Y ---
+  const interval = setInterval(() => {
+    fetchData(filters);
+  }, 5000);
+
+  return () => clearInterval(interval);
+}, [filters]);
+
   const parseRatio = (str) => {
     if (!str) return [0, 0];
     const parts = str.split("/").map((v) => parseInt(v.trim(), 10));
@@ -48,6 +54,7 @@ const MouvementVehicule = () => {
   const [departsEffectues, totalDeparts] = parseRatio(data?.departs_effectues);
   const [retoursConfirmes, totalRetours] = parseRatio(data?.retours_confirmes);
   const vehiculesHorsSite = data?.vehicules_hors_site ?? 0;
+  const vehiculesDispo = data?.vehicules_disponibles ?? 0;
 
   const getColor = (label) => {
     if (label.includes("hors timing")) return "orange";
@@ -73,7 +80,7 @@ const MouvementVehicule = () => {
     },
     {
       title: "Disponibles",
-      value: 0,
+      value: vehiculesDispo,
       icon: <CheckCircleOutlined />,
       tooltip: "Véhicules disponibles sur site",
       className: "dispo",
