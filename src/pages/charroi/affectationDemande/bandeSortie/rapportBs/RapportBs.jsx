@@ -47,12 +47,12 @@ const RapportBs = () => {
       <Card bordered={false} className="rapport_bs_card">
         <h2 className="rapport_h2">RAPPORT SORTIES VEHICULES</h2>
         <Tabs 
-            activeKey={activeKey} 
-            onChange={setActiveKey} 
-            type="card" 
-            tabPosition="top"
-            tabBarGutter={24}
-            className="rapport_tabs"
+          activeKey={activeKey} 
+          onChange={setActiveKey} 
+          type="card" 
+          tabPosition="top"
+          tabBarGutter={24}
+          className="rapport_tabs"
         >
           {tabItems.map(({ key, label, icon: Icon }) => (
           <TabPane
