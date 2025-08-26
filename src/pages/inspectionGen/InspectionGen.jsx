@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, StockOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { deleteInspectionGen, getInspectionGen} from '../../services/charroiService';
 import moment from 'moment';
@@ -23,6 +23,7 @@ import { handleRepair, handleValider } from '../../utils/modalUtils';
 import InspectionImage from './inspectionImage/InspectionImage';
 import ReparationDetail from '../controleTechnique/reparation/reparationDetail/ReparationDetail';
 import CatInspection from '../catInspection/CatInspection';
+import InspectionRapport from './inspectionRapport/InspectionRapport';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -328,6 +329,8 @@ const InspectionGen = () => {
   const closeAllModals = () => {
     setModalType(null);
   };
+
+  const handleRapportInsp = () => openModal('rapport')
 
   const openModal = (type, inspectionId = '', vehicule) => {
     closeAllModals();
@@ -914,6 +917,26 @@ const InspectionGen = () => {
                             >
                                 Ajouter
                             </Button>
+                            
+                            <Tooltip title="Cliquez pour voir le rapport complet">
+                              <Button
+                                type="primary"
+                                icon={<StockOutlined />}
+                                onClick={handleRapportInsp}
+                                style={{
+                                  backgroundColor: '#6a8bff',
+                                  borderColor: '#6a8bff',
+                                  color: 'white',
+                                  fontWeight: 'bold',
+                                  padding: '8px 20px',
+                                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+                                }}
+                                aria-label="Générer le rapport des stocks"
+                              >
+                                Générer Rapport
+                              </Button>
+                            </Tooltip>
+
                             <Dropdown overlay={menu} trigger={['click']}>
                               <Button icon={<ExportOutlined />}>Export</Button>
                             </Dropdown>
@@ -1086,6 +1109,17 @@ const InspectionGen = () => {
           centered
         >
           <ReparationDetail closeModal={() => setModalType(null)} fetchData={fetchDataInsp} idReparation={null} inspectionId={inspectionId} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'rapport'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1150}
+          centered
+        >
+          <InspectionRapport />
         </Modal>
     </>
   )
