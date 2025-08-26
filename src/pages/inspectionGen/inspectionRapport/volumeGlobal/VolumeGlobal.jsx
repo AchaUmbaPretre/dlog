@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const VolumeGlobal = () => {
+    const [data, setData] = useState([]);
+
+    const fetchData = () => {
+        try {
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
   return (
-    <div>VolumeGlobal</div>
+    <>
+        <div className="volumeGlobal">
+
+        </div>
+    </>
   )
 }
 
