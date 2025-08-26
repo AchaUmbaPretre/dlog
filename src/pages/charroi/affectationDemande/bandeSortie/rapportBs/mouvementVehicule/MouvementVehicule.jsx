@@ -42,9 +42,6 @@ const MouvementVehicule = () => {
   const [bonsValides, totalBons] = parseRatio(data?.bons_valides);
   const [departsEffectues, totalDeparts] = parseRatio(data?.departs_effectues);
   const [retoursConfirmes, totalRetours] = parseRatio(data?.retours_confirmes);
-  const [departsHorsTiming] = parseRatio(data?.departs_hors_timing);
-  const [retoursHorsTiming] = parseRatio(data?.retours_hors_timing);
-  const [coursesAnnulees] = parseRatio(data?.courses_annulees);
   const vehiculesHorsSite = data?.vehicules_hors_site ?? 0;
 
   // Couleur dynamique selon gravité
