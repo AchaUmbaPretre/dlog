@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getNotificationOne } from '../../../services/tacheService';
 import { notification, Modal } from 'antd';
-import { useNavigate } from 'react-router-dom';
 import DetailTacheGlobalOne from '../../../pages/taches/detailTacheGlobalOne/DetailTacheGlobalOne';
 import InspectionGenDetail from '../../../pages/inspectionGen/inspectionGenDetail/InspectionGenDetail';
 import ReparationDetail from '../../../pages/controleTechnique/reparation/reparationDetail/ReparationDetail';
@@ -10,7 +9,6 @@ const Notification = ({ idNotif, onClose }) => {
   const [data, setData] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [id, setId] = useState(null);
-  const navigate = useNavigate();
 
   const closeAllModals = () => {
     setModalType(null);
@@ -48,10 +46,7 @@ const Notification = ({ idNotif, onClose }) => {
         }
       }
     } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données.',
-      });
+      console.log(error)
     }
   };
 
