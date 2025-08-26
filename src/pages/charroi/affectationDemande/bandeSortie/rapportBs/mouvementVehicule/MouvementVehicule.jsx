@@ -19,10 +19,11 @@ const { Title } = Typography;
 const MouvementVehicule = () => {
   const [data, setData] = useState(null);
   const [showFilter, setShowFilter] = useState(false); // état pour afficher/masquer
+  const [filters, setFilters] = useState({});
 
-  const fetchData = async () => {
+  const fetchData = async(filters) => {
     try {
-      const res = await getMouvementVehicule();
+      const res = await getMouvementVehicule(filters);
       setData(res.data);
     } catch (error) {
       console.error(error);
@@ -30,8 +31,8 @@ const MouvementVehicule = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(filters);
+  }, [filters]);
 
   // --- Fonction de parsing sécurisée X / Y ---
   const parseRatio = (str) => {
@@ -101,7 +102,7 @@ const MouvementVehicule = () => {
         </div>
 
         {/* Filtre affiché seulement si showFilter === true */}
-        {showFilter && <MouvementFilter />}
+        {showFilter && <MouvementFilter onFilter={setFilters}  />}
 
         {/* Statistiques principales */}
         <Row gutter={[24, 24]} className="mouv_vehicule_row">

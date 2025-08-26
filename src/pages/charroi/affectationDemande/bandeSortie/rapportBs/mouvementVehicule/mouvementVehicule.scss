@@ -4,6 +4,16 @@
   background: #fafafa;
 
   .mouv_vehicule_wrapper {
+    .filter_toggle {
+        margin-bottom: 16px;
+        text-align: right;
+
+        button {
+            border-radius: 8px;
+            font-weight: 500;
+        }
+    }
+
     .mouv_vehicule_row {
       margin-top: 24px;
     }
