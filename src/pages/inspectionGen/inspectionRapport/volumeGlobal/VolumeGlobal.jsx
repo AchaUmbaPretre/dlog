@@ -4,7 +4,7 @@ import { getRapportInspectionRep } from '../../../../services/rapportService';
 const VolumeGlobal = () => {
     const [data, setData] = useState([]);
 
-    const fetchData = () => {
+    const fetchData = async() => {
         try {
             const { data } = await getRapportInspectionRep()
             setData(data)
@@ -17,7 +17,7 @@ const VolumeGlobal = () => {
         fetchData();
     }, [])
 
-    
+
 
   return (
     <>
