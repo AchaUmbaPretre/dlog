@@ -59,7 +59,7 @@ const MouvementVehicule = () => {
   const stats = [
     {
       title: "Bons en attente",
-      value: totalBons - bonsValides,
+      value: 0,
       icon: <FileTextOutlined />,
       tooltip: "Nombre total de bons en attente de validation",
     },
@@ -71,7 +71,7 @@ const MouvementVehicule = () => {
     },
     {
       title: "Disponibles",
-      value: departsEffectues - vehiculesHorsSite,
+      value: 0,
       icon: <CheckCircleOutlined />,
       tooltip: "Véhicules disponibles sur site",
     },
