@@ -1,6 +1,10 @@
 import { Card, Tabs } from 'antd';
-import { FileTextOutlined, SwapOutlined, BarChartOutlined, ContainerOutlined, SyncOutlined } from '@ant-design/icons';
+import { FileTextOutlined, BarChartOutlined, SyncOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import VolumeGlobal from './volumeGlobal/VolumeGlobal';
+import PerformanceM from './performanceM/PerformanceM';
+import SuiviStatutM from './suiviStatutM/SuiviStatutM';
+import CoutMaintenance from './coutMaintenance/CoutMaintenance';
 
 const { TabPane } = Tabs;
 
@@ -35,7 +39,7 @@ const InspectionRapport = () => {
     <>
         <div className="rapport_bs">
             <Card bordered={false} className="rapport_bs_card">
-                <h2 className="rapport_h2">RAPPORT SORTIES VEHICULES</h2>
+                <h2 className="rapport_h2">Tableau de bord - Inspections & Réparations du charroi</h2>
                 <Tabs 
                     activeKey={activeKey} 
                     onChange={setActiveKey} 
@@ -63,7 +67,10 @@ const InspectionRapport = () => {
                             </span>
                         }
                     >
-
+                        {key === '1' && <VolumeGlobal /> }
+                        {key === '2' && <PerformanceM />}
+                        {key === '3' && <CoutMaintenance />}
+                        {key === '4' && <SuiviStatutM />}
                     </TabPane>
                     ))}
                 </Tabs>
