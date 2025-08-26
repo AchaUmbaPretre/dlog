@@ -115,3 +115,9 @@ export const getRapportIndicateurLog = async (params) => {
 export const getMouvementVehicule = async (params) => {
   return axios.get(`${DOMAIN}/api/rapport/mouvement_vehicule`, { params });
 };
+
+//Rapport inspection & Réparation
+export const getRapportInspectionRep = async (params) => {
+  return axios.get(`${DOMAIN}/api/rapport/inspection_rapport_rep`, { params });
+};
+
