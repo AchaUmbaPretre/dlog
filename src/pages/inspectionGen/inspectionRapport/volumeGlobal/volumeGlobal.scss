@@ -1,0 +1,77 @@
+.volumeGlobal {
+  padding: 24px;
+
+  .dashboard-title {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #1f1f1f;
+  }
+
+  .card-indicator {
+    border-radius: 16px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    .ant-statistic-title {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .ant-statistic-content {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    svg {
+      font-size: 28px;
+      opacity: 0.2;
+      position: absolute;
+      right: 20px;
+      bottom: 15px;
+    }
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .blue {
+    background: linear-gradient(135deg, #1890ff 0%, #40a9ff 100%);
+  }
+  .purple {
+    background: linear-gradient(135deg, #722ed1 0%, #9254de 100%);
+  }
+  .green {
+    background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
+  }
+  .orange {
+    background: linear-gradient(135deg, #fa8c16 0%, #ffa940 100%);
+  }
+
+  .card-repartition {
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+    .panne-item {
+      .panne-header {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 500;
+        margin-bottom: 6px;
+      }
+      .panne-type {
+        color: #444;
+      }
+      .panne-value {
+        color: #666;
+        font-size: 14px;
+      }
+    }
+  }
+}
