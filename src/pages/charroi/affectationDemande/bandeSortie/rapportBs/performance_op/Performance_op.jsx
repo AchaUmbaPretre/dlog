@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react"; 
+import { useEffect, useState } from "react"; 
 import {
   Card,
   Table,
@@ -14,13 +14,13 @@ import {
   Badge,
   Divider
 } from "antd";
-import { ArrowUpOutlined, ArrowDownOutlined, DashboardOutlined, CarOutlined, UserOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { DashboardOutlined, CarOutlined, UserOutlined } from "@ant-design/icons";
 import { ResponsiveBar } from "@nivo/bar";
 import { getRapportBonPerformance } from "../../../../../../services/rapportService";
 import FilterBs from "../filterBs/FilterBs";
 
 const { Search } = Input;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const PerformanceOp = () => {
   const [vehicule, setVehicule] = useState([]);

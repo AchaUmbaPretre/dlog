@@ -18,7 +18,7 @@ const { Title } = Typography;
 
 const MouvementVehicule = () => {
   const [data, setData] = useState(null);
-  const [showFilter, setShowFilter] = useState(false); // état pour afficher/masquer
+  const [showFilter, setShowFilter] = useState(false); 
   const [filters, setFilters] = useState({});
 
   const fetchData = async(filters) => {
