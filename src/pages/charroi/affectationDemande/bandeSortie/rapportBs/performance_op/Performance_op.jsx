@@ -65,7 +65,6 @@ const PerformanceOp = () => {
   const filteredDureeData = dureeData.filter(d => d.nom_destination.toLowerCase().includes(searchDestination.toLowerCase()));
   const graphData = dureeData.map(c => ({ destination: c.nom_destination, duree: parseFloat(c.duree_moyenne_heures) || 0 }));
 
-
   return (
     <div style={{ padding: 24, background: "#f0f2f5", minHeight: "100vh" }}>
         <div style={{marginBottom:'16px', textAlign:'right'}}>
