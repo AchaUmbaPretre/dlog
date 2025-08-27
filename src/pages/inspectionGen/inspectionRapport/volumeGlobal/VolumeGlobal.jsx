@@ -97,7 +97,7 @@ const VolumeGlobal = () => {
 
       <Divider />
 
-      <Card title="🔧 Répartition par type de panne" className="card-repartition">
+      <Card title="🔧 Inspection par type de panne" className="card-repartition">
         <Space direction="vertical" style={{ width: "100%" }}>
           {data.repartition_type_panne?.map((item) => {
             const percent = ((item.total / totalPannes) * 100).toFixed(1);
