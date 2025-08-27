@@ -55,8 +55,8 @@ const VolumeGlobal = () => {
         <Col xs={24} sm={12} md={6}>
           <Card className="card-indicator blue" hoverable>
             <Statistic
-              title="Réparations totales"
-              value={data.total_reparations}
+              title="Inspections totales"
+              value={data.total_sous_insp}
               prefix={<ToolOutlined />}
             />
           </Card>
@@ -65,8 +65,8 @@ const VolumeGlobal = () => {
         <Col xs={24} sm={12} md={6}>
           <Card className="card-indicator purple" hoverable>
             <Statistic
-              title="cat-réparations"
-              value={data.total_sous_reparations}
+              title="Réparations totales"
+              value={data.total_rep}
               prefix={<SettingOutlined />}
             />
           </Card>
