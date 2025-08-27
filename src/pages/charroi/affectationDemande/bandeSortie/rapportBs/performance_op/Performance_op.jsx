@@ -10,12 +10,11 @@ import {
   Spin,
   Input,
   Typography,
-  Tooltip,
   Badge,
-  Divider
+  Divider,
+  Button
 } from "antd";
-import { DashboardOutlined, CarOutlined, UserOutlined } from "@ant-design/icons";
-import { ResponsiveBar } from "@nivo/bar";
+import { DashboardOutlined, FilterOutlined, CarOutlined, UserOutlined } from "@ant-design/icons";
 import { getRapportBonPerformance } from "../../../../../../services/rapportService";
 import FilterBs from "../filterBs/FilterBs";
 import PerformanceBar from "./performanceBar/PerformanceBar";
@@ -37,8 +36,8 @@ const PerformanceOp = () => {
   const [filters, setFilters] = useState({
     vehicule: [], service: [], destination: [], dateRange: [],
   });
-
-
+  const [showFilter, setShowFilter] = useState(false); 
+  
   const fetchData = async (filter) => {
     try {
       setLoading(true);
@@ -71,18 +70,20 @@ const PerformanceOp = () => {
   const graphData = dureeData.map(c => ({ destination: c.nom_destination, duree: parseFloat(c.duree_moyenne_heures) || 0 }));
 
 
-  // Badge couleur dynamique
-  const getBadgeStatus = (value) => {
-    if (value > 80) return "success";
-    if (value > 50) return "warning";
-    return "error";
-  };
-
   return (
     <div style={{ padding: 24, background: "#f0f2f5", minHeight: "100vh" }}>
+        <div style={{marginBottom:'16px', textAlign:'right'}}>
+          <Button
+            type="primary"
+            icon={<FilterOutlined />}
+            onClick={() => setShowFilter(!showFilter)}
+          >
+            {showFilter ? "Masquer le filtre" : "Afficher le filtre"}
+          </Button>
+        </div>
       {/* Filtrage */}
       <div style={{ marginBottom: 24 }}>
-        <FilterBs onFilter={setFilters} />
+        { showFilter && <FilterBs onFilter={setFilters} />}
       </div>
 
       <Spin spinning={loading} tip="Chargement des données..." size="large">
