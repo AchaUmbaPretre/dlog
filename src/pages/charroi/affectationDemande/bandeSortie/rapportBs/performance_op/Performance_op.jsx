@@ -30,8 +30,6 @@ const PerformanceOp = () => {
   const [sortieTotal, setSortieTotal] = useState([]);
   const [loading, setLoading] = useState(false);
   const scroll = { x: 400 };
-  const [searchVehicule, setSearchVehicule] = useState("");
-  const [searchChauffeur, setSearchChauffeur] = useState("");
   const [searchDestination, setSearchDestination] = useState("");
   const [filters, setFilters] = useState({
     vehicule: [], service: [], destination: [], dateRange: [],
