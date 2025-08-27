@@ -64,8 +64,6 @@ const PerformanceOp = () => {
   const totalJours = dureeData.reduce((acc, curr) => acc + curr.duree_totale_jours, 0);
   const totalSorties = sortieTotal.length;
 
-  const filteredVehicules = vehicule.filter(v => v.immatriculation.toLowerCase().includes(searchVehicule.toLowerCase()));
-  const filteredChauffeurs = chauffeur.filter(c => c.nom.toLowerCase().includes(searchChauffeur.toLowerCase()));
   const filteredDureeData = dureeData.filter(d => d.nom_destination.toLowerCase().includes(searchDestination.toLowerCase()));
   const graphData = dureeData.map(c => ({ destination: c.nom_destination, duree: parseFloat(c.duree_moyenne_heures) || 0 }));
 
