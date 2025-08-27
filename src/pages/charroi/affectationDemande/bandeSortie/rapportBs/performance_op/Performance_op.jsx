@@ -18,6 +18,7 @@ import { DashboardOutlined, CarOutlined, UserOutlined } from "@ant-design/icons"
 import { ResponsiveBar } from "@nivo/bar";
 import { getRapportBonPerformance } from "../../../../../../services/rapportService";
 import FilterBs from "../filterBs/FilterBs";
+import PerformanceBar from "./performanceBar/PerformanceBar";
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -36,6 +37,7 @@ const PerformanceOp = () => {
   const [filters, setFilters] = useState({
     vehicule: [], service: [], destination: [], dateRange: [],
   });
+
 
   const fetchData = async (filter) => {
     try {
@@ -67,6 +69,7 @@ const PerformanceOp = () => {
   const filteredChauffeurs = chauffeur.filter(c => c.nom.toLowerCase().includes(searchChauffeur.toLowerCase()));
   const filteredDureeData = dureeData.filter(d => d.nom_destination.toLowerCase().includes(searchDestination.toLowerCase()));
   const graphData = dureeData.map(c => ({ destination: c.nom_destination, duree: parseFloat(c.duree_moyenne_heures) || 0 }));
+
 
   // Badge couleur dynamique
   const getBadgeStatus = (value) => {
@@ -131,24 +134,7 @@ const PerformanceOp = () => {
         {/* Graphique et tableaux */}
         <Card title={<Title level={4}>Performance opérationnelle</Title>} bordered={false} style={{ borderRadius: 12, boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
           {/* Graphique barres */}
-          <Card type="inner" title="Durée moyenne par destination" style={{ marginBottom: 16 }}>
-            <div style={{ height: 400 }}>
-              <ResponsiveBar
-                data={graphData}
-                keys={["duree"]}
-                indexBy="destination"
-                margin={{ top: 20, right: 50, bottom: 70, left: 60 }}
-                padding={0.3}
-                colors={d => d.value >= 5 ? "green" : d.value >=2 ? "orange" : "red"}
-                axisBottom={{ tickRotation: -45, legend: "Destination", legendPosition: "middle", legendOffset: 50 }}
-                axisLeft={{ legend: "Durée moyenne (h)", legendPosition: "middle", legendOffset: -50 }}
-                enableLabel
-                labelTextColor={{ from: "color", modifiers: [["darker", 1.2]] }}
-                tooltip={({ indexValue, value }) => <Tooltip title={`${indexValue}: ${value} h`}><span>{value} h</span></Tooltip>}
-                animate
-              />
-            </div>
-          </Card>
+          <PerformanceBar graphData={graphData} />
 
           {/* Tableau duréeData */}
           <Card type="inner" title="Durée des courses par destination">
