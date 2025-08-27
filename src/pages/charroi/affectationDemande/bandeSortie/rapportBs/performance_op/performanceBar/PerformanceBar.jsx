@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Tooltip, Switch } from "antd";
 import { ResponsiveBar } from "@nivo/bar";
-import { useSpring, animated } from "@react-spring/web";
 
 const PerformanceBar = ({ graphData }) => {
   const [tickRotation, setTickRotation] = useState(0);
