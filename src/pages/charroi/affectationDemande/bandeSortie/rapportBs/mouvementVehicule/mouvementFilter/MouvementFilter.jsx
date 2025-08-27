@@ -40,7 +40,8 @@ const MouvementFilter = ({ onFilter }) => {
           getVehicule(),
           getDestination(),
           getCatVehicule(),
-          getDepartement()
+          getDepartement(),
+          getCatVehicule()
 
         ]);
 
@@ -66,7 +67,7 @@ const MouvementFilter = ({ onFilter }) => {
         selectedVehicule,
         selectedService,
         selectedDestination,
-        selectedType,
+        type :selectedType,
         selectedDepartment
       });
     }
@@ -158,7 +159,7 @@ const MouvementFilter = ({ onFilter }) => {
       </div>
 
       {/* Type */}
-{/*       <div className="mouv_periode">
+      <div className="mouv_periode">
         <label className="mouv_labe">Type :</label>
         <Select
           mode="multiple"
@@ -167,7 +168,7 @@ const MouvementFilter = ({ onFilter }) => {
           placeholder="Sélectionnez un ou plusieurs types"
           options={types.map(type => ({
             value: type.id_cat_vehicule,
-            label: type.nom_cat
+            label: type.abreviation
           }))}
           value={selectedType}
           onChange={setSelectedType}
@@ -176,7 +177,7 @@ const MouvementFilter = ({ onFilter }) => {
         />
       </div>
 
-      <div className="mouv_periode">
+{/*       <div className="mouv_periode">
         <label className="mouv_labe">Département :</label>
         <Select
           mode="multiple"

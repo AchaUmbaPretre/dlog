@@ -4,7 +4,7 @@ import {
   Skeleton, Empty, Button, Divider, Badge, message
 } from 'antd';
 import {
-  ReloadOutlined, InfoCircleOutlined, DashboardOutlined,
+  ReloadOutlined, FilterOutlined, InfoCircleOutlined, DashboardOutlined,
   ClockCircleOutlined, AppstoreOutlined, ArrowUpOutlined, ArrowDownOutlined
 } from '@ant-design/icons';
 import { getRapportIndicateurLog } from '../../../../../../services/rapportService';
@@ -19,6 +19,8 @@ const IndicateursLog = () => {
   const [filters, setFilters] = useState({
     vehicule: [], service: [], destination: [], dateRange: [],
   });
+  const [showFilter, setShowFilter] = useState(false); 
+  
 
   const numberOrZero = (v) => Number.isFinite(Number(v)) ? Number(v) : 0;
 
@@ -86,9 +88,18 @@ const IndicateursLog = () => {
         bordered={false}
         bodyStyle={{ padding: 24, borderRadius: 14, boxShadow: '0 10px 25px rgba(0,0,0,0.08)' }}
       >
+        <div style={{marginBottom:'16px', textAlign:'right'}}>
+          <Button
+            type="primary"
+            icon={<FilterOutlined />}
+            onClick={() => setShowFilter(!showFilter)}
+          >
+            {showFilter ? "Masquer le filtre" : "Afficher le filtre"}
+          </Button>
+        </div>
         <Row gutter={[16, 16]} align="middle" justify="space-between">
           <Col xs={24} md={24} style={{ textAlign: 'right' }}>
-            <FilterBs onFilter={setFilters} />
+           { showFilter && <FilterBs onFilter={setFilters} />}
           </Col>
         </Row>
         <Divider style={{ margin: '16px 0' }} />
