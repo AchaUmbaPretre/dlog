@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Select, DatePicker } from 'antd';
-import { getDestination, getServiceDemandeur, getVehicule } from '../../../../../../services/charroiService';
+import { getCatVehicule, getDestination, getServiceDemandeur, getVehicule } from '../../../../../../services/charroiService';
 import { CalendarOutlined, CarOutlined, TeamOutlined, FlagOutlined } from '@ant-design/icons';
 import './filterBs.scss';
 
@@ -10,21 +10,26 @@ const FilterBs = ({ onFilter }) => {
     const [selectedVehicule, setSelectedVehicule] = useState([]);
     const [selectedService, setSelectedService] = useState([]);
     const [selectedDestination, setSelectedDestination] = useState([]);
+    const [selectedCat, setSelectedCat] = useState([]);
     const [vehicule, setVehicule] = useState([]);
     const [service, setService] = useState([]);
     const [destination, setDestination] = useState([]);
+    const [catVehicule, setCatVehicule] = useState([]);
     const [dateRange, setDateRange] = useState([]);
 
     const fetchData = async () => {
         try {
-            const [serviceData, vehiculeData, destinationData] = await Promise.all([
+            const [serviceData, vehiculeData, destinationData, catData] = await Promise.all([
                 getServiceDemandeur(),
                 getVehicule(),
-                getDestination()
+                getDestination(),
+                getCatVehicule()
             ]);
             setService(serviceData.data);
             setVehicule(vehiculeData.data.data);
             setDestination(destinationData.data);
+            setCatVehicule(catData.data);
+
         } catch (error) {
             console.error(error);
         }
@@ -72,9 +77,28 @@ const FilterBs = ({ onFilter }) => {
                     style={{ width: '100%' }}
                     options={vehicule.map(item => ({
                         value: item.id_vehicule,
-                        label: item.immatriculation,
+                        label: `${item.nom_marque} / ${item.immatriculation}`
                     }))}
                     placeholder="Sélectionnez un ou plusieurs véhicules"
+                    optionFilterProp="label"
+                    onChange={setSelectedVehicule}
+                    value={selectedVehicule}
+                    allowClear
+                    dropdownStyle={{ borderRadius: 12 }}
+                />
+            </div>
+
+            <div className="filter_card">
+                <label><CarOutlined /> Type :</label>
+                <Select
+                    mode="multiple"
+                    showSearch
+                    style={{ width: '100%' }}
+                    options={catVehicule.map(item => ({
+                        value: item.id_cat_vehicule,
+                        label: `${item.	abreviation}`
+                    }))}
+                    placeholder="Sélectionnez un ou plusieurs types"
                     optionFilterProp="label"
                     onChange={setSelectedVehicule}
                     value={selectedVehicule}
