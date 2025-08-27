@@ -54,7 +54,7 @@ const PerformanceOp = () => {
   };
 
   useEffect(() => {
-    fetchData(filters);
+    fetchData(filters)
   }, [filters]);
 
   // Totaux pour dureeData
