@@ -44,9 +44,10 @@ const FilterBs = ({ onFilter }) => {
             service: selectedService,
             destination: selectedDestination,
             vehicule: selectedVehicule,
+            type: selectedCat,
             dateRange: dateRange
         });
-    }, [selectedService, selectedDestination, selectedVehicule, dateRange]);
+    }, [selectedService, selectedDestination, selectedVehicule, selectedCat, dateRange]);
 
     return (
         <div className="filterBs">
@@ -100,8 +101,8 @@ const FilterBs = ({ onFilter }) => {
                     }))}
                     placeholder="Sélectionnez un ou plusieurs types"
                     optionFilterProp="label"
-                    onChange={setSelectedVehicule}
-                    value={selectedVehicule}
+                    onChange={setSelectedCat}
+                    value={selectedCat}
                     allowClear
                     dropdownStyle={{ borderRadius: 12 }}
                 />
