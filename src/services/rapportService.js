@@ -125,3 +125,8 @@ export const getRapportInspectionRep = async (params) => {
 export const getRapportInspectionCout = async (params) => {
   return axios.get(`${DOMAIN}/api/rapport/inspection_rapport_cout`, { params });
 };
+
+//Rapport inspection cout
+export const getRapportPerformanceDelais = async (params) => {
+  return axios.get(`${DOMAIN}/api/rapport/performance_glo_delais`, { params });
+};
