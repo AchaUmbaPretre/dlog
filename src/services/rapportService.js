@@ -120,3 +120,8 @@ export const getMouvementVehicule = async (params) => {
 export const getRapportInspectionRep = async (params) => {
   return axios.get(`${DOMAIN}/api/rapport/inspection_rapport_rep`, { params });
 };
+
+//Rapport inspection cout
+export const getRapportInspectionCout = async (params) => {
+  return axios.get(`${DOMAIN}/api/rapport/inspection_rapport_cout`, { params });
+};
