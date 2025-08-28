@@ -62,7 +62,7 @@ const RapportInspectionCout = () => {
         </Text>
       ),
     },
-    { title: "Nb Interventions", dataIndex: "nb_interventions", key: "nb_interventions" },
+    { title: "Nb Interv.", dataIndex: "nb_interventions", key: "nb_interventions" },
   ];
 
   const kpiCardStyle = (gradient) => ({
@@ -206,20 +206,23 @@ const RapportInspectionCout = () => {
             >
               <div style={{ height: 360 }}>
                 {!loading && data?.cout_par_type_panne?.length ? (
-                  <ResponsiveBar
+                    <ResponsiveBar
                     data={data.cout_par_type_panne.map((item) => ({
-                      type: item.type_rep,
-                      valeur: item.cout_total,
+                        type: item.type_rep,
+                        valeur: item.cout_total,
                     }))}
                     keys={["valeur"]}
                     indexBy="type"
-                    margin={{ top: 40, right: 20, bottom: 60, left: 60 }}
-                    padding={0.3}
+                    margin={{ top: 40, right: 20, bottom: 80, left: 60 }}
+                    padding={0.6}   // 👈 plus la valeur est grande, plus les barres sont espacées
                     colors={{ scheme: "set3" }}
-                    axisBottom={{ tickRotation: -30 }}
+                    axisBottom={{
+                        tickRotation: -45,
+                        tickPadding: 10,
+                    }}
                     animate
                     motionConfig="wobbly"
-                  />
+                    />
                 ) : (
                   <Empty description="Pas de données" />
                 )}
