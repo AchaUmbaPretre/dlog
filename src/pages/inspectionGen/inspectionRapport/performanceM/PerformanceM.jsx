@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Row,
@@ -8,12 +8,10 @@ import {
   Table,
   Typography,
   Skeleton,
-  Space,
 } from "antd";
 import {
   ClockCircleOutlined,
   ThunderboltOutlined,
-  ReloadOutlined,
   WarningOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
