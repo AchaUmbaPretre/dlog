@@ -1,3 +1,4 @@
+import ModelEvenementLive from './modelEvenementLive/ModelEvenementLive';
 import './modeTv.scss'
 import ModeTvCardPonct from './modeTvCardPonct/ModeTvCardPonct';
 import ModeTvService from './modeTvService/ModeTvService';
@@ -37,7 +38,7 @@ const ModeTv = () => {
 
                 </div>
                 <div className="model_tv_right">
-                bbbbb
+                    <ModelEvenementLive/>
                 </div>
             </div>
 
