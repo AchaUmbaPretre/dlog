@@ -90,7 +90,7 @@ const ModeTvService = () => {
     <div className="mode_service">
       {/* Leaderboard par service */}
       <div className="mode_service_card">
-        <h3>🏆 Leaderboard par service</h3>
+        <h3>🏆 Classement par service</h3>
         <Table
           dataSource={leaderboardData}
           columns={leaderboardCols}
