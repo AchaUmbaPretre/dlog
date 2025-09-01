@@ -1,10 +1,11 @@
 import './modeTv.scss'
+import TopBarModelTv from './topBarModelTv/TopBarModelTv'
 
 const ModeTv = () => {
   return (
     <>
         <div className="mode_tv">
-            MODE TV
+           <TopBarModelTv/>
         </div>
     </>
   )

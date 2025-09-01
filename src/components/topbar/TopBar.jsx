@@ -38,7 +38,7 @@ const TopBar = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
       setIsTvMode(true);
-      navigate('/tv-dashboard'); // 👈 route dédiée à ton dashboard TV
+      navigate('/tv-dashboard');
     } else {
       document.exitFullscreen();
       setIsTvMode(false);
