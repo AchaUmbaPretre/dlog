@@ -71,6 +71,7 @@ import Pays from './pages/pays/Pays';
 import Securite from './pages/charroi/securite/Securite';
 import DemandeurVehicule from './pages/charroi/demandeurVehicule/DemandeurVehicule';
 import Generale from './pages/generale/Generale';
+import ModeTv from './pages/modeTv/ModeTv';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -373,6 +374,8 @@ function App() {
       path: '/*',
       element:<SecureRoute><Page404 /></SecureRoute>
     },
+    { path: '/tv-dashboard', element: <ModeTv /> },
+
   ]);
 
   return (

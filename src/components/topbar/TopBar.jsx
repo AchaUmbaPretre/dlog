@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import './topBar.scss';
 import moment from 'moment';
+import { Switch } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Popover, Button, Divider, message, Select, Badge, List, notification, Typography, Space } from 'antd';
-import { BellOutlined, MoonOutlined, SunOutlined, DashOutlined, MailOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { BellOutlined, FullscreenOutlined, FullscreenExitOutlined, MoonOutlined, SunOutlined, DashOutlined, MailOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png';
 import { useSelector } from 'react-redux';
 import { logout } from '../../services/authService';
@@ -20,16 +21,44 @@ const TopBar = () => {
   const navigate = useNavigate();
   const { isOpen, toggleMenu } = useMenu();
   const { t, i18n } = useTranslation();
-
+  const [isTvMode, setIsTvMode] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [visible, setVisible] = useState(false);
   const [selectedNotif, setSelectedNotif] = useState(null);
+
   const [theme, setTheme] = useState(() => {
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme) return storedTheme;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     return prefersDark ? 'dark' : 'light';
   });
+
+
+  const toggleTvMode = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsTvMode(true);
+      navigate('/tv-dashboard'); // 👈 route dédiée à ton dashboard TV
+    } else {
+      document.exitFullscreen();
+      setIsTvMode(false);
+      navigate('/');
+    }
+  };
+
+    useEffect(() => {
+    const handleKeydown = (e) => {
+      if (e.key === 'Escape') {
+        setIsTvMode(false);
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+        navigate('/');
+      }
+    };
+    document.addEventListener('keydown', handleKeydown);
+    return () => document.removeEventListener('keydown', handleKeydown);
+  }, [navigate]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -155,6 +184,14 @@ const TopBar = () => {
           <span className="logo"><div className="logo-d">D</div>LOG</span>
         </div>
         <div className="topbar-right">
+          <Switch
+            checked={isTvMode}
+            onChange={toggleTvMode}
+            checkedChildren={<FullscreenExitOutlined />}
+            unCheckedChildren={<FullscreenOutlined />}
+            style={{ marginRight: 16 }}
+          />
+
           <Popover
             content={renderNotifications()}
             title={t('Notifications')}
