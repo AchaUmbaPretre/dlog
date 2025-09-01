@@ -19,7 +19,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: 25px 30px;
+                padding: 20px 28px;
                 background: linear-gradient(135deg, #8B0000, #B22222);
                 border-radius: 12px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.4);
@@ -117,7 +117,7 @@
                         letter-spacing: 1px;
                         cursor: pointer;
                         transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-
+                        font-size: .9rem;
                         &:hover {
                             background: rgba(255,255,255,0.35);
                             transform: translateY(-2px);

@@ -29,6 +29,8 @@ const ModeTv = () => {
                             <button className="anomalie_btn">Voir tout</button>
                         </div>
                     </div>
+
+                    
                 </div>
                 <div className="model_tv_right">
                 bbbbb
