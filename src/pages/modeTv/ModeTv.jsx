@@ -1,4 +1,5 @@
 import './modeTv.scss'
+import ModeTvCardPonct from './modeTvCardPonct/ModeTvCardPonct';
 import TopBarModelTv from './topBarModelTv/TopBarModelTv'
 import { InfoCircleFilled, InfoCircleOutlined } from '@ant-design/icons';
 
@@ -30,7 +31,8 @@ const ModeTv = () => {
                         </div>
                     </div>
 
-                    
+                    <ModeTvCardPonct/>
+
                 </div>
                 <div className="model_tv_right">
                 bbbbb
