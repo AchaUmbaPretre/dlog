@@ -3,6 +3,7 @@ import ModelEvenementLive from './modelEvenementLive/ModelEvenementLive';
 import './modeTv.scss'
 import ModeTvCardPonct from './modeTvCardPonct/ModeTvCardPonct';
 import ModeTvService from './modeTvService/ModeTvService';
+import TableauHorsTiming from './tableauHorsTiming/TableauHorsTiming';
 import TopBarModelTv from './topBarModelTv/TopBarModelTv'
 import { InfoCircleFilled, InfoCircleOutlined } from '@ant-design/icons';
 
@@ -36,7 +37,8 @@ const ModeTv = () => {
 
                 <ModeTvCardPonct/>
                 <ModeTvService/>
-
+                <TableauHorsTiming/>
+                
                 </div>
                 <div className="model_tv_right">
                     <ModelEvenementLive/>
