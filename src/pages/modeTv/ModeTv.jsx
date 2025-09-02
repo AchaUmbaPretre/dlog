@@ -1,3 +1,4 @@
+import DepartHorsTiming from './departHorsTiming/DepartHorsTiming';
 import ModelEvenementLive from './modelEvenementLive/ModelEvenementLive';
 import './modeTv.scss'
 import ModeTvCardPonct from './modeTvCardPonct/ModeTvCardPonct';
@@ -39,6 +40,7 @@ const ModeTv = () => {
                 </div>
                 <div className="model_tv_right">
                     <ModelEvenementLive/>
+                    <DepartHorsTiming/>
                 </div>
             </div>
 

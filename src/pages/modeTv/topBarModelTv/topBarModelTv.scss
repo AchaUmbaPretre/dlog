@@ -46,8 +46,31 @@
                 font-size: 1.6rem;
             }
         }
-        .topbar_model_right{
-            
+        .topbar_model_right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+        .fullscreen-icon {
+            font-size: 20px;
+            color: var(--accent);
+            cursor: pointer;
+            transition: color 0.3s ease;
+
+            &:hover {
+            color: var(--accent-hover);
+            }
         }
+
+        .maj-badge {
+            font-size: 0.85rem;
+            .ant-badge-count {
+            border-radius: 8px;
+            padding: 0 8px;
+            font-weight: 600;
+            }
+        }
+        }
+
     }
 }
