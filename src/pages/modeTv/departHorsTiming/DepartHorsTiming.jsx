@@ -1,4 +1,3 @@
-import React from "react";
 import { Timeline, Tag, Card, Tooltip } from "antd";
 import {
   FileTextOutlined,
