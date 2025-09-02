@@ -1,9 +1,9 @@
-import React from "react";
 import { Table, Tag } from "antd";
-import { CarOutlined, UserOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { CarOutlined, UserOutlined } from "@ant-design/icons";
 import "./tableauHorsTiming.scss";
 
 const TableauHorsTiming = () => {
+    
   const columns = [
     {
       title: "Véhicule",
