@@ -17,6 +17,7 @@ const ModeTv = () => {
     const [miniTendance, setMiniTendance] = useState([]);
     const [evenementLiveRow, setEvenementLiveRow] = useState([]);
     const [departHorsTimingRow, setDepartHorsTimingRow] = useState([]);
+    const [ utilisationParc, setUtilisationParc] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {
@@ -27,7 +28,8 @@ const ModeTv = () => {
             setCourseVehicule(data?.courseVehicule);
             setMiniTendance(data?.miniTendances);
             setEvenementLiveRow(data?.evenementLive);
-            setDepartHorsTimingRow(data?.departHorsTiming)
+            setDepartHorsTimingRow(data?.departHorsTiming);
+            setUtilisationParc(data?.utilisationParc)
         }
         fetchData()
     }, []);
@@ -44,18 +46,44 @@ const ModeTv = () => {
                         <div className="anomalie_wrapper">
                         <div className="anomalie_card danger">
                             <InfoCircleFilled className="anomalie_icon" />
-                            <span className="anomalie_desc">Départs sans validation {anomalies.nb_depart_non_valide}</span>
+                            <span className="anomalie_desc">
+                            Départs sans validation {anomalies.depart_non_valide}
+                            </span>
+                            {anomalies.depart_non_valide > 0 && (
                             <span className="anomalie_badge">!</span>
+                            )}
                         </div>
+
                         <div className="anomalie_card warning">
                             <InfoCircleOutlined className="anomalie_icon" />
-                            <span className="anomalie_desc">Retours en retard {anomalies.nb_retour_en_retard}</span>
+                            <span className="anomalie_desc">
+                            Départs en retard {anomalies.depart_en_retard}
+                            </span>
+                            {anomalies.depart_en_retard > 0 && (
                             <span className="anomalie_badge">!</span>
+                            )}
+                        </div>
+
+                        <div className="anomalie_card warning">
+                            <InfoCircleOutlined className="anomalie_icon" />
+                            <span className="anomalie_desc">
+                            Retours en retard {anomalies.retour_en_retard}
+                            </span>
+                            {anomalies.retour_en_retard > 0 && (
+                            <span className="anomalie_badge">!</span>
+                            )}
+                        </div>
+
+                        <div className="anomalie_card warning">
+                            <InfoCircleOutlined className="anomalie_icon" />
+                            <span className="anomalie_desc">
+                            Retours non appariés {anomalies.retour_non_apparie}
+                            </span>
+                            {anomalies.retour_non_apparie > 0 && (
+                            <span className="anomalie_badge">!</span>
+                            )}
                         </div>
                         </div>
-                    </div>
-                    <div className="anomalie_right">
-                        <button className="anomalie_btn">Voir tout</button>
                     </div>
                 </div>
 
