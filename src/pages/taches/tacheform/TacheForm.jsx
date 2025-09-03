@@ -127,6 +127,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
     
     useEffect(() => {
         fetchDataAll();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [idTache,idProjet,form]);
 
     useEffect(() => {
