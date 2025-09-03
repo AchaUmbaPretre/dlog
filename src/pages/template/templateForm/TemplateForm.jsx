@@ -100,6 +100,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     
     useEffect(() => {
         handleTemplateChange()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [idTemplate]);
 
     const onFinish = async (values) => {
