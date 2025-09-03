@@ -1,11 +1,10 @@
-import React from "react";
 import { Timeline, Tag, Card, Tooltip } from "antd";
 import {
   FileTextOutlined,
   CarOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
-  ClockCircleOutlined,
+  ClockCircleOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 import "./departHorsTiming.scss";
