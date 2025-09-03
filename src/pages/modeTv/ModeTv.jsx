@@ -13,7 +13,7 @@ const ModeTv = () => {
     const [data, setData] = useState([]);
     const [anomalies, setAnomalies] = useState([]);
     const [courseService, setCourseService] = useState([]);
-    const [courseVehicule, setCourseVehicule] = useState([]);
+    const [courseChauffeur, setCourseChauffeur] = useState([]);
     const [miniTendance, setMiniTendance] = useState([]);
     const [evenementLiveRow, setEvenementLiveRow] = useState([]);
     const [departHorsTimingRow, setDepartHorsTimingRow] = useState([]);
@@ -26,7 +26,7 @@ const ModeTv = () => {
             setAnomalies(data?.anomalies);
             setData(data?.ponctualite);
             setCourseService(data?.courseService);
-            setCourseVehicule(data?.courseVehicule);
+            setCourseChauffeur(data?.courseChauffeur);
             setMiniTendance(data?.miniTendances);
             setEvenementLiveRow(data?.evenementLive);
             setDepartHorsTimingRow(data?.departHorsTiming);
@@ -90,7 +90,7 @@ const ModeTv = () => {
                 </div>
 
                 <ModeTvCardPonct datas={data} utilisationParc={utilisationParc} />
-                <ModeTvService dataService={courseService} courseVehicule={courseVehicule} dataTendance={data} utilisationParc={utilisationParc} />
+                <ModeTvService dataService={courseService} courseVehicule={courseChauffeur} dataTendance={data} utilisationParc={utilisationParc} />
                 
                 </div>
                 <div className="model_tv_right">
