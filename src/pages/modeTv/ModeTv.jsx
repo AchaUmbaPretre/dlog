@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DepartHorsTiming from './departHorsTiming/DepartHorsTiming';
 import ModelEvenementLive from './modelEvenementLive/ModelEvenementLive';
 import './modeTv.scss'
@@ -7,10 +7,22 @@ import ModeTvService from './modeTvService/ModeTvService';
 import TableauHorsTiming from './tableauHorsTiming/TableauHorsTiming';
 import TopBarModelTv from './topBarModelTv/TopBarModelTv'
 import { InfoCircleFilled, InfoCircleOutlined } from '@ant-design/icons';
+import { getRapportKiosque } from '../../services/rapportService';
 
 const ModeTv = () => {
     const [data, setData] = useState([]);
-    
+    const [anomalies, setAnomalies] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async() => {
+            const { data } = await getRapportKiosque();
+            setAnomalies(data?.anomalies)
+        }
+        fetchData()
+    }, [])
+
+    console.log(anomalies)
+
   return (
     <>
         <div className="mode_tv">
@@ -23,7 +35,7 @@ const ModeTv = () => {
                         <div className="anomalie_wrapper">
                         <div className="anomalie_card danger">
                             <InfoCircleFilled className="anomalie_icon" />
-                            <span className="anomalie_desc">Départs sans validation 2</span>
+                            <span className="anomalie_desc">Départs sans validation {anomalies.nb_depart_non_valide}</span>
                             <span className="anomalie_badge">!</span>
                         </div>
                         <div className="anomalie_card warning">
