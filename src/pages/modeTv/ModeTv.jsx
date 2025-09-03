@@ -14,6 +14,7 @@ const ModeTv = () => {
     const [anomalies, setAnomalies] = useState([]);
     const [courseService, setCourseService] = useState([]);
     const [courseVehicule, setCourseVehicule] = useState([]);
+    const [miniTendance, setMiniTendance] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {
@@ -21,7 +22,8 @@ const ModeTv = () => {
             setAnomalies(data?.anomalies);
             setData(data?.ponctualite);
             setCourseService(data?.courseService);
-            setCourseVehicule(data?.courseVehicule)
+            setCourseVehicule(data?.courseVehicule);
+            setMiniTendance(data.miniTendances)
         }
         fetchData()
     }, []);
@@ -54,7 +56,7 @@ const ModeTv = () => {
                 </div>
 
                 <ModeTvCardPonct datas={data} />
-                <ModeTvService dataService={courseService} courseVehicule={courseVehicule} />
+                <ModeTvService dataService={courseService} courseVehicule={courseVehicule} dataTendance={miniTendance} />
                 <TableauHorsTiming/>
                 
                 </div>

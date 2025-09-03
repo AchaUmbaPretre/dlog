@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Progress } from "antd";
 import {
   ArrowUpOutlined,
@@ -6,10 +6,14 @@ import {
   CrownOutlined,
   CarOutlined,
   LineChartOutlined,
+  MinusOutlined
 } from "@ant-design/icons";
 import "./modeTvService.scss";
 
-const ModeTvService = ({dataService, courseVehicule}) => {
+const ModeTvService = ({dataService, courseVehicule, dataTendance}) => {
+  const [prevData, setPrevData] = useState(null);
+  const [trendsData, setTrendsData] = useState([]);
+
   // Données factices Leaderboard par service
   const leaderboardData = (dataService || []).map((item, index) => ({
     key: index + 1,
@@ -78,11 +82,40 @@ const ModeTvService = ({dataService, courseVehicule}) => {
   ];
 
   // Données Mini-tendances
-  const trendsData = [
-    { key: 1, label: "Ponctualité Départ", trend: "up", value: "+4%" },
-    { key: 2, label: "Ponctualité Retour", trend: "down", value: "-2%" },
-    { key: 3, label: "Utilisation Parc", trend: "up", value: "+6%" },
-  ];
+  useEffect(() => {
+    if (!dataTendance) return;
+
+    const calcTrend = (current, prev) => {
+      if (prev === null || prev === undefined) return { trend: "stable", diff: 0 };
+      if (current > prev) return { trend: "up", diff: current - prev };
+      if (current < prev) return { trend: "down", diff: prev - current };
+      return { trend: "stable", diff: 0 };
+    };
+
+    const newTrends = [
+      {
+        key: 1,
+        label: "Ponctualité Départ",
+        value: `${dataTendance.ponctualite_depart ?? 0}%`,
+        ...calcTrend(dataTendance.ponctualite_depart, prevData?.ponctualite_depart),
+      },
+      {
+        key: 2,
+        label: "Ponctualité Retour",
+        value: `${dataTendance.ponctualite_retour ?? 0}%`,
+        ...calcTrend(dataTendance.ponctualite_retour, prevData?.ponctualite_retour),
+      },
+      {
+        key: 3,
+        label: "Utilisation Parc",
+        value: `${dataTendance.utilisation_parc ?? 0}%`,
+        ...calcTrend(dataTendance.utilisation_parc, prevData?.utilisation_parc),
+      },
+    ];
+
+    setTrendsData(newTrends);
+    setPrevData(dataTendance); // on garde la dernière valeur comme référence
+  }, [dataTendance]);
 
   return (
     <div className="mode_service">
@@ -113,14 +146,19 @@ const ModeTvService = ({dataService, courseVehicule}) => {
         <h3>📈 Mini-tendances</h3>
         <div className="trends_wrapper">
           {trendsData.map((item) => (
-            <div
-              key={item.key}
-              className={`trend_item ${item.trend}`}
-            >
+            <div key={item.key} className={`trend_item ${item.trend}`}>
               <LineChartOutlined />
               <span className="trend_label">{item.label}</span>
               <span className="trend_value">{item.value}</span>
-              {item.trend === "up" ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+              {item.trend === "up" && <ArrowUpOutlined style={{ color: "green" }} />}
+              {item.trend === "down" && <ArrowDownOutlined style={{ color: "red" }} />}
+              {item.trend === "stable" && <MinusOutlined style={{ color: "gray" }} />}
+              {item.diff !== 0 && (
+                <span className="trend_diff">
+                  {item.trend === "up" ? "+" : "-"}
+                  {item.diff}%
+                </span>
+              )}
             </div>
           ))}
         </div>
