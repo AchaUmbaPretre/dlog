@@ -17,7 +17,7 @@ const ModeTv = () => {
     const [miniTendance, setMiniTendance] = useState([]);
     const [evenementLiveRow, setEvenementLiveRow] = useState([]);
     const [departHorsTimingRow, setDepartHorsTimingRow] = useState([]);
-    const [ utilisationParc, setUtilisationParc] = useState([]);
+    const [utilisationParc, setUtilisationParc] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {
@@ -87,8 +87,8 @@ const ModeTv = () => {
                     </div>
                 </div>
 
-                <ModeTvCardPonct datas={data} />
-                <ModeTvService dataService={courseService} courseVehicule={courseVehicule} dataTendance={miniTendance} />
+                <ModeTvCardPonct datas={data} utilisationParc={utilisationParc} />
+                <ModeTvService dataService={courseService} courseVehicule={courseVehicule} dataTendance={data} utilisationParc={utilisationParc} />
                 <TableauHorsTiming departHorsTimingRow={departHorsTimingRow} />
                 
                 </div>

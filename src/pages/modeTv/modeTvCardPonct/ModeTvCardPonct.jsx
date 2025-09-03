@@ -3,7 +3,7 @@ import { Progress } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import './modeTvCardPonct.scss';
 
-const ModeTvCardPonct = ({ datas }) => {
+const ModeTvCardPonct = ({ datas, utilisationParc }) => {
   const [data, setData] = useState({
     depart: 0,
     departTrend: 'up',
@@ -13,23 +13,25 @@ const ModeTvCardPonct = ({ datas }) => {
     usageTrend: 'up',
   });
 
-  // Met à jour les données quand `datas` change
   useEffect(() => {
-    setData((prev) => {
-      const newDepart = Math.round(datas.ponctualite_depart || 0);
-      const newRetour = Math.round(datas.ponctualite_retour || 0);
-      const newUsage = Math.round(datas.utilisation_parc || 0);
+  if (!datas) return;
 
-      return {
-        depart: newDepart,
-        departTrend: newDepart >= prev.depart ? 'up' : 'down',
-        retour: newRetour,
-        retourTrend: newRetour >= prev.retour ? 'up' : 'down',
-        usage: newUsage,
-        usageTrend: newUsage >= prev.usage ? 'up' : 'down',
-      };
-    });
-  }, [datas]);
+  setData((prev) => {
+    const newDepart = Math.round(datas.depart || 0);
+    const newRetour = Math.round(datas.retour || 0);
+    const newUsage = Math.round(utilisationParc.pourcentage || 0);
+
+    return {
+      depart: newDepart,
+      departTrend: newDepart >= prev.depart ? 'up' : 'down',
+      retour: newRetour,
+      retourTrend: newRetour >= prev.retour ? 'up' : 'down',
+      usage: newUsage,
+      usageTrend: newUsage >= prev.usage ? 'up' : 'down',
+    };
+  });
+}, [datas]);
+
 
   return (
     <div className="tv_ponct_container">

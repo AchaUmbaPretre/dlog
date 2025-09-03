@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import "./modeTvService.scss";
 
-const ModeTvService = ({dataService, courseVehicule, dataTendance}) => {
+const ModeTvService = ({dataService, courseVehicule, dataTendance, utilisationParc}) => {
   const [prevData, setPrevData] = useState(null);
   const [trendsData, setTrendsData] = useState([]);
 
@@ -85,33 +85,39 @@ const ModeTvService = ({dataService, courseVehicule, dataTendance}) => {
   useEffect(() => {
     if (!dataTendance) return;
 
-    const calcTrend = (current, prev) => {
-      if (prev === null || prev === undefined) return { trend: "stable", diff: 0 };
-      if (current > prev) return { trend: "up", diff: current - prev };
-      if (current < prev) return { trend: "down", diff: prev - current };
-      return { trend: "stable", diff: 0 };
-    };
+const calcTrend = (current, prev) => {
+  if (prev === null || prev === undefined) return { trend: "stable", diff: 0 };
+  if (current > prev) return { trend: "up", diff: current - prev };
+  if (current < prev) return { trend: "down", diff: prev - current };
+  return { trend: "stable", diff: 0 };
+};
 
-    const newTrends = [
-      {
-        key: 1,
-        label: "Ponctualité Départ",
-        value: `${dataTendance.ponctualite_depart ?? 0}%`,
-        ...calcTrend(dataTendance.ponctualite_depart, prevData?.ponctualite_depart),
-      },
-      {
-        key: 2,
-        label: "Ponctualité Retour",
-        value: `${dataTendance.ponctualite_retour ?? 0}%`,
-        ...calcTrend(dataTendance.ponctualite_retour, prevData?.ponctualite_retour),
-      },
-      {
-        key: 3,
-        label: "Utilisation Parc",
-        value: `${dataTendance.utilisation_parc ?? 0}%`,
-        ...calcTrend(dataTendance.utilisation_parc, prevData?.utilisation_parc),
-      },
-    ];
+const newTrends = [
+  {
+    key: 1,
+    label: "Ponctualité Départ",
+    value: `${dataTendance?.depart ?? 0}%`,
+    badge: dataTendance?.departBadge ?? "",
+    ...calcTrend(dataTendance?.depart, prevData?.depart),
+  },
+  {
+    key: 2,
+    label: "Ponctualité Retour",
+    value: `${dataTendance?.retour ?? 0}%`,
+    badge: dataTendance?.retourBadge ?? "",
+    ...calcTrend(dataTendance?.retour, prevData?.ponctualite?.retour),
+  },
+  {
+    key: 3,
+    label: "Utilisation Parc",
+    value: `${utilisationParc?.pourcentage ?? 0}%`,
+    ...calcTrend(
+      utilisationParc?.pourcentage,
+      prevData?.pourcentage
+    ),
+  },
+];
+
 
     setTrendsData(newTrends);
     setPrevData(dataTendance); // on garde la dernière valeur comme référence
