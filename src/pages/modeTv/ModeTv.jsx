@@ -13,13 +13,14 @@ const ModeTv = () => {
     const [data, setData] = useState([]);
     const [anomalies, setAnomalies] = useState([]);
     const [courseService, setCourseService] = useState([]);
+    const [courseVehicule, setCourseVehicule] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {
             const { data } = await getRapportKiosque();
-            setAnomalies(data?.anomalies)
-            setData(data?.ponctualite)
-            setCourseService(data?.courseService)
+            setAnomalies(data?.anomalies);
+            setData(data?.ponctualite);
+            setCourseService(data?.courseService);
         }
         fetchData()
     }, []);
