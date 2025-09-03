@@ -19,7 +19,7 @@ const DepartHorsTiming = ({ departHorsTimingRow }) => {
               <Timeline.Item
                 key={item.id_bande_sortie}
                 dot={
-                  item.statut === "OK" ? (
+                  item.statut_sortie === "OK" ? (
                     <CheckCircleOutlined style={{ fontSize: "18px", color: "#52c41a" }} />
                   ) : (
                     <ClockCircleOutlined style={{ fontSize: "18px", color: "#ff4d4f" }} />
@@ -43,7 +43,7 @@ const DepartHorsTiming = ({ departHorsTimingRow }) => {
                         {moment(item.date_prevue).format("DD/MM/YYYY HH:mm")}
                       </span>
                     </Tooltip>
-                    {item.statut === "Valide" ? (
+                    {item.statut_sortie === "OK" ? (
                       <Tag icon={<CheckCircleOutlined />} color="success" className="departHorsTiming-tag">
                         Valide
                       </Tag>
