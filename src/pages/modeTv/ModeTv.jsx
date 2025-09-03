@@ -15,6 +15,7 @@ const ModeTv = () => {
     const [courseService, setCourseService] = useState([]);
     const [courseVehicule, setCourseVehicule] = useState([]);
     const [miniTendance, setMiniTendance] = useState([]);
+    const [evenementLiveRow, setEvenementLiveRow] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {
