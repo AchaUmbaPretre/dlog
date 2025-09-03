@@ -16,6 +16,7 @@ const ModeTv = () => {
     const [courseVehicule, setCourseVehicule] = useState([]);
     const [miniTendance, setMiniTendance] = useState([]);
     const [evenementLiveRow, setEvenementLiveRow] = useState([]);
+    const [departHorsTimingRow, setDepartHorsTimingRow] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {
@@ -25,7 +26,8 @@ const ModeTv = () => {
             setCourseService(data?.courseService);
             setCourseVehicule(data?.courseVehicule);
             setMiniTendance(data?.miniTendances);
-            setEvenementLiveRow(data?.evenementLive)
+            setEvenementLiveRow(data?.evenementLive);
+            setDepartHorsTimingRow(data?.departHorsTiming)
         }
         fetchData()
     }, []);
@@ -59,12 +61,12 @@ const ModeTv = () => {
 
                 <ModeTvCardPonct datas={data} />
                 <ModeTvService dataService={courseService} courseVehicule={courseVehicule} dataTendance={miniTendance} />
-                <TableauHorsTiming />
+                <TableauHorsTiming departHorsTimingRow={departHorsTimingRow} />
                 
                 </div>
                 <div className="model_tv_right">
                     <ModelEvenementLive evenementLiveRow={evenementLiveRow}/>
-                    <DepartHorsTiming/>
+                    <DepartHorsTiming departHorsTimingRow={departHorsTimingRow}/>
                 </div>
             </div>
 

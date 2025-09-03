@@ -8,14 +8,8 @@ import {
 } from "@ant-design/icons";
 import "./departHorsTiming.scss";
 
-const DepartHorsTiming = () => {
-  const data = [
-    { key: "1", numBon: "BN-2025-001", immatriculation: "ABC-1234", statut: "En retard", date: "02/09/2025 - 08:30" },
-    { key: "2", numBon: "BN-2025-002", immatriculation: "XYZ-5678", statut: "Valide", date: "02/09/2025 - 09:10" },
-    { key: "3", numBon: "BN-2025-003", immatriculation: "LMN-9012", statut: "En retard", date: "02/09/2025 - 09:45" },
-    { key: "4", numBon: "BN-2025-004", immatriculation: "KLM-4321", statut: "En retard", date: "02/09/2025 - 10:15" },
-    { key: "5", numBon: "BN-2025-005", immatriculation: "QWE-8765", statut: "Valide", date: "02/09/2025 - 10:40" },
-  ];
+const DepartHorsTiming = ({departHorsTimingRow}) => {
+
 
   return (
     <div className="departHorsTiming-container">
@@ -26,11 +20,11 @@ const DepartHorsTiming = () => {
       >
         <div className="departHorsTiming-scroll">
           <Timeline mode="left" className="departHorsTiming-timeline">
-            {data.map((item) => (
+            {departHorsTimingRow.map((item) => (
               <Timeline.Item
-                key={item.key}
+                key={item.id_bande_sortie}
                 dot={
-                  item.statut === "Valide" ? (
+                  item.statut === "OK" ? (
                     <CheckCircleOutlined style={{ fontSize: "18px", color: "#52c41a" }} />
                   ) : (
                     <ClockCircleOutlined style={{ fontSize: "18px", color: "#ff4d4f" }} />
@@ -40,7 +34,7 @@ const DepartHorsTiming = () => {
                 <div className="departHorsTiming-content">
                   <div className="departHorsTiming-header">
                     <FileTextOutlined className="departHorsTiming-icon bon" />
-                    <span className="departHorsTiming-numBon">{item.numBon}</span>
+                    <span className="departHorsTiming-numBon">{item.nom_destination}</span>
                   </div>
 
                   <div className="departHorsTiming-sub">
@@ -50,7 +44,7 @@ const DepartHorsTiming = () => {
 
                   <div className="departHorsTiming-footer">
                     <Tooltip title="Heure de départ prévue">
-                      <span className="departHorsTiming-date">{item.date}</span>
+                      <span className="departHorsTiming-date">{item.date_prevue}</span>
                     </Tooltip>
                     {item.statut === "Valide" ? (
                       <Tag icon={<CheckCircleOutlined />} color="success" className="departHorsTiming-tag">
