@@ -52,12 +52,11 @@ const ModeTvService = ({dataService, courseVehicule}) => {
   ];
 
   // Données Courses par chauffeur
-  const coursesData = [
-    { key: 1, chauffeur: "Ali", courses: 42 },
-    { key: 2, chauffeur: "Moussa", courses: 38 },
-    { key: 3, chauffeur: "Fatou", courses: 31 },
-    { key: 4, chauffeur: "Karim", courses: 29 },
-  ];
+  const coursesData = (courseVehicule || []).map((item, index) => ({
+    key: index + 1,
+    chauffeur : item.nom,
+    courses : item.nbre_course
+  }))
 
   const coursesCols = [
     {
