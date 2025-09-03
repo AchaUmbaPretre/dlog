@@ -1,3 +1,4 @@
+import React from "react";
 import { Timeline, Tag, Card, Tooltip } from "antd";
 import {
   FileTextOutlined,
@@ -6,18 +7,13 @@ import {
   CloseCircleOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
+import moment from "moment";
 import "./departHorsTiming.scss";
 
-const DepartHorsTiming = ({departHorsTimingRow}) => {
-
-
+const DepartHorsTiming = ({ departHorsTimingRow }) => {
   return (
     <div className="departHorsTiming-container">
-      <Card
-        title="🚛 Départs hors timing"
-        bordered={false}
-        className="event-card"
-      >
+      <Card title="🚛 Départs hors timing" bordered={false} className="event-card">
         <div className="departHorsTiming-scroll">
           <Timeline mode="left" className="departHorsTiming-timeline">
             {departHorsTimingRow.map((item) => (
@@ -44,7 +40,9 @@ const DepartHorsTiming = ({departHorsTimingRow}) => {
 
                   <div className="departHorsTiming-footer">
                     <Tooltip title="Heure de départ prévue">
-                      <span className="departHorsTiming-date">{item.date_prevue}</span>
+                      <span className="departHorsTiming-date">
+                        {moment(item.date_prevue).format("DD/MM/YYYY HH:mm")}
+                      </span>
                     </Tooltip>
                     {item.statut === "Valide" ? (
                       <Tag icon={<CheckCircleOutlined />} color="success" className="departHorsTiming-tag">
