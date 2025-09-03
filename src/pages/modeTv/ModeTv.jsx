@@ -19,6 +19,7 @@ const ModeTv = () => {
             const { data } = await getRapportKiosque();
             setAnomalies(data?.anomalies)
             setData(data?.ponctualite)
+            setCourseService(data?.courseService)
         }
         fetchData()
     }, []);
@@ -51,7 +52,7 @@ const ModeTv = () => {
                 </div>
 
                 <ModeTvCardPonct datas={data} />
-                <ModeTvService/>
+                <ModeTvService dataService={courseService} />
                 <TableauHorsTiming/>
                 
                 </div>

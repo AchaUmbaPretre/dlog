@@ -9,14 +9,14 @@ import {
 } from "@ant-design/icons";
 import "./modeTvService.scss";
 
-const ModeTvService = () => {
+const ModeTvService = ({dataService}) => {
   // Données factices Leaderboard par service
-  const leaderboardData = [
-    { key: 1, service: "Service A", score: 98 },
-    { key: 2, service: "Service B", score: 87 },
-    { key: 3, service: "Service C", score: 76 },
-    { key: 4, service: "Service D", score: 65 },
-  ];
+  console.log(dataService)
+  const leaderboardData = (dataService || []).map((item, index) => ({
+    key: index + 1,
+    service: item.nom_service,
+    score: item.nbre_service,
+  }));
 
   // Colonnes leaderboard
   const leaderboardCols = [
