@@ -18,6 +18,7 @@ const ModeTv = () => {
     const [evenementLiveRow, setEvenementLiveRow] = useState([]);
     const [departHorsTimingRow, setDepartHorsTimingRow] = useState([]);
     const [utilisationParc, setUtilisationParc] = useState([]);
+    const [ departHorsTimingCompletRow, setDepartHorsTimingCompletRow] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {
@@ -29,7 +30,8 @@ const ModeTv = () => {
             setMiniTendance(data?.miniTendances);
             setEvenementLiveRow(data?.evenementLive);
             setDepartHorsTimingRow(data?.departHorsTiming);
-            setUtilisationParc(data?.utilisationParc)
+            setUtilisationParc(data?.utilisationParc);
+            setDepartHorsTimingCompletRow(data?.departHorsTimingCompletRows)
         }
         fetchData()
     }, []);
@@ -89,7 +91,6 @@ const ModeTv = () => {
 
                 <ModeTvCardPonct datas={data} utilisationParc={utilisationParc} />
                 <ModeTvService dataService={courseService} courseVehicule={courseVehicule} dataTendance={data} utilisationParc={utilisationParc} />
-                <TableauHorsTiming departHorsTimingRow={departHorsTimingRow} />
                 
                 </div>
                 <div className="model_tv_right">
@@ -97,6 +98,7 @@ const ModeTv = () => {
                     <DepartHorsTiming departHorsTimingRow={departHorsTimingRow}/>
                 </div>
             </div>
+            <TableauHorsTiming departHorsTimingRow={departHorsTimingCompletRow} />
 
         </div>
     </>
