@@ -40,7 +40,7 @@ const ModeTv = () => {
                         </div>
                         <div className="anomalie_card warning">
                             <InfoCircleOutlined className="anomalie_icon" />
-                            <span className="anomalie_desc">Retours en retard 1</span>
+                            <span className="anomalie_desc">Retours en retard {anomalies.nb_retour_en_retard}</span>
                             <span className="anomalie_badge">!</span>
                         </div>
                         </div>
