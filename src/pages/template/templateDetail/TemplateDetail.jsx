@@ -24,6 +24,7 @@ const TemplateDetail = ({ idTemplate }) => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idTemplate]);
 
   if (loading) {
