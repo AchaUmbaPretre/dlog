@@ -1,11 +1,12 @@
 import { Table, Tag } from "antd";
 import { CarOutlined, UserOutlined } from "@ant-design/icons";
+import moment from "moment";
 import "./tableauHorsTiming.scss";
 
-const TableauHorsTiming = ({departHorsTimingRow}) => {
+const TableauHorsTiming = ({ departHorsTimingRow }) => {
 
-  console.log(departHorsTimingRow)
-    
+  console.log(departHorsTimingRow);
+
   const columns = [
     {
       title: "Véhicule",
@@ -35,14 +36,16 @@ const TableauHorsTiming = ({departHorsTimingRow}) => {
       title: "Départ prévu",
       dataIndex: "departPrev",
       key: "departPrev",
-      render: (text) => <span>{text}</span>,
+      render: (text) => <span>{text ? moment(text).format("DD/MM/YYYY HH:mm") : "-"}</span>,
     },
     {
       title: "Départ réel",
       dataIndex: "departReel",
       key: "departReel",
       render: (text, record) => (
-        <span className={record.horsTiming ? "late" : ""}>{text}</span>
+        <span className={record.horsTiming ? "late" : ""}>
+          {text ? moment(text).format("DD/MM/YYYY HH:mm") : "-"}
+        </span>
       ),
     },
     {
@@ -58,30 +61,17 @@ const TableauHorsTiming = ({departHorsTimingRow}) => {
     },
   ];
 
-  const data = [
-    {
-      key: "1",
-      vehicule: "ABC-1234",
-      chauffeur: "Jean Pierre",
-      service: "Livraison",
-      destination: "Kinshasa",
-      departPrev: "02/09/2025 08:00",
-      departReel: "02/09/2025 08:30",
-      retour: "02/09/2025 12:00",
-      horsTiming: true,
-    },
-    {
-      key: "2",
-      vehicule: "XYZ-5678",
-      chauffeur: "Marie Claire",
-      service: "Maintenance",
-      destination: "Lubumbashi",
-      departPrev: "02/09/2025 09:00",
-      departReel: "02/09/2025 09:00",
-      retour: "02/09/2025 13:30",
-      horsTiming: false,
-    },
-  ];
+  const data = departHorsTimingRow?.map((row, index) => ({
+    key: row.id_bande_sortie || index,
+    vehicule: row.immatriculation,
+    chauffeur: row.nom_chauffeur,
+    service: row.nom_service,
+    destination: row.nom_destination,
+    departPrev: row.date_prevue,
+    departReel: row.sortie_time,
+    retour: row.retour_time,
+    horsTiming: row.statut_sortie !== "OK",
+  }));
 
   return (
     <div className="tableauHorsTiming">
@@ -92,9 +82,7 @@ const TableauHorsTiming = ({departHorsTimingRow}) => {
           dataSource={data}
           pagination={{ pageSize: 5 }}
           scroll={{ x: "max-content", y: 300 }}
-          rowClassName={(record) =>
-            record.horsTiming ? "row-hors-timing" : ""
-          }
+          rowClassName={(record) => (record.horsTiming ? "row-hors-timing" : "")}
         />
       </div>
     </div>
