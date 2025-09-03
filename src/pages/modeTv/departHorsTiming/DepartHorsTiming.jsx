@@ -28,7 +28,7 @@ const DepartHorsTiming = ({ departHorsTimingRow }) => {
               >
                 <div className="departHorsTiming-content">
                   <div className="departHorsTiming-header">
-                    <FileTextOutlined className="departHorsTiming-icon bon" />
+                    📍
                     <span className="departHorsTiming-numBon">{item.nom_destination}</span>
                   </div>
 
