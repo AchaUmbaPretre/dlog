@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import DepartHorsTiming from './departHorsTiming/DepartHorsTiming';
 import ModelEvenementLive from './modelEvenementLive/ModelEvenementLive';
 import './modeTv.scss'
@@ -8,6 +9,8 @@ import TopBarModelTv from './topBarModelTv/TopBarModelTv'
 import { InfoCircleFilled, InfoCircleOutlined } from '@ant-design/icons';
 
 const ModeTv = () => {
+    const [data, setData] = useState([]);
+    
   return (
     <>
         <div className="mode_tv">
