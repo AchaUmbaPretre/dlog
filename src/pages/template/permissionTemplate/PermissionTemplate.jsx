@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UnlockOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Table, Tooltip, Space, Button, Modal} from 'antd';
 import PermissionTemplateOne from './permissionTemplateOne/PermissionTemplateOne';
@@ -7,7 +7,6 @@ import { getUser } from '../../../services/userService';
 const  PermissionTemplate = ({ idTemplate }) => {
     const scroll = { x: 400 };
     const [data, setData] = useState([]);
-    const [title, setTitle] = useState('')
     const [idUser, setIdUser] = useState('');
     const [modalType, setModalType] = useState(null);
   
@@ -26,8 +25,7 @@ const  PermissionTemplate = ({ idTemplate }) => {
 
   const handleAddDeclaration = (id) => {
     openModal('Add', id);
-
-  }
+  };
 
   const closeAllModals = () => {
     setModalType(null);
