@@ -5,8 +5,6 @@ import "./tableauHorsTiming.scss";
 
 const TableauHorsTiming = ({ departHorsTimingRow }) => {
 
-  console.log(departHorsTimingRow);
-
   const columns = [
     {
       title: "Véhicule",
