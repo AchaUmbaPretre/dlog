@@ -2,7 +2,9 @@ import { Table, Tag } from "antd";
 import { CarOutlined, UserOutlined } from "@ant-design/icons";
 import "./tableauHorsTiming.scss";
 
-const TableauHorsTiming = ({evenementLiveRow}) => {
+const TableauHorsTiming = ({departHorsTimingRow}) => {
+
+  console.log(departHorsTimingRow)
     
   const columns = [
     {
