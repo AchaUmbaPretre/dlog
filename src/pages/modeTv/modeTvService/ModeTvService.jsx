@@ -9,9 +9,8 @@ import {
 } from "@ant-design/icons";
 import "./modeTvService.scss";
 
-const ModeTvService = ({dataService}) => {
+const ModeTvService = ({dataService, courseVehicule}) => {
   // Données factices Leaderboard par service
-  console.log(dataService)
   const leaderboardData = (dataService || []).map((item, index) => ({
     key: index + 1,
     service: item.nom_service,

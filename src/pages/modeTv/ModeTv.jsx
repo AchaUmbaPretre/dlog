@@ -21,6 +21,7 @@ const ModeTv = () => {
             setAnomalies(data?.anomalies);
             setData(data?.ponctualite);
             setCourseService(data?.courseService);
+            setCourseVehicule(data?.courseVehicule)
         }
         fetchData()
     }, []);
@@ -53,7 +54,7 @@ const ModeTv = () => {
                 </div>
 
                 <ModeTvCardPonct datas={data} />
-                <ModeTvService dataService={courseService} />
+                <ModeTvService dataService={courseService} courseVehicule={courseVehicule} />
                 <TableauHorsTiming/>
                 
                 </div>
