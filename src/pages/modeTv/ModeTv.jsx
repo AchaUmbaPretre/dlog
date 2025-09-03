@@ -12,16 +12,16 @@ import { getRapportKiosque } from '../../services/rapportService';
 const ModeTv = () => {
     const [data, setData] = useState([]);
     const [anomalies, setAnomalies] = useState([]);
+    const [courseService, setCourseService] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {
             const { data } = await getRapportKiosque();
             setAnomalies(data?.anomalies)
+            setData(data?.ponctualite)
         }
         fetchData()
-    }, [])
-
-    console.log(anomalies)
+    }, []);
 
   return (
     <>
@@ -50,7 +50,7 @@ const ModeTv = () => {
                     </div>
                 </div>
 
-                <ModeTvCardPonct/>
+                <ModeTvCardPonct datas={data} />
                 <ModeTvService/>
                 <TableauHorsTiming/>
                 
