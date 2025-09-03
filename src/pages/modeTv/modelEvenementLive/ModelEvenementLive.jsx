@@ -1,51 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Timeline, Card, Typography, Tag } from "antd";
-import {
-  CarOutlined,
-  ClockCircleOutlined,
-  FlagOutlined,
-} from "@ant-design/icons";
+import { CarOutlined, ClockCircleOutlined, FlagOutlined } from "@ant-design/icons";
 import "./modelEvenementLive.scss";
 
 const { Text } = Typography;
 
-const ModelEvenementLive = () => {
+const ModelEvenementLive = ({ evenementLiveRow }) => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    // Simulation d’événements en temps réel
-    const mockEvents = [
-      {
-        id: 1,
-        time: "08:15",
-        status: "Départ",
-        immatriculation: "ABC-123",
-        destination: "TFCE BUREAU",
-      },
-      {
-        id: 2,
-        time: "09:45",
-        status: "Départ",
-        immatriculation: "XYZ-987",
-        destination: "CENTRE VILLE, Gombe (divers)",
-      },
-      {
-        id: 3,
-        time: "11:30",
-        status: "Départ",
-        immatriculation: "DEF-456",
-        destination: "Matadi",
-      },
-      {
-        id: 4,
-        time: "11:45",
-        status: "Départ",
-        immatriculation: "DEF-400",
-        destination: "Kinkole",
-      },
-    ];
-    setEvents(mockEvents);
-  }, []);
+    if (!evenementLiveRow) return;
+
+    // Transformation de la donnée reçue pour le Timeline
+    const formattedEvents = evenementLiveRow.map((item) => ({
+      id: item.id_bande_sortie,
+      time: new Date(item.sortie_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      status: item.nom_statut_bs,
+      immatriculation: item.immatriculation,
+      destination: item.nom_destination,
+    }));
+
+    setEvents(formattedEvents);
+  }, [evenementLiveRow]);
 
   const getIcon = (status) => {
     switch (status) {
@@ -75,11 +51,7 @@ const ModelEvenementLive = () => {
 
   return (
     <div className="modelEvenementLive">
-      <Card
-        title="🚦 Fil d'évènements live"
-        bordered={false}
-        className="event-card"
-      >
+      <Card title="🚦 Fil d'évènements live" bordered={false} className="event-card">
         <Timeline mode="left">
           {events.map((event) => (
             <Timeline.Item key={event.id} dot={getIcon(event.status)}>

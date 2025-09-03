@@ -24,7 +24,8 @@ const ModeTv = () => {
             setData(data?.ponctualite);
             setCourseService(data?.courseService);
             setCourseVehicule(data?.courseVehicule);
-            setMiniTendance(data.miniTendances)
+            setMiniTendance(data?.miniTendances);
+            setEvenementLiveRow(data?.evenementLive)
         }
         fetchData()
     }, []);
@@ -58,11 +59,11 @@ const ModeTv = () => {
 
                 <ModeTvCardPonct datas={data} />
                 <ModeTvService dataService={courseService} courseVehicule={courseVehicule} dataTendance={miniTendance} />
-                <TableauHorsTiming/>
+                <TableauHorsTiming />
                 
                 </div>
                 <div className="model_tv_right">
-                    <ModelEvenementLive/>
+                    <ModelEvenementLive evenementLiveRow={evenementLiveRow}/>
                     <DepartHorsTiming/>
                 </div>
             </div>
