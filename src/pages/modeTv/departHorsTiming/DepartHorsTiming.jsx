@@ -9,6 +9,7 @@ import moment from "moment";
 import "./departHorsTiming.scss";
 
 const DepartHorsTiming = ({ departHorsTimingRow }) => {
+  
   return (
     <div className="departHorsTiming-container">
       <Card title="🚛 Départs hors timing" bordered={false} className="event-card">
