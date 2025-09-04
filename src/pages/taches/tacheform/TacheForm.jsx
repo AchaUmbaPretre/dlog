@@ -122,7 +122,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             }finally {
                 setLoadingData(false); 
             }
-        };
+    };
     
     useEffect(() => {
         fetchDataAll();
@@ -718,7 +718,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             >
                 <ClientForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchDataAll} />
             </Modal>
-            
+
         </div>
     );
 };
