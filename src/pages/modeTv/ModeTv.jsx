@@ -45,54 +45,54 @@ const ModeTv = () => {
            <div className="model_tv_wrapper">
                 <div className="model_tv_left">
                     <div className="model_tv_anomalie">
-                    <div className="anomalie_left">
-                        <h3 className="anomalie_h3">Anomalies du jour</h3>
-                        <div className="anomalie_wrapper">
-                        <div className="anomalie_card danger">
-                            <InfoCircleFilled className="anomalie_icon" />
-                            <span className="anomalie_desc">
-                            Départs sans validation {anomalies.depart_non_valide}
-                            </span>
-                            {anomalies.depart_non_valide > 0 && (
-                            <span className="anomalie_badge">!</span>
-                            )}
-                        </div>
+                        <div className="anomalie_left">
+                            <h3 className="anomalie_h3">Anomalies du jour</h3>
+                            <div className="anomalie_wrapper">
+                            <div className="anomalie_card danger">
+                                <InfoCircleFilled className="anomalie_icon" />
+                                <span className="anomalie_desc">
+                                Départs sans validation {anomalies.depart_non_valide}
+                                </span>
+                                {anomalies.depart_non_valide > 0 && (
+                                <span className="anomalie_badge">!</span>
+                                )}
+                            </div>
 
-                        <div className="anomalie_card warning">
-                            <InfoCircleOutlined className="anomalie_icon" />
-                            <span className="anomalie_desc">
-                            Départs en retard {anomalies.depart_en_retard}
-                            </span>
-                            {anomalies.depart_en_retard > 0 && (
-                            <span className="anomalie_badge">!</span>
-                            )}
-                        </div>
+                            <div className="anomalie_card warning">
+                                <InfoCircleOutlined className="anomalie_icon" />
+                                <span className="anomalie_desc">
+                                Départs en retard {anomalies.depart_en_retard}
+                                </span>
+                                {anomalies.depart_en_retard > 0 && (
+                                <span className="anomalie_badge">!</span>
+                                )}
+                            </div>
 
-                        <div className="anomalie_card warning">
-                            <InfoCircleOutlined className="anomalie_icon" />
-                            <span className="anomalie_desc">
-                            Retours en retard {anomalies.retour_en_retard}
-                            </span>
-                            {anomalies.retour_en_retard > 0 && (
-                            <span className="anomalie_badge">!</span>
-                            )}
-                        </div>
+                            <div className="anomalie_card warning">
+                                <InfoCircleOutlined className="anomalie_icon" />
+                                <span className="anomalie_desc">
+                                Retours en retard {anomalies.retour_en_retard}
+                                </span>
+                                {anomalies.retour_en_retard > 0 && (
+                                <span className="anomalie_badge">!</span>
+                                )}
+                            </div>
 
-                        <div className="anomalie_card warning">
-                            <InfoCircleOutlined className="anomalie_icon" />
-                            <span className="anomalie_desc">
-                            Retours non appariés {anomalies.retour_non_apparie}
-                            </span>
-                            {anomalies.retour_non_apparie > 0 && (
-                            <span className="anomalie_badge">!</span>
-                            )}
-                        </div>
+                            <div className="anomalie_card warning">
+                                <InfoCircleOutlined className="anomalie_icon" />
+                                <span className="anomalie_desc">
+                                Retours non appariés {anomalies.retour_non_apparie}
+                                </span>
+                                {anomalies.retour_non_apparie > 0 && (
+                                <span className="anomalie_badge">!</span>
+                                )}
+                            </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <ModeTvCardPonct datas={data} utilisationParc={utilisationParc} />
-                <ModeTvService dataService={courseService} courseVehicule={courseChauffeur} dataTendance={data} utilisationParc={utilisationParc} />
+                    <ModeTvCardPonct datas={data} utilisationParc={utilisationParc} />
+                    <ModeTvService dataService={courseService} courseVehicule={courseChauffeur} dataTendance={data} utilisationParc={utilisationParc} />
                 
                 </div>
                 <div className="model_tv_right">
@@ -101,7 +101,6 @@ const ModeTv = () => {
                 </div>
             </div>
             <TableauHorsTiming departHorsTimingRow={departHorsTimingCompletRow} />
-
         </div>
     </>
   )
