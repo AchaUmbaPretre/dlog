@@ -14,7 +14,6 @@ const ModeTv = () => {
     const [anomalies, setAnomalies] = useState([]);
     const [courseService, setCourseService] = useState([]);
     const [courseChauffeur, setCourseChauffeur] = useState([]);
-    const [miniTendance, setMiniTendance] = useState([]);
     const [evenementLiveRow, setEvenementLiveRow] = useState([]);
     const [departHorsTimingRow, setDepartHorsTimingRow] = useState([]);
     const [utilisationParc, setUtilisationParc] = useState([]);
@@ -27,13 +26,16 @@ const ModeTv = () => {
             setData(data?.ponctualite);
             setCourseService(data?.courseService);
             setCourseChauffeur(data?.courseChauffeur);
-            setMiniTendance(data?.miniTendances);
             setEvenementLiveRow(data?.evenementLive);
             setDepartHorsTimingRow(data?.departHorsTiming);
             setUtilisationParc(data?.utilisationParc);
             setDepartHorsTimingCompletRow(data?.departHorsTimingCompletRows)
         }
         fetchData()
+
+        const interval = setInterval(fetchData, 5000);
+
+        return () => clearInterval(interval); 
     }, []);
 
   return (
