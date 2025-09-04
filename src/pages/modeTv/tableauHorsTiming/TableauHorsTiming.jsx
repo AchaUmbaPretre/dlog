@@ -41,7 +41,7 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
         </span>
       ),
     },
-    { title: "Service", dataIndex: "service", key: "service", ellipsis: true, },
+    { title: "Service", dataIndex: "service", key: "service", ellipsis: true },
     { title: "Destination", dataIndex: "destination", key: "destination" },
     {
       title: "Départ prévu",
@@ -54,6 +54,7 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
       title: "Départ réel",
       dataIndex: "departReel",
       key: "departReel",
+      ellipsis: true,
       render: (text, record) => (
         <Tooltip
           title={
@@ -79,6 +80,7 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
       title: "Retour réel",
       dataIndex: "retourReel",
       key: "retourReel",
+      ellipsis: true,
       render: (text) =>
         text ? moment(text).format("DD/MM/YYYY HH:mm") : "-",
     },
