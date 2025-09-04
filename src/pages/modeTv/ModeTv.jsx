@@ -17,7 +17,7 @@ const ModeTv = () => {
     const [evenementLiveRow, setEvenementLiveRow] = useState([]);
     const [departHorsTimingRow, setDepartHorsTimingRow] = useState([]);
     const [utilisationParc, setUtilisationParc] = useState([]);
-    const [ departHorsTimingCompletRow, setDepartHorsTimingCompletRow] = useState([]);
+    const [departHorsTimingCompletRow, setDepartHorsTimingCompletRow] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {

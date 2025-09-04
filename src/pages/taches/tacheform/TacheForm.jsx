@@ -52,7 +52,6 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
     const handlCatTache = () => openModal('AddCatTache');
     const handlClient= () => openModal('AddClient');
 
-    
     const closeAllModals = () => {
         setModalType(null);
     };
