@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Timeline, Card, Typography, Tag } from "antd";
 import { CarOutlined, ClockCircleOutlined, FlagOutlined } from "@ant-design/icons";
 import "./modelEvenementLive.scss";
+import moment from "moment";
 
 const { Text } = Typography;
 
@@ -14,7 +15,7 @@ const ModelEvenementLive = ({ evenementLiveRow }) => {
     // Transformation de la donnée reçue pour le Timeline
     const formattedEvents = evenementLiveRow.map((item) => ({
       id: item.id_bande_sortie,
-      time: new Date(item.sortie_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      time: moment(item.sortie_time).format("DD-MM-YYYY HH:mm"),
       status: item.nom_statut_bs,
       immatriculation: item.immatriculation,
       destination: item.nom_destination,
