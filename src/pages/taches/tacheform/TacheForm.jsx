@@ -615,7 +615,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     </Row>
                                 </Card>
                             ))}
-                            
+
                             <Button 
                                 type="dashed" 
                                 onClick={handleAddCategory} 
@@ -636,6 +636,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     </Space>
                                 </Form.Item>
                             </Col>
+                            
                         </Row>
                     </Card>
                 </Form>
