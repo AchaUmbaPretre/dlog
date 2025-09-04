@@ -132,7 +132,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
     useEffect(() => {
         form.resetFields();
         setEditorContent();
-      }, [idTache, idProjet, form]);
+    }, [idTache, idProjet, form]);
 
     const handleCategoryChange = (index, field, value) => {
         const updatedCategories = [...categories];
