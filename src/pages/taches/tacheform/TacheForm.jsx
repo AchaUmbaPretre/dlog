@@ -636,7 +636,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     </Space>
                                 </Form.Item>
                             </Col>
-                            
+
                         </Row>
                     </Card>
                 </Form>
@@ -674,6 +674,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             >
                 <FormUsers userId={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
+
             <Modal
                 title=""
                 visible={modalType === 'AddEntite'}
@@ -684,6 +685,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             >
                 <BatimentForm idBatiment={''} closeModal={()=>setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
+
             <Modal
                 title=""
                 visible={modalType === 'AddCorpsMetier'}
@@ -694,6 +696,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             >
                 <CorpsMetierForm idCorps={''} closeModal={() => setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
+
             <Modal
                 title=""
                 visible={modalType === 'AddCatTache'}
@@ -704,6 +707,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             >
                 <ListeCatTacheForm idCat={''} close={()=> setModalType(null)} fetchData={fetchDataAll}/>
             </Modal>
+
             <Modal
                 title=""
                 visible={modalType === 'AddClient'}
@@ -714,6 +718,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
             >
                 <ClientForm closeModal={() => setModalType(null)} idClient={''} fetchData={fetchDataAll} />
             </Modal>
+            
         </div>
     );
 };
