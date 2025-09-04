@@ -287,6 +287,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 >
                                 </Button>
                             </Col>
+
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     name="id_client"
@@ -315,6 +316,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 >
                                 </Button>
                             </Col>
+
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     label="Ville"
@@ -453,6 +455,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                 >
                                 </Button>
                             </Col>
+
                             <Col xs={24} md={8}>
                                 <Form.Item
                                     name="id_corps_metier"
@@ -509,7 +512,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                             </Col>
 
                             <Col xs={24} md={24}>
-                            <Form.Item
+                                <Form.Item
                                     name="priorite"
                                     label="Priorité"
                                     rules={[
@@ -532,6 +535,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     />}
                                 </Form.Item>
                             </Col>
+
                             <Col xs={24} md={24}>
                                 <Form.Item
                                     name="description"
@@ -611,6 +615,7 @@ const TacheForm = ({idControle, idProjet, idTache, closeModal,fetchData, fetchDa
                                     </Row>
                                 </Card>
                             ))}
+                            
                             <Button 
                                 type="dashed" 
                                 onClick={handleAddCategory} 
