@@ -6,6 +6,9 @@ import {
   CarOutlined,
   ToolOutlined,
 } from "@ant-design/icons";
+import RapportVehiculeValide from "./rapportVehiculeValide/RapportVehiculeValide";
+import RapportVehiculeCourses from "./rapportVehiculeCourses/RapportVehiculeCourses";
+import RapportVehiculeUtilitaire from "./rapportVehiculeUtilitaire/RapportVehiculeUtilitaire";
 
 const RapportCharroi = () => {
   const [activeKey, setActiveKey] = useState("1");
@@ -42,7 +45,7 @@ const RapportCharroi = () => {
               </span>
             }
           >
-            <div className="rapport_content">📋 Contenu - Bons validés</div>
+            <RapportVehiculeValide/>
           </Tabs.TabPane>
 
           <Tabs.TabPane
@@ -56,7 +59,7 @@ const RapportCharroi = () => {
               </span>
             }
           >
-            <div className="rapport_content">🚗 Contenu - Véhicules en course</div>
+            <RapportVehiculeCourses/>
           </Tabs.TabPane>
 
           <Tabs.TabPane
@@ -70,7 +73,7 @@ const RapportCharroi = () => {
               </span>
             }
           >
-            <div className="rapport_content">🛠️ Contenu - Utilitaires</div>
+            <RapportVehiculeUtilitaire/>
           </Tabs.TabPane>
         </Tabs>
       </div>
