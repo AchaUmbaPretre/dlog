@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./rapportCharroi.scss";
-import { Tabs, Badge } from "antd";
+import { Tabs, Badge, notification } from "antd";
 import {
   CheckCircleOutlined,
   CarOutlined,
@@ -9,10 +9,35 @@ import {
 import RapportVehiculeValide from "./rapportVehiculeValide/RapportVehiculeValide";
 import RapportVehiculeCourses from "./rapportVehiculeCourses/RapportVehiculeCourses";
 import RapportVehiculeUtilitaire from "./rapportVehiculeUtilitaire/RapportVehiculeUtilitaire";
+import { getRapportCharroiVehicule } from "../../../services/rapportService";
 
 const RapportCharroi = () => {
   const [activeKey, setActiveKey] = useState("1");
   const [count, setCount] = useState(0);
+  const [data, setData] = useState([]);
+  const [course, setCourse] = useState([]);
+  const [utilitaire, setUtilitaire] = useState([]);
+
+
+    const fetchData = async() => {
+        try {
+            const { data } = await getRapportCharroiVehicule();
+
+            setData(data.listeEnAttente)
+            setCourse(data.listeCourse)
+            setUtilitaire(data.listeUtilitaire)
+
+        } catch (error) {
+            notification.error({
+            message: 'Erreur de chargement',
+            escription: 'Une erreur est survenue lors du chargement des données.',
+            });
+        }
+    }
+
+  useEffect(() => {
+    fetchData()
+  }, []);
 
   // 👉 Exemple de données (tu pourras les remplacer par tes vrais counts depuis l’API)
   const counts = {
@@ -40,12 +65,12 @@ const RapportCharroi = () => {
               <span>
                 <CheckCircleOutlined style={{ color: "#52c41a" }} />{" "}
                 <Badge count={counts.bonsValides} offset={[8, -2]}>
-                  <span>Liste des bons validés</span>
+                  <span>Véhicule en attente de sortie</span>
                 </Badge>
               </span>
             }
           >
-            <RapportVehiculeValide/>
+            <RapportVehiculeValide data={data} />
           </Tabs.TabPane>
 
           <Tabs.TabPane
@@ -59,7 +84,7 @@ const RapportCharroi = () => {
               </span>
             }
           >
-            <RapportVehiculeCourses/>
+            <RapportVehiculeCourses course={course}/>
           </Tabs.TabPane>
 
           <Tabs.TabPane
@@ -73,7 +98,7 @@ const RapportCharroi = () => {
               </span>
             }
           >
-            <RapportVehiculeUtilitaire/>
+            <RapportVehiculeUtilitaire utilitaire={utilitaire} />
           </Tabs.TabPane>
         </Tabs>
       </div>
