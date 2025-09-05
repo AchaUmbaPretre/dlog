@@ -41,9 +41,9 @@ const RapportCharroi = () => {
 
   // 👉 Exemple de données (tu pourras les remplacer par tes vrais counts depuis l’API)
   const counts = {
-    bonsValides: 12,
-    vehiculesCourse: 5,
-    utilitaires: 8,
+    bonsValides: 1,
+    vehiculesCourse: 2,
+    utilitaires: 1,
   };
 
   const handleTabChange = (key) => {

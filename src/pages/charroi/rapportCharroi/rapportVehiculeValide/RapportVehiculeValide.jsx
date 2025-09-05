@@ -32,13 +32,13 @@ const renderDateTag = (dateStr, color = 'blue') => {
 /**
  * Rend le statut de sortie avec coloration dynamique selon le retard
  */
-const renderStatutSortie = (statut_sortie, duree_retard) => {
-  if (!statut_sortie) return <Tag>-</Tag>;
+const renderStatutSortie = (statut, duree_retard) => {
+  if (!statut) return <Tag>-</Tag>;
 
   let color = 'green';
-  let label = statut_sortie;
+  let label = statut;
 
-  if (statut_sortie === 'Retard' && duree_retard) {
+  if (statut === 'Retard' && duree_retard) {
     const [hours = 0] = duree_retard.split(' ');
     const minutes = parseFloat(hours) * 60;
 
@@ -46,7 +46,7 @@ const renderStatutSortie = (statut_sortie, duree_retard) => {
     else if (minutes <= 60) color = 'red';
     else color = 'volcano';
 
-    label = `${statut_sortie} (${duree_retard})`;
+    label = `${statut} (${duree_retard})`;
   }
 
   return (
@@ -126,7 +126,7 @@ const RapportVehiculeValide = ({ data }) => {
       render: (text) => renderDateTag(text),
     },
     {
-      title: <Space><FieldTimeOutlined style={{ color:'orange' }} /><Text strong>Statut Sortie</Text></Space>,
+      title: <Space><FieldTimeOutlined style={{ color:'orange' }} /><Text strong>Statut</Text></Space>,
       key: 'statut_sortie',
       render: (_, record) => renderStatutSortie(record.statut_sortie, record.duree_retard),
     },

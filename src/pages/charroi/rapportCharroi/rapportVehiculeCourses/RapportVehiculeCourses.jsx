@@ -118,7 +118,7 @@ const RapportVehiculeCourses = ({ course }) => {
       render: (text) => renderDateTag(text),
     },
     {
-      title: <Space><FieldTimeOutlined style={{ color:'orange' }} /><Text strong>Statut Sortie</Text></Space>,
+      title: <Space><FieldTimeOutlined style={{ color:'orange' }} /><Text strong>Statut</Text></Space>,
       key: 'statut_sortie',
       render: (_, record) => renderStatutSortie(record.statut_sortie, record.duree_retard),
     },
