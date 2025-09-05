@@ -136,7 +136,7 @@ export const getRapportKiosque = async (params) => {
   return axios.get(`${DOMAIN}/api/rapport/rapport_kiosque`, { params });
 };
 
-//Charroi vehicule rapport
+//Rapport Charroi vehicule
 export const getRapportCharroiVehicule = async (params) => {
   return axios.get(`${DOMAIN}/api/rapport/rapport_charroi_vehicule`, { params });
 };
