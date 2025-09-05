@@ -24,7 +24,7 @@ const RapportCharroi = () => {
                     <Tabs.TabPane
                         tab={
                         <span>
-                            <ApartmentOutlined style={{ color: '#52c41a' }} /> Liste des bureaux
+                            <ApartmentOutlined style={{ color: '#52c41a' }} /> Liste des bon validés
                         </span>
                         }
                         key="1"
@@ -35,7 +35,7 @@ const RapportCharroi = () => {
                     <Tabs.TabPane
                         tab={
                         <span>
-                            <ApartmentOutlined style={{ color: '#52c41a' }} /> Liste des bureaux
+                            <ApartmentOutlined style={{ color: '#52c41a' }} /> Véhicules en course
                         </span>
                         }
                         key="2"
@@ -45,9 +45,9 @@ const RapportCharroi = () => {
 
                     <Tabs.TabPane
                         tab={
-                        <span>
-                            <ApartmentOutlined style={{ color: '#52c41a' }} /> Liste des bureaux
-                        </span>
+                            <span>
+                                <ApartmentOutlined style={{ color: '#52c41a' }} /> Liste des utilitaires
+                            </span>
                         }
                         key="3"
                     >
