@@ -1,12 +1,10 @@
 import { Table, Tooltip, Space, Typography, Tag } from 'antd';
-import { 
-  CarOutlined, ApartmentOutlined, EnvironmentOutlined, FieldTimeOutlined
-} from '@ant-design/icons';
+import { CarOutlined, EnvironmentOutlined, FieldTimeOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 
 /**
- * Rend un texte avec tooltip et ellipsis pour colonnes longues
+ * Rend un texte avec tooltip pour les colonnes longues
  */
 const renderTextWithTooltip = (text, color = 'secondary') => (
   <Tooltip title={text}>
@@ -17,18 +15,33 @@ const renderTextWithTooltip = (text, color = 'secondary') => (
 );
 
 /**
- * Rend la durée de retard sous forme de tag
+ * Rend la durée de retard sous forme de tag coloré
+ * Supporte les minutes, heures et jours
  */
 const renderRetardTag = (duree_retard) => {
   if (!duree_retard) return <Tag>-</Tag>;
 
   let color = 'green';
-  const [val] = duree_retard.split(' ');
-  const jours = parseFloat(val);
+  const [val, unit] = duree_retard.split(' ');
+  const value = parseFloat(val);
 
-  if (jours <= 0.5) color = 'orange';
-  else if (jours <= 1) color = 'red';
-  else color = 'volcano';
+  // Définition des seuils selon l'unité
+  switch (unit) {
+    case 'minute(s)':
+      if (value > 60) color = 'orange';
+      if (value > 1440) color = 'volcano';
+      break;
+    case 'heure(s)':
+      if (value > 12) color = 'orange';
+      if (value > 24) color = 'volcano';
+      break;
+    case 'jour(s)':
+      if (value > 1) color = 'red';
+      if (value > 2) color = 'volcano';
+      break;
+    default:
+      color = 'green';
+  }
 
   return <Tag color={color}>{duree_retard}</Tag>;
 };
@@ -42,28 +55,37 @@ const RapportVehiculeUtilitaire = ({ utilitaire }) => {
       width: 50 
     },
     {
-      title: <Space><CarOutlined style={{ color: 'green' }} /><Text strong>Type de véhicule</Text></Space>,
-      dataIndex:'nom_cat',
-      key:'nom_cat',
-      render: (text) => renderTextWithTooltip(text),
+      title: (
+        <Space>
+          <CarOutlined style={{ color: 'green' }} />
+          <Text strong>Type de véhicule</Text>
+        </Space>
+      ),
+      dataIndex: 'nom_cat',
+      key: 'nom_cat',
+      render: renderTextWithTooltip,
     },
-/*     {
-      title: <Space><ApartmentOutlined style={{ color: '#1d39c4' }} /><Text strong>Service</Text></Space>,
-      dataIndex: 'nom_service',
-      key:'nom_service',
-      render: (text) => renderTextWithTooltip(text),
-    }, */
     {
-      title: <Space><EnvironmentOutlined style={{ color: 'red' }} /><Text strong>Destination</Text></Space>,
+      title: (
+        <Space>
+          <EnvironmentOutlined style={{ color: 'red' }} />
+          <Text strong>Destination</Text>
+        </Space>
+      ),
       dataIndex: 'nom_destination',
-      key:'nom_destination',
-      render: (text) => renderTextWithTooltip(text),
+      key: 'nom_destination',
+      render: renderTextWithTooltip,
     },
     {
-      title: <Space><FieldTimeOutlined style={{ color:'orange' }} /><Text strong>Durée Retard</Text></Space>,
+      title: (
+        <Space>
+          <FieldTimeOutlined style={{ color: 'orange' }} />
+          <Text strong>Durée Retard</Text>
+        </Space>
+      ),
       dataIndex: 'duree_retard',
       key: 'duree_retard',
-      render: (text) => renderRetardTag(text),
+      render: renderRetardTag,
     }
   ];
 
