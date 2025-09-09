@@ -8,9 +8,9 @@ const { Text } = Typography;
 /**
  * Rend un texte avec tooltip et ellipsis pour colonnes longues
  */
-const renderTextWithTooltip = (text, color = 'secondary', maxWidth = 160) => (
+const renderTextWithTooltip = (text, color = 'secondary') => (
   <Tooltip title={text}>
-    <div style={{ maxWidth, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+    <div>
       <Text type={color}>{text}</Text>
     </div>
   </Tooltip>
