@@ -42,11 +42,17 @@ const RapportVehiculeUtilitaire = ({ utilitaire }) => {
       width: 50 
     },
     {
+      title: <Space><CarOutlined style={{ color: 'green' }} /><Text strong>Type de véhicule</Text></Space>,
+      dataIndex:'nom_cat',
+      key:'nom_cat',
+      render: (text) => renderTextWithTooltip(text),
+    },
+/*     {
       title: <Space><ApartmentOutlined style={{ color: '#1d39c4' }} /><Text strong>Service</Text></Space>,
       dataIndex: 'nom_service',
       key:'nom_service',
       render: (text) => renderTextWithTooltip(text),
-    },
+    }, */
     {
       title: <Space><EnvironmentOutlined style={{ color: 'red' }} /><Text strong>Destination</Text></Space>,
       dataIndex: 'nom_destination',
@@ -54,17 +60,11 @@ const RapportVehiculeUtilitaire = ({ utilitaire }) => {
       render: (text) => renderTextWithTooltip(text),
     },
     {
-      title: <Space><CarOutlined style={{ color: 'green' }} /><Text strong>Véhicule</Text></Space>,
-      dataIndex:'nom_cat',
-      key:'nom_cat',
-      render: (text) => renderTextWithTooltip(text),
-    },
-    {
       title: <Space><FieldTimeOutlined style={{ color:'orange' }} /><Text strong>Durée Retard</Text></Space>,
       dataIndex: 'duree_retard',
       key: 'duree_retard',
       render: (text) => renderRetardTag(text),
-    },
+    }
   ];
 
   return (

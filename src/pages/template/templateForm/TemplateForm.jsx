@@ -131,7 +131,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
     return (
         <div className="client_form" style={{ padding: '20px', background: '#fff', borderRadius: '5px' }}>
             <div className="controle_title_rows">
-                <h2 className="controle_h2">Insérer un nouveau template</h2>
+                <h2 className="controle_h2">{idTemplate ? 'Modifier le template' : "Insérer un nouveau template"}</h2>
             </div>
             <div className="client_wrapper">
                 <Form form={form} layout="vertical" onFinish={onFinish}>

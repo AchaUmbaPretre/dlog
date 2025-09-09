@@ -13,7 +13,9 @@ import { getRapportCharroiVehicule } from "../../../services/rapportService";
 
 const RapportCharroi = () => {
   const [activeKey, setActiveKey] = useState("1");
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState([]);
+  const [countAttente, setCountAttente] = useState([]);
+  const [countCourse, setCountCourse] = useState([]);
   const [data, setData] = useState([]);
   const [course, setCourse] = useState([]);
   const [utilitaire, setUtilitaire] = useState([]);
@@ -23,9 +25,12 @@ const RapportCharroi = () => {
         try {
             const { data } = await getRapportCharroiVehicule();
 
-            setData(data.listeEnAttente)
-            setCourse(data.listeCourse)
-            setUtilitaire(data.listeUtilitaire)
+            setData(data.listeEnAttente);
+            setCourse(data.listeCourse);
+            setUtilitaire(data.listeUtilitaire);
+            setCountAttente(data?.countAttente[0]?.Count_enattente);
+            setCountCourse(data?.countCourse[0]?.count_course);
+            setCount(data?.countUtilitaire[0]?.count_utilitaire)
 
         } catch (error) {
             notification.error({
@@ -37,6 +42,9 @@ const RapportCharroi = () => {
 
   useEffect(() => {
     fetchData()
+    const interval = setInterval(fetchData, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   // 👉 Exemple de données (tu pourras les remplacer par tes vrais counts depuis l’API)
@@ -64,7 +72,7 @@ const RapportCharroi = () => {
             tab={
               <span>
                 <CheckCircleOutlined style={{ color: "#52c41a" }} />{" "}
-                <Badge count={counts.bonsValides} offset={[8, -2]}>
+                <Badge count={countAttente} offset={[8, -2]}>
                   <span>Véhicule en attente de sortie</span>
                 </Badge>
               </span>
@@ -78,7 +86,7 @@ const RapportCharroi = () => {
             tab={
               <span>
                 <CarOutlined style={{ color: "#1890ff" }} />{" "}
-                <Badge count={counts.vehiculesCourse} offset={[8, -2]}>
+                <Badge count={countCourse} offset={[8, -2]}>
                   <span>Véhicules en course</span>
                 </Badge>
               </span>
@@ -92,7 +100,7 @@ const RapportCharroi = () => {
             tab={
               <span>
                 <ToolOutlined style={{ color: "#faad14" }} />{" "}
-                <Badge count={counts.utilitaires} offset={[8, -2]}>
+                <Badge count={count} offset={[8, -2]}>
                   <span>Liste des utilitaires</span>
                 </Badge>
               </span>
