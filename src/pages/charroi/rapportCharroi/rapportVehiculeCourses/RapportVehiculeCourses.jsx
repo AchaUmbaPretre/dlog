@@ -69,21 +69,22 @@ const StatutSortieTag = ({ statut_sortie, date_retour }) => {
 
   if (!statut_sortie) return <Tag>-</Tag>;
 
-  let color = "green";
+  let color = "green";   // par défaut à l'heure
   let label = statut_sortie;
   let blinkClass = "";
 
   if (statut_sortie.includes("Retard") && date_retour) {
     const diffMinutes = moment().diff(moment(date_retour), "minutes");
 
-    if (diffMinutes <= 30) color = "orange";
-    else if (diffMinutes <= 60) color = "red";
-    else {
+    if (diffMinutes <= 30) color = "orange";              // léger
+    else if (diffMinutes <= 60) color = "red";            // moyen
+    else if (diffMinutes <= 48*60) {                      // sévère <48h
       color = "volcano";
       blinkClass = "blinking-tag";
-    }
+    } else color = "grey";                                // très long >48h
 
-    label = `${statut_sortie} (${elapsed})`;
+    label = diffMinutes > 48*60 ? `${statut_sortie} (${Math.floor(diffMinutes/60/24)}j)` 
+                                 : `${statut_sortie} (${elapsed})`;
   }
 
   return (
@@ -95,6 +96,7 @@ const StatutSortieTag = ({ statut_sortie, date_retour }) => {
   );
 };
 
+
 const DureeRetardTag = ({ date_retour, duree_retard }) => {
   const elapsed = useElapsedTime(date_retour);
   const diffHours = moment().diff(moment(date_retour), "hours");
@@ -103,13 +105,17 @@ const DureeRetardTag = ({ date_retour, duree_retard }) => {
   const isLate = moment().isAfter(moment(date_retour));
 
   return (
-    <Tag
-      className={isLate && diffHours < 48 ? "blinking-tag" : ""}
-      color={isLate && diffHours < 48 ? "red" : "green"}
-      style={{ borderRadius: 6, padding: "2px 10px", fontSize: "0.9rem" }}
+    <Tooltip
+      title={`Retour prévu : ${moment(date_retour).format("DD/MM HH:mm")} | Durée SQL : ${duree_retard}`}
     >
-      {displayValue}
-    </Tag>
+      <Tag
+        className={isLate && diffHours < 48 ? "blinking-tag" : ""}
+        color={isLate && diffHours < 48 ? "red" : "green"}
+        style={{ borderRadius: 6, padding: "2px 10px", fontSize: "0.9rem" }}
+      >
+        {displayValue}
+      </Tag>
+    </Tooltip>
   );
 };
 
