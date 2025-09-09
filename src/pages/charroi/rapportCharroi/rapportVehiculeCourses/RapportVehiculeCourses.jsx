@@ -106,7 +106,7 @@ const DureeRetardTag = ({ date_retour, duree_retard }) => {
 
   return (
     <Tooltip
-      title={`Retour prévu : ${moment(date_retour).format("DD/MM HH:mm")} | Durée SQL : ${duree_retard}`}
+      title={`Retour prévu : ${moment(date_retour).format("DD/MM HH:mm")} | Durée : ${duree_retard}`}
     >
       <Tag
         className={isLate && diffHours < 48 ? "blinking-tag" : ""}
