@@ -72,7 +72,7 @@ const RapportCharroi = () => {
             tab={
               <span>
                 <CheckCircleOutlined style={{ color: "#52c41a" }} />{" "}
-                <Badge count={countAttente} offset={[8, -2]}>
+                <Badge count={countAttente || 0} offset={[8, -2]}>
                   <span>Véhicule en attente de sortie</span>
                 </Badge>
               </span>
@@ -86,7 +86,7 @@ const RapportCharroi = () => {
             tab={
               <span>
                 <CarOutlined style={{ color: "#1890ff" }} />{" "}
-                <Badge count={countCourse} offset={[8, -2]}>
+                <Badge count={countCourse || 0} offset={[8, -2]}>
                   <span>Véhicules en course</span>
                 </Badge>
               </span>
@@ -100,7 +100,7 @@ const RapportCharroi = () => {
             tab={
               <span>
                 <ToolOutlined style={{ color: "#faad14" }} />{" "}
-                <Badge count={count} offset={[8, -2]}>
+                <Badge count={count || 0} offset={[8, -2]}>
                   <span>Liste des utilitaires</span>
                 </Badge>
               </span>
