@@ -13,8 +13,6 @@ import moment from "moment";
 
 const { Text } = Typography;
 
-/* ------------------ UTILITAIRES ------------------ */
-
 const renderTextWithTooltip = (text, color = "secondary", maxWidth = 160) => (
   <Tooltip title={text}>
     <div
