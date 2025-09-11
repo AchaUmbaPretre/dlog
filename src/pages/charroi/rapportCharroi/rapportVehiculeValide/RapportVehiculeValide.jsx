@@ -2,7 +2,7 @@ import './rapportVehiculeValide.scss';
 import { Table, Tag, Tooltip, Space, Button, Typography, Menu, Dropdown } from 'antd';
 import { 
   CarOutlined, ApartmentOutlined, UserOutlined, FieldTimeOutlined, 
-  EnvironmentOutlined, MenuOutlined, DownOutlined, AppstoreOutlined, TrademarkOutlined 
+  EnvironmentOutlined, MenuOutlined, FileTextOutlined, DownOutlined, AppstoreOutlined, TrademarkOutlined 
 } from '@ant-design/icons';
 import moment from 'moment';
 import { useState } from 'react';
@@ -80,7 +80,7 @@ const RapportVehiculeValide = ({ data }) => {
         'Sortie prévue': true,
         'Retour prévu': true,
         'Durée moyenne' : true,
-        'Commentaire': true
+        'Commentaire': false
     });
 
     const toggleColumnVisibility = (columnName, e) => {
@@ -192,7 +192,14 @@ const RapportVehiculeValide = ({ data }) => {
       align: 'center',
       render: (val) => <Tag color="purple">{formatDuration(val)}</Tag>,
         ...(columnsVisibility['Durée moyenne'] ? {} : { className: 'hidden-column' })
-    }
+    },
+    {
+      title: <Space><FileTextOutlined style={{ color:'orange' }} /><Text strong>Commentaire</Text></Space>,
+      key:'commentaire',
+      render: (_, record) => renderTextWithTooltip(`${record.commentaire}`),
+      ellipsis: true,
+        ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' })
+    },
   ];
 
   return (
