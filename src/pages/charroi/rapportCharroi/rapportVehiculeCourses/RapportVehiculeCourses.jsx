@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Table, Tag, Space, Typography, Tooltip } from "antd";
+import { Table, Tag, Dropdown, Button, Space, Typography, Tooltip, Menu } from "antd";
 import {
   CarOutlined,
   ApartmentOutlined,
   UserOutlined,
   EnvironmentOutlined,
   TrademarkOutlined,
-  AppstoreOutlined
+  AppstoreOutlined,
+  DownOutlined,
+  MenuOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 
@@ -92,6 +94,21 @@ const EcartTag = ({ duree_reelle_min, duree_moyenne_min }) => {
 };
 
 const RapportVehiculeCourses = ({ course }) => {
+        const [columnsVisibility, setColumnsVisibility] = useState({
+            '#': true,
+            'Motif': false,
+            'Service': true,
+            'Chauffeur': true,
+            'Destination' : true,
+            'Type véhicule' : true,
+            'Immatriculation' : true,
+            'Marque' : true,
+            'Statut' : true,
+            'Sortie prévue': true,
+            'Retour prévu': true,
+            'Durée moyenne' : true,
+            'Commentaire': false
+        });
 
   const columns = [
     { title: "#", key: "index", render: (_, __, index) => index + 1, width: 50 },
@@ -191,16 +208,46 @@ const RapportVehiculeCourses = ({ course }) => {
     },
   ];
 
+   const toggleColumnVisibility = (columnName, e) => {
+        e.stopPropagation();
+        setColumnsVisibility(prev => ({
+        ...prev,
+        [columnName]: !prev[columnName]
+        }));
+    };
+
+    const menus = (
+    <Menu>
+      {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+      ))}
+    </Menu>
+    );
+
   return (
-    <Table
-      columns={columns}
-      dataSource={course}
-      rowKey={(record) => record.id_vehicule}
-      pagination={{ pageSize: 15 }}
-      scroll={{ x: "max-content" }}
-      bordered
-      size="middle"
-    />
+    <div className="rapportVehiculeValide">
+        <div className="colonne_filtre">
+            <Dropdown overlay={menus} trigger={['click']}>
+                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                    Colonnes <DownOutlined />
+                </Button>
+            </Dropdown>
+        </div>
+        <Table
+            columns={columns}
+            dataSource={course}
+            rowKey={(record) => record.id_vehicule}
+            pagination={{ pageSize: 15 }}
+            scroll={{ x: "max-content" }}
+            bordered
+            size="middle"
+        />
+    </div>
   );
 };
 

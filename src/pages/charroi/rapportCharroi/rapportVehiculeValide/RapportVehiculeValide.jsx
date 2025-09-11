@@ -91,7 +91,7 @@ const RapportVehiculeValide = ({ data }) => {
     }));
   };
 
-    const menus = (
+  const menus = (
     <Menu>
       {Object.keys(columnsVisibility).map(columnName => (
         <Menu.Item key={columnName}>
