@@ -113,7 +113,7 @@ const RapportVehiculeValide = ({ data }) => {
       key:'nom_motif_demande',
       render: (text) => renderTextWithTooltip(text),
       ellipsis: true,
-    ...(columnsVisibility['Motif'] ? {} : { className: 'hidden-column' })
+        ...(columnsVisibility['Motif'] ? {} : { className: 'hidden-column' })
     },
     {
       title: <Space><ApartmentOutlined style={{ color: '#1d39c4' }} /><Text strong>Service</Text></Space>,
@@ -199,7 +199,7 @@ const RapportVehiculeValide = ({ data }) => {
       render: (_, record) => renderTextWithTooltip(`${record.commentaire}`),
       ellipsis: true,
         ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' })
-    },
+    }
   ];
 
   return (

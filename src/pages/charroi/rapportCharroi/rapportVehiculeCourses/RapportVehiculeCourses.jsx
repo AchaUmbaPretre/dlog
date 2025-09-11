@@ -8,7 +8,8 @@ import {
   TrademarkOutlined,
   AppstoreOutlined,
   DownOutlined,
-  MenuOutlined
+  MenuOutlined,
+  FileTextOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 
@@ -94,21 +95,21 @@ const EcartTag = ({ duree_reelle_min, duree_moyenne_min }) => {
 };
 
 const RapportVehiculeCourses = ({ course }) => {
-        const [columnsVisibility, setColumnsVisibility] = useState({
-            '#': true,
-            'Motif': false,
-            'Service': true,
-            'Chauffeur': true,
-            'Destination' : true,
-            'Type véhicule' : true,
-            'Immatriculation' : true,
-            'Marque' : true,
-            'Statut' : true,
-            'Sortie prévue': true,
-            'Retour prévu': true,
-            'Durée moyenne' : true,
-            'Commentaire': false
-        });
+    const [columnsVisibility, setColumnsVisibility] = useState({
+        '#': true,
+        'Motif': false,
+        'Service': true,
+        'Chauffeur': true,
+        'Destination' : true,
+        'Type véhicule' : true,
+        'Immatriculation' : true,
+        'Marque' : true,
+        'Statut' : true,
+        'Écart': true,
+        'Durée': true,
+        'Durée moyenne' : true, 
+        'Commentaire': false
+    });
 
   const columns = [
     { title: "#", key: "index", render: (_, __, index) => index + 1, width: 50 },
@@ -122,6 +123,7 @@ const RapportVehiculeCourses = ({ course }) => {
       dataIndex: "nom_motif_demande",
       key: "nom_motif_demande",
       render: (text) => renderTextWithTooltip(text),
+        ...(columnsVisibility['Motif'] ? {} : { className: 'hidden-column' })
     },
     {
       title: (
@@ -133,6 +135,7 @@ const RapportVehiculeCourses = ({ course }) => {
       dataIndex: "nom_service",
       key: "nom_service",
       render: (text) => renderTextWithTooltip(text),
+        ...(columnsVisibility['Service'] ? {} : { className: 'hidden-column' })
     },
     {
       title: (
@@ -145,6 +148,7 @@ const RapportVehiculeCourses = ({ course }) => {
       key: "nom",
       render: (_, record) =>
         renderTextWithTooltip(`${record.prenom_chauffeur} ${record.nom}`),
+        ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' })
     },
     {
       title: (
@@ -156,6 +160,8 @@ const RapportVehiculeCourses = ({ course }) => {
       dataIndex: "nom_destination",
       key: "nom_destination",
       render: (text) => renderTextWithTooltip(text),
+        ellipsis: true,
+        ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' })
     },
     {
       title: (
@@ -167,12 +173,14 @@ const RapportVehiculeCourses = ({ course }) => {
       dataIndex: "nom_cat",
       key: "nom_cat",
       render: (text) => renderTextWithTooltip(text),
+        ...(columnsVisibility['Type véhicule'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Immatriculation",
       dataIndex: "immatriculation",
       key: "immatriculation",
       render: (text) => <Tag color="magenta">{text}</Tag>,
+        ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Marque",
@@ -183,6 +191,7 @@ const RapportVehiculeCourses = ({ course }) => {
           {text}
         </Tag>
       ),
+        ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Durée",
@@ -190,11 +199,13 @@ const RapportVehiculeCourses = ({ course }) => {
       render: (_, record) => (
         <ChronoTag sortie_time={record.sortie_time} date_prevue={record.date_prevue} />
       ),
+        ...(columnsVisibility['Durée'] ? {} : { className: 'hidden-column' })
     },
     {
-      title: "Durée moyenne",
+      title: "Durée M",
       key: "duree_moyenne_min",
       render: (_, record) => <MoyenneTag duree_moyenne_min={record.duree_moyenne_min} />,
+        ...(columnsVisibility['Durée moyenne'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Écart",
@@ -205,7 +216,15 @@ const RapportVehiculeCourses = ({ course }) => {
           duree_moyenne_min={record.duree_moyenne_min}
         />
       ),
+          ...(columnsVisibility['Écart'] ? {} : { className: 'hidden-column' })
     },
+        {
+      title: <Space><FileTextOutlined style={{ color:'orange' }} /><Text strong>Commentaire</Text></Space>,
+      key:'commentaire',
+      render: (_, record) => renderTextWithTooltip(`${record.commentaire}`),
+      ellipsis: true,
+        ...(columnsVisibility['Commentaire'] ? {} : { className: 'hidden-column' })
+    }
   ];
 
    const toggleColumnVisibility = (columnName, e) => {
