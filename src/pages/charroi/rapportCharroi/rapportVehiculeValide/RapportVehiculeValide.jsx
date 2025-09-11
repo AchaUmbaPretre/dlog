@@ -67,20 +67,21 @@ const renderStatutHoraire = (nom_statut_bs, date_prevue) => {
 };
 
 const RapportVehiculeValide = ({ data }) => {
-  const [columnsVisibility, setColumnsVisibility] = useState({
-    '#': true,
-    'Motif': true,
-    'Service': true,
-    'Chauffeur': true,
-    'Destination' : true,
-    'Type véhicule' : true,
-    'Immatriculation' : true,
-    'Marque' : true,
-    'Statut' : true,
-    'Sortie prévue': true,
-    'Retour prévu': true,
-    'Durée moyenne' : true,
-  });
+    const [columnsVisibility, setColumnsVisibility] = useState({
+        '#': true,
+        'Motif': false,
+        'Service': true,
+        'Chauffeur': true,
+        'Destination' : true,
+        'Type véhicule' : true,
+        'Immatriculation' : true,
+        'Marque' : true,
+        'Statut' : true,
+        'Sortie prévue': true,
+        'Retour prévu': true,
+        'Durée moyenne' : true,
+        'Commentaire': true
+    });
 
     const toggleColumnVisibility = (columnName, e) => {
     e.stopPropagation();
@@ -106,7 +107,6 @@ const RapportVehiculeValide = ({ data }) => {
 
   const columns = [
     { title: '#', key: 'index', render: (_, __, index) => index + 1, width: 50 },
-
     {
       title: <Space><AppstoreOutlined style={{ color: '#1890ff' }} /><Text strong>Motif</Text></Space>,
       dataIndex: 'nom_motif_demande',
