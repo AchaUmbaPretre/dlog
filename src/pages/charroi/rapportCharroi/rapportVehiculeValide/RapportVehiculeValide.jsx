@@ -9,7 +9,6 @@ import { useState } from 'react';
 
 const { Text } = Typography;
 
-// Texte avec tooltip
 const renderTextWithTooltip = (text, color = 'secondary', maxWidth = 160) => (
   <Tooltip title={text}>
     <div style={{ maxWidth, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -224,6 +223,7 @@ const RapportVehiculeValide = ({ data }) => {
         scroll={{ x: 'max-content' }}
         bordered
         size="middle"
+        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
       />
     </div>
   );

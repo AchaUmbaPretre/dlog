@@ -268,6 +268,7 @@ const RapportVehiculeCourses = ({ course }) => {
             scroll={{ x: "max-content" }}
             bordered
             size="middle"
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
         />
     </div>
   );
