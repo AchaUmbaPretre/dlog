@@ -6,14 +6,12 @@ import {
   UserOutlined,
   EnvironmentOutlined,
   TrademarkOutlined,
-  AppstoreOutlined,
-  FieldTimeOutlined,
+  AppstoreOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 
 const { Text } = Typography;
 
-// ---------- Utilitaires ----------
 const renderTextWithTooltip = (text, maxWidth = 160) => (
   <Tooltip title={text}>
     <div
@@ -94,7 +92,7 @@ const EcartTag = ({ duree_reelle_min, duree_moyenne_min }) => {
 };
 
 const RapportVehiculeCourses = ({ course }) => {
-    
+
   const columns = [
     { title: "#", key: "index", render: (_, __, index) => index + 1, width: 50 },
     {
