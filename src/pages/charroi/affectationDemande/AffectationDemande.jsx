@@ -258,7 +258,7 @@ const AffectationDemande = () => {
         render: (text) => (
           <Tooltip placement="topLeft" title={text}>
             <div style={columnStyles.title} className={columnStyles.hideScroll}>
-              <Tag color='magenta'>{text}</Tag>
+              <Text  type="secondary">{text}</Text>
             </div>
           </Tooltip>
         ),
