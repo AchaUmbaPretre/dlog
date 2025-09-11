@@ -74,9 +74,10 @@ const RapportVehiculeValide = ({ data }) => {
     'Service': true,
     'Chauffeur': true,
     'Destination' : true,
-    'Type_vehicule' : true,
+    'Type véhicule' : true,
     'Immatriculation' : true,
     'Marque' : true,
+    'Statut' : true,
     'Sortie prévue': true,
     'Retour prévu': true,
     'Durée moyenne' : true,
@@ -93,6 +94,7 @@ const RapportVehiculeValide = ({ data }) => {
       key:'nom_motif_demande',
       render: (text) => renderTextWithTooltip(text),
       ellipsis: true,
+    ...(columnsVisibility['Motif'] ? {} : { className: 'hidden-column' })
     },
     {
       title: <Space><ApartmentOutlined style={{ color: '#1d39c4' }} /><Text strong>Service</Text></Space>,
@@ -100,12 +102,14 @@ const RapportVehiculeValide = ({ data }) => {
       key:'nom_service',
       render: (text) => renderTextWithTooltip(text),
       ellipsis: true,
+        ...(columnsVisibility['Service'] ? {} : { className: 'hidden-column' })
     },
     {
       title: <Space><UserOutlined style={{ color:'orange' }} /><Text strong>Chauffeur</Text></Space>,
       key:'chauffeur',
       render: (_, record) => renderTextWithTooltip(`${record.prenom_chauffeur} ${record.nom}`),
       ellipsis: true,
+        ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' })
     },
     {
       title: <Space><EnvironmentOutlined style={{ color: 'red' }} /><Text strong>Destination</Text></Space>,
@@ -113,6 +117,7 @@ const RapportVehiculeValide = ({ data }) => {
       key:'nom_destination',
       render: (text) => renderTextWithTooltip(text),
       ellipsis: true,
+        ...(columnsVisibility['Destination'] ? {} : { className: 'hidden-column' })
     },
     {
       title: <Space><CarOutlined style={{ color: 'green' }} /><Text strong>Véhicule</Text></Space>,
@@ -120,6 +125,7 @@ const RapportVehiculeValide = ({ data }) => {
       key:'nom_cat',
       render: (text) => renderTextWithTooltip(text),
       ellipsis: true,
+        ...(columnsVisibility['Type véhicule'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Immatriculation',
@@ -127,6 +133,7 @@ const RapportVehiculeValide = ({ data }) => {
       key:'immatriculation',
       align: 'center',
       render: (text) => <Tag color='magenta'>{text}</Tag>,
+        ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Marque',
@@ -134,6 +141,7 @@ const RapportVehiculeValide = ({ data }) => {
       key: 'nom_marque',
       align: 'center',
       render: (text) => <Tag icon={<TrademarkOutlined />} color="blue">{text}</Tag>,
+        ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Sortie prévue',
@@ -141,6 +149,8 @@ const RapportVehiculeValide = ({ data }) => {
       key: 'date_prevue',
       align: 'center',
       render: (text) => renderDateTag(text),
+        ...(columnsVisibility['Sortie prévue'] ? {} : { className: 'hidden-column' })
+
     },
     {
       title: 'Retour prévu',
@@ -148,11 +158,13 @@ const RapportVehiculeValide = ({ data }) => {
       key:'date_retour',
       align: 'center',
       render: (text) => renderDateTag(text),
+        ...(columnsVisibility['Retour prévu'] ? {} : { className: 'hidden-column' })
     },
     {
       title: <Space><FieldTimeOutlined style={{ color:'orange' }} /><Text strong>Statut</Text></Space>,
       key: 'statut_horaire',
       render: (_, record) => renderStatutHoraire(record.nom_statut_bs, record.date_prevue),
+        ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Durée réelle',
@@ -160,6 +172,7 @@ const RapportVehiculeValide = ({ data }) => {
       key: 'duree_reelle_min',
       align: 'center',
       render: (val) => <Tag color="geekblue">{formatDuration(val)}</Tag>,
+        ...(columnsVisibility['Durée réelle'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Durée moyenne',
@@ -167,6 +180,7 @@ const RapportVehiculeValide = ({ data }) => {
       key: 'duree_moyenne_min',
       align: 'center',
       render: (val) => <Tag color="purple">{formatDuration(val)}</Tag>,
+        ...(columnsVisibility['Durée moyenne'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Écart',
@@ -179,6 +193,7 @@ const RapportVehiculeValide = ({ data }) => {
         const signe = val > 0 ? "+" : "";
         return <Tag color={color}>{signe}{formatDuration(Math.abs(val))}</Tag>;
       },
+        ...(columnsVisibility['Écart'] ? {} : { className: 'hidden-column' })
     }
   ];
 
