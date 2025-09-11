@@ -1,5 +1,5 @@
 import './rapportVehiculeValide.scss';
-import { Table, Tag, Tooltip, Space, Typography } from 'antd';
+import { Table, Tag, Tooltip, Space, Typography, Menu } from 'antd';
 import { 
   CarOutlined, ApartmentOutlined, UserOutlined, FieldTimeOutlined, 
   EnvironmentOutlined, AppstoreOutlined, TrademarkOutlined 
@@ -52,7 +52,7 @@ const renderStatutHoraire = (nom_statut_bs, date_prevue) => {
   let color = 'green';
   let label = `🟢 ${nom_statut_bs === 'BS validé' ? 'En attente' : ''}`;
 
-  if (diffMinutes > 0 && diffMinutes <= 60) {
+  if (diffMinutes <= 60) {
     color = 'orange';
     label = `🟠 ${nom_statut_bs === 'BS validé' ? 'En attente' : ''} (${diffMinutes} min de retard)`;
   } else if (diffMinutes > 60) {
@@ -84,6 +84,28 @@ const RapportVehiculeValide = ({ data }) => {
     'Durée réelle': false,
     'Écart':false
   });
+
+    const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
+
+    const menus = (
+    <Menu>
+      {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );  
+
 
   const columns = [
     { title: '#', key: 'index', render: (_, __, index) => index + 1, width: 50 },
@@ -199,6 +221,7 @@ const RapportVehiculeValide = ({ data }) => {
 
   return (
     <div className="rapportVehiculeValide">
+
       <Table
         columns={columns}
         dataSource={data}
