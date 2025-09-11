@@ -5,6 +5,7 @@ import {
   EnvironmentOutlined, AppstoreOutlined, TrademarkOutlined 
 } from '@ant-design/icons';
 import moment from 'moment';
+import { useState } from 'react';
 
 const { Text } = Typography;
 
@@ -67,6 +68,22 @@ const renderStatutHoraire = (nom_statut_bs, date_prevue) => {
 };
 
 const RapportVehiculeValide = ({ data }) => {
+  const [columnsVisibility, setColumnsVisibility] = useState({
+    '#': true,
+    'Motif': true,
+    'Service': true,
+    'Chauffeur': true,
+    'Destination' : true,
+    'Type_vehicule' : true,
+    'Immatriculation' : true,
+    'Marque' : true,
+    'Sortie prévue': true,
+    'Retour prévu': true,
+    'Durée moyenne' : true,
+    'Durée réelle': false,
+    'Écart':false
+  });
+
   const columns = [
     { title: '#', key: 'index', render: (_, __, index) => index + 1, width: 50 },
 
@@ -137,13 +154,13 @@ const RapportVehiculeValide = ({ data }) => {
       key: 'statut_horaire',
       render: (_, record) => renderStatutHoraire(record.nom_statut_bs, record.date_prevue),
     },
-/*     {
+    {
       title: 'Durée réelle',
       dataIndex: 'duree_reelle_min',
       key: 'duree_reelle_min',
       align: 'center',
       render: (val) => <Tag color="geekblue">{formatDuration(val)}</Tag>,
-    }, */
+    },
     {
       title: 'Durée moyenne',
       dataIndex: 'duree_moyenne_min',
@@ -151,7 +168,7 @@ const RapportVehiculeValide = ({ data }) => {
       align: 'center',
       render: (val) => <Tag color="purple">{formatDuration(val)}</Tag>,
     },
-/*     {
+    {
       title: 'Écart',
       dataIndex: 'ecart_min',
       key: 'ecart_min',
@@ -162,7 +179,7 @@ const RapportVehiculeValide = ({ data }) => {
         const signe = val > 0 ? "+" : "";
         return <Tag color={color}>{signe}{formatDuration(Math.abs(val))}</Tag>;
       },
-    }, */
+    }
   ];
 
   return (
