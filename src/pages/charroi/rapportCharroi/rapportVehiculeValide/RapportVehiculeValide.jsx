@@ -27,34 +27,43 @@ const renderDateTag = (dateStr, color = 'blue') => {
 // Formate une durée en minutes en min / h / jour
 const formatDuration = (minutesTotal) => {
   if (minutesTotal == null) return '-';
-
   if (minutesTotal < 60) return `${minutesTotal} min`;
   
-  const jours = Math.floor(minutesTotal / 1440); // 1440 min = 1 jour
+  const jours = Math.floor(minutesTotal / 1440);
   const heures = Math.floor((minutesTotal % 1440) / 60);
   const minutes = minutesTotal % 60;
 
   let result = '';
   if (jours > 0) result += `${jours} jour${jours > 1 ? 's' : ''} `;
-  if (heures > 0) result += `${heures}h`;
+  if (heures > 0) result += `${heures}h `;
   if (minutes > 0) result += `${minutes}m`;
   return result.trim();
 };
 
-// Statut BS avec couleur dynamique selon l’heure prévue
-const renderStatutBS = (nomStatut, datePrevue) => {
-  if (!nomStatut) return <Tag>-</Tag>;
-  if (!datePrevue) return <Tag color="green">{nomStatut}</Tag>;
+// 🟢🟠🔴 Statut basé sur date prévue avec retard exact
+const renderStatutHoraire = (nom_statut_bs, date_prevue) => {
+  if (!nom_statut_bs || !date_prevue) return <Tag>-</Tag>;
 
   const now = moment();
-  const prevue = moment(datePrevue);
+  const prevue = moment(date_prevue);
   const diffMinutes = now.diff(prevue, 'minutes');
 
-  let color = 'green'; // par défaut : avant l’heure
-  if (diffMinutes > 0 && diffMinutes <= 60) color = 'orange'; // quasi 1h de retard
-  else if (diffMinutes > 60) color = 'red'; // plus d’une heure de retard
+  let color = 'green';
+  let label = `🟢 ${nom_statut_bs === 'BS validé' ? 'En attente' : ''}`;
 
-  return <Tag color={color} style={{ fontWeight: 600 }}>{nomStatut === "BS validé" ? 'En attente' : ''}</Tag>;
+  if (diffMinutes > 0 && diffMinutes <= 60) {
+    color = 'orange';
+    label = `🟠 ${nom_statut_bs === 'BS validé' ? 'En attente' : ''} (${diffMinutes} min de retard)`;
+  } else if (diffMinutes > 60) {
+    color = 'red';
+    label = `🔴 ${nom_statut_bs === 'BS validé' ? 'En attente' : ''} (${formatDuration(diffMinutes)} de retard)`;
+  }
+
+  return (
+    <Tag color={color} style={{ fontWeight: 600 }}>
+      {label}
+    </Tag>
+  );
 };
 
 const RapportVehiculeValide = ({ data }) => {
@@ -125,8 +134,8 @@ const RapportVehiculeValide = ({ data }) => {
     },
     {
       title: <Space><FieldTimeOutlined style={{ color:'orange' }} /><Text strong>Statut</Text></Space>,
-      key: 'nom_statut_bs',
-      render: (_, record) => renderStatutBS(record.nom_statut_bs, record.date_prevue),
+      key: 'statut_horaire',
+      render: (_, record) => renderStatutHoraire(record.nom_statut_bs, record.date_prevue),
     },
 /*     {
       title: 'Durée réelle',
@@ -161,7 +170,7 @@ const RapportVehiculeValide = ({ data }) => {
       <Table
         columns={columns}
         dataSource={data}
-        rowKey={(record, index) => `${record.immatriculation}-${index}`} // clé unique
+        rowKey={(record, index) => `${record.immatriculation}-${index}`}
         pagination={{ pageSize: 10 }}
         scroll={{ x: 'max-content' }}
         bordered
