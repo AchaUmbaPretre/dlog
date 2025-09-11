@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { Table, Tag, Tooltip, Space, Typography } from "antd";
+import { Table, Tag, Space, Typography, Tooltip } from "antd";
 import {
   CarOutlined,
   ApartmentOutlined,
   UserOutlined,
-  FieldTimeOutlined,
   EnvironmentOutlined,
   TrademarkOutlined,
   AppstoreOutlined,
+  FieldTimeOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 
 const { Text } = Typography;
 
-const renderTextWithTooltip = (text, color = "secondary", maxWidth = 160) => (
+// ---------- Utilitaires ----------
+const renderTextWithTooltip = (text, maxWidth = 160) => (
   <Tooltip title={text}>
     <div
       style={{
@@ -23,35 +24,43 @@ const renderTextWithTooltip = (text, color = "secondary", maxWidth = 160) => (
         textOverflow: "ellipsis",
       }}
     >
-      <Text type={color}>{text}</Text>
+      <Text>{text}</Text>
     </div>
   </Tooltip>
 );
 
-const renderDateTag = (dateStr, color = "blue") => {
-  if (!dateStr) return <Tag color="red">Aucune date</Tag>;
-  const date = moment(dateStr);
-  return <Tag color={color}>{date.format("DD-MM-YYYY HH:mm")}</Tag>;
+const formatDuration = (minutes) => {
+  if (minutes == null) return "-";
+  const totalMinutes = Math.floor(minutes); // on arrondit à l'entier
+  const days = Math.floor(totalMinutes / (24 * 60));
+  const hours = Math.floor((totalMinutes % (24 * 60)) / 60);
+  const mins = totalMinutes % 60;
+
+  let result = "";
+  if (days > 0) result += `${days}j `;
+  if (hours > 0) result += `${hours}h `;
+  result += `${mins}m`;
+
+  return result.trim();
 };
 
-/* ------------------ HOOK ------------------ */
+const getDurationColor = (elapsedMinutes, datePrevue) => {
+  if (!datePrevue) return "default";
+  const diff = moment().diff(moment(datePrevue), "minutes");
+  if (diff <= 0) return "green";
+  if (diff > 0 && diff <= 60) return "orange";
+  return "red";
+};
 
 const useElapsedTime = (startTime) => {
-  const [elapsed, setElapsed] = useState("");
+  const [elapsed, setElapsed] = useState(0); // en minutes
 
   useEffect(() => {
     if (!startTime) return;
 
     const interval = setInterval(() => {
-      const diff = moment().diff(moment(startTime), "seconds");
-      const days = Math.floor(diff / (3600 * 24));
-      const hours = Math.floor((diff % (3600 * 24)) / 3600);
-      const minutes = Math.floor((diff % 3600) / 60);
-      const seconds = diff % 60;
-
-      if (days > 0) setElapsed(`${days}j ${hours}h`);
-      else if (hours > 0) setElapsed(`${hours}h ${minutes}m`);
-      else setElapsed(`${minutes}m ${seconds}s`);
+      const diffMinutes = Math.floor(moment().diff(moment(startTime), "minutes", true)); // arrondi à l'entier
+      setElapsed(diffMinutes);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -60,64 +69,29 @@ const useElapsedTime = (startTime) => {
   return elapsed;
 };
 
-/* ------------------ COMPONENTS ------------------ */
-
-const StatutSortieTag = ({ statut_sortie, date_retour }) => {
-  const elapsed = useElapsedTime(date_retour);
-
-  if (!statut_sortie) return <Tag>-</Tag>;
-
-  let color = "green";   // par défaut à l'heure
-  let label = statut_sortie;
-  let blinkClass = "";
-
-  if (statut_sortie.includes("Retard") && date_retour) {
-    const diffMinutes = moment().diff(moment(date_retour), "minutes");
-
-    if (diffMinutes <= 30) color = "orange";              // léger
-    else if (diffMinutes <= 60) color = "red";            // moyen
-    else if (diffMinutes <= 48*60) {                      // sévère <48h
-      color = "volcano";
-      blinkClass = "blinking-tag";
-    } else color = "grey";                                // très long >48h
-
-    label = diffMinutes > 48*60 ? `${statut_sortie} (${Math.floor(diffMinutes/60/24)}j)` 
-                                 : `${statut_sortie} (${elapsed})`;
-  }
+const ChronoTag = ({ sortie_time, date_prevue }) => {
+  const elapsedMinutes = useElapsedTime(sortie_time);
+  const color = getDurationColor(elapsedMinutes, date_prevue);
 
   return (
-    <Tooltip title={date_retour ? moment(date_retour).format("DD/MM HH:mm") : "-"}>
-      <Tag color={color} className={blinkClass} style={{ fontWeight: 600 }}>
-        {label}
-      </Tag>
-    </Tooltip>
+    <Tag color={color} style={{ fontWeight: 600 }}>
+      {formatDuration(elapsedMinutes)}
+    </Tag>
   );
 };
 
+const MoyenneTag = ({ duree_moyenne_min }) => (
+  <Tag color="purple">{formatDuration(duree_moyenne_min)}</Tag>
+);
 
-const DureeRetardTag = ({ date_retour, duree_retard }) => {
-  const elapsed = useElapsedTime(date_retour);
-  const diffHours = moment().diff(moment(date_retour), "hours");
-  const displayValue = diffHours >= 48 ? duree_retard : elapsed;
-
-  const isLate = moment().isAfter(moment(date_retour));
-
-  return (
-    <Tooltip
-      title={`Retour prévu : ${moment(date_retour).format("DD/MM HH:mm")} | Durée : ${duree_retard}`}
-    >
-      <Tag
-        className={isLate && diffHours < 48 ? "blinking-tag" : ""}
-        color={isLate && diffHours < 48 ? "red" : "green"}
-        style={{ borderRadius: 6, padding: "2px 10px", fontSize: "0.9rem" }}
-      >
-        {displayValue}
-      </Tag>
-    </Tooltip>
-  );
+const EcartTag = ({ duree_reelle_min, duree_moyenne_min }) => {
+  const diff = duree_reelle_min - duree_moyenne_min;
+  let color = "green"; // gain de temps
+  if (diff > 0 && diff < 60) color = "orange"; // petit retard
+  if (diff >= 60) color = "red"; // retard significatif
+  const signe = diff > 0 ? "+" : "";
+  return <Tag color={color}>{signe}{formatDuration(Math.abs(diff))}</Tag>;
 };
-
-/* ------------------ MAIN TABLE ------------------ */
 
 const RapportVehiculeCourses = ({ course }) => {
   const columns = [
@@ -132,7 +106,6 @@ const RapportVehiculeCourses = ({ course }) => {
       dataIndex: "nom_motif_demande",
       key: "nom_motif_demande",
       render: (text) => renderTextWithTooltip(text),
-      ellipsis: true,
     },
     {
       title: (
@@ -144,7 +117,6 @@ const RapportVehiculeCourses = ({ course }) => {
       dataIndex: "nom_service",
       key: "nom_service",
       render: (text) => renderTextWithTooltip(text),
-      ellipsis: true,
     },
     {
       title: (
@@ -155,8 +127,8 @@ const RapportVehiculeCourses = ({ course }) => {
       ),
       dataIndex: "nom",
       key: "nom",
-      render: (text) => renderTextWithTooltip(text),
-      ellipsis: true,
+      render: (_, record) =>
+        renderTextWithTooltip(`${record.prenom_chauffeur} ${record.nom}`),
     },
     {
       title: (
@@ -168,7 +140,6 @@ const RapportVehiculeCourses = ({ course }) => {
       dataIndex: "nom_destination",
       key: "nom_destination",
       render: (text) => renderTextWithTooltip(text),
-      ellipsis: true,
     },
     {
       title: (
@@ -180,20 +151,17 @@ const RapportVehiculeCourses = ({ course }) => {
       dataIndex: "nom_cat",
       key: "nom_cat",
       render: (text) => renderTextWithTooltip(text),
-      ellipsis: true,
     },
     {
       title: "Immatriculation",
       dataIndex: "immatriculation",
       key: "immatriculation",
-      align: "center",
       render: (text) => <Tag color="magenta">{text}</Tag>,
     },
     {
       title: "Marque",
       dataIndex: "nom_marque",
       key: "nom_marque",
-      align: "center",
       render: (text) => (
         <Tag icon={<TrademarkOutlined />} color="blue">
           {text}
@@ -201,57 +169,39 @@ const RapportVehiculeCourses = ({ course }) => {
       ),
     },
     {
-      title: "Retour prévu",
-      dataIndex: "date_retour",
-      key: "date_retour",
-      align: "center",
-      render: (text) => renderDateTag(text),
-    },
-    {
-      title: (
-        <Space>
-          <FieldTimeOutlined style={{ color: "orange" }} />
-          <Text strong>Statut</Text>
-        </Space>
-      ),
-      key: "statut_sortie",
+      title: "Durée",
+      key: "duree_reelle_min",
       render: (_, record) => (
-        <StatutSortieTag
-          statut_sortie={record.statut_sortie}
-          date_retour={record.date_retour}
-        />
+        <ChronoTag sortie_time={record.sortie_time} date_prevue={record.date_prevue} />
       ),
     },
     {
-      title: (
-        <Space>
-          <FieldTimeOutlined style={{ color: "purple" }} />
-          <Text strong>Durée retard</Text>
-        </Space>
-      ),
-      key: "duree_retard",
-      align: "center",
+      title: "Durée moyenne",
+      key: "duree_moyenne_min",
+      render: (_, record) => <MoyenneTag duree_moyenne_min={record.duree_moyenne_min} />,
+    },
+    {
+      title: "Écart",
+      key: "ecart_min",
       render: (_, record) => (
-        <DureeRetardTag
-          date_retour={record.date_retour}
-          duree_retard={record.duree_retard}
+        <EcartTag
+          duree_reelle_min={record.duree_reelle_min}
+          duree_moyenne_min={record.duree_moyenne_min}
         />
       ),
     },
   ];
 
   return (
-    <div className="rapportVehiculeValide">
-      <Table
-        columns={columns}
-        dataSource={course}
-        rowKey={(record) => record.id_vehicule}
-        pagination={{ pageSize: 10 }}
-        scroll={{ x: "max-content" }}
-        bordered
-        size="middle"
-      />
-    </div>
+    <Table
+      columns={columns}
+      dataSource={course}
+      rowKey={(record) => record.id_vehicule}
+      pagination={{ pageSize: 10 }}
+      scroll={{ x: "max-content" }}
+      bordered
+      size="middle"
+    />
   );
 };
 
