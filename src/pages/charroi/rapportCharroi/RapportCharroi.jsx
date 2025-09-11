@@ -14,11 +14,11 @@ import { getRapportCharroiVehicule } from "../../../services/rapportService";
 const RapportCharroi = () => {
   const [activeKey, setActiveKey] = useState("1");
   const [count, setCount] = useState([]);
-  const [countAttente, setCountAttente] = useState([]);
   const [countCourse, setCountCourse] = useState([]);
   const [data, setData] = useState([]);
   const [course, setCourse] = useState([]);
   const [utilitaire, setUtilitaire] = useState([]);
+  const [countAttente, setCountAttente] = useState([]);
 
 
     const fetchData = async() => {
@@ -26,6 +26,7 @@ const RapportCharroi = () => {
             const { data } = await getRapportCharroiVehicule();
 
             setData(data.listeEnAttente);
+
             setCourse(data.listeCourse);
             setUtilitaire(data.listeUtilitaire);
             setCountAttente(data?.countAttente[0]?.Count_enattente);
