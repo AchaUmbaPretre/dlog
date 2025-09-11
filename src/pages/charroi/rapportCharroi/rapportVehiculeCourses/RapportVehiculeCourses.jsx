@@ -25,7 +25,7 @@ const renderTextWithTooltip = (text, maxWidth = 160) => (
         textOverflow: "ellipsis",
       }}
     >
-      <Text>{text}</Text>
+      <Text type="secondary">{text}</Text>
     </div>
   </Tooltip>
 );
@@ -249,9 +249,13 @@ const RapportVehiculeCourses = ({ course }) => {
 
   return (
     <div className="rapportVehiculeValide">
-        <div className="colonne_filtre">
-            <Dropdown overlay={menus} trigger={['click']}>
-                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+        <div className="colonne-filtre">
+            <Dropdown overlay={menus} trigger={['click']} placement="bottomRight" arrow>
+                <Button
+                    icon={<MenuOutlined />}
+                    className="colonne-filtre-btn"
+                    type="primary"
+                >
                     Colonnes <DownOutlined />
                 </Button>
             </Dropdown>

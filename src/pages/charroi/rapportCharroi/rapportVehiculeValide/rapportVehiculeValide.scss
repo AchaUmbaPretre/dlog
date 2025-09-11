@@ -1,14 +1,47 @@
-/* rapportVehiculeValide.scss */
 .rapportVehiculeValide {
-    .colonne_filtre{
-        padding: 10px 0;
+  .colonne-filtre {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 0;
+
+    .colonne-filtre-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #1677ff, #4096ff);
+      border: none;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.25s ease;
+
+      &:hover {
+        background: linear-gradient(135deg, #4096ff, #69b1ff);
+        transform: translateY(-1px);
+        box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      &:active {
+        transform: scale(0.97);
+      }
+
+      svg {
+        font-size: 16px;
+      }
     }
+  }
+
+  // 🔴 Clignotement critique stylé (amélioration)
   .retard-critique {
     animation: blink 1s infinite;
+    color: #ff4d4f;
+    font-weight: bold;
   }
 
   @keyframes blink {
-    0%, 50%, 100% { opacity: 1; }
-    25%, 75% { opacity: 0.3; }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
   }
 }

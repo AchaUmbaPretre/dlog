@@ -151,7 +151,7 @@ const RapportVehiculeValide = ({ data }) => {
       dataIndex:'immatriculation',
       key:'immatriculation',
       align: 'center',
-      render: (text) => <Tag color='magenta'>{text}</Tag>,
+       render: (text) => renderTextWithTooltip(text),
         ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' })
     },
     {
@@ -204,13 +204,18 @@ const RapportVehiculeValide = ({ data }) => {
 
   return (
     <div className="rapportVehiculeValide">
-        <div className="colonne_filtre">
-            <Dropdown overlay={menus} trigger={['click']}>
-                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                    Colonnes <DownOutlined />
+        <div className="colonne-filtre">
+            <Dropdown overlay={menus} trigger={['click']} placement="bottomRight" arrow>
+                <Button
+                icon={<MenuOutlined />}
+                className="colonne-filtre-btn"
+                type="primary"
+                >
+                Colonnes <DownOutlined />
                 </Button>
             </Dropdown>
         </div>
+
       <Table
         columns={columns}
         dataSource={data}
