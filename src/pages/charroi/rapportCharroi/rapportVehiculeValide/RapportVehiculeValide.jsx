@@ -1,8 +1,8 @@
 import './rapportVehiculeValide.scss';
-import { Table, Tag, Tooltip, Space, Typography, Menu } from 'antd';
+import { Table, Tag, Tooltip, Space, Button, Typography, Menu, Dropdown } from 'antd';
 import { 
   CarOutlined, ApartmentOutlined, UserOutlined, FieldTimeOutlined, 
-  EnvironmentOutlined, AppstoreOutlined, TrademarkOutlined 
+  EnvironmentOutlined, MenuOutlined, DownOutlined, AppstoreOutlined, TrademarkOutlined 
 } from '@ant-design/icons';
 import moment from 'moment';
 import { useState } from 'react';
@@ -41,7 +41,6 @@ const formatDuration = (minutesTotal) => {
   return result.trim();
 };
 
-// 🟢🟠🔴 Statut basé sur date prévue avec retard exact
 const renderStatutHoraire = (nom_statut_bs, date_prevue) => {
   if (!nom_statut_bs || !date_prevue) return <Tag>-</Tag>;
 
@@ -221,7 +220,13 @@ const RapportVehiculeValide = ({ data }) => {
 
   return (
     <div className="rapportVehiculeValide">
-
+        <div className="colonne_filtre">
+            <Dropdown overlay={menus} trigger={['click']}>
+                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                    Colonnes <DownOutlined />
+                </Button>
+            </Dropdown>
+        </div>
       <Table
         columns={columns}
         dataSource={data}
