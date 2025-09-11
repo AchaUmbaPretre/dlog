@@ -80,7 +80,6 @@ const RapportVehiculeValide = ({ data }) => {
     'Sortie prévue': true,
     'Retour prévu': true,
     'Durée moyenne' : true,
-    'Durée réelle': false,
     'Écart':false
   });
 
@@ -186,14 +185,6 @@ const RapportVehiculeValide = ({ data }) => {
       key: 'statut_horaire',
       render: (_, record) => renderStatutHoraire(record.nom_statut_bs, record.date_prevue),
         ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
-    },
-    {
-      title: 'Durée réelle',
-      dataIndex: 'duree_reelle_min',
-      key: 'duree_reelle_min',
-      align: 'center',
-      render: (val) => <Tag color="geekblue">{formatDuration(val)}</Tag>,
-        ...(columnsVisibility['Durée réelle'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Durée moyenne',
