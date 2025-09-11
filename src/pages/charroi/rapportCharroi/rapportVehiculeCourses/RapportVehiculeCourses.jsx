@@ -196,7 +196,7 @@ const RapportVehiculeCourses = ({ course }) => {
       columns={columns}
       dataSource={course}
       rowKey={(record) => record.id_vehicule}
-      pagination={{ pageSize: 10 }}
+      pagination={{ pageSize: 15 }}
       scroll={{ x: "max-content" }}
       bordered
       size="middle"
