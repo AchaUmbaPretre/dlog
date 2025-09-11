@@ -39,7 +39,7 @@ const renderStatutSortie = (statut, duree_retard) => {
 
     if (minutes <= 30) color = 'orange';
     else if (minutes <= 60) color = 'red';
-    else color = 'volcano';
+    else color = 'red';
 
     if (unit.startsWith('jour') && parseFloat(val) >= 1) isCritical = true;
   }
