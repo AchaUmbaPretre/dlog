@@ -80,7 +80,6 @@ const RapportVehiculeValide = ({ data }) => {
     'Sortie prévue': true,
     'Retour prévu': true,
     'Durée moyenne' : true,
-    'Écart':false
   });
 
     const toggleColumnVisibility = (columnName, e) => {
@@ -193,19 +192,6 @@ const RapportVehiculeValide = ({ data }) => {
       align: 'center',
       render: (val) => <Tag color="purple">{formatDuration(val)}</Tag>,
         ...(columnsVisibility['Durée moyenne'] ? {} : { className: 'hidden-column' })
-    },
-    {
-      title: 'Écart',
-      dataIndex: 'ecart_min',
-      key: 'ecart_min',
-      align: 'center',
-      render: (val) => {
-        if (val == null) return "-";
-        const color = val > 0 ? "red" : val < 0 ? "green" : "default";
-        const signe = val > 0 ? "+" : "";
-        return <Tag color={color}>{signe}{formatDuration(Math.abs(val))}</Tag>;
-      },
-        ...(columnsVisibility['Écart'] ? {} : { className: 'hidden-column' })
     }
   ];
 
