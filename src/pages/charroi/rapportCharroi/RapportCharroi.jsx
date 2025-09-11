@@ -101,9 +101,7 @@ const RapportCharroi = () => {
             tab={
               <span>
                 <ToolOutlined style={{ color: "#faad14" }} />{" "}
-                <Badge count={count} offset={[8, -2]}>
                   <span>Liste des utilitaires</span>
-                </Badge>
               </span>
             }
           >
