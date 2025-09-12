@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Switch } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Popover, Button, Divider, message, Select, Badge, List, notification, Typography, Space } from 'antd';
-import { BellOutlined, FullscreenOutlined, FullscreenExitOutlined, MoonOutlined, SunOutlined, DashOutlined, MailOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { BellOutlined, DesktopOutlined, MoonOutlined, SunOutlined, DashOutlined, MailOutlined, CheckCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import userIcon from './../../assets/user.png';
 import { useSelector } from 'react-redux';
 import { logout } from '../../services/authService';
@@ -187,8 +187,8 @@ const TopBar = () => {
           <Switch
             checked={isTvMode}
             onChange={toggleTvMode}
-            checkedChildren={<FullscreenExitOutlined />}
-            unCheckedChildren={<FullscreenOutlined />}
+            checkedChildren={<DesktopOutlined />}
+            unCheckedChildren={<DesktopOutlined />}
             style={{ marginRight: 16 }}
           />
 

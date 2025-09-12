@@ -12,6 +12,7 @@ import {
   FileTextOutlined
 } from "@ant-design/icons";
 import moment from "moment";
+import { ChronoTag, EcartTag, MoyenneTag, renderDateTag } from "../../../../utils/renderTooltip";
 
 const { Text } = Typography;
 
@@ -73,43 +74,21 @@ const useElapsedTime = (startTime) => {
   return elapsed;
 };
 
-const ChronoTag = ({ sortie_time, date_prevue }) => {
-  const elapsedMinutes = useElapsedTime(sortie_time);
-  const color = getDurationColor(elapsedMinutes, date_prevue);
-
-  return (
-    <Tag color={color} style={{ fontWeight: 600 }}>
-      {formatDuration(elapsedMinutes)}
-    </Tag>
-  );
-};
-
-const MoyenneTag = ({ duree_moyenne_min }) => (
-  <Tag color="purple">{formatDuration(duree_moyenne_min)}</Tag>
-);
-
-const EcartTag = ({ duree_reelle_min, duree_moyenne_min }) => {
-  const diff = duree_reelle_min - duree_moyenne_min;
-  let color = "green"; // gain de temps
-  if (diff > 0 && diff < 60) color = "orange"; // petit retard
-  if (diff >= 60) color = "red"; // retard significatif
-  const signe = diff > 0 ? "+" : "";
-  return <Tag color={color}>{signe}{formatDuration(Math.abs(diff))}</Tag>;
-};
 
 const RapportVehiculeCourses = ({ course }) => {
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
-        'Motif': false,
+        'Motif': true,
         'Service': true,
         'Chauffeur': true,
         'Destination' : true,
         'Type véhicule' : true,
         'Immatriculation' : false,
-        'Marque' : true,
-        'Écart': true,
+        'Marque' : false,
+        'Retour prévu' : true,
         'Durée': true,
         'Durée moyenne' : true, 
+        'Écart' : true,
         'Commentaire': false
     });
 
@@ -194,6 +173,14 @@ const RapportVehiculeCourses = ({ course }) => {
         </Tag>
       ),
         ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' })
+    },
+    {
+      title: 'Retour prévu',
+      dataIndex:'date_retour',
+      key:'date_retour',
+      align: 'center',
+      render: (text) => renderDateTag(text),
+        ...(columnsVisibility['Retour prévu'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Durée R.",

@@ -8,7 +8,7 @@ const RapportVehiculeUtilitaire = ({ utilitaire }) => {
 
   return (
     <div className="rapportVehiculeUtilitaire">
-      
+      Utilitaire
     </div>
   );
 };

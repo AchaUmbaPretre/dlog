@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons';
 import moment from 'moment';
 import { useState } from 'react';
+import { renderDateTag } from '../../../../utils/renderTooltip';
 
 const { Text } = Typography;
 
@@ -16,13 +17,6 @@ const renderTextWithTooltip = (text, color = 'secondary', maxWidth = 160) => (
     </div>
   </Tooltip>
 );
-
-// Date formatée dans un tag
-const renderDateTag = (dateStr, color = 'blue') => {
-  if (!dateStr) return <Tag color="red">Aucune date</Tag>;
-  const date = moment(dateStr);
-  return <Tag color={color}>{date.format('DD-MM-YYYY HH:mm')}</Tag>;
-};
 
 // Formate une durée en minutes en min / h / jour
 const formatDuration = (minutesTotal) => {
@@ -68,13 +62,13 @@ const renderStatutHoraire = (nom_statut_bs, date_prevue) => {
 const RapportVehiculeValide = ({ data }) => {
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
-        'Motif': false,
+        'Motif': true,
         'Service': true,
         'Chauffeur': true,
         'Destination' : true,
         'Type véhicule' : true,
-        'Immatriculation' : true,
-        'Marque' : true,
+        'Immatriculation' : false,
+        'Marque' : false,
         'Statut' : true,
         'Sortie prévue': true,
         'Retour prévu': true,

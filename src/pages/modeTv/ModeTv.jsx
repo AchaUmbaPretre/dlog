@@ -5,9 +5,9 @@ import './modeTv.scss'
 import ModeTvCardPonct from './modeTvCardPonct/ModeTvCardPonct';
 import ModeTvService from './modeTvService/ModeTvService';
 import TableauHorsTiming from './tableauHorsTiming/TableauHorsTiming';
-import TopBarModelTv from './topBarModelTv/TopBarModelTv'
 import { InfoCircleFilled, InfoCircleOutlined } from '@ant-design/icons';
 import { getRapportKiosque } from '../../services/rapportService';
+import TopBarModelTv from '../../components/topBarModelTv/TopBarModelTv';
 
 const ModeTv = () => {
     const [data, setData] = useState([]);
@@ -18,18 +18,20 @@ const ModeTv = () => {
     const [departHorsTimingRow, setDepartHorsTimingRow] = useState([]);
     const [utilisationParc, setUtilisationParc] = useState([]);
     const [departHorsTimingCompletRow, setDepartHorsTimingCompletRow] = useState([]);
+    const [motif, setMotif] = useState([]);
 
     useEffect(() => {
         const fetchData = async() => {
             const { data } = await getRapportKiosque();
             setAnomalies(data?.anomalies);
-            setData(data?.ponctualite);
+            setData(data?.total);
             setCourseService(data?.courseService);
             setCourseChauffeur(data?.courseChauffeur);
             setEvenementLiveRow(data?.evenementLive);
             setDepartHorsTimingRow(data?.departHorsTiming);
             setUtilisationParc(data?.utilisationParc);
-            setDepartHorsTimingCompletRow(data?.departHorsTimingCompletRows)
+            setDepartHorsTimingCompletRow(data?.departHorsTimingCompletRows);
+            setMotif(data.motifRows)
         }
         fetchData()
 
@@ -41,7 +43,7 @@ const ModeTv = () => {
   return (
     <>
         <div className="mode_tv">
-           <TopBarModelTv/>
+            <TopBarModelTv/>
            <div className="model_tv_wrapper">
                 <div className="model_tv_left">
                     <div className="model_tv_anomalie">
@@ -77,22 +79,12 @@ const ModeTv = () => {
                                 <span className="anomalie_badge">!</span>
                                 )}
                             </div>
-
-                            <div className="anomalie_card warning">
-                                <InfoCircleOutlined className="anomalie_icon" />
-                                <span className="anomalie_desc">
-                                Retours non appariés {anomalies.retour_non_apparie}
-                                </span>
-                                {anomalies.retour_non_apparie > 0 && (
-                                <span className="anomalie_badge">!</span>
-                                )}
-                            </div>
                             </div>
                         </div>
                     </div>
 
                     <ModeTvCardPonct datas={data} utilisationParc={utilisationParc} />
-                    <ModeTvService dataService={courseService} courseVehicule={courseChauffeur} dataTendance={data} utilisationParc={utilisationParc} />
+                    <ModeTvService dataService={courseService} courseVehicule={courseChauffeur} motif={motif} />
                 
                 </div>
                 <div className="model_tv_right">
