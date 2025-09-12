@@ -45,12 +45,15 @@ const formatDuration = (minutes) => {
   return result.trim();
 };
 
-const getDurationColor = (elapsedMinutes, datePrevue) => {
+export const getDurationColor = (elapsedMinutes, datePrevue) => {
   if (!datePrevue) return "default";
+
   const diff = moment().diff(moment(datePrevue), "minutes");
+
   if (diff <= 0) return "green";
-  if (diff > 0 && diff <= 60) return "orange";
-  return "red";
+  if (diff > 25 && diff <= 60) return "orange";
+  if (diff > 60) return "red";
+  return "green";
 };
 
 const useElapsedTime = (startTime) => {
@@ -193,7 +196,7 @@ const RapportVehiculeCourses = ({ course }) => {
         ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' })
     },
     {
-      title: "Durée",
+      title: "Durée R.",
       key: "duree_reelle_min",
       render: (_, record) => (
         <ChronoTag sortie_time={record.sortie_time} date_prevue={record.date_prevue} />
@@ -201,7 +204,7 @@ const RapportVehiculeCourses = ({ course }) => {
         ...(columnsVisibility['Durée'] ? {} : { className: 'hidden-column' })
     },
     {
-      title: "Durée M",
+      title: "Durée M.",
       key: "duree_moyenne_min",
       render: (_, record) => <MoyenneTag duree_moyenne_min={record.duree_moyenne_min} />,
         ...(columnsVisibility['Durée moyenne'] ? {} : { className: 'hidden-column' })
