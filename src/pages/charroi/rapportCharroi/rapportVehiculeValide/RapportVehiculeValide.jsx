@@ -71,7 +71,7 @@ const RapportVehiculeValide = ({ data }) => {
         'Marque' : false,
         'Statut' : true,
         'Sortie prévue': true,
-        'Retour prévu': true,
+        'Retour prévu': false,
         'Durée moyenne' : true,
         'Commentaire': false
     });
