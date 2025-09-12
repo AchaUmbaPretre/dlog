@@ -178,6 +178,13 @@ const RapportVehiculeCourses = ({ course }) => {
         ...(columnsVisibility['Type véhicule'] ? {} : { className: 'hidden-column' })
     },
     {
+      title: "Immatriculation",
+      dataIndex: "immatriculation",
+      key: "immatriculation",
+      render: (text) => <Tag color="magenta">{text}</Tag>,
+        ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' })
+    },
+    {
       title: "Marque",
       dataIndex: "nom_marque",
       key: "nom_marque",
