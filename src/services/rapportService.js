@@ -140,3 +140,7 @@ export const getRapportKiosque = async (params) => {
 export const getRapportCharroiVehicule = async (params) => {
   return axios.get(`${DOMAIN}/api/rapport/rapport_charroi_vehicule`, { params });
 };
+
+export const getRapportUtilitaire = async () => {
+  return axios.get(`${DOMAIN}/api/rapport/rapport_utilitaire`);
+};
