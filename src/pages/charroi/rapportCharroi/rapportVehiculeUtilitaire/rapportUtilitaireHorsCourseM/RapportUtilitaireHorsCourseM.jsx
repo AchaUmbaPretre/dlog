@@ -49,15 +49,15 @@ const RapportUtilitaireHorsCourseM = ({data}) => {
         render: (text) => renderTextWithTooltip(text),
         },
         {
-        title: (
-            <Space>
-            <EnvironmentOutlined style={{ color: "red" }} />
-            <Text strong>Destination</Text>
-            </Space>
-        ),
-        dataIndex: "nom_destination",
-        key: "nom_destination",
-        render: (text) => renderTextWithTooltip(text),
+            title: (
+                <Space>
+                <EnvironmentOutlined style={{ color: "red" }} />
+                <Text strong>Destination</Text>
+                </Space>
+            ),
+            dataIndex: "nom_destination",
+            key: "nom_destination",
+            render: (text) => renderTextWithTooltip(text),
         },
         {
             title: (
