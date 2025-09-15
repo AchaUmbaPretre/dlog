@@ -1,6 +1,16 @@
-import { Tag } from "antd";
+import { Tag, Typography, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
+
+const { Text } = Typography
+// Tooltip pour texte tronqué
+export const renderTextWithTooltip = (text, color = 'secondary', maxWidth = 160) => (
+  <Tooltip title={text}>
+    <div style={{ maxWidth, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <Text type={color}>{text}</Text>
+    </div>
+  </Tooltip>
+);
 
 // Date formatée dans un tag
 export const renderDateTag = (dateStr, color = 'blue') => {
@@ -8,7 +18,6 @@ export const renderDateTag = (dateStr, color = 'blue') => {
   const date = moment(dateStr);
   return <Tag color={color}>{date.format('DD-MM-YYYY HH:mm')}</Tag>;
 };
-
 
 // Formatage des minutes en j h m
 const formatDuration = (minutes) => {
