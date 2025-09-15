@@ -18,17 +18,6 @@ const RapportUtilitaireHorsCourseM = ({data}) => {
         {
         title: (
             <Space>
-            <ApartmentOutlined style={{ color: "#1d39c4" }} />
-            <Text strong>Service</Text>
-            </Space>
-        ),
-        dataIndex: "nom_service",
-        key: "nom_service",
-        render: (text) => renderTextWithTooltip(text),
-        },
-        {
-        title: (
-            <Space>
             <UserOutlined style={{ color: "orange" }} />
             <Text strong>Chauffeur</Text>
             </Space>
@@ -40,12 +29,23 @@ const RapportUtilitaireHorsCourseM = ({data}) => {
         {
             title: (
                 <Space>
-                <EnvironmentOutlined style={{ color: "red" }} />
-                <Text strong>Destination</Text>
+                    <EnvironmentOutlined style={{ color: "red" }} />
+                    <Text strong>Dernière destination</Text>
                 </Space>
             ),
-            dataIndex: "nom_destination",
-            key: "nom_destination",
+            dataIndex: "derniere_destination",
+            key: "derniere_destination",
+            render: (text) => renderTextWithTooltip(text),
+        },
+                {
+            title: (
+                <Space>
+                <CarOutlined style={{ color: "green" }} />
+                <Text strong>Immatricu.</Text>
+                </Space>
+            ),
+            dataIndex: "immatriculation",
+            key: "immatriculation",
             render: (text) => renderTextWithTooltip(text),
         },
         {
@@ -58,14 +58,6 @@ const RapportUtilitaireHorsCourseM = ({data}) => {
             dataIndex: "type_vehicule",
             key: "type_vehicule",
             render: (text) => renderTextWithTooltip(text),
-        },
-        {
-            title: "Durée réelle",
-            key: "duree_reelle_min",
-            align: 'center',
-            render: (_, record) => (
-                <ChronoTag sortie_time={record.sortie_time} date_prevue={record.date_prevue} />
-            ),
         },
         {
             title: "Durée Moyenne",
