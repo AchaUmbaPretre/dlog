@@ -64,6 +64,26 @@ const RapportUtilitaireHorsCourseM = ({data}) => {
             key: "duree_moyenne_heures",
             align: 'duree_moyenne_heures',
             render: (_, record) => <MoyenneTag duree_moyenne_min={record.duree_moyenne_min} />,
+        },
+        {
+            title: "Chrono",
+            key: "chrono_cours",
+            align: 'chrono_cours',
+            render: (_, record) => (
+                <div>
+                    {record.chrono_cours}
+                </div>
+            )
+        },
+        {
+            title: "Dispo estimee",
+            key: "dispo_estimee",
+            align: 'dispo_estimee',
+            render: (_, record) => (
+                <div>
+                    {record.dispo_estimee}
+                </div>
+            )
         }
     ];
 
