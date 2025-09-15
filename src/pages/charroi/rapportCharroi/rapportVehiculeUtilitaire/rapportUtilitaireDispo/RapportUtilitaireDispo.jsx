@@ -42,20 +42,19 @@ const RapportUtilitaireDispo = ({data}) => {
                 )
         },
         {
-        title: 'Modèle',
-        dataIndex: 'modele',
-        render : (text) => (
-            <Tag icon={<CarOutlined />} color="green">
-                {text ?? 'Aucun'}
-            </Tag>
-        )
-
-        },
-        {
             title: 'Type véhicule',
             dataIndex: 'nom_cat',
             render : (text) => (
             <Tag icon={<CarOutlined />} color="geekblue">
+                {text ?? 'Aucun'}
+            </Tag>
+            )
+        },
+        {
+            title: 'score',
+            dataIndex: 'score',
+            render : (text) => (
+            <Tag color="geekblue">
                 {text ?? 'Aucun'}
             </Tag>
             )
