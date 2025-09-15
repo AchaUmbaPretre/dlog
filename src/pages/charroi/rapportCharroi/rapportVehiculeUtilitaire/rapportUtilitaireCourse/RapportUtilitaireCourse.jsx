@@ -28,7 +28,6 @@ const RapportUtilitaireCourse = ({ data }) => {
       key: "nom",
       render: (text) => renderTextWithTooltip(text),
       ellipsis: true,
-      width: 150,
     },
     {
       title: (
@@ -41,7 +40,6 @@ const RapportUtilitaireCourse = ({ data }) => {
       key: "nom_destination",
       render: (text) => renderTextWithTooltip(text),
       ellipsis: true,
-      width: 200,
     },
     {
       title: (
@@ -54,7 +52,6 @@ const RapportUtilitaireCourse = ({ data }) => {
       key: "nom_cat",
       render: (text) => renderTextWithTooltip(text),
       ellipsis: true,
-      width: 150,
     },
     {
       title: "Durée réelle",
@@ -66,7 +63,7 @@ const RapportUtilitaireCourse = ({ data }) => {
       width: 120,
     },
     {
-      title: "Durée Moyenne",
+      title: "Durée M.",
       key: "duree_moyenne_min",
       align: 'center',
       render: (_, record) => <MoyenneTag duree_moyenne_min={record.duree_moyenne_min} />,
