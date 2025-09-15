@@ -21,6 +21,30 @@ const RapportUtilitaireCourse = ({ data }) => {
             align: "center",
             fixed: 'left',
         },
+                {
+            title: (
+                <Space>
+                    <CarOutlined style={{ color: "red" }} />
+                    <Text strong>Immatriculation</Text>
+                </Space>
+            ),
+            dataIndex: "immatriculation",
+            key: "immatriculation",
+            render: (text) => renderTextWithTooltip(text),
+            ellipsis: true,
+        },
+        {
+            title: (
+                <Space>
+                    <CarOutlined style={{ color: "green" }} />
+                    <Text strong>Véhicule</Text>
+                </Space>
+            ),
+            dataIndex: "nom_cat",
+            key: "nom_cat",
+            render: (text) => renderTextWithTooltip(text),
+            ellipsis: true,
+        },
         {
             title: (
                 <Space>
@@ -42,18 +66,6 @@ const RapportUtilitaireCourse = ({ data }) => {
             ),
             dataIndex: "nom_destination",
             key: "nom_destination",
-            render: (text) => renderTextWithTooltip(text),
-            ellipsis: true,
-        },
-        {
-            title: (
-                <Space>
-                    <CarOutlined style={{ color: "green" }} />
-                    <Text strong>Véhicule</Text>
-                </Space>
-            ),
-            dataIndex: "nom_cat",
-            key: "nom_cat",
             render: (text) => renderTextWithTooltip(text),
             ellipsis: true,
         },
@@ -86,7 +98,6 @@ const RapportUtilitaireCourse = ({ data }) => {
 
     return (
         <div style={{ padding: 20, background: "#fff", borderRadius: 12, boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
-            <h2 style={{ marginBottom: 20 }}>Véhicules en course</h2>
             <div>
                 {loading ? <Skeleton active /> : (
                     <Table
