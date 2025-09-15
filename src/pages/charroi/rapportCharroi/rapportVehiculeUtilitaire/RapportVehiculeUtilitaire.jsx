@@ -19,7 +19,7 @@ const RapportVehiculeUtilitaire = () => {
       setDispo(data.listVehiculeDispo);
       setCourse(data.listVehiculeCourse);
       setMoyenne(data.listVehiculeMoyenne);
-      
+
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -39,11 +39,11 @@ const RapportVehiculeUtilitaire = () => {
       <div className="rapportVehiculeUtilitaire">
         <div className="rapport_utilitaire_wrapper">
           <div className="rapport_utilitaire_top">
-            <RapportUtilitaireDispo/>
-            <RapportUtilitaireCourse/>
+            <RapportUtilitaireDispo data={dispo} />
+            <RapportUtilitaireCourse data={course} />
           </div>
           <div className="rapport_utilitaire_bottom">
-            <RapportUtilitaireHorsCourseM/>
+            <RapportUtilitaireHorsCourseM data={moyenne} />
           </div>
         </div>
       </div>
