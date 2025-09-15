@@ -4,7 +4,7 @@ import './rapportUtilitaireDispo.scss'
 import { useState } from 'react';
 
 const RapportUtilitaireDispo = ({data}) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
     const columns = [
         { 
