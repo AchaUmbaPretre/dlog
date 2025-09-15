@@ -172,7 +172,6 @@ const Charroi = () => {
               {text ?? 'Aucun'}
           </Tag>
         )
-  
     },
     {
       title: 'Année de fab.',

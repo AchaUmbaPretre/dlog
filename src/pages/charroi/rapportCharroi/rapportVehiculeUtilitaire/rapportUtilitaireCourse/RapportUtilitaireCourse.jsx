@@ -1,4 +1,4 @@
-import { Table, Typography, Tabs, Input, message, Dropdown, Menu, Space } from 'antd';
+import { Table, Typography, Space } from 'antd';
 import { useState } from 'react';
 import { CarOutlined, UserOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { ChronoTag, EcartTag, MoyenneTag, renderTextWithTooltip } from '../../../../../utils/renderTooltip';
@@ -6,8 +6,7 @@ import { ChronoTag, EcartTag, MoyenneTag, renderTextWithTooltip } from '../../..
 const { Text } = Typography;
 
 
-const RapportUtilitaireCourse = () => {
-    const [data, setData] = useState([]);
+const RapportUtilitaireCourse = ({data}) => {
     const [loading, setLoading] = useState(false);
 
     const columns = 
