@@ -18,17 +18,6 @@ const RapportUtilitaireHorsCourseM = ({data}) => {
         {
         title: (
             <Space>
-            <AppstoreOutlined style={{ color: "#1890ff" }} />
-            <Text strong>Motif</Text>
-            </Space>
-        ),
-        dataIndex: "nom_motif_demande",
-        key: "nom_motif_demande",
-        render: (text) => renderTextWithTooltip(text),
-        },
-        {
-        title: (
-            <Space>
             <ApartmentOutlined style={{ color: "#1d39c4" }} />
             <Text strong>Service</Text>
             </Space>
@@ -44,8 +33,8 @@ const RapportUtilitaireHorsCourseM = ({data}) => {
             <Text strong>Chauffeur</Text>
             </Space>
         ),
-        dataIndex: "nom",
-        key: "nom",
+        dataIndex: "chauffeur",
+        key: "chauffeur",
         render: (text) => renderTextWithTooltip(text),
         },
         {
@@ -66,8 +55,8 @@ const RapportUtilitaireHorsCourseM = ({data}) => {
                 <Text strong>Véhicule</Text>
                 </Space>
             ),
-            dataIndex: "nom_cat",
-            key: "nom_cat",
+            dataIndex: "type_vehicule",
+            key: "type_vehicule",
             render: (text) => renderTextWithTooltip(text),
         },
         {
@@ -80,21 +69,10 @@ const RapportUtilitaireHorsCourseM = ({data}) => {
         },
         {
             title: "Durée Moyenne",
-            key: "duree_moyenne_min",
-            align: 'center',
+            key: "duree_moyenne_heures",
+            align: 'duree_moyenne_heures',
             render: (_, record) => <MoyenneTag duree_moyenne_min={record.duree_moyenne_min} />,
-        },
-        {
-            title: "Écart",
-            key: "ecart_min",
-            align: 'center',
-            render: (_, record) => (
-                <EcartTag
-                duree_reelle_min={record.duree_reelle_min}
-                duree_moyenne_min={record.duree_moyenne_min}
-                />
-            ),
-        },
+        }
     ];
 
   return (
