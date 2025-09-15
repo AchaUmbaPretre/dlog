@@ -1,17 +1,21 @@
-import { notification, Typography } from 'antd';
+import { notification, Typography, Tabs } from 'antd';
 import './rapportVehiculeUtilitaire.scss';
 import RapportUtilitaireDispo from './rapportUtilitaireDispo/RapportUtilitaireDispo';
 import RapportUtilitaireCourse from './rapportUtilitaireCourse/RapportUtilitaireCourse';
 import RapportUtilitaireHorsCourseM from './rapportUtilitaireHorsCourseM/RapportUtilitaireHorsCourseM';
 import { getRapportUtilitaire } from '../../../../services/rapportService';
 import { useEffect, useState } from 'react';
+import { Spacing } from 'docx';
+
 
 const { Text } = Typography;
 
 const RapportVehiculeUtilitaire = () => {
   const [dispo, setDispo] = useState([]);
   const [course, setCourse] = useState([]);
-  const [moyenne, setMoyenne] = useState([])
+  const [moyenne, setMoyenne] = useState([]);
+  const [activeKey, setActiveKey] = useState("1");
+
 
   const fetchData = async () => {
     try {
@@ -34,17 +38,53 @@ const RapportVehiculeUtilitaire = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
+
   return (
     <>
       <div className="rapportVehiculeUtilitaire">
         <div className="rapport_utilitaire_wrapper">
-          <div className="rapport_utilitaire_top">
-            <RapportUtilitaireDispo data={dispo} />
-            <RapportUtilitaireCourse data={course} />
-          </div>
-          <div className="rapport_utilitaire_bottom">
-            <RapportUtilitaireHorsCourseM data={moyenne} />
-          </div>
+          <Tabs
+            activeKey={activeKey}
+            onChange={handleTabChange}
+            type="card"
+            tabPosition="top"
+          >
+            <Tabs.TabPane
+              key={1}
+              tab={
+                <span>
+                    <span>Véhicules disponibles</span>
+                </span>
+              }
+            >
+              <RapportUtilitaireDispo data={dispo} />
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+              key={2}
+              tab={
+                <span>
+                    <span>Véhicules en course</span>
+                </span>
+              }
+            >
+              <RapportUtilitaireCourse data={course} />
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+              key={3}
+              tab={
+                <span>
+                    <span>Moyennes pour les véhicules hors course</span>
+                </span>
+              }
+            >
+              <RapportUtilitaireHorsCourseM data={moyenne} />
+            </Tabs.TabPane>
+          </Tabs>
         </div>
       </div>
     </>
