@@ -60,14 +60,12 @@ const RapportUtilitaireCourse = ({ data }) => {
       render: (_, record) => (
         <ChronoTag sortie_time={record.sortie_time} date_prevue={record.date_prevue} />
       ),
-      width: 120,
     },
     {
-      title: "Durée M.",
+      title: "Durée Moyenne",
       key: "duree_moyenne_min",
       align: 'center',
       render: (_, record) => <MoyenneTag duree_moyenne_min={record.duree_moyenne_min} />,
-      width: 120,
     },
     {
       title: "Écart",
@@ -79,7 +77,6 @@ const RapportUtilitaireCourse = ({ data }) => {
           duree_moyenne_min={record.duree_moyenne_min}
         />
       ),
-      width: 100,
     },
   ];
 
