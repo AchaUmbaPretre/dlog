@@ -1,4 +1,4 @@
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs, Popover, Typography } from 'antd';
+import { Table, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs, Popover, Typography } from 'antd';
 import { useState } from 'react';
 import { ChronoTag, EcartTag, MoyenneTag, renderTextWithTooltip } from '../../../../../utils/renderTooltip';
 import { CarOutlined, EnvironmentOutlined, ApartmentOutlined, AppstoreOutlined, UserOutlined } from '@ant-design/icons';
