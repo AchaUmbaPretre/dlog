@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { CarOutlined, EnvironmentOutlined, CalendarOutlined, UserOutlined } from '@ant-design/icons';
 import { MoyenneTag, ChronoTag, renderTextWithTooltip } from '../../../../../utils/renderTooltip';
 import moment from 'moment';
+
 const { Text } = Typography;
 
 const RapportUtilitaireHorsCourseM = ({ data }) => {
@@ -12,8 +13,12 @@ const RapportUtilitaireHorsCourseM = ({ data }) => {
         {
             title: "#",
             key: "index",
-            render: (_, __, index) => <Text>{index + 1}</Text>,
-            width: 40,
+            render: (_, __, index) => (
+                <Tooltip title={`Ligne ${index + 1}`}>
+                    <Tag color="blue">{index + 1}</Tag>
+                </Tooltip>
+            ),
+            width: 50,
             align: "center",
         },
         {
@@ -74,7 +79,8 @@ const RapportUtilitaireHorsCourseM = ({ data }) => {
             title: "Chrono (h)",
             key: "chrono_cours",
             align: 'center',
-            render: (_, record) => record.chrono_cours ? <ChronoTag chrono={record.chrono_cours} /> : <Text type="secondary">—</Text>
+            render: (_, record) =>
+                record.chrono_cours ? <ChronoTag chrono={record.chrono_cours} /> : <Text type="secondary">—</Text>,
         },
         {
             title: "Disponibilité Estimée",
@@ -82,22 +88,19 @@ const RapportUtilitaireHorsCourseM = ({ data }) => {
             align: 'center',
             sorter: (a, b) => moment(a.dispo_estimee) - moment(b.dispo_estimee),
             render: (text) => {
-              if (!text) {
+                if (!text) {
+                    return (
+                        <Tag icon={<CalendarOutlined />} color="red">
+                            Aucune date
+                        </Tag>
+                    );
+                }
+                const date = moment(text);
                 return (
-                  <Tag icon={<CalendarOutlined />} color="red">
-                    Aucune date
-                  </Tag>
+                    <Tag icon={<CalendarOutlined />} color={date.isValid() ? "blue" : "red"}>
+                        {date.isValid() ? date.format('DD-MM-YYYY') : 'Date invalide'}
+                    </Tag>
                 );
-              }
-          
-              const date = moment(text);
-              const isValid = date.isValid();
-          
-              return (
-                <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-                  {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
-                </Tag>
-              );
             },
         },
         {
@@ -108,15 +111,15 @@ const RapportUtilitaireHorsCourseM = ({ data }) => {
                 let color = record.statut === 'Disponible' ? 'green' 
                           : record.statut === 'Réservé' ? 'orange' 
                           : 'red';
-                return <Tag color={color}>{record.statut}</Tag>
-            }
-        }
+                return <Tag color={color}>{record.statut}</Tag>;
+            },
+        },
     ];
 
     return (
-        <div className="rapportUtilitaire_dispo">
-            <h2 className="rapport_h2">Moyennes pour les véhicules hors course</h2>
-            <div className="rapport_utilitaire_dispo_wrapper">
+        <div style={{ padding: 20, background: "#fff", borderRadius: 12, boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}>
+            <h2 style={{ marginBottom: 20 }}>Moyennes pour les véhicules hors course</h2>
+            <div>
                 {loading ? <Skeleton active /> : (
                     <Table
                         columns={columns}
@@ -126,11 +129,12 @@ const RapportUtilitaireHorsCourseM = ({ data }) => {
                         bordered
                         size="middle"
                         pagination={{ pageSize: 10 }}
+                        scroll={{ x: 'max-content' }}
                     />
                 )}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default RapportUtilitaireHorsCourseM;
