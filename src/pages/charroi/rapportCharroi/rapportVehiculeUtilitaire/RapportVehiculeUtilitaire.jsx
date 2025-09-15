@@ -1,10 +1,10 @@
-import { Typography } from 'antd';
+import { notification, Typography } from 'antd';
 import './rapportVehiculeUtilitaire.scss';
 import RapportUtilitaireDispo from './rapportUtilitaireDispo/RapportUtilitaireDispo';
 import RapportUtilitaireCourse from './rapportUtilitaireCourse/RapportUtilitaireCourse';
 import RapportUtilitaireHorsCourseM from './rapportUtilitaireHorsCourseM/RapportUtilitaireHorsCourseM';
 import { getRapportUtilitaire } from '../../../../services/rapportService';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const { Text } = Typography;
 
