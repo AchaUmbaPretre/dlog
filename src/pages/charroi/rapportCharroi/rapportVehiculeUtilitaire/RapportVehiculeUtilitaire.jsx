@@ -1,5 +1,4 @@
-import { Table, Tooltip, Space, Typography, Tag } from 'antd';
-import { CarOutlined, EnvironmentOutlined, FieldTimeOutlined } from '@ant-design/icons';
+import { Typography } from 'antd';
 import './rapportVehiculeUtilitaire.scss';
 
 const { Text } = Typography;
