@@ -36,7 +36,7 @@ const RapportCharroi = () => {
         } catch (error) {
             notification.error({
             message: 'Erreur de chargement',
-            escription: 'Une erreur est survenue lors du chargement des données.',
+            description: 'Une erreur est survenue lors du chargement des données.',
             });
         }
     }
