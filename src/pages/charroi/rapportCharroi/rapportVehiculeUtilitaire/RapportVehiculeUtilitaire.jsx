@@ -16,7 +16,10 @@ const RapportVehiculeUtilitaire = () => {
   const fetchData = async () => {
     try {
       const { data } = await getRapportUtilitaire();
-
+      setDispo(data.listVehiculeDispo);
+      setCourse(data.listVehiculeCourse);
+      setMoyenne(data.listVehiculeMoyenne);
+      
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
