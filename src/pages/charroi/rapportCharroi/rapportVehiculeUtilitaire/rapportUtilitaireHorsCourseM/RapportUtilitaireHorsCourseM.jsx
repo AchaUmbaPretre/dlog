@@ -1,110 +1,136 @@
-import { Table, Dropdown, Menu, notification, Tag, Space, Tooltip, Popconfirm, Skeleton, Tabs, Popover, Typography } from 'antd';
+import { Table, Space, Typography, Tag, Tooltip, Skeleton } from 'antd';
 import { useState } from 'react';
-import { ChronoTag, EcartTag, MoyenneTag, renderTextWithTooltip } from '../../../../../utils/renderTooltip';
-import { CarOutlined, EnvironmentOutlined, ApartmentOutlined, AppstoreOutlined, UserOutlined } from '@ant-design/icons';
+import { CarOutlined, EnvironmentOutlined, CalendarOutlined, UserOutlined } from '@ant-design/icons';
+import { MoyenneTag, ChronoTag, renderTextWithTooltip } from '../../../../../utils/renderTooltip';
+import moment from 'moment';
 const { Text } = Typography;
 
-const RapportUtilitaireHorsCourseM = ({data}) => {
+const RapportUtilitaireHorsCourseM = ({ data }) => {
     const [loading, setLoading] = useState(false);
-    
+
     const columns = [
         {
-        title: "#",
-        key: "index",
-        render: (_, __, index) => index + 1,
-        width: 60,
-        align: "center",
-        },
-        {
-        title: (
-            <Space>
-            <UserOutlined style={{ color: "orange" }} />
-            <Text strong>Chauffeur</Text>
-            </Space>
-        ),
-        dataIndex: "chauffeur",
-        key: "chauffeur",
-        render: (text) => renderTextWithTooltip(text),
+            title: "#",
+            key: "index",
+            render: (_, __, index) => <Text>{index + 1}</Text>,
+            width: 40,
+            align: "center",
         },
         {
             title: (
                 <Space>
-                    <EnvironmentOutlined style={{ color: "red" }} />
+                    <UserOutlined style={{ color: "#fa8c16" }} />
+                    <Text strong>Chauffeur</Text>
+                </Space>
+            ),
+            dataIndex: "chauffeur",
+            key: "chauffeur",
+            render: (text) => renderTextWithTooltip(text),
+            ellipsis: true,
+        },
+        {
+            title: (
+                <Space>
+                    <EnvironmentOutlined style={{ color: "#f5222d" }} />
                     <Text strong>Dernière destination</Text>
                 </Space>
             ),
             dataIndex: "derniere_destination",
             key: "derniere_destination",
             render: (text) => renderTextWithTooltip(text),
+            ellipsis: true,
         },
-                {
+        {
             title: (
                 <Space>
-                <CarOutlined style={{ color: "green" }} />
-                <Text strong>Immatricu.</Text>
+                    <CarOutlined style={{ color: "#52c41a" }} />
+                    <Text strong>Immatriculation</Text>
                 </Space>
             ),
             dataIndex: "immatriculation",
             key: "immatriculation",
             render: (text) => renderTextWithTooltip(text),
+            ellipsis: true,
         },
         {
             title: (
                 <Space>
-                <CarOutlined style={{ color: "green" }} />
-                <Text strong>Véhicule</Text>
+                    <CarOutlined style={{ color: "#1890ff" }} />
+                    <Text strong>Type véhicule</Text>
                 </Space>
             ),
             dataIndex: "type_vehicule",
             key: "type_vehicule",
             render: (text) => renderTextWithTooltip(text),
+            ellipsis: true,
         },
         {
-            title: "Durée Moyenne",
+            title: "Durée Moyenne (h)",
             key: "duree_moyenne_heures",
-            align: 'duree_moyenne_heures',
-            render: (_, record) => <MoyenneTag duree_moyenne_min={record.duree_moyenne_min} />,
+            align: 'center',
+            render: (_, record) => <MoyenneTag duree_moyenne_min={record.duree_moyenne_heures} />,
         },
         {
-            title: "Chrono",
+            title: "Chrono (h)",
             key: "chrono_cours",
-            align: 'chrono_cours',
-            render: (_, record) => (
-                <div>
-                    {record.chrono_cours}
-                </div>
-            )
+            align: 'center',
+            render: (_, record) => record.chrono_cours ? <ChronoTag chrono={record.chrono_cours} /> : <Text type="secondary">—</Text>
         },
         {
-            title: "Dispo estimee",
+            title: "Disponibilité Estimée",
             key: "dispo_estimee",
-            align: 'dispo_estimee',
-            render: (_, record) => (
-                <div>
-                    {record.dispo_estimee}
-                </div>
-            )
+            align: 'center',
+            sorter: (a, b) => moment(a.dispo_estimee) - moment(b.dispo_estimee),
+            render: (text) => {
+              if (!text) {
+                return (
+                  <Tag icon={<CalendarOutlined />} color="red">
+                    Aucune date
+                  </Tag>
+                );
+              }
+          
+              const date = moment(text);
+              const isValid = date.isValid();
+          
+              return (
+                <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                  {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
+                </Tag>
+              );
+            },
+        },
+        {
+            title: "Statut",
+            key: "statut",
+            align: 'center',
+            render: (_, record) => {
+                let color = record.statut === 'Disponible' ? 'green' 
+                          : record.statut === 'Réservé' ? 'orange' 
+                          : 'red';
+                return <Tag color={color}>{record.statut}</Tag>
+            }
         }
     ];
 
-  return (
-    <>
+    return (
         <div className="rapportUtilitaire_dispo">
             <h2 className="rapport_h2">Moyennes pour les véhicules hors course</h2>
             <div className="rapport_utilitaire_dispo_wrapper">
-                <Table
-                  columns={columns}
-                  dataSource={data}
-                  rowKey="id_vehicule"
-                  rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                  bordered
-                  size="small" 
-                  loading={loading}
-                />
+                {loading ? <Skeleton active /> : (
+                    <Table
+                        columns={columns}
+                        dataSource={data}
+                        rowKey="id_vehicule"
+                        rowClassName={(record, index) => index % 2 === 0 ? 'odd-row' : 'even-row'}
+                        bordered
+                        size="middle"
+                        pagination={{ pageSize: 10 }}
+                    />
+                )}
             </div>
         </div>
-    </>
-  )
+    )
 }
 
-export default RapportUtilitaireHorsCourseM
+export default RapportUtilitaireHorsCourseM;
