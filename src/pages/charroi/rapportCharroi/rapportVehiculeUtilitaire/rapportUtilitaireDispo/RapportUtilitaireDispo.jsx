@@ -95,7 +95,7 @@ const RapportUtilitaireDispo = ({ data }) => {
                         rowClassName={(record, index) => index % 2 === 0 ? 'odd-row' : 'even-row'}
                         bordered
                         size="middle"
-                        pagination={{ pageSize: 5 }}
+                        pagination={{ pageSize: 15 }}
                     />
                 )}
             </div>
