@@ -52,7 +52,7 @@ const Charroi = () => {
           getFalcon()
         ])
         setData(vehiculeData.data.data);
-        setFalcon(falconData.data[0].items)
+        setFalcon(falconData.data)
         setLoading(false);
       } catch (error) {
         notification.error({
