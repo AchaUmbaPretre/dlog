@@ -144,3 +144,8 @@ export const getRapportCharroiVehicule = async (params) => {
 export const getRapportUtilitaire = async () => {
   return axios.get(`${DOMAIN}/api/rapport/rapport_utilitaire`);
 };
+
+export const getFalcon = async () => {
+  return axios.get('http://31.207.34.171/api/get_devices?&lang=fr&user_api_hash=$2y$10$FbpbQMzKNaJVnv0H2RbAfel1NMjXRUoCy8pZUogiA/bvNNj1kdcY.'
+  )
+}

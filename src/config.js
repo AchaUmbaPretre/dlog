@@ -6,9 +6,7 @@ const TOKEN = currentUser?.accessToken;
 
 const config = {
     
-REACT_APP_SERVER_DOMAIN : 'http://localhost:8080',
-
-SERVER_FALCON : 'http://31.207.34.171/api/get_devices?&lang=fr&user_api_hash=$2y$10$FbpbQMzKNaJVnv0H2RbAfel1NMjXRUoCy8pZUogiA/bvNNj1kdcY'
+REACT_APP_SERVER_DOMAIN : 'http://localhost:8080'
 
 /*   REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com'
  */ };
