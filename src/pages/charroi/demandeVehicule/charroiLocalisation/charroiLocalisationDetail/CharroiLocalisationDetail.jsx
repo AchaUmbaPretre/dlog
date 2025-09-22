@@ -9,13 +9,6 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-rotatedmarker';
 import vehiculeIconImg from './../../../../../assets/vehicule01.png';
 
-// Icônes alertes
-const alertIcons = {
-  speed: L.icon({ iconUrl: '/assets/icons/speed.png', iconSize: [30, 30], iconAnchor: [15, 30] }),
-  geofence: L.icon({ iconUrl: '/assets/icons/geofence.png', iconSize: [30, 30], iconAnchor: [15, 30] }),
-  battery: L.icon({ iconUrl: '/assets/icons/battery.png', iconSize: [30, 30], iconAnchor: [15, 30] }),
-  default: L.icon({ iconUrl: '/assets/icons/alert.png', iconSize: [30, 30], iconAnchor: [15, 30] }),
-};
 
 // Vehicle marker avec interpolation fluide et rotation
 const VehicleMarker = ({ vehicle }) => {
