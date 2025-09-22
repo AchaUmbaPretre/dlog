@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { CarOutlined, EyeOutlined, WarningOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
-import { notification, Typography, Space, Tag, Input, Tooltip, Table, Button, Badge } from 'antd';
+import { notification, Typography, Modal, Space, Tag, Input, Tooltip, Table, Button, Badge } from 'antd';
 import moment from 'moment';
-import { reverseGeocode, zoneAutorisee } from '../../../../services/geocodeService';
+import { getAlerts, getEngineStatus, getOdometer, reverseGeocode, zoneAutorisee } from '../../../../services/geocodeService';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -17,6 +17,11 @@ const CharroiLocalisation = () => {
   });
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
+
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
 
   const fetchData = async () => {
     try {
@@ -51,54 +56,6 @@ const CharroiLocalisation = () => {
 
   const handleDetail = (id) => {
     console.log("Voir détails du véhicule :", id);
-  };
-
-  const getOdometer = (sensors = []) => {
-    const odo = sensors.find((s) => s.type === "odometer");
-    return odo ? odo.value : "-";
-  };
-
-  const getEngineStatus = (sensors = []) => {
-    const engine = sensors.find((s) => s.type === "engine");
-    return engine?.value === "On" ? "ON" : "OFF";
-  };
-
-  const getBatteryLevel = (sensors = []) => {
-    const battery = sensors.find((s) => s.type === "battery");
-    return battery ? battery.value : null;
-  };
-
-  // --- Fonction pour détecter les alertes ---
-  const getAlerts = (record) => {
-    let alerts = [];
-
-    // Survitesse
-    if (record.speed > 100) {
-      alerts.push(<Tag color="red" icon={<WarningOutlined />}>Survitesse</Tag>);
-    }
-
-    // Hors ligne
-    if (record.online === "offline") {
-      alerts.push(<Tag color="volcano" icon={<WarningOutlined />}>Perte Signal</Tag>);
-    }
-
-    // Geofencing
-    if (
-      record.lat < zoneAutorisee.latMin ||
-      record.lat > zoneAutorisee.latMax ||
-      record.lng < zoneAutorisee.lngMin ||
-      record.lng > zoneAutorisee.lngMax
-    ) {
-      alerts.push(<Tag color="orange" icon={<WarningOutlined />}>Hors Zone</Tag>);
-    }
-
-    // Batterie faible
-    const battery = getBatteryLevel(record.sensors);
-    if (battery !== null && battery < 20) {
-      alerts.push(<Tag color="blue" icon={<WarningOutlined />}>Batterie Faible</Tag>);
-    }
-
-    return alerts.length > 0 ? alerts : <Tag color="default">Aucune</Tag>;
   };
 
   const columns = [
@@ -257,7 +214,7 @@ const CharroiLocalisation = () => {
         width={1000}
         centered
       >
-        <PermissionTemplate idTemplate={idTemplate} />
+        {/* <PermissionTemplate idTemplate={idTemplate} /> */}
       </Modal>
     </div>
   );
