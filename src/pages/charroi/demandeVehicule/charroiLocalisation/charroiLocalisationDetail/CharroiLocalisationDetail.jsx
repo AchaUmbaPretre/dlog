@@ -17,10 +17,10 @@ const CharroiLocalisationDetail = ({id}) => {
             </div>
             <div className="charroi_local">
                 <div className="charroi_local_left">
-
+                    CARTE 
                 </div>
                 <div className="charroi_local_right">
-
+                
                 </div>
             </div>
         </div>

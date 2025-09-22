@@ -5,5 +5,38 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        .charroi_top_left{
+            .charroi_h3{
+                font-size: 1rem;
+            }
+            .charroi_desc{
+                font-size: .7rem;
+                color: #555;
+            }
+        }
+        .charroi_top_right{
+            .charroi_h3{
+                font-size: 1rem;
+            }
+            .charroi_desc{
+                font-size: .7rem;
+                color: #555;
+            }
+        }
+    }
+    .charroi_local{
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        .charroi_local_left{
+            flex: 1;
+            border-radius: 16px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+        }
+        .charroi_local_right{
+            flex: 1;
+            border-radius: 16px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+        }
     }
 }
