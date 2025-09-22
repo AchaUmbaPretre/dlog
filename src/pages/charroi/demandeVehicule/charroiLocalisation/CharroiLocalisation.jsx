@@ -17,6 +17,7 @@ const CharroiLocalisation = () => {
   });
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
+  const [id, setId] = useState(null)
 
 
   const closeAllModals = () => {
@@ -54,8 +55,14 @@ const CharroiLocalisation = () => {
     fetchData();
   }, []);
 
+ const openModal = (type, id = '') => {
+    closeAllModals();
+    setModalType(type);
+    setId(id);
+  };
+
   const handleDetail = (id) => {
-    console.log("Voir détails du véhicule :", id);
+    openModal('detail', id)
   };
 
   const columns = [
@@ -208,7 +215,7 @@ const CharroiLocalisation = () => {
 
       <Modal
         title=""
-        visible={modalType === 'Permission'}
+        visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
         width={1000}
