@@ -20,7 +20,31 @@ const CharroiLocalisationDetail = ({id}) => {
                     CARTE 
                 </div>
                 <div className="charroi_local_right">
-                
+                    <h1 className='charroi_h1'>45 Km/h</h1>
+                    <div className='charroi_row'>
+                        <InteractionOutlined />
+                        <span className="name">Statut : En mouvement</span>
+                    </div>
+                    <div className='charroi_row'>
+                        <InteractionOutlined />
+                        <span className="name">Contact(ACC) : ON</span>
+                    </div>
+                    <div className='charroi_row'>
+                        <InteractionOutlined />
+                        <span className="name">Statut : En mouvement</span>
+                    </div>
+                    <div className='charroi_row'>
+                        <InteractionOutlined />
+                        <span className="name">Statut : En mouvement</span>
+                    </div>
+                    <div className='charroi_row'>
+                        <InteractionOutlined />
+                        <span className="name">Statut : En mouvement</span>
+                    </div>
+                    <div className='charroi_row'>
+                        <InteractionOutlined />
+                        <span className="name">Statut : En mouvement</span>
+                    </div>
                 </div>
             </div>
         </div>
