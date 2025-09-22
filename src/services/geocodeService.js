@@ -11,3 +11,11 @@ export const reverseGeocode = async (lat, lng) => {
     return `${lat}, ${lng}`;
   }
 };
+
+// --- Zone de geofencing (ex: Kinshasa) ---
+export const zoneAutorisee = {
+  latMin: -4.6,
+  latMax: -4.3,
+  lngMin: 15.1,
+  lngMax: 15.5,
+};

@@ -654,7 +654,7 @@ const DemandeVehicule = () => {
                 <TabPane
                     tab={
                         <span>
-                        🗺️ Localisation
+                        📍 Localisation
                         </span>
                     }
                     key="13"
