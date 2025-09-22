@@ -15,7 +15,7 @@ import {
   Tooltip as ChartTooltip,
   Legend,
 } from 'chart.js';
-import vehiculeIconImg from './../../../../../../assets/vehicule01.png';
+import vehiculeIconImg from './../../../../../assets/vehicule01.png';
 import { getFalcon } from '../../../../../services/rapportService';
 import './charroiLocalisationDetail.scss';
 
