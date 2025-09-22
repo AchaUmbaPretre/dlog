@@ -3,7 +3,7 @@ import './charroiLocalisationDetail.scss'
 
 const CharroiLocalisationDetail = ({id}) => {
   return (
-    <div>CharroiLocalisationDetail</div>
+    <div>CharroiLocalisationDetail {id}</div>
   )
 }
 

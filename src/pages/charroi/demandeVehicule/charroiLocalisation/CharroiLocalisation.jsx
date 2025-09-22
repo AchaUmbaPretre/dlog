@@ -4,6 +4,7 @@ import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Modal, Space, Tag, Input, Tooltip, Table, Button, Badge } from 'antd';
 import moment from 'moment';
 import { getAlerts, getEngineStatus, getOdometer, reverseGeocode, zoneAutorisee } from '../../../../services/geocodeService';
+import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -221,7 +222,7 @@ const CharroiLocalisation = () => {
         width={1000}
         centered
       >
-        {/* <PermissionTemplate idTemplate={idTemplate} /> */}
+        <CharroiLocalisationDetail id={id} />
       </Modal>
     </div>
   );
