@@ -1,5 +1,7 @@
 import React from 'react'
 import './charroiLocalisationDetail.scss'
+import { InteractionOutlined, UserOutlined, ClockCircleOutlined } from '@ant-design/icons';
+
 
 const CharroiLocalisationDetail = ({id}) => {
   return (
@@ -26,24 +28,33 @@ const CharroiLocalisationDetail = ({id}) => {
                         <span className="name">Statut : En mouvement</span>
                     </div>
                     <div className='charroi_row'>
-                        <InteractionOutlined />
+                        <UserOutlined />
                         <span className="name">Contact(ACC) : ON</span>
                     </div>
                     <div className='charroi_row'>
-                        <InteractionOutlined />
-                        <span className="name">Statut : En mouvement</span>
+                        <ClockCircleOutlined />
+                        <span className="name"> Online depuis : 12min</span>
                     </div>
                     <div className='charroi_row'>
                         <InteractionOutlined />
-                        <span className="name">Statut : En mouvement</span>
+                        <span className="name">Distance du jour : 37 km</span>
                     </div>
                     <div className='charroi_row'>
                         <InteractionOutlined />
-                        <span className="name">Statut : En mouvement</span>
+                        <span className="name">Odometre virtuel : 45 760 Km</span>
+                    </div>
+                    <h2 className="title">Alerte</h2>
+                    <div className='charroi_row'>
+                        <InteractionOutlined />
+                        <span className="name">Survitesse : 2 fois</span>
                     </div>
                     <div className='charroi_row'>
                         <InteractionOutlined />
-                        <span className="name">Statut : En mouvement</span>
+                        <span className="name">Geofence : sortie zone cobra (15min)</span>
+                    </div>
+                    <div className='charroi_row'>
+                        <InteractionOutlined />
+                        <span className="name"> Batterie traceur : OK</span>
                     </div>
                 </div>
             </div>
