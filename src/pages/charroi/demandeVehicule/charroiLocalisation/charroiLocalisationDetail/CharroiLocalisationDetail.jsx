@@ -1,22 +1,38 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Polyline, Popup, useMap, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-rotatedmarker';
+import { Card, Divider, Tag, notification, Spin, Alert } from 'antd';
 import { InteractionOutlined, UserOutlined, ClockCircleOutlined, DashboardOutlined, AlertOutlined } from '@ant-design/icons';
-import { notification, Spin, Alert, Card, Divider, Tag } from 'antd';
-import vehiculeIconImg from './../../../../../assets/vehicule01.png';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip as ChartTooltip,
+  Legend,
+} from 'chart.js';
+import vehiculeIconImg from './../../../../../../assets/vehicule01.png';
 import { getFalcon } from '../../../../../services/rapportService';
 import './charroiLocalisationDetail.scss';
 
-// ---------------- VehicleMarker ----------------
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ChartTooltip, Legend);
+
+const getSpeedColor = (speed) => {
+  if (speed <= 20) return 'green';
+  if (speed <= 50) return 'orange';
+  return 'red';
+};
+
 const VehicleMarker = ({ vehicle }) => {
   const markerRef = useRef(null);
   const lastPos = useRef([vehicle.lat, vehicle.lng]);
   const targetPos = useRef([vehicle.lat, vehicle.lng]);
   const map = useMap();
 
-  // Mise à jour de la position cible uniquement si online
   useEffect(() => {
     if (!vehicle) return;
     if (vehicle.online === "online") {
@@ -25,7 +41,6 @@ const VehicleMarker = ({ vehicle }) => {
     }
   }, [vehicle, map]);
 
-  // Animation fluide de la position du véhicule
   useEffect(() => {
     const animate = () => {
       if (!markerRef.current) {
@@ -45,11 +60,8 @@ const VehicleMarker = ({ vehicle }) => {
           const newLng = lngPrev + deltaLng;
 
           markerRef.current.setLatLng([newLat, newLng]);
-
-          // Rotation selon la direction
           const angle = Math.atan2(latTarget - latPrev, lngTarget - lngPrev) * (180 / Math.PI);
           markerRef.current.setRotationAngle(angle);
-
           lastPos.current = [newLat, newLng];
         }
       }
@@ -64,6 +76,7 @@ const VehicleMarker = ({ vehicle }) => {
     iconSize: [40, 40],
     iconAnchor: [20, 20],
     popupAnchor: [0, -20],
+    className: `vehicle-marker-${getSpeedColor(vehicle.speed)}`,
   });
 
   return (
@@ -86,8 +99,10 @@ const VehicleMarker = ({ vehicle }) => {
   );
 };
 
-// ---------------- CharroiLeaflet ----------------
 const CharroiLeaflet = ({ vehicle }) => {
+  const tailPositions = vehicle.tail?.map(t => [parseFloat(t.lat), parseFloat(t.lng)]) || [];
+  const tailColors = tailPositions.map((_, idx) => `hsl(${(idx / tailPositions.length) * 120}, 70%, 50%)`);
+
   return (
     <MapContainer
       center={[vehicle.lat, vehicle.lng]}
@@ -102,22 +117,38 @@ const CharroiLeaflet = ({ vehicle }) => {
 
       <VehicleMarker vehicle={vehicle} />
 
-      {vehicle.tail?.length > 0 && (
-        <Polyline
-          positions={vehicle.tail.map(t => [parseFloat(t.lat), parseFloat(t.lng)])}
-          color={vehicle.tail_color || 'blue'}
-          weight={4}
-        />
-      )}
+      {tailPositions.map((pos, i) => {
+        if (i === tailPositions.length - 1) return null;
+        return (
+          <Polyline
+            key={i}
+            positions={[tailPositions[i], tailPositions[i + 1]]}
+            color={tailColors[i]}
+            weight={4}
+          />
+        );
+      })}
+
+      {vehicle.latest_positions?.split(';').map((pos, i) => {
+        const [lat, lng] = pos.split('/');
+        return (
+          <Marker key={i} position={[parseFloat(lat), parseFloat(lng)]}>
+            <Tooltip direction="top" offset={[0, -10]} opacity={0.9} permanent={false}>
+              #{i + 1}: Lat {lat}, Lng {lng}, Vitesse: {vehicle.speed} km/h
+            </Tooltip>
+          </Marker>
+        );
+      })}
     </MapContainer>
   );
 };
 
-// ---------------- CharroiLocalisationDetail ----------------
 const CharroiLocalisationDetail = ({ id }) => {
   const [vehicle, setVehicle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [speedData, setSpeedData] = useState([]);
+  const [engineData, setEngineData] = useState([]);
 
   useEffect(() => {
     let interval;
@@ -129,6 +160,10 @@ const CharroiLocalisationDetail = ({ id }) => {
         const selected = items.find(v => v.id === id);
         if (!selected) throw new Error('Véhicule introuvable');
         setVehicle(selected);
+
+        // Mise à jour graphique
+        setSpeedData(prev => [...prev.slice(-9), selected.speed || 0]);
+        setEngineData(prev => [...prev.slice(-9), selected.sensors?.find(s => s.type === 'engine')?.val ? 1 : 0]);
       } catch (err) {
         setError(err.message || 'Erreur lors du chargement des données.');
         notification.error({
@@ -141,7 +176,7 @@ const CharroiLocalisationDetail = ({ id }) => {
     };
 
     fetchData();
-    interval = setInterval(fetchData, 2000); // polling toutes les 2s
+    interval = setInterval(fetchData, 2000);
     return () => clearInterval(interval);
   }, [id]);
 
@@ -154,6 +189,36 @@ const CharroiLocalisationDetail = ({ id }) => {
       {s.name}: {s.value}
     </Tag>
   ));
+
+  const chartData = {
+    labels: speedData.map((_, i) => i + 1),
+    datasets: [
+      {
+        label: 'Vitesse (km/h)',
+        data: speedData,
+        fill: false,
+        borderColor: 'blue',
+        tension: 0.3,
+      },
+      {
+        label: 'Moteur (On=1, Off=0)',
+        data: engineData,
+        fill: false,
+        borderColor: 'red',
+        tension: 0.3,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+    },
+    scales: {
+      y: { min: 0 },
+    },
+  };
 
   return (
     <div className="charroi_local_detail">
@@ -186,6 +251,10 @@ const CharroiLocalisationDetail = ({ id }) => {
             <p><DashboardOutlined /> Odomètre virtuel: {vehicle.odometer || 0} km</p>
             <p><AlertOutlined /> Alarm: {vehicle.alarm}</p>
             {sensors && <div className="sensors">{sensors}</div>}
+          </Card>
+
+          <Card title="Graphique vitesse / moteur" bordered style={{ marginBottom: 20 }}>
+            <Line data={chartData} options={chartOptions} />
           </Card>
 
           <Card title="Dernières positions" bordered>
