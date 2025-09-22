@@ -20,6 +20,7 @@ import SortieEntree from '../affectationDemande/sortieEntree/SortieEntree';
 import SecuriteVisiteur from '../securite/securiteVisiteur/SecuriteVisiteur';
 import VisiteurPieton from '../securite/securiteVisiteur/visiteurPieton/VisiteurPieton';
 import BonSortiePerso from '../bonSortiePerso/BonSortiePerso';
+import CharroiLocalisation from './charroiLocalisation/CharroiLocalisation';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -648,6 +649,17 @@ const DemandeVehicule = () => {
                     key="12"
                 >
                     <Destination/>
+                </TabPane>
+
+                <TabPane
+                    tab={
+                        <span>
+                        🗺️ Localisation
+                        </span>
+                    }
+                    key="13"
+                >
+                    <CharroiLocalisation/>
                 </TabPane>
             </Tabs>
 
