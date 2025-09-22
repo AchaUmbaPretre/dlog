@@ -47,12 +47,10 @@ const Charroi = () => {
 
     const fetchData = async () => {
       try {
-        const [ vehiculeData, falconData] = await Promise.all([
+        const [ vehiculeData ] = await Promise.all([
           getVehicule(),
-          getFalcon()
         ])
         setData(vehiculeData.data.data);
-        setFalcon(falconData.data)
         setLoading(false);
       } catch (error) {
         notification.error({
