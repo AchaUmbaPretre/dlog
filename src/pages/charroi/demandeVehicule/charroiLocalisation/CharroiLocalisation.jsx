@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CarOutlined, EyeOutlined, WarningOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Space, Tag, Input, Tooltip, Table, Button, Badge } from 'antd';
@@ -8,7 +8,6 @@ import { reverseGeocode, zoneAutorisee } from '../../../../services/geocodeServi
 const { Text } = Typography;
 const { Search } = Input;
 
-
 const CharroiLocalisation = () => {
   const [falcon, setFalcon] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,6 +16,7 @@ const CharroiLocalisation = () => {
     pageSize: 20,
   });
   const [searchValue, setSearchValue] = useState('');
+  const [modalType, setModalType] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -248,6 +248,17 @@ const CharroiLocalisation = () => {
           rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
         />
       </div>
+
+      <Modal
+        title=""
+        visible={modalType === 'Permission'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <PermissionTemplate idTemplate={idTemplate} />
+      </Modal>
     </div>
   );
 };
