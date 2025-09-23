@@ -28,30 +28,50 @@ const CharroiLocalisation = () => {
 
   const fetchData = async () => {
     try {
-      const [falconData] = await Promise.all([getFalcon()]);
-      let items = falconData.data[0].items;
+        const [falconData] = await Promise.all([getFalcon()]);
+        let items = falconData.data[0].items;
 
-      // Pré-calcul des adresses lisibles
-      const itemsWithAddress = await Promise.all(
+        // Récupération du cache existant depuis localStorage
+        const addressCache = JSON.parse(localStorage.getItem('vehicleAddressCache') || '{}');
+
+        const itemsWithAddress = await Promise.all(
         items.map(async (item) => {
-          if (!item.address || item.address === "-") {
-            const addr = await reverseGeocode(item.lat, item.lng);
-            return { ...item, address: addr };
-          }
-          return item;
-        })
-      );
+            const key = `${item.lat}_${item.lng}`;
 
-      setFalcon(itemsWithAddress);
-      setLoading(false);
+            // Si adresse déjà présente et valide, on garde
+            if (item.address && item.address !== "-") return item;
+
+            // Si adresse en cache, on la récupère
+            if (addressCache[key]) return { ...item, address: addressCache[key] };
+
+            try {
+            const addr = await reverseGeocode(item.lat, item.lng);
+            const finalAddress = addr && addr.trim() !== "" ? addr : "Adresse non disponible";
+
+            // Mise à jour du cache
+            addressCache[key] = finalAddress;
+            localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache));
+
+            return { ...item, address: finalAddress };
+            } catch (err) {
+            console.error("Erreur reverse geocoding:", err);
+            return { ...item, address: "Adresse non disponible" };
+            }
+        })
+        );
+
+        setFalcon(itemsWithAddress);
+        setLoading(false);
     } catch (error) {
-      notification.error({
+        console.error("Erreur fetchData:", error);
+        notification.error({
         message: 'Erreur de chargement',
         description: 'Impossible de charger les données véhicules.',
-      });
-      setLoading(false);
+        });
+        setLoading(false);
     }
-  };
+    };
+
 
   useEffect(() => {
     fetchData();
