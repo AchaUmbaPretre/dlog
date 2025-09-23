@@ -82,10 +82,9 @@ const CharroiLocalisation = () => {
     // Chargement initial
     fetchData();
 
-    // Rafraîchissement toutes les 10 secondes
     const interval = setInterval(() => {
       fetchData();
-    }, 10000); // 10 secondes
+    }, 5000);
 
     // Nettoyage à la destruction du composant
     return () => clearInterval(interval);
