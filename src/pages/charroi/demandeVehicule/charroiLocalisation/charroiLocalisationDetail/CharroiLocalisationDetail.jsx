@@ -15,7 +15,7 @@ import {
   Tooltip as ChartTooltip,
   Legend,
 } from 'chart.js';
-import vehiculeIconImg from './../../../../../assets/vehicule01.png';
+import vehiculeIconImg from './../../../../../assets/img02.png';
 import { getFalcon } from '../../../../../services/rapportService';
 import './charroiLocalisationDetail.scss';
 
@@ -113,12 +113,13 @@ const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
   }, [vehicle.online]);
 
   const vehicleIcon = L.icon({
-    iconUrl: vehiculeIconImg,
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -20],
-    className: `vehicle-marker-${getSpeedColor(vehicle.speed)}`,
-  });
+  iconUrl: vehiculeIconImg,
+  iconSize: [60, 60],         // taille idéale pour un véhicule
+  iconAnchor: [30, 30],       // centre de l’icône
+  popupAnchor: [0, -20],      // popup un peu au-dessus
+  className: `vehicle-marker-${getSpeedColor(vehicle.speed)}`,
+});
+
 
   return (
     <Marker
