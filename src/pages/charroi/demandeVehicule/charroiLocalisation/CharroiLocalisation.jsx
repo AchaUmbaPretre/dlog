@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { CarOutlined, EyeOutlined, WarningOutlined } from '@ant-design/icons';
+import { CarOutlined, EyeOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
-import { notification, Typography, Modal, Space, Tag, Input, Tooltip, Table, Button, Badge } from 'antd';
+import { notification, Typography, Tooltip, Modal, Space, Tag, Input, Table, Button, Badge } from 'antd';
 import moment from 'moment';
-import { getAlerts, getEngineStatus, getOdometer, reverseGeocode, zoneAutorisee } from '../../../../services/geocodeService';
+import { getAlerts, getEngineStatus, getOdometer, reverseGeocode } from '../../../../services/geocodeService';
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
 import { formatStopDuration } from '../../../../utils/renderTooltip';
 
@@ -13,79 +13,82 @@ const { Search } = Input;
 const CharroiLocalisation = () => {
   const [falcon, setFalcon] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 20,
-  });
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
-  const [id, setId] = useState(null)
+  const [id, setId] = useState(null);
 
-
-  const closeAllModals = () => {
-    setModalType(null);
-  };
+  const closeAllModals = () => setModalType(null);
 
   const fetchData = async () => {
     try {
-        const [falconData] = await Promise.all([getFalcon()]);
-        let items = falconData.data[0].items;
+      const [falconData] = await Promise.all([getFalcon()]);
+      let items = falconData.data[0].items;
 
-        // Récupération du cache existant depuis localStorage
-        const addressCache = JSON.parse(localStorage.getItem('vehicleAddressCache') || '{}');
+      // Récupération du cache depuis localStorage
+      const addressCache = JSON.parse(localStorage.getItem('vehicleAddressCache') || '{}');
 
-        const itemsWithAddress = await Promise.all(
+      const itemsWithAddress = await Promise.all(
         items.map(async (item) => {
-            const key = `${item.lat}_${item.lng}`;
+          const key = `${item.lat}_${item.lng}`;
 
-            // Si adresse déjà présente et valide, on garde
-            if (item.address && item.address !== "-") return item;
+          // Si adresse déjà présente et valide
+          if (item.address && item.address !== "-") return item;
 
-            // Si adresse en cache, on la récupère
-            if (addressCache[key]) return { ...item, address: addressCache[key] };
+          // Si adresse en cache
+          if (addressCache[key]) return { ...item, address: addressCache[key] };
 
-            try {
+          let finalAddress = "Adresse non disponible";
+
+          try {
             const addr = await reverseGeocode(item.lat, item.lng);
-            const finalAddress = addr && addr.trim() !== "" ? addr : "Adresse non disponible";
 
-            // Mise à jour du cache
-            addressCache[key] = finalAddress;
-            localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache));
+            if (addr) {
+              // Fallback progressif : quartier → ville → province → pays
+              const parts = [];
+              if (addr.neighbourhood) parts.push(addr.neighbourhood);
+              if (addr.suburb) parts.push(addr.suburb);
+              if (addr.city || addr.town || addr.village) parts.push(addr.city || addr.town || addr.village);
+              if (addr.state) parts.push(addr.state);
+              if (addr.country) parts.push(addr.country);
 
-            return { ...item, address: finalAddress };
-            } catch (err) {
-            console.error("Erreur reverse geocoding:", err);
-            return { ...item, address: "Adresse non disponible" };
+              finalAddress = parts.length > 0 ? parts.join(', ') : "Adresse non disponible";
             }
-        })
-        );
+          } catch (err) {
+            console.error("Erreur reverse geocoding:", err);
+          }
 
-        setFalcon(itemsWithAddress);
-        setLoading(false);
+          // Mise à jour du cache
+          addressCache[key] = finalAddress;
+          localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache));
+
+          return { ...item, address: finalAddress };
+        })
+      );
+
+      setFalcon(itemsWithAddress);
+      setLoading(false);
     } catch (error) {
-        console.error("Erreur fetchData:", error);
-        notification.error({
+      console.error("Erreur fetchData:", error);
+      notification.error({
         message: 'Erreur de chargement',
         description: 'Impossible de charger les données véhicules.',
-        });
-        setLoading(false);
+      });
+      setLoading(false);
     }
-    };
-
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
 
- const openModal = (type, id = '') => {
+  const openModal = (type, id = '') => {
     closeAllModals();
     setModalType(type);
     setId(id);
   };
 
-  const handleDetail = (id) => {
-    openModal('detail', id)
-  };
+  const handleDetail = (id) => openModal('detail', id);
 
   const columns = [
     {
@@ -112,17 +115,17 @@ const CharroiLocalisation = () => {
     { 
       title: 'Date & Heure', 
       dataIndex: 'time',
-      render: (text) => (
-        <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>
-      ),
+      render: (text) => <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>,
       sorter: (a, b) => moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
     },
-    { 
-      title: 'Adresse', 
-      dataIndex: 'address',
-      render: (text) => (
-        <Text>{text}</Text>
-      ),
+    {
+        title: 'Adresse',
+        dataIndex: 'address',
+        render: (text, record) => (
+            <Tooltip title={`${record.lat}, ${record.lng}`}>
+            <Text>{text}</Text>
+            </Tooltip>
+        ),
     },
     {
       title: 'Vitesse',
@@ -137,64 +140,46 @@ const CharroiLocalisation = () => {
     {
       title: 'Statut',
       dataIndex: 'online',
-      render: (text) => (
-        <Tag color={text === "online" ? "green" : "red"}>
-          {text.toUpperCase()}
-        </Tag>
-      ),
+      render: (text) => <Tag color={text === "online" ? "green" : "red"}>{text.toUpperCase()}</Tag>,
     },
     {
       title: 'Moteur',
       dataIndex: 'sensors',
-      render: (sensors) => (
-        <Tag color={getEngineStatus(sensors) === "ON" ? "green" : "red"}>
-          {getEngineStatus(sensors)}
-        </Tag>
-      ),
+      render: (sensors) => <Tag color={getEngineStatus(sensors) === "ON" ? "green" : "red"}>{getEngineStatus(sensors)}</Tag>,
     },
     {
-  title: 'Km Total',
-  dataIndex: 'sensors',
-  render: (sensors) => {
-    console.log("🚀 sensors:", sensors); // debug
-    const km = getOdometer(sensors);
-    if (!km || isNaN(km)) return <Tag color="default">N/A</Tag>;
-    return <Text>{Number(km).toLocaleString('fr-FR')} km</Text>;
-  },
-},
+      title: 'Km Total',
+      dataIndex: 'sensors',
+      render: (sensors) => {
+        const km = getOdometer(sensors);
+        if (!km || isNaN(km)) return <Tag color="default">N/A</Tag>;
+        return <Text>{Number(km).toLocaleString('fr-FR')} km</Text>;
+      },
+    },
     {
-        title: 'Durée arrêt',
-        dataIndex: 'stop_duration',
-        render: (text) => {
-            const formatted = formatStopDuration(text);
-            return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
-        },
+      title: 'Durée arrêt',
+      dataIndex: 'stop_duration',
+      render: (text) => {
+        const formatted = formatStopDuration(text);
+        return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
+      },
     },
     {
       title: 'Alertes',
       key: 'alerts',
-      render: (text, record) => (
-        <Space wrap>{getAlerts(record)}</Space>
-      ),
+      render: (text, record) => <Space wrap>{getAlerts(record)}</Space>,
     },
     {
       title: 'Actions',
       key: 'actions',
       render: (text, record) => (
         <Space>
-          <Tooltip title="Voir les détails">
-            <Button
-              icon={<EyeOutlined />}
-              type="link"
-              onClick={() => handleDetail(record.id)}
-            />
-          </Tooltip>
+          <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.id)} />
         </Space>
       ),
     },
   ];
 
-  // --- Stats globales ---
   const totalVehicules = falcon.length;
   const enLigne = falcon.filter(f => f.online === "online").length;
   const horsLigne = falcon.filter(f => f.online === "offline").length;
@@ -207,14 +192,12 @@ const CharroiLocalisation = () => {
           <h2 className="client-h2">Véhicules en Suivi</h2>
         </div>
 
-        {/* Résumé */}
         <Space style={{ marginBottom: 16 }}>
           <Badge count={totalVehicules} showZero color="blue" />
           <Tag color="green">En ligne: {enLigne}</Tag>
           <Tag color="red">Hors ligne: {horsLigne}</Tag>
         </Space>
 
-        {/* Recherche */}
         <div className="client-actions">
           <Search 
             placeholder="Rechercher un véhicule..."
@@ -224,7 +207,6 @@ const CharroiLocalisation = () => {
           />
         </div>
 
-        {/* Table */}
         <Table
           columns={columns}
           dataSource={falcon.filter(item => item.name?.toLowerCase().includes(searchValue.toLowerCase()))}
