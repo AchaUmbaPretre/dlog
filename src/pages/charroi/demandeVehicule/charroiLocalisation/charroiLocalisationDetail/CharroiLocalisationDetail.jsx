@@ -316,7 +316,7 @@ const CharroiLocalisationDetail = ({ id }) => {
 
                 return (
                     <p key={i}>
-                    #{i + 1}: Lat {lat}, Lng {lng}, Adresse: {addr}
+                    #{i + 1}: Adresse: {addr}
                     </p>
                 );
                 })}
