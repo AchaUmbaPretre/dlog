@@ -21,13 +21,54 @@ import './charroiLocalisationDetail.scss';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ChartTooltip, Legend);
 
+// -------- CACHE PERSISTANT --------
+let addressCache = {};
+try {
+  const stored = localStorage.getItem('vehicleAddressCache');
+  if (stored) addressCache = JSON.parse(stored);
+} catch (err) {
+  console.warn('Impossible de lire le cache localStorage', err);
+}
+
+const fetchAddress = async (vehicle) => {
+  if (!vehicle) return '';
+  // Trigger reverse geocoding si address vide ou "-"
+  if (vehicle.address && vehicle.address !== '-') return vehicle.address;
+
+  const lat = parseFloat(vehicle.lat);
+  const lng = parseFloat(vehicle.lng);
+  if (isNaN(lat) || isNaN(lng)) return '';
+
+  const key = `${lat}_${lng}`;
+  if (addressCache[key]) return addressCache[key];
+
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+      { headers: { 'User-Agent': 'MyApp/1.0' } } // obligatoire pour Nominatim
+    );
+    const data = await res.json();
+    const addr = data.display_name || '';
+
+    addressCache[key] = addr;
+    localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache));
+
+    return addr;
+  } catch (err) {
+    console.error('Erreur reverse geocoding:', err);
+    return '';
+  }
+};
+
+// -------- UTILITAIRES --------
 const getSpeedColor = (speed) => {
   if (speed <= 20) return 'green';
   if (speed <= 50) return 'orange';
   return 'red';
 };
 
-const VehicleMarker = ({ vehicle }) => {
+// -------- VEHICLE MARKER --------
+const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
   const markerRef = useRef(null);
   const lastPos = useRef([vehicle.lat, vehicle.lng]);
   const targetPos = useRef([vehicle.lat, vehicle.lng]);
@@ -35,11 +76,11 @@ const VehicleMarker = ({ vehicle }) => {
 
   useEffect(() => {
     if (!vehicle) return;
-    if (vehicle.online === "online") {
-      targetPos.current = [vehicle.lat, vehicle.lng];
-      map.flyTo([vehicle.lat, vehicle.lng], map.getZoom(), { duration: 0.5 });
-    }
-  }, [vehicle, map]);
+    targetPos.current = [vehicle.lat, vehicle.lng];
+    map.flyTo([vehicle.lat, vehicle.lng], zoomLevel, { duration: 0.5 });
+
+    if (markerRef.current) markerRef.current.openPopup();
+  }, [vehicle, map, zoomLevel]);
 
   useEffect(() => {
     const animate = () => {
@@ -93,13 +134,15 @@ const VehicleMarker = ({ vehicle }) => {
         Vitesse: {vehicle.speed} km/h<br />
         Course: {vehicle.course}°<br />
         Dernier signal: {vehicle.time}<br />
-        Stop durée: {vehicle.stop_duration || '-'}
+        Stop durée: {vehicle.stop_duration || '-'}<br />
+        Adresse: {address || '-'}
       </Popup>
     </Marker>
   );
 };
 
-const CharroiLeaflet = ({ vehicle }) => {
+// -------- CHARROI LEAFLET --------
+const CharroiLeaflet = ({ vehicle, address }) => {
   const tailPositions = vehicle.tail?.map(t => [parseFloat(t.lat), parseFloat(t.lng)]) || [];
   const tailColors = tailPositions.map((_, idx) => `hsl(${(idx / tailPositions.length) * 120}, 70%, 50%)`);
 
@@ -115,7 +158,7 @@ const CharroiLeaflet = ({ vehicle }) => {
         attribution="&copy; OpenStreetMap contributors"
       />
 
-      <VehicleMarker vehicle={vehicle} />
+      <VehicleMarker vehicle={vehicle} address={address} zoomLevel={15} />
 
       {tailPositions.map((pos, i) => {
         if (i === tailPositions.length - 1) return null;
@@ -143,8 +186,10 @@ const CharroiLeaflet = ({ vehicle }) => {
   );
 };
 
+// -------- CHARROI LOCALISATION DETAIL --------
 const CharroiLocalisationDetail = ({ id }) => {
   const [vehicle, setVehicle] = useState(null);
+  const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [speedData, setSpeedData] = useState([]);
@@ -161,7 +206,9 @@ const CharroiLocalisationDetail = ({ id }) => {
         if (!selected) throw new Error('Véhicule introuvable');
         setVehicle(selected);
 
-        // Mise à jour graphique
+        const addr = await fetchAddress(selected);
+        setAddress(addr);
+
         setSpeedData(prev => [...prev.slice(-9), selected.speed || 0]);
         setEngineData(prev => [...prev.slice(-9), selected.sensors?.find(s => s.type === 'engine')?.val ? 1 : 0]);
       } catch (err) {
@@ -180,7 +227,6 @@ const CharroiLocalisationDetail = ({ id }) => {
     return () => clearInterval(interval);
   }, [id]);
 
-
   if (loading) return <Spin tip="Chargement..." style={{ width: '100%', marginTop: 50 }} />;
   if (error) return <Alert message={error} type="error" style={{ marginTop: 20 }} />;
   if (!vehicle) return <Alert message="Véhicule introuvable ou coordonnées manquantes" type="warning" />;
@@ -194,32 +240,12 @@ const CharroiLocalisationDetail = ({ id }) => {
   const chartData = {
     labels: speedData.map((_, i) => i + 1),
     datasets: [
-      {
-        label: 'Vitesse (km/h)',
-        data: speedData,
-        fill: false,
-        borderColor: 'blue',
-        tension: 0.3,
-      },
-      {
-        label: 'Moteur (On=1, Off=0)',
-        data: engineData,
-        fill: false,
-        borderColor: 'red',
-        tension: 0.3,
-      },
+      { label: 'Vitesse (km/h)', data: speedData, fill: false, borderColor: 'blue', tension: 0.3 },
+      { label: 'Moteur (On=1, Off=0)', data: engineData, fill: false, borderColor: 'red', tension: 0.3 },
     ],
   };
 
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: { position: 'top' },
-    },
-    scales: {
-      y: { min: 0 },
-    },
-  };
+  const chartOptions = { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { min: 0 } } };
 
   return (
     <div className="charroi_local_detail">
@@ -228,7 +254,7 @@ const CharroiLocalisationDetail = ({ id }) => {
           <h3 className="charroi_h3">
             {vehicle.name} <Tag color={vehicle.online === 'online' ? 'green' : 'red'}>{vehicle.online.toUpperCase()}</Tag>
           </h3>
-          <span className="charroi_desc">{vehicle.address || '-'}</span>
+          <span className="charroi_desc">{address || '-'}</span>
           <div>Plate: {vehicle.plate_number || vehicle.registration_number}</div>
         </div>
         <div className="charroi_top_right">
@@ -240,7 +266,11 @@ const CharroiLocalisationDetail = ({ id }) => {
 
       <div className="charroi_local">
         <div className="charroi_local_left">
-          <CharroiLeaflet vehicle={vehicle} />
+          <CharroiLeaflet vehicle={vehicle} address={address} />
+
+          <Card title="Graphique vitesse / moteur" bordered style={{ marginBottom: 20 }}>
+            <Line data={chartData} options={chartOptions} />
+          </Card>
         </div>
 
         <div className="charroi_local_right">
@@ -254,10 +284,6 @@ const CharroiLocalisationDetail = ({ id }) => {
             {sensors && <div className="sensors">{sensors}</div>}
           </Card>
 
-          <Card title="Graphique vitesse / moteur" bordered style={{ marginBottom: 20 }}>
-            <Line data={chartData} options={chartOptions} />
-          </Card>
-
           <Card title="Dernières positions" bordered>
             {vehicle.latest_positions?.split(';').map((pos, i) => {
               const [lat, lng] = pos.split('/');
@@ -267,11 +293,36 @@ const CharroiLocalisationDetail = ({ id }) => {
 
           {vehicle.tail?.length > 0 && (
             <Card title="Trajectoire (tail)" bordered style={{ marginTop: 20 }}>
-              {vehicle.tail.map((t, i) => (
-                <p key={i}>#{i + 1}: Lat {t.lat}, Lng {t.lng}</p>
-              ))}
+                {vehicle.tail.map((t, i) => {
+                const lat = parseFloat(t.lat);
+                const lng = parseFloat(t.lng);
+                const key = `${lat}_${lng}`;
+                // Vérifier si adresse déjà en cache
+                const addr = addressCache[key] || '-';
+
+                // Si pas en cache, lancer reverse geocoding async
+                if (!addressCache[key]) {
+                    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`, 
+                    { headers: { 'User-Agent': 'MyApp/1.0' } }
+                    )
+                    .then(res => res.json())
+                    .then(data => {
+                        const a = data.display_name || '-';
+                        addressCache[key] = a;
+                        try { localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache)); } catch {}
+                    })
+                    .catch(err => console.error('Erreur reverse geocoding tail:', err));
+                }
+
+                return (
+                    <p key={i}>
+                    #{i + 1}: Lat {lat}, Lng {lng}, Adresse: {addr}
+                    </p>
+                );
+                })}
             </Card>
           )}
+
         </div>
       </div>
     </div>

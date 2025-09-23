@@ -34,6 +34,9 @@
             border-radius: 16px;
             padding: 10px;
             box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         .charroi_local_right{
             flex: 1;
