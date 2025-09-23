@@ -114,9 +114,9 @@ const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
 
   const vehicleIcon = L.icon({
   iconUrl: vehiculeIconImg,
-  iconSize: [60, 60],         // taille idéale pour un véhicule
-  iconAnchor: [30, 30],       // centre de l’icône
-  popupAnchor: [0, -20],      // popup un peu au-dessus
+  iconSize: [60, 60],
+  iconAnchor: [30, 30],
+  popupAnchor: [0, -20],
   className: `vehicle-marker-${getSpeedColor(vehicle.speed)}`,
 });
 
