@@ -5,6 +5,7 @@ import { notification, Typography, Modal, Space, Tag, Input, Tooltip, Table, But
 import moment from 'moment';
 import { getAlerts, getEngineStatus, getOdometer, reverseGeocode, zoneAutorisee } from '../../../../services/geocodeService';
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
+import { formatStopDuration } from '../../../../utils/renderTooltip';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -139,11 +140,12 @@ const CharroiLocalisation = () => {
       ),
     },
     {
-      title: 'Durée arrêt',
-      dataIndex: 'stop_duration',
-      render: (text) => (
-        text && text !== "-" ? <Text>{text}</Text> : <Tag color="default">N/A</Tag>
-      ),
+        title: 'Durée arrêt',
+        dataIndex: 'stop_duration',
+        render: (text) => {
+            const formatted = formatStopDuration(text);
+            return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
+        },
     },
     {
       title: 'Alertes',

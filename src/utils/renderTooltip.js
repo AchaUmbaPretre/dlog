@@ -110,3 +110,43 @@ export const EcartTag = ({ duree_reelle_min, duree_moyenne_min }) => {
 
   return <Tag color={color}>{text}</Tag>;
 };
+
+export const formatStopDuration = (duration) => {
+  if (!duration || duration === "-") return null;
+
+  // Cas 1 : format type "267h 12min 12s"
+  if (duration.includes("h")) {
+    const regex = /(\d+)h\s*(\d+)min\s*(\d+)s/;
+    const match = duration.match(regex);
+    if (match) {
+      const hours = parseInt(match[1], 10);
+      const minutes = parseInt(match[2], 10);
+      const seconds = parseInt(match[3], 10);
+
+      const days = Math.floor(hours / 24);
+      const remainingHours = hours % 24;
+
+      if (days > 0) {
+        return `${days}j ${remainingHours}h ${minutes}m`;
+      }
+      return `${hours}h ${minutes}m ${seconds}s`;
+    }
+  }
+
+  // Cas 2 : format type "HH:mm:ss"
+  if (duration.includes(":")) {
+    const [h, m, s] = duration.split(":").map(Number);
+    const totalSeconds = h * 3600 + m * 60 + s;
+
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+    if (days > 0) {
+      return `${days}j ${hours}h ${minutes}m`;
+    }
+    return `${h}h ${m}m ${s}s`;
+  }
+
+  return duration; // fallback si format inconnu
+};
