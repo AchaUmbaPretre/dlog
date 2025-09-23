@@ -79,7 +79,16 @@ const CharroiLocalisation = () => {
   };
 
   useEffect(() => {
+    // Chargement initial
     fetchData();
+
+    // Rafraîchissement toutes les 10 secondes
+    const interval = setInterval(() => {
+      fetchData();
+    }, 10000); // 10 secondes
+
+    // Nettoyage à la destruction du composant
+    return () => clearInterval(interval);
   }, []);
 
   const openModal = (type, id = '') => {
@@ -91,88 +100,56 @@ const CharroiLocalisation = () => {
   const handleDetail = (id) => openModal('detail', id);
 
   const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => {
+    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => {
         const pageSize = pagination.pageSize || 10;
         const pageIndex = pagination.current || 1;
         return (pageIndex - 1) * pageSize + index + 1;
-      },
-      width: "4%",
+      }, width: "4%",
     },
-    {
-      title: 'Matricule',
-      dataIndex: 'name',
-      render: (text) => (
+    { title: 'Matricule', dataIndex: 'name', render: (text) => (
         <div className="vehicule-matricule">
           <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
           <Text strong>{text}</Text>
         </div>
       ),
     },
-    { 
-      title: 'Date & Heure', 
-      dataIndex: 'time',
-      render: (text) => <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>,
-      sorter: (a, b) => moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
+    { title: 'Date & Heure', dataIndex: 'time', render: (text) =>
+        <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>,
+      sorter: (a, b) =>
+        moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
     },
-    {
-        title: 'Adresse',
-        dataIndex: 'address',
-        render: (text, record) => (
-            <Tooltip title={`${record.lat}, ${record.lng}`}>
-            <Text>{text}</Text>
-            </Tooltip>
-        ),
+    { title: 'Adresse', dataIndex: 'address', render: (text, record) => (
+        <Tooltip title={`${record.lat}, ${record.lng}`}>
+          <Text>{text}</Text>
+        </Tooltip>
+      ),
     },
-    {
-      title: 'Vitesse',
-      dataIndex: 'speed',
-      render: (speed) => {
+    { title: 'Vitesse', dataIndex: 'speed', render: (speed) => {
         let color = "red";
         if (speed > 5) color = "green";
         else if (speed > 0) color = "orange";
         return <Tag color={color}>{speed} km/h</Tag>;
       },
     },
-    {
-      title: 'Statut',
-      dataIndex: 'online',
-      render: (text) => <Tag color={text === "online" ? "green" : "red"}>{text.toUpperCase()}</Tag>,
+    { title: 'Statut', dataIndex: 'online', render: (text) =>
+        <Tag color={text === "online" ? "green" : "red"}>{text.toUpperCase()}</Tag>,
     },
-    {
-      title: 'Moteur',
-      dataIndex: 'sensors',
-      render: (sensors) => <Tag color={getEngineStatus(sensors) === "ON" ? "green" : "red"}>{getEngineStatus(sensors)}</Tag>,
+    { title: 'Moteur', dataIndex: 'sensors', render: (sensors) =>
+        <Tag color={getEngineStatus(sensors) === "ON" ? "green" : "red"}>{getEngineStatus(sensors)}</Tag>,
     },
-    {
-      title: 'Km Total',
-      dataIndex: 'sensors',
-      render: (sensors) => {
+    { title: 'Km Total', dataIndex: 'sensors', render: (sensors) => {
         const km = getOdometer(sensors);
         if (!km || isNaN(km)) return <Tag color="default">N/A</Tag>;
         return <Text>{Number(km).toLocaleString('fr-FR')} km</Text>;
       },
     },
-    {
-      title: 'Durée arrêt',
-      dataIndex: 'stop_duration',
-      render: (text) => {
+    { title: 'Durée arrêt', dataIndex: 'stop_duration', render: (text) => {
         const formatted = formatStopDuration(text);
         return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
       },
     },
-    {
-      title: 'Alertes',
-      key: 'alerts',
-      render: (text, record) => <Space wrap>{getAlerts(record)}</Space>,
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (text, record) => (
+    { title: 'Alertes', key: 'alerts', render: (text, record) => <Space wrap>{getAlerts(record)}</Space>, },
+    { title: 'Actions', key: 'actions', render: (text, record) => (
         <Space>
           <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.id)} />
         </Space>
