@@ -23,9 +23,16 @@ export const zoneAutorisee = {
 };
 
 export const getOdometer = (sensors = []) => {
-    const odo = sensors.find((s) => s.type === "odometer");
-    return odo ? odo.value : "-";
-  };
+  const odo = sensors.find((s) => s.type === "odometer");
+  if (!odo) return null;
+
+  // retirer " km" et convertir en nombre
+  const kmString = odo.value || odo.val || "";
+  const kmNumber = parseFloat(kmString.replace(/\s?km/i, '').replace(/,/g, ''));
+  
+  return isNaN(kmNumber) ? null : kmNumber;
+};
+
 
 export const getEngineStatus = (sensors = []) => {
     const engine = sensors.find((s) => s.type === "engine");

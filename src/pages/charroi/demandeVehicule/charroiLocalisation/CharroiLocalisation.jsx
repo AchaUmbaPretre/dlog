@@ -133,12 +133,15 @@ const CharroiLocalisation = () => {
       ),
     },
     {
-      title: 'Km Total',
-      dataIndex: 'sensors',
-      render: (sensors) => (
-        <Text>{getOdometer(sensors)}</Text>
-      ),
-    },
+  title: 'Km Total',
+  dataIndex: 'sensors',
+  render: (sensors) => {
+    console.log("🚀 sensors:", sensors); // debug
+    const km = getOdometer(sensors);
+    if (!km || isNaN(km)) return <Tag color="default">N/A</Tag>;
+    return <Text>{Number(km).toLocaleString('fr-FR')} km</Text>;
+  },
+},
     {
         title: 'Durée arrêt',
         dataIndex: 'stop_duration',

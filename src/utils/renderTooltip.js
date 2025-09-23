@@ -114,39 +114,42 @@ export const EcartTag = ({ duree_reelle_min, duree_moyenne_min }) => {
 export const formatStopDuration = (duration) => {
   if (!duration || duration === "-") return null;
 
-  // Cas 1 : format type "267h 12min 12s"
+  let totalHours = 0;
+  let minutes = 0;
+  let seconds = 0;
+
+  // Cas 1 : format "267h 12min 12s"
   if (duration.includes("h")) {
     const regex = /(\d+)h\s*(\d+)min\s*(\d+)s/;
     const match = duration.match(regex);
     if (match) {
-      const hours = parseInt(match[1], 10);
-      const minutes = parseInt(match[2], 10);
-      const seconds = parseInt(match[3], 10);
-
-      const days = Math.floor(hours / 24);
-      const remainingHours = hours % 24;
-
-      if (days > 0) {
-        return `${days}j ${remainingHours}h ${minutes}m`;
-      }
-      return `${hours}h ${minutes}m ${seconds}s`;
+      totalHours = parseInt(match[1], 10);
+      minutes = parseInt(match[2], 10);
+      seconds = parseInt(match[3], 10);
     }
   }
 
-  // Cas 2 : format type "HH:mm:ss"
-  if (duration.includes(":")) {
+  // Cas 2 : format "HH:mm:ss"
+  else if (duration.includes(":")) {
     const [h, m, s] = duration.split(":").map(Number);
-    const totalSeconds = h * 3600 + m * 60 + s;
-
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-
-    if (days > 0) {
-      return `${days}j ${hours}h ${minutes}m`;
-    }
-    return `${h}h ${m}m ${s}s`;
+    totalHours = h;
+    minutes = m;
+    seconds = s;
+  } else {
+    return duration; // fallback si format inconnu
   }
 
-  return duration; // fallback si format inconnu
+  // Conversion en mois / jours / heures
+  const months = Math.floor(totalHours / (24 * 30));
+  const days = Math.floor((totalHours % (24 * 30)) / 24);
+  const hours = totalHours % 24;
+
+  let result = "";
+  if (months > 0) result += `${months}mois `;
+  if (days > 0) result += `${days}j `;
+  if (hours > 0) result += `${hours}h `;
+  if (minutes > 0) result += `${minutes}m `;
+  if (seconds > 0) result += `${seconds}s`;
+
+  return result.trim();
 };
