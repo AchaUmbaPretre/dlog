@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Descriptions, Card, Image, Spin, Row, Col, notification, Empty } from 'antd';
 import { getVehiculeOne } from '../../../services/charroiService';
 import { CarOutlined } from '@ant-design/icons';

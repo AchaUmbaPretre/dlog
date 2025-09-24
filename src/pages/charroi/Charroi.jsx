@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { ExportOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
 import TabPane from 'antd/es/tabs/TabPane';
 import { getVehicule, putVehicule } from '../../services/charroiService';
@@ -9,6 +9,7 @@ import vehiculeImg from './../../assets/vehicule.png'
 import VehiculeDetail from './vehiculeDetail/VehiculeDetail';
 import Modele from '../modeles/Modele';
 import Marque from '../marque/Marque';
+import RelierFalcon from './relierFalcon/RelierFalcon';
 
 const { Search } = Input;
 
@@ -65,6 +66,7 @@ const Charroi = () => {
 
   const handleAddClient = (id) => openModal('Add', id)
   const handleDetail = (id) => openModal('Detail', id)
+  const handleRelier = (id) => openModal('Relier', id)
 
   const closeAllModals = () => {
     setModalType(null);
@@ -206,6 +208,15 @@ const Charroi = () => {
                 aria-label="Voir les détails de la tâche"
                 style={{ color: 'blue' }}
                 onClick={()=> handleDetail(record.id_vehicule)}
+                />
+            </Tooltip>
+
+            <Tooltip title="Rélier...">
+                <Button
+                  icon={<RetweetOutlined />}
+                  aria-label="Voir les détails"
+                  style={{ color: 'blue' }}
+                  onClick={()=> handleRelier(record.id_vehicule)}
                 />
             </Tooltip>
             
@@ -360,6 +371,17 @@ const Charroi = () => {
         centered
       >
         <VehiculeDetail idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Relier'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <RelierFalcon idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>
       </Modal>
     </>
   );
