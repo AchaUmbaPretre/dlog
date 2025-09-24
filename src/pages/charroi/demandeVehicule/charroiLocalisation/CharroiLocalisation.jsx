@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { CarOutlined, EyeOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
-import { notification, Typography, Tooltip, Modal, Space, Tag, Input, Table, Button, Badge } from 'antd';
+import { notification, Typography, Modal, Space, Tag, Input, Table, Button, Badge } from 'antd';
 import moment from 'moment';
 import { getAlerts, getEngineStatus, getOdometer, reverseGeocode } from '../../../../services/geocodeService';
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
 import { formatStopDuration } from '../../../../utils/renderTooltip';
+import { VehicleAddress } from '../../../../utils/vehicleAddress';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -25,77 +26,8 @@ const fetchData = async () => {
     const [falconData] = await Promise.all([getFalcon()]);
     let items = falconData.data[0].items || [];
 
-    // 🔹 Filtrer ou corriger les coordonnées invalides
-    items = items.map(item => {
-      const lat = Number(item.lat);
-      const lng = Number(item.lng);
-
-      if (isNaN(lat) || isNaN(lng)) {
-        return {
-          ...item,
-          lat: null,
-          lng: null,
-          address: "Coordonnées invalides"
-        };
-      }
-
-      return { ...item, lat, lng };
-    });
-
-    // Récupération du cache depuis localStorage
-    const addressCache = JSON.parse(localStorage.getItem('vehicleAddressCache') || '{}');
-
-    const itemsWithAddress = await Promise.all(
-      items.map(async (item) => {
-        if (!item.lat || !item.lng) {
-          return item; // 🔹 on laisse "Coordonnées invalides"
-        }
-
-        const key = `${item.lat}_${item.lng}`;
-
-        // Si adresse déjà présente et valide
-        if (item.address && item.address !== "-") return item;
-
-        // Si adresse en cache
-        if (addressCache[key]) return { ...item, address: addressCache[key] };
-
-        let finalAddress = "Adresse non disponible";
-
-        try {
-          const addr = await reverseGeocode(item.lat, item.lng);
-
-          if (addr) {
-            const parts = [];
-            if (addr.neighbourhood) parts.push(addr.neighbourhood);
-            if (addr.suburb) parts.push(addr.suburb);
-            if (addr.city || addr.town || addr.village) parts.push(addr.city || addr.town || addr.village);
-            if (addr.state) parts.push(addr.state);
-            if (addr.country) parts.push(addr.country);
-
-            finalAddress = parts.length > 0 ? parts.join(', ') : "Adresse non disponible";
-          }
-        } catch (err) {
-          console.error("Erreur reverse geocoding:", err);
-        }
-
-        // Mise à jour du cache
-        addressCache[key] = finalAddress;
-        localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache));
-
-        return { ...item, address: finalAddress };
-      })
-    );
-
-    setFalcon(itemsWithAddress);
+    setFalcon(items);
     setLoading(false);
-
-    // Debug rapide
-    console.table(itemsWithAddress.map(i => ({
-      id: i.id,
-      lat: i.lat,
-      lng: i.lng,
-      address: i.address
-    })));
 
   } catch (error) {
     console.error("Erreur fetchData:", error);
@@ -146,11 +78,7 @@ const fetchData = async () => {
       sorter: (a, b) =>
         moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
     },
-    { title: 'Adresse', dataIndex: 'address', render: (text, record) => (
-        <Tooltip title={`${record.lat}, ${record.lng}`}>
-          <Text>{text}</Text>
-        </Tooltip>
-      ),
+    { title: 'Adresse', dataIndex: 'address',       render: (_, record) => <VehicleAddress record={record} />,
     },
     { title: 'Vitesse', dataIndex: 'speed', render: (speed) => {
         let color = "red";
