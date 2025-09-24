@@ -378,7 +378,7 @@ const Charroi = () => {
         visible={modalType === 'Relier'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={800}
         centered
       >
         <RelierFalcon idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>
