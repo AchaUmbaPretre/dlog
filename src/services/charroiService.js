@@ -84,6 +84,9 @@ export const putVehiculeSupprime = async (id) => {
     return axios.put(`${DOMAIN}/api/charroi/vehicule_estSupprime?id_vehicule=${id}`);
 }
 
+export const putRelierVehiculeFalcon = async (id, data) => {
+    return axios.put(`${DOMAIN}/api/charroi/vehicule_falcon?id_vehicule=${id}`, data);
+}
 
 export const getPermis = async () => {
     return axios.get(`${DOMAIN}/api/charroi/permis`);
