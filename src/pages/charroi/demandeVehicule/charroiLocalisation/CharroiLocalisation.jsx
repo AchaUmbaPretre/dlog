@@ -20,63 +20,92 @@ const CharroiLocalisation = () => {
 
   const closeAllModals = () => setModalType(null);
 
-  const fetchData = async () => {
-    try {
-      const [falconData] = await Promise.all([getFalcon()]);
-      let items = falconData.data[0].items;
+const fetchData = async () => {
+  try {
+    const [falconData] = await Promise.all([getFalcon()]);
+    let items = falconData.data[0].items || [];
 
-      // Récupération du cache depuis localStorage
-      const addressCache = JSON.parse(localStorage.getItem('vehicleAddressCache') || '{}');
+    // 🔹 Filtrer ou corriger les coordonnées invalides
+    items = items.map(item => {
+      const lat = Number(item.lat);
+      const lng = Number(item.lng);
 
-      const itemsWithAddress = await Promise.all(
-        items.map(async (item) => {
-          const key = `${item.lat}_${item.lng}`;
+      if (isNaN(lat) || isNaN(lng)) {
+        return {
+          ...item,
+          lat: null,
+          lng: null,
+          address: "Coordonnées invalides"
+        };
+      }
 
-          // Si adresse déjà présente et valide
-          if (item.address && item.address !== "-") return item;
+      return { ...item, lat, lng };
+    });
 
-          // Si adresse en cache
-          if (addressCache[key]) return { ...item, address: addressCache[key] };
+    // Récupération du cache depuis localStorage
+    const addressCache = JSON.parse(localStorage.getItem('vehicleAddressCache') || '{}');
 
-          let finalAddress = "Adresse non disponible";
+    const itemsWithAddress = await Promise.all(
+      items.map(async (item) => {
+        if (!item.lat || !item.lng) {
+          return item; // 🔹 on laisse "Coordonnées invalides"
+        }
 
-          try {
-            const addr = await reverseGeocode(item.lat, item.lng);
+        const key = `${item.lat}_${item.lng}`;
 
-            if (addr) {
-              // Fallback progressif : quartier → ville → province → pays
-              const parts = [];
-              if (addr.neighbourhood) parts.push(addr.neighbourhood);
-              if (addr.suburb) parts.push(addr.suburb);
-              if (addr.city || addr.town || addr.village) parts.push(addr.city || addr.town || addr.village);
-              if (addr.state) parts.push(addr.state);
-              if (addr.country) parts.push(addr.country);
+        // Si adresse déjà présente et valide
+        if (item.address && item.address !== "-") return item;
 
-              finalAddress = parts.length > 0 ? parts.join(', ') : "Adresse non disponible";
-            }
-          } catch (err) {
-            console.error("Erreur reverse geocoding:", err);
+        // Si adresse en cache
+        if (addressCache[key]) return { ...item, address: addressCache[key] };
+
+        let finalAddress = "Adresse non disponible";
+
+        try {
+          const addr = await reverseGeocode(item.lat, item.lng);
+
+          if (addr) {
+            const parts = [];
+            if (addr.neighbourhood) parts.push(addr.neighbourhood);
+            if (addr.suburb) parts.push(addr.suburb);
+            if (addr.city || addr.town || addr.village) parts.push(addr.city || addr.town || addr.village);
+            if (addr.state) parts.push(addr.state);
+            if (addr.country) parts.push(addr.country);
+
+            finalAddress = parts.length > 0 ? parts.join(', ') : "Adresse non disponible";
           }
+        } catch (err) {
+          console.error("Erreur reverse geocoding:", err);
+        }
 
-          // Mise à jour du cache
-          addressCache[key] = finalAddress;
-          localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache));
+        // Mise à jour du cache
+        addressCache[key] = finalAddress;
+        localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache));
 
-          return { ...item, address: finalAddress };
-        })
-      );
+        return { ...item, address: finalAddress };
+      })
+    );
 
-      setFalcon(itemsWithAddress);
-      setLoading(false);
-    } catch (error) {
-      console.error("Erreur fetchData:", error);
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Impossible de charger les données véhicules.',
-      });
-      setLoading(false);
-    }
-  };
+    setFalcon(itemsWithAddress);
+    setLoading(false);
+
+    // Debug rapide
+    console.table(itemsWithAddress.map(i => ({
+      id: i.id,
+      lat: i.lat,
+      lng: i.lng,
+      address: i.address
+    })));
+
+  } catch (error) {
+    console.error("Erreur fetchData:", error);
+    notification.error({
+      message: 'Erreur de chargement',
+      description: 'Impossible de charger les données véhicules.',
+    });
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     // Chargement initial
