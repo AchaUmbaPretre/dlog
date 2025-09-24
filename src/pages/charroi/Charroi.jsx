@@ -9,7 +9,6 @@ import vehiculeImg from './../../assets/vehicule.png'
 import VehiculeDetail from './vehiculeDetail/VehiculeDetail';
 import Modele from '../modeles/Modele';
 import Marque from '../marque/Marque';
-import { getFalcon } from '../../services/rapportService';
 
 const { Search } = Input;
 
@@ -26,7 +25,6 @@ const Charroi = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [idVehicule, setIdVehicule] = useState('');
   const [activeKey, setActiveKey] = useState(['1', '2']);
-  const [falcon, setFalcon] = useState([]);
 
   const handleTabChange = (key) => {
     setActiveKey(key);
@@ -64,8 +62,6 @@ const Charroi = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  console.log(falcon)
 
   const handleAddClient = (id) => openModal('Add', id)
   const handleDetail = (id) => openModal('Detail', id)
