@@ -1,18 +1,6 @@
 // services/geocodeService.js
-import axios from "axios";
 import { WarningOutlined } from '@ant-design/icons';
 import { Tag } from 'antd';
-
-export const reverseGeocode = async (lat, lng) => {
-  try {
-    const res = await axios.get("https://nominatim.openstreetmap.org/reverse", {
-      params: { lat, lon: lng, format: "json", addressdetails: 1 },
-    });
-    return res.data.display_name || `${lat}, ${lng}`;
-  } catch (error) {
-    return `${lat}, ${lng}`;
-  }
-};
 
 // --- Zone de geofencing (ex: Kinshasa) ---
 export const zoneAutorisee = {

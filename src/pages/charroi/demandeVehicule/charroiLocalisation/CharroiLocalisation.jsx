@@ -3,7 +3,7 @@ import { CarOutlined, EyeOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Modal, Space, Tag, Input, Table, Button, Badge } from 'antd';
 import moment from 'moment';
-import { getAlerts, getEngineStatus, getOdometer, reverseGeocode } from '../../../../services/geocodeService';
+import { getAlerts, getEngineStatus, getOdometer } from '../../../../services/geocodeService';
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
 import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
@@ -21,23 +21,22 @@ const CharroiLocalisation = () => {
 
   const closeAllModals = () => setModalType(null);
 
-const fetchData = async () => {
-  try {
-    const [falconData] = await Promise.all([getFalcon()]);
-    let items = falconData.data[0].items || [];
+    const fetchData = async () => {
+    try {
+        const falconData = await getFalcon();
+        const items = falconData.data[0].items || [];
+        setFalcon(items);
+        setLoading(false);
+    } catch (error) {
+        console.error("Erreur fetchData:", error);
+        notification.error({
+        message: 'Erreur de chargement',
+        description: 'Impossible de charger les données véhicules.',
+        });
+        setLoading(false);
+    }
+    };
 
-    setFalcon(items);
-    setLoading(false);
-
-  } catch (error) {
-    console.error("Erreur fetchData:", error);
-    notification.error({
-      message: 'Erreur de chargement',
-      description: 'Impossible de charger les données véhicules.',
-    });
-    setLoading(false);
-  }
-};
 
   useEffect(() => {
     // Chargement initial
@@ -78,7 +77,7 @@ const fetchData = async () => {
       sorter: (a, b) =>
         moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
     },
-    { title: 'Adresse', dataIndex: 'address',       render: (_, record) => <VehicleAddress record={record} />,
+    { title: 'Adresse', dataIndex: 'address',render: (_, record) => <VehicleAddress record={record} />,
     },
     { title: 'Vitesse', dataIndex: 'speed', render: (speed) => {
         let color = "red";

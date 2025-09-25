@@ -30,7 +30,7 @@ export const fetchAddress = async (vehicle) => {
     let addr = data.display_name || '';
 
     // Vérifie si le pays est "République démocratique du Congo"
-    if (data.address?.country === 'République démocratique du Congo') {
+    if (data.address?.country === ' République démocratique du Congo') {
       // ✅ On remplace uniquement le pays
       addr = addr.replace(/République démocratique du Congo/gi, 'RD Congo');
     }
