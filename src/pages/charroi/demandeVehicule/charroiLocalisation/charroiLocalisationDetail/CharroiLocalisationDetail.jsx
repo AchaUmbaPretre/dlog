@@ -18,6 +18,7 @@ import {
 import vehiculeIconImg from './../../../../../assets/img02.png';
 import { getFalcon } from '../../../../../services/rapportService';
 import './charroiLocalisationDetail.scss';
+import { fetchAddress } from '../../../../../utils/fetchAddress';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ChartTooltip, Legend);
 
@@ -30,36 +31,6 @@ try {
   console.warn('Impossible de lire le cache localStorage', err);
 }
 
-const fetchAddress = async (vehicle) => {
-  if (!vehicle) return '';
-  // Trigger reverse geocoding si address vide ou "-"
-  if (vehicle.address && vehicle.address !== '-') return vehicle.address;
-
-  const lat = parseFloat(vehicle.lat);
-  const lng = parseFloat(vehicle.lng);
-  if (isNaN(lat) || isNaN(lng)) return '';
-
-  const key = `${lat}_${lng}`;
-  if (addressCache[key]) return addressCache[key];
-
-  try {
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
-      { headers: { 'User-Agent': 'MyApp/1.0' } } // obligatoire pour Nominatim
-    );
-    const data = await res.json();
-    const addr = data.display_name || '';
-
-    addressCache[key] = addr;
-    localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache));
-
-    return addr;
-  } catch (err) {
-    console.error('Erreur reverse geocoding:', err);
-    return '';
-  }
-};
-
 // -------- UTILITAIRES --------
 const getSpeedColor = (speed) => {
   if (speed <= 20) return 'green';
@@ -70,13 +41,13 @@ const getSpeedColor = (speed) => {
 // -------- VEHICLE MARKER --------
 const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
   const markerRef = useRef(null);
-  const lastPos = useRef([vehicle.lat, vehicle.lng]);
-  const targetPos = useRef([vehicle.lat, vehicle.lng]);
+  const lastPos = useRef([vehicle?.lat, vehicle?.lng]);
+  const targetPos = useRef([vehicle?.lat, vehicle?.lng]);
   const map = useMap();
 
   useEffect(() => {
     if (!vehicle) return;
-    targetPos.current = [vehicle.lat, vehicle.lng];
+    targetPos.current = [vehicle?.lat, vehicle?.lng];
     map.flyTo([vehicle.lat, vehicle.lng], zoomLevel, { duration: 0.5 });
 
     if (markerRef.current) markerRef.current.openPopup();
@@ -195,6 +166,7 @@ const CharroiLocalisationDetail = ({ id }) => {
   const [error, setError] = useState('');
   const [speedData, setSpeedData] = useState([]);
   const [engineData, setEngineData] = useState([]);
+    const API_KEY = 'f7c5292b587d4fff9fb1d00f3b6f3f73';
 
   useEffect(() => {
     let interval;
@@ -210,7 +182,7 @@ const CharroiLocalisationDetail = ({ id }) => {
         const addr = await fetchAddress(selected);
         setAddress(addr);
 
-        setSpeedData(prev => [...prev.slice(-9), selected.speed || 0]);
+        setSpeedData(prev => [...prev.slice(-9), selected?.speed || 0]);
         setEngineData(prev => [...prev.slice(-9), selected.sensors?.find(s => s.type === 'engine')?.val ? 1 : 0]);
       } catch (err) {
         setError(err.message || 'Erreur lors du chargement des données.');
@@ -294,7 +266,7 @@ const CharroiLocalisationDetail = ({ id }) => {
 
           {vehicle.tail?.length > 0 && (
             <Card title="Trajectoire (tail)" bordered style={{ marginTop: 20 }}>
-                {vehicle.tail.map((t, i) => {
+                {vehicle?.tail.map((t, i) => {
                 const lat = parseFloat(t.lat);
                 const lng = parseFloat(t.lng);
                 const key = `${lat}_${lng}`;
@@ -303,12 +275,10 @@ const CharroiLocalisationDetail = ({ id }) => {
 
                 // Si pas en cache, lancer reverse geocoding async
                 if (!addressCache[key]) {
-                    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`, 
-                    { headers: { 'User-Agent': 'MyApp/1.0' } }
-                    )
+                    fetch(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${API_KEY}&language=fr`                    )
                     .then(res => res.json())
                     .then(data => {
-                        const a = data.display_name || '-';
+                        const a = data?.results?.[0]?.formatted || "";
                         addressCache[key] = a;
                         try { localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache)); } catch {}
                     })
