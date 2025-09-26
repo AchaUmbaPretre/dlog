@@ -16,7 +16,6 @@ export const CharroiLeaflet = ({ vehicle, address }) => {
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="&copy; OpenStreetMap contributors"
       />
 
       <VehicleMarker vehicle={vehicle} address={address} zoomLevel={15} />
