@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, Polyline, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-rotatedmarker';
-import { VehicleMarker } from '../../../../../../components/vehicleMarker/VehicleMarker';
+import { VehicleMarker } from '../vehicleMarker/VehicleMarker';
 
 export const CharroiLeaflet = ({ vehicle, address }) => {
   const tailPositions = vehicle.tail?.map(t => [parseFloat(t.lat), parseFloat(t.lng)]) || [];

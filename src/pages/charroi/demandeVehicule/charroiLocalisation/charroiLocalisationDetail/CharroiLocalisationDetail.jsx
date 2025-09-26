@@ -14,7 +14,7 @@ import {
 import { getFalcon } from '../../../../../services/rapportService';
 import './charroiLocalisationDetail.scss';
 import { fetchAddress } from '../../../../../utils/fetchAddress';
-import { CharroiLeaflet } from './charroiLeaflet/CharroiLeaflet';
+import { CharroiLeaflet } from '../../../../../components/charroiLeaflet/CharroiLeaflet';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ChartTooltip, Legend);
 
