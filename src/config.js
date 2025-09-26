@@ -6,7 +6,9 @@ const TOKEN = currentUser?.accessToken;
 
 const config = {
     
-REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com'
+REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com' ,
+
+API_KEY : 'f7c5292b587d4fff9fb1d00f3b6f3f73'
 
 /*   REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com'
  */ };

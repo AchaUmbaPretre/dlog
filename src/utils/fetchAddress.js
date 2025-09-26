@@ -1,13 +1,16 @@
+import config from "../config";
+
 // -------- CACHE PERSISTANT --------
+const API_KEY = config.API_KEY;
+
 let addressCache = {};
+
 try {
   const stored = localStorage.getItem('vehicleAddressCache');
   if (stored) addressCache = JSON.parse(stored);
 } catch (err) {
   console.warn('Impossible de lire le cache localStorage', err);
 }
-
-const API_KEY = 'f7c5292b587d4fff9fb1d00f3b6f3f73';
 
 export const fetchAddress = async (vehicle) => {
   if (!vehicle) return "";
