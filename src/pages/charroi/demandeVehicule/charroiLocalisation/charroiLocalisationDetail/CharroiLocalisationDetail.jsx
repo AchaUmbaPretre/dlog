@@ -9,7 +9,7 @@ import {
   PointElement,
   LineElement,
   Tooltip as ChartTooltip,
-  Legend,
+  Legend
 } from 'chart.js';
 import { getFalcon } from '../../../../../services/rapportService';
 import './charroiLocalisationDetail.scss';
