@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-rotatedmarker';
 import { Card, Divider, Tag, notification, Spin, Alert } from 'antd';
 import { InteractionOutlined, UserOutlined, ClockCircleOutlined, DashboardOutlined, AlertOutlined } from '@ant-design/icons';
 import { Line } from 'react-chartjs-2';

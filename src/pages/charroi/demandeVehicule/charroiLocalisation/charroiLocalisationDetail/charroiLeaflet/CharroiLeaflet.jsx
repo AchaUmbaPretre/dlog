@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Polyline, Tooltip } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Polyline, Popup, useMap, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-rotatedmarker';
 import { VehicleMarker } from '../../../../../../components/vehicleMarker/VehicleMarker';
