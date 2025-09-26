@@ -57,7 +57,7 @@ export const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
     popupAnchor: [0, -20],
     className: `vehicle-marker-${getSpeedColor(vehicle.speed)}`,
   });
-  
+
   return (
     <Marker
       ref={markerRef}
