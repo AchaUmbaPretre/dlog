@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react';
-import { Marker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-rotatedmarker';
-import vehiculeIconImg from './../../assets/vehicule01.png';
-import { getSpeedColor } from '../../utils/getSpeedColor';
+import { useEffect, useRef } from "react";
+import { Marker, Popup, useMap } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import "leaflet-rotatedmarker";
+import vehiculeIconImg from "./../../assets/vehicule01.png";
+import { getSpeedColor } from "../../utils/getSpeedColor";
+import "./vehicleMarker.scss";
 
 export const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
   const markerRef = useRef(null);
@@ -12,49 +13,47 @@ export const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
   const targetPos = useRef([vehicle?.lat, vehicle?.lng]);
   const map = useMap();
 
+  // Déplacement fluide + focus auto
   useEffect(() => {
     if (!vehicle) return;
-    targetPos.current = [vehicle?.lat, vehicle?.lng];
-    map.flyTo([vehicle.lat, vehicle.lng], zoomLevel, { duration: 0.5 });
-
-    if (markerRef.current) markerRef.current.openPopup();
+    targetPos.current = [vehicle.lat, vehicle.lng];
+    map.flyTo([vehicle.lat, vehicle.lng], zoomLevel, { duration: 0.7 });
+    markerRef.current?.openPopup();
   }, [vehicle, map, zoomLevel]);
 
+  // Animation continue de la position
   useEffect(() => {
     const animate = () => {
-      if (!markerRef.current) {
+      if (!markerRef.current || vehicle.online !== "online") {
         requestAnimationFrame(animate);
         return;
       }
 
-      if (vehicle.online === "online") {
-        const [latPrev, lngPrev] = lastPos.current;
-        const [latTarget, lngTarget] = targetPos.current;
+      const [latPrev, lngPrev] = lastPos.current;
+      const [latTarget, lngTarget] = targetPos.current;
 
-        const deltaLat = (latTarget - latPrev) * 0.1;
-        const deltaLng = (lngTarget - lngPrev) * 0.1;
+      const newLat = latPrev + (latTarget - latPrev) * 0.08;
+      const newLng = lngPrev + (lngTarget - lngPrev) * 0.08;
 
-        if (Math.abs(deltaLat) > 0.00001 || Math.abs(deltaLng) > 0.00001) {
-          const newLat = latPrev + deltaLat;
-          const newLng = lngPrev + deltaLng;
+      markerRef.current.setLatLng([newLat, newLng]);
 
-          markerRef.current.setLatLng([newLat, newLng]);
-          const angle = Math.atan2(latTarget - latPrev, lngTarget - lngPrev) * (180 / Math.PI);
-          markerRef.current.setRotationAngle(angle);
-          lastPos.current = [newLat, newLng];
-        }
-      }
+      // Calcul angle direction
+      const angle =
+        Math.atan2(latTarget - latPrev, lngTarget - lngPrev) * (180 / Math.PI);
+      markerRef.current.setRotationAngle(angle);
 
+      lastPos.current = [newLat, newLng];
       requestAnimationFrame(animate);
     };
     animate();
   }, [vehicle.online]);
 
+  // Icône dynamique
   const vehicleIcon = L.icon({
     iconUrl: vehiculeIconImg,
     iconSize: [60, 60],
     iconAnchor: [30, 30],
-    popupAnchor: [0, -20],
+    popupAnchor: [0, -25],
     className: `vehicle-marker-${getSpeedColor(vehicle.speed)}`,
   });
 
@@ -66,14 +65,26 @@ export const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
       rotationAngle={vehicle.course || 0}
       rotationOrigin="center center"
     >
-      <Popup>
-        <strong>{vehicle.name}</strong><br />
-        Statut: {vehicle.online}<br />
-        Vitesse: {vehicle.speed} km/h<br />
-        Course: {vehicle.course}°<br />
-        Dernier signal: {vehicle.time}<br />
-        Stop durée: {vehicle.stop_duration || '-'}<br />
-        Adresse: {address || '-'}
+      <Popup className="vehicle-popup">
+        <div className="popup-content">
+          <h4>🚘 {vehicle.name}</h4>
+          <p>
+            📡 <b>Statut :</b>{" "}
+            <span className={vehicle.online === "online" ? "status-online" : "status-offline"}>
+              {vehicle.online}
+            </span>
+          </p>
+          <p>
+            ⚡ <b>Vitesse :</b>{" "}
+            <span className={`speed-${getSpeedColor(vehicle.speed)}`}>
+              {vehicle.speed} km/h
+            </span>
+          </p>
+          <p>🧭 <b>Course :</b> {vehicle.course}°</p>
+          <p>⏱ <b>Signal :</b> {vehicle.time}</p>
+          <p>⛔ <b>Stop :</b> {vehicle.stop_duration || "-"}</p>
+          <p>🏠 <b>Adresse :</b> {address || "-"}</p>
+        </div>
       </Popup>
     </Marker>
   );

@@ -1,43 +1,80 @@
-import { MapContainer, TileLayer, Marker, Polyline, Tooltip } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-rotatedmarker';
-import { VehicleMarker } from '../vehicleMarker/VehicleMarker';
+import { MapContainer, TileLayer, Marker, Polyline, Tooltip, ScaleControl } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { VehicleMarker } from "../vehicleMarker/VehicleMarker";
+import L from "leaflet";
+import "./charroiLeaflet.scss";
+import { getSpeedColor } from "../../utils/getSpeedColor";
 
 export const CharroiLeaflet = ({ vehicle, address }) => {
-  const tailPositions = vehicle.tail?.map(t => [parseFloat(t.lat), parseFloat(t.lng)]) || [];
-  const tailColors = tailPositions.map((_, idx) => `hsl(${(idx / tailPositions.length) * 120}, 70%, 50%)`);
+  if (!vehicle) return null;
+
+  const tailPositions =
+    vehicle.tail?.map((t) => [parseFloat(t.lat), parseFloat(t.lng)]) || [];
+
+  const gradientPolyline = tailPositions.slice(0, -1).map((pos, i) => ({
+    latlngs: [pos, tailPositions[i + 1]],
+    color: `hsl(${(i / (tailPositions.length - 1 || 1)) * 120}, 70%, 50%)`,
+  }));
 
   return (
     <MapContainer
       center={[vehicle.lat, vehicle.lng]}
       zoom={14}
-      style={{ height: '400px', width: '100%' }}
-      scrollWheelZoom={false}
+      style={{
+        height: "500px",
+        width: "100%",
+        borderRadius: "16px",
+        boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+      }}
+      scrollWheelZoom
+      zoomControl
+      className="charroi-map"
     >
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+        attribution="&copy; OpenStreetMap contributors"
       />
+
+      <ScaleControl position="bottomleft" />
 
       <VehicleMarker vehicle={vehicle} address={address} zoomLevel={15} />
 
-      {tailPositions.map((pos, i) => {
-        if (i === tailPositions.length - 1) return null;
-        return (
-          <Polyline
-            key={i}
-            positions={[tailPositions[i], tailPositions[i + 1]]}
-            color={tailColors[i]}
-            weight={4}
-          />
-        );
-      })}
+      {gradientPolyline.map(
+        (seg, i) =>
+          seg.latlngs[1] && (
+            <Polyline
+              key={i}
+              positions={seg.latlngs}
+              pathOptions={{
+                color: seg.color,
+                weight: 4,
+                opacity: 0.9,
+              }}
+            />
+          )
+      )}
 
-      {vehicle.latest_positions?.split(';').map((pos, i) => {
-        const [lat, lng] = pos.split('/');
+      {vehicle.latest_positions?.split(";").map((pos, i) => {
+        const [lat, lng] = pos.split("/");
+        if (!lat || !lng) return null;
         return (
           <Marker key={i} position={[parseFloat(lat), parseFloat(lng)]}>
-            <Tooltip direction="top" offset={[0, -10]} opacity={0.9} permanent={false}>
-              #{i + 1}: Lat {lat}, Lng {lng}, Vitesse: {vehicle.speed} km/h
+            <Tooltip
+              direction="top"
+              offset={[0, -10]}
+              opacity={0.95}
+              className="custom-tooltip"
+            >
+              <div>
+                <strong>📍 Étape {i + 1}</strong>
+                <br />
+                Lat: {lat}, Lng: {lng}
+                <br />
+                🚗 Vitesse:{" "}
+                <span className={`speed-${getSpeedColor(vehicle.speed)}`}>
+                  {vehicle.speed} km/h
+                </span>
+              </div>
             </Tooltip>
           </Marker>
         );

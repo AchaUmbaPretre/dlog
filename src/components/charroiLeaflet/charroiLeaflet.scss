@@ -1,0 +1,30 @@
+.charroi-map {
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+
+  .custom-tooltip {
+    font-size: 13px;
+    background: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Style des clusters */
+  .custom-cluster {
+    background: rgba(255, 69, 0, 0.8);
+    color: #fff;
+    border-radius: 50%;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #fff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .cluster-icon {
+    font-size: 14px;
+  }
+}
+ 

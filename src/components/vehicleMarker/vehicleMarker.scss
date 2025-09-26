@@ -1,0 +1,36 @@
+.vehicle-popup {
+  .popup-content {
+    font-size: 14px;
+    line-height: 1.5;
+
+    h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    p {
+      margin: 4px 0;
+    }
+
+    .status-online {
+      color: green;
+      font-weight: bold;
+    }
+
+    .status-offline {
+      color: red;
+      font-weight: bold;
+    }
+
+    .speed-green {
+      color: green;
+    }
+    .speed-orange {
+      color: orange;
+    }
+    .speed-red {
+      color: red;
+    }
+  }
+}
