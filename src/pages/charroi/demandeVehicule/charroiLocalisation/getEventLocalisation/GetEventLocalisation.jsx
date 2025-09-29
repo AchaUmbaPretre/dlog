@@ -1,14 +1,14 @@
 import './getEventLocalisation.scss';
 import { useEffect, useState, useMemo, useRef } from 'react';
-import { DatePicker, Table, Tag, Space, message, Select, Button, Tooltip } from 'antd';
-import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined, PoweroffOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { DatePicker, Table, Tag, Space, message, Select, Button } from 'antd';
+import { CarOutlined, ClockCircleOutlined, EyeOutlined, PoweroffOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../../../../config';
 import dayjs from 'dayjs';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
 import html2pdf from 'html2pdf.js';
+import { VehicleAddress } from '../../../../../utils/vehicleAddress';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -21,8 +21,9 @@ const GetEventLocalisation = () => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const apiHash = config.api_hash;
   const tableRef = useRef();
+  const [modalType, setModalType] = useState(null);
 
-  // 🔹 Fetch API
+
   const fetchData = async (from, to) => {
     try {
       setLoading(true);
@@ -54,13 +55,18 @@ const GetEventLocalisation = () => {
     }
   };
 
-  // 🔹 Chargement par défaut (aujourd'hui)
   useEffect(() => {
     const startOfDay = dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
     const endOfDay = dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
     setDateRange([dayjs().startOf('day'), dayjs().endOf('day')]);
     fetchData(startOfDay, endOfDay);
   }, []);
+
+    const openModal = (type, id = '') => {
+        setModalType(type);
+    };
+
+  const handleDetail = () => openModal('Detail')
 
   // 🔹 Colonnes de la table
   const columns = [
@@ -105,25 +111,19 @@ const GetEventLocalisation = () => {
       },
     },
     {
-      title: 'Position',
-      key: 'position',
-      render: (_, record) =>
-        record.latitude && record.longitude ? (
-          <Tooltip title="Voir sur Google Maps">
-            <Button
-              type="link"
-              icon={<EnvironmentOutlined style={{ color: '#fa8c16' }} />}
-              href={`https://www.google.com/maps?q=${record.latitude},${record.longitude}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Carte
-            </Button>
-          </Tooltip>
-        ) : (
-          <span>-</span>
-        ),
+        title: 'Position',
+        key: 'position',
+        render: (_, record) => {
+            const location = { lat: record.latitude, lng: record.longitude };
+            return <VehicleAddress record={location} />;
+        }
     },
+    { title: 'Actions', key: 'actions', render: (text, record) => (
+        <Space style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+            <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.id)} />
+        </Space>
+        ),
+    }
   ];
 
   // 🔹 Liste unique des véhicules

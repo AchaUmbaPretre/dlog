@@ -168,7 +168,7 @@ const CharroiLocalisation = () => {
         visible={modalType === 'detail'}
         onCancel={closeAllModals}
         footer={null}
-        width={1050}
+        width={1080}
         centered
       >
         <CharroiLocalisationDetail id={id} />
@@ -179,7 +179,7 @@ const CharroiLocalisation = () => {
         visible={modalType === 'Event'}
         onCancel={closeAllModals}
         footer={null}
-        width={1080}
+        width={1090}
         centered
       >
         <GetEventLocalisation />
