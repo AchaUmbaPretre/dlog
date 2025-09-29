@@ -9,6 +9,7 @@ import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import html2pdf from 'html2pdf.js';
 import { VehicleAddress } from '../../../../../utils/vehicleAddress';
+import GetHistory from '../getHistory/GetHistory';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -258,7 +259,7 @@ const GetEventLocalisation = () => {
             width={1090}
             centered
         >
-            <GetEventLocalisation />
+            <GetHistory id={idDevice} />
         </Modal>
     </div>
   );
