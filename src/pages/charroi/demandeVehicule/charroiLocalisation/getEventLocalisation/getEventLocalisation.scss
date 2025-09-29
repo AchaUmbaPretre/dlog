@@ -1,0 +1,14 @@
+.event_container{
+    width: 100%;
+    .event_wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        .event_top{
+
+        }
+        .event_bottom{
+
+        }
+    }
+}

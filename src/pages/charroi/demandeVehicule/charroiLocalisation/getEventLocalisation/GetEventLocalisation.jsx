@@ -1,8 +1,19 @@
-import React from 'react'
+import './getEventLocalisation.scss'
 
 const GetEventLocalisation = () => {
   return (
-    <div>GetEventLocalisation</div>
+    <>
+        <div className="event_container">
+            <div className="event_wrapper">
+                <div className="event_top">
+
+                </div>
+                <div className="event_bottom">
+
+                </div>
+            </div>
+        </div>
+    </>
   )
 }
 
