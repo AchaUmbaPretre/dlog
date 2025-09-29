@@ -6,7 +6,7 @@ const GetEventLocalisation = () => {
         <div className="event_container">
             <div className="event_wrapper">
                 <div className="event_top">
-
+                    
                 </div>
                 <div className="event_bottom">
 
