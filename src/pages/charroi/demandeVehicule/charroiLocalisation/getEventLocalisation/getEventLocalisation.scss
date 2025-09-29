@@ -1,14 +1,32 @@
-.event_container{
-    width: 100%;
-    .event_wrapper{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        .event_top{
+.event_container {
+  width: 100%;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 
-        }
-        .event_bottom{
+  .title_event {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+  }
 
-        }
+  .event_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .event_top {
+      display: flex;
+      justify-content: flex-start;
     }
+
+    .event_bottom {
+      .ant-table {
+        border-radius: 8px;
+        overflow: hidden;
+      }
+    }
+  }
 }
