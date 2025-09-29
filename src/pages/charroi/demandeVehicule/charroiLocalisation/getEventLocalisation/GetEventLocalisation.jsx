@@ -22,7 +22,7 @@ const GetEventLocalisation = () => {
   const apiHash = config.api_hash;
   const tableRef = useRef();
   const [modalType, setModalType] = useState(null);
-
+  const [idDevice, setIdDevice] = useState('')
 
   const fetchData = async (from, to) => {
     try {
@@ -66,7 +66,7 @@ const GetEventLocalisation = () => {
         setModalType(type);
     };
 
-  const handleDetail = () => openModal('Detail')
+  const handleDetail = (id) => openModal('Detail', id)
 
   // 🔹 Colonnes de la table
   const columns = [
@@ -120,7 +120,7 @@ const GetEventLocalisation = () => {
     },
     { title: 'Actions', key: 'actions', render: (text, record) => (
         <Space style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-            <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.id)} />
+            <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.device_id)} />
         </Space>
         ),
     }
