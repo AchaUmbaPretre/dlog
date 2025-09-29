@@ -134,8 +134,6 @@ const GetHistory = ({ id }) => {
             {/* Informations générales */}
             <Card title={`🚗 ${vehicleData.device?.name || 'N/A'}`} bordered style={{ marginBottom: 20 }}>
               <Row gutter={16}>
-                <Col span={8}><b>ID Device:</b> {vehicleData.device?.id || 'N/A'}</Col>
-                <Col span={8}><b>IMEI:</b> {vehicleData.device?.imei || 'N/A'}</Col>
                 <Col span={8}>
                   <b>Status:</b>
                   <Badge status={vehicleData.status ? 'success' : 'error'} text={vehicleData.status ? 'Actif' : 'Inactif'} />
