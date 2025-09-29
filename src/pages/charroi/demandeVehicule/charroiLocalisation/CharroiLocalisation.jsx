@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CarOutlined, EyeOutlined } from '@ant-design/icons';
+import { CarOutlined, EyeOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Modal, Space, Tag, Input, Table, Button, Badge } from 'antd';
 import moment from 'moment';
@@ -7,6 +7,7 @@ import { getAlerts, getEngineStatus, getOdometer } from '../../../../services/ge
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
 import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
+import GetEventLocalisation from './getEventLocalisation/GetEventLocalisation';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -37,84 +38,84 @@ const CharroiLocalisation = () => {
     }
     };
 
+    useEffect(() => {
+        // Chargement initial
+        fetchData();
 
-  useEffect(() => {
-    // Chargement initial
-    fetchData();
+        const interval = setInterval(() => {
+        fetchData();
+        }, 5000);
 
-    const interval = setInterval(() => {
-      fetchData();
-    }, 5000);
+        // Nettoyage à la destruction du composant
+        return () => clearInterval(interval);
+    }, []);
 
-    // Nettoyage à la destruction du composant
-    return () => clearInterval(interval);
-  }, []);
+    const openModal = (type, id = '') => {
+        closeAllModals();
+        setModalType(type);
+        setId(id);
+    };
 
-  const openModal = (type, id = '') => {
-    closeAllModals();
-    setModalType(type);
-    setId(id);
-  };
+    const handleDetail = (id) => openModal('detail', id);
+    const handleEvenement = () => openModal('Event')
 
-  const handleDetail = (id) => openModal('detail', id);
+    const columns = [
+        { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => {
+            const pageSize = pagination.pageSize || 10;
+            const pageIndex = pagination.current || 1;
+            return (pageIndex - 1) * pageSize + index + 1;
+        }, width: "4%",
+        },
+        { title: 'Matricule', dataIndex: 'name', render: (text) => (
+            <div className="vehicule-matricule">
+            <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
+            <Text strong>{text}</Text>
+            </div>
+        ),
+        },
+        { title: 'Date & Heure', dataIndex: 'time', render: (text) =>
+            <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>,
+        sorter: (a, b) =>
+            moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
+        },
+        { title: 'Adresse', dataIndex: 'address',render: (_, record) => <VehicleAddress record={record} />,
+        },
+        { title: 'Vitesse', dataIndex: 'speed', render: (speed) => {
+            let color = "red";
+            if (speed > 5) color = "green";
+            else if (speed > 0) color = "orange";
+            return <Tag color={color}>{speed} km/h</Tag>;
+        },
+        },
+        { title: 'Statut', dataIndex: 'online', render: (text) =>
+            <Tag color={text === "online" ? "green" : "red"}>{text.toUpperCase()}</Tag>,
+        },
+        { title: 'Moteur', dataIndex: 'sensors', render: (sensors) =>
+            <Tag color={getEngineStatus(sensors) === "ON" ? "green" : "red"}>{getEngineStatus(sensors)}</Tag>,
+        },
+        { title: 'Km Total', dataIndex: 'sensors', render: (sensors) => {
+            const km = getOdometer(sensors);
+            if (!km || isNaN(km)) return <Tag color="default">N/A</Tag>;
+            return <Text>{Number(km).toLocaleString('fr-FR')} km</Text>;
+        },
+        },
+        { title: 'Durée arrêt', dataIndex: 'stop_duration', render: (text) => {
+            const formatted = formatStopDuration(text);
+            return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
+        },
+        },
+        { title: 'Alertes', key: 'alerts', render: (text, record) => <Space wrap>{getAlerts(record)}</Space>, },
+        { title: 'Actions', key: 'actions', render: (text, record) => (
+            <Space>
+            <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.id)} />
+            </Space>
+        ),
+        },
+    ];
 
-  const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => {
-        const pageSize = pagination.pageSize || 10;
-        const pageIndex = pagination.current || 1;
-        return (pageIndex - 1) * pageSize + index + 1;
-      }, width: "4%",
-    },
-    { title: 'Matricule', dataIndex: 'name', render: (text) => (
-        <div className="vehicule-matricule">
-          <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
-          <Text strong>{text}</Text>
-        </div>
-      ),
-    },
-    { title: 'Date & Heure', dataIndex: 'time', render: (text) =>
-        <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>,
-      sorter: (a, b) =>
-        moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
-    },
-    { title: 'Adresse', dataIndex: 'address',render: (_, record) => <VehicleAddress record={record} />,
-    },
-    { title: 'Vitesse', dataIndex: 'speed', render: (speed) => {
-        let color = "red";
-        if (speed > 5) color = "green";
-        else if (speed > 0) color = "orange";
-        return <Tag color={color}>{speed} km/h</Tag>;
-      },
-    },
-    { title: 'Statut', dataIndex: 'online', render: (text) =>
-        <Tag color={text === "online" ? "green" : "red"}>{text.toUpperCase()}</Tag>,
-    },
-    { title: 'Moteur', dataIndex: 'sensors', render: (sensors) =>
-        <Tag color={getEngineStatus(sensors) === "ON" ? "green" : "red"}>{getEngineStatus(sensors)}</Tag>,
-    },
-    { title: 'Km Total', dataIndex: 'sensors', render: (sensors) => {
-        const km = getOdometer(sensors);
-        if (!km || isNaN(km)) return <Tag color="default">N/A</Tag>;
-        return <Text>{Number(km).toLocaleString('fr-FR')} km</Text>;
-      },
-    },
-    { title: 'Durée arrêt', dataIndex: 'stop_duration', render: (text) => {
-        const formatted = formatStopDuration(text);
-        return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
-      },
-    },
-    { title: 'Alertes', key: 'alerts', render: (text, record) => <Space wrap>{getAlerts(record)}</Space>, },
-    { title: 'Actions', key: 'actions', render: (text, record) => (
-        <Space>
-          <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.id)} />
-        </Space>
-      ),
-    },
-  ];
-
-  const totalVehicules = falcon.length;
-  const enLigne = falcon.filter(f => f.online === "online").length;
-  const horsLigne = falcon.filter(f => f.online === "offline").length;
+    const totalVehicules = falcon.length;
+    const enLigne = falcon.filter(f => f.online === "online").length;
+    const horsLigne = falcon.filter(f => f.online === "offline").length;
 
   return (
     <div className="client">
@@ -137,6 +138,15 @@ const CharroiLocalisation = () => {
             style={{ width: 300 }}
             enterButton 
           />
+          <div className="client-rows-right">
+            <Button
+                type="primary"
+                icon={<CalendarOutlined />}
+                onClick={handleEvenement}
+            >
+                Voir les événements
+            </Button>
+          </div>
         </div>
 
         <Table
@@ -162,6 +172,17 @@ const CharroiLocalisation = () => {
         centered
       >
         <CharroiLocalisationDetail id={id} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Event'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1080}
+        centered
+      >
+        <GetEventLocalisation />
       </Modal>
     </div>
   );
