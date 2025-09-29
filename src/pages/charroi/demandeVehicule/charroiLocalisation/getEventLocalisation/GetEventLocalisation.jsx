@@ -1,10 +1,14 @@
 import './getEventLocalisation.scss';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { DatePicker, Table, Tag, Space, message, Select, Button, Tooltip } from 'antd';
-import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined, PoweroffOutlined } from '@ant-design/icons';
+import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined, PoweroffOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../../../../config';
 import dayjs from 'dayjs';
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+import html2pdf from 'html2pdf.js';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -16,6 +20,7 @@ const GetEventLocalisation = () => {
   const [loading, setLoading] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const apiHash = config.api_hash;
+  const tableRef = useRef();
 
   // 🔹 Fetch API
   const fetchData = async (from, to) => {
@@ -148,6 +153,46 @@ const GetEventLocalisation = () => {
     }
   };
 
+  // 🔹 Export Excel
+  const exportToExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Événements");
+
+    worksheet.columns = [
+      { header: "Date & Heure", key: "time", width: 25 },
+      { header: "Véhicule", key: "vehicle", width: 20 },
+      { header: "Événement", key: "event", width: 20 },
+      { header: "Latitude", key: "lat", width: 15 },
+      { header: "Longitude", key: "lng", width: 15 },
+    ];
+
+    filteredEvents.forEach((e) => {
+      worksheet.addRow({
+        time: e.time,
+        vehicle: e.device_name,
+        event: e.message,
+        lat: e.latitude,
+        lng: e.longitude,
+      });
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), "evenements.xlsx");
+  };
+
+  // 🔹 Export PDF
+  const exportToPDF = () => {
+    const element = tableRef.current;
+    const opt = {
+      margin: 0.5,
+      filename: "evenements.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "a4", orientation: "landscape" },
+    };
+    html2pdf().set(opt).from(element).save();
+  };
+
   return (
     <div className="event_container">
       <h2 className="title_event">📊 Détail des événements</h2>
@@ -175,8 +220,25 @@ const GetEventLocalisation = () => {
               </Option>
             ))}
           </Select>
+          <Space style={{ marginTop: 10 }}>
+            <Button
+              type="primary"
+              icon={<FileExcelOutlined />}
+              onClick={exportToExcel}
+            >
+              Export Excel
+            </Button>
+            <Button
+              type="primary"
+              danger
+              icon={<FilePdfOutlined />}
+              onClick={exportToPDF}
+            >
+              Export PDF
+            </Button>
+          </Space>
         </div>
-        <div className="event_bottom">
+        <div className="event_bottom" ref={tableRef}>
           <Table
             columns={columns}
             dataSource={filteredEvents}
