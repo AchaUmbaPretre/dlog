@@ -1,6 +1,6 @@
 import './getEventLocalisation.scss';
 import { useEffect, useState, useMemo, useRef } from 'react';
-import { DatePicker, Table, Tag, Space, message, Select, Button } from 'antd';
+import { DatePicker, Table, Modal, Tag, Space, message, Select, Button } from 'antd';
 import { CarOutlined, ClockCircleOutlined, EyeOutlined, PoweroffOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../../../../config';
@@ -64,9 +64,10 @@ const GetEventLocalisation = () => {
 
     const openModal = (type, id = '') => {
         setModalType(type);
+        setIdDevice(id)
     };
-
-  const handleDetail = (id) => openModal('Detail', id)
+    const closeAllModals = () => setModalType(null);
+    const handleDetail = (id) => openModal('device', id)
 
   // 🔹 Colonnes de la table
   const columns = [
@@ -249,7 +250,17 @@ const GetEventLocalisation = () => {
             size="middle"
           />
         </div>
-      </div>
+        </div>
+        <Modal
+            title=""
+            visible={modalType === 'device'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1090}
+            centered
+        >
+            <GetEventLocalisation />
+        </Modal>
     </div>
   );
 };
