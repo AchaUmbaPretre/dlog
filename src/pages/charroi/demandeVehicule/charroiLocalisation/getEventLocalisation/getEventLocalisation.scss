@@ -19,7 +19,8 @@
 
     .event_top {
       display: flex;
-      justify-content: flex-start;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .event_bottom {
