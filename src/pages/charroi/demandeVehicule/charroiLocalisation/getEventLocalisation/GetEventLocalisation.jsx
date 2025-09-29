@@ -69,7 +69,6 @@ const GetEventLocalisation = () => {
     const closeAllModals = () => setModalType(null);
     const handleDetail = (id) => openModal('device', id)
 
-  // 🔹 Colonnes de la table
   const columns = [
     {
       title: 'Date & Heure',
