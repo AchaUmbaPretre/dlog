@@ -6,7 +6,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 
   .title_event {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
     margin-bottom: 15px;
     color: #333;
@@ -27,6 +27,16 @@
       .ant-table {
         border-radius: 8px;
         overflow: hidden;
+
+        .ant-table-thead > tr > th {
+          background: #fafafa;
+          font-weight: 600;
+          font-size: 14px;
+        }
+
+        .ant-table-tbody > tr > td {
+          font-size: 14px;
+        }
       }
     }
   }

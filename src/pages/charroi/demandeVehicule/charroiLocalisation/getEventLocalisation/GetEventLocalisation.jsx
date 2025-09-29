@@ -1,7 +1,7 @@
 import './getEventLocalisation.scss';
 import { useEffect, useState, useMemo } from 'react';
-import { DatePicker, Table, Tag, Space, message, Select } from 'antd';
-import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { DatePicker, Table, Tag, Space, message, Select, Button, Tooltip } from 'antd';
+import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined, PoweroffOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../../../../config';
 import dayjs from 'dayjs';
@@ -17,7 +17,7 @@ const GetEventLocalisation = () => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const apiHash = config.api_hash;
 
-  // 🔹 Fonction de fetch avec dates dynamiques
+  // 🔹 Fetch API
   const fetchData = async (from, to) => {
     try {
       setLoading(true);
@@ -66,7 +66,7 @@ const GetEventLocalisation = () => {
       render: (text) => (
         <Space>
           <ClockCircleOutlined style={{ color: '#1890ff' }} />
-          {text}
+          {dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}
         </Space>
       ),
     },
@@ -77,7 +77,7 @@ const GetEventLocalisation = () => {
       render: (text) => (
         <Space>
           <CarOutlined style={{ color: '#722ed1' }} />
-          <span>{text}</span>
+          <span style={{ fontWeight: 500 }}>{text}</span>
         </Space>
       ),
     },
@@ -87,7 +87,16 @@ const GetEventLocalisation = () => {
       key: 'message',
       render: (text, record) => {
         const color = record.type === 'ignition_on' ? 'green' : 'red';
-        return <Tag color={color}>{text}</Tag>;
+        const icon = record.type === 'ignition_on' ? (
+          <PoweroffOutlined style={{ color: 'green' }} />
+        ) : (
+          <PoweroffOutlined style={{ color: 'red' }} />
+        );
+        return (
+          <Tag color={color} style={{ fontSize: 14, padding: '4px 10px' }}>
+            {icon} {text}
+          </Tag>
+        );
       },
     },
     {
@@ -95,20 +104,24 @@ const GetEventLocalisation = () => {
       key: 'position',
       render: (_, record) =>
         record.latitude && record.longitude ? (
-          <a
-            href={`https://www.google.com/maps?q=${record.latitude},${record.longitude}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <EnvironmentOutlined style={{ color: '#fa8c16' }} /> Voir carte
-          </a>
+          <Tooltip title="Voir sur Google Maps">
+            <Button
+              type="link"
+              icon={<EnvironmentOutlined style={{ color: '#fa8c16' }} />}
+              href={`https://www.google.com/maps?q=${record.latitude},${record.longitude}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Carte
+            </Button>
+          </Tooltip>
         ) : (
           <span>-</span>
         ),
     },
   ];
 
-  // 🔹 Extraire la liste unique des véhicules
+  // 🔹 Liste unique des véhicules
   const vehicles = useMemo(() => {
     const unique = [...new Set(events.map((e) => e.device_name))];
     return unique;
@@ -121,7 +134,7 @@ const GetEventLocalisation = () => {
       const from = values[0].format('YYYY-MM-DD HH:mm:ss');
       const to = values[1].format('YYYY-MM-DD HH:mm:ss');
       fetchData(from, to);
-      setSelectedVehicle(null); // reset filtre véhicule
+      setSelectedVehicle(null);
     }
   };
 
@@ -171,6 +184,7 @@ const GetEventLocalisation = () => {
             loading={loading}
             pagination={{ pageSize: 10 }}
             bordered
+            size="middle"
           />
         </div>
       </div>
