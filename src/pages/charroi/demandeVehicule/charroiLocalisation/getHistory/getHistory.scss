@@ -1,0 +1,153 @@
+// =======================
+// 🎨 Variables globales
+// =======================
+$primary-color: #1890ff;
+$secondary-color: #52c41a;
+$danger-color: #ff4d4f;
+$warning-color: #faad14;
+$text-color: #1f1f1f;
+$text-light: #595959;
+$bg-light: #f9f9f9;
+$card-radius: 12px;
+$shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+// =======================
+// ⚙️ Containers principaux
+// =======================
+.event_container {
+  padding: 24px;
+  background: $bg-light;
+  min-height: 100vh;
+
+  .title_event {
+    font-size: 22px;
+    font-weight: 600;
+    color: $text-color;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &::before {
+      content: "📊";
+      font-size: 20px;
+    }
+  }
+
+  .event_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+// =======================
+// 📅 Date picker section
+// =======================
+.event_top {
+  .ant-picker-range {
+    border-radius: $card-radius;
+    box-shadow: $shadow-soft;
+    padding: 8px 12px;
+
+    input {
+      font-size: 14px;
+    }
+  }
+}
+
+// =======================
+// 🃏 Cartes (Ant Design)
+// =======================
+.ant-card {
+  border-radius: $card-radius !important;
+  box-shadow: $shadow-soft;
+  border: none;
+
+  .ant-card-head {
+    border-bottom: none;
+    padding: 0 16px;
+
+    .ant-card-head-title {
+      font-weight: 600;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  .ant-card-body {
+    padding: 20px;
+  }
+}
+
+// =======================
+// 🗺️ Carte Leaflet
+// =======================
+.leaflet-container {
+  border-radius: $card-radius;
+  overflow: hidden;
+  border: 1px solid #eee;
+
+  .leaflet-tooltip {
+    background: $primary-color;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 4px 8px;
+  }
+}
+
+// =======================
+// 📈 Graphiques
+// =======================
+.chartjs-render-monitor {
+  max-height: 400px;
+}
+
+.ant-card:has(canvas) {
+  .ant-card-body {
+    padding: 16px;
+  }
+}
+
+// =======================
+// 📝 Table événements
+// =======================
+.ant-table {
+  border-radius: $card-radius;
+  overflow: hidden;
+
+  th {
+    background: #fafafa !important;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  td {
+    font-size: 13px;
+  }
+
+  .ant-pagination {
+    margin-top: 16px;
+  }
+}
+
+// =======================
+// 🔄 Loader & état vide
+// =======================
+.ant-spin {
+  .ant-spin-dot-item {
+    background-color: $primary-color;
+  }
+}
+
+.ant-empty {
+  padding: 40px 0;
+  .ant-empty-description {
+    color: $text-light;
+    font-size: 14px;
+  }
+}
