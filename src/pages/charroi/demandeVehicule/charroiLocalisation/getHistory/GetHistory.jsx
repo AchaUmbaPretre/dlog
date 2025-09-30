@@ -3,9 +3,6 @@ import {
   DatePicker,
   message,
   Card,
-  Row,
-  Col,
-  Badge,
   Table,
   Spin,
   Empty,
@@ -23,12 +20,6 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import {
-  CarOutlined,
-  FlagOutlined,
-  ClockCircleOutlined,
-  DashboardOutlined,
-} from "@ant-design/icons";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -42,8 +33,8 @@ import {
 } from "chart.js";
 
 import { getEventHistory } from "../../../../../services/rapportService";
-import { fetchAddress } from "../../../../../utils/fetchAddress";
 import config from "../../../../../config";
+import VehicleCard from "./vehicleCard/VehicleCard";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -190,19 +181,6 @@ const GetHistory = ({ id }) => {
 
   const totalDistance = tableData.reduce((acc, item) => acc + (item.distance || 0), 0);
 
-  useEffect(() => {
-    const fetchAllAddresses = async () => {
-      for (const item of tableData) {
-        const key = `${item.lat}_${item.lng}`;
-        if (!addressMap[key]) {
-          const addr = await fetchAddress(item);
-          setAddressMap((prev) => ({ ...prev, [key]: addr || "Adresse inconnue" }));
-        }
-      }
-    };
-    if (tableData.length > 0) fetchAllAddresses();
-  }, [tableData]);
-
   const itemColumns = [
     { title: "Heure", dataIndex: "time", key: "time" },
     { title: "Vitesse (kph)", dataIndex: "speed", key: "speed" },
@@ -211,21 +189,16 @@ const GetHistory = ({ id }) => {
     { title: "Porte", dataIndex: "door", key: "door" },
     { title: "Distance (km)", dataIndex: "distance", key: "distance" },
     {
-      title: "Adresse",
-      key: "address",
-      render: (_, record) => {
-        const key = `${record.lat}_${record.lng}`;
-        return addressMap[key] || <Spin size="small" />;
-      },
+      title: "lat",
+      key: "lat",
+      dataIndex: "lat", key: "lat"
     },
+    {
+      title: "long",
+      key: "lng",
+      dataIndex: "lng", key: "lng"
+    }
   ];
-
-  // Badge dynamique carburant
-  const getFuelStatus = (fuel) => {
-    if (fuel > 50) return "success";
-    if (fuel > 20) return "warning";
-    return "error";
-  };
 
   return (
     <div className="event_container" style={{ padding: 20 }}>
@@ -256,81 +229,7 @@ const GetHistory = ({ id }) => {
       {vehicleData && (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
           {/* Infos générales */}
-          <Card
-            bordered
-            style={{
-              borderRadius: 12,
-              boxShadow: "0 6px 16px rgba(0,0,0,0.12)",
-              backgroundColor: "#fff",
-            }}
-            title={
-              <Space>
-                <CarOutlined style={{ color: "#1890ff" }} />
-                <Text strong style={{ fontSize: 18 }}>
-                  {vehicleData.device?.name || "N/A"}
-                </Text>
-              </Space>
-            }
-          >
-            <Row gutter={[16, 16]}>
-              <Col span={8}>
-                <Tooltip title="État du véhicule">
-                  <Text strong>Status: </Text>
-                  <Badge
-                    status={vehicleData.status ? "success" : "error"}
-                    text={vehicleData.status ? "Actif 🚀" : "Inactif ❌"}
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={8}>
-                <Tooltip title="Nombre total d'événements enregistrés">
-                  <Text strong>
-                    <FlagOutlined style={{ color: "#faad14", marginRight: 4 }} />
-                    Événements:
-                  </Text>{" "}
-                  {tableData.length}
-                </Tooltip>
-              </Col>
-              <Col span={8}>
-                <Tooltip title="Distance totale parcourue">
-                  <Text strong>
-                    <DashboardOutlined style={{ color: "#52c41a", marginRight: 4 }} />
-                    Distance:
-                  </Text>{" "}
-                  {totalDistance.toLocaleString(undefined, { minimumFractionDigits: 2 })} km
-                </Tooltip>
-              </Col>
-              <Col span={8}>
-                <Tooltip title="Carburant restant">
-                  <Text strong>Carburant: </Text>
-                  <Badge
-                    status={getFuelStatus(vehicleData.device?.fuel_quantity || 0)}
-                    text={`${vehicleData.device?.fuel_quantity || 0} L`}
-                  />
-                </Tooltip>
-              </Col>
-              <Col span={8}>
-                <Tooltip title="Vitesse max aujourd'hui">
-                  <Text strong>Top Speed: </Text> {vehicleData.top_speed || "N/A"}
-                </Tooltip>
-              </Col>
-              <Col span={8}>
-                <Tooltip title="Durée en mouvement / arrêt">
-                  <Text strong>Mouvement: </Text> {vehicleData.move_duration || "0"} / 
-                  <Text strong> Arrêt: </Text> {vehicleData.stop_duration || "0"}
-                </Tooltip>
-              </Col>
-              <Col span={24}>
-                <Tooltip title="Dernière mise à jour">
-                  <Text strong>
-                    <ClockCircleOutlined style={{ color: "#1890ff", marginRight: 4 }} />
-                    Dernière activité:
-                  </Text>{" "}
-                  {vehicleData.lastUpdate ? new Date(vehicleData.lastUpdate).toLocaleString() : "N/A"}
-                </Tooltip>
-              </Col>
-            </Row>
-          </Card>
+            <VehicleCard vehicleData={vehicleData} tableData={tableData} totalDistance={totalDistance} />
 
           {/* Carte */}
           <Card bordered style={{ borderRadius: 12 }} title="🗺️ Trajectoire">

@@ -150,13 +150,13 @@ export const getFalcon = async () => {
 };
 
 export const getEvent = async (params) => {
-  return axios.get("http://localhost:8080/api/get_event", {
+  return axios.get("https://apidlog.loginsmart-cd.com/api/get_event", {
     params,
   });
 };
 
 export const getEventHistory = async (params) => {
-  return axios.get("http://localhost:8080/api/get_history", {
+  return axios.get("https://apidlog.loginsmart-cd.com/api/get_history", {
     params,
   });
 };
