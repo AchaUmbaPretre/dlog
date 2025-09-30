@@ -37,6 +37,7 @@ import { getEventHistory } from "../../../../../services/rapportService";
 import config from "../../../../../config";
 import VehicleCard from "../../../../../components/vehicleCard/VehicleCard";
 import { EnvironmentOutlined } from '@ant-design/icons';
+import VehicleMap from "../../../../../components/vehicleMap/VehicleMap";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -246,29 +247,7 @@ const GetHistory = ({ id }) => {
             <VehicleCard vehicleData={vehicleData} tableData={tableData} totalDistance={totalDistance} />
 
           {/* Carte */}
-          <Card bordered style={{ borderRadius: 12 }} title="🗺️ Trajectoire">
-            <MapContainer
-              center={positions[0] || [0, 0]}
-              zoom={positions.length > 0 ? 13 : 2}
-              style={{ height: "400px", width: "100%", borderRadius: 8 }}
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="&copy; OpenStreetMap contributors"
-              />
-              {positions.length > 0 && (
-                <>
-                  <Polyline positions={positions} color="blue" />
-                  <Marker position={positions[0]}>
-                    <MapTooltip>🚩 Départ</MapTooltip>
-                  </Marker>
-                  <Marker position={positions[positions.length - 1]}>
-                    <MapTooltip>🏁 Arrivée</MapTooltip>
-                  </Marker>
-                </>
-              )}
-            </MapContainer>
-          </Card>
+          <VehicleMap positions={positions}/>
 
           {/* Graphiques */}
           <Card bordered style={{ borderRadius: 12 }} title="📈 Graphiques">
