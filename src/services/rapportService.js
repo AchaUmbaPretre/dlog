@@ -148,3 +148,15 @@ export const getRapportUtilitaire = async () => {
 export const getFalcon = async () => {
   return axios.get('https://apidlog.loginsmart-cd.com/api/falcon'); // toujours en HTTPS car ton site est en HTTPS
 };
+
+export const getEvent = async (params) => {
+  return axios.get("https://apidlog.loginsmart-cd.com/api/get_event", {
+    params,
+  });
+};
+
+export const getEventHistory = async (params) => {
+  return axios.get("https://apidlog.loginsmart-cd.com/api/get_history", {
+    params,
+  });
+};

@@ -10,6 +10,7 @@ import { saveAs } from 'file-saver';
 import html2pdf from 'html2pdf.js';
 import { VehicleAddress } from '../../../../../utils/vehicleAddress';
 import GetHistory from '../getHistory/GetHistory';
+import { getEvent } from '../../../../../services/rapportService';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -25,36 +26,34 @@ const GetEventLocalisation = () => {
   const [modalType, setModalType] = useState(null);
   const [idDevice, setIdDevice] = useState('')
 
-  const fetchData = async (from, to) => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(
-        `http://falconeyesolutions.com/api/get_events`,
-        {
-          params: {
-            date_from: from,
-            date_to: to,
-            lang: 'fr',
-            limit: 1000,
-            user_api_hash: apiHash,
-          },
-        }
-      );
-      if (data?.items?.data) {
-        setEvents(data.items.data);
-        setFilteredEvents(data.items.data);
-      } else {
-        setEvents([]);
-        setFilteredEvents([]);
-        message.info("Aucun événement trouvé pour cette période.");
-      }
-    } catch (error) {
-      console.error('Erreur lors du fetch:', error);
-      message.error("Erreur lors du chargement des événements.");
-    } finally {
-      setLoading(false);
+const fetchData = async (from, to) => {
+  try {
+    setLoading(true);
+
+    const { data } = await getEvent({
+      date_from: from,
+      date_to: to,
+      lang: "fr",
+      limit: 1000,
+      user_api_hash: apiHash,
+    });
+
+    if (data?.items?.data) {
+      setEvents(data.items.data);
+      setFilteredEvents(data.items.data);
+    } else {
+      setEvents([]);
+      setFilteredEvents([]);
+      message.info("Aucun événement trouvé pour cette période.");
     }
-  };
+  } catch (error) {
+    console.error("Erreur lors du fetch:", error);
+    message.error("Erreur lors du chargement des événements.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     const startOfDay = dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');

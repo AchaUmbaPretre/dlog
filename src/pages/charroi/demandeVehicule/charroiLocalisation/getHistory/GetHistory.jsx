@@ -39,6 +39,7 @@ import './getHistory.scss'
 import { fetchAddress } from "../../../../../utils/fetchAddress";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { getEventHistory } from "../../../../../services/rapportService";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -68,32 +69,41 @@ const GetHistory = ({ id }) => {
   const apiHash = config.api_hash;
   const [addressMap, setAddressMap] = useState({});
 
-  const fetchData = async (from, to) => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(
-        `http://falconeyesolutions.com/api/get_history?device_id=${id}&from_date=${from.split(" ")[0]}&from_time=${from.split(" ")[1]}&to_date=${to.split(" ")[0]}&to_time=${to.split(" ")[1]}&lang=fr&limit=50&user_api_hash=${apiHash}`
-      );
+    const fetchData = async (from, to) => {
+        try {
+            setLoading(true);
 
-      if (data) {
-        setVehicleData(data);
-      } else {
-        message.info("Aucun historique trouvé pour cette période.");
-      }
-    } catch (error) {
-      console.error("Erreur lors du fetch:", error);
-      message.error("Erreur lors du chargement des événements.");
-    } finally {
-      setLoading(false);
-    }
-  };
+            const { data } = await getEventHistory({
+            device_id: id,
+            from_date: from.split(" ")[0],
+            from_time: from.split(" ")[1],
+            to_date: to.split(" ")[0],
+            to_time: to.split(" ")[1],
+            lang: "fr",
+            limit: 50,
+            user_api_hash: apiHash,
+            });
 
-  useEffect(() => {
-    const startOfDay = dayjs().startOf("day").format("YYYY-MM-DD HH:mm:ss");
-    const endOfDay = dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
-    setDateRange([dayjs().startOf("day"), dayjs().endOf("day")]);
-    fetchData(startOfDay, endOfDay);
-  }, []);
+            if (data) {
+            setVehicleData(data);
+            } else {
+            message.info("Aucun historique trouvé pour cette période.");
+            }
+        } catch (error) {
+            console.error("Erreur lors du fetch:", error);
+            message.error("Erreur lors du chargement des événements.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    useEffect(() => {
+        const startOfDay = dayjs().startOf("day").format("YYYY-MM-DD HH:mm:ss");
+        const endOfDay = dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
+        setDateRange([dayjs().startOf("day"), dayjs().endOf("day")]);
+        fetchData(startOfDay, endOfDay);
+    }, []);
 
   const handleDateChange = (values) => {
     setDateRange(values);
