@@ -103,7 +103,7 @@ const GetHistory = ({ id }) => {
         const endOfDay = dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
         setDateRange([dayjs().startOf("day"), dayjs().endOf("day")]);
         fetchData(startOfDay, endOfDay);
-    }, []);
+    }, [id]);
 
   const handleDateChange = (values) => {
     setDateRange(values);

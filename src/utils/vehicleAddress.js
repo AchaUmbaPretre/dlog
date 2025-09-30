@@ -35,11 +35,5 @@ export const VehicleAddress = memo(({ record }) => {
     };
   }, [record]);
 
-  // Sécuriser l'affichage final
-  const cleanAddress =
-    displayAddress && displayAddress !== "undefined, undefined"
-      ? displayAddress
-      : "-";
-
   return <span>{displayAddress}</span>;
 });
