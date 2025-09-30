@@ -1,8 +1,7 @@
 import './getEventLocalisation.scss';
 import { useEffect, useState, useMemo, useRef } from 'react';
-import { DatePicker, Table, Modal, Tag, Space, message, Select, Button } from 'antd';
-import { CarOutlined, ClockCircleOutlined, EyeOutlined, PoweroffOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { DatePicker, Table, Tooltip, Modal, Tag, Space, message, Select, Button } from 'antd';
+import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined, EyeOutlined, PoweroffOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import config from '../../../../../config';
 import dayjs from 'dayjs';
 import ExcelJS from 'exceljs';
@@ -118,10 +117,36 @@ const fetchData = async (from, to) => {
             return <VehicleAddress record={location} />;
         }
     },
-    { title: 'Actions', key: 'actions', render: (text, record) => (
-        <Space style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-            <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.device_id)} />
-        </Space>
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (text, record) => (
+            <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {/* Bouton détail */}
+            <Tooltip title="Voir l'historique du véhicule">
+                <Button
+                icon={<EyeOutlined />}
+                type="link"
+                onClick={() => handleDetail(record.device_id)}
+                />
+            </Tooltip>
+
+            {/* Bouton ouvrir Google Maps */}
+            {record.latitude && record.longitude && (
+                <Tooltip title="Voir la position sur Google Maps">
+                <Button
+                    type="link"
+                    icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
+                    onClick={() =>
+                    window.open(
+                        `https://www.google.com/maps?q=${record.latitude},${record.longitude}`,
+                        '_blank'
+                    )
+                    }
+                />
+                </Tooltip>
+            )}
+            </Space>
         ),
     }
   ];
