@@ -176,19 +176,6 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
                 </Text>
               </Tooltip>
             </Col>
-
-            {/* Dernière activité */}
-            <Col span={24}>
-              <Tooltip title="Dernière mise à jour">
-                <Text strong>
-                  <ClockCircleOutlined style={{ color: "#1890ff", marginRight: 6 }} />
-                  Dernière activité:
-                </Text>{" "}
-                {vehicleData.lastUpdate
-                  ? new Date(vehicleData.lastUpdate).toLocaleString()
-                  : "N/A"}
-              </Tooltip>
-            </Col>
           </Row>
         </Col>
       </Row>

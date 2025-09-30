@@ -8,7 +8,8 @@ import {
   Empty,
   Typography,
   Space,
-  Tooltip
+  Tooltip,
+  Button
 } from "antd";
 import dayjs from "dayjs";
 import {
@@ -35,6 +36,7 @@ import {
 import { getEventHistory } from "../../../../../services/rapportService";
 import config from "../../../../../config";
 import VehicleCard from "./vehicleCard/VehicleCard";
+import { EnvironmentOutlined } from '@ant-design/icons';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -60,7 +62,6 @@ const GetHistory = ({ id }) => {
   const [dateRange, setDateRange] = useState([]);
   const [loading, setLoading] = useState(false);
   const [vehicleData, setVehicleData] = useState(null);
-  const [addressMap, setAddressMap] = useState({});
 
   const apiHash = config.api_hash; // Remplace par ton config
 
@@ -189,15 +190,28 @@ const GetHistory = ({ id }) => {
     { title: "Porte", dataIndex: "door", key: "door" },
     { title: "Distance (km)", dataIndex: "distance", key: "distance" },
     {
-      title: "lat",
-      key: "lat",
-      dataIndex: "lat", key: "lat"
-    },
-    {
-      title: "long",
-      key: "lng",
-      dataIndex: "lng", key: "lng"
-    }
+        title: 'Actions',
+        key: 'actions',
+        render: (text, record) => (
+                <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {/* Bouton ouvrir Google Maps */}
+                {record.lat && record.lng && (
+                    <Tooltip title="Voir la position sur Google Maps">
+                    <Button
+                        type="link"
+                        icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
+                        onClick={() =>
+                        window.open(
+                            `https://www.google.com/maps?q=${record.lat},${record.lng}`,
+                            '_blank'
+                        )
+                        }
+                    />
+                    </Tooltip>
+                )}
+                </Space>
+            ),
+        }
   ];
 
   return (
