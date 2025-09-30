@@ -282,7 +282,7 @@ const GetHistory = ({ id }) => {
           </Card>
 
           {/* Table événements */}
-          <Card bordered style={{ borderRadius: 12 }} title="📝 Événements">
+          <Card bordered style={{ borderRadius: 12 }} title="📝 Historiques">
             <Table
               columns={itemColumns}
               dataSource={tableData}
@@ -293,6 +293,7 @@ const GetHistory = ({ id }) => {
           </Card>
         </Space>
       )}
+
     </div>
   );
 };
