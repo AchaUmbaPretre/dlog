@@ -37,6 +37,16 @@ import {
 import { Line } from "react-chartjs-2";
 import './getHistory.scss'
 import { fetchAddress } from "../../../../../utils/fetchAddress";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+});
 
 ChartJS.register(
   CategoryScale,
@@ -249,32 +259,33 @@ const totalDistance = tableData.reduce(
 
           {/* Carte */}
           <Card
-            bordered
-            style={{ borderRadius: 12 }}
-            title="🗺️ Trajectoire"
-          >
-            <MapContainer
-              center={positions[0] || [0, 0]}
-              zoom={positions.length > 0 ? 13 : 2}
-              style={{ height: "400px", width: "100%", borderRadius: 8 }}
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="&copy; OpenStreetMap contributors"
-              />
-              {positions.length > 0 && (
-                <>
-                  <Polyline positions={positions} color="blue" />
-                  <Marker position={positions[0]}>
-                    <MapTooltip>Départ</MapTooltip>
-                  </Marker>
-                  <Marker position={positions[positions.length - 1]}>
-                    <MapTooltip>Arrivée</MapTooltip>
-                  </Marker>
-                </>
-              )}
-            </MapContainer>
-          </Card>
+  bordered
+  style={{ borderRadius: 12 }}
+  title="🗺️ Trajectoire"
+>
+  <MapContainer
+    center={positions[0] || [0, 0]}
+    zoom={positions.length > 0 ? 13 : 2}
+    style={{ height: "400px", width: "100%", borderRadius: 8 }}
+  >
+    <TileLayer
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      attribution="&copy; OpenStreetMap contributors"
+    />
+    {positions.length > 0 && (
+      <>
+        <Polyline positions={positions} color="blue" />
+        <Marker position={positions[0]}>
+          <MapTooltip>Départ</MapTooltip>
+        </Marker>
+        <Marker position={positions[positions.length - 1]}>
+          <MapTooltip>Arrivée</MapTooltip>
+        </Marker>
+      </>
+    )}
+  </MapContainer>
+</Card>
+
 
           {/* Graphiques */}
           <Card
