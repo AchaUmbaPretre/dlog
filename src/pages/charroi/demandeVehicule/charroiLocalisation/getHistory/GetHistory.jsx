@@ -12,13 +12,6 @@ import {
   Button
 } from "antd";
 import dayjs from "dayjs";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Polyline,
-  Tooltip as MapTooltip,
-} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Line } from "react-chartjs-2";
