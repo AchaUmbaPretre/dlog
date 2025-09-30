@@ -22,6 +22,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
     return "error";
   };
 
+
   const getSpeedIcon = (speed) => {
     if (!speed) return <DashboardOutlined style={{ color: "#999" }} />;
     if (parseInt(speed) > 100) {
@@ -67,7 +68,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
         <Col xs={24}>
           <Row gutter={[12, 16]}>
             {/* Statut */}
-            <Col span={12}>
+            <Col span={8}>
               <Tooltip title="État du véhicule">
                 <Text
                   strong
@@ -90,7 +91,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
             </Col>
 
             {/* Événements */}
-            <Col span={12}>
+            <Col span={8}>
               <Tooltip title="Nombre total d'événements">
                 <Text strong>
                   <FlagOutlined style={{ color: "#faad14", marginRight: 6 }} />
@@ -101,7 +102,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
             </Col>
 
             {/* Distance */}
-            <Col span={12}>
+            <Col span={8}>
               <Tooltip title="Distance totale parcourue">
                 <Text strong>
                   <DashboardOutlined style={{ color: "#52c41a", marginRight: 6 }} />
@@ -115,7 +116,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
             </Col>
 
             {/* Carburant restant */}
-            <Col span={12}>
+            <Col span={8}>
               <Tooltip title="Carburant restant">
                 <Text
                   strong
@@ -138,7 +139,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
             </Col>
 
             {/* Carburant consommé */}
-            <Col span={12}>
+            <Col span={8}>
               <Tooltip title="Carburant consommé (trajet)">
                 <Text strong style={{ display: "flex", alignItems: "center" }}>
                   <FireOutlined style={{ color: "#722ed1", marginRight: 6 }} />
@@ -149,7 +150,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
             </Col>
 
             {/* Vitesse max */}
-            <Col span={12}>
+            <Col span={8}>
               <Tooltip title="Vitesse maximale du jour">
                 <Text
                   strong
@@ -164,7 +165,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
             </Col>
 
             {/* Mouvement / arrêt */}
-            <Col span={12}>
+            <Col span={8}>
               <Tooltip title="Durée en mouvement / arrêt">
                 <Text strong>
                   <LoadingOutlined style={{ color: "#1890ff", marginRight: 6 }} />
@@ -174,6 +175,18 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
                   />
                   Arrêt: {vehicleData.stop_duration || "0"}
                 </Text>
+              </Tooltip>
+            </Col>
+
+            <Col span={8}>
+              <Tooltip title="Heure de début du dernier mouvement">
+                <Text strong>
+                  <ClockCircleOutlined style={{ color: "#1890ff", marginRight: 6 }} />
+                  Heure de sortie:
+                </Text>{" "}
+                {vehicleData.device.traccar.move_begin_at
+                  ? new Date(vehicleData.device.traccar.move_begin_at).toLocaleString()
+                  : "N/A"}
               </Tooltip>
             </Col>
           </Row>
