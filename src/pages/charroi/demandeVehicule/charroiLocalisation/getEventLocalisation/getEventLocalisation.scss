@@ -21,6 +21,12 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      .row_lateral{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
     }
 
     .event_bottom {

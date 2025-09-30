@@ -24,6 +24,7 @@ const GetEventLocalisation = () => {
   const tableRef = useRef();
   const [modalType, setModalType] = useState(null);
   const [idDevice, setIdDevice] = useState('')
+  const [showPosition, setShowPosition] = useState(false); // 👈 par défaut caché
 
 const fetchData = async (from, to) => {
   try {
@@ -109,14 +110,18 @@ const fetchData = async (from, to) => {
         );
       },
     },
-    {
-        title: 'Position',
-        key: 'position',
-        render: (_, record) => {
-            const location = { lat: record.latitude, lng: record.longitude };
-            return <VehicleAddress record={location} />;
-        }
-    },
+    ...(showPosition
+      ? [
+          {
+            title: 'Position',
+            key: 'position',
+            render: (_, record) => {
+              const location = { lat: record.latitude, lng: record.longitude };
+              return <VehicleAddress record={location} />;
+            },
+          },
+        ]
+      : []),
     {
         title: 'Actions',
         key: 'actions',
@@ -245,23 +250,32 @@ const fetchData = async (from, to) => {
               </Option>
             ))}
           </Select>
-          <Space style={{ marginTop: 10 }}>
-            <Button
-              type="primary"
-              icon={<FileExcelOutlined />}
-              onClick={exportToExcel}
-            >
-              Export Excel
-            </Button>
-            <Button
-              type="primary"
-              danger
-              icon={<FilePdfOutlined />}
-              onClick={exportToPDF}
-            >
-              Export PDF
-            </Button>
-          </Space>
+          <div className='row_lateral'>
+            <Space>
+                <Button
+                type="primary"
+                icon={<FileExcelOutlined />}
+                onClick={exportToExcel}
+                >
+                Export Excel
+                </Button>
+                <Button
+                type="primary"
+                danger
+                icon={<FilePdfOutlined />}
+                onClick={exportToPDF}
+                >
+                Export PDF
+                </Button>
+            </Space>
+            <Space>
+                <Button
+                    onClick={() => setShowPosition((prev) => !prev)}
+                >
+                    {showPosition ? "Masquer Position" : "Afficher Position"}
+                </Button>
+            </Space>
+          </div>
         </div>
         <div className="event_bottom" ref={tableRef}>
           <Table
