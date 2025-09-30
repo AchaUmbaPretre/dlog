@@ -35,7 +35,7 @@ import {
 
 import { getEventHistory } from "../../../../../services/rapportService";
 import config from "../../../../../config";
-import VehicleCard from "./vehicleCard/VehicleCard";
+import VehicleCard from "../../../../../components/vehicleCard/VehicleCard";
 import { EnvironmentOutlined } from '@ant-design/icons';
 
 delete L.Icon.Default.prototype._getIconUrl;
