@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CarOutlined, EyeOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CarOutlined, EyeOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Modal, Space, Tag, Input, Table, Button, Badge } from 'antd';
 import moment from 'moment';
