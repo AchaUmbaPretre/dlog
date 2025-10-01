@@ -10,6 +10,7 @@ import html2pdf from 'html2pdf.js';
 import { VehicleAddress } from '../../../../../utils/vehicleAddress';
 import GetHistory from '../getHistory/GetHistory';
 import { getEvent } from '../../../../../services/rapportService';
+import { postEvent } from '../../../../../services/eventService';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -25,6 +26,78 @@ const GetEventLocalisation = () => {
   const [modalType, setModalType] = useState(null);
   const [idDevice, setIdDevice] = useState('')
   const [showPosition, setShowPosition] = useState(false); // 👈 par défaut caché
+
+/*   useEffect(() => {
+  // Fonction qui appelle postEvent pour toutes les données actuelles
+  const fetchAndPostEvents = async () => {
+    try {
+      // Ici, tu peux utiliser filteredEvents ou events selon ce que tu veux poster
+      for (const e of events) {
+        await postEvent({
+          external_id: e.id,
+          device_id: e.device_id,
+          device_name: e.device_name,
+          type: e.type,
+          message: e.message,
+          speed: e.speed,
+          latitude: e.latitude,
+          longitude: e.longitude,
+          event_time: e.time
+        });
+      }
+      console.log(`[${dayjs().format('YYYY-MM-DD HH:mm:ss')}] Événements postés automatiquement.`);
+    } catch (err) {
+      console.error("Erreur lors de l'enregistrement automatique :", err.message);
+    }
+  };
+
+  // Exécution immédiate au montage (optionnel)
+  fetchAndPostEvents();
+
+  // Intervalle toutes les 6h
+  const interval = setInterval(() => {
+    fetchAndPostEvents();
+  }, 6 * 60 * 60 * 1000); // 6h en ms
+
+  // Nettoyage à la destruction du composant
+  return () => clearInterval(interval);
+}, [events]); */
+
+
+useEffect(() => {
+  // Fonction qui envoie les événements vers ta base
+  const fetchAndPostEvents = async () => {
+    try {
+      for (const e of events) {
+        await postEvent({
+          external_id: e.id,
+          device_id: e.device_id,
+          device_name: e.device_name,
+          type: e.type,
+          message: e.message,
+          speed: e.speed,
+          latitude: e.latitude,
+          longitude: e.longitude,
+          event_time: e.time
+        });
+      }
+      console.log(`[${dayjs().format('YYYY-MM-DD HH:mm:ss')}] ✅ Événements envoyés automatiquement`);
+    } catch (err) {
+      console.error("❌ Erreur lors de l'envoi auto :", err.message);
+    }
+  };
+
+  // Lancer une fois immédiatement pour tester
+  fetchAndPostEvents();
+
+  // Toutes les 3 minutes
+  const interval = setInterval(() => {
+    fetchAndPostEvents();
+  }, 3 * 60 * 1000);
+
+  return () => clearInterval(interval); // Nettoyage
+}, [events]);
+
 
 const fetchData = async (from, to) => {
   try {
@@ -209,6 +282,14 @@ const fetchData = async (from, to) => {
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), "evenements.xlsx");
   };
+
+  const handSubmit = async() => {
+    try {
+        await postEvent()
+    } catch (error) {
+        console.log(error)
+    }
+  }
 
   // 🔹 Export PDF
   const exportToPDF = () => {
