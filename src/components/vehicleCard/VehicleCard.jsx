@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons";
 import { Card, Row, Col, Tooltip, Typography, Badge, Space } from "antd";
 import "./vehicleCard.scss";
+import { calculateFuelConsumption } from "../../utils/coutCarburant";
 
 const { Text } = Typography;
 
@@ -22,6 +23,11 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
     return "error";
   };
 
+  //Consommation par distance parcourue
+  const result = calculateFuelConsumption(vehicleData);
+  console.log(`Distance: ${result.distance} km`);
+  console.log(`Consommation: ${result.consumption} L`);
+  console.log(`Coût: ${result.cost} $`);
 
   const getSpeedIcon = (speed) => {
     if (!speed) return <DashboardOutlined style={{ color: "#999" }} />;
@@ -108,9 +114,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
                   <DashboardOutlined style={{ color: "#52c41a", marginRight: 6 }} />
                   Distance:
                 </Text>{" "}
-                {totalDistance.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                })}{" "}
+                {result?.distance}
                 km
               </Tooltip>
             </Col>
@@ -140,12 +144,12 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
 
             {/* Carburant consommé */}
             <Col span={8}>
-              <Tooltip title="Carburant consommé (trajet)">
+              <Tooltip title="Consommation par distance parcourue">
                 <Text strong style={{ display: "flex", alignItems: "center" }}>
                   <FireOutlined style={{ color: "#722ed1", marginRight: 6 }} />
                   Carburant consommé:
                 </Text>{" "}
-                {vehicleData?.fuel_consumption || "0 L"}
+                {result?.consumption} L
               </Tooltip>
             </Col>
 
@@ -182,7 +186,7 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
               <Tooltip title="Heure de début du dernier mouvement">
                 <Text strong>
                   <ClockCircleOutlined style={{ color: "#1890ff", marginRight: 6 }} />
-                  Heure de sortie:
+                  Départ :
                 </Text>{" "}
                 {vehicleData.device.traccar.move_begin_at
                   ? new Date(vehicleData.device.traccar.move_begin_at).toLocaleString()
