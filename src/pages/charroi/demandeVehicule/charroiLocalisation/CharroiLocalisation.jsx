@@ -8,6 +8,7 @@ import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocali
 import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
 import GetEventLocalisation from './getEventLocalisation/GetEventLocalisation';
+import RapportEvent from './rapportEvent/RapportEvent';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -58,6 +59,7 @@ const CharroiLocalisation = () => {
 
     const handleDetail = (id) => openModal('detail', id);
     const handleEvenement = () => openModal('Event')
+    const handleRapport = () => openModal('rapport')
 
     const columns = [
         { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => {
@@ -146,6 +148,13 @@ const CharroiLocalisation = () => {
             >
                 Voir les événements
             </Button>
+            <Button
+                type="primary"
+                icon={<FileTextOutlined />}
+                onClick={handleRapport}
+            >
+                Rapport
+            </Button>
           </div>
         </div>
 
@@ -183,6 +192,17 @@ const CharroiLocalisation = () => {
         centered
       >
         <GetEventLocalisation />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'rapport'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1025}
+        centered
+      >
+        <RapportEvent />
       </Modal>
     </div>
   );
