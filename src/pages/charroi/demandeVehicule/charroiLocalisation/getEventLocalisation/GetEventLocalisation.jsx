@@ -10,10 +10,11 @@ import html2pdf from 'html2pdf.js';
 import { VehicleAddress } from '../../../../../utils/vehicleAddress';
 import GetHistory from '../getHistory/GetHistory';
 import { getEvent } from '../../../../../services/rapportService';
-import { postEvent } from '../../../../../services/eventService';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
+const REFRESH_INTERVAL_MS = 30 * 1000; // 30 secondes
 
 const GetEventLocalisation = () => {
   const [dateRange, setDateRange] = useState([]);
@@ -21,128 +22,65 @@ const GetEventLocalisation = () => {
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const apiHash = config.api_hash;
   const tableRef = useRef();
   const [modalType, setModalType] = useState(null);
-  const [idDevice, setIdDevice] = useState('')
-  const [showPosition, setShowPosition] = useState(false); // 👈 par défaut caché
+  const [idDevice, setIdDevice] = useState('');
+  const [showPosition, setShowPosition] = useState(false);
 
-/*   useEffect(() => {
-  // Fonction qui appelle postEvent pour toutes les données actuelles
-  const fetchAndPostEvents = async () => {
+  const apiHash = config.api_hash;
+
+  // 🔹 Récupération des événements depuis le backend
+  const fetchData = async (from, to) => {
     try {
-      // Ici, tu peux utiliser filteredEvents ou events selon ce que tu veux poster
-      for (const e of events) {
-        await postEvent({
-          external_id: e.id,
-          device_id: e.device_id,
-          device_name: e.device_name,
-          type: e.type,
-          message: e.message,
-          speed: e.speed,
-          latitude: e.latitude,
-          longitude: e.longitude,
-          event_time: e.time
-        });
+      setLoading(true);
+      const { data } = await getEvent({
+        date_from: from,
+        date_to: to,
+        lang: "fr",
+        limit: 1000,
+        user_api_hash: apiHash,
+      });
+
+      if (data?.length) {
+        setEvents(data);
+        setFilteredEvents(data);
+      } else {
+        setEvents([]);
+        setFilteredEvents([]);
       }
-      console.log(`[${dayjs().format('YYYY-MM-DD HH:mm:ss')}] Événements postés automatiquement.`);
-    } catch (err) {
-      console.error("Erreur lors de l'enregistrement automatique :", err.message);
+    } catch (error) {
+      console.error("Erreur lors du fetch:", error);
+      message.error("Erreur lors du chargement des événements.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Exécution immédiate au montage (optionnel)
-  fetchAndPostEvents();
-
-  // Intervalle toutes les 6h
-  const interval = setInterval(() => {
-    fetchAndPostEvents();
-  }, 6 * 60 * 60 * 1000); // 6h en ms
-
-  // Nettoyage à la destruction du composant
-  return () => clearInterval(interval);
-}, [events]); */
-
-
-useEffect(() => {
-  // Fonction qui envoie les événements vers ta base
-  const fetchAndPostEvents = async () => {
-    try {
-      for (const e of events) {
-        await postEvent({
-          external_id: e.id,
-          device_id: e.device_id,
-          device_name: e.device_name,
-          type: e.type,
-          message: e.message,
-          speed: e.speed,
-          latitude: e.latitude,
-          longitude: e.longitude,
-          event_time: e.time
-        });
-      }
-      console.log(`[${dayjs().format('YYYY-MM-DD HH:mm:ss')}] ✅ Événements envoyés automatiquement`);
-    } catch (err) {
-      console.error("❌ Erreur lors de l'envoi auto :", err.message);
-    }
-  };
-
-  // Lancer une fois immédiatement pour tester
-  fetchAndPostEvents();
-
-  // Toutes les 3 minutes
-  const interval = setInterval(() => {
-    fetchAndPostEvents();
-  }, 3 * 60 * 1000);
-
-  return () => clearInterval(interval); // Nettoyage
-}, [events]);
-
-// 6 * 60 * 60 * 1000
-
-const fetchData = async (from, to) => {
-  try {
-    setLoading(true);
-
-    const { data } = await getEvent({
-      date_from: from,
-      date_to: to,
-      lang: "fr",
-      limit: 1000,
-      user_api_hash: apiHash,
-    });
-
-    if (data?.items?.data) {
-      setEvents(data.items.data);
-      setFilteredEvents(data.items.data);
-    } else {
-      setEvents([]);
-      setFilteredEvents([]);
-      message.info("Aucun événement trouvé pour cette période.");
-    }
-  } catch (error) {
-    console.error("Erreur lors du fetch:", error);
-    message.error("Erreur lors du chargement des événements.");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+  // 🔹 Au chargement initial, afficher les événements du jour
   useEffect(() => {
     const startOfDay = dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
     const endOfDay = dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
     setDateRange([dayjs().startOf('day'), dayjs().endOf('day')]);
     fetchData(startOfDay, endOfDay);
+
+    // 🔄 Intervalle pour le temps réel
+    const interval = setInterval(() => {
+      fetchData(startOfDay, endOfDay);
+    }, REFRESH_INTERVAL_MS);
+
+    return () => clearInterval(interval);
   }, []);
 
-    const openModal = (type, id = '') => {
-        setModalType(type);
-        setIdDevice(id)
-    };
-    const closeAllModals = () => setModalType(null);
-    const handleDetail = (id) => openModal('device', id)
+  // 🔹 Ouverture et fermeture des modals
+  const openModal = (type, id = '') => {
+    setModalType(type);
+    setIdDevice(id);
+  };
+  const closeAllModals = () => setModalType(null);
 
+  const handleDetail = (id) => openModal('device', id);
+
+  // 🔹 Colonnes du tableau
   const columns = [
     {
       title: 'Date & Heure',
@@ -156,15 +94,18 @@ const fetchData = async (from, to) => {
       ),
     },
     {
-      title: 'Véhicule',
-      dataIndex: 'device_name',
-      key: 'device_name',
-      render: (text) => (
+    title: 'Véhicule',
+    dataIndex: 'device_name',
+    key: 'device_name',
+    render: (text, record) => {
+        const color = record.type === 'ignition_on' ? 'green' : 'red';
+        return (
         <Space>
-          <CarOutlined style={{ color: '#722ed1' }} />
-          <span style={{ fontWeight: 500 }}>{text}</span>
+            <CarOutlined style={{ color }} />
+            <span style={{ fontWeight: 500, color }}>{text}</span>
         </Space>
-      ),
+        );
+    },
     },
     {
       title: 'Événement',
@@ -172,14 +113,9 @@ const fetchData = async (from, to) => {
       key: 'message',
       render: (text, record) => {
         const color = record.type === 'ignition_on' ? 'green' : 'red';
-        const icon = record.type === 'ignition_on' ? (
-          <PoweroffOutlined style={{ color: 'green' }} />
-        ) : (
-          <PoweroffOutlined style={{ color: 'red' }} />
-        );
         return (
           <Tag color={color} style={{ fontSize: 14, padding: '4px 10px' }}>
-            {icon} {text}
+            {text}
           </Tag>
         );
       },
@@ -197,46 +133,43 @@ const fetchData = async (from, to) => {
         ]
       : []),
     {
-        title: 'Actions',
-        key: 'actions',
-        render: (text, record) => (
-            <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {/* Bouton détail */}
-            <Tooltip title="Voir l'historique du véhicule">
-                <Button
-                icon={<EyeOutlined />}
-                type="link"
-                onClick={() => handleDetail(record.device_id)}
-                />
-            </Tooltip>
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record) => (
+        <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Tooltip title="Voir l'historique du véhicule">
+            <Button
+              icon={<EyeOutlined />}
+              type="link"
+              onClick={() => handleDetail(record.device_id)}
+            />
+          </Tooltip>
 
-            {/* Bouton ouvrir Google Maps */}
-            {record.latitude && record.longitude && (
-                <Tooltip title="Voir la position sur Google Maps">
-                <Button
-                    type="link"
-                    icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
-                    onClick={() =>
-                    window.open(
-                        `https://www.google.com/maps?q=${record.latitude},${record.longitude}`,
-                        '_blank'
-                    )
-                    }
-                />
-                </Tooltip>
-            )}
-            </Space>
-        ),
-    }
+          {record.latitude && record.longitude && (
+            <Tooltip title="Voir la position sur Google Maps">
+              <Button
+                type="link"
+                icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
+                onClick={() =>
+                  window.open(
+                    `https://www.google.com/maps?q=${record.latitude},${record.longitude}`,
+                    '_blank'
+                  )
+                }
+              />
+            </Tooltip>
+          )}
+        </Space>
+      ),
+    },
   ];
 
-  // 🔹 Liste unique des véhicules
+  // 🔹 Liste unique des véhicules pour filtrage
   const vehicles = useMemo(() => {
-    const unique = [...new Set(events.map((e) => e.device_name))];
-    return unique;
+    return [...new Set(events.map((e) => e.device_name))];
   }, [events]);
 
-  // 🔹 Quand on change la plage de dates
+  // 🔹 Filtrage par date
   const handleDateChange = (values) => {
     setDateRange(values);
     if (values && values.length === 2) {
@@ -299,7 +232,7 @@ const fetchData = async (from, to) => {
 
   return (
     <div className="event_container">
-      <h2 className="title_event">📊 Détail des événements</h2>
+      <h2 className="title_event">📊 Détail des événements (Temps réel)</h2>
       <div className="event_wrapper">
         <div className="event_top">
           <RangePicker
@@ -326,31 +259,21 @@ const fetchData = async (from, to) => {
           </Select>
           <div className='row_lateral'>
             <Space>
-                <Button
-                type="primary"
-                icon={<FileExcelOutlined />}
-                onClick={exportToExcel}
-                >
+              <Button type="primary" icon={<FileExcelOutlined />} onClick={exportToExcel}>
                 Export Excel
-                </Button>
-                <Button
-                type="primary"
-                danger
-                icon={<FilePdfOutlined />}
-                onClick={exportToPDF}
-                >
+              </Button>
+              <Button type="primary" danger icon={<FilePdfOutlined />} onClick={exportToPDF}>
                 Export PDF
-                </Button>
+              </Button>
             </Space>
             <Space>
-                <Button
-                    onClick={() => setShowPosition((prev) => !prev)}
-                >
-                    {showPosition ? "Masquer Position" : "Afficher Position"}
-                </Button>
+              <Button onClick={() => setShowPosition((prev) => !prev)}>
+                {showPosition ? "Masquer Position" : "Afficher Position"}
+              </Button>
             </Space>
           </div>
         </div>
+
         <div className="event_bottom" ref={tableRef}>
           <Table
             columns={columns}
@@ -362,17 +285,18 @@ const fetchData = async (from, to) => {
             size="middle"
           />
         </div>
-        </div>
-        <Modal
-            title=""
-            visible={modalType === 'device'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1090}
-            centered
-        >
-            <GetHistory id={idDevice} dateRanges={dateRange} />
-        </Modal>
+      </div>
+
+      <Modal
+        title=""
+        visible={modalType === 'device'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1090}
+        centered
+      >
+        <GetHistory id={idDevice} dateRanges={dateRange} />
+      </Modal>
     </div>
   );
 };
