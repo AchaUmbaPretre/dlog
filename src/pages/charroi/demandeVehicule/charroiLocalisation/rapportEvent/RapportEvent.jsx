@@ -1,20 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getEventRow } from '../../../../../services/eventService';
-import { Table, Space, Typography, Spin, Button, DatePicker, notification } from 'antd';
+import { Table, Space, Typography, Spin, Button, DatePicker, notification, Tag, Collapse } from 'antd';
 import moment from 'moment';
-import html2pdf from 'html2pdf.js';
-import HtmlDocx from 'html-docx-js/dist/html-docx';
 import { CSVLink } from 'react-csv';
 import * as XLSX from 'xlsx';
-import './rapportEvent.scss';
+import { CheckCircleOutlined, CloseCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
 
 const { RangePicker } = DatePicker;
-const { Title } = Typography;
+const { Title, Text } = Typography;
+const { Panel } = Collapse;
 
 const RapportEvent = () => {
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
-  const reportRef = useRef();
   const [dateRange, setDateRange] = useState([moment().startOf('month'), moment().endOf('month')]);
 
   const fetchData = async (range) => {
@@ -25,9 +23,8 @@ const RapportEvent = () => {
         endDate: range[1].format('YYYY-MM-DD HH:mm:ss'),
       };
       const { data } = await getEventRow(params);
-      setReportData(data);
+      setReportData(data.report || []);
     } catch (error) {
-      console.error(error);
       notification.error({ message: 'Erreur', description: 'Impossible de récupérer les rapports' });
     } finally {
       setLoading(false);
@@ -38,37 +35,51 @@ const RapportEvent = () => {
     fetchData(dateRange);
   }, [dateRange]);
 
-  const handleRangeChange = (dates) => {
-    if (dates) setDateRange(dates);
-  };
-
   const columns = [
-    { title: 'Véhicule', dataIndex: 'vehicle', key: 'vehicle' },
-    { title: 'Allumages', dataIndex: 'ignitionCount', key: 'ignitionCount' },
-    { title: 'Dépassements vitesse', dataIndex: 'overspeedCount', key: 'overspeedCount' },
-    { title: 'Déconnexions (min)', dataIndex: 'disconnects', key: 'disconnects', render: (d) => d.reduce((sum, dd) => sum + dd.durationMinutes, 0) }
+    {
+      title: 'Véhicule',
+      dataIndex: 'vehicle',
+      key: 'vehicle',
+      render: (v, record) => (
+        <Space>
+          <Text strong>{v}</Text>
+          <Tag color={record.status === 'connected' ? 'green' : 'red'} icon={record.status === 'connected' ? <CheckCircleOutlined /> : <CloseCircleOutlined />}>
+            {record.status}
+          </Tag>
+        </Space>
+      )
+    },
+    {
+      title: 'Allumages',
+      key: 'ignition_on',
+      render: (_, record) => <Tag color="green" icon={<CheckCircleOutlined />}>{record.summary.totalIgnitionsOn} démarrages</Tag>
+    },
+    {
+      title: 'Arrêts',
+      key: 'ignition_off',
+      render: (_, record) => <Tag color="volcano" icon={<CloseCircleOutlined />}>{record.summary.totalIgnitionsOff} arrêts</Tag>
+    },
+    {
+      title: 'Dépassements',
+      key: 'overspeed',
+      render: (_, record) => <Tag color="orange" icon={<ThunderboltOutlined />}>{record.summary.totalOverspeed}</Tag>
+    },
+    {
+      title: 'Déconnexions (min)',
+      key: 'disconnect',
+      render: (_, record) => <Tag color="red">{record.summary.totalDisconnectMinutes} min</Tag>
+    }
   ];
-
-  const exportPDF = () => {
-    if (reportRef.current) html2pdf().from(reportRef.current).set({ margin: 10, filename: 'rapport.pdf' }).save();
-  };
-
-  const exportWord = () => {
-    if (!reportRef.current) return;
-    const content = HtmlDocx.asBlob(reportRef.current.innerHTML);
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(content);
-    link.download = 'rapport.docx';
-    link.click();
-  };
 
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(
       reportData.map(r => ({
         Véhicule: r.vehicle,
-        Allumages: r.ignitionCount,
-        'Dépassements vitesse': r.overspeedCount,
-        'Déconnexions (min)': r.disconnects.reduce((sum, d) => sum + d.durationMinutes, 0)
+        Allumages: r.summary.totalIgnitionsOn,
+        Arrêts: r.summary.totalIgnitionsOff,
+        Dépassements: r.summary.totalOverspeed,
+        'Déconnexions (min)': r.summary.totalDisconnectMinutes,
+        Status: r.status
       }))
     );
     const workbook = XLSX.utils.book_new();
@@ -77,13 +88,13 @@ const RapportEvent = () => {
   };
 
   return (
-    <div className="rapport-event-container" ref={reportRef}>
+    <div style={{ padding: 20 }}>
       <Title level={3}>Rapport des événements véhicules</Title>
 
       <Space style={{ marginBottom: 20 }}>
         <RangePicker
           value={dateRange}
-          onChange={handleRangeChange}
+          onChange={dates => dates && setDateRange(dates)}
           showTime={{ format: 'HH:mm' }}
           format="YYYY-MM-DD HH:mm"
         />
@@ -91,15 +102,15 @@ const RapportEvent = () => {
       </Space>
 
       <Space style={{ marginBottom: 20 }}>
-        <Button type="primary" onClick={exportPDF}>Exporter PDF</Button>
-        <Button type="default" onClick={exportWord}>Exporter Word</Button>
         <Button type="dashed" onClick={exportExcel}>Exporter Excel</Button>
         <CSVLink
           data={reportData.map(r => ({
             Véhicule: r.vehicle,
-            Allumages: r.ignitionCount,
-            'Dépassements vitesse': r.overspeedCount,
-            'Déconnexions (min)': r.disconnects.reduce((sum, d) => sum + d.durationMinutes, 0)
+            Allumages: r.summary.totalIgnitionsOn,
+            Arrêts: r.summary.totalIgnitionsOff,
+            Dépassements: r.summary.totalOverspeed,
+            'Déconnexions (min)': r.summary.totalDisconnectMinutes,
+            Status: r.status
           }))}
           filename="rapport.csv"
         >
@@ -108,15 +119,52 @@ const RapportEvent = () => {
       </Space>
 
       {loading ? (
-        <Spin tip="Chargement des rapports..." size="large" style={{ marginTop: 100 }} />
+        <Spin tip="Chargement des rapports..." size="large" style={{ marginTop: 50 }} />
       ) : (
-        <Table
-          columns={columns}
-          dataSource={reportData}
-          rowKey="vehicle"
-          pagination={{ pageSize: 5 }}
-          bordered
-        />
+        <>
+          <Table
+            columns={columns}
+            dataSource={reportData}
+            rowKey="vehicle"
+            pagination={{ pageSize: 5 }}
+            bordered
+          />
+
+          <Collapse accordion style={{ marginTop: 20 }}>
+            {reportData.map(r => (
+              <Panel header={`Détails → ${r.vehicle}`} key={r.vehicle}>
+                {r.events.length > 0 ? (
+                  <Table
+                    columns={[
+                      { title: 'Heure', dataIndex: 'time', key: 'time', render: t => moment(t).format('YYYY-MM-DD HH:mm:ss') },
+                      { title: 'Type', dataIndex: 'type', key: 'type' },
+                      { title: 'Latitude', dataIndex: 'latitude', key: 'latitude' },
+                      { title: 'Longitude', dataIndex: 'longitude', key: 'longitude' }
+                    ]}
+                    dataSource={r.events}
+                    rowKey={record => record.time + record.type}
+                    pagination={{ pageSize: 5 }}
+                    size="small"
+                    scroll={{ x: true }}
+                  />
+                ) : (
+                  <Text>Aucun événement enregistré pour cette période.</Text>
+                )}
+
+                {r.disconnects.length > 0 && (
+                  <div style={{ marginTop: 10 }}>
+                    <Text strong>Périodes de déconnexion :</Text>
+                    <ul>
+                      {r.disconnects.map((d, i) => (
+                        <li key={i}>Déconnexion {i + 1} → {d.durationMinutes} minutes</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </Panel>
+            ))}
+          </Collapse>
+        </>
       )}
     </div>
   );
