@@ -5,6 +5,7 @@ import moment from 'moment';
 import { CSVLink } from 'react-csv';
 import * as XLSX from 'xlsx';
 import { CheckCircleOutlined, CloseCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import './rapportEvent.scss';
 
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;
@@ -42,9 +43,9 @@ const RapportEvent = () => {
       key: 'vehicle',
       render: (v, record) => (
         <Space>
-          <Text strong>{v}</Text>
-          <Tag color={record.status === 'connected' ? 'green' : 'red'} icon={record.status === 'connected' ? <CheckCircleOutlined /> : <CloseCircleOutlined />}>
-            {record.status}
+          <Text className="vehicle-name">{v}</Text>
+          <Tag className={`status-tag ${record.status}`} icon={record.status === 'connected' ? <CheckCircleOutlined /> : <CloseCircleOutlined />}>
+            {record.status.toUpperCase()}
           </Tag>
         </Space>
       )
@@ -52,22 +53,22 @@ const RapportEvent = () => {
     {
       title: 'Allumages',
       key: 'ignition_on',
-      render: (_, record) => <Tag color="green" icon={<CheckCircleOutlined />}>{record.summary.totalIgnitionsOn} démarrages</Tag>
+      render: (_, record) => <Tag className="green-tag" icon={<CheckCircleOutlined />}>{record.summary.totalIgnitionsOn} démarrages</Tag>
     },
     {
       title: 'Arrêts',
       key: 'ignition_off',
-      render: (_, record) => <Tag color="volcano" icon={<CloseCircleOutlined />}>{record.summary.totalIgnitionsOff} arrêts</Tag>
+      render: (_, record) => <Tag className="volcano-tag" icon={<CloseCircleOutlined />}>{record.summary.totalIgnitionsOff} arrêts</Tag>
     },
     {
       title: 'Dépassements',
       key: 'overspeed',
-      render: (_, record) => <Tag color="orange" icon={<ThunderboltOutlined />}>{record.summary.totalOverspeed}</Tag>
+      render: (_, record) => <Tag className="orange-tag" icon={<ThunderboltOutlined />}>{record.summary.totalOverspeed}</Tag>
     },
     {
       title: 'Déconnexions (min)',
       key: 'disconnect',
-      render: (_, record) => <Tag color="red">{record.summary.totalDisconnectMinutes} min</Tag>
+      render: (_, record) => <Tag className="red-tag">{record.summary.totalDisconnectMinutes} min</Tag>
     }
   ];
 
@@ -88,10 +89,10 @@ const RapportEvent = () => {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <Title level={3}>Rapport des événements véhicules</Title>
+    <div className="rapport-container">
+      <Title level={2} className="main-title">📊 Rapport des événements véhicules</Title>
 
-      <Space style={{ marginBottom: 20 }}>
+      <Space className="filter-bar">
         <RangePicker
           value={dateRange}
           onChange={dates => dates && setDateRange(dates)}
@@ -99,9 +100,6 @@ const RapportEvent = () => {
           format="YYYY-MM-DD HH:mm"
         />
         <Button type="primary" onClick={() => fetchData(dateRange)}>Rafraîchir</Button>
-      </Space>
-
-      <Space style={{ marginBottom: 20 }}>
         <Button type="dashed" onClick={exportExcel}>Exporter Excel</Button>
         <CSVLink
           data={reportData.map(r => ({
@@ -119,7 +117,7 @@ const RapportEvent = () => {
       </Space>
 
       {loading ? (
-        <Spin tip="Chargement des rapports..." size="large" style={{ marginTop: 50 }} />
+        <Spin tip="Chargement des rapports..." size="large" className="loading-spinner" />
       ) : (
         <>
           <Table
@@ -128,9 +126,10 @@ const RapportEvent = () => {
             rowKey="vehicle"
             pagination={{ pageSize: 5 }}
             bordered
+            className="main-table"
           />
 
-          <Collapse accordion style={{ marginTop: 20 }}>
+          <Collapse accordion className="details-collapse">
             {reportData.map(r => (
               <Panel header={`Détails → ${r.vehicle}`} key={r.vehicle}>
                 {r.events.length > 0 ? (
@@ -147,12 +146,10 @@ const RapportEvent = () => {
                     size="small"
                     scroll={{ x: true }}
                   />
-                ) : (
-                  <Text>Aucun événement enregistré pour cette période.</Text>
-                )}
+                ) : <Text>Aucun événement enregistré pour cette période.</Text>}
 
                 {r.disconnects.length > 0 && (
-                  <div style={{ marginTop: 10 }}>
+                  <div className="disconnect-section">
                     <Text strong>Périodes de déconnexion :</Text>
                     <ul>
                       {r.disconnects.map((d, i) => (

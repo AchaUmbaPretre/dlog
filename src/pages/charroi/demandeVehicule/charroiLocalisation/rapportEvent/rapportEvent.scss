@@ -1,0 +1,72 @@
+.rapport-container {
+  padding: 30px;
+  background: #f5f7fa;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+
+  .main-title {
+    text-align: center;
+    color: #1f3c88;
+    margin-bottom: 25px;
+  }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .loading-spinner {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .main-table {
+    .ant-table-thead > tr > th {
+      background: #e6f7ff;
+      color: #0050b3;
+      font-weight: 600;
+    }
+
+    .ant-table-tbody > tr > td {
+      font-size: 14px;
+      padding: 12px;
+    }
+  }
+
+  .status-tag.connected {
+    background-color: #e6fffb;
+    color: #13c2c2;
+    font-weight: 600;
+  }
+
+  .status-tag.disconnected {
+    background-color: #fff1f0;
+    color: #f5222d;
+    font-weight: 600;
+  }
+
+  .green-tag { background-color: #f6ffed; color: #52c41a; font-weight: 600; }
+  .volcano-tag { background-color: #fff2e8; color: #fa541c; font-weight: 600; }
+  .orange-tag { background-color: #fff7e6; color: #fa8c16; font-weight: 600; }
+  .red-tag { background-color: #fff1f0; color: #f5222d; font-weight: 600; }
+
+  .details-collapse {
+    margin-top: 20px;
+
+    .ant-collapse-header {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .disconnect-section {
+      margin-top: 10px;
+      background: #fffbe6;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #ffe58f;
+    }
+  }
+}
