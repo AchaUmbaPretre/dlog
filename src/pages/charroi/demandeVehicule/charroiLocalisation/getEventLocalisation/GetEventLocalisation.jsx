@@ -10,11 +10,10 @@ import html2pdf from 'html2pdf.js';
 import { VehicleAddress } from '../../../../../utils/vehicleAddress';
 import GetHistory from '../getHistory/GetHistory';
 import { getEvent } from '../../../../../services/rapportService';
+import { postEvent } from '../../../../../services/eventService';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
-
-const REFRESH_INTERVAL_MS = 30 * 1000; // 30 secondes
 
 const GetEventLocalisation = () => {
   const [dateRange, setDateRange] = useState([]);
@@ -22,71 +21,73 @@ const GetEventLocalisation = () => {
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const tableRef = useRef();
   const [modalType, setModalType] = useState(null);
   const [idDevice, setIdDevice] = useState('');
   const [showPosition, setShowPosition] = useState(false);
-
+  const tableRef = useRef();
   const apiHash = config.api_hash;
 
-  // 🔹 Récupération des événements depuis le backend
-  const fetchData = async (from, to) => {
+  // 🔹 Fetch événements depuis le backend
+    const fetchData = async (from, to) => {
     try {
-      setLoading(true);
-      const { data } = await getEvent({
+        setLoading(true);
+        const { data } = await getEvent({
         date_from: from,
         date_to: to,
         lang: "fr",
         limit: 1000,
         user_api_hash: apiHash,
-      });
+        });
 
-      if (data?.length) {
-        setEvents(data);
-        setFilteredEvents(data);
-      } else {
+        if (data?.items?.data?.length) {
+        const eventsData = data.items.data;
+        setEvents(eventsData);
+        setFilteredEvents(
+            selectedVehicle
+            ? eventsData.filter(e => e.device_name === selectedVehicle)
+            : eventsData
+        );
+        } else {
         setEvents([]);
         setFilteredEvents([]);
-      }
+        message.info("Aucun événement trouvé pour cette période.");
+        }
     } catch (error) {
-      console.error("Erreur lors du fetch:", error);
-      message.error("Erreur lors du chargement des événements.");
+        console.error("Erreur lors du fetch:", error);
+        message.error("Erreur lors du chargement des événements.");
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+    };
 
-  // 🔹 Au chargement initial, afficher les événements du jour
+  // 🔹 Temps réel : fetch toutes les 30 secondes
   useEffect(() => {
-    const startOfDay = dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
-    const endOfDay = dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
-    setDateRange([dayjs().startOf('day'), dayjs().endOf('day')]);
-    fetchData(startOfDay, endOfDay);
+    const fetchInterval = () => {
+      const from = dateRange[0] ? dateRange[0].format('YYYY-MM-DD HH:mm:ss') : dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
+      const to = dateRange[1] ? dateRange[1].format('YYYY-MM-DD HH:mm:ss') : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
+      fetchData(from, to);
+    };
 
-    // 🔄 Intervalle pour le temps réel
-    const interval = setInterval(() => {
-      fetchData(startOfDay, endOfDay);
-    }, REFRESH_INTERVAL_MS);
+    fetchInterval(); // fetch immédiat
+    const interval = setInterval(fetchInterval, 30 * 1000); // toutes les 30s
 
     return () => clearInterval(interval);
-  }, []);
+  }, [dateRange, selectedVehicle]);
 
-  // 🔹 Ouverture et fermeture des modals
+  // 🔹 Modal détail
   const openModal = (type, id = '') => {
     setModalType(type);
     setIdDevice(id);
   };
   const closeAllModals = () => setModalType(null);
 
-  const handleDetail = (id) => openModal('device', id);
-
-  // 🔹 Colonnes du tableau
+  // 🔹 Colonnes
   const columns = [
     {
       title: 'Date & Heure',
       dataIndex: 'time',
       key: 'time',
-      render: (text) => (
+      render: text => (
         <Space>
           <ClockCircleOutlined style={{ color: '#1890ff' }} />
           {dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}
@@ -94,18 +95,18 @@ const GetEventLocalisation = () => {
       ),
     },
     {
-    title: 'Véhicule',
-    dataIndex: 'device_name',
-    key: 'device_name',
-    render: (text, record) => {
+      title: 'Véhicule',
+      dataIndex: 'device_name',
+      key: 'device_name',
+      render: (text, record) => {
         const color = record.type === 'ignition_on' ? 'green' : 'red';
         return (
-        <Space>
+          <Space>
             <CarOutlined style={{ color }} />
-            <span style={{ fontWeight: 500, color }}>{text}</span>
-        </Space>
+            <span style={{ fontWeight: 500, color }}>{text || 'N/A'}</span>
+          </Space>
         );
-    },
+      },
     },
     {
       title: 'Événement',
@@ -120,81 +121,50 @@ const GetEventLocalisation = () => {
         );
       },
     },
-    ...(showPosition
-      ? [
-          {
-            title: 'Position',
-            key: 'position',
-            render: (_, record) => {
-              const location = { lat: record.latitude, lng: record.longitude };
-              return <VehicleAddress record={location} />;
-            },
-          },
-        ]
-      : []),
+    ...(showPosition ? [
+      {
+        title: 'Position',
+        key: 'position',
+        render: (_, record) => <VehicleAddress record={{ lat: record.latitude, lng: record.longitude }} />,
+      },
+    ] : []),
     {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (
-        <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Space>
           <Tooltip title="Voir l'historique du véhicule">
-            <Button
-              icon={<EyeOutlined />}
-              type="link"
-              onClick={() => handleDetail(record.device_id)}
-            />
+            <Button icon={<EyeOutlined />} type="link" onClick={() => openModal('device', record.device_id)} />
           </Tooltip>
-
           {record.latitude && record.longitude && (
             <Tooltip title="Voir la position sur Google Maps">
               <Button
                 type="link"
                 icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
-                onClick={() =>
-                  window.open(
-                    `https://www.google.com/maps?q=${record.latitude},${record.longitude}`,
-                    '_blank'
-                  )
-                }
+                onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
               />
             </Tooltip>
           )}
         </Space>
       ),
-    },
+    }
   ];
 
-  // 🔹 Liste unique des véhicules pour filtrage
-  const vehicles = useMemo(() => {
-    return [...new Set(events.map((e) => e.device_name))];
-  }, [events]);
+  // 🔹 Liste véhicules unique
+  const vehicles = useMemo(() => [...new Set(events.map(e => e.device_name))], [events]);
 
-  // 🔹 Filtrage par date
-  const handleDateChange = (values) => {
+  // 🔹 Changement de plage de dates
+  const handleDateChange = values => {
     setDateRange(values);
-    if (values && values.length === 2) {
-      const from = values[0].format('YYYY-MM-DD HH:mm:ss');
-      const to = values[1].format('YYYY-MM-DD HH:mm:ss');
-      fetchData(from, to);
-      setSelectedVehicle(null);
-    }
   };
 
   // 🔹 Filtrage par véhicule
-  const handleVehicleChange = (value) => {
-    setSelectedVehicle(value);
-    if (value) {
-      setFilteredEvents(events.filter((e) => e.device_name === value));
-    } else {
-      setFilteredEvents(events);
-    }
-  };
+  const handleVehicleChange = value => setSelectedVehicle(value);
 
   // 🔹 Export Excel
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Événements");
-
     worksheet.columns = [
       { header: "Date & Heure", key: "time", width: 25 },
       { header: "Véhicule", key: "vehicle", width: 20 },
@@ -202,17 +172,13 @@ const GetEventLocalisation = () => {
       { header: "Latitude", key: "lat", width: 15 },
       { header: "Longitude", key: "lng", width: 15 },
     ];
-
-    filteredEvents.forEach((e) => {
-      worksheet.addRow({
-        time: e.time,
-        vehicle: e.device_name,
-        event: e.message,
-        lat: e.latitude,
-        lng: e.longitude,
-      });
-    });
-
+    filteredEvents.forEach(e => worksheet.addRow({
+      time: e.time,
+      vehicle: e.device_name,
+      event: e.message,
+      lat: e.latitude,
+      lng: e.longitude,
+    }));
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), "evenements.xlsx");
   };
@@ -220,19 +186,18 @@ const GetEventLocalisation = () => {
   // 🔹 Export PDF
   const exportToPDF = () => {
     const element = tableRef.current;
-    const opt = {
+    html2pdf().set({
       margin: 0.5,
       filename: "evenements.pdf",
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "a4", orientation: "landscape" },
-    };
-    html2pdf().set(opt).from(element).save();
+    }).from(element).save();
   };
 
   return (
     <div className="event_container">
-      <h2 className="title_event">📊 Détail des événements (Temps réel)</h2>
+      <h2 className="title_event">📊 Détail des événements</h2>
       <div className="event_wrapper">
         <div className="event_top">
           <RangePicker
@@ -251,34 +216,23 @@ const GetEventLocalisation = () => {
             onChange={handleVehicleChange}
             allowClear
           >
-            {vehicles.map((v) => (
-              <Option key={v} value={v}>
-                {v}
-              </Option>
-            ))}
+            {vehicles.map(v => <Option key={v} value={v}>{v}</Option>)}
           </Select>
           <div className='row_lateral'>
             <Space>
-              <Button type="primary" icon={<FileExcelOutlined />} onClick={exportToExcel}>
-                Export Excel
-              </Button>
-              <Button type="primary" danger icon={<FilePdfOutlined />} onClick={exportToPDF}>
-                Export PDF
-              </Button>
-            </Space>
-            <Space>
-              <Button onClick={() => setShowPosition((prev) => !prev)}>
+              <Button type="primary" icon={<FileExcelOutlined />} onClick={exportToExcel}>Export Excel</Button>
+              <Button type="primary" danger icon={<FilePdfOutlined />} onClick={exportToPDF}>Export PDF</Button>
+              <Button onClick={() => setShowPosition(prev => !prev)}>
                 {showPosition ? "Masquer Position" : "Afficher Position"}
               </Button>
             </Space>
           </div>
         </div>
-
         <div className="event_bottom" ref={tableRef}>
           <Table
             columns={columns}
             dataSource={filteredEvents}
-            rowKey="id"
+            rowKey={record => record.id || record.external_id}
             loading={loading}
             pagination={{ pageSize: 10 }}
             bordered
@@ -286,7 +240,6 @@ const GetEventLocalisation = () => {
           />
         </div>
       </div>
-
       <Modal
         title=""
         visible={modalType === 'device'}
