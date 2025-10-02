@@ -93,12 +93,12 @@ useEffect(() => {
   // Toutes les 3 minutes
   const interval = setInterval(() => {
     fetchAndPostEvents();
-  }, 6 * 60 * 60 * 1000);
+  }, 3 * 60 * 1000);
 
   return () => clearInterval(interval); // Nettoyage
 }, [events]);
 
-//3 * 60 * 1000
+// 6 * 60 * 60 * 1000
 
 const fetchData = async (from, to) => {
   try {
@@ -283,14 +283,6 @@ const fetchData = async (from, to) => {
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), "evenements.xlsx");
   };
-
-  const handSubmit = async() => {
-    try {
-        await postEvent()
-    } catch (error) {
-        console.log(error)
-    }
-  }
 
   // 🔹 Export PDF
   const exportToPDF = () => {
