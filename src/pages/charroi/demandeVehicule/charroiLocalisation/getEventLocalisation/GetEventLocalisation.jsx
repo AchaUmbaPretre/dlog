@@ -30,7 +30,6 @@ const GetEventLocalisation = () => {
   // 🔹 Fetch événements depuis le backend
     const fetchData = async (from, to) => {
     try {
-        setLoading(true);
         const { data } = await getEvent({
         date_from: from,
         date_to: to,
