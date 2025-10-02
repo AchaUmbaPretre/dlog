@@ -7,6 +7,10 @@ export const getEvent = async () => {
     return axios.get(`${DOMAIN}/api/event`);
 };
 
+export const getEventRapportDay = async (params) => {
+    return axios.get(`${DOMAIN}/api/event/rapport_day`);
+};
+
 export const getEventRow = async (params) => {
   return axios.get(`${DOMAIN}/api/event/raw_report`, { params });
 };

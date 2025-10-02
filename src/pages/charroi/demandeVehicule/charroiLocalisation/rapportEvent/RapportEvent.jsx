@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { getEventRow } from '../../../../../services/eventService';
-import { Table, Space, Typography, Spin, Button, DatePicker, notification, Tag, Collapse } from 'antd';
+import { Table, Space, Typography, Tabs, Spin, Button, DatePicker, notification, Tag, Collapse } from 'antd';
 import moment from 'moment';
 import { CSVLink } from 'react-csv';
 import * as XLSX from 'xlsx';
-import { CheckCircleOutlined, CloseCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined, ThunderboltOutlined, CarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import './rapportEvent.scss';
+import RapportDay from '../rapportDay/RapportDay';
 
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
+const { TabPane } = Tabs;
 
 const RapportEvent = () => {
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
   const [dateRange, setDateRange] = useState([moment().startOf('month'), moment().endOf('month')]);
+  const [activeKey, setActiveKey] = useState('1');
 
   const fetchData = async (range) => {
     setLoading(true);
@@ -50,26 +53,10 @@ const RapportEvent = () => {
         </Space>
       )
     },
-    {
-      title: 'Allumages',
-      key: 'ignition_on',
-      render: (_, record) => <Tag className="green-tag" icon={<CheckCircleOutlined />}>{record.summary.totalIgnitionsOn} démarrages</Tag>
-    },
-    {
-      title: 'Arrêts',
-      key: 'ignition_off',
-      render: (_, record) => <Tag className="volcano-tag" icon={<CloseCircleOutlined />}>{record.summary.totalIgnitionsOff} arrêts</Tag>
-    },
-    {
-      title: 'Dépassements',
-      key: 'overspeed',
-      render: (_, record) => <Tag className="orange-tag" icon={<ThunderboltOutlined />}>{record.summary.totalOverspeed}</Tag>
-    },
-    {
-      title: 'Déconnexions (min)',
-      key: 'disconnect',
-      render: (_, record) => <Tag className="red-tag">{record.summary.totalDisconnectMinutes} min</Tag>
-    }
+    { title: 'Allumages', key: 'ignition_on', render: (_, record) => <Tag className="green-tag" icon={<CheckCircleOutlined />}>{record.summary.totalIgnitionsOn} démarrages</Tag> },
+    { title: 'Arrêts', key: 'ignition_off', render: (_, record) => <Tag className="volcano-tag" icon={<CloseCircleOutlined />}>{record.summary.totalIgnitionsOff} arrêts</Tag> },
+    { title: 'Dépassements', key: 'overspeed', render: (_, record) => <Tag className="orange-tag" icon={<ThunderboltOutlined />}>{record.summary.totalOverspeed}</Tag> },
+    { title: 'Déconnexions (min)', key: 'disconnect', render: (_, record) => <Tag className="red-tag">{record.summary.totalDisconnectMinutes} min</Tag> }
   ];
 
   const exportExcel = () => {
@@ -89,81 +76,115 @@ const RapportEvent = () => {
   };
 
   return (
-    <div className="rapport-container">
-      <Title level={2} className="main-title">📊 Rapport des événements véhicules</Title>
-
-      <Space className="filter-bar">
-        <RangePicker
-          value={dateRange}
-          onChange={dates => dates && setDateRange(dates)}
-          showTime={{ format: 'HH:mm' }}
-          format="YYYY-MM-DD HH:mm"
-        />
-        <Button type="primary" onClick={() => fetchData(dateRange)}>Rafraîchir</Button>
-        <Button type="dashed" onClick={exportExcel}>Exporter Excel</Button>
-        <CSVLink
-          data={reportData.map(r => ({
-            Véhicule: r.vehicle,
-            Allumages: r.summary.totalIgnitionsOn,
-            Arrêts: r.summary.totalIgnitionsOff,
-            Dépassements: r.summary.totalOverspeed,
-            'Déconnexions (min)': r.summary.totalDisconnectMinutes,
-            Status: r.status
-          }))}
-          filename="rapport.csv"
+    <>
+      <Tabs
+        activeKey={activeKey}
+        onChange={setActiveKey}
+        type="card"
+        tabPosition="top"
+        tabBarGutter={24}
+        className="rapport_tabs"
+      >
+        <TabPane
+          tab={
+            <span>
+              <CarOutlined style={{ color: '#1890ff', marginRight: 8 }} /> Rapport véhicules
+            </span>
+          }
+          key="1"
         >
-          <Button>Exporter CSV</Button>
-        </CSVLink>
-      </Space>
+          <div className="rapport-container">
+            <Title level={2} className="main-title">📊 Rapport des événements véhicules</Title>
 
-      {loading ? (
-        <Spin tip="Chargement des rapports..." size="large" className="loading-spinner" />
-      ) : (
-        <>
-          <Table
-            columns={columns}
-            dataSource={reportData}
-            rowKey="vehicle"
-            pagination={{ pageSize: 5 }}
-            bordered
-            className="main-table"
-          />
+            <Space className="filter-bar">
+              <RangePicker
+                value={dateRange}
+                onChange={dates => dates && setDateRange(dates)}
+                showTime={{ format: 'HH:mm' }}
+                format="YYYY-MM-DD HH:mm"
+              />
+              <Button type="primary" onClick={() => fetchData(dateRange)}>Rafraîchir</Button>
+              <Button type="dashed" onClick={exportExcel}>Exporter Excel</Button>
+              <CSVLink
+                data={reportData.map(r => ({
+                  Véhicule: r.vehicle,
+                  Allumages: r.summary.totalIgnitionsOn,
+                  Arrêts: r.summary.totalIgnitionsOff,
+                  Dépassements: r.summary.totalOverspeed,
+                  'Déconnexions (min)': r.summary.totalDisconnectMinutes,
+                  Status: r.status
+                }))}
+                filename="rapport.csv"
+              >
+                <Button>Exporter CSV</Button>
+              </CSVLink>
+            </Space>
 
-          <Collapse accordion className="details-collapse">
-            {reportData.map(r => (
-              <Panel header={`Détails → ${r.vehicle}`} key={r.vehicle}>
-                {r.events.length > 0 ? (
-                  <Table
-                    columns={[
-                      { title: 'Heure', dataIndex: 'time', key: 'time', render: t => moment(t).format('YYYY-MM-DD HH:mm:ss') },
-                      { title: 'Type', dataIndex: 'type', key: 'type' },
-                      { title: 'Latitude', dataIndex: 'latitude', key: 'latitude' },
-                      { title: 'Longitude', dataIndex: 'longitude', key: 'longitude' }
-                    ]}
-                    dataSource={r.events}
-                    rowKey={record => record.time + record.type}
-                    pagination={{ pageSize: 5 }}
-                    size="small"
-                    scroll={{ x: true }}
-                  />
-                ) : <Text>Aucun événement enregistré pour cette période.</Text>}
+            {loading ? (
+              <Spin tip="Chargement des rapports..." size="large" className="loading-spinner" />
+            ) : (
+              <>
+                <Table
+                  columns={columns}
+                  dataSource={reportData}
+                  rowKey="vehicle"
+                  pagination={{ pageSize: 5 }}
+                  bordered
+                  className="main-table"
+                />
 
-                {r.disconnects.length > 0 && (
-                  <div className="disconnect-section">
-                    <Text strong>Périodes de déconnexion :</Text>
-                    <ul>
-                      {r.disconnects.map((d, i) => (
-                        <li key={i}>Déconnexion {i + 1} → {d.durationMinutes} minutes</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </Panel>
-            ))}
-          </Collapse>
-        </>
-      )}
-    </div>
+                <Collapse accordion className="details-collapse">
+                  {reportData.map(r => (
+                    <Panel
+                      header={<><ClockCircleOutlined style={{ color: '#faad14', marginRight: 5 }} /> Détails → {r.vehicle}</>}
+                      key={r.vehicle}
+                    >
+                      {r.events.length > 0 ? (
+                        <Table
+                          columns={[
+                            { title: 'Heure', dataIndex: 'time', key: 'time', render: t => moment(t).format('YYYY-MM-DD HH:mm:ss') },
+                            { title: 'Type', dataIndex: 'type', key: 'type' },
+                            { title: 'Latitude', dataIndex: 'latitude', key: 'latitude' },
+                            { title: 'Longitude', dataIndex: 'longitude', key: 'longitude' }
+                          ]}
+                          dataSource={r.events}
+                          rowKey={record => record.time + record.type}
+                          pagination={{ pageSize: 5 }}
+                          size="small"
+                          scroll={{ x: true }}
+                        />
+                      ) : <Text>Aucun événement enregistré pour cette période.</Text>}
+
+                      {r.disconnects.length > 0 && (
+                        <div className="disconnect-section">
+                          <Text strong>Périodes de déconnexion :</Text>
+                          <ul>
+                            {r.disconnects.map((d, i) => (
+                              <li key={i}>Déconnexion {i + 1} → {d.durationMinutes} minutes</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </Panel>
+                  ))}
+                </Collapse>
+              </>
+            )}
+          </div>
+        </TabPane>
+
+        <TabPane
+          tab={
+            <span>
+              <ClockCircleOutlined style={{ color: '#faad14', marginRight: 8 }} /> Rapport par jour
+            </span>
+          }
+          key="2"
+        >
+          <RapportDay/>
+        </TabPane>
+      </Tabs>
+    </>
   );
 };
 
