@@ -93,11 +93,12 @@ useEffect(() => {
   // Toutes les 3 minutes
   const interval = setInterval(() => {
     fetchAndPostEvents();
-  }, 3 * 60 * 1000);
+  }, 6 * 60 * 60 * 1000);
 
   return () => clearInterval(interval); // Nettoyage
 }, [events]);
 
+//3 * 60 * 1000
 
 const fetchData = async (from, to) => {
   try {
