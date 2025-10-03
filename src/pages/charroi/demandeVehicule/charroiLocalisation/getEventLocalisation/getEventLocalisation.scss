@@ -21,6 +21,13 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      .event_top_row{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
       .row_lateral{
         display: flex;
         align-items: center;

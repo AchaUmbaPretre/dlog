@@ -130,15 +130,15 @@ const GetEventLocalisation = () => {
     {
       title: 'Actions',
       key: 'actions',
+      align: 'center',
       render: (_, record) => (
         <Space>
           <Tooltip title="Voir l'historique du véhicule">
-            <Button icon={<EyeOutlined />} type="link" onClick={() => openModal('device', record.device_id)} />
+            <Button icon={<EyeOutlined style={{ color: '#1890ff' }} />} onClick={() => openModal('device', record.device_id)} />
           </Tooltip>
           {record.latitude && record.longitude && (
             <Tooltip title="Voir la position sur Google Maps">
               <Button
-                type="link"
                 icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
                 onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
               />
@@ -199,24 +199,26 @@ const GetEventLocalisation = () => {
       <h2 className="title_event">📊 Détail des événements</h2>
       <div className="event_wrapper">
         <div className="event_top">
-          <RangePicker
-            style={{ width: '100%' }}
-            value={dateRange}
-            onChange={handleDateChange}
-            allowClear
-            showTime={{ format: 'HH:mm' }}
-            format="DD/MM/YYYY HH:mm"
-            placeholder={['Date et heure début', 'Date et heure fin']}
-          />
-          <Select
-            style={{ width: '100%', marginTop: 10 }}
-            placeholder="Filtrer par véhicule"
-            value={selectedVehicle}
-            onChange={handleVehicleChange}
-            allowClear
-          >
-            {vehicles.map(v => <Option key={v} value={v}>{v}</Option>)}
-          </Select>
+            <div className="event_top_row">
+                <RangePicker
+                    style={{ width: '100%' }}
+                    value={dateRange}
+                    onChange={handleDateChange}
+                    allowClear
+                    showTime={{ format: 'HH:mm' }}
+                    format="DD/MM/YYYY HH:mm"
+                    placeholder={['Date et heure début', 'Date et heure fin']}
+                />
+                <Select
+                    style={{ width: '100%' }}
+                    placeholder="Filtrer par véhicule"
+                    value={selectedVehicle}
+                    onChange={handleVehicleChange}
+                    allowClear
+                >
+                    {vehicles.map(v => <Option key={v} value={v}>{v}</Option>)}
+                </Select>
+            </div>
           <div className='row_lateral'>
             <Space>
               <Button type="primary" icon={<FileExcelOutlined />} onClick={exportToExcel}>Export Excel</Button>
