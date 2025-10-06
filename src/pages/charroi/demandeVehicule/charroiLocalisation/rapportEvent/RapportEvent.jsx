@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx';
 import { CheckCircleOutlined, CloseCircleOutlined, ThunderboltOutlined, CarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import './rapportEvent.scss';
 import RapportDay from '../rapportDay/RapportDay';
+import RapportDevice from '../rapportDevice/RapportDevice';
 
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;
@@ -182,6 +183,17 @@ const RapportEvent = () => {
           key="2"
         >
           <RapportDay/>
+        </TabPane>
+
+        <TabPane
+          tab={
+            <span>
+              <ClockCircleOutlined style={{ color: '#faad14', marginRight: 8 }} /> Rapport Device
+            </span>
+          }
+          key="3"
+        >
+          <RapportDevice/>
         </TabPane>
       </Tabs>
     </>
