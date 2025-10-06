@@ -16,9 +16,23 @@ const RapportDevice = () => {
   const [dateRange, setDateRange] = useState([]);
   const [statusFilter, setStatusFilter] = useState('');
   const [summary, setSummary] = useState({ connected: 0, disconnected: 0 });
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 20,
+  });
 
   const columns = [
-    { title: 'Device ID', dataIndex: 'device_id', key: 'device_id' },
+        {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "4%"
+    },
     { title: 'Nom', dataIndex: 'name', key: 'name' },
     { 
       title: 'Dernière connexion', 
@@ -36,8 +50,6 @@ const RapportDevice = () => {
         </Tag>
       )
     },
-    { title: 'Latitude', dataIndex: 'latitude', key: 'latitude' },
-    { title: 'Longitude', dataIndex: 'longitude', key: 'longitude' },
     {
       title: 'Position',
       key: 'position',
