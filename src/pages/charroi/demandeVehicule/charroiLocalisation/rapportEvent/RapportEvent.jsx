@@ -174,7 +174,7 @@ const RapportEvent = () => {
           </div>
         </TabPane>
 
-        <TabPane
+{/*         <TabPane
           tab={
             <span>
               <ClockCircleOutlined style={{ color: '#faad14', marginRight: 8 }} /> Rapport par jour
@@ -183,7 +183,7 @@ const RapportEvent = () => {
           key="2"
         >
           <RapportDay/>
-        </TabPane>
+        </TabPane> */}
 
         <TabPane
           tab={
