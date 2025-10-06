@@ -403,7 +403,7 @@ const Charroi = () => {
         visible={modalType === 'Affecter'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={600}
         centered
       >
         <SiteVehicule idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>

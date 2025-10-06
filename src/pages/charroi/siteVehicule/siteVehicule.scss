@@ -1,0 +1,65 @@
+.siteVehicule {
+  padding: 24px;
+  background-color: #f5f7fa;
+  min-height: 100%;
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+  }
+
+  &__card {
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    background: #fff;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    color: #1f1f1f;
+    margin-bottom: 0;
+    margin-top: 20px;
+  }
+
+  &__subtitle {
+    font-size: 15px;
+    margin-top: 10px;
+  }
+
+  &__alert {
+    margin-bottom: 24px;
+    border-radius: 8px;
+  }
+
+  &__form {
+    margin-top: 12px;
+
+    .ant-form-item-label > label {
+      font-weight: 500;
+    }
+  }
+
+  &__btn {
+    border-radius: 8px;
+    padding: 0 28px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #1677ff 0%, #4096ff 100%);
+    box-shadow: 0 2px 6px rgba(22, 119, 255, 0.3);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(22, 119, 255, 0.35);
+    }
+  }
+}
