@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Space, Typography, Tabs, Spin, Button, DatePicker, notification, Tag } from 'antd';
+import { Table, Space, Typography, Button, DatePicker, notification, Tag, Spin } from 'antd';
 import moment from 'moment';
 import { CSVLink } from 'react-csv';
 import * as XLSX from 'xlsx';
@@ -46,10 +46,7 @@ const RapportDevice = () => {
         if (!latitude || !longitude) return 'N/A';
         const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
         return (
-          <Button 
-            type="link" 
-            onClick={() => window.open(mapsUrl, '_blank')}
-          >
+          <Button type="link" onClick={() => window.open(mapsUrl, '_blank')}>
             Voir sur Maps
           </Button>
         );
@@ -83,8 +80,21 @@ const RapportDevice = () => {
 
   useEffect(() => { fetchData(); }, [dateRange, statusFilter]);
 
+  // Colonnes pour export (exclure Device ID, Latitude, Longitude, Position)
+  const exportColumns = columns.filter(c => !['device_id','latitude','longitude','position'].includes(c.key));
+
   const exportExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(data);
+    const exportData = data.map(d => {
+      const obj = {};
+      exportColumns.forEach(c => {
+        if(c.dataIndex === 'last_seen') obj[c.title] = moment(d[c.dataIndex]).format('YYYY-MM-DD HH:mm:ss');
+        else if(c.dataIndex === 'online_status') obj[c.title] = d[c.dataIndex].toUpperCase();
+        else obj[c.title] = d[c.dataIndex];
+      });
+      return obj;
+    });
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Devices');
     XLSX.writeFile(wb, 'rapport_devices.xlsx');
@@ -95,15 +105,27 @@ const RapportDevice = () => {
     doc.text('Rapport Devices', 14, 16);
     doc.autoTable({
       startY: 20,
-      head: [columns.map(c => c.title)],
-      body: data.map(d => columns.map(c => {
-        if (c.dataIndex === 'last_seen') return moment(d[c.dataIndex]).format('YYYY-MM-DD HH:mm:ss');
-        if (c.dataIndex === 'online_status') return d[c.dataIndex].toUpperCase();
-        if (c.key === 'position') return `https://www.google.com/maps?q=${d.latitude},${d.longitude}`;
+      head: [exportColumns.map(c => c.title)],
+      body: data.map(d => exportColumns.map(c => {
+        if(c.dataIndex === 'last_seen') return moment(d[c.dataIndex]).format('YYYY-MM-DD HH:mm:ss');
+        if(c.dataIndex === 'online_status') return d[c.dataIndex].toUpperCase();
         return d[c.dataIndex];
       }))
     });
     doc.save('rapport_devices.pdf');
+  };
+
+  const exportCSV = () => {
+    const exportData = data.map(d => {
+      const obj = {};
+      exportColumns.forEach(c => {
+        if(c.dataIndex === 'last_seen') obj[c.title] = moment(d[c.dataIndex]).format('YYYY-MM-DD HH:mm:ss');
+        else if(c.dataIndex === 'online_status') obj[c.title] = d[c.dataIndex].toUpperCase();
+        else obj[c.title] = d[c.dataIndex];
+      });
+      return obj;
+    });
+    return exportData;
   };
 
   return (
@@ -134,7 +156,7 @@ const RapportDevice = () => {
           <Button type="primary" onClick={fetchData}>Filtrer</Button>
           <Button onClick={exportExcel}>Export Excel</Button>
           <Button onClick={exportPDF}>Export PDF</Button>
-          <CSVLink data={data} filename="rapport_devices.csv">
+          <CSVLink data={exportCSV()} filename="rapport_devices.csv">
             <Button>Export CSV</Button>
           </CSVLink>
         </Space>
