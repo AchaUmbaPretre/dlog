@@ -18,3 +18,7 @@ export const getEventRow = async (params) => {
 export const postEvent = async (data) => {
   return axios.post(`${DOMAIN}/api/event`, data);
 };
+
+export const getDevices = async(params) => {
+  return axios.get(`${DOMAIN}/api/event/device`, { params });
+}
