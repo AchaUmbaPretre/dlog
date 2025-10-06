@@ -199,7 +199,7 @@ const CharroiLocalisation = () => {
         visible={modalType === 'rapport'}
         onCancel={closeAllModals}
         footer={null}
-        width={1025}
+        width={1085}
         centered
       >
         <RapportEvent />
