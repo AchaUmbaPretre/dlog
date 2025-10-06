@@ -57,8 +57,8 @@ const RapportEvent = () => {
     { title: 'Allumages', key: 'ignition_on', render: (_, record) => <Tag className="green-tag" icon={<CheckCircleOutlined />}>{record.summary.totalIgnitionsOn} démarrages</Tag> },
     { title: 'Arrêts', key: 'ignition_off', render: (_, record) => <Tag className="volcano-tag" icon={<CloseCircleOutlined />}>{record.summary.totalIgnitionsOff} arrêts</Tag> },
     { title: 'Dépassements', key: 'overspeed', render: (_, record) => <Tag className="orange-tag" icon={<ThunderboltOutlined />}>{record.summary.totalOverspeed}</Tag> },
-    { title: 'Déconnexions (min)', key: 'disconnect', render: (_, record) => <Tag className="red-tag">{record.summary.totalDisconnectMinutes} min</Tag> }
-  ];
+/*     { title: 'Déconnexions (min)', key: 'disconnect', render: (_, record) => <Tag className="red-tag">{record.summary.totalDisconnectMinutes} min</Tag> }
+ */  ];
 
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(
