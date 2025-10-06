@@ -127,19 +127,6 @@ const RapportDevice = () => {
     doc.save('rapport_devices.pdf');
   };
 
-  const exportCSV = () => {
-    const exportData = data.map(d => {
-      const obj = {};
-      exportColumns.forEach(c => {
-        if(c.dataIndex === 'last_seen') obj[c.title] = moment(d[c.dataIndex]).format('YYYY-MM-DD HH:mm:ss');
-        else if(c.dataIndex === 'online_status') obj[c.title] = d[c.dataIndex].toUpperCase();
-        else obj[c.title] = d[c.dataIndex];
-      });
-      return obj;
-    });
-    return exportData;
-  };
-
   return (
     <div className="rapport_device">
       <Space direction="vertical" style={{ width: '100%' }}>
@@ -168,9 +155,6 @@ const RapportDevice = () => {
           <Button type="primary" onClick={fetchData}>Filtrer</Button>
           <Button onClick={exportExcel}>Export Excel</Button>
           <Button onClick={exportPDF}>Export PDF</Button>
-          <CSVLink data={exportCSV()} filename="rapport_devices.csv">
-            <Button>Export CSV</Button>
-          </CSVLink>
         </Space>
 
         {loading ? (
