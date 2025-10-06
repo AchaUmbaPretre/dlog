@@ -88,6 +88,12 @@ export const putRelierVehiculeFalcon = async (id, data) => {
     return axios.put(`${DOMAIN}/api/charroi/vehicule_falcon?id_vehicule=${id}`, data);
 }
 
+//Site véhicule
+export const postSiteVehicule = async (data) => {
+    return axios.post(`${DOMAIN}/api/charroi/site_vehicule`, data);
+}
+
+
 export const getPermis = async () => {
     return axios.get(`${DOMAIN}/api/charroi/permis`);
 };

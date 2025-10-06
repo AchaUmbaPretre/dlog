@@ -10,6 +10,7 @@ import VehiculeDetail from './vehiculeDetail/VehiculeDetail';
 import Modele from '../modeles/Modele';
 import Marque from '../marque/Marque';
 import RelierFalcon from './relierFalcon/RelierFalcon';
+import SiteVehicule from './siteVehicule/SiteVehicule';
 
 const { Search } = Input;
 
@@ -395,6 +396,17 @@ const Charroi = () => {
         centered
       >
         <RelierFalcon idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'Affecter'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+      >
+        <SiteVehicule idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>
       </Modal>
     </>
   );
