@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { ExportOutlined, MoreOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
 import TabPane from 'antd/es/tabs/TabPane';
 import { getVehicule, putVehicule } from '../../services/charroiService';
@@ -67,6 +67,7 @@ const Charroi = () => {
   const handleAddClient = (id) => openModal('Add', id)
   const handleDetail = (id) => openModal('Detail', id)
   const handleRelier = (id) => openModal('Relier', id)
+  const handleSite = (id) => openModal('Affecter', id)
 
   const closeAllModals = () => {
     setModalType(null);
@@ -211,14 +212,25 @@ const Charroi = () => {
                 />
             </Tooltip>
 
-            <Tooltip title="Rélier...">
-                <Button
-                  icon={<RetweetOutlined />}
-                  aria-label="Voir les détails"
-                  style={{ color: 'blue' }}
-                  onClick={()=> handleRelier(record.id_vehicule)}
-                />
-            </Tooltip>
+            <Dropdown
+              overlay={(
+                <Menu>
+                  <Menu.Item onClick={()=> handleSite(record.id_vehicule)}>
+                    <RetweetOutlined /> Affecter à un site
+                  </Menu.Item>
+                  <Menu.Item onClick={()=> handleRelier(record.id_vehicule)}>
+                    <RetweetOutlined /> Rélier à un device
+                  </Menu.Item>
+                </Menu>
+              )}
+              trigger={['click']}
+            >
+              <Button
+                icon={<MoreOutlined />}
+                style={{ color: 'black', padding: '0' }}
+                aria-label="Menu actions"
+              />
+            </Dropdown>
             
             <Tooltip title="Supprimer">
                 <Popconfirm
