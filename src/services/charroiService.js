@@ -93,7 +93,6 @@ export const postSiteVehicule = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/site_vehicule`, data);
 }
 
-
 export const getPermis = async () => {
     return axios.get(`${DOMAIN}/api/charroi/permis`);
 };
