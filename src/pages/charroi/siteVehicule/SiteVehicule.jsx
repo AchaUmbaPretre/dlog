@@ -70,36 +70,47 @@ const SiteVehicule = ({ idVehicule }) => {
     });
   };
 
-  const executeAffectation = async (values) => {
-    setSubmitting(true);
-    try {
-      messageApi.open({ type: 'loading', content: 'Affectation en cours...', key: 'submit' });
+const executeAffectation = async (values) => {
+  setSubmitting(true);
+  try {
+    messageApi.open({
+      type: 'loading',
+      content: 'Affectation en cours...',
+      key: 'submit',
+    });
 
-      await postSiteVehicule({
-        id_vehicule: idVehicule,
-        id_site: values.id_site,
-      });
+    const response = await postSiteVehicule({
+      id_vehicule: idVehicule,
+      id_site: values.id_site,
+    });
 
-      messageApi.open({
-        type: 'success',
-        content: 'Véhicule affecté avec succès ✅',
-        key: 'submit',
-      });
+    messageApi.open({
+      type: 'success',
+      content: response?.message || 'Véhicule affecté avec succès ✅',
+      key: 'submit',
+    });
 
-      setSuccess(true);
-      form.resetFields();
-      setTimeout(() => setSuccess(false), 4000);
-    } catch (error) {
-      console.error('Erreur lors de l’affectation:', error);
-      messageApi.open({
-        type: 'error',
-        content: 'Une erreur est survenue lors de l’affectation.',
-        key: 'submit',
-      });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    setSuccess(true);
+    form.resetFields();
+    setTimeout(() => setSuccess(false), 4000);
+  } catch (error) {
+    console.error('Erreur lors de l’affectation:', error);
+
+    const backendMessage =
+      error.response?.data?.message || 
+      error.response?.data?.error ||
+      'Une erreur est survenue lors de l’affectation.';
+
+    messageApi.open({
+      type: 'error',
+      content: backendMessage,
+      key: 'submit',
+    });
+  } finally {
+    setSubmitting(false);
+  }
+};
+
 
   if (loading) {
     return (
