@@ -218,6 +218,7 @@ const Charroi = () => {
                   <Menu.Item onClick={()=> handleSite(record.id_vehicule)}>
                     <RetweetOutlined /> Affecter à un site
                   </Menu.Item>
+                  <Menu.Divider />
                   <Menu.Item onClick={()=> handleRelier(record.id_vehicule)}>
                     <RetweetOutlined /> Rélier à un device
                   </Menu.Item>
