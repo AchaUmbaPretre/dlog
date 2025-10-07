@@ -10,7 +10,6 @@ import html2pdf from 'html2pdf.js';
 import { VehicleAddress } from '../../../../../utils/vehicleAddress';
 import GetHistory from '../getHistory/GetHistory';
 import { getEvent } from '../../../../../services/rapportService';
-import { postEvent } from '../../../../../services/eventService';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -51,7 +50,7 @@ const GetEventLocalisation = () => {
       );
 
       // 🔸 Envoi vers le backend pour stockage
-      for (const e of eventsData) {
+/*       for (const e of eventsData) {
         try {
           await postEvent({
             external_id: e.id,
@@ -69,7 +68,7 @@ const GetEventLocalisation = () => {
         }
       }
 
-      message.success(`${eventsData.length} événements stockés avec succès.`);
+      message.success(`${eventsData.length} événements stockés avec succès.`); */
     } else {
       setEvents([]);
       setFilteredEvents([]);
