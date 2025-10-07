@@ -29,35 +29,59 @@ const GetEventLocalisation = () => {
 
   // 🔹 Fetch événements depuis le backend
     const fetchData = async (from, to) => {
-    try {
-        const { data } = await getEvent({
-        date_from: from,
-        date_to: to,
-        lang: "fr",
-        limit: 1000,
-        user_api_hash: apiHash,
-        });
+  setLoading(true);
+  try {
+    const { data } = await getEvent({
+      date_from: from,
+      date_to: to,
+      lang: "fr",
+      limit: 1000,
+      user_api_hash: apiHash,
+    });
 
-        if (data?.items?.data?.length) {
-        const eventsData = data.items.data;
-        setEvents(eventsData);
-        setFilteredEvents(
-            selectedVehicle
-            ? eventsData.filter(e => e.device_name === selectedVehicle)
-            : eventsData
-        );
-        } else {
-        setEvents([]);
-        setFilteredEvents([]);
-        message.info("Aucun événement trouvé pour cette période.");
+    if (data?.items?.data?.length) {
+      const eventsData = data.items.data;
+
+      // 🔸 Stockage dans le state React
+      setEvents(eventsData);
+      setFilteredEvents(
+        selectedVehicle
+          ? eventsData.filter(e => e.device_name === selectedVehicle)
+          : eventsData
+      );
+
+      // 🔸 Envoi vers le backend pour stockage
+      for (const e of eventsData) {
+        try {
+          await postEvent({
+            external_id: e.id,
+            device_id: e.device_id,
+            device_name: e.device_name,
+            type: e.type,
+            message: e.message || e.name,
+            speed: e.speed || 0,
+            latitude: e.latitude,
+            longitude: e.longitude,
+            event_time: e.time,
+          });
+        } catch (err) {
+          console.error(`Erreur stockage event ${e.id}:`, err.message);
         }
-    } catch (error) {
-        console.error("Erreur lors du fetch:", error);
-        message.error("Erreur lors du chargement des événements.");
-    } finally {
-        setLoading(false);
+      }
+
+      message.success(`${eventsData.length} événements stockés avec succès.`);
+    } else {
+      setEvents([]);
+      setFilteredEvents([]);
+      message.info("Aucun événement trouvé pour cette période.");
     }
-    };
+  } catch (error) {
+    console.error("Erreur lors du fetch:", error);
+    message.error("Erreur lors du chargement des événements.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   // 🔹 Temps réel : fetch toutes les 30 secondes
   useEffect(() => {
