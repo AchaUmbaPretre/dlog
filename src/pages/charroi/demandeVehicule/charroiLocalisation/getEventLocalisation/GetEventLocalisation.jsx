@@ -1,7 +1,7 @@
 import './getEventLocalisation.scss';
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { DatePicker, Table, Tooltip, Modal, Tag, Space, message, Select, Button } from 'antd';
-import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined, EyeOutlined, PoweroffOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import config from '../../../../../config';
 import dayjs from 'dayjs';
 import ExcelJS from 'exceljs';
@@ -48,27 +48,6 @@ const GetEventLocalisation = () => {
           ? eventsData.filter(e => e.device_name === selectedVehicle)
           : eventsData
       );
-
-      // 🔸 Envoi vers le backend pour stockage
-/*       for (const e of eventsData) {
-        try {
-          await postEvent({
-            external_id: e.id,
-            device_id: e.device_id,
-            device_name: e.device_name,
-            type: e.type,
-            message: e.message || e.name,
-            speed: e.speed || 0,
-            latitude: e.latitude,
-            longitude: e.longitude,
-            event_time: e.time,
-          });
-        } catch (err) {
-          console.error(`Erreur stockage event ${e.id}:`, err.message);
-        }
-      }
-
-      message.success(`${eventsData.length} événements stockés avec succès.`); */
     } else {
       setEvents([]);
       setFilteredEvents([]);
@@ -90,13 +69,13 @@ const GetEventLocalisation = () => {
       fetchData(from, to);
     };
 
-    fetchInterval(); // fetch immédiat
-    const interval = setInterval(fetchInterval, 30 * 1000); // toutes les 30s
+    fetchInterval();
+    const interval = setInterval(fetchInterval, 30 * 1000); //30s
 
     return () => clearInterval(interval);
   }, [dateRange, selectedVehicle]);
 
-  // 🔹 Modal détail
+  //Modal détail
   const openModal = (type, id = '') => {
     setModalType(type);
     setIdDevice(id);
