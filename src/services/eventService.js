@@ -4,11 +4,11 @@ import config from '../config';
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
 export const getEvent = async () => {
-    return axios.get(`${DOMAIN}/api/event`);
+  return axios.get(`${DOMAIN}/api/event`);
 };
 
 export const getEventRapportDay = async (params) => {
-    return axios.get(`${DOMAIN}/api/event/rapport_day`);
+  return axios.get(`${DOMAIN}/api/event/rapport_day`);
 };
 
 export const getEventRow = async (params) => {
