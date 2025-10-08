@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CarOutlined, EyeOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
-import { notification, Typography, Modal, Space, Tag, Input, Table, Button, Badge } from 'antd';
+import { notification, Typography, Modal, Tooltip, Space, Tag, Input, Table, Button, Badge } from 'antd';
 import moment from 'moment';
 import { getAlerts, getEngineStatus, getOdometer } from '../../../../services/geocodeService';
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
@@ -9,7 +9,7 @@ import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
 import GetEventLocalisation from './getEventLocalisation/GetEventLocalisation';
 import RapportEvent from './rapportEvent/RapportEvent';
-import { engineMap, statusDeviceMap } from '../../../../utils/prioriteIcons';
+import { engineMap, getDirection, statusDeviceMap } from '../../../../utils/prioriteIcons';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -130,10 +130,40 @@ const CharroiLocalisation = () => {
         },
         },
         { title: 'Alertes', key: 'alerts', render: (text, record) => <Space wrap>{getAlerts(record)}</Space>, },
+        {
+          title: 'Direction',
+          dataIndex: 'course',
+          key: 'course',
+          align: 'center',
+          render: (text) => {
+            const { label, icon, color, angle } = getDirection(text);
+
+            return (
+              <Tooltip title={`Angle exact: ${angle}°`}>
+                <Tag
+                  color={`${color}33`}
+                  style={{
+                    fontWeight: 600,
+                    fontSize: 14,
+                    padding: '6px 12px',
+                    borderRadius: 12,
+                    display: 'flex',
+                    alignItems: 'center',
+                    transition: 'all 0.2s',
+                    cursor: 'default'
+                  }}
+                >
+                  <span style={{ marginRight: 8 }}>{icon}</span>
+                  {label}
+                </Tag>
+              </Tooltip>
+            );
+          },
+        },
         { title: 'Actions', key: 'actions', render: (text, record) => (
-            <Space>
+          <Space>
             <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.id)} />
-            </Space>
+          </Space>
         ),
       },
     ];

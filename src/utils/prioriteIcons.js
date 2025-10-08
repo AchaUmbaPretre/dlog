@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, ThunderboltOutlined, ArrowRightOutlined, FileSearchOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, ArrowUpOutlined, ThunderboltOutlined, ArrowRightOutlined, FileSearchOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -294,6 +294,36 @@ export const statusDeviceMap = {
     };
 
 export const engineMap = {
-      ON: { color: 'green', label: 'ON', icon: <ThunderboltOutlined /> },
-      OFF: { color: 'red', label: 'OFF', icon: <CloseCircleOutlined /> },
-    };
+  ON: { color: 'green', label: 'ON', icon: <ThunderboltOutlined /> },
+  OFF: { color: 'red', label: 'OFF', icon: <CloseCircleOutlined /> },
+};
+
+
+export const getDirection = (course) => {
+  if (course === null || course === undefined) {
+    return { label: "Inconnue", icon: null, color: "#d9d9d9" };
+  }
+
+  const directions = [
+    { label: "Nord",       color: "#1E90FF" },
+    { label: "Nord-Est",   color: "#00BFFF" },
+    { label: "Est",        color: "#20B2AA" },
+    { label: "Sud-Est",    color: "#32CD32" },
+    { label: "Sud",        color: "#FFA500" },
+    { label: "Sud-Ouest",  color: "#FF8C00" },
+    { label: "Ouest",      color: "#FF4500" },
+    { label: "Nord-Ouest", color: "#8B008B" },
+  ];
+
+  const normalized = ((course % 360) + 360) % 360;
+  const index = Math.round(normalized / 45) % directions.length;
+
+  const direction = directions[index];
+
+  return {
+    label: direction.label,
+    icon: <ArrowUpOutlined style={{ transform: `rotate(${index*45}deg)`, fontSize: 20, transition: 'transform 0.3s' }} />,
+    color: direction.color,
+    angle: normalized
+  };
+};
