@@ -97,7 +97,6 @@ const CharroiLocalisation = () => {
 
             const key = text?.toLowerCase();
             const status = statusDeviceMap[key] || { color: 'default', label: text.toUpperCase() || 'N/A', icon: null };
-
             return (
               <Tag color={status.color} icon={status.icon}>
                 {status.label}
@@ -109,7 +108,7 @@ const CharroiLocalisation = () => {
           title: 'Moteur',
           dataIndex: 'sensors',
           render: (sensors) => {
-            const engineStatus = getEngineStatus(sensors); // "ON" ou "OFF"
+            const engineStatus = getEngineStatus(sensors);
             const status = engineMap[engineStatus] || { color: 'default', label: engineStatus || 'N/A', icon: null };
             return (
               <Tag color={status.color} icon={status.icon}>
