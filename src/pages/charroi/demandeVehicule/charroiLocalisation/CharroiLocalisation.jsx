@@ -95,7 +95,7 @@ const CharroiLocalisation = () => {
           dataIndex: 'online',
           render: (text = '') => {
 
-            const key = text.toLowerCase();
+            const key = text?.toLowerCase();
             const status = statusDeviceMap[key] || { color: 'default', label: text.toUpperCase() || 'N/A', icon: null };
 
             return (
