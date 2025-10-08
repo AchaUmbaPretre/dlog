@@ -78,10 +78,10 @@ const CharroiLocalisation = () => {
         },
         { title: 'Date & Heure', dataIndex: 'time', render: (text) =>
             <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>,
-        sorter: (a, b) =>
+            sorter: (a, b) =>
             moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
         },
-        { title: 'Adresse', dataIndex: 'address',render: (_, record) => <VehicleAddress record={record} />,
+        { title: 'Adresse', dataIndex: 'address',render: (_, record) => <VehicleAddress record={record} />
         },
         { title: 'Vitesse', dataIndex: 'speed', render: (speed) => {
             let color = "red";
