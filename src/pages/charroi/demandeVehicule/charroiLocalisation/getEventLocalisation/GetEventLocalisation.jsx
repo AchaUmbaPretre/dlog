@@ -10,6 +10,7 @@ import html2pdf from 'html2pdf.js';
 import { VehicleAddress } from '../../../../../utils/vehicleAddress';
 import GetHistory from '../getHistory/GetHistory';
 import { getEvent } from '../../../../../services/rapportService';
+import { processEvents } from '../../../../../utils/processEvent';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -41,12 +42,13 @@ const GetEventLocalisation = () => {
     if (data?.items?.data?.length) {
       const eventsData = data.items.data;
 
-      // 🔸 Stockage dans le state React
+      const processed = processEvents(eventsData);
+
       setEvents(eventsData);
       setFilteredEvents(
         selectedVehicle
-          ? eventsData.filter(e => e.device_name === selectedVehicle)
-          : eventsData
+          ? processed.filter(e => e.device_name === selectedVehicle)
+          : processed
       );
     } else {
       setEvents([]);
@@ -110,7 +112,7 @@ const GetEventLocalisation = () => {
       },
     },
     {
-      title: 'Événement',
+      title: 'Message',
       dataIndex: 'message',
       key: 'message',
       render: (text, record) => {
@@ -129,6 +131,17 @@ const GetEventLocalisation = () => {
         render: (_, record) => <VehicleAddress record={{ lat: record.latitude, lng: record.longitude }} />,
       },
     ] : []),
+    {
+      title: '🕒 Durée depuis le dernier changement',
+      dataIndex: 'duration_since_last_change',
+      key: 'duration_since_last_change',
+      align: 'center',
+      render: text => (
+        <span style={{ fontWeight: 500, color: '#722ed1' }}>
+          {text || '—'}
+        </span>
+      ),
+    },
     {
       title: 'Actions',
       key: 'actions',
