@@ -143,9 +143,13 @@ const CharroiLocalisation = () => {
                 <Tag
                   color={`${color}33`}
                   style={{
+                    display:'flex',
+                    alignItems:'center',
+                    justifyContent:'center',
+                    width:'100%',
                     fontWeight: 600,
                     fontSize: 14,
-                    padding: '6px 12px',
+                    padding: '6px 10px',
                     borderRadius: 12,
                     display: 'flex',
                     alignItems: 'center',
