@@ -26,53 +26,67 @@ const GetEventLocalisation = () => {
   const [showPosition, setShowPosition] = useState(false);
   const tableRef = useRef();
   const apiHash = config.api_hash;
+  const [refreshing, setRefreshing] = useState(false);
 
   // 🔹 Fetch événements depuis le backend
-    const fetchData = async (from, to) => {
-  setLoading(true);
-  try {
-    const { data } = await getEvent({
-      date_from: from,
-      date_to: to,
-      lang: "fr",
-      limit: 1000,
-      user_api_hash: apiHash,
-    });
+  const fetchData = async (from, to, isRefresh = false) => {
+    if (isRefresh) setRefreshing(true);
+    else setLoading(true);
 
-    if (data?.items?.data?.length) {
-      const eventsData = data.items.data;
+    try {
+      const { data } = await getEvent({
+        date_from: from,
+        date_to: to,
+        lang: "fr",
+        limit: 1000,
+        user_api_hash: apiHash,
+      });
 
-      const processed = processEvents(eventsData);
+      if (data?.items?.data?.length) {
+        const eventsData = data.items.data;
+        const processed = processEvents(eventsData);
 
-      setEvents(eventsData);
-      setFilteredEvents(
-        selectedVehicle
-          ? processed.filter(e => e.device_name === selectedVehicle)
-          : processed
-      );
-    } else {
-      setEvents([]);
-      setFilteredEvents([]);
-      message.info("Aucun événement trouvé pour cette période.");
+        setEvents(eventsData);
+        setFilteredEvents(
+          selectedVehicle
+            ? processed.filter(e => e.device_name === selectedVehicle)
+            : processed
+        );
+      } else {
+        setEvents([]);
+        setFilteredEvents([]);
+      }
+    } catch (error) {
+      console.error("Erreur lors du fetch:", error);
+      if (!isRefresh) message.error("Erreur lors du chargement des événements.");
+    } finally {
+      if (isRefresh) setRefreshing(false);
+      else setLoading(false);
     }
-  } catch (error) {
-    console.error("Erreur lors du fetch:", error);
-    message.error("Erreur lors du chargement des événements.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
-  // 🔹 Temps réel : fetch toutes les 30 secondes
+  // 🔹 Chargement initial (ou lors d’un changement de filtre)
   useEffect(() => {
-    const fetchInterval = () => {
-      const from = dateRange[0] ? dateRange[0].format('YYYY-MM-DD HH:mm:ss') : dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
-      const to = dateRange[1] ? dateRange[1].format('YYYY-MM-DD HH:mm:ss') : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
-      fetchData(from, to);
-    };
+    const from = dateRange[0]
+      ? dateRange[0].format('YYYY-MM-DD HH:mm:ss')
+      : dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
+    const to = dateRange[1]
+      ? dateRange[1].format('YYYY-MM-DD HH:mm:ss')
+      : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
+    fetchData(from, to);
+  }, [dateRange, selectedVehicle]);
 
-    fetchInterval();
-    const interval = setInterval(fetchInterval, 30 * 1000); //30s
+  // 🔹 Rafraîchissement silencieux toutes les 30s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const from = dateRange[0]
+        ? dateRange[0].format('YYYY-MM-DD HH:mm:ss')
+        : dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
+      const to = dateRange[1]
+        ? dateRange[1].format('YYYY-MM-DD HH:mm:ss')
+        : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
+      fetchData(from, to, true); // 👈 isRefresh = true
+    }, 30 * 1000);
 
     return () => clearInterval(interval);
   }, [dateRange, selectedVehicle]);
