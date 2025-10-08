@@ -9,6 +9,7 @@ import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
 import GetEventLocalisation from './getEventLocalisation/GetEventLocalisation';
 import RapportEvent from './rapportEvent/RapportEvent';
+import { engineMap, statusDeviceMap } from '../../../../utils/prioriteIcons';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -68,7 +69,7 @@ const CharroiLocalisation = () => {
             return (pageIndex - 1) * pageSize + index + 1;
         }, width: "4%",
         },
-        { title: 'Matricule', dataIndex: 'name', render: (text) => (
+        { title: 'Immatriculation', dataIndex: 'name', render: (text) => (
             <div className="vehicule-matricule">
             <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
             <Text strong>{text}</Text>
@@ -89,11 +90,33 @@ const CharroiLocalisation = () => {
             return <Tag color={color}>{speed} km/h</Tag>;
         },
         },
-        { title: 'Statut', dataIndex: 'online', render: (text) =>
-            <Tag color={text === "online" ? "green" : "red"}>{text.toUpperCase()}</Tag>,
+        {
+          title: 'Statut',
+          dataIndex: 'online',
+          render: (text = '') => {
+
+            const key = text.toLowerCase();
+            const status = statusDeviceMap[key] || { color: 'default', label: text.toUpperCase() || 'N/A', icon: null };
+
+            return (
+              <Tag color={status.color} icon={status.icon}>
+                {status.label}
+              </Tag>
+            );
+          },
         },
-        { title: 'Moteur', dataIndex: 'sensors', render: (sensors) =>
-            <Tag color={getEngineStatus(sensors) === "ON" ? "green" : "red"}>{getEngineStatus(sensors)}</Tag>,
+        {
+          title: 'Moteur',
+          dataIndex: 'sensors',
+          render: (sensors) => {
+            const engineStatus = getEngineStatus(sensors); // "ON" ou "OFF"
+            const status = engineMap[engineStatus] || { color: 'default', label: engineStatus || 'N/A', icon: null };
+            return (
+              <Tag color={status.color} icon={status.icon}>
+                {status.label}
+              </Tag>
+            );
+          },
         },
         { title: 'Km Total', dataIndex: 'sensors', render: (sensors) => {
             const km = getOdometer(sensors);

@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, ArrowRightOutlined, FileSearchOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, ThunderboltOutlined, ArrowRightOutlined, FileSearchOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -285,3 +285,15 @@ export const getInspectionIcon = (category) => {
       return { icon: <ToolOutlined spin />, color: 'default' };
   }
 }
+
+export const statusDeviceMap = {
+      online: { color: 'green', label: 'ONLINE', icon: <CheckCircleOutlined /> },
+      ack: { color: 'gold', label: 'ACK', icon: <ClockCircleOutlined /> },
+      offline: { color: 'red', label: 'OFFLINE', icon: <CloseCircleOutlined /> },
+      engine: { color: 'blue', label: 'ENGINE', icon: <ThunderboltOutlined /> },
+    };
+
+export const engineMap = {
+      ON: { color: 'green', label: 'ON', icon: <ThunderboltOutlined /> },
+      OFF: { color: 'red', label: 'OFF', icon: <CloseCircleOutlined /> },
+    };
