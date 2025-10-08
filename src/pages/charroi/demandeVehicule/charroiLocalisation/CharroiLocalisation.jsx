@@ -149,7 +149,7 @@ const CharroiLocalisation = () => {
                     width:'100%',
                     fontWeight: 600,
                     fontSize: 14,
-                    padding: '6px 10px',
+                    padding: '6px',
                     borderRadius: 12,
                     display: 'flex',
                     alignItems: 'center',
