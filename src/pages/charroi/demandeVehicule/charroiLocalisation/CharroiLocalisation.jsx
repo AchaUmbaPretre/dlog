@@ -67,14 +67,14 @@ const CharroiLocalisation = () => {
             const pageSize = pagination.pageSize || 10;
             const pageIndex = pagination.current || 1;
             return (pageIndex - 1) * pageSize + index + 1;
-        }, width: "4%",
+          }, width: "4%",
         },
         { title: 'Immatriculation', dataIndex: 'name', render: (text) => (
             <div className="vehicule-matricule">
             <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
             <Text strong>{text}</Text>
             </div>
-        ),
+          ),
         },
         { title: 'Date & Heure', dataIndex: 'time', render: (text) =>
             <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>,
