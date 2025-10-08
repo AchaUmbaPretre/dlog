@@ -168,7 +168,7 @@ const CharroiLocalisation = () => {
             <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.id)} />
           </Space>
         ),
-        },
+        }
     ];
 
     const totalVehicules = falcon.length;
