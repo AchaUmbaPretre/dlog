@@ -69,7 +69,7 @@ const GetHistory = ({ id }) => {
         to_date: to.split(" ")[0],
         to_time: to.split(" ")[1],
         lang: "fr",
-        limit: 50,
+        limit: 1000,
         user_api_hash: apiHash,
       });
       if (data) setVehicleData(data);
