@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { getEventRow } from '../../../../../services/eventService';
-import { CheckCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, ThunderboltOutlined, CarOutlined } from '@ant-design/icons';
 import './rapportEvent.scss';
 
 const { RangePicker } = DatePicker;
@@ -16,7 +16,7 @@ const RapportEvent = () => {
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
   const [months, setMonths] = useState([]);
-const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().endOf('day')]);
+  const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().endOf('day')]);
   const [searchText, setSearchText] = useState('');
 
   const fetchData = async (range) => {
@@ -28,11 +28,10 @@ const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().en
       };
       const { data } = await getEventRow(params);
 
-      // Extraire tous les mois uniques
+      // Extraire tous les mois uniques pour les colonnes
       const monthSet = new Set();
       data.forEach(d => Object.keys(d.months).forEach(m => monthSet.add(m)));
-      const monthArray = Array.from(monthSet).sort();
-      setMonths(monthArray);
+      setMonths(Array.from(monthSet).sort());
 
       setReportData(data);
     } catch (error) {
@@ -43,15 +42,10 @@ const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().en
     }
   };
 
-  useEffect(() => {
-    fetchData(dateRange);
-  }, [dateRange]);
+  useEffect(() => { fetchData(dateRange); }, [dateRange]);
 
-  const filteredData = reportData.filter(r =>
-    r.device_name.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const filteredData = reportData.filter(r => r.device_name.toLowerCase().includes(searchText.toLowerCase()));
 
-  // Colonnes avec numéros de ligne
   const columns = [
     {
       title: 'N°',
@@ -66,8 +60,14 @@ const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().en
       dataIndex: 'device_name',
       key: 'device_name',
       fixed: 'left',
+      width: 180,
       sorter: (a, b) => a.device_name.localeCompare(b.device_name),
-      render: text => <b>{text}</b>
+      render: text => (
+        <Space>
+          <CarOutlined style={{ color: '#1890ff', fontSize: 18 }} />
+          <b>{text}</b>
+        </Space>
+      )
     },
     ...months.map(month => ({
       title: moment(month).format('MMM YYYY'),
@@ -95,7 +95,7 @@ const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().en
           )
         },
       ],
-    })),
+    }))
   ];
 
   const exportExcel = () => {
