@@ -129,7 +129,7 @@ const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().en
 
   return (
     <div className="rapport-container">
-      <Title level={2}>📊 Rapport Mensuel des Véhicules</Title>
+      <Title level={2}>📊 Rapport Véhicules</Title>
 
       <Space className="filter-bar">
         <RangePicker
