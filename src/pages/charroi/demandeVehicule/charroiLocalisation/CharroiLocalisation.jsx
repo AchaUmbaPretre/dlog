@@ -62,7 +62,7 @@ const CharroiLocalisation = () => {
     const handleEvenement = () => openModal('Event')
     const handleRapport = () => openModal('rapport')
 
-    const columns = [
+      const columns = [
         { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => {
             const pageSize = pagination.pageSize || 10;
             const pageIndex = pagination.current || 1;
@@ -169,7 +169,7 @@ const CharroiLocalisation = () => {
           </Space>
         ),
         }
-    ];
+      ];
 
     const totalVehicules = falcon.length;
     const enLigne = falcon.filter(f => f.online === "online").length;
