@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { getEventRow } from '../../../../../services/eventService';
-import { Table, Space, Typography, Tabs, Spin, Button, DatePicker, notification, Tag, Collapse } from 'antd';
+import { Table, Space, Typography, Tabs, Spin, Button, DatePicker, notification, Tag } from 'antd';
 import moment from 'moment';
 import { CSVLink } from 'react-csv';
 import * as XLSX from 'xlsx';
 import { CheckCircleOutlined, CloseCircleOutlined, ThunderboltOutlined, CarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import './rapportEvent.scss';
-import RapportDay from '../rapportDay/RapportDay';
 import RapportDevice from '../rapportDevice/RapportDevice';
 
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;
-const { Panel } = Collapse;
 const { TabPane } = Tabs;
 
 const RapportEvent = () => {
@@ -133,57 +131,10 @@ const RapportEvent = () => {
                   bordered
                   className="main-table"
                 />
-
-                <Collapse accordion className="details-collapse">
-                  {reportData.map(r => (
-                    <Panel
-                      header={<><ClockCircleOutlined style={{ color: '#faad14', marginRight: 5 }} /> Détails → {r.vehicle}</>}
-                      key={r.vehicle}
-                    >
-                      {r.events.length > 0 ? (
-                        <Table
-                          columns={[
-                            { title: 'Heure', dataIndex: 'time', key: 'time', render: t => moment(t).format('YYYY-MM-DD HH:mm:ss') },
-                            { title: 'Type', dataIndex: 'type', key: 'type' },
-                            { title: 'Latitude', dataIndex: 'latitude', key: 'latitude' },
-                            { title: 'Longitude', dataIndex: 'longitude', key: 'longitude' }
-                          ]}
-                          dataSource={r.events}
-                          rowKey={record => record.time + record.type}
-                          pagination={{ pageSize: 5 }}
-                          size="small"
-                          scroll={{ x: true }}
-                        />
-                      ) : <Text>Aucun événement enregistré pour cette période.</Text>}
-
-                      {r.disconnects.length > 0 && (
-                        <div className="disconnect-section">
-                          <Text strong>Périodes de déconnexion :</Text>
-                          <ul>
-                            {r.disconnects.map((d, i) => (
-                              <li key={i}>Déconnexion {i + 1} → {d.durationMinutes} minutes</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </Panel>
-                  ))}
-                </Collapse>
               </>
             )}
           </div>
         </TabPane>
-
-{/*         <TabPane
-          tab={
-            <span>
-              <ClockCircleOutlined style={{ color: '#faad14', marginRight: 8 }} /> Rapport par jour
-            </span>
-          }
-          key="2"
-        >
-          <RapportDay/>
-        </TabPane> */}
 
         <TabPane
           tab={
