@@ -2,23 +2,24 @@
   padding: 30px;
   background: #f5f7fa;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 
   .main-title {
     text-align: center;
     color: #1f3c88;
     margin-bottom: 25px;
+    font-weight: 700;
   }
 
   .filter-bar {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 20px;
   }
 
   .loading-spinner {
-    margin-top: 100px;
+    margin-top: 120px;
     display: flex;
     justify-content: center;
   }
@@ -28,45 +29,30 @@
       background: #e6f7ff;
       color: #0050b3;
       font-weight: 600;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 2;
     }
 
     .ant-table-tbody > tr > td {
       font-size: 14px;
-      padding: 12px;
+      padding: 14px;
+      text-align: center;
     }
-  }
 
-  .status-tag.connected {
-    background-color: #e6fffb;
-    color: #13c2c2;
-    font-weight: 600;
-  }
+    .hover-row:hover {
+      background-color: #f0f5ff;
+    }
 
-  .status-tag.disconnected {
-    background-color: #fff1f0;
-    color: #f5222d;
-    font-weight: 600;
-  }
-
-  .green-tag { background-color: #f6ffed; color: #52c41a; font-weight: 600; }
-  .volcano-tag { background-color: #fff2e8; color: #fa541c; font-weight: 600; }
-  .orange-tag { background-color: #fff7e6; color: #fa8c16; font-weight: 600; }
-  .red-tag { background-color: #fff1f0; color: #f5222d; font-weight: 600; }
-
-  .details-collapse {
-    margin-top: 20px;
-
-    .ant-collapse-header {
-      font-size: 16px;
+    .ant-tag {
       font-weight: 600;
-    }
-
-    .disconnect-section {
-      margin-top: 10px;
-      background: #fffbe6;
-      padding: 10px 15px;
-      border-radius: 8px;
-      border: 1px solid #ffe58f;
+      font-size: 13px;
+      padding: 0 10px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }
