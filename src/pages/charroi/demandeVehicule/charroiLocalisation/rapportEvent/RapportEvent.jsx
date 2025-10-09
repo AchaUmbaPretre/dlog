@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Typography, Spin, Button, DatePicker, notification, Tag, Input } from 'antd';
+import { Table, Typography, Spin, Button, DatePicker, notification, Tag, Input, Space } from 'antd';
 import moment from 'moment';
 import { CSVLink } from 'react-csv';
 import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { getEventRow } from '../../../../../services/eventService';
 import { CheckCircleOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import './rapportEvent.scss';
@@ -14,7 +16,7 @@ const RapportEvent = () => {
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
   const [months, setMonths] = useState([]);
-  const [dateRange, setDateRange] = useState([moment().startOf('year'), moment().endOf('year')]);
+const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().endOf('day')]);
   const [searchText, setSearchText] = useState('');
 
   const fetchData = async (range) => {
@@ -26,11 +28,9 @@ const RapportEvent = () => {
       };
       const { data } = await getEventRow(params);
 
-      // Extraire tous les mois uniques pour les colonnes
+      // Extraire tous les mois uniques
       const monthSet = new Set();
-      data.forEach(d => {
-        Object.keys(d.months).forEach(m => monthSet.add(m));
-      });
+      data.forEach(d => Object.keys(d.months).forEach(m => monthSet.add(m)));
       const monthArray = Array.from(monthSet).sort();
       setMonths(monthArray);
 
@@ -47,12 +47,20 @@ const RapportEvent = () => {
     fetchData(dateRange);
   }, [dateRange]);
 
-  // Filtrer par véhicule
   const filteredData = reportData.filter(r =>
     r.device_name.toLowerCase().includes(searchText.toLowerCase())
   );
 
+  // Colonnes avec numéros de ligne
   const columns = [
+    {
+      title: 'N°',
+      key: 'index',
+      render: (_, __, index) => index + 1,
+      fixed: 'left',
+      width: 50,
+      align: 'center'
+    },
     {
       title: 'Véhicule',
       dataIndex: 'device_name',
@@ -91,8 +99,8 @@ const RapportEvent = () => {
   ];
 
   const exportExcel = () => {
-    const worksheetData = filteredData.map(r => {
-      const row = { Véhicule: r.device_name };
+    const worksheetData = filteredData.map((r, i) => {
+      const row = { 'N°': i + 1, Véhicule: r.device_name };
       months.forEach(m => {
         row[`${m} Connexions`] = r.months[m]?.connexions || 0;
         row[`${m} Dépassements`] = r.months[m]?.depassements || 0;
@@ -106,11 +114,24 @@ const RapportEvent = () => {
     XLSX.writeFile(workbook, 'rapport.xlsx');
   };
 
+  const exportPDF = () => {
+    const input = document.getElementById('rapport-table');
+    html2canvas(input, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('l', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('rapport.pdf');
+    });
+  };
+
   return (
     <div className="rapport-container">
       <Title level={2}>📊 Rapport Mensuel des Véhicules</Title>
 
-      <div className="filter-bar">
+      <Space className="filter-bar">
         <RangePicker
           value={dateRange}
           onChange={dates => dates && setDateRange(dates)}
@@ -125,9 +146,10 @@ const RapportEvent = () => {
         />
         <Button type="primary" onClick={() => fetchData(dateRange)}>Rafraîchir</Button>
         <Button type="dashed" onClick={exportExcel}>Exporter Excel</Button>
+        <Button type="default" onClick={exportPDF}>Exporter PDF</Button>
         <CSVLink
-          data={filteredData.map(r => {
-            const row = { Véhicule: r.device_name };
+          data={filteredData.map((r, i) => {
+            const row = { 'N°': i + 1, Véhicule: r.device_name };
             months.forEach(m => {
               row[`${m} Connexions`] = r.months[m]?.connexions || 0;
               row[`${m} Dépassements`] = r.months[m]?.depassements || 0;
@@ -138,21 +160,23 @@ const RapportEvent = () => {
         >
           <Button>Exporter CSV</Button>
         </CSVLink>
-      </div>
+      </Space>
 
       {loading ? (
         <Spin tip="Chargement des rapports..." size="large" className="loading-spinner" />
       ) : (
-        <Table
-          columns={columns}
-          dataSource={filteredData}
-          rowKey="device_id"
-          pagination={{ pageSize: 10 }}
-          bordered
-          scroll={{ x: 'max-content' }}
-          className="main-table"
-          rowClassName={() => 'hover-row'}
-        />
+        <div id="rapport-table">
+          <Table
+            columns={columns}
+            dataSource={filteredData}
+            rowKey="device_id"
+            pagination={{ pageSize: 10 }}
+            bordered
+            scroll={{ x: 'max-content' }}
+            className="main-table"
+            rowClassName={() => 'hover-row'}
+          />
+        </div>
       )}
     </div>
   );
