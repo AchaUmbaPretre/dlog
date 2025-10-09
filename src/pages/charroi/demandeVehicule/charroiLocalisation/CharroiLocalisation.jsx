@@ -71,8 +71,8 @@ const CharroiLocalisation = () => {
         },
         { title: 'Immatriculation', dataIndex: 'name', render: (text) => (
             <div className="vehicule-matricule">
-            <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
-            <Text strong>{text}</Text>
+              <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
+              <Text strong>{text}</Text>
             </div>
           ),
         },
