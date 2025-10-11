@@ -30,7 +30,6 @@ const RapportEvent = () => {
       const params = {
         startDate: dateRange[0].format('YYYY-MM-DD HH:mm:ss'),
         endDate: dateRange[1].format('YYYY-MM-DD HH:mm:ss'),
-        mode,
       };
       const { data } = await getEventRow(params);
       setReportData(data);
@@ -46,7 +45,7 @@ const RapportEvent = () => {
 
   useEffect(() => {
     fetchData();
-  }, [dateRange, mode]);
+  }, [dateRange]);
 
   const filteredData = reportData.filter(item =>
     item.toLowerCase().includes(searchText.toLowerCase())

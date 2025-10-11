@@ -1,4 +1,3 @@
-// src/pages/charroi/demandeVehicule/charroiLocalisation/rapportEvent/phraseItem/PhraseItem.jsx
 import React from 'react';
 import { Typography, Tag, Space } from 'antd';
 import { CarOutlined } from '@ant-design/icons';
