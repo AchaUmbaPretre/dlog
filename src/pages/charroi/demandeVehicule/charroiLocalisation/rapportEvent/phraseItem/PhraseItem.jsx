@@ -1,4 +1,3 @@
-import React from 'react';
 import { Typography, Tag, Space } from 'antd';
 import { CarOutlined } from '@ant-design/icons';
 import './PhraseItem.scss';
