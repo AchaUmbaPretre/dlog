@@ -49,11 +49,10 @@ const RapportEvent = () => {
     fetchData();
   }, [dateRange]);
 
-  const filteredData = reportData.filter(item =>
-    item.toLowerCase().includes(searchText.toLowerCase())
-  );
+const filteredData = reportData.filter(item =>
+  item?.phrase?.toLowerCase().includes(searchText.toLowerCase())
+);
 
-  console.log(filteredData)
 
   const openModal = (id) => {
     setIdDevice(id);
@@ -99,7 +98,7 @@ const RapportEvent = () => {
           dataSource={filteredData}
           renderItem={(item, index) => (
             <PhraseItem
-              phrase={item}
+              phrase={item.phrase}
               index={index}
               onDetailClick={() => openModal(item.device_id)}
             />
