@@ -3,16 +3,17 @@ import {
   Typography,
   Input,
   Space,
-  Button,
   DatePicker,
   List,
   Spin,
+  Modal,
   notification,
 } from 'antd';
 import moment from 'moment';
 import PhraseItem from './phraseItem/PhraseItem';
 import { getEventRow } from '../../../../../services/eventService';
 import './rapportEvent.scss';
+import RapportEventHistory from './rapportEventHistory/RapportEventHistory';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -22,7 +23,8 @@ const RapportEvent = () => {
   const [reportData, setReportData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().endOf('day')]);
-  const [mode, setMode] = useState('phrases');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [idDevice, setIdDevice] = useState(null);
 
   const fetchData = async () => {
     setLoading(true);
@@ -50,6 +52,18 @@ const RapportEvent = () => {
   const filteredData = reportData.filter(item =>
     item.toLowerCase().includes(searchText.toLowerCase())
   );
+
+  console.log(filteredData)
+
+  const openModal = (id) => {
+    setIdDevice(id);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setIdDevice(null);
+  };
 
   return (
     <div className="rapport-event-container">
@@ -83,12 +97,28 @@ const RapportEvent = () => {
       ) : (
         <List
           dataSource={filteredData}
-          renderItem={(item, index) => <PhraseItem phrase={item} index={index} />}
+          renderItem={(item, index) => (
+            <PhraseItem
+              phrase={item}
+              index={index}
+              onDetailClick={() => openModal(item.device_id)}
+            />
+          )}
           bordered
           style={{ backgroundColor: '#fff', borderRadius: 6 }}
           locale={{ emptyText: 'Aucun rapport trouvé.' }}
         />
       )}
+
+      {/* Modal avec détails */}
+      <Modal
+        visible={modalVisible}
+        title={`Détails du véhicule`}
+        onCancel={closeModal}
+        footer={null}
+      >
+        <RapportEventHistory/>
+      </Modal>
     </div>
   );
 };
