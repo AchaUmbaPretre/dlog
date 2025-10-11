@@ -3,15 +3,15 @@ import {
   Typography,
   Input,
   Space,
-  List,
   Button,
-  notification,
-  Spin,
   DatePicker,
+  List,
+  Spin,
+  notification,
 } from 'antd';
 import moment from 'moment';
-import { getEventRow } from '../../../../../services/eventService';
 import PhraseItem from './phraseItem/PhraseItem';
+import { getEventRow } from '../../../../../services/eventService';
 import './rapportEvent.scss';
 
 const { Title } = Typography;
@@ -21,10 +21,8 @@ const RapportEvent = () => {
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const [dateRange, setDateRange] = useState([
-    moment().startOf('day'),
-    moment().endOf('day'),
-  ]);
+  const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().endOf('day')]);
+  const [mode, setMode] = useState('phrases');
 
   const fetchData = async () => {
     setLoading(true);
@@ -32,14 +30,14 @@ const RapportEvent = () => {
       const params = {
         startDate: dateRange[0].format('YYYY-MM-DD HH:mm:ss'),
         endDate: dateRange[1].format('YYYY-MM-DD HH:mm:ss'),
-        mode: 'phrases',
+        mode,
       };
       const { data } = await getEventRow(params);
       setReportData(data);
-    } catch (error) {
+    } catch (err) {
       notification.error({
-        message: 'Erreur',
-        description: 'Impossible de récupérer les rapports',
+        message: 'Erreur de chargement',
+        description: "Impossible de récupérer les données du rapport",
       });
     } finally {
       setLoading(false);
@@ -48,59 +46,48 @@ const RapportEvent = () => {
 
   useEffect(() => {
     fetchData();
-  }, [dateRange]);
+  }, [dateRange, mode]);
 
-  const filteredData = reportData.filter((item) =>
+  const filteredData = reportData.filter(item =>
     item.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
-    <div className="rapport-container">
-      <Title level={2} className="rapport-title">
-        📊 Rapport Véhicules - Liste détaillée
+    <div className="rapport-event-container">
+      <Title level={3} style={{ textAlign: 'center', marginBottom: 24 }}>
+        📊 Rapport des véhicules
       </Title>
 
       <Space
-        direction="horizontal"
-        size="large"
-        className="rapport-filters"
-        wrap
+        className="toolbar"
+        style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: 24 }}
       >
         <RangePicker
-          allowClear={false}
           value={dateRange}
-          onChange={(dates) => dates && setDateRange(dates)}
-          format="DD MMM YYYY HH:mm"
-          showTime={{ format: 'HH:mm' }}
-          className="rapport-range-picker"
-          disabled={loading}
+          onChange={dates => dates && setDateRange(dates)}
+          showTime
+          format="YYYY-MM-DD HH:mm"
+          style={{ marginBottom: 8 }}
         />
 
         <Input.Search
-          allowClear
-          placeholder="Rechercher un véhicule ou statut..."
-          onChange={(e) => setSearchText(e.target.value)}
+          placeholder="Rechercher un véhicule"
           value={searchText}
-          enterButton
-          loading={loading}
-          className="rapport-search"
-          size="middle"
+          onChange={e => setSearchText(e.target.value)}
+          allowClear
+          style={{ width: 300, marginBottom: 8 }}
         />
       </Space>
 
       {loading ? (
-        <Spin
-          tip="Chargement en cours..."
-          size="large"
-          className="rapport-spinner"
-        />
+        <Spin tip="Chargement..." size="large" style={{ display: 'block', marginTop: 60 }} />
       ) : (
         <List
-          bordered
           dataSource={filteredData}
-          locale={{ emptyText: 'Aucun résultat' }}
-          renderItem={(phrase, index) => <PhraseItem phrase={phrase} index={index} />}
-          style={{ maxHeight: '70vh', overflowY: 'auto', background: 'white', borderRadius: 4 }}
+          renderItem={(item, index) => <PhraseItem phrase={item} index={index} />}
+          bordered
+          style={{ backgroundColor: '#fff', borderRadius: 6 }}
+          locale={{ emptyText: 'Aucun rapport trouvé.' }}
         />
       )}
     </div>
