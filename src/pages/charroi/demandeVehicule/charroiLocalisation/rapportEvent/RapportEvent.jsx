@@ -25,7 +25,6 @@ const RapportEvent = () => {
     moment().startOf('day'),
     moment().endOf('day'),
   ]);
-  const [mode, setMode] = useState('phrases');
 
   const fetchData = async () => {
     setLoading(true);
@@ -33,7 +32,7 @@ const RapportEvent = () => {
       const params = {
         startDate: dateRange[0].format('YYYY-MM-DD HH:mm:ss'),
         endDate: dateRange[1].format('YYYY-MM-DD HH:mm:ss'),
-        mode,
+        mode: 'phrases',
       };
       const { data } = await getEventRow(params);
       setReportData(data);
@@ -49,7 +48,7 @@ const RapportEvent = () => {
 
   useEffect(() => {
     fetchData();
-  }, [dateRange, mode]);
+  }, [dateRange]);
 
   const filteredData = reportData.filter((item) =>
     item.toLowerCase().includes(searchText.toLowerCase())
@@ -58,8 +57,7 @@ const RapportEvent = () => {
   return (
     <div className="rapport-container">
       <Title level={2} className="rapport-title">
-        📊 Rapport Véhicules - Mode{' '}
-        {mode === 'phrases' ? 'Phrases' : 'Tableau'}
+        📊 Rapport Véhicules - Liste détaillée
       </Title>
 
       <Space
@@ -71,9 +69,7 @@ const RapportEvent = () => {
         <RangePicker
           allowClear={false}
           value={dateRange}
-          onChange={(dates) => {
-            if (dates) setDateRange(dates);
-          }}
+          onChange={(dates) => dates && setDateRange(dates)}
           format="DD MMM YYYY HH:mm"
           showTime={{ format: 'HH:mm' }}
           className="rapport-range-picker"
@@ -82,7 +78,7 @@ const RapportEvent = () => {
 
         <Input.Search
           allowClear
-          placeholder="Rechercher un véhicule..."
+          placeholder="Rechercher un véhicule ou statut..."
           onChange={(e) => setSearchText(e.target.value)}
           value={searchText}
           enterButton
@@ -90,15 +86,6 @@ const RapportEvent = () => {
           className="rapport-search"
           size="middle"
         />
-
-        <Button
-          type="primary"
-          onClick={() => setMode(mode === 'phrases' ? 'table' : 'phrases')}
-          disabled={loading}
-          className="rapport-toggle-btn"
-        >
-          Passer en mode {mode === 'phrases' ? 'Tableau' : 'Phrases'}
-        </Button>
       </Space>
 
       {loading ? (
@@ -107,7 +94,7 @@ const RapportEvent = () => {
           size="large"
           className="rapport-spinner"
         />
-      ) : mode === 'phrases' ? (
+      ) : (
         <List
           bordered
           dataSource={filteredData}
@@ -115,11 +102,6 @@ const RapportEvent = () => {
           renderItem={(phrase) => <PhraseItem phrase={phrase} />}
           className="rapport-list"
         />
-      ) : (
-        <div className="rapport-placeholder">
-          {/* À implémenter plus tard */}
-          Tableau classique à implémenter ici
-        </div>
       )}
     </div>
   );

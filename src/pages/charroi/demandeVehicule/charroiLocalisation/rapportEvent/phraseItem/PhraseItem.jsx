@@ -5,6 +5,13 @@ import moment from 'moment';
 
 const { Text } = Typography;
 
+/**
+ * Parse la phrase pour extraire :
+ * - véhicule (ex: GTM_ HILUX_8876)
+ * - date formatée (ex: 11 Oct 2025, 00:00)
+ * - statut (ex: "1 connecté" ou "1 déconnexion de 0 min")
+ * - indicateurs de statut pour affichage icône/couleur
+ */
 const parsePhrase = (phrase) => {
   const vehicleMatch = phrase.match(/^Véhicule\s(.+?)\s\(/);
   const vehicle = vehicleMatch ? vehicleMatch[1].trim() : 'Véhicule inconnu';
@@ -28,22 +35,14 @@ const PhraseItem = ({ phrase }) => {
 
   return (
     <List.Item className="phrase-item">
-      <Space direction="vertical" size={4} style={{ width: '100%' }}>
-        <Text strong className="phrase-vehicle">
-          {vehicle}
-        </Text>
-
-        <Text type="secondary" className="phrase-date">
-          {date}
-        </Text>
-
+      <Space direction="vertical" size={6} style={{ width: '100%' }}>
+        <Text strong className="phrase-vehicle">{vehicle}</Text>
+        <Text type="secondary" className="phrase-date">{date}</Text>
         <Tag
           icon={
-            isConnected ? (
-              <CheckCircleOutlined />
-            ) : isDisconnected ? (
-              <LogoutOutlined />
-            ) : null
+            isConnected ? <CheckCircleOutlined /> :
+            isDisconnected ? <LogoutOutlined /> :
+            null
           }
           color={isConnected ? 'success' : isDisconnected ? 'warning' : 'default'}
           className="phrase-tag"
