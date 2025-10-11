@@ -117,7 +117,7 @@ const RapportEvent = () => {
         onCancel={closeModal}
         footer={null}
       >
-        <RapportEventHistory/>
+        <RapportEventHistory idDevice={idDevice}/>
       </Modal>
     </div>
   );
