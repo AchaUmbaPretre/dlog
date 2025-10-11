@@ -98,9 +98,9 @@ const RapportEvent = () => {
         <List
           bordered
           dataSource={filteredData}
-          locale={{ emptyText: 'Aucun résultat trouvé' }}
-          renderItem={(phrase) => <PhraseItem phrase={phrase} />}
-          className="rapport-list"
+          locale={{ emptyText: 'Aucun résultat' }}
+          renderItem={(phrase, index) => <PhraseItem phrase={phrase} index={index} />}
+          style={{ maxHeight: '70vh', overflowY: 'auto', background: 'white', borderRadius: 4 }}
         />
       )}
     </div>
