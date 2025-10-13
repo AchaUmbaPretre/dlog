@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
 import RapportEvent from '../demandeVehicule/charroiLocalisation/rapportEvent/RapportEvent';
+import CharroiLocalisation from '../demandeVehicule/charroiLocalisation/CharroiLocalisation';
+import GetEventLocalisation from '../demandeVehicule/charroiLocalisation/getEventLocalisation/GetEventLocalisation';
 
 
 const Monitoring = () => {
@@ -22,13 +24,13 @@ const Monitoring = () => {
             <Tabs.TabPane
                 tab={
                     <span>
-                        Position
+                        📍 Position
                     </span>
                 }
                 key="1"
             >
-{/*                 <BonSortiePerso/>
- */}        </Tabs.TabPane>
+                <CharroiLocalisation/>
+            </Tabs.TabPane>
 
             <Tabs.TabPane
                 tab={
@@ -38,6 +40,7 @@ const Monitoring = () => {
                     }
                     key="2"
                 >
+                <GetEventLocalisation/>
             </Tabs.TabPane>
 
             <Tabs.TabPane

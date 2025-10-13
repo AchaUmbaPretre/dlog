@@ -650,17 +650,6 @@ const DemandeVehicule = () => {
                 >
                     <Destination/>
                 </TabPane>
-
-                <TabPane
-                    tab={
-                        <span>
-                        📍 Localisation
-                        </span>
-                    }
-                    key="13"
-                >
-                    <CharroiLocalisation/>
-                </TabPane>
             </Tabs>
 
             <Modal
