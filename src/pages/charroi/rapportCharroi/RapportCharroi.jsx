@@ -68,33 +68,6 @@ const RapportCharroi = () => {
           type="card"
           tabPosition="top"
         >
-          <Tabs.TabPane
-            key="1"
-            tab={
-              <span>
-                <CheckCircleOutlined style={{ color: "#52c41a" }} />{" "}
-                <Badge count={countAttente} offset={[8, -2]}>
-                  <span>Véhicule en attente de sortie</span>
-                </Badge>
-              </span>
-            }
-          >
-            <RapportVehiculeValide data={data} />
-          </Tabs.TabPane>
-
-          <Tabs.TabPane
-            key="2"
-            tab={
-              <span>
-                <CarOutlined style={{ color: "#1890ff" }} />{" "}
-                <Badge count={countCourse} offset={[8, -2]}>
-                  <span>Véhicules en course</span>
-                </Badge>
-              </span>
-            }
-          >
-            <RapportVehiculeCourses course={course}/>
-          </Tabs.TabPane>
 
           <Tabs.TabPane
             key="3"
