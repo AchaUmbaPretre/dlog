@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, ArrowUpOutlined, ThunderboltOutlined, ArrowRightOutlined, FileSearchOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, PoweroffOutlined, ArrowUpOutlined, ThunderboltOutlined, ArrowRightOutlined, FileSearchOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -286,18 +286,60 @@ export const getInspectionIcon = (category) => {
   }
 }
 
-export const statusDeviceMap = {
-      online: { color: 'green', label: 'ONLINE', icon: <CheckCircleOutlined /> },
-      ack: { color: 'gold', label: 'ACK', icon: <ClockCircleOutlined /> },
-      offline: { color: 'red', label: 'OFFLINE', icon: <CloseCircleOutlined /> },
-      engine: { color: 'blue', label: 'ENGINE', icon: <ThunderboltOutlined /> },
-    };
+export const statusDeviceMap = (online) => {
+  const key = online?.toLowerCase();
 
-export const engineMap = {
-  ON: { color: 'green', label: 'ON', icon: <ThunderboltOutlined /> },
-  OFF: { color: 'red', label: 'OFF', icon: <CloseCircleOutlined /> },
+  const statusMap = {
+    mouvement: {
+      color: "green",
+      label: "Mouvement",
+      icon: <CheckCircleOutlined />,
+    },
+    ack: {
+      color: "red",
+      label: "Immobile",
+      icon: <PoweroffOutlined />,
+    },
+    offline: {
+      color: "red",
+      label: "Immobile",
+      icon: <PoweroffOutlined />,
+    },
+    engine: {
+      color: "red",
+      label: "Immobile",
+      icon: <PoweroffOutlined />,
+    },
+  };
+
+  const status = statusMap[key] || {
+    color: "red",
+    label: online?.toUpperCase() || "Inconnu",
+    icon: <CloseCircleOutlined />,
+  };
+
+  return (
+    <Tag color={status.color} icon={status.icon}>
+      {status.label}
+    </Tag>
+  );
 };
 
+const engineMap = {
+  ON: { color: "green", label: "ON", icon: <ThunderboltOutlined /> },
+  OFF: { color: "red", label: "OFF", icon: <CloseCircleOutlined /> },
+};
+
+export const getEngineTag = (engineStatus) => {
+  const key = engineStatus?.toUpperCase();
+  const engine = engineMap[key]
+
+  return (
+    <Tag color={engine.color} icon={engine.icon}>
+      {engine.label}
+    </Tag>
+  );
+};
 
 export const getDirection = (course) => {
   if (course === null || course === undefined) {

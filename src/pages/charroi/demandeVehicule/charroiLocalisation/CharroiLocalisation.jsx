@@ -9,7 +9,7 @@ import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
 import GetEventLocalisation from './getEventLocalisation/GetEventLocalisation';
 import RapportEvent from './rapportEvent/RapportEvent';
-import { engineMap, getDirection, statusDeviceMap } from '../../../../utils/prioriteIcons';
+import { engineMap, getDirection, getEngineTag, statusDeviceMap } from '../../../../utils/prioriteIcons';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -76,12 +76,12 @@ const CharroiLocalisation = () => {
             </div>
           ),
         },
-        { title: 'Date & Heure', dataIndex: 'time', render: (text) =>
+        { title: 'MAJ', dataIndex: 'time', render: (text) =>
             <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>,
             sorter: (a, b) =>
             moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
         },
-        { title: 'Adresse', dataIndex: 'address',render: (_, record) => <VehicleAddress record={record} />
+        { title: 'Position', dataIndex: 'address',render: (_, record) => <VehicleAddress record={record} />
         },
         { title: 'Vitesse', dataIndex: 'speed', render: (speed) => {
             let color = "red";
@@ -91,29 +91,19 @@ const CharroiLocalisation = () => {
         },
         },
         {
-          title: 'Statut',
-          dataIndex: 'online',
-          render: (text = '') => {
+          title: 'Clé de contact',
+          key: 'statusAndEngine',
+          render: (_, record) => {
+            const { online, sensors } = record;
 
-            const key = text?.toLowerCase();
-            const status = statusDeviceMap[key] || { color: 'default', label: text.toUpperCase() || 'N/A', icon: null };
-            return (
-              <Tag color={status.color} icon={status.icon}>
-                {status.label}
-              </Tag>
-            );
-          },
-        },
-        {
-          title: 'Moteur',
-          dataIndex: 'sensors',
-          render: (sensors) => {
+            // Statut du moteur
             const engineStatus = getEngineStatus(sensors);
-            const status = engineMap[engineStatus] || { color: 'default', label: engineStatus || 'N/A', icon: null };
+
             return (
-              <Tag color={status.color} icon={status.icon}>
-                {status.label}
-              </Tag>
+              <div style={{ display: "flex", gap: 2 }}>
+                {statusDeviceMap(online)}
+                {getEngineTag(engineStatus)}
+              </div>
             );
           },
         },
