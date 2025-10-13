@@ -72,7 +72,6 @@ import Securite from './pages/charroi/securite/Securite';
 import DemandeurVehicule from './pages/charroi/demandeurVehicule/DemandeurVehicule';
 import Generale from './pages/generale/Generale';
 import ModeTv from './pages/modeTv/ModeTv';
-import RapportCharroi from './pages/charroi/rapportCharroi/RapportCharroi';
 import Monitoring from './pages/charroi/monitoring/Monitoring';
 
 function App() {
@@ -358,10 +357,6 @@ function App() {
         {
           path: '/liste_demandeur',
           element: secure('/liste_demandeur', <DemandeurVehicule/>)
-        },
-        {
-          path: '/rapport_charroi',
-          element: secure('/rapport_charroi', <RapportCharroi/>)
         },
         {
           path: '/generale',
