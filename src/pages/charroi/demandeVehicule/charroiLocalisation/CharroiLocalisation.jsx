@@ -3,7 +3,7 @@ import { CarOutlined, EyeOutlined, FileTextOutlined, CalendarOutlined } from '@a
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Modal, Tooltip, Space, Tag, Input, Table, Button, Badge } from 'antd';
 import moment from 'moment';
-import { getAlerts, getEngineStatus, getOdometer } from '../../../../services/geocodeService';
+import { getEngineStatus, getOdometer } from '../../../../services/geocodeService';
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
 import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
@@ -128,7 +128,6 @@ const CharroiLocalisation = () => {
             return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
         },
         },
-        { title: 'MAJ', key: 'alerts', render: (text, record) => <Space wrap>{getAlerts(record)}</Space>, },
         {
           title: 'Direction',
           dataIndex: 'course',

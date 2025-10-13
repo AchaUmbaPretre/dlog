@@ -1,7 +1,3 @@
-// services/geocodeService.js
-import { WarningOutlined } from '@ant-design/icons';
-import { Tag } from 'antd';
-
 // --- Zone de geofencing (ex: Kinshasa) ---
 export const zoneAutorisee = {
   latMin: -4.6,
@@ -28,39 +24,6 @@ export const getEngineStatus = (sensors = []) => {
   };
 
 export const getBatteryLevel = (sensors = []) => {
-    const battery = sensors.find((s) => s.type === "battery");
-    return battery ? battery.value : null;
-  };
-
-  // --- Fonction pour détecter les alertes ---
-export const getAlerts = (record) => {
-    let alerts = [];
-
-    // Survitesse
-    if (record.speed > 100) {
-      alerts.push(<Tag color="red" icon={<WarningOutlined />}>Survitesse</Tag>);
-    }
-
-    // Hors ligne
-    if (record.online === "offline") {
-      alerts.push(<Tag color="volcano" icon={<WarningOutlined />}>Perte Signal</Tag>);
-    }
-
-    // Geofencing
-    if (
-      record.lat < zoneAutorisee.latMin ||
-      record.lat > zoneAutorisee.latMax ||
-      record.lng < zoneAutorisee.lngMin ||
-      record.lng > zoneAutorisee.lngMax
-    ) {
-      alerts.push(<Tag color="orange" icon={<WarningOutlined />}>Hors Zone</Tag>);
-    }
-
-    // Batterie faible
-    const battery = getBatteryLevel(record.sensors);
-    if (battery !== null && battery < 20) {
-      alerts.push(<Tag color="blue" icon={<WarningOutlined />}>Batterie Faible</Tag>);
-    }
-
-    return alerts.length > 0 ? alerts : <Tag color="default">Aucune</Tag>;
-  };
+  const battery = sensors.find((s) => s.type === "battery");
+  return battery ? battery.value : null;
+};
