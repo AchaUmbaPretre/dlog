@@ -117,29 +117,30 @@ const CharroiLocalisation = () => {
         },
         },
         {
-          title: 'Direction',
-          dataIndex: 'course',
-          key: 'course',
-          align: 'center',
-          render: (text) => {
-            const { label, icon, color, angle } = getDirection(text);
+          title: "Direction",
+          dataIndex: "course",
+          key: "course",
+          align: "center",
+          render: (course) => {
+            const { label, icon, angle } = getDirection(course);
 
             return (
-              <Tooltip title={`Angle exact : ${angle}°`}>
+              <Tooltip title={`Angle exact: ${angle}°`}>
                 <Tag
-                  color={`${color}33`}
                   style={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     fontWeight: 600,
                     fontSize: 14,
-                    borderRadius: 12,
                     padding: "4px 8px",
+                    borderRadius: 12,
                     cursor: "default",
+                    color: "#fff",
+                    backgroundColor: "#1E40AF", // bleu uniforme pro
                   }}
                 >
-                  <span style={{ marginRight: 6 }}>{icon}</span>
+                  <span style={{ marginRight: 6, display: "flex" }}>{icon}</span>
                   {label}
                 </Tag>
               </Tooltip>

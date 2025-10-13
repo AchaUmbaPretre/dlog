@@ -343,35 +343,15 @@ export const getEngineTag = (engineStatus) => {
 
 export const getDirection = (course) => {
   if (course == null)
-    return { label: "Inconnue", icon: null, color: "#d9d9d9", angle: 0 };
+    return { label: "?", icon: null, angle: 0 };
 
-  const dirs = [
-    { l: "Nord", c: "#1E90FF" },
-    { l: "Nord-Est", c: "#00BFFF" },
-    { l: "Est", c: "#20B2AA" },
-    { l: "Sud-Est", c: "#32CD32" },
-    { l: "Sud", c: "#FFA500" },
-    { l: "Sud-Ouest", c: "#FF8C00" },
-    { l: "Ouest", c: "#FF4500" },
-    { l: "Nord-Ouest", c: "#8B008B" },
-  ];
-
-  const a = ((course % 360) + 360) % 360; // angle normalisé
-  const i = Math.round(a / 45) % dirs.length;
-  const d = dirs[i];
+  const dirs = ["N", "NE", "E", "SE", "S", "SO", "O", "NO"];
+  const angle = ((course % 360) + 360) % 360;
+  const i = Math.round(angle / 45) % dirs.length;
 
   return {
-    label: d.l,
-    color: d.c,
-    angle: a,
-    icon: (
-      <ArrowUpOutlined
-        style={{
-          transform: `rotate(${i * 45}deg)`,
-          fontSize: 18,
-          transition: "transform 0.3s",
-        }}
-      />
-    ),
+    label: dirs[i],
+    icon: <ArrowUpOutlined style={{ transform: `rotate(${angle}deg)`, fontSize: 16 }} />,
+    angle,
   };
 };
