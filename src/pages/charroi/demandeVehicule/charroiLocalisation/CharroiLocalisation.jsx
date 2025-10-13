@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CarOutlined, EyeOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CarOutlined, InfoCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Modal, Tooltip, Space, Tag, Input, Table, Button, Badge } from 'antd';
 import moment from 'moment';
@@ -9,7 +9,7 @@ import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
 import GetEventLocalisation from './getEventLocalisation/GetEventLocalisation';
 import RapportEvent from './rapportEvent/RapportEvent';
-import { engineMap, getDirection, getEngineTag, statusDeviceMap } from '../../../../utils/prioriteIcons';
+import { getDirection, getEngineTag, statusDeviceMap } from '../../../../utils/prioriteIcons';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -149,7 +149,7 @@ const CharroiLocalisation = () => {
         },
         { title: 'Actions', key: 'actions', render: (text, record) => (
           <Space>
-            <Button icon={<EyeOutlined />} type="link" onClick={() => handleDetail(record.id)} />
+            <Button icon={<InfoCircleOutlined  />} type="link" onClick={() => handleDetail(record.id)} />
           </Space>
         ),
         }
