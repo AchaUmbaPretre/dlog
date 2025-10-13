@@ -147,7 +147,7 @@ const CharroiLocalisation = () => {
             );
           },
         },
-        { title: 'Actions', key: 'actions', render: (text, record) => (
+        { title: 'Actions', key: 'actions', align: 'center', render: (text, record) => (
           <Space>
             <Button icon={<InfoCircleOutlined  />} type="link" onClick={() => handleDetail(record.id)} />
           </Space>
