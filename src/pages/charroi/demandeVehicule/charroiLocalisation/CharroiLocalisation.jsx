@@ -125,7 +125,7 @@ const CharroiLocalisation = () => {
           align: "center",
           render: (course) => {
             const { label, icon, angle } = getDirection(course);
-
+            
             return (
               <Tooltip title={`Angle exact: ${angle}°`}>
                 <Tag
