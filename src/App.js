@@ -73,6 +73,7 @@ import DemandeurVehicule from './pages/charroi/demandeurVehicule/DemandeurVehicu
 import Generale from './pages/generale/Generale';
 import ModeTv from './pages/modeTv/ModeTv';
 import RapportCharroi from './pages/charroi/rapportCharroi/RapportCharroi';
+import Monitoring from './pages/charroi/monitoring/Monitoring';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -365,6 +366,10 @@ function App() {
         {
           path: '/generale',
           element: secure('/generale', <Generale/>)
+        },
+        {
+          path: '/monitoring',
+          element: secure('/monitoring', <Monitoring/>)
         }
       ]
     },
