@@ -128,7 +128,7 @@ const CharroiLocalisation = () => {
             return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
         },
         },
-        { title: 'Alertes', key: 'alerts', render: (text, record) => <Space wrap>{getAlerts(record)}</Space>, },
+        { title: 'MAJ', key: 'alerts', render: (text, record) => <Space wrap>{getAlerts(record)}</Space>, },
         {
           title: 'Direction',
           dataIndex: 'course',

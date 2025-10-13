@@ -109,7 +109,7 @@ const GetHistory = ({ id }) => {
       vehicleData?.items?.flatMap((i, idx) =>
         i.items?.map((_, j) => `Ev ${idx + 1}-${j + 1}`)
       ) || [],
-    datasets: [
+    datasets: [  
       {
         label: "Vitesse (kph)",
         data:
