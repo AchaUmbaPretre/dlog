@@ -18,7 +18,6 @@ import SortieEntree from '../affectationDemande/sortieEntree/SortieEntree';
 import SecuriteVisiteur from '../securite/securiteVisiteur/SecuriteVisiteur';
 import VisiteurPieton from '../securite/securiteVisiteur/visiteurPieton/VisiteurPieton';
 import BonSortiePerso from '../bonSortiePerso/BonSortiePerso';
-import CharroiLocalisation from './charroiLocalisation/CharroiLocalisation';
 import { getRapportCharroiVehicule } from '../../../services/rapportService';
 import RapportVehiculeCourses from '../rapportCharroi/rapportVehiculeCourses/RapportVehiculeCourses';
 import RapportVehiculeValide from '../rapportCharroi/rapportVehiculeValide/RapportVehiculeValide';
