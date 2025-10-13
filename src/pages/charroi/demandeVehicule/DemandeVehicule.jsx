@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Tabs, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag } from 'antd';
+import { Table, Button, Tabs, Space, Tooltip, Popconfirm, Modal, Typography, Input, message, Dropdown, Menu, notification, Tag, Badge } from 'antd';
 import { ExportOutlined, DownOutlined, EnvironmentOutlined, MenuOutlined, MoreOutlined, CloseCircleOutlined, FileTextOutlined, EyeOutlined, PlusOutlined, FileSyncOutlined, CheckCircleOutlined, CalendarOutlined, UserOutlined, CarOutlined, DeleteOutlined, LogoutOutlined, PlusCircleOutlined, AimOutlined, EditOutlined } from '@ant-design/icons';
 import DemandeVehiculeForm from './demandeVehiculeForm/DemandeVehiculeForm';
 import { getDemandeVehicule, putDemandeVehiculeVu } from '../../../services/charroiService';
@@ -21,6 +21,9 @@ import SecuriteVisiteur from '../securite/securiteVisiteur/SecuriteVisiteur';
 import VisiteurPieton from '../securite/securiteVisiteur/visiteurPieton/VisiteurPieton';
 import BonSortiePerso from '../bonSortiePerso/BonSortiePerso';
 import CharroiLocalisation from './charroiLocalisation/CharroiLocalisation';
+import { getRapportCharroiVehicule } from '../../../services/rapportService';
+import RapportVehiculeCourses from '../rapportCharroi/rapportVehiculeCourses/RapportVehiculeCourses';
+import RapportVehiculeValide from '../rapportCharroi/rapportVehiculeValide/RapportVehiculeValide';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -36,7 +39,7 @@ const DemandeVehicule = () => {
   const [pagination, setPagination] = useState({
       current: 1,
       pageSize: 15,
-    });
+  });
   const [columnsVisibility, setColumnsVisibility] = useState({
     "Client" : false,
     "Date prévue" : true,
@@ -51,7 +54,13 @@ const DemandeVehicule = () => {
   })
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
   const role = useSelector((state) => state.user?.currentUser?.role);
-  
+  const [count, setCount] = useState([]);
+  const [countCourse, setCountCourse] = useState([]);
+  const [datas, setDatas] = useState([]);
+  const [course, setCourse] = useState([]);
+  const [utilitaire, setUtilitaire] = useState([]);
+  const [countAttente, setCountAttente] = useState([]);
+
     const handleTabChange = (key) => {
         setActiveKey(key);
     };
@@ -89,6 +98,33 @@ const DemandeVehicule = () => {
         const interval = setInterval(fetchData, 5000)
         return () => clearInterval(interval)
     }, []);
+
+        const fetchDatas = async() => {
+            try {
+                const { data } = await getRapportCharroiVehicule();
+    
+                setDatas(data.listeEnAttente);
+    
+                setCourse(data.listeCourse);
+                setUtilitaire(data.listeUtilitaire);
+                setCountAttente(data?.countAttente[0]?.Count_enattente);
+                setCountCourse(data?.countCourse[0]?.count_course);
+                setCount(data?.countUtilitaire[0]?.count_utilitaire)
+    
+            } catch (error) {
+                notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+                });
+            }
+        }
+    
+      useEffect(() => {
+        fetchDatas()
+        const interval = setInterval(fetchData, 5000);
+    
+        return () => clearInterval(interval);
+      }, []);
 
     const getActionMenu = (record, openModal) => {
         const handleClick = ({ key }) => {
@@ -530,9 +566,9 @@ const DemandeVehicule = () => {
                                     />
                                 </div>
                             </div>
-                        </TabPane>
+                    </TabPane>
 
-                        <TabPane
+                    <TabPane
                             tab={
                                 <span>
                                 ✅ Courses validées
@@ -541,9 +577,9 @@ const DemandeVehicule = () => {
                             key="2"
                         >
                             <AffectationDemande/>
-                        </TabPane>
+                    </TabPane>
 
-                        <TabPane
+                    <TabPane
                             tab={
                                 <span>
                                 📤 Bon de sortie
@@ -552,9 +588,9 @@ const DemandeVehicule = () => {
                             key="3"
                         >
                             <BandeSortie/>
-                        </TabPane>
+                    </TabPane>
 
-                        <TabPane
+                    <TabPane
                             tab={
                                 <span>
                                 🔴 Entrée / Sortie
@@ -563,18 +599,39 @@ const DemandeVehicule = () => {
                             key="4"
                         >
                             <SortieEntree/>
-                        </TabPane>
+                    </TabPane>
 
-                        <TabPane
-                            tab={
+                    <TabPane
+                        tab={
+                            <>
                                 <span>
-                                🚗 Véhicule en course
+                                    <Badge count={countCourse} offset={[8, -2]}>
+                                        🚗 Véhicule en course
+                                    </Badge>
                                 </span>
-                            }
-                            key="5"
-                        >
-                            <VehiculeCourse/>
-                        </TabPane>
+                            </>
+                                
+                        }
+                        key="5"
+                    >
+                        <RapportVehiculeCourses course={course}/>
+                    </TabPane>
+
+                    <TabPane
+                        tab={
+                            <>
+                                <span>
+                                    <Badge count={countAttente}  offset={[8, -2]}>
+                                        🚗 Véhicule en attente de sortie
+                                    </Badge>
+                                </span>
+                            </>
+                                
+                        }
+                        key="6"
+                    >
+                        <RapportVehiculeValide data={data} />
+                    </TabPane>
 
 {/*                     <TabPane
                         tab={
