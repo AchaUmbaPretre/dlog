@@ -7,8 +7,6 @@ import { getEngineStatus, getOdometer } from '../../../../services/geocodeServic
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
 import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
-import GetEventLocalisation from './getEventLocalisation/GetEventLocalisation';
-import RapportEvent from './rapportEvent/RapportEvent';
 import { getDirection, getEngineTag, statusDeviceMap } from '../../../../utils/prioriteIcons';
 
 const { Text } = Typography;
@@ -59,9 +57,6 @@ const CharroiLocalisation = () => {
     };
 
     const handleDetail = (id) => openModal('detail', id);
-    const handleEvenement = () => openModal('Event')
-    const handleRapport = () => openModal('rapport')
-
       const columns = [
         { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => {
             const pageSize = pagination.pageSize || 10;
@@ -182,20 +177,6 @@ const CharroiLocalisation = () => {
             enterButton 
           />
           <div className="client-rows-right">
-            <Button
-                type="primary"
-                icon={<CalendarOutlined />}
-                onClick={handleEvenement}
-            >
-                Voir les événements
-            </Button>
-            <Button
-                type="primary"
-                icon={<FileTextOutlined />}
-                onClick={handleRapport}
-            >
-                Rapport
-            </Button>
           </div>
         </div>
 
@@ -222,28 +203,6 @@ const CharroiLocalisation = () => {
         centered
       >
         <CharroiLocalisationDetail id={id} />
-      </Modal>
-
-      <Modal
-        title=""
-        visible={modalType === 'Event'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1090}
-        centered
-      >
-        <GetEventLocalisation />
-      </Modal>
-
-      <Modal
-        title=""
-        visible={modalType === 'rapport'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1085}
-        centered
-      >
-        <RapportEvent />
       </Modal>
     </div>
   );
