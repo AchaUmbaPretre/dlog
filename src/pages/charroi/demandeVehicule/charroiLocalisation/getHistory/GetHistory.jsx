@@ -9,7 +9,8 @@ import {
   Typography,
   Space,
   Tooltip,
-  Button
+  Button,
+  Collapse // Ajouter l'import
 } from "antd";
 import dayjs from "dayjs";
 import L from "leaflet";
@@ -51,13 +52,15 @@ ChartJS.register(
 
 const { RangePicker } = DatePicker;
 const { Title: AntTitle, Text } = Typography;
+const { Panel } = Collapse; // Destructurer Panel
 
 const GetHistory = ({ id }) => {
   const [dateRange, setDateRange] = useState([]);
   const [loading, setLoading] = useState(false);
   const [vehicleData, setVehicleData] = useState(null);
+  const [activePanels, setActivePanels] = useState([]); // État pour gérer les panels ouverts
 
-  const apiHash = config.api_hash; // Remplace par ton config
+  const apiHash = config.api_hash;
 
   const fetchData = async (from, to) => {
     try {
@@ -98,66 +101,69 @@ const GetHistory = ({ id }) => {
     }
   };
 
+  // Gérer l'ouverture/fermeture des panels
+  const handlePanelChange = (keys) => {
+    setActivePanels(keys);
+  };
+
   // Positions pour la carte
   const positions =
     vehicleData?.items?.flatMap((i) => i.items?.map((it) => [it.lat, it.lng]) || []) ||
     [];
 
   // Données pour le graphique
-// Données pour le graphique
-const chartData = {
-  labels:
-    vehicleData?.items?.flatMap((i) =>
-      i.items?.map((it) => it.show || it.time || "Date inconnue")
-    ) || [],
-  datasets: [  
-    {
-      label: "Vitesse (kph)",
-      data:
-        vehicleData?.items?.flatMap((i) =>
-          i.items?.map(
-            (it) => it.sensors_data?.find((s) => s.id === "speed")?.value || 0
-          )
-        ) || [],
-      borderColor: "#1890ff",
-      backgroundColor: "rgba(24,144,255,0.2)",
-      tension: 0.3,
-      pointRadius: 3,
-    },
-    {
-      label: "Carburant (L)",
-      data:
-        vehicleData?.items?.flatMap((i) =>
-          i.items?.map(
-            (it) =>
-              it.sensors_data?.find((s) => s.id === "sensor_1728")?.value || 0
-          )
-        ) || [],
-      borderColor: "#52c41a",
-      backgroundColor: "rgba(82,196,26,0.2)",
-      tension: 0.3,
-      pointRadius: 3,
-    },
-    {
-      label: "Distance cumulée (km)",
-      data:
-        vehicleData?.items?.flatMap((i) =>
-          i.items?.map((it, idx, arr) => {
-            // Calcul de la distance cumulée pour cet élément spécifique
-            const allItems = vehicleData.items.flatMap(x => x.items);
-            const currentIndex = allItems.findIndex(item => item.id === it.id);
-            return allItems
-              .slice(0, currentIndex + 1)
-              .reduce((sum, y) => sum + (y.distance || 0), 0);
-          })
-        ) || [],
-      borderColor: "#fa541c",
-      backgroundColor: "rgba(250,84,28,0.2)",
-      tension: 0.3,
-      pointRadius: 2,
-    },
-  ],
-};
+  const chartData = {
+    labels:
+      vehicleData?.items?.flatMap((i) =>
+        i.items?.map((it) => it.show || it.time || "Date inconnue")
+      ) || [],
+    datasets: [  
+      {
+        label: "Vitesse (kph)",
+        data:
+          vehicleData?.items?.flatMap((i) =>
+            i.items?.map(
+              (it) => it.sensors_data?.find((s) => s.id === "speed")?.value || 0
+            )
+          ) || [],
+        borderColor: "#1890ff",
+        backgroundColor: "rgba(24,144,255,0.2)",
+        tension: 0.3,
+        pointRadius: 3,
+      },
+      {
+        label: "Carburant (L)",
+        data:
+          vehicleData?.items?.flatMap((i) =>
+            i.items?.map(
+              (it) =>
+                it.sensors_data?.find((s) => s.id === "sensor_1728")?.value || 0
+            )
+          ) || [],
+        borderColor: "#52c41a",
+        backgroundColor: "rgba(82,196,26,0.2)",
+        tension: 0.3,
+        pointRadius: 3,
+      },
+      {
+        label: "Distance cumulée (km)",
+        data:
+          vehicleData?.items?.flatMap((i) =>
+            i.items?.map((it, idx, arr) => {
+              const allItems = vehicleData.items.flatMap(x => x.items);
+              const currentIndex = allItems.findIndex(item => item.id === it.id);
+              return allItems
+                .slice(0, currentIndex + 1)
+                .reduce((sum, y) => sum + (y.distance || 0), 0);
+            })
+          ) || [],
+        borderColor: "#fa541c",
+        backgroundColor: "rgba(250,84,28,0.2)",
+        tension: 0.3,
+        pointRadius: 2,
+      },
+    ],
+  };
 
   // Table événements
   const tableData =
@@ -187,28 +193,27 @@ const chartData = {
     { title: "Porte", dataIndex: "door", key: "door" },
     { title: "Distance (km)", dataIndex: "distance", key: "distance" },
     {
-        title: 'Actions',
-        key: 'actions',
-        render: (text, record) => (
-                <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {/* Bouton ouvrir Google Maps */}
-                {record.lat && record.lng && (
-                    <Tooltip title="Voir la position sur Google Maps">
-                    <Button
-                        type="link"
-                        icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
-                        onClick={() =>
-                        window.open(
-                            `https://www.google.com/maps?q=${record.lat},${record.lng}`,
-                            '_blank'
-                        )
-                        }
-                    />
-                    </Tooltip>
-                )}
-                </Space>
-            ),
-        }
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {record.lat && record.lng && (
+            <Tooltip title="Voir la position sur Google Maps">
+              <Button
+                type="link"
+                icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
+                onClick={() =>
+                  window.open(
+                    `https://www.google.com/maps?q=${record.lat},${record.lng}`,
+                    '_blank'
+                  )
+                }
+              />
+            </Tooltip>
+          )}
+        </Space>
+      ),
+    }
   ];
 
   return (
@@ -240,35 +245,41 @@ const chartData = {
       {vehicleData && (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
           {/* Infos générales */}
-            <VehicleCard vehicleData={vehicleData} tableData={tableData} totalDistance={totalDistance} />
+          <VehicleCard vehicleData={vehicleData} tableData={tableData} totalDistance={totalDistance} />
 
           {/* Carte */}
           <VehicleMap positions={positions}/>
 
-          {/* Graphiques */}
-          <Card bordered style={{ borderRadius: 12 }} title="📈 Graphiques">
-            <Line
-              data={chartData}
-              options={{
-                responsive: true,
-                plugins: { legend: { position: "top" } },
-              }}
-            />
-          </Card>
+          {/* Collapse pour Graphiques et Table événements */}
+          <Collapse 
+            activeKey={activePanels} 
+            onChange={handlePanelChange}
+            style={{ width: "100%" }}
+          >
+            {/* Graphiques */}
+            <Panel header="📈 Graphiques" key="graphiques">
+              <Line
+                data={chartData}
+                options={{
+                  responsive: true,
+                  plugins: { legend: { position: "top" } },
+                }}
+              />
+            </Panel>
 
-          {/* Table événements */}
-          <Card bordered style={{ borderRadius: 12 }} title="📝 Historiques">
-            <Table
-              columns={itemColumns}
-              dataSource={tableData}
-              loading={loading}
-              pagination={{ pageSize: 10 }}
-              scroll={{ x: true }}
-            />
-          </Card>
+            {/* Table événements */}
+            <Panel header="📝 Historiques" key="historiques">
+              <Table
+                columns={itemColumns}
+                dataSource={tableData}
+                loading={loading}
+                pagination={{ pageSize: 10 }}
+                scroll={{ x: true }}
+              />
+            </Panel>
+          </Collapse>
         </Space>
       )}
-
     </div>
   );
 };
