@@ -104,57 +104,60 @@ const GetHistory = ({ id }) => {
     [];
 
   // Données pour le graphique
-  const chartData = {
-    labels:
-      vehicleData?.items?.flatMap((i, idx) =>
-        i.items?.map((_, j) => `Ev ${idx + 1}-${j + 1}`)
-      ) || [],
-    datasets: [  
-      {
-        label: "Vitesse (kph)",
-        data:
-          vehicleData?.items?.flatMap((i) =>
-            i.items?.map(
-              (it) => it.sensors_data?.find((s) => s.id === "speed")?.value || 0
-            )
-          ) || [],
-        borderColor: "#1890ff",
-        backgroundColor: "rgba(24,144,255,0.2)",
-        tension: 0.3,
-        pointRadius: 3,
-      },
-      {
-        label: "Carburant (L)",
-        data:
-          vehicleData?.items?.flatMap((i) =>
-            i.items?.map(
-              (it) =>
-                it.sensors_data?.find((s) => s.id === "sensor_1728")?.value || 0
-            )
-          ) || [],
-        borderColor: "#52c41a",
-        backgroundColor: "rgba(82,196,26,0.2)",
-        tension: 0.3,
-        pointRadius: 3,
-      },
-      {
-        label: "Distance cumulée (km)",
-        data:
-          vehicleData?.items?.flatMap((i) =>
-            i.items?.map((it, idx) => {
-              return vehicleData.items
-                .flatMap((x) => x.items)
-                .slice(0, idx + 1)
-                .reduce((sum, y) => sum + (y.distance || 0), 0);
-            })
-          ) || [],
-        borderColor: "#fa541c",
-        backgroundColor: "rgba(250,84,28,0.2)",
-        tension: 0.3,
-        pointRadius: 2,
-      },
-    ],
-  };
+// Données pour le graphique
+const chartData = {
+  labels:
+    vehicleData?.items?.flatMap((i) =>
+      i.items?.map((it) => it.show || it.time || "Date inconnue")
+    ) || [],
+  datasets: [  
+    {
+      label: "Vitesse (kph)",
+      data:
+        vehicleData?.items?.flatMap((i) =>
+          i.items?.map(
+            (it) => it.sensors_data?.find((s) => s.id === "speed")?.value || 0
+          )
+        ) || [],
+      borderColor: "#1890ff",
+      backgroundColor: "rgba(24,144,255,0.2)",
+      tension: 0.3,
+      pointRadius: 3,
+    },
+    {
+      label: "Carburant (L)",
+      data:
+        vehicleData?.items?.flatMap((i) =>
+          i.items?.map(
+            (it) =>
+              it.sensors_data?.find((s) => s.id === "sensor_1728")?.value || 0
+          )
+        ) || [],
+      borderColor: "#52c41a",
+      backgroundColor: "rgba(82,196,26,0.2)",
+      tension: 0.3,
+      pointRadius: 3,
+    },
+    {
+      label: "Distance cumulée (km)",
+      data:
+        vehicleData?.items?.flatMap((i) =>
+          i.items?.map((it, idx, arr) => {
+            // Calcul de la distance cumulée pour cet élément spécifique
+            const allItems = vehicleData.items.flatMap(x => x.items);
+            const currentIndex = allItems.findIndex(item => item.id === it.id);
+            return allItems
+              .slice(0, currentIndex + 1)
+              .reduce((sum, y) => sum + (y.distance || 0), 0);
+          })
+        ) || [],
+      borderColor: "#fa541c",
+      backgroundColor: "rgba(250,84,28,0.2)",
+      tension: 0.3,
+      pointRadius: 2,
+    },
+  ],
+};
 
   // Table événements
   const tableData =
