@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
 import "./rapportCharroi.scss";
-import { Tabs, Badge, notification } from "antd";
+import { Tabs, notification } from "antd";
 import {
-  CheckCircleOutlined,
-  CarOutlined,
   ToolOutlined,
 } from "@ant-design/icons";
-import RapportVehiculeValide from "./rapportVehiculeValide/RapportVehiculeValide";
-import RapportVehiculeCourses from "./rapportVehiculeCourses/RapportVehiculeCourses";
 import RapportVehiculeUtilitaire from "./rapportVehiculeUtilitaire/RapportVehiculeUtilitaire";
 import { getRapportCharroiVehicule } from "../../../services/rapportService";
 
 const RapportCharroi = () => {
   const [activeKey, setActiveKey] = useState("1");
   const [count, setCount] = useState([]);
-  const [countCourse, setCountCourse] = useState([]);
   const [data, setData] = useState([]);
-  const [course, setCourse] = useState([]);
   const [utilitaire, setUtilitaire] = useState([]);
-  const [countAttente, setCountAttente] = useState([]);
 
 
     const fetchData = async() => {
@@ -26,11 +19,7 @@ const RapportCharroi = () => {
             const { data } = await getRapportCharroiVehicule();
 
             setData(data.listeEnAttente);
-
-            setCourse(data.listeCourse);
             setUtilitaire(data.listeUtilitaire);
-            setCountAttente(data?.countAttente[0]?.Count_enattente);
-            setCountCourse(data?.countCourse[0]?.count_course);
             setCount(data?.countUtilitaire[0]?.count_utilitaire)
 
         } catch (error) {
@@ -48,13 +37,6 @@ const RapportCharroi = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // 👉 Exemple de données (tu pourras les remplacer par tes vrais counts depuis l’API)
-  const counts = {
-    bonsValides: 1,
-    vehiculesCourse: 2,
-    utilitaires: 1,
-  };
-
   const handleTabChange = (key) => {
     setActiveKey(key);
   };
@@ -70,7 +52,7 @@ const RapportCharroi = () => {
         >
 
           <Tabs.TabPane
-            key="3"
+            key="1"
             tab={
               <span>
                 <ToolOutlined style={{ color: "#faad14" }} />{" "}
