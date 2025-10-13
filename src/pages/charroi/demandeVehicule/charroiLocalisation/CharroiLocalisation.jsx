@@ -81,7 +81,7 @@ const CharroiLocalisation = () => {
             sorter: (a, b) =>
             moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
         },
-        { title: 'Position', dataIndex: 'address',render: (_, record) => <VehicleAddress record={record} />
+        { title: 'Position', dataIndex: 'address', render: (_, record) => <VehicleAddress record={record} />
         },
         { title: 'Vitesse', dataIndex: 'speed', render: (speed) => {
             let color = "red";
@@ -109,12 +109,14 @@ const CharroiLocalisation = () => {
             const km = getOdometer(sensors);
             if (!km || isNaN(km)) return <Tag color="default">N/A</Tag>;
             return <Text>{Number(km).toLocaleString('fr-FR')} km</Text>;
-        },
+          },
+          ellipsis: false,
         },
         { title: 'Durée arrêt', dataIndex: 'stop_duration', render: (text) => {
             const formatted = formatStopDuration(text);
             return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
-        },
+          },
+          ellipsis: false
         },
         {
           title: "Direction",
@@ -132,12 +134,12 @@ const CharroiLocalisation = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     fontWeight: 600,
-                    fontSize: 14,
+                    fontSize: 13,
                     padding: "4px 8px",
                     borderRadius: 12,
                     cursor: "default",
                     color: "#fff",
-                    backgroundColor: "#1E40AF", // bleu uniforme pro
+                    backgroundColor: "#1E40AF",
                   }}
                 >
                   <span style={{ marginRight: 6, display: "flex" }}>{icon}</span>
