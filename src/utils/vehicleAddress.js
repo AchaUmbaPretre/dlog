@@ -35,5 +35,5 @@ export const VehicleAddress = memo(({ record }) => {
     };
   }, [record]);
 
-  return <span>{displayAddress}</span>;
+  return <span>{displayAddress}</span>
 });
