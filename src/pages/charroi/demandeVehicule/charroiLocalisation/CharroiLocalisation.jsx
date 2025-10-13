@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CarOutlined, InfoCircleOutlined, FileTextOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CarOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Modal, Tooltip, Space, Tag, Input, Table, Button, Badge } from 'antd';
 import moment from 'moment';
