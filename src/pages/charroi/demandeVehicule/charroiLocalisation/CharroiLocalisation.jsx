@@ -95,12 +95,10 @@ const CharroiLocalisation = () => {
           key: 'statusAndEngine',
           render: (_, record) => {
             const { online, sensors } = record;
-
-            // Statut du moteur
             const engineStatus = getEngineStatus(sensors);
 
             return (
-              <div style={{ display: "flex", gap: 2 }}>
+              <div style={{ display: "flex", gap: 1 }}>
                 {statusDeviceMap(online)}
                 {getEngineTag(engineStatus)}
               </div>
@@ -127,25 +125,21 @@ const CharroiLocalisation = () => {
             const { label, icon, color, angle } = getDirection(text);
 
             return (
-              <Tooltip title={`Angle exact: ${angle}°`}>
+              <Tooltip title={`Angle exact : ${angle}°`}>
                 <Tag
                   color={`${color}33`}
                   style={{
-                    display:'flex',
-                    alignItems:'center',
-                    justifyContent:'center',
-                    width:'100%',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     fontWeight: 600,
                     fontSize: 14,
-                    padding: '6px',
                     borderRadius: 12,
-                    display: 'flex',
-                    alignItems: 'center',
-                    transition: 'all 0.2s',
-                    cursor: 'default'
+                    padding: "4px 8px",
+                    cursor: "default",
                   }}
                 >
-                  <span style={{ marginRight: 8 }}>{icon}</span>
+                  <span style={{ marginRight: 6 }}>{icon}</span>
                   {label}
                 </Tag>
               </Tooltip>

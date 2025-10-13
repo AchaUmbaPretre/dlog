@@ -1,5 +1,5 @@
 import { Tag } from 'antd';
-import {  ClockCircleOutlined, PoweroffOutlined, ArrowUpOutlined, ThunderboltOutlined, ArrowRightOutlined, FileSearchOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
+import {  ClockCircleOutlined, KeyOutlined, PoweroffOutlined, ArrowUpOutlined, ThunderboltOutlined, ArrowRightOutlined, FileSearchOutlined, ExportOutlined, UndoOutlined, ReloadOutlined, PlayCircleOutlined, DeleteOutlined, ShoppingOutlined, SettingOutlined, SyncOutlined, ExclamationCircleOutlined, CloseCircleOutlined, FileWordOutlined,CarOutlined, StopOutlined, ToolOutlined, FileExcelOutlined, FileImageOutlined, FileTextOutlined, FilePdfOutlined, HourglassOutlined, WarningOutlined, CheckSquareOutlined, CheckCircleOutlined, DollarOutlined, RocketOutlined } from '@ant-design/icons'
 
 
 export const getPriorityIcon = (priority) => {
@@ -290,7 +290,7 @@ export const statusDeviceMap = (online) => {
   const key = online?.toLowerCase();
 
   const statusMap = {
-    mouvement: {
+    online: {
       color: "green",
       label: "Mouvement",
       icon: <CheckCircleOutlined />,
@@ -326,8 +326,8 @@ export const statusDeviceMap = (online) => {
 };
 
 const engineMap = {
-  ON: { color: "green", label: "ON", icon: <ThunderboltOutlined /> },
-  OFF: { color: "red", label: "OFF", icon: <CloseCircleOutlined /> },
+  ON: { color: "green", label: "ON", icon: < KeyOutlined /> },
+  OFF: { color: "red", label: "OFF", icon: <KeyOutlined /> },
 };
 
 export const getEngineTag = (engineStatus) => {
@@ -342,30 +342,36 @@ export const getEngineTag = (engineStatus) => {
 };
 
 export const getDirection = (course) => {
-  if (course === null || course === undefined) {
-    return { label: "Inconnue", icon: null, color: "#d9d9d9" };
-  }
+  if (course == null)
+    return { label: "Inconnue", icon: null, color: "#d9d9d9", angle: 0 };
 
-  const directions = [
-    { label: "Nord",       color: "#1E90FF" },
-    { label: "Nord-Est",   color: "#00BFFF" },
-    { label: "Est",        color: "#20B2AA" },
-    { label: "Sud-Est",    color: "#32CD32" },
-    { label: "Sud",        color: "#FFA500" },
-    { label: "Sud-Ouest",  color: "#FF8C00" },
-    { label: "Ouest",      color: "#FF4500" },
-    { label: "Nord-Ouest", color: "#8B008B" },
+  const dirs = [
+    { l: "Nord", c: "#1E90FF" },
+    { l: "Nord-Est", c: "#00BFFF" },
+    { l: "Est", c: "#20B2AA" },
+    { l: "Sud-Est", c: "#32CD32" },
+    { l: "Sud", c: "#FFA500" },
+    { l: "Sud-Ouest", c: "#FF8C00" },
+    { l: "Ouest", c: "#FF4500" },
+    { l: "Nord-Ouest", c: "#8B008B" },
   ];
 
-  const normalized = ((course % 360) + 360) % 360;
-  const index = Math.round(normalized / 45) % directions.length;
-
-  const direction = directions[index];
+  const a = ((course % 360) + 360) % 360; // angle normalisé
+  const i = Math.round(a / 45) % dirs.length;
+  const d = dirs[i];
 
   return {
-    label: direction.label,
-    icon: <ArrowUpOutlined style={{ transform: `rotate(${index*45}deg)`, fontSize: 20, transition: 'transform 0.3s' }} />,
-    color: direction.color,
-    angle: normalized
+    label: d.l,
+    color: d.c,
+    angle: a,
+    icon: (
+      <ArrowUpOutlined
+        style={{
+          transform: `rotate(${i * 45}deg)`,
+          fontSize: 18,
+          transition: "transform 0.3s",
+        }}
+      />
+    ),
   };
 };
