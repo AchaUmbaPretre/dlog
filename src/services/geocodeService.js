@@ -19,8 +19,8 @@ export const getOdometer = (sensors = []) => {
 
 
 export const getEngineStatus = (sensors = []) => {
-    const engine = sensors.find((s) => s.type === "engine");
-    return engine?.value === "On" ? "ON" : "OFF";
+    const Contact = sensors.find((s) => s.type === "acc");
+    return Contact?.value === "On" ? "ON" : "OFF";
   };
 
 export const getBatteryLevel = (sensors = []) => {
