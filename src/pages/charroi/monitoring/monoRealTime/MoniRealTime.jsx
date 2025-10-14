@@ -25,7 +25,7 @@ const MoniRealTime = () => {
   const apiHash = config.api_hash;
   const [refreshing, setRefreshing] = useState(false);
 
-  // 🔹 Fetch événements depuis le backend
+  // Fetch événements depuis le backend
   const fetchData = async (from, to, isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
@@ -61,7 +61,7 @@ const MoniRealTime = () => {
     }
   };
 
-  // 🔹 Chargement initial (ou lors d’un changement de filtre)
+  // Chargement initial (ou lors d’un changement de filtre)
   useEffect(() => {
     const from = dateRange[0]
       ? dateRange[0].format('YYYY-MM-DD HH:mm:ss')
@@ -72,7 +72,7 @@ const MoniRealTime = () => {
     fetchData(from, to);
   }, [dateRange, selectedVehicle]);
 
-  // 🔹 Rafraîchissement silencieux toutes les 30s
+  //Rafraîchissement silencieux toutes les 30s
   useEffect(() => {
     const interval = setInterval(() => {
       const from = dateRange[0]
