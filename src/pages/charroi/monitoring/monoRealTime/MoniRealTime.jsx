@@ -7,7 +7,6 @@ import { saveAs } from 'file-saver';
 import html2pdf from 'html2pdf.js';
 import GetHistory from '../../demandeVehicule/charroiLocalisation/getHistory/GetHistory';
 import { getEvent } from '../../../../services/rapportService';
-import { VehicleAddress } from '../../../../utils/vehicleAddress';
 import config from '../../../../config';
 
 const { RangePicker } = DatePicker;
@@ -135,13 +134,6 @@ const MoniRealTime = () => {
         );
       },
     },
-    ...(showPosition ? [
-      {
-        title: 'Position',
-        key: 'position',
-        render: (_, record) => <VehicleAddress record={{ lat: record.latitude, lng: record.longitude }} />,
-      },
-    ] : []),
     {
       title: 'Actions',
       key: 'actions',
