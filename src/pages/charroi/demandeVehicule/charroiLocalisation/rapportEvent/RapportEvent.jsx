@@ -66,8 +66,8 @@ const filteredData = reportData.filter(item =>
 
   return (
     <div className="rapport-event-container">
-      <Title level={3} style={{ textAlign: 'center', marginBottom: 24 }}>
-        📊 Rapport des véhicules
+      <Title level={3} style={{marginBottom: 24 }}>
+        📊 Rapport des connexions
       </Title>
 
       <Space
