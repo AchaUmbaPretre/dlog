@@ -8,11 +8,9 @@ import MoniRealTime from './monoRealTime/MoniRealTime';
 
 const Monitoring = () => {
     const [activeKey, setActiveKey] = useState('1');
-    const [unreadEvents, setUnreadEvents] = useState(5); // Exemple : 5 événements non lus
 
     const handleTabChange = (key) => {
         setActiveKey(key);
-        if (key === '3') setUnreadEvents(0); // On marque les événements comme lus si on ouvre l'onglet
     }
 
     const getTabStyle = (key) => ({
@@ -65,9 +63,7 @@ const Monitoring = () => {
             <Tabs.TabPane
                 tab={
                     <span style={getTabStyle('3')}>
-                        <Badge count={unreadEvents} offset={[5, -5]}>
-                            <BellOutlined style={iconStyle('3')} />
-                        </Badge>
+                        <BellOutlined style={iconStyle('3')} />
                         Evénements
                     </span>
                 }
