@@ -28,7 +28,6 @@ const GetEventLocalisation = () => {
   const apiHash = config.api_hash;
   const [refreshing, setRefreshing] = useState(false);
 
-  // 🔹 Fetch événements depuis le backend
   const fetchData = async (from, to, isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
