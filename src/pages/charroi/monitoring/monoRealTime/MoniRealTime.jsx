@@ -211,7 +211,7 @@ const MoniRealTime = () => {
 
   return (
     <div className="event_container">
-      <h2 className="title_event">📊 Détail des événements</h2>
+      <h2 className="title_event">📊 Monitoring</h2>
       <div className="event_wrapper">
         <div className="event_top">
             <div className="event_top_row">
