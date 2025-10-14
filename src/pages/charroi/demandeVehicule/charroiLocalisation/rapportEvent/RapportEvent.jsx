@@ -4,13 +4,10 @@ import {
   Input,
   Space,
   DatePicker,
-  List,
-  Spin,
   Modal,
   notification,
 } from 'antd';
 import moment from 'moment';
-import PhraseItem from './phraseItem/PhraseItem';
 import { getEventRow } from '../../../../../services/eventService';
 import './rapportEvent.scss';
 import RapportEventHistory from './rapportEventHistory/RapportEventHistory';
@@ -90,24 +87,6 @@ const filteredData = reportData.filter(item =>
           style={{ width: 300, marginBottom: 8 }}
         />
       </Space>
-
-      {loading ? (
-        <Spin tip="Chargement..." size="large" style={{ display: 'block', marginTop: 60 }} />
-      ) : (
-        <List
-          dataSource={filteredData}
-          renderItem={(item, index) => (
-            <PhraseItem
-              phrase={item.phrase}
-              index={index}
-              onDetailClick={() => openModal(item.device_id)}
-            />
-          )}
-          bordered
-          style={{ backgroundColor: '#fff', borderRadius: 6 }}
-          locale={{ emptyText: 'Aucun rapport trouvé.' }}
-        />
-      )}
 
       {/* Modal avec détails */}
       <Modal
