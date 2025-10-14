@@ -1,15 +1,14 @@
-import './getEventLocalisation.scss';
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { DatePicker, Table, Tooltip, Modal, Tag, Space, message, Select, Button } from 'antd';
 import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
-import config from '../../../../../config';
 import dayjs from 'dayjs';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import html2pdf from 'html2pdf.js';
-import { VehicleAddress } from '../../../../../utils/vehicleAddress';
-import GetHistory from '../getHistory/GetHistory';
-import { getEvent } from '../../../../../services/rapportService';
+import GetHistory from '../../demandeVehicule/charroiLocalisation/getHistory/GetHistory';
+import { getEvent } from '../../../../services/rapportService';
+import { VehicleAddress } from '../../../../utils/vehicleAddress';
+import config from '../../../../config';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -143,17 +142,6 @@ const MoniRealTime = () => {
         render: (_, record) => <VehicleAddress record={{ lat: record.latitude, lng: record.longitude }} />,
       },
     ] : []),
-    {
-      title: '🕒 Durée depuis le dernier changement',
-      dataIndex: 'duration_since_last_change',
-      key: 'duration_since_last_change',
-      align: 'center',
-      render: text => (
-        <span style={{ fontWeight: 500, color: '#722ed1' }}>
-          {text || '—'}
-        </span>
-      ),
-    },
     {
       title: 'Actions',
       key: 'actions',
