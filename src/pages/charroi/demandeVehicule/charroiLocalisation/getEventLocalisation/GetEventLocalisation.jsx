@@ -11,6 +11,7 @@ import { VehicleAddress } from '../../../../../utils/vehicleAddress';
 import GetHistory from '../getHistory/GetHistory';
 import { getEvent } from '../../../../../services/rapportService';
 import { processEvents } from '../../../../../utils/processEvent';
+import RapportEventHistory from '../rapportEvent/rapportEventHistory/RapportEventHistory';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -277,7 +278,7 @@ const GetEventLocalisation = () => {
         width={1090}
         centered
       >
-        <GetHistory id={idDevice} dateRanges={dateRange} />
+        <RapportEventHistory id={idDevice} dateRanges={dateRange} />
       </Modal>
     </div>
   );
