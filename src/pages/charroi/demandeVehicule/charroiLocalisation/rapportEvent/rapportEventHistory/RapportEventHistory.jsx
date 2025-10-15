@@ -229,13 +229,6 @@ const RapportEventHistory = ({ idDevice }) => {
               prefix={<ThunderboltOutlined />}
             />
           </Col>
-          <Col span={4}>
-            <Statistic
-              title="Nombre d’arrêts"
-              value={summary.stops}
-              prefix={<StopOutlined />}
-            />
-          </Col>
         </Row>
       </Card>
 
