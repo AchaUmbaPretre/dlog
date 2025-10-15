@@ -1,8 +1,9 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Typography, Input, Space, DatePicker, Table, Tag, notification, Spin } from 'antd';
+import { Typography, Input, Space, DatePicker, Table, Tag, notification, Spin, Progress } from 'antd';
 import moment from 'moment';
 import { getConnectivity } from '../../../../../services/eventService';
 import './rapportEvent.scss';
+import { CarOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -36,7 +37,6 @@ const RapportEvent = () => {
     fetchData();
   }, [dateRange]);
 
-  // Filtrage sur le nom du véhicule
   const filteredData = useMemo(() => {
     if (!searchText) return reportData;
     return reportData.filter(item =>
@@ -50,14 +50,25 @@ const RapportEvent = () => {
       dataIndex: 'device_name',
       key: 'device_name',
       sorter: (a, b) => a.device_name.localeCompare(b.device_name),
-      render: text => <strong>{text}</strong>,
+      render: text => 
+      <strong>
+        <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
+        {text}
+      </strong>,
     },
     {
-      title: 'Taux de connectivité (%)',
+      title: 'Taux de connectivité',
       dataIndex: 'taux_connectivite_pourcent',
       key: 'taux_connectivite_pourcent',
       sorter: (a, b) => a.taux_connectivite_pourcent - b.taux_connectivite_pourcent,
-      render: value => `${value.toFixed(2)} %`,
+      render: value => (
+        <Progress
+          percent={Number(value.toFixed(2))}
+          size="small"
+          strokeColor={value >= 75 ? '#52c41a' : value >= 50 ? '#faad14' : '#f5222d'}
+          format={percent => `${percent.toFixed(2)}%`}
+        />
+      ),
     },
     {
       title: 'Durée dernière déconnexion (min)',
