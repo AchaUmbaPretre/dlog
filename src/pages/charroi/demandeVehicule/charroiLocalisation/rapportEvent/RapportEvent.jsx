@@ -3,7 +3,7 @@ import { Typography, Input, Space, DatePicker, Table, Tag, notification, Spin, P
 import moment from 'moment';
 import { getConnectivity } from '../../../../../services/eventService';
 import './rapportEvent.scss';
-import { CarOutlined } from '@ant-design/icons';
+import { CarOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -34,9 +34,7 @@ const RapportEvent = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [dateRange]);
+  useEffect(() => { fetchData(); }, [dateRange]);
 
   const filteredData = useMemo(() => {
     if (!searchText) return reportData;
@@ -46,25 +44,31 @@ const RapportEvent = () => {
   }, [searchText, reportData]);
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => {
-            const pageSize = pagination.pageSize || 10;
-            const pageIndex = pagination.current || 1;
-            return (pageIndex - 1) * pageSize + index + 1;
-          }, width: "4%",
+    { 
+      title: '#', 
+      dataIndex: 'id', 
+      key: 'id', 
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      }, 
+      width: "4%",
     },
     {
       title: 'Véhicule',
       dataIndex: 'device_name',
       key: 'device_name',
       sorter: (a, b) => a.device_name.localeCompare(b.device_name),
-      render: text => 
-      <strong>
-        <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
-        {text}
-      </strong>,
+      render: text => (
+        <strong>
+          <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
+          {text}
+        </strong>
+      ),
     },
     {
-      title: 'Taux de connectivité',
+      title: 'Taux de connectivité (%)',
       dataIndex: 'taux_connectivite_pourcent',
       key: 'taux_connectivite_pourcent',
       sorter: (a, b) => a.taux_connectivite_pourcent - b.taux_connectivite_pourcent,
@@ -89,15 +93,21 @@ const RapportEvent = () => {
       dataIndex: 'statut_actuel',
       key: 'statut_actuel',
       filters: [
-        { text: 'Connected', value: 'connected' },
-        { text: 'Disconnected', value: 'disconnected' },
+        { text: 'Actif', value: 'connected' },
+        { text: 'Inactif', value: 'disconnected' },
       ],
       onFilter: (value, record) => record.statut_actuel === value,
-      render: status => (
-        <Tag color={status === 'connected' ? 'green' : 'volcano'}>
-          {status.toUpperCase()}
-        </Tag>
-      ),
+      render: status => {
+        const isActive = status === 'connected';
+        return (
+          <Tag 
+            color={isActive ? 'green' : 'volcano'} 
+            icon={isActive ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+          >
+            {isActive ? 'Actif' : 'Inactif'}
+          </Tag>
+        );
+      },
     },
   ];
 
@@ -141,7 +151,7 @@ const RapportEvent = () => {
           pagination={{ pageSize: 10 }}
           bordered
           size="middle"
-          scroll={{ x: 800 }}
+          scroll={{ x: 900 }}
         />
       </Spin>
     </div>
