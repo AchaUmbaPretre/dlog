@@ -20,7 +20,7 @@ export const renderDateTag = (dateStr, color = 'blue') => {
 };
 
 // Formatage des minutes en j h m
-const formatDuration = (minutes) => {
+export const formatDuration = (minutes) => {
   if (minutes == null) return "-";
   const totalMinutes = Math.floor(minutes);
   const days = Math.floor(totalMinutes / (24 * 60));
@@ -153,3 +153,16 @@ export const formatStopDuration = (duration) => {
 
   return result.trim();
 };
+
+
+export const formatDurations = (minutes) => {
+    if (minutes < 60) return `${minutes} min`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} h`;
+    const days = Math.floor(hours / 24);
+    if (days < 30) return `${days} j`;
+    const months = Math.floor(days / 30);
+    if (months < 12) return `${months} mois`;
+    const years = Math.floor(months / 12);
+    return `${years} an${years > 1 ? 's' : ''}`;
+  };

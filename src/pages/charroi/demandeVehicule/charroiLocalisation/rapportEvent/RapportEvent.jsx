@@ -3,7 +3,8 @@ import { Typography, Input, Space, DatePicker, Table, Tag, notification, Spin, P
 import moment from 'moment';
 import { getConnectivity } from '../../../../../services/eventService';
 import './rapportEvent.scss';
-import { CarOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { CarOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { formatDurations } from '../../../../../utils/renderTooltip';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -53,7 +54,7 @@ const RapportEvent = () => {
         const pageIndex = pagination.current || 1;
         return (pageIndex - 1) * pageSize + index + 1;
       }, 
-      width: "4%",
+      width: 50,
     },
     {
       title: 'Véhicule',
@@ -68,7 +69,7 @@ const RapportEvent = () => {
       ),
     },
     {
-      title: 'Taux de connectivité (%)',
+      title: 'Taux de connectivité',
       dataIndex: 'taux_connectivite_pourcent',
       key: 'taux_connectivite_pourcent',
       sorter: (a, b) => a.taux_connectivite_pourcent - b.taux_connectivite_pourcent,
@@ -82,11 +83,16 @@ const RapportEvent = () => {
       ),
     },
     {
-      title: 'Durée dernière déconnexion (min)',
+      title: 'Durée dernière déconnexion',
       dataIndex: 'duree_derniere_deconnexion_minutes',
       key: 'duree_derniere_deconnexion_minutes',
       sorter: (a, b) => a.duree_derniere_deconnexion_minutes - b.duree_derniere_deconnexion_minutes,
-      render: value => value + ' min',
+      render: value => (
+        <span>
+          <ClockCircleOutlined style={{ marginRight: 6, color: '#faad14' }} />
+          {formatDurations(value)}
+        </span>
+      ),
     },
     {
       title: 'Statut actuel',
@@ -101,8 +107,8 @@ const RapportEvent = () => {
         const isActive = status === 'connected';
         return (
           <Tag 
-            color={isActive ? 'green' : 'volcano'} 
-            icon={isActive ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+            icon={isActive ? <CheckCircleOutlined /> : <CloseCircleOutlined />} 
+            color={isActive ? 'green' : 'volcano'}
           >
             {isActive ? 'Actif' : 'Inactif'}
           </Tag>
@@ -148,7 +154,8 @@ const RapportEvent = () => {
           columns={columns}
           dataSource={filteredData}
           rowKey="device_id"
-          pagination={{ pageSize: 10 }}
+          pagination={{ pageSize: pagination.pageSize, current: pagination.current, showSizeChanger: true }}
+          onChange={pagination => setPagination(pagination)}
           bordered
           size="middle"
           scroll={{ x: 900 }}
