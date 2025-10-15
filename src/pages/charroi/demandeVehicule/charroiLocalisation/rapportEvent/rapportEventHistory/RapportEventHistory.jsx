@@ -311,7 +311,7 @@ const RapportEventHistory = ({ idDevice }) => {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            Cliquez ici pour voir sur Maps
+                            Cliquez ici pour voir la position
                           </a>
                         </Text>
                       )}
