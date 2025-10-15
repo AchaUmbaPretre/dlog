@@ -278,7 +278,7 @@ const GetEventLocalisation = () => {
         width={1090}
         centered
       >
-        <RapportEventHistory id={idDevice} dateRanges={dateRange} />
+        <RapportEventHistory idDevice={idDevice} dateRanges={dateRange} />
       </Modal>
     </div>
   );
