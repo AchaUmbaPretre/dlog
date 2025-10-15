@@ -153,11 +153,23 @@ const RapportEventHistory = ({ idDevice }) => {
     fetchData(from.format("YYYY-MM-DD HH:mm:ss"), to.format("YYYY-MM-DD HH:mm:ss"));
   };
 
-  const formatDuration = (seconds) => {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    return `${h}h ${m}min`;
-  };
+const totalEngineDuration = (events) => {
+  let totalMs = 0;
+  events.forEach(e => {
+    if (e.start && e.stop) {
+      const start = new Date(e.start);
+      const end = new Date(e.stop);
+      if (!isNaN(start) && !isNaN(end)) {
+        totalMs += (end - start);
+      }
+    }
+  });
+
+  const hours = Math.floor(totalMs / (1000 * 60 * 60));
+  const minutes = Math.floor((totalMs % (1000 * 60 * 60)) / (1000 * 60));
+  return `${hours}h ${minutes}min`;
+};
+
 
   return (
     <div className="rapport-event-history">
@@ -222,7 +234,7 @@ const RapportEventHistory = ({ idDevice }) => {
           <Col span={6}>
             <Statistic
               title="Durée moteur"
-              value={formatDuration(summary.engine_duration)}
+              value={totalEngineDuration(summary.engine_duration)}
               prefix={<ThunderboltOutlined />}
             />
           </Col>
@@ -298,7 +310,7 @@ const RapportEventHistory = ({ idDevice }) => {
                       </Text>
                       <Text>
                         <ClockCircleOutlined /> <strong>Durée moteur :</strong>{" "}
-                        {formatDuration(event.engine_work)}
+                        {totalEngineDuration (event.engine_work)}
                       </Text>
                       {event.items?.[0] && (
                         <Text>
