@@ -198,7 +198,7 @@ const RapportEventHistory = ({ idDevice }) => {
       {/* ==== 📊 SYNTHÈSE ==== */}
       <Card className="summary-card" bordered={false} style={{ marginBottom: 20 }}>
         <Row gutter={16}>
-          <Col span={4}>
+          <Col span={6}>
             <Statistic
               title="Distance totale"
               value={summary.distance}
@@ -206,7 +206,7 @@ const RapportEventHistory = ({ idDevice }) => {
               prefix={<CarOutlined />}
             />
           </Col>
-          <Col span={4}>
+          <Col span={6}>
             <Statistic
               title="Vitesse max"
               value={summary.top_speed}
@@ -214,7 +214,7 @@ const RapportEventHistory = ({ idDevice }) => {
               prefix={<DashboardOutlined />}
             />
           </Col>
-          <Col span={4}>
+          <Col span={6}>
             <Statistic
               title="Vitesse moyenne"
               value={summary.avg_speed}
