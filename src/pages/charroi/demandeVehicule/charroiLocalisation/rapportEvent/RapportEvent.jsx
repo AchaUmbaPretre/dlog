@@ -120,7 +120,7 @@ const RapportEvent = () => {
   return (
     <div className="rapport-event-container">
       <Title level={3} style={{ marginBottom: 24 }}>
-        📊 Rapport des connexions
+        📊 Rapport des connexions du jour
       </Title>
 
       <Space
