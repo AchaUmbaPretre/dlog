@@ -21,7 +21,6 @@ import {
   EnvironmentOutlined,
   DashboardOutlined,
   CalendarOutlined,
-  AimOutlined,
   StopOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -49,6 +48,15 @@ const RapportEventHistory = ({ idDevice }) => {
 
   const apiHash = config.api_hash;
 
+  // ====== UTILS ======
+  const formatSecondsToTime = (seconds) => {
+    if (!seconds || isNaN(seconds)) return "—";
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    return `${h}h ${m}min`;
+  };
+
+  // ====== FETCH DATA ======
   const fetchData = async (from, to) => {
     try {
       setLoading(true);
@@ -66,7 +74,7 @@ const RapportEventHistory = ({ idDevice }) => {
       if (data?.items?.length > 0) {
         setVehicleData(data.items);
 
-        // ==== 🔢 Résumé global ====
+        // ====== SYNTHÈSE ======
         const distance = data.items.reduce((sum, e) => sum + (e.distance || 0), 0);
         const top_speed = Math.max(...data.items.map((e) => e.top_speed || 0));
         const avg_speed = Math.round(
@@ -111,6 +119,7 @@ const RapportEventHistory = ({ idDevice }) => {
     fetchData(start, end);
   }, [idDevice]);
 
+  // ====== GESTION DES DATES ======
   const handleDateChange = (values) => {
     setDateRange(values);
     if (values && values.length === 2) {
@@ -152,24 +161,6 @@ const RapportEventHistory = ({ idDevice }) => {
     setDateRange([from, to]);
     fetchData(from.format("YYYY-MM-DD HH:mm:ss"), to.format("YYYY-MM-DD HH:mm:ss"));
   };
-
-const totalEngineDuration = (events) => {
-  let totalMs = 0;
-  events.forEach(e => {
-    if (e.start && e.stop) {
-      const start = new Date(e.start);
-      const end = new Date(e.stop);
-      if (!isNaN(start) && !isNaN(end)) {
-        totalMs += (end - start);
-      }
-    }
-  });
-
-  const hours = Math.floor(totalMs / (1000 * 60 * 60));
-  const minutes = Math.floor((totalMs % (1000 * 60 * 60)) / (1000 * 60));
-  return `${hours}h ${minutes}min`;
-};
-
 
   return (
     <div className="rapport-event-history">
@@ -234,7 +225,7 @@ const totalEngineDuration = (events) => {
           <Col span={6}>
             <Statistic
               title="Durée moteur"
-              value={totalEngineDuration(summary.engine_duration)}
+              value={formatSecondsToTime(summary.engine_duration)}
               prefix={<ThunderboltOutlined />}
             />
           </Col>
@@ -302,20 +293,26 @@ const totalEngineDuration = (events) => {
                     <Divider style={{ margin: "8px 0" }} />
                     <Space direction="vertical" size={2}>
                       <Text>
-                        <DashboardOutlined /> <strong>Vitesse :</strong> max{" "}
-                        {event.top_speed} km/h, moy {event.average_speed} km/h
+                        <DashboardOutlined /> <strong>Vitesse :</strong> max {event.top_speed} km/h, moy{" "}
+                        {event.average_speed} km/h
                       </Text>
                       <Text>
                         <CarOutlined /> <strong>Distance :</strong> {event.distance} km
                       </Text>
                       <Text>
                         <ClockCircleOutlined /> <strong>Durée moteur :</strong>{" "}
-                        {totalEngineDuration (event.engine_work)}
+                        {formatSecondsToTime(event.engine_work)}
                       </Text>
                       {event.items?.[0] && (
                         <Text>
                           <EnvironmentOutlined /> <strong>Position :</strong>{" "}
-                          {event.items[0].lat}, {event.items[0].lng}
+                          <a
+                            href={`https://www.google.com/maps?q=${event.items[0].lat},${event.items[0].lng}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Cliquez ici pour voir sur Maps
+                          </a>
                         </Text>
                       )}
                     </Space>
