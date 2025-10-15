@@ -69,7 +69,7 @@ const RapportEvent = () => {
       ),
     },
     {
-      title: 'Taux de connectivité',
+      title: 'M à j (Taux de connectivité)',
       dataIndex: 'taux_connectivite_pourcent',
       key: 'taux_connectivite_pourcent',
       sorter: (a, b) => a.taux_connectivite_pourcent - b.taux_connectivite_pourcent,
