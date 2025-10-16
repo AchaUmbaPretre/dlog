@@ -380,7 +380,6 @@ function App() {
       element:<SecureRoute><Page404 /></SecureRoute>
     },
     { path: '/tv-dashboard', element: <ModeTv /> },
-
   ]);
 
   return (
