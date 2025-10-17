@@ -95,17 +95,6 @@ const RapportEvent = () => {
       ),
     },
     {
-      title: 'Durée de Rrconnexion',
-      dataIndex: 'downtime_minutes',
-      key: 'downtime_minutes',
-      sorter: (a, b) => a.downtime_minutes - b.downtime_minutes,
-      render: value => (
-        <span>
-          {value}
-        </span>
-      ),
-    }, 
-    {
       title: 'Statut actuel',
       dataIndex: 'statut_actuel',
       key: 'statut_actuel',
