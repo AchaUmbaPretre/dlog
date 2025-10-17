@@ -21,3 +21,7 @@ export const postEvent = async (data) => {
 export const getConnectivity = async(params) => {
   return axios.get(`${DOMAIN}/api/event/connectivity`, { params });
 }
+
+export const getConnectivityMonth = async (month) => {
+  return axios.get(`${DOMAIN}/api/event/connectivity/month`, { params: { month } });
+};

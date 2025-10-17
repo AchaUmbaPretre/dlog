@@ -5,6 +5,7 @@ import { getConnectivity } from '../../../../../services/eventService';
 import './rapportEvent.scss';
 import { CarOutlined, DashboardOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { formatDurations } from '../../../../../utils/renderTooltip';
+import ConnectivityMonth from '../../../monitoring/connectivityMonth/ConnectivityMonth';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -148,7 +149,7 @@ const RapportEvent = () => {
         >
            <Tabs.TabPane
                 tab={
-                    <span style={getTabStyle('2')}>
+                    <span style={getTabStyle('1')}>
                         <DashboardOutlined style={iconStyle('2')} />
                         Monitoring
                     </span>
@@ -200,6 +201,7 @@ const RapportEvent = () => {
                 </Spin>
               </div>
             </Tabs.TabPane>
+
             <Tabs.TabPane
               tab={
                     <span style={getTabStyle('2')}>
@@ -209,7 +211,7 @@ const RapportEvent = () => {
               }
               key="2"
             >
-                
+                <ConnectivityMonth/>
             </Tabs.TabPane>
         </Tabs>
     </>
