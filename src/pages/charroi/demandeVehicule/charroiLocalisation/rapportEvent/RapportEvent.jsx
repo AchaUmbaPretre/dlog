@@ -94,7 +94,7 @@ const RapportEvent = () => {
         </span>
       ),
     },
-{
+    {
       title: 'Durée de Rrconnexion',
       dataIndex: 'downtime_minutes',
       key: 'downtime_minutes',
