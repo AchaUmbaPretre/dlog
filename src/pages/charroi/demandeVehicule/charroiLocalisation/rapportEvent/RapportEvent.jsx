@@ -1,9 +1,9 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Typography, Input, Space, DatePicker, Table, Tag, notification, Spin, Progress } from 'antd';
+import { Typography, Input, Tabs, Space, DatePicker, Table, Tag, notification, Spin, Progress } from 'antd';
 import moment from 'moment';
 import { getConnectivity } from '../../../../../services/eventService';
 import './rapportEvent.scss';
-import { CarOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { CarOutlined, DashboardOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { formatDurations } from '../../../../../utils/renderTooltip';
 
 const { Title } = Typography;
@@ -15,6 +15,27 @@ const RapportEvent = () => {
   const [searchText, setSearchText] = useState('');
   const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().endOf('day')]);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
+  const [activeKey, setActiveKey] = useState('1');
+
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
+
+  const getTabStyle = (key) => ({
+        display: 'flex',
+        alignItems: 'center',
+        color: activeKey === key ? '#1890ff' : 'rgba(0,0,0,0.65)',
+        fontWeight: activeKey === key ? '600' : '400',
+        transition: 'color 0.3s',
+    });
+
+  const iconStyle = (key) => ({
+        marginRight: 8,
+        fontSize: 18,
+        color: activeKey === key ? '#1890ff' : 'rgba(0,0,0,0.45)',
+        transform: activeKey === key ? 'scale(1.2)' : 'scale(1)',
+        transition: 'transform 0.3s, color 0.3s',
+    });
 
   const fetchData = async () => {
     setLoading(true);
@@ -118,50 +139,80 @@ const RapportEvent = () => {
   ];
 
   return (
-    <div className="rapport-event-container">
-      <Title level={3} style={{ marginBottom: 24 }}>
-        📊 Rapport des connexions du jour
-      </Title>
+    <>
+        <Tabs
+          activeKey={activeKey}
+          onChange={handleTabChange}
+          type="card"
+          tabPosition="top"
+        >
+           <Tabs.TabPane
+                tab={
+                    <span style={getTabStyle('2')}>
+                        <DashboardOutlined style={iconStyle('2')} />
+                        Monitoring
+                    </span>
+                }
+                key="1"
+            >
+              <div className="rapport-event-container">
+                <Title level={3} style={{ marginBottom: 24 }}>
+                  📊 Rapport des connexions du jour
+                </Title>
 
-      <Space
-        className="toolbar"
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          marginBottom: 24,
-        }}
-      >
-        <RangePicker
-          value={dateRange}
-          onChange={dates => dates && setDateRange(dates)}
-          showTime
-          format="YYYY-MM-DD HH:mm"
-          style={{ marginBottom: 8 }}
-        />
+                <Space
+                  className="toolbar"
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-between',
+                    marginBottom: 24,
+                  }}
+                >
+                  <RangePicker
+                    value={dateRange}
+                    onChange={dates => dates && setDateRange(dates)}
+                    showTime
+                    format="YYYY-MM-DD HH:mm"
+                    style={{ marginBottom: 8 }}
+                  />
 
-        <Input.Search
-          placeholder="Rechercher un véhicule"
-          value={searchText}
-          onChange={e => setSearchText(e.target.value)}
-          allowClear
-          style={{ width: 300, marginBottom: 8 }}
-        />
-      </Space>
+                  <Input.Search
+                    placeholder="Rechercher un véhicule"
+                    value={searchText}
+                    onChange={e => setSearchText(e.target.value)}
+                    allowClear
+                    style={{ width: 300, marginBottom: 8 }}
+                  />
+                </Space>
 
-      <Spin spinning={loading} tip="Chargement des données...">
-        <Table
-          columns={columns}
-          dataSource={filteredData}
-          rowKey="device_id"
-          pagination={{ pageSize: pagination.pageSize, current: pagination.current, showSizeChanger: true }}
-          onChange={pagination => setPagination(pagination)}
-          bordered
-          size="middle"
-          scroll={{ x: 900 }}
-        />
-      </Spin>
-    </div>
+                <Spin spinning={loading} tip="Chargement des données...">
+                  <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    rowKey="device_id"
+                    pagination={{ pageSize: pagination.pageSize, current: pagination.current, showSizeChanger: true }}
+                    onChange={pagination => setPagination(pagination)}
+                    bordered
+                    size="middle"
+                    scroll={{ x: 900 }}
+                  />
+                </Spin>
+              </div>
+            </Tabs.TabPane>
+            <Tabs.TabPane
+              tab={
+                    <span style={getTabStyle('2')}>
+                        <DashboardOutlined style={iconStyle('2')} />
+                        Rapport Month
+                    </span>
+              }
+              key="2"
+            >
+                
+            </Tabs.TabPane>
+        </Tabs>
+    </>
   );
 };
 
