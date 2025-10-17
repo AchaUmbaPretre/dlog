@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, DatePicker, Table, notification, Spin } from 'antd';
+import { Typography, DatePicker, Table, notification, Spin, Tag } from 'antd';
 import moment from 'moment';
 import { getConnectivityMonth } from '../../../../services/eventService';
 
@@ -25,9 +25,11 @@ const ConnectivityMonth = () => {
     }
   };
 
-  useEffect(() => { fetchData(); }, [month]);
+  useEffect(() => {
+    fetchData();
+  }, [month]);
 
-  // 🧩 Transformer les données en format tableau dynamique
+  // 🧩 Transformation des données pour le tableau
   const devices = [...new Set(data.map(item => item.device_name))];
   const jours = [...new Set(data.map(item => item.jour))].sort((a, b) => a - b);
 
@@ -35,23 +37,46 @@ const ConnectivityMonth = () => {
     const row = { key: name, device_name: name };
     jours.forEach(j => {
       const match = data.find(item => item.device_name === name && item.jour === j);
-      row[j] = match ? `${match.score_percent}%` : '-';
+      row[j] = match ? match.score_percent : null; // on garde la valeur numérique
     });
     return row;
   });
 
+  // 🔹 Fonction pour choisir la couleur selon le score
+  const getScoreColor = (score) => {
+    if (score === 25) return 'red';
+    if (score === 50) return 'orange';
+    if (score === 75) return 'blue';
+    if (score === 100) return 'green';
+    return 'grey';
+  };
+
   const columns = [
     {
-        title: '#',
-        render :(text, record, index) => index + 1,
-        width: 60,
+      title: '#',
+      render: (text, record, index) => index + 1,
+      width: 20,
+      fixed: 'left',
     },
-    { title: 'Véhicule', dataIndex: 'device_name', fixed: 'left', width: 180 },
+    {
+      title: 'Véhicule',
+      dataIndex: 'device_name',
+      fixed: 'left',
+      width: 180,
+    },
     ...jours.map(j => ({
       title: j,
       dataIndex: j,
       align: 'center',
       width: 80,
+      render: (value) =>
+        value !== null ? (
+          <Tag color={getScoreColor(value)} style={{ fontWeight: 'bold' }}>
+            {value}%
+          </Tag>
+        ) : (
+          '-'
+        ),
     })),
   ];
 
@@ -69,14 +94,15 @@ const ConnectivityMonth = () => {
       />
 
       {loading ? (
-        <Spin />
+        <Spin size="large" />
       ) : (
         <Table
           dataSource={tableData}
           columns={columns}
-          scroll={{ x: true }}
+          scroll={{ x: 'max-content' }}
           pagination={false}
           bordered
+          size="middle"
         />
       )}
     </div>
