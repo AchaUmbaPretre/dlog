@@ -112,18 +112,29 @@ const CharroiLocalisation = () => {
             );
           },
         },
-        { title: 'Km Total', 
-          dataIndex: 'sensors', 
-          sorter: (a, b) =>
-          a.sensors -b.sensors,
+        {
+          title: 'Km Total',
+          dataIndex: 'sensors',
+          sorter: (a, b) => {
+            const kmA = getOdometer(a.sensors) || 0;
+            const kmB = getOdometer(b.sensors) || 0;
+            return kmA - kmB;
+          },
           render: (sensors) => {
             const km = getOdometer(sensors);
-            if (!km || isNaN(km)) return <Tag color="default">N/A</Tag>;
-            return <Text>{Number(km).toLocaleString('fr-FR')} km</Text>;
+            if (!km) return <Tag color="default">N/A</Tag>;
+            return <Text>{km.toLocaleString('fr-FR')} km</Text>;
           },
           ellipsis: false,
         },
-        { title: 'Durée arrêt', dataIndex: 'stop_duration', render: (text) => {
+        { title: 'Durée arrêt', 
+          dataIndex: 'stop_duration', 
+          sorter: (a, b) => {
+            const dt1 = formatStopDuration(a.stop_duration) || 0;
+            const dt2 = formatStopDuration(b.stop_duration) || 0;
+            return dt1 - dt2;
+          },
+          render: (text) => {
             const formatted = formatStopDuration(text);
             return formatted ? <Text>{formatted}</Text> : <Tag color="default">N/A</Tag>;
           },
