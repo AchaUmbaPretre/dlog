@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
-import { Typography, Input, Tabs, Modal, Space, DatePicker, Table, Tag, notification, Spin, Progress } from 'antd';
+import { Typography, Input, Tabs, Modal, Space, DatePicker, Table, Tag, notification, Spin, Progress, Tooltip } from 'antd';
 import moment from 'moment';
 import { getConnectivity } from '../../../../../services/eventService';
 import './rapportEvent.scss';
@@ -123,13 +123,17 @@ const RapportEvent = () => {
       key: 'taux_connectivite_pourcent',
       sorter: (a, b) => a.taux_connectivite_pourcent - b.taux_connectivite_pourcent,
       render: (value, record) => (
-        <Progress
-          percent={Number(value.toFixed(2))}
-          size="small"
-          strokeColor={value >= 75 ? '#52c41a' : value >= 50 ? '#faad14' : '#f5222d'}
-          format={percent => `${percent.toFixed(2)}%`}
-          onClick={()=>handDetails(record.device_id)}
-        />
+        <>
+          <Tooltip title="Cliquez pour voir le detail">
+            <Progress
+              percent={Number(value.toFixed(2))}
+              size="small"
+              strokeColor={value >= 75 ? '#52c41a' : value >= 50 ? '#faad14' : '#f5222d'}
+              format={percent => `${percent.toFixed(2)}%`}
+              onClick={()=>handDetails(record.device_id)}
+            />
+          </Tooltip>
+        </>
       ),
     },
     {

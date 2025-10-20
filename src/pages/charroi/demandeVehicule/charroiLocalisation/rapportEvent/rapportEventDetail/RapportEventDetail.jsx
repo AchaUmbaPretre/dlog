@@ -73,17 +73,6 @@ const RapportEventDetail = ({ idDevice, dateRange }) => {
       render: (value) => moment(value).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: 'Downtime',
-      dataIndex: 'downtime_minutes',
-      key: 'downtime_minutes',
-      render: (value) => (
-        <span>
-          <ClockCircleOutlined style={{ marginRight: 6, color: '#faad14' }} />
-          {formatDurations(value)}
-        </span>
-      ),
-    },
-    {
       title: 'Snapshots Connectés',
       dataIndex: 'snapshots_connected',
       key: 'snapshots_connected',
