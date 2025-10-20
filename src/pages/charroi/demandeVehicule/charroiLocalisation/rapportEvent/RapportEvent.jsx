@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
-import { Typography, Input, Tabs, Space, DatePicker, Table, Tag, notification, Spin, Progress } from 'antd';
+import { Typography, Input, Tabs, Modal, Space, DatePicker, Table, Tag, notification, Spin, Progress } from 'antd';
 import moment from 'moment';
 import { getConnectivity } from '../../../../../services/eventService';
 import './rapportEvent.scss';
@@ -7,6 +7,7 @@ import { CarOutlined, DashboardOutlined, CheckCircleOutlined, CloseCircleOutline
 import { computeDowntimeMinutes, formatDurations } from '../../../../../utils/renderTooltip';
 import ConnectivityMonth from '../../../monitoring/connectivityMonth/ConnectivityMonth';
 import getColumnSearchProps from '../../../../../utils/columnSearchUtils';
+import RapportEventDetail from './rapportEventDetail/RapportEventDetail';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -20,7 +21,8 @@ const RapportEvent = () => {
   const [activeKey, setActiveKey] = useState('1');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
-  
+  const [modalType, setModalType] = useState(null);
+  const [idDevice, setDevice] = useState('');
 
   const handleTabChange = (key) => {
     setActiveKey(key);
@@ -62,13 +64,27 @@ const RapportEvent = () => {
   };
 
   useEffect(() => { fetchData(); }, [dateRange]);
-
+  
   const filteredData = useMemo(() => {
     if (!searchText) return reportData;
     return reportData.filter(item =>
       item.device_name.toLowerCase().includes(searchText.toLowerCase())
     );
   }, [searchText, reportData]);
+
+    const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type, idDevice = '') => {
+    closeAllModals();
+    setModalType(type);
+    setDevice(idDevice);
+  };
+
+  const handDetails = (idDevice) => {
+    openModal('detail', idDevice);
+  };
 
   const columns = [
     { 
@@ -106,12 +122,13 @@ const RapportEvent = () => {
       dataIndex: 'taux_connectivite_pourcent',
       key: 'taux_connectivite_pourcent',
       sorter: (a, b) => a.taux_connectivite_pourcent - b.taux_connectivite_pourcent,
-      render: value => (
+      render: (value, record) => (
         <Progress
           percent={Number(value.toFixed(2))}
           size="small"
           strokeColor={value >= 75 ? '#52c41a' : value >= 50 ? '#faad14' : '#f5222d'}
           format={percent => `${percent.toFixed(2)}%`}
+          onClick={()=>handDetails(record.device_id)}
         />
       ),
     },
@@ -229,6 +246,16 @@ const RapportEvent = () => {
                 <ConnectivityMonth/>
             </Tabs.TabPane>
         </Tabs>
+        <Modal
+          title=""
+          visible={modalType === 'detail'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1200}
+          centered
+        >
+          <RapportEventDetail idDevice={idDevice} dateRange={dateRange} />
+      </Modal>
     </>
   );
 };
