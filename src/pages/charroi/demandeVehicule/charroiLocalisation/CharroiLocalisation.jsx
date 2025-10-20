@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CarOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Modal, Tooltip, Space, Tag, Input, Table, Button, Badge } from 'antd';
@@ -8,6 +8,7 @@ import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocali
 import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
 import { getDirection, getEngineTag, statusDeviceMap } from '../../../../utils/prioriteIcons';
+import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -19,7 +20,9 @@ const CharroiLocalisation = () => {
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
   const [id, setId] = useState(null);
-
+  const searchInput = useRef(null);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
   const closeAllModals = () => setModalType(null);
 
     const fetchData = async () => {
@@ -64,7 +67,16 @@ const CharroiLocalisation = () => {
             return (pageIndex - 1) * pageSize + index + 1;
           }, width: "4%",
         },
-        { title: 'Immatriculation', dataIndex: 'name', render: (text) => (
+        { title: 'Immatriculation', 
+          dataIndex: 'name', 
+          ...getColumnSearchProps(
+            'name',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+          ),
+          render: (text) => (
             <div className="vehicule-matricule">
               <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
               <Text strong>{text}</Text>
