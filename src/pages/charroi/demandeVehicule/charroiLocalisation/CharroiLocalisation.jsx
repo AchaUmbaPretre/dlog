@@ -22,7 +22,6 @@ const CharroiLocalisation = () => {
   const [id, setId] = useState(null);
   const searchInput = useRef(null);
   const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
   const closeAllModals = () => setModalType(null);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
@@ -103,7 +102,7 @@ const CharroiLocalisation = () => {
             'name',
             searchText,
             setSearchText,
-            setSearchedColumn,
+            '',
             searchInput
           ),
           render: (text) => (
