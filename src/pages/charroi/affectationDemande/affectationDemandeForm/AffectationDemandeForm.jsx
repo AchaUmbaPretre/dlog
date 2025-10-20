@@ -168,7 +168,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                     showSearch
                                     options={chauffeur?.map((item) => ({
                                         value: item.id_chauffeur,
-                                        label: item.nom
+                                        label: `${item.nom} - ${item.prenom}`
                                     }))}
                                     optionFilterProp="label"
                                     placeholder="Sélectionnez un chauffeur..."

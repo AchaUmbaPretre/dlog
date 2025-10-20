@@ -35,7 +35,7 @@ const MoniRealTime = () => {
         date_from: from,
         date_to: to,
         lang: "fr",
-        limit: 1000,
+        limit: 2000,
         user_api_hash: apiHash,
       });
 
@@ -44,9 +44,7 @@ const MoniRealTime = () => {
 
         setEvents(eventsData);
         setFilteredEvents(
-          selectedVehicle
-            ? eventsData .filter(e => e.device_name === selectedVehicle)
-            : eventsData 
+          eventsData 
         );
       } else {
         setEvents([]);
