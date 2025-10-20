@@ -112,7 +112,11 @@ const CharroiLocalisation = () => {
             );
           },
         },
-        { title: 'Km Total', dataIndex: 'sensors', render: (sensors) => {
+        { title: 'Km Total', 
+          dataIndex: 'sensors', 
+          sorter: (a, b) =>
+          a.sensors -b.sensors,
+          render: (sensors) => {
             const km = getOdometer(sensors);
             if (!km || isNaN(km)) return <Tag color="default">N/A</Tag>;
             return <Text>{Number(km).toLocaleString('fr-FR')} km</Text>;
