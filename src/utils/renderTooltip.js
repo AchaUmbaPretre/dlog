@@ -144,7 +144,7 @@ export const formatStopDuration = (duration) => {
   const days = Math.floor((totalHours % (24 * 30)) / 24);
   const hours = totalHours % 24;
 
-  let result = "";
+  let result = "";  
   if (months > 0) result += `${months}mois `;
   if (days > 0) result += `${days}j `;
   if (hours > 0) result += `${hours}h `;

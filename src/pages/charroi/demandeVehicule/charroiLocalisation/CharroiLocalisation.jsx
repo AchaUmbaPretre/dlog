@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { CarOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { CarOutlined, InfoCircleOutlined, MenuOutlined, DownOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
-import { notification, Typography, Modal, Tooltip, Space, Tag, Input, Table, Button, Badge } from 'antd';
+import { notification, Typography, Modal, Menu, Tooltip, Space, Tag, Input, Table, Button, Badge, Dropdown } from 'antd';
 import moment from 'moment';
 import { getEngineStatus, getOdometer } from '../../../../services/geocodeService';
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
@@ -24,6 +24,16 @@ const CharroiLocalisation = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const closeAllModals = () => setModalType(null);
+  const [columnsVisibility, setColumnsVisibility] = useState({
+    '#': true,
+    'Immatriculation': true,
+    'MAJ': true,
+    'Vitesse': true,
+    "Clé de contact": true,
+    "Km Total": true,
+    'Durée arrêt': true,
+    'Direction': true
+  });
 
     const fetchData = async () => {
     try {
@@ -52,6 +62,26 @@ const CharroiLocalisation = () => {
         // Nettoyage à la destruction du composant
         return () => clearInterval(interval);
     }, []);
+
+    const toggleColumnVisibility = (columnName, e) => {
+      e.stopPropagation();
+      setColumnsVisibility(prev => ({
+        ...prev,
+        [columnName]: !prev[columnName]
+      }));
+    };
+      const menus = (
+        <Menu>
+          {Object.keys(columnsVisibility).map(columnName => (
+            <Menu.Item key={columnName}>
+              <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+                <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+                <span style={{ marginLeft: 8 }}>{columnName}</span>
+              </span>
+            </Menu.Item>
+          ))}
+        </Menu>
+      ); 
 
     const openModal = (type, id = '') => {
         closeAllModals();
@@ -82,20 +112,28 @@ const CharroiLocalisation = () => {
               <Text strong>{text}</Text>
             </div>
           ),
+          ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' }),
         },
         { title: 'MAJ', dataIndex: 'time', render: (text) =>
             <Text>{moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}</Text>,
             sorter: (a, b) =>
             moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
+            ...(columnsVisibility['MAJ'] ? {} : { className: 'hidden-column' }),
         },
-        { title: 'Position', dataIndex: 'address', render: (_, record) => <VehicleAddress record={record} />
+        { title: 'Position', 
+          dataIndex: 'address', 
+          render: (_, record) => <VehicleAddress record={record} />,
+          ...(columnsVisibility['Position'] ? {} : { className: 'hidden-column' })
         },
-        { title: 'Vitesse', dataIndex: 'speed', render: (speed) => {
+        { title: 'Vitesse', 
+          dataIndex: 'speed', 
+          render: (speed) => {
             let color = "red";
             if (speed > 5) color = "green";
             else if (speed > 0) color = "orange";
-            return <Tag color={color}>{speed} km/h</Tag>;
-        },
+            return <Tag color={color}>{speed} km/h</Tag>
+          },
+          ...(columnsVisibility['Vitesse'] ? {} : { className: 'hidden-column' })
         },
         {
           title: 'Clé de contact',
@@ -204,6 +242,11 @@ const CharroiLocalisation = () => {
             enterButton 
           />
           <div className="client-rows-right">
+            <Dropdown overlay={menus} trigger={['click']}>
+              <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                Colonnes <DownOutlined />
+              </Button>
+            </Dropdown>
           </div>
         </div>
 
