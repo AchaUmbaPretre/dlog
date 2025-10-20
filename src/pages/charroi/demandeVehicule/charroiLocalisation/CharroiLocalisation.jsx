@@ -30,7 +30,7 @@ const CharroiLocalisation = () => {
     'MAJ': true,
     'Vitesse': true,
     "Clé de contact": true,
-    "Km Total": true,
+    "Km Total": false,
     'Durée arrêt': true,
     'Direction': true
   });
