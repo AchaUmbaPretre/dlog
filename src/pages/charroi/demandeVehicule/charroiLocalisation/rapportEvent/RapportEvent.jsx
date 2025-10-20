@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { Typography, Input, Tabs, Space, DatePicker, Table, Tag, notification, Spin, Progress } from 'antd';
 import moment from 'moment';
 import { getConnectivity } from '../../../../../services/eventService';
@@ -6,6 +6,7 @@ import './rapportEvent.scss';
 import { CarOutlined, DashboardOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { formatDurations } from '../../../../../utils/renderTooltip';
 import ConnectivityMonth from '../../../monitoring/connectivityMonth/ConnectivityMonth';
+import getColumnSearchProps from '../../../../../utils/columnSearchUtils';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -17,6 +18,9 @@ const RapportEvent = () => {
   const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().endOf('day')]);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
   const [activeKey, setActiveKey] = useState('1');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
+  
 
   const handleTabChange = (key) => {
     setActiveKey(key);
@@ -82,6 +86,13 @@ const RapportEvent = () => {
       title: 'Véhicule',
       dataIndex: 'device_name',
       key: 'device_name',
+      ...getColumnSearchProps(
+        'device_name',
+        searchText,
+        setSearchText,
+        setSearchedColumn,
+        searchInput
+      ),
       sorter: (a, b) => a.device_name.localeCompare(b.device_name),
       render: text => (
         <strong>
