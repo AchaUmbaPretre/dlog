@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, notification, Spin, Typography } from 'antd';
+import { Table, notification, Spin, Typography, Progress } from 'antd';
 import { ClockCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, BarChartOutlined } from '@ant-design/icons';
 import { getConnectivityDetail } from '../../../../../../services/eventService';
 import moment from 'moment';
@@ -95,16 +95,37 @@ const RapportEventDetail = ({ idDevice, dateRange }) => {
       ),
     },
     {
-      title: 'Taux Connectivité (%)',
+      title: 'Taux Connectivité',
       dataIndex: 'taux_connectivite_pourcent',
       key: 'taux_connectivite_pourcent',
-      render: (value) => `${value}%`,
+      render: (value) => (
+        <Progress
+          percent={value}
+          size="small"
+          strokeColor={{
+            '0%': '#108ee9',
+            '100%': '#87d068',
+          }}
+          format={(percent) => `${percent}%`}
+        />
+      ),
     },
     {
-      title: 'Score Journalier (%)',
+      title: 'Score Journalier',
       dataIndex: 'score_journalier',
       key: 'score_journalier',
-      render: (value) => `${value}%`,
+      render: (value) => (
+        <Progress
+          percent={value}
+          size="small"
+          strokeColor={{
+            '0%': '#f50',
+            '50%': '#faad14',
+            '100%': '#52c41a',
+          }}
+          format={(percent) => `${percent}%`}
+        />
+      ),
     },
   ];
 
