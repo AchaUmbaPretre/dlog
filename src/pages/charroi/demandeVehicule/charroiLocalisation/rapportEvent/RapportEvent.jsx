@@ -4,7 +4,7 @@ import moment from 'moment';
 import { getConnectivity } from '../../../../../services/eventService';
 import './rapportEvent.scss';
 import { CarOutlined, DashboardOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
-import { formatDurations } from '../../../../../utils/renderTooltip';
+import { computeDowntimeMinutes, formatDurations } from '../../../../../utils/renderTooltip';
 import ConnectivityMonth from '../../../monitoring/connectivityMonth/ConnectivityMonth';
 import getColumnSearchProps from '../../../../../utils/columnSearchUtils';
 
@@ -116,16 +116,20 @@ const RapportEvent = () => {
       ),
     },
     {
-      title: 'Durée dernière déconnexion',
-      dataIndex: 'duree_derniere_deconnexion_minutes',
-      key: 'duree_derniere_deconnexion_minutes',
-      sorter: (a, b) => a.duree_derniere_deconnexion_minutes - b.duree_derniere_deconnexion_minutes,
-      render: value => (
-        <span>
-          <ClockCircleOutlined style={{ marginRight: 6, color: '#faad14' }} />
-          {formatDurations(value)}
-        </span>
-      ),
+      title: 'Connexion',
+      dataIndex: 'derniere_connexion',
+      key: 'derniere_connexion',
+      sorter: (a, b) => 
+        computeDowntimeMinutes(a.derniere_connexion) - computeDowntimeMinutes(b.derniere_connexion),
+      render: value => {
+        const minutes = computeDowntimeMinutes(value);
+        return (
+          <span>
+            <ClockCircleOutlined style={{ marginRight: 6, color: '#faad14' }} />
+            {formatDurations(minutes)}
+          </span>
+        );
+      },
     },
     {
       title: 'Statut actuel',

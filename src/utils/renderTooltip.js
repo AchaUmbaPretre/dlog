@@ -154,6 +154,13 @@ export const formatStopDuration = (duration) => {
   return result.trim();
 };
 
+export const computeDowntimeMinutes = (lastConnection) => {
+  if (!lastConnection) return 0;
+  const now = moment();
+  const last = moment(lastConnection);
+  const diffMinutes = now.diff(last, "minutes");
+  return diffMinutes;
+};
 
 export const formatDurations = (minutes) => {
     if (minutes < 60) return `${minutes} min`;
