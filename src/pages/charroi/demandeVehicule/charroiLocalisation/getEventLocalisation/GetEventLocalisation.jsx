@@ -239,11 +239,16 @@ const GetEventLocalisation = () => {
                     placeholder={['Date et heure début', 'Date et heure fin']}
                 />
                 <Select
+                    showSearch
                     style={{ width: '100%' }}
                     placeholder="Filtrer par véhicule"
                     value={selectedVehicle}
                     onChange={handleVehicleChange}
                     allowClear
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                      option?.children?.toLowerCase().includes(input.toLowerCase())
+                    }
                 >
                     {vehicles.map(v => <Option key={v} value={v}>{v}</Option>)}
                 </Select>
