@@ -8,6 +8,7 @@ import html2pdf from 'html2pdf.js';
 import GetHistory from '../../demandeVehicule/charroiLocalisation/getHistory/GetHistory';
 import { getEvent } from '../../../../services/rapportService';
 import config from '../../../../config';
+import getColumnSearchProps from '../../../../utils/columnSearchUtils';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -22,7 +23,8 @@ const MoniRealTime = () => {
   const [idDevice, setIdDevice] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
-
+  const [searchText, setSearchText] = useState('');;
+  const searchInput = useRef(null);
   const tableRef = useRef();
   const apiHash = config.api_hash;
 
@@ -127,6 +129,13 @@ const MoniRealTime = () => {
       title: 'Véhicule',
       dataIndex: 'device_name',
       key: 'device_name',
+        ...getColumnSearchProps(
+        'device_name',
+        searchText,
+        setSearchText,
+        '',
+        searchInput
+      ),
       render: (text, record) => {
         const color = record.type === 'ignition_on' ? 'green' : 'red';
         return (
