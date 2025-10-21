@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Tabs, Badge } from 'antd';
-import { EnvironmentOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, FileSyncOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
 import RapportEvent from '../demandeVehicule/charroiLocalisation/rapportEvent/RapportEvent';
 import CharroiLocalisation from '../demandeVehicule/charroiLocalisation/CharroiLocalisation';
 import GetEventLocalisation from '../demandeVehicule/charroiLocalisation/getEventLocalisation/GetEventLocalisation';
 import MoniRealTime from './monoRealTime/MoniRealTime';
+import RapportMoniUtilitaire from './rapportMoniUtilitaire/RapportMoniUtilitaire';
 
 const Monitoring = () => {
     const [activeKey, setActiveKey] = useState('1');
@@ -39,47 +40,59 @@ const Monitoring = () => {
             <Tabs.TabPane
                 tab={
                     <span style={getTabStyle('1')}>
-                        <EnvironmentOutlined style={iconStyle('1')} />
-                        Position
+                        <FileSyncOutlined style={iconStyle('1')} />
+                        Rapport utilitaire
                     </span>
                 }
                 key="1"
+            >
+                <RapportMoniUtilitaire />
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+                tab={
+                    <span style={getTabStyle('2')}>
+                        <EnvironmentOutlined style={iconStyle('2')} />
+                        Position
+                    </span>
+                }
+                key="2"
             >
                 <CharroiLocalisation />
             </Tabs.TabPane>
 
             <Tabs.TabPane
                 tab={
-                    <span style={getTabStyle('2')}>
-                        <DashboardOutlined style={iconStyle('2')} />
+                    <span style={getTabStyle('3')}>
+                        <DashboardOutlined style={iconStyle('3')} />
                         Monitoring
                     </span>
                 }
-                key="2"
+                key="3"
             >
                 <MoniRealTime/>
             </Tabs.TabPane>
 
             <Tabs.TabPane
                 tab={
-                    <span style={getTabStyle('3')}>
-                        <BellOutlined style={iconStyle('3')} />
+                    <span style={getTabStyle('4')}>
+                        <BellOutlined style={iconStyle('4')} />
                         Evénements
                     </span>
                 }
-                key="3"
+                key="4"
             >
                 <GetEventLocalisation />
             </Tabs.TabPane>
 
             <Tabs.TabPane
                 tab={
-                    <span style={getTabStyle('4')}>
-                        <FileTextOutlined style={iconStyle('4')} />
+                    <span style={getTabStyle('5')}>
+                        <FileTextOutlined style={iconStyle('5')} />
                         Rapport des connexions
                     </span>
                 }
-                key="4"
+                key="5"
             >
                 <RapportEvent />
             </Tabs.TabPane>
