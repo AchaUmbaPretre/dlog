@@ -20,12 +20,17 @@ const MoniRealTime = () => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [idDevice, setIdDevice] = useState('');
-  const [showPosition, setShowPosition] = useState(false);
   const tableRef = useRef();
   const apiHash = config.api_hash;
   const [refreshing, setRefreshing] = useState(false);
 
-  // Fetch événements depuis le backend
+  // 🔹 Fonction pour filtrer selon le véhicule
+  const filterByVehicle = (eventsData, vehicle) => {
+    if (!vehicle) return eventsData;
+    return eventsData.filter(e => e.device_name === vehicle);
+  };
+
+  // 🔹 Fetch des événements
   const fetchData = async (from, to, isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
@@ -39,27 +44,22 @@ const MoniRealTime = () => {
         user_api_hash: apiHash,
       });
 
-      if (data?.items?.data?.length) {
-        const eventsData = data.items.data;
+      const eventsData = data?.items?.data || [];
+      setEvents(eventsData);
+      setFilteredEvents(filterByVehicle(eventsData, selectedVehicle));
 
-        setEvents(eventsData);
-        setFilteredEvents(
-          eventsData 
-        );
-      } else {
-        setEvents([]);
-        setFilteredEvents([]);
-      }
     } catch (error) {
       console.error("Erreur lors du fetch:", error);
       if (!isRefresh) message.error("Erreur lors du chargement des événements.");
+      setEvents([]);
+      setFilteredEvents([]);
     } finally {
       if (isRefresh) setRefreshing(false);
       else setLoading(false);
     }
   };
 
-  // Chargement initial (ou lors d’un changement de filtre)
+  // 🔹 Chargement initial ou changement de date
   useEffect(() => {
     const from = dateRange[0]
       ? dateRange[0].format('YYYY-MM-DD HH:mm:ss')
@@ -67,10 +67,11 @@ const MoniRealTime = () => {
     const to = dateRange[1]
       ? dateRange[1].format('YYYY-MM-DD HH:mm:ss')
       : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
-    fetchData(from, to);
-  }, [dateRange, selectedVehicle]);
 
-  //Rafraîchissement silencieux toutes les 30s
+    fetchData(from, to);
+  }, [dateRange]);
+
+  // 🔹 Rafraîchissement automatique toutes les 30s
   useEffect(() => {
     const interval = setInterval(() => {
       const from = dateRange[0]
@@ -79,88 +80,104 @@ const MoniRealTime = () => {
       const to = dateRange[1]
         ? dateRange[1].format('YYYY-MM-DD HH:mm:ss')
         : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
-      fetchData(from, to, true); // 👈 isRefresh = true
+
+      fetchData(from, to, true);
     }, 30 * 1000);
 
     return () => clearInterval(interval);
   }, [dateRange, selectedVehicle]);
 
-  //Modal détail
+  // 🔹 Re-filtrage du tableau lorsque le véhicule change
+  useEffect(() => {
+    setFilteredEvents(filterByVehicle(events, selectedVehicle));
+  }, [selectedVehicle, events]);
+
+  // 🔹 Modal détail
   const openModal = (type, id = '') => {
     setModalType(type);
     setIdDevice(id);
   };
   const closeAllModals = () => setModalType(null);
 
-  // 🔹 Colonnes
-  const columns = [
-    {
-      title: 'Date & Heure',
-      dataIndex: 'time',
-      key: 'time',
-      render: text => (
+  // 🔹 Colonnes du tableau
+const columns = [
+  {
+    title: 'Date & Heure',
+    dataIndex: 'time',
+    key: 'time',
+    render: text => (
+      <Space>
+        <ClockCircleOutlined style={{ color: '#1890ff' }} />
+        {dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}
+      </Space>
+    ),
+  },
+  {
+    title: 'Véhicule',
+    dataIndex: 'device_name',
+    key: 'device_name',
+    render: (text, record) => {
+      const color = record.type === 'ignition_on' ? 'green' : 'red';
+      return (
         <Space>
-          <ClockCircleOutlined style={{ color: '#1890ff' }} />
-          {dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}
+          <CarOutlined style={{ color }} />
+          <span style={{ fontWeight: 500, color }}>{text || 'N/A'}</span>
         </Space>
-      ),
+      );
     },
-    {
-      title: 'Véhicule',
-      dataIndex: 'device_name',
-      key: 'device_name',
-      render: (text, record) => {
-        const color = record.type === 'ignition_on' ? 'green' : 'red';
-        return (
-          <Space>
-            <CarOutlined style={{ color }} />
-            <span style={{ fontWeight: 500, color }}>{text || 'N/A'}</span>
-          </Space>
-        );
-      },
-    },
-    {
-      title: 'Message',
-      dataIndex: 'message',
-      key: 'message',
-      render: (text, record) => {
-        const color = record.type === 'ignition_on' ? 'green' : 'red';
-        return (
-          <Tag color={color} style={{ fontSize: 14, padding: '4px 10px' }}>
-            {text}
-          </Tag>
-        );
-      },
-    },
-    {
-      title: 'Actions',
-      key: 'actions',
-      align: 'center',
-      render: (_, record) => (
-        <Space>
-          <Tooltip title="Voir l'historique du véhicule">
-            <Button icon={<EyeOutlined style={{ color: '#1890ff' }} />} onClick={() => openModal('device', record.device_id)} />
-          </Tooltip>
-          {record.latitude && record.longitude && (
-            <Tooltip title="Voir la position sur Google Maps">
-              <Button
-                icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
-                onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
-              />
-            </Tooltip>
-          )}
-        </Space>
-      ),
-    }
-  ];
+  },
+  {
+    title: 'Type',
+    dataIndex: 'type',
+    key: 'type',
+    render: text => <Tag color="blue">{text}</Tag>,
+  },
+  {
+    title: 'Zone',
+    dataIndex: 'detail',
+    key: 'detail',
+    render: (text, record) => text || record?.additional?.geofence || 'N/A',
+  },
+  {
+    title: 'Message',
+    dataIndex: 'message',
+    key: 'message',
+    render: text => <Tag color="orange">{text}</Tag>,
+  },
+  {
+    title: 'Position',
+    key: 'position',
+    render: (_, record) => (
+      record.latitude && record.longitude ? (
+        <Tooltip title={`${record.latitude}, ${record.longitude}`}>
+          <Button
+            icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
+            onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
+          />
+        </Tooltip>
+      ) : 'N/A'
+    ),
+  },
+  {
+    title: 'Actions',
+    key: 'actions',
+    align: 'center',
+    render: (_, record) => (
+      <Space>
+        <Tooltip title="Voir l'historique du véhicule">
+          <Button icon={<EyeOutlined style={{ color: '#1890ff' }} />} onClick={() => openModal('device', record.device_id)} />
+        </Tooltip>
+      </Space>
+    ),
+  },
+];
 
-  // 🔹 Liste véhicules unique
+
+  // 🔹 Liste unique des véhicules
   const vehicles = useMemo(() => [...new Set(events.map(e => e.device_name))], [events]);
 
   // 🔹 Changement de plage de dates
-  const handleDateChange = values => {
-    setDateRange(values);
-  };
+  const handleDateChange = values => setDateRange(values);
 
   // 🔹 Filtrage par véhicule
   const handleVehicleChange = value => setSelectedVehicle(value);
@@ -204,33 +221,37 @@ const MoniRealTime = () => {
       <h2 className="title_event">📊 Monitoring</h2>
       <div className="event_wrapper">
         <div className="event_top">
-            <div className="event_top_row">
-                <RangePicker
-                    style={{ width: '100%' }}
-                    value={dateRange}
-                    onChange={handleDateChange}
-                    allowClear
-                    showTime={{ format: 'HH:mm' }}
-                    format="DD/MM/YYYY HH:mm"
-                    placeholder={['Date et heure début', 'Date et heure fin']}
-                />
-                <Select
-                    style={{ width: '100%' }}
-                    placeholder="Filtrer par véhicule"
-                    value={selectedVehicle}
-                    onChange={handleVehicleChange}
-                    allowClear
-                >
-                    {vehicles.map(v => <Option key={v} value={v}>{v}</Option>)}
-                </Select>
-            </div>
+          <div className="event_top_row">
+            <RangePicker
+              style={{ width: '100%' }}
+              value={dateRange}
+              onChange={handleDateChange}
+              allowClear
+              showTime={{ format: 'HH:mm' }}
+              format="DD/MM/YYYY HH:mm"
+              placeholder={['Date et heure début', 'Date et heure fin']}
+            />
+            <Select
+              showSearch
+              style={{ width: '100%' }}
+              placeholder="Filtrer par véhicule"
+              value={selectedVehicle}
+              onChange={handleVehicleChange}
+              allowClear
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option?.children?.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              {vehicles.map(v => (
+                <Option key={v} value={v}>{v}</Option>
+              ))}
+            </Select>
+          </div>
           <div className='row_lateral'>
             <Space>
               <Button type="primary" icon={<FileExcelOutlined />} onClick={exportToExcel}>Export Excel</Button>
               <Button type="primary" danger icon={<FilePdfOutlined />} onClick={exportToPDF}>Export PDF</Button>
-              <Button onClick={() => setShowPosition(prev => !prev)}>
-                {showPosition ? "Masquer Position" : "Afficher Position"}
-              </Button>
             </Space>
           </div>
         </div>
@@ -239,7 +260,7 @@ const MoniRealTime = () => {
             columns={columns}
             dataSource={filteredEvents}
             rowKey={record => record.id || record.external_id}
-            loading={loading}
+            loading={loading || refreshing}
             pagination={{ pageSize: 10 }}
             bordered
             size="middle"
