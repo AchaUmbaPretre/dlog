@@ -70,9 +70,8 @@ const ConnectivityMonth = () => {
     {
       title: '#',
       render: (text, record, index) => index + 1,
-      width: 20,
+      width: 10,
       fixed: 'left',
-      sorter: (a, b) => a.key.localeCompare(b.key),
     },
     {
       title: 'Véhicule',
@@ -85,8 +84,6 @@ const ConnectivityMonth = () => {
           {text}
         </strong>
       ),
-      sorter: (a, b) => a.device_name.localeCompare(b.device_name),
-      defaultSortOrder: 'ascend',
     },
     ...jours.map(j => ({
       title: formatDayWithMonth(j),

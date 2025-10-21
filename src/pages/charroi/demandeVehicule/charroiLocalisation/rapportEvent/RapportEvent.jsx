@@ -106,7 +106,7 @@ const RapportEvent = () => {
         'device_name',
         searchText,
         setSearchText,
-        setSearchedColumn,
+        '',
         searchInput
       ),
       sorter: (a, b) => a.device_name.localeCompare(b.device_name),
@@ -131,6 +131,7 @@ const RapportEvent = () => {
               strokeColor={value >= 75 ? '#52c41a' : value >= 50 ? '#faad14' : '#f5222d'}
               format={percent => `${percent.toFixed(2)}%`}
               onClick={()=>handDetails(record.device_id)}
+              style={{cursor:'pointer'}}
             />
           </Tooltip>
         </>

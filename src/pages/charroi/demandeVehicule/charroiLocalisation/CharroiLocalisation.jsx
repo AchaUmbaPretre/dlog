@@ -29,6 +29,7 @@ const CharroiLocalisation = () => {
     'MAJ': true,
     'Vitesse': true,
     "Clé de contact": true,
+    'Position': true,
     "Km Total": false,
     'Durée arrêt': true,
     'Direction': true
@@ -148,6 +149,7 @@ const CharroiLocalisation = () => {
               </div>
             );
           },
+          ...(columnsVisibility['Clé de contact'] ? {} : { className: 'hidden-column' })
         },
         {
           title: 'Km Total',
@@ -163,6 +165,7 @@ const CharroiLocalisation = () => {
             return <Text>{km.toLocaleString('fr-FR')} km</Text>;
           },
           ellipsis: false,
+          ...(columnsVisibility['Km Total'] ? {} : { className: 'hidden-column' })
         },
         { title: 'Durée arrêt', 
           dataIndex: 'stop_duration', 
