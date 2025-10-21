@@ -127,12 +127,6 @@ const columns = [
     },
   },
   {
-    title: 'Type',
-    dataIndex: 'type',
-    key: 'type',
-    render: text => <Tag color="blue">{text}</Tag>,
-  },
-  {
     title: 'Zone',
     dataIndex: 'detail',
     key: 'detail',
