@@ -89,7 +89,7 @@ const Monitoring = () => {
                 tab={
                     <span style={getTabStyle('5')}>
                         <FileTextOutlined style={iconStyle('5')} />
-                        Rapport des connexions
+                        Utilisation
                     </span>
                 }
                 key="5"
