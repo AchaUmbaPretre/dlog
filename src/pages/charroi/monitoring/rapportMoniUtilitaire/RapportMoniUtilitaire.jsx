@@ -171,7 +171,7 @@ const RapportMoniUtilitaire = () => {
           Filtres rapides
         </Title>
         <Space wrap>
-                    <Col>
+        <Col>
             <Select
               showSearch
               style={{ width: 250 }}
