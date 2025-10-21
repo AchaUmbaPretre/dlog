@@ -1,303 +1,198 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
-  ClockCircleOutlined,
-  CarOutlined,
-  ThunderboltOutlined,
-  DashboardOutlined,
-  CalendarOutlined,
-  StopOutlined,
-  EnvironmentOutlined
-} from "@ant-design/icons";
-import dayjs from "dayjs";
-import {
-  DatePicker,
-  Card,
-  Button,
   Row,
-  Col,
-  Select,
   Spin,
-  message,
-  Typography,
-  Progress,
-  Tag,
-  Statistic,
-  Collapse,
-  Timeline,
-  Divider,
-  Space,
+  message
 } from "antd";
-import "./rapportMoniUtilitaire.scss";
+import dayjs from "dayjs";
+import VehicleFilterCard from "./components/VehicleFilterCard";
+import SummaryCard from "./components/SummaryCard";
+import EventDetailsPanel from "./components/EventDetailsPanel";
 import { getEventHistory, getFalcon } from "../../../../services/rapportService";
 import config from "../../../../config";
-import { formatSecondsToTime } from "../../../../utils/formatSecondsToTime";
-
-const { RangePicker } = DatePicker;
-const { Title, Text } = Typography;
-const { Option } = Select;
-const { Panel } = Collapse;
+import "./rapportMoniUtilitaire.scss";
 
 const RapportMoniUtilitaire = () => {
+  // liste des véhicules récupérée depuis getFalcon()
   const [vehicles, setVehicles] = useState([]);
-  const [idDevice, setIdDevice] = useState(null);
-  const [vehicleData, setVehicleData] = useState([]);
+
+  // sélection multi : tableau d'id
+  const [selectedDevices, setSelectedDevices] = useState([]); // <-- changed
+
+  // vehicleDataMap : { [deviceId]: [events...] }
+  const [vehicleDataMap, setVehicleDataMap] = useState({});
+
+  // summaryMap : { [deviceId]: { moving: {...}, stopped: {...} } }
+  const [summaryMap, setSummaryMap] = useState({});
+
   const [loading, setLoading] = useState(false);
-  const [summary, setSummary] = useState({
-    moving: { distance: 0, top_speed: 0, avg_speed: 0, engine_duration: 0, stops: 0 },
-    stopped: { distance: 0, top_speed: 0, avg_speed: 0, engine_duration: 0, stops: 0 }
-  });
   const [dateRange, setDateRange] = useState([dayjs().startOf("day"), dayjs().endOf("day")]);
   const apiHash = config.api_hash;
 
-  // Fetch vehicles
+  // Charger la liste des véhicules une seule fois
   useEffect(() => {
-    (async () => {
+    const fetchVehicles = async () => {
       try {
-        const falconData = await getFalcon();
-        setVehicles(falconData.data[0].items || []);
-      } catch (e) { console.error(e); }
-    })();
+        const { data } = await getFalcon();
+        setVehicles(data?.[0]?.items || []);
+      } catch (err) {
+        console.error(err);
+        message.error("Erreur lors du chargement des véhicules.");
+      }
+    };
+    fetchVehicles();
   }, []);
 
-  const fetchData = async (from, to) => {
-    if (!idDevice) return;
+  // Fonction utilitaire : calcule résumé (même logique que précédemment)
+  const summarizeEvents = (events) => {
+    const distance = events.reduce((sum, e) => sum + (e.distance || 0), 0);
+    const top_speed = events.length ? Math.max(...events.map(e => e.top_speed || 0)) : 0;
+    const avg_speed = events.length ? Math.round(events.reduce((sum, e) => sum + (e.average_speed || 0), 0) / events.length) : 0;
+    const engine_duration = events.reduce((sum, e) => sum + (e.engine_work || 0), 0);
+    const stops = events.length;
+    return { distance, top_speed, avg_speed, engine_duration, stops };
+  };
+
+  // Récupère l'historique pour un deviceId (wrapper)
+  const fetchForDevice = async (deviceId, from, to) => {
+    const { data } = await getEventHistory({
+      device_id: deviceId,
+      from_date: from.split(" ")[0],
+      from_time: from.split(" ")[1],
+      to_date: to.split(" ")[0],
+      to_time: to.split(" ")[1],
+      lang: "fr",
+      limit: 1000,
+      user_api_hash: apiHash,
+    });
+    return data?.items || [];
+  };
+
+  // Fonction principale : fetch pour tous les devices sélectionnés
+  const fetchDataForSelected = useCallback(async (deviceIds, from, to) => {
+    if (!deviceIds || deviceIds.length === 0) {
+      // vider maps si rien de sélectionné
+      setVehicleDataMap({});
+      setSummaryMap({});
+      return;
+    }
+
     setLoading(true);
     try {
-      const { data } = await getEventHistory({
-        device_id: idDevice,
-        from_date: from.split(" ")[0],
-        from_time: from.split(" ")[1],
-        to_date: to.split(" ")[0],
-        to_time: to.split(" ")[1],
-        lang: "fr",
-        limit: 1000,
-        user_api_hash: apiHash,
+      // exécuter toutes les requêtes en parallèle
+      const promises = deviceIds.map(id => fetchForDevice(id, from, to).then(items => ({ id, items })));
+      const results = await Promise.all(promises);
+
+      // construire les maps
+      const dataMap = {};
+      const sumsMap = {};
+      results.forEach(({ id, items }) => {
+        dataMap[id] = items;
+        const moving = items.filter(e => e.engine_work > 0);
+        const stopped = items.filter(e => e.engine_work === 0);
+        sumsMap[id] = {
+          moving: summarizeEvents(moving),
+          stopped: summarizeEvents(stopped)
+        };
       });
 
-      if (!data?.items?.length) {
-        setVehicleData([]);
-        setSummary({
-          moving: { distance: 0, top_speed: 0, avg_speed: 0, engine_duration: 0, stops: 0 },
-          stopped: { distance: 0, top_speed: 0, avg_speed: 0, engine_duration: 0, stops: 0 }
-        });
-        message.info("Aucun historique trouvé.");
-        return;
-      }
+      setVehicleDataMap(dataMap);
+      setSummaryMap(sumsMap);
+    } catch (err) {
+      console.error(err);
+      message.error("Erreur lors du chargement des historiques.");
+    } finally {
+      setLoading(false);
+    }
+  }, [apiHash]);
 
-      setVehicleData(data.items);
+  // useEffect : lance fetch quand selectedDevices ou dateRange change
+  useEffect(() => {
+    const from = dateRange[0].format("YYYY-MM-DD HH:mm:ss");
+    const to = dateRange[1].format("YYYY-MM-DD HH:mm:ss");
+    fetchDataForSelected(selectedDevices, from, to);
+  }, [selectedDevices, dateRange, fetchDataForSelected]);
 
-      const moving = data.items.filter(e => e.engine_work > 0);
-      const stopped = data.items.filter(e => e.engine_work === 0);
-
-      const summarize = (arr) => ({
-        distance: arr.reduce((sum, e) => sum + (e.distance || 0), 0),
-        top_speed: Math.max(...arr.map(e => e.top_speed || 0)),
-        avg_speed: arr.length ? Math.round(arr.reduce((sum, e) => sum + (e.average_speed || 0), 0) / arr.length) : 0,
-        engine_duration: arr.reduce((sum, e) => sum + (e.engine_work || 0), 0),
-        stops: arr.length
-      });
-
-      setSummary({
-        moving: summarize(moving),
-        stopped: summarize(stopped)
-      });
-
-    } catch (e) {
-      console.error(e);
-      message.error("Erreur lors du chargement des données.");
-    } finally { setLoading(false); }
-  };
-
+  // handleDateChange : met à jour la plage (le useEffect déclenchera le fetch)
   const handleDateChange = (values) => {
+    if (!values || values.length !== 2) {
+      setDateRange([dayjs().startOf("day"), dayjs().endOf("day")]);
+      return;
+    }
     setDateRange(values);
-    if (values && values.length === 2 && idDevice) {
-      fetchData(values[0].format("YYYY-MM-DD HH:mm:ss"), values[1].format("YYYY-MM-DD HH:mm:ss"));
-    }
   };
 
-  useEffect(() => {
-    if (!idDevice) return;
-    fetchData(dateRange[0].format("YYYY-MM-DD HH:mm:ss"), dateRange[1].format("YYYY-MM-DD HH:mm:ss"));
-  }, [idDevice]);
-
-  useEffect(() => {
-    if (!idDevice) return; // ne pas fetch si aucun véhicule sélectionné
-    const start = dayjs().startOf("day").format("YYYY-MM-DD HH:mm:ss");
-    const end = dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
-    fetchData(start, end);
-  }, [idDevice]);
-
+  // quickFilter : ne lance pas fetch directement, met à jour dateRange -> useEffect fera le fetch
   const quickFilter = (type) => {
-    if (!idDevice) return;
-    let from, to;
     const now = dayjs();
-
+    let from, to;
     switch (type) {
-      case "lastHour":
-        from = now.subtract(1, "hour");
-        to = now;
-        break;
-      case "today":
-        from = now.startOf("day");
-        to = now.endOf("day");
-        break;
-      case "yesterday":
-        from = now.subtract(1, "day").startOf("day");
-        to = now.subtract(1, "day").endOf("day");
-        break;
-      case "thisWeek":
-        from = now.startOf("week");
-        to = now;
-        break;
-      case "thisMonth":
-        from = now.startOf("month");
-        to = now.endOf("month");
-        break;
-      default:
-        return;
+      case "lastHour": from = now.subtract(1, "hour"); to = now; break;
+      case "today": from = now.startOf("day"); to = now.endOf("day"); break;
+      case "yesterday": from = now.subtract(1, "day").startOf("day"); to = now.subtract(1, "day").endOf("day"); break;
+      case "thisWeek": from = now.startOf("week"); to = now; break;
+      case "thisMonth": from = now.startOf("month"); to = now.endOf("month"); break;
+      default: return;
     }
-
     setDateRange([from, to]);
-    fetchData(from.format("YYYY-MM-DD HH:mm:ss"), to.format("YYYY-MM-DD HH:mm:ss"));
   };
-
 
   return (
     <div className="rapport-event-history" style={{ padding: 20 }}>
-        {/*FILTRES RAPIDES + SELECT VÉHICULE ==== */}
-      <Card className="filters-card" bordered={false} style={{ marginBottom: 20 }}>
-        <Title level={4}>
-          <CalendarOutlined style={{ color: "#1677ff", marginRight: 8 }} />
-          Filtres rapides
-        </Title>
-        <Space wrap>
-        <Col>
-            <Select
-              showSearch
-              style={{ width: 250 }}
-              value={idDevice}
-              onChange={setIdDevice}
-              placeholder="Sélectionnez un véhicule"
-              optionFilterProp="children"
-              filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
-              allowClear
-            >
-              {vehicles.map(v => <Option key={v.id} value={v.id}>{v.name}</Option>)}
-            </Select>
-          </Col>
+      <VehicleFilterCard
+        vehicles={vehicles}
+        selectedDevices={selectedDevices}
+        setSelectedDevices={setSelectedDevices}
+        quickFilter={quickFilter}
+        dateRange={dateRange}
+        handleDateChange={handleDateChange}
+        loading={loading}
+      />
 
-          <Button onClick={() => quickFilter("lastHour")} icon={<ClockCircleOutlined />}>
-            Dernière heure
-          </Button>
-          <Button onClick={() => quickFilter("today")} icon={<CalendarOutlined />}>
-            Aujourd’hui
-          </Button>
-          <Button onClick={() => quickFilter("yesterday")} icon={<CalendarOutlined />}>
-            Hier
-          </Button>
-          <Button onClick={() => quickFilter("thisWeek")} icon={<CalendarOutlined />}>
-            Cette semaine
-          </Button>
-          <Button onClick={() => quickFilter("thisMonth")} icon={<CalendarOutlined />}>
-            Ce mois
-          </Button>
-          <RangePicker
-            showTime
-            value={dateRange}
-            onChange={handleDateChange}
-            format="YYYY-MM-DD HH:mm:ss"
-          />
-        </Space>
-      </Card>
-      {/* ==== FILTRES ==== */}
-
-      {/* ==== DASHBOARD SYNTHÈSE ==== */}
       {loading ? (
-        <div style={{ textAlign:'center', padding:50 }}><Spin size="large"/></div>
+        <div style={{ textAlign: "center", padding: 50 }}>
+          <Spin size="large" />
+        </div>
       ) : (
-        <Row gutter={24}>
-          {["moving","stopped"].map(type => {
-            const isMoving = type==="moving";
-            const group = summary[type];
-            const color = isMoving?"#52c41a":"#f5222d";
+        <>
+          {/* Synthèse : on affiche une SummaryCard par véhicule sélectionné */}
+          <Row gutter={24}>
+            {selectedDevices.length === 0 ? (
+              // si aucun véhicule sélectionné, on peut afficher les deux "vide" par défaut (optionnel)
+              <></>
+            ) : (
+              // map over selected devices to render summary for each vehicle
+              selectedDevices.map((deviceId) => {
+                const summaryForDevice = summaryMap[deviceId] || { moving: { distance:0, top_speed:0, avg_speed:0, engine_duration:0, stops:0 }, stopped: { distance:0, top_speed:0, avg_speed:0, engine_duration:0, stops:0 } };
+                // render two SummaryCard (moving & stopped) grouped per vehicle, ou un wrapper card qui contient les deux
+                return (
+                  <React.Fragment key={deviceId}>
+                    {/* tu peux afficher le nom du véhicule */}
+                    <Row style={{ width: "100%", marginBottom: 8 }}>
+                      <h3 style={{ margin: "8px 0" }}>
+                        { (vehicles.find(v => v.id === deviceId)?.name) || `Véhicule ${deviceId}` }
+                      </h3>
+                    </Row>
 
-            return (
-              <Col xs={24} md={12} key={type}>
-                <Card hoverable bordered style={{ marginBottom:20, boxShadow:"0 4px 12px rgba(0,0,0,0.05)" }}>
-                  <Title level={5}>{isMoving?"En mouvement":"Inactif"} (Regroupé)</Title>
+                    <SummaryCard type="moving" data={summaryForDevice.moving} />
+                    <SummaryCard type="stopped" data={summaryForDevice.stopped} />
+                  </React.Fragment>
+                );
+              })
+            )}
+          </Row>
 
-                  <Row gutter={[16,16]} style={{ marginTop:10 }}>
-                    <Col span={12}>
-                      <Statistic title="Distance" value={group.distance.toFixed(2)} suffix="km" prefix={<CarOutlined style={{color}}/>}/>
-                      <Progress percent={Math.min((group.distance/500)*100,100)} strokeColor={color} showInfo={false} style={{marginTop:8}}/>
-                    </Col>
-                    <Col span={12}>
-                      <Statistic title="Durée moteur" value={formatSecondsToTime(group.engine_duration)} prefix={<ThunderboltOutlined style={{color}}/>}/>
-                      <Progress percent={Math.min((group.engine_duration/3600)*100,100)} strokeColor={color} showInfo={false} style={{marginTop:8}}/>
-                    </Col>
-                    <Col span={12} style={{ marginTop:10 }}>
-                      <Statistic title="Vitesse max" value={group.top_speed} suffix="km/h" prefix={<DashboardOutlined style={{color}}/>}/>
-                    </Col>
-                    <Col span={12} style={{ marginTop:10 }}>
-                      <Statistic title="Vitesse moy." value={group.avg_speed} suffix="km/h" prefix={<DashboardOutlined style={{color}}/>}/>
-                    </Col>
-                  </Row>
-
-                  <Tag color={color} style={{ marginTop:12, fontWeight:'bold' }}>
-                    {group.stops} {isMoving?"arrêts":"périodes inactives"}
-                  </Tag>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
+          {/* Détails par véhicule : EventDetailsPanel accepte vehicleData pour un véhicule — on le rend pour chaque id */}
+          {selectedDevices.map(deviceId => (
+            <div key={`details-${deviceId}`} style={{ marginTop: 12 }}>
+              <h4 style={{ marginBottom: 8 }}>
+                { (vehicles.find(v => v.id === deviceId)?.name) || `Véhicule ${deviceId}` } — Détails
+              </h4>
+              <EventDetailsPanel vehicleData={vehicleDataMap[deviceId] || []} />
+            </div>
+          ))}
+        </>
       )}
-
-      {/* ==== DÉTAILS DES ÉVÉNEMENTS ==== */}
-      <Card bordered={false} style={{ marginTop:20 }}>
-        {vehicleData.length===0 ? (
-          <Text type="secondary">Aucune donnée détaillée disponible.</Text>
-        ) : (
-          <Collapse defaultActiveKey={["moving","stopped"]} ghost>
-            {["moving","stopped"].map(type => {
-              const isMoving = type==="moving";
-              const color = isMoving?"#52c41a":"#f5222d";
-              const events = vehicleData.filter(e => isMoving? e.engine_work>0 : e.engine_work===0);
-              return (
-                <Panel header={`${isMoving?"En mouvement":"Inactif"} - ${events.length} événements`} key={type}>
-                  <Timeline mode="left">
-                    {events.map((event,idx)=>(
-                      <Timeline.Item key={idx} dot={isMoving?<ThunderboltOutlined style={{color}}/>:<StopOutlined style={{color}}/>}>
-                        <Card size="small" bordered hoverable style={{ marginBottom:10, borderLeft:`4px solid ${color}` }}>
-                          <Row justify="space-between" align="middle">
-                            <Col><Text strong>{event.show || event.time}</Text></Col>
-                            <Col><Tag color={color}>{isMoving?"En mouvement":"Inactif"}</Tag></Col>
-                          </Row>
-                          <Divider style={{margin:"8px 0"}}/>
-                          <Space direction="vertical" size={2}>
-                            <Text><DashboardOutlined /> <strong>Vitesse :</strong> max {event.top_speed} km/h, moy {event.average_speed} km/h</Text>
-                            <Text><CarOutlined /> <strong>Distance :</strong> {event.distance} km</Text>
-                            <Text><ClockCircleOutlined /> <strong>Durée moteur :</strong> {formatSecondsToTime(event.engine_work)}</Text>
-                            {event.items?.[0] && (
-                              <Text>
-                                <EnvironmentOutlined /> <strong>Position :</strong>{" "}
-                                <a href={`https://www.google.com/maps?q=${event.items[0].lat},${event.items[0].lng}`} target="_blank" rel="noopener noreferrer">
-                                  Voir sur Google Maps
-                                </a>
-                              </Text>
-                            )}
-                          </Space>
-                        </Card>
-                      </Timeline.Item>
-                    ))}
-                  </Timeline>
-                </Panel>
-              )
-            })}
-          </Collapse>
-        )}
-      </Card>
-
     </div>
   );
 };
