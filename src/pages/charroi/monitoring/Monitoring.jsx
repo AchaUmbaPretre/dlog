@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Tabs, Badge } from 'antd';
+import { Tabs } from 'antd';
 import { EnvironmentOutlined, FileSyncOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
 import RapportEvent from '../demandeVehicule/charroiLocalisation/rapportEvent/RapportEvent';
 import CharroiLocalisation from '../demandeVehicule/charroiLocalisation/CharroiLocalisation';

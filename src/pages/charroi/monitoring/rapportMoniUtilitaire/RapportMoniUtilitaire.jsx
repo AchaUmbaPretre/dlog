@@ -164,7 +164,7 @@ const RapportMoniUtilitaire = () => {
 
   return (
     <div className="rapport-event-history" style={{ padding: 20 }}>
-        {/* ==== 🔍 FILTRES RAPIDES + SELECT VÉHICULE ==== */}
+        {/*FILTRES RAPIDES + SELECT VÉHICULE ==== */}
       <Card className="filters-card" bordered={false} style={{ marginBottom: 20 }}>
         <Title level={4}>
           <CalendarOutlined style={{ color: "#1677ff", marginRight: 8 }} />
@@ -271,7 +271,7 @@ const RapportMoniUtilitaire = () => {
                         <Card size="small" bordered hoverable style={{ marginBottom:10, borderLeft:`4px solid ${color}` }}>
                           <Row justify="space-between" align="middle">
                             <Col><Text strong>{event.show || event.time}</Text></Col>
-                            <Col><Tag color={color}>{isMoving?"Moteur actif":"Moteur arrêté"}</Tag></Col>
+                            <Col><Tag color={color}>{isMoving?"En mouvement":"Inactif"}</Tag></Col>
                           </Row>
                           <Divider style={{margin:"8px 0"}}/>
                           <Space direction="vertical" size={2}>
