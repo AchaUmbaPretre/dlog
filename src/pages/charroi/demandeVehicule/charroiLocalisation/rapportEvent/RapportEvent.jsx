@@ -158,8 +158,8 @@ const RapportEvent = () => {
       dataIndex: 'statut_actuel',
       key: 'statut_actuel',
       filters: [
-        { text: 'Actif', value: 'connected' },
-        { text: 'Inactif', value: 'disconnected' },
+        { text: 'actif', value: 'connected' },
+        { text: 'inactif', value: 'disconnected' },
       ],
       onFilter: (value, record) => record.statut_actuel === value,
       render: status => {

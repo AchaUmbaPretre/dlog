@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tabs } from 'antd';
-import { EnvironmentOutlined, FileSyncOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, BarChartOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
 import RapportEvent from '../demandeVehicule/charroiLocalisation/rapportEvent/RapportEvent';
 import CharroiLocalisation from '../demandeVehicule/charroiLocalisation/CharroiLocalisation';
 import GetEventLocalisation from '../demandeVehicule/charroiLocalisation/getEventLocalisation/GetEventLocalisation';
@@ -40,8 +40,8 @@ const Monitoring = () => {
             <Tabs.TabPane
                 tab={
                     <span style={getTabStyle('1')}>
-                        <FileSyncOutlined style={iconStyle('1')} />
-                        Rapport utilitaire
+                        <BarChartOutlined style={iconStyle('1')} />
+                        Utilisation
                     </span>
                 }
                 key="1"
@@ -89,7 +89,7 @@ const Monitoring = () => {
                 tab={
                     <span style={getTabStyle('5')}>
                         <FileTextOutlined style={iconStyle('5')} />
-                        Utilisation
+                        Rapport des connexions
                     </span>
                 }
                 key="5"

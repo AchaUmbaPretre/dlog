@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Typography, DatePicker, Table, notification, Spin, Tag } from 'antd';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { Typography, DatePicker, Table, notification, Spin, Tag, Input, Button, Tooltip, Space } from 'antd';
 import moment from 'moment';
-import 'moment/locale/fr'; // Import du locale français
+import 'moment/locale/fr';
+import { CarOutlined, ArrowUpOutlined, ArrowRightOutlined, ArrowDownOutlined, SearchOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import { getConnectivityMonth } from '../../../../services/eventService';
-import { CarOutlined } from '@ant-design/icons';
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
+import html2pdf from 'html2pdf.js';
 
 const { Title } = Typography;
 
@@ -11,7 +14,10 @@ const ConnectivityMonth = () => {
   const [month, setMonth] = useState(moment().format('YYYY-MM'));
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const tableRef = useRef();
 
+  // 🔹 Fetch data
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -31,41 +37,51 @@ const ConnectivityMonth = () => {
     fetchData();
   }, [month]);
 
-  // 🧩 Transformation des données pour le tableau
-  const devices = [...new Set(data.map(item => item.device_name))];
-  const jours = [...new Set(data.map(item => item.jour))].sort((a, b) => a - b);
+  // 🔹 Transformation des données
+  const devices = useMemo(() => [...new Set(data.map(item => item.device_name))], [data]);
+  const jours = useMemo(() => [...new Set(data.map(item => item.jour))].sort((a,b) => a-b), [data]);
 
-  // 🔹 Fonction pour formater les jours avec le mois abrégé
   const formatDayWithMonth = (day) => {
     const monthYear = moment(month, 'YYYY-MM');
     const fullDate = monthYear.date(parseInt(day));
-    return fullDate.format('MMM D'); // Format: "janv. 12", "févr. 13", etc.
+    return fullDate.format('MMM D'); // ex: "oct 12"
   };
 
-  // 🔹 Fonction pour obtenir la date complète pour le tri
-  const getFullDate = (day) => {
-    const monthYear = moment(month, 'YYYY-MM');
-    return monthYear.date(parseInt(day)).valueOf(); // Timestamp pour le tri
-  };
-
-  const tableData = devices.map(name => {
-    const row = { key: name, device_name: name };
-    jours.forEach(j => {
-      const match = data.find(item => item.device_name === name && item.jour === j);
-      row[j] = match ? match.score_percent : null;
-    });
-    return row;
-  });
-
-  // 🔹 Fonction pour choisir la couleur selon le score
   const getScoreColor = (score) => {
-    if (score === 25) return 'red';
-    if (score === 50) return 'orange';
-    if (score === 75) return 'blue';
-    if (score === 100) return 'green';
-    return 'default';
+    switch(score) {
+      case 100: return 'green';
+      case 75: return 'blue';
+      case 50: return 'orange';
+      case 25: return 'red';
+      case 0: return 'grey';
+      default: return 'default';
+    }
   };
 
+  const getScoreIcon = (score) => {
+    switch(score) {
+      case 100: return <ArrowUpOutlined style={{ color: 'green' }} />;
+      case 75: return <ArrowRightOutlined style={{ color: 'blue' }} />;
+      case 50: return <ArrowRightOutlined style={{ color: 'orange' }} />;
+      case 25: return <ArrowDownOutlined style={{ color: 'red' }} />;
+      case 0: return <ArrowDownOutlined style={{ color: 'grey' }} />;
+      default: return null;
+    }
+  };
+
+  // 🔹 Construction des lignes du tableau
+  const tableData = devices
+    .filter(name => name.toLowerCase().includes(searchText.toLowerCase()))
+    .map(name => {
+      const row = { key: name, device_name: name };
+      jours.forEach(j => {
+        const match = data.find(item => item.device_name === name && item.jour === j);
+        row[j] = match ? match.score_percent : null;
+      });
+      return row;
+    });
+
+  // 🔹 Colonnes
   const columns = [
     {
       title: '#',
@@ -78,7 +94,16 @@ const ConnectivityMonth = () => {
       dataIndex: 'device_name',
       fixed: 'left',
       width: 180,
-      render: (text, record) => (
+      filterDropdown: () => (
+        <Input
+          placeholder="Rechercher véhicule"
+          value={searchText}
+          onChange={e => setSearchText(e.target.value)}
+          style={{ width: 180, marginBottom: 8 }}
+          prefix={<SearchOutlined />}
+        />
+      ),
+      render: (text) => (
         <strong>
           <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
           {text}
@@ -89,18 +114,20 @@ const ConnectivityMonth = () => {
       title: formatDayWithMonth(j),
       dataIndex: j,
       align: 'center',
-      width: 80,
+      width: 90,
       render: (value) =>
         value !== null ? (
-          <Tag color={getScoreColor(value)} style={{ fontWeight: 'bold' }}>
-            {value}%
-          </Tag>
-        ) : (
-          '-'
-        ),
+          <Tooltip title={`Score connectivité: ${value}%`}>
+            <Tag 
+              color={getScoreColor(value)} 
+              style={{ fontWeight: 'bold', fontSize: 14, minWidth: 50 }}
+            >
+              {value}% {getScoreIcon(value)}
+            </Tag>
+          </Tooltip>
+        ) : '-',
       sorter: (a, b) => {
-        // Tri numérique pour les scores
-        const valA = a[j] !== null ? a[j] : -1; // Les valeurs null en dernier
+        const valA = a[j] !== null ? a[j] : -1;
         const valB = b[j] !== null ? b[j] : -1;
         return valA - valB;
       },
@@ -108,32 +135,71 @@ const ConnectivityMonth = () => {
     })),
   ];
 
+  // 🔹 Export Excel
+  const exportToExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Connectivité");
+
+    // Colonnes Excel
+    worksheet.columns = [
+      { header: '#', key: 'index', width: 5 },
+      { header: 'Véhicule', key: 'device_name', width: 25 },
+      ...jours.map(j => ({ header: formatDayWithMonth(j), key: j, width: 10 })),
+    ];
+
+    tableData.forEach((row, index) => {
+      worksheet.addRow({
+        index: index + 1,
+        device_name: row.device_name,
+        ...jours.reduce((acc, j) => ({ ...acc, [j]: row[j] !== null ? `${row[j]}%` : '-' }), {}),
+      });
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), `connectivite_${month}.xlsx`);
+  };
+
+  // 🔹 Export PDF
+  const exportToPDF = () => {
+    const element = tableRef.current;
+    html2pdf().set({
+      margin: 0.5,
+      filename: `connectivite_${month}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' },
+    }).from(element).save();
+  };
+
   return (
     <div className="rapport-event-container">
       <Title level={3} style={{ marginBottom: 24 }}>
         📅 Rapport de connectivité du mois : {moment(month, 'YYYY-MM').format('MMMM YYYY')}
       </Title>
 
-      <DatePicker
-        picker="month"
-        defaultValue={moment()}
-        onChange={(date) => setMonth(date.format('YYYY-MM'))}
-        style={{ marginBottom: 24 }}
-      />
+      <Space style={{ marginBottom: 24 }}>
+        <DatePicker
+          picker="month"
+          defaultValue={moment()}
+          onChange={(date) => setMonth(date.format('YYYY-MM'))}
+        />
+        <Button icon={<FileExcelOutlined />} onClick={exportToExcel}>Export Excel</Button>
+        <Button icon={<FilePdfOutlined />} danger onClick={exportToPDF}>Export PDF</Button>
+      </Space>
 
       {loading ? (
         <Spin size="large" />
       ) : (
-        <Table
-          dataSource={tableData}
-          columns={columns}
-          scroll={{ x: 'max-content' }}
-          pagination={false}
-          bordered
-          size="middle"
-          // Option pour permettre le tri multiple avec Shift+click
-          sortDirections={['ascend', 'descend']}
-        />
+        <div ref={tableRef}>
+          <Table
+            dataSource={tableData}
+            columns={columns}
+            scroll={{ x: 'max-content' }}
+            pagination={false}
+            bordered
+            size="middle"
+          />
+        </div>
       )}
     </div>
   );
