@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Space, Tag, Tooltip, Popover, Tabs, Popconfirm, Collapse, Select, Skeleton, Alert } from 'antd';
 import { 
-  ExportOutlined,MoreOutlined, UnlockOutlined, ApartmentOutlined, RocketOutlined, DollarOutlined, 
- EnvironmentOutlined, HourglassOutlined, EditOutlined, FilePdfOutlined, ClockCircleOutlined, CheckCircleOutlined, 
-  CalendarOutlined, TeamOutlined,FileExcelOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
+  ExportOutlined,MoreOutlined, UnlockOutlined, ApartmentOutlined, EnvironmentOutlined, EditOutlined, FilePdfOutlined, CalendarOutlined, TeamOutlined,FileExcelOutlined,DeleteOutlined,DownOutlined,MenuOutlined,PlusCircleOutlined, EyeOutlined, UserOutlined, FileTextOutlined, FileDoneOutlined 
 } from '@ant-design/icons';
 import TacheForm from './tacheform/TacheForm';
 import { deletePutTache, getTache, putPriorite } from '../../services/tacheService';
