@@ -24,13 +24,13 @@ const MoniRealTime = () => {
   const apiHash = config.api_hash;
   const [refreshing, setRefreshing] = useState(false);
 
-  // 🔹 Fonction pour filtrer selon le véhicule
+  //Fonction pour filtrer selon le véhicule
   const filterByVehicle = (eventsData, vehicle) => {
     if (!vehicle) return eventsData;
     return eventsData.filter(e => e.device_name === vehicle);
   };
 
-  // 🔹 Fetch des événements
+  //Fetch des événements
   const fetchData = async (from, to, isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
@@ -141,6 +141,7 @@ const columns = [
   {
     title: 'Position',
     key: 'position',
+    align:'center',
     render: (_, record) => (
       record.latitude && record.longitude ? (
         <Tooltip title={`${record.latitude}, ${record.longitude}`}>
@@ -167,16 +168,16 @@ const columns = [
 ];
 
 
-  // 🔹 Liste unique des véhicules
+  //Liste unique des véhicules
   const vehicles = useMemo(() => [...new Set(events.map(e => e.device_name))], [events]);
 
-  // 🔹 Changement de plage de dates
+  // Changement de plage de dates
   const handleDateChange = values => setDateRange(values);
 
-  // 🔹 Filtrage par véhicule
+  // Filtrage par véhicule
   const handleVehicleChange = value => setSelectedVehicle(value);
 
-  // 🔹 Export Excel
+  // Export Excel
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Événements");
@@ -198,7 +199,7 @@ const columns = [
     saveAs(new Blob([buffer]), "evenements.xlsx");
   };
 
-  // 🔹 Export PDF
+  // Export PDF
   const exportToPDF = () => {
     const element = tableRef.current;
     html2pdf().set({
