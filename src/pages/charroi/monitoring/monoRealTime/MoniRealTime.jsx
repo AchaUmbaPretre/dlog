@@ -20,17 +20,19 @@ const MoniRealTime = () => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [idDevice, setIdDevice] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
+
   const tableRef = useRef();
   const apiHash = config.api_hash;
-  const [refreshing, setRefreshing] = useState(false);
 
-  //Fonction pour filtrer selon le véhicule
+  // Filtrage par véhicule
   const filterByVehicle = (eventsData, vehicle) => {
     if (!vehicle) return eventsData;
     return eventsData.filter(e => e.device_name === vehicle);
   };
 
-  //Fetch des événements
+  // Fetch événements
   const fetchData = async (from, to, isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
@@ -48,6 +50,9 @@ const MoniRealTime = () => {
       setEvents(eventsData);
       setFilteredEvents(filterByVehicle(eventsData, selectedVehicle));
 
+      // Reset pagination à la page 1 après chaque fetch
+      setPagination(prev => ({ ...prev, current: 1 }));
+
     } catch (error) {
       console.error("Erreur lors du fetch:", error);
       if (!isRefresh) message.error("Erreur lors du chargement des événements.");
@@ -59,7 +64,7 @@ const MoniRealTime = () => {
     }
   };
 
-  // 🔹 Chargement initial ou changement de date
+  // Chargement initial ou changement de date
   useEffect(() => {
     const from = dateRange[0]
       ? dateRange[0].format('YYYY-MM-DD HH:mm:ss')
@@ -69,9 +74,9 @@ const MoniRealTime = () => {
       : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
 
     fetchData(from, to);
-  }, [dateRange]);
+  }, [dateRange, selectedVehicle]);
 
-  // 🔹 Rafraîchissement automatique toutes les 30s
+  // Rafraîchissement automatique toutes les 30s
   useEffect(() => {
     const interval = setInterval(() => {
       const from = dateRange[0]
@@ -87,94 +92,92 @@ const MoniRealTime = () => {
     return () => clearInterval(interval);
   }, [dateRange, selectedVehicle]);
 
-  // 🔹 Re-filtrage du tableau lorsque le véhicule change
+  // Re-filtrage lorsque véhicule change
   useEffect(() => {
     setFilteredEvents(filterByVehicle(events, selectedVehicle));
+    setPagination(prev => ({ ...prev, current: 1 })); // reset page
   }, [selectedVehicle, events]);
 
-  // 🔹 Modal détail
+  // Modal historique
   const openModal = (type, id = '') => {
     setModalType(type);
     setIdDevice(id);
   };
   const closeAllModals = () => setModalType(null);
 
-  // 🔹 Colonnes du tableau
-const columns = [
-  {
-    title: 'Date & Heure',
-    dataIndex: 'time',
-    key: 'time',
-    render: text => (
-      <Space>
-        <ClockCircleOutlined style={{ color: '#1890ff' }} />
-        {dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}
-      </Space>
-    ),
-  },
-  {
-    title: 'Véhicule',
-    dataIndex: 'device_name',
-    key: 'device_name',
-    render: (text, record) => {
-      const color = record.type === 'ignition_on' ? 'green' : 'red';
-      return (
+  // Colonnes du tableau
+  const columns = [
+    {
+      title: 'Date & Heure',
+      dataIndex: 'time',
+      key: 'time',
+      render: text => (
         <Space>
-          <CarOutlined style={{ color }} />
-          <span style={{ fontWeight: 500, color }}>{text || 'N/A'}</span>
+          <ClockCircleOutlined style={{ color: '#1890ff' }} />
+          {dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}
         </Space>
-      );
+      ),
     },
-  },
-  {
-    title: 'Zone',
-    dataIndex: 'detail',
-    key: 'detail',
-    render: (text, record) => text || record?.additional?.geofence || 'N/A',
-  },
-  {
-    title: 'Message',
-    dataIndex: 'message',
-    key: 'message',
-    render: text => <Tag color="orange">{text}</Tag>,
-  },
-  {
-    title: 'Position',
-    key: 'position',
-    align:'center',
-    render: (_, record) => (
-      record.latitude && record.longitude ? (
-        <Tooltip title={`${record.latitude}, ${record.longitude}`}>
-          <Button
-            icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
-            onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
-          />
-        </Tooltip>
-      ) : 'N/A'
-    ),
-  },
-  {
-    title: 'Actions',
-    key: 'actions',
-    align: 'center',
-    render: (_, record) => (
-      <Space>
-        <Tooltip title="Voir l'historique du véhicule">
-          <Button icon={<EyeOutlined style={{ color: '#1890ff' }} />} onClick={() => openModal('device', record.device_id)} />
-        </Tooltip>
-      </Space>
-    ),
-  },
-];
+    {
+      title: 'Véhicule',
+      dataIndex: 'device_name',
+      key: 'device_name',
+      render: (text, record) => {
+        const color = record.type === 'ignition_on' ? 'green' : 'red';
+        return (
+          <Space>
+            <CarOutlined style={{ color }} />
+            <span style={{ fontWeight: 500, color }}>{text || 'N/A'}</span>
+          </Space>
+        );
+      },
+    },
+    {
+      title: 'Zone',
+      dataIndex: 'detail',
+      key: 'detail',
+      render: (text, record) => text || record?.additional?.geofence || 'N/A',
+    },
+    {
+      title: 'Message',
+      dataIndex: 'message',
+      key: 'message',
+      render: text => <Tag color="orange">{text}</Tag>,
+    },
+    {
+      title: 'Position',
+      key: 'position',
+      align:'center',
+      render: (_, record) => (
+        record.latitude && record.longitude ? (
+          <Tooltip title={`${record.latitude}, ${record.longitude}`}>
+            <Button
+              icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
+              onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
+            />
+          </Tooltip>
+        ) : 'N/A'
+      ),
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      align: 'center',
+      render: (_, record) => (
+        <Space>
+          <Tooltip title="Voir l'historique du véhicule">
+            <Button icon={<EyeOutlined style={{ color: '#1890ff' }} />} onClick={() => openModal('device', record.device_id)} />
+          </Tooltip>
+        </Space>
+      ),
+    },
+  ];
 
-
-  //Liste unique des véhicules
+  // Liste unique véhicules
   const vehicles = useMemo(() => [...new Set(events.map(e => e.device_name))], [events]);
 
-  // Changement de plage de dates
+  // Handlers
   const handleDateChange = values => setDateRange(values);
-
-  // Filtrage par véhicule
   const handleVehicleChange = value => setSelectedVehicle(value);
 
   // Export Excel
@@ -256,7 +259,14 @@ const columns = [
             dataSource={filteredEvents}
             rowKey={record => record.id || record.external_id}
             loading={loading || refreshing}
-            pagination={{ pageSize: 10 }}
+            pagination={{
+              ...pagination,
+              showSizeChanger: true,
+              pageSizeOptions: ['10','20','50', '80', '100'],
+              showTotal: (total, range) => `${range[0]}-${range[1]} sur ${total} résultats`,
+              onChange: (page, pageSize) => setPagination({ current: page, pageSize }),
+              onShowSizeChange: (current, size) => setPagination({ current: 1, pageSize: size }),
+            }}
             bordered
             size="middle"
           />
