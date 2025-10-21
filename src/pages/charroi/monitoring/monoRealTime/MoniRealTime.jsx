@@ -108,6 +108,11 @@ const MoniRealTime = () => {
   // Colonnes du tableau
   const columns = [
     {
+      title: '#',
+      dataIndex: '#',
+      render: (text, record, index) => index + 1
+    },
+    {
       title: 'Date & Heure',
       dataIndex: 'time',
       key: 'time',
