@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import { getEventHistory } from "../../../../../../services/rapportService";
 import config from "../../../../../../config";
 import "./rapportEventHistory.scss";
+import { formatSecondsToTime } from "../../../../../../utils/formatSecondsToTime";
 
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;
@@ -47,14 +48,6 @@ const RapportEventHistory = ({ idDevice }) => {
   ]);
 
   const apiHash = config.api_hash;
-
-  // ====== UTILS ======
-  const formatSecondsToTime = (seconds) => {
-    if (!seconds || isNaN(seconds)) return "—";
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    return `${h}h ${m}min`;
-  };
 
   // ====== FETCH DATA ======
   const fetchData = async (from, to) => {
