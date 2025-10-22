@@ -20,7 +20,7 @@ import {
   DashboardOutlined,
 } from "@ant-design/icons";
 import { getConnectivityDetail } from "../../../../../../services/eventService";
-import moment from "moment";
+import moment from "moment-timezone";
 import "moment/locale/fr";
 import "./rapportEventDetail.scss"; // 💅 Ajoute un style SCSS moderne
 
@@ -30,7 +30,9 @@ const RapportEventDetail = ({ idDevice, dateRange }) => {
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState(null);
-
+console.log(
+  moment.utc("2025-10-21T22:00:00.000Z").tz("Africa/Kinshasa").format()
+);
   const fetchData = async () => {
     if (!idDevice) return;
     setLoading(true);
@@ -68,12 +70,20 @@ const RapportEventDetail = ({ idDevice, dateRange }) => {
 
   const columns = [
     {
-      title: "Heure de Vérification",
-      dataIndex: "check_time",
-      key: "check_time",
-      render: (value) => (
-        <Text strong>{moment(value).format("YYYY-MM-DD HH:mm:ss")}</Text>
-      ),
+        title: '#',
+        dataIndex: 'id',
+        key:'id',
+        render: (text, record, index) => index + 1
+    },
+    {
+        title: "Heure de Vérification",
+        dataIndex: "check_time",
+        key: "check_time",
+        render: (value) => (
+        <Text strong>
+            {moment.utc(value).add(2, 'hours').format("YYYY-MM-DD HH:mm:ss")}
+        </Text>
+        )
     },
     {
       title: "Statut",
@@ -95,7 +105,7 @@ const RapportEventDetail = ({ idDevice, dateRange }) => {
       dataIndex: "last_connection",
       key: "last_connection",
       render: (value) =>
-        value ? moment(value).format("YYYY-MM-DD HH:mm:ss") : "-",
+        value ? moment.utc(value).add(2, 'hours').format("YYYY-MM-DD HH:mm:ss") : "-",
     },
   ];
 
