@@ -18,6 +18,9 @@ import {
   CloseCircleOutlined,
   ThunderboltOutlined,
   DashboardOutlined,
+  WifiOutlined,
+  CalendarOutlined,
+  ClockCircleOutlined
 } from "@ant-design/icons";
 import { getConnectivityDetail } from "../../../../../../services/eventService";
 import moment from "moment-timezone";
@@ -68,46 +71,100 @@ console.log(
     fetchData();
   }, [idDevice, dateRange]);
 
-  const columns = [
-    {
-        title: '#',
-        dataIndex: 'id',
-        key:'id',
-        render: (text, record, index) => index + 1
-    },
-    {
-        title: "Heure de Vérification",
-        dataIndex: "check_time",
-        key: "check_time",
-        render: (value) => (
-        <Text strong>
-            {moment.utc(value).add(2, 'hours').format("YYYY-MM-DD HH:mm:ss")}
+const { Text } = Typography;
+
+const columns = [
+  {
+    title: "#",
+    dataIndex: "id",
+    key: "id",
+    align: "center",
+    width: 60,
+    render: (text, record, index) => (
+      <Text strong style={{ color: "#bfbfbf" }}>
+        {index + 1}
+      </Text>
+    ),
+  },
+  {
+    title: (
+      <span>
+        <ClockCircleOutlined style={{ color: "#1890ff", marginRight: 6 }} />
+        Heure de Vérification
+      </span>
+    ),
+    dataIndex: "check_time",
+    key: "check_time",
+    render: (value) => (
+      <Tooltip title="Heure à laquelle la vérification a été effectuée">
+        <Text strong >
+          {moment.utc(value).add(2, "hours").format("YYYY-MM-DD HH:mm:ss")}
         </Text>
-        )
-    },
-    {
-      title: "Statut",
-      dataIndex: "status",
-      key: "status",
-      render: (value) =>
-        value === "connected" ? (
-          <Tag icon={<CheckCircleOutlined />} color="success">
-            Actif
-          </Tag>
-        ) : (
-          <Tag icon={<CloseCircleOutlined />} color="error">
-            Inactif
-          </Tag>
-        ),
-    },
-    {
-      title: "Dernière Connexion",
-      dataIndex: "last_connection",
-      key: "last_connection",
-      render: (value) =>
-        value ? moment.utc(value).add(2, 'hours').format("YYYY-MM-DD HH:mm:ss") : "-",
-    },
-  ];
+      </Tooltip>
+    ),
+  },
+  {
+    title: (
+      <span>
+        <WifiOutlined style={{ color: "#13c2c2", marginRight: 6 }} />
+        Statut
+      </span>
+    ),
+    dataIndex: "status",
+    key: "status",
+    render: (value) =>
+      value === "connected" ? (
+        <Tag
+          icon={<CheckCircleOutlined />}
+          color="success"
+          style={{
+            fontSize: 14,
+            padding: "4px 10px",
+            borderRadius: 6,
+            fontWeight: 500,
+          }}
+        >
+          Actif
+        </Tag>
+      ) : (
+        <Tag
+          icon={<CloseCircleOutlined />}
+          color="error"
+          style={{
+            fontSize: 14,
+            padding: "4px 10px",
+            borderRadius: 6,
+            fontWeight: 500,
+          }}
+        >
+          Inactif
+        </Tag>
+      ),
+  },
+  {
+    title: (
+      <span>
+        <CalendarOutlined style={{ color: "#faad14", marginRight: 6 }} />
+        Dernière Connexion
+      </span>
+    ),
+    dataIndex: "last_connection",
+    key: "last_connection",
+    render: (value) =>
+      value ? (
+        <Tooltip title="Date et heure de la dernière connexion">
+          <Text type="secondary">
+            {moment.utc(value).add(2, "hours").format("YYYY-MM-DD HH:mm:ss")}
+          </Text>
+        </Tooltip>
+      ) : (
+        <Text type="secondary">
+          -
+        </Text>
+      ),
+  }
+];
+
 
   return (
     <div className="rapport-container">
