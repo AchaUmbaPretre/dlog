@@ -6,6 +6,7 @@ import CharroiLocalisation from '../demandeVehicule/charroiLocalisation/CharroiL
 import GetEventLocalisation from '../demandeVehicule/charroiLocalisation/getEventLocalisation/GetEventLocalisation';
 import MoniRealTime from './monoRealTime/MoniRealTime';
 import RapportMoniUtilitaire from './rapportMoniUtilitaire/RapportMoniUtilitaire';
+import ModeTv from './moniKiosque/ModeTv';
 
 const Monitoring = () => {
     const [activeKey, setActiveKey] = useState('1');
@@ -105,6 +106,7 @@ const Monitoring = () => {
                 }
                 key="6"
             >
+                <ModeTv/>
             </Tabs.TabPane>
 
         </Tabs>

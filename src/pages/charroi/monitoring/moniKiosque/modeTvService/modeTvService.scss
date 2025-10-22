@@ -1,0 +1,109 @@
+.mode_service {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  background: #f9f9fb;
+  border-radius: 15px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.mode_service_card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e6e6e6;
+
+  // 🌤️ Scrollbar claire et élégante
+  scrollbar-width: thin;
+  scrollbar-color: #bfbfbf #f0f0f0;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #c1c1c1, #a0a0a0);
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #a6a6a6, #8c8c8c);
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #222;
+    text-align: center;
+  }
+
+  .ant-table {
+    background: transparent;
+
+    th {
+      background: #f5f5f5 !important;
+      color: #333 !important;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      padding: 10px;
+      border-bottom: 2px solid #e8e8e8;
+    }
+
+    td {
+      color: #444;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      padding: 14px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    tr:hover {
+      background: #e6f7ff;
+      transition: background 0.3s ease;
+    }
+  }
+
+  .leaderboard_service {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .crown_icon {
+      color: #fadb14; // jaune doux Ant Design
+      font-size: 1rem;
+    }
+  }
+
+  .chauffeur_name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    svg {
+      color: #1890ff;
+      font-size: 20px;
+    }
+  }
+
+  .trends_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
