@@ -96,6 +96,17 @@ const Monitoring = () => {
             >
                 <RapportEvent />
             </Tabs.TabPane>
+            <Tabs.TabPane
+                tab={
+                    <span style={getTabStyle('6')}>
+                    <ShopOutlined style={iconStyle('6')} />
+                    Kiosque
+                    </span>
+                }
+                key="6"
+            >
+            </Tabs.TabPane>
+
         </Tabs>
     )
 }
