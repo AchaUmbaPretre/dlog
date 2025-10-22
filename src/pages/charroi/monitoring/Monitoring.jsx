@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tabs } from 'antd';
-import { EnvironmentOutlined, BarChartOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, FullscreenOutlined, BarChartOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
 import RapportEvent from '../demandeVehicule/charroiLocalisation/rapportEvent/RapportEvent';
 import CharroiLocalisation from '../demandeVehicule/charroiLocalisation/CharroiLocalisation';
 import GetEventLocalisation from '../demandeVehicule/charroiLocalisation/getEventLocalisation/GetEventLocalisation';
@@ -99,8 +99,8 @@ const Monitoring = () => {
             <Tabs.TabPane
                 tab={
                     <span style={getTabStyle('6')}>
-                    <ShopOutlined style={iconStyle('6')} />
-                    Kiosque
+                        <DesktopOutlined style={iconStyle('6')} />
+                        Kiosque
                     </span>
                 }
                 key="6"
