@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tabs } from 'antd';
-import { EnvironmentOutlined, FullscreenOutlined, BarChartOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, BarChartOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
 import RapportEvent from '../demandeVehicule/charroiLocalisation/rapportEvent/RapportEvent';
 import CharroiLocalisation from '../demandeVehicule/charroiLocalisation/CharroiLocalisation';
 import GetEventLocalisation from '../demandeVehicule/charroiLocalisation/getEventLocalisation/GetEventLocalisation';
