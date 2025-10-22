@@ -1,13 +1,17 @@
+import config from "../config";
+import { getGeofences } from "../services/eventService";
+
 // -------- CACHE PERSISTANT --------
 let addressCache = {};
 try {
-  const stored = localStorage.getItem('vehicleAddressCache');
+  const stored = localStorage.getItem("vehicleAddressCache");
   if (stored) addressCache = JSON.parse(stored);
 } catch (err) {
-  console.warn('Impossible de lire le cache localStorage', err);
+  console.warn("Impossible de lire le cache localStorage", err);
 }
 
-const API_KEY = 'f7c5292b587d4fff9fb1d00f3b6f3f73';
+const API_KEY = "f7c5292b587d4fff9fb1d00f3b6f3f73";
+const Api_hash = config.api_hash;
 
 export const fetchAddress = async (vehicle) => {
   if (!vehicle) return "";
@@ -15,7 +19,6 @@ export const fetchAddress = async (vehicle) => {
 
   const lat = parseFloat(vehicle.lat);
   const lng = parseFloat(vehicle.lng);
-
 
   if (isNaN(lat) || isNaN(lng)) {
     console.warn("Coordonnées invalides pour ce véhicule:", vehicle);
@@ -27,30 +30,37 @@ export const fetchAddress = async (vehicle) => {
 
   const cleanAddress = (addr) => {
     if (!addr) return "";
-    // Supprimer "Unnamed road"
     addr = addr.replace(/\bUnnamed road,?\s*/gi, "");
-    // Remplacer le pays par "RD Congo"
-    if (/République démocratique du Congo/i.test(addr)) {
-      addr = addr.replace(/République démocratique du Congo/gi, "RD Congo");
-    }
-    // Nettoyer virgules multiples ou espaces
+    addr = addr.replace(/République démocratique du Congo/gi, "RD Congo");
     addr = addr.replace(/,\s*,/g, ",").replace(/^\s*,\s*|\s*,\s*$/g, "");
-    return addr;
+    return addr.trim();
   };
 
+  // 🔹 Priorité Geofences
   try {
-    const res = await
+    const params = {
+      lat: lat,
+      lng: lng, // corrigé
+      user_api_hash: Api_hash,
+    };
+    const { data } = await getGeofences(params);
+    if (data && data.status === 1 && Array.isArray(data.zones) && data.zones.length > 0) {
+      const zonesStr = data.zones.join(", "); // ex: "COBRA, Kinshasa"
+      addressCache[key] = zonesStr;
+      localStorage.setItem("vehicleAddressCache", JSON.stringify(addressCache));
+      return zonesStr;
+    }
   } catch (error) {
-    console.log(error)
+    console.error("Erreur getGeofences:", error);
   }
 
+  // 🔹 Essayer OpenCage
   try {
-    // 🔹 Essayer OpenCage
     const res = await fetch(
       `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${API_KEY}&language=fr`
     );
     const data = await res.json();
-    let addr = cleanAddress(data.results?.[0]?.formatted || "");
+    const addr = cleanAddress(data.results?.[0]?.formatted || "");
     if (addr) {
       addressCache[key] = addr;
       localStorage.setItem("vehicleAddressCache", JSON.stringify(addressCache));
@@ -60,8 +70,8 @@ export const fetchAddress = async (vehicle) => {
     console.warn("OpenCage échoué, tentative avec Nominatim:", err);
   }
 
+  // 🔹 Fallback Nominatim
   try {
-    // 🔹 Fallback Nominatim
     const nominatimRes = await fetch(
       `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1&accept-language=fr`
     );

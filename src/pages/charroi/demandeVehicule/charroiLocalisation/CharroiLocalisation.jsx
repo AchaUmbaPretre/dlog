@@ -120,7 +120,7 @@ const CharroiLocalisation = () => {
             moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() - moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
             ...(columnsVisibility['MAJ'] ? {} : { className: 'hidden-column' }),
         },
-        { title: 'Position', 
+        { title: 'Position / Zone', 
           dataIndex: 'address', 
           render: (_, record) => <VehicleAddress record={record} />,
           ...(columnsVisibility['Position'] ? {} : { className: 'hidden-column' })
