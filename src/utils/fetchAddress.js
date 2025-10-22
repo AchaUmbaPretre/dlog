@@ -16,6 +16,7 @@ export const fetchAddress = async (vehicle) => {
   const lat = parseFloat(vehicle.lat);
   const lng = parseFloat(vehicle.lng);
 
+
   if (isNaN(lat) || isNaN(lng)) {
     console.warn("Coordonnées invalides pour ce véhicule:", vehicle);
     return "";
@@ -36,6 +37,12 @@ export const fetchAddress = async (vehicle) => {
     addr = addr.replace(/,\s*,/g, ",").replace(/^\s*,\s*|\s*,\s*$/g, "");
     return addr;
   };
+
+  try {
+    const res = await
+  } catch (error) {
+    console.log(error)
+  }
 
   try {
     // 🔹 Essayer OpenCage

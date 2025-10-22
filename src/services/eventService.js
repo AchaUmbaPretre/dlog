@@ -22,6 +22,10 @@ export const getConnectivity = async(params) => {
   return axios.get(`${DOMAIN}/api/event/connectivity`, { params });
 }
 
+export const getGeofences = async(params) => {
+  return axios.get(`${DOMAIN}/api/point_in_geofences`, { params });
+}
+
 export const getConnectivityDetail = async(params) => {
   return axios.get(`${DOMAIN}/api/event/connectivityDetail`, { params });
 }
