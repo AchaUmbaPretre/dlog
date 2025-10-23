@@ -1,20 +1,15 @@
-import { Table, Progress } from "antd";
-import {
-  CrownOutlined,
-  CarOutlined,
-} from "@ant-design/icons";
+import { Table, Progress, Tooltip } from "antd";
+import { CrownOutlined, CarOutlined } from "@ant-design/icons";
 import "./modeTvService.scss";
 
-const ModeTvService = ({dataService, courseVehicule, motif}) => {
+const ModeTvService = ({ dataService, courseVehicule, motif }) => {
 
-  // Données factices Leaderboard par service
   const leaderboardData = (dataService || []).map((item, index) => ({
     key: index + 1,
     service: item.nom_service,
     score: item.nbre_service,
   }));
 
-  // Colonnes leaderboard
   const leaderboardCols = [
     {
       title: "Service",
@@ -32,12 +27,19 @@ const ModeTvService = ({dataService, courseVehicule, motif}) => {
       dataIndex: "score",
       key: "score",
       render: (score) => (
-        <Progress
-          percent={score}
-          size="small"
-          strokeColor={score >= 85 ? "#52c41a" : score >= 70 ? "#faad14" : "#ff4d4f"}
-          showInfo={false}
-        />
+        <Tooltip title={`${score}% d'utilisation`}>
+          <Progress
+            percent={score}
+            size="small"
+            strokeColor={{
+              "0%": "#ff4d4f",
+              "75%": "#faad14",
+              "100%": "#52c41a"
+            }}
+            showInfo={false}
+            strokeWidth={16}
+          />
+        </Tooltip>
       ),
     },
     {
@@ -48,12 +50,11 @@ const ModeTvService = ({dataService, courseVehicule, motif}) => {
     },
   ];
 
-  // Données Courses par chauffeur
   const coursesData = (courseVehicule || []).map((item, index) => ({
     key: index + 1,
-    chauffeur : item.chauffeur,
-    courses : item.courses
-  }))
+    chauffeur: item.chauffeur,
+    courses: item.courses,
+  }));
 
   const coursesCols = [
     {
@@ -74,16 +75,12 @@ const ModeTvService = ({dataService, courseVehicule, motif}) => {
     },
   ];
 
-   const motifCols = [
+  const motifCols = [
     {
       title: "Motif",
       dataIndex: "nom_motif_demande",
       key: "nom_motif_demande",
-      render: (text) => (
-        <span className="chauffeur_name">
-          {text}
-        </span>
-      ),
+      render: (text) => <span className="motif_name">{text}</span>,
     },
     {
       title: "Nombre",
@@ -95,7 +92,6 @@ const ModeTvService = ({dataService, courseVehicule, motif}) => {
 
   return (
     <div className="mode_service">
-      {/* Leaderboard par service */}
       <div className="mode_service_card">
         <h3>🏆 Utilisation par les services</h3>
         <Table
@@ -103,10 +99,10 @@ const ModeTvService = ({dataService, courseVehicule, motif}) => {
           columns={leaderboardCols}
           pagination={false}
           size="small"
+          bordered={false}
         />
       </div>
 
-      {/* Courses par chauffeur */}
       <div className="mode_service_card">
         <h3>🚗 Nbre de courses par chauffeurs</h3>
         <Table
@@ -114,20 +110,19 @@ const ModeTvService = ({dataService, courseVehicule, motif}) => {
           columns={coursesCols}
           pagination={false}
           size="small"
+          bordered={false}
         />
       </div>
 
-      {/* Nombre de course par motif */}
       <div className="mode_service_card">
         <h3>📈 Nbre de courses par Motif</h3>
-        <div className="trends_wrapper">
-          <Table
-            dataSource={motif}
-            columns={ motifCols}
-            pagination={false}
-            size="small"
-          />
-        </div>
+        <Table
+          dataSource={motif}
+          columns={motifCols}
+          pagination={false}
+          size="small"
+          bordered={false}
+        />
       </div>
     </div>
   );

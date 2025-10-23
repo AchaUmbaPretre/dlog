@@ -1,25 +1,25 @@
 .mode_service {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   padding: 15px;
-  background: #f9f9fb;
-  border-radius: 15px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background: #f4f6fa;
+  border-radius: 20px;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin-top: 20px;
 }
 
 .mode_service_card {
   flex: 1;
-  background: #ffffff;
-  border-radius: 15px;
-  padding: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-  max-height: 400px;
+  min-width: 280px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  max-height: 420px;
   overflow-y: auto;
   border: 1px solid #e6e6e6;
 
-  // 🌤️ Scrollbar claire et élégante
   scrollbar-width: thin;
   scrollbar-color: #bfbfbf #f0f0f0;
 
@@ -40,7 +40,7 @@
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 15px;
     color: #222;
@@ -79,31 +79,21 @@
     }
   }
 
-  .leaderboard_service {
+  .leaderboard_service,
+  .chauffeur_name,
+  .motif_name {
     display: flex;
     align-items: center;
     gap: 8px;
 
     .crown_icon {
-      color: #fadb14; // jaune doux Ant Design
-      font-size: 1rem;
+      color: #fadb14;
+      font-size: 1.2rem;
     }
-  }
-
-  .chauffeur_name {
-    display: flex;
-    align-items: center;
-    gap: 6px;
 
     svg {
       color: #1890ff;
       font-size: 20px;
     }
-  }
-
-  .trends_wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
   }
 }

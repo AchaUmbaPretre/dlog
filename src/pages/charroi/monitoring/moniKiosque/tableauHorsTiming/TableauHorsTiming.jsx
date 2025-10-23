@@ -15,18 +15,17 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
       title: "N°",
       dataIndex: "id",
       key: "id",
-      width: 90,
+      width: 70,
       align: "center",
-      render: (text, record, index) => index + 1
+      render: (_, __, index) => index + 1,
     },
     {
       title: "Véhicule",
       dataIndex: "vehicule",
       key: "vehicule",
       render: (text) => (
-        <span>
-          <CarOutlined style={{ marginRight: 6, color: "#1890ff" }} />
-          {text}
+        <span className="vehicule_cell">
+          <CarOutlined /> {text}
         </span>
       ),
     },
@@ -35,9 +34,8 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
       dataIndex: "chauffeur",
       key: "chauffeur",
       render: (text) => (
-        <span>
-          <UserOutlined style={{ marginRight: 6, color: "#52c41a" }} />
-          {text}
+        <span className="chauffeur_cell">
+          <UserOutlined /> {text}
         </span>
       ),
     },
@@ -47,8 +45,7 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
       title: "Départ prévu",
       dataIndex: "departPrev",
       key: "departPrev",
-      render: (text) =>
-        text ? moment(text).format("DD/MM/YYYY HH:mm") : "-",
+      render: (text) => (text ? moment(text).format("DD/MM/YYYY HH:mm") : "-"),
     },
     {
       title: "Départ réel",
@@ -56,13 +53,7 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
       key: "departReel",
       ellipsis: true,
       render: (text, record) => (
-        <Tooltip
-          title={
-            record.retardInfo
-              ? `Écart : ${record.retardInfo}`
-              : "Aucun retard"
-          }
-        >
+        <Tooltip title={record.retardInfo || "Aucun retard"}>
           <span className={record.horsTiming ? "late" : ""}>
             {text ? moment(text).format("DD/MM/YYYY HH:mm") : "-"}
           </span>
@@ -73,43 +64,39 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
       title: "Retour prévu",
       dataIndex: "retourPrev",
       key: "retourPrev",
-      render: (text) =>
-        text ? moment(text).format("DD/MM/YYYY HH:mm") : "-",
+      render: (text) => (text ? moment(text).format("DD/MM/YYYY HH:mm") : "-"),
     },
     {
       title: "Retour réel",
       dataIndex: "retourReel",
       key: "retourReel",
       ellipsis: true,
-      render: (text) =>
-        text ? moment(text).format("DD/MM/YYYY HH:mm") : "-",
+      render: (text) => (text ? moment(text).format("DD/MM/YYYY HH:mm") : "-"),
     },
     {
       title: "Statut",
       dataIndex: "statut",
       key: "statut",
       render: (statut) => {
-        let color = "#fff"; // couleur par défaut
+        let color = "#1890ff";
         let icon = null;
         switch (statut) {
           case "Validé":
-            color = "#52c41a"; // vert
+            color = "#52c41a";
             icon = <CheckCircleOutlined />;
             break;
           case "En attente":
-            color = "#faad14"; // orange
+            color = "#faad14";
             icon = <ClockCircleOutlined />;
             break;
           case "En retard":
           case "Retard retour":
-            color = "#ff4d4f"; // rouge
+            color = "#ff4d4f";
             icon = <CloseCircleOutlined />;
             break;
-          default:
-            color = "#1890ff"; // bleu
         }
         return (
-          <span style={{ color, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+          <span className="status_cell" style={{ color }}>
             {icon} {statut}
           </span>
         );
@@ -119,14 +106,13 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
       title: "Validations",
       key: "validations",
       render: (_, record) => (
-        <div style={{ display: "flex", gap: "12px", fontWeight: 700 }}>
-          <span style={{ color: record.resp === "✔" ? "#52c41a" : "#fff" }}>Resp</span>
-          <span style={{ color: record.dirlog === "✔" ? "#52c41a" : "#fff" }}>Dir LOG</span>
-          <span style={{ color: record.rh === "✔" ? "#52c41a" : "#fff" }}>RH</span>
+        <div className="validations_wrapper">
+          <span className={record.resp === "✔" ? "validated" : ""}>Resp</span>
+          <span className={record.dirlog === "✔" ? "validated" : ""}>Dir LOG</span>
+          <span className={record.rh === "✔" ? "validated" : ""}>RH</span>
         </div>
       ),
     },
-
   ];
 
   const data = departHorsTimingRow?.map((row, index) => ({
@@ -145,7 +131,6 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
     resp: row.resp_validation,
     dirlog: row.dirlog_validation,
     rh: row.rh_validation,
-    observations: row.observations,
     horsTiming: row.statut !== "Validé",
   }));
 
@@ -161,12 +146,10 @@ const TableauHorsTiming = ({ departHorsTimingRow }) => {
           dataSource={data}
           pagination={{ pageSize: 8 }}
           scroll={{ x: "max-content", y: 400 }}
-          rowClassName={(record) =>
-            record.horsTiming ? "row-hors-timing" : ""
-          }
+          rowClassName={(record) => (record.horsTiming ? "row-hors-timing" : "")}
           locale={{
             emptyText: (
-              <div style={{ textAlign: "center", padding: "20px" }}>
+              <div className="empty_table">
                 Aucun enregistrement pour les filtres actuels.{" "}
                 <a href="#">Réinitialiser les filtres</a>
               </div>

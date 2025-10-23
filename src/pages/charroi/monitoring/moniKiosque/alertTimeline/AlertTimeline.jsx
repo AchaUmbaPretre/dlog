@@ -4,7 +4,6 @@ import {
   CarOutlined,
   AlertOutlined,
   CheckCircleOutlined,
-  EyeOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
 import "./alertTimeline.scss";
@@ -28,7 +27,7 @@ const AlertTimeline = () => {
     try {
       await markAlertAsRead(id);
       message.success("Alerte marquée comme lue ✅");
-      setAlerts((prev) => prev.filter((a) => a.id !== id));
+      setAlerts(prev => prev.filter(a => a.id !== id));
     } catch (error) {
       console.error(error);
       message.error("Impossible de mettre à jour l'alerte");
@@ -54,28 +53,15 @@ const AlertTimeline = () => {
     };
   }, []);
 
-  const getIconColor = (level, resolved) => {
-    if (resolved) return "#52c41a";
-    switch (level) {
-      case "Critique":
-        return "#ff4d4f";
-      case "Important":
-        return "#fa8c16";
-      default:
-        return "#1890ff";
-    }
-  };
+  const getIconColor = (level, resolved) => resolved
+    ? "#52c41a"
+    : level === "Critique" ? "#ff4d4f" 
+    : level === "Important" ? "#fa8c16" 
+    : "#1890ff";
 
-  const getBadgeColor = (level) => {
-    switch (level) {
-      case "Critique":
-        return "red";
-      case "Important":
-        return "orange";
-      default:
-        return "blue";
-    }
-  };
+  const getBadgeColor = (level) => level === "Critique" ? "red" 
+    : level === "Important" ? "orange" 
+    : "blue";
 
   return (
     <div className="alert-timeline-container">
@@ -109,28 +95,18 @@ const AlertTimeline = () => {
           <Empty description="Aucune alerte disponible" />
         ) : (
           <Timeline mode="left" className="alert-timeline">
-            {alerts.map((alert) => (
+            {alerts.map(alert => (
               <Timeline.Item
                 key={alert.id}
                 dot={
                   alert.resolved ? (
-                    <CheckCircleOutlined
-                      style={{ fontSize: 22, color: getIconColor("", true) }}
-                    />
+                    <CheckCircleOutlined style={{ fontSize: 22, color: getIconColor("", true) }} />
                   ) : (
-                    <AlertOutlined
-                      style={{
-                        fontSize: 22,
-                        color: "#ff4d4f",
-                        transition: "all 0.3s",
-                      }}
-                    />
+                    <AlertOutlined style={{ fontSize: 22, color: getIconColor(alert.alert_level) }} />
                   )
                 }
               >
-                <div
-                  className={`alert-content ${alert.resolved ? "resolved" : "unresolved"}`}
-                >
+                <div className={`alert-content ${alert.resolved ? "resolved" : "unresolved"}`}>
                   <div className="alert-header">
                     <strong>{alert.device_name}</strong>
                     {!alert.resolved && (
@@ -149,10 +125,7 @@ const AlertTimeline = () => {
                     <Tooltip title="Heure de l'alerte">
                       <span>{moment(alert.alert_time).format("DD/MM/YYYY HH:mm")}</span>
                     </Tooltip>
-                    <Badge
-                      color={getBadgeColor(alert.alert_level)}
-                      text={alert.resolved ? "Résolue" : alert.alert_level}
-                    />
+                    <Badge color={getBadgeColor(alert.alert_level)} text={alert.resolved ? "Résolue" : alert.alert_level} />
                   </div>
                 </div>
               </Timeline.Item>
