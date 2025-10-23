@@ -19,31 +19,27 @@
   max-height: 400px;   // légèrement réduit
   overflow-y: auto;
   border: 1px solid #e6e6e6;
-
-
-  overflow-y: auto;
-
-  /* Scrollbar plus fine et discrète */
-  scrollbar-width: thin;        /* Firefox */
-  scrollbar-color: #aaa #f4f6fa;
+ /* Scrollbar ultra fine et quasi invisible */
+  scrollbar-width: thin;           /* Firefox */
+  scrollbar-color: #bbb #f4f6fa;
 
   &::-webkit-scrollbar {
-    width: 4px;                 /* très fin */
+    width: 3px;                     /* encore plus fin */
   }
   &::-webkit-scrollbar-track {
-    background: #f4f6fa;        /* couleur fond track */
-    border-radius: 4px;
+    background: #f4f6fa;
+    border-radius: 3px;
   }
   &::-webkit-scrollbar-thumb {
-    background: #aaa;            /* couleur du thumb */
-    border-radius: 4px;
+    background: #bbb;
+    border-radius: 3px;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background: #888;           /* couleur au survol */
+    background: #999;
   }
 
   h3 {
-    font-size: 1rem;   // réduit titre
+    font-size: 1rem;
     font-weight: 700;
     margin-bottom: 8px;
     color: #222;
