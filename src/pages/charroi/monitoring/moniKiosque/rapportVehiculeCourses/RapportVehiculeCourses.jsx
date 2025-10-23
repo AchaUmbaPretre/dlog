@@ -33,11 +33,8 @@ const { Text } = Typography;
 const RapportVehiculeCourses = ({ course }) => {
   const hasPosition = course?.some((r) => !!r?.position || !!r?.capteurInfo?.address);
   const hasSpeed = course?.some((r) => r?.capteurInfo?.speed !== undefined);
-  const [visibleKeys, setVisibleKeys] = useState(
-    baseColumns
-      .map((c) => c.key)
-      .filter((key) => key !== "address" && key !== "speed")
-  );
+
+  // 1️⃣ Définition de baseColumns
   const baseColumns = [
     {
       title: "#",
@@ -148,6 +145,7 @@ const RapportVehiculeCourses = ({ course }) => {
     },
   ];
 
+  // Ajouter Position si présent
   if (hasPosition) {
     baseColumns.splice(3, 0, {
       title: (
@@ -162,6 +160,7 @@ const RapportVehiculeCourses = ({ course }) => {
     });
   }
 
+  // Ajouter Vitesse si présent
   if (hasSpeed) {
     baseColumns.splice(hasPosition ? 4 : 3, 0, {
       title: (
@@ -181,7 +180,12 @@ const RapportVehiculeCourses = ({ course }) => {
       width: 150,
     });
   }
-  
+
+  // 2️⃣ Colonnes visibles par défaut (Position & Vitesse masquées)
+  const [visibleKeys, setVisibleKeys] = useState(
+    baseColumns.map((c) => c.key).filter((k) => k !== "address" && k !== "speed"  && k !== "index")
+  );
+
   const filteredColumns = useMemo(
     () => baseColumns.filter((col) => visibleKeys.includes(col.key)),
     [visibleKeys, baseColumns]
