@@ -19,7 +19,6 @@ const RapportEvent = () => {
   const [dateRange, setDateRange] = useState([moment().startOf('day'), moment().endOf('day')]);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
   const [activeKey, setActiveKey] = useState('1');
-  const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
   const [modalType, setModalType] = useState(null);
   const [idDevice, setDevice] = useState('');
