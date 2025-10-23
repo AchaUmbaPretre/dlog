@@ -33,7 +33,11 @@ const { Text } = Typography;
 const RapportVehiculeCourses = ({ course }) => {
   const hasPosition = course?.some((r) => !!r?.position || !!r?.capteurInfo?.address);
   const hasSpeed = course?.some((r) => r?.capteurInfo?.speed !== undefined);
-
+  const [visibleKeys, setVisibleKeys] = useState(
+    baseColumns
+      .map((c) => c.key)
+      .filter((key) => key !== "address" && key !== "speed")
+  );
   const baseColumns = [
     {
       title: "#",
@@ -177,10 +181,7 @@ const RapportVehiculeCourses = ({ course }) => {
       width: 150,
     });
   }
-
-  // Gestion des colonnes visibles
-  const [visibleKeys, setVisibleKeys] = useState(baseColumns.map((c) => c.key));
-
+  
   const filteredColumns = useMemo(
     () => baseColumns.filter((col) => visibleKeys.includes(col.key)),
     [visibleKeys, baseColumns]
