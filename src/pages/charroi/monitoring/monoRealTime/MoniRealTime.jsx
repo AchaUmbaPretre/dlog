@@ -23,10 +23,12 @@ const MoniRealTime = () => {
   const [idDevice, setIdDevice] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
-  const [searchText, setSearchText] = useState('');;
+  const [searchText, setSearchText] = useState('');
   const searchInput = useRef(null);
   const tableRef = useRef();
+  const isFetching = useRef(false);
   const apiHash = config.api_hash;
+
 
   // Filtrage par véhicule
   const filterByVehicle = (eventsData, vehicle) => {
@@ -78,18 +80,32 @@ const MoniRealTime = () => {
     fetchData(from, to);
   }, [dateRange, selectedVehicle]);
 
-  // Rafraîchissement automatique toutes les 30s
   useEffect(() => {
-    const interval = setInterval(() => {
-      const from = dateRange[0]
-        ? dateRange[0].format('YYYY-MM-DD HH:mm:ss')
-        : dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
-      const to = dateRange[1]
-        ? dateRange[1].format('YYYY-MM-DD HH:mm:ss')
-        : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
+    const fetchInterval = async () => {
+      if (isFetching.current) return; // Si un fetch est déjà en cours, on skip
+      isFetching.current = true;
 
-      fetchData(from, to, true);
-    }, 30 * 1000);
+      const from = dateRange[0]
+        ? dateRange[0].format("YYYY-MM-DD HH:mm:ss")
+        : dayjs().startOf("day").format("YYYY-MM-DD HH:mm:ss");
+      const to = dateRange[1]
+        ? dateRange[1].format("YYYY-MM-DD HH:mm:ss")
+        : dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
+
+      try {
+        await fetchData(from, to, true); // Ton fetch existant
+      } catch (err) {
+        console.error("Erreur fetchData:", err);
+      } finally {
+        isFetching.current = false; // Reset flag
+      }
+    };
+
+    // Intervalle avec une fréquence raisonnable (ex: 60s)
+    const interval = setInterval(fetchInterval, 60 * 1000);
+
+    // Fetch immédiat au montage
+    fetchInterval();
 
     return () => clearInterval(interval);
   }, [dateRange, selectedVehicle]);

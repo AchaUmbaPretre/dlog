@@ -62,7 +62,7 @@ const RapportEvent = () => {
     }
   };
 
-  useEffect(() => { fetchData(); }, [dateRange]);
+  useEffect(() => { fetchData()}, [dateRange]);
   
   const filteredData = useMemo(() => {
     if (!searchText) return reportData;
