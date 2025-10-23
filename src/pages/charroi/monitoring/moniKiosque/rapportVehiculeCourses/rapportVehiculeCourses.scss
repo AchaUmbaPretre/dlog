@@ -1,0 +1,74 @@
+.rapportVehiculeCourses {
+  padding: 16px;
+  background-color: #f7f9fc;
+
+  .ant-card {
+    background-color: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f0f0f0;
+
+    .ant-card-head {
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .ant-card-head-title {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    ::-webkit-scrollbar {
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+  }
+
+  .ant-table {
+    font-size: 15px;
+
+    .ant-table-thead > tr > th {
+      background-color: #fafafa;
+      color: #333;
+      font-weight: 700;
+      padding: 10px;
+      border-bottom: 2px solid #eee;
+      text-align: center;
+    }
+
+    .ant-table-tbody > tr {
+      background-color: #fff;
+      transition: background 0.2s ease;
+    }
+
+    .ant-table-tbody > tr:hover {
+      background-color: #f5faff;
+    }
+
+    .row-en-cours {
+      background-color: rgba(82, 196, 26, 0.08);
+    }
+
+    .ant-table-cell {
+      padding: 10px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .ant-table th,
+    .ant-table td {
+      font-size: 13px;
+      padding: 6px;
+    }
+  }
+}

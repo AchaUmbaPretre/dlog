@@ -1,116 +1,221 @@
-import { useState } from 'react';
-import { Tabs } from 'antd';
-import { EnvironmentOutlined, BarChartOutlined, DesktopOutlined, BellOutlined, FileTextOutlined, DashboardOutlined } from '@ant-design/icons';
+import { useEffect, useState, useCallback, useMemo } from 'react';
+import { notification, Tabs, Badge } from 'antd';
+import {
+  EnvironmentOutlined,
+  CarOutlined,
+  BarChartOutlined,
+  DesktopOutlined,
+  BellOutlined,
+  FileTextOutlined,
+  DashboardOutlined,
+} from '@ant-design/icons';
 import RapportEvent from '../demandeVehicule/charroiLocalisation/rapportEvent/RapportEvent';
 import CharroiLocalisation from '../demandeVehicule/charroiLocalisation/CharroiLocalisation';
 import GetEventLocalisation from '../demandeVehicule/charroiLocalisation/getEventLocalisation/GetEventLocalisation';
 import MoniRealTime from './monoRealTime/MoniRealTime';
 import RapportMoniUtilitaire from './rapportMoniUtilitaire/RapportMoniUtilitaire';
 import ModeTv from './moniKiosque/ModeTv';
+import RapportVehiculeCourses from './moniKiosque/rapportVehiculeCourses/RapportVehiculeCourses';
+import { getFalcon, getRapportCharroiVehicule } from '../../../services/rapportService';
+import config from '../../../config';
+
+const REFRESH_INTERVAL = 30000; // 30s pour les rapports
+const FALCON_INTERVAL = 5000; // 5s pour le temps réel
 
 const Monitoring = () => {
-    const [activeKey, setActiveKey] = useState('1');
+  const [activeKey, setActiveKey] = useState('1');
+  const [courses, setCourses] = useState([]);
+  const [falcon, setFalcon] = useState([]);
 
-    const handleTabChange = (key) => {
-        setActiveKey(key);
+  const apiHash = config.api_hash; // utile si utilisé dans d'autres composants
+
+  /** =====================
+   *   FETCH FALCON DATA
+   *  ===================== */
+  const fetchFalcon = useCallback(async () => {
+    try {
+      const { data } = await getFalcon();
+      setFalcon(data[0]?.items || []);
+    } catch (error) {
+      console.error('Erreur lors du chargement Falcon:', error);
     }
+  }, []);
 
-    const getTabStyle = (key) => ({
-        display: 'flex',
-        alignItems: 'center',
-        color: activeKey === key ? '#1890ff' : 'rgba(0,0,0,0.65)',
-        fontWeight: activeKey === key ? '600' : '400',
-        transition: 'color 0.3s',
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchFalcon();
+
+    const interval = setInterval(fetchFalcon, FALCON_INTERVAL);
+    return () => {
+      controller.abort();
+      clearInterval(interval);
+    };
+  }, [fetchFalcon]);
+
+  /** =====================
+   *   FETCH COURSES DATA
+   *  ===================== */
+  const fetchCourses = useCallback(async () => {
+    try {
+      const { data } = await getRapportCharroiVehicule();
+      setCourses(data?.listeCourse || []);
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Impossible de charger les données des véhicules.',
+      });
+      console.error('Erreur lors du chargement des courses:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchCourses();
+
+    const interval = setInterval(fetchCourses, REFRESH_INTERVAL);
+    return () => {
+      controller.abort();
+      clearInterval(interval);
+    };
+  }, [fetchCourses]);
+
+  /** =====================
+   *   MERGE DATA
+   *  ===================== */
+  const mergedCourses = useMemo(() => {
+    return courses.map((c) => {
+      const capteur = falcon.find((f) => f.id === c.id_capteur);
+      return { ...c, capteurInfo: capteur || null };
     });
+  }, [courses, falcon]);
 
-    const iconStyle = (key) => ({
-        marginRight: 8,
-        fontSize: 18,
-        color: activeKey === key ? '#1890ff' : 'rgba(0,0,0,0.45)',
-        transform: activeKey === key ? 'scale(1.2)' : 'scale(1)',
-        transition: 'transform 0.3s, color 0.3s',
-    });
+  /** =====================
+   *   TAB STYLES
+   *  ===================== */
+  const getTabStyle = (key) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    color: activeKey === key ? '#1677ff' : 'rgba(0,0,0,0.65)',
+    fontWeight: activeKey === key ? 600 : 400,
+    transition: 'color 0.3s ease',
+  });
 
-    return (
-        <Tabs
-            activeKey={activeKey}
-            onChange={handleTabChange}
-            type="card"
-            tabPosition="top"
-        >
-            <Tabs.TabPane
-                tab={
-                    <span style={getTabStyle('1')}>
-                        <BarChartOutlined style={iconStyle('1')} />
-                        Utilisation
-                    </span>
-                }
-                key="1"
+  const iconStyle = (key) => ({
+    fontSize: 18,
+    color: activeKey === key ? '#1677ff' : 'rgba(0,0,0,0.45)',
+    transform: activeKey === key ? 'scale(1.15)' : 'scale(1)',
+    transition: 'transform 0.3s ease, color 0.3s ease',
+  });
+
+  /** =====================
+   *   BADGE COURSE COUNT
+   *  ===================== */
+  const activeCoursesCount = useMemo(() => mergedCourses.length, [mergedCourses]);
+
+  return (
+    <Tabs
+      activeKey={activeKey}
+      onChange={setActiveKey}
+      type="card"
+      tabPosition="top"
+      destroyInactiveTabPane
+      animated
+    >
+      <Tabs.TabPane
+        key="1"
+        tab={
+          <span style={getTabStyle('1')}>
+            <BarChartOutlined style={iconStyle('1')} />
+            Utilisation
+          </span>
+        }
+      >
+        <RapportMoniUtilitaire />
+      </Tabs.TabPane>
+
+      <Tabs.TabPane
+        key="2"
+        tab={
+          <span style={getTabStyle('2')}>
+            <EnvironmentOutlined style={iconStyle('2')} />
+            Position
+          </span>
+        }
+      >
+        <CharroiLocalisation />
+      </Tabs.TabPane>
+
+      <Tabs.TabPane
+        key="3"
+        tab={
+          <span style={getTabStyle('3')}>
+            <DashboardOutlined style={iconStyle('3')} />
+            Monitoring
+          </span>
+        }
+      >
+        <MoniRealTime />
+      </Tabs.TabPane>
+
+      <Tabs.TabPane
+        key="4"
+        tab={
+          <span style={getTabStyle('4')}>
+            <BellOutlined style={iconStyle('4')} />
+            Événements
+          </span>
+        }
+      >
+        <GetEventLocalisation />
+      </Tabs.TabPane>
+
+      <Tabs.TabPane
+        key="5"
+        tab={
+          <span style={getTabStyle('5')}>
+            <FileTextOutlined style={iconStyle('5')} />
+            Rapport des connexions
+          </span>
+        }
+      >
+        <RapportEvent />
+      </Tabs.TabPane>
+
+      <Tabs.TabPane
+        key="6"
+        tab={
+          <span style={getTabStyle('6')}>
+            <DesktopOutlined style={iconStyle('6')} />
+            Kiosque
+          </span>
+        }
+      >
+        <ModeTv />
+      </Tabs.TabPane>
+
+      <Tabs.TabPane
+        key="7"
+        tab={
+          <span style={getTabStyle('7')}>
+            <Badge
+              count={activeCoursesCount}
+              overflowCount={99}
+              size="small"
+              style={{ backgroundColor: '#1677ff' }}
             >
-                <RapportMoniUtilitaire />
-            </Tabs.TabPane>
-
-            <Tabs.TabPane
-                tab={
-                    <span style={getTabStyle('2')}>
-                        <EnvironmentOutlined style={iconStyle('2')} />
-                        Position
-                    </span>
-                }
-                key="2"
-            >
-                <CharroiLocalisation />
-            </Tabs.TabPane>
-
-            <Tabs.TabPane
-                tab={
-                    <span style={getTabStyle('3')}>
-                        <DashboardOutlined style={iconStyle('3')} />
-                        Monitoring
-                    </span>
-                }
-                key="3"
-            >
-                <MoniRealTime/>
-            </Tabs.TabPane>
-
-            <Tabs.TabPane
-                tab={
-                    <span style={getTabStyle('4')}>
-                        <BellOutlined style={iconStyle('4')} />
-                        Evénements
-                    </span>
-                }
-                key="4"
-            >
-                <GetEventLocalisation />
-            </Tabs.TabPane>
-
-            <Tabs.TabPane
-                tab={
-                    <span style={getTabStyle('5')}>
-                        <FileTextOutlined style={iconStyle('5')} />
-                        Rapport des connexions
-                    </span>
-                }
-                key="5"
-            >
-                <RapportEvent />
-            </Tabs.TabPane>
-            <Tabs.TabPane
-                tab={
-                    <span style={getTabStyle('6')}>
-                        <DesktopOutlined style={iconStyle('6')} />
-                        Kiosque
-                    </span>
-                }
-                key="6"
-            >
-                <ModeTv/>
-            </Tabs.TabPane>
-
-        </Tabs>
-    )
-}
+              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <CarOutlined style={iconStyle('7')} />
+                En course
+              </span>
+            </Badge>
+          </span>
+        }
+      >
+        <RapportVehiculeCourses key="courses" course={mergedCourses} />
+      </Tabs.TabPane>
+    </Tabs>
+  );
+};
 
 export default Monitoring;
