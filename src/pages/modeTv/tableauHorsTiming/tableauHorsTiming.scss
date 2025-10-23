@@ -1,16 +1,16 @@
 .tableauHorsTiming {
-  margin-top: 20px;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   background-color: #fff;
-  overflow-x: scroll;
-  margin:20px;
+  overflow-x: auto;
+  margin: 15px;
 
   .title_timing {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     color: #151541;
   }
 
@@ -28,6 +28,13 @@
       background-color: #f5f5f5;
       font-weight: 600;
       color: #151541;
+      font-size: 0.9rem;
+      padding: 6px 10px;
+    }
+
+    .ant-table-tbody > tr > td {
+      font-size: 0.9rem;
+      padding: 6px 10px;
     }
 
     .ant-table-tbody > tr:hover {
@@ -37,6 +44,8 @@
 
     .ant-tag {
       font-weight: 600;
+      font-size: 0.85rem;
+      padding: 2px 6px;
     }
   }
 }

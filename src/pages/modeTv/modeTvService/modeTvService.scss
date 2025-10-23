@@ -1,27 +1,27 @@
 .mode_service {
   display: flex;
-  gap: 25px;
-  padding: 30px;
+  gap: 15px;          // réduit l'espace entre cartes
+  padding: 20px;       // moins de padding
   background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .mode_service_card {
   flex: 1;
   background: #f9f9f9;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  max-height: 400px;
+  border-radius: 12px;
+  padding: 15px;       // réduit le padding
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.08);
+  max-height: 350px;   // réduit la hauteur max
   overflow-y: auto;
 
   h3 {
-    font-size: 1rem;
+    font-size: 0.95rem; // texte un peu plus petit
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   .ant-table {
@@ -31,39 +31,40 @@
   .leaderboard_service {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 
     .crown_icon {
       color: gold;
-      font-size: 1.2rem;
+      font-size: 1rem; // réduit l'icône
     }
   }
 
   .chauffeur_name {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
 
     svg {
       color: #1890ff;
+      font-size: 0.95rem; // réduit l'icône
     }
   }
 
   .trends_wrapper {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px; // moins de gap
   }
 
   .trend_item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    padding: 10px 15px;
-    border-radius: 10px;
+    gap: 8px;           // réduit l'espacement
+    font-weight: 500;
+    padding: 8px 12px;  // moins de padding
+    border-radius: 8px;  // légèrement plus petit
     background: #fff;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
     &.up {
       color: #52c41a;
@@ -76,11 +77,12 @@
       flex: 1;
       font-weight: 500;
       color: #333;
+      font-size: 0.9rem; // réduit le texte
     }
 
     .trend_value {
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 0.95rem;
+      font-weight: 600;
     }
   }
 }

@@ -1,9 +1,9 @@
 .tv_ponct_container {
   display: flex;
-  gap: 14px;
-  padding: 12px;
+  gap: 10px;             // réduit l'espacement entre cartes
+  padding: 8px;           // réduit padding global
   background: #f4f6fa;
-  border-radius: 24px;
+  border-radius: 16px;    // réduit arrondi
   justify-content: space-between;
   align-items: stretch;
   flex-wrap: wrap;
@@ -11,30 +11,30 @@
 
 .kpi_card {
   flex: 1;
-  min-width: 180px;
+  min-width: 150px;       // réduit largeur minimale
   background: #fff;
-  border-radius: 20px;
-  padding: 18px;
+  border-radius: 16px;    // réduit arrondi
+  padding: 12px;          // réduit padding
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06); // plus léger
   border: 1px solid #e6e6e6;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 
   &.flash {
     animation: flashAnim 0.6s ease-in-out;
   }
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   }
 
   h3 {
     color: #111;
-    font-size: 1.6rem;
-    font-weight: 800;
+    font-size: 1.2rem;    // réduit taille titre
+    font-weight: 700;     
     text-align: center;
     letter-spacing: 0.3px;
   }
@@ -42,28 +42,28 @@
   .tv_card_body {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;             // réduit gap
     align-items: center;
 
     .tv_value_wrapper {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;           // réduit gap
 
       .tv_value {
-        font-size: 3rem;
-        font-weight: 900;
+        font-size: 2rem;  // réduit valeur principale
+        font-weight: 800;
         color: #0078d7;
-        text-shadow: 0 0 6px rgba(0,120,215,0.15);
+        text-shadow: 0 0 4px rgba(0,120,215,0.1); // réduit shadow
       }
 
-      .trend.up { color: #52c41a; font-size: 1.8rem; }
-      .trend.down { color: #ff4d4f; font-size: 1.8rem; }
-      .trend.neutral { color: #aaa; font-size: 1.8rem; }
+      .trend.up { color: #52c41a; font-size: 1.4rem; }
+      .trend.down { color: #ff4d4f; font-size: 1.4rem; }
+      .trend.neutral { color: #aaa; font-size: 1.4rem; }
     }
 
     .tv_previous {
-      font-size: 1rem;
+      font-size: 0.85rem; // réduit texte
       color: #666;
       font-weight: 500;
     }
