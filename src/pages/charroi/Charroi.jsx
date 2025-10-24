@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification, Badge } from 'antd';
-import { ExportOutlined, MoreOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { MenuOutlined, MoreOutlined, DownOutlined, EnvironmentOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
 import TabPane from 'antd/es/tabs/TabPane';
 import { getVehicule, putVehicule } from '../../services/charroiService';
@@ -30,6 +30,18 @@ const Charroi = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [idVehicule, setIdVehicule] = useState('');
   const [activeKey, setActiveKey] = useState(['1', '2']);
+  const [columnsVisibility, setColumnsVisibility] = useState({
+      '#': true,
+      'Image': true,
+      'Matricule': true,
+      'Marque': true,
+      "Modèle": true,
+      'Categorie': true,
+      "Année de fab": false,
+      'Année circu.': false,
+      'Alerte traceur': true,
+      'Dernière position': true
+    });
 
   const handleTabChange = (key) => {
     setActiveKey(key);
@@ -104,30 +116,11 @@ const Charroi = () => {
     setIdVehicule(idVehicule)
   };
 
-  
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
 
-  const handleExportPDF = () => {
-    // Logic to export data to PDF
-    message.success('Exporting to PDF...');
-  };
 
   const handlePrint = () => {
     window.print();
   };
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        Export to Excel
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        Export to PDF
-      </Menu.Item>
-    </Menu>
-  );
 
   const columns = [
     { 
@@ -221,6 +214,44 @@ const Charroi = () => {
             </Tag>
         </Tooltip>
       )
+    },
+    {
+      title: "Dernière position",
+      dataIndex: "position",
+      render: (text, record) => {
+        const lat = record.lat || record.capteurInfo?.lat;
+        const lng = record.lng || record.capteurInfo?.lng;
+        const address = record.address && record.address !== "-" ? record.address : null;
+
+        if (!lat || !lng) {
+          return <span style={{ color: "#aaa" }}>N/A</span>;
+        }
+
+        // 🔹 Génère le lien Google Maps
+        const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+
+        return (
+          <Tooltip
+            title={
+              <>
+                <div>Latitude : {lat}</div>
+                <div>Longitude : {lng}</div>
+                {address && <div>Adresse : {address}</div>}
+                <div>Cliquez pour ouvrir la carte</div>
+              </>
+            }
+          >
+            <Button
+              type="link"
+              icon={<EnvironmentOutlined style={{ color: "#1890ff" }} />}
+              onClick={() => window.open(mapUrl, "_blank")}
+              style={{ padding: 0, fontWeight: "bold" }}
+            >
+              {address || `${lat.toFixed(4)}, ${lng.toFixed(4)}`}
+            </Button>
+          </Tooltip>
+        );
+      },
     },
     {
       title: 'Alerte traceur',
@@ -340,6 +371,28 @@ const Charroi = () => {
     item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
+      const toggleColumnVisibility = (columnName, e) => {
+        e.stopPropagation();
+        setColumnsVisibility(prev => ({
+          ...prev,
+          [columnName]: !prev[columnName]
+        }));
+      };
+
+    const menu = (
+      <Menu>
+        {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+                ))}
+      </Menu>
+    );    
+
+
   return (
     <>
       <Tabs
@@ -386,9 +439,13 @@ const Charroi = () => {
                     >
                       Ajouter un véhicule
                     </Button>
-                    <Dropdown overlay={menu} trigger={['click']} className='client-export'>
-                      <Button icon={<ExportOutlined />}>Export</Button>
-                    </Dropdown>
+                    <div className="client-rows-right">
+                      <Dropdown overlay={menu} trigger={['click']}>
+                        <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                          Colonnes <DownOutlined />
+                        </Button>
+                      </Dropdown>
+                    </div>
                     <Button
                       icon={<PrinterOutlined />}
                       onClick={handlePrint}
