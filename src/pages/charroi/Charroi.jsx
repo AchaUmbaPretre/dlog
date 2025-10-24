@@ -1,79 +1,66 @@
-import { useState } from 'react';
-import { Tabs } from 'antd';
-import TabPane from 'antd/es/tabs/TabPane';
-import Modele from '../modeles/Modele';
-import Marque from '../marque/Marque';
-import Vehicule from './vehicule/Vehicule';
+import { useState } from "react";
+import { Tabs } from "antd";
+import {
+  CarOutlined,
+  AppstoreOutlined,
+  TagsOutlined,
+} from "@ant-design/icons";
+
+import Vehicule from "./vehicule/Vehicule";
+import Modele from "../modeles/Modele";
+import Marque from "../marque/Marque";
+
+const { TabPane } = Tabs;
 
 const Charroi = () => {
-  const [activeKey, setActiveKey] = useState(['1', '2']);
+  const [activeKey, setActiveKey] = useState("1");
 
   const handleTabChange = (key) => {
     setActiveKey(key);
   };
 
+  const tabItems = [
+    {
+      key: "1",
+      label: (
+        <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <CarOutlined style={{ color: "#1890ff" }} />
+          Véhicules
+        </span>
+      ),
+      children: <Vehicule />,
+    },
+    {
+      key: "2",
+      label: (
+        <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <AppstoreOutlined style={{ color: "#faad14" }} />
+          Modèles
+        </span>
+      ),
+      children: <Modele />,
+    },
+    {
+      key: "3",
+      label: (
+        <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <TagsOutlined style={{ color: "rgb(255, 85, 0)" }} />
+          Marques
+        </span>
+      ),
+      children: <Marque />,
+    },
+  ];
+
   return (
-    <>
-      <Tabs
-        activeKey={activeKey[0]}
-        onChange={handleTabChange}
-        type="card"
-        tabPosition="top"
-        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
-      >
-          <TabPane
-            tab={
-              <span style={{display:'flex', alignItems:'center'}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#007BFF" viewBox="0 0 24 24">
-                  <path d="M20 8h-3V4H3v13h2a3 3 0 1 0 6 0h2a3 3 0 1 0 6 0h1a1 1 0 0 0 1-1v-4l-3-4ZM6 18a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm10-1a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm-4-2H5V6h11v9Zm1-3V9h2.2l2 3H13Z"/>
-                </svg>
-
-                <span>
-                  Véhicule
-                </span>
-              </span>
-            }
-            key="1"
-          >
-            <Vehicule/>
-          </TabPane>
-
-          <TabPane
-            tab={
-              <span style={{display:'flex', alignItems:'center', gap:'2px'}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="yellow" viewBox="0 0 24 24" stroke-width="1.5" stroke="red">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-                </svg>
-
-                <span>
-                  Modèle
-                </span>
-              </span>
-            }
-            key="2"
-          >
-            <Modele/>
-          </TabPane>
-
-          <TabPane
-            tab={
-              <span style={{display:'flex', alignItems:'center', gap:'2px'}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="rgb(255, 100, 50)">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-                </svg>
-
-                <span>
-                  Marque
-                </span>
-              </span>
-            }
-            key="3"
-          >
-            <Marque/>
-          </TabPane>
-      </Tabs>
-
-    </>
+    <Tabs
+      activeKey={activeKey}
+      onChange={handleTabChange}
+      type="card"
+      tabPosition="top"
+      items={tabItems}
+      destroyInactiveTabPane
+    />
   );
 };
 
