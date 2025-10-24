@@ -27,8 +27,6 @@ const Monitoring = () => {
   const [courses, setCourses] = useState([]);
   const [falcon, setFalcon] = useState([]);
 
-  const apiHash = config.api_hash; // utile si utilisé dans d'autres composants
-
   /** =====================
    *   FETCH FALCON DATA
    *  ===================== */
