@@ -41,7 +41,6 @@ const Vehicule = () => {
         'Alerte traceur': true,
         'Dernière position': true
     });
-
     const handleDelete = async (id) => {
         try {
         await putVehicule(id);
@@ -58,6 +57,7 @@ const Vehicule = () => {
     const handleDetail = (id) => openModal('Detail', id)
     const handleRelier = (id) => openModal('Relier', id)
     const handleSite = (id) => openModal('Affecter', id)
+    const handleAlert = (id) => openModal('DetailTypeAlert', id)
 
     const closeAllModals = () => {
         setModalType(null);
@@ -334,7 +334,7 @@ const Vehicule = () => {
 
         return (
             <Tooltip title="État du traceur">
-            <Tag color={color} icon={icon} style={{ fontWeight: 600 }}>
+            <Tag color={color} icon={icon} style={{ fontWeight: 600 }} onClick={()=> handleAlert()}>
                 {label}
             </Tag>
             </Tooltip>
@@ -508,10 +508,10 @@ const Vehicule = () => {
 
       <Modal
         title=""
-        visible={modalType === 'detailAlerte'}
+        visible={modalType === 'DetailTypeAlert'}
         onCancel={closeAllModals}
         footer={null}
-        width={600}
+        width={900}
         centered
       >
         <DetailTypeAlert/>
