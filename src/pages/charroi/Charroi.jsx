@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
 import { ExportOutlined, MoreOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
@@ -11,7 +11,6 @@ import Modele from '../modeles/Modele';
 import Marque from '../marque/Marque';
 import RelierFalcon from './relierFalcon/RelierFalcon';
 import SiteVehicule from './siteVehicule/SiteVehicule';
-import { getFalcon } from '../../services/rapportService';
 
 const { Search } = Input;
 
@@ -20,11 +19,10 @@ const Charroi = () => {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
-  const [falcon, setFalcon] = useState([]);
   const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 15,
-  });
+          current: 1,
+          pageSize: 15,
+      });
   const scroll = { x: 'max-content' };
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [idVehicule, setIdVehicule] = useState('');
@@ -63,29 +61,9 @@ const Charroi = () => {
       }
     };
 
-  const fetchFalcon = useCallback(async () => {
-        try {
-          const { data } = await getFalcon();
-          setFalcon(data[0]?.items || []);
-        } catch (error) {
-          console.error('Erreur lors du chargement Falcon:', error);
-        }
-  }, []);
-
   useEffect(() => {
     fetchData();
   }, []);
-
-    useEffect(() => {
-    fetchFalcon()
-  }, []);
-
-    const mergedCourses = useMemo(() => {
-      return data.map((c) => {
-        const capteur = falcon.find((f) => f.id === c.id_capteur);
-        return { ...c, capteurInfo: capteur || null };
-      });
-    }, [data, falcon]);
 
   const handleAddClient = (id) => openModal('Add', id)
   const handleDetail = (id) => openModal('Detail', id)
@@ -275,11 +253,10 @@ const Charroi = () => {
     }
   ];
 
-  const filteredData = mergedCourses.filter(item =>
+  const filteredData = data.filter(item =>
     item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-  console.log(filteredData)
   return (
     <>
       <Tabs
