@@ -1,5 +1,5 @@
-import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification, Badge } from 'antd';
-import { MenuOutlined, MoreOutlined, DownOutlined, EnvironmentOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { Table, Button, Image, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification, Badge } from 'antd';
+import { MenuOutlined, MoreOutlined, DownOutlined, EnvironmentOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import config from '../../../config';
 import { getVehicule, putVehicule } from '../../../services/charroiService';
@@ -27,7 +27,6 @@ const Vehicule = () => {
     const [falcon, setFalcon] = useState([]);
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [idVehicule, setIdVehicule] = useState('');
-    const [activeKey, setActiveKey] = useState(['1', '2']);
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
         'Image': true,
@@ -39,7 +38,7 @@ const Vehicule = () => {
         'Année circu.': false,
         'Alerte traceur': true,
         'Dernière position': true
-        });
+    });
 
     const handleDelete = async (id) => {
         try {
@@ -53,7 +52,6 @@ const Vehicule = () => {
         });
         }
     };
-
     const handleAddClient = (id) => openModal('Add', id)
     const handleDetail = (id) => openModal('Detail', id)
     const handleRelier = (id) => openModal('Relier', id)
@@ -131,7 +129,7 @@ const Vehicule = () => {
       </Menu>
     );   
 
-      const columns = [
+    const columns = [
     { 
       title: '#', 
       dataIndex: 'id', 
