@@ -1,5 +1,5 @@
 import { Table, Button, Image, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification, Badge } from 'antd';
-import { MenuOutlined, MoreOutlined, DownOutlined, EnvironmentOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { MenuOutlined, MoreOutlined, StopOutlined, CheckCircleOutlined, ThunderboltOutlined, WarningOutlined, AlertOutlined, DownOutlined, EnvironmentOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import config from '../../../config';
 import { getVehicule, putVehicule } from '../../../services/charroiService';
@@ -34,6 +34,7 @@ const Vehicule = () => {
         'Marque': true,
         "Modèle": true,
         'Categorie': true,
+        'Dernière connexion': true,
         "Année de fab.": false,
         'Année circu.': false,
         'Alerte traceur': true,
@@ -130,247 +131,283 @@ const Vehicule = () => {
     );   
 
     const columns = [
-        { 
-        title: '#', 
-        dataIndex: 'id', 
-        key: 'id', 
-        render: (text, record, index) => (
-            <Tooltip title={`Ligne ${index + 1}`}>
+    {
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+        width: 60,
+        align: "center",
+        render: (_, __, index) => (
+        <Tooltip title={`Ligne ${index + 1}`}>
             <Tag color="blue">{index + 1}</Tag>
-            </Tooltip>
+        </Tooltip>
         ),
-        width: "4%" 
-        },
-        {
-        title: 'Image',
-        dataIndex: 'img',
-        key: 'img',
-        render: (text, record) => (
-            <div className="userList">
-            <Image
-                className="userImg"
-                src={ record.img ? `${DOMAIN}/${record.img}` : vehiculeImg}
-                width={40}
-                height={40}
-                style={{ borderRadius: '50%' }}
-                alt="Profil vehicule"
-            />
-            </div>
+    },
+    {
+        title: "Image",
+        dataIndex: "img",
+        key: "img",
+        align: "center",
+        render: (_, record) => (
+        <Image
+            src={record.img ? `${DOMAIN}/${record.img}` : vehiculeImg}
+            width={45}
+            height={45}
+            style={{
+            borderRadius: "50%",
+            border: "2px solid #f0f0f0",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            }}
+            alt="Profil véhicule"
+        />
         ),
-        ...(columnsVisibility['Image'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Matricule',
-            dataIndex: 'immatriculation',
-            render: (text) => (
-                <div className="vehicule-matricule">
-                    <span className="car-wrapper">
-                        <span className="car-boost" />
-                            <CarOutlined className="car-icon-animated" />
-                        <span className="car-shadow" />
-                    </span>
-                    <Tag color="geekblue">{text}</Tag>
-                </div>
-            ),
-        ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' }),
-        }, 
-        {
-        title: 'Marque',
-        dataIndex: 'nom_marque',
-        render: (text, record) => (
-            <Tag icon={<CarOutlined />} color="cyan">
+        ...(columnsVisibility["Image"] ? {} : { className: "hidden-column" }),
+    },
+    {
+        title: "Matricule",
+        dataIndex: "immatriculation",
+        key: "immatriculation",
+        render: (text) => (
+        <Space>
+            <CarOutlined style={{ color: "#1890ff" }} />
+            <Tag color="geekblue" style={{ fontWeight: 600 }}>
             {text}
             </Tag>
+        </Space>
         ),
-        ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-        title: 'Modèle',
-        dataIndex: 'modele',
-        render : (text) => (
-            <Tag icon={<CarOutlined />} color="green">
-                {text ?? 'Aucun'}
-            </Tag>
+        ...(columnsVisibility["Immatriculation"] ? {} : { className: "hidden-column" }),
+    },
+    {
+        title: "Marque",
+        dataIndex: "nom_marque",
+        key: "nom_marque",
+        render: (text) => (
+        <Tag icon={<CarOutlined />} color="cyan">
+            {text}
+        </Tag>
         ),
-        ...(columnsVisibility['Modèle'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-            title: 'Categorie',
-            dataIndex: 'nom_cat',
-            render : (text) => (
-            <Tag icon={<CarOutlined />} color="geekblue">
-                {text ?? 'Aucun'}
-            </Tag>
-            ),
-        ...(columnsVisibility['Categorie'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-        title: 'Année de fab.',
-        dataIndex: 'annee_fabrication',
-        render: text => (
-            <Tooltip title="Annee fabrication">
-                <Tag icon={<CalendarOutlined />} color="magenta">
-                    {text}
-                </Tag>
-            </Tooltip>
+        ...(columnsVisibility["Marque"] ? {} : { className: "hidden-column" }),
+    },
+    {
+        title: "Modèle",
+        dataIndex: "modele",
+        key: "modele",
+        render: (text) => (
+        <Tag icon={<ThunderboltOutlined />} color="green">
+            {text ?? "Aucun"}
+        </Tag>
         ),
-        ...(columnsVisibility['Année de fab.'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-        title: 'Année circu.',
-        dataIndex: 'annee_circulation',
-        render: text => (
-            <Tooltip title="annee circulation'">
+        ...(columnsVisibility["Modèle"] ? {} : { className: "hidden-column" }),
+    },
+    {
+        title: "Catégorie",
+        dataIndex: "nom_cat",
+        key: "nom_cat",
+        render: (text) => (
+        <Tag color="purple">{text ?? "Non défini"}</Tag>
+        ),
+        ...(columnsVisibility["Categorie"] ? {} : { className: "hidden-column" }),
+    },
+    {
+        title: "Année de fab.",
+        dataIndex: "annee_fabrication",
+        key: "annee_fabrication",
+        align: "center",
+        render: (text) => (
+        <Tooltip title="Année de fabrication">
             <Tag icon={<CalendarOutlined />} color="magenta">
-                    {text}
-                </Tag>
-            </Tooltip>
+            {text}
+            </Tag>
+        </Tooltip>
         ),
-        ...(columnsVisibility['Année circu.'] ? {} : { className: 'hidden-column' }),
-        },
-        {
+        ...(columnsVisibility["Année de fab."] ? {} : { className: "hidden-column" }),
+    },
+    {
+        title: "Année circu.",
+        dataIndex: "annee_circulation",
+        key: "annee_circulation",
+        align: "center",
+        render: (text) => (
+        <Tooltip title="Année de mise en circulation">
+            <Tag icon={<CalendarOutlined />} color="volcano">
+            {text}
+            </Tag>
+        </Tooltip>
+        ),
+        ...(columnsVisibility["Année circu."] ? {} : { className: "hidden-column" }),
+    },
+    {
+        title: "Dernière connexion",
+        key: "last_connexion",
+        render: (_, record) => (
+        <Tag color="blue" icon={<ThunderboltOutlined />}>
+            {record.capteurInfo?.time || "—"}
+        </Tag>
+        ),
+        ...(columnsVisibility["Dernière connexion"] ? {} : { className: "hidden-column" }),
+    },
+    {
         title: "Dernière position",
-        dataIndex: "position",
-        render: (text, record) => {
-            const lat = record.lat || record.capteurInfo?.lat;
-            const lng = record.lng || record.capteurInfo?.lng;
-            const address = record.address && record.address !== "-" ? record.address : null;
+        key: "position",
+        render: (_, record) => {
+        const lat = record.lat || record.capteurInfo?.lat;
+        const lng = record.lng || record.capteurInfo?.lng;
+        const address = record.address && record.address !== "-" ? record.address : null;
 
-            if (!lat || !lng) {
-            return <span style={{ color: "#aaa" }}>N/A</span>;
-            }
+        if (!lat || !lng) return <Tag color="default">N/A</Tag>;
 
-            // 🔹 Génère le lien Google Maps
-            const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-
-            return (
+        const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+        return (
             <Tooltip
-                title={
+            title={
                 <>
-                    <div>Latitude : {lat}</div>
-                    <div>Longitude : {lng}</div>
-                    {address && <div>Adresse : {address}</div>}
-                    <div>Cliquez pour ouvrir la carte</div>
+                <div>Latitude : {lat}</div>
+                <div>Longitude : {lng}</div>
+                {address && <div>Adresse : {address}</div>}
+                <div style={{ fontSize: 11, color: "#999" }}>Cliquez pour ouvrir la carte</div>
                 </>
-                }
+            }
+            >
+            <Button
+                type="link"
+                icon={<EnvironmentOutlined style={{ color: "#52c41a" }} />}
+                onClick={() => window.open(mapUrl, "_blank")}
+                style={{ fontWeight: 500 }}
+            >
+                Voir sur carte
+            </Button>
+            </Tooltip>
+        );
+        },
+        ...(columnsVisibility["Dernière position"] ? {} : { className: "hidden-column" }),
+    },
+    {
+        title: "Alerte traceur",
+        key: "alert",
+        render: (_, record) => {
+        const sensors = record.capteurInfo?.sensors || [];
+        const val = sensors.find((s) => s.type === "textual" && s.name === "#MSG")?.val || "OK";
+        const lastConnection = record.capteurInfo?.last_connection;
+        const isOffline = lastConnection ? moment().diff(moment(lastConnection), "hours") > 12 : false;
+
+        let status = "success";
+        let label = "OK";
+        let color = "green";
+        let icon = <CheckCircleOutlined />;
+
+        if (isOffline) {
+            status = "default";
+            label = "Hors ligne";
+            color = "gray";
+            icon = <StopOutlined />;
+        } else {
+            switch (val) {
+            case "overspeed":
+                status = "error";
+                label = "Excès de vitesse";
+                color = "red";
+                icon = <ThunderboltOutlined />;
+                break;
+            case "lowBattery":
+                status = "warning";
+                label = "Batterie faible";
+                color = "orange";
+                icon = <WarningOutlined />;
+                break;
+            case "fuelLeak":
+                status = "error";
+                label = "Fuite carburant";
+                color = "volcano";
+                icon = <AlertOutlined />;
+                break;
+            case "powerCut":
+                status = "error";
+                label = "Coupure d’alim.";
+                color = "red";
+                icon = <StopOutlined />;
+                break;
+            default:
+                break;
+            }
+        }
+
+        return (
+            <Tooltip title="État du traceur">
+            <Tag color={color} icon={icon} style={{ fontWeight: 600 }}>
+                {label}
+            </Tag>
+            </Tooltip>
+        );
+        },
+        ...(columnsVisibility["Alerte traceur"] ? {} : { className: "hidden-column" }),
+    },
+    {
+        title: "Actions",
+        key: "actions",
+        align: "center",
+        render: (_, record) => (
+        <Space size="middle" style={{ justifyContent: "center" }}>
+            <Tooltip title="Voir les détails">
+            <Button
+                icon={<EyeOutlined />}
+                type="text"
+                style={{ color: "#1890ff" }}
+                onClick={() => handleDetail(record.id_vehicule)}
+            />
+            </Tooltip>
+
+            <Dropdown
+            menu={{
+                items: [
+                {
+                    key: "site",
+                    label: (
+                    <>
+                        <RetweetOutlined /> Affecter à un site
+                    </>
+                    ),
+                    onClick: () => handleSite(record.id_vehicule),
+                },
+                {
+                    type: "divider",
+                },
+                {
+                    key: "reli",
+                    label: (
+                    <>
+                        <RetweetOutlined /> Relier à un device
+                    </>
+                    ),
+                    onClick: () => handleRelier(record.id_vehicule),
+                },
+                ],
+            }}
+            trigger={["click"]}
+            >
+            <Button
+                icon={<MoreOutlined />}
+                type="text"
+                style={{ color: "#333" }}
+            />
+            </Dropdown>
+
+            <Tooltip title="Supprimer le véhicule">
+            <Popconfirm
+                title="Confirmer la suppression du véhicule ?"
+                onConfirm={() => handleDelete(record.id_vehicule)}
+                okText="Oui"
+                cancelText="Non"
             >
                 <Button
-                type="link"
-                icon={<EnvironmentOutlined style={{ color: "#1890ff" }} />}
-                onClick={() => window.open(mapUrl, "_blank")}
-                style={{ padding: 0, fontWeight: "bold" }}
-                >
-                Voir sur la carte
-                </Button>
-            </Tooltip>
-            );
-        },
-        ...(columnsVisibility['Dernière position'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-        title: 'Alerte traceur',
-        dataIndex: 'alert',
-        render: (text, record) => {
-            const sensors = record.capteurInfo?.sensors || [];
-            const val = sensors.find(s => s.type === 'textual' && s.name === '#MSG')?.val || 'OK';
-
-            // Vérifier si hors ligne (>12h)
-            const lastConnection = record.capteurInfo?.last_connection;
-            const isOffline = lastConnection
-            ? moment().diff(moment(lastConnection), 'hours') > 12
-            : false;
-
-            let status = 'success';
-            let label = '✅ OK';
-
-            if (isOffline) {
-            status = 'default';
-            label = '🚫 Hors ligne (>12h)';
-            } else {
-            switch (val) {
-                case 'overspeed':
-                status = 'error';
-                label = '⚡ Excès de vitesse';
-                break;
-                case 'lowBattery':
-                status = 'warning';
-                label = '🟧 Batterie faible';
-                break;
-                case 'fuelLeak':
-                status = 'error';
-                label = '⛽ Fuite carburant';
-                break;
-                case 'powerCut':
-                status = 'error';
-                label = '🟥 Coupure';
-                break;
-                default:
-                status = 'success';
-                label = '✅ OK';
-            }
-            }
-
-            return (
-            <Tooltip title="Cliquez ici pour voir le détail">
-                <Badge status={status} text={label} />
-            </Tooltip>
-            );
-        },
-        ...(columnsVisibility['Dernière position'] ? {} : { className: 'hidden-column' }),
-        },
-        {
-        title: 'Actions',
-        dataIndex: 'actions',
-        key: 'actions',
-        render: (text, record) => (
-            <Space size="middle" style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
-                <Tooltip title="Voir les détails">
-                    <Button
-                    icon={<EyeOutlined />}
-                    aria-label="Voir les détails de la tâche"
-                    style={{ color: 'blue' }}
-                    onClick={()=> handleDetail(record.id_vehicule)}
-                    />
-                </Tooltip>
-
-                <Dropdown
-                overlay={(
-                    <Menu>
-                    <Menu.Item onClick={()=> handleSite(record.id_vehicule)}>
-                        <RetweetOutlined /> Affecter à un site
-                    </Menu.Item>
-                    <Menu.Divider />
-                    <Menu.Item onClick={()=> handleRelier(record.id_vehicule)}>
-                        <RetweetOutlined /> Rélier à un device
-                    </Menu.Item>
-                    </Menu>
-                )}
-                trigger={['click']}
-                >
-                <Button
-                    icon={<MoreOutlined />}
-                    style={{ color: 'black', padding: '0' }}
-                    aria-label="Menu actions"
+                icon={<DeleteOutlined />}
+                type="text"
+                style={{ color: "red" }}
                 />
-                </Dropdown>
-                
-                <Tooltip title="Supprimer">
-                    <Popconfirm
-                        title="Êtes-vous sûr de vouloir supprimer ce véhicule ?"
-                        onConfirm={() => handleDelete(record.id_vehicule)}
-                        okText="Oui"
-                        cancelText="Non"
-                    >
-                        <Button
-                            icon={<DeleteOutlined />}
-                            style={{ color: 'red' }}
-                            aria-label="Delete client"
-                        />
-                    </Popconfirm>
-                </Tooltip>
-            </Space>
+            </Popconfirm>
+            </Tooltip>
+        </Space>
         ),
-        }
+    },
     ];
 
     const filteredData = mergedCourses.filter(item =>
