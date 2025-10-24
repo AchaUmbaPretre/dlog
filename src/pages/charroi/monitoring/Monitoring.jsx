@@ -52,9 +52,6 @@ const Monitoring = () => {
     };
   }, [fetchFalcon]);
 
-  /** =====================
-   *   FETCH COURSES DATA
-   *  ===================== */
   const fetchCourses = useCallback(async () => {
     try {
       const { data } = await getRapportCharroiVehicule();

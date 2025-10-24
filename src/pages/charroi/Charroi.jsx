@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, MoreOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { ExportOutlined, MoreOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
 import TabPane from 'antd/es/tabs/TabPane';
 import { getVehicule, putVehicule } from '../../services/charroiService';
@@ -20,9 +20,9 @@ const Charroi = () => {
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
   const [pagination, setPagination] = useState({
-          current: 1,
-          pageSize: 15,
-      });
+    current: 1,
+    pageSize: 15,
+  });
   const scroll = { x: 'max-content' };
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [idVehicule, setIdVehicule] = useState('');
