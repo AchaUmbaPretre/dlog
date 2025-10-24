@@ -273,8 +273,7 @@ const Charroi = () => {
           ? moment().diff(moment(lastConnection), 'hours') > 12
           : false;
 
-        // Mapping alertes vers badge
-        let status = 'success'; // couleur par défaut
+        let status = 'success';
         let label = '✅ OK';
 
         if (isOffline) {
