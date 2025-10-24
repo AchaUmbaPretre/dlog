@@ -37,7 +37,7 @@ const Charroi = () => {
       'Marque': true,
       "Modèle": true,
       'Categorie': true,
-      "Année de fab": false,
+      "Année de fab.": false,
       'Année circu.': false,
       'Alerte traceur': true,
       'Dernière position': true
@@ -150,6 +150,7 @@ const Charroi = () => {
           />
         </div>
       ),
+      ...(columnsVisibility['Image'] ? {} : { className: 'hidden-column' }),
     },
     {
         title: 'Matricule',
@@ -163,16 +164,18 @@ const Charroi = () => {
                 </span>
                 <Tag color="geekblue">{text}</Tag>
             </div>
-        )
+        ),
+      ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' }),
     }, 
     {
-        title: 'Marque',
-        dataIndex: 'nom_marque',
-            render: (text, record) => (
-                <Tag icon={<CarOutlined />} color="cyan">
-                    {text}
-                </Tag>
-            )
+      title: 'Marque',
+      dataIndex: 'nom_marque',
+      render: (text, record) => (
+        <Tag icon={<CarOutlined />} color="cyan">
+          {text}
+        </Tag>
+      ),
+      ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: 'Modèle',
@@ -181,8 +184,8 @@ const Charroi = () => {
         <Tag icon={<CarOutlined />} color="green">
             {text ?? 'Aucun'}
         </Tag>
-      )
-
+      ),
+      ...(columnsVisibility['Modèle'] ? {} : { className: 'hidden-column' }),
     },
     {
         title: 'Categorie',
@@ -191,7 +194,8 @@ const Charroi = () => {
           <Tag icon={<CarOutlined />} color="geekblue">
               {text ?? 'Aucun'}
           </Tag>
-        )
+        ),
+      ...(columnsVisibility['Categorie'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: 'Année de fab.',
@@ -202,7 +206,8 @@ const Charroi = () => {
                 {text}
             </Tag>
         </Tooltip>
-      )
+      ),
+      ...(columnsVisibility['Année de fab.'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: 'Année circu.',
@@ -213,7 +218,8 @@ const Charroi = () => {
                 {text}
             </Tag>
         </Tooltip>
-      )
+      ),
+      ...(columnsVisibility['Année circu.'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: "Dernière position",
@@ -247,11 +253,12 @@ const Charroi = () => {
               onClick={() => window.open(mapUrl, "_blank")}
               style={{ padding: 0, fontWeight: "bold" }}
             >
-              {address || `${lat.toFixed(4)}, ${lng.toFixed(4)}`}
+              Voir sur la carte
             </Button>
           </Tooltip>
         );
       },
+      ...(columnsVisibility['Dernière position'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: 'Alerte traceur',
@@ -310,7 +317,8 @@ const Charroi = () => {
             <Badge status={status} text={label} />
           </Tooltip>
         );
-      }
+      },
+      ...(columnsVisibility['Dernière position'] ? {} : { className: 'hidden-column' }),
     },
     {
       title: 'Actions',
