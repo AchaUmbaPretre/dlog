@@ -10,6 +10,7 @@ import SiteVehicule from '../siteVehicule/SiteVehicule';
 import RelierFalcon from '../relierFalcon/RelierFalcon';
 import VehiculeDetail from '../vehiculeDetail/VehiculeDetail';
 import CharroiForm from '../charroiForm/CharroiForm';
+import DetailTypeAlert from './detailTypeAlert/DetailTypeAlert';
 
 const { Search } = Input;
 
@@ -503,6 +504,17 @@ const Vehicule = () => {
         centered
       >
         <SiteVehicule idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'detailAlerte'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={600}
+        centered
+      >
+        <DetailTypeAlert/>
       </Modal>
     </>
   )
