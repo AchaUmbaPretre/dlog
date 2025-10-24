@@ -3,7 +3,7 @@ import { Typography, Input, Tabs, Modal, Space, DatePicker, Table, Tag, notifica
 import moment from 'moment';
 import { getConnectivity } from '../../../../../services/eventService';
 import './rapportEvent.scss';
-import { CarOutlined, DashboardOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { CarOutlined, DashboardOutlined, ThunderboltOutlined, SignalFilled, NumberOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { computeDowntimeMinutes, formatDurations } from '../../../../../utils/renderTooltip';
 import ConnectivityMonth from '../../../monitoring/connectivityMonth/ConnectivityMonth';
 import getColumnSearchProps from '../../../../../utils/columnSearchUtils';
@@ -85,95 +85,123 @@ const RapportEvent = () => {
     openModal('detail', idDevice);
   };
 
-  const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => {
-        const pageSize = pagination.pageSize || 10;
-        const pageIndex = pagination.current || 1;
-        return (pageIndex - 1) * pageSize + index + 1;
-      }, 
-      width: 50,
+
+const columns = [
+  {
+    title: (
+      <span style={{ color: "#8c8c8c", fontWeight: 500 }}>
+        <NumberOutlined style={{ color: "#1890ff", marginRight: 6 }} />
+      </span>
+    ),
+    dataIndex: "id",
+    key: "id",
+    render: (text, record, index) => {
+      const pageSize = pagination.pageSize || 10;
+      const pageIndex = pagination.current || 1;
+      return (pageIndex - 1) * pageSize + index + 1;
     },
-    {
-      title: 'Véhicule',
-      dataIndex: 'device_name',
-      key: 'device_name',
-      ...getColumnSearchProps(
-        'device_name',
-        searchText,
-        setSearchText,
-        '',
-        searchInput
-      ),
-      sorter: (a, b) => a.device_name.localeCompare(b.device_name),
-      render: text => (
-        <strong>
-          <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
-          {text}
-        </strong>
-      ),
+    width: 60,
+  },
+  {
+    title: (
+      <span style={{ color: "#8c8c8c", fontWeight: 500 }}>
+        <CarOutlined style={{ color: "#1890ff", marginRight: 6 }} />
+        Véhicule
+      </span>
+    ),
+    dataIndex: "device_name",
+    key: "device_name",
+    ...getColumnSearchProps(
+      "device_name",
+      searchText,
+      setSearchText,
+      "",
+      searchInput
+    ),
+    sorter: (a, b) => a.device_name.localeCompare(b.device_name),
+    render: (text) => (
+      <strong>
+        <CarOutlined style={{ color: "#1890ff", marginRight: 6 }} />
+        {text}
+      </strong>
+    ),
+  },
+  {
+    title: (
+      <span style={{ color: "#8c8c8c", fontWeight: 500 }}>
+        <SignalFilled style={{ color: "#722ed1", marginRight: 6 }} />
+        M à j (Taux de connectivité)
+      </span>
+    ),
+    dataIndex: "taux_connectivite_pourcent",
+    key: "taux_connectivite_pourcent",
+    sorter: (a, b) =>
+      a.taux_connectivite_pourcent - b.taux_connectivite_pourcent,
+    render: (value, record) => (
+      <Tooltip title="Cliquez pour voir le détail">
+        <Progress
+          percent={Number(value.toFixed(2))}
+          size="small"
+          strokeColor={
+            value >= 75 ? "#52c41a" : value >= 50 ? "#faad14" : "#f5222d"
+          }
+          format={(percent) => `${percent.toFixed(2)}%`}
+          onClick={() => handDetails(record.device_id)}
+          style={{ cursor: "pointer" }}
+        />
+      </Tooltip>
+    ),
+  },
+  {
+    title: (
+      <span style={{ color: "#8c8c8c", fontWeight: 500 }}>
+        <ClockCircleOutlined style={{ color: "#faad14", marginRight: 6 }} />
+        Connexion
+      </span>
+    ),
+    dataIndex: "derniere_connexion",
+    key: "derniere_connexion",
+    sorter: (a, b) =>
+      computeDowntimeMinutes(a.derniere_connexion) -
+      computeDowntimeMinutes(b.derniere_connexion),
+    render: (value) => {
+      const minutes = computeDowntimeMinutes(value);
+      return (
+        <span>
+          <ClockCircleOutlined style={{ marginRight: 6, color: "#faad14" }} />
+          {formatDurations(minutes)}
+        </span>
+      );
     },
-    {
-      title: 'M à j (Taux de connectivité)',
-      dataIndex: 'taux_connectivite_pourcent',
-      key: 'taux_connectivite_pourcent',
-      sorter: (a, b) => a.taux_connectivite_pourcent - b.taux_connectivite_pourcent,
-      render: (value, record) => (
-        <>
-          <Tooltip title="Cliquez pour voir le detail">
-            <Progress
-              percent={Number(value.toFixed(2))}
-              size="small"
-              strokeColor={value >= 75 ? '#52c41a' : value >= 50 ? '#faad14' : '#f5222d'}
-              format={percent => `${percent.toFixed(2)}%`}
-              onClick={()=>handDetails(record.device_id)}
-              style={{cursor:'pointer'}}
-            />
-          </Tooltip>
-        </>
-      ),
+  },
+  {
+    title: (
+      <span style={{ color: "#8c8c8c", fontWeight: 500 }}>
+        <ThunderboltOutlined style={{ color: "#13c2c2", marginRight: 6 }} />
+        Statut actuel
+      </span>
+    ),
+    dataIndex: "statut_actuel",
+    key: "statut_actuel",
+    filters: [
+      { text: "actif", value: "connected" },
+      { text: "inactif", value: "disconnected" },
+    ],
+    onFilter: (value, record) => record.statut_actuel === value,
+    render: (status) => {
+      const isActive = status === "connected";
+      return (
+        <Tag
+          icon={isActive ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
+          color={isActive ? "success" : "error"}
+          style={{ fontWeight: 500 }}
+        >
+          {isActive ? "Actif" : "Inactif"}
+        </Tag>
+      );
     },
-    {
-      title: 'Connexion',
-      dataIndex: 'derniere_connexion',
-      key: 'derniere_connexion',
-      sorter: (a, b) => 
-        computeDowntimeMinutes(a.derniere_connexion) - computeDowntimeMinutes(b.derniere_connexion),
-      render: value => {
-        const minutes = computeDowntimeMinutes(value);
-        return (
-          <span>
-            <ClockCircleOutlined style={{ marginRight: 6, color: '#faad14' }} />
-            {formatDurations(minutes)}
-          </span>
-        );
-      },
-    },
-    {
-      title: 'Statut actuel',
-      dataIndex: 'statut_actuel',
-      key: 'statut_actuel',
-      filters: [
-        { text: 'actif', value: 'connected' },
-        { text: 'inactif', value: 'disconnected' },
-      ],
-      onFilter: (value, record) => record.statut_actuel === value,
-      render: status => {
-        const isActive = status === 'connected';
-        return (
-          <Tag 
-            icon={isActive ? <CheckCircleOutlined /> : <CloseCircleOutlined />} 
-            color={isActive ? 'green' : 'volcano'}
-          >
-            {isActive ? 'Actif' : 'Inactif'}
-          </Tag>
-        );
-      },
-    },
-  ];
+  },
+];
 
   return (
     <>
