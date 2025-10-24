@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Table, Button, Image, Tabs, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification, Badge } from 'antd';
 import { ExportOutlined, MoreOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import CharroiForm from './charroiForm/CharroiForm';
 import TabPane from 'antd/es/tabs/TabPane';
@@ -11,6 +11,8 @@ import Modele from '../modeles/Modele';
 import Marque from '../marque/Marque';
 import RelierFalcon from './relierFalcon/RelierFalcon';
 import SiteVehicule from './siteVehicule/SiteVehicule';
+import { getFalcon } from '../../services/rapportService';
+import moment from 'moment';
 
 const { Search } = Input;
 
@@ -19,6 +21,7 @@ const Charroi = () => {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [modalType, setModalType] = useState(null);
+  const [falcon, setFalcon] = useState([]);
   const [pagination, setPagination] = useState({
           current: 1,
           pageSize: 15,
@@ -33,7 +36,7 @@ const Charroi = () => {
   };
 
   const handleDelete = async (id) => {
- try {
+    try {
       await putVehicule(id);
       setData(data.filter((item) => item.id_vehicule !== id));
       message.success('Suppression du véhicule effectuée avec succès');
@@ -64,6 +67,27 @@ const Charroi = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+    const fetchFalcon = useCallback(async () => {
+      try {
+        const { data } = await getFalcon();
+        setFalcon(data[0]?.items || []);
+      } catch (error) {
+        console.error('Erreur lors du chargement Falcon:', error);
+      }
+    }, []);
+
+    useEffect(() => {
+      fetchFalcon();
+    }, []);
+
+    const mergedCourses = useMemo(() => {
+      return data.map((c) => {
+        const capteur = falcon.find((f) => f.id === c.id_capteur);
+        return { ...c, capteurInfo: capteur || null };
+      });
+    }, [data, falcon]);
+  
 
   const handleAddClient = (id) => openModal('Add', id)
   const handleDetail = (id) => openModal('Detail', id)
@@ -199,6 +223,65 @@ const Charroi = () => {
       )
     },
     {
+      title: 'Alerte traceur',
+      dataIndex: 'alert',
+      render: (text, record) => {
+        const sensors = record.capteurInfo?.sensors || [];
+        const val = sensors.find(s => s.type === 'textual' && s.name === '#MSG')?.val || 'OK';
+
+        // Vérifier si hors ligne (>12h)
+        const lastConnection = record.capteurInfo?.last_connection;
+        const isOffline = lastConnection
+          ? moment().diff(moment(lastConnection), 'hours') > 12
+          : false;
+
+        // Mapping alertes vers badge
+        let status = 'success'; // couleur par défaut
+        let label = '✅ OK';
+
+        if (isOffline) {
+          status = 'default';
+          label = '🚫 Hors ligne (>12h)';
+        } else {
+          switch (val) {
+            case 'overspeed':
+              status = 'error';
+              label = '⚡ Excès de vitesse';
+              break;
+            case 'powerOff':
+              status = 'error';
+              label = '🔴 Éteint';
+              break;
+            case 'lowBattery':
+              status = 'warning';
+              label = '🟧 Batterie faible';
+              break;
+            case 'powerOn':
+              status = 'success';
+              label = '🟢 Allumé';
+              break;
+            case 'fuelLeak':
+              status = 'error';
+              label = '⛽ Fuite carburant';
+              break;
+            case 'powerCut':
+              status = 'error';
+              label = '🟥 Coupure';
+              break;
+            default:
+              status = 'success';
+              label = '✅ OK';
+          }
+        }
+
+        return (
+          <Tooltip title="Cliquez ici pour voir le détail">
+            <Badge status={status} text={label} />
+          </Tooltip>
+        );
+      }
+    },
+    {
       title: 'Actions',
       dataIndex: 'actions',
       key: 'actions',
@@ -253,7 +336,7 @@ const Charroi = () => {
     }
   ];
 
-  const filteredData = data.filter(item =>
+  const filteredData = mergedCourses.filter(item =>
     item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
