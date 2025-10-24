@@ -130,248 +130,248 @@ const Vehicule = () => {
     );   
 
     const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (text, record, index) => (
-        <Tooltip title={`Ligne ${index + 1}`}>
-          <Tag color="blue">{index + 1}</Tag>
-        </Tooltip>
-      ),
-      width: "4%" 
-    },
-    {
-      title: 'Image',
-      dataIndex: 'img',
-      key: 'img',
-      render: (text, record) => (
-        <div className="userList">
-          <Image
-            className="userImg"
-            src={ record.img ? `${DOMAIN}/${record.img}` : vehiculeImg}
-            width={40}
-            height={40}
-            style={{ borderRadius: '50%' }}
-            alt="Profil vehicule"
-          />
-        </div>
-      ),
-      ...(columnsVisibility['Image'] ? {} : { className: 'hidden-column' }),
-    },
-    {
-        title: 'Matricule',
-        dataIndex: 'immatriculation',
-        render: (text) => (
-            <div className="vehicule-matricule">
-                <span className="car-wrapper">
-                    <span className="car-boost" />
-                        <CarOutlined className="car-icon-animated" />
-                    <span className="car-shadow" />
-                </span>
-                <Tag color="geekblue">{text}</Tag>
+        { 
+        title: '#', 
+        dataIndex: 'id', 
+        key: 'id', 
+        render: (text, record, index) => (
+            <Tooltip title={`Ligne ${index + 1}`}>
+            <Tag color="blue">{index + 1}</Tag>
+            </Tooltip>
+        ),
+        width: "4%" 
+        },
+        {
+        title: 'Image',
+        dataIndex: 'img',
+        key: 'img',
+        render: (text, record) => (
+            <div className="userList">
+            <Image
+                className="userImg"
+                src={ record.img ? `${DOMAIN}/${record.img}` : vehiculeImg}
+                width={40}
+                height={40}
+                style={{ borderRadius: '50%' }}
+                alt="Profil vehicule"
+            />
             </div>
         ),
-      ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' }),
-    }, 
-    {
-      title: 'Marque',
-      dataIndex: 'nom_marque',
-      render: (text, record) => (
-        <Tag icon={<CarOutlined />} color="cyan">
-          {text}
-        </Tag>
-      ),
-      ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
-    },
-    {
-      title: 'Modèle',
-      dataIndex: 'modele',
-      render : (text) => (
-        <Tag icon={<CarOutlined />} color="green">
-            {text ?? 'Aucun'}
-        </Tag>
-      ),
-      ...(columnsVisibility['Modèle'] ? {} : { className: 'hidden-column' }),
-    },
-    {
-        title: 'Categorie',
-        dataIndex: 'nom_cat',
-        render : (text) => (
-          <Tag icon={<CarOutlined />} color="geekblue">
-              {text ?? 'Aucun'}
-          </Tag>
+        ...(columnsVisibility['Image'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+            title: 'Matricule',
+            dataIndex: 'immatriculation',
+            render: (text) => (
+                <div className="vehicule-matricule">
+                    <span className="car-wrapper">
+                        <span className="car-boost" />
+                            <CarOutlined className="car-icon-animated" />
+                        <span className="car-shadow" />
+                    </span>
+                    <Tag color="geekblue">{text}</Tag>
+                </div>
+            ),
+        ...(columnsVisibility['Immatriculation'] ? {} : { className: 'hidden-column' }),
+        }, 
+        {
+        title: 'Marque',
+        dataIndex: 'nom_marque',
+        render: (text, record) => (
+            <Tag icon={<CarOutlined />} color="cyan">
+            {text}
+            </Tag>
         ),
-      ...(columnsVisibility['Categorie'] ? {} : { className: 'hidden-column' }),
-    },
-    {
-      title: 'Année de fab.',
-      dataIndex: 'annee_fabrication',
-      render: text => (
-        <Tooltip title="Annee fabrication">
+        ...(columnsVisibility['Marque'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+        title: 'Modèle',
+        dataIndex: 'modele',
+        render : (text) => (
+            <Tag icon={<CarOutlined />} color="green">
+                {text ?? 'Aucun'}
+            </Tag>
+        ),
+        ...(columnsVisibility['Modèle'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+            title: 'Categorie',
+            dataIndex: 'nom_cat',
+            render : (text) => (
+            <Tag icon={<CarOutlined />} color="geekblue">
+                {text ?? 'Aucun'}
+            </Tag>
+            ),
+        ...(columnsVisibility['Categorie'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+        title: 'Année de fab.',
+        dataIndex: 'annee_fabrication',
+        render: text => (
+            <Tooltip title="Annee fabrication">
+                <Tag icon={<CalendarOutlined />} color="magenta">
+                    {text}
+                </Tag>
+            </Tooltip>
+        ),
+        ...(columnsVisibility['Année de fab.'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+        title: 'Année circu.',
+        dataIndex: 'annee_circulation',
+        render: text => (
+            <Tooltip title="annee circulation'">
             <Tag icon={<CalendarOutlined />} color="magenta">
-                {text}
-            </Tag>
-        </Tooltip>
-      ),
-      ...(columnsVisibility['Année de fab.'] ? {} : { className: 'hidden-column' }),
-    },
-    {
-      title: 'Année circu.',
-      dataIndex: 'annee_circulation',
-      render: text => (
-        <Tooltip title="annee circulation'">
-          <Tag icon={<CalendarOutlined />} color="magenta">
-                {text}
-            </Tag>
-        </Tooltip>
-      ),
-      ...(columnsVisibility['Année circu.'] ? {} : { className: 'hidden-column' }),
-    },
-    {
-      title: "Dernière position",
-      dataIndex: "position",
-      render: (text, record) => {
-        const lat = record.lat || record.capteurInfo?.lat;
-        const lng = record.lng || record.capteurInfo?.lng;
-        const address = record.address && record.address !== "-" ? record.address : null;
+                    {text}
+                </Tag>
+            </Tooltip>
+        ),
+        ...(columnsVisibility['Année circu.'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+        title: "Dernière position",
+        dataIndex: "position",
+        render: (text, record) => {
+            const lat = record.lat || record.capteurInfo?.lat;
+            const lng = record.lng || record.capteurInfo?.lng;
+            const address = record.address && record.address !== "-" ? record.address : null;
 
-        if (!lat || !lng) {
-          return <span style={{ color: "#aaa" }}>N/A</span>;
-        }
-
-        // 🔹 Génère le lien Google Maps
-        const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-
-        return (
-          <Tooltip
-            title={
-              <>
-                <div>Latitude : {lat}</div>
-                <div>Longitude : {lng}</div>
-                {address && <div>Adresse : {address}</div>}
-                <div>Cliquez pour ouvrir la carte</div>
-              </>
+            if (!lat || !lng) {
+            return <span style={{ color: "#aaa" }}>N/A</span>;
             }
-          >
-            <Button
-              type="link"
-              icon={<EnvironmentOutlined style={{ color: "#1890ff" }} />}
-              onClick={() => window.open(mapUrl, "_blank")}
-              style={{ padding: 0, fontWeight: "bold" }}
+
+            // 🔹 Génère le lien Google Maps
+            const mapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+
+            return (
+            <Tooltip
+                title={
+                <>
+                    <div>Latitude : {lat}</div>
+                    <div>Longitude : {lng}</div>
+                    {address && <div>Adresse : {address}</div>}
+                    <div>Cliquez pour ouvrir la carte</div>
+                </>
+                }
             >
-              Voir sur la carte
-            </Button>
-          </Tooltip>
-        );
-      },
-      ...(columnsVisibility['Dernière position'] ? {} : { className: 'hidden-column' }),
-    },
-    {
-      title: 'Alerte traceur',
-      dataIndex: 'alert',
-      render: (text, record) => {
-        const sensors = record.capteurInfo?.sensors || [];
-        const val = sensors.find(s => s.type === 'textual' && s.name === '#MSG')?.val || 'OK';
-
-        // Vérifier si hors ligne (>12h)
-        const lastConnection = record.capteurInfo?.last_connection;
-        const isOffline = lastConnection
-          ? moment().diff(moment(lastConnection), 'hours') > 12
-          : false;
-
-        let status = 'success';
-        let label = '✅ OK';
-
-        if (isOffline) {
-          status = 'default';
-          label = '🚫 Hors ligne (>12h)';
-        } else {
-          switch (val) {
-            case 'overspeed':
-              status = 'error';
-              label = '⚡ Excès de vitesse';
-              break;
-            case 'lowBattery':
-              status = 'warning';
-              label = '🟧 Batterie faible';
-              break;
-            case 'fuelLeak':
-              status = 'error';
-              label = '⛽ Fuite carburant';
-              break;
-            case 'powerCut':
-              status = 'error';
-              label = '🟥 Coupure';
-              break;
-            default:
-              status = 'success';
-              label = '✅ OK';
-          }
-        }
-
-        return (
-          <Tooltip title="Cliquez ici pour voir le détail">
-            <Badge status={status} text={label} />
-          </Tooltip>
-        );
-      },
-      ...(columnsVisibility['Dernière position'] ? {} : { className: 'hidden-column' }),
-    },
-    {
-      title: 'Actions',
-      dataIndex: 'actions',
-      key: 'actions',
-      render: (text, record) => (
-        <Space size="middle" style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
-            <Tooltip title="Voir les détails">
                 <Button
-                icon={<EyeOutlined />}
-                aria-label="Voir les détails de la tâche"
-                style={{ color: 'blue' }}
-                onClick={()=> handleDetail(record.id_vehicule)}
-                />
-            </Tooltip>
-
-            <Dropdown
-              overlay={(
-                <Menu>
-                  <Menu.Item onClick={()=> handleSite(record.id_vehicule)}>
-                    <RetweetOutlined /> Affecter à un site
-                  </Menu.Item>
-                  <Menu.Divider />
-                  <Menu.Item onClick={()=> handleRelier(record.id_vehicule)}>
-                    <RetweetOutlined /> Rélier à un device
-                  </Menu.Item>
-                </Menu>
-              )}
-              trigger={['click']}
-            >
-              <Button
-                icon={<MoreOutlined />}
-                style={{ color: 'black', padding: '0' }}
-                aria-label="Menu actions"
-              />
-            </Dropdown>
-            
-            <Tooltip title="Supprimer">
-                <Popconfirm
-                    title="Êtes-vous sûr de vouloir supprimer ce véhicule ?"
-                    onConfirm={() => handleDelete(record.id_vehicule)}
-                    okText="Oui"
-                    cancelText="Non"
+                type="link"
+                icon={<EnvironmentOutlined style={{ color: "#1890ff" }} />}
+                onClick={() => window.open(mapUrl, "_blank")}
+                style={{ padding: 0, fontWeight: "bold" }}
                 >
-                    <Button
-                        icon={<DeleteOutlined />}
-                        style={{ color: 'red' }}
-                        aria-label="Delete client"
-                    />
-                </Popconfirm>
+                Voir sur la carte
+                </Button>
             </Tooltip>
-        </Space>
-      ),
-    }
-  ];
+            );
+        },
+        ...(columnsVisibility['Dernière position'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+        title: 'Alerte traceur',
+        dataIndex: 'alert',
+        render: (text, record) => {
+            const sensors = record.capteurInfo?.sensors || [];
+            const val = sensors.find(s => s.type === 'textual' && s.name === '#MSG')?.val || 'OK';
+
+            // Vérifier si hors ligne (>12h)
+            const lastConnection = record.capteurInfo?.last_connection;
+            const isOffline = lastConnection
+            ? moment().diff(moment(lastConnection), 'hours') > 12
+            : false;
+
+            let status = 'success';
+            let label = '✅ OK';
+
+            if (isOffline) {
+            status = 'default';
+            label = '🚫 Hors ligne (>12h)';
+            } else {
+            switch (val) {
+                case 'overspeed':
+                status = 'error';
+                label = '⚡ Excès de vitesse';
+                break;
+                case 'lowBattery':
+                status = 'warning';
+                label = '🟧 Batterie faible';
+                break;
+                case 'fuelLeak':
+                status = 'error';
+                label = '⛽ Fuite carburant';
+                break;
+                case 'powerCut':
+                status = 'error';
+                label = '🟥 Coupure';
+                break;
+                default:
+                status = 'success';
+                label = '✅ OK';
+            }
+            }
+
+            return (
+            <Tooltip title="Cliquez ici pour voir le détail">
+                <Badge status={status} text={label} />
+            </Tooltip>
+            );
+        },
+        ...(columnsVisibility['Dernière position'] ? {} : { className: 'hidden-column' }),
+        },
+        {
+        title: 'Actions',
+        dataIndex: 'actions',
+        key: 'actions',
+        render: (text, record) => (
+            <Space size="middle" style={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
+                <Tooltip title="Voir les détails">
+                    <Button
+                    icon={<EyeOutlined />}
+                    aria-label="Voir les détails de la tâche"
+                    style={{ color: 'blue' }}
+                    onClick={()=> handleDetail(record.id_vehicule)}
+                    />
+                </Tooltip>
+
+                <Dropdown
+                overlay={(
+                    <Menu>
+                    <Menu.Item onClick={()=> handleSite(record.id_vehicule)}>
+                        <RetweetOutlined /> Affecter à un site
+                    </Menu.Item>
+                    <Menu.Divider />
+                    <Menu.Item onClick={()=> handleRelier(record.id_vehicule)}>
+                        <RetweetOutlined /> Rélier à un device
+                    </Menu.Item>
+                    </Menu>
+                )}
+                trigger={['click']}
+                >
+                <Button
+                    icon={<MoreOutlined />}
+                    style={{ color: 'black', padding: '0' }}
+                    aria-label="Menu actions"
+                />
+                </Dropdown>
+                
+                <Tooltip title="Supprimer">
+                    <Popconfirm
+                        title="Êtes-vous sûr de vouloir supprimer ce véhicule ?"
+                        onConfirm={() => handleDelete(record.id_vehicule)}
+                        okText="Oui"
+                        cancelText="Non"
+                    >
+                        <Button
+                            icon={<DeleteOutlined />}
+                            style={{ color: 'red' }}
+                            aria-label="Delete client"
+                        />
+                    </Popconfirm>
+                </Tooltip>
+            </Space>
+        ),
+        }
+    ];
 
     const filteredData = mergedCourses.filter(item =>
         item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
