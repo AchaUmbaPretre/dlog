@@ -6,7 +6,7 @@ import {
   BarChartOutlined,
   DesktopOutlined,
   BellOutlined,
-  FileTextOutlined,
+  WifiOutlined,
   DashboardOutlined,
 } from '@ant-design/icons';
 import RapportEvent from '../demandeVehicule/charroiLocalisation/rapportEvent/RapportEvent';
@@ -169,8 +169,8 @@ const Monitoring = () => {
         key="5"
         tab={
           <span style={getTabStyle('5')}>
-            <FileTextOutlined style={iconStyle('5')} />
-            Rapport des connexions
+            <WifiOutlined style={iconStyle('5')} />
+            Signal
           </span>
         }
       >
