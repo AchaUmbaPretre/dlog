@@ -285,18 +285,10 @@ const Charroi = () => {
               status = 'error';
               label = '⚡ Excès de vitesse';
               break;
-/*             case 'powerOff':
-              status = 'error';
-              label = '🔴 Éteint';
-              break; */
             case 'lowBattery':
               status = 'warning';
               label = '🟧 Batterie faible';
               break;
-/*             case 'powerOn':
-              status = 'success';
-              label = '🟢 Allumé';
-              break; */
             case 'fuelLeak':
               status = 'error';
               label = '⛽ Fuite carburant';
