@@ -9,7 +9,6 @@ import {
 } from "antd";
 import {
   CarOutlined,
-  CalendarOutlined,
   UserOutlined,
   EnvironmentOutlined,
   AppstoreOutlined,
