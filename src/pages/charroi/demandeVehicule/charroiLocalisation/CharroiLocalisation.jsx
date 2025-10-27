@@ -35,7 +35,7 @@ const CharroiLocalisation = () => {
     'Direction': true
   });
 
-    const fetchData = async () => {
+  const fetchData = async () => {
     try {
         const falconData = await getFalcon();
         const items = falconData.data[0].items || [];
@@ -44,12 +44,12 @@ const CharroiLocalisation = () => {
     } catch (error) {
         console.error("Erreur fetchData:", error);
         notification.error({
-        message: 'Erreur de chargement',
-        description: 'Impossible de charger les données véhicules.',
+          message: 'Erreur de chargement',
+          description: 'Impossible de charger les données véhicules.',
         });
         setLoading(false);
     }
-    };
+  };
 
     useEffect(() => {
         // Chargement initial
