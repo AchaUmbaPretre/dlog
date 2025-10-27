@@ -174,7 +174,7 @@ const Chauffeur = () => {
             }}
           >
             <Row gutter={[16, 16]} justify="space-around">
-              <Col xs={24} sm={12} md={6}>
+              <Col xs={24} sm={12} md={8}>
                 <Card bordered={false} style={{ textAlign: 'center', borderRadius: 12 }}>
                   <Statistic
                     title="Total Chauffeurs"
@@ -183,7 +183,7 @@ const Chauffeur = () => {
                   />
                 </Card>
               </Col>
-              <Col xs={24} sm={12} md={6}>
+              <Col xs={24} sm={12} md={8}>
                 <Card bordered={false} style={{ textAlign: 'center', borderRadius: 12 }}>
                   <Statistic
                     title="Hommes"
@@ -193,7 +193,7 @@ const Chauffeur = () => {
                   />
                 </Card>
               </Col>
-              <Col xs={24} sm={12} md={6}>
+              <Col xs={24} sm={12} md={8}>
                 <Card bordered={false} style={{ textAlign: 'center', borderRadius: 12 }}>
                   <Statistic
                     title="Femmes"
