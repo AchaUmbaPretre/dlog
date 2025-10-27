@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Progress, Tooltip } from "antd";
+import { notification, Progress, Tooltip } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined, MinusOutlined } from "@ant-design/icons";
 import "./modeTvCardPonct.scss";
+import { getFalcon } from "../../../../../services/rapportService";
 
 const TrendArrow = ({ previous, current }) => {
   if (previous === null) return current > 0
@@ -17,6 +18,24 @@ const ModeTvCardPonct = ({ datas }) => {
   const [prevData, setPrevData] = useState({ depart: null, attente: null, dispo: null });
   const [data, setData] = useState({ depart: 0, attente: 0, dispo: 0, departPrecedent: 0, attentePrecedent: 0 });
   const [flash, setFlash] = useState({ depart: "", attente: "", dispo: "" });
+  const [falcon, setFalcon] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const falconData = await getFalcon();
+      const items = falconData.data[0].items || [];
+      setFalcon(items);
+    } catch (error) {
+      console.error("Erreur fetchData:", error);
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Impossible de charger les données véhicules.',
+      });
+    }
+  };
+  useEffect(()=> {
+    fetchData()
+  }, []);
 
   useEffect(() => {
     if (!datas) return;
