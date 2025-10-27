@@ -17,7 +17,6 @@ import RapportMoniUtilitaire from './rapportMoniUtilitaire/RapportMoniUtilitaire
 import ModeTv from './moniKiosque/ModeTv';
 import RapportVehiculeCourses from './moniKiosque/rapportVehiculeCourses/RapportVehiculeCourses';
 import { getFalcon, getRapportCharroiVehicule } from '../../../services/rapportService';
-import config from '../../../config';
 
 const REFRESH_INTERVAL = 30000; // 30s pour les rapports
 const FALCON_INTERVAL = 5000; // 5s pour le temps réel
