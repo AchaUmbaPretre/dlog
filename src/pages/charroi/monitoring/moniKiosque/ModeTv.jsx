@@ -31,9 +31,9 @@ const ModeTv = () => {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 5000);
-    return () => clearInterval(interval);
-  }, []);
+      const interval = setInterval(fetchData, 5000);
+      return () => clearInterval(interval);
+    }, []);
 
   const anomalyItems = [
     { type: 'warning', label: 'Départs en retard', value: anomalies.depart_en_retard },
