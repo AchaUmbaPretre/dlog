@@ -33,9 +33,7 @@ const RapportEventDetail = ({ idDevice, dateRange }) => {
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState(null);
-console.log(
-  moment.utc("2025-10-21T22:00:00.000Z").tz("Africa/Kinshasa").format()
-);
+
   const fetchData = async () => {
     if (!idDevice) return;
     setLoading(true);
