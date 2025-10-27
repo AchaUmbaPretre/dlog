@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { notification, Progress, Tooltip } from "antd";
+import { notification, Progress, Tooltip, Modal } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined, MinusOutlined } from "@ant-design/icons";
 import "./modeTvCardPonct.scss";
 import { getFalcon } from "../../../../../services/rapportService";
+import RapportVehiculeCourses from "../rapportVehiculeCourses/RapportVehiculeCourses";
+import RapportVehiculeValide from "../../../rapportCharroi/rapportVehiculeValide/RapportVehiculeValide";
 
 // --- Composant flèche tendance ---
 const TrendArrow = ({ previous, current }) => {
@@ -30,7 +32,6 @@ const ModeTvCardPonct = ({ datas }) => {
     attentePrecedent: 0,
     coursePrecedent: 0,
   });
-
   const [flash, setFlash] = useState({
     depart: "",
     attente: "",
@@ -38,8 +39,17 @@ const ModeTvCardPonct = ({ datas }) => {
     dispo: "",
     hors_ligne: "",
   });
-
   const [falcon, setFalcon] = useState([]);
+  const [modalType, setModalType] = useState(null);
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+  const openModal = (type) => {
+    closeAllModals();
+    setModalType(type);
+  };
 
   // --- Récupération des données Falcon ---
   const fetchData = async () => {
@@ -148,13 +158,47 @@ const ModeTvCardPonct = ({ datas }) => {
   const horsLigne = falcon.filter((f) => f.online === "offline").length;
 
   return (
-    <div className="tv_ponct_container">
-      {renderCard("Départs", "depart", "departPrecedent")}
-      {renderCard("En attente", "attente", "attentePrecedent")}
-      {renderCard("Courses", "course", "coursePrecedent")}
-      {renderCard("Hors ligne", "hors_ligne", null, enLigne + horsLigne, false)}
-      {renderCard("Disponibles", "dispo")}
-    </div>
+    <>
+      <div className="tv_ponct_container">
+        <div onClick={() => openModal('depart')} style={{ cursor: 'pointer' }}>
+          {renderCard("Départs", "depart", "departPrecedent")}
+        </div>
+        <div onClick={() => openModal('attente')} style={{ cursor: 'pointer' }}>
+          {renderCard("En attente", "attente", "attentePrecedent")}
+        </div>
+        <div onClick={() => openModal('course')} style={{ cursor: 'pointer' }}>
+          {renderCard("Courses", "course", "coursePrecedent")}
+        </div>
+        <div onClick={() => openModal('hors')} style={{ cursor: 'pointer' }}>
+          {renderCard("Hors ligne", "hors_ligne", null, enLigne + horsLigne, false)}
+        </div>
+        <div onClick={() => openModal('dispo')} style={{ cursor: 'pointer' }}>
+          {renderCard("Disponibles", "dispo")}
+        </div>
+      </div>
+
+      <Modal
+        title=""
+        visible={modalType === 'course'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1325}
+        centered
+      >
+        <RapportVehiculeCourses/>
+     </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'attente'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1325}
+        centered
+      >
+        <RapportVehiculeValide />
+     </Modal>
+    </>
   );
 };
 

@@ -8,6 +8,10 @@
   align-items: stretch;
   flex-wrap: wrap;
 }
+.tv_ponct_container > div {
+  flex: 1;
+  display: flex;
+}
 
 .kpi_card {
   flex: 1;

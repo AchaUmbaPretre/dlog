@@ -1,12 +1,13 @@
 import './rapportVehiculeValide.scss';
-import { Table, Tag, Tooltip, Space, Button, Typography, Menu, Dropdown } from 'antd';
+import { Table, Tag, Tooltip, Space, Button, Typography, Menu, Dropdown, notification, Card } from 'antd';
 import { 
   CarOutlined, ApartmentOutlined, UserOutlined, FieldTimeOutlined, 
   EnvironmentOutlined, MenuOutlined, FileTextOutlined, DownOutlined, AppstoreOutlined, TrademarkOutlined 
 } from '@ant-design/icons';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { renderDateTag } from '../../../../utils/renderTooltip';
+import { getRapportCharroiVehicule } from '../../../../services/rapportService';
 
 const { Text } = Typography;
 
@@ -59,7 +60,7 @@ const renderStatutHoraire = (nom_statut_bs, date_prevue) => {
   );
 };
 
-const RapportVehiculeValide = ({ data }) => {
+const RapportVehiculeValide = () => {
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
         'Motif': true,
@@ -75,7 +76,7 @@ const RapportVehiculeValide = ({ data }) => {
         'Durée moyenne' : true,
         'Commentaire': false
     });
-
+    const [data, setData] = useState([]);
     const toggleColumnVisibility = (columnName, e) => {
     e.stopPropagation();
     setColumnsVisibility(prev => ({
@@ -83,6 +84,25 @@ const RapportVehiculeValide = ({ data }) => {
       [columnName]: !prev[columnName]
     }));
   };
+
+          const fetchData = async() => {
+              try {
+                const { data } = await getRapportCharroiVehicule();
+                setData(data.listeEnAttente);
+              } catch (error) {
+                notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+              });
+              }
+          }
+      
+        useEffect(() => {
+          fetchData()
+          const interval = setInterval(fetchData, 5000);
+      
+          return () => clearInterval(interval);
+        }, []);
 
   const menus = (
     <Menu>
@@ -197,8 +217,11 @@ const RapportVehiculeValide = ({ data }) => {
 
   return (
     <div className="rapportVehiculeValide">
-        <div className="colonne-filtre">
-            <Dropdown overlay={menus} trigger={['click']} placement="bottomRight" arrow>
+      <Card
+        bordered={false}
+        title={<Text style={{ fontSize: 18, fontWeight: 600, color: "#333" }}>En attente</Text>}
+        extra={
+          <Dropdown overlay={menus} trigger={['click']} placement="bottomRight" arrow>
                 <Button
                 icon={<MenuOutlined />}
                 className="colonne-filtre-btn"
@@ -206,19 +229,20 @@ const RapportVehiculeValide = ({ data }) => {
                 >
                 Colonnes <DownOutlined />
                 </Button>
-            </Dropdown>
-        </div>
-
-      <Table
-        columns={columns}
-        dataSource={data}
-        rowKey={(record, index) => `${record.immatriculation}-${index}`}
-        pagination={{ pageSize: 10 }}
-        scroll={{ x: 'max-content' }}
-        bordered
-        size="middle"
-        rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-      />
+          </Dropdown>
+        }
+      >
+        <Table
+          columns={columns}
+          dataSource={data}
+          rowKey={(record, index) => `${record.immatriculation}-${index}`}
+          pagination={{ pageSize: 10 }}
+          scroll={{ x: 'max-content' }}
+          bordered
+          size="middle"
+          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+        />
+      </Card>
     </div>
   );
 };
