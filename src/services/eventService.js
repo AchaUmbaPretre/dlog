@@ -33,3 +33,7 @@ export const getConnectivityDetail = async(params) => {
 export const getConnectivityMonth = async (month) => {
   return axios.get(`${DOMAIN}/api/event/connectivity/month`, { params: { month } });
 };
+
+export const getDetailAlerteType = async (idVehicule) => {
+  return axios.get(`${DOMAIN}/api/event/connectivity/detailAlertType`, { params: { idVehicule } });
+};

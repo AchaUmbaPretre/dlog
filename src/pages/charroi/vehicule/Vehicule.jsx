@@ -31,7 +31,7 @@ const Vehicule = () => {
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
         'Image': true,
-        'Matricule': true,
+        'Immatriculation': true,
         'Marque': true,
         "Modèle": true,
         'Categorie': true,
@@ -282,66 +282,67 @@ const Vehicule = () => {
         },
         ...(columnsVisibility["Dernière position"] ? {} : { className: "hidden-column" }),
     },
-    {
-        title: "Alerte traceur",
-        key: "alert",
-        render: (_, record) => {
+   {
+    title: "Alerte traceur",
+    key: "alert",
+    render: (_, record) => {
+        const lat = record.lat || record.capteurInfo?.lat;
+        const lng = record.lng || record.capteurInfo?.lng;
+
+        // Si pas de traceur (pas de position connue)
+        if (!lat || !lng) {
+            return (
+                <Tag color="default" style={{ fontWeight: 600 }}>
+                    N/A
+                </Tag>
+            );
+        }
+
         const sensors = record.capteurInfo?.sensors || [];
         const val = sensors.find((s) => s.type === "textual" && s.name === "#MSG")?.val || "OK";
         const lastConnection = record.capteurInfo?.last_connection;
         const isOffline = lastConnection ? moment().diff(moment(lastConnection), "hours") > 12 : false;
 
-        let status = "success";
         let label = "OK";
         let color = "green";
-        let icon = <CheckCircleOutlined />;
+        let icon = null;
 
         if (isOffline) {
-            status = "default";
             label = "Hors ligne";
             color = "gray";
             icon = <StopOutlined />;
         } else {
             switch (val) {
-            case "overspeed":
-                status = "error";
-                label = "Excès de vitesse";
-                color = "red";
-                icon = <ThunderboltOutlined />;
-                break;
-            case "lowBattery":
-                status = "warning";
-                label = "Batterie faible";
-                color = "orange";
-                icon = <WarningOutlined />;
-                break;
-            case "fuelLeak":
-                status = "error";
-                label = "Fuite carburant";
-                color = "volcano";
-                icon = <AlertOutlined />;
-                break;
-            case "powerCut":
-                status = "error";
-                label = "Coupure d’alim.";
-                color = "red";
-                icon = <StopOutlined />;
-                break;
-            default:
-                break;
+                case "lowBattery":
+                    label = "Batterie faible";
+                    color = "orange";
+                    icon = <WarningOutlined />;
+                    break;
+                case "fuelLeak":
+                    label = "Fuite carburant";
+                    color = "volcano";
+                    icon = <AlertOutlined />;
+                    break;
+                case "powerCut":
+                    label = "Coupure d’alim.";
+                    color = "red";
+                    icon = <StopOutlined />;
+                    break;
+                default:
+                    break;
             }
         }
 
         return (
-            <Tooltip title="État du traceur">
-            <Tag color={color} icon={icon} style={{ fontWeight: 600 }} onClick={()=> handleAlert()}>
-                {label}
-            </Tag>
+            <Tooltip title="Cliquez pour voir le détail d'état du traceur">
+                <Tag color={color} icon={icon} style={{ fontWeight: 600 }} onClick={() => handleAlert(record.id_vehicule)}>
+                    {label}
+                </Tag>
             </Tooltip>
         );
-        },
-        ...(columnsVisibility["Alerte traceur"] ? {} : { className: "hidden-column" }),
     },
+    ...(columnsVisibility["Alerte traceur"] ? {} : { className: "hidden-column" }),
+},
     {
         title: "Actions",
         key: "actions",
@@ -514,7 +515,7 @@ const Vehicule = () => {
         width={900}
         centered
       >
-        <DetailTypeAlert/>
+        <DetailTypeAlert idVehicule={idVehicule} />
       </Modal>
     </>
   )

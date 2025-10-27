@@ -615,32 +615,21 @@ const DemandeVehicule = () => {
                         <RapportVehiculeCourses course={course}/>
                     </TabPane>
 
-                    <TabPane
-                        tab={
-                            <>
-                                <span>
-                                    <Badge count={countAttente}  offset={[8, -2]}>
-                                        🚗 Véhicule en attente de sortie
-                                    </Badge>
-                                </span>
-                            </>
-                                
-                        }
-                        key="6"
-                    >
-                        <RapportVehiculeValide data={data} />
-                    </TabPane>
-
-{/*                     <TabPane
-                        tab={
-                            <span>
-                            🔴 Sortie exceptionnelle
-                            </span>
-                        }
-                        key="6"
-                    >
-                        <SortieExceptionnelle/>
-                    </TabPane> */}
+                        <TabPane
+                            tab={
+                                <>
+                                    <span>
+                                        <Badge count={countAttente}  offset={[8, -2]}>
+                                            🚗 Véhicule en attente de sortie
+                                        </Badge>
+                                    </span>
+                                </>
+                                    
+                            }
+                            key="6"
+                        >
+                            <RapportVehiculeValide data={datas} />
+                        </TabPane>
 
                         <TabPane
                             tab={
