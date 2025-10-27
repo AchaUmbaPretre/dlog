@@ -6,7 +6,6 @@ import {
   PlusCircleOutlined,
   ManOutlined,
   WomanOutlined,
-  CoffeeOutlined,
 } from '@ant-design/icons';
 import {
   Table,
@@ -30,6 +29,7 @@ const Chauffeur = () => {
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [data, setData] = useState([]);
+  const [showResume, setShowResume] = useState(false); // ✅ Résumé masqué par défaut
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
@@ -110,19 +110,6 @@ const Chauffeur = () => {
         </Tag>
       ),
     },
-/*     {
-      title: 'Affectation',
-      dataIndex: 'nom_site',
-      key: 'nom_site',
-      render: (text) => <Tag color="green">{text ?? 'Aucune'}</Tag>,
-    },
-    {
-      title: 'Congés',
-      dataIndex: 'conges',
-      key: 'conges',
-      render: (text) =>
-        text ? <Tag color="blue">{text}</Tag> : <Tag color="red">Aucun</Tag>,
-    }, */
   ];
 
   const handleAddClient = () => {
@@ -139,16 +126,13 @@ const Chauffeur = () => {
       item.prenom?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-  // ✅ Résumé des chauffeurs (corrigé)
+  // ✅ Résumé des chauffeurs
   const totalChauffeurs = data.length;
   const chauffeursHommes = data.filter(
     (c) => c.sexe?.toUpperCase() === 'M' || c.sexe?.toUpperCase() === 'H'
   ).length;
   const chauffeursFemmes = data.filter(
     (c) => c.sexe?.toUpperCase() === 'F'
-  ).length;
-  const chauffeursConges = data.filter(
-    (c) => c.conges && c.conges !== ''
   ).length;
 
   return (
@@ -160,51 +144,53 @@ const Chauffeur = () => {
             <div className="client-row-icon">
               <UserOutlined className="client-icon" />
             </div>
-            <h2 className="client-h2" style={{ fontSize: 24, fontWeight: 600 }}>
+            <h2 className="client-h2">
               Gestion des Chauffeurs
             </h2>
           </div>
 
           {/* --- Résumé --- */}
-          <Card
-            style={{
-              marginBottom: 25,
-              borderRadius: 12,
-              boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-            }}
-          >
-            <Row gutter={[16, 16]} justify="space-around">
-              <Col xs={24} sm={12} md={8}>
-                <Card bordered={false} style={{ textAlign: 'center', borderRadius: 12 }}>
-                  <Statistic
-                    title="Total Chauffeurs"
-                    value={totalChauffeurs}
-                    prefix={<UserOutlined style={{ color: '#1890ff' }} />}
-                  />
-                </Card>
-              </Col>
-              <Col xs={24} sm={12} md={8}>
-                <Card bordered={false} style={{ textAlign: 'center', borderRadius: 12 }}>
-                  <Statistic
-                    title="Hommes"
-                    value={chauffeursHommes}
-                    prefix={<ManOutlined style={{ color: '#1677ff' }} />}
-                    valueStyle={{ color: '#1677ff' }}
-                  />
-                </Card>
-              </Col>
-              <Col xs={24} sm={12} md={8}>
-                <Card bordered={false} style={{ textAlign: 'center', borderRadius: 12 }}>
-                  <Statistic
-                    title="Femmes"
-                    value={chauffeursFemmes}
-                    prefix={<WomanOutlined style={{ color: '#eb2f96' }} />}
-                    valueStyle={{ color: '#eb2f96' }}
-                  />
-                </Card>
-              </Col>
-            </Row>
-          </Card>
+          {showResume && (
+            <Card
+              style={{
+                marginBottom: 25,
+                borderRadius: 12,
+                boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+              }}
+            >
+              <Row gutter={[16, 16]} justify="space-around">
+                <Col xs={24} sm={12} md={8}>
+                  <Card bordered={false} style={{ textAlign: 'center', borderRadius: 12 }}>
+                    <Statistic
+                      title="Total Chauffeurs"
+                      value={totalChauffeurs}
+                      prefix={<UserOutlined style={{ color: '#1890ff' }} />}
+                    />
+                  </Card>
+                </Col>
+                <Col xs={24} sm={12} md={8}>
+                  <Card bordered={false} style={{ textAlign: 'center', borderRadius: 12 }}>
+                    <Statistic
+                      title="Hommes"
+                      value={chauffeursHommes}
+                      prefix={<ManOutlined style={{ color: '#1677ff' }} />}
+                      valueStyle={{ color: '#1677ff' }}
+                    />
+                  </Card>
+                </Col>
+                <Col xs={24} sm={12} md={8}>
+                  <Card bordered={false} style={{ textAlign: 'center', borderRadius: 12 }}>
+                    <Statistic
+                      title="Femmes"
+                      value={chauffeursFemmes}
+                      prefix={<WomanOutlined style={{ color: '#eb2f96' }} />}
+                      valueStyle={{ color: '#eb2f96' }}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </Card>
+          )}
 
           {/* --- Barre d’action --- */}
           <div
@@ -222,14 +208,23 @@ const Chauffeur = () => {
               onChange={(e) => setSearchValue(e.target.value)}
               style={{ width: 300 }}
             />
-            <Button
-              type="primary"
-              icon={<PlusCircleOutlined />}
-              onClick={handleAddClient}
-              style={{ borderRadius: 8 }}
-            >
-              Ajouter un chauffeur
-            </Button>
+            <div className="client-rows-right">
+              <Button
+                onClick={() => setShowResume(!showResume)}
+                type="default"
+                style={{ borderRadius: 8 }}
+              >
+              {showResume ? 'Masquer le résumé' : 'Afficher le résumé'}
+              </Button>
+              <Button
+                type="primary"
+                icon={<PlusCircleOutlined />}
+                onClick={handleAddClient}
+                style={{ borderRadius: 8 }}
+              >
+                Ajouter un chauffeur
+              </Button>
+            </div>
           </div>
 
           {/* --- Tableau --- */}
