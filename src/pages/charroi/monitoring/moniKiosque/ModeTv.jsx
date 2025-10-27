@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import ModelEvenementLive from './modelEvenementLive/ModelEvenementLive';
 import ModeTvCardPonct from './modeTvCardPonct/ModeTvCardPonct';
 import ModeTvService from './modeTvService/ModeTvService';
 import AlertTimeline from './alertTimeline/AlertTimeline';
