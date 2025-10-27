@@ -27,9 +27,6 @@ const Monitoring = () => {
   const [courses, setCourses] = useState([]);
   const [falcon, setFalcon] = useState([]);
 
-  /** =====================
-   *   FETCH FALCON DATA
-   *  ===================== */
   const fetchFalcon = useCallback(async () => {
     try {
       const { data } = await getFalcon();
