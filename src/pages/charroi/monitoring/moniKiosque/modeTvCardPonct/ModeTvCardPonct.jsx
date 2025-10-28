@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { notification, Progress, Tooltip, Modal } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined, MinusOutlined } from "@ant-design/icons";
 import "./modeTvCardPonct.scss";
-import { getFalcon } from "../../../../../services/rapportService";
+import { getFalcon, getRapportCharroiVehicule } from "../../../../../services/rapportService";
 import RapportVehiculeCourses from "../rapportVehiculeCourses/RapportVehiculeCourses";
 import RapportVehiculeValide from "../../../rapportCharroi/rapportVehiculeValide/RapportVehiculeValide";
+
+const REFRESH_INTERVAL = 30000;
 
 // --- Composant flèche tendance ---
 const TrendArrow = ({ previous, current }) => {
@@ -41,6 +43,7 @@ const ModeTvCardPonct = ({ datas }) => {
   });
   const [falcon, setFalcon] = useState([]);
   const [modalType, setModalType] = useState(null);
+  const [courses, setCourses] = useState([]);
 
   const closeAllModals = () => {
     setModalType(null);
@@ -114,6 +117,30 @@ const ModeTvCardPonct = ({ datas }) => {
     return () => clearTimeout(timer);
   }, [datas, falcon]);
 
+    const fetchCourses = useCallback(async () => {
+      try {
+        const { data } = await getRapportCharroiVehicule();
+        setCourses(data?.listeCourse || []);
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Impossible de charger les données des véhicules.',
+        });
+        console.error('Erreur lors du chargement des courses:', error);
+      }
+    }, []);
+  
+    useEffect(() => {
+      const controller = new AbortController();
+      fetchCourses();
+  
+      const interval = setInterval(fetchCourses, REFRESH_INTERVAL);
+      return () => {
+        controller.abort();
+        clearInterval(interval);
+      };
+    }, [fetchCourses]);
+
   // --- Couleur de la jauge ---
   const getStrokeColor = (value, total = 100) => {
     const percent = total ? (value / total) * 100 : 0;
@@ -185,7 +212,7 @@ const ModeTvCardPonct = ({ datas }) => {
         width={1325}
         centered
       >
-        <RapportVehiculeCourses/>
+        <RapportVehiculeCourses course={courses} />
      </Modal>
 
       <Modal
