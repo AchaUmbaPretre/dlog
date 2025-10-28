@@ -92,10 +92,10 @@ const BandeSortieDetail = ({ id_bon }) => {
           <Descriptions.Item label="Statut">
             <Tag
               color={
-                data.nom_type_statut === 'Approuvé'
+                data.nom_type_statut === 'BS validé'
                   ? 'green'
-                  : data.nom_type_statut === 'En attente'
-                  ? 'gold'
+                  : data.nom_type_statut === 'Départ'
+                  ? 'blue'
                   : 'red'
               }
               className="bande-sortie__status-tag"
