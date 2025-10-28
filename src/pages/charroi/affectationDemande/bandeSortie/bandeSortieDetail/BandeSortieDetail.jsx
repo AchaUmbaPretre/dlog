@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Descriptions, Spin, Typography, Row, Col, Image, Tag } from 'antd';
 import moment from 'moment';
 import { getVehiculeCourseOne } from '../../../../../services/charroiService';
@@ -63,7 +63,6 @@ const BandeSortieDetail = ({ id_bon }) => {
           </Col>
         </Row>
 
-        {/* DÉTAILS BON DE SORTIE */}
         <Descriptions
           title={<span className="bande-sortie__section-title">🧾 Détails du Bon de Sortie</span>}
           bordered
@@ -105,7 +104,6 @@ const BandeSortieDetail = ({ id_bon }) => {
           </Descriptions.Item>
         </Descriptions>
 
-        {/* SIGNATURE */}
         <Row justify="space-between" align="middle" className="bande-sortie__signature">
           <Col>
             <Text strong>Signé par:</Text> {data.personne_signe}
