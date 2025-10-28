@@ -25,7 +25,7 @@ import {
 import { getConnectivityDetail } from "../../../../../../services/eventService";
 import moment from "moment-timezone";
 import "moment/locale/fr";
-import "./rapportEventDetail.scss"; // 💅 Ajoute un style SCSS moderne
+import "./rapportEventDetail.scss";
 
 const { Title, Text } = Typography;
 
@@ -91,12 +91,12 @@ const columns = [
         Heure de Vérification
       </span>
     ),
-    dataIndex: "check_time",
-    key: "check_time",
+    dataIndex: "created_at",
+    key: "created_at",
     render: (value) => (
       <Tooltip title="Heure à laquelle la vérification a été effectuée">
         <Text strong >
-          {moment.utc(value).add(2, "hours").format("YYYY-MM-DD HH:mm:ss")}
+          {moment(value).format("YYYY-MM-DD HH:mm:ss")}
         </Text>
       </Tooltip>
     ),
