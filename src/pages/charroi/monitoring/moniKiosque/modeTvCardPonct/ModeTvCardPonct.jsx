@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { notification, Progress, Tooltip, Modal } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined, MinusOutlined } from "@ant-design/icons";
 import "./modeTvCardPonct.scss";
@@ -187,6 +187,21 @@ const ModeTvCardPonct = ({ datas }) => {
   const enLigne = falcon.filter((f) => f.online === "online").length;
   const horsLigne = falcon.filter((f) => f.online === "offline").length;
 
+    const mergedCourses = useMemo(() => {
+      return courses.map((c) => {
+        const capteur = falcon.find((f) => f.id === c.id_capteur);
+        return { ...c, capteurInfo: capteur || null };
+      });
+    }, [courses, falcon]);
+
+    const mergedDepart =  useMemo(() => {
+      return departs.map((c) => {
+        const capteur = falcon.find((f) => f.id === c.id_capteur);
+        return { ...c, capteurInfo: capteur || null };
+      });
+    }, [departs, falcon]);
+    
+  
   return (
     <>
       <div className="tv_ponct_container">
@@ -215,7 +230,7 @@ const ModeTvCardPonct = ({ datas }) => {
         width={1325}
         centered
       >
-        <RapportVehiculeCourses course={courses} />
+        <RapportVehiculeCourses course={mergedCourses} />
      </Modal>
 
       <Modal
@@ -234,10 +249,10 @@ const ModeTvCardPonct = ({ datas }) => {
         visible={modalType === 'depart'}
         onCancel={closeAllModals}
         footer={null}
-        width={1325}
+        width={1350}
         centered
       >
-        <RapportVehiculeDepart />
+        <RapportVehiculeDepart depart={mergedDepart} />
      </Modal>
     </>
   );

@@ -30,9 +30,8 @@ import { useState, useMemo } from "react";
 
 const { Text } = Typography;
 
-const RapportVehiculeDepart = ({ course }) => {
-  const hasPosition = course?.some((r) => !!r?.position || !!r?.capteurInfo?.address);
-  const hasSpeed = course?.some((r) => r?.capteurInfo?.speed !== undefined);
+const RapportVehiculeDepart = ({ depart }) => {
+  const hasSpeed = depart?.some((r) => r?.capteurInfo?.speed !== undefined);
 
   const baseColumns = [
     {
@@ -239,7 +238,7 @@ const RapportVehiculeDepart = ({ course }) => {
         <div className="table-scroll">
           <Table
             columns={filteredColumns}
-            dataSource={course}
+            dataSource={depart}
             rowKey={(record) => record.id_vehicule}
             pagination={{ pageSize: 15 }}
             scroll={{ x: "max-content" }}
