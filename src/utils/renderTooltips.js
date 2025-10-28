@@ -35,8 +35,8 @@ export const TooltipWrapperBox = ({
 );
 
 export const TooltipCell = ({
-  cellText,      // texte affiché dans la cellule
-  tooltipText,   // texte affiché dans le tooltip
+  cellText,
+  tooltipText,
   bg = '#f0f0f0',
   color = '#000',
   maxWidth = 200,
