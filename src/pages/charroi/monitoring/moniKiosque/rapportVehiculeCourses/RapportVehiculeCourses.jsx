@@ -6,6 +6,7 @@ import {
   Button,
   Dropdown,
   Checkbox,
+  Input
 } from "antd";
 import {
   CarOutlined,
@@ -35,6 +36,7 @@ const { Text } = Typography;
 const RapportVehiculeCourses = ({ course }) => {
   const hasPosition = course?.some((r) => !!r?.position || !!r?.capteurInfo?.address);
   const hasSpeed = course?.some((r) => r?.capteurInfo?.speed !== undefined);
+  const [searchText, setSearchText] = useState("");
 
   const baseColumns = [
     {
@@ -210,6 +212,17 @@ const RapportVehiculeCourses = ({ course }) => {
     baseColumns.filter(c => c.alwaysVisible !== false).map(c => c.key)
   );
 
+    const filteredData = useMemo(() => {
+    if (!searchText) return course;
+    const lowerSearch = searchText.toLowerCase();
+    return course.filter((item) =>
+      Object.keys(item).some((key) => 
+        item[key] &&
+        item[key].toString().toLowerCase().includes(lowerSearch)
+      )
+    );
+  }, [searchText, course]);
+
   const filteredColumns = useMemo(
     () => baseColumns.filter((col) => visibleKeys.includes(col.key)),
     [visibleKeys, baseColumns]
@@ -236,21 +249,29 @@ const RapportVehiculeCourses = ({ course }) => {
         bordered={false}
         title={<Text style={{ fontSize: 18, fontWeight: 600, color: "#333" }}>Rapport des Courses</Text>}
         extra={
-          <Dropdown
-            overlay={dropdownMenu}
-            trigger={["click"]}
-            placement="bottomRight"
-          >
-            <Button icon={<EyeOutlined />}>Colonnes</Button>
-          </Dropdown>
+          <Space>
+            <Input.Search
+              placeholder="Rechercher..."
+              allowClear
+              onChange={(e) => setSearchText(e.target.value)}
+              style={{ width: 250 }}
+            />
+            <Dropdown
+              overlay={dropdownMenu}
+              trigger={["click"]}
+              placement="bottomRight"
+            >
+              <Button icon={<EyeOutlined />}>Colonnes</Button>
+            </Dropdown>
+          </Space>
         }
       >
         <div className="table-scroll">
           <Table
             columns={filteredColumns}
-            dataSource={course}
+            dataSource={filteredData}
             rowKey={(record) => record.id_vehicule}
-            pagination={{ pageSize: 15 }}
+            pagination={{ pageSize: 18 }}
             scroll={{ x: "max-content" }}
             bordered={false}
             size="middle"

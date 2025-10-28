@@ -152,7 +152,7 @@ const columns = [
       value ? (
         <Tooltip title="Date et heure de la dernière connexion">
           <Text type="secondary">
-            {moment.utc(value).add(2, "hours").format("YYYY-MM-DD HH:mm:ss")}
+            {moment(value).format("YYYY-MM-DD HH:mm:ss")}
           </Text>
         </Tooltip>
       ) : (
