@@ -17,7 +17,6 @@ import {
   FieldTimeOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import "./rapportVehiculeCourses.scss";
 import {
   ChronoBox,
   EcartBox,
@@ -226,7 +225,7 @@ const RapportVehiculeDepart = ({ course }) => {
     <div className="rapportVehiculeCourses">
       <Card
         bordered={false}
-        title={<Text style={{ fontSize: 18, fontWeight: 600, color: "#333" }}>Rapport des Courses</Text>}
+        title={<Text style={{ fontSize: 18, fontWeight: 600, color: "#333" }}>Rapport des départs</Text>}
         extra={
           <Dropdown
             overlay={dropdownMenu}
