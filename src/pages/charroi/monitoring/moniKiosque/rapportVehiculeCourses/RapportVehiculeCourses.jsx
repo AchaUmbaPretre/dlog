@@ -6,7 +6,6 @@ import {
   Button,
   Dropdown,
   Checkbox,
-  Tooltip
 } from "antd";
 import {
   CarOutlined,
@@ -46,6 +45,7 @@ const RapportVehiculeCourses = ({ course }) => {
       width: 70,
       align: "center",
       fixed: "left",
+      alwaysVisible: true, // Toujours visible
     },
     {
       title: (
@@ -58,6 +58,7 @@ const RapportVehiculeCourses = ({ course }) => {
       key: "nom_motif_demande",
       render: (text) => <TooltipBox text={text} bg="#f0f0f0" color="#000" />,
       width: 150,
+      alwaysVisible: true,
     },
     {
       title: (
@@ -77,6 +78,7 @@ const RapportVehiculeCourses = ({ course }) => {
         />
       ),
       width: 180,
+      alwaysVisible: true,
     },
     {
       title: (
@@ -89,6 +91,7 @@ const RapportVehiculeCourses = ({ course }) => {
       key: "nom_destination",
       render: (text) => <TooltipBox text={text} bg="#f0f0f0" color="#000" maxWidth={250} />,
       width: 200,
+      alwaysVisible: true,
     },
     {
       title: (
@@ -102,12 +105,13 @@ const RapportVehiculeCourses = ({ course }) => {
       render: (text, record) => (
         <TooltipCell
           cellText={text}
-          tooltipText={`Immatriculation : ${record.immatriculation}`}
+          tooltipText={`Marque : ${record.nom_marque} / Immatriculation : ${record.immatriculation}`}
           bg="#f0f0f0"
           color="#000"
         />
       ),
       width: 130,
+      alwaysVisible: true,
     },
     {
       title: (
@@ -122,6 +126,7 @@ const RapportVehiculeCourses = ({ course }) => {
         <ChronoBox sortie_time={record.sortie_time} date_prevue={record.date_prevue} />
       ),
       width: 100,
+      alwaysVisible: true,
     },
     {
       title: (
@@ -134,6 +139,7 @@ const RapportVehiculeCourses = ({ course }) => {
       align: "center",
       render: (_, record) => <MoyenneBox duree_moyenne_min={record.duree_moyenne_min} />,
       width: 150,
+      alwaysVisible: true,
     },
     {
       title: (
@@ -151,27 +157,27 @@ const RapportVehiculeCourses = ({ course }) => {
         />
       ),
       width: 100,
+      alwaysVisible: true,
     },
   ];
 
-  // Ajouter Position si présent
-  if (hasPosition) {
-    baseColumns.splice(3, 0, {
-      title: (
-        <Space>
-          <EnvironmentFilled style={{ color: "#eb2f96", fontSize: 20 }} />
-          <Text strong style={{ fontSize: 16, color: "#333" }}>Position</Text>
-        </Space>
-      ),
-      key: "address",
-      render: (_, record) => <VehicleAddress record={record} />,
-      width: 90,
-    });
-  }
+  // Ajouter Position toujours
+  baseColumns.splice(3, 0, {
+    title: (
+      <Space>
+        <EnvironmentFilled style={{ color: "#eb2f96", fontSize: 20 }} />
+        <Text strong style={{ fontSize: 16, color: "#333" }}>Position</Text>
+      </Space>
+    ),
+    key: "address",
+    render: (_, record) => <VehicleAddress record={record} />,
+    width: 90,
+    alwaysVisible: true, // toujours visible
+  });
 
   // Ajouter Vitesse si présent
   if (hasSpeed) {
-    baseColumns.splice(hasPosition ? 4 : 3, 0, {
+    baseColumns.splice(4, 0, {
       title: (
         <Space>
           <DashboardOutlined style={{ color: "#722ed1", fontSize: 20 }} />
@@ -187,12 +193,13 @@ const RapportVehiculeCourses = ({ course }) => {
         />
       ),
       width: 150,
+      alwaysVisible: false, // masquée par défaut
     });
   }
 
-  // 2️⃣ Colonnes visibles par défaut (Position & Vitesse masquées)
+  // Colonnes visibles par défaut (toutes celles avec alwaysVisible !== false)
   const [visibleKeys, setVisibleKeys] = useState(
-    baseColumns.map((c) => c.key).filter((k) => k !== "address" && k !== "speed"  && k !== "index")
+    baseColumns.filter(c => c.alwaysVisible !== false).map(c => c.key)
   );
 
   const filteredColumns = useMemo(
