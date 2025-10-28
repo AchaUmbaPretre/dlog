@@ -2,6 +2,43 @@ import { Progress, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 
+export const TooltipCell = ({
+  cellText,      // texte affiché dans la cellule
+  tooltipText,   // texte affiché dans le tooltip
+  bg = '#f0f0f0',
+  color = '#000',
+  maxWidth = 200,
+  fontSize = 15,
+  fontWeight = 600,
+  border = '1px solid rgba(255,255,255,0.2)',
+  boxShadow = '0 2px 6px rgba(0,0,0,0.15)',
+  padding = '6px 8px',
+  borderRadius = 8,
+  textAlign = 'center',
+}) => (
+  <Tooltip title={tooltipText || '-'}>
+    <div
+      style={{
+        maxWidth,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        backgroundColor: bg,
+        color,
+        fontWeight,
+        fontSize,
+        borderRadius,
+        padding,
+        textAlign,
+        border,
+        boxShadow,
+      }}
+    >
+      {cellText || '-'}
+    </div>
+  </Tooltip>
+);
+
 // === BOX AVEC TOOLTIP ===
 export const TooltipBox = ({ text, bg = '#2f3640', color = '#fff', maxWidth = 255 }) => (
   <Tooltip title={text || '-'}>
@@ -16,7 +53,7 @@ export const TooltipBox = ({ text, bg = '#2f3640', color = '#fff', maxWidth = 25
         fontWeight: 600,
         fontSize: 15,
         borderRadius: 8,
-        padding: '6px 10px',
+        padding: '6px 8px',
         textAlign: 'center',
         border: '1px solid rgba(255,255,255,0.2)',
         boxShadow: '0 2px 6px rgba(0,0,0,0.15)',

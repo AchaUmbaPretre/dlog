@@ -6,6 +6,7 @@ import {
   Button,
   Dropdown,
   Checkbox,
+  Tooltip
 } from "antd";
 import {
   CarOutlined,
@@ -23,6 +24,7 @@ import {
   EcartBox,
   MoyenneBox,
   TooltipBox,
+  TooltipCell,
 } from "../../../../../utils/renderTooltips";
 import VehicleSpeed from "../../../../../utils/vehicleSpeed";
 import { VehicleAddress } from "../../../../../utils/vehicleAddress";
@@ -67,8 +69,9 @@ const RapportVehiculeCourses = ({ course }) => {
       dataIndex: "nom",
       key: "nom",
       render: (_, record) => (
-        <TooltipBox
-          text={`${record.prenom_chauffeur || "-"} ${record.nom || "-"}`}
+        <TooltipCell
+          cellText={record.prenom_chauffeur}
+          tooltipText={`${record.nom || '-'} ${record.prenom_chauffeur || '-'}`}
           bg="#f0f0f0"
           color="#000"
         />
@@ -96,8 +99,15 @@ const RapportVehiculeCourses = ({ course }) => {
       ),
       dataIndex: "abreviation",
       key: "abreviation",
-      render: (text) => <TooltipBox text={text} bg="#f0f0f0" color="#000" />,
-      width: 150,
+      render: (text, record) => (
+        <TooltipCell
+          cellText={text}
+          tooltipText={`Immatriculation : ${record.immatriculation}`}
+          bg="#f0f0f0"
+          color="#000"
+        />
+      ),
+      width: 130,
     },
     {
       title: (
