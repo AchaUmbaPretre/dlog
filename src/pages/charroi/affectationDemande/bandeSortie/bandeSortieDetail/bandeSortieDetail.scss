@@ -1,0 +1,103 @@
+.bande-sortie__container {
+  display: flex;
+  justify-content: center;
+  padding: àpx;
+  background: #f9fafc;
+}
+
+.bande-sortie__card {
+  max-width: 950px;
+  width: 100%;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 15px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+  }
+}
+
+.bande-sortie__header {
+  border-bottom: 1px solid #e8e8e8;
+  padding-bottom: 16px;
+}
+
+.bande-sortie__company-name {
+  color: #1b2559 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px;
+}
+
+.bande-sortie__company-info {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.bande-sortie__logo {
+  border-radius: 10px;
+  border: 1px solid #f0f0f0;
+  padding: 4px;
+  background: #fafafa;
+}
+
+.bande-sortie__section-title {
+  color: #102a43;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.bande-sortie__details {
+  margin-top: 24px;
+
+  .ant-descriptions-item-label {
+    font-weight: 600;
+    color: #333;
+  }
+
+  .ant-descriptions-item-content {
+    color: #555;
+  }
+
+  .ant-descriptions-bordered .ant-descriptions-item {
+    background-color: #fafafa;
+  }
+}
+
+.bande-sortie__status-tag {
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+.bande-sortie__signature {
+  margin-top: 40px;
+  border-top: 1px dashed #ddd;
+  padding-top: 16px;
+  align-items: center;
+
+  p, span {
+    color: #333;
+    font-size: 15px;
+  }
+}
+
+.bande-sortie__signature-img {
+  border-radius: 8px;
+  border: 1px solid #eaeaea;
+  background: #fefefe;
+  padding: 4px;
+}
+
+.bande-sortie__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Descriptions, Spin, Typography, Row, Col, Image } from 'antd';
+import { Card, Descriptions, Spin, Typography, Row, Col, Image, Tag } from 'antd';
 import moment from 'moment';
 import { getVehiculeCourseOne } from '../../../../../services/charroiService';
 import config from '../../../../../config';
+import './bandeSortieDetail.scss';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const BandeSortieDetail = ({ id_bon }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -29,95 +30,98 @@ const BandeSortieDetail = ({ id_bon }) => {
 
   if (isLoading || !data) {
     return (
-      <div style={{ textAlign: 'center', padding: '40px' }}>
+      <div className="bande-sortie__loading">
         <Spin size="large" />
       </div>
     );
   }
 
   return (
-    <Card style={{ borderRadius: 12, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-      <Row justify="space-between" align="middle" gutter={[16, 16]}>
-        <Col span={12}>
-          <Title level={5} style={{color: 'rgb(2, 2, 58)'}}>{data.nom_societe}</Title>
-          <p><strong>RCCM:</strong> {data.rccm}</p>
-          <p><strong>NIF:</strong> {data.nif}</p>
-          <p><strong>Email:</strong> {data.email}</p>
-          <p><strong>Téléphone:</strong> {data.telephone}</p>
-        </Col>
-        <Col span={12} style={{ textAlign: 'right' }}>
-          <Image
-            width={100}
-            src={`${DOMAIN}/${data.logo}`}
-            alt="Logo"
-            preview={false}
-            style={{ borderRadius: 8 }}
-          />
-        </Col>
-      </Row>
+    <div className="bande-sortie__container">
+      <Card className="bande-sortie__card">
+        {/* HEADER SOCIÉTÉ */}
+        <Row justify="space-between" align="middle" className="bande-sortie__header">
+          <Col span={14}>
+            <Title level={4} className="bande-sortie__company-name">
+              {data.nom_societe}
+            </Title>
+            <div className="bande-sortie__company-info">
+              <Text strong>RCCM:</Text> {data.rccm} <br />
+              <Text strong>NIF:</Text> {data.nif} <br />
+              <Text strong>Email:</Text> {data.email} <br />
+              <Text strong>Téléphone:</Text> {data.telephone}
+            </div>
+          </Col>
+          <Col span={8} style={{ textAlign: 'right' }}>
+            <Image
+              width={110}
+              src={`${DOMAIN}/${data.logo}`}
+              alt="Logo"
+              preview={false}
+              className="bande-sortie__logo"
+            />
+          </Col>
+        </Row>
 
-      <Descriptions
-        title="Détails du Bon de Sortie"
-        bordered
-        column={1}
-        size="middle"
-        style={{ marginTop: 32 }}
-      >
-        <Descriptions.Item label="Nom">
-          {data.nom}
-        </Descriptions.Item>
-        <Descriptions.Item label="Service">
-          {data.nom_service}
-        </Descriptions.Item>
-        <Descriptions.Item label="Rôle">
-          {data.role}
-        </Descriptions.Item>
-        <Descriptions.Item label="Motif de la demande">
-          {data.nom_motif_demande}
-        </Descriptions.Item>
-        <Descriptions.Item label="Date prévue">
-          {moment(data.date_prevue).format('DD/MM/YYYY HH:mm')}
-        </Descriptions.Item>
-        <Descriptions.Item label="Date retour">
-          {moment(data.date_retour).format('DD/MM/YYYY HH:mm')}
-        </Descriptions.Item>
-        <Descriptions.Item label="Adresse">
-          {data.adresse}
-        </Descriptions.Item>
-        <Descriptions.Item label="Destination">
-          {data.nom_destination}
-        </Descriptions.Item>
-        <Descriptions.Item label="Immatriculation">
-          {data.immatriculation} ({data.nom_marque})
-        </Descriptions.Item>
-        <Descriptions.Item label="Type véhicule">
-          {data.nom_type_vehicule}
-        </Descriptions.Item>
-        <Descriptions.Item label="Nombre de personnes à bord">
-          {data.personne_bord}
-        </Descriptions.Item>
-        <Descriptions.Item label="Commentaire">
-          {data.commentaire || 'Aucun'}
-        </Descriptions.Item>
-        <Descriptions.Item label="Statut">
-          {data.nom_type_statut}
-        </Descriptions.Item>
-      </Descriptions>
+        {/* DÉTAILS BON DE SORTIE */}
+        <Descriptions
+          title={<span className="bande-sortie__section-title">🧾 Détails du Bon de Sortie</span>}
+          bordered
+          column={2}
+          size="middle"
+          className="bande-sortie__details"
+        >
+          <Descriptions.Item label="Nom">{data.nom}</Descriptions.Item>
+          <Descriptions.Item label="Service">{data.nom_service}</Descriptions.Item>
+          <Descriptions.Item label="Rôle">{data.role}</Descriptions.Item>
+          <Descriptions.Item label="Motif">{data.nom_motif_demande}</Descriptions.Item>
+          <Descriptions.Item label="Date prévue">
+            {moment(data.date_prevue).format('DD/MM/YYYY HH:mm')}
+          </Descriptions.Item>
+          <Descriptions.Item label="Date retour">
+            {moment(data.date_retour).format('DD/MM/YYYY HH:mm')}
+          </Descriptions.Item>
+          <Descriptions.Item label="Adresse">{data.adresse}</Descriptions.Item>
+          <Descriptions.Item label="Destination">{data.nom_destination}</Descriptions.Item>
+          <Descriptions.Item label="Immatriculation">
+            {data.immatriculation} ({data.nom_marque})
+          </Descriptions.Item>
+          <Descriptions.Item label="Type véhicule">{data.nom_type_vehicule}</Descriptions.Item>
+          <Descriptions.Item label="Personnes à bord">{data.personne_bord}</Descriptions.Item>
+          <Descriptions.Item label="Commentaire">{data.commentaire || 'Aucun'}</Descriptions.Item>
+          <Descriptions.Item label="Statut">
+            <Tag
+              color={
+                data.nom_type_statut === 'Approuvé'
+                  ? 'green'
+                  : data.nom_type_statut === 'En attente'
+                  ? 'gold'
+                  : 'red'
+              }
+              className="bande-sortie__status-tag"
+            >
+              {data.nom_type_statut}
+            </Tag>
+          </Descriptions.Item>
+        </Descriptions>
 
-      <Row justify="space-between" align="middle" style={{ marginTop: 32 }}>
-        <Col>
-          <p><strong>Signé par:</strong> {data.personne_signe}</p>
-        </Col>
-        <Col>
-          <Image
-            width={120}
-            src={`${DOMAIN}/${data.signature}`}
-            alt="Signature"
-            preview={false}
-          />
-        </Col>
-      </Row>
-    </Card>
+        {/* SIGNATURE */}
+        <Row justify="space-between" align="middle" className="bande-sortie__signature">
+          <Col>
+            <Text strong>Signé par:</Text> {data.personne_signe}
+          </Col>
+          <Col>
+            <Image
+              width={130}
+              src={`${DOMAIN}/${data.signature}`}
+              alt="Signature"
+              preview={false}
+              className="bande-sortie__signature-img"
+            />
+          </Col>
+        </Row>
+      </Card>
+    </div>
   );
 };
 
