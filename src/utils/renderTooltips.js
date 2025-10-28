@@ -2,6 +2,38 @@ import { Progress, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 
+export const TooltipWrapperBox = ({
+  children,
+  tooltipText,
+  bg = "#f0f0f0",
+  color = "#000",
+  maxWidth = 250,
+}) => (
+  <Tooltip title={tooltipText || null}>
+    <div
+      style={{
+        maxWidth,
+        overflowX: "auto",
+        whiteSpace: "nowrap",
+        backgroundColor: bg,
+        color,
+        fontWeight: 600,
+        fontSize: 15,
+        borderRadius: 8,
+        padding: "6px 8px",
+        textAlign: "center",
+        border: '1px solid rgba(255,255,255,0.2)',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      }}
+      className="tooltip-wrapper-hide-scroll"
+    >
+      {children}
+    </div>
+  </Tooltip>
+);
+
 export const TooltipCell = ({
   cellText,      // texte affiché dans la cellule
   tooltipText,   // texte affiché dans le tooltip

@@ -24,6 +24,7 @@ import {
   MoyenneBox,
   TooltipBox,
   TooltipCell,
+  TooltipWrapperBox,
 } from "../../../../../utils/renderTooltips";
 import VehicleSpeed from "../../../../../utils/vehicleSpeed";
 import { VehicleAddress } from "../../../../../utils/vehicleAddress";
@@ -170,11 +171,18 @@ const RapportVehiculeCourses = ({ course }) => {
       </Space>
     ),
     key: "address",
-    render: (_, record) => <VehicleAddress record={record} />,
-    width: 90,
-    alwaysVisible: true, // toujours visible
+    render: (_, record) => (
+      <TooltipWrapperBox
+        tooltipText={record?.capteurInfo?.address || record?.position || "Adresse inconnue"}
+        bg="#f0f0f0"
+        color="#000"
+      >
+        <VehicleAddress record={record} />
+      </TooltipWrapperBox>
+    ),
+    width: 160,
+    alwaysVisible: true,
   });
-
   // Ajouter Vitesse si présent
   if (hasSpeed) {
     baseColumns.splice(4, 0, {
