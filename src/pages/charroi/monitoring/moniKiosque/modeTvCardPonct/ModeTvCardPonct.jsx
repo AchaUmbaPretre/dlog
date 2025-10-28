@@ -5,6 +5,7 @@ import "./modeTvCardPonct.scss";
 import { getFalcon, getRapportCharroiVehicule } from "../../../../../services/rapportService";
 import RapportVehiculeCourses from "../rapportVehiculeCourses/RapportVehiculeCourses";
 import RapportVehiculeValide from "../../../rapportCharroi/rapportVehiculeValide/RapportVehiculeValide";
+import RapportVehiculeDepart from "../rapportVehiculeDepart/RapportVehiculeDepart";
 
 const REFRESH_INTERVAL = 30000;
 
@@ -44,6 +45,7 @@ const ModeTvCardPonct = ({ datas }) => {
   const [falcon, setFalcon] = useState([]);
   const [modalType, setModalType] = useState(null);
   const [courses, setCourses] = useState([]);
+  const [departs, setDeparts] = useState([]);
 
   const closeAllModals = () => {
     setModalType(null);
@@ -121,6 +123,7 @@ const ModeTvCardPonct = ({ datas }) => {
       try {
         const { data } = await getRapportCharroiVehicule();
         setCourses(data?.listeCourse || []);
+        setDeparts(data?.listeDepart || [])
       } catch (error) {
         notification.error({
           message: 'Erreur de chargement',
@@ -224,6 +227,17 @@ const ModeTvCardPonct = ({ datas }) => {
         centered
       >
         <RapportVehiculeValide />
+     </Modal>
+
+           <Modal
+        title=""
+        visible={modalType === 'depart'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1325}
+        centered
+      >
+        <RapportVehiculeDepart />
      </Modal>
     </>
   );
