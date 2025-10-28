@@ -702,7 +702,7 @@ const BandeSortie = () => {
             visible={modalType === 'detail'}
             onCancel={closeAllModals}
             footer={null}
-            width={1000}
+            width={1100}
             centered
         >
           <BandeSortieDetail closeModal={() => setModalType(null)} fetchData={fetchData} id_bon={bonId} />

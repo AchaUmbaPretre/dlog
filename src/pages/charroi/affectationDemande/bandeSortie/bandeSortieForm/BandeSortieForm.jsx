@@ -65,7 +65,8 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                         id_demandeur : d[0].id_demandeur,
                         id_client : d[0].id_client,
                         id_destination : d[0].id_destination,
-                        personne_bord : d[0].personne_bord
+                        personne_bord : d[0].personne_bord,
+                        commentaire: d[0].commentaire
                     })
                 }
                 
@@ -145,11 +146,18 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                         showSearch
                                         options={vehicule?.map((item) => ({
                                             value: item.id_vehicule,
-                                            label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
+                                            label: [
+                                            item.immatriculation || '', 
+                                            item.nom_marque || '', 
+                                            item.modele || ''
+                                            ]
+                                            .filter(val => val)
+                                            .join(' / ')
                                         }))}
                                         optionFilterProp="label"
-                                        placeholder="Sélectionnez un vehicule..."
-                                /> }
+                                        placeholder="Sélectionnez un véhicule..."
+                                    />
+                                }
                                 </Form.Item>
                             </Col>
 
@@ -315,6 +323,15 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                         placeholder="Sélectionnez..."
                                     />
                                     }
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={24}>
+                                <Form.Item
+                                    label="Commentaire"
+                                    name="commentaire"
+                                >
+                                    <Input.TextArea placeholder="Saisir le commentaire..." style={{width:'100%', resize:'none', height:'70px'}}/>
                                 </Form.Item>
                             </Col>
 
