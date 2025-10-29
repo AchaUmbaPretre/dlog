@@ -96,7 +96,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
 
             <Col span={12}>
               <Form.Item label="Nom" name="nom">
-                <Input placeholder="Entrez le nom du Geofence..." />
+                <Input placeholder="Entrez le nom ..." />
               </Form.Item>
             </Col>
 
