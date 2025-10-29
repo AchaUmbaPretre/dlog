@@ -69,8 +69,12 @@ const Geofences = ({ data = [] }) => {
     },
   ];
 
+
   // Placeholder fonctions
-  const handleAddClient = () => console.log('Ajouter Geofence');
+    const handleAddClient = (idGeofence) => {
+        openModal('Add', idGeofence);
+    };
+    
   const handlePrint = () => console.log('Imprimer');
   const menu = (
     <div style={{ padding: 10 }}>
