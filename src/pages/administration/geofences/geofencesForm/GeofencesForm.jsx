@@ -32,7 +32,15 @@ const GeofencesForm = ({closeModal, fetchData }) => {
                                 name="nom_falcon"
                                 rules={[{ required: true, message: 'Veuillez entrer le nom du falcon!' }]}
                             >
-                                <Input />
+                                <Select
+                                    showSearch
+                                    options={data.map((item) => ({
+                                        value: item.id,
+                                        label: item.capital,
+                                    }))}
+                                    placeholder="Sélectionnez une ville..."
+                                    optionFilterProp="label"
+                                />
                             </Form.Item>
                         </Col>
 
