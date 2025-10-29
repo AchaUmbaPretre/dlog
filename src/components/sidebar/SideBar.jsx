@@ -39,7 +39,8 @@ import {
   TeamOutlined,
   AuditOutlined,
   DeliveredProcedureOutlined,
-  FullscreenExitOutlined
+  FullscreenExitOutlined,
+  UserSwitchOutlined
 } from '@ant-design/icons';
 import './sideBar.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -158,7 +159,8 @@ const SideBar = ({data}) => {
     DeliveredProcedureOutlined : <DeliveredProcedureOutlined style={{ color: '#2f54eb' }} />,
     GlobalOutlined : <GlobalOutlined style={{ color: 'green' }} />,
     FolderOpenFilled: <FolderOpenFilled style={{ color: '#fadb14' }} />,
-    FullscreenExitOutlined :<FullscreenExitOutlined style={{ color: '#2f54eb' }} />
+    FullscreenExitOutlined :<FullscreenExitOutlined style={{ color: '#2f54eb' }} />,
+    UserSwitchOutlined: <UserSwitchOutlined style={{ color: '#000' }} />,
   };
   
   const renderIcon = (iconName) => {
