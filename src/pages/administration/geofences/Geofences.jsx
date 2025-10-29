@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Button, Dropdown, Input, Space } from 'antd';
+import { Table, Button, Dropdown, Input, Space, Modal } from 'antd';
 import { 
   ExportOutlined, 
   PrinterOutlined, 
@@ -9,6 +9,7 @@ import {
   DeleteOutlined,
   SearchOutlined
 } from '@ant-design/icons';
+import GeofencesForm from './geofencesForm/GeofencesForm';
 
 const { Search } = Input;
 
@@ -19,6 +20,18 @@ const Geofences = ({ data = [] }) => {
   });
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [idGeofence, setIdGeofence] = useState('');
+  const [modalType, setModalType] = useState(null);
+  
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+  
+  const openModal = (type, idGeofence = '') => {
+    closeAllModals();
+    setModalType(type);
+    setIdGeofence(idGeofence);
+  };
 
   // Filtrage sécurisé
   const filteredData = data?.filter(item =>
@@ -67,49 +80,61 @@ const Geofences = ({ data = [] }) => {
   );
 
   return (
-    <div className="client">
-      <div className="client-wrapper">
-        <div className="client-row">
-          <div className="client-row-icon">
-            <GlobalOutlined className='client-icon'/>
-          </div>
-          <h2 className="client-h2">Gestion des Geofences</h2>
+    <>
+        <div className="client">
+            <div className="client-wrapper">
+                <div className="client-row">
+                <div className="client-row-icon">
+                    <GlobalOutlined className='client-icon'/>
+                </div>
+                <h2 className="client-h2">Gestion des Geofences</h2>
+                </div>
+
+                <div className="client-actions" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+                <Search
+                    placeholder="Recherche..."
+                    allowClear
+                    enterButton={<SearchOutlined />}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    style={{ width: 300 }}
+                />
+
+                <Space>
+                    <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleAddClient}>
+                    Ajouter Geofence
+                    </Button>
+                    <Dropdown overlay={menu} trigger={['click']}>
+                    <Button icon={<ExportOutlined />}>Export</Button>
+                    </Dropdown>
+                    <Button icon={<PrinterOutlined />} onClick={handlePrint}>Imprimer</Button>
+                </Space>
+                </div>
+
+                <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    rowKey="id"
+                    bordered
+                    size="middle"
+                    scroll={{ x: 400 }}
+                    loading={loading}
+                    pagination={pagination}
+                    onChange={setPagination}
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                />
+            </div>
         </div>
-
-        <div className="client-actions" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-          <Search
-            placeholder="Recherche..."
-            allowClear
-            enterButton={<SearchOutlined />}
-            onChange={(e) => setSearchValue(e.target.value)}
-            style={{ width: 300 }}
-          />
-
-          <Space>
-            <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleAddClient}>
-              Ajouter Geofence
-            </Button>
-            <Dropdown overlay={menu} trigger={['click']}>
-              <Button icon={<ExportOutlined />}>Export</Button>
-            </Dropdown>
-            <Button icon={<PrinterOutlined />} onClick={handlePrint}>Imprimer</Button>
-          </Space>
-        </div>
-
-        <Table
-          columns={columns}
-          dataSource={filteredData}
-          rowKey="id"
-          bordered
-          size="middle"
-          scroll={{ x: 400 }}
-          loading={loading}
-          pagination={pagination}
-          onChange={setPagination}
-          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-        />
-      </div>
-    </div>
+        <Modal
+            title=""
+            visible={modalType === 'Add'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1050}
+            centered
+        >
+            <GeofencesForm closeModal={() => setModalType(null)} />
+        </Modal>
+    </>
   );
 };
 

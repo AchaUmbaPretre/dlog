@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Popconfirm, Popover, Space, Tooltip, Tag } from 'antd';
 import { ExportOutlined,HomeOutlined,PlusCircleOutlined,MailOutlined,UserOutlined,PhoneOutlined,ApartmentOutlined, PrinterOutlined, PlusOutlined, TeamOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import './client.scss';
@@ -16,7 +16,6 @@ const Client = () => {
   const [idClient, setidClient] = useState('');
   const [modalType, setModalType] = useState(null);
   const [searchValue, setSearchValue] = useState('');
-
 
     const fetchData = async () => {
       try {
@@ -81,7 +80,6 @@ const Client = () => {
       });
     }
   };
-
 
   const menu = (
     <Menu>
