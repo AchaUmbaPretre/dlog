@@ -1,28 +1,13 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { notification, Progress, Tooltip, Modal } from "antd";
-import { ArrowUpOutlined, ArrowDownOutlined, MinusOutlined } from "@ant-design/icons";
 import "./modeTvCardPonct.scss";
 import { getFalcon, getRapportCharroiVehicule } from "../../../../../services/rapportService";
 import RapportVehiculeCourses from "../rapportVehiculeCourses/RapportVehiculeCourses";
 import RapportVehiculeValide from "../../../rapportCharroi/rapportVehiculeValide/RapportVehiculeValide";
 import RapportVehiculeDepart from "../rapportVehiculeDepart/RapportVehiculeDepart";
+import { TrendArrow } from "../../../../../utils/trendArrow";
 
 const REFRESH_INTERVAL = 30000;
-
-// --- Composant flèche tendance ---
-const TrendArrow = ({ previous, current }) => {
-  if (previous === null || previous === undefined) {
-    return current > 0 ? (
-      <ArrowUpOutlined className="trend up" />
-    ) : (
-      <MinusOutlined className="trend neutral" />
-    );
-  }
-
-  if (current > previous) return <ArrowUpOutlined className="trend up" />;
-  if (current < previous) return <ArrowDownOutlined className="trend down" />;
-  return <MinusOutlined className="trend neutral" />;
-};
 
 const ModeTvCardPonct = ({ datas }) => {
   const [data, setData] = useState({
