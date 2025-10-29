@@ -74,7 +74,7 @@ const Geofences = ({ data = [] }) => {
     const handleAddClient = (idGeofence) => {
         openModal('Add', idGeofence);
     };
-    
+
   const handlePrint = () => console.log('Imprimer');
   const menu = (
     <div style={{ padding: 10 }}>
@@ -133,7 +133,7 @@ const Geofences = ({ data = [] }) => {
             visible={modalType === 'Add'}
             onCancel={closeAllModals}
             footer={null}
-            width={1050}
+            width={950}
             centered
         >
             <GeofencesForm closeModal={() => setModalType(null)} />
