@@ -31,6 +31,8 @@ const ModeTvCardPonct = ({ datas }) => {
   const [modalType, setModalType] = useState(null);
   const [courses, setCourses] = useState([]);
   const [departs, setDeparts] = useState([]);
+  const [enLigne, setEnLigne] = useState(0);
+  const [horsLigne, setHorsLigne] = useState(0);
 
   const closeAllModals = () => {
     setModalType(null);
@@ -60,49 +62,73 @@ const ModeTvCardPonct = ({ datas }) => {
     fetchData();
   }, []);
 
-  // --- Mise à jour des KPI quand datas ou falcon changent ---
-  useEffect(() => {
-    if (!datas) return;
+    // --- Mise à jour des KPI quand datas ou falcon changent ---
+ useEffect(() => {
+  if (!datas) return;
 
-    const enLigne = falcon.filter((f) => f.online === "online").length;
-    const horsLigne = falcon.filter((f) => f.online === "offline").length;
+  const now = new Date();
 
-    const newData = {
-      depart: Number(datas.depart_actuel || 0),
-      attente: Number(datas.attente_actuel || 0),
-      course: Number(datas.course_actuel || 0),
-      dispo: Number(datas.vehicule_dispo || 0),
-      hors_ligne: horsLigne,
-      departPrecedent: Number(datas.depart_precedent || 0),
-      attentePrecedent: Number(datas.attente_precedent || 0),
-      coursePrecedent: Number(datas.course_precedent || 0),
-    };
+  const falconStatus = falcon.map((f) => {
+    const lastTime = f.time
+      ? new Date(
+          f.time.replace(
+            /(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2}):(\d{2})/,
+            "$3-$2-$1T$4:$5:$6"
+          )
+        )
+      : null;
 
-    // --- Détection des changements pour flash ---
-    setFlash((prev) => ({
-      depart: newData.depart !== data.depart ? "flash" : prev.depart,
-      attente: newData.attente !== data.attente ? "flash" : prev.attente,
-      course: newData.course !== data.course ? "flash" : prev.course,
-      dispo: newData.dispo !== data.dispo ? "flash" : prev.dispo,
-      hors_ligne:
-        newData.hors_ligne !== data.hors_ligne ? "flash" : prev.hors_ligne,
-    }));
+    if (!lastTime) return { ...f, statutReel: "offline" };
 
-    setData(newData);
+    const diffMs = now - lastTime;
+    const diffHeures = diffMs / (1000 * 60 * 60);
 
-    const timer = setTimeout(
-      () =>
-        setFlash({
-          depart: "",
-          attente: "",
-          course: "",
-          dispo: "",
-          hors_ligne: "",
-        }),
-      600
-    );
-    return () => clearTimeout(timer);
-  }, [datas, falcon]);
+    const statutReel = diffHeures >= 1.0003 ? "offline" : "online";
+    return { ...f, statutReel };
+  });
+
+  const enLigneCount = falconStatus.filter((f) => f.statutReel === "online").length;
+  const horsLigneCount = falconStatus.filter((f) => f.statutReel === "offline").length;
+
+  // ✅ mise à jour des états
+  setEnLigne(enLigneCount);
+  setHorsLigne(horsLigneCount);
+
+  const newData = {
+    depart: Number(datas.depart_actuel || 0),
+    attente: Number(datas.attente_actuel || 0),
+    course: Number(datas.course_actuel || 0),
+    dispo: Number(datas.vehicule_dispo || 0),
+    hors_ligne: horsLigneCount,
+    departPrecedent: Number(datas.depart_precedent || 0),
+    attentePrecedent: Number(datas.attente_precedent || 0),
+    coursePrecedent: Number(datas.course_precedent || 0),
+  };
+
+  setFlash((prev) => ({
+    depart: newData.depart !== data.depart ? "flash" : prev.depart,
+    attente: newData.attente !== data.attente ? "flash" : prev.attente,
+    course: newData.course !== data.course ? "flash" : prev.course,
+    dispo: newData.dispo !== data.dispo ? "flash" : prev.dispo,
+    hors_ligne:
+      newData.hors_ligne !== data.hors_ligne ? "flash" : prev.hors_ligne,
+  }));
+
+  setData(newData);
+
+  const timer = setTimeout(
+    () =>
+      setFlash({
+        depart: "",
+        attente: "",
+        course: "",
+        dispo: "",
+        hors_ligne: "",
+      }),
+    600
+  );
+  return () => clearTimeout(timer);
+}, [datas, falcon]);
 
     const fetchCourses = useCallback(async () => {
       try {
@@ -161,8 +187,6 @@ const ModeTvCardPonct = ({ datas }) => {
     </div>
   );
 
-  const enLigne = falcon.filter((f) => f.online === "online").length;
-  const horsLigne = falcon.filter((f) => f.online === "offline").length;
 
     const mergedCourses = useMemo(() => {
       return courses.map((c) => {
