@@ -5,7 +5,7 @@ import { getFalcon, getRapportCharroiVehicule } from "../../../../../services/ra
 import RapportVehiculeCourses from "../rapportVehiculeCourses/RapportVehiculeCourses";
 import RapportVehiculeValide from "../../../rapportCharroi/rapportVehiculeValide/RapportVehiculeValide";
 import RapportVehiculeDepart from "../rapportVehiculeDepart/RapportVehiculeDepart";
-import { TrendArrow } from "../../../../../utils/trendArrow";
+import { getStrokeColor, TrendArrow } from "../../../../../utils/trendArrow";
 
 const REFRESH_INTERVAL = 30000;
 
@@ -129,14 +129,6 @@ const ModeTvCardPonct = ({ datas }) => {
       };
     }, [fetchCourses]);
 
-  // --- Couleur de la jauge ---
-  const getStrokeColor = (value, total = 100) => {
-    const percent = total ? (value / total) * 100 : 0;
-    if (percent >= 90) return "#52c41a"; // Vert
-    if (percent >= 75) return "#faad14"; // Jaune
-    return "#ff4d4f"; // Rouge
-  };
-
   // --- Génération de chaque carte ---
   const renderCard = (title, key, previousKey = null, totalValue = null, showPrevious = true) => (
     <div className={`tv_card kpi_card ${key} ${flash[key]}`}>
@@ -229,7 +221,7 @@ const ModeTvCardPonct = ({ datas }) => {
         <RapportVehiculeValide />
      </Modal>
 
-           <Modal
+      <Modal
         title=""
         visible={modalType === 'depart'}
         onCancel={closeAllModals}

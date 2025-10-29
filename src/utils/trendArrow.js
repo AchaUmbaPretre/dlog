@@ -14,3 +14,12 @@ export const TrendArrow = ({ previous, current }) => {
   if (current < previous) return <ArrowDownOutlined className="trend down" />;
   return <MinusOutlined className="trend neutral" />;
 };
+
+
+  // --- Couleur de la jauge ---
+export const getStrokeColor = (value, total = 100) => {
+    const percent = total ? (value / total) * 100 : 0;
+    if (percent >= 90) return "#52c41a"; // Vert
+    if (percent >= 75) return "#faad14"; // Jaune
+    return "#ff4d4f"; // Rouge
+  };
