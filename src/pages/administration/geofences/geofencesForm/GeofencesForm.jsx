@@ -62,13 +62,29 @@ const GeofencesForm = ({closeModal, fetchData }) => {
 
                             <Col span={8}>
                                 <Form.Item label="Client" name="client_id">
-                                    <Input />
+                                    <Select
+                                        showSearch
+                                        options={data.map((item) => ({
+                                            value: item.id,
+                                            label: item.capital,
+                                        }))}
+                                        placeholder="Sélectionnez une ville..."
+                                        optionFilterProp="label"
+                                    />
                                 </Form.Item>
                             </Col>
 
                             <Col span={8}>
                                 <Form.Item label="Zone" name="zone_parent_id">
-                                    <Input />
+                                    <Select
+                                        showSearch
+                                        options={data.map((item) => ({
+                                            value: item.id,
+                                            label: item.capital,
+                                        }))}
+                                        placeholder="Sélectionnez une ville..."
+                                        optionFilterProp="label"
+                                    />
                                 </Form.Item>
                             </Col>
 
