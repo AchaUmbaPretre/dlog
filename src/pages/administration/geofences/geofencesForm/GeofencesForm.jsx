@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Button, Form, Input, notification, Row, Select, Col, Spin } from 'antd';
 import axios from 'axios';
+import { getClient } from '../../../../services/clientService';
 
 const { Option } = Select;
 
@@ -26,7 +27,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
       const [falconsRes, typesRes, clientsRes, zonesRes] = await Promise.all([
         axios.get('/api/falcons'),
         axios.get('/api/types'),
-        axios.get('/api/clients'),
+        getClient,
         axios.get('/api/zones'),
       ]);
 
