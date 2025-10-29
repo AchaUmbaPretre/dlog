@@ -58,77 +58,77 @@ const ModeTvCardPonct = ({ datas }) => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+    useEffect(() => {
+      fetchData();
+    }, []);
 
     // --- Mise à jour des KPI quand datas ou falcon changent ---
- useEffect(() => {
-  if (!datas) return;
+    useEffect(() => {
+    if (!datas) return;
 
-  const now = new Date();
+    const now = new Date();
 
-  const falconStatus = falcon.map((f) => {
-    const lastTime = f.time
-      ? new Date(
-          f.time.replace(
-            /(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2}):(\d{2})/,
-            "$3-$2-$1T$4:$5:$6"
+    const falconStatus = falcon.map((f) => {
+      const lastTime = f.time
+        ? new Date(
+            f.time.replace(
+              /(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2}):(\d{2})/,
+              "$3-$2-$1T$4:$5:$6"
+            )
           )
-        )
-      : null;
+        : null;
 
-    if (!lastTime) return { ...f, statutReel: "offline" };
+      if (!lastTime) return { ...f, statutReel: "offline" };
 
-    const diffMs = now - lastTime;
-    const diffHeures = diffMs / (1000 * 60 * 60);
+      const diffMs = now - lastTime;
+      const diffHeures = diffMs / (1000 * 60 * 60);
 
-    const statutReel = diffHeures >= 1.0003 ? "offline" : "online";
-    return { ...f, statutReel };
-  });
+      const statutReel = diffHeures >= 1.0003 ? "offline" : "online";
+      return { ...f, statutReel };
+    });
 
-  const enLigneCount = falconStatus.filter((f) => f.statutReel === "online").length;
-  const horsLigneCount = falconStatus.filter((f) => f.statutReel === "offline").length;
+    const enLigneCount = falconStatus.filter((f) => f.statutReel === "online").length;
+    const horsLigneCount = falconStatus.filter((f) => f.statutReel === "offline").length;
 
-  // ✅ mise à jour des états
-  setEnLigne(enLigneCount);
-  setHorsLigne(horsLigneCount);
+    // ✅ mise à jour des états
+    setEnLigne(enLigneCount);
+    setHorsLigne(horsLigneCount);
 
-  const newData = {
-    depart: Number(datas.depart_actuel || 0),
-    attente: Number(datas.attente_actuel || 0),
-    course: Number(datas.course_actuel || 0),
-    dispo: Number(datas.vehicule_dispo || 0),
-    hors_ligne: horsLigneCount,
-    departPrecedent: Number(datas.depart_precedent || 0),
-    attentePrecedent: Number(datas.attente_precedent || 0),
-    coursePrecedent: Number(datas.course_precedent || 0),
-  };
+    const newData = {
+      depart: Number(datas.depart_actuel || 0),
+      attente: Number(datas.attente_actuel || 0),
+      course: Number(datas.course_actuel || 0),
+      dispo: Number(datas.vehicule_dispo || 0),
+      hors_ligne: horsLigneCount,
+      departPrecedent: Number(datas.depart_precedent || 0),
+      attentePrecedent: Number(datas.attente_precedent || 0),
+      coursePrecedent: Number(datas.course_precedent || 0),
+    };
 
-  setFlash((prev) => ({
-    depart: newData.depart !== data.depart ? "flash" : prev.depart,
-    attente: newData.attente !== data.attente ? "flash" : prev.attente,
-    course: newData.course !== data.course ? "flash" : prev.course,
-    dispo: newData.dispo !== data.dispo ? "flash" : prev.dispo,
-    hors_ligne:
-      newData.hors_ligne !== data.hors_ligne ? "flash" : prev.hors_ligne,
-  }));
+    setFlash((prev) => ({
+      depart: newData.depart !== data.depart ? "flash" : prev.depart,
+      attente: newData.attente !== data.attente ? "flash" : prev.attente,
+      course: newData.course !== data.course ? "flash" : prev.course,
+      dispo: newData.dispo !== data.dispo ? "flash" : prev.dispo,
+      hors_ligne:
+        newData.hors_ligne !== data.hors_ligne ? "flash" : prev.hors_ligne,
+    }));
 
-  setData(newData);
+    setData(newData);
 
-  const timer = setTimeout(
-    () =>
-      setFlash({
-        depart: "",
-        attente: "",
-        course: "",
-        dispo: "",
-        hors_ligne: "",
-      }),
-    600
-  );
-  return () => clearTimeout(timer);
-}, [datas, falcon]);
+    const timer = setTimeout(
+      () =>
+        setFlash({
+          depart: "",
+          attente: "",
+          course: "",
+          dispo: "",
+          hors_ligne: "",
+        }),
+      600
+    );
+    return () => clearTimeout(timer);
+    }, [datas, falcon]);
 
     const fetchCourses = useCallback(async () => {
       try {
