@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Button, Dropdown, Input, Space, Modal } from 'antd';
 import { 
   ExportOutlined, 
@@ -10,10 +10,11 @@ import {
   SearchOutlined
 } from '@ant-design/icons';
 import GeofencesForm from './geofencesForm/GeofencesForm';
+import { getGeofenceDlog } from '../../../services/geofenceService';
 
 const { Search } = Input;
 
-const Geofences = ({ data = [] }) => {
+const Geofences = () => {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
@@ -22,7 +23,20 @@ const Geofences = ({ data = [] }) => {
   const [searchValue, setSearchValue] = useState('');
   const [idGeofence, setIdGeofence] = useState('');
   const [modalType, setModalType] = useState(null);
-  
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async() => {
+        try {
+            const { data } = await getGeofenceDlog();
+            setData(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    fetchData()
+  },[]);
+
   const closeAllModals = () => {
     setModalType(null);
   };
@@ -136,7 +150,7 @@ const Geofences = ({ data = [] }) => {
             width={1110}
             centered
         >
-            <GeofencesForm closeModal={() => setModalType(null)} />
+            <GeofencesForm closeModal={() => setModalType(null)} idGeofence={idGeofence} />
         </Modal>
     </>
   );

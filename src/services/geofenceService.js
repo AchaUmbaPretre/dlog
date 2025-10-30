@@ -7,6 +7,10 @@ export const getCatGeofence = async () => {
     return axios.get(`${DOMAIN}/api/geofences/cat_geofence`);
 };
 
+export const getGeofenceDlog = async () => {
+    return axios.get(`${DOMAIN}/api/geofences`);
+};
+
 export const getGeofenceFalcon = async () => {
     return axios.get(`${DOMAIN}/api/geofences/get_geofence_falcon`);
 };
