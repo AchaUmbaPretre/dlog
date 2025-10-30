@@ -1,156 +1,281 @@
-import { useEffect, useState, useCallback } from 'react';
-import { Button, Form, Input, notification, Row, Select, Col, Spin } from 'antd';
-import axios from 'axios';
-import { getClient } from '../../../../services/clientService';
+import { useEffect, useState, useCallback } from "react";
+import { Table, Input, Select, Space, Button, notification } from "antd";
+import { getClient } from "../../../../services/clientService";
+import {
+  getCatGeofence,
+  getGeofenceFalcon,
+} from "../../../../services/geofenceService";
+import { getDestination } from "../../../../services/charroiService";
+import axios from "axios";
+import "./geofencesForm.scss";
 
 const { Option } = Select;
 
-const GeofencesForm = ({ closeModal, fetchData }) => {
-  const [form] = Form.useForm();
-  const [isLoading, setIsLoading] = useState(false);
+const GeofencesForm = ({ fetchData }) => {
+  const [falcons, setFalcons] = useState([]);
   const [optionsData, setOptionsData] = useState({
-    falcons: [],
     types: [],
     clients: [],
-    zones: [],
+    destinations: [],
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [editingRows, setEditingRows] = useState([]);
+  const [saving, setSaving] = useState(false);
 
-  // Fonction pour afficher les notifications
-  const openNotification = useCallback((type, message, description) => {
-    notification[type]({ message, description });
-  }, []);
-
-  // Charger les données nécessaires pour les selects
-  const loadOptions = useCallback(async () => {
+  // Charger les données
+  const loadData = useCallback(async () => {
     try {
       setIsLoading(true);
-      const [falconsRes, typesRes, clientsRes, zonesRes] = await Promise.all([
-        axios.get('/api/falcons'),
-        axios.get('/api/types'),
-        getClient,
-        axios.get('/api/zones'),
+      const [falconsRes, typesRes, clientsRes, destRes] = await Promise.all([
+        getGeofenceFalcon(),
+        getCatGeofence(),
+        getClient(),
+        getDestination(),
       ]);
 
+      setFalcons(falconsRes.data.items.geofences);
       setOptionsData({
-        falcons: falconsRes.data,
         types: typesRes.data,
         clients: clientsRes.data,
-        zones: zonesRes.data,
+        destinations: destRes.data,
       });
     } catch (error) {
       console.error(error);
-      openNotification('error', 'Erreur', 'Impossible de charger les données de sélection');
+      notification.error({
+        message: "Erreur de chargement",
+        description: error.message,
+      });
     } finally {
       setIsLoading(false);
     }
-  }, [openNotification]);
+  }, []);
 
   useEffect(() => {
-    loadOptions();
-    form.resetFields();
-  }, [form, loadOptions]);
+    loadData();
+  }, [loadData]);
 
-  // Soumission du formulaire
-  const onFinish = async (values) => {
-    try {
-      setIsLoading(true);
-      await axios.post('/api/geofences', values);
-      openNotification('success', 'Succès', 'Geofence ajouté avec succès');
-      form.resetFields();
-      fetchData?.(); // rafraîchir les données du parent
-      closeModal?.();
-    } catch (error) {
-      console.error(error);
-      openNotification('error', 'Erreur', 'Impossible d\'ajouter le Geofence');
-    } finally {
-      setIsLoading(false);
+  // Double clic -> activer l'édition
+  const handleDoubleClick = (record) => {
+    if (!editingRows.includes(record.id)) {
+      setEditingRows((prev) => [...prev, record.id]);
     }
   };
 
-  if (isLoading && !optionsData.falcons.length) {
-    return <Spin tip="Chargement des données..." style={{ width: '100%', marginTop: 50 }} />;
-  }
+  // Modifier les champs localement
+  const handleChange = (id, field, value) => {
+    setFalcons((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, [field]: value } : item))
+    );
+  };
+
+  // Enregistrer dans geofences_dlog
+  const handleSave = async (record) => {
+    try {
+      setSaving(true);
+
+      const payload = {
+        falcon_id: record.id,
+        nom_falcon: record.name,
+        nom: record.nom || record.name,
+        type_geofence: record.type_geofence,
+        client_id: record.client_id,
+        zone_parent_id: record.destination_id,
+        description: record.description || "",
+        actif: 1,
+      };
+
+      await axios.post("/api/geofences", payload);
+
+      notification.success({
+        message: "Geofence enregistré",
+        description: `${record.name} a été ajouté avec succès.`,
+      });
+
+      // retirer la ligne du mode édition
+      setEditingRows((prev) => prev.filter((id) => id !== record.id));
+
+      // recharger la liste
+      fetchData?.();
+    } catch (error) {
+      console.error(error);
+      notification.error({
+        message: "Erreur lors de l'enregistrement",
+        description: error.message,
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const columns = [
+    {
+      title: "Nom Falcon",
+      dataIndex: "name",
+      key: "name",
+      render: (text, record) => (
+        <span style={{ fontWeight: 500 }}>{text}</span>
+      ),
+    },
+    {
+      title: "Nom",
+      dataIndex: "nom",
+      key: "nom",
+      render: (text, record) =>
+        editingRows.includes(record.id) ? (
+          <Input
+            placeholder="Nom geofence"
+            value={record.nom || ""}
+            onChange={(e) => handleChange(record.id, "nom", e.target.value)}
+          />
+        ) : (
+          <span>{record.nom || "-"}</span>
+        ),
+    },
+    {
+      title: "Type",
+      dataIndex: "type_geofence",
+      key: "type_geofence",
+      render: (text, record) =>
+        editingRows.includes(record.id) ? (
+          <Select
+            placeholder="Type"
+            value={record.type_geofence}
+            style={{ width: 140 }}
+            onChange={(value) =>
+              handleChange(record.id, "type_geofence", value)
+            }
+          >
+            {optionsData.types.map((t) => (
+              <Option key={t.id_catGeofence} value={t.id_catGeofence}>
+                {t.nom_catGeofence}
+              </Option>
+            ))}
+          </Select>
+        ) : (
+          <span>
+            {
+              optionsData.types.find(
+                (t) => t.id_catGeofence === record.type_geofence
+              )?.nom_catGeofence || "-"
+            }
+          </span>
+        ),
+    },
+    {
+      title: "Client",
+      dataIndex: "client_id",
+      key: "client_id",
+      render: (text, record) =>
+        editingRows.includes(record.id) ? (
+          <Select
+            placeholder="Client"
+            value={record.client_id}
+            style={{ width: 150 }}
+            onChange={(value) => handleChange(record.id, "client_id", value)}
+          >
+            {optionsData.clients.map((c) => (
+              <Option key={c.id_client} value={c.id_client}>
+                {c.nom}
+              </Option>
+            ))}
+          </Select>
+        ) : (
+          <span>
+            {
+              optionsData.clients.find((c) => c.id_client === record.client_id)
+                ?.nom || "-"
+            }
+          </span>
+        ),
+    },
+    {
+      title: "Destination",
+      dataIndex: "destination_id",
+      key: "destination_id",
+      render: (text, record) =>
+        editingRows.includes(record.id) ? (
+          <Select
+            placeholder="Destination"
+            value={record.destination_id}
+            style={{ width: 150 }}
+            onChange={(value) =>
+              handleChange(record.id, "destination_id", value)
+            }
+          >
+            {optionsData.destinations.map((d) => (
+              <Option key={d.id_destination} value={d.id_destination}>
+                {d.nom_destination}
+              </Option>
+            ))}
+          </Select>
+        ) : (
+          <span>
+            {
+              optionsData.destinations.find(
+                (d) => d.id_destination === record.destination_id
+              )?.nom_destination || "-"
+            }
+          </span>
+        ),
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      render: (text, record) =>
+        editingRows.includes(record.id) ? (
+          <Input
+            placeholder="Description"
+            value={record.description || ""}
+            onChange={(e) =>
+              handleChange(record.id, "description", e.target.value)
+            }
+          />
+        ) : (
+          <span>{text || "-"}</span>
+        ),
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) =>
+        editingRows.includes(record.id) ? (
+          <Button
+            type="primary"
+            size="small"
+            loading={saving}
+            onClick={() => handleSave(record)}
+          >
+            Enregistrer
+          </Button>
+        ) : (
+          <Button
+            size="small"
+            type="link"
+            onClick={() => handleDoubleClick(record)}
+          >
+            + Ajouter
+          </Button>
+        ),
+    },
+  ];
 
   return (
-    <div className="controle_form">
-      <div className="controle_title_rows">
-        <h2 className="controle_h2">Form Geofences DLOG</h2>
-      </div>
-      <div className="controle_wrapper">
-        <Form form={form} layout="vertical" onFinish={onFinish}>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="Nom du falcon"
-                name="nom_falcon"
-                rules={[{ required: true, message: 'Veuillez entrer le nom du falcon!' }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Sélectionnez un falcon..."
-                  optionFilterProp="label"
-                  options={optionsData.falcons.map(f => ({ value: f.id, label: f.nom }))}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col span={12}>
-              <Form.Item label="Nom" name="nom">
-                <Input placeholder="Entrez le nom ..." />
-              </Form.Item>
-            </Col>
-
-            <Col span={8}>
-              <Form.Item
-                label="Type"
-                name="type_geofence"
-                rules={[{ required: true, message: 'Veuillez sélectionner un type!' }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Sélectionnez un type..."
-                  options={optionsData.types.map(t => ({ value: t.id, label: t.nom }))}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col span={8}>
-              <Form.Item label="Client" name="client_id">
-                <Select
-                  showSearch
-                  placeholder="Sélectionnez un client..."
-                  options={optionsData.clients.map(c => ({ value: c.id, label: c.nom }))}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col span={8}>
-              <Form.Item label="Zone" name="zone_parent_id">
-                <Select
-                  showSearch
-                  placeholder="Sélectionnez une zone..."
-                  options={optionsData.zones.map(z => ({ value: z.id, label: z.nom }))}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col span={24}>
-              <Form.Item label="Description" name="description">
-                <Input.TextArea
-                  style={{ height: '80px', resize: 'none' }}
-                  placeholder="Entrez la description..."
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" loading={isLoading} disabled={isLoading}>
-              Ajouter
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+    <div className="geofence_form">
+      <Table
+        columns={columns}
+        dataSource={falcons}
+        rowKey="id"
+        bordered
+        size="small"
+        loading={isLoading}
+        onRow={(record) => ({
+          onDoubleClick: () => handleDoubleClick(record),
+        })}
+        rowClassName={(record) =>
+          editingRows.includes(record.id) ? "active-row" : ""
+        }
+      />
     </div>
   );
 };

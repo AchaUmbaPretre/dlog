@@ -18,7 +18,7 @@ import {
   putRelierVehiculeFalcon,
 } from "../../../services/charroiService";
 import { getFalcon } from "../../../services/rapportService";
-import { getOdometer } from "../../../services/geocodeService";
+import { getOdometer } from "../../../utils/geocodeService";
 import "./relierFalcon.scss";
 
 const { Text } = Typography;

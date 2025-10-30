@@ -3,7 +3,7 @@ import { CarOutlined, InfoCircleOutlined, MenuOutlined, DownOutlined } from '@an
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Typography, Modal, Menu, Tooltip, Space, Tag, Input, Table, Button, Badge, Dropdown } from 'antd';
 import moment from 'moment';
-import { getEngineStatus, getOdometer } from '../../../../services/geocodeService';
+import { getEngineStatus, getOdometer } from '../../../../utils/geocodeService';
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
 import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';

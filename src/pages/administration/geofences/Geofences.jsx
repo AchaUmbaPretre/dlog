@@ -133,7 +133,7 @@ const Geofences = ({ data = [] }) => {
             visible={modalType === 'Add'}
             onCancel={closeAllModals}
             footer={null}
-            width={950}
+            width={1110}
             centered
         >
             <GeofencesForm closeModal={() => setModalType(null)} />
