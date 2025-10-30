@@ -124,6 +124,7 @@ const GeofencesForm = ({ closeModal, fetchData, idGeofence }) => {
       render: (text, record) =>
         editingRows.includes(record.id_geofence) ? (
           <Select
+            allowClear
             placeholder="Type"
             value={record.type_geofence}
             style={{ width: 140 }}
@@ -154,6 +155,7 @@ const GeofencesForm = ({ closeModal, fetchData, idGeofence }) => {
       render: (text, record) =>
         editingRows.includes(record.id_geofence) ? (
           <Select
+            allowClear
             placeholder="Client"
             value={record.client_id}
             style={{ width: 150 }}
@@ -181,6 +183,7 @@ const GeofencesForm = ({ closeModal, fetchData, idGeofence }) => {
       render: (text, record) =>
         editingRows.includes(record.id_geofence) ? (
           <Select
+            allowClear
             placeholder="Destination"
             value={record.destination_id}
             style={{ width: 150 }}
