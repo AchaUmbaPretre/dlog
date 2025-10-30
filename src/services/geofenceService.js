@@ -22,3 +22,7 @@ export const getGeofenceFalcon = async () => {
 export const postGeofenceDlog = async (data) => {
     return axios.post(`${DOMAIN}/api/geofences`, data);
 };
+
+export const putGeofenceDlog = async (data, idGeofence) => {
+    return axios.put(`${DOMAIN}/api/geofences?id_geo_dlog=${idGeofence}`, data);
+};

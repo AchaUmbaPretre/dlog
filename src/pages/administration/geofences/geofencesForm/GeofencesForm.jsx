@@ -1,30 +1,50 @@
 import { useEffect, useState, useCallback } from "react";
-import { Table, Input, Select, Card, Button, notification, Tooltip, Space } from "antd";
+import { Table, Input, Select, Card, Button, notification } from "antd";
+import { getCatGeofence, getGeofenceDlog, getGeofenceFalcon, putGeofenceDlog } from "../../../../services/geofenceService";
 import { getClient } from "../../../../services/clientService";
-import { getCatGeofence, getGeofenceFalcon, postGeofenceDlog } from "../../../../services/geofenceService";
 import { getDestination } from "../../../../services/charroiService";
 import "./geofencesForm.scss";
 
 const { Option } = Select;
 
-const GeofencesForm = ({ fetchData }) => {
+const GeofencesForm = ({ closeModal, fetchData }) => {
   const [falcons, setFalcons] = useState([]);
   const [optionsData, setOptionsData] = useState({ types: [], clients: [], destinations: [] });
   const [isLoading, setIsLoading] = useState(false);
   const [editingRows, setEditingRows] = useState([]);
   const [saving, setSaving] = useState(false);
 
+  // Charger toutes les données et fusionner avec Dlog
   const loadData = useCallback(async () => {
     try {
       setIsLoading(true);
-      const [falconsRes, typesRes, clientsRes, destRes] = await Promise.all([
+
+      const [falconsRes, typesRes, clientsRes, destRes, dlogRes] = await Promise.all([
         getGeofenceFalcon(),
         getCatGeofence(),
         getClient(),
-        getDestination()
+        getDestination(),
+        getGeofenceDlog(),
       ]);
-      setFalcons(falconsRes.data);
+
+      const dlogData = dlogRes.data;
+
+      const mergedFalcons = falconsRes.data.map(falcon => {
+        const saved = dlogData.find(d => d.falcon_id === falcon.id_geofence);
+        return {
+          ...falcon,
+          type_geofence: saved?.type_geofence || null,
+          client_id: saved?.client_id || null,
+          destination_id: saved?.destination_id || null,
+          description: saved?.description || "",
+          nom: saved?.nom || falcon.name,
+          actif: saved?.actif ?? 0,
+        };
+      });
+
+      setFalcons(mergedFalcons);
       setOptionsData({ types: typesRes.data, clients: clientsRes.data, destinations: destRes.data });
+
     } catch (error) {
       console.error(error);
       notification.error({ message: "Erreur de chargement", description: error.message });
@@ -35,17 +55,38 @@ const GeofencesForm = ({ fetchData }) => {
 
   useEffect(() => { loadData(); }, [loadData]);
 
+  // Double click pour éditer
   const handleDoubleClick = (record) => {
-    if (!editingRows.includes(record.id_geofence)) setEditingRows(prev => [...prev, record.id_geofence]);
+    if (!editingRows.includes(record.id_geofence)) {
+      setEditingRows(prev => [...prev, record.id_geofence]);
+    }
   };
 
+  // Modifier les champs en édition
   const handleChange = (id, field, value) => {
-    setFalcons(prev => prev.map(item => item.id_geofence === id ? { ...item, [field]: value } : item));
+    setFalcons(prev =>
+      prev.map(item => item.id_geofence === id ? { ...item, [field]: value } : item)
+    );
   };
 
+  // Validation des champs obligatoires
+  const validateRecord = (record) => {
+    if (!record.type_geofence) return "Le type est obligatoire";
+    if (!record.destination_id) return "La destination est obligatoire";
+    if (!record.nom && !record.name) return "Le nom est obligatoire";
+    return null;
+  };
+
+  // Sauvegarder une ligne (update)
   const handleSave = async (record) => {
+    const validationError = validateRecord(record);
+    if (validationError) {
+      notification.warning({ message: "Validation", description: validationError });
+      return;
+    }
+
+    setSaving(true);
     try {
-      setSaving(true);
       const payload = {
         falcon_id: record.id_geofence,
         nom_falcon: record.name,
@@ -54,16 +95,22 @@ const GeofencesForm = ({ fetchData }) => {
         client_id: record.client_id,
         destination_id: record.destination_id,
         description: record.description || "",
-        actif: 1
+        actif: record.actif ?? 1,
       };
-      await postGeofenceDlog(payload);
-      notification.success({ message: "Geofence enregistré", description: `${record.name} a été ajouté.` });
+
+      await putGeofenceDlog(payload, record.id_geofence);
+
+      notification.success({ message: "Geofence mis à jour", description: `${record.name} a été mis à jour.` });
+
       setEditingRows(prev => prev.filter(id => id !== record.id_geofence));
       fetchData?.();
+      loadData(); // Recharge pour afficher les données à jour
     } catch (error) {
       console.error(error);
       notification.error({ message: "Erreur", description: error.message });
-    } finally { setSaving(false); }
+    } finally {
+      setSaving(false);
+    }
   };
 
   const columns = [
@@ -71,15 +118,23 @@ const GeofencesForm = ({ fetchData }) => {
       title: "Nom Falcon",
       dataIndex: "name",
       key: "name",
-      render: (text) => <Tooltip title={text}><strong>{text}</strong></Tooltip>
+      render: text => <strong>{text}</strong>,
     },
     {
       title: "Type",
       dataIndex: "type_geofence",
       key: "type_geofence",
       render: (text, record) => editingRows.includes(record.id_geofence)
-        ? <Select allowClear placeholder="Type" value={record.type_geofence} style={{ width: 140 }} onChange={v => handleChange(record.id_geofence, "type_geofence", v)}>
-            {optionsData.types.map(t => <Option key={t.id_catGeofence} value={t.id_catGeofence}>{t.nom_catGeofence}</Option>)}
+        ? <Select
+            allowClear
+            placeholder="Type"
+            value={record.type_geofence || undefined}
+            style={{ width: 140 }}
+            onChange={v => handleChange(record.id_geofence, "type_geofence", v)}
+          >
+            {optionsData.types.map(t => (
+              <Option key={t.id_catGeofence} value={t.id_catGeofence}>{t.nom_catGeofence}</Option>
+            ))}
           </Select>
         : <span>{optionsData.types.find(t => t.id_catGeofence === record.type_geofence)?.nom_catGeofence || "-"}</span>
     },
@@ -88,8 +143,16 @@ const GeofencesForm = ({ fetchData }) => {
       dataIndex: "client_id",
       key: "client_id",
       render: (text, record) => editingRows.includes(record.id_geofence)
-        ? <Select allowClear placeholder="Client" value={record.client_id} style={{ width: 150 }} onChange={v => handleChange(record.id_geofence, "client_id", v)}>
-            {optionsData.clients.map(c => <Option key={c.id_client} value={c.id_client}>{c.nom}</Option>)}
+        ? <Select
+            allowClear
+            placeholder="Client"
+            value={record.client_id || undefined}
+            style={{ width: 150 }}
+            onChange={v => handleChange(record.id_geofence, "client_id", v)}
+          >
+            {optionsData.clients.map(c => (
+              <Option key={c.id_client} value={c.id_client}>{c.nom}</Option>
+            ))}
           </Select>
         : <span>{optionsData.clients.find(c => c.id_client === record.client_id)?.nom || "-"}</span>
     },
@@ -98,8 +161,16 @@ const GeofencesForm = ({ fetchData }) => {
       dataIndex: "destination_id",
       key: "destination_id",
       render: (text, record) => editingRows.includes(record.id_geofence)
-        ? <Select allowClear placeholder="Destination" value={record.destination_id} style={{ width: 150 }} onChange={v => handleChange(record.id_geofence, "destination_id", v)}>
-            {optionsData.destinations.map(d => <Option key={d.id_destination} value={d.id_destination}>{d.nom_destination}</Option>)}
+        ? <Select
+            allowClear
+            placeholder="Destination"
+            value={record.destination_id || undefined}
+            style={{ width: 150 }}
+            onChange={v => handleChange(record.id_geofence, "destination_id", v)}
+          >
+            {optionsData.destinations.map(d => (
+              <Option key={d.id_destination} value={d.id_destination}>{d.nom_destination}</Option>
+            ))}
           </Select>
         : <span>{optionsData.destinations.find(d => d.id_destination === record.destination_id)?.nom_destination || "-"}</span>
     },
@@ -108,7 +179,11 @@ const GeofencesForm = ({ fetchData }) => {
       dataIndex: "description",
       key: "description",
       render: (text, record) => editingRows.includes(record.id_geofence)
-        ? <Input placeholder="Description" value={record.description || ""} onChange={e => handleChange(record.id_geofence, "description", e.target.value)} />
+        ? <Input
+            placeholder="Description"
+            value={record.description || ""}
+            onChange={e => handleChange(record.id_geofence, "description", e.target.value)}
+          />
         : <span>{text || "-"}</span>
     },
     {
@@ -122,18 +197,18 @@ const GeofencesForm = ({ fetchData }) => {
 
   return (
     <div className="geofence_form">
-        <Card title="Gestion des Geofences Falcon" loading={isLoading}>
-            <Table
-                columns={columns}
-                dataSource={falcons}
-                rowKey="id_geofence"
-                bordered
-                size="small"
-                loading={isLoading}
-                onRow={record => ({ onDoubleClick: () => handleDoubleClick(record) })}
-                rowClassName={record => editingRows.includes(record.id_geofence) ? "active-row" : ""}
-                scroll={{ x: 900 }}
-            />
+      <Card title="Gestion des Geofences Falcon" loading={isLoading}>
+        <Table
+          columns={columns}
+          dataSource={falcons}
+          rowKey="id_geofence"
+          bordered
+          size="small"
+          loading={isLoading}
+          onRow={record => ({ onDoubleClick: () => handleDoubleClick(record) })}
+          rowClassName={record => editingRows.includes(record.id_geofence) ? "active-row" : ""}
+          scroll={{ x: 900 }}
+        />
       </Card>
     </div>
   );
