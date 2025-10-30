@@ -8,5 +8,5 @@ export const getCatGeofence = async () => {
 };
 
 export const getGeofenceFalcon = async () => {
-    return axios.get(`${DOMAIN}/api/get_geofences`);
+    return axios.get(`${DOMAIN}/api/geofences/get_geofence_falcon`);
 };

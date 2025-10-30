@@ -33,7 +33,7 @@ const GeofencesForm = ({ fetchData }) => {
         getDestination(),
       ]);
 
-      setFalcons(falconsRes.data.items.geofences);
+      setFalcons(falconsRes.data);
       setOptionsData({
         types: typesRes.data,
         clients: clientsRes.data,
@@ -56,15 +56,15 @@ const GeofencesForm = ({ fetchData }) => {
 
   // Double clic -> activer l'édition
   const handleDoubleClick = (record) => {
-    if (!editingRows.includes(record.id)) {
-      setEditingRows((prev) => [...prev, record.id]);
+    if (!editingRows.includes(record.id_geofence)) {
+      setEditingRows((prev) => [...prev, record.id_geofence]);
     }
   };
 
   // Modifier les champs localement
   const handleChange = (id, field, value) => {
     setFalcons((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, [field]: value } : item))
+      prev.map((item) => (item.id_geofence === id ? { ...item, [field]: value } : item))
     );
   };
 
@@ -74,7 +74,7 @@ const GeofencesForm = ({ fetchData }) => {
       setSaving(true);
 
       const payload = {
-        falcon_id: record.id,
+        falcon_id: record.id_geofence,
         nom_falcon: record.name,
         nom: record.nom || record.name,
         type_geofence: record.type_geofence,
@@ -92,7 +92,7 @@ const GeofencesForm = ({ fetchData }) => {
       });
 
       // retirer la ligne du mode édition
-      setEditingRows((prev) => prev.filter((id) => id !== record.id));
+      setEditingRows((prev) => prev.filter((id) => id !== record.id_geofence));
 
       // recharger la liste
       fetchData?.();
@@ -121,11 +121,11 @@ const GeofencesForm = ({ fetchData }) => {
       dataIndex: "nom",
       key: "nom",
       render: (text, record) =>
-        editingRows.includes(record.id) ? (
+        editingRows.includes(record.id_geofence) ? (
           <Input
             placeholder="Nom geofence"
             value={record.nom || ""}
-            onChange={(e) => handleChange(record.id, "nom", e.target.value)}
+            onChange={(e) => handleChange(record.id_geofence, "nom", e.target.value)}
           />
         ) : (
           <span>{record.nom || "-"}</span>
@@ -136,13 +136,13 @@ const GeofencesForm = ({ fetchData }) => {
       dataIndex: "type_geofence",
       key: "type_geofence",
       render: (text, record) =>
-        editingRows.includes(record.id) ? (
+        editingRows.includes(record.id_geofence) ? (
           <Select
             placeholder="Type"
             value={record.type_geofence}
             style={{ width: 140 }}
             onChange={(value) =>
-              handleChange(record.id, "type_geofence", value)
+              handleChange(record.id_geofence, "type_geofence", value)
             }
           >
             {optionsData.types.map((t) => (
@@ -166,12 +166,12 @@ const GeofencesForm = ({ fetchData }) => {
       dataIndex: "client_id",
       key: "client_id",
       render: (text, record) =>
-        editingRows.includes(record.id) ? (
+        editingRows.includes(record.id_geofence) ? (
           <Select
             placeholder="Client"
             value={record.client_id}
             style={{ width: 150 }}
-            onChange={(value) => handleChange(record.id, "client_id", value)}
+            onChange={(value) => handleChange(record.id_geofence, "client_id", value)}
           >
             {optionsData.clients.map((c) => (
               <Option key={c.id_client} value={c.id_client}>
@@ -193,13 +193,13 @@ const GeofencesForm = ({ fetchData }) => {
       dataIndex: "destination_id",
       key: "destination_id",
       render: (text, record) =>
-        editingRows.includes(record.id) ? (
+        editingRows.includes(record.id_geofence) ? (
           <Select
             placeholder="Destination"
             value={record.destination_id}
             style={{ width: 150 }}
             onChange={(value) =>
-              handleChange(record.id, "destination_id", value)
+              handleChange(record.id_geofence, "destination_id", value)
             }
           >
             {optionsData.destinations.map((d) => (
@@ -223,12 +223,12 @@ const GeofencesForm = ({ fetchData }) => {
       dataIndex: "description",
       key: "description",
       render: (text, record) =>
-        editingRows.includes(record.id) ? (
+        editingRows.includes(record.id_geofence) ? (
           <Input
             placeholder="Description"
             value={record.description || ""}
             onChange={(e) =>
-              handleChange(record.id, "description", e.target.value)
+              handleChange(record.id_geofence, "description", e.target.value)
             }
           />
         ) : (
@@ -239,7 +239,7 @@ const GeofencesForm = ({ fetchData }) => {
       title: "Action",
       key: "action",
       render: (_, record) =>
-        editingRows.includes(record.id) ? (
+        editingRows.includes(record.id_geofence) ? (
           <Button
             type="primary"
             size="small"
