@@ -11,6 +11,10 @@ export const getGeofenceDlog = async () => {
     return axios.get(`${DOMAIN}/api/geofences`);
 };
 
+export const getGeofenceDlogOne = async (id) => {
+    return axios.get(`${DOMAIN}/api/geofences/one`, {params: id});
+};
+
 export const getGeofenceFalcon = async () => {
     return axios.get(`${DOMAIN}/api/geofences/get_geofence_falcon`);
 };

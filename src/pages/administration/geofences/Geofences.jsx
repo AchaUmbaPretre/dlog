@@ -78,7 +78,7 @@ const Geofences = () => {
       width: '100px',
       render: (_, record) => (
         <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => console.log('Modifier', record)}>Modifier</Button>
+          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.id_geo_dlog)}>Modifier</Button>
           <Button type="link" danger icon={<DeleteOutlined />} onClick={() => console.log('Supprimer', record)}>Supprimer</Button>
         </Space>
       ),
@@ -91,6 +91,9 @@ const Geofences = () => {
         openModal('Add', idGeofence);
     };
 
+    const handleUpdate = (idGeofence) => {
+        openModal('Add', idGeofence);
+    }
   const handlePrint = () => console.log('Imprimer');
   const menu = (
     <div style={{ padding: 10 }}>
