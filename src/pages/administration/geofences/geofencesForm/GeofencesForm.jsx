@@ -82,7 +82,7 @@ const GeofencesForm = ({ fetchData }) => {
         client_id: record.client_id,
         destination_id: record.destination_id,
         description: record.description || "",
-        actif: 1,
+        actif: 0,
       };
 
       await postGeofenceDlog(payload);
