@@ -25,7 +25,6 @@ const Geofences = () => {
   const [modalType, setModalType] = useState(null);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
     const fetchData = async() => {
         try {
             const { data } = await getGeofenceDlog();
@@ -34,6 +33,8 @@ const Geofences = () => {
             console.log(error)
         }
     }
+
+    useEffect(() => {
     fetchData()
   },[]);
 
@@ -51,7 +52,7 @@ const Geofences = () => {
   const filteredData = data?.filter(item =>
     item.nom_falcon?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.type_geofence?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_destination?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
   ) || [];
 
@@ -68,12 +69,13 @@ const Geofences = () => {
       width: '5%',
     },
     { title: 'Nom Falcon', dataIndex: 'nom_falcon', key: 'nom_falcon' },
-    { title: 'Nom', dataIndex: 'nom', key: 'nom' },
-    { title: 'Type', dataIndex: 'type_geofence', key: 'type_geofence' },
+    { title: 'Type', dataIndex: 'nom_catGeofence', key: 'nom_catGeofence' },
+    { title: 'Destination', dataIndex: 'nom_destination', key: 'nom_destination' },
     { title: 'Client', dataIndex: 'nom_client', key: 'nom_client' },
     {
       title: 'Actions',
       key: 'actions',
+      width: '100px',
       render: (_, record) => (
         <Space>
           <Button type="link" icon={<EditOutlined />} onClick={() => console.log('Modifier', record)}>Modifier</Button>
@@ -150,7 +152,7 @@ const Geofences = () => {
             width={1110}
             centered
         >
-            <GeofencesForm closeModal={() => setModalType(null)} idGeofence={idGeofence} />
+            <GeofencesForm closeModal={() => setModalType(null)} fetchData={fetchData} idGeofence={idGeofence} />
         </Modal>
     </>
   );

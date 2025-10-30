@@ -12,7 +12,7 @@ import "./geofencesForm.scss";
 
 const { Option } = Select;
 
-const GeofencesForm = ({ fetchData }) => {
+const GeofencesForm = ({ closeModal, fetchData, idGeofence }) => {
   const [falcons, setFalcons] = useState([]);
   const [optionsData, setOptionsData] = useState({
     types: [],
