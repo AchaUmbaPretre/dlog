@@ -1,18 +1,21 @@
 .geofence_form {
   .active-row {
-    background-color: #e6f7ff !important;
+    background-color: #f0faff !important;
   }
 
   .ant-table {
     font-size: 13px;
   }
 
-  .ant-input,
-  .ant-select {
+  .ant-input, .ant-select {
     min-width: 120px;
   }
 
   .ant-btn-link {
     padding: 0;
+  }
+
+  .ant-tooltip-inner {
+    font-size: 12px;
   }
 }
