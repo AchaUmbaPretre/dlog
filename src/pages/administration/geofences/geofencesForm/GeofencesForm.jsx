@@ -4,6 +4,7 @@ import { getClient } from "../../../../services/clientService";
 import {
   getCatGeofence,
   getGeofenceFalcon,
+  postGeofenceDlog,
 } from "../../../../services/geofenceService";
 import { getDestination } from "../../../../services/charroiService";
 import axios from "axios";
@@ -79,12 +80,12 @@ const GeofencesForm = ({ fetchData }) => {
         nom: record.nom || record.name,
         type_geofence: record.type_geofence,
         client_id: record.client_id,
-        zone_parent_id: record.destination_id,
+        destination_id: record.destination_id,
         description: record.description || "",
         actif: 1,
       };
 
-      await axios.post("/api/geofences", payload);
+      await postGeofenceDlog(payload);
 
       notification.success({
         message: "Geofence enregistré",
@@ -115,21 +116,6 @@ const GeofencesForm = ({ fetchData }) => {
       render: (text, record) => (
         <span style={{ fontWeight: 500 }}>{text}</span>
       ),
-    },
-    {
-      title: "Nom",
-      dataIndex: "nom",
-      key: "nom",
-      render: (text, record) =>
-        editingRows.includes(record.id_geofence) ? (
-          <Input
-            placeholder="Nom geofence"
-            value={record.nom || ""}
-            onChange={(e) => handleChange(record.id_geofence, "nom", e.target.value)}
-          />
-        ) : (
-          <span>{record.nom || "-"}</span>
-        ),
     },
     {
       title: "Type",
@@ -273,7 +259,7 @@ const GeofencesForm = ({ fetchData }) => {
           onDoubleClick: () => handleDoubleClick(record),
         })}
         rowClassName={(record) =>
-          editingRows.includes(record.id) ? "active-row" : ""
+          editingRows.includes(record.id_geofence) ? "active-row" : ""
         }
       />
     </div>
