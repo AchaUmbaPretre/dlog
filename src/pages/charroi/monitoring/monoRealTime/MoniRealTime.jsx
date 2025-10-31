@@ -22,7 +22,6 @@ const MoniRealTime = () => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [idDevice, setIdDevice] = useState('');
-  const [refreshing, setRefreshing] = useState(false);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
   const [searchText, setSearchText] = useState('');
   const searchInput = useRef(null);
@@ -31,16 +30,17 @@ const MoniRealTime = () => {
   const apiHash = config.api_hash;
 
   // Filtrage par véhicule
-const filterByVehicle = (eventsData, vehicle) => {
-  if (!vehicle) return eventsData;
-  return eventsData.filter(e => e.vehicule === vehicle); // ✅ utiliser vehicule
-};
-
+  const filterByVehicle = (eventsData, vehicle) => {
+    if (!vehicle) return eventsData;
+    return eventsData.filter(e => e.vehicule === vehicle);
+  };
 
   // Fetch événements
-  const fetchData = async (from, to, isRefresh = false) => {
-    if (isRefresh) setRefreshing(true);
-    else setLoading(true);
+  const fetchData = async (from, to, { isRefresh = false, silent = false } = {}) => {
+    if (!silent) {
+      if (isRefresh) setLoading(false); // On ne veut pas spinner pour refresh silencieux
+      else setLoading(true);
+    }
 
     try {
       const { data } = await getEvent({
@@ -52,68 +52,46 @@ const filterByVehicle = (eventsData, vehicle) => {
       });
 
       const eventsData = data?.items?.data || [];
-
-      // Calcul du temps dans les zones
       const durations = calculateZoneDurations(eventsData);
-      const mapped = durations.details.map(e => ({
-        ...e,
-        vehicule: e.vehicule // pour search et affichage
-      }));
+      const mapped = durations.details.map(e => ({ ...e, vehicule: e.vehicule }));
 
       setEvents(mapped);
       setFilteredEvents(filterByVehicle(mapped, selectedVehicle));
       setPagination(prev => ({ ...prev, current: 1 }));
     } catch (error) {
       console.error("Erreur lors du fetch:", error);
-      if (!isRefresh) message.error("Erreur lors du chargement des événements.");
+      if (!silent) message.error("Erreur lors du chargement des événements.");
       setEvents([]);
       setFilteredEvents([]);
     } finally {
-      if (isRefresh) setRefreshing(false);
-      else setLoading(false);
+      if (!silent) {
+        setLoading(false);
+      }
     }
   };
 
-  console.table(events)
   // Chargement initial ou changement de date
   useEffect(() => {
-    const from = dateRange[0]
-      ? dateRange[0].format('YYYY-MM-DD HH:mm:ss')
-      : dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
-    const to = dateRange[1]
-      ? dateRange[1].format('YYYY-MM-DD HH:mm:ss')
-      : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
-
+    const from = dateRange[0] ? dateRange[0].format('YYYY-MM-DD HH:mm:ss') : dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
+    const to = dateRange[1] ? dateRange[1].format('YYYY-MM-DD HH:mm:ss') : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
     fetchData(from, to);
-  }, [dateRange, selectedVehicle]);
+  }, [dateRange]);
 
-  // Auto-refresh toutes les 60s
+  // Auto-refresh toutes les 60s silencieusement
   useEffect(() => {
-    const fetchInterval = async () => {
+    const interval = setInterval(async () => {
       if (isFetching.current) return;
       isFetching.current = true;
 
-      const from = dateRange[0]
-        ? dateRange[0].format("YYYY-MM-DD HH:mm:ss")
-        : dayjs().startOf("day").format("YYYY-MM-DD HH:mm:ss");
-      const to = dateRange[1]
-        ? dateRange[1].format("YYYY-MM-DD HH:mm:ss")
-        : dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
+      const from = dateRange[0] ? dateRange[0].format('YYYY-MM-DD HH:mm:ss') : dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss');
+      const to = dateRange[1] ? dateRange[1].format('YYYY-MM-DD HH:mm:ss') : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
 
-      try {
-        await fetchData(from, to, true);
-      } catch (err) {
-        console.error("Erreur fetchData:", err);
-      } finally {
-        isFetching.current = false;
-      }
-    };
-
-    const interval = setInterval(fetchInterval, 60 * 1000);
-    fetchInterval();
+      await fetchData(from, to, { silent: true, isRefresh: true });
+      isFetching.current = false;
+    }, 60000);
 
     return () => clearInterval(interval);
-  }, [dateRange, selectedVehicle]);
+  }, [dateRange]);
 
   // Re-filtrage lorsque véhicule change
   useEffect(() => {
@@ -128,7 +106,7 @@ const filterByVehicle = (eventsData, vehicle) => {
   };
   const closeAllModals = () => setModalType(null);
 
-  // Colonnes
+  // Colonnes Table
   const columns = [
     {
       title: '#',
@@ -138,7 +116,7 @@ const filterByVehicle = (eventsData, vehicle) => {
     },
     {
       title: 'Véhicule',
-      dataIndex: 'vehicule', // ✅ utiliser la clé mappée
+      dataIndex: 'vehicule',
       key: 'vehicule',
       ...getColumnSearchProps('vehicule', searchText, setSearchText, '', searchInput),
       render: (text) => (
@@ -152,11 +130,8 @@ const filterByVehicle = (eventsData, vehicle) => {
       title: 'Zone',
       dataIndex: 'zone',
       key: 'zone',
-      render: (text) => (
-        <Tag color="purple" style={{ fontWeight: 500, fontSize: 13 }}>
-          {text || 'N/A'}
-        </Tag>
-      ),
+      ...getColumnSearchProps('zone', searchText, setSearchText, '', searchInput),
+      render: (text) => <Tag color="purple" style={{ fontWeight: 500, fontSize: 13 }}>{text || 'N/A'}</Tag>,
     },
     {
       title: 'Entrée',
@@ -185,9 +160,7 @@ const filterByVehicle = (eventsData, vehicle) => {
       dataIndex: 'duree_text',
       key: 'duree_text',
       render: (_, record) => {
-        // Si la durée est "En cours"
-        if (record.duree_text === "En cours") 
-          return <Tag color="#fa8c16">En cours</Tag>;
+        if (record.duree_text === "En cours") return <Tag color="#fa8c16">En cours</Tag>;
 
         const totalMinutes = record.duree_minutes || 0;
         const totalSeconds = (record.duree_minutes || 0) * 60 + (record.duree_secondes || 0);
@@ -195,41 +168,27 @@ const filterByVehicle = (eventsData, vehicle) => {
         const m = Math.floor((totalSeconds % 3600) / 60);
         const s = totalSeconds % 60;
 
-        // Vérifie si c'est un checkpoint
         const isCheckpoint = record.zone?.startsWith("CheckP");
+        if (!isCheckpoint) return `${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`;
 
-        // Par défaut, pas de couleur pour les zones normales
-        if (!isCheckpoint) {
-          return `${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`;
-        }
+        let color = "#52c41a";
+        if (totalMinutes > 30) color = "#f5222d";
+        else if (totalMinutes > 15) color = "#fa8c16";
+        else if (totalMinutes > 10) color = "#faec5b";
+        else if (totalMinutes > 5) color = "#a0d911";
 
-        // Couleur selon le temps passé dans un checkpoint
-        let color = "#52c41a"; // Vert ≤ 5min
-        if (totalMinutes > 30) color = "#f5222d"; // Rouge
-        else if (totalMinutes > 15) color = "#fa8c16"; // Orange
-        else if (totalMinutes > 10) color = "#faec5b"; // Jaune
-        else if (totalMinutes > 5) color = "#a0d911"; // Vert clair intermédiaire
-
-        return (
-          <Tag color={color}>
-            {`${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`}
-          </Tag>
-        );
+        return <Tag color={color}>{`${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`}</Tag>;
       },
     },
     {
       title: 'Position',
       key: 'position',
-      align:'center',
+      align: 'center',
       render: (_, record) => (
         record.latitude && record.longitude ? (
           <Tooltip title={`${record.latitude}, ${record.longitude}`}>
-            <Button
-              shape="circle"
-              size="small"
-              icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
-              onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
-            />
+            <Button shape="circle" size="small" icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />} 
+              onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')} />
           </Tooltip>
         ) : <Tag color="gray">N/A</Tag>
       ),
@@ -241,12 +200,7 @@ const filterByVehicle = (eventsData, vehicle) => {
       render: (_, record) => (
         <Space>
           <Tooltip title="Voir l'historique du véhicule">
-            <Button
-              shape="circle"
-              size="small"
-              icon={<EyeOutlined style={{ color: '#1890ff' }} />}
-              onClick={() => openModal('device', record.device_id)}
-            />
+            <Button shape="circle" size="small" icon={<EyeOutlined style={{ color: '#1890ff' }} />} onClick={() => openModal('device', record.device_id)} />
           </Tooltip>
         </Space>
       ),
@@ -254,7 +208,8 @@ const filterByVehicle = (eventsData, vehicle) => {
   ];
 
   // Liste unique véhicules
-const vehicles = useMemo(() => [...new Set(events.map(e => e.vehicule))], [events]);
+  const vehicles = useMemo(() => [...new Set(events.map(e => e.vehicule))], [events]);
+
   // Handlers
   const handleDateChange = values => setDateRange(values);
   const handleVehicleChange = value => setSelectedVehicle(value);
@@ -324,9 +279,7 @@ const vehicles = useMemo(() => [...new Set(events.map(e => e.vehicule))], [event
                 option?.children?.toLowerCase().includes(input.toLowerCase())
               }
             >
-              {vehicles.map(v => (
-                <Option key={v} value={v}>{v}</Option>
-              ))}
+              {vehicles.map(v => <Option key={v} value={v}>{v}</Option>)}
             </Select>
           </div>
           <div className='row_lateral'>
@@ -341,7 +294,7 @@ const vehicles = useMemo(() => [...new Set(events.map(e => e.vehicule))], [event
             columns={columns}
             dataSource={filteredEvents}
             rowKey={record => record.id || record.external_id}
-            loading={loading || refreshing}
+            loading={loading} // seul le fetch manuel affiche loading
             pagination={{
               ...pagination,
               showSizeChanger: true,
