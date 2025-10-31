@@ -34,7 +34,6 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
       const mergedFalcons = falconsRes.data.map(falcon => {
         const saved = dlogData.find(d => d.falcon_id === falcon.id_geofence);
 
-        // Si le nom commence par "CheckP" (insensible à la casse)
         const isCheckpoint = falcon.name?.toLowerCase().startsWith("checkp");
 
         return {
@@ -46,6 +45,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
           description: saved?.description || "",
           nom: saved?.nom || falcon.name,
           actif: saved?.actif ?? 0,
+          exists: !!saved, //  si déjà enregistré dans Dlog
         };
       });
 
@@ -217,9 +217,31 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => editingRows.includes(record.id_geofence)
-        ? <Button type="primary" size="small" loading={saving} onClick={() => handleSave(record)}>Enregistrer</Button>
-        : <Button size="small" type="link" onClick={() => handleDoubleClick(record)}>+ Ajouter</Button>
+      render: (_, record) => {
+        if (editingRows.includes(record.id_geofence)) {
+          return (
+            <Button
+              type="primary"
+              size="small"
+              loading={saving}
+              onClick={() => handleSave(record)}
+            >
+              Enregistrer
+            </Button>
+          );
+        }
+
+        return (
+          <Button
+            size="small"
+            type="link"
+            onClick={() => handleDoubleClick(record)}
+            style={{ color: record.exists ? "#fa8c16" : "#1677ff" }} // orange = modif, bleu = ajout
+          >
+            {record.exists ? "Modifier" : "+ Ajouter"}
+          </Button>
+        );
+      }
     }
   ];
 
