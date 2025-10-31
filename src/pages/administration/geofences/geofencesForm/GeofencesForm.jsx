@@ -129,143 +129,149 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
     }
   };
 
-  const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
-    },
-    {
-      title: "Nom Falcon",
-      dataIndex: "name",
-      key: "name",
-      render: text => <strong>{text}</strong>,
-    },
-    {
-      title: "Type",
-      dataIndex: "type_geofence",
-      key: "type_geofence",
-      render: (text, record) =>
-        editingRows.includes(record.id_geofence) ? (
-          <Select
-            allowClear
-            showSearch
-            placeholder="Type"
-            value={record.type_geofence || undefined}
-            optionFilterProp="children"
-            style={{ width: 140 }}
-            onChange={v => handleChange(record.id_geofence, "type_geofence", v)}
-          >
-            {optionsData.types.map(t => (
-              <Option key={t.id_catGeofence} value={t.id_catGeofence}>
-                {t.nom_catGeofence}
-              </Option>
-            ))}
-          </Select>
-        ) : (
-          optionsData.types.find(t => t.id_catGeofence === record.type_geofence)?.nom_catGeofence || 
-          <LockOutlined style={{ color: "#aaa" }} />
-        )
-    },
-    {
-      title: "Client",
-      dataIndex: "client_id",
-      key: "client_id",
-      render: (text, record) =>
-        editingRows.includes(record.id_geofence) ? (
-          <Select
-            allowClear
-            showSearch
-            placeholder="Client"
-            value={record.client_id || undefined}
-            optionFilterProp="children"
-            style={{ width: 150 }}
-            onChange={v => handleChange(record.id_geofence, "client_id", v)}
-          >
-            {optionsData.clients.map(c => (
-              <Option key={c.id_client} value={c.id_client}>
-                {c.nom}
-              </Option>
-            ))}
-          </Select>
-        ) : (
-          optionsData.clients.find(c => c.id_client === record.client_id)?.nom ||
-          <LockOutlined style={{ color: "#aaa" }} />
-        )
-    },
-    {
-      title: "Destination",
-      dataIndex: "destination_id",
-      key: "destination_id",
-      render: (text, record) =>
-        editingRows.includes(record.id_geofence) ? (
-          <Select
-            allowClear
-            showSearch
-            placeholder="Destination"
-            value={record.destination_id || undefined}
-            optionFilterProp="children"
-            style={{ width: 150 }}
-            onChange={v => handleChange(record.id_geofence, "destination_id", v)}
-          >
-            {optionsData.destinations.map(d => (
-              <Option key={d.id_destination} value={d.id_destination}>
-                {d.nom_destination}
-              </Option>
-            ))}
-          </Select>
-        ) : (
-          optionsData.destinations.find(d => d.id_destination === record.destination_id)?.nom_destination ||
-          <LockOutlined style={{ color: "#aaa" }} />
-        )
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: (text, record) =>
-        editingRows.includes(record.id_geofence) ? (
-          <Input
-            placeholder="Description"
-            value={record.description || ""}
-            onChange={e => handleChange(record.id_geofence, "description", e.target.value)}
-          />
-        ) : (
-          text || <LockOutlined style={{ color: "#aaa" }} />
-        )
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => {
-        if (editingRows.includes(record.id_geofence)) {
-          return (
-            <Button
-              type="primary"
-              size="small"
-              loading={saving}
-              onClick={() => handleSave(record)}
-            >
-              Enregistrer
-            </Button>
-          );
-        }
+const centerIcon = (
+  <div style={{ textAlign: "center", width: "100%" }}>
+    <LockOutlined style={{ color: "#aaa", fontSize: 16 }} />
+  </div>
+);
 
+const columns = [
+  {
+    title: '#',
+    dataIndex: 'id',
+    key: 'id',
+    render: (text, record, index) => index + 1,
+    width: "3%",
+  },
+  {
+    title: "Nom Falcon",
+    dataIndex: "name",
+    key: "name",
+    render: text => <strong>{text}</strong>,
+  },
+  {
+    title: "Type",
+    dataIndex: "type_geofence",
+    key: "type_geofence",
+    render: (text, record) =>
+      editingRows.includes(record.id_geofence) ? (
+        <Select
+          allowClear
+          showSearch
+          placeholder="Type"
+          value={record.type_geofence || undefined}
+          optionFilterProp="children"
+          style={{ width: 140 }}
+          onChange={v => handleChange(record.id_geofence, "type_geofence", v)}
+        >
+          {optionsData.types.map(t => (
+            <Option key={t.id_catGeofence} value={t.id_catGeofence}>
+              {t.nom_catGeofence}
+            </Option>
+          ))}
+        </Select>
+      ) : (
+        optionsData.types.find(t => t.id_catGeofence === record.type_geofence)?.nom_catGeofence ||
+        centerIcon
+      )
+  },
+  {
+    title: "Client",
+    dataIndex: "client_id",
+    key: "client_id",
+    render: (text, record) =>
+      editingRows.includes(record.id_geofence) ? (
+        <Select
+          allowClear
+          showSearch
+          placeholder="Client"
+          value={record.client_id || undefined}
+          optionFilterProp="children"
+          style={{ width: 150 }}
+          onChange={v => handleChange(record.id_geofence, "client_id", v)}
+        >
+          {optionsData.clients.map(c => (
+            <Option key={c.id_client} value={c.id_client}>
+              {c.nom}
+            </Option>
+          ))}
+        </Select>
+      ) : (
+        optionsData.clients.find(c => c.id_client === record.client_id)?.nom ||
+        centerIcon
+      )
+  },
+  {
+    title: "Destination",
+    dataIndex: "destination_id",
+    key: "destination_id",
+    render: (text, record) =>
+      editingRows.includes(record.id_geofence) ? (
+        <Select
+          allowClear
+          showSearch
+          placeholder="Destination"
+          value={record.destination_id || undefined}
+          optionFilterProp="children"
+          style={{ width: 150 }}
+          onChange={v => handleChange(record.id_geofence, "destination_id", v)}
+        >
+          {optionsData.destinations.map(d => (
+            <Option key={d.id_destination} value={d.id_destination}>
+              {d.nom_destination}
+            </Option>
+          ))}
+        </Select>
+      ) : (
+        optionsData.destinations.find(d => d.id_destination === record.destination_id)?.nom_destination ||
+        centerIcon
+      )
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+    render: (text, record) =>
+      editingRows.includes(record.id_geofence) ? (
+        <Input
+          placeholder="Description"
+          value={record.description || ""}
+          onChange={e => handleChange(record.id_geofence, "description", e.target.value)}
+        />
+      ) : (
+        text || centerIcon
+      )
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: (_, record) => {
+      if (editingRows.includes(record.id_geofence)) {
         return (
           <Button
+            type="primary"
             size="small"
-            type="link"
-            onClick={() => handleDoubleClick(record)}
-            style={{ color: record.exists ? "#fa8c16" : "#1677ff" }} // orange = modifier, bleu = ajouter
+            loading={saving}
+            onClick={() => handleSave(record)}
           >
-            {record.exists ? "Modifier" : "+ Ajouter"}
+            Enregistrer
           </Button>
         );
-      },
+      }
+
+      return (
+        <Button
+          size="small"
+          type="link"
+          onClick={() => handleDoubleClick(record)}
+          style={{ color: record.exists ? "#fa8c16" : "#1677ff" }}
+        >
+          {record.exists ? "Modifier" : "+ Ajouter"}
+        </Button>
+      );
     },
-  ];
+  },
+];
 
   return (
     <div className="geofence_form">
