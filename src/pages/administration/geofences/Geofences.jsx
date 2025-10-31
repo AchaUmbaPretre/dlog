@@ -76,8 +76,8 @@ const Geofences = () => {
       key: 'actions',
       width: '100px',
       render: (_, record) => (
-        <Space>
-          <Button type="link" danger icon={<DeleteOutlined />} onClick={() => console.log('Supprimer', record)}>Supprimer</Button>
+        <Space style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+          <Button type="link" danger icon={<DeleteOutlined />} onClick={() => console.log('Supprimer', record)}></Button>
         </Space>
       ),
     },
