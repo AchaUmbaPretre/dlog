@@ -29,11 +29,18 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
 
       const dlogData = dlogRes.data;
 
+      const checkpointType = typesRes.data.find(t => t.nom_catGeofence.toLowerCase() === "checkpoint");
+
       const mergedFalcons = falconsRes.data.map(falcon => {
         const saved = dlogData.find(d => d.falcon_id === falcon.id_geofence);
+
+        // Si le nom commence par "CheckP" (insensible à la casse)
+        const isCheckpoint = falcon.name?.toLowerCase().startsWith("checkp");
+
         return {
           ...falcon,
-          type_geofence: saved?.type_geofence || null,
+          type_geofence: saved?.type_geofence 
+            || (isCheckpoint ? checkpointType?.id_catGeofence : null),
           client_id: saved?.client_id || null,
           destination_id: saved?.destination_id || null,
           description: saved?.description || "",
@@ -41,6 +48,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
           actif: saved?.actif ?? 0,
         };
       });
+
 
       setFalcons(mergedFalcons);
       setOptionsData({ types: typesRes.data, clients: clientsRes.data, destinations: destRes.data });
