@@ -419,7 +419,7 @@ const Vehicule = () => {
 
   return (
     <>
-        <div className="client">
+      <div className="client">
               <div className="client-wrapper">
                 <div className="client-row">
                   <div className="client-row-icon">
@@ -463,8 +463,9 @@ const Vehicule = () => {
                   loading={loading}
                 />
               </div>
-            </div>
-                  <Modal
+      </div>
+      
+      <Modal
         title=""
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
