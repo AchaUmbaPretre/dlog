@@ -13,7 +13,7 @@ const formatDuration = (minutes = 0, seconds = 0) => {
 export const calculateZoneDurations = (eventsData) => {
   if (!eventsData || eventsData.length === 0) return { details: [], resume: [] };
 
-  // Tri par date croissante
+  // Tri par date croissante pour traitement
   const sorted = [...eventsData].sort(
     (a, b) =>
       dayjs(a.time, "DD-MM-YYYY HH:mm:ss").valueOf() -
@@ -73,6 +73,13 @@ export const calculateZoneDurations = (eventsData) => {
       longitude: e.longitude,
     });
   }
+
+  // 🔹 Trier par événements les plus récents en premier
+  results.sort((a, b) => {
+    const aTime = a.sortie ? dayjs(a.sortie, "DD-MM-YYYY HH:mm:ss") : dayjs();
+    const bTime = b.sortie ? dayjs(b.sortie, "DD-MM-YYYY HH:mm:ss") : dayjs();
+    return bTime.valueOf() - aTime.valueOf();
+  });
 
   // Résumé global par véhicule / zone
   const summary = {};

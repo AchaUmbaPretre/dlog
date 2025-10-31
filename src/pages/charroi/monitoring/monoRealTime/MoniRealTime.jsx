@@ -180,22 +180,43 @@ const filterByVehicle = (eventsData, vehicle) => {
         </Space>
       ),
     },
-{
-  title: 'Durée',
-  dataIndex: 'duree_text',
-  key: 'duree_text',
-  render: (_, record) => {
-    if (record.duree_text === "En cours") return <Tag color="#fa8c16">En cours</Tag>;
+    {
+      title: 'Durée',
+      dataIndex: 'duree_text',
+      key: 'duree_text',
+      render: (_, record) => {
+        // Si la durée est "En cours"
+        if (record.duree_text === "En cours") 
+          return <Tag color="#fa8c16">En cours</Tag>;
 
-    const totalSeconds = (record.duree_minutes || 0) * 60 + (record.duree_secondes || 0);
-    const h = Math.floor(totalSeconds / 3600);
-    const m = Math.floor((totalSeconds % 3600) / 60);
-    const s = totalSeconds % 60;
-    const color = h > 1 ? '#f5222d' : '#52c41a';
+        const totalMinutes = record.duree_minutes || 0;
+        const totalSeconds = (record.duree_minutes || 0) * 60 + (record.duree_secondes || 0);
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
 
-    return <Tag color={color}>{`${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`}</Tag>;
-  },
-},
+        // Vérifie si c'est un checkpoint
+        const isCheckpoint = record.zone?.startsWith("CheckP");
+
+        // Par défaut, pas de couleur pour les zones normales
+        if (!isCheckpoint) {
+          return `${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`;
+        }
+
+        // Couleur selon le temps passé dans un checkpoint
+        let color = "#52c41a"; // Vert ≤ 5min
+        if (totalMinutes > 30) color = "#f5222d"; // Rouge
+        else if (totalMinutes > 15) color = "#fa8c16"; // Orange
+        else if (totalMinutes > 10) color = "#faec5b"; // Jaune
+        else if (totalMinutes > 5) color = "#a0d911"; // Vert clair intermédiaire
+
+        return (
+          <Tag color={color}>
+            {`${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`}
+          </Tag>
+        );
+      },
+    },
     {
       title: 'Position',
       key: 'position',
