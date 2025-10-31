@@ -146,14 +146,14 @@ const Geofences = () => {
             </div>
         </div>
         <Modal
-            title=""
-            visible={modalType === 'Add'}
-            onCancel={closeAllModals}
-            footer={null}
-            width={1110}
-            centered
+          title=""
+          visible={modalType === 'Add'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1210}
+          centered
         >
-            <GeofencesForm closeModal={() => setModalType(null)} fetchData={fetchData} idGeofence={idGeofence} />
+          <GeofencesForm closeModal={() => setModalType(null)} fetchData={fetchData} idGeofence={idGeofence} />
         </Modal>
     </>
   );
