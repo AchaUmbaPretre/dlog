@@ -295,7 +295,7 @@ const MoniRealTime = () => {
             columns={columns}
             dataSource={filteredEvents}
             rowKey={record => record.id || record.external_id}
-            loading={loading} // seul le fetch manuel affiche loading
+            loading={loading}
             pagination={{
               ...pagination,
               showSizeChanger: true,
