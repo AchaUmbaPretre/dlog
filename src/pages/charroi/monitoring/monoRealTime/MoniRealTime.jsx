@@ -24,6 +24,7 @@ const MoniRealTime = () => {
   const [idDevice, setIdDevice] = useState('');
   const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
   const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
   const tableRef = useRef();
   const isFetching = useRef(false);
@@ -118,7 +119,7 @@ const MoniRealTime = () => {
       title: 'Véhicule',
       dataIndex: 'vehicule',
       key: 'vehicule',
-      ...getColumnSearchProps('vehicule', searchText, setSearchText, '', searchInput),
+      ...getColumnSearchProps('vehicule', searchText, setSearchText, setSearchedColumn, searchInput),
       render: (text) => (
         <Space>
           <CarOutlined style={{ color: '#1890ff', fontSize: 18 }} />
@@ -130,7 +131,7 @@ const MoniRealTime = () => {
       title: 'Zone',
       dataIndex: 'zone',
       key: 'zone',
-      ...getColumnSearchProps('zone', searchText, setSearchText, '', searchInput),
+      ...getColumnSearchProps('zone', searchText, setSearchText, setSearchedColumn, searchInput),
       render: (text) => <Tag color="purple" style={{ fontWeight: 500, fontSize: 13 }}>{text || 'N/A'}</Tag>,
     },
     {
