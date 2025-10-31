@@ -123,6 +123,13 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
 
   const columns = [
     {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => index + 1,
+      width: "3%",
+    },
+    {
       title: "Nom Falcon",
       dataIndex: "name",
       key: "name",
@@ -135,6 +142,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
       render: (text, record) => editingRows.includes(record.id_geofence)
         ? <Select
             allowClear
+            showSearch
             placeholder="Type"
             value={record.type_geofence || undefined}
             style={{ width: 140 }}
@@ -153,6 +161,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
       render: (text, record) => editingRows.includes(record.id_geofence)
         ? <Select
             allowClear
+            showSearch
             placeholder="Client"
             value={record.client_id || undefined}
             style={{ width: 150 }}
@@ -171,6 +180,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
       render: (text, record) => editingRows.includes(record.id_geofence)
         ? <Select
             allowClear
+            showSearch
             placeholder="Destination"
             value={record.destination_id || undefined}
             style={{ width: 150 }}
