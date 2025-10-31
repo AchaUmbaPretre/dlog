@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { LockOutlined } from "@ant-design/icons";
 import { Table, Input, Select, Card, Button, notification } from "antd";
 import { getCatGeofence, getGeofenceDlog, getGeofenceFalcon, postGeofenceDlog, putGeofenceDlog } from "../../../../services/geofenceService";
 import { getClient } from "../../../../services/clientService";
@@ -87,46 +88,46 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
   // Sauvegarder une ligne (update)
   const handleSave = async (record) => {
   const validationError = validateRecord(record);
-  if (validationError) {
-    notification.warning({ message: "Validation", description: validationError });
-    return;
-  }
-
-  setSaving(true);
-  try {
-    const payload = {
-      falcon_id: record.id_geofence,
-      nom_falcon: record.name,
-      nom: record.nom || record.name,
-      type_geofence: record.type_geofence,
-      client_id: record.client_id,
-      destination_id: record.destination_id,
-      description: record.description || "",
-      actif: record.actif ?? 1,
-    };
-
-    // Vérifier si ce falcon a déjà un enregistrement Dlog
-    const existing = await getGeofenceDlog(); // ou mieux : créer un endpoint `getGeofenceDlogByFalconId`
-    const exists = existing.data.some(d => d.falcon_id === record.id_geofence);
-
-    if (exists) {
-      await putGeofenceDlog(payload, record.id_geofence);
-      notification.success({ message: "Geofence mis à jour", description: `${record.name} a été mis à jour.` });
-    } else {
-      await postGeofenceDlog(payload);
-      notification.success({ message: "Geofence ajouté", description: `${record.name} a été ajouté.` });
+    if (validationError) {
+      notification.warning({ message: "Validation", description: validationError });
+      return;
     }
 
-    setEditingRows(prev => prev.filter(id => id !== record.id_geofence));
-    fetchData?.();
-    loadData();
-  } catch (error) {
-    console.error(error);
-    notification.error({ message: "Erreur", description: error.message });
-  } finally {
-    setSaving(false);
-  }
-};
+    setSaving(true);
+    try {
+      const payload = {
+        falcon_id: record.id_geofence,
+        nom_falcon: record.name,
+        nom: record.nom || record.name,
+        type_geofence: record.type_geofence,
+        client_id: record.client_id,
+        destination_id: record.destination_id,
+        description: record.description || "",
+        actif: record.actif ?? 1,
+      };
+
+      // Vérifier si ce falcon a déjà un enregistrement Dlog
+      const existing = await getGeofenceDlog(); // ou mieux : créer un endpoint `getGeofenceDlogByFalconId`
+      const exists = existing.data.some(d => d.falcon_id === record.id_geofence);
+
+      if (exists) {
+        await putGeofenceDlog(payload, record.id_geofence);
+        notification.success({ message: "Geofence mis à jour", description: `${record.name} a été mis à jour.` });
+      } else {
+        await postGeofenceDlog(payload);
+        notification.success({ message: "Geofence ajouté", description: `${record.name} a été ajouté.` });
+      }
+
+      setEditingRows(prev => prev.filter(id => id !== record.id_geofence));
+      fetchData?.();
+      loadData();
+    } catch (error) {
+      console.error(error);
+      notification.error({ message: "Erreur", description: error.message });
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const columns = [
     {
@@ -146,8 +147,9 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
       title: "Type",
       dataIndex: "type_geofence",
       key: "type_geofence",
-      render: (text, record) => editingRows.includes(record.id_geofence)
-        ? <Select
+      render: (text, record) =>
+        editingRows.includes(record.id_geofence) ? (
+          <Select
             allowClear
             showSearch
             placeholder="Type"
@@ -157,17 +159,23 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
             onChange={v => handleChange(record.id_geofence, "type_geofence", v)}
           >
             {optionsData.types.map(t => (
-              <Option key={t.id_catGeofence} value={t.id_catGeofence}>{t.nom_catGeofence}</Option>
+              <Option key={t.id_catGeofence} value={t.id_catGeofence}>
+                {t.nom_catGeofence}
+              </Option>
             ))}
           </Select>
-        : <span>{optionsData.types.find(t => t.id_catGeofence === record.type_geofence)?.nom_catGeofence || "-"}</span>
+        ) : (
+          optionsData.types.find(t => t.id_catGeofence === record.type_geofence)?.nom_catGeofence || 
+          <LockOutlined style={{ color: "#aaa" }} />
+        )
     },
     {
       title: "Client",
       dataIndex: "client_id",
       key: "client_id",
-      render: (text, record) => editingRows.includes(record.id_geofence)
-        ? <Select
+      render: (text, record) =>
+        editingRows.includes(record.id_geofence) ? (
+          <Select
             allowClear
             showSearch
             placeholder="Client"
@@ -177,17 +185,23 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
             onChange={v => handleChange(record.id_geofence, "client_id", v)}
           >
             {optionsData.clients.map(c => (
-              <Option key={c.id_client} value={c.id_client}>{c.nom}</Option>
+              <Option key={c.id_client} value={c.id_client}>
+                {c.nom}
+              </Option>
             ))}
           </Select>
-        : <span>{optionsData.clients.find(c => c.id_client === record.client_id)?.nom || "-"}</span>
+        ) : (
+          optionsData.clients.find(c => c.id_client === record.client_id)?.nom ||
+          <LockOutlined style={{ color: "#aaa" }} />
+        )
     },
     {
       title: "Destination",
       dataIndex: "destination_id",
       key: "destination_id",
-      render: (text, record) => editingRows.includes(record.id_geofence)
-        ? <Select
+      render: (text, record) =>
+        editingRows.includes(record.id_geofence) ? (
+          <Select
             allowClear
             showSearch
             placeholder="Destination"
@@ -197,22 +211,30 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
             onChange={v => handleChange(record.id_geofence, "destination_id", v)}
           >
             {optionsData.destinations.map(d => (
-              <Option key={d.id_destination} value={d.id_destination}>{d.nom_destination}</Option>
+              <Option key={d.id_destination} value={d.id_destination}>
+                {d.nom_destination}
+              </Option>
             ))}
           </Select>
-        : <span>{optionsData.destinations.find(d => d.id_destination === record.destination_id)?.nom_destination || "-"}</span>
+        ) : (
+          optionsData.destinations.find(d => d.id_destination === record.destination_id)?.nom_destination ||
+          <LockOutlined style={{ color: "#aaa" }} />
+        )
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      render: (text, record) => editingRows.includes(record.id_geofence)
-        ? <Input
+      render: (text, record) =>
+        editingRows.includes(record.id_geofence) ? (
+          <Input
             placeholder="Description"
             value={record.description || ""}
             onChange={e => handleChange(record.id_geofence, "description", e.target.value)}
           />
-        : <span>{text || "-"}</span>
+        ) : (
+          text || <LockOutlined style={{ color: "#aaa" }} />
+        )
     },
     {
       title: "Action",
@@ -236,13 +258,13 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
             size="small"
             type="link"
             onClick={() => handleDoubleClick(record)}
-            style={{ color: record.exists ? "#fa8c16" : "#1677ff" }} // orange = modif, bleu = ajout
+            style={{ color: record.exists ? "#fa8c16" : "#1677ff" }} // orange = modifier, bleu = ajouter
           >
             {record.exists ? "Modifier" : "+ Ajouter"}
           </Button>
         );
-      }
-    }
+      },
+    },
   ];
 
   return (
