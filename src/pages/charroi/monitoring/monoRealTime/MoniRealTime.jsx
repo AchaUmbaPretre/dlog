@@ -100,11 +100,11 @@ const MoniRealTime = () => {
     setPagination(prev => ({ ...prev, current: 1 }));
   }, [selectedVehicle, events]);
 
-  // Modal historique
   const openModal = (type, id = '') => {
     setModalType(type);
     setIdDevice(id);
   };
+
   const closeAllModals = () => setModalType(null);
 
   // Colonnes Table
