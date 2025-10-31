@@ -72,7 +72,6 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
   // Validation des champs obligatoires
   const validateRecord = (record) => {
     if (!record.type_geofence) return "Le type est obligatoire";
-    if (!record.destination_id) return "La destination est obligatoire";
     if (!record.nom && !record.name) return "Le nom est obligatoire";
     return null;
   };
@@ -145,7 +144,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
             showSearch
             placeholder="Type"
             value={record.type_geofence || undefined}
-            optionFilterProp="children" // ✅ au lieu de "label"
+            optionFilterProp="children"
             style={{ width: 140 }}
             onChange={v => handleChange(record.id_geofence, "type_geofence", v)}
           >

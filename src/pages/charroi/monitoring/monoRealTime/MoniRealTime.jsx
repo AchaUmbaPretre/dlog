@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { DatePicker, Table, Tooltip, Modal, Tag, Space, message, Select, Button } from 'antd';
-import { CarOutlined, HourglassOutlined, LoginOutlined, LogoutOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { CarOutlined, HourglassOutlined, ArrowRightOutlined, ArrowLeftOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
@@ -140,7 +140,7 @@ const MoniRealTime = () => {
       key: 'entree',
       render: (text) => (
         <Space>
-          <LoginOutlined style={{ color: '#52c41a' }} />
+          <ArrowRightOutlined style={{ color: '#52c41a' }} />
           {dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}
         </Space>
       ),
@@ -151,7 +151,7 @@ const MoniRealTime = () => {
       key: 'sortie',
       render: (text) => (
         <Space>
-          {text ? <LogoutOutlined style={{ color: '#f5222d' }} /> : <HourglassOutlined style={{ color: '#fa8c16' }} />}
+          {text ? <ArrowLeftOutlined style={{ color: '#f5222d' }} /> : <HourglassOutlined style={{ color: '#fa8c16' }} />}
           {text ? dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm') : 'En cours'}
         </Space>
       ),
