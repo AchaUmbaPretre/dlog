@@ -41,7 +41,6 @@ export const calculateZoneDurations = (eventsData) => {
         results.push({
           vehicule: e.device_name,
           device_id: e.device_id,
-          external_id: e.external_id,
           zone,
           entree: entryEvent.time,
           sortie: e.time,
@@ -63,7 +62,6 @@ export const calculateZoneDurations = (eventsData) => {
     results.push({
       vehicule: e.device_name,
       device_id: e.device_id,
-      external_id: e.external_id,
       zone: e.detail || e?.additional?.geofence || "N/A",
       entree: e.time,
       sortie: null,
