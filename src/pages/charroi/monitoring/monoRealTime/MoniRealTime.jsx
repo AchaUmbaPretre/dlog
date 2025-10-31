@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { DatePicker, Table, Tooltip, Modal, Tag, Space, message, Select, Button } from 'antd';
-import { CarOutlined, ClockCircleOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { CarOutlined, HourglassOutlined, LoginOutlined, LogoutOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
@@ -30,53 +30,51 @@ const MoniRealTime = () => {
   const isFetching = useRef(false);
   const apiHash = config.api_hash;
 
-
   // Filtrage par véhicule
-  const filterByVehicle = (eventsData, vehicle) => {
-    if (!vehicle) return eventsData;
-    return eventsData.filter(e => e.device_name === vehicle);
-  };
-
-  // Fetch événements
-const fetchData = async (from, to, isRefresh = false) => {
-  if (isRefresh) setRefreshing(true);
-  else setLoading(true);
-
-  try {
-    const { data } = await getEvent({
-      date_from: from,
-      date_to: to,
-      lang: "fr",
-      limit: 2000,
-      user_api_hash: apiHash,
-    });
-
-    const eventsData = data?.items?.data || [];
-/*     setEvents(eventsData);
-    setFilteredEvents(filterByVehicle(eventsData, selectedVehicle));
- */
-    // 🔥 Nouveau : Calcul du temps dans les zones
-    const durations = calculateZoneDurations(eventsData);
-    console.table(durations.details); // Pour voir les durées dans la console
-    setEvents(durations.details);
-    setFilteredEvents(filterByVehicle(durations.details, selectedVehicle));
-
-    // Tu peux les afficher dans ton interface, par exemple :
-    // setZoneDurations(durations);
-
-    setPagination(prev => ({ ...prev, current: 1 }));
-  } catch (error) {
-    console.error("Erreur lors du fetch:", error);
-    if (!isRefresh) message.error("Erreur lors du chargement des événements.");
-    setEvents([]);
-    setFilteredEvents([]);
-  } finally {
-    if (isRefresh) setRefreshing(false);
-    else setLoading(false);
-  }
+const filterByVehicle = (eventsData, vehicle) => {
+  if (!vehicle) return eventsData;
+  return eventsData.filter(e => e.vehicule === vehicle); // ✅ utiliser vehicule
 };
 
 
+  // Fetch événements
+  const fetchData = async (from, to, isRefresh = false) => {
+    if (isRefresh) setRefreshing(true);
+    else setLoading(true);
+
+    try {
+      const { data } = await getEvent({
+        date_from: from,
+        date_to: to,
+        lang: "fr",
+        limit: 2000,
+        user_api_hash: apiHash,
+      });
+
+      const eventsData = data?.items?.data || [];
+
+      // Calcul du temps dans les zones
+      const durations = calculateZoneDurations(eventsData);
+      const mapped = durations.details.map(e => ({
+        ...e,
+        vehicule: e.vehicule // pour search et affichage
+      }));
+
+      setEvents(mapped);
+      setFilteredEvents(filterByVehicle(mapped, selectedVehicle));
+      setPagination(prev => ({ ...prev, current: 1 }));
+    } catch (error) {
+      console.error("Erreur lors du fetch:", error);
+      if (!isRefresh) message.error("Erreur lors du chargement des événements.");
+      setEvents([]);
+      setFilteredEvents([]);
+    } finally {
+      if (isRefresh) setRefreshing(false);
+      else setLoading(false);
+    }
+  };
+
+  console.table(events)
   // Chargement initial ou changement de date
   useEffect(() => {
     const from = dateRange[0]
@@ -89,9 +87,10 @@ const fetchData = async (from, to, isRefresh = false) => {
     fetchData(from, to);
   }, [dateRange, selectedVehicle]);
 
+  // Auto-refresh toutes les 60s
   useEffect(() => {
     const fetchInterval = async () => {
-      if (isFetching.current) return; // Si un fetch est déjà en cours, on skip
+      if (isFetching.current) return;
       isFetching.current = true;
 
       const from = dateRange[0]
@@ -102,18 +101,15 @@ const fetchData = async (from, to, isRefresh = false) => {
         : dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
 
       try {
-        await fetchData(from, to, true); // Ton fetch existant
+        await fetchData(from, to, true);
       } catch (err) {
         console.error("Erreur fetchData:", err);
       } finally {
-        isFetching.current = false; // Reset flag
+        isFetching.current = false;
       }
     };
 
-    // Intervalle avec une fréquence raisonnable (ex: 60s)
     const interval = setInterval(fetchInterval, 60 * 1000);
-
-    // Fetch immédiat au montage
     fetchInterval();
 
     return () => clearInterval(interval);
@@ -122,7 +118,7 @@ const fetchData = async (from, to, isRefresh = false) => {
   // Re-filtrage lorsque véhicule change
   useEffect(() => {
     setFilteredEvents(filterByVehicle(events, selectedVehicle));
-    setPagination(prev => ({ ...prev, current: 1 })); // reset page
+    setPagination(prev => ({ ...prev, current: 1 }));
   }, [selectedVehicle, events]);
 
   // Modal historique
@@ -132,57 +128,74 @@ const fetchData = async (from, to, isRefresh = false) => {
   };
   const closeAllModals = () => setModalType(null);
 
-  // Colonnes du tableau
+  // Colonnes
   const columns = [
     {
       title: '#',
       dataIndex: '#',
+      width: 50,
       render: (text, record, index) => index + 1
     },
     {
-      title: 'Date & Heure',
-      dataIndex: 'time',
-      key: 'time',
-      render: text => (
+      title: 'Véhicule',
+      dataIndex: 'vehicule', // ✅ utiliser la clé mappée
+      key: 'vehicule',
+      ...getColumnSearchProps('vehicule', searchText, setSearchText, '', searchInput),
+      render: (text) => (
         <Space>
-          <ClockCircleOutlined style={{ color: '#1890ff' }} />
+          <CarOutlined style={{ color: '#1890ff', fontSize: 18 }} />
+          <span style={{ fontWeight: 600, color: '#0a3d62' }}>{text || 'N/A'}</span>
+        </Space>
+      ),
+    },
+    {
+      title: 'Zone',
+      dataIndex: 'zone',
+      key: 'zone',
+      render: (text) => (
+        <Tag color="purple" style={{ fontWeight: 500, fontSize: 13 }}>
+          {text || 'N/A'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Entrée',
+      dataIndex: 'entree',
+      key: 'entree',
+      render: (text) => (
+        <Space>
+          <LoginOutlined style={{ color: '#52c41a' }} />
           {dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}
         </Space>
       ),
     },
     {
-      title: 'Véhicule',
-      dataIndex: 'device_name',
-      key: 'device_name',
-        ...getColumnSearchProps(
-        'device_name',
-        searchText,
-        setSearchText,
-        '',
-        searchInput
+      title: 'Sortie',
+      dataIndex: 'sortie',
+      key: 'sortie',
+      render: (text) => (
+        <Space>
+          {text ? <LogoutOutlined style={{ color: '#f5222d' }} /> : <HourglassOutlined style={{ color: '#fa8c16' }} />}
+          {text ? dayjs(text, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm') : 'En cours'}
+        </Space>
       ),
-      render: (text, record) => {
-        const color = record.type === 'ignition_on' ? 'green' : 'red';
-        return (
-          <Space>
-            <CarOutlined style={{ color }} />
-            <span style={{ fontWeight: 500, color }}>{text || 'N/A'}</span>
-          </Space>
-        );
-      },
     },
-    {
-      title: 'Zone',
-      dataIndex: 'detail',
-      key: 'detail',
-      render: (text, record) => text || record?.additional?.geofence || 'N/A',
-    },
-    {
-      title: 'Message',
-      dataIndex: 'message',
-      key: 'message',
-      render: text => <Tag color="orange">{text}</Tag>,
-    },
+{
+  title: 'Durée',
+  dataIndex: 'duree_text',
+  key: 'duree_text',
+  render: (_, record) => {
+    if (record.duree_text === "En cours") return <Tag color="#fa8c16">En cours</Tag>;
+
+    const totalSeconds = (record.duree_minutes || 0) * 60 + (record.duree_secondes || 0);
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    const color = h > 1 ? '#f5222d' : '#52c41a';
+
+    return <Tag color={color}>{`${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`}</Tag>;
+  },
+},
     {
       title: 'Position',
       key: 'position',
@@ -191,11 +204,13 @@ const fetchData = async (from, to, isRefresh = false) => {
         record.latitude && record.longitude ? (
           <Tooltip title={`${record.latitude}, ${record.longitude}`}>
             <Button
+              shape="circle"
+              size="small"
               icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
               onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
             />
           </Tooltip>
-        ) : 'N/A'
+        ) : <Tag color="gray">N/A</Tag>
       ),
     },
     {
@@ -205,7 +220,12 @@ const fetchData = async (from, to, isRefresh = false) => {
       render: (_, record) => (
         <Space>
           <Tooltip title="Voir l'historique du véhicule">
-            <Button icon={<EyeOutlined style={{ color: '#1890ff' }} />} onClick={() => openModal('device', record.device_id)} />
+            <Button
+              shape="circle"
+              size="small"
+              icon={<EyeOutlined style={{ color: '#1890ff' }} />}
+              onClick={() => openModal('device', record.device_id)}
+            />
           </Tooltip>
         </Space>
       ),
@@ -213,8 +233,7 @@ const fetchData = async (from, to, isRefresh = false) => {
   ];
 
   // Liste unique véhicules
-  const vehicles = useMemo(() => [...new Set(events.map(e => e.device_name))], [events]);
-
+const vehicles = useMemo(() => [...new Set(events.map(e => e.vehicule))], [events]);
   // Handlers
   const handleDateChange = values => setDateRange(values);
   const handleVehicleChange = value => setSelectedVehicle(value);
@@ -224,16 +243,20 @@ const fetchData = async (from, to, isRefresh = false) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Événements");
     worksheet.columns = [
-      { header: "Date & Heure", key: "time", width: 25 },
+      { header: "Date & Heure Entrée", key: "entree", width: 25 },
+      { header: "Date & Heure Sortie", key: "sortie", width: 25 },
       { header: "Véhicule", key: "vehicle", width: 20 },
-      { header: "Événement", key: "event", width: 20 },
+      { header: "Zone", key: "zone", width: 20 },
+      { header: "Durée", key: "duree_text", width: 15 },
       { header: "Latitude", key: "lat", width: 15 },
       { header: "Longitude", key: "lng", width: 15 },
     ];
     filteredEvents.forEach(e => worksheet.addRow({
-      time: e.time,
+      entree: e.entree,
+      sortie: e.sortie,
       vehicle: e.device_name,
-      event: e.message,
+      zone: e.zone,
+      duree_text: e.duree_text,
       lat: e.latitude,
       lng: e.longitude,
     }));

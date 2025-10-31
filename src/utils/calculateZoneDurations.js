@@ -1,12 +1,12 @@
 import dayjs from "dayjs";
 
 // 🧩 Formate la durée en h / min / sec
-const formatDuration = (minutes, seconds) => {
-  if (minutes < 60) return `${minutes} min ${seconds} sec`;
-
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return `${h}h ${m} min ${seconds} sec`;
+const formatDuration = (minutes = 0, seconds = 0) => {
+  const totalSeconds = minutes * 60 + seconds;
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return `${h > 0 ? h + "h " : ""}${m}min ${s}sec`;
 };
 
 // 🧩 Calcule le temps passé dans chaque zone pour chaque véhicule
@@ -27,8 +27,9 @@ export const calculateZoneDurations = (eventsData) => {
     const zone = e.detail || e?.additional?.geofence || "N/A";
     const key = `${e.device_name}_${zone}`;
 
-    if (e.type === "zone_in") entryStack[key] = e;
-    else if (e.type === "zone_out" && entryStack[key]) {
+    if (e.type === "zone_in") {
+      entryStack[key] = e;
+    } else if (e.type === "zone_out" && entryStack[key]) {
       const entryEvent = entryStack[key];
       const t1 = dayjs(entryEvent.time, "DD-MM-YYYY HH:mm:ss");
       const t2 = dayjs(e.time, "DD-MM-YYYY HH:mm:ss");
@@ -56,7 +57,7 @@ export const calculateZoneDurations = (eventsData) => {
     }
   }
 
-  // Ajouter les entrées sans sortie
+  // Ajouter les entrées sans sortie avec durée nulle
   for (const key in entryStack) {
     const e = entryStack[key];
     results.push({
@@ -65,9 +66,9 @@ export const calculateZoneDurations = (eventsData) => {
       zone: e.detail || e?.additional?.geofence || "N/A",
       entree: e.time,
       sortie: null,
-      duree_text: null,
-      duree_minutes: null,
-      duree_secondes: null,
+      duree_text: "En cours",
+      duree_minutes: 0,
+      duree_secondes: 0,
       latitude: e.latitude,
       longitude: e.longitude,
     });
