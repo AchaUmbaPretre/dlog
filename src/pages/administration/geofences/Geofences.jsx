@@ -5,7 +5,6 @@ import {
   PrinterOutlined, 
   GlobalOutlined, 
   PlusCircleOutlined, 
-  EditOutlined, 
   DeleteOutlined,
   SearchOutlined
 } from '@ant-design/icons';
@@ -78,7 +77,6 @@ const Geofences = () => {
       width: '100px',
       render: (_, record) => (
         <Space>
-          <Button type="link" icon={<EditOutlined />} onClick={() => handleUpdate(record.id_geo_dlog)}>Modifier</Button>
           <Button type="link" danger icon={<DeleteOutlined />} onClick={() => console.log('Supprimer', record)}>Supprimer</Button>
         </Space>
       ),

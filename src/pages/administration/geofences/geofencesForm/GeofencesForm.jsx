@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Table, Input, Select, Card, Button, notification } from "antd";
-import { getCatGeofence, getGeofenceDlog, getGeofenceFalcon, putGeofenceDlog } from "../../../../services/geofenceService";
+import { getCatGeofence, getGeofenceDlog, getGeofenceFalcon, postGeofenceDlog, putGeofenceDlog } from "../../../../services/geofenceService";
 import { getClient } from "../../../../services/clientService";
 import { getDestination } from "../../../../services/charroiService";
 import "./geofencesForm.scss";
@@ -79,39 +79,47 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
 
   // Sauvegarder une ligne (update)
   const handleSave = async (record) => {
-    const validationError = validateRecord(record);
-    if (validationError) {
-      notification.warning({ message: "Validation", description: validationError });
-      return;
-    }
+  const validationError = validateRecord(record);
+  if (validationError) {
+    notification.warning({ message: "Validation", description: validationError });
+    return;
+  }
 
-    setSaving(true);
-    try {
-      const payload = {
-        falcon_id: record.id_geofence,
-        nom_falcon: record.name,
-        nom: record.nom || record.name,
-        type_geofence: record.type_geofence,
-        client_id: record.client_id,
-        destination_id: record.destination_id,
-        description: record.description || "",
-        actif: record.actif ?? 1,
-      };
+  setSaving(true);
+  try {
+    const payload = {
+      falcon_id: record.id_geofence,
+      nom_falcon: record.name,
+      nom: record.nom || record.name,
+      type_geofence: record.type_geofence,
+      client_id: record.client_id,
+      destination_id: record.destination_id,
+      description: record.description || "",
+      actif: record.actif ?? 1,
+    };
 
+    // Vérifier si ce falcon a déjà un enregistrement Dlog
+    const existing = await getGeofenceDlog(); // ou mieux : créer un endpoint `getGeofenceDlogByFalconId`
+    const exists = existing.data.some(d => d.falcon_id === record.id_geofence);
+
+    if (exists) {
       await putGeofenceDlog(payload, record.id_geofence);
-
       notification.success({ message: "Geofence mis à jour", description: `${record.name} a été mis à jour.` });
-
-      setEditingRows(prev => prev.filter(id => id !== record.id_geofence));
-      fetchData?.();
-      loadData(); // Recharge pour afficher les données à jour
-    } catch (error) {
-      console.error(error);
-      notification.error({ message: "Erreur", description: error.message });
-    } finally {
-      setSaving(false);
+    } else {
+      await postGeofenceDlog(payload);
+      notification.success({ message: "Geofence ajouté", description: `${record.name} a été ajouté.` });
     }
-  };
+
+    setEditingRows(prev => prev.filter(id => id !== record.id_geofence));
+    fetchData?.();
+    loadData();
+  } catch (error) {
+    console.error(error);
+    notification.error({ message: "Erreur", description: error.message });
+  } finally {
+    setSaving(false);
+  }
+};
 
   const columns = [
     {
