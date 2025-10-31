@@ -9,11 +9,13 @@ import {
   Space,
   Input,
   Spin,
+  Select,
   Modal,
 } from "antd";
 import { CarOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import {
+  getVehicule,
   getVehiculeOne,
   putRelierVehiculeFalcon,
 } from "../../../services/charroiService";
@@ -23,6 +25,8 @@ import "./relierFalcon.scss";
 
 const { Text } = Typography;
 const { confirm } = Modal;
+const { Option } = Select;
+
 
 const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
   const [vehicule, setVehicule] = useState(null);
@@ -32,6 +36,7 @@ const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
   const [searchValue, setSearchValue] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [vehiculeAll, setVehiculeAll] = useState([]);
 
   const rowSelection = {
     type: "radio",
@@ -62,12 +67,25 @@ const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
       ),
     },
     {
-      title: "Date & Heure",
-      dataIndex: "time",
-      render: (text) => (
-        <Text>
-          {moment(text, "DD-MM-YYYY HH:mm:ss").format("DD/MM/YYYY HH:mm")}
-        </Text>
+      title: "Vehicule Dlog",
+      dataIndex: "vehicule",
+      key:'vehicule',
+      render: (text, record) => (
+        <Select
+          allowClear
+          showSearch
+          placeholder="Type"
+          value={record.id_vehicule || undefined}
+          optionFilterProp="children"
+          style={{ width: 140 }}
+          onChange={v => handleChange(record.id_vehicule, "type_geofence", v)}
+        >
+          {vehiculeAll.map(t => (
+            <Option key={t.id_catGeofence} value={t.id_catGeofence}>
+              {t.nom_catGeofence}
+            </Option>
+          ))}
+        </Select>
       ),
       sorter: (a, b) =>
         moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() -
@@ -87,12 +105,19 @@ const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
     },
   ];
 
+  const handleChange = ()=> {
+
+  }
   // 🔹 Fetch Falcon data
   useEffect(() => {
     const fetchFalcon = async () => {
       try {
-        const { data } = await getFalcon();
-        setFalcon(data[0].items);
+        const [data, vehicleData] = await Promise.all([
+          getFalcon(),
+          getVehicule()
+        ])
+        setFalcon(data.data[0].items);
+        setVehiculeAll(vehicleData.data.data)
       } catch (error) {
         console.error(error);
         message.error("Erreur lors du chargement des données Falcon");
