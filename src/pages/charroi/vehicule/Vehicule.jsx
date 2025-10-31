@@ -14,21 +14,20 @@ import DetailTypeAlert from './detailTypeAlert/DetailTypeAlert';
 
 const { Search } = Input;
 
-
 const Vehicule = () => {
-    const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 15,
-    });
-    const [searchValue, setSearchValue] = useState('');
-    const scroll = { x: 'max-content' };
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
-    const [modalType, setModalType] = useState(null);
-    const [falcon, setFalcon] = useState([]);
-    const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-    const [idVehicule, setIdVehicule] = useState('');
-    const [columnsVisibility, setColumnsVisibility] = useState({
+  });
+  const [searchValue, setSearchValue] = useState('');
+  const scroll = { x: 'max-content' };
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [modalType, setModalType] = useState(null);
+  const [falcon, setFalcon] = useState([]);
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const [idVehicule, setIdVehicule] = useState('');
+  const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
         'Image': true,
         'Immatriculation': true,
@@ -40,8 +39,8 @@ const Vehicule = () => {
         'Année circu.': false,
         'Alerte traceur': true,
         'Dernière position': true
-    });
-    const handleDelete = async (id) => {
+  });
+  const handleDelete = async (id) => {
         try {
         await putVehicule(id);
         setData(data.filter((item) => item.id_vehicule !== id));
@@ -53,23 +52,23 @@ const Vehicule = () => {
         });
         }
     };
-    const handleAddClient = (id) => openModal('Add', id)
-    const handleDetail = (id) => openModal('Detail', id)
-    const handleRelier = (id) => openModal('Relier', id)
-    const handleSite = (id) => openModal('Affecter', id)
-    const handleAlert = (id) => openModal('DetailTypeAlert', id)
+  const handleAddClient = (id) => openModal('Add', id)
+  const handleDetail = (id) => openModal('Detail', id)
+  const handleRelier = (id) => openModal('Relier', id)
+  const handleSite = (id) => openModal('Affecter', id)
+  const handleAlert = (id) => openModal('DetailTypeAlert', id)
 
-    const closeAllModals = () => {
+  const closeAllModals = () => {
         setModalType(null);
     };
 
-    const openModal = (type, idVehicule = '') => {
+  const openModal = (type, idVehicule = '') => {
         closeAllModals();
         setModalType(type);
         setIdVehicule(idVehicule)
     };
 
-    const fetchData = async () => {
+  const fetchData = async () => {
       try {
         const [ vehiculeData ] = await Promise.all([
           getVehicule()
@@ -464,7 +463,7 @@ const Vehicule = () => {
                 />
               </div>
       </div>
-      
+
       <Modal
         title=""
         visible={modalType === 'Add'}
