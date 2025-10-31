@@ -9,6 +9,7 @@ import GetHistory from '../../demandeVehicule/charroiLocalisation/getHistory/Get
 import { getEvent } from '../../../../services/rapportService';
 import config from '../../../../config';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
+import { calculateZoneDurations } from '../../../../utils/calculateZoneDurations';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -37,36 +38,42 @@ const MoniRealTime = () => {
   };
 
   // Fetch événements
-  const fetchData = async (from, to, isRefresh = false) => {
-    if (isRefresh) setRefreshing(true);
-    else setLoading(true);
+const fetchData = async (from, to, isRefresh = false) => {
+  if (isRefresh) setRefreshing(true);
+  else setLoading(true);
 
-    try {
-      const { data } = await getEvent({
-        date_from: from,
-        date_to: to,
-        lang: "fr",
-        limit: 2000,
-        user_api_hash: apiHash,
-      });
+  try {
+    const { data } = await getEvent({
+      date_from: from,
+      date_to: to,
+      lang: "fr",
+      limit: 2000,
+      user_api_hash: apiHash,
+    });
 
-      const eventsData = data?.items?.data || [];
-      setEvents(eventsData);
-      setFilteredEvents(filterByVehicle(eventsData, selectedVehicle));
+    const eventsData = data?.items?.data || [];
+    setEvents(eventsData);
+    setFilteredEvents(filterByVehicle(eventsData, selectedVehicle));
 
-      // Reset pagination à la page 1 après chaque fetch
-      setPagination(prev => ({ ...prev, current: 1 }));
+    // 🔥 Nouveau : Calcul du temps dans les zones
+    const durations = calculateZoneDurations(eventsData);
+    console.table(durations.details); // Pour voir les durées dans la console
 
-    } catch (error) {
-      console.error("Erreur lors du fetch:", error);
-      if (!isRefresh) message.error("Erreur lors du chargement des événements.");
-      setEvents([]);
-      setFilteredEvents([]);
-    } finally {
-      if (isRefresh) setRefreshing(false);
-      else setLoading(false);
-    }
-  };
+    // Tu peux les afficher dans ton interface, par exemple :
+    // setZoneDurations(durations);
+
+    setPagination(prev => ({ ...prev, current: 1 }));
+  } catch (error) {
+    console.error("Erreur lors du fetch:", error);
+    if (!isRefresh) message.error("Erreur lors du chargement des événements.");
+    setEvents([]);
+    setFilteredEvents([]);
+  } finally {
+    if (isRefresh) setRefreshing(false);
+    else setLoading(false);
+  }
+};
+
 
   // Chargement initial ou changement de date
   useEffect(() => {
