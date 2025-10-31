@@ -52,12 +52,14 @@ const fetchData = async (from, to, isRefresh = false) => {
     });
 
     const eventsData = data?.items?.data || [];
-    setEvents(eventsData);
+/*     setEvents(eventsData);
     setFilteredEvents(filterByVehicle(eventsData, selectedVehicle));
-
+ */
     // 🔥 Nouveau : Calcul du temps dans les zones
     const durations = calculateZoneDurations(eventsData);
     console.table(durations.details); // Pour voir les durées dans la console
+    setEvents(durations.details);
+    setFilteredEvents(filterByVehicle(durations.details, selectedVehicle));
 
     // Tu peux les afficher dans ton interface, par exemple :
     // setZoneDurations(durations);
