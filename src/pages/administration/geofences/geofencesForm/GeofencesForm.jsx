@@ -145,6 +145,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
             showSearch
             placeholder="Type"
             value={record.type_geofence || undefined}
+            optionFilterProp="label"
             style={{ width: 140 }}
             onChange={v => handleChange(record.id_geofence, "type_geofence", v)}
           >
@@ -164,6 +165,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
             showSearch
             placeholder="Client"
             value={record.client_id || undefined}
+            optionFilterProp="label"
             style={{ width: 150 }}
             onChange={v => handleChange(record.id_geofence, "client_id", v)}
           >
@@ -183,6 +185,7 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
             showSearch
             placeholder="Destination"
             value={record.destination_id || undefined}
+            optionFilterProp="label"
             style={{ width: 150 }}
             onChange={v => handleChange(record.id_geofence, "destination_id", v)}
           >
