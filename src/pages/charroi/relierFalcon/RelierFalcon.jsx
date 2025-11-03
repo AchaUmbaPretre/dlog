@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Table,
-  Tag,
   Button,
   Typography,
   message,
@@ -12,43 +11,98 @@ import {
   Select,
   Modal,
 } from "antd";
-import { CarOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import moment from "moment";
+import {
+  CarOutlined,
+  ExclamationCircleOutlined,
+  PlusOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 import {
   getVehicule,
-  getVehiculeOne,
   putRelierVehiculeFalcon,
 } from "../../../services/charroiService";
 import { getFalcon } from "../../../services/rapportService";
-import { getOdometer } from "../../../utils/geocodeService";
 import "./relierFalcon.scss";
 
 const { Text } = Typography;
 const { confirm } = Modal;
 const { Option } = Select;
 
-
 const RelierFalcon = ({ closeModal, fetchData }) => {
-  const [vehicule, setVehicule] = useState(null);
   const [loading, setLoading] = useState(true);
   const [falcon, setFalcon] = useState([]);
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
-  const [searchValue, setSearchValue] = useState("");
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectedRow, setSelectedRow] = useState(null);
   const [vehiculeAll, setVehiculeAll] = useState([]);
-  const [editingRows, setEditingRows] = useState([]);
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
+  const [searchValue, setSearchValue] = useState("");
   const [saving, setSaving] = useState(false);
+  const [editingRow, setEditingRow] = useState(null);
+  const [selectedVehicule, setSelectedVehicule] = useState(null);
 
-  const rowSelection = {
-    type: "radio",
-    selectedRowKeys,
-    onChange: (keys, rows) => {
-      setSelectedRowKeys(keys);
-      setSelectedRow(rows[0] || null);
-    },
+  // ✅ Récupération des données Falcon et véhicules
+  useEffect(() => {
+    const fetchFalcon = async () => {
+      try {
+        const [dataFalcon, dataVehicules] = await Promise.all([
+          getFalcon(),
+          getVehicule(),
+        ]);
+        setFalcon(dataFalcon.data[0].items || []);
+        setVehiculeAll(dataVehicules.data.data || []);
+      } catch (error) {
+        console.error(error);
+        message.error("Erreur lors du chargement des données Falcon");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFalcon();
+  }, []);
+
+  // ✅ Lorsqu’un véhicule est sélectionné dans la liste
+  const handleChangeVehicule = (id_vehicule) => {
+    setSelectedVehicule(id_vehicule);
   };
 
+  // ✅ Enregistrer la liaison (ajout ou modification)
+  const handleSave = async (record) => {
+    if (!selectedVehicule) {
+      message.warning("Veuillez sélectionner un véhicule.");
+      return;
+    }
+
+    confirm({
+      title: "Confirmer la liaison",
+      icon: <ExclamationCircleOutlined />,
+      content: (
+        <Text>
+          Voulez-vous relier le capteur <b>{record.name}</b> au véhicule sélectionné ?
+        </Text>
+      ),
+      okText: "Oui, relier",
+      cancelText: "Annuler",
+      async onOk() {
+        try {
+          setSaving(true);
+          await putRelierVehiculeFalcon(selectedVehicule, {
+            id_capteur: record.id,
+            name_capteur: record.name,
+          });
+          message.success("Véhicule relié avec succès !");
+          fetchData?.();
+          closeModal?.();
+        } catch (error) {
+          console.error(error);
+          message.error("Erreur lors du reliement.");
+        } finally {
+          setSaving(false);
+          setEditingRow(null);
+          setSelectedVehicule(null);
+        }
+      },
+    });
+  };
+
+  // ✅ Colonnes du tableau
   const columns = [
     {
       title: "#",
@@ -56,11 +110,12 @@ const RelierFalcon = ({ closeModal, fetchData }) => {
       key: "id",
       render: (text, record, index) =>
         (pagination.current - 1) * pagination.pageSize + index + 1,
-      width: "4%",
+      width: 60,
     },
     {
-      title: "Matricule",
+      title: "Capteur Falcon",
       dataIndex: "name",
+      key: "name",
       render: (text) => (
         <Space>
           <CarOutlined style={{ color: "#1890ff" }} />
@@ -69,127 +124,90 @@ const RelierFalcon = ({ closeModal, fetchData }) => {
       ),
     },
     {
-      title: "Vehicule Dlog",
+      title: "Véhicule Dlog",
       dataIndex: "vehicule",
-      key:'vehicule',
-      render: (text, record) => (
-        <Select
-          allowClear
-          showSearch
-          placeholder="Type"
-          value={record.id_vehicule || undefined}
-          optionFilterProp="children"
-          style={{ width: 190 }}
-          onChange={v => handleChange(record.id_vehicule, "type_geofence", v)}
-        >
-          {vehiculeAll.map(t => (
-            <Option key={t.id_catGeofence} value={t.id_catGeofence}>
-              {`Marque: ${t.nom_marque} ${t.immatriculation}`}
-            </Option>
-          ))}
-        </Select>
-      )
+      key: "vehicule",
+      render: (text, record) =>
+        editingRow === record.id ? (
+          <Select
+            showSearch
+            placeholder="Sélectionner véhicule"
+            style={{ width: 220 }}
+            optionFilterProp="children"
+            onChange={handleChangeVehicule}
+          >
+            {vehiculeAll.map((v) => (
+              <Option key={v.id_vehicule} value={v.id_vehicule}>
+                {v.nom_marque} - {v.immatriculation}
+              </Option>
+            ))}
+          </Select>
+        ) : (
+          <Text type="secondary">Non relié</Text>
+        ),
     },
     {
       title: "Action",
-      dataIndex: "action",
-      align:'center',
+      key: "action",
+      align: "center",
       render: (_, record) => {
-        
+        const isEditing = editingRow === record.id;
+        return (
+          <Space>
+            {isEditing ? (
+              <>
+                <Button
+                  type="primary"
+                  size="small"
+                  loading={saving}
+                  onClick={() => handleSave(record)}
+                >
+                  Enregistrer
+                </Button>
+                <Button size="small" onClick={() => setEditingRow(null)}>
+                  Annuler
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  size="small"
+                  onClick={() => setEditingRow(record.id)}
+                >
+                  Ajouter
+                </Button>
+                <Button
+                  type="default"
+                  icon={<EditOutlined />}
+                  size="small"
+                  onClick={() => setEditingRow(record.id)}
+                >
+                  Modifier
+                </Button>
+              </>
+            )}
+          </Space>
+        );
       },
     },
   ];
 
-  const handleChange = ()=> {
-
-  }
-  // 🔹 Fetch Falcon data
-  useEffect(() => {
-    const fetchFalcon = async () => {
-      try {
-        const [data, vehicleData] = await Promise.all([
-          getFalcon(),
-          getVehicule()
-        ])
-        setFalcon(data.data[0].items);
-        setVehiculeAll(vehicleData.data.data)
-      } catch (error) {
-        console.error(error);
-        message.error("Erreur lors du chargement des données Falcon");
-      }
-    };
-    fetchFalcon();
-  }, []);
-
-  // 🔹 Submit
-  const handleRelier = async () => {
-    if (!selectedRow) {
-      message.warning("Veuillez sélectionner un véhicule Falcon.");
-      return;
-    }
-
-    const action = async (record) => {
-      try {
-        const { id: id_capteur, name: name_capteur } = selectedRow;
-        await putRelierVehiculeFalcon(record.idVehicule, { id_capteur, name_capteur });
-        message.success("Véhicule relié avec succès !");
-        closeModal?.();
-        fetchData?.();
-      } catch (error) {
-        console.error(error);
-        message.error("Une erreur est survenue lors du reliement");
-      }
-    };
-
-    // Si déjà relié → demander confirmation
-    if (vehicule?.name_capteur) {
-      confirm({
-        title: "Voulez-vous modifier le capteur lié ?",
-        icon: <ExclamationCircleOutlined />,
-        content: (
-          <>
-            <Text>
-              Ce véhicule est actuellement lié avec{" "}
-              <b>{vehicule.name_capteur}</b>.
-            </Text>
-            <br />
-            <Text strong>
-              Voulez-vous remplacer ce capteur par{" "}
-              <b>{selectedRow.name}</b> ?
-            </Text>
-          </>
-        ),
-        okText: "Oui, remplacer",
-        cancelText: "Annuler",
-        onOk: action,
-      });
-    } else {
-      await action();
-    }
-  };
-
   return (
-    <Card
-      title="Relier un véhicule Falcon"
-      className="relierFalconCard"
-      bordered
-    >
+    <Card title="Relier un véhicule Falcon" className="relierFalconCard" bordered>
       {loading ? (
         <Spin tip="Chargement..." />
       ) : (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
-          {/* 🔹 Infos véhicule */}
-
           <Input.Search
-            placeholder="Rechercher par matricule..."
+            placeholder="Rechercher par nom Falcon..."
             allowClear
             onChange={(e) => setSearchValue(e.target.value)}
             style={{ width: 300 }}
           />
 
-          {/* 🔹 Table Falcon */}
           <Table
-            rowSelection={rowSelection}
             columns={columns}
             dataSource={falcon.filter((item) =>
               item.name?.toLowerCase().includes(searchValue.toLowerCase())
@@ -199,20 +217,10 @@ const RelierFalcon = ({ closeModal, fetchData }) => {
             size="middle"
             pagination={pagination}
             onChange={setPagination}
-            rowClassName={(_, index) =>
-              index % 2 === 0 ? "odd-row" : "even-row"
+            rowClassName={(record) =>
+              editingRow === record.id ? "selected-row" : ""
             }
           />
-
-          {/* 🔹 Action */}
-          <Button
-            type="primary"
-            onClick={handleRelier}
-            disabled={!selectedRow}
-            block
-          >
-            Relier le véhicule sélectionné
-          </Button>
         </Space>
       )}
     </Card>
