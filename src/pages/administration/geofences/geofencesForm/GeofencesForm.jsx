@@ -207,6 +207,7 @@ const columns = [
     title: "Destination",
     dataIndex: "destination_id",
     key: "destination_id",
+    align:'center',
     render: (text, record) =>
       editingRows.includes(record.id_geofence) ? (
         <Select
@@ -233,6 +234,7 @@ const columns = [
     title: "Description",
     dataIndex: "description",
     key: "description",
+    align:'center',
     render: (text, record) =>
       editingRows.includes(record.id_geofence) ? (
         <Input
@@ -247,6 +249,7 @@ const columns = [
   {
     title: "Action",
     key: "action",
+    align:'center',
     render: (_, record) => {
       if (editingRows.includes(record.id_geofence)) {
         return (
