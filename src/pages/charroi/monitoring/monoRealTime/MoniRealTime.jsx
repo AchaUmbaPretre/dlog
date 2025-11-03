@@ -54,7 +54,7 @@ const MoniRealTime = () => {
 
       const eventsData = data?.items?.data || [];
       const durations = calculateZoneDurations(eventsData);
-            console.log(durations)
+            console.table(durations)
 
       const mapped = durations.map(e => ({ ...e, vehicule: e.vehicule }));
       setEvents(mapped);
