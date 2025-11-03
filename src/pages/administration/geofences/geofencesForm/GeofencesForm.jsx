@@ -153,6 +153,7 @@ const columns = [
     title: "Type",
     dataIndex: "type_geofence",
     key: "type_geofence",
+    align:'center',
     render: (text, record) =>
       editingRows.includes(record.id_geofence) ? (
         <Select
@@ -179,6 +180,7 @@ const columns = [
     title: "Client",
     dataIndex: "client_id",
     key: "client_id",
+    align:'center',
     render: (text, record) =>
       editingRows.includes(record.id_geofence) ? (
         <Select
