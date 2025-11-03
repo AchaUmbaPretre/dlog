@@ -39,7 +39,7 @@ const MoniRealTime = () => {
   // Fetch événements
   const fetchData = async (from, to, { isRefresh = false, silent = false } = {}) => {
     if (!silent) {
-      if (isRefresh) setLoading(false); // On ne veut pas spinner pour refresh silencieux
+      if (isRefresh) setLoading(false);
       else setLoading(true);
     }
 
@@ -54,8 +54,9 @@ const MoniRealTime = () => {
 
       const eventsData = data?.items?.data || [];
       const durations = calculateZoneDurations(eventsData);
-      const mapped = durations.details.map(e => ({ ...e, vehicule: e.vehicule }));
+            console.log(durations)
 
+      const mapped = durations.map(e => ({ ...e, vehicule: e.vehicule }));
       setEvents(mapped);
       setFilteredEvents(filterByVehicle(mapped, selectedVehicle));
       setPagination(prev => ({ ...prev, current: 1 }));

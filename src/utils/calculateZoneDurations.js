@@ -13,7 +13,6 @@ const formatDuration = (minutes = 0, seconds = 0) => {
 export const calculateZoneDurations = (eventsData) => {
   if (!eventsData || eventsData.length === 0) return { details: [], resume: [] };
 
-  // Tri par date croissante pour traitement
   const sorted = [...eventsData].sort(
     (a, b) =>
       dayjs(a.time, "DD-MM-YYYY HH:mm:ss").valueOf() -
@@ -22,13 +21,26 @@ export const calculateZoneDurations = (eventsData) => {
 
   const results = [];
   const entryStack = {};
+  const lastExit = {}; // Pour stocker la dernière sortie par véhicule
 
   for (const e of sorted) {
     const zone = e.detail || e?.additional?.geofence || "N/A";
     const key = `${e.device_name}_${zone}`;
 
     if (e.type === "zone_in") {
-      entryStack[key] = e;
+      // Calcul de la durée depuis la dernière sortie
+      const lastExitTime = lastExit[e.device_name];
+      let durationSinceLastZone = null;
+      if (lastExitTime) {
+        const tPrev = dayjs(lastExitTime, "DD-MM-YYYY HH:mm:ss");
+        const tCurrent = dayjs(e.time, "DD-MM-YYYY HH:mm:ss");
+        const diffMs = tCurrent.diff(tPrev);
+        const diffMin = Math.floor(diffMs / 60000);
+        const diffSec = Math.floor((diffMs % 60000) / 1000);
+        durationSinceLastZone = formatDuration(diffMin, diffSec);
+      }
+
+      entryStack[key] = { ...e, durationSinceLastZone };
     } else if (e.type === "zone_out" && entryStack[key]) {
       const entryEvent = entryStack[key];
       const t1 = dayjs(entryEvent.time, "DD-MM-YYYY HH:mm:ss");
@@ -48,70 +60,40 @@ export const calculateZoneDurations = (eventsData) => {
           duree_text: formatDuration(diffMin, diffSec),
           duree_minutes: diffMin,
           duree_secondes: diffSec,
+          duree_depuis_zone_precedente: entryEvent.durationSinceLastZone || "N/A",
           latitude: e.latitude,
           longitude: e.longitude,
         });
       }
 
+      lastExit[e.device_name] = e.time; // Mettre à jour la dernière sortie
       delete entryStack[key];
     }
   }
 
-  // Ajouter les entrées sans sortie avec durée nulle
+  // Traiter les entrées en cours
   for (const key in entryStack) {
     const e = entryStack[key];
+    const t1 = dayjs(e.time, "DD-MM-YYYY HH:mm:ss");
+    const t2 = dayjs();
+    const diffMs = t2.diff(t1);
+    const diffMin = Math.floor(diffMs / 60000);
+    const diffSec = Math.floor((diffMs % 60000) / 1000);
+
     results.push({
       vehicule: e.device_name,
       device_id: e.device_id,
       zone: e.detail || e?.additional?.geofence || "N/A",
       entree: e.time,
       sortie: null,
-      duree_text: "En cours",
-      duree_minutes: 0,
-      duree_secondes: 0,
+      duree_text: formatDuration(diffMin, diffSec),
+      duree_minutes: diffMin,
+      duree_secondes: diffSec,
+      duree_depuis_zone_precedente: e.durationSinceLastZone || "N/A",
       latitude: e.latitude,
       longitude: e.longitude,
     });
   }
 
-  // 🔹 Trier par événements les plus récents en premier
-  results.sort((a, b) => {
-    const aTime = a.sortie ? dayjs(a.sortie, "DD-MM-YYYY HH:mm:ss") : dayjs();
-    const bTime = b.sortie ? dayjs(b.sortie, "DD-MM-YYYY HH:mm:ss") : dayjs();
-    return bTime.valueOf() - aTime.valueOf();
-  });
-
-  // Résumé global par véhicule / zone
-  const summary = {};
-  for (const r of results) {
-    if (r.duree_minutes != null) {
-      const key = `${r.vehicule}_${r.zone}`;
-      if (!summary[key])
-        summary[key] = {
-          vehicule: r.vehicule,
-          device_id: r.device_id,
-          zone: r.zone,
-          total_minutes: 0,
-          total_secondes: 0,
-        };
-      summary[key].total_minutes += r.duree_minutes;
-      summary[key].total_secondes += r.duree_secondes;
-    }
-  }
-
-  const resume = Object.values(summary).map((s) => {
-    const extraMinutes = Math.floor(s.total_secondes / 60);
-    const secondesRestantes = s.total_secondes % 60;
-    const totalMinutes = s.total_minutes + extraMinutes;
-
-    return {
-      vehicule: s.vehicule,
-      device_id: s.device_id,
-      zone: s.zone,
-      total_minutes: totalMinutes,
-      total_duree_text: formatDuration(totalMinutes, secondesRestantes),
-    };
-  });
-
-  return { details: results, resume };
+  return results;
 };
