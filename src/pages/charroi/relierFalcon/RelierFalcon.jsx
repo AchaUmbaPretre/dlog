@@ -10,6 +10,7 @@ import {
   Spin,
   Select,
   Modal,
+  Tag,
 } from "antd";
 import {
   CarOutlined,
@@ -28,7 +29,7 @@ const { Text } = Typography;
 const { confirm } = Modal;
 const { Option } = Select;
 
-const RelierFalcon = ({ closeModal, fetchData }) => {
+const RelierFalcon = ({ fetchData }) => {
   const [loading, setLoading] = useState(true);
   const [falcon, setFalcon] = useState([]);
   const [vehiculeAll, setVehiculeAll] = useState([]);
@@ -38,69 +39,99 @@ const RelierFalcon = ({ closeModal, fetchData }) => {
   const [editingRow, setEditingRow] = useState(null);
   const [selectedVehicule, setSelectedVehicule] = useState(null);
 
-  // ✅ Récupération des données Falcon et véhicules
-  useEffect(() => {
-    const fetchFalcon = async () => {
+  // ✅ Charger Falcon + Véhicules, puis fusionner
+
+    const fetchDataAll = async () => {
       try {
-        const [dataFalcon, dataVehicules] = await Promise.all([
+        const [falconRes, vehiculeRes] = await Promise.all([
           getFalcon(),
           getVehicule(),
         ]);
-        setFalcon(dataFalcon.data[0].items || []);
-        setVehiculeAll(dataVehicules.data.data || []);
+
+        const falconList = falconRes.data[0].items || [];
+        const vehiculeList = vehiculeRes.data.data || [];
+
+        // 🔹 Fusion : si un véhicule contient id_capteur = id Falcon, alors il est déjà relié
+        const merged = falconList.map((f) => {
+          const linkedVehicule = vehiculeList.find(
+            (v) => Number(v.id_capteur) === Number(f.id)
+          );
+          return {
+            ...f,
+            linkedVehicule: linkedVehicule
+              ? {
+                  id_vehicule: linkedVehicule.id_vehicule,
+                  immatriculation: linkedVehicule.immatriculation,
+                  nom_marque: linkedVehicule.nom_marque,
+                }
+              : null,
+          };
+        });
+
+        setFalcon(merged);
+        setVehiculeAll(vehiculeList);
       } catch (error) {
         console.error(error);
-        message.error("Erreur lors du chargement des données Falcon");
+        message.error("Erreur lors du chargement des données Falcon/Véhicules");
       } finally {
         setLoading(false);
       }
     };
-    fetchFalcon();
+    
+  useEffect(() => {
+    fetchDataAll();
   }, []);
 
-  // ✅ Lorsqu’un véhicule est sélectionné dans la liste
+  // ✅ Sélection d’un véhicule
   const handleChangeVehicule = (id_vehicule) => {
     setSelectedVehicule(id_vehicule);
   };
 
-  // ✅ Enregistrer la liaison (ajout ou modification)
-  const handleSave = async (record) => {
-    if (!selectedVehicule) {
-      message.warning("Veuillez sélectionner un véhicule.");
-      return;
-    }
+  // ✅ Enregistrement liaison Falcon ↔ Véhicule
+const handleSave = async (record) => {
+  if (!selectedVehicule) {
+    message.warning("Veuillez sélectionner un véhicule.");
+    return;
+  }
 
-    confirm({
-      title: "Confirmer la liaison",
-      icon: <ExclamationCircleOutlined />,
-      content: (
-        <Text>
-          Voulez-vous relier le capteur <b>{record.name}</b> au véhicule sélectionné ?
-        </Text>
-      ),
-      okText: "Oui, relier",
-      cancelText: "Annuler",
-      async onOk() {
-        try {
-          setSaving(true);
-          await putRelierVehiculeFalcon(selectedVehicule, {
-            id_capteur: record.id,
-            name_capteur: record.name,
-          });
-          message.success("Véhicule relié avec succès !");
-          fetchData?.();
-          closeModal?.();
-        } catch (error) {
-          console.error(error);
-          message.error("Erreur lors du reliement.");
-        } finally {
-          setSaving(false);
-          setEditingRow(null);
-          setSelectedVehicule(null);
-        }
-      },
-    });
-  };
+  confirm({
+    title: "Confirmer la liaison",
+    icon: <ExclamationCircleOutlined />,
+    content: (
+      <Text>
+        Voulez-vous relier le capteur <b>{record.name}</b> au véhicule{" "}
+        <b>
+          {
+            vehiculeAll.find((v) => v.id_vehicule === selectedVehicule)
+              ?.immatriculation
+          }
+        </b>
+        ?
+      </Text>
+    ),
+    okText: "Oui, relier",
+    cancelText: "Annuler",
+    async onOk() {
+      try {
+        setSaving(true);
+        await putRelierVehiculeFalcon(selectedVehicule, {
+          id_capteur: record.id,
+          name_capteur: record.name,
+        });
+        message.success("Véhicule modifié avec succès !");
+        await fetchDataAll(); // ✅ recharge bien la liste actualisée
+      } catch (error) {
+        console.error(error);
+        message.error("Erreur lors du reliement.");
+      } finally {
+        setEditingRow(null);
+        setSelectedVehicule(null);
+        setSaving(false);
+      }
+    },
+  });
+};
+
 
   // ✅ Colonnes du tableau
   const columns = [
@@ -125,26 +156,38 @@ const RelierFalcon = ({ closeModal, fetchData }) => {
     },
     {
       title: "Véhicule Dlog",
-      dataIndex: "vehicule",
+      dataIndex: "linkedVehicule",
       key: "vehicule",
-      render: (text, record) =>
-        editingRow === record.id ? (
-          <Select
-            showSearch
-            placeholder="Sélectionner véhicule"
-            style={{ width: 220 }}
-            optionFilterProp="children"
-            onChange={handleChangeVehicule}
-          >
-            {vehiculeAll.map((v) => (
-              <Option key={v.id_vehicule} value={v.id_vehicule}>
-                {v.nom_marque} - {v.immatriculation}
-              </Option>
-            ))}
-          </Select>
-        ) : (
-          <Text type="secondary">Non relié</Text>
-        ),
+      render: (linkedVehicule, record) => {
+        if (editingRow === record.id) {
+          return (
+            <Select
+              showSearch
+              placeholder="Sélectionner un véhicule"
+              style={{ width: 220 }}
+              optionFilterProp="children"
+              onChange={handleChangeVehicule}
+              defaultValue={linkedVehicule?.id_vehicule || undefined}
+            >
+              {vehiculeAll.map((v) => (
+                <Option key={v.id_vehicule} value={v.id_vehicule}>
+                  {v.nom_marque} - {v.immatriculation}
+                </Option>
+              ))}
+            </Select>
+          );
+        }
+
+        if (linkedVehicule) {
+          return (
+            <Tag color="green">
+              {linkedVehicule.nom_marque} - {linkedVehicule.immatriculation}
+            </Tag>
+          );
+        }
+
+        return <Tag color="red">Non relié</Tag>;
+      },
     },
     {
       title: "Action",
@@ -152,6 +195,8 @@ const RelierFalcon = ({ closeModal, fetchData }) => {
       align: "center",
       render: (_, record) => {
         const isEditing = editingRow === record.id;
+        const isLinked = !!record.linkedVehicule;
+
         return (
           <Space>
             {isEditing ? (
@@ -168,25 +213,24 @@ const RelierFalcon = ({ closeModal, fetchData }) => {
                   Annuler
                 </Button>
               </>
+            ) : isLinked ? (
+              <Button
+                type="default"
+                icon={<EditOutlined />}
+                size="small"
+                onClick={() => setEditingRow(record.id)}
+              >
+                Modifier
+              </Button>
             ) : (
-              <>
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  size="small"
-                  onClick={() => setEditingRow(record.id)}
-                >
-                  Ajouter
-                </Button>
-                <Button
-                  type="default"
-                  icon={<EditOutlined />}
-                  size="small"
-                  onClick={() => setEditingRow(record.id)}
-                >
-                  Modifier
-                </Button>
-              </>
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                size="small"
+                onClick={() => setEditingRow(record.id)}
+              >
+                Ajouter
+              </Button>
             )}
           </Space>
         );
@@ -201,7 +245,7 @@ const RelierFalcon = ({ closeModal, fetchData }) => {
       ) : (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
           <Input.Search
-            placeholder="Rechercher par nom Falcon..."
+            placeholder="Rechercher un capteur Falcon..."
             allowClear
             onChange={(e) => setSearchValue(e.target.value)}
             style={{ width: 300 }}
