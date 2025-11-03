@@ -27,6 +27,7 @@ const MoniRealTime = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
+  const scroll = { x: 'max-content' };
   const tableRef = useRef();
   const isFetching = useRef(false);
   const apiHash = config.api_hash;
@@ -346,6 +347,7 @@ const columns = [
           <Table
             columns={columns}
             dataSource={filteredEvents}
+            scroll={scroll}
             rowKey={record => record.id || record.external_id}
             loading={loading}
             pagination={{
