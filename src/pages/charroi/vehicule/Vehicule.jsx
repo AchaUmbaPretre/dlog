@@ -282,65 +282,65 @@ const Vehicule = () => {
           ...(columnsVisibility["Dernière position"] ? {} : { className: "hidden-column" }),
       },
       {
-      title: "Alerte traceur",
-      key: "alert",
-      render: (_, record) => {
-          const lat = record.lat || record.capteurInfo?.lat;
-          const lng = record.lng || record.capteurInfo?.lng;
+        title: "Alerte traceur",
+        key: "alert",
+        render: (_, record) => {
+            const lat = record.lat || record.capteurInfo?.lat;
+            const lng = record.lng || record.capteurInfo?.lng;
 
-          // Si pas de traceur (pas de position connue)
-          if (!lat || !lng) {
-              return (
-                  <Tag color="default" style={{ fontWeight: 600 }}>
-                      N/A
-                  </Tag>
-              );
-          }
+            // Si pas de traceur (pas de position connue)
+            if (!lat || !lng) {
+                return (
+                    <Tag color="default" style={{ fontWeight: 600 }}>
+                        N/A
+                    </Tag>
+                );
+            }
 
-          const sensors = record.capteurInfo?.sensors || [];
-          const val = sensors.find((s) => s.type === "textual" && s.name === "#MSG")?.val || "OK";
-          const lastConnection = record.capteurInfo?.last_connection;
-          const isOffline = lastConnection ? moment().diff(moment(lastConnection), "hours") > 12 : false;
+            const sensors = record.capteurInfo?.sensors || [];
+            const val = sensors.find((s) => s.type === "textual" && s.name === "#MSG")?.val || "OK";
+            const lastConnection = record.capteurInfo?.last_connection;
+            const isOffline = lastConnection ? moment().diff(moment(lastConnection), "hours") > 12 : false;
 
-          let label = "OK";
-          let color = "green";
-          let icon = null;
+            let label = "OK";
+            let color = "green";
+            let icon = null;
 
-          if (isOffline) {
-              label = "Hors ligne";
-              color = "gray";
-              icon = <StopOutlined />;
-          } else {
-              switch (val) {
-                  case "lowBattery":
-                      label = "Batterie faible";
-                      color = "orange";
-                      icon = <WarningOutlined />;
-                      break;
-                  case "fuelLeak":
-                      label = "Fuite carburant";
-                      color = "volcano";
-                      icon = <AlertOutlined />;
-                      break;
-                  case "powerCut":
-                      label = "Coupure d’alim.";
-                      color = "red";
-                      icon = <StopOutlined />;
-                      break;
-                  default:
-                      break;
-              }
-          }
+            if (isOffline) {
+                label = "Hors ligne";
+                color = "gray";
+                icon = <StopOutlined />;
+            } else {
+                switch (val) {
+                    case "lowBattery":
+                        label = "Batterie faible";
+                        color = "orange";
+                        icon = <WarningOutlined />;
+                        break;
+                    case "fuelLeak":
+                        label = "Fuite carburant";
+                        color = "volcano";
+                        icon = <AlertOutlined />;
+                        break;
+                    case "powerCut":
+                        label = "Coupure d’alim.";
+                        color = "red";
+                        icon = <StopOutlined />;
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-          return (
-              <Tooltip title="Cliquez pour voir le détail d'état du traceur">
-                  <Tag color={color} icon={icon} style={{ fontWeight: 600 }} onClick={() => handleAlert(record.id_vehicule)}>
-                      {label}
-                  </Tag>
-              </Tooltip>
-          );
-      },
-      ...(columnsVisibility["Alerte traceur"] ? {} : { className: "hidden-column" }),
+            return (
+                <Tooltip title="Cliquez pour voir le détail d'état du traceur">
+                    <Tag color={color} icon={icon} style={{ fontWeight: 600 }} onClick={() => handleAlert(record.id_vehicule)}>
+                        {label}
+                    </Tag>
+                </Tooltip>
+            );
+        },
+        ...(columnsVisibility["Alerte traceur"] ? {} : { className: "hidden-column" }),
       },
       {
           title: "Actions",
@@ -371,16 +371,7 @@ const Vehicule = () => {
                   },
                   {
                       type: "divider",
-                  },
-                  {
-                      key: "reli",
-                      label: (
-                      <>
-                          <RetweetOutlined /> Relier à un device
-                      </>
-                      ),
-                      onClick: () => handleRelier(record.id_vehicule),
-                  },
+                  }
                   ],
               }}
               trigger={["click"]}
@@ -440,6 +431,13 @@ const Vehicule = () => {
                     >
                       Ajouter un véhicule
                     </Button>
+                    <Button
+                      type="default"
+                      icon={<RetweetOutlined />}
+                      onClick={handleRelier}
+                    >
+                      Rélier à un traceur
+                    </Button>
                     <div className="client-rows-right">
                       <Dropdown overlay={menu} trigger={['click']}>
                         <Button icon={<MenuOutlined />} className="ant-dropdown-link">
@@ -493,7 +491,7 @@ const Vehicule = () => {
         width={1000}
         centered
       >
-        <RelierFalcon idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>
+        <RelierFalcon closeModal={() => setModalType(null)} fetchData={fetchData}/>
       </Modal>
 
       <Modal
