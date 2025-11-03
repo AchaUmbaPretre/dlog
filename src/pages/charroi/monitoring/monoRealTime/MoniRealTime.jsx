@@ -166,15 +166,25 @@ const columns = [
     key: 'duree_depuis_zone_precedente',
     render: (text) => {
       if (!text) return <span>—</span>;
-      let color = '#52c41a';
+
+      // couleur par défaut
+      let color = '#52c41a'; // vert
       const match = text.match(/(\d+)h/) || text.match(/(\d+)min/) || text.match(/(\d+)sec/);
       if (match) {
         const value = parseInt(match[1], 10);
-        if (text.includes('h') || value > 30) color = '#f5222d';
-        else if (value > 15) color = '#fa8c16';
-        else if (value > 5) color = '#a0d911';
+        if (text.includes('h') || value > 30) color = '#f5222d'; // rouge
+        else if (value > 15) color = '#fa8c16'; // orange
+        else if (value > 5) color = '#a0d911'; // vert clair
       }
-      return <Tag color={color}>{text}</Tag>;
+
+      return (
+        <Tooltip title={text}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <ArrowRightOutlined style={{ color, fontWeight: 'bold' }} />
+            <span>{text}</span>
+          </span>
+        </Tooltip>
+      );
     },
   },
   {
