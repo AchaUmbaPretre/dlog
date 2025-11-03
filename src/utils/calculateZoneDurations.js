@@ -9,7 +9,7 @@ const formatDuration = (minutes = 0, seconds = 0) => {
   return `${h > 0 ? h + "h " : ""}${m}min ${s}sec`;
 };
 
-// 🧩 Calcul de distance entre deux points GPS (km)
+// Calcul de distance entre deux points GPS (km)
 const haversineDistance = (lat1, lon1, lat2, lon2) => {
   if (!lat1 || !lon1 || !lat2 || !lon2) return 0;
   const toRad = angle => (angle * Math.PI) / 180;
