@@ -135,7 +135,7 @@ const columns = [
     dataIndex: 'zone',
     key: 'zone',
     ...getColumnSearchProps('zone', searchText, setSearchText, setSearchedColumn, searchInput),
-    render: (text) => <Text type="secondary">{text || 'N/A'}</Text>,
+    render: (text) => <Text>{text || 'N/A'}</Text>,
   },
   {
     title: 'Entrée / Sortie',
