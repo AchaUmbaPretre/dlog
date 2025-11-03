@@ -490,7 +490,7 @@ const Vehicule = () => {
         visible={modalType === 'Relier'}
         onCancel={closeAllModals}
         footer={null}
-        width={800}
+        width={1000}
         centered
       >
         <RelierFalcon idVehicule={idVehicule} closeModal={() => setModalType(null)} fetchData={fetchData}/>
