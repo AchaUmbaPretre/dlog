@@ -107,7 +107,6 @@ const Vehicule = () => {
         return { ...c, capteurInfo: capteur || null };
       });
     }, [data, falcon]);
-  
 
     const toggleColumnVisibility = (columnName, e) => {
         e.stopPropagation();
@@ -115,7 +114,7 @@ const Vehicule = () => {
           ...prev,
           [columnName]: !prev[columnName]
         }));
-      };
+    };
 
     const menu = (
       <Menu>

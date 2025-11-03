@@ -28,7 +28,7 @@ const { confirm } = Modal;
 const { Option } = Select;
 
 
-const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
+const RelierFalcon = ({ closeModal, fetchData }) => {
   const [vehicule, setVehicule] = useState(null);
   const [loading, setLoading] = useState(true);
   const [falcon, setFalcon] = useState([]);
@@ -37,6 +37,8 @@ const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [vehiculeAll, setVehiculeAll] = useState([]);
+  const [editingRows, setEditingRows] = useState([]);
+  const [saving, setSaving] = useState(false);
 
   const rowSelection = {
     type: "radio",
@@ -77,30 +79,23 @@ const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
           placeholder="Type"
           value={record.id_vehicule || undefined}
           optionFilterProp="children"
-          style={{ width: 140 }}
+          style={{ width: 190 }}
           onChange={v => handleChange(record.id_vehicule, "type_geofence", v)}
         >
           {vehiculeAll.map(t => (
             <Option key={t.id_catGeofence} value={t.id_catGeofence}>
-              {t.nom_catGeofence}
+              {`Marque: ${t.nom_marque} ${t.immatriculation}`}
             </Option>
           ))}
         </Select>
-      ),
-      sorter: (a, b) =>
-        moment(a.time, "DD-MM-YYYY HH:mm:ss").unix() -
-        moment(b.time, "DD-MM-YYYY HH:mm:ss").unix(),
+      )
     },
     {
-      title: "Km Total",
-      dataIndex: "sensors",
-      render: (sensors) => {
-        const km = getOdometer(sensors);
-        return !km || isNaN(km) ? (
-          <Tag color="default">N/A</Tag>
-        ) : (
-          <Text>{Number(km).toLocaleString("fr-FR")} km</Text>
-        );
+      title: "Action",
+      dataIndex: "action",
+      align:'center',
+      render: (_, record) => {
+        
       },
     },
   ];
@@ -126,23 +121,6 @@ const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
     fetchFalcon();
   }, []);
 
-  // 🔹 Fetch véhicule info
-  useEffect(() => {
-    if (!idVehicule) return;
-    const fetchVehicule = async () => {
-      setLoading(true);
-      try {
-        const { data } = await getVehiculeOne(idVehicule);
-        setVehicule(data.data[0]);
-      } catch (error) {
-        message.error("Erreur de chargement du véhicule");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchVehicule();
-  }, [idVehicule]);
-
   // 🔹 Submit
   const handleRelier = async () => {
     if (!selectedRow) {
@@ -150,10 +128,10 @@ const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
       return;
     }
 
-    const action = async () => {
+    const action = async (record) => {
       try {
         const { id: id_capteur, name: name_capteur } = selectedRow;
-        await putRelierVehiculeFalcon(idVehicule, { id_capteur, name_capteur });
+        await putRelierVehiculeFalcon(record.idVehicule, { id_capteur, name_capteur });
         message.success("Véhicule relié avec succès !");
         closeModal?.();
         fetchData?.();
@@ -201,32 +179,7 @@ const RelierFalcon = ({ idVehicule, closeModal, fetchData }) => {
       ) : (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
           {/* 🔹 Infos véhicule */}
-          <Card type="inner" size="small" title="Détails du véhicule">
-            <Space direction="vertical" size="small">
-              <Text>
-                <b>Immatriculation:</b> {vehicule?.immatriculation}
-              </Text>
-              <Text>
-                <b>Type:</b> {vehicule?.nom_cat}
-              </Text>
-              <Text>
-                <b>Marque:</b> {vehicule?.nom_marque}
-              </Text>
-              <Text>
-                <b>Modèle:</b> {vehicule?.modele}
-              </Text>
-              {vehicule?.name_capteur ? (
-                <Text type="secondary">
-                  🚗 Ce véhicule est déjà lié avec{" "}
-                  <b>{vehicule.name_capteur}</b>.
-                </Text>
-              ) : (
-                <Text type="danger">❌ Aucun capteur lié pour ce véhicule.</Text>
-              )}
-            </Space>
-          </Card>
 
-          {/* 🔹 Recherche */}
           <Input.Search
             placeholder="Rechercher par matricule..."
             allowClear
