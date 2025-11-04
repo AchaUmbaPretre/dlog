@@ -12,56 +12,74 @@ export const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
   const lastPos = useRef([vehicle?.lat, vehicle?.lng]);
   const targetPos = useRef([vehicle?.lat, vehicle?.lng]);
   const map = useMap();
+  const frameRef = useRef(null); // pour gérer la boucle d’animation
 
-  // Déplacement fluide + focus auto
-  useEffect(() => {
-    if (!vehicle) return;
-    targetPos.current = [vehicle.lat, vehicle.lng];
-    map.flyTo([vehicle.lat, vehicle.lng], zoomLevel, { duration: 0.7 });
-    markerRef.current?.openPopup();
-  }, [vehicle, map, zoomLevel]);
-
-  // Animation continue de la position
+  // --- Focus et mise à jour de la position cible ---
+// --- Focus et mise à jour de la position cible ---
 useEffect(() => {
-  let frameId;
+  if (!vehicle) return;
 
+  // 🔒 Ne pas recentrer ni bouger si le véhicule est offline
+  if (vehicle.online !== "online") {
+    return;
+  }
+
+  targetPos.current = [vehicle.lat, vehicle.lng];
+  map.flyTo([vehicle.lat, vehicle.lng], zoomLevel, { duration: 0.7 });
+  markerRef.current?.openPopup();
+}, [vehicle, map, zoomLevel]);
+
+// --- Animation fluide ---
+useEffect(() => {
   const animate = () => {
     if (!markerRef.current) return;
-
-    if (vehicle.online !== "online") {
-      cancelAnimationFrame(frameId);
-      return;
-    }
 
     const [latPrev, lngPrev] = lastPos.current;
     const [latTarget, lngTarget] = targetPos.current;
 
+    // Si le véhicule est offline → on gèle la position actuelle et on arrête la boucle
+    if (vehicle.online !== "online") {
+      cancelAnimationFrame(frameRef.current);
+      markerRef.current.setLatLng([latPrev, lngPrev]);
+      return;
+    }
+
+    // Calcul d’interpolation
     const newLat = latPrev + (latTarget - latPrev) * 0.08;
     const newLng = lngPrev + (lngTarget - lngPrev) * 0.08;
 
+    // Déplacement du marqueur
     markerRef.current.setLatLng([newLat, newLng]);
 
+    // Calcul de la direction
     const angle =
       Math.atan2(latTarget - latPrev, lngTarget - lngPrev) * (180 / Math.PI);
     markerRef.current.setRotationAngle(angle);
 
     lastPos.current = [newLat, newLng];
-    frameId = requestAnimationFrame(animate);
+    frameRef.current = requestAnimationFrame(animate);
   };
 
-  frameId = requestAnimationFrame(animate);
+  // 🧠 On ne démarre la boucle que si le véhicule est online
+  if (vehicle.online === "online") {
+    frameRef.current = requestAnimationFrame(animate);
+  }
 
-  return () => cancelAnimationFrame(frameId);
-}, [vehicle.online]);
+  // Nettoyage
+  return () => cancelAnimationFrame(frameRef.current);
+}, [vehicle.online]); // ⚠️ ne pas mettre lat/lng ici
 
-  // Icône dynamique
-  const vehicleIcon = L.icon({
-    iconUrl: vehiculeIconImg,
-    iconSize: [60, 60],
-    iconAnchor: [30, 30],
-    popupAnchor: [0, -25],
-    className: `vehicle-marker-${getSpeedColor(vehicle.speed)}`,
-  });
+  // --- Icône dynamique ---
+const vehicleIcon = L.icon({
+  iconUrl: vehiculeIconImg,
+  iconSize: [60, 60],
+  iconAnchor: [30, 30],
+  popupAnchor: [0, -25],
+  className: `vehicle-marker-${
+    vehicle.online === "online" ? getSpeedColor(vehicle.speed) : "offline"
+  }`,
+});
+
 
   return (
     <Marker
@@ -76,7 +94,13 @@ useEffect(() => {
           <h4>🚘 {vehicle.name}</h4>
           <p>
             📡 <b>Statut :</b>{" "}
-            <span className={vehicle.online === "online" ? "status-online" : "status-offline"}>
+            <span
+              className={
+                vehicle.online === "online"
+                  ? "status-online"
+                  : "status-offline"
+              }
+            >
               {vehicle.online}
             </span>
           </p>
