@@ -15,12 +15,42 @@ const FitBounds = ({ positions, maxZoom = 16, minZoom = 4 }) => {
   return null;
 };
 
+/* --- Calcul distance en km --- */
+function getDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) *
+      Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) ** 2;
+  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+}
+
+/* --- Filtre les mouvements irréalistes (>500 m) --- */
+function filterUnrealisticMoves(positions, maxDistanceKm = 0.5) {
+  if (positions.length < 2) return positions;
+  const result = [positions[0]];
+  for (let i = 1; i < positions.length; i++) {
+    const [lat1, lon1] = result[result.length - 1];
+    const [lat2, lon2] = positions[i];
+    const d = getDistanceKm(lat1, lon1, lat2, lon2);
+    if (d < maxDistanceKm) result.push(positions[i]);
+  }
+  return result;
+}
 
 const VehicleMap = ({ positions = [], lineColor = "blue", height = 400 }) => {
-  const validPositions = useMemo(
-    () => positions.filter(pos => Array.isArray(pos) && pos.length === 2),
-    [positions]
-  );
+  const validPositions = useMemo(() => {
+    const numeric = positions
+      .filter(p => Array.isArray(p) && p.length === 2)
+      .map(([lat, lng]) => [parseFloat(lat), parseFloat(lng)])
+      .filter(([lat, lng]) => !isNaN(lat) && !isNaN(lng));
+
+    // Supprimer les sauts GPS trop grands
+    return filterUnrealisticMoves(numeric, 0.5);
+  }, [positions]);
 
   const hasPositions = validPositions.length > 0;
 
@@ -28,7 +58,7 @@ const VehicleMap = ({ positions = [], lineColor = "blue", height = 400 }) => {
     <Card bordered style={{ borderRadius: 12 }} title="🗺️ Trajectoire">
       <MapContainer
         center={hasPositions ? validPositions[0] : [0, 0]}
-        zoom={hasPositions ? 13 : 2}
+        zoom={hasPositions ? 17 : 2}
         style={{ height, width: "100%", borderRadius: 8 }}
         scrollWheelZoom
       >
