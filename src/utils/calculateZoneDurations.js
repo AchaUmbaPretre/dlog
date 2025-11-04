@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-// 🧩 Formate la durée en h / min / sec
+//Formate la durée en h / min / sec
 const formatDuration = (minutes = 0, seconds = 0) => {
   const totalSeconds = minutes * 60 + seconds;
   const h = Math.floor(totalSeconds / 3600);
@@ -23,7 +23,7 @@ const haversineDistance = (lat1, lon1, lat2, lon2) => {
   return R * c;
 };
 
-// 🧩 Calcule le temps passé dans chaque zone pour chaque véhicule
+// Calcule le temps passé dans chaque zone pour chaque véhicule
 export const calculateZoneDurations = (eventsData) => {
   if (!eventsData || eventsData.length === 0) return [];
 

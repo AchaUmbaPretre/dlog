@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { DatePicker, Table, Typography, Tooltip, Modal, Tag, Space, message, Select, Button } from 'antd';
-import { CarOutlined, HourglassOutlined, ArrowRightOutlined, ArrowLeftOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { CarOutlined, ArrowRightOutlined, ArrowLeftOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
@@ -56,7 +56,6 @@ const MoniRealTime = () => {
 
       const eventsData = data?.items?.data || [];
       const durations = calculateZoneDurations(eventsData);
-            console.table(durations)
 
       const mapped = durations.map(e => ({ ...e, vehicule: e.vehicule }));
       setEvents(mapped);
