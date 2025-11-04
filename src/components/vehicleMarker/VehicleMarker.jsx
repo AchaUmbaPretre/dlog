@@ -22,31 +22,37 @@ export const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
   }, [vehicle, map, zoomLevel]);
 
   // Animation continue de la position
-  useEffect(() => {
-    const animate = () => {
-      if (!markerRef.current || vehicle.online !== "online") {
-        requestAnimationFrame(animate);
-        return;
-      }
+useEffect(() => {
+  let frameId;
 
-      const [latPrev, lngPrev] = lastPos.current;
-      const [latTarget, lngTarget] = targetPos.current;
+  const animate = () => {
+    if (!markerRef.current) return;
 
-      const newLat = latPrev + (latTarget - latPrev) * 0.08;
-      const newLng = lngPrev + (lngTarget - lngPrev) * 0.08;
+    if (vehicle.online !== "online") {
+      cancelAnimationFrame(frameId);
+      return;
+    }
 
-      markerRef.current.setLatLng([newLat, newLng]);
+    const [latPrev, lngPrev] = lastPos.current;
+    const [latTarget, lngTarget] = targetPos.current;
 
-      // Calcul angle direction
-      const angle =
-        Math.atan2(latTarget - latPrev, lngTarget - lngPrev) * (180 / Math.PI);
-      markerRef.current.setRotationAngle(angle);
+    const newLat = latPrev + (latTarget - latPrev) * 0.08;
+    const newLng = lngPrev + (lngTarget - lngPrev) * 0.08;
 
-      lastPos.current = [newLat, newLng];
-      requestAnimationFrame(animate);
-    };
-    animate();
-  }, [vehicle.online]);
+    markerRef.current.setLatLng([newLat, newLng]);
+
+    const angle =
+      Math.atan2(latTarget - latPrev, lngTarget - lngPrev) * (180 / Math.PI);
+    markerRef.current.setRotationAngle(angle);
+
+    lastPos.current = [newLat, newLng];
+    frameId = requestAnimationFrame(animate);
+  };
+
+  frameId = requestAnimationFrame(animate);
+
+  return () => cancelAnimationFrame(frameId);
+}, [vehicle.online]);
 
   // Icône dynamique
   const vehicleIcon = L.icon({
