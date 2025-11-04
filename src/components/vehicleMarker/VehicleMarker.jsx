@@ -16,17 +16,20 @@ export const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
 
   // --- Focus et mise à jour de la position cible ---
 // --- Focus et mise à jour de la position cible ---
+// --- Focus et mise à jour de la position cible ---
 useEffect(() => {
-  if (!vehicle) return;
+  if (!vehicle || !markerRef.current) return;
 
-  // 🔒 Ne pas recentrer ni bouger si le véhicule est offline
-  if (vehicle.online !== "online") {
-    return;
+  // Mettre à jour la position cible
+  targetPos.current = [vehicle.lat, vehicle.lng];
+
+  // Ne recentre la carte que si online
+  if (vehicle.online === "online") {
+    map.flyTo([vehicle.lat, vehicle.lng], zoomLevel, { duration: 0.7 });
   }
 
-  targetPos.current = [vehicle.lat, vehicle.lng];
-  map.flyTo([vehicle.lat, vehicle.lng], zoomLevel, { duration: 0.7 });
-  markerRef.current?.openPopup();
+  // Ouvre le popup toujours
+  markerRef.current.openPopup();
 }, [vehicle, map, zoomLevel]);
 
 // --- Animation fluide ---

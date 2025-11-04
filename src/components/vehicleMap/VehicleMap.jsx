@@ -41,7 +41,7 @@ function filterUnrealisticMoves(positions, maxDistanceKm = 0.5) {
   return result;
 }
 
-const VehicleMap = ({ positions = [], lineColor = "blue", height = 400 }) => {
+const VehicleMap = ({ positions = [], lineColor = "blue", height = 300 }) => {
   const validPositions = useMemo(() => {
     const numeric = positions
       .filter(p => Array.isArray(p) && p.length === 2)
