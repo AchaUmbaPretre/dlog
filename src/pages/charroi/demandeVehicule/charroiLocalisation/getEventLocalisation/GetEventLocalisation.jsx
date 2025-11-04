@@ -8,7 +8,6 @@ import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import html2pdf from 'html2pdf.js';
 import { VehicleAddress } from '../../../../../utils/vehicleAddress';
-import GetHistory from '../getHistory/GetHistory';
 import { getEvent } from '../../../../../services/rapportService';
 import { processEvents } from '../../../../../utils/processEvent';
 import RapportEventHistory from '../rapportEvent/rapportEventHistory/RapportEventHistory';
@@ -65,7 +64,7 @@ const GetEventLocalisation = () => {
     }
   };
 
-  // 🔹 Chargement initial (ou lors d’un changement de filtre)
+  // Chargement initial (ou lors d’un changement de filtre)
   useEffect(() => {
     const from = dateRange[0]
       ? dateRange[0].format('YYYY-MM-DD HH:mm:ss')
@@ -76,7 +75,7 @@ const GetEventLocalisation = () => {
     fetchData(from, to);
   }, [dateRange, selectedVehicle]);
 
-  // 🔹 Rafraîchissement silencieux toutes les 30s
+  // Rafraîchissement silencieux toutes les 30s
   useEffect(() => {
     const interval = setInterval(() => {
       const from = dateRange[0]
@@ -224,68 +223,70 @@ const GetEventLocalisation = () => {
   };
 
   return (
-    <div className="event_container">
-      <h2 className="title_event">📊 Détail des événements</h2>
-      <div className="event_wrapper">
-        <div className="event_top">
-            <div className="event_top_row">
-                <RangePicker
-                    style={{ width: '100%' }}
-                    value={dateRange}
-                    onChange={handleDateChange}
-                    allowClear
-                    showTime={{ format: 'HH:mm' }}
-                    format="DD/MM/YYYY HH:mm"
-                    placeholder={['Date et heure début', 'Date et heure fin']}
-                />
-                <Select
-                    showSearch
-                    style={{ width: '100%' }}
-                    placeholder="Filtrer par véhicule"
-                    value={selectedVehicle}
-                    onChange={handleVehicleChange}
-                    allowClear
-                    optionFilterProp="children"
-                    filterOption={(input, option) =>
-                      option?.children?.toLowerCase().includes(input.toLowerCase())
-                    }
-                >
-                    {vehicles.map(v => <Option key={v} value={v}>{v}</Option>)}
-                </Select>
+    <>
+      <div className="event_container">
+        <h2 className="title_event">📊 Détail des événements</h2>
+        <div className="event_wrapper">
+          <div className="event_top">
+              <div className="event_top_row">
+                  <RangePicker
+                      style={{ width: '100%' }}
+                      value={dateRange}
+                      onChange={handleDateChange}
+                      allowClear
+                      showTime={{ format: 'HH:mm' }}
+                      format="DD/MM/YYYY HH:mm"
+                      placeholder={['Date et heure début', 'Date et heure fin']}
+                  />
+                  <Select
+                      showSearch
+                      style={{ width: '100%' }}
+                      placeholder="Filtrer par véhicule"
+                      value={selectedVehicle}
+                      onChange={handleVehicleChange}
+                      allowClear
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        option?.children?.toLowerCase().includes(input.toLowerCase())
+                      }
+                  >
+                      {vehicles.map(v => <Option key={v} value={v}>{v}</Option>)}
+                  </Select>
+              </div>
+            <div className='row_lateral'>
+              <Space>
+                <Button type="primary" icon={<FileExcelOutlined />} onClick={exportToExcel}>Export Excel</Button>
+                <Button type="primary" danger icon={<FilePdfOutlined />} onClick={exportToPDF}>Export PDF</Button>
+                <Button onClick={() => setShowPosition(prev => !prev)}>
+                  {showPosition ? "Masquer Position" : "Afficher Position"}
+                </Button>
+              </Space>
             </div>
-          <div className='row_lateral'>
-            <Space>
-              <Button type="primary" icon={<FileExcelOutlined />} onClick={exportToExcel}>Export Excel</Button>
-              <Button type="primary" danger icon={<FilePdfOutlined />} onClick={exportToPDF}>Export PDF</Button>
-              <Button onClick={() => setShowPosition(prev => !prev)}>
-                {showPosition ? "Masquer Position" : "Afficher Position"}
-              </Button>
-            </Space>
+          </div>
+          <div className="event_bottom" ref={tableRef}>
+            <Table
+              columns={columns}
+              dataSource={filteredEvents}
+              rowKey={record => record.id || record.external_id}
+              loading={loading}
+              pagination={{ pageSize: 10 }}
+              bordered
+              size="middle"
+            />
           </div>
         </div>
-        <div className="event_bottom" ref={tableRef}>
-          <Table
-            columns={columns}
-            dataSource={filteredEvents}
-            rowKey={record => record.id || record.external_id}
-            loading={loading}
-            pagination={{ pageSize: 10 }}
-            bordered
-            size="middle"
-          />
-        </div>
+        <Modal
+          title=""
+          visible={modalType === 'device'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1200}
+          centered
+        >
+          <RapportEventHistory idDevice={idDevice} dateRanges={dateRange} />
+        </Modal>
       </div>
-      <Modal
-        title=""
-        visible={modalType === 'device'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1200}
-        centered
-      >
-        <RapportEventHistory idDevice={idDevice} dateRanges={dateRange} />
-      </Modal>
-    </div>
+    </>
   );
 };
 

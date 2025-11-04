@@ -110,165 +110,164 @@ const MoniRealTime = () => {
   const closeAllModals = () => setModalType(null);
 
   // Colonnes Table
-const columns = [
-  {
-    title: '#',
-    dataIndex: '#',
-    width: 50,
-    align: 'center',
-    render: (_, __, index) => <strong>{index + 1}</strong>,
-  },
-  {
-    title: 'Véhicule',
-    dataIndex: 'vehicule',
-    key: 'vehicule',
-    ...getColumnSearchProps('vehicule', searchText, setSearchText, setSearchedColumn, searchInput),
-    render: (text) => (
-      <Space>
-        <CarOutlined style={{ color: '#1890ff', fontSize: 18 }} />
-        <span style={{ fontWeight: 600, color: '#0a3d62' }}>{text || 'N/A'}</span>
-      </Space>
-    ),
-  },
-  {
-    title: 'Zone',
-    dataIndex: 'zone',
-    key: 'zone',
-    ...getColumnSearchProps('zone', searchText, setSearchText, setSearchedColumn, searchInput),
-    render: (text) => <Text>{text || 'N/A'}</Text>,
-  },
-  {
-    title: 'Entrée / Sortie',
-    key: 'entry_exit',
-    render: (_, record) => (
-      <div>
-        <div>
-          <ArrowRightOutlined style={{ color: '#52c41a', marginRight: 4 }} />
-          <span>{record.entree ? dayjs(record.entree, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm') : 'N/A'}</span>
-        </div>
-        <div>
-          {record.sortie ? (
-            <>
-              <ArrowLeftOutlined style={{ color: '#f5222d', marginRight: 4 }} />
-              <span>{dayjs(record.sortie, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}</span>
-            </>
-          ) : (
-            <Tag color="#fa8c16">⏳ En cours</Tag>
-          )}
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: 'Depuis zone préc.',
-    dataIndex: 'duree_depuis_zone_precedente',
-    key: 'duree_depuis_zone_precedente',
-    render: (text) => {
-      if (!text) return <span>—</span>;
-
-      // couleur par défaut
-      let color = '#52c41a'; // vert
-      const match = text.match(/(\d+)h/) || text.match(/(\d+)min/) || text.match(/(\d+)sec/);
-      if (match) {
-        const value = parseInt(match[1], 10);
-        if (text.includes('h') || value > 30) color = '#f5222d';
-        else if (value > 15) color = '#fa8c16';
-        else if (value > 5) color = '#a0d911';
-      }
-
-      return (
-        <Tooltip title={text}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <ClockCircleOutlined style={{ color, fontWeight: 'bold' }} />
-            <span>{text}</span>
-          </span>
-        </Tooltip>
-      );
+  const columns = [
+    {
+      title: '#',
+      dataIndex: '#',
+      width: 50,
+      align: 'center',
+      render: (_, __, index) => <strong>{index + 1}</strong>,
     },
-  },
-  {
-    title: 'Durée dans zone',
-    dataIndex: 'duree_text',
-    key: 'duree_text',
-    render: (_, record) => {
-      const isCheckP  = record.zone.startsWith('CheckP')
-      if (record.duree_text === 'En cours') return <Tag color="#fa8c16">En cours</Tag>;
-      const totalSeconds = (record.duree_minutes || 0) * 60 + (record.duree_secondes || 0);
-      const h = Math.floor(totalSeconds / 3600);
-      const m = Math.floor((totalSeconds % 3600) / 60);
-      const s = totalSeconds % 60;
-      let color = '#52c41a';
-      if (totalSeconds > 1800) color = '#f5222d';
-      else if (totalSeconds > 900) color = '#fa8c16';
-      else if (totalSeconds > 300) color = '#a0d911';
-      return <Tag color={isCheckP ? color: 'default'}>{`${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`}</Tag>;
-    },
-  },
-  {
-    title: 'Distance (km)',
-    dataIndex: 'distance_km',
-    key: 'distance_km',
-    align: 'center',
-    render: (value) => {
-      if (!value) return <Tag color="gray">N/A</Tag>;
-      let color = '#52c41a';
-      if (value > 50) color = '#f5222d';
-      else if (value > 20) color = '#fa8c16';
-      else if (value > 5) color = '#a0d911';
-      return <Tag color={color}>{value.toFixed(1)} km</Tag>;
-    },
-  },
-  {
-    title: 'Vitesse M. (km/h)',
-    dataIndex: 'vitesse_moyenne',
-    key: 'vitesse_moyenne',
-    align: 'center',
-    render: (value) => {
-      if (!value) return <Tag color="gray">N/A</Tag>;
-      let color = '#52c41a';
-      if (value > 100) color = '#f5222d';
-      else if (value > 60) color = '#fa8c16';
-      else if (value > 30) color = '#a0d911';
-      return <Tag color={color}>{value.toFixed(1)} km/h</Tag>;
-    },
-  },
-  {
-    title: 'Position',
-    key: 'position',
-    align: 'center',
-    render: (_, record) =>
-      record.latitude && record.longitude ? (
-        <Tooltip title={`${record.latitude}, ${record.longitude}`}>
-          <Button
-            shape="circle"
-            size="small"
-            icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
-            onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
-          />
-        </Tooltip>
-      ) : (
-        <Tag color="gray">N/A</Tag>
+    {
+      title: 'Véhicule',
+      dataIndex: 'vehicule',
+      key: 'vehicule',
+      ...getColumnSearchProps('vehicule', searchText, setSearchText, setSearchedColumn, searchInput),
+      render: (text) => (
+        <Space>
+          <CarOutlined style={{ color: '#1890ff', fontSize: 18 }} />
+          <span style={{ fontWeight: 600, color: '#0a3d62' }}>{text || 'N/A'}</span>
+        </Space>
       ),
-  },
-  {
-    title: 'Actions',
-    key: 'actions',
-    align: 'center',
-    render: (_, record) => (
-      <Space>
-        <Tooltip title="Voir l'historique du véhicule">
-          <Button
-            shape="circle"
-            size="small"
-            icon={<EyeOutlined style={{ color: '#1890ff' }} />}
-            onClick={() => openModal('device', record.device_id)}
-          />
-        </Tooltip>
-      </Space>
-    ),
-  },
-];
+    },
+    {
+      title: 'Zone',
+      dataIndex: 'zone',
+      key: 'zone',
+      ...getColumnSearchProps('zone', searchText, setSearchText, setSearchedColumn, searchInput),
+      render: (text) => <Text>{text || 'N/A'}</Text>,
+    },
+    {
+      title: 'Entrée / Sortie',
+      key: 'entry_exit',
+      render: (_, record) => (
+        <div>
+          <div>
+            <ArrowRightOutlined style={{ color: '#52c41a', marginRight: 4 }} />
+            <span>{record.entree ? dayjs(record.entree, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm') : 'N/A'}</span>
+          </div>
+          <div>
+            {record.sortie ? (
+              <>
+                <ArrowLeftOutlined style={{ color: '#f5222d', marginRight: 4 }} />
+                <span>{dayjs(record.sortie, 'DD-MM-YYYY HH:mm:ss').format('DD/MM/YYYY HH:mm')}</span>
+              </>
+            ) : (
+              <Tag color="#fa8c16">⏳ En cours</Tag>
+            )}
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: 'Depuis zone préc.',
+      dataIndex: 'duree_depuis_zone_precedente',
+      key: 'duree_depuis_zone_precedente',
+      render: (text) => {
+        if (!text) return <span>—</span>;
 
+        // couleur par défaut
+        let color = '#52c41a'; // vert
+        const match = text.match(/(\d+)h/) || text.match(/(\d+)min/) || text.match(/(\d+)sec/);
+        if (match) {
+          const value = parseInt(match[1], 10);
+          if (text.includes('h') || value > 30) color = '#f5222d';
+          else if (value > 15) color = '#fa8c16';
+          else if (value > 5) color = '#a0d911';
+        }
+
+        return (
+          <Tooltip title={text}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <ClockCircleOutlined style={{ color, fontWeight: 'bold' }} />
+              <span>{text}</span>
+            </span>
+          </Tooltip>
+        );
+      },
+    },
+    {
+      title: 'Durée dans zone',
+      dataIndex: 'duree_text',
+      key: 'duree_text',
+      render: (_, record) => {
+        const isCheckP  = record.zone.startsWith('CheckP')
+        if (record.duree_text === 'En cours') return <Tag color="#fa8c16">En cours</Tag>;
+        const totalSeconds = (record.duree_minutes || 0) * 60 + (record.duree_secondes || 0);
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+        let color = '#52c41a';
+        if (totalSeconds > 1800) color = '#f5222d';
+        else if (totalSeconds > 900) color = '#fa8c16';
+        else if (totalSeconds > 300) color = '#a0d911';
+        return <Tag color={isCheckP ? color: 'default'}>{`${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`}</Tag>;
+      },
+    },
+    {
+      title: 'Distance (km)',
+      dataIndex: 'distance_km',
+      key: 'distance_km',
+      align: 'center',
+      render: (value) => {
+        if (!value) return <Tag color="gray">N/A</Tag>;
+        let color = '#52c41a';
+        if (value > 50) color = '#f5222d';
+        else if (value > 20) color = '#fa8c16';
+        else if (value > 5) color = '#a0d911';
+        return <Tag color={color}>{value.toFixed(1)} km</Tag>;
+      },
+    },
+    {
+      title: 'Vitesse M. (km/h)',
+      dataIndex: 'vitesse_moyenne',
+      key: 'vitesse_moyenne',
+      align: 'center',
+      render: (value) => {
+        if (!value) return <Tag color="gray">N/A</Tag>;
+        let color = '#52c41a';
+        if (value > 100) color = '#f5222d';
+        else if (value > 60) color = '#fa8c16';
+        else if (value > 30) color = '#a0d911';
+        return <Tag color={color}>{value.toFixed(1)} km/h</Tag>;
+      },
+    },
+    {
+      title: 'Position',
+      key: 'position',
+      align: 'center',
+      render: (_, record) =>
+        record.latitude && record.longitude ? (
+          <Tooltip title={`${record.latitude}, ${record.longitude}`}>
+            <Button
+              shape="circle"
+              size="small"
+              icon={<EnvironmentOutlined style={{ color: '#f5222d' }} />}
+              onClick={() => window.open(`https://www.google.com/maps?q=${record.latitude},${record.longitude}`, '_blank')}
+            />
+          </Tooltip>
+        ) : (
+          <Tag color="gray">N/A</Tag>
+        ),
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      align: 'center',
+      render: (_, record) => (
+        <Space>
+          <Tooltip title="Voir l'historique du véhicule">
+            <Button
+              shape="circle"
+              size="small"
+              icon={<EyeOutlined style={{ color: '#1890ff' }} />}
+              onClick={() => openModal('device', record.device_id)}
+            />
+          </Tooltip>
+        </Space>
+      ),
+    },
+  ];
 
 
   // Liste unique véhicules

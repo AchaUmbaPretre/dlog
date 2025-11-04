@@ -9,6 +9,7 @@ import {
   Space,
   Tooltip,
   Button,
+  Tabs,
   Collapse
 } from "antd";
 import dayjs from "dayjs";
@@ -29,7 +30,7 @@ import {
 import { getEvent, getEventHistory } from "../../../../../services/rapportService";
 import config from "../../../../../config";
 import VehicleCard from "../../../../../components/vehicleCard/VehicleCard";
-import { EnvironmentOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, FileSearchOutlined } from '@ant-design/icons';
 import VehicleMap from "../../../../../components/vehicleMap/VehicleMap";
 import { calculateZoneDurations } from "../../../../../utils/calculateZoneDurations";
 import GetDetailCheckpZone from "./getDetailCheckpZone/GetDetailCheckpZone";
@@ -61,8 +62,13 @@ const GetHistory = ({ id }) => {
   const [vehicleData, setVehicleData] = useState(null);
   const [activePanels, setActivePanels] = useState([]);
   const [events, setEvents] = useState([]);
-
   const apiHash = config.api_hash;
+
+  const [activeKey, setActiveKey] = useState(['1', '2']);
+  
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
 
   const fetchData = async (from, to) => {
     try {
@@ -240,74 +246,117 @@ const GetHistory = ({ id }) => {
   ];
 
   return (
-    <div className="event_container" style={{ padding: 20 }}>
-      <AntTitle level={3} style={{ marginBottom: 20 }}>
-        📊 Détails du véhicule
-      </AntTitle>
+    <>
+      <Tabs
+        activeKey={activeKey[0]}
+        onChange={handleTabChange}
+        type="card"
+        tabPosition="top"
+        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+      >
+        <Tabs.TabPane
+          tab={
+            <span>
+              <FileSearchOutlined
+              style={{
+                color: '#1890ff',
+                fontSize: '18px',
+                marginRight: '8px',
+              }}
+            />
+              Détail general
+            </span>
+              }
+          key="1"
+        >
+          <div className="event_container" style={{ padding: 20 }}>
+            <AntTitle level={3} style={{ marginBottom: 20 }}>
+              📊 Détails du véhicule
+            </AntTitle>
 
-      <div className="event_top" style={{ marginBottom: 20 }}>
-        <RangePicker
-          style={{ width: "100%" }}
-          value={dateRange}
-          onChange={handleDateChange}
-          allowClear
-          showTime={{ format: "HH:mm" }}
-          format="DD/MM/YYYY HH:mm"
-          placeholder={["Date début", "Date fin"]}
-        />
-      </div>
+            <div className="event_top" style={{ marginBottom: 20 }}>
+              <RangePicker
+                style={{ width: "100%" }}
+                value={dateRange}
+                onChange={handleDateChange}
+                allowClear
+                showTime={{ format: "HH:mm" }}
+                format="DD/MM/YYYY HH:mm"
+                placeholder={["Date début", "Date fin"]}
+              />
+            </div>
 
-      {loading && (
-        <div style={{ textAlign: "center", margin: "40px 0" }}>
-          <Spin size="large" tip="Chargement des données..." />
-        </div>
-      )}
+            {loading && (
+              <div style={{ textAlign: "center", margin: "40px 0" }}>
+                <Spin size="large" tip="Chargement des données..." />
+              </div>
+            )}
 
-      {!loading && !vehicleData && <Empty description="Aucune donnée disponible" />}
+            {!loading && !vehicleData && <Empty description="Aucune donnée disponible" />}
 
-      {vehicleData && (
-        <Space direction="vertical" size="large" style={{ width: "100%" }}>
-          {/* Infos générales */}
-          <VehicleCard vehicleData={vehicleData} tableData={tableData} totalDistance={totalDistance} />
+            {vehicleData && (
+              <Space direction="vertical" size="large" style={{ width: "100%" }}>
+                {/* Infos générales */}
+                <VehicleCard vehicleData={vehicleData} tableData={tableData} totalDistance={totalDistance} />
 
-          {/* Carte */}
-          <VehicleMap positions={positions}/>
+                {/* Carte */}
+                <VehicleMap positions={positions}/>
 
-          {/* Collapse pour Graphiques et Table événements */}
-          <Collapse 
-            activeKey={activePanels} 
-            onChange={handlePanelChange}
-            style={{ width: "100%" }}
+                {/* Collapse pour Graphiques et Table événements */}
+                <Collapse 
+                  activeKey={activePanels} 
+                  onChange={handlePanelChange}
+                  style={{ width: "100%" }}
+                >
+                  {/* Graphiques */}
+                  <Panel header="📈 Graphiques" key="graphiques">
+                    <Line
+                      data={chartData}
+                      options={{
+                        responsive: true,
+                        plugins: { legend: { position: "top" } },
+                      }}
+                    />
+                  </Panel>
+
+                  {/* Table événements */}
+                  <Panel header="📝 Historiques" key="historiques">
+                    <Table
+                      columns={itemColumns}
+                      dataSource={tableData}
+                      loading={loading}
+                      pagination={{ pageSize: 10 }}
+                      scroll={{ x: true }}
+                    />
+                  </Panel>
+
+                  <Panel header="📝 Detail" key="detail">
+                    <GetDetailCheckpZone events={events} />
+                  </Panel>
+                </Collapse>
+              </Space>
+            )}
+          </div>
+        </Tabs.TabPane>
+        <Tabs.TabPane
+          tab={
+            <span>
+              <FileSearchOutlined
+              style={{
+                color: '#1890ff',
+                fontSize: '18px',
+                marginRight: '8px',
+              }}
+              />
+              Gestion carburant diesel
+            </span>
+              }
+            key="2"
           >
-            {/* Graphiques */}
-            <Panel header="📈 Graphiques" key="graphiques">
-              <Line
-                data={chartData}
-                options={{
-                  responsive: true,
-                  plugins: { legend: { position: "top" } },
-                }}
-              />
-            </Panel>
 
-            {/* Table événements */}
-            <Panel header="📝 Historiques" key="historiques">
-              <Table
-                columns={itemColumns}
-                dataSource={tableData}
-                loading={loading}
-                pagination={{ pageSize: 10 }}
-                scroll={{ x: true }}
-              />
-            </Panel>
-
-            <Panel header="📝 Detail" key="detail">
-              <GetDetailCheckpZone events={events} />
-            </Panel>
-          </Collapse>
-        </Space>
-      )}
-    </div>
+        </Tabs.TabPane>
+      </Tabs>
+    </>
   );
 };
 

@@ -308,20 +308,6 @@ const InspectionGen = () => {
       fetchDataInsp(filteredDatas,searchValue);
   }, [searchValue, filteredDatas, filterVisible]);
 
-/*       useEffect(() => {
-      const handleReconnect = () => {
-        fetchDataInsp(filteredDatas);
-      };
-  
-      window.addEventListener('online', handleReconnect);
-  
-      fetchDataInsp(filteredDatas);
-  
-      return () => {
-          window.removeEventListener('online', handleReconnect);
-      };
-  }, [searchValue, filteredDatas]); */
-
   const handleAddInspection = () => openModal('Add');
   const handleEdit = (id) => openModal('Edit', id)
   const handleDetail = (id) => openModal('DetailInspection', id)
