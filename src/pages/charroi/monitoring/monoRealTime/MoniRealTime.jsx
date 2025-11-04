@@ -192,7 +192,6 @@ const columns = [
     key: 'duree_text',
     render: (_, record) => {
       const isCheckP  = record.zone.startsWith('CheckP')
-      console.table(isCheckP)
       if (record.duree_text === 'En cours') return <Tag color="#fa8c16">En cours</Tag>;
       const totalSeconds = (record.duree_minutes || 0) * 60 + (record.duree_secondes || 0);
       const h = Math.floor(totalSeconds / 3600);

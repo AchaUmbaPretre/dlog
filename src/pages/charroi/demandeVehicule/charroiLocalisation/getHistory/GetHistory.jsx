@@ -26,11 +26,13 @@ import {
   Legend,
 } from "chart.js";
 
-import { getEventHistory } from "../../../../../services/rapportService";
+import { getEvent, getEventHistory } from "../../../../../services/rapportService";
 import config from "../../../../../config";
 import VehicleCard from "../../../../../components/vehicleCard/VehicleCard";
 import { EnvironmentOutlined } from '@ant-design/icons';
 import VehicleMap from "../../../../../components/vehicleMap/VehicleMap";
+import { calculateZoneDurations } from "../../../../../utils/calculateZoneDurations";
+import GetDetailCheckpZone from "./getDetailCheckpZone/GetDetailCheckpZone";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -58,6 +60,7 @@ const GetHistory = ({ id }) => {
   const [loading, setLoading] = useState(false);
   const [vehicleData, setVehicleData] = useState(null);
   const [activePanels, setActivePanels] = useState([]);
+  const [events, setEvents] = useState([]);
 
   const apiHash = config.api_hash;
 
@@ -84,11 +87,32 @@ const GetHistory = ({ id }) => {
     }
   };
 
+    const fetchDatas = async (from, to) => {
+      try {
+        const { data } = await getEvent({
+          date_from: from,
+          date_to: to,
+          lang: "fr",
+          limit: 2000,
+          user_api_hash: apiHash
+        });
+  
+        const eventsData = data?.items?.data || [];
+        const eventFiltre = eventsData.filter((ids) => ids.device_id === id);
+        const durations = calculateZoneDurations(eventFiltre);
+
+        const mapped = durations.map(e => ({ ...e, vehicule: e.vehicule }));
+        setEvents(mapped);
+      } catch (error) {
+        console.error("Erreur lors du fetch:", error);
+      }
+    };
   useEffect(() => {
     const startOfDay = dayjs().startOf("day").format("YYYY-MM-DD HH:mm:ss");
     const endOfDay = dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");
     setDateRange([dayjs().startOf("day"), dayjs().endOf("day")]);
     fetchData(startOfDay, endOfDay);
+    fetchDatas(startOfDay, endOfDay)
   }, [id]);
 
   const handleDateChange = (values) => {
@@ -275,6 +299,10 @@ const GetHistory = ({ id }) => {
                 pagination={{ pageSize: 10 }}
                 scroll={{ x: true }}
               />
+            </Panel>
+
+            <Panel header="📝 Detail" key="detail">
+              <GetDetailCheckpZone events={events} />
             </Panel>
           </Collapse>
         </Space>

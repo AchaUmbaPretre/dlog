@@ -280,7 +280,7 @@ const GetEventLocalisation = () => {
         visible={modalType === 'device'}
         onCancel={closeAllModals}
         footer={null}
-        width={1090}
+        width={1200}
         centered
       >
         <RapportEventHistory idDevice={idDevice} dateRanges={dateRange} />
