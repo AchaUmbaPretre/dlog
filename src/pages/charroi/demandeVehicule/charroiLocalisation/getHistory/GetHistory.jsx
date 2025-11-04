@@ -30,7 +30,7 @@ import {
 import { getEvent, getEventHistory } from "../../../../../services/rapportService";
 import config from "../../../../../config";
 import VehicleCard from "../../../../../components/vehicleCard/VehicleCard";
-import { EnvironmentOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, InfoCircleOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
 import VehicleMap from "../../../../../components/vehicleMap/VehicleMap";
 import { calculateZoneDurations } from "../../../../../utils/calculateZoneDurations";
 import GetDetailCheckpZone from "./getDetailCheckpZone/GetDetailCheckpZone";
@@ -127,6 +127,7 @@ const GetHistory = ({ id }) => {
       const from = values[0].format("YYYY-MM-DD HH:mm:ss");
       const to = values[1].format("YYYY-MM-DD HH:mm:ss");
       fetchData(from, to);
+      fetchDatas(from, to);
     }
   };
 
@@ -257,14 +258,14 @@ const GetHistory = ({ id }) => {
         <Tabs.TabPane
           tab={
             <span>
-              <FileSearchOutlined
-              style={{
-                color: '#1890ff',
-                fontSize: '18px',
-                marginRight: '8px',
-              }}
-            />
-              Détail general
+              <InfoCircleOutlined
+                style={{
+                  color: '#52c41a',
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
+              />
+              Détail général
             </span>
               }
           key="1"
