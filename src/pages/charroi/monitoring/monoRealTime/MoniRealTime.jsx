@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { DatePicker, Table, Typography, Tooltip, Modal, Tag, Space, message, Select, Button } from 'antd';
-import { CarOutlined, ArrowRightOutlined, ArrowLeftOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { CarOutlined, ClockCircleOutlined, ArrowRightOutlined, ArrowLeftOutlined, EnvironmentOutlined, EyeOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
@@ -171,15 +171,15 @@ const columns = [
       const match = text.match(/(\d+)h/) || text.match(/(\d+)min/) || text.match(/(\d+)sec/);
       if (match) {
         const value = parseInt(match[1], 10);
-        if (text.includes('h') || value > 30) color = '#f5222d'; // rouge
-        else if (value > 15) color = '#fa8c16'; // orange
-        else if (value > 5) color = '#a0d911'; // vert clair
+        if (text.includes('h') || value > 30) color = '#f5222d';
+        else if (value > 15) color = '#fa8c16';
+        else if (value > 5) color = '#a0d911';
       }
 
       return (
         <Tooltip title={text}>
           <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <ArrowRightOutlined style={{ color, fontWeight: 'bold' }} />
+            <ClockCircleOutlined style={{ color, fontWeight: 'bold' }} />
             <span>{text}</span>
           </span>
         </Tooltip>
@@ -191,6 +191,8 @@ const columns = [
     dataIndex: 'duree_text',
     key: 'duree_text',
     render: (_, record) => {
+      const isCheckP  = record.zone.startsWith('CheckP')
+      console.table(isCheckP)
       if (record.duree_text === 'En cours') return <Tag color="#fa8c16">En cours</Tag>;
       const totalSeconds = (record.duree_minutes || 0) * 60 + (record.duree_secondes || 0);
       const h = Math.floor(totalSeconds / 3600);
@@ -200,7 +202,7 @@ const columns = [
       if (totalSeconds > 1800) color = '#f5222d';
       else if (totalSeconds > 900) color = '#fa8c16';
       else if (totalSeconds > 300) color = '#a0d911';
-      return <Tag color={color}>{`${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`}</Tag>;
+      return <Tag color={isCheckP ? color: 'default'}>{`${h > 0 ? h + 'h ' : ''}${m}min ${s}sec`}</Tag>;
     },
   },
   {
