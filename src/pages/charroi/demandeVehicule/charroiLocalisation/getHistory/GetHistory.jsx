@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   DatePicker,
   message,
-  Card,
   Table,
   Spin,
   Empty,
@@ -10,7 +9,7 @@ import {
   Space,
   Tooltip,
   Button,
-  Collapse // Ajouter l'import
+  Collapse
 } from "antd";
 import dayjs from "dayjs";
 import L from "leaflet";
@@ -52,13 +51,13 @@ ChartJS.register(
 
 const { RangePicker } = DatePicker;
 const { Title: AntTitle, Text } = Typography;
-const { Panel } = Collapse; // Destructurer Panel
+const { Panel } = Collapse;
 
 const GetHistory = ({ id }) => {
   const [dateRange, setDateRange] = useState([]);
   const [loading, setLoading] = useState(false);
   const [vehicleData, setVehicleData] = useState(null);
-  const [activePanels, setActivePanels] = useState([]); // État pour gérer les panels ouverts
+  const [activePanels, setActivePanels] = useState([]);
 
   const apiHash = config.api_hash;
 
