@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import { Card } from "antd";
 import { MapContainer, TileLayer, Marker, Polyline, Tooltip, useMap } from "react-leaflet";
 
@@ -11,7 +11,6 @@ const FitBounds = ({ positions, maxZoom = 16, minZoom = 4 }) => {
       map.fitBounds(positions, { padding: [50, 50], maxZoom, minZoom });
     }
   }, [map, positions, maxZoom, minZoom]);
-
   return null;
 };
 
