@@ -12,11 +12,8 @@ export const VehicleMarker = ({ vehicle, address, zoomLevel = 15 }) => {
   const lastPos = useRef([vehicle?.lat, vehicle?.lng]);
   const targetPos = useRef([vehicle?.lat, vehicle?.lng]);
   const map = useMap();
-  const frameRef = useRef(null); // pour gérer la boucle d’animation
+  const frameRef = useRef(null);
 
-  // --- Focus et mise à jour de la position cible ---
-// --- Focus et mise à jour de la position cible ---
-// --- Focus et mise à jour de la position cible ---
 useEffect(() => {
   if (!vehicle || !markerRef.current) return;
 
@@ -28,7 +25,6 @@ useEffect(() => {
     map.flyTo([vehicle.lat, vehicle.lng], zoomLevel, { duration: 0.7 });
   }
 
-  // Ouvre le popup toujours
   markerRef.current.openPopup();
 }, [vehicle, map, zoomLevel]);
 
