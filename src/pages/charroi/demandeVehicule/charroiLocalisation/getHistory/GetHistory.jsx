@@ -30,7 +30,7 @@ import {
 import { getEvent, getEventHistory } from "../../../../../services/rapportService";
 import config from "../../../../../config";
 import VehicleCard from "../../../../../components/vehicleCard/VehicleCard";
-import { EnvironmentOutlined, FileSearchOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
 import VehicleMap from "../../../../../components/vehicleMap/VehicleMap";
 import { calculateZoneDurations } from "../../../../../utils/calculateZoneDurations";
 import GetDetailCheckpZone from "./getDetailCheckpZone/GetDetailCheckpZone";
@@ -341,12 +341,12 @@ const GetHistory = ({ id }) => {
         <Tabs.TabPane
           tab={
             <span>
-              <FileSearchOutlined
-              style={{
-                color: '#1890ff',
-                fontSize: '18px',
-                marginRight: '8px',
-              }}
+              <CarOutlined
+                style={{
+                  color: '#1890ff',
+                  fontSize: '18px',
+                  marginRight: '8px',
+                }}
               />
               Gestion carburant diesel
             </span>
