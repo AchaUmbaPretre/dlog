@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Input, Select, Tooltip, Row, Col, DatePicker, notification, Skeleton, Modal } from 'antd';
+import { Button, Form, Input, Select, Row, Col, DatePicker, notification, Skeleton, Modal } from 'antd';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
 import { getChauffeur, getVehicule } from '../../../../services/charroiService';
 import { getFournisseur } from '../../../../services/fournisseurService';
 import { postCarburant } from '../../../../services/carburantService';
@@ -13,7 +12,6 @@ const CarburantForm = ({ closeModal, fetchData }) => {
     const [fournisseur, setFournisseur] = useState([]);
     const [vehicules, setVehicules] = useState([]);
     const [chauffeur, setChauffeur] = useState([]);
-    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const fetchDataAll = async () => {
         setIsLoading(true);
@@ -47,7 +45,6 @@ const CarburantForm = ({ closeModal, fetchData }) => {
         setLoading(true)
 
         try {
-            
             await postCarburant(values)
             notification.success({
                 message: 'Succès',
