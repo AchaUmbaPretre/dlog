@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Button, Form, Input, Select, Tooltip, Row, Col, DatePicker, notification, Skeleton, Modal } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getChauffeur, getVehicule } from '../../../../services/charroiService';
 import { getFournisseur } from '../../../../services/fournisseurService';
+import { postCarburant } from '../../../../services/carburantService';
 
-const CarburantForm = ({ closeModal, fetchData, id_carburant }) => {
+const CarburantForm = ({ closeModal, fetchData }) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [loading, setLoading] = useState(false);
     const [fournisseur, setFournisseur] = useState([]);
     const [vehicules, setVehicules] = useState([]);
     const [chauffeur, setChauffeur] = useState([]);
-    const navigate = useNavigate();
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const fetchDataAll = async () => {
@@ -35,65 +33,27 @@ const CarburantForm = ({ closeModal, fetchData, id_carburant }) => {
             setIsLoading(false);
         }
     };
-
-    const handlClient = () => openModal('AddClient');
-    const handlBatiment = () => openModal('AddBatiment');
-    const handlNiveau = () => openModal('AddNiveau');
-    const handlDenom = () => openModal('AddDenom');
-    const handlContrat = () => openModal('AddContrat');
-
-    const closeAllModals = () => {
-        setModalType(null);
-      };
       
-      const openModal = (type) => {
-        setModalType(type);
-      };
-
-    useEffect(() => {
-        fetchDataAll();
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idBatiment ]);
-
     useEffect(() => {
         form.resetFields()
-      }, [form]);
-
-    const handleTemplateChange = async () => {
-        try {
-            const { data} = await getTemplateOne(idTemplate);
-        
-            form.setFieldsValue({
-                ...data[0],
-                date_actif : moment(data[0].date_actif, 'YYYY-MM-DD')
-            });
-        } catch (error) {
-            console.log(error)
-        }
-    };
+    }, [form]);
     
     useEffect(() => {
-        handleTemplateChange()
+        fetchDataAll()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idTemplate]);
+    }, []);
 
     const onFinish = async (values) => {
         setLoading(true)
 
         try {
-            if(idTemplate) {
-                await putTemplate(idTemplate, values)
-            }
-            else{
-                await postTemplate(values,userId)
-            }
+            
+            await postCarburant(values)
             notification.success({
                 message: 'Succès',
                 description: 'Les informations ont été enregistrées avec succès.',
             });
             form.resetFields();
-            navigate('/liste_template')
-            fetchData();
             closeModal();
         } catch (error) {
             console.error("Erreur lors de l'enregistrement : ", error);
@@ -233,7 +193,7 @@ const CarburantForm = ({ closeModal, fetchData, id_carburant }) => {
 
                         <Col xs={{ span: 24 }} sm={{ span: 8 }}>
                             <Form.Item
-                                label="Compteur km"
+                                label="Km actuel."
                                 name="compteur_km"
                                 rules={[{ required: false, message: 'Veuillez entrez la description!' }]}
                             >
