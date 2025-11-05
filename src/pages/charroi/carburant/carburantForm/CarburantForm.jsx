@@ -22,9 +22,9 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                 getChauffeur()
             ]);
 
-            setVehicules(vehiculeData.data);
+            setVehicules(vehiculeData.data.data);
             setFournisseur(fournisseurData.data);
-            setChauffeur(chauffeurData.data);
+            setChauffeur(chauffeurData.data.data);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -104,7 +104,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                             { isLoading ? <Skeleton.Input active={true} /> : 
                                 <Select
                                     showSearch
-                                    options={vehicules.map(item => ({ value: item.id_vehicule, label: item.nom_vehicule }))}
+                                    options={vehicules.map(item => ({ value: item.id_vehicule, label: `${item.immatriculation} / ${item.nom_marque}` }))}
                                     placeholder="Sélectionnez un véhicule..."
                                     optionFilterProp="label"
                                 />
@@ -118,14 +118,19 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                                 name="id_chauffeur"
                                 rules={[{ required: true, message: 'Veuillez sélectionner un chauffeur!' }]}
                             >
-                            { isLoading ? <Skeleton.Input active={true} /> : 
+                                {isLoading ? (
+                                <Skeleton.Input active />
+                                ) : (
                                 <Select
                                     showSearch
-                                    options={chauffeur.map(item => ({ value: item.id_chauffeur, label: item.nom_chauffeur }))}
                                     placeholder="Sélectionnez un chauffeur..."
                                     optionFilterProp="label"
+                                    options={chauffeur.map((item) => ({
+                                    value: item.id_chauffeur,
+                                    label: `${item.nom} - ${item.prenom}`, // ✅ correction ici
+                                    }))}
                                 />
-                            }
+                                )}
                             </Form.Item>
                         </Col>
 

@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import './carburant.scss'
 import { getCarburant } from '../../../services/carburantService';
+import CarburantForm from './carburantForm/CarburantForm';
 
 const { Search } = Input;
 
@@ -152,11 +153,11 @@ const Carburant = () => {
           visible={modalType === 'Add'}
           onCancel={closeAllModals}
           footer={null}
-          width={1210}
+          width={1010}
           centered
         >
-{/*           <GeofencesForm closeModal={() => setModalType(null)} fetchData={fetchData} idGeofence={idGeofence} />
- */}        </Modal>
+          <CarburantForm closeModal={() => setModalType(null)} fetchData={fetchData} idGeofence={idGeofence} />
+       </Modal>
     </>
   );
 };
