@@ -118,6 +118,28 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                 disabled={loading.data}
             >
                 <Row gutter={[16, 16]}>
+
+                {/* Véhicule */}
+                <Col xs={24} sm={8}>
+                    <Form.Item
+                    label="Véhicule"
+                    name="id_vehicule"
+                    rules={[{ required: true, message: 'Veuillez sélectionner un véhicule.' }]}
+                    >
+                    {renderField(
+                        <Select
+                        showSearch
+                        placeholder="Sélectionnez un véhicule"
+                        optionFilterProp="label"
+                        options={vehicules.map(v => ({
+                            value: v.id_vehicule,
+                            label: `${v.immatriculation} / ${v.nom_marque}`,
+                        }))}
+                        />
+                    )}
+                    </Form.Item>
+                </Col>
+
                 {/* Numéro PC */}
                 <Col xs={24} sm={8}>
                     <Form.Item
@@ -152,27 +174,6 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                         format="YYYY-MM-DD"
                         style={{ width: '100%' }}
                         placeholder="Sélectionnez une date"
-                        />
-                    )}
-                    </Form.Item>
-                </Col>
-
-                {/* Véhicule */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Véhicule"
-                    name="id_vehicule"
-                    rules={[{ required: true, message: 'Veuillez sélectionner un véhicule.' }]}
-                    >
-                    {renderField(
-                        <Select
-                        showSearch
-                        placeholder="Sélectionnez un véhicule"
-                        optionFilterProp="label"
-                        options={vehicules.map(v => ({
-                            value: v.id_vehicule,
-                            label: `${v.immatriculation} / ${v.nom_marque}`,
-                        }))}
                         />
                     )}
                     </Form.Item>
