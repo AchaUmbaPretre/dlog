@@ -140,6 +140,23 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                     </Form.Item>
                 </Col>
 
+                                {/* Date */}
+                <Col xs={24} sm={8}>
+                    <Form.Item
+                    label="Date d'opération"
+                    name="date_operation"
+                    rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}
+                    >
+                    {renderField(
+                        <DatePicker
+                        format="YYYY-MM-DD"
+                        style={{ width: '100%' }}
+                        placeholder="Sélectionnez une date"
+                        />
+                    )}
+                    </Form.Item>
+                </Col>
+
                 {/* Numéro PC */}
                 <Col xs={24} sm={8}>
                     <Form.Item
@@ -159,23 +176,6 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                     rules={[{ required: true, message: 'Veuillez entrer le numéro de facture.' }]}
                     >
                     {renderField(<Input placeholder="ex: FCT-2025-01" />)}
-                    </Form.Item>
-                </Col>
-
-                {/* Date */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Date d'opération"
-                    name="date_operation"
-                    rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}
-                    >
-                    {renderField(
-                        <DatePicker
-                        format="YYYY-MM-DD"
-                        style={{ width: '100%' }}
-                        placeholder="Sélectionnez une date"
-                        />
-                    )}
                     </Form.Item>
                 </Col>
 
