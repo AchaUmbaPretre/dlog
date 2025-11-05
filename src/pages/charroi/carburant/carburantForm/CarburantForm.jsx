@@ -209,21 +209,27 @@ useEffect(() => {
                     </Form.Item>
                 </Col>
 
-                {/* Date */}
+               {/* Date */}
                 <Col xs={24} sm={8}>
-                    <Form.Item
+                <Form.Item
                     label="Date d'opération"
                     name="date_operation"
                     rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}
-                    >
-                    {renderField(
-                        <DatePicker
-                        format="YYYY-MM-DD"
-                        style={{ width: '100%' }}
-                        placeholder="Sélectionnez une date"
-                        />
-                    )}
-                    </Form.Item>
+                >
+                    <DatePicker
+                    format="YYYY-MM-DD"
+                    style={{ width: '100%' }}
+                    placeholder="Sélectionnez une date"
+                    onChange={(date) => {
+                        if (date) {
+                        const selectedDate = moment(date);
+                        const from = selectedDate.startOf('day').format('YYYY-MM-DD HH:mm:ss');
+                        const to = selectedDate.endOf('day').format('YYYY-MM-DD HH:mm:ss');
+                        fetchDatas(from, to); // 👉 appel de ta fonction avec la bonne date
+                        }
+                    }}
+                    />
+                </Form.Item>
                 </Col>
 
                 {/* Numéro PC */}
