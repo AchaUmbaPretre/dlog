@@ -14,7 +14,7 @@ api_hash : '$2y$10$FbpbQMzKNaJVnv0H2RbAfel1NMjXRUoCy8pZUogiA/bvNNj1kdcY.'
 
 /*   REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com'
  */ };
-
+  
 export default config;
 
 export const userRequest = axios.create({

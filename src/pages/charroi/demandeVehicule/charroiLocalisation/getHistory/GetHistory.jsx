@@ -93,7 +93,7 @@ const GetHistory = ({ id }) => {
     }
   };
 
-    const fetchDatas = async (from, to) => {
+  const fetchDatas = async (from, to) => {
       try {
         const { data } = await getEvent({
           date_from: from,
@@ -112,7 +112,8 @@ const GetHistory = ({ id }) => {
       } catch (error) {
         console.error("Erreur lors du fetch:", error);
       }
-    };
+  };
+
   useEffect(() => {
     const startOfDay = dayjs().startOf("day").format("YYYY-MM-DD HH:mm:ss");
     const endOfDay = dayjs().endOf("day").format("YYYY-MM-DD HH:mm:ss");

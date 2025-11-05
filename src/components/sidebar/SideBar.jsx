@@ -14,6 +14,7 @@ import {
   TagOutlined,
   FolderOpenFilled,
   DashboardOutlined,
+  FireOutlined,
   ProjectOutlined,
   FileTextOutlined,
   ArrowLeftOutlined,
@@ -161,6 +162,7 @@ const SideBar = ({data}) => {
     FolderOpenFilled: <FolderOpenFilled style={{ color: '#fadb14' }} />,
     FullscreenExitOutlined :<FullscreenExitOutlined style={{ color: '#2f54eb' }} />,
     UserSwitchOutlined: <UserSwitchOutlined style={{ color: '#000' }} />,
+    FireOutlined : <FireOutlined style={{ color: '#ffc069' }} />
   };
   
   const renderIcon = (iconName) => {
