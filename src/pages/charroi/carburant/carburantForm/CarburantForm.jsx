@@ -10,11 +10,15 @@ import {
   notification,
   Skeleton,
   Typography,
+  message,
 } from 'antd';
 import moment from 'moment';
 import { getChauffeur, getVehicule } from '../../../../services/charroiService';
 import { getFournisseur } from '../../../../services/fournisseurService';
 import { postCarburant } from '../../../../services/carburantService';
+import { getEventHistory } from '../../../../services/rapportService';
+import config from '../../../../config';
+import { calculateFuelConsumption } from '../../../../utils/coutCarburant';
 
 const { Title } = Typography;
 
@@ -23,11 +27,72 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [loading, setLoading] = useState({ data: false, submit: false });
   const [fournisseurs, setFournisseurs] = useState([]);
   const [vehicules, setVehicules] = useState([]);
+  const [deviceId, setDeviceId] = useState(null);
   const [chauffeurs, setChauffeurs] = useState([]);
+  const [vehicleData, setVehicleData] = useState([]);
 
-  /**
-   * 🔹 Chargement simultané des données
-   */
+  const apiHash = config.api_hash;
+
+   const fetchDatas = async (from, to) => {
+    try {
+        setLoading(prev => ({ ...prev, data: true }));
+
+        // Valeurs par défaut si from/to non fournies
+        const today = moment();
+        const defaultFrom = from || today.startOf('day').format('YYYY-MM-DD HH:mm:ss');
+        const defaultTo = to || today.endOf('day').format('YYYY-MM-DD HH:mm:ss');
+
+        const { data } = await getEventHistory({
+        device_id: deviceId,
+        from_date: defaultFrom.split(" ")[0],
+        from_time: defaultFrom.split(" ")[1],
+        to_date: defaultTo.split(" ")[0],
+        to_time: defaultTo.split(" ")[1],
+        lang: "fr",
+        limit: 1000,
+        user_api_hash: apiHash,
+        });
+
+        if (data) setVehicleData(data);
+        else message.info("Aucun historique trouvé pour cette période.");
+    } catch (error) {
+        console.error("Erreur lors du fetch:", error);
+    } finally {
+        setLoading(prev => ({ ...prev, data: false }));
+    }
+    };
+
+
+   useEffect(() => {
+    if (deviceId) fetchDatas();
+    }, [deviceId]);
+
+
+useEffect(() => {
+  if (!vehicleData || !vehicleData.items || vehicleData.items.length === 0) return;
+
+  // Aplatir tous les items dans un seul tableau
+  const allItems = vehicleData.items.flatMap(block => block.items || []);
+
+  if (allItems.length === 0) return;
+
+  const lastItem = allItems[allItems.length - 1];
+  const compteurKmStr = lastItem?.other_arr?.find(el => el.startsWith("totaldistance"));
+  const compteurKm = compteurKmStr ? parseFloat(compteurKmStr.split(":")[1].trim()) : 0;
+
+  console.log("Compteur KM actuel :", compteurKm);
+
+  const result = calculateFuelConsumption(vehicleData); // ton calcul actuel
+
+  form.setFieldsValue({
+    distance: result.distance,        // Distance parcourue calculée sur la période
+    consommation: result.consumption, // Consommation
+    compteur_km: compteurKm,          // KM actuel
+  });
+}, [vehicleData, form]);
+
+
+    console.log(vehicleData)
   const fetchInitialData = useCallback(async () => {
     setLoading(prev => ({ ...prev, data: true }));
     try {
@@ -122,9 +187,9 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                 {/* Véhicule */}
                 <Col xs={24} sm={8}>
                     <Form.Item
-                    label="Véhicule"
-                    name="id_vehicule"
-                    rules={[{ required: true, message: 'Veuillez sélectionner un véhicule.' }]}
+                        label="Véhicule"
+                        name="id_vehicule"
+                        rules={[{ required: true, message: 'Veuillez sélectionner un véhicule.' }]}
                     >
                     {renderField(
                         <Select
@@ -135,12 +200,16 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                             value: v.id_vehicule,
                             label: `${v.immatriculation} / ${v.nom_marque}`,
                         }))}
+                        onChange={(value, option) => {
+                            const vehicule = vehicules.find(v => v.id_vehicule === value);
+                            setDeviceId(vehicule?.id_capteur);
+                        }}
                         />
                     )}
                     </Form.Item>
                 </Col>
 
-                                {/* Date */}
+                {/* Date */}
                 <Col xs={24} sm={8}>
                     <Form.Item
                     label="Date d'opération"
@@ -162,7 +231,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                     <Form.Item
                     label="Num PC"
                     name="num_pc"
-                    rules={[{ required: true, message: 'Veuillez entrer le numéro PC.' }]}
+                    rules={[{ required: false, message: 'Veuillez entrer le numéro PC.' }]}
                     >
                     {renderField(<Input placeholder="ex: PC-2025-01" />)}
                     </Form.Item>
@@ -173,7 +242,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                     <Form.Item
                     label="Numéro de facture"
                     name="num_facture"
-                    rules={[{ required: true, message: 'Veuillez entrer le numéro de facture.' }]}
+                    rules={[{ required: false, message: 'Veuillez entrer le numéro de facture.' }]}
                     >
                     {renderField(<Input placeholder="ex: FCT-2025-01" />)}
                     </Form.Item>
@@ -226,7 +295,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                     <Form.Item
                     label="Consom/100km"
                     name="consommation"
-                    rules={[{ required: true, message: 'Veuillez entrer la consommation' }]}
+                    rules={[{ required: false, message: 'Veuillez entrer la consommation' }]}
                     >
                     {renderField(<Input type="number" placeholder="ex: 2500" />)}
                     </Form.Item>
