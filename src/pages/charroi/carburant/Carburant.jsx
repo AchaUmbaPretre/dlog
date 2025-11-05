@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Dropdown, Input, Space, Modal } from 'antd';
+import { Table, Button, Dropdown, Input, Space, Modal, Typography } from 'antd';
 import { 
   ExportOutlined, 
   PrinterOutlined, 
@@ -13,6 +13,7 @@ import { getCarburant } from '../../../services/carburantService';
 import CarburantForm from './carburantForm/CarburantForm';
 
 const { Search } = Input;
+const { Text } = Typography
 
 const Carburant = () => {
   const [pagination, setPagination] = useState({
@@ -72,9 +73,39 @@ const Carburant = () => {
     { title: 'Véhicule', dataIndex: 'immatriculation', key: 'immatriculation' },
     { title: 'Fournisseur', dataIndex: 'nom_fournisseur', key: 'nom_fournisseur' },
     { title: 'Qté litres', dataIndex: 'quantite_litres', key: 'quantite_litres' },
-    { title: 'P.U', dataIndex: 'prix_unitaire', key: 'prix_unitaire' },
-    { title: 'Montant total', dataIndex: 'montant_total', key: 'montant_total' },
-    { title: 'Compteur km', dataIndex: 'compteur_km', key: 'compteur_km' },
+    {
+        title: 'Distance P.',
+        dataIndex: 'distance',
+        key: 'distance',
+        render: (text) => {
+            const formatted = new Intl.NumberFormat('fr-FR').format(Number(text || 0));
+            return <Text>{formatted} km</Text>;
+        },
+    },
+    {
+    title: 'Km actuel',
+    dataIndex: 'compteur_km',
+    key: 'compteur_km',
+    render: (text) => {
+        const formatted = new Intl.NumberFormat('fr-FR').format(Number(text || 0));
+        return <Text>{formatted} km</Text>;
+    },
+    },
+    {
+    title: 'Consom/100km',
+    dataIndex: 'consommation',
+    key: 'consommation',
+    render: (text) => {
+        const formatted = new Intl.NumberFormat('fr-FR').format(Number(text || 0));
+        return <Text>{formatted} km</Text>;
+    },
+    },
+    { title: 'P.U', dataIndex: 'prix_unitaire', key: 'prix_unitaire', render:(text, record) => (
+        <Text>{text} $</Text>
+        )},
+    { title: 'Montant total', dataIndex: 'montant_total', key: 'montant_total', render:(text, record) => (
+        <Text>{text} $</Text>
+    )},
     {
       title: 'Actions',
       key: 'actions',
