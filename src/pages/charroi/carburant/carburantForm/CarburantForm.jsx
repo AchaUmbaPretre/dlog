@@ -13,7 +13,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import { getChauffeur, getVehicule } from '../../../../services/charroiService';
-import { getFournisseur } from '../../../../services/fournisseurService';
+import { getFournisseur, getFournisseur_activiteOne } from '../../../../services/fournisseurService';
 import { postCarburant } from '../../../../services/carburantService';
 import { getEventHistory } from '../../../../services/rapportService';
 import config from '../../../../config';
@@ -96,8 +96,8 @@ useEffect(() => {
     try {
       const [vehiculeRes, fournisseurRes, chauffeurRes] = await Promise.all([
         getVehicule(),
-        getFournisseur(),
-        getChauffeur(),
+        getFournisseur_activiteOne(5),
+        getChauffeur()
       ]);
 
       setVehicules(vehiculeRes?.data?.data || []);
@@ -129,9 +129,6 @@ useEffect(() => {
     }
   };
 
-  /**
-   * 🔹 Soumission du formulaire
-   */
   const handleSubmit = async (values) => {
     setLoading(prev => ({ ...prev, submit: true }));
     try {
