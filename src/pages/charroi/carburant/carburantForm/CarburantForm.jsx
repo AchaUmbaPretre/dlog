@@ -248,7 +248,7 @@ const CarburantForm = ({ closeModal, fetchData, id_carburant }) => {
                 
                     <Form.Item> 
                         <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                            { idTemplate ? 'Modifier' : 'Enregistrer'}
+                            Enregistrer
                         </Button>
                     </Form.Item>
                 </Form>
