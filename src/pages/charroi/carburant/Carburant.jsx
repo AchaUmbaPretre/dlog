@@ -50,10 +50,8 @@ const Carburant = () => {
 
   // Filtrage sécurisé
   const filteredData = data?.filter(item =>
-    item.nom_falcon?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_destination?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_chauffeur?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.prenom?.toLowerCase().includes(searchValue.toLowerCase())
   ) || [];
 
   const columns = [
@@ -71,7 +69,7 @@ const Carburant = () => {
     { title: 'Num pc', dataIndex: 'num_pc', key: 'num_pc' },
     { title: 'No facture', dataIndex: 'num_facture', key: 'num_facture' },
     { title: 'Chauffeur', dataIndex: 'nom_chauffeur', key: 'nom_chauffeur' },
-    { title: 'Véhicule', dataIndex: 'nom_vehicule', key: 'nom_vehicule' },
+    { title: 'Véhicule', dataIndex: 'immatriculation', key: 'immatriculation' },
     { title: 'Fournisseur', dataIndex: 'nom_fournisseur', key: 'nom_fournisseur' },
     { title: 'Qté litres', dataIndex: 'quantite_litres', key: 'quantite_litres' },
     { title: 'P.U', dataIndex: 'prix_unitaire', key: 'prix_unitaire' },

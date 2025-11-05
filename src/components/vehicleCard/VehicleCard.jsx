@@ -25,9 +25,6 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
 
   //Consommation par distance parcourue
   const result = calculateFuelConsumption(vehicleData);
-  console.log(`Distance: ${result.distance} km`);
-  console.log(`Consommation: ${result.consumption} L`);
-  console.log(`Coût: ${result.cost} $`);
 
   const getSpeedIcon = (speed) => {
     if (!speed) return <DashboardOutlined style={{ color: "#999" }} />;
