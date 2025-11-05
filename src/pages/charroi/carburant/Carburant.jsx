@@ -11,19 +11,22 @@ import {
   Tooltip,
   Card,
   notification,
+  Menu
 } from "antd";
 import {
-  ExportOutlined,
   PrinterOutlined,
   FireOutlined,
   PlusCircleOutlined,
   DeleteOutlined,
-  SearchOutlined,
+  CalendarOutlined,
   ReloadOutlined,
+  DownOutlined,
+  MenuOutlined
 } from "@ant-design/icons";
 import "./carburant.scss";
 import { getCarburant } from "../../../services/carburantService";
 import CarburantForm from "./carburantForm/CarburantForm";
+import moment from 'moment';
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -34,6 +37,22 @@ const Carburant = () => {
   const [searchValue, setSearchValue] = useState("");
   const [modalType, setModalType] = useState(null);
   const [data, setData] = useState([]);
+  const [columnsVisibility, setColumnsVisibility] = useState({
+      '#': true,
+      'Num PC' : true,
+      'Facture': true,
+      'Vehicule': true,
+      'Chauffeur': true,
+      "Véhicule": true,
+      "Fournisseur": true,
+      'Qté': false,
+      'Distance (km)': false,
+      'Km actuel' : false,
+      "Consom.": false,
+      "P.U": false,
+      "Date opération": false,
+      "Montant total": true
+    });
 
   /** 🔹 Récupération des données */
   const fetchData = async () => {
@@ -60,7 +79,6 @@ const Carburant = () => {
   const closeAllModals = () => setModalType(null);
   const openModal = (type) => setModalType(type);
 
-  /** 🔹 Filtrage intelligent */
   const filteredData =
     data?.filter(
       (item) =>
@@ -69,7 +87,6 @@ const Carburant = () => {
         item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
     ) || [];
 
-  /** 🔹 Colonnes du tableau */
   const columns = [
     {
       title: "#",
@@ -95,11 +112,25 @@ const Carburant = () => {
       dataIndex: "immatriculation",
       key: "immatriculation",
       render: (text) => <Tag color="blue">{text}</Tag>,
+        ...(columnsVisibility['Vehicule'] ? {} : { className: 'hidden-column' })
+    },
+    { 
+      title: 'Date', 
+      dataIndex: 'date_operation', 
+      key: 'date_operation',
+      sorter: (a, b) => moment(a.date_operation).unix() - moment(b.date_operation).unix(),
+      render: (text) => (
+        <Tag icon={<CalendarOutlined />} color='red'>
+          {text ? moment(text).format('DD-MM-yyyy') : 'Aucune'}
+        </Tag>
+      ),
+      ...(columnsVisibility['Date opération'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Fournisseur",
       dataIndex: "nom_fournisseur",
       key: "nom_fournisseur",
+        ...(columnsVisibility['Fournisseur'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Qté (L)",
@@ -177,16 +208,26 @@ const Carburant = () => {
     },
   ];
 
-  const menu = (
-    <div style={{ padding: 10 }}>
-      <Button type="text" icon={<ExportOutlined />}>
-        Export Excel
-      </Button>
-      <Button type="text" icon={<ExportOutlined />}>
-        Export CSV
-      </Button>
-    </div>
-  );
+  const menus = (
+    <Menu>
+      {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );  
+
+  const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
 
   return (
     <div className="carburant-page">
@@ -223,8 +264,10 @@ const Carburant = () => {
             >
               Nouveau
             </Button>
-            <Dropdown overlay={menu} trigger={["click"]}>
-              <Button icon={<ExportOutlined />}>Exporter</Button>
+            <Dropdown overlay={menus} trigger={['click']}>
+                <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                    Colonnes <DownOutlined />
+                </Button>
             </Dropdown>
             <Button icon={<PrinterOutlined />}>Imprimer</Button>
           </Space>
