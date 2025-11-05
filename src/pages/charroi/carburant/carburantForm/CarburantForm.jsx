@@ -326,7 +326,7 @@ useEffect(() => {
                 {/* Prix unitaire */}
                 <Col xs={24} sm={8}>
                     <Form.Item
-                    label="Prix Unitaire (CDF)"
+                    label="Prix Unitaire ($)"
                     name="prix_unitaire"
                     rules={[{ required: true, message: 'Veuillez entrer le prix unitaire.' }]}
                     >
@@ -337,7 +337,7 @@ useEffect(() => {
                 {/* Montant total (calculé automatiquement) */}
                 <Col xs={24} sm={8}>
                     <Form.Item
-                    label="Montant Total (CDF)"
+                    label="Montant Total ($)"
                     name="montant_total"
                     rules={[{ required: true, message: 'Le montant total est requis.' }]}
                     >
