@@ -9,7 +9,6 @@ import {
   DatePicker,
   notification,
   Skeleton,
-  Typography,
   message,
 } from 'antd';
 import moment from 'moment';
@@ -20,7 +19,6 @@ import { getEventHistory } from '../../../../services/rapportService';
 import config from '../../../../config';
 import { calculateFuelConsumption } from '../../../../utils/coutCarburant';
 
-const { Title } = Typography;
 
 const CarburantForm = ({ closeModal, fetchData }) => {
   const [form] = Form.useForm();
@@ -121,9 +119,6 @@ useEffect(() => {
     form.resetFields();
   }, [fetchInitialData, form]);
 
-  /**
-   * 🔹 Calcul automatique du montant total
-   */
   const handleValueChange = (_, allValues) => {
     const { quantite_litres, prix_unitaire } = allValues;
     if (quantite_litres && prix_unitaire) {
