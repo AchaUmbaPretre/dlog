@@ -45,16 +45,15 @@ const Carburant = () => {
     Chauffeur: true,
     Véhicule: true,
     Fournisseur: true,
-    "Qté": false,
+    "Qté": true,
     "Distance (km)": false,
     "Km actuel": false,
-    "Consom.": false,
-    "P.U": false,
+    "Consom.": true,
+    "P.U": true,
     "Date opération": false,
     "Montant total": true,
   });
 
-  /** 🔹 Chargement des données */
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -75,11 +74,9 @@ const Carburant = () => {
     fetchData();
   }, []);
 
-  /** 🔹 Gestion modales */
   const closeAllModals = () => setModalType(null);
   const openModal = (type) => setModalType(type);
 
-  /** 🔹 Filtrage performant */
   const filteredData = useMemo(() => {
     const search = searchValue.toLowerCase();
     return (
@@ -92,7 +89,6 @@ const Carburant = () => {
     );
   }, [data, searchValue]);
 
-  /** 🔹 Colonnes */
   const columns = useMemo(() => {
     const formatNumber = (num, suffix = "") =>
       `${new Intl.NumberFormat("fr-FR").format(num || 0)}${suffix}`;
@@ -205,7 +201,6 @@ const Carburant = () => {
     ].filter((col) => columnsVisibility[col.title] !== false);
   }, [pagination, columnsVisibility]);
 
-  /** 🔹 Menu de colonnes dynamiques */
   const menus = (
     <Menu
       items={Object.keys(columnsVisibility).map((columnName) => ({
