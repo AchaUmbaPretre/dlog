@@ -9,14 +9,10 @@ import {
   DatePicker,
   notification,
   Skeleton,
-  message,
 } from 'antd';
-import moment from 'moment';
 import { getChauffeur, getVehicule } from '../../../../services/charroiService';
-import { getFournisseur, getFournisseur_activiteOne } from '../../../../services/fournisseurService';
+import { getFournisseur_activiteOne } from '../../../../services/fournisseurService';
 import { postCarburant } from '../../../../services/carburantService';
-import { getEventHistory } from '../../../../services/rapportService';
-import config from '../../../../config';
 import { calculateFuelConsumption } from '../../../../utils/coutCarburant';
 
 
@@ -28,43 +24,6 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [deviceId, setDeviceId] = useState(null);
   const [chauffeurs, setChauffeurs] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
-
-  const apiHash = config.api_hash;
-
-   const fetchDatas = async (from, to) => {
-    try {
-        setLoading(prev => ({ ...prev, data: true }));
-
-        // Valeurs par défaut si from/to non fournies
-        const today = moment();
-        const defaultFrom = from || today.startOf('day').format('YYYY-MM-DD HH:mm:ss');
-        const defaultTo = to || today.endOf('day').format('YYYY-MM-DD HH:mm:ss');
-
-        const { data } = await getEventHistory({
-        device_id: deviceId,
-        from_date: defaultFrom.split(" ")[0],
-        from_time: defaultFrom.split(" ")[1],
-        to_date: defaultTo.split(" ")[0],
-        to_time: defaultTo.split(" ")[1],
-        lang: "fr",
-        limit: 1000,
-        user_api_hash: apiHash,
-        });
-
-        if (data) setVehicleData(data);
-        else message.info("Aucun historique trouvé pour cette période.");
-    } catch (error) {
-        console.error("Erreur lors du fetch:", error);
-    } finally {
-        setLoading(prev => ({ ...prev, data: false }));
-    }
-    };
-
-
-   useEffect(() => {
-    if (deviceId) fetchDatas();
-    }, [deviceId]);
-
 
 useEffect(() => {
   if (!vehicleData || !vehicleData.items || vehicleData.items.length === 0) return;
@@ -212,14 +171,6 @@ useEffect(() => {
                     format="YYYY-MM-DD"
                     style={{ width: '100%' }}
                     placeholder="Sélectionnez une date"
-                    onChange={(date) => {
-                        if (date) {
-                        const selectedDate = moment(date);
-                        const from = selectedDate.startOf('day').format('YYYY-MM-DD HH:mm:ss');
-                        const to = selectedDate.endOf('day').format('YYYY-MM-DD HH:mm:ss');
-                        fetchDatas(from, to); // 👉 appel de ta fonction avec la bonne date
-                        }
-                    }}
                     />
                 </Form.Item>
                 </Col>
