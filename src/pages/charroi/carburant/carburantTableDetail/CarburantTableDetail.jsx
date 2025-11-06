@@ -1,7 +1,12 @@
-import { useEffect, useState } from 'react';
-import { Table } from 'antd';
+import { useState } from 'react';
+import { Table, Typography, Tag} from 'antd';
+import {
+  CalendarOutlined
+} from "@ant-design/icons";
 import './carburantTableDetail.scss'
-import { getCarburantLimitTen } from '../../../../services/carburantService';
+import moment from 'moment';
+
+const { Text } = Typography;
 
 const CarburantTableDetail = ({data}) => {
     const [pagination, setPagination] = useState({
@@ -12,49 +17,65 @@ const CarburantTableDetail = ({data}) => {
     const scroll = { x: 400 };
 
 
-    const columns = [
-        {
-          title: '#',
-          dataIndex: 'id',
-          key: 'id',
-          render: (text, record, index) => {
-            const pageSize = pagination.pageSize || 10;
-            const pageIndex = pagination.current || 1;
-            return (pageIndex - 1) * pageSize + index + 1;
-          },
-          width: "4%",
-        },
-        {
-          title: 'N° PC',
-          dataIndex: 'num_pc',
-          key: 'num_pc'
-        }, 
-        {
-          title: 'Véhicule',
-          dataIndex: 'immatriculation',
-          key: 'immatriculation'
-        },   
-        {
-          title: 'Qté',
-          dataIndex: 'quantite_litre',
-          key: 'quantite_litre',   
-        },
-        {
-          title: 'Km',
-          dataIndex: 'compteur_km',
-          key: 'compteur_km'
-        },
-        {
-          title: 'date',
-          dataIndex: 'date_operation',
-          key: 'date_operation'
-        },
-        { 
-          title: 'Créée par', 
-          dataIndex: 'username', 
-          key: 'username'
-        },
-      ];
+    const columns = 
+   [
+      {
+        title: "#",
+        key: "index",
+        width: 60,
+        align: "center",
+        render: (_, __, index) =>
+          (pagination.current - 1) * pagination.pageSize + index + 1,
+      },
+      { title: "Num PC", dataIndex: "num_pc", key: "num_pc" },
+      { title: "Facture", dataIndex: "num_facture", key: "num_facture" },
+      {
+        title: "Véhicule",
+        dataIndex: "immatriculation",
+        key: "immatriculation",
+        render: (text) => <Tag color="blue">{text}</Tag>,
+      },
+      {
+        title: "Date",
+        dataIndex: "date_operation",
+        key: "date_operation",
+        sorter: (a, b) =>
+          moment(a.date_operation).unix() - moment(b.date_operation).unix(),
+        render: (text) => (
+          <Tag icon={<CalendarOutlined />} color="red">
+            {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
+          </Tag>
+        ),
+      },
+      {
+        title: "Qté (L)",
+        dataIndex: "quantite_litres",
+        key: "quantite_litres",
+        align: "right",
+        render: (text) => <Text>{text}</Text>,
+      },
+      {
+        title: "Distance (km)",
+        dataIndex: "distance",
+        key: "distance",
+        align: "right",
+        render: (text) => <Text>{text}</Text>,
+      },
+      {
+        title: "Km actuel",
+        dataIndex: "compteur_km",
+        key: "compteur_km",
+        align: "right",
+        render: (text) => <Text>{text} Km</Text>,
+      },
+      {
+        title: "Cons./100km",
+        dataIndex: "consommation",
+        key: "consommation",
+        align: "right",
+        render: (text) => <Text>{text}</Text>,
+      }
+    ];
 
   return (
     <>
