@@ -250,15 +250,25 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                     </Col>
 
                     {/* Compteur */}
-                    <Col xs={24} sm={8}>
-                        <Form.Item
-                        label="Compteur KM (actuel)"
-                        name="compteur_km"
-                        rules={[{ required: true, message: 'Veuillez entrer le compteur actuel.' }]}
-                        >
-                        {renderField(<Input type="number" placeholder="ex: 45000" />)}
-                        </Form.Item>
-                    </Col>
+                        <Col xs={24} sm={8}>
+                            <Form.Item
+                            label="Compteur KM (actuel)"
+                            name="compteur_km"
+                            rules={[{ required: true, message: 'Veuillez entrer le compteur actuel.' }]}
+                            >
+                            {renderField(<Input type="number" placeholder="ex: 45000" />)}
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} sm={16}>
+                            <Form.Item
+                                label="Commentaire"
+                                name="commentaire"
+                                rules={[{ required: false}]}
+                            >
+                                {renderField(<Input.TextArea placeholder="Ecrit...."  style={{height:'50px', resize:'none'}}/>)}
+                            </Form.Item>
+                        </Col>
                     </Row>
 
                     <Row justify="end" style={{ marginTop: 20 }}>
