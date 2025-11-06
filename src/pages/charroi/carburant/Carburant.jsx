@@ -208,7 +208,7 @@ const Carburant = () => {
 
   /** 🔹 Menu de sélection des colonnes */
   const columnMenu = (
-    <div style={{ padding: 10 }}>
+    <div style={{ padding: 10, background:'#fff' }}>
       {Object.keys(columnsVisibility).map((colName) => (
         <div key={colName}>
           <Checkbox
