@@ -13,7 +13,8 @@ import {
 import { getChauffeur, getVehicule } from '../../../../services/charroiService';
 import { getFournisseur_activiteOne } from '../../../../services/fournisseurService';
 import { postCarburant } from '../../../../services/carburantService';
-
+import './carburantForm.scss'
+import CarburantTableDetail from '../carburantTableDetail/CarburantTableDetail';
 
 const CarburantForm = ({ closeModal, fetchData }) => {
   const [form] = Form.useForm();
@@ -93,185 +94,190 @@ const CarburantForm = ({ closeModal, fetchData }) => {
     loading.data ? <Skeleton.Input active style={{ width: '100%' }} /> : component;
 
   return (
-    <div className="controle_form">
-        <div className="controle_title_rows">
-            <h2 className="controle_h2">Enregistrer un nouveau carburant</h2>
-        </div>
-        <div className="controle_wrapper">
-            <Form
-                form={form}
-                layout="vertical"
-                onValuesChange={handleValueChange}
-                onFinish={handleSubmit}
-                disabled={loading.data}
-            >
-                <Row gutter={[16, 16]}>
-
-                {/* Véhicule */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                        label="Véhicule"
-                        name="id_vehicule"
-                        rules={[{ required: true, message: 'Veuillez sélectionner un véhicule.' }]}
-                    >
-                    {renderField(
-                        <Select
-                        showSearch
-                        placeholder="Sélectionnez un véhicule"
-                        optionFilterProp="label"
-                        options={vehicules.map(v => ({
-                            value: v.id_vehicule,
-                            label: `${v.immatriculation} / ${v.nom_marque}`,
-                        }))}
-                        />
-                    )}
-                    </Form.Item>
-                </Col>
-
-               {/* Date */}
-                <Col xs={24} sm={8}>
-                <Form.Item
-                    label="Date d'opération"
-                    name="date_operation"
-                    rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}
-                >
-                    <DatePicker
-                    format="YYYY-MM-DD"
-                    style={{ width: '100%' }}
-                    placeholder="Sélectionnez une date"
-                    />
-                </Form.Item>
-                </Col>
-
-                {/* Numéro PC */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Num PC"
-                    name="num_pc"
-                    rules={[{ required: false, message: 'Veuillez entrer le numéro PC.' }]}
-                    >
-                    {renderField(<Input placeholder="ex: PC-2025-01" />)}
-                    </Form.Item>
-                </Col>
-
-                {/* Numéro facture */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Numéro de facture"
-                    name="num_facture"
-                    rules={[{ required: false, message: 'Veuillez entrer le numéro de facture.' }]}
-                    >
-                    {renderField(<Input placeholder="ex: FCT-2025-01" />)}
-                    </Form.Item>
-                </Col>
-
-                {/* Chauffeur */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Chauffeur"
-                    name="id_chauffeur"
-                    rules={[{ required: true, message: 'Veuillez sélectionner un chauffeur.' }]}
-                    >
-                    {renderField(
-                        <Select
-                        showSearch
-                        placeholder="Sélectionnez un chauffeur"
-                        optionFilterProp="label"
-                        options={chauffeurs.map(c => ({
-                            value: c.id_chauffeur,
-                            label: `${c.nom} ${c.prenom}`,
-                        }))}
-                        />
-                    )}
-                    </Form.Item>
-                </Col>
-
-                {/* Fournisseur */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Fournisseur"
-                    name="id_fournisseur"
-                    rules={[{ required: true, message: 'Veuillez sélectionner un fournisseur.' }]}
-                    >
-                    {renderField(
-                        <Select
-                        showSearch
-                        placeholder="Sélectionnez un fournisseur"
-                        optionFilterProp="label"
-                        options={fournisseurs.map(f => ({
-                            value: f.id_fournisseur,
-                            label: f.nom_fournisseur,
-                        }))}
-                        />
-                    )}
-                    </Form.Item>
-                </Col>
-                
-                {/* Quantité */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Quantité (Litres)"
-                    name="quantite_litres"
-                    rules={[{ required: true, message: 'Veuillez entrer la quantité.' }]}
-                    >
-                    {renderField(<Input type="number" placeholder="ex: 50" />)}
-                    </Form.Item>
-                </Col>
-
-                {/* Prix unitaire */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Prix Unitaire ($)"
-                    name="prix_unitaire"
-                    rules={[{ required: true, message: 'Veuillez entrer le prix unitaire.' }]}
-                    >
-                    {renderField(<Input type="number" placeholder="ex: 2500" />)}
-                    </Form.Item>
-                </Col>
-
-                {/* Montant total (calculé automatiquement) */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Montant Total ($)"
-                    name="montant_total"
-                    rules={[{ required: true, message: 'Le montant total est requis.' }]}
-                    >
-                    {renderField(
-                        <Input
-                        type="number"
-                        placeholder="Calculé automatiquement"
-                        disabled
-                        style={{ backgroundColor: '#fafafa' }}
-                        />
-                    )}
-                    </Form.Item>
-                </Col>
-
-                {/* Compteur */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Compteur KM (actuel)"
-                    name="compteur_km"
-                    rules={[{ required: true, message: 'Veuillez entrer le compteur actuel.' }]}
-                    >
-                    {renderField(<Input type="number" placeholder="ex: 45000" />)}
-                    </Form.Item>
-                </Col>
-                </Row>
-
-                <Row justify="end" style={{ marginTop: 20 }}>
-                <Col>
-                    <Button
-                    type="primary"
-                    htmlType="submit"
-                    loading={loading.submit}
+    <div className="carburant_wrapper">
+        <div className="controle_form">
+            <div className="controle_title_rows">
+                <h2 className="controle_h2">Enregistrer un nouveau carburant</h2>
+            </div>
+            <div className="controle_wrapper">
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onValuesChange={handleValueChange}
+                    onFinish={handleSubmit}
                     disabled={loading.data}
+                >
+                    <Row gutter={[16, 16]}>
+
+                    {/* Véhicule */}
+                    <Col xs={24} sm={8}>
+                        <Form.Item
+                            label="Véhicule"
+                            name="id_vehicule"
+                            rules={[{ required: true, message: 'Veuillez sélectionner un véhicule.' }]}
+                        >
+                        {renderField(
+                            <Select
+                            showSearch
+                            placeholder="Sélectionnez un véhicule"
+                            optionFilterProp="label"
+                            options={vehicules.map(v => ({
+                                value: v.id_vehicule,
+                                label: `${v.immatriculation} / ${v.nom_marque}`,
+                            }))}
+                            />
+                        )}
+                        </Form.Item>
+                    </Col>
+
+                {/* Date */}
+                    <Col xs={24} sm={8}>
+                    <Form.Item
+                        label="Date d'opération"
+                        name="date_operation"
+                        rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}
                     >
-                    Enregistrer
-                    </Button>
-                </Col>
-                </Row>
-            </Form>
+                        <DatePicker
+                        format="YYYY-MM-DD"
+                        style={{ width: '100%' }}
+                        placeholder="Sélectionnez une date"
+                        />
+                    </Form.Item>
+                    </Col>
+
+                    {/* Numéro PC */}
+                    <Col xs={24} sm={8}>
+                        <Form.Item
+                        label="Num PC"
+                        name="num_pc"
+                        rules={[{ required: false, message: 'Veuillez entrer le numéro PC.' }]}
+                        >
+                        {renderField(<Input placeholder="ex: PC-2025-01" />)}
+                        </Form.Item>
+                    </Col>
+
+                    {/* Numéro facture */}
+                    <Col xs={24} sm={8}>
+                        <Form.Item
+                        label="Numéro de facture"
+                        name="num_facture"
+                        rules={[{ required: false, message: 'Veuillez entrer le numéro de facture.' }]}
+                        >
+                        {renderField(<Input placeholder="ex: FCT-2025-01" />)}
+                        </Form.Item>
+                    </Col>
+
+                    {/* Chauffeur */}
+                    <Col xs={24} sm={8}>
+                        <Form.Item
+                        label="Chauffeur"
+                        name="id_chauffeur"
+                        rules={[{ required: true, message: 'Veuillez sélectionner un chauffeur.' }]}
+                        >
+                        {renderField(
+                            <Select
+                            showSearch
+                            placeholder="Sélectionnez un chauffeur"
+                            optionFilterProp="label"
+                            options={chauffeurs.map(c => ({
+                                value: c.id_chauffeur,
+                                label: `${c.nom} ${c.prenom}`,
+                            }))}
+                            />
+                        )}
+                        </Form.Item>
+                    </Col>
+
+                    {/* Fournisseur */}
+                    <Col xs={24} sm={8}>
+                        <Form.Item
+                        label="Fournisseur"
+                        name="id_fournisseur"
+                        rules={[{ required: true, message: 'Veuillez sélectionner un fournisseur.' }]}
+                        >
+                        {renderField(
+                            <Select
+                            showSearch
+                            placeholder="Sélectionnez un fournisseur"
+                            optionFilterProp="label"
+                            options={fournisseurs.map(f => ({
+                                value: f.id_fournisseur,
+                                label: f.nom_fournisseur,
+                            }))}
+                            />
+                        )}
+                        </Form.Item>
+                    </Col>
+
+                    {/* Quantité */}
+                    <Col xs={24} sm={8}>
+                        <Form.Item
+                        label="Quantité (Litres)"
+                        name="quantite_litres"
+                        rules={[{ required: true, message: 'Veuillez entrer la quantité.' }]}
+                        >
+                        {renderField(<Input type="number" placeholder="ex: 50" />)}
+                        </Form.Item>
+                    </Col>
+
+                    {/* Prix unitaire */}
+                    <Col xs={24} sm={8}>
+                        <Form.Item
+                        label="Prix Unitaire ($)"
+                        name="prix_unitaire"
+                        rules={[{ required: true, message: 'Veuillez entrer le prix unitaire.' }]}
+                        >
+                        {renderField(<Input type="number" placeholder="ex: 2500" />)}
+                        </Form.Item>
+                    </Col>
+
+                    {/* Montant total (calculé automatiquement) */}
+                    <Col xs={24} sm={8}>
+                        <Form.Item
+                        label="Montant Total ($)"
+                        name="montant_total"
+                        rules={[{ required: true, message: 'Le montant total est requis.' }]}
+                        >
+                        {renderField(
+                            <Input
+                            type="number"
+                            placeholder="Calculé automatiquement"
+                            disabled
+                            style={{ backgroundColor: '#fafafa' }}
+                            />
+                        )}
+                        </Form.Item>
+                    </Col>
+
+                    {/* Compteur */}
+                    <Col xs={24} sm={8}>
+                        <Form.Item
+                        label="Compteur KM (actuel)"
+                        name="compteur_km"
+                        rules={[{ required: true, message: 'Veuillez entrer le compteur actuel.' }]}
+                        >
+                        {renderField(<Input type="number" placeholder="ex: 45000" />)}
+                        </Form.Item>
+                    </Col>
+                    </Row>
+
+                    <Row justify="end" style={{ marginTop: 20 }}>
+                    <Col>
+                        <Button
+                        type="primary"
+                        htmlType="submit"
+                        loading={loading.submit}
+                        disabled={loading.data}
+                        >
+                        Enregistrer
+                        </Button>
+                    </Col>
+                    </Row>
+                </Form>
+            </div>
+        </div>
+        <div className="controle_right">
+            <CarburantTableDetail/>
         </div>
     </div>
   );

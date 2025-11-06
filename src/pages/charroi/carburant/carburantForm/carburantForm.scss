@@ -1,0 +1,11 @@
+.carburant_wrapper{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    .controle_form{
+        flex: 2;
+    }
+    .controle_right{
+        flex: 2;
+    }
+}
