@@ -58,7 +58,9 @@ const CarburantTableDetail = () => {
   return (
     <>
         <div className="carburantTableDetail">
-            <h1 className="carburant_h1">Tableau de bord</h1>
+            <div className="carburant_title_rows">
+                <h1 className="carburant_h1">Tableau de bord</h1>
+            </div>
             <div className="carburant_table">
                 <Table
                     columns={columns}

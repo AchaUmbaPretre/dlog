@@ -1,6 +1,50 @@
 .carburantTableDetail{
     width: 100%;
-    .carburant_h1{
-        font-size: 1rem;
+    margin-top: 10px;
+    .carburant_title_rows {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #f7f6f6;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+        border-left: 3px solid #0056b3;
+        overflow: hidden;
+
+    .carburant_h1 {
+      font-weight: 800;
+      color: #0056b3;
+      margin: 0;
+      font-size: 1rem;
     }
+
+    &.loading::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background-color: #0056b3;
+      z-index: 0;
+      animation: fillRow 5s forwards;
+      border-radius: 6px;
+    }
+
+    .carburant_h1 {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes fillRow {
+      from {
+        width: 3px;
+      }
+      to {
+        width: 100%;
+      }
+    }
+  }
 }
