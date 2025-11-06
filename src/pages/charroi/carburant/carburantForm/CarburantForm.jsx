@@ -13,7 +13,6 @@ import {
 import { getChauffeur, getVehicule } from '../../../../services/charroiService';
 import { getFournisseur_activiteOne } from '../../../../services/fournisseurService';
 import { postCarburant } from '../../../../services/carburantService';
-import { calculateFuelConsumption } from '../../../../utils/coutCarburant';
 
 
 const CarburantForm = ({ closeModal, fetchData }) => {
@@ -21,35 +20,8 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [loading, setLoading] = useState({ data: false, submit: false });
   const [fournisseurs, setFournisseurs] = useState([]);
   const [vehicules, setVehicules] = useState([]);
-  const [deviceId, setDeviceId] = useState(null);
   const [chauffeurs, setChauffeurs] = useState([]);
-  const [vehicleData, setVehicleData] = useState([]);
 
-useEffect(() => {
-  if (!vehicleData || !vehicleData.items || vehicleData.items.length === 0) return;
-
-  // Aplatir tous les items dans un seul tableau
-  const allItems = vehicleData.items.flatMap(block => block.items || []);
-
-  if (allItems.length === 0) return;
-
-  const lastItem = allItems[allItems.length - 1];
-  const compteurKmStr = lastItem?.other_arr?.find(el => el.startsWith("totaldistance"));
-  const compteurKm = compteurKmStr ? parseFloat(compteurKmStr.split(":")[1].trim()) : 0;
-
-  console.log("Compteur KM actuel :", compteurKm);
-
-  const result = calculateFuelConsumption(vehicleData); // ton calcul actuel
-
-  form.setFieldsValue({
-    distance: result.distance,        // Distance parcourue calculée sur la période
-    consommation: result.consumption, // Consommation
-    compteur_km: compteurKm,          // KM actuel
-  });
-}, [vehicleData, form]);
-
-
-    console.log(vehicleData)
   const fetchInitialData = useCallback(async () => {
     setLoading(prev => ({ ...prev, data: true }));
     try {
@@ -151,10 +123,6 @@ useEffect(() => {
                             value: v.id_vehicule,
                             label: `${v.immatriculation} / ${v.nom_marque}`,
                         }))}
-                        onChange={(value, option) => {
-                            const vehicule = vehicules.find(v => v.id_vehicule === value);
-                            setDeviceId(vehicule?.id_capteur);
-                        }}
                         />
                     )}
                     </Form.Item>
