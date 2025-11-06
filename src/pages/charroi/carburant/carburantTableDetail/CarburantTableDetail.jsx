@@ -8,12 +8,11 @@ import moment from 'moment';
 
 const { Text } = Typography;
 
-const CarburantTableDetail = ({data}) => {
+const CarburantTableDetail = ({data, loading}) => {
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
     });
-    const [loading, setLoading] = useState(true);
     const scroll = { x: 400 };
 
 
