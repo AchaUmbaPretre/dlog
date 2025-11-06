@@ -11,8 +11,8 @@ import {
   Tooltip,
   Card,
   notification,
-  Menu,
   Empty,
+  Checkbox,
 } from "antd";
 import {
   PrinterOutlined,
@@ -45,20 +45,21 @@ const Carburant = () => {
     Chauffeur: true,
     Véhicule: true,
     Fournisseur: false,
-    "Qté": true,
+    "Qté (L)": true,
     "Distance (km)": false,
     "Km actuel": false,
-    "Consom.": true,
-    "P.U": false,
+    "Cons./100km": true,
+    "P.U ($)": false,
     "Date opération": false,
-    "Montant total": true,
+    "Montant total ($)": true,
   });
 
+  /** 🔹 Chargement des données */
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { data } = await getCarburant();
-      setData(data || []);
+      const response = await getCarburant();
+      setData(response?.data || []);
     } catch (error) {
       notification.error({
         message: "Erreur de chargement",
@@ -77,23 +78,24 @@ const Carburant = () => {
   const closeAllModals = () => setModalType(null);
   const openModal = (type) => setModalType(type);
 
+  /** 🔹 Filtrage par recherche */
   const filteredData = useMemo(() => {
-    const search = searchValue.toLowerCase();
-    return (
-      data?.filter(
-        (item) =>
-          item.nom_chauffeur?.toLowerCase().includes(search) ||
-          item.prenom?.toLowerCase().includes(search) ||
-          item.immatriculation?.toLowerCase().includes(search)
-      ) || []
+    const search = searchValue.toLowerCase().trim();
+    if (!search) return data;
+    return data.filter(
+      (item) =>
+        item.nom_chauffeur?.toLowerCase().includes(search) ||
+        item.prenom?.toLowerCase().includes(search) ||
+        item.immatriculation?.toLowerCase().includes(search)
     );
   }, [data, searchValue]);
 
+  /** 🔹 Colonnes dynamiques */
   const columns = useMemo(() => {
     const formatNumber = (num, suffix = "") =>
       `${new Intl.NumberFormat("fr-FR").format(num || 0)}${suffix}`;
 
-    return [
+    const allColumns = [
       {
         title: "#",
         key: "index",
@@ -107,9 +109,7 @@ const Carburant = () => {
       {
         title: "Chauffeur",
         key: "commentaire",
-        render: (record) => (
-          <Text strong>{`${record.commentaire?? ""}`}</Text>
-        ),
+        render: (record) => <Text strong>{record.commentaire ?? ""}</Text>,
       },
       {
         title: "Véhicule",
@@ -198,30 +198,33 @@ const Carburant = () => {
           </Space>
         ),
       },
-    ].filter((col) => columnsVisibility[col.title] !== false);
+    ];
+
+    // On garde seulement les colonnes visibles
+    return allColumns.filter(
+      (col) => columnsVisibility[col.title] !== false
+    );
   }, [pagination, columnsVisibility]);
 
-  const menus = (
-    <Menu
-      items={Object.keys(columnsVisibility).map((columnName) => ({
-        key: columnName,
-        label: (
-          <Space onClick={(e) => e.stopPropagation()}>
-            <input
-              type="checkbox"
-              checked={columnsVisibility[columnName]}
-              onChange={() =>
-                setColumnsVisibility((prev) => ({
-                  ...prev,
-                  [columnName]: !prev[columnName],
-                }))
-              }
-            />
-            <span>{columnName}</span>
-          </Space>
-        ),
-      }))}
-    />
+  /** 🔹 Menu de sélection des colonnes */
+  const columnMenu = (
+    <div style={{ padding: 10 }}>
+      {Object.keys(columnsVisibility).map((colName) => (
+        <div key={colName}>
+          <Checkbox
+            checked={columnsVisibility[colName]}
+            onChange={() =>
+              setColumnsVisibility((prev) => ({
+                ...prev,
+                [colName]: !prev[colName],
+              }))
+            }
+          >
+            {colName}
+          </Checkbox>
+        </div>
+      ))}
+    </div>
   );
 
   return (
@@ -259,7 +262,7 @@ const Carburant = () => {
             >
               Nouveau
             </Button>
-            <Dropdown overlay={menus} trigger={["click"]}>
+            <Dropdown overlay={columnMenu} trigger={["click"]}>
               <Button icon={<MenuOutlined />}>
                 Colonnes <DownOutlined />
               </Button>
@@ -271,8 +274,7 @@ const Carburant = () => {
         <Table
           columns={columns}
           dataSource={filteredData}
-          rowKey="id"
-          bordered={false}
+          rowKey={(record) => record.id || record.key}
           size="middle"
           loading={loading}
           pagination={{
@@ -281,7 +283,7 @@ const Carburant = () => {
             showQuickJumper: true,
             showTotal: (total) => `${total} enregistrements`,
           }}
-          onChange={setPagination}
+          onChange={(pagination) => setPagination(pagination)}
           scroll={{ x: 1100 }}
           rowClassName={(_, index) =>
             index % 2 === 0 ? "table-row-light" : "table-row-dark"

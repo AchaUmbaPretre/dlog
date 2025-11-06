@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import './carburantTableDetail.scss'
+import { getCarburantLimitTen } from '../../../../services/carburantService';
 
-const CarburantTableDetail = () => {
+const CarburantTableDetail = ({data}) => {
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
     });
-    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const scroll = { x: 400 };
+
 
     const columns = [
         {

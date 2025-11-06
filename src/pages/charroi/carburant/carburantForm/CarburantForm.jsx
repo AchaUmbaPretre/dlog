@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import { getChauffeur, getVehicule } from '../../../../services/charroiService';
 import { getFournisseur_activiteOne } from '../../../../services/fournisseurService';
-import { postCarburant } from '../../../../services/carburantService';
+import { getCarburantLimitTen, postCarburant } from '../../../../services/carburantService';
 import './carburantForm.scss'
 import CarburantTableDetail from '../carburantTableDetail/CarburantTableDetail';
 
@@ -22,6 +22,21 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [fournisseurs, setFournisseurs] = useState([]);
   const [vehicules, setVehicules] = useState([]);
   const [chauffeurs, setChauffeurs] = useState([]);
+  const [data, setData] = useState([]);
+
+
+        const fetchDatas = async() => {
+
+            try {
+                const { data } = await getCarburantLimitTen();
+                setData(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    useEffect(()=> {
+        fetchDatas()
+    }, []);
 
   const fetchInitialData = useCallback(async () => {
     setLoading(prev => ({ ...prev, data: true }));
@@ -79,6 +94,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
       form.resetFields();
       closeModal?.();
       fetchData?.();
+      fetchDatas();
     } catch (error) {
       notification.error({
         message: 'Erreur',
@@ -287,7 +303,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
             </div>
         </div>
         <div className="controle_right">
-            <CarburantTableDetail/>
+            <CarburantTableDetail data={data} />
         </div>
     </div>
   );
