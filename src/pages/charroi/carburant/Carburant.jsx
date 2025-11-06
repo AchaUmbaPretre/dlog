@@ -54,7 +54,6 @@ const Carburant = () => {
     "Montant total ($)": true,
   });
 
-  /** 🔹 Chargement des données */
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -78,19 +77,17 @@ const Carburant = () => {
   const closeAllModals = () => setModalType(null);
   const openModal = (type) => setModalType(type);
 
-  /** 🔹 Filtrage par recherche */
   const filteredData = useMemo(() => {
     const search = searchValue.toLowerCase().trim();
     if (!search) return data;
     return data.filter(
       (item) =>
-        item.nom_chauffeur?.toLowerCase().includes(search) ||
-        item.prenom?.toLowerCase().includes(search) ||
+        item.commentaire?.toLowerCase().includes(search) ||
+        item.nom?.toLowerCase().includes(search) ||
         item.immatriculation?.toLowerCase().includes(search)
     );
   }, [data, searchValue]);
 
-  /** 🔹 Colonnes dynamiques */
   const columns = useMemo(() => {
     const formatNumber = (num, suffix = "") =>
       `${new Intl.NumberFormat("fr-FR").format(num || 0)}${suffix}`;
@@ -118,7 +115,7 @@ const Carburant = () => {
         render: (text) => <Tag color="blue">{text}</Tag>,
       },
       {
-        title: "Date opération",
+        title: "Date op.",
         dataIndex: "date_operation",
         key: "date_operation",
         sorter: (a, b) =>
@@ -206,7 +203,6 @@ const Carburant = () => {
     );
   }, [pagination, columnsVisibility]);
 
-  /** 🔹 Menu de sélection des colonnes */
   const columnMenu = (
     <div style={{ padding: 10, background:'#fff' }}>
       {Object.keys(columnsVisibility).map((colName) => (
