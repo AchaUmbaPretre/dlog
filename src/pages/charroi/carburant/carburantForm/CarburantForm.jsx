@@ -206,28 +206,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                     )}
                     </Form.Item>
                 </Col>
-
-                {/* Prix unitaire */}
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Consom/100km"
-                    name="consommation"
-                    rules={[{ required: false, message: 'Veuillez entrer la consommation' }]}
-                    >
-                    {renderField(<Input type="number" placeholder="ex: 2500" />)}
-                    </Form.Item>
-                </Col>
                 
-                <Col xs={24} sm={8}>
-                    <Form.Item
-                    label="Distance parcourue"
-                    name="distance"
-                    rules={[{ required: true, message: 'Veuillez entrer la distance parcourue.' }]}
-                    >
-                    {renderField(<Input type="number" placeholder="ex: 2500" />)}
-                    </Form.Item>
-                </Col>
-
                 {/* Quantité */}
                 <Col xs={24} sm={8}>
                     <Form.Item
