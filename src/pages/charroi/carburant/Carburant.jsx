@@ -106,9 +106,9 @@ const Carburant = () => {
       { title: "Facture", dataIndex: "num_facture", key: "num_facture" },
       {
         title: "Chauffeur",
-        key: "chauffeur",
+        key: "commentaire",
         render: (record) => (
-          <Text strong>{`${record.nom_chauffeur ?? ""} ${record.prenom ?? ""}`}</Text>
+          <Text strong>{`${record.commentaire?? ""}`}</Text>
         ),
       },
       {
