@@ -40,17 +40,17 @@ const Carburant = () => {
   const [data, setData] = useState([]);
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
-    "Num PC": true,
+    "Num PC": false,
     Facture: true,
     Chauffeur: true,
     Véhicule: true,
     Fournisseur: false,
     "Qté (L)": true,
     "Distance (km)": false,
-    "Km actuel": false,
+    "Km actuel": true,
     "Cons./100km": true,
     "P.U ($)": false,
-    "Date opération": false,
+    "Date opération": true,
     "Montant total ($)": true,
   });
 
@@ -142,7 +142,7 @@ const Carburant = () => {
         render: (text) => <Text>{formatNumber(text)}</Text>,
       },
       {
-        title: "Distance (km)",
+        title: "Dist. (km)",
         dataIndex: "distance",
         key: "distance",
         align: "right",
@@ -170,7 +170,7 @@ const Carburant = () => {
         render: (text) => <Text>{formatNumber(text, " $")}</Text>,
       },
       {
-        title: "Montant total ($)",
+        title: "M. total ($)",
         dataIndex: "montant_total",
         key: "montant_total",
         align: "right",
@@ -296,6 +296,7 @@ const Carburant = () => {
               />
             ),
           }}
+          bordered
         />
       </Card>
 

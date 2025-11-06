@@ -13,31 +13,31 @@ const CarburantTableDetail = ({data, loading}) => {
         current: 1,
         pageSize: 20,
     });
-    const scroll = { x: 400 };
-
+    const scroll = { x: 'max-content' };
 
     const columns = 
    [
       {
         title: "#",
         key: "index",
-        width: 60,
+        width: 40,
         align: "center",
         render: (_, __, index) =>
           (pagination.current - 1) * pagination.pageSize + index + 1,
       },
-      { title: "Num PC", dataIndex: "num_pc", key: "num_pc" },
-      { title: "Facture", dataIndex: "num_facture", key: "num_facture" },
+      { title: "N° PC", dataIndex: "num_pc", key: "num_pc", ellipsis:'true' },
       {
         title: "Véhicule",
         dataIndex: "immatriculation",
         key: "immatriculation",
+        ellipsis:'true',
         render: (text) => <Tag color="blue">{text}</Tag>,
       },
       {
         title: "Date",
         dataIndex: "date_operation",
         key: "date_operation",
+        ellipsis:'true',
         sorter: (a, b) =>
           moment(a.date_operation).unix() - moment(b.date_operation).unix(),
         render: (text) => (
@@ -47,17 +47,11 @@ const CarburantTableDetail = ({data, loading}) => {
         ),
       },
       {
-        title: "Qté (L)",
-        dataIndex: "quantite_litres",
-        key: "quantite_litres",
-        align: "right",
-        render: (text) => <Text>{text}</Text>,
-      },
-      {
-        title: "Distance (km)",
+        title: "Dist. (km)",
         dataIndex: "distance",
         key: "distance",
         align: "right",
+        ellipsis:'true',
         render: (text) => <Text>{text}</Text>,
       },
       {
@@ -65,14 +59,15 @@ const CarburantTableDetail = ({data, loading}) => {
         dataIndex: "compteur_km",
         key: "compteur_km",
         align: "right",
+        ellipsis:'true',
         render: (text) => <Text>{text} Km</Text>,
       },
       {
-        title: "Cons./100km",
+        title: "Cons.",
         dataIndex: "consommation",
         key: "consommation",
         align: "right",
-        render: (text) => <Text>{text}</Text>,
+        render: (text) => <Text>{text} L/100km</Text>,
       }
     ];
 
