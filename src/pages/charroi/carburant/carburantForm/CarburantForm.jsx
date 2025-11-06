@@ -303,7 +303,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
             </div>
         </div>
         <div className="controle_right">
-            <CarburantTableDetail data={data} loading={loading} />
+            <CarburantTableDetail data={data} loading={loading.data} />
         </div>
     </div>
   );
