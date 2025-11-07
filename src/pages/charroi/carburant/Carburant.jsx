@@ -157,7 +157,7 @@ const Carburant = () => {
         dataIndex: "consommation",
         key: "consommation",
         align: "right",
-        render: (text) => <Text>{formatNumber(text, " L/100km")}</Text>,
+        render: (text) => <Text>{formatNumber(text, " L")}</Text>,
       },
       {
         title: "P.U ($)",
