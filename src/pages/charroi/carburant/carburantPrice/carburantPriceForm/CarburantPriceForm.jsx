@@ -49,7 +49,7 @@ const CarburantPriceForm = () => {
                                 rules={[{ required: true, message: 'Veuillez entrer le nom de département !' }]}
                             >
                                 <DatePicker
-                                    placeholder="Sélectionnez le mois"
+                                    placeholder="Sélectionnez la date"
                                     format="YYYY-MM-DD"
                                     style={{ width: '100%' }}
                                 />
