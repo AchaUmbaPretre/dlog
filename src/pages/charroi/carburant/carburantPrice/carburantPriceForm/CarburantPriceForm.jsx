@@ -7,7 +7,7 @@ import { postCarburantPrice } from "../../../../../services/carburantService";
  * Description : Permet d’enregistrer un nouveau prix de carburant
  * avec gestion des devises (CDF / USD) et date effective.
  */
-const CarburantPriceForm = () => {
+const CarburantPriceForm = ({fetchData, onClose }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,6 +31,8 @@ const CarburantPriceForm = () => {
       });
 
       form.resetFields();
+      fetchData();
+      onClose();
     } catch (error) {
       console.error("Erreur lors de l'ajout du prix du carburant :", error);
 
