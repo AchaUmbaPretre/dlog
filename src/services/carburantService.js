@@ -6,7 +6,7 @@ const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 export const getCarburant = async () => {
     return axios.get(`${DOMAIN}/api/carburant`);
   };
-  
+
 export const getCarburantLimitTen = async () => {
     return axios.get(`${DOMAIN}/api/carburant/limit_ten`);
   };
@@ -17,4 +17,12 @@ export const getCarburantOne = async (id) => {
 
 export const postCarburant = async (data) => {
   return axios.post(`${DOMAIN}/api/carburant`, data);
+};
+
+export const getCarburantPrice = async () => {
+    return axios.get(`${DOMAIN}/api/carburant/carburant_prix`);
+  };
+
+export const postCarburantPrice = async (data) => {
+  return axios.post(`${DOMAIN}/api/carburant/carburant_prix`, data);
 };

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Tabs } from 'antd';
-import { BankOutlined, FullscreenExitOutlined, UnlockOutlined, DeleteOutlined, TeamOutlined, GlobalOutlined } from '@ant-design/icons';
+import { BankOutlined, FullscreenExitOutlined, DollarOutlined, UnlockOutlined, DeleteOutlined, TeamOutlined, GlobalOutlined } from '@ant-design/icons';
 import Users from '../users/Users';
 import Client from '../client/Client';
 import Fournisseur from '../fournisseur/Fournisseur';
@@ -9,10 +9,10 @@ import Permission from '../permission/Permission';
 import Corbeille from '../corbeille/Corbeille';
 import ParametreSociete from './parametreSociete/ParametreSociete';
 import Personnel from '../personnel/Personnel';
+import CarburantPrice from '../charroi/carburant/carburantPrice/CarburantPrice';
 
 const Generale = () => {
     const [activeKey, setActiveKey] = useState(['1', '2']);
-
     const handleTabChange = (key) => {
         setActiveKey(key);
     };
@@ -168,6 +168,24 @@ const Generale = () => {
                 key="8"
             >
                 <Permission/>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+                tab={
+                    <span>
+                        <DollarOutlined
+                            style={{
+                                color: '#000',
+                                fontSize: '16px',
+                                marginRight: '8px',
+                            }}
+                        />
+                        Price carburant
+                    </span>
+                }
+                key="9"
+            >
+                <CarburantPrice/>
             </Tabs.TabPane>
         </Tabs>
     </>
