@@ -20,8 +20,12 @@ export const postCarburant = async (data) => {
 };
 
 export const getCarburantPrice = async () => {
-    return axios.get(`${DOMAIN}/api/carburant/carburant_prix`);
-  };
+  return axios.get(`${DOMAIN}/api/carburant/carburant_prix`);
+};
+
+export const getCarburantPriceLimit = async () => {
+  return axios.get(`${DOMAIN}/api/carburant/carburant_prix_limit`);
+};
 
 export const postCarburantPrice = async (data) => {
   return axios.post(`${DOMAIN}/api/carburant/carburant_prix`, data);
