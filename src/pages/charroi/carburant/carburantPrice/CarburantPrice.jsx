@@ -95,7 +95,7 @@ const CarburantPrice = () => {
             <h2 className="client-h2">Gestion des prix du carburant</h2>
           </div>
 
-          {/* 🔹 Actions */}
+
           <div className="client-actions">
             <div className="client-rows-right">
               <Button
@@ -127,7 +127,6 @@ const CarburantPrice = () => {
         </div>
       </div>
 
-      {/* 🔹 Modal d’ajout */}
       <Modal
         title=""
         open={modalType === "add"}
