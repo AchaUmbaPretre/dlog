@@ -29,15 +29,15 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [data, setData] = useState([]);
 
 
-        const fetchDatas = async() => {
+    const fetchDatas = async() => {
 
-            try {
-                const { data } = await getCarburantLimitTen();
-                setData(data)
-            } catch (error) {
-                console.log(error)
-            }
+        try {
+            const { data } = await getCarburantLimitTen();
+            setData(data)
+        } catch (error) {
+            console.log(error)
         }
+    }
     useEffect(()=> {
         fetchDatas()
     }, []);
