@@ -109,7 +109,7 @@ const CarburantPrice = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={800}
         centered
       >
         <CarburantPriceForm fetchData={fetchData} />
