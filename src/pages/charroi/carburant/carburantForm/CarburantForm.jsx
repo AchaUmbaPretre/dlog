@@ -25,6 +25,7 @@ import {
 import { 
   getCarburantLimitTen, 
   getCarburantPriceLimit, 
+  getCarburantVehicule, 
   postCarburant 
 } from '../../../../services/carburantService';
 import './carburantForm.scss';
@@ -73,12 +74,12 @@ const CarburantForm = ({ closeModal, fetchData }) => {
     setLoading(prev => ({ ...prev, data: true }));
     try {
       const [vehiculeRes, fournisseurRes, chauffeurRes] = await Promise.all([
-        getVehicule(),
+        getCarburantVehicule(),
         getFournisseur_activiteOne(5),
         getChauffeur()
       ]);
 
-      setVehicules(vehiculeRes?.data?.data || []);
+      setVehicules(vehiculeRes?.data|| []);
       setFournisseurs(fournisseurRes?.data || []);
       setChauffeurs(chauffeurRes?.data?.data || []);
     } catch (error) {
@@ -184,7 +185,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
                         placeholder="Sélectionnez un véhicule"
                         optionFilterProp="label"
                         options={vehicules.map(v => ({
-                          value: v.id_vehicule,
+                          value: v.id_enregistrement,
                           label: `${v.immatriculation} / ${v.nom_marque}`,
                         }))}
                       />

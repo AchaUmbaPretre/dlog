@@ -3,6 +3,10 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
+export const getCarburantVehicule = async () => {
+    return axios.get(`${DOMAIN}/api/carburant/vehicule_carburant`);
+};
+
 export const getCarburant = async () => {
     return axios.get(`${DOMAIN}/api/carburant`);
   };
