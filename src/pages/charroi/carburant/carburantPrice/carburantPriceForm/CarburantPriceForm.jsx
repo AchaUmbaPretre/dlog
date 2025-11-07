@@ -2,18 +2,10 @@ import React, { useState } from "react";
 import { Form, Input, DatePicker, Row, Col, Button, notification } from "antd";
 import { postCarburantPrice } from "../../../../../services/carburantService";
 
-/**
- * ✅ Composant : CarburantPriceForm
- * Description : Permet d’enregistrer un nouveau prix de carburant
- * avec gestion des devises (CDF / USD) et date effective.
- */
 const CarburantPriceForm = ({fetchData, onClose }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-  /**
-   * 🧩 Gestion de la soumission du formulaire
-   */
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
