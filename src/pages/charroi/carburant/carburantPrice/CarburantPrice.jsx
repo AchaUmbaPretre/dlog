@@ -129,7 +129,7 @@ const CarburantPrice = () => {
 
       {/* 🔹 Modal d’ajout */}
       <Modal
-        title="Ajouter un prix du carburant"
+        title=""
         open={modalType === "add"}
         onCancel={closeModal}
         footer={null}
