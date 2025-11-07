@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, Button, Modal } from 'antd';
 import CarburantPriceForm from './carburantPriceForm/CarburantPriceForm';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { getCarburantPrice } from '../../../../services/carburantService';
 
 const CarburantPrice = () => {
     const [pagination, setPagination] = useState({
@@ -11,6 +12,20 @@ const CarburantPrice = () => {
     const [data, setData] = useState([]);
     const [modalType, setModalType] = useState(null);
     const [loading, setLoading] = useState(true);
+    const scroll = { x: 400 };
+
+      const fetchData = async() => {
+        try {
+          const { data } = await getCarburantPrice();
+          setData(data) 
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      useEffect(() => {
+        fetchData()
+      }, [])
 
     const handleAdd = (id) => {
       openModal('Add', id)
