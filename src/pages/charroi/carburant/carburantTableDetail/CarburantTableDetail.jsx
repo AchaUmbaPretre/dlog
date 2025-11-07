@@ -67,7 +67,7 @@ const CarburantTableDetail = ({data, loading}) => {
         dataIndex: "consommation",
         key: "consommation",
         align: "right",
-        render: (text) => <Text>{text} L/100km</Text>,
+        render: (text) => <Text>{text} L</Text>,
       }
     ];
 
