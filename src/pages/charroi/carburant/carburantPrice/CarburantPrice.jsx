@@ -3,6 +3,7 @@ import { Table, Button, Modal, notification } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import CarburantPriceForm from "./carburantPriceForm/CarburantPriceForm";
 import { getCarburantPrice } from "../../../../services/carburantService";
+import moment from "moment";
 
 const CarburantPrice = () => {
   const [pagination, setPagination] = useState({
@@ -82,6 +83,8 @@ const CarburantPrice = () => {
       dataIndex: "date_effective",
       key: "date_effective",
       align: "center",
+      render: (value) =>
+        value ? moment(value).format("DD-MM-YYYY") : "—",
     },
   ];
 
