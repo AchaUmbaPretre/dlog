@@ -161,15 +161,15 @@ const Carburant = () => {
       },
       {
         title: "P.U ($)",
-        dataIndex: "prix_unitaire",
-        key: "prix_unitaire",
+        dataIndex: "prix_usd",
+        key: "prix_usd",
         align: "right",
         render: (text) => <Text>{formatNumber(text, " $")}</Text>,
       },
       {
         title: "M. total ($)",
-        dataIndex: "montant_total",
-        key: "montant_total",
+        dataIndex: "montant_total_usd",
+        key: "montant_total_usd",
         align: "right",
         render: (text) => (
           <Text strong style={{ color: "#1677ff" }}>
