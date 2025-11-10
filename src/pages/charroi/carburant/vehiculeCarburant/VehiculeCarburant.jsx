@@ -21,6 +21,7 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { getCarburantVehicule } from '../../../../services/carburantService';
+import RelierCarburantVehicule from '../relierCarburantVehicule/RelierCarburantVehicule';
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -35,6 +36,9 @@ const VehiculeCarburant = () => {
   const closeAllModals = () => setModalType(null);
   const openModal = (type) => setModalType(type);
 
+  const handleRelier = () => {
+    openModal('Relier')
+  };
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -67,6 +71,7 @@ const VehiculeCarburant = () => {
       },
     });
   };
+
 
   const filteredData = data.filter(
     (item) =>
@@ -117,7 +122,7 @@ const VehiculeCarburant = () => {
   ];
 
   return (
-    <div className="carburant-page p-4">
+    <div className="carburant-page">
       <Card
         title={
           <Space>
@@ -143,7 +148,7 @@ const VehiculeCarburant = () => {
             <Button type="primary" icon={<PlusCircleOutlined />} onClick={() => openModal("Add")}>
               Nouveau
             </Button>
-            <Button icon={<RetweetOutlined />}>Rélier</Button>
+            <Button icon={<RetweetOutlined />} onClick={handleRelier}>Rélier</Button>
           </Space>
         }
       >
@@ -168,6 +173,17 @@ const VehiculeCarburant = () => {
           bordered
         />
       </Card>
+
+        <Modal
+            open={modalType === "Add"}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1000}
+            centered
+            destroyOnClose
+        >
+            <RelierCarburantVehicule closeModal={closeAllModals} fetchData={fetchData} />
+        </Modal>
     </div>
   );
 };
