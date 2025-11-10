@@ -14,7 +14,7 @@ import {
 } from "antd";
 import {
   PrinterOutlined,
-  FireOutlined,
+  ThunderboltOutlined,
   PlusCircleOutlined,
   DeleteOutlined,
   ReloadOutlined,
