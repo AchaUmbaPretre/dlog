@@ -175,7 +175,7 @@ const VehiculeCarburant = () => {
       </Card>
 
         <Modal
-            open={modalType === "Add"}
+            open={modalType === "Relier"}
             onCancel={closeAllModals}
             footer={null}
             width={1000}
