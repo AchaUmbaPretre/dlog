@@ -88,8 +88,7 @@ const RelierCarburantVehicule = () => {
         try {
           setSaving(true);
           await putRelierCarburantVehicule(selectedVehicule, {
-            id_carburant_vehicule: record.id_enregistrement ,
-            name_capteur: record.name,
+            id_enregistrement: record.id_enregistrement
           });
           message.success("Véhicule relié/modifié avec succès !");
           await fetchDataAll();
@@ -125,55 +124,64 @@ const RelierCarburantVehicule = () => {
         </Space>
       ),
     },
-    {
-      title: "Véhicule Dlog",
-      dataIndex: "linkedVehicule",
-      key: "vehicule",
-      render: (linkedVehicule, record) => {
-        if (editingRow === record.id_enregistrement) {
-          return (
-            <Select
-              showSearch
-              placeholder="Sélectionner un véhicule"
-              style={{ width: 250 }}
-              optionFilterProp="children"
-              onChange={handleChangeVehicule}
-              defaultValue={linkedVehicule?.id_vehicule || undefined}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().includes(input.toLowerCase())
-              }
-            >
-              {vehiculeAll.map((v) => (
-                <Option key={v.id_vehicule} value={v.id_vehicule}>
-                  {v.nom_marque} - {v.immatriculation}
-                </Option>
-              ))}
-            </Select>
-          );
-        }
+   {
+  title: "Véhicule Dlog",
+  key: "vehicule",
+  render: (_, record) => {
+    // 🔍 Chercher le véhicule Dlog déjà relié à ce véhicule carburant
+    const linkedVehicule = vehiculeAll.find(
+      (v) => v.id_carburant_vehicule === record.id_carburant_vehicule
+    );
 
-        if (linkedVehicule) {
-          return (
-            <Tag color="green" icon={<CheckOutlined />}>
-              {linkedVehicule.nom_marque} - {linkedVehicule.immatriculation}
-            </Tag>
-          );
-        }
+    // 🟦 Si on est en mode édition
+    if (editingRow === record.id_enregistrement) {
+      return (
+        <Select
+          showSearch
+          placeholder="Sélectionner un véhicule"
+          style={{ width: 250 }}
+          optionFilterProp="children"
+          onChange={handleChangeVehicule}
+          // ✅ afficher par défaut le véhicule déjà relié
+          defaultValue={linkedVehicule?.id_vehicule || undefined}
+          filterOption={(input, option) =>
+            option.children.toLowerCase().includes(input.toLowerCase())
+          }
+        >
+          {vehiculeAll.map((v) => (
+            <Option key={v.id_vehicule} value={v.id_vehicule}>
+              {v.nom_marque} - {v.immatriculation}
+            </Option>
+          ))}
+        </Select>
+      );
+    }
 
-        return (
-          <Tag color="red" icon={<CloseOutlined />}>
-            Non relié
-          </Tag>
-        );
-      },
-    },
+    // 🟩 Si le véhicule carburant est déjà relié à un véhicule Dlog
+    if (linkedVehicule) {
+      return (
+        <Tag color="green" icon={<CheckOutlined />}>
+          {linkedVehicule.nom_marque} - {linkedVehicule.immatriculation}
+        </Tag>
+      );
+    }
+
+    // 🟥 Si aucun véhicule n’est encore relié
+    return (
+      <Tag color="red" icon={<CloseOutlined />}>
+        Non relié
+      </Tag>
+    );
+  },
+},
+
     {
       title: "Action",
       key: "action",
       align: "center",
       render: (_, record) => {
         const isEditing = editingRow === record.id_enregistrement;
-        const isLinked = !!record.linkedVehicule;
+        const isLinked = !!record.id_vehicule;
 
         return (
           <Space>
@@ -207,7 +215,7 @@ const RelierCarburantVehicule = () => {
                 </Button>
               </Tooltip>
             ) : (
-              <Tooltip title="Ajouter un véhicule à ce capteur">
+              <Tooltip title="Ajouter un véhicule à ce vehicule carburant">
                 <Button
                   type="primary"
                   icon={<PlusOutlined />}
