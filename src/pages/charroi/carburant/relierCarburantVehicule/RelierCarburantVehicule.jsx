@@ -130,10 +130,9 @@ const RelierCarburantVehicule = () => {
   render: (_, record) => {
     // 🔍 Chercher le véhicule Dlog déjà relié à ce véhicule carburant
     const linkedVehicule = vehiculeAll.find(
-      (v) => v.id_carburant_vehicule === record.id_carburant_vehicule
+      (v) => v.id_carburant_vehicule === record.id_enregistrement
     );
 
-    // 🟦 Si on est en mode édition
     if (editingRow === record.id_enregistrement) {
       return (
         <Select
@@ -181,7 +180,9 @@ const RelierCarburantVehicule = () => {
       align: "center",
       render: (_, record) => {
         const isEditing = editingRow === record.id_enregistrement;
-        const isLinked = !!record.id_vehicule;
+         const linkedVehicule = vehiculeAll.find(
+        (v) => v.id_carburant_vehicule === record.id_enregistrement
+        );
 
         return (
           <Space>
@@ -203,7 +204,7 @@ const RelierCarburantVehicule = () => {
                   </Button>
                 </Tooltip>
               </>
-            ) : isLinked ? (
+            ) : linkedVehicule ? (
               <Tooltip title="Modifier le véhicule relié">
                 <Button
                   type="default"
@@ -243,7 +244,7 @@ const RelierCarburantVehicule = () => {
       ) : (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
           <Input.Search
-            placeholder="Rechercher un capteur Falcon..."
+            placeholder="Rechercher..."
             allowClear
             onChange={(e) => setSearchValue(e.target.value)}
             style={{ width: 350 }}
