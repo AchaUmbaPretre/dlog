@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../../utils/tabStyles';
 import Carburant from '../Carburant';
+import VehiculeCarburant from '../vehiculeCarburant/VehiculeCarburant';
 
 const CarburantAll = () => {
   const [activeKey, setActiveKey] = useState('1');
@@ -44,7 +45,7 @@ const CarburantAll = () => {
             </span>
           }
         >
-          <Carburant />
+          <VehiculeCarburant />
         </Tabs.TabPane>
       </Tabs>
     </div>
