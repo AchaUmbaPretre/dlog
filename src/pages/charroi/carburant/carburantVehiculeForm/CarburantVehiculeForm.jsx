@@ -9,9 +9,21 @@ import {
   Card,
   Spin,
   Space,
+  Typography,
 } from "antd";
+import {
+  LoadingOutlined,
+  CarOutlined,
+  BarcodeOutlined,
+  NumberOutlined,
+  IdcardOutlined,
+  ClearOutlined,
+  SaveOutlined,
+} from "@ant-design/icons";
 import { postCarburantVehicule } from "../../../../services/carburantService";
-import { LoadingOutlined } from "@ant-design/icons";
+import "./carburantVehiculeForm.scss";
+
+const { Title } = Typography;
 
 const CarburantVehiculeForm = () => {
   const [form] = Form.useForm();
@@ -42,70 +54,87 @@ const CarburantVehiculeForm = () => {
   );
 
   return (
-    <Card
-      title="Enregistrer un nouveau véhicule ou groupe électrogène"
-      bordered={false}
-      className="shadow-md rounded-2xl"
-    >
+    <Card bordered={false} className="vehicule-card">
       <Spin
         spinning={loading}
         indicator={<LoadingOutlined style={{ fontSize: 28 }} spin />}
         tip="Enregistrement en cours..."
         delay={300}
       >
+        <div className="vehicule-header">
+          <CarOutlined className="vehicule-icon" />
+          <Title level={3} className="vehicule-title">
+            Enregistrer un nouveau véhicule ou groupe électrogène
+          </Title>
+        </div>
+
         <Form
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
-          style={{ marginTop: 10 }}
+          className="vehicule-form"
         >
-          <Row gutter={[16, 16]}>
-            <Col xs={24} sm={12} md={8}>
+          <Row gutter={[24, 16]}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Marque"
                 name="nom_marque"
                 rules={[{ required: true, message: "Veuillez entrer la marque" }]}
               >
-                <Input placeholder="Ex: Toyota" />
+                <Input
+                  prefix={<CarOutlined className="input-icon" />}
+                  placeholder="Ex: Toyota"
+                />
               </Form.Item>
             </Col>
 
-            <Col xs={24} sm={12} md={8}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Modèle"
                 name="nom_modele"
                 rules={[{ required: true, message: "Veuillez entrer le modèle" }]}
               >
-                <Input placeholder="Ex: Corolla" />
+                <Input
+                  prefix={<BarcodeOutlined className="input-icon" />}
+                  placeholder="Ex: Corolla"
+                />
               </Form.Item>
             </Col>
 
-            <Col xs={24} sm={12} md={8}>
+            <Col xs={24} md={12}>
               <Form.Item label="N° série" name="num_serie">
-                <Input placeholder="Ex: ABC123456" />
+                <Input
+                  prefix={<NumberOutlined className="input-icon" />}
+                  placeholder="Ex: ABC123456"
+                />
               </Form.Item>
             </Col>
 
-            <Col xs={24} sm={12} md={8}>
+            <Col xs={24} md={12}>
               <Form.Item label="Immatriculation" name="immatriculation">
-                <Input placeholder="Ex: 1234-AB-01" />
+                <Input
+                  prefix={<IdcardOutlined className="input-icon" />}
+                  placeholder="Ex: 1234-AB-01"
+                />
               </Form.Item>
             </Col>
 
-            <Col span={24} style={{ textAlign: "right", marginTop: 20 }}>
+            <Col span={24} className="vehicule-actions">
               <Space>
                 <Button
                   type="primary"
                   htmlType="submit"
+                  icon={<SaveOutlined />}
                   loading={loading}
-                  style={{ minWidth: 150 }}
+                  className="vehicule-btn"
                 >
                   Enregistrer
                 </Button>
                 <Button
                   onClick={() => form.resetFields()}
+                  icon={<ClearOutlined />}
                   disabled={loading}
-                  style={{ minWidth: 120 }}
+                  className="vehicule-btn-cancel"
                 >
                   Annuler
                 </Button>

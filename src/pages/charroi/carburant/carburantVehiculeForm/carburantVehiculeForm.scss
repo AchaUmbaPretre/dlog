@@ -1,0 +1,81 @@
+.vehicule-card {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.vehicule-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  .vehicule-icon {
+    font-size: 26px;
+    color: #1677ff;
+  }
+
+  .vehicule-title {
+    margin: 0;
+    color: #001529;
+    font-weight: 600;
+  }
+}
+
+.vehicule-form {
+  .ant-form-item-label > label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .input-icon {
+    color: #1677ff;
+    margin-right: 6px;
+  }
+
+  input {
+    border-radius: 8px;
+    height: 35px;
+  }
+
+  .ant-input-affix-wrapper {
+    border-radius: 8px;
+    transition: 0.3s ease;
+
+    &:focus-within {
+      border-color: #1677ff;
+      box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+    }
+  }
+}
+
+.vehicule-actions {
+  text-align: right;
+  margin-top: 1.5rem;
+
+  .vehicule-btn {
+    min-width: 150px;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+
+  .vehicule-btn-cancel {
+    min-width: 120px;
+    border-radius: 8px;
+    font-weight: 500;
+    background-color: #f5f5f5;
+    color: #555;
+    border: none;
+
+    &:hover {
+      background-color: #e8e8e8;
+      color: #000;
+    }
+  }
+}
