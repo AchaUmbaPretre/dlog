@@ -13,7 +13,7 @@ import {
   Empty,
 } from "antd";
 import {
-  PrinterOutlined,
+  RetweetOutlined,
   ThunderboltOutlined,
   PlusCircleOutlined,
   DeleteOutlined,
@@ -143,7 +143,7 @@ const VehiculeCarburant = () => {
             <Button type="primary" icon={<PlusCircleOutlined />} onClick={() => openModal("Add")}>
               Nouveau
             </Button>
-            <Button icon={<PrinterOutlined />}>Imprimer</Button>
+            <Button icon={<RetweetOutlined />}>Rélier</Button>
           </Space>
         }
       >
