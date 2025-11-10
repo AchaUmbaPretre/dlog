@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Table,
   Button,
@@ -132,7 +132,7 @@ const VehiculeCarburant = () => {
         extra={
           <Space wrap>
             <Search
-              placeholder="Recherche chauffeur ou véhicule..."
+              placeholder="Recherche marque ou véhicule..."
               allowClear
               onChange={(e) => setSearchValue(e.target.value)}
               style={{ width: 260 }}
