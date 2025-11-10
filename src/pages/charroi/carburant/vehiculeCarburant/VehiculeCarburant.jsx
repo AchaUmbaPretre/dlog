@@ -121,7 +121,7 @@ const VehiculeCarburant = () => {
       <Card
         title={
           <Space>
-            <FireOutlined style={{ color: "#fa541c", fontSize: 22 }} />
+            <ThunderboltOutlined style={{ color: "#fa541c", fontSize: 22 }} />
             <Title level={4} style={{ margin: 0 }}>
               Véhicule & Groupe électrogène
             </Title>

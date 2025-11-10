@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Tabs } from 'antd';
 import {
   FireOutlined,
-  CarOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../../utils/tabStyles';
