@@ -10,6 +10,7 @@ import {
   Spin,
   Space,
   Typography,
+  Tooltip,
 } from "antd";
 import {
   LoadingOutlined,
@@ -23,7 +24,7 @@ import {
 import { postCarburantVehicule } from "../../../../services/carburantService";
 import "./carburantVehiculeForm.scss";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const CarburantVehiculeForm = () => {
   const [form] = Form.useForm();
@@ -36,7 +37,8 @@ const CarburantVehiculeForm = () => {
         await postCarburantVehicule(values);
         notification.success({
           message: "Succès",
-          description: "Le véhicule a été enregistré avec succès.",
+          description: "Le véhicule a été enregistré avec succès 🚗💨",
+          placement: "topRight",
         });
         form.resetFields();
       } catch (error) {
@@ -45,6 +47,7 @@ const CarburantVehiculeForm = () => {
           message: "Erreur",
           description:
             "Une erreur est survenue lors de l'enregistrement du véhicule.",
+          placement: "topRight",
         });
       } finally {
         setLoading(false);
@@ -59,13 +62,19 @@ const CarburantVehiculeForm = () => {
         spinning={loading}
         indicator={<LoadingOutlined style={{ fontSize: 28 }} spin />}
         tip="Enregistrement en cours..."
-        delay={300}
       >
         <div className="vehicule-header">
-          <CarOutlined className="vehicule-icon" />
-          <Title level={3} className="vehicule-title">
-            Enregistrer un nouveau véhicule ou groupe électrogène
-          </Title>
+          <div className="vehicule-header-content">
+            <CarOutlined className="vehicule-icon animate-icon" />
+            <div>
+              <Title level={3} className="vehicule-title">
+                Enregistrer un nouveau véhicule ou groupe électrogène
+              </Title>
+              <Text type="secondary">
+                Veuillez remplir les champs ci-dessous avec soin.
+              </Text>
+            </div>
+          </div>
         </div>
 
         <Form
@@ -73,6 +82,7 @@ const CarburantVehiculeForm = () => {
           layout="vertical"
           onFinish={handleSubmit}
           className="vehicule-form"
+          autoComplete="off"
         >
           <Row gutter={[24, 16]}>
             <Col xs={24} md={12}>
@@ -120,24 +130,29 @@ const CarburantVehiculeForm = () => {
             </Col>
 
             <Col span={24} className="vehicule-actions">
-              <Space>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  icon={<SaveOutlined />}
-                  loading={loading}
-                  className="vehicule-btn"
-                >
-                  Enregistrer
-                </Button>
-                <Button
-                  onClick={() => form.resetFields()}
-                  icon={<ClearOutlined />}
-                  disabled={loading}
-                  className="vehicule-btn-cancel"
-                >
-                  Annuler
-                </Button>
+              <Space size="middle">
+                <Tooltip title="Enregistrer ce véhicule">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    icon={<SaveOutlined />}
+                    loading={loading}
+                    className="vehicule-btn"
+                  >
+                    Enregistrer
+                  </Button>
+                </Tooltip>
+
+                <Tooltip title="Effacer tous les champs">
+                  <Button
+                    onClick={() => form.resetFields()}
+                    icon={<ClearOutlined />}
+                    disabled={loading}
+                    className="vehicule-btn-cancel"
+                  >
+                    Annuler
+                  </Button>
+                </Tooltip>
               </Space>
             </Col>
           </Row>
