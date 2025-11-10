@@ -22,7 +22,6 @@ const CarburantAll = () => {
         destroyInactiveTabPane
         animated
       >
-        {/* Onglet Carburant */}
         <Tabs.TabPane
           key="1"
           tab={
