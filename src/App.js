@@ -74,7 +74,7 @@ import Generale from './pages/generale/Generale';
 import ModeTv from './pages/modeTv/ModeTv';
 import Monitoring from './pages/charroi/monitoring/Monitoring';
 import Geofences from './pages/administration/geofences/Geofences';
-import Carburant from './pages/charroi/carburant/Carburant';
+import CarburantAll from './pages/charroi/carburant/carburantAll/CarburantAll';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -374,7 +374,7 @@ function App() {
         },
         {
           path: '/carburant',
-          element: secure('/carburant', <Carburant/>)
+          element: secure('/carburant', <CarburantAll/>)
         }
       ]
     },

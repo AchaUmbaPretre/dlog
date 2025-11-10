@@ -17,6 +17,7 @@ import RapportMoniUtilitaire from './rapportMoniUtilitaire/RapportMoniUtilitaire
 import ModeTv from './moniKiosque/ModeTv';
 import RapportVehiculeCourses from './moniKiosque/rapportVehiculeCourses/RapportVehiculeCourses';
 import { getFalcon, getRapportCharroiVehicule } from '../../../services/rapportService';
+import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 
 const REFRESH_INTERVAL = 30000; // 30s pour les rapports
 const FALCON_INTERVAL = 5000; // 5s pour le temps réel
@@ -80,24 +81,6 @@ const Monitoring = () => {
     });
   }, [courses, falcon]);
 
-  /** =====================
-   *   TAB STYLES
-   *  ===================== */
-  const getTabStyle = (key) => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-    color: activeKey === key ? '#1677ff' : 'rgba(0,0,0,0.65)',
-    fontWeight: activeKey === key ? 600 : 400,
-    transition: 'color 0.3s ease',
-  });
-
-  const iconStyle = (key) => ({
-    fontSize: 18,
-    color: activeKey === key ? '#1677ff' : 'rgba(0,0,0,0.45)',
-    transform: activeKey === key ? 'scale(1.15)' : 'scale(1)',
-    transition: 'transform 0.3s ease, color 0.3s ease',
-  });
 
   /** =====================
    *   BADGE COURSE COUNT
@@ -116,8 +99,8 @@ const Monitoring = () => {
       <Tabs.TabPane
         key="1"
         tab={
-          <span style={getTabStyle('1')}>
-            <BarChartOutlined style={iconStyle('1')} />
+          <span style={getTabStyle('1', activeKey)}>
+            <BarChartOutlined style={iconStyle('1', activeKey)} />
             Utilisation
           </span>
         }
@@ -128,8 +111,8 @@ const Monitoring = () => {
       <Tabs.TabPane
         key="2"
         tab={
-          <span style={getTabStyle('2')}>
-            <EnvironmentOutlined style={iconStyle('2')} />
+          <span style={getTabStyle('2', activeKey)}>
+            <EnvironmentOutlined style={iconStyle('2', activeKey)} />
             Position
           </span>
         }
@@ -140,8 +123,8 @@ const Monitoring = () => {
       <Tabs.TabPane
         key="3"
         tab={
-          <span style={getTabStyle('3')}>
-            <DashboardOutlined style={iconStyle('3')} />
+          <span style={getTabStyle('3', activeKey)}>
+            <DashboardOutlined style={iconStyle('3', activeKey)} />
             Monitoring
           </span>
         }
@@ -152,8 +135,8 @@ const Monitoring = () => {
       <Tabs.TabPane
         key="4"
         tab={
-          <span style={getTabStyle('4')}>
-            <BellOutlined style={iconStyle('4')} />
+          <span style={getTabStyle('4', activeKey)}>
+            <BellOutlined style={iconStyle('4', activeKey)} />
             Événements
           </span>
         }
@@ -164,8 +147,8 @@ const Monitoring = () => {
       <Tabs.TabPane
         key="5"
         tab={
-          <span style={getTabStyle('5')}>
-            <WifiOutlined style={iconStyle('5')} />
+          <span style={getTabStyle('5', activeKey)}>
+            <WifiOutlined style={iconStyle('5', activeKey)} />
             Signal
           </span>
         }
@@ -176,8 +159,8 @@ const Monitoring = () => {
       <Tabs.TabPane
         key="6"
         tab={
-          <span style={getTabStyle('6')}>
-            <DesktopOutlined style={iconStyle('6')} />
+          <span style={getTabStyle('6', activeKey)}>
+            <DesktopOutlined style={iconStyle('6', activeKey)} />
             Kiosque
           </span>
         }
@@ -188,7 +171,7 @@ const Monitoring = () => {
       <Tabs.TabPane
         key="7"
         tab={
-          <span style={getTabStyle('7')}>
+          <span style={getTabStyle('7', activeKey)}>
             <Badge
               count={activeCoursesCount}
               overflowCount={99}
@@ -196,7 +179,7 @@ const Monitoring = () => {
               style={{ backgroundColor: '#1677ff' }}
             >
               <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <CarOutlined style={iconStyle('7')} />
+                <CarOutlined style={iconStyle('7', activeKey)} />
                 En course
               </span>
             </Badge>
