@@ -22,6 +22,7 @@ import {
 } from "@ant-design/icons";
 import { getCarburantVehicule } from '../../../../services/carburantService';
 import RelierCarburantVehicule from '../relierCarburantVehicule/RelierCarburantVehicule';
+import CarburantVehiculeForm from '../carburantVehiculeForm/CarburantVehiculeForm';
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -173,6 +174,17 @@ const VehiculeCarburant = () => {
           bordered
         />
       </Card>
+
+        <Modal
+            open={modalType === "Add"}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1000}
+            centered
+            destroyOnClose
+        >
+            <CarburantVehiculeForm closeModal={closeAllModals} fetchData={fetchData} />
+        </Modal>
 
         <Modal
             open={modalType === "Relier"}
