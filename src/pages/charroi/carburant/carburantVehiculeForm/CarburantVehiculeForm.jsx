@@ -166,20 +166,23 @@ export default function CarburantVehiculeForm({ closeModal, fetchData }) {
         >
           <Row gutter={[20, 12]}>
             <Col xs={24} md={12}>
-              <Form.Item
+            <Form.Item
                 label="Marque"
                 name="nom_marque"
                 rules={[{ required: true, message: "Veuillez entrer la marque" }]}
-              >
+            >
                 <AutoComplete
-                  options={filteredMarques.map((m) => ({ value: m }))}
-                  onSearch={handleMarqueSearch}
-                  placeholder="Ex: Toyota"
-                  size="large"
-                  prefix={<CarOutlined className="input-icon" />}
-                  filterOption={false}
+                options={filteredMarques.map((m) => ({ value: m }))}
+                onSearch={handleMarqueSearch}
+                filterOption={false}
+                >
+                <Input
+                    placeholder="Ex: Toyota"
+                    size="large"
+                    prefix={<CarOutlined className="input-icon" />}
                 />
-              </Form.Item>
+                </AutoComplete>
+            </Form.Item>
             </Col>
 
             <Col xs={24} md={12}>
@@ -189,13 +192,17 @@ export default function CarburantVehiculeForm({ closeModal, fetchData }) {
                 rules={[{ required: true, message: "Veuillez entrer le modèle" }]}
               >
                 <AutoComplete
-                  options={filteredModeles.map((m) => ({ value: m }))}
-                  onSearch={handleModeleSearch}
-                  placeholder="Ex: Corolla"
-                  size="large"
-                  prefix={<BarcodeOutlined className="input-icon" />}
-                  filterOption={false}
-                />
+                    options={filteredModeles.map((m) => ({ value: m }))}
+                    onSearch={handleModeleSearch}
+                    filterOption={false}
+                >
+                    <Input
+                        placeholder="Ex: Corolla"
+                        size="large"
+                        prefix={<BarcodeOutlined className="input-icon" />}
+                    />
+                </AutoComplete>
+
               </Form.Item>
             </Col>
 
