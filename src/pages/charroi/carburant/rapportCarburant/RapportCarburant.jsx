@@ -1,6 +1,8 @@
 import React from 'react'
+import './rapportCarburant.scss';
 
 const RapportCarburant = () => {
+
   return (
     <>
         <div className="rapport__carburant">
