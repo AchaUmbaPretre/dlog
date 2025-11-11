@@ -47,7 +47,7 @@ export const postCarburantPrice = async (data) => {
 export const getRapportCarburant = async (date_debut, date_fin) => {
   return axios.get(`${DOMAIN}/api/carburant/rapport_carburant`, {
     params: {
-      date_debut, 
+      date_debut,
       date_fin
     }
   });
