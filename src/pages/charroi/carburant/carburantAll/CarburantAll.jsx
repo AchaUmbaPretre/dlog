@@ -3,6 +3,7 @@ import { Tabs } from 'antd';
 import {
   FireOutlined,
   ThunderboltOutlined,
+  FileTextOutlined
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../../utils/tabStyles';
 import Carburant from '../Carburant';
@@ -26,7 +27,7 @@ const CarburantAll = () => {
           key="1"
           tab={
             <span style={getTabStyle('1', activeKey)}>
-              <FireOutlined style={iconStyle('1', activeKey)} />
+              <FileTextOutlined style={iconStyle('1', activeKey)} />
               Rapport Carburant
             </span>
           }
