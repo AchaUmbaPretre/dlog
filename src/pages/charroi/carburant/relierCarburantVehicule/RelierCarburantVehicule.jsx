@@ -125,55 +125,51 @@ const RelierCarburantVehicule = () => {
       ),
     },
    {
-  title: "Véhicule Dlog",
-  key: "vehicule",
-  render: (_, record) => {
-    // 🔍 Chercher le véhicule Dlog déjà relié à ce véhicule carburant
-    const linkedVehicule = vehiculeAll.find(
-      (v) => v.id_carburant_vehicule === record.id_enregistrement
-    );
+        title: "Véhicule Dlog",
+        key: "vehicule",
+        render: (_, record) => {
+        // 🔍 Chercher le véhicule Dlog déjà relié à ce véhicule carburant
+        const linkedVehicule = vehiculeAll.find(
+        (v) => v.id_carburant_vehicule === record.id_enregistrement
+        );
 
-    if (editingRow === record.id_enregistrement) {
-      return (
-        <Select
-          showSearch
-          placeholder="Sélectionner un véhicule"
-          style={{ width: 250 }}
-          optionFilterProp="children"
-          onChange={handleChangeVehicule}
-          // ✅ afficher par défaut le véhicule déjà relié
-          defaultValue={linkedVehicule?.id_vehicule || undefined}
-          filterOption={(input, option) =>
-            option.children.toLowerCase().includes(input.toLowerCase())
-          }
-        >
-          {vehiculeAll.map((v) => (
-            <Option key={v.id_vehicule} value={v.id_vehicule}>
-              {v.nom_marque} - {v.immatriculation}
-            </Option>
-          ))}
-        </Select>
-      );
-    }
+        if (editingRow === record.id_enregistrement) {
+        return (
+            <Select
+                showSearch
+                placeholder="Sélectionner un véhicule"
+                style={{ width: 250 }}
+                optionFilterProp="label"
+                onChange={handleChangeVehicule}
+                defaultValue={linkedVehicule?.id_vehicule || undefined}
+                filterOption={(input, option) =>
+                    option?.label?.toLowerCase().includes(input.toLowerCase())
+                }
+                options={vehiculeAll.map(v => ({
+                    value: v.id_vehicule,
+                    label: `${v.nom_marque} - ${v.immatriculation}`,
+                }))}
+            />
+        );
+        }
 
-    // 🟩 Si le véhicule carburant est déjà relié à un véhicule Dlog
-    if (linkedVehicule) {
-      return (
-        <Tag color="green" icon={<CheckOutlined />}>
-          {linkedVehicule.nom_marque} - {linkedVehicule.immatriculation}
+        // 🟩 Si le véhicule carburant est déjà relié à un véhicule Dlog
+        if (linkedVehicule) {
+        return (
+            <Tag color="green" icon={<CheckOutlined />}>
+            {linkedVehicule.nom_marque} - {linkedVehicule.immatriculation}
+            </Tag>
+        );
+        }
+
+        // 🟥 Si aucun véhicule n’est encore relié
+        return (
+        <Tag color="red" icon={<CloseOutlined />}>
+            Non relié
         </Tag>
-      );
-    }
-
-    // 🟥 Si aucun véhicule n’est encore relié
-    return (
-      <Tag color="red" icon={<CloseOutlined />}>
-        Non relié
-      </Tag>
-    );
-  },
-},
-
+        );
+        },
+    },
     {
       title: "Action",
       key: "action",
