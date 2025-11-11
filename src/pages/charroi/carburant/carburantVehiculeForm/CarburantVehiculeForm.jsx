@@ -251,7 +251,6 @@ export default function CarburantVehiculeForm({ closeModal, fetchData }) {
         </Form>
       </Spin>
 
-      {/* Confettis CSS */}
       <div className={`confetti ${success ? "show" : ""}`} aria-hidden="true">
         <span /><span /><span /><span /><span />
       </div>
