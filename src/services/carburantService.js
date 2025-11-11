@@ -42,3 +42,13 @@ export const getCarburantPriceLimit = async () => {
 export const postCarburantPrice = async (data) => {
   return axios.post(`${DOMAIN}/api/carburant/carburant_prix`, data);
 };
+
+//Rapport
+export const getRapportCarburant = async (date_debut, date_fin) => {
+  return axios.get(`${DOMAIN}/api/carburant/rapport_carburant`, {
+    params: {
+      date_debut, 
+      date_fin
+    }
+  });
+};
