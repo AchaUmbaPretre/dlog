@@ -7,6 +7,7 @@ import {
 import { getTabStyle, iconStyle } from '../../../../utils/tabStyles';
 import Carburant from '../Carburant';
 import VehiculeCarburant from '../vehiculeCarburant/VehiculeCarburant';
+import RapportCarburant from '../rapportCarburant/RapportCarburant';
 
 const CarburantAll = () => {
   const [activeKey, setActiveKey] = useState('1');
@@ -26,6 +27,18 @@ const CarburantAll = () => {
           tab={
             <span style={getTabStyle('1', activeKey)}>
               <FireOutlined style={iconStyle('1', activeKey)} />
+              Rapport Carburant
+            </span>
+          }
+        >
+          <RapportCarburant />
+        </Tabs.TabPane>
+        
+        <Tabs.TabPane
+          key="2"
+          tab={
+            <span style={getTabStyle('2', activeKey)}>
+              <FireOutlined style={iconStyle('2', activeKey)} />
               Carburant
             </span>
           }
@@ -33,12 +46,11 @@ const CarburantAll = () => {
           <Carburant />
         </Tabs.TabPane>
 
-        {/* Onglet Véhicule & Groupe électrogène */}
         <Tabs.TabPane
-          key="2"
+          key="3"
           tab={
-            <span style={getTabStyle('2', activeKey)}>
-              <ThunderboltOutlined style={iconStyle('2', activeKey)} />
+            <span style={getTabStyle('3', activeKey)}>
+              <ThunderboltOutlined style={iconStyle('3', activeKey)} />
               Véhicule & Groupe électrogène
             </span>
           }
