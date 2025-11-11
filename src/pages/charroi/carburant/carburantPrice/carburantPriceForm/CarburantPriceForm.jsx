@@ -56,7 +56,7 @@ const CarburantPriceForm = ({fetchData, onClose }) => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="Prix en CDF"
+                label="Prix du litre en CDF"
                 name="prix_cdf"
                 rules={[
                   {
@@ -75,12 +75,12 @@ const CarburantPriceForm = ({fetchData, onClose }) => {
 
             <Col span={12}>
               <Form.Item
-                label="Prix en USD"
+                label="Taux du jour"
                 name="taux_usd"
                 rules={[
                   {
                     required: true,
-                    message: "Veuillez entrer le prix en USD.",
+                    message: "Veuillez entrer le taux du jour.",
                   },
                   {
                     pattern: /^[0-9]+(\.[0-9]{1,2})?$/,
@@ -88,7 +88,7 @@ const CarburantPriceForm = ({fetchData, onClose }) => {
                   },
                 ]}
               >
-                <Input placeholder="Ex: 10" type="number" />
+                <Input placeholder="Ex: 2200" type="number" />
               </Form.Item>
             </Col>
 
