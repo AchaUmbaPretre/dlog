@@ -47,7 +47,6 @@ const RapportHeader = ({ generatedBy, generatedAt, onPeriodChange }) => {
         <p className="rapport__meta">
           Généré le : <strong>{new Date(generatedAt).toLocaleString("fr-FR")}</strong>
           <span className="rapport__meta-sep">•</span>
-          Préparé par : <strong>{generatedBy}</strong>
         </p>
       </div>
     </header>

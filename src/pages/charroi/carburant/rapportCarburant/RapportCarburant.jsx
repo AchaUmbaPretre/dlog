@@ -1,50 +1,111 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import "./rapportCarburant.scss";
-import RapportHeader from "./rapportHeader/RapportHeader";
+import moment from "moment";
+import { DatePicker, Button } from "antd";
+import "antd/dist/reset.css";
+
 import RapportKPIs from "./rapportKPIs/RapportKPIs";
 import RapportCharts from "./rapportCharts/RapportCharts";
 import RapportTableVehicules from "./rapportTableVehicules/RapportTableVehicules";
 import RapportAlertes from "./rapportAlertes/RapportAlertes";
 import { getRapportCarburant } from "../../../../services/carburantService";
-import moment from "moment";
+
+const { RangePicker } = DatePicker;
 
 const RapportCarburant = ({
   generatedBy = "Système",
   generatedAt = new Date().toLocaleString(),
 }) => {
-  // Initialiser la période avec la date du jour
-  const today = moment().format("YYYY-MM-DD");
-  const [period, setPeriod] = useState({ from: today, to: today });
+  const today = moment();
+  const [dates, setDates] = useState([today, today]);
+  const [period, setPeriod] = useState({
+    from: today.format("YYYY-MM-DD"),
+    to: today.format("YYYY-MM-DD"),
+  });
+
+  const [kpis, setKpis] = useState({});
   const [charts, setCharts] = useState({});
   const [vehicles, setVehicles] = useState([]);
   const [alerts, setAlerts] = useState([]);
-  const [kpis, setKpis] = useState({});
 
-  // Fetch automatique avec la période par défaut
+  const fetchRapport = async (from, to) => {
+    try {
+      const { data } = await getRapportCarburant(from, to);
+      if (!data) return;
+
+      setKpis({
+        totalPleins: data.resume.total_pleins,
+        totalLitres: data.resume.total_litres,
+        totalCdf: data.resume.total_cdf,
+        totalUsd: data.resume.total_usd,
+        avgConsumption: data.resume.conso_moyenne,
+      });
+
+      setCharts(data.graphiques || {});
+      setVehicles(data.detailVehicules || []);
+      setAlerts(
+        (data.alertes || []).map((a) => ({
+          niveau: a.type_alerte,
+          vehicule: a.immatriculation,
+          date: a.date_operation,
+          message: `Consommation: ${a.consommation} L/100km, Quantité: ${a.quantite_litres} L`,
+          status: "À vérifier",
+        }))
+      );
+    } catch (error) {
+      console.error("Erreur lors du chargement du rapport :", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await getRapportCarburant(period.from, period.to);
-        // Supposons que l'API retourne { resume, graphiques, detailVehicules, alertes }
-        setKpis(data.resume || {});
-        setCharts(data.graphiques || {});
-        setVehicles(data.detailVehicules || []);
-        setAlerts(data.alertes || []);
-      } catch (error) {
-        console.error("Erreur lors du chargement du rapport :", error);
-      }
-    };
-    fetchData();
-  }, [period]); // Re-exécute si period change
+    fetchRapport(period.from, period.to);
+  }, [period]);
+
+  const handleChangeDates = (dates) => setDates(dates);
+
+  const handleGenerate = () => {
+    if (dates && dates.length === 2) {
+      const from = dates[0].format("YYYY-MM-DD");
+      const to = dates[1].format("YYYY-MM-DD");
+      setPeriod({ from, to });
+    }
+  };
 
   return (
     <section className="rapport">
-      <RapportHeader
-        onPeriodChange={period}
-        generatedBy={generatedBy}
-        generatedAt={generatedAt}
-      />
+      <header className="rapport__header">
+        <div>
+          <h1 className="rapport__title">Rapport de gestion du carburant</h1>
+
+          <div style={{ margin: "10px 0" }}>
+            <RangePicker
+              format="YYYY-MM-DD"
+              value={dates}
+              onChange={handleChangeDates}
+              allowClear
+            />
+            <Button
+              type="primary"
+              style={{ marginLeft: 10 }}
+              onClick={handleGenerate}
+            >
+              Générer le rapport
+            </Button>
+          </div>
+
+          {dates.length === 2 && (
+            <p className="rapport__meta">
+              Période sélectionnée : <strong>{dates[0].format("YYYY-MM-DD")}</strong> au{" "}
+              <strong>{dates[1].format("YYYY-MM-DD")}</strong>
+            </p>
+          )}
+
+          <p className="rapport__meta">
+            Généré le : <strong>{new Date(generatedAt).toLocaleString("fr-FR")}</strong>
+            <span className="rapport__meta-sep">•</span>
+            Préparé par : <strong>{generatedBy}</strong>
+          </p>
+        </div>
+      </header>
 
       <div className="rapport__grid">
         <RapportKPIs kpis={kpis} />
@@ -54,25 +115,6 @@ const RapportCarburant = ({
       </div>
     </section>
   );
-};
-
-RapportCarburant.propTypes = {
-  period: PropTypes.shape({
-    from: PropTypes.string,
-    to: PropTypes.string,
-  }),
-  generatedBy: PropTypes.string,
-  generatedAt: PropTypes.string,
-  kpis: PropTypes.shape({
-    totalPleins: PropTypes.number,
-    coutCDF: PropTypes.number,
-    coutUSD: PropTypes.number,
-    totalLitres: PropTypes.number,
-    consoMoyenne: PropTypes.number,
-  }),
-  charts: PropTypes.object,
-  vehicles: PropTypes.array,
-  alerts: PropTypes.array,
 };
 
 export default RapportCarburant;

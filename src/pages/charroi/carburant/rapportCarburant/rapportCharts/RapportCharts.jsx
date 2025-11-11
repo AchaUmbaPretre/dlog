@@ -1,6 +1,6 @@
 import React from "react";
 
-const RapportCharts = () => {
+const RapportCharts = ({ charts }) => {
   return (
     <section className="card charts">
       <h2 className="card__title">Graphiques</h2>

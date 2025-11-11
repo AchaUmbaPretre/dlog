@@ -1,4 +1,16 @@
 import React from "react";
+import "./rapportAlertes.scss"; // Assurez-vous d'avoir les styles
+
+const getAlertClass = (niveau) => {
+  switch (niveau) {
+    case "Surconsommation":
+      return "alert-item--danger";
+    case "Sous consommation":
+      return "alert-item--warning";
+    default:
+      return "alert-item--info";
+  }
+};
 
 const RapportAlertes = ({ alerts }) => (
   <aside className="card alerts">
@@ -8,7 +20,7 @@ const RapportAlertes = ({ alerts }) => (
         <li className="alerts__empty">Aucune alerte détectée</li>
       ) : (
         alerts.map((a, idx) => (
-          <li key={idx} className={`alert-item alert-item--${a.niveau.toLowerCase()}`}>
+          <li key={idx} className={`alert-item ${getAlertClass(a.niveau)}`}>
             <div className="alert-item__meta">
               <strong>{a.vehicule}</strong> •{" "}
               <span>{new Date(a.date).toLocaleDateString("fr-FR")}</span>

@@ -1,0 +1,24 @@
+.alert-item {
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  &--danger {
+    background-color: #ffcccc;
+    color: #990000;
+  }
+  &--warning {
+    background-color: #ffe6cc;
+    color: #994d00;
+  }
+  &--info {
+    background-color: #e6f0ff;
+    color: #003399;
+  }
+
+  &__meta {
+    font-weight: bold;
+  }
+  &__body {
+    margin-left: 10px;
+  }
+}
