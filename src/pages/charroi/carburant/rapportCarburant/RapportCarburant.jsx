@@ -10,7 +10,7 @@ import { getRapportCarburant } from "../../../../services/carburantService";
 
 const RapportCarburant = () => {
   const today = moment().format("YYYY-MM-DD");
-  const [period, setPeriod] = useState({ from: today, to: today });
+  const [period, setPeriod] = useState([today.clone().startOf("month"), today]);
   const [kpis, setKpis] = useState({});
   const [charts, setCharts] = useState({});
   const [vehicles, setVehicles] = useState([]);
