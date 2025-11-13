@@ -30,7 +30,7 @@ const RapportHeader = ({ onPeriodChange, alertCount = 0 }) => {
                 <FileSearchOutlined className="rapport-header__icon" />
                 <div>
                     <Title level={3} className="rapport-header__title">
-                    Rapport de gestion du carburant
+                        Rapport général du carburant
                     </Title>
                     <Text type="secondary" className="rapport-header__subtitle">
                     Suivi, analyse et performance des consommations
