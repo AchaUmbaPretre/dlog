@@ -13,14 +13,19 @@ const RapportConsomCarburant = () => {
           <div className="rapportConsom__title_container">
             <div className="rapportConsom__title_row">
               <div className="rapportConsom__title_top">
-                <FileSearchOutlined className="rapport-header__icon" />
-                <Title level={3} className="rapport-header__title">
-                  Rapport des consommations
-                </Title>
+                <div className="rapportConsom__title_top_row">
+                  <FileSearchOutlined className="rapport-header__icon" />
+                  <Title level={3} className="rapport-header__title">
+                    Rapport des consommations
+                  </Title>
+                </div>
+                <Text type="secondary" className="rapport-header__subtitle">
+                  Suivi, analyse et performance des consommations
+                </Text>
               </div>
-              <Text type="secondary" className="rapport-header__subtitle">
-                Suivi, analyse et performance des consommations
-              </Text>
+              <div className="rapportConsom__title_bottom">
+                
+              </div>
             </div>
           </div>
         </div>
