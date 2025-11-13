@@ -4,6 +4,7 @@ import { FileSearchOutlined, AppstoreOutlined, CarOutlined, CalendarOutlined } f
 import './rapportConsomCarburant.scss';
 import { parOptions, periodeOptions, spectreOptions } from '../../../../utils/periodeData';
 import ConsomInfoGen from './consomInfoGen/ConsomInfoGen';
+import ConsomCarburantDetail from './consomCarburantDetail/ConsomCarburantDetail';
 
 const { Title, Text } = Typography;
 
@@ -86,6 +87,10 @@ const RapportConsomCarburant = () => {
 
           <div className="rapportConsom__info">
             <ConsomInfoGen />
+          </div>
+
+          <div className="rapportConsom__info">
+            <ConsomCarburantDetail />
           </div>
         </div>
       </div>
