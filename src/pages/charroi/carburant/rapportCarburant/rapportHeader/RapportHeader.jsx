@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { DatePicker, Button, Space, Typography, Tag } from "antd";
-import { CalendarOutlined, FileSearchOutlined, ReloadOutlined } from "@ant-design/icons";
+import { DatePicker, Button, Space, Typography, Tag, Badge, Tooltip } from "antd";
+import { CalendarOutlined, BellTwoTone, FileSearchOutlined, ReloadOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import "./rapportHeader.scss";
 
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;
 
-const RapportHeader = ({ onPeriodChange }) => {
+const RapportHeader = ({ onPeriodChange, alertCount = 0 }) => {
   const today = moment();
   const [dates, setDates] = useState([today.clone().startOf("month"), today]);
 
@@ -26,15 +26,26 @@ const RapportHeader = ({ onPeriodChange }) => {
     <header className="rapport-header">
       <div className="rapport-header__content">
         <div className="rapport-header__title-section">
-          <FileSearchOutlined className="rapport-header__icon" />
-          <div>
-            <Title level={3} className="rapport-header__title">
-              Rapport de gestion du carburant
-            </Title>
-            <Text type="secondary" className="rapport-header__subtitle">
-              Suivi, analyse et performance des consommations
-            </Text>
-          </div>
+            <div>
+                <FileSearchOutlined className="rapport-header__icon" />
+                <div>
+                    <Title level={3} className="rapport-header__title">
+                    Rapport de gestion du carburant
+                    </Title>
+                    <Text type="secondary" className="rapport-header__subtitle">
+                    Suivi, analyse et performance des consommations
+                    </Text>
+                </div>
+            </div>
+
+          {/* Badge d'alerte */}
+          {alertCount > 0 && (
+            <Tooltip title={`${alertCount} alerte(s) détectée(s)`}>
+              <Badge count={alertCount} offset={[6, 0]} color="#ff4d4f">
+                <BellTwoTone className="rapport-header__alert-icon" />
+              </Badge>
+            </Tooltip>
+          )}
         </div>
 
         <Space size="small" className="rapport-header__actions">

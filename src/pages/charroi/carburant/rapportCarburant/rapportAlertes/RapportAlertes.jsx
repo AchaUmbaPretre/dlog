@@ -1,21 +1,35 @@
 import React from "react";
 import {
-  ExclamationCircleOutlined,
+  InfoCircleOutlined,
   WarningOutlined,
+  CloseCircleOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
 import { Tag, Empty, Tooltip } from "antd";
 import "./rapportAlertes.scss";
 
 const RapportAlertes = ({ alerts = [] }) => {
-  const getIcon = (type) => {
-    switch (type) {
-      case "Surconsommation":
-        return <ExclamationCircleOutlined className="alert-item__icon critical" />;
-      case "Avertissement":
+  const getIcon = (niveau) => {
+    switch (niveau) {
+      case "Critical":
+        return <CloseCircleOutlined className="alert-item__icon critical" />;
+      case "Warning":
         return <WarningOutlined className="alert-item__icon warning" />;
+      case "Info":
       default:
-        return <CheckCircleOutlined className="alert-item__icon normal" />;
+        return <InfoCircleOutlined className="alert-item__icon info" />;
+    }
+  };
+
+  const getTagColor = (niveau) => {
+    switch (niveau) {
+      case "Critical":
+        return "error";
+      case "Warning":
+        return "warning";
+      case "Info":
+      default:
+        return "blue";
     }
   };
 
@@ -30,38 +44,27 @@ const RapportAlertes = ({ alerts = [] }) => {
       ) : (
         <ul className="alerts__list">
           {alerts.map((a, idx) => (
-            <li
-              key={idx}
-              className={`alert-item alert-item--${
-                a.type_alerte === "Surconsommation" ? "critical" : "warning"
-              }`}
-            >
+            <li key={idx} className={`alert-item alert-item--${a.niveau.toLowerCase()}`}>
               <div className="alert-item__header">
-                {getIcon(a.type_alerte)}
+                {getIcon(a.niveau)}
                 <div className="alert-item__info">
                   <strong className="alert-item__vehicle">{a.immatriculation}</strong>
-                  <Tag
-                    color={
-                      a.type_alerte === "Surconsommation" ? "error" : "orange"
-                    }
-                    className="alert-item__tag"
-                  >
-                    {a.type_alerte}
+                  <Tag color={getTagColor(a.niveau)} className="alert-item__tag">
+                    {a.niveau}
+                  </Tag>
+                  <Tag color={a.status === "Ouverte" ? "cyan" : "green"} className="alert-item__tag-status">
+                    {a.status}
                   </Tag>
                 </div>
-                <Tooltip title="Date de l'opération">
+                <Tooltip title="Date de création">
                   <span className="alert-item__date">
-                    {new Date(a.date_operation).toLocaleDateString("fr-FR")}
+                    {new Date(a.created_at).toLocaleString("fr-FR")}
                   </span>
                 </Tooltip>
               </div>
 
               <div className="alert-item__body">
-                <span>Consommation : </span>
-                <strong>{a.consommation} L/100km</strong>
-                <span className="alert-item__sep">•</span>
-                <span>Quantité : </span>
-                <strong>{a.quantite_litres} L</strong>
+                {a.message}
               </div>
             </li>
           ))}

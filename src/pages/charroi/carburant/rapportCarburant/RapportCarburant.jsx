@@ -34,8 +34,8 @@ const RapportCarburant = () => {
   return (
     <section className="rapport">
       <RapportHeader
-        generatedAt={new Date().toLocaleString()}
         onPeriodChange={(dates) => setPeriod({ from: dates[0], to: dates[1] })}
+        alertCount= {alerts?.length}
       />
       <div className="rapport__grid">
         <RapportKPIs kpis={kpis} />

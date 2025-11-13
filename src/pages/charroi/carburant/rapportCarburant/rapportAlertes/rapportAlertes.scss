@@ -3,27 +3,15 @@
   border-radius: 16px;
   padding: 24px 28px;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
   margin-top: 20px;
-
-  &:hover {
-    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
-  }
 
   .card__title {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 20px;
-    color: #1f1f1f;
     display: flex;
     align-items: center;
     gap: 8px;
-
-    &::before {
-      content: "⚠️";
-      font-size: 20px;
-      margin-right: 4px;
-    }
   }
 
   .alerts__list {
@@ -43,17 +31,15 @@
 
   .alert-item {
     background: #fafafa;
-    border: 1px solid #f0f0f0;
     border-radius: 12px;
     padding: 14px 18px;
-    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     gap: 6px;
+    transition: all 0.3s ease;
 
     &:hover {
       background: #fefefe;
-      border-color: #d9d9d9;
       transform: translateY(-2px);
     }
 
@@ -69,19 +55,9 @@
       font-size: 22px;
       border-radius: 50%;
       padding: 6px;
-      background: #fff;
-      &.critical {
-        color: #ff4d4f;
-        background: #fff1f0;
-      }
-      &.warning {
-        color: #faad14;
-        background: #fffbe6;
-      }
-      &.normal {
-        color: #52c41a;
-        background: #f6ffed;
-      }
+      &.critical { color: #ff4d4f; background: #fff1f0; }
+      &.warning { color: #faad14; background: #fffbe6; }
+      &.info { color: #1890ff; background: #e6f7ff; }
     }
 
     &__info {
@@ -90,45 +66,14 @@
       gap: 8px;
     }
 
-    &__vehicle {
-      font-weight: 600;
-      color: #1f1f1f;
-    }
+    &__vehicle { font-weight: 600; color: #1f1f1f; }
+    &__tag, &__tag-status { font-size: 12px; border-radius: 6px; padding: 2px 8px; }
+    &__date { color: #8c8c8c; font-size: 13px; }
 
-    &__tag {
-      font-size: 12px;
-      border-radius: 6px;
-      padding: 2px 8px;
-    }
-
-    &__date {
-      color: #8c8c8c;
-      font-size: 13px;
-    }
-
-    &__body {
-      font-size: 14px;
-      color: #595959;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-
-      strong {
-        color: #1f1f1f;
-      }
-    }
-
-    &__sep {
-      color: #bfbfbf;
-      font-size: 12px;
-    }
-
-    &--critical {
-      border-left: 4px solid #ff4d4f;
-    }
-
-    &--warning {
-      border-left: 4px solid #faad14;
-    }
+    &__body { font-size: 14px; color: #595959; }
+    
+    &--critical { border-left: 4px solid #ff4d4f; }
+    &--warning { border-left: 4px solid #faad14; }
+    &--info { border-left: 4px solid #1890ff; }
   }
 }
