@@ -1,4 +1,5 @@
 import React from "react";
+import './rapportKPIs.scss';
 
 const formatNumber = (v) => (v == null ? "-" : new Intl.NumberFormat("fr-FR").format(v));
 

@@ -8,7 +8,7 @@ import RapportTableVehicules from "./rapportTableVehicules/RapportTableVehicules
 import RapportAlertes from "./rapportAlertes/RapportAlertes";
 import { getRapportCarburant } from "../../../../services/carburantService";
 
-const RapportCarburant = ({ generatedBy = "Système" }) => {
+const RapportCarburant = () => {
   const today = moment().format("YYYY-MM-DD");
   const [period, setPeriod] = useState({ from: today, to: today });
   const [kpis, setKpis] = useState({});
@@ -34,7 +34,6 @@ const RapportCarburant = ({ generatedBy = "Système" }) => {
   return (
     <section className="rapport">
       <RapportHeader
-        generatedBy={generatedBy}
         generatedAt={new Date().toLocaleString()}
         onPeriodChange={(dates) => setPeriod({ from: dates[0], to: dates[1] })}
       />

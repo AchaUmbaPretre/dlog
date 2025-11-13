@@ -3,7 +3,7 @@ import { DatePicker, Button } from "antd";
 import moment from "moment";
 const { RangePicker } = DatePicker;
 
-const RapportHeader = ({ generatedBy, generatedAt, onPeriodChange }) => {
+const RapportHeader = ({ generatedAt, onPeriodChange }) => {
   const today = moment();
   const [dates, setDates] = useState([today, today]);
 
