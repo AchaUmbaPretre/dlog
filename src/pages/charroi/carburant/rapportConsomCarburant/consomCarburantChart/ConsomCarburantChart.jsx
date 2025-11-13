@@ -2,7 +2,11 @@ import React from 'react'
 
 const ConsomCarburantChart = () => {
   return (
-    <div>ConsomCarburantChart</div>
+    <>
+        <div className="consomCarburantChart">
+            
+        </div>
+    </>
   )
 }
 

@@ -97,7 +97,6 @@ const RapportConsomCarburant = () => {
           <div className="rapportConsom__info">
             <ConsomCarburantChart />
           </div>
-
         </div>
       </div>
     </div>
