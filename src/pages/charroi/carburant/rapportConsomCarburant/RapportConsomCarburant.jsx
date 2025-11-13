@@ -82,10 +82,10 @@ const RapportConsomCarburant = () => {
               </div>
 
             </div>
+          </div>
 
-            <div className="rapportConsom__info">
-              <ConsomInfoGen />
-            </div>
+          <div className="rapportConsom__info">
+            <ConsomInfoGen />
           </div>
         </div>
       </div>
