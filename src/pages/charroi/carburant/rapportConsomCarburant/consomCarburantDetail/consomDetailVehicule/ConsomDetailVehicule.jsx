@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { DashboardOutlined, BankOutlined, EnvironmentOutlined, CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
+import { DashboardOutlined, FireOutlined, CarOutlined, BankOutlined, EnvironmentOutlined, CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import getColumnSearchProps from '../../../../../../utils/columnSearchUtils';
 import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
 
