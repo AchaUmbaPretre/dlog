@@ -86,7 +86,6 @@ const ConsomInfoSiegeKin = () => {
   return (
     <>
         <div>
-            <Divider>SIEGE KIN</Divider>
             <Card type="inner" title="SIEGE KIN">
                 <Table 
                     columns={columns} 
