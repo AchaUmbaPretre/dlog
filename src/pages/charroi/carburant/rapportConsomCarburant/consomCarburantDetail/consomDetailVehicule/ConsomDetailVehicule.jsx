@@ -23,28 +23,28 @@ const ConsomDetailVehicule = () => {
         width: "4%",
         },
         {
-        title: 'Nom Site',
-        dataIndex: 'nom_site',
-        key: 'nom_site',
-        ...getColumnSearchProps('nom_site'),
-        render: (text) => (
-            <div>
-            <BankOutlined style={{ color: "#1890ff", marginRight: "4px" }} />
-            {text || "Aucune"}
-            </div>
-        )
+            title: 'Nom Site',
+            dataIndex: 'nom_site',
+            key: 'nom_site',
+            ...getColumnSearchProps('nom_site'),
+            render: (text) => (
+                <div>
+                <BankOutlined style={{ color: "#1890ff", marginRight: "4px" }} />
+                {text || "Aucune"}
+                </div>
+            )
         },
         {
-        title: 'Province',
-        dataIndex: 'province',
-        key: 'province',
-        ...getColumnSearchProps('province'),
-        render: (text) => (
-            <div>
-            <EnvironmentOutlined style={{ color: "red", marginRight: "8px" }} />
-            {text}
-            </div>
-        )
+            title: 'Province',
+            dataIndex: 'province',
+            key: 'province',
+            ...getColumnSearchProps('province'),
+            render: (text) => (
+                <div>
+                <EnvironmentOutlined style={{ color: "red", marginRight: "8px" }} />
+                {text}
+                </div>
+            )
         },
         {
         title: 'Zone',
