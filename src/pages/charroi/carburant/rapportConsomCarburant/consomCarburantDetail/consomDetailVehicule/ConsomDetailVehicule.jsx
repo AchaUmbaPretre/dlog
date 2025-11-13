@@ -10,7 +10,7 @@ const ConsomDetailVehicule = () => {
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
 
-      const columns = [
+    const columns = [
     {
       title: '#',
       dataIndex: 'id',
