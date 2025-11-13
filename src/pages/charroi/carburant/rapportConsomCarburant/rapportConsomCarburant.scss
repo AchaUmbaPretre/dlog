@@ -1,0 +1,29 @@
+.rapportConsomCarburant{
+    .rapportConsom__container{
+        .rapportConsom__title_container{
+            .rapportConsom__title_row{
+                .rapportConsom__title_top{
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    .rapport-header__icon {
+                        font-size: 28px;
+                        color: #1677ff;
+                        background: #f0f5ff;
+                        border-radius: 12px;
+                        padding: 10px;
+                    }
+                    .rapport-header__title {
+                        margin: 0;
+                        font-weight: 600;
+                        color: #1f1f1f;
+                    }
+                }
+                .rapport-header__subtitle{
+                    font-size: 14px;
+                    color: #8c8c8c;
+                }
+            }
+        }
+    }
+}

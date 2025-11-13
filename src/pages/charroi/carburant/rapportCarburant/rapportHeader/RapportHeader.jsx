@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { DatePicker, Button, Space, Typography, Tag, Badge, Tooltip } from "antd";
-import { CalendarOutlined, BellTwoTone, FileSearchOutlined, ReloadOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { CalendarOutlined, BellTwoTone, FileSearchOutlined, ReloadOutlined } from "@ant-design/icons";
 import moment from "moment";
 import "./rapportHeader.scss";
 
