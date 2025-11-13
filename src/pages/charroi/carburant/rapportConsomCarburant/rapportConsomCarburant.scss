@@ -6,27 +6,32 @@
                 border-radius: 16px;
                 padding: 24px 32px;
                 box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
-                .rapportConsom__title_top{
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    .rapport-header__icon {
-                        font-size: 20px;
-                        color: #1677ff;
-                        background: #f0f5ff;
-                        border-radius: 12px;
-                        padding: 10px;
+                .rapportConsom__title_top {
+                    .rapportConsom__title_top_row{
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        .rapport-header__icon {
+                            font-size: 20px;
+                            color: #1677ff;
+                            background: #f0f5ff;
+                            border-radius: 12px;
+                            padding: 10px;
+                        }
+                        .rapport-header__title {
+                            margin: 0;
+                            font-weight: 600;
+                            color: #1f1f1f;
+                        }
                     }
-                    .rapport-header__title {
-                        margin: 0;
-                        font-weight: 600;
-                        color: #1f1f1f;
+                    .rapport-header__subtitle{
+                        font-size: 14px;
+                        color: #8c8c8c;
+                        margin-left: 50px;
                     }
                 }
-                .rapport-header__subtitle{
-                    font-size: 14px;
-                    color: #8c8c8c;
-                    margin-left: 50px;
+                .rapportConsom__bottom {
+
                 }
             }
         }
