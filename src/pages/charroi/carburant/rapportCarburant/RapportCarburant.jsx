@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
+import { Tabs } from 'antd';
 import "./rapportCarburant.scss";
 import RapportHeader from "./rapportHeader/RapportHeader";
 import RapportKPIs from "./rapportKPIs/RapportKPIs";
@@ -7,6 +8,11 @@ import RapportCharts from "./rapportCharts/RapportCharts";
 import RapportTableVehicules from "./rapportTableVehicules/RapportTableVehicules";
 import RapportAlertes from "./rapportAlertes/RapportAlertes";
 import { getRapportCarburant } from "../../../../services/carburantService";
+import { getTabStyle, iconStyle } from "../../../../utils/tabStyles";
+import {
+  FileTextOutlined
+} from '@ant-design/icons';
+import RapportCarburantPeriode from "../rapportCarburantPeriode/RapportCarburantPeriode";
 
 const RapportCarburant = () => {
   const today = moment();
@@ -15,6 +21,7 @@ const RapportCarburant = () => {
   const [charts, setCharts] = useState({});
   const [vehicles, setVehicles] = useState([]);
   const [alerts, setAlerts] = useState([]);
+  const [activeKey, setActiveKey] = useState('1');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,18 +45,50 @@ const RapportCarburant = () => {
   }, [period]);
 
   return (
-    <section className="rapport">
-      <RapportHeader
-        onPeriodChange={(dates) => setPeriod([moment(dates[0]), moment(dates[1])])}
-        alertCount={alerts.length}
-      />
-      <div className="rapport__grid">
-        <RapportKPIs kpis={kpis} />
-        <RapportCharts charts={charts} />
-        <RapportTableVehicules vehicles={vehicles} />
-        <RapportAlertes alerts={alerts} />
-      </div>
-    </section>
+    <>
+        <Tabs
+            activeKey={activeKey}
+            onChange={setActiveKey}
+            type="card"
+            tabPosition="top"
+            destroyInactiveTabPane
+            animated
+        >
+            <Tabs.TabPane
+                key="1"
+                tab={
+                    <span style={getTabStyle('1', activeKey)}>
+                        <FileTextOutlined style={iconStyle('1', activeKey)} />
+                        Rapport général
+                    </span>
+                }
+            >
+                <section className="rapport">
+                    <RapportHeader
+                        onPeriodChange={(dates) => setPeriod([moment(dates[0]), moment(dates[1])])}
+                        alertCount={alerts.length}
+                    />
+                    <div className="rapport__grid">
+                        <RapportKPIs kpis={kpis} />
+                        <RapportCharts charts={charts} />
+                        <RapportTableVehicules vehicles={vehicles} />
+                        <RapportAlertes alerts={alerts} />
+                    </div>
+                </section>
+            </Tabs.TabPane>
+            <Tabs.TabPane
+                key="2"
+                tab={
+                    <span style={getTabStyle('2', activeKey)}>
+                    <FileTextOutlined style={iconStyle('2', activeKey)} />
+                        Rapport par période
+                    </span>
+                }
+            >
+                <RapportCarburantPeriode />
+            </Tabs.TabPane>
+        </Tabs>
+    </>
   );
 };
 
