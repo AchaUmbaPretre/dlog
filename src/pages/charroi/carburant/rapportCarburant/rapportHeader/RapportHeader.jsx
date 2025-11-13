@@ -1,40 +1,70 @@
 import React, { useState } from "react";
-import { DatePicker, Button } from "antd";
+import { DatePicker, Button, Space, Typography, Tag } from "antd";
+import { CalendarOutlined, FileSearchOutlined, ReloadOutlined } from "@ant-design/icons";
 import moment from "moment";
+import "./rapportHeader.scss";
+
 const { RangePicker } = DatePicker;
+const { Title, Text } = Typography;
 
 const RapportHeader = ({ generatedAt, onPeriodChange }) => {
   const today = moment();
-  const [dates, setDates] = useState([today, today]);
+  const [dates, setDates] = useState([today.clone().startOf("month"), today]);
 
   const handleChange = (dates) => setDates(dates);
 
   const handleGenerate = () => {
-    if (dates && dates.length === 2 && onPeriodChange) {
-      onPeriodChange([dates[0].format("YYYY-MM-DD"), dates[1].format("YYYY-MM-DD")]);
+    if (dates?.length === 2 && onPeriodChange) {
+      onPeriodChange([
+        dates[0].format("YYYY-MM-DD"),
+        dates[1].format("YYYY-MM-DD"),
+      ]);
     }
   };
 
   return (
-    <header className="rapport__header">
-      <div>
-        <h1 className="rapport__title">Rapport de gestion du carburant</h1>
-        <div style={{ margin: "10px 0" }}>
-          <RangePicker format="YYYY-MM-DD" value={dates} onChange={handleChange} allowClear />
-          <Button type="primary" style={{ marginLeft: 10 }} onClick={handleGenerate}>
-            Générer le rapport
-          </Button>
+    <header className="rapport-header">
+      <div className="rapport-header__content">
+        <div className="rapport-header__title-section">
+          <FileSearchOutlined className="rapport-header__icon" />
+          <div>
+            <Title level={3} className="rapport-header__title">
+              Rapport de gestion du carburant
+            </Title>
+            <Text type="secondary" className="rapport-header__subtitle">
+              Suivi, analyse et performance des consommations
+            </Text>
+          </div>
         </div>
-        {dates.length === 2 && (
-          <p className="rapport__meta">
-            Période sélectionnée : <strong>{dates[0].format("YYYY-MM-DD")}</strong> au{" "}
-            <strong>{dates[1].format("YYYY-MM-DD")}</strong>
-          </p>
-        )}
-        <p className="rapport__meta">
-          Généré le : <strong>{new Date(generatedAt).toLocaleString("fr-FR")}</strong>
-          <span className="rapport__meta-sep">•</span>
-        </p>
+
+        <Space size="small" className="rapport-header__actions">
+          <Space size="middle">
+            <RangePicker
+              format="YYYY-MM-DD"
+              value={dates}
+              onChange={handleChange}
+              allowClear
+              className="rapport-header__range"
+              suffixIcon={<CalendarOutlined />}
+            />
+            <Button
+              type="primary"
+              icon={<ReloadOutlined />}
+              onClick={handleGenerate}
+            >
+              Générer
+            </Button>
+          </Space>
+
+          {dates.length === 2 && (
+            <Text className="rapport-header__period">
+              Période :{" "}
+              <Tag color="blue">
+                {dates[0].format("YYYY-MM-DD")} → {dates[1].format("YYYY-MM-DD")}
+              </Tag>
+            </Text>
+          )}
+        </Space>
       </div>
     </header>
   );

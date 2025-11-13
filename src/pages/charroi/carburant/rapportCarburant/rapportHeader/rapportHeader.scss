@@ -1,0 +1,81 @@
+.rapport-header {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 32px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+  }
+
+  &__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__title-section {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    .rapport-header__icon {
+      font-size: 28px;
+      color: #1677ff;
+      background: #f0f5ff;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .rapport-header__title {
+      margin: 0;
+      font-weight: 600;
+      color: #1f1f1f;
+    }
+
+    .rapport-header__subtitle {
+      font-size: 14px;
+      color: #8c8c8c;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+
+    .rapport-header__range {
+      min-width: 280px;
+      border-radius: 8px;
+
+      .ant-picker-input > input {
+        font-size: 14px;
+      }
+    }
+
+    button {
+      border-radius: 8px;
+      font-weight: 500;
+      height: 38px;
+    }
+  }
+
+  &__period,
+  &__generated {
+    font-size: 14px;
+    color: #555;
+
+    .ant-tag {
+      font-weight: 500;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+  }
+}
