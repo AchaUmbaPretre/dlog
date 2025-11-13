@@ -1,6 +1,9 @@
 .rapportConsomCarburant{
     .rapportConsom__container{
         .rapportConsom__title_container{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             .rapportConsom__title_row{
                 background: #fff;
                 border-radius: 16px;

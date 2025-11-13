@@ -3,6 +3,7 @@ import { Select, Typography, Divider } from "antd";
 import { FileSearchOutlined, AppstoreOutlined, CarOutlined, CalendarOutlined } from "@ant-design/icons";
 import './rapportConsomCarburant.scss';
 import { parOptions, periodeOptions, spectreOptions } from '../../../../utils/periodeData';
+import ConsomInfoGen from './consomInfoGen/ConsomInfoGen';
 
 const { Title, Text } = Typography;
 
@@ -80,6 +81,10 @@ const RapportConsomCarburant = () => {
                 />
               </div>
 
+            </div>
+
+            <div className="rapportConsom__info">
+              <ConsomInfoGen />
             </div>
           </div>
         </div>
