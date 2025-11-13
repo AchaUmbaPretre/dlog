@@ -9,7 +9,7 @@ import RapportAlertes from "./rapportAlertes/RapportAlertes";
 import { getRapportCarburant } from "../../../../services/carburantService";
 
 const RapportCarburant = () => {
-  const today = moment().format("YYYY-MM-DD");
+  const today = moment();
   const [period, setPeriod] = useState([today.clone().startOf("month"), today]);
   const [kpis, setKpis] = useState({});
   const [charts, setCharts] = useState({});
@@ -19,7 +19,12 @@ const RapportCarburant = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await getRapportCarburant(period.from, period.to);
+        // Convertir les dates en format YYYY-MM-DD pour l'API
+        const from = period[0].format("YYYY-MM-DD");
+        const to = period[1].format("YYYY-MM-DD");
+
+        const { data } = await getRapportCarburant(from, to);
+
         setKpis(data.resume || {});
         setCharts(data.graphiques || {});
         setVehicles(data.detailVehicules || []);
@@ -28,14 +33,15 @@ const RapportCarburant = () => {
         console.error("Erreur chargement rapport :", error);
       }
     };
+
     fetchData();
   }, [period]);
 
   return (
     <section className="rapport">
       <RapportHeader
-        onPeriodChange={(dates) => setPeriod({ from: dates[0], to: dates[1] })}
-        alertCount= {alerts?.length}
+        onPeriodChange={(dates) => setPeriod([moment(dates[0]), moment(dates[1])])}
+        alertCount={alerts.length}
       />
       <div className="rapport__grid">
         <RapportKPIs kpis={kpis} />
