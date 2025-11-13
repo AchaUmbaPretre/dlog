@@ -111,10 +111,10 @@ const ConsomDetailVehicule = () => {
     ];
 
     const handleCheckboxChange = (id, checked) => {
-    setSelectedVehicles((prev) =>
-      checked ? [...prev, id] : prev.filter((vehiculeId) => vehiculeId !== id)
-    );
-  };
+        setSelectedVehicles((prev) =>
+        checked ? [...prev, id] : prev.filter((vehiculeId) => vehiculeId !== id)
+        );
+    };
 
   return (
     <>
