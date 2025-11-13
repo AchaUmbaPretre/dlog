@@ -1,8 +1,106 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { EnvironmentOutlined,CarOutlined,FireOutlined,DashboardOutlined,ArrowRightOutlined   } from '@ant-design/icons';
+import { Divider, Card, Table, Tag, Tooltip } from 'antd';
+
 
 const ConsomInfoSiegeKin = () => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const scroll = { x: 400 };
+
+    const columns = [
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => (
+        <Tooltip title={`Ligne ${index + 1}`}>
+          <Tag color="blue">{index + 1}</Tag>
+        </Tooltip>
+      ),
+      width: "3%"
+    },
+    {
+      title: (
+        <>
+          <FireOutlined style={{ color: '#ffec3d' }} /> Carburant
+        </>
+      ),
+      dataIndex: 'nom_type_carburant',
+      render: (text) => (
+        <Tooltip title="Nom du site">
+          <Tag color="green">{text}</Tag>
+        </Tooltip>
+      )
+    },
+    {
+      title: 'Plein',
+      dataIndex: 'total_pleins',
+      render: (text) => (
+        <Tooltip title="Nombre total de pleins">
+          <Tag color="gold">{text}</Tag>
+        </Tooltip>
+      )
+    },
+    {
+      title: (
+        <>
+          <CarOutlined style={{ color: "#1890ff" }} /> Véhicule
+        </>
+      ),
+      dataIndex: 'nbre_vehicule',
+      render: (text) => (
+        <Tooltip title="Nombre total de pleins">
+          <Tag color="gold">{text}</Tag>
+        </Tooltip>
+      )
+    },
+    {
+      title: (
+        <>
+          <ArrowRightOutlined style={{ color: "#722ed1" }} /> Litres
+        </>
+      ),
+      dataIndex: 'total_litres',
+      render: (text) => (
+        <Tooltip title="Quantité totale en litres">
+          <Tag color="purple">{text}</Tag>
+        </Tooltip>
+      )
+    },
+    {
+      title: (
+        <>
+          <DashboardOutlined style={{ color: "#eb2f96" }} /> Km
+        </>
+      ),
+      dataIndex: 'total_kilometrage',
+      render: (text) => (
+        <Tooltip title="Kilométrage total">
+          <Tag color="magenta">{text}</Tag>
+        </Tooltip>
+      )
+    }
+  ];
+
   return (
-    <div>ConsomInfoSiegeKin</div>
+    <>
+        <div>
+            <Divider>SIEGE KIN</Divider>
+            <Card type="inner" title="SIEGE KIN">
+                <Table 
+                    columns={columns} 
+                    dataSource={data} 
+                    size="small" 
+                    rowClassName={(_, index) =>
+                        index % 2 === 0 ? "table-row-light" : "table-row-dark"
+                    }
+                    scroll={scroll}
+                    loading={loading}
+                />
+            </Card>
+        </div>
+    </>
   )
 }
 
