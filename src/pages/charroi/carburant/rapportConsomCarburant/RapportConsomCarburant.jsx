@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { DatePicker, Button, Divider, Select, Typography } from "antd";
-import { FileSearchOutlined } from "@ant-design/icons";
+import { Select, Typography, Divider } from "antd";
+import { FileSearchOutlined, AppstoreOutlined, CarOutlined, CalendarOutlined } from "@ant-design/icons";
 import './rapportConsomCarburant.scss';
 import { parOptions, periodeOptions, spectreOptions } from '../../../../utils/periodeData';
 
@@ -27,10 +27,16 @@ const RapportConsomCarburant = () => {
                 Suivi, analyse et performance des consommations
               </Text>
             </div>
+
             <Divider />
+
             <div className="rapportConsom__bottom">
+
               <div className="rapportConsom__bottom__row">
-                <label className='rapportConsom_label'>Spectre</label>
+                <div className='rapportConsom_label'>
+                  <AppstoreOutlined style={{ marginRight: 6, color: '#1677ff' }} />
+                  Spectre
+                </div>
                 <Select
                   showSearch
                   style={{ width: '100%' }}
@@ -43,7 +49,10 @@ const RapportConsomCarburant = () => {
               </div>
 
               <div className="rapportConsom__bottom__row">
-                <label className='rapportConsom_label'>Par site ou véhicule</label>
+                <div className='rapportConsom_label'>
+                  <CarOutlined style={{ marginRight: 6, color: '#1677ff' }} />
+                  Par site ou véhicule
+                </div>
                 <Select
                   showSearch
                   style={{ width: '100%' }}
@@ -56,7 +65,10 @@ const RapportConsomCarburant = () => {
               </div>
 
               <div className="rapportConsom__bottom__row">
-                <label className='rapportConsom_label'>Période</label>
+                <div className='rapportConsom_label'>
+                  <CalendarOutlined style={{ marginRight: 6, color: '#1677ff' }} />
+                  Période
+                </div>
                 <Select
                   showSearch
                   style={{ width: '100%' }}
@@ -67,6 +79,7 @@ const RapportConsomCarburant = () => {
                   onChange={setPeriodeValue}
                 />
               </div>
+
             </div>
           </div>
         </div>
