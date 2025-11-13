@@ -1,31 +1,12 @@
 import React, { useState } from 'react';
-import { DatePicker, Button, Space, Select, Typography } from "antd";
+import { DatePicker, Button, Divider, Select, Typography } from "antd";
 import { FileSearchOutlined } from "@ant-design/icons";
 import './rapportConsomCarburant.scss';
+import { parOptions, periodeOptions, spectreOptions } from '../../../../utils/periodeData';
 
 const { Title, Text } = Typography;
 
 const RapportConsomCarburant = () => {
-  // Options
-  const spectreOptions = [ 
-    { name: 'Mes sites', value: 'mesSites' },
-    { name: 'Siège Kin', value: 'siegeKin' }
-  ];
-
-  const parOptions = [ 
-    { name: 'Sites', value: 'sites' },
-    { name: 'Véhicule', value: 'vehicule' }
-  ];
-
-  const periodeOptions = [ 
-    { name: '7 jours', value: '7jours' },
-    { name: '30 jours', value: '30jours' },
-    { name: '90 jours', value: '90jours' },
-    { name: '180 jours', value: '180jours' },
-    { name: '360 jours', value: '360jours' }
-  ];
-
-  // Valeurs sélectionnées
   const [spectreValue, setSpectreValue] = useState(null);
   const [parValue, setParValue] = useState(null);
   const [periodeValue, setPeriodeValue] = useState(null);
@@ -46,7 +27,7 @@ const RapportConsomCarburant = () => {
                 Suivi, analyse et performance des consommations
               </Text>
             </div>
-
+            <Divider />
             <div className="rapportConsom__bottom">
               <div className="rapportConsom__bottom__row">
                 <label className='rapportConsom_label'>Spectre</label>
