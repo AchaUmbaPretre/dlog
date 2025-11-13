@@ -30,11 +30,18 @@
                         margin-left: 50px;
                     }
                 }
-                .rapportConsom__bottom {
+                .rapportConsom__bottom{
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    width: 100%;
+                    gap: 20px;
+                    .rapportConsom__bottom__row{
+                        flex: 1;
+                        width: 100%;
+                        .rapportConsom_label{
+                            color: #8c8c8c;
+                        }
+                    }
                 }
             }
         }
