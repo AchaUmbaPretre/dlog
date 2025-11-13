@@ -1,5 +1,6 @@
 import React from "react";
 import { Bar, Line, Pie } from "react-chartjs-2";
+import { InfoCircleOutlined, BarChartOutlined, LineChartOutlined, PieChartOutlined } from "@ant-design/icons";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,6 +13,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
+import "./rapportChart.scss";
 
 ChartJS.register(
   CategoryScale,
@@ -26,7 +28,6 @@ ChartJS.register(
 );
 
 const RapportCharts = ({ charts }) => {
-  // Protection : si pas encore de données, on met des valeurs vides
   const parVehicule = charts?.parVehicule || [];
   const coutHebdo = charts?.coutHebdo || [];
   const repartition = charts?.repartition || [];
@@ -35,7 +36,6 @@ const RapportCharts = ({ charts }) => {
   const vehiculeLabels = parVehicule.map(
     (v) => `${v.nom_marque} - ${v.immatriculation}`
   );
-
   const vehiculeData = {
     labels: vehiculeLabels,
     datasets: [
@@ -95,88 +95,28 @@ const RapportCharts = ({ charts }) => {
   };
 
   return (
-    <section className="card charts" style={{ marginTop: "20px" }}>
-      <h2 className="card__title text-xl font-bold mb-6">Graphiques</h2>
+    <section className="card charts">
+      <h2 className="card__title">
+        <BarChartOutlined /> Graphiques
+      </h2>
 
-      <div
-        className="charts__flex"
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "20px",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="charts__flex">
         {/* === Chart 1 === */}
-        <div
-          className="chart"
-          style={{
-            flex: "1 1 32%",
-            minWidth: "300px",
-            background: "#fff",
-            borderRadius: "16px",
-            padding: "20px",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-          }}
-        >
-          <h3 className="chart__title text-center mb-3 font-semibold">
-            Consommation par véhicule
-          </h3>
-          {parVehicule.length > 0 ? (
-            <Bar data={vehiculeData} />
-          ) : (
-            <p style={{ textAlign: "center", color: "#999" }}>
-              Aucune donnée disponible
-            </p>
-          )}
+        <div className="chart chart--primary">
+          <h3 className="chart__title"><InfoCircleOutlined /> Consommation par véhicule</h3>
+          {parVehicule.length > 0 ? <Bar data={vehiculeData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
         </div>
 
         {/* === Chart 2 === */}
-        <div
-          className="chart"
-          style={{
-            flex: "1 1 32%",
-            minWidth: "300px",
-            background: "#fff",
-            borderRadius: "16px",
-            padding: "20px",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-          }}
-        >
-          <h3 className="chart__title text-center mb-3 font-semibold">
-            Évolution du coût par semaine
-          </h3>
-          {coutHebdo.length > 0 ? (
-            <Line data={coutData} />
-          ) : (
-            <p style={{ textAlign: "center", color: "#999" }}>
-              Aucune donnée disponible
-            </p>
-          )}
+        <div className="chart chart--secondary">
+          <h3 className="chart__title"><LineChartOutlined /> Évolution du coût par semaine</h3>
+          {coutHebdo.length > 0 ? <Line data={coutData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
         </div>
 
         {/* === Chart 3 === */}
-        <div
-          className="chart"
-          style={{
-            flex: "1 1 32%",
-            minWidth: "300px",
-            background: "#fff",
-            borderRadius: "16px",
-            padding: "20px",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-          }}
-        >
-          <h3 className="chart__title text-center mb-3 font-semibold">
-            Répartition du carburant
-          </h3>
-          {repartition.length > 0 ? (
-            <Pie data={repartitionData} />
-          ) : (
-            <p style={{ textAlign: "center", color: "#999" }}>
-              Aucune donnée disponible
-            </p>
-          )}
+        <div className="chart chart--tertiary">
+          <h3 className="chart__title"><PieChartOutlined /> Répartition du carburant</h3>
+          {repartition.length > 0 ? <Pie data={repartitionData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
         </div>
       </div>
     </section>

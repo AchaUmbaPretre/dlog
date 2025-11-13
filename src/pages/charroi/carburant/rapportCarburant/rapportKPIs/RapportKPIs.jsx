@@ -3,7 +3,6 @@ import {
   DollarOutlined,
   ShoppingOutlined,
   DashboardOutlined,
-  FundOutlined,
   ExperimentOutlined,
 } from "@ant-design/icons";
 import "./rapportKPIs.scss";

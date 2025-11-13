@@ -1,0 +1,51 @@
+.table-card {
+  padding: 24px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  }
+
+  .card__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1f1f1f;
+  }
+
+  .rapport-table {
+    border-radius: 12px;
+    overflow: hidden;
+
+    .ant-table-thead > tr > th {
+      background: #fafafa;
+      font-weight: 600;
+      color: #1f1f1f;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .ant-table-tbody > tr {
+      transition: background 0.3s, transform 0.3s;
+
+      &:hover {
+        background: #f5f5f5;
+        transform: translateY(-1px);
+      }
+    }
+
+    .ant-table-cell {
+      padding: 12px 16px;
+      color: #595959;
+    }
+
+    .ant-pagination {
+      margin-top: 16px;
+    }
+  }
+}
