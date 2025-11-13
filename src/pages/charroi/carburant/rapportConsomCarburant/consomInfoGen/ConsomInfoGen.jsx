@@ -3,7 +3,13 @@ import './consomInfoGen.scss';
 
 const ConsomInfoGen = () => {
   return (
-    <div>ConsomInfoGen</div>
+    <>
+        <div className="consomInfoGen">
+            <div className="consomInfoGen__container">
+                
+            </div>
+        </div> 
+    </>
   )
 }
 
