@@ -47,66 +47,66 @@ const ConsomDetailVehicule = () => {
             )
         },
         {
-        title: 'Zone',
-        dataIndex: 'zone',
-        key: 'zone',
-        render: (text) => (
-            <div>
-            <EnvironmentOutlined style={{ color: "#faad14", marginRight: "8px" }} />
-            {text || "Aucune"}
-            </div>
-        ),
+            title: 'Zone',
+            dataIndex: 'zone',
+            key: 'zone',
+            render: (text) => (
+                <div>
+                <EnvironmentOutlined style={{ color: "#faad14", marginRight: "8px" }} />
+                {text || "Aucune"}
+                </div>
+            ),
         },
         {
-        title: 'Litre',
-        dataIndex: 'total_litres',
-        key: 'total_litres',
-        render: (text) => (
-            <div>
-            <LoadingOutlined style={{ color: "#722ed1", marginRight: "8px" }} />
-            {text}
-            </div>
-        ),
+            title: 'Litre',
+            dataIndex: 'total_litres',
+            key: 'total_litres',
+            render: (text) => (
+                <div>
+                <LoadingOutlined style={{ color: "#722ed1", marginRight: "8px" }} />
+                {text}
+                </div>
+            ),
         },
         {
-        title: 'Plein',
-        dataIndex: 'total_pleins',
-        key: 'total_pleins',
-        render: (text) => (
-            <div>
-            <CheckCircleOutlined
-                style={{ color: "#52c41a", marginRight: "8px" }}
-            />
-            {text}
-            </div>
-        ),
+            title: 'Plein',
+            dataIndex: 'total_pleins',
+            key: 'total_pleins',
+            render: (text) => (
+                <div>
+                <CheckCircleOutlined
+                    style={{ color: "#52c41a", marginRight: "8px" }}
+                />
+                {text}
+                </div>
+            ),
         },
         {
-        title: (
-            <>
-            <DashboardOutlined style={{ color: "#eb2f96" }} /> Km
-            </>
-        ),
-        dataIndex: 'total_kilometrage',
-        key: 'total_kilometrage',
-        render: (text) => (
-            <div>
-            <DashboardOutlined style={{ color: "#1890ff", marginRight: "8px" }} />
-            {text}
-            </div>
-        ),
+            title: (
+                <>
+                <DashboardOutlined style={{ color: "#eb2f96" }} /> Km
+                </>
+            ),
+            dataIndex: 'total_kilometrage',
+            key: 'total_kilometrage',
+            render: (text) => (
+                <div>
+                <DashboardOutlined style={{ color: "#1890ff", marginRight: "8px" }} />
+                {text}
+                </div>
+            ),
         },
         {
-        title: 'Sélection',
-        dataIndex: 'id',
-        key: 'checkbox',
-        render: (id, record) => (
-            <Checkbox
-            onChange={(e) => handleCheckboxChange(record.id_vehicule, e.target.checked)}
-            checked={selectedVehicles.includes(record.id_vehicule)}
-            />
-        ),
-        width: "5%",
+            title: 'Sélection',
+            dataIndex: 'id',
+            key: 'checkbox',
+            render: (id, record) => (
+                <Checkbox
+                onChange={(e) => handleCheckboxChange(record.id_vehicule, e.target.checked)}
+                checked={selectedVehicles.includes(record.id_vehicule)}
+                />
+            ),
+            width: "5%",
         },
     ];
 
