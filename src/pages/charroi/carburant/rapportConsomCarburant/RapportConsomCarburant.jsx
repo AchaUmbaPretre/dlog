@@ -67,7 +67,7 @@ const RapportConsomCarburant = () => {
                 </Text>
               </div>
               <div className="rapportConsom__bottom">
-                <div className="rapportConsom__bottom_row">
+                <div className="rapportConsom__bottom__row">
                   <label>Spectre</label>
                     <Select
                       showSearch
