@@ -9,7 +9,7 @@ import {
 import { Divider, Card, Table, Tag, Tooltip } from "antd";
 import ConsomInfoSiegeKin from "./consomInfoSiegeKin/ConsomInfoSiegeKin";
 
-const ConsomInfoGen = ({ siteData = [] }) => {
+const ConsomInfoGen = ({ siteData, siegeData }) => {
   // Sécurisation : siteData sera toujours un tableau
   const dataSource = Array.isArray(siteData) ? siteData : [];
 
@@ -158,7 +158,7 @@ const ConsomInfoGen = ({ siteData = [] }) => {
         </div>
 
         <div className="consomInfoGen__row">
-          <ConsomInfoSiegeKin />
+          <ConsomInfoSiegeKin siegeData={siegeData} />
         </div>
       </div>
     </div>

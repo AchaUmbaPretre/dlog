@@ -15,11 +15,14 @@ const RapportConsomCarburant = () => {
   const [parValue, setParValue] = useState(null);
   const [periodeValue, setPeriodeValue] = useState(null);
   const [siteData, setSiteData] = useState([]);
+  const [siegeData, setSiegeData] = useState([]);
+
 
   const fetchData = async () => {
     try {
       const response = await getRapportConsomGen(periodeValue);
       setSiteData(response.data?.sqlMesSites);
+      setSiegeData(response?.data?.sqlDetailSiegeKin)
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +106,7 @@ const RapportConsomCarburant = () => {
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomInfoGen siteData={siteData} />
+            <ConsomInfoGen siteData={siteData} siegeData={siegeData} />
           </div>
 
           <div className="rapportConsom__info">

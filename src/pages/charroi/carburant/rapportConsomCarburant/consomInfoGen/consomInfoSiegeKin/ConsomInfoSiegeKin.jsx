@@ -3,7 +3,7 @@ import { EnvironmentOutlined,CarOutlined,FireOutlined,DashboardOutlined,ArrowRig
 import { Divider, Card, Table, Tag, Tooltip } from 'antd';
 
 
-const ConsomInfoSiegeKin = () => {
+const ConsomInfoSiegeKin = ({siegeData}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const scroll = { x: 400 };
@@ -20,7 +20,7 @@ const ConsomInfoSiegeKin = () => {
       ),
       width: "3%"
     },
-    {
+/*     {
       title: (
         <>
           <FireOutlined style={{ color: '#ffec3d' }} /> Carburant
@@ -32,7 +32,7 @@ const ConsomInfoSiegeKin = () => {
           <Tag color="green">{text}</Tag>
         </Tooltip>
       )
-    },
+    }, */
     {
       title: 'Plein',
       dataIndex: 'total_pleins',
@@ -89,7 +89,7 @@ const ConsomInfoSiegeKin = () => {
             <Card type="inner" title="SIEGE KIN">
                 <Table 
                     columns={columns} 
-                    dataSource={data} 
+                    dataSource={siegeData} 
                     size="small" 
                     rowClassName={(_, index) =>
                         index % 2 === 0 ? "table-row-light" : "table-row-dark"
