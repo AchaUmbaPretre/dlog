@@ -11,10 +11,10 @@ const ConsomCarburantChart = () => {
         <div className="consomCarburantChart">
             <Divider>Consommation mensuelle</Divider>
             <div className="consomCarburant_chart_wrapper">
-                <div className="consom_line">
+                <div className="consom_chart">
                     <ConsomCarburantLine/>
                 </div>
-                <div className="consom_bar">
+                <div className="consom_chart">
                     <ConsomCarburantBar/>
                 </div>
             </div>
