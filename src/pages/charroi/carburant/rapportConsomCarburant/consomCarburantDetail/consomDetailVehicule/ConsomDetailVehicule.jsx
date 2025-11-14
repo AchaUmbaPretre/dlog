@@ -3,12 +3,14 @@ import { DashboardOutlined, FireOutlined, CarOutlined, BankOutlined, Environment
 import getColumnSearchProps from '../../../../../../utils/columnSearchUtils';
 import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
 
-const ConsomDetailVehicule = () => {
+const ConsomDetailVehicule = ({siegeData}) => {
     const [data,setData] = useState();
     const [loading, setLoading] = useState(true);
     const [selectedVehicles, setSelectedVehicles] = useState([]);
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
+
+    console.log(siegeData)
 
     const columns = [
     {
@@ -129,12 +131,11 @@ const ConsomDetailVehicule = () => {
         <div className="consomDetailSite">
             <Card type="inner" title="Détails pour chaque vehicule du site SIEGE KIN">
                 <Table 
-                    dataSource={data} 
+                    dataSource={siegeData} 
                     columns={columns} 
                     size="small"  
                     bordered
                     scroll={scroll}
-                    loading={loading}
                 />
             </Card>
         </div>

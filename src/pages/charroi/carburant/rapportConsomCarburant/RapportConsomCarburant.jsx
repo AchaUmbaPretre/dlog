@@ -16,13 +16,16 @@ const RapportConsomCarburant = () => {
   const [periodeValue, setPeriodeValue] = useState(null);
   const [siteData, setSiteData] = useState([]);
   const [siegeData, setSiegeData] = useState([]);
+  const [siteAllData, setSiteAllData] = useState([]);
+
 
 
   const fetchData = async () => {
     try {
       const response = await getRapportConsomGen(periodeValue);
       setSiteData(response.data?.sqlMesSites);
-      setSiegeData(response?.data?.sqlDetailSiegeKin)
+      setSiegeData(response?.data?.sqlDetailSiegeKin);
+      setSiteAllData(response?.data?.sqlSitesAll)
     } catch (error) {
       console.error(error);
     }
@@ -110,7 +113,7 @@ const RapportConsomCarburant = () => {
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomCarburantDetail spectreValue={spectreValue} />
+            <ConsomCarburantDetail spectreValue={spectreValue} siteAllData={siteAllData} siegeData={siegeData} />
           </div>
 
           <div className="rapportConsom__info">

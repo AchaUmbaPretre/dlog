@@ -3,9 +3,8 @@ import { DashboardOutlined, BankOutlined, EnvironmentOutlined, CheckCircleOutlin
 import getColumnSearchProps from '../../../../../../utils/columnSearchUtils';
 import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
 
-const ConsomDetailSite = () => {
+const ConsomDetailSite = ({siteAllData}) => {
     const [data,setData] = useState();
-    const [loading, setLoading] = useState(true);
     const [selectedVehicles, setSelectedVehicles] = useState([]);
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
@@ -121,12 +120,11 @@ const ConsomDetailSite = () => {
         <div className="consomDetailSite">
             <Card type="inner" title="Détails pour chaque site">
                 <Table 
-                    dataSource={data} 
+                    dataSource={siteAllData} 
                     columns={columns} 
                     size="small"  
                     bordered
                     scroll={scroll}
-                    loading={loading}
                 />
             </Card>
         </div>
