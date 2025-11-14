@@ -50,8 +50,8 @@ const ConsomDetailVehicule = ({siegeData}) => {
     },
     {
       title: 'Modele',
-      dataIndex: 'modele',
-      key: 'modele',
+      dataIndex: 'nom_modele',
+      key: 'nom_modele',
       render: (text) => (
         <div>
           <CheckCircleOutlined
