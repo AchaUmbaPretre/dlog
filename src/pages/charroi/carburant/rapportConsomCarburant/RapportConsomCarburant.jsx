@@ -33,7 +33,7 @@ const RapportConsomCarburant = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [periodeValue]);
 
 
   return (
