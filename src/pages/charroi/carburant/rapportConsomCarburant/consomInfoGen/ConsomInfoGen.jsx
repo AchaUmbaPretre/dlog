@@ -86,7 +86,7 @@ const ConsomInfoGen = () => {
         </Tooltip>
       )
     },
-  ];
+    ];
 
   return (
     <>

@@ -87,11 +87,11 @@ const RapportConsomCarburant = () => {
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomInfoGen />
+            <ConsomInfoGen/>
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomCarburantDetail />
+            <ConsomCarburantDetail spectreValue={spectreValue} />
           </div>
 
           <div className="rapportConsom__info">
