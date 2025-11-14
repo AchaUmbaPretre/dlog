@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select, Typography, Divider } from "antd";
 import { FileSearchOutlined, AppstoreOutlined, CarOutlined, CalendarOutlined } from "@ant-design/icons";
 import './rapportConsomCarburant.scss';
@@ -6,6 +6,7 @@ import { parOptions, periodeOptions, spectreOptions } from '../../../../utils/pe
 import ConsomInfoGen from './consomInfoGen/ConsomInfoGen';
 import ConsomCarburantDetail from './consomCarburantDetail/ConsomCarburantDetail';
 import ConsomCarburantChart from './consomCarburantChart/ConsomCarburantChart';
+import { getRapportConsomGen } from '../../../../services/carburantService';
 
 const { Title, Text } = Typography;
 
@@ -13,6 +14,21 @@ const RapportConsomCarburant = () => {
   const [spectreValue, setSpectreValue] = useState(null);
   const [parValue, setParValue] = useState(null);
   const [periodeValue, setPeriodeValue] = useState(null);
+  const [siteData, setSiteData] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await getRapportConsomGen(periodeValue);
+      setSiteData(response.data?.sqlMesSites);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
 
   return (
     <div className="rapportConsomCarburant">
@@ -87,7 +103,7 @@ const RapportConsomCarburant = () => {
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomInfoGen/>
+            <ConsomInfoGen siteData={siteData} />
           </div>
 
           <div className="rapportConsom__info">

@@ -52,3 +52,11 @@ export const getRapportCarburant = async (date_debut, date_fin) => {
     }
   });
 };
+
+export const getRapportConsomGen = async (period) => {
+  return axios.get(`${DOMAIN}/api/carburant/rapport_consom_gen`, {
+    params: {
+      period
+    }
+  });
+};
