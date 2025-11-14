@@ -14,10 +14,6 @@ export const postCarburantVehicule = async (data) => {
 export const putRelierCarburantVehicule = async (id, data) => {
     return axios.put(`${DOMAIN}/api/carburant/relier_vehiculeCarburant?id_vehicule=${id}`, data);
 };
-
-export const getTypeCarburant = async () => {
-    return axios.get(`${DOMAIN}/api/carburant/type_carburant`);
-  };
   
 export const getCarburant = async () => {
     return axios.get(`${DOMAIN}/api/carburant`);
