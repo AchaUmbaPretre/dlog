@@ -59,7 +59,7 @@ const ConsomCarburantLine = () => {
   return (
     <>
         <Card>
-            <div className="consomCarburantLine">
+            <div style={{height:'320px'}} >
                 <Doughnut data={chartData()} options={options} />
             </div>
         </Card>
