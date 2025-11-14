@@ -127,6 +127,11 @@ export const postSite = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/site`, data);
 }
 
+//Zone
+export const getZone = async () => {
+    return axios.get(`${DOMAIN}/api/charroi/zone`);
+}
+
 //Affectation
 export const getAffectation = async () => {
     return axios.get(`${DOMAIN}/api/charroi/affectation`);

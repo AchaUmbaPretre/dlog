@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Form, Skeleton, notification, Col, Select, Button, Input, message, Space } from 'antd';
 import { getProvince } from '../../../../services/clientService';
-import { postSite } from '../../../../services/charroiService';
+import { getZone, postSite } from '../../../../services/charroiService';
 const { Option } = Select;
 
 const SitesForm = ({closeModal, fetchData}) => {
@@ -9,15 +9,19 @@ const SitesForm = ({closeModal, fetchData}) => {
     const [loading, setLoading] = useState(false);
     const [loadingData, setLoadingData] = useState(false);
     const [province, setProvince] = useState([]);
+    const [zone, setZone] = useState([]);
+
 
     const fetchDatas = async () => {        
         try {
             setLoadingData(true)
-            const [villeData] = await Promise.all([
-                getProvince()
+            const [villeData, zoneData] = await Promise.all([
+                getProvince(),
+                getZone()
             ])
 
             setProvince(villeData.data)
+            setZone(zoneData.data)
             
         } catch (error) {
             console.log(error)
@@ -45,7 +49,8 @@ const SitesForm = ({closeModal, fetchData}) => {
             });
     
             form.resetFields();
-    
+            closeModal();
+            fetchData();
         } catch (error) {
             console.error("Erreur lors de l'ajout de la déclaration:", error);
     
@@ -133,7 +138,7 @@ const SitesForm = ({closeModal, fetchData}) => {
 
                         <Col xs={24} md={12}>
                             <Form.Item
-                                name="zone"
+                                name="IdZone"
                                 label="Zone"
                                 rules={[
                                     {
@@ -142,10 +147,17 @@ const SitesForm = ({closeModal, fetchData}) => {
                                     },
                                 ]}
                             >
-                                <Select allowClear size='large' placeholder="Choisir une zone">
-                                    <Option value="1">Zone 1</Option>
-                                    <Option value="2">Zone 2</Option>
-                                </Select>
+                                <Select
+                                        size='large'
+                                        allowClear
+                                        showSearch
+                                        options={zone?.map((item) => ({
+                                            value: item.id,
+                                            label: item.NomZone,
+                                        }))}
+                                        placeholder="Sélectionnez une zone..."
+                                        optionFilterProp="label"
+                                />
                             </Form.Item>
                         </Col>
 
