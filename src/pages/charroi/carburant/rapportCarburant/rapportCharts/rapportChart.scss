@@ -21,7 +21,7 @@
 
   .charts__flex {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
     justify-content: space-between;
   }

@@ -101,24 +101,27 @@ const RapportCharts = ({ charts }) => {
       </h2>
 
       <div className="charts__flex">
+
         {/* === Chart 1 === */}
-        <div className="chart chart--primary">
-          <h3 className="chart__title"><InfoCircleOutlined /> Consommation par véhicule</h3>
-          {parVehicule.length > 0 ? <Bar data={vehiculeData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
+        <div className="chart chart--primary chart--small">
+            <h3 className="chart__title"><InfoCircleOutlined /> Consommation par véhicule</h3>
+            {parVehicule.length > 0 ? <Bar data={vehiculeData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
         </div>
 
-        {/* === Chart 2 === */}
-        <div className="chart chart--secondary">
-          <h3 className="chart__title"><LineChartOutlined /> Évolution du coût par semaine</h3>
-          {coutHebdo.length > 0 ? <Line data={coutData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
-        </div>
+        {/* === Chart 2 + 3 === */}
+        <div className="charts__right">
+            <div className="chart chart--secondary">
+            <h3 className="chart__title"><LineChartOutlined /> Évolution du coût par semaine</h3>
+            {coutHebdo.length > 0 ? <Line data={coutData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
+            </div>
 
-        {/* === Chart 3 === */}
-        <div className="chart chart--tertiary">
-          <h3 className="chart__title"><PieChartOutlined /> Répartition du carburant</h3>
-          {repartition.length > 0 ? <Pie data={repartitionData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
+            <div className="chart chart--tertiary">
+            <h3 className="chart__title"><PieChartOutlined /> Répartition du carburant</h3>
+            {repartition.length > 0 ? <Pie data={repartitionData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
+            </div>
         </div>
       </div>
+
     </section>
   );
 };
