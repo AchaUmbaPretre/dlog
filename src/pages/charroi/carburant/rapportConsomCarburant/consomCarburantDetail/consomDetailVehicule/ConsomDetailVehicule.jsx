@@ -59,7 +59,7 @@ const ConsomDetailVehicule = ({siegeData}) => {
         </div>
       ),
     },
-/*     {
+     {
       title: 'Carburant',
       dataIndex: 'nom_type_carburant',
       key: 'nom_type_carburant',
@@ -69,7 +69,7 @@ const ConsomDetailVehicule = ({siegeData}) => {
           {text}
         </div>
       ),
-    }, */
+    },
     {
       title: 'Litre',
       dataIndex: 'total_litres',
