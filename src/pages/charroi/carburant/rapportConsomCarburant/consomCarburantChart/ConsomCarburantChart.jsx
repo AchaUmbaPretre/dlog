@@ -9,7 +9,7 @@ const ConsomCarburantChart = ({consomMonth, consomYear}) => {
   return (
     <>
         <div className="consomCarburantChart">
-            <Card type="inner" title="Chart de consommation">
+            <Card type="inner" title="CHART DE CONSOMMATION">
                 <div className="consomCarburant_chart_wrapper">
                     <div className="consom_chart_left">
                         <ConsomCarburantBar consomMonth={consomMonth} />
