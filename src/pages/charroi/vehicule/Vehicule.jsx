@@ -55,6 +55,7 @@ const Vehicule = () => {
   const handleAddClient = (id) => openModal('Add', id)
   const handleDetail = (id) => openModal('Detail', id)
   const handleRelier = (id) => openModal('Relier', id)
+  const handleRelierSite = (id) => openModal('RelierSite')
   const handleSite = (id) => openModal('Affecter', id)
   const handleAlert = (id) => openModal('DetailTypeAlert', id)
 
@@ -437,6 +438,13 @@ const Vehicule = () => {
                       onClick={handleRelier}
                     >
                       Rélier à un traceur
+                    </Button>
+                    <Button
+                      type="default"
+                      icon={<RetweetOutlined />}
+                      onClick={handleRelier}
+                    >
+                      Rélier à un site
                     </Button>
                     <div className="client-rows-right">
                       <Dropdown overlay={menu} trigger={['click']}>
