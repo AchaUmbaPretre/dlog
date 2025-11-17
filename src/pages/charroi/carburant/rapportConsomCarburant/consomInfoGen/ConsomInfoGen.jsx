@@ -6,9 +6,11 @@ import {
   ArrowRightOutlined,
   DashboardOutlined,
 } from "@ant-design/icons";
-import { Divider, Card, Table, Tag, Tooltip } from "antd";
+import { Divider, Card, Table, Tag, Tooltip, Typography } from "antd";
 import ConsomInfoSiegeKin from "./consomInfoSiegeKin/ConsomInfoSiegeKin";
 
+const { Text } = Typography;
+    
 const ConsomInfoGen = ({ siteData, siegeData }) => {
   // Sécurisation : siteData sera toujours un tableau
   const dataSource = Array.isArray(siteData) ? siteData : [];
