@@ -20,7 +20,7 @@ const ConsomInfoSiegeKin = ({siegeData}) => {
       ),
       width: "3%"
     },
-/*     {
+    {
       title: (
         <>
           <FireOutlined style={{ color: '#ffec3d' }} /> Carburant
@@ -32,7 +32,7 @@ const ConsomInfoSiegeKin = ({siegeData}) => {
           <Tag color="green">{text}</Tag>
         </Tooltip>
       )
-    }, */
+    },
     {
       title: 'Plein',
       dataIndex: 'total_pleins',
