@@ -40,7 +40,7 @@ const ConsomInfoGen = ({ siteData, siegeData }) => {
       title: "Plein",
       dataIndex: "total_pleins",
       render: (text) => (
-        <Tag color="gold">{text !== undefined ? text : 0}</Tag>
+        <Text type="secondary">{text}</Text>
       ),
     },
     {
@@ -51,7 +51,7 @@ const ConsomInfoGen = ({ siteData, siegeData }) => {
       ),
       dataIndex: "nbre_vehicule",
       render: (text) => (
-        <Tag color="blue">{text !== undefined ? text : 0}</Tag>
+        <Text type="secondary">{text}</Text>
       ),
     },
     {
@@ -62,7 +62,7 @@ const ConsomInfoGen = ({ siteData, siegeData }) => {
       ),
       dataIndex: "total_litres",
       render: (text) => (
-        <Tag color="purple">{text !== undefined ? text : 0}</Tag>
+        <Text type="secondary">{text}</Text>
       ),
     },
     {
@@ -73,7 +73,7 @@ const ConsomInfoGen = ({ siteData, siegeData }) => {
       ),
       dataIndex: "total_kilometrage",
       render: (text) => (
-        <Tag color="magenta">{text !== undefined ? text : 0}</Tag>
+        <Text type="secondary">{text}</Text>
       ),
     },
   ];
@@ -90,7 +90,7 @@ const ConsomInfoGen = ({ siteData, siegeData }) => {
               dataSource={dataSource}
               rowKey={(row) => row.id || Math.random()}
               size="small"
-              loading={!siteData} // juste pour éviter un clignotement
+              loading={!siteData}
               scroll={{ x: 400 }}
               pagination={false}
               rowClassName={(_, index) =>
