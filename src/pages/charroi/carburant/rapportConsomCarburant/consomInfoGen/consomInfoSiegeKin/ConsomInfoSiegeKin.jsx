@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { EnvironmentOutlined,CarOutlined,FireOutlined,DashboardOutlined,ArrowRightOutlined   } from '@ant-design/icons';
-import { Divider, Card, Table, Tag, Tooltip } from 'antd';
+import { Divider, Card, Table, Tag, Tooltip, Typography } from 'antd';
 
+const { Text } = Typography;
 
 const ConsomInfoSiegeKin = ({siegeData}) => {
     const [data, setData] = useState([]);
@@ -38,7 +39,7 @@ const ConsomInfoSiegeKin = ({siegeData}) => {
       dataIndex: 'total_pleins',
       render: (text) => (
         <Tooltip title="Nombre total de pleins">
-          <Tag color="gold">{text}</Tag>
+          <Text type="secondary">{text}</Text>
         </Tooltip>
       )
     },
@@ -51,7 +52,7 @@ const ConsomInfoSiegeKin = ({siegeData}) => {
       dataIndex: 'nbre_vehicule',
       render: (text) => (
         <Tooltip title="Nombre total de pleins">
-          <Tag color="gold">{text}</Tag>
+            <Text type="secondary">{text}</Text>
         </Tooltip>
       )
     },
@@ -64,7 +65,7 @@ const ConsomInfoSiegeKin = ({siegeData}) => {
       dataIndex: 'total_litres',
       render: (text) => (
         <Tooltip title="Quantité totale en litres">
-          <Tag color="purple">{text}</Tag>
+            <Text type="secondary">{text}</Text>
         </Tooltip>
       )
     },
@@ -77,7 +78,7 @@ const ConsomInfoSiegeKin = ({siegeData}) => {
       dataIndex: 'total_kilometrage',
       render: (text) => (
         <Tooltip title="Kilométrage total">
-          <Tag color="magenta">{text}</Tag>
+            <Text type="secondary">{text}</Text>
         </Tooltip>
       )
     }
