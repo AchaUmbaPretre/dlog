@@ -1,86 +1,117 @@
-import React, { useState } from 'react'
-import { Bar } from 'react-chartjs-2';
-import { Card } from 'antd';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-// Enregistrer les composants nécessaires pour Chart.js
+import React, { useMemo } from "react";
+import { Bar } from "react-chartjs-2";
+import { Card, Empty } from "antd";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ConsomCarburantBar = ({consomMonth}) => {
-    const [loading, setLoading] = useState(false);
+const ConsomCarburantBar = ({ consomMonth = [] }) => {
+  // 🎨 Palette dynamique PRO
+  const COLORS = [
+    "#1a73e8",
+    "#ff6b6b",
+    "#ffa726",
+    "#43a047",
+    "#9c27b0",
+    "#26c6da",
+    "#8d6e63",
+    "#ab47bc",
+    "#42a5f5",
+    "#ef5350",
+  ];
 
-    // Organiser les données récupérées pour les afficher sur le graphique
-    const prepareChartData = () => {
-    const dieselData = Array(12).fill(0); // Initialiser un tableau pour Diesel
-    const essenceData = Array(12).fill(0); // Initialiser un tableau pour Essence
+  // ⚙️ Préparation PRO des données avec useMemo
+  const preparedData = useMemo(() => {
+    if (!Array.isArray(consomMonth) || consomMonth.length === 0) return null;
 
-    // Remplir les données par type de carburant et par mois
-    consomMonth.forEach(({ annee, mois, total_conso, nom_type_carburant }) => {
-      const moisIndex = mois - 1; // Pour avoir un index de 0 à 11 (janvier = index 0, décembre = index 11)
-      if (nom_type_carburant === 'Diesel') {
-        dieselData[moisIndex] += total_conso;
-      } else if (nom_type_carburant === 'Essence') {
-        essenceData[moisIndex] += total_conso;
-      }
+    const labels = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    ];
+
+    // Obtenir tous les types de carburants dynamiquement
+    const fuelTypes = [...new Set(consomMonth.map((item) => item.nom_type_carburant))];
+
+    // Construction des datasets automatiquement
+    const datasets = fuelTypes.map((fuel, index) => {
+      const data = Array(12).fill(0);
+
+      consomMonth.forEach((item) => {
+        if (item.nom_type_carburant === fuel) {
+          const monthIndex = item.mois - 1;
+          data[monthIndex] += item.total_conso || 0;
+        }
+      });
+
+      return {
+        label: fuel,
+        data,
+        backgroundColor: COLORS[index % COLORS.length],
+        borderColor: COLORS[index % COLORS.length],
+        borderWidth: 1.5,
+        borderRadius: 5, // barres arrondies
+      };
     });
 
-    return {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // Mois de l'année
-      datasets: [
-        {
-          label: 'Diesel',
-          data: dieselData,
-          backgroundColor: '#1a73e8',
-          borderColor: '#1a73e8',
-          borderWidth: 1,
-        },
-        {
-          label: 'Essence',
-          data: essenceData,
-          backgroundColor: 'rgb(255, 99, 132)', // Couleur des barres pour l'essence
-          borderColor: '#fbbc04',
-          borderWidth: 1,
-        },
-      ],
-    };
-  };
+    return { labels, datasets };
+  }, [consomMonth]);
 
-  const data = prepareChartData();
-
-  // Options du diagramme
+  // ⚙️ Options PRO
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top', // Position de la légende
+        position: "top",
+        labels: { font: { size: 13, family: "Nunito" } },
       },
       title: {
         display: true,
-        text: 'Consommation Mensuelle: Diesel vs Essence', // Titre du diagramme
+        text: "Consommation Mensuelle par Carburant",
+        font: { size: 18, family: "Nunito" },
+        padding: 15,
       },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            return `${context.dataset.label}: ${context.raw} L`;
+          },
+        },
+      },
+    },
+    animation: {
+      duration: 1200,
+      easing: "easeOutBounce",
     },
     scales: {
       x: {
-        grid: {
-          display: false, // Supprime les lignes de la grille horizontale
-        },
+        grid: { display: false },
       },
       y: {
-        grid: {
-          color: '#e0e0e0', // Couleur des lignes de la grille verticale
-        },
+        grid: { color: "#e0e0e0" },
+        ticks: { stepSize: 50 },
       },
     },
   };
 
   return (
-    <>
-        <Card>
-            <div className="consomCarburantBar">
-                <Bar data={data} options={options} />
-            </div>
-        </Card>
-    </>
-  )
-}
+    <Card style={{ width: "100%" }}>
+      {preparedData ? (
+        <div style={{ height: 380 }}>
+          <Bar data={preparedData} options={options} />
+        </div>
+      ) : (
+        <Empty description="Aucune donnée disponible" />
+      )}
+    </Card>
+  );
+};
 
-export default ConsomCarburantBar
+export default ConsomCarburantBar;

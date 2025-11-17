@@ -7,6 +7,9 @@
         width: 100%;
         display: flex;
         gap: 10px;
+        .consom_chart_left{
+            flex: 3;
+        }
         .consom_chart{
             flex: 1;
         }

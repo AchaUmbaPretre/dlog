@@ -9,13 +9,13 @@ const ConsomCarburantChart = ({consomMonth, consomYear}) => {
   return (
     <>
         <div className="consomCarburantChart">
-            <Divider>Consommation mensuelle</Divider>
+            <Divider>Chart de consommation</Divider>
             <div className="consomCarburant_chart_wrapper">
-                <div className="consom_chart">
-                    <ConsomCarburantLine consomYear={consomYear} />
+                <div className="consom_chart_left">
+                    <ConsomCarburantBar consomMonth={consomMonth} />
                 </div>
                 <div className="consom_chart">
-                    <ConsomCarburantBar consomMonth={consomMonth} />
+                    <ConsomCarburantLine consomYear={consomYear} />
                 </div>
             </div>
         </div>
