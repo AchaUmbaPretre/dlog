@@ -11,6 +11,7 @@ import RelierFalcon from '../relierFalcon/RelierFalcon';
 import VehiculeDetail from '../vehiculeDetail/VehiculeDetail';
 import CharroiForm from '../charroiForm/CharroiForm';
 import DetailTypeAlert from './detailTypeAlert/DetailTypeAlert';
+import RelierVehiculeSite from '../relierVehiculeSite/RelierVehiculeSite';
 
 const { Search } = Input;
 
@@ -55,7 +56,7 @@ const Vehicule = () => {
   const handleAddClient = (id) => openModal('Add', id)
   const handleDetail = (id) => openModal('Detail', id)
   const handleRelier = (id) => openModal('Relier', id)
-  const handleRelierSite = (id) => openModal('RelierSite')
+  const handleRelierSite = () => openModal('RelierSite')
   const handleSite = (id) => openModal('Affecter', id)
   const handleAlert = (id) => openModal('DetailTypeAlert', id)
 
@@ -442,7 +443,7 @@ const Vehicule = () => {
                     <Button
                       type="default"
                       icon={<RetweetOutlined />}
-                      onClick={handleRelier}
+                      onClick={handleRelierSite}
                     >
                       Rélier à un site
                     </Button>
@@ -500,6 +501,17 @@ const Vehicule = () => {
         centered
       >
         <RelierFalcon closeModal={() => setModalType(null)} fetchData={fetchData}/>
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'RelierSite'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={800}
+        centered
+      >
+        <RelierVehiculeSite closeModal={() => setModalType(null)} fetchData={fetchData}/>
       </Modal>
 
       <Modal

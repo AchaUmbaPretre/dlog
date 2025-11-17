@@ -1,0 +1,96 @@
+.vehicule-card {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: all 0.35s ease;
+
+  &::before {
+    content:"";
+    position:absolute;
+    top:-30%;
+    right:-30%;
+    width:60%; height:60%;
+    background: rgba(22,119,255,0.06);
+    border-radius:50%;
+    filter: blur(50px);
+    transition: all 0.6s ease;
+    z-index:-1;
+  }
+
+  &:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+    transform: translateY(-3px) scale(1.01);
+
+    &::before {
+      top: -20%;
+      right: -20%;
+      background: rgba(22,119,255,0.1);
+      filter: blur(70px);
+    }
+  }
+}
+
+/* Header + icône pulsante */
+.vehicule-header { margin-bottom: 24px;
+  .vehicule-header-content { display:flex; align-items:center; gap:16px; }
+  .vehicule-icon { font-size:42px; color:#1677ff; transition:all 0.4s ease; }
+  .pulse { animation:pulse 1.8s infinite ease-in-out; }
+  @keyframes pulse {0%,100%{transform:scale(1);opacity:0.9;}50%{transform:scale(1.15);opacity:1;}}
+  .vehicule-title { margin:0; color:#001529; font-weight:700; letter-spacing:0.3px; }
+}
+
+/* Formulaire prédictif */
+.vehicule-form {
+  .ant-form-item-label > label { font-weight:600; color:#222; }
+  .input-icon { color:#1677ff; }
+  .ant-input-affix-wrapper {
+    border-radius:10px; transition: all 0.25s ease; height:42px;
+    &:hover { border-color:#1677ff; box-shadow:0 2px 6px rgba(22,119,255,0.15); }
+    &:focus-within { border-color:#1677ff; box-shadow:0 0 0 3px rgba(22,119,255,0.25); transform:translateY(-1px); }
+  }
+}
+
+/* Boutons shine premium */
+.shine-btn {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg,#1677ff,#4096ff);
+  box-shadow: 0 3px 10px rgba(22,119,255,0.3);
+  transition: all 0.3s ease;
+
+  &:hover::before {
+    transform: translateX(120%) rotate(30deg);
+  }
+
+  &::before {
+    content: '';
+    position: absolute; top:0; left:-120%;
+    width:50%; height:100%;
+    background: rgba(255,255,255,0.3);
+    transform: rotate(30deg);
+    transition: all 0.5s ease;
+  }
+}
+
+/* Actions */
+.vehicule-actions { text-align:right; margin-top:2rem; }
+.vehicule-btn-cancel { background:#f5f5f5; border:1px solid #d9d9d9; color:#333; 
+  &:hover { background:#eaeaea; transform:translateY(-2px); }
+  &:active { transform:scale(0.98); }
+}
+
+/* Success animation + confettis */
+.success-badge { font-size:28px; color:#52c41a; animation: successFade 0.5s ease forwards; }
+@keyframes successFade { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
+.confetti { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; display:none; }
+.confetti.show { display:block; }
+.confetti span { position:absolute; width:8px; height:8px; background:#52c41a; animation: confettiFall 1.2s linear infinite; opacity:0.8; }
+.confetti span:nth-child(1){left:10%; animation-delay:0s;}
+.confetti span:nth-child(2){left:30%; animation-delay:0.2s;}
+.confetti span:nth-child(3){left:50%; animation-delay:0.4s;}
+.confetti span:nth-child(4){left:70%; animation-delay:0.6s;}
+.confetti span:nth-child(5){left:90%; animation-delay:0.8s;}
+@keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(80px) rotate(360deg);opacity:0;} }
