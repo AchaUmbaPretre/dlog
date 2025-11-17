@@ -118,7 +118,7 @@ const ConsomDetailSite = ({siteAllData}) => {
   return (
     <>
         <div className="consomDetailSite">
-            <Card type="inner" title="Détails pour chaque site">
+            <Card type="inner" title="DÉTAILS POUR CHAQUE SITE">
                 <Table 
                     dataSource={siteAllData} 
                     columns={columns} 

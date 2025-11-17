@@ -4,8 +4,6 @@ import getColumnSearchProps from '../../../../../../utils/columnSearchUtils';
 import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
 
 const ConsomDetailVehicule = ({siegeData}) => {
-    const [data,setData] = useState();
-    const [loading, setLoading] = useState(true);
     const [selectedVehicles, setSelectedVehicles] = useState([]);
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
@@ -129,7 +127,7 @@ const ConsomDetailVehicule = ({siegeData}) => {
   return (
     <>
         <div className="consomDetailSite">
-            <Card type="inner" title="Détails pour chaque vehicule du site SIEGE KIN">
+            <Card type="inner" title="DÉTAILS POUR CHAQUE VÉHICULE DU SITE SIÈGE KIN">
                 <Table 
                     dataSource={siegeData} 
                     columns={columns} 
