@@ -49,7 +49,7 @@ const RapportConsomCarburant = () => {
               <div className="rapportConsom__title_top_row">
                 <FileSearchOutlined className="rapport-header__icon" />
                 <Title level={3} className="rapport-header__title">
-                  Rapport des consommations
+                  RAPPORT DES CONSOMMATIONS
                 </Title>
               </div>
               <Text type="secondary" className="rapport-header__subtitle">
