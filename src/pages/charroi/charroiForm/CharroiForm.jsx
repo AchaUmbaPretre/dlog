@@ -596,8 +596,8 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                 label="Type carburant"
                                 rules={[
                                     {
-                                        required: false,
-                                        message: 'Veuillez fournir un carburant...',
+                                        required: true,
+                                        message: 'Veuillez fournir un type du carburant...',
                                     },
                                 ]}
                             >

@@ -466,7 +466,7 @@ const Vehicule = () => {
         visible={modalType === 'Add'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={1100}
         centered
       >
         <CharroiForm idVehicule={''} closeModal={() => setModalType(null)} fetchData={fetchData}/>
