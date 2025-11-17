@@ -18,7 +18,8 @@ const RapportConsomCarburant = () => {
   const [siegeData, setSiegeData] = useState([]);
   const [siegeTypeData, setSiegeTypeData] = useState([]);
   const [siteAllData, setSiteAllData] = useState([]);
-
+  const [consomMonth, setConsomMonth] = useState([]);
+  const [consomYear, setConsomYear] = useState([]);
 
 
   const fetchData = async () => {
@@ -27,12 +28,13 @@ const RapportConsomCarburant = () => {
       setSiteData(response.data?.sqlMesSites);
       setSiegeData(response?.data?.sqlDetailSiegeKin);
       setSiteAllData(response?.data?.sqlSitesAll);
-      setSiegeTypeData(response?.data?.sqlSiegeKinTypeCarburant)
+      setSiegeTypeData(response?.data?.sqlSiegeKinTypeCarburant);
+      setConsomMonth(response?.data?.sqlConsomTypeCarburant);
+      setConsomYear(response?.data?.sqlConsomYearTypeCarburant)
     } catch (error) {
       console.error(error);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, [periodeValue]);
@@ -119,7 +121,7 @@ const RapportConsomCarburant = () => {
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomCarburantChart />
+            <ConsomCarburantChart consomMonth={consomMonth} consomYear={consomYear} />
           </div>
         </div>
       </div>

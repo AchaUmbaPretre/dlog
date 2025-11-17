@@ -4,7 +4,7 @@ import './consomCarburantChart.scss';
 import ConsomCarburantLine from './consomCarburantLine/ConsomCarburantLine';
 import ConsomCarburantBar from './consomCarburantBar/ConsomCarburantBar';
 
-const ConsomCarburantChart = () => {
+const ConsomCarburantChart = ({consomMonth, consomYear}) => {
 
   return (
     <>
@@ -12,10 +12,10 @@ const ConsomCarburantChart = () => {
             <Divider>Consommation mensuelle</Divider>
             <div className="consomCarburant_chart_wrapper">
                 <div className="consom_chart">
-                    <ConsomCarburantLine/>
+                    <ConsomCarburantLine consomYear={consomYear} />
                 </div>
                 <div className="consom_chart">
-                    <ConsomCarburantBar/>
+                    <ConsomCarburantBar consomMonth={consomMonth} />
                 </div>
             </div>
         </div>

@@ -5,8 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 // Enregistrer les composants nécessaires pour Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ConsomCarburantBar = () => {
-    const [datas, setData] = useState([]);
+const ConsomCarburantBar = ({consomMonth}) => {
     const [loading, setLoading] = useState(false);
 
     // Organiser les données récupérées pour les afficher sur le graphique
@@ -15,7 +14,7 @@ const ConsomCarburantBar = () => {
     const essenceData = Array(12).fill(0); // Initialiser un tableau pour Essence
 
     // Remplir les données par type de carburant et par mois
-    datas.forEach(({ annee, mois, total_conso, nom_type_carburant }) => {
+    consomMonth.forEach(({ annee, mois, total_conso, nom_type_carburant }) => {
       const moisIndex = mois - 1; // Pour avoir un index de 0 à 11 (janvier = index 0, décembre = index 11)
       if (nom_type_carburant === 'Diesel') {
         dieselData[moisIndex] += total_conso;
