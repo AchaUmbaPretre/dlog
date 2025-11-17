@@ -102,13 +102,11 @@ const RapportCharts = ({ charts }) => {
 
       <div className="charts__flex">
 
-        {/* === Chart 1 === */}
         <div className="chart chart--primary chart--small">
             <h3 className="chart__title"><InfoCircleOutlined /> Consommation par véhicule</h3>
             {parVehicule.length > 0 ? <Bar data={vehiculeData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
         </div>
 
-        {/* === Chart 2 + 3 === */}
         <div className="charts__right">
             <div className="chart chart--secondary">
             <h3 className="chart__title"><LineChartOutlined /> Évolution du coût par semaine</h3>
