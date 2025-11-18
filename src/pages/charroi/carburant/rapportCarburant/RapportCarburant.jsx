@@ -22,9 +22,11 @@ const RapportCarburant = () => {
   const [vehicles, setVehicles] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [activeKey, setActiveKey] = useState('1');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+        setLoading(true);
       try {
         // Convertir les dates en format YYYY-MM-DD pour l'API
         const from = period[0].format("YYYY-MM-DD");
@@ -38,7 +40,9 @@ const RapportCarburant = () => {
         setAlerts(data.alertes || []);
       } catch (error) {
         console.error("Erreur chargement rapport :", error);
-      }
+      } finally {
+        setLoading(false);
+        }
     };
 
     fetchData();
@@ -69,7 +73,7 @@ const RapportCarburant = () => {
                         alertCount={alerts.length}
                     />
                     <div className="rapport__grid">
-                        <RapportKPIs kpis={kpis} />
+                        <RapportKPIs kpis={kpis} loading={loading} />
                         <RapportCharts charts={charts} />
                         <RapportTableVehicules vehicles={vehicles} />
                         <RapportAlertes alerts={alerts} />
