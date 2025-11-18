@@ -89,7 +89,7 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
                 <Table 
                     columns={columns} 
                     dataSource={siegeData} 
-                    size="small" 
+                    size="small"
                     rowClassName={(_, index) =>
                         index % 2 === 0 ? "table-row-light" : "table-row-dark"
                     }
