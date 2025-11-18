@@ -10,8 +10,6 @@ const ConsomInfoGen = ({ siteData, siegeData, parValue, vehiculeData, loading })
 
   return (
     <div className="consomInfoGen">
-      <Divider>Informations générales</Divider>
-
       <div className="consomInfoGen__container">
         <div className="consomInfoGen__row">
             {
