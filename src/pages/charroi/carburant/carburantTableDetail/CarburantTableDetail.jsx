@@ -25,7 +25,7 @@ const CarburantTableDetail = ({data, loading}) => {
         render: (_, __, index) =>
           (pagination.current - 1) * pagination.pageSize + index + 1,
       },
-      { title: "N° PC", dataIndex: "num_pc", key: "num_pc", ellipsis:'true' },
+      { title: "N° PC", dataIndex: "num_pc", key: "num_pc", ellipsis:'true', render : (text) => <Text>{text ?? 'N/A'}</Text> },
       {
         title: "Véhicule",
         dataIndex: "immatriculation",

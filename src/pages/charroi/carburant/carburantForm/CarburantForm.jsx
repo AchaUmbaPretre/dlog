@@ -10,6 +10,7 @@ import {
   notification,
   Skeleton,
   Divider,
+  Modal,
   InputNumber
 } from 'antd';
 import {
@@ -114,39 +115,85 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   };
 
   // 🔹 Envoi au backend
-  const handleSubmit = async (values) => {
-    setLoading(prev => ({ ...prev, submit: true }));
-    try {
-      const payload = {
-        ...values,
-        date_operation: values.date_operation?.format('YYYY-MM-DD HH:mm:ss'),
-        prix_cdf: prixCDF,
-        prix_usd: prixUSD,
-        montant_total_cdf: montantTotalCDF,
-        montant_total_usd: montantTotalUSD,
-      };
+const handleSubmit = async (values) => {
+  setLoading(prev => ({ ...prev, submit: true }));
 
-      await postCarburant(payload);
-
-      notification.success({
-        message: 'Succès',
-        description: 'Les informations carburant ont été enregistrées avec succès.',
-      });
-
-      form.resetFields();
-      closeModal?.();
-      fetchData?.();
-      fetchDatas();
-    } catch (error) {
-      notification.error({
-        message: 'Erreur',
-        description: "Une erreur est survenue lors de l'enregistrement.",
-      });
-      console.error(error);
-    } finally {
-      setLoading(prev => ({ ...prev, submit: false }));
-    }
+  const payload = {
+    ...values,
+    date_operation: values.date_operation?.format('YYYY-MM-DD HH:mm:ss'),
+    prix_cdf: prixCDF,
+    prix_usd: prixUSD,
+    montant_total_cdf: montantTotalCDF,
+    montant_total_usd: montantTotalUSD,
   };
+
+  try {
+
+    // Première tentative d’enregistrement
+    await postCarburant(payload);
+
+    // Si tout va bien
+    notification.success({
+      message: 'Succès',
+      description: 'Les informations carburant ont été enregistrées avec succès.',
+    });
+
+    form.resetFields();
+    closeModal?.();
+    fetchData?.();
+    fetchDatas();
+
+  } catch (error) {
+
+    // ⭐ CAS SPÉCIAL : KM INCOHÉRENT, API DEMANDE CONFIRMATION
+    if (error?.response?.status === 409 && error.response.data?.askConfirmation) {
+
+      Modal.confirm({
+        title: "Kilométrage incohérent",
+        content: error.response.data.message,
+        okText: "Enregistrer quand même",
+        cancelText: "Annuler",
+        onOk: async () => {
+          try {
+
+            // Envoi avec force = 1
+            await postCarburant({ ...payload, force: 1 });
+
+            notification.success({
+              message: 'Enregistré malgré incohérence',
+              description: "Le plein a été enregistré avec l'alerte kilométrage incohérent.",
+            });
+
+            form.resetFields();
+            closeModal?.();
+            fetchData?.();
+            fetchDatas();
+
+          } catch (forceError) {
+            notification.error({
+              message: "Erreur",
+              description: "L'enregistrement confirmé a échoué.",
+            });
+            console.error(forceError);
+          }
+        },
+      });
+
+      return; // IMPORTANT : ne pas continuer l'exécution normale
+    }
+
+    // ❌ Autres erreurs normales
+    notification.error({
+      message: 'Erreur',
+      description: "Une erreur est survenue lors de l'enregistrement.",
+    });
+
+    console.error(error);
+
+  } finally {
+    setLoading(prev => ({ ...prev, submit: false }));
+  }
+};
 
   const renderField = (component) =>
     loading.data ? <Skeleton.Input active style={{ width: '100%' }} /> : component;
