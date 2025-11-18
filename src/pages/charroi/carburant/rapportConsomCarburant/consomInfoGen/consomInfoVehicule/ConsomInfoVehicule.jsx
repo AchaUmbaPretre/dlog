@@ -8,7 +8,7 @@ import {
 import { Card, Table, Tag, Tooltip, Typography } from "antd";
 const { Text } = Typography;
 
-const ConsomInfoVehicule = ({siteData, loading}) => {
+const ConsomInfoVehicule = ({vehiculeData, loading}) => {
 
   const columns = [
     {
@@ -26,7 +26,7 @@ const ConsomInfoVehicule = ({siteData, loading}) => {
           <EnvironmentOutlined style={{ color: "#52c41a" }} /> Mes véhicules
         </>
       ),
-      dataIndex: "Immatriculation",
+      dataIndex: "immatriculation",
       render: (text) => (
         <Tooltip title="">
           <Tag color="green">{text || "—"}</Tag>
@@ -80,7 +80,7 @@ const ConsomInfoVehicule = ({siteData, loading}) => {
         <Card type="inner" title="MES VEHICULES">
             <Table
               columns={columns}
-              dataSource={siteData}
+              dataSource={vehiculeData}
               rowKey={(row) => row.id || Math.random()}
               size="small"
               loading={loading}

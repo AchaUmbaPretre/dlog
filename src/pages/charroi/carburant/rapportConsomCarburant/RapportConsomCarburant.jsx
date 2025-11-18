@@ -11,9 +11,9 @@ import { getRapportConsomGen } from '../../../../services/carburantService';
 const { Title, Text } = Typography;
 
 const RapportConsomCarburant = () => {
-  const [spectreValue, setSpectreValue] = useState(null);
-  const [parValue, setParValue] = useState(null);
-  const [periodeValue, setPeriodeValue] = useState(null);
+  const [spectreValue, setSpectreValue] = useState('Cobra');
+  const [parValue, setParValue] = useState('sites');
+  const [periodeValue, setPeriodeValue] = useState('360jours');
   const [siteData, setSiteData] = useState([]);
   const [siegeData, setSiegeData] = useState([]);
   const [siegeTypeData, setSiegeTypeData] = useState([]);
@@ -119,7 +119,7 @@ const RapportConsomCarburant = () => {
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomInfoGen siteData={siteData} siegeData={siegeTypeData} parValue={parValue} loading={loading} />
+            <ConsomInfoGen siteData={siteData} siegeData={siegeTypeData} parValue={parValue} vehiculeData={vehiculeData} loading={loading} />
           </div>
 
           <div className="rapportConsom__info">

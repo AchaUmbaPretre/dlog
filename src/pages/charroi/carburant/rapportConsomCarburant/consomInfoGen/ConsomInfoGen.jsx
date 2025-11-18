@@ -6,7 +6,7 @@ import ConsomInfoSites from "./consomInfoSites/ConsomInfoSites";
 import ConsomInfoVehicule from "./consomInfoVehicule/ConsomInfoVehicule";
 
     
-const ConsomInfoGen = ({ siteData, siegeData, parValue, loading }) => {
+const ConsomInfoGen = ({ siteData, siegeData, parValue, vehiculeData, loading }) => {
 
   return (
     <div className="consomInfoGen">
@@ -14,13 +14,12 @@ const ConsomInfoGen = ({ siteData, siegeData, parValue, loading }) => {
 
       <div className="consomInfoGen__container">
         <div className="consomInfoGen__row">
-          <Card type="inner" title="MES INFOS">
             {
                 parValue === 'sites' ? 
-                <ConsomInfoSites siteData={siteData} loading={loading} /> : 
-                <ConsomInfoVehicule siteData={siteData} loading={loading} />
+                <ConsomInfoSites siteData={siteData} loading={loading} /> :
+                <ConsomInfoVehicule vehiculeData={vehiculeData} loading={loading} />
             }
-          </Card>
+
         </div>
 
         <div className="consomInfoGen__row">
