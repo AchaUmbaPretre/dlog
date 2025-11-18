@@ -1,14 +1,12 @@
 import React from "react";
 import "./consomInfoGen.scss";
-import { Divider, Card, Table, Tag, Tooltip, Typography } from "antd";
+import { Divider, Card } from "antd";
 import ConsomInfoSiegeKin from "./consomInfoSiegeKin/ConsomInfoSiegeKin";
 import ConsomInfoSites from "./consomInfoSites/ConsomInfoSites";
+import ConsomInfoVehicule from "./consomInfoVehicule/ConsomInfoVehicule";
 
-const { Text } = Typography;
     
-const ConsomInfoGen = ({ siteData, siegeData, loading }) => {
-  // Sécurisation : siteData sera toujours un tableau
-  const dataSource = Array.isArray(siteData) ? siteData : [];
+const ConsomInfoGen = ({ siteData, siegeData, parValue, loading }) => {
 
   return (
     <div className="consomInfoGen">
@@ -16,8 +14,12 @@ const ConsomInfoGen = ({ siteData, siegeData, loading }) => {
 
       <div className="consomInfoGen__container">
         <div className="consomInfoGen__row">
-          <Card type="inner" title="MES SITES">
-            <ConsomInfoSites siteData={siteData} loading={loading} />
+          <Card type="inner" title="MES INFOS">
+            {
+                parValue === 'sites' ?
+                <ConsomInfoSites siteData={siteData} loading={loading} /> : 
+                <ConsomInfoVehicule siteData={siteData} loading={loading} />
+            }
           </Card>
         </div>
 

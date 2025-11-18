@@ -125,7 +125,7 @@ const ConsomDetailVehicule = ({siegeData, loading}) => {
   return (
     <>
         <div className="consomDetailSite">
-            <Card type="inner" title="DÉTAILS POUR CHAQUE VÉHICULE DU SITE SIÈGE KIN">
+            <Card type="inner" title="DÉTAILS POUR CHAQUE VÉHICULE DU SITE COBRA">
                 <Table 
                     dataSource={siegeData} 
                     columns={columns} 

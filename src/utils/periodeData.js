@@ -1,6 +1,6 @@
   export const spectreOptions = [ 
     { name: 'Mes sites', value: 'mesSites' },
-    { name: 'Siège Kin', value: 'siegeKin' }
+    { name: 'Cobra', value: 'siegeKin' }
   ];
 
   export const parOptions = [ 

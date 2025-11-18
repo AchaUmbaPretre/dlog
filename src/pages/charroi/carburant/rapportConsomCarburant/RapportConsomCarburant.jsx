@@ -117,7 +117,7 @@ const RapportConsomCarburant = () => {
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomInfoGen siteData={siteData} siegeData={siegeTypeData} loading={loading} />
+            <ConsomInfoGen siteData={siteData} siegeData={siegeTypeData} parValue={parValue} loading={loading} />
           </div>
 
           <div className="rapportConsom__info">

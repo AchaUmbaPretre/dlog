@@ -85,7 +85,7 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
   return (
     <>
         <div>
-            <Card type="inner" title="SIEGE KIN">
+            <Card type="inner" title="COBRA">
                 <Table 
                     columns={columns} 
                     dataSource={siegeData} 
