@@ -18,6 +18,7 @@ const RapportConsomCarburant = () => {
   const [siegeData, setSiegeData] = useState([]);
   const [siegeTypeData, setSiegeTypeData] = useState([]);
   const [siteAllData, setSiteAllData] = useState([]);
+  const [vehiculeData, setVehiculeData] = useState([]);
   const [consomMonth, setConsomMonth] = useState([]);
   const [consomYear, setConsomYear] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,7 +32,8 @@ const RapportConsomCarburant = () => {
       setSiteAllData(response?.data?.sqlSitesAll);
       setSiegeTypeData(response?.data?.sqlSiegeKinTypeCarburant);
       setConsomMonth(response?.data?.sqlConsomTypeCarburant);
-      setConsomYear(response?.data?.sqlConsomYearTypeCarburant)
+      setConsomYear(response?.data?.sqlConsomYearTypeCarburant);
+      setVehiculeData(response?.data?.sqlVehiculeInfo)
     } catch (error) {
       console.error(error);
     } finally {
