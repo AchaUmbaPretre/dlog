@@ -16,7 +16,7 @@ const ConsomInfoGen = ({ siteData, siegeData, parValue, loading }) => {
         <div className="consomInfoGen__row">
           <Card type="inner" title="MES INFOS">
             {
-                parValue === 'sites' ?
+                parValue === 'sites' ? 
                 <ConsomInfoSites siteData={siteData} loading={loading} /> : 
                 <ConsomInfoVehicule siteData={siteData} loading={loading} />
             }
