@@ -107,8 +107,12 @@ const Carburant = () => {
         title: "Chauffeur",
         dataIndex: "nom_chauffeur",
         render: (value, record) => (
-          <Text strong>{value || record.commentaire}</Text>
-        ),
+          <Text strong>
+            {value && record.prenom
+              ? `${value} ${record.prenom}`
+              : record.commentaire}
+          </Text>
+        )
       },
       {
         title: "Véhicule",
