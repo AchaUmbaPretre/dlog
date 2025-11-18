@@ -20,9 +20,10 @@ const RapportConsomCarburant = () => {
   const [siteAllData, setSiteAllData] = useState([]);
   const [consomMonth, setConsomMonth] = useState([]);
   const [consomYear, setConsomYear] = useState([]);
-
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await getRapportConsomGen(periodeValue);
       setSiteData(response.data?.sqlMesSites);
@@ -33,8 +34,11 @@ const RapportConsomCarburant = () => {
       setConsomYear(response?.data?.sqlConsomYearTypeCarburant)
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, [periodeValue]);
@@ -113,15 +117,15 @@ const RapportConsomCarburant = () => {
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomInfoGen siteData={siteData} siegeData={siegeTypeData} />
+            <ConsomInfoGen siteData={siteData} siegeData={siegeTypeData} loading={loading} />
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomCarburantDetail spectreValue={spectreValue} siteAllData={siteAllData} siegeData={siegeData} />
+            <ConsomCarburantDetail spectreValue={spectreValue} siteAllData={siteAllData} siegeData={siegeData} loading={loading} />
           </div>
 
           <div className="rapportConsom__info">
-            <ConsomCarburantChart consomMonth={consomMonth} consomYear={consomYear} />
+            <ConsomCarburantChart consomMonth={consomMonth} consomYear={consomYear} loading={loading} />
           </div>
         </div>
       </div>

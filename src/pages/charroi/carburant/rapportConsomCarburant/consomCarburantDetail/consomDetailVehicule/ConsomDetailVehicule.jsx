@@ -3,12 +3,10 @@ import { DashboardOutlined, FireOutlined, CarOutlined, BankOutlined, Environment
 import getColumnSearchProps from '../../../../../../utils/columnSearchUtils';
 import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
 
-const ConsomDetailVehicule = ({siegeData}) => {
+const ConsomDetailVehicule = ({siegeData, loading}) => {
     const [selectedVehicles, setSelectedVehicles] = useState([]);
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
-
-    console.log(siegeData)
 
     const columns = [
     {
@@ -132,6 +130,7 @@ const ConsomDetailVehicule = ({siegeData}) => {
                     dataSource={siegeData} 
                     columns={columns} 
                     size="small"  
+                    loading={loading}
                     bordered
                     scroll={scroll}
                 />

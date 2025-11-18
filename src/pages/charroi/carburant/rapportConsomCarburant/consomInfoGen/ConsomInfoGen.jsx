@@ -11,7 +11,7 @@ import ConsomInfoSiegeKin from "./consomInfoSiegeKin/ConsomInfoSiegeKin";
 
 const { Text } = Typography;
     
-const ConsomInfoGen = ({ siteData, siegeData }) => {
+const ConsomInfoGen = ({ siteData, siegeData, loading }) => {
   // Sécurisation : siteData sera toujours un tableau
   const dataSource = Array.isArray(siteData) ? siteData : [];
 
@@ -92,7 +92,7 @@ const ConsomInfoGen = ({ siteData, siegeData }) => {
               dataSource={dataSource}
               rowKey={(row) => row.id || Math.random()}
               size="small"
-              loading={!siteData}
+              loading={loading}
               scroll={{ x: 400 }}
               pagination={false}
               rowClassName={(_, index) =>

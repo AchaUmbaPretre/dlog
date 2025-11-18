@@ -3,7 +3,7 @@ import { DashboardOutlined, BankOutlined, EnvironmentOutlined, CheckCircleOutlin
 import getColumnSearchProps from '../../../../../../utils/columnSearchUtils';
 import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
 
-const ConsomDetailSite = ({siteAllData}) => {
+const ConsomDetailSite = ({siteAllData, loading}) => {
     const [data,setData] = useState();
     const [selectedVehicles, setSelectedVehicles] = useState([]);
     const [modalType, setModalType] = useState(null);
