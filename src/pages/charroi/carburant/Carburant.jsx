@@ -41,7 +41,7 @@ const Carburant = () => {
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
     "Num PC": false,
-    Facture: true,
+    Facture: false,
     Chauffeur: true,
     Véhicule: true,
     Fournisseur: false,
@@ -83,6 +83,7 @@ const Carburant = () => {
     return data.filter(
       (item) =>
         item.commentaire?.toLowerCase().includes(search) ||
+        item.nom_chauffeur?.toLowerCase().includes(search) ||
         item.nom?.toLowerCase().includes(search) ||
         item.immatriculation?.toLowerCase().includes(search)
     );
