@@ -4,9 +4,7 @@ import { Divider, Card, Table, Tag, Tooltip, Typography } from 'antd';
 
 const { Text } = Typography;
 
-const ConsomInfoSiegeKin = ({siegeData}) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
+const ConsomInfoSiegeKin = ({siegeData, loading}) => {
     const scroll = { x: 400 };
 
     const columns = [

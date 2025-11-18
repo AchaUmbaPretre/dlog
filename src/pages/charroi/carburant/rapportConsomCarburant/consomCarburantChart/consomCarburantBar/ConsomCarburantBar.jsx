@@ -14,7 +14,6 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const ConsomCarburantBar = ({ consomMonth = [] }) => {
-  // 🎨 Palette dynamique PRO
   const COLORS = [
     "#1a73e8",
     "#ff6b6b",

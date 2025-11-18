@@ -5,7 +5,7 @@ import { Card, Empty } from "antd";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const ConsomCarburantLine = ({ consomYear = [] }) => {
+const ConsomCarburantLine = ({ consomYear = [], loading }) => {
 
   // 🎨 Palette PRO automatique
   const COLORS = [
