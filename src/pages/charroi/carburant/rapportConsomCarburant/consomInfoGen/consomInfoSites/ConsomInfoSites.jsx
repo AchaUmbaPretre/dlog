@@ -8,7 +8,6 @@ import {
 import { Card, Table, Tag, Tooltip, Typography } from "antd";
 const { Text } = Typography;
 
-
 const ConsomInfoSites = ({siteData, loading}) => {
 
   const columns = [
