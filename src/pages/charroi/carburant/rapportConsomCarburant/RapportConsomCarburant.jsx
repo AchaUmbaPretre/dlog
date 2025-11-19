@@ -67,7 +67,7 @@ const RapportConsomCarburant = () => {
 
             <div className="rapportConsom__bottom">
 
-                            <div className="rapportConsom__bottom__row">
+              <div className="rapportConsom__bottom__row">
                 <div className='rapportConsom_label'>
                   <CarOutlined style={{ marginRight: 6, color: '#1677ff' }} />
                   Par site ou véhicule
@@ -82,7 +82,7 @@ const RapportConsomCarburant = () => {
                   onChange={setParValue}
                 />
               </div>
-              
+
               <div className="rapportConsom__bottom__row">
                 <div className='rapportConsom_label'>
                   <AppstoreOutlined style={{ marginRight: 6, color: '#1677ff' }} />
