@@ -114,13 +114,24 @@ const RelierCarburantVehicule = () => {
       width: 60,
     },
     {
+      title: "Marque",
+      dataIndex: "nom_marque",
+      key: "nom_marque",
+      render: (text) => (
+        <Space>
+          <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
+          <Text strong>{text ?? 'N/A'}</Text>
+        </Space>
+      ),
+    },
+    {
       title: "Immatricul.",
       dataIndex: "immatriculation",
       key: "immatriculation",
       render: (text) => (
         <Space>
           <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
-          <Text strong>{text}</Text>
+          <Text strong>{text ?? 'N/A'}</Text>
         </Space>
       ),
     },
