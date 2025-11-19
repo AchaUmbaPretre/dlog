@@ -98,7 +98,7 @@ const RapportCarburant = () => {
                 tab={
                     <span style={getTabStyle('3', activeKey)}>
                     <FileTextOutlined style={iconStyle('3', activeKey)} />
-                        Rapport par periode
+                        Rapport par période
                     </span>
                 }
             >
