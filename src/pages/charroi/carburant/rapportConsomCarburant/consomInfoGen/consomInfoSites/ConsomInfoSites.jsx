@@ -5,7 +5,7 @@ import {
   ArrowRightOutlined,
   DashboardOutlined,
 } from "@ant-design/icons";
-import { Divider, Card, Table, Tag, Tooltip, Typography } from "antd";
+import { Card, Table, Tag, Tooltip, Typography } from "antd";
 const { Text } = Typography;
 
 
