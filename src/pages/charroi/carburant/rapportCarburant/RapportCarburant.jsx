@@ -13,6 +13,7 @@ import {
   FileTextOutlined
 } from '@ant-design/icons';
 import RapportConsomCarburant from "../rapportConsomCarburant/RapportConsomCarburant";
+import RapportPeriode from "./rapportPeriode/RapportPeriode";
 
 const RapportCarburant = () => {
   const today = moment();
@@ -90,6 +91,18 @@ const RapportCarburant = () => {
                 }
             >
                 <RapportConsomCarburant />
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+                key="3"
+                tab={
+                    <span style={getTabStyle('3', activeKey)}>
+                    <FileTextOutlined style={iconStyle('3', activeKey)} />
+                        Rapport par periode
+                    </span>
+                }
+            >
+                <RapportPeriode />
             </Tabs.TabPane>
         </Tabs>
     </>
