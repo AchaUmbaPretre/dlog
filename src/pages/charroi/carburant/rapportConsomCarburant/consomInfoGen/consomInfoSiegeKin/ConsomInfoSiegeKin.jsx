@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { EnvironmentOutlined,CarOutlined,FireOutlined,DashboardOutlined,ArrowRightOutlined   } from '@ant-design/icons';
-import { Divider, Card, Table, Tag, Tooltip, Typography } from 'antd';
+import React from 'react'
+import { CarOutlined,FireOutlined,DashboardOutlined,ArrowRightOutlined   } from '@ant-design/icons';
+import { Card, Table, Tag, Tooltip, Typography } from 'antd';
+import { formatNumber } from '../../../../../../utils/formatNumber';
 
 const { Text } = Typography;
 
@@ -37,7 +38,7 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
       dataIndex: 'total_pleins',
       render: (text) => (
         <Tooltip title="Nombre total de pleins">
-          <Text type="secondary">{text}</Text>
+          <Text type="secondary">{formatNumber(text)}</Text>
         </Tooltip>
       )
     },
@@ -50,7 +51,7 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
       dataIndex: 'nbre_vehicule',
       render: (text) => (
         <Tooltip title="Nombre total de pleins">
-            <Text type="secondary">{text}</Text>
+            <Text type="secondary">{formatNumber(text)}</Text>
         </Tooltip>
       )
     },
@@ -63,7 +64,7 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
       dataIndex: 'total_litres',
       render: (text) => (
         <Tooltip title="Quantité totale en litres">
-            <Text type="secondary">{text}</Text>
+            <Text type="secondary">{formatNumber(text)}</Text>
         </Tooltip>
       )
     },
@@ -76,7 +77,7 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
       dataIndex: 'total_kilometrage',
       render: (text) => (
         <Tooltip title="Kilométrage total">
-            <Text type="secondary">{text}</Text>
+            <Text type="secondary">{formatNumber(text)}</Text>
         </Tooltip>
       )
     }
@@ -85,18 +86,18 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
   return (
     <>
         <div>
-            <Card type="inner" title="COBRA">
-                <Table 
-                    columns={columns} 
-                    dataSource={siegeData} 
-                    size="small"
-                    rowClassName={(_, index) =>
-                        index % 2 === 0 ? "table-row-light" : "table-row-dark"
-                    }
-                    scroll={scroll}
-                    loading={loading}
-                />
-            </Card>
+          <Card type="inner" title="COBRA">
+            <Table 
+              columns={columns} 
+              dataSource={siegeData} 
+              size="small"
+              rowClassName={(_, index) =>
+                index % 2 === 0 ? "table-row-light" : "table-row-dark"
+              }
+              scroll={scroll}
+              loading={loading}
+            />
+          </Card>
         </div>
     </>
   )
