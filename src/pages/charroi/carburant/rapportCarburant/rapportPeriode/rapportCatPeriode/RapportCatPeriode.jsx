@@ -26,8 +26,6 @@ const RapportCatPeriode = () => {
     try {
       const { data } = await getRapportCatPeriode(month, vehiculeData, siteData);
       setRawData(data);
-
-      // Générer les lignes du tableau
       const formatted = [
         {
           titre: "Total Pleins",
@@ -62,7 +60,6 @@ const RapportCatPeriode = () => {
       setData(formatted);
     } catch (err) {
         const errorMessage = err?.response?.data?.message || "Impossible de récupérer les données du rapport";
-
         notification.error({
             message: "Erreur de chargement",
             description: errorMessage,
