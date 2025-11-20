@@ -30,12 +30,11 @@ const RapportHeader = ({ onPeriodChange, alertCount = 0 }) => {
                 <div style={{display:"flex", alignItems:'center', gap:'10px'}}>
                     <FileSearchOutlined className="rapport-header__icon" />
                     <Title level={3} className="rapport-header__title">
-                        Rapport général du carburant
+                        RAPPORT GENERAL DU CARBURANT
                     </Title>
                 </div>
             </div>
 
-          {/* Badge d'alerte */}
           {alertCount > 0 && (
             <Tooltip title={`${alertCount} alerte(s) détectée(s)`}>
               <Badge count={alertCount} offset={[6, 0]} color="#ff4d4f">
