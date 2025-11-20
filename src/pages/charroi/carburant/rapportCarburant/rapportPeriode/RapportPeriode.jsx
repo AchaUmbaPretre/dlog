@@ -5,6 +5,7 @@ import {
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../../../utils/tabStyles';
 import RapportCatPeriode from './rapportCatPeriode/RapportCatPeriode';
+import RapportVehiculePeriode from './rapportVehiculePeriode/RapportVehiculePeriode';
 
 const RapportPeriode = () => {
     const [activeKey, setActiveKey] = useState('1');
@@ -29,7 +30,7 @@ const RapportPeriode = () => {
                         </span>
                     }
                 >
-                    <RapportPeriode/>
+                    <RapportVehiculePeriode/>
                 </Tabs.TabPane>
 
                 <Tabs.TabPane
